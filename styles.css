@@ -1155,14 +1155,16 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .pagination__btn.is-active { background: var(--primary); color: white; font-weight: 600; box-shadow: 0 4px 12px rgba(109,163,181,0.25); }
 
 /* ----- Mobile Nav ----- */
-.mobile-nav { position: fixed; top: 0; left: 0; width: 100%; max-width: 380px; height: 100vh; background: rgba(242,248,250,0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 3000; transform: translateX(-100%); transition: transform var(--duration-normal) var(--ease-out); overflow-y: auto; padding: var(--space-xl); }
+.mobile-nav { position: fixed; top: 0; left: 0; width: 100%; max-width: 380px; height: 100vh; background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 3000; transform: translateX(-100%); transition: transform var(--duration-normal) var(--ease-out); overflow-y: auto; padding: var(--space-xl); }
 .mobile-nav.is-open { transform: translateX(0); }
 .mobile-nav__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2xl); }
-.mobile-nav__header .header__logo { color: var(--primary-dark); }
-.mobile-nav__close { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+.mobile-nav__header .header__logo { color: white; }
+.mobile-nav__close { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); }
+.mobile-nav__close:hover { color: white; }
 .mobile-nav__close svg { width: 18px; height: 18px; }
 .mobile-nav__links { display: flex; flex-direction: column; gap: var(--space-lg); }
-.mobile-nav__links a { font-size: 1.125rem; font-family: var(--font-display); letter-spacing: 0.06em; color: var(--text-primary); padding: var(--space-sm) 0; border-bottom: 1px solid var(--border-light); }
+.mobile-nav__links a { font-size: 1.125rem; font-family: var(--font-display); letter-spacing: 0.06em; color: rgba(255,255,255,0.85); padding: var(--space-sm) 0; border-bottom: 1px solid rgba(255,255,255,0.15); }
+.mobile-nav__links a:hover { color: white; }
 .mobile-nav-overlay { position: fixed; inset: 0; background: rgba(109,163,181,0.1); backdrop-filter: blur(4px); z-index: 2999; opacity: 0; visibility: hidden; transition: all var(--duration-normal); }
 .mobile-nav-overlay.is-visible { opacity: 1; visibility: visible; }
 
