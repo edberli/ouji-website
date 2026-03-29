@@ -1204,8 +1204,9 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     align-self: center;
     display: flex;
     align-items: center;
-    height: 100%;
+    height: auto;
     line-height: 1;
+    padding-top: 3px;
   }
   .header__actions {
     justify-content: flex-end;
