@@ -1155,7 +1155,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .pagination__btn.is-active { background: var(--primary); color: white; font-weight: 600; box-shadow: 0 4px 12px rgba(109,163,181,0.25); }
 
 /* ----- Mobile Nav ----- */
-.mobile-nav { position: fixed; top: 0; right: 0; width: 100%; max-width: 380px; height: 100vh; background: rgba(242,248,250,0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 3000; transform: translateX(100%); transition: transform var(--duration-normal) var(--ease-out); overflow-y: auto; padding: var(--space-xl); }
+.mobile-nav { position: fixed; top: 0; left: 0; width: 100%; max-width: 380px; height: 100vh; background: rgba(242,248,250,0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 3000; transform: translateX(-100%); transition: transform var(--duration-normal) var(--ease-out); overflow-y: auto; padding: var(--space-xl); }
 .mobile-nav.is-open { transform: translateX(0); }
 .mobile-nav__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2xl); }
 .mobile-nav__header .header__logo { color: var(--primary-dark); }
