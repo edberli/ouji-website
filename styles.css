@@ -2274,59 +2274,6 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 
 /* ----- Brand Browser Controls ----- */
-.brand-browser-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: var(--space-xl);
-  flex-wrap: wrap;
-  gap: var(--space-md);
-}
-
-.brand-filter-tabs {
-  display: flex;
-  gap: 8px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s var(--ease-out);
-}
-
-.brand-filter-tabs.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.brand-filter-tab {
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 1px solid var(--border-light);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--text-secondary);
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition: all 0.25s var(--ease-out);
-}
-
-.brand-filter-tab:hover {
-  border-color: var(--primary-light);
-  color: var(--primary);
-}
-
-.brand-filter-tab.active {
-  background: var(--primary-dark);
-  color: white;
-  border-color: var(--primary-dark);
-}
-
-.brand-filter-tab span {
-  font-size: 0.625rem;
-  opacity: 0.65;
-  margin-left: 4px;
-}
-
 .brand-view-toggle {
   display: flex;
   align-items: center;
@@ -2369,15 +2316,16 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 
 /* ----- Brand Grid View ----- */
-.brand-marquees__marquee-view {
-  transition: opacity 0.4s var(--ease-out), max-height 0.5s var(--ease-out);
-  overflow: hidden;
+.brand-section-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-lg);
+  padding: 0 0 var(--space-sm);
 }
 
-.brand-marquees--grid-open .brand-marquees__marquee-view {
-  opacity: 0;
-  max-height: 0;
-  pointer-events: none;
+/* When a section's grid is open, pause its marquees */
+.brand-marquees__section--grid-open .brand-marquee__track {
+  animation-play-state: paused;
 }
 
 .brand-marquees__grid-view {
@@ -2459,23 +2407,10 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   line-height: 1.4;
 }
 
-/* Pause marquee when grid is open */
-.brand-marquees--grid-open .brand-marquee__track {
-  animation-play-state: paused;
-}
-
 @media (max-width: 640px) {
   .brand-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: var(--space-sm);
-  }
-  .brand-browser-controls {
-    justify-content: flex-end;
-  }
-  .brand-filter-tabs {
-    order: 2;
-    width: 100%;
-    justify-content: center;
   }
   .brand-view-toggle {
     margin-left: 0;
