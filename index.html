@@ -179,7 +179,18 @@
 
       <!-- ── 護膚品牌 ── -->
       <div class="brand-marquees__section">
-        <p class="brand-marquees__label">護膚品牌</p>
+        <div class="container">
+          <div class="brand-marquees__section-header">
+            <p class="brand-marquees__label">護膚品牌</p>
+            <button class="brand-section-toggle" id="skincareToggle">
+              <span class="brand-section-toggle__text">瀏覽全部</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Marquee rows (collapse when grid opens) -->
+        <div class="brand-marquees__rows" id="skincareRows">
 
         <!-- Skincare Row 1 (forward) -->
         <div class="brand-marquee">
@@ -253,15 +264,7 @@
           </div>
         </div>
 
-        <!-- Section toggle button -->
-        <div class="container">
-          <div class="brand-section-controls">
-            <button class="brand-view-toggle" id="skincareToggle">
-              <span class="brand-view-toggle__text">瀏覽全部護膚品牌</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="brand-view-toggle__icon"><path d="M6 9l6 6 6-6"/></svg>
-            </button>
-          </div>
-        </div>
+        </div><!-- end brand-marquees__rows (skincare) -->
 
         <!-- Skincare grid (hidden by default) -->
         <div class="brand-marquees__grid-view" id="skincareGridView">
@@ -303,7 +306,18 @@
 
       <!-- ── 彩妝品牌 ── -->
       <div class="brand-marquees__section">
-        <p class="brand-marquees__label">彩妝品牌</p>
+        <div class="container">
+          <div class="brand-marquees__section-header">
+            <p class="brand-marquees__label">彩妝品牌</p>
+            <button class="brand-section-toggle" id="makeupToggle">
+              <span class="brand-section-toggle__text">瀏覽全部</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Marquee rows (collapse when grid opens) -->
+        <div class="brand-marquees__rows" id="makeupRows">
 
         <!-- Makeup Row 1 (reverse) -->
         <div class="brand-marquee brand-marquee--reverse">
@@ -357,15 +371,7 @@
           </div>
         </div>
 
-        <!-- Section toggle button -->
-        <div class="container">
-          <div class="brand-section-controls">
-            <button class="brand-view-toggle" id="makeupToggle">
-              <span class="brand-view-toggle__text">瀏覽全部彩妝品牌</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="brand-view-toggle__icon"><path d="M6 9l6 6 6-6"/></svg>
-            </button>
-          </div>
-        </div>
+        </div><!-- end brand-marquees__rows (makeup) -->
 
         <!-- Makeup grid (hidden by default) -->
         <div class="brand-marquees__grid-view" id="makeupGridView">
@@ -870,9 +876,10 @@
   <script>
     // Brand section toggles (independent per category)
     (function () {
-      function setupSectionToggle(toggleId, gridId) {
+      function setupSectionToggle(toggleId, gridId, rowsId) {
         var toggle = document.getElementById(toggleId);
         var gridView = document.getElementById(gridId);
+        var rows = document.getElementById(rowsId);
         if (!toggle || !gridView) return;
 
         var section = toggle.closest('.brand-marquees__section');
@@ -881,10 +888,7 @@
           var isOpen = gridView.classList.toggle('open');
           if (section) section.classList.toggle('brand-marquees__section--grid-open', isOpen);
           toggle.classList.toggle('active', isOpen);
-          toggle.querySelector('.brand-view-toggle__icon').style.transform = isOpen ? 'rotate(180deg)' : '';
-          toggle.querySelector('.brand-view-toggle__text').textContent = isOpen
-            ? (toggleId === 'skincareToggle' ? '收起護膚品牌' : '收起彩妝品牌')
-            : (toggleId === 'skincareToggle' ? '瀏覽全部護膚品牌' : '瀏覽全部彩妝品牌');
+          toggle.querySelector('.brand-section-toggle__text').textContent = isOpen ? '收起' : '瀏覽全部';
           if (isOpen) {
             setTimeout(function () {
               section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -893,8 +897,8 @@
         });
       }
 
-      setupSectionToggle('skincareToggle', 'skincareGridView');
-      setupSectionToggle('makeupToggle', 'makeupGridView');
+      setupSectionToggle('skincareToggle', 'skincareGridView', 'skincareRows');
+      setupSectionToggle('makeupToggle', 'makeupGridView', 'makeupRows');
     })();
   </script>
 </body>
