@@ -1559,7 +1559,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 
 .page-loader__brand {
   font-family: var(--font-brand);
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(4rem, 12vw, 8rem);
   font-weight: 700;
   letter-spacing: 0.35em;
   text-transform: uppercase;
