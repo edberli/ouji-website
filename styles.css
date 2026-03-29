@@ -1189,21 +1189,27 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .header__inner {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: var(--header-height);
     align-items: center;
   }
   .header__left {
     flex: unset;
     gap: 0;
     justify-content: flex-start;
+    align-self: center;
   }
   .header__logo {
     grid-column: 2;
     justify-self: center;
     align-self: center;
+    display: flex;
+    align-items: center;
+    height: 100%;
     line-height: 1;
   }
   .header__actions {
     justify-content: flex-end;
+    align-self: center;
   }
   /* Show only hamburger in left, only search in actions */
   .header__menu-toggle { display: flex; }
