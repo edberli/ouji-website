@@ -330,6 +330,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   display: flex;
   align-items: center;
   gap: var(--space-2xl);
+  flex: 1;
 }
 
 .header__logo {
@@ -1182,8 +1183,30 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .container { padding: 0 var(--space-md); }
   .section { padding: var(--space-3xl) 0; }
   .header__nav { display: none; }
-  .header__menu-toggle { display: flex; }
   .header__inner { padding: 0 var(--space-md); }
+
+  /* Mobile header: [☰ left] [OUJI center] [🔍 right] */
+  .header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+  .header__left {
+    flex: unset;
+    gap: 0;
+    justify-content: flex-start;
+  }
+  .header__logo {
+    grid-column: 2;
+    justify-self: center;
+  }
+  .header__actions {
+    justify-content: flex-end;
+  }
+  /* Show only hamburger in left, only search in actions */
+  .header__menu-toggle { display: flex; }
+  .header__action-btn { display: none !important; }
+  .header__action-btn[aria-label="搜尋"] { display: flex !important; }
   .hero { height: 75vh; min-height: 520px; }
   .hero__floating-images { display: none; }
   .hero__content { padding: 0 var(--space-md); }
@@ -2556,11 +2579,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     line-height: 1;
   }
 
-  /* Hide header action icons & hamburger on mobile — they live in the bottom nav */
-  .header__action-btn,
-  .header__menu-toggle {
-    display: none !important;
-  }
+  /* Bottom nav: remove search tab since search is now in the header */
+  .mobile-bottom-nav .mobile-bottom-nav__item:nth-child(2) { display: none; }
 
   /* Body clearance so content isn't hidden behind the bar */
   body {
