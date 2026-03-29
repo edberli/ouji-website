@@ -342,13 +342,11 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   letter-spacing: 0.22em;
   text-transform: uppercase;
   text-decoration: none;
-  color: white;
+  color: var(--primary-dark);
   transition: color var(--duration-normal), opacity var(--duration-normal);
 }
 
 .header__logo:hover { opacity: 0.75; }
-
-.header.is-scrolled .header__logo { color: var(--primary-dark); }
 
 .header__nav {
   display: flex;
