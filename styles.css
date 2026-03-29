@@ -1199,6 +1199,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .header__logo {
     grid-column: 2;
     justify-self: center;
+    align-self: center;
+    line-height: 1;
   }
   .header__actions {
     justify-content: flex-end;
