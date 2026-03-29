@@ -2003,6 +2003,20 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   text-transform: uppercase;
 }
 
+.brand-marquee__logo {
+  height: 36px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
+  filter: grayscale(100%) contrast(0.85);
+  transition: filter 0.3s ease;
+}
+
+.brand-marquee__item:hover .brand-marquee__logo {
+  filter: grayscale(0%) contrast(1);
+}
+
 @keyframes brandMarquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
