@@ -331,12 +331,15 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   align-items: center;
   gap: var(--space-2xl);
   flex: 1;
+  order: 2;
 }
 
 .header__logo {
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  order: 1;
+  margin-right: var(--space-2xl);
   font-family: var(--font-brand);
   font-size: 1.6rem;
   font-weight: 700;
@@ -385,6 +388,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   display: flex;
   align-items: center;
   gap: var(--space-lg);
+  order: 3;
 }
 
 .header__action-btn {
@@ -1197,11 +1201,14 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     gap: 0;
     justify-content: flex-start;
     align-self: center;
+    order: 1;
   }
   .header__logo {
     grid-column: 2;
+    order: 2;
     justify-self: center;
     align-self: center;
+    margin-right: 0;
     display: flex;
     align-items: center;
     height: auto;
@@ -1209,6 +1216,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     padding-top: 6px;
   }
   .header__actions {
+    order: 3;
     justify-content: flex-end;
     align-self: center;
   }
