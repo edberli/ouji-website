@@ -175,9 +175,23 @@
           <h2 class="heading-lg section-header__title">Our Brands</h2>
           <p class="body-lg section-header__desc">匯集韓國最具人氣與口碑的美妝護膚品牌，每一個都經過嚴選。</p>
         </div>
+        <div class="brand-browser-controls">
+          <div class="brand-filter-tabs" id="brandFilterTabs">
+            <button class="brand-filter-tab active" data-filter="all">全部 <span>48</span></button>
+            <button class="brand-filter-tab" data-filter="skincare">護膚 <span>29</span></button>
+            <button class="brand-filter-tab" data-filter="makeup">彩妝 <span>19</span></button>
+          </div>
+          <button class="brand-view-toggle" id="brandViewToggle">
+            <span class="brand-view-toggle__text">瀏覽全部品牌</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="brand-view-toggle__icon"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Skincare Brands — Row 1 -->
+      <!-- Marquee view (default) -->
+      <div class="brand-marquees__marquee-view" id="brandMarqueeView">
+
+        <!-- Skincare Brands — Row 1 -->
       <div class="brand-marquees__section">
         <p class="brand-marquees__label">護膚品牌</p>
         <div class="brand-marquee">
@@ -304,6 +318,67 @@
           </div>
         </div>
       </div>
+
+      </div><!-- end brand-marquees__marquee-view -->
+
+      <!-- Grid view (hidden by default) -->
+      <div class="brand-marquees__grid-view" id="brandGridView">
+        <div class="container">
+          <div class="brand-grid" id="brandGrid">
+            <!-- Skincare brands -->
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/torriden.svg" alt="Torriden" class="brand-grid__logo"><span class="brand-grid__name">Torriden</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/anua.png" alt="ANUA" class="brand-grid__logo"><span class="brand-grid__name">ANUA</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/vt-cosmetics.svg" alt="VT Cosmetics" class="brand-grid__logo"><span class="brand-grid__name">VT Cosmetics</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/abib.svg" alt="Abib" class="brand-grid__logo"><span class="brand-grid__name">Abib</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/round-lab.svg" alt="Round Lab" class="brand-grid__logo"><span class="brand-grid__name">Round Lab</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/skin1004.png" alt="Skin1004" class="brand-grid__logo"><span class="brand-grid__name">SKIN1004</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/axis-y.png" alt="AXIS-Y" class="brand-grid__logo"><span class="brand-grid__name">AXIS-Y</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon" class="brand-grid__logo"><span class="brand-grid__name">Beauty of Joseon</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/beplain.png" alt="Beplain" class="brand-grid__logo"><span class="brand-grid__name">Beplain</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/boh.svg" alt="BOH" class="brand-grid__logo"><span class="brand-grid__name">BOH</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-grid__logo"><span class="brand-grid__name">Bring Green</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/cosrx.png" alt="COSRX" class="brand-grid__logo"><span class="brand-grid__name">COSRX</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/dr-jart.png" alt="Dr. Jart+" class="brand-grid__logo"><span class="brand-grid__name">Dr. Jart+</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/goodal.svg" alt="goodal" class="brand-grid__logo"><span class="brand-grid__name">goodal</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/heveblue.svg" alt="HEVEBLUE" class="brand-grid__logo"><span class="brand-grid__name">HEVEBLUE</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/lindsay.svg" alt="LINDSAY" class="brand-grid__logo"><span class="brand-grid__name">LINDSAY</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/manyo.svg" alt="Manyo" class="brand-grid__logo"><span class="brand-grid__name">Manyo</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/mary-may.svg" alt="Mary &amp; May" class="brand-grid__logo"><span class="brand-grid__name">Mary &amp; May</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-grid__logo"><span class="brand-grid__name">MIXSOON</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/needly.svg" alt="NEEDLY" class="brand-grid__logo"><span class="brand-grid__name">NEEDLY</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/nineless.svg" alt="NINELESS" class="brand-grid__logo"><span class="brand-grid__name">NINELESS</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/ootd.svg" alt="OOTD" class="brand-grid__logo"><span class="brand-grid__name">OOTD</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-grid__logo"><span class="brand-grid__name">PURITO</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-grid__logo"><span class="brand-grid__name">Skinfood</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/so-natural.svg" alt="SO Natural" class="brand-grid__logo"><span class="brand-grid__name">SO Natural</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/solep.svg" alt="SOLEP" class="brand-grid__logo"><span class="brand-grid__name">SOLEP</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-grid__logo"><span class="brand-grid__name">SOME BY MI</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/sungboon-editor.svg" alt="SUNGBOON EDITOR" class="brand-grid__logo"><span class="brand-grid__name">SUNGBOON EDITOR</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/tocobo.svg" alt="TOCOBO" class="brand-grid__logo"><span class="brand-grid__name">TOCOBO</span></a>
+            <!-- Makeup brands -->
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-grid__logo"><span class="brand-grid__name">TIRTIR</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/romand.svg" alt="rom&nd" class="brand-grid__logo"><span class="brand-grid__name">rom&amp;nd</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/dasique.png" alt="dasique" class="brand-grid__logo"><span class="brand-grid__name">dasique</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/hince.svg" alt="hince" class="brand-grid__logo"><span class="brand-grid__name">hince</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/fwee.svg" alt="fwee" class="brand-grid__logo"><span class="brand-grid__name">fwee</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/amuse.svg" alt="AMUSE" class="brand-grid__logo"><span class="brand-grid__name">AMUSE</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-grid__logo"><span class="brand-grid__name">lilybyred</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/glint.svg" alt="GLINT" class="brand-grid__logo"><span class="brand-grid__name">GLINT</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/clio.svg" alt="CLIO" class="brand-grid__logo"><span class="brand-grid__name">CLIO</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/peripera.svg" alt="peripera" class="brand-grid__logo"><span class="brand-grid__name">peripera</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-grid__logo"><span class="brand-grid__name">WAKEMAKE</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-grid__logo"><span class="brand-grid__name">Flower Knows</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/maybelline.svg" alt="Maybelline" class="brand-grid__logo"><span class="brand-grid__name">Maybelline</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/laka.svg" alt="LAKA" class="brand-grid__logo"><span class="brand-grid__name">LAKA</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/2an.svg" alt="2aN" class="brand-grid__logo"><span class="brand-grid__name">2aN</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/braye.svg" alt="BRAYE" class="brand-grid__logo"><span class="brand-grid__name">BRAYE</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-grid__logo"><span class="brand-grid__name">UNLEASHIA</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-grid__logo"><span class="brand-grid__name">Heart Percent</span></a>
+            <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-grid__logo"><span class="brand-grid__name">Coralhaze</span></a>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <!-- ===== FEATURED COLLECTION ===== -->
@@ -776,5 +851,46 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // Brand browser toggle
+    (function () {
+      var toggle = document.getElementById('brandViewToggle');
+      var gridView = document.getElementById('brandGridView');
+      var filterTabs = document.querySelectorAll('.brand-filter-tab');
+      var filterTabsContainer = document.getElementById('brandFilterTabs');
+      var section = document.querySelector('.brand-marquees');
+
+      if (!toggle) return;
+
+      toggle.addEventListener('click', function () {
+        var isOpen = gridView.classList.toggle('open');
+        section.classList.toggle('brand-marquees--grid-open', isOpen);
+        toggle.classList.toggle('active', isOpen);
+        filterTabsContainer.classList.toggle('visible', isOpen);
+        toggle.querySelector('.brand-view-toggle__text').textContent = isOpen ? '收起品牌' : '瀏覽全部品牌';
+        if (isOpen) {
+          // Scroll so the grid is visible
+          setTimeout(function () {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
+      });
+
+      filterTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          filterTabs.forEach(function (t) { t.classList.remove('active'); });
+          this.classList.add('active');
+          var filter = this.dataset.filter;
+          document.querySelectorAll('.brand-grid__card').forEach(function (card) {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.removeAttribute('data-hidden');
+            } else {
+              card.setAttribute('data-hidden', '');
+            }
+          });
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
