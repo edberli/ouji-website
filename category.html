@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>護膚 — OUJI</title>
+  <meta name="description" content="探索 OUJI 精選韓國護膚品，從潔面、精華到防曬，為你的肌膚找到最佳呵護。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    全單滿 HK$600 免運費 &nbsp;·&nbsp; 觀塘門市每日 12:00–20:00 營業 &nbsp;·&nbsp; 新客首單 9 折
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__left">
+        <a href="index.html" class="header__logo">OUJI</a>
+        <nav class="header__nav">
+          <a href="category.html" style="color: var(--primary-dark);">護膚</a>
+          <a href="category.html">彩妝</a>
+          <a href="category.html">身體護理</a>
+          <a href="category.html">香氛</a>
+          <a href="category.html">生活風格</a>
+          <a href="#">品牌</a>
+          <a href="#">專欄</a>
+        </nav>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="搜尋">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <a href="#" class="header__action-btn" aria-label="帳戶">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="#" class="header__action-btn" aria-label="願望清單">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </a>
+        <a href="cart.html" class="header__action-btn" aria-label="購物袋">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="header__cart-count">2</span>
+        </a>
+        <button class="header__menu-toggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav-overlay"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav__header">
+      <span class="header__logo">OUJI</span>
+      <button class="mobile-nav__close" aria-label="關閉">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="mobile-nav__links">
+      <a href="category.html">護膚</a>
+      <a href="category.html">彩妝</a>
+      <a href="category.html">身體護理</a>
+      <a href="category.html">香氛</a>
+      <a href="category.html">生活風格</a>
+      <a href="#">品牌</a>
+      <a href="#">專欄</a>
+    </div>
+  </nav>
+
+  <!-- Filter Sidebar -->
+  <div class="filter-overlay"></div>
+  <aside class="filter-sidebar">
+    <div class="filter-sidebar__header">
+      <span class="filter-sidebar__title">篩選</span>
+      <button class="filter-sidebar__close" aria-label="關閉篩選">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group__title">分類 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="filter-group__options">
+        <label class="filter-option"><input type="checkbox"> 潔面</label>
+        <label class="filter-option"><input type="checkbox"> 化妝水 / 精華水</label>
+        <label class="filter-option"><input type="checkbox"> 精華液</label>
+        <label class="filter-option"><input type="checkbox"> 面霜</label>
+        <label class="filter-option"><input type="checkbox"> 防曬</label>
+        <label class="filter-option"><input type="checkbox"> 面膜</label>
+        <label class="filter-option"><input type="checkbox"> 眼部護理</label>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group__title">品牌 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="filter-group__options">
+        <label class="filter-option"><input type="checkbox"> Torriden</label>
+        <label class="filter-option"><input type="checkbox"> ANUA</label>
+        <label class="filter-option"><input type="checkbox"> COSRX</label>
+        <label class="filter-option"><input type="checkbox"> Beauty of Joseon</label>
+        <label class="filter-option"><input type="checkbox"> Abib</label>
+        <label class="filter-option"><input type="checkbox"> Round Lab</label>
+        <label class="filter-option"><input type="checkbox"> Skin1004</label>
+        <label class="filter-option"><input type="checkbox"> AXIS-Y</label>
+        <label class="filter-option"><input type="checkbox"> Dr. Jart+</label>
+        <label class="filter-option"><input type="checkbox"> Beplain</label>
+        <label class="filter-option"><input type="checkbox"> MIXSOON</label>
+        <label class="filter-option"><input type="checkbox"> PURITO SEOUL</label>
+        <label class="filter-option"><input type="checkbox"> TOCOBO</label>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group__title">膚質需求 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="filter-group__options">
+        <label class="filter-option"><input type="checkbox"> 保濕補水</label>
+        <label class="filter-option"><input type="checkbox"> 抗衰老</label>
+        <label class="filter-option"><input type="checkbox"> 美白提亮</label>
+        <label class="filter-option"><input type="checkbox"> 祛痘控油</label>
+        <label class="filter-option"><input type="checkbox"> 敏感修護</label>
+        <label class="filter-option"><input type="checkbox"> 毛孔護理</label>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group__title">價格 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="filter-group__options">
+        <label class="filter-option"><input type="checkbox"> HK$100 以下</label>
+        <label class="filter-option"><input type="checkbox"> HK$100 – HK$200</label>
+        <label class="filter-option"><input type="checkbox"> HK$200 – HK$400</label>
+        <label class="filter-option"><input type="checkbox"> HK$400+</label>
+      </div>
+    </div>
+    <div style="padding: var(--space-xl);">
+      <button class="btn btn--primary btn--full btn--sm">套用篩選</button>
+    </div>
+  </aside>
+
+  <main style="padding-top: 96px;">
+
+    <!-- Category Banner -->
+    <section class="category-banner">
+      <div class="category-banner__bg">
+        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=1920&q=80" alt="Skincare banner">
+      </div>
+      <div class="category-banner__overlay"></div>
+      <div class="container">
+        <div class="category-banner__content">
+          <h1 class="category-banner__title">護膚</h1>
+          <p class="category-banner__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Breadcrumb & Filter Bar -->
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="index.html">首頁</a>
+        <span class="breadcrumb__sep">/</span>
+        <span>護膚</span>
+      </nav>
+
+      <div class="filter-bar">
+        <div class="filter-bar__left">
+          <button class="filter-btn" data-filter-toggle>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
+            篩選
+          </button>
+          <span class="filter-bar__count">顯示 48 件產品</span>
+        </div>
+        <div class="filter-bar__sort">
+          <select>
+            <option>排序：推薦</option>
+            <option>價格：由低至高</option>
+            <option>價格：由高至低</option>
+            <option>最新</option>
+            <option>最暢銷</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="product-grid reveal-stagger">
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=480&q=80" alt="Torriden DIVE-IN Serum">
+            <span class="product-card__badge">熱賣</span>
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">Torriden</span>
+          <span class="product-card__name">DIVE-IN 低分子玻尿酸精華 50ml</span>
+          <span class="product-card__price">HK$168</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=480&q=80" alt="ANUA Toner">
+            <span class="product-card__badge">熱賣</span>
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">ANUA</span>
+          <span class="product-card__name">Heartleaf 77% Soothing Toner 250ml</span>
+          <span class="product-card__price">HK$198</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=480&q=80" alt="COSRX Snail Mucin">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">COSRX</span>
+          <span class="product-card__name">Advanced Snail 96 Mucin Power Essence</span>
+          <span class="product-card__price">HK$158</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=480&q=80" alt="Beauty of Joseon Sunscreen">
+            <span class="product-card__badge">新品</span>
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">Beauty of Joseon</span>
+          <span class="product-card__name">Relief Sun 朝鮮美人清爽防曬 SPF50+</span>
+          <span class="product-card__price">HK$148</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=480&q=80" alt="Abib Cleanser">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">Abib</span>
+          <span class="product-card__name">弱酸性 pH Sheet Mask 魚腥草</span>
+          <span class="product-card__price">HK$18</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1617897903246-719242758050?w=480&q=80" alt="Round Lab Cream">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">Round Lab</span>
+          <span class="product-card__name">獨島 Birch Juice 保濕面霜</span>
+          <span class="product-card__price">HK$188</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=480&q=80" alt="MIXSOON Bean Essence">
+            <span class="product-card__badge">新品</span>
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">MIXSOON</span>
+          <span class="product-card__name">Bean Essence 發酵大豆精華液 50ml</span>
+          <span class="product-card__price">HK$168</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1612817288484-6f916006741a?w=480&q=80" alt="Skin1004 Toner">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">Skin1004</span>
+          <span class="product-card__name">Madagascar Centella 積雪草精華水</span>
+          <span class="product-card__price">HK$138</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=480&q=80" alt="Dr. Jart+ Cream">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">Dr. Jart+</span>
+          <span class="product-card__name">Ceramidin Cream 神經酰胺修護霜</span>
+          <span class="product-card__price">HK$298</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1570194065650-d99fb4a38691?w=480&q=80" alt="PURITO Sunscreen">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">PURITO SEOUL</span>
+          <span class="product-card__name">Daily Go-To Sunscreen SPF50+ PA++++</span>
+          <span class="product-card__price">HK$118</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1599847987633-4af78f38cfcf?w=480&q=80" alt="Beplain Cleanser">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">Beplain</span>
+          <span class="product-card__name">Greenful 綠豆氧氣潔面泡沫</span>
+          <span class="product-card__price">HK$108</span>
+        </a>
+
+        <a href="product.html" class="product-card">
+          <div class="product-card__image-wrap">
+            <img class="product-card__image" src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=480&q=80" alt="TOCOBO Sunscreen">
+            <button class="product-card__wishlist" aria-label="加入願望清單"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__quick-add">快速加入</div>
+          </div>
+          <span class="product-card__brand">TOCOBO</span>
+          <span class="product-card__name">Bio Watery Sun Cream SPF50+ PA++++</span>
+          <span class="product-card__price">HK$128</span>
+        </a>
+      </div>
+
+      <!-- Pagination -->
+      <nav class="pagination">
+        <button class="pagination__btn is-active">1</button>
+        <button class="pagination__btn">2</button>
+        <button class="pagination__btn">3</button>
+        <button class="pagination__btn">4</button>
+        <button class="pagination__btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </nav>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__logo">OUJI</div>
+          <p class="footer__brand-desc">
+            香港最齊全的韓國化妝護膚品專門店。<br>
+            觀塘觀塘道 472–480 號<br>
+            觀塘工業中心一期 地下 B 舖<br>
+            每日 12:00–20:00
+          </p>
+          <div class="footer__social">
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">選購</h4>
+          <ul class="footer__links">
+            <li><a href="category.html">護膚</a></li>
+            <li><a href="category.html">彩妝</a></li>
+            <li><a href="category.html">身體護理</a></li>
+            <li><a href="category.html">香氛</a></li>
+            <li><a href="category.html">生活風格</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">關於</h4>
+          <ul class="footer__links">
+            <li><a href="#">關於 OUJI</a></li>
+            <li><a href="#">我們的故事</a></li>
+            <li><a href="#">靈感專欄</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">客戶服務</h4>
+          <ul class="footer__links">
+            <li><a href="#">常見問題</a></li>
+            <li><a href="#">運送及退換</a></li>
+            <li><a href="#">聯絡我們</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">條款</h4>
+          <ul class="footer__links">
+            <li><a href="#">私隱政策</a></li>
+            <li><a href="#">服務條款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2026 OUJI. All rights reserved.</p>
+        <div class="footer__bottom-links">
+          <a href="#">繁體中文</a>
+          <a href="#">English</a>
+          <a href="#">HKD $</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OUJI — 韓國高端美妝護膚品專門店</title>
+  <meta name="description" content="OUJI 精選韓國高端美妝護膚品，匯集最具品味的 K-Beauty 品牌。香港觀塘門市及網上商店。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Page Loader -->
+  <div class="page-loader">
+    <span class="page-loader__brand">OUJI</span>
+  </div>
+
+  <!-- Floating Particles -->
+  <div class="particles"></div>
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    全單滿 HK$600 免運費 &nbsp;·&nbsp; 觀塘門市每日 12:00–20:00 營業 &nbsp;·&nbsp; 新客首單 9 折
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__left">
+        <a href="index.html" class="header__logo">OUJI</a>
+        <nav class="header__nav">
+          <a href="category.html">護膚</a>
+          <a href="category.html">彩妝</a>
+          <a href="category.html">身體護理</a>
+          <a href="category.html">香氛</a>
+          <a href="category.html">生活風格</a>
+          <a href="#">品牌</a>
+          <a href="#">專欄</a>
+        </nav>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="搜尋">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <a href="#" class="header__action-btn" aria-label="帳戶">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="#" class="header__action-btn" aria-label="願望清單">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </a>
+        <a href="cart.html" class="header__action-btn" aria-label="購物袋">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="header__cart-count">2</span>
+        </a>
+        <button class="header__menu-toggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav-overlay"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav__header">
+      <span class="header__logo">OUJI</span>
+      <button class="mobile-nav__close" aria-label="關閉">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="mobile-nav__links">
+      <a href="category.html">護膚</a>
+      <a href="category.html">彩妝</a>
+      <a href="category.html">身體護理</a>
+      <a href="category.html">香氛</a>
+      <a href="category.html">生活風格</a>
+      <a href="#">品牌</a>
+      <a href="#">專欄</a>
+      <a href="#">帳戶</a>
+    </div>
+  </nav>
+
+  <main style="padding-top: 96px;">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="hero__bg-image">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1920&q=80" alt="Korean beauty products">
+      </div>
+      <div class="hero__overlay"></div>
+      <div class="hero__orbs">
+        <div class="hero__orb hero__orb--1"></div>
+        <div class="hero__orb hero__orb--2"></div>
+        <div class="hero__orb hero__orb--3"></div>
+      </div>
+      <div class="hero__content">
+        <p class="hero__label">Spring 2026 Collection</p>
+        <h1 class="hero__title">
+          <span class="hero__title-line"><span class="hero__title-line-inner">探索<span>韓國美妝</span></span></span>
+          <span class="hero__title-line"><span class="hero__title-line-inner">的藝術</span></span>
+        </h1>
+        <p class="hero__subtitle">精選韓國頂級美妝與護膚，為追求質感生活的你，重新定義日常護理儀式。</p>
+        <div class="hero__cta">
+          <a href="category.html" class="btn btn--primary">立即探索</a>
+          <a href="#" class="btn btn--secondary">了解更多</a>
+        </div>
+      </div>
+      <!-- Floating badge -->
+      <div class="hero__badge">
+        <div class="hero__badge-number">40+</div>
+        <div class="hero__badge-text">韓國品牌</div>
+      </div>
+      <div class="hero__floating-images">
+        <div class="hero__float-img hero__float-img--1">
+          <img src="https://images.unsplash.com/photo-1709551264845-e9dddd775388?w=520&q=80" alt="Korean skincare products">
+        </div>
+        <div class="hero__float-img hero__float-img--2">
+          <img src="https://images.unsplash.com/photo-1741896135490-4062a3b21abf?w=400&q=80" alt="K-beauty serums">
+        </div>
+        <div class="hero__float-img hero__float-img--3">
+          <img src="https://images.unsplash.com/photo-1687775436954-908d802b625c?w=280&q=80" alt="Korean cream">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MARQUEE ===== -->
+    <div class="marquee">
+      <div class="marquee__inner">
+        <span class="marquee__item">COSRX</span>
+        <span class="marquee__item">rom&nd</span>
+        <span class="marquee__item">Beauty of Joseon</span>
+        <span class="marquee__item">Torriden</span>
+        <span class="marquee__item">ANUA</span>
+        <span class="marquee__item">hince</span>
+        <span class="marquee__item">Abib</span>
+        <span class="marquee__item">TIRTIR</span>
+        <span class="marquee__item">dasique</span>
+        <span class="marquee__item">MIXSOON</span>
+        <span class="marquee__item">COSRX</span>
+        <span class="marquee__item">rom&nd</span>
+        <span class="marquee__item">Beauty of Joseon</span>
+        <span class="marquee__item">Torriden</span>
+        <span class="marquee__item">ANUA</span>
+        <span class="marquee__item">hince</span>
+        <span class="marquee__item">Abib</span>
+        <span class="marquee__item">TIRTIR</span>
+        <span class="marquee__item">dasique</span>
+        <span class="marquee__item">MIXSOON</span>
+      </div>
+    </div>
+
+    <!-- ===== BRAND INTRO ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-blur">
+          <span class="label section-header__label">關於 OUJI</span>
+          <h2 class="heading-xl section-header__title text-shimmer">精選，源於講究</h2>
+          <p class="body-lg section-header__desc">
+            OUJI 甄選韓國最具質感的美妝與護膚品牌，為追求精緻生活的你，呈獻每一件值得擁有的作品。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BRAND MARQUEES (Skincare + Makeup separated) ===== -->
+    <section class="brand-marquees">
+      <div class="container">
+        <div class="section-header reveal-blur">
+          <span class="label section-header__label">合作品牌</span>
+          <h2 class="heading-lg section-header__title">Our Brands</h2>
+          <p class="body-lg section-header__desc">匯集韓國最具人氣與口碑的美妝護膚品牌，每一個都經過嚴選。</p>
+        </div>
+      </div>
+
+      <!-- Skincare Brands — Row 1 -->
+      <div class="brand-marquees__section">
+        <p class="brand-marquees__label">護膚品牌</p>
+        <div class="brand-marquee">
+          <div class="brand-marquee__track">
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">COSRX</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Torriden</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">ANUA</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Beauty of Joseon</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Abib</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">MIXSOON</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Round Lab</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">COSRX</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Torriden</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">ANUA</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Beauty of Joseon</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Abib</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">MIXSOON</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Round Lab</span></a>
+          </div>
+        </div>
+        <!-- Skincare Row 2 (reverse) -->
+        <div class="brand-marquee brand-marquee--reverse brand-marquee--fast">
+          <div class="brand-marquee__track">
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Skin1004</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Dr. Jart+</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Beplain</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">PURITO SEOUL</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">TOCOBO</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">AXIS-Y</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Innisfree</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Laneige</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Skin1004</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Dr. Jart+</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Beplain</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">PURITO SEOUL</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">TOCOBO</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">AXIS-Y</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Innisfree</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Laneige</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Makeup Brands — Row 1 -->
+      <div class="brand-marquees__section">
+        <p class="brand-marquees__label">彩妝品牌</p>
+        <div class="brand-marquee brand-marquee--reverse">
+          <div class="brand-marquee__track">
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">rom&nd</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">hince</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">TIRTIR</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">dasique</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Peripera</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">CLIO</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">rom&nd</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">hince</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">TIRTIR</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">dasique</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Peripera</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">CLIO</span></a>
+          </div>
+        </div>
+        <!-- Makeup Row 2 (forward) -->
+        <div class="brand-marquee brand-marquee--fast">
+          <div class="brand-marquee__track">
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">JUNG SAEM MOOL</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Espoir</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">AMUSE</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Lilybyred</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">WAKEMAKE</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">3CE</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">JUNG SAEM MOOL</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Espoir</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">AMUSE</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">Lilybyred</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">WAKEMAKE</span></a>
+            <a href="category.html" class="brand-marquee__item"><span class="brand-marquee__item-name">3CE</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURED COLLECTION ===== -->
+    <section class="section--sm reveal-scale">
+      <div class="container">
+        <div class="featured-collection">
+          <div class="featured-collection__visual">
+            <img src="https://images.unsplash.com/photo-1741896135518-ce303a539bc0?w=960&q=80" alt="Skincare bottles on marble">
+          </div>
+          <div class="featured-collection__info">
+            <span class="label">編輯精選</span>
+            <h2 class="heading-lg" style="margin-top: var(--space-md);">春日光澤系列</h2>
+            <p class="body-lg" style="margin-top: var(--space-md);">迎接春日光澤，我們精選了最適合換季的護膚組合——從溫和潔面到輕盈保濕，層層呵護，煥發自然透亮。</p>
+            <a href="category.html" class="btn--ghost" style="margin-top: var(--space-xl); display: inline-flex; align-items: center;">選購系列</a>
+            <div class="featured-collection__products">
+              <div class="product-card">
+                <div class="product-card__image-wrap">
+                  <img class="product-card__image" src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&q=80" alt="Torriden DIVE-IN Serum">
+                </div>
+                <span class="product-card__brand">Torriden</span>
+                <span class="product-card__name">DIVE-IN 低分子玻尿酸精華</span>
+                <span class="product-card__price">HK$168</span>
+              </div>
+              <div class="product-card">
+                <div class="product-card__image-wrap">
+                  <img class="product-card__image" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80" alt="ANUA Birch 77 Toner">
+                </div>
+                <span class="product-card__brand">ANUA</span>
+                <span class="product-card__name">77% 樺樹液精華水</span>
+                <span class="product-card__price">HK$198</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== POPULAR PRODUCTS ===== -->
+    <section class="section section--deco">
+      <div class="container">
+        <div class="section-header section-header--split reveal-blur">
+          <div>
+            <span class="label section-header__label">人氣熱賣</span>
+            <h2 class="heading-lg section-header__title">Best Sellers</h2>
+          </div>
+          <a href="category.html" class="btn--ghost">瀏覽全部</a>
+        </div>
+        <div class="product-grid reveal-stagger">
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=480&q=80" alt="COSRX Snail Mucin">
+              <span class="product-card__badge">熱賣</span>
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">COSRX</span>
+            <span class="product-card__name">Advanced Snail 96 蝸牛黏液精華</span>
+            <span class="product-card__price">HK$158</span>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=480&q=80" alt="rom&nd Lip Tint">
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">rom&nd</span>
+            <span class="product-card__name">Juicy Lasting Tint #09 Litchi Coral</span>
+            <span class="product-card__price">HK$89</span>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=480&q=80" alt="Beauty of Joseon Sunscreen">
+              <span class="product-card__badge">新品</span>
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">Beauty of Joseon</span>
+            <span class="product-card__name">朝鮮美人 人蔘精華防曬霜 SPF50+</span>
+            <span class="product-card__price">HK$148</span>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=480&q=80" alt="TIRTIR Cushion Foundation">
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">TIRTIR</span>
+            <span class="product-card__name">Mask Fit Red Cushion 氣墊粉底</span>
+            <span class="product-card__price">HK$198</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PULL QUOTE ===== -->
+    <section class="pull-quote reveal-blur">
+      <div class="container">
+        <p class="pull-quote__text">
+          每一瓶精華、每一支唇膏，都是我們對美的一次告白。
+        </p>
+        <span class="pull-quote__author">— OUJI 創辦人</span>
+      </div>
+    </section>
+
+    <!-- ===== BRAND STORY ===== -->
+    <section class="section--sm reveal-scale">
+      <div class="container">
+        <div class="brand-story">
+          <div class="brand-story__visual">
+            <img src="https://images.unsplash.com/photo-1498843053639-170ff2122f35?w=960&q=80" alt="Korean beauty skincare hand">
+          </div>
+          <div class="brand-story__content">
+            <span class="label">我們的理念</span>
+            <h2 class="heading-lg">Less, but Better</h2>
+            <p class="body-lg">
+              在資訊過載的時代，OUJI 相信「少即是精」。每一件上架的產品，都經過嚴格篩選——我們只推薦真正值得信賴、成分透明、設計出色的韓國品牌。
+            </p>
+            <a href="#" class="btn--ghost" style="display: inline-flex; align-items: center;">我們的故事</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats-section reveal-blur">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="40" data-suffix="+">0+</span>
+            <span class="stat-card__label">合作品牌</span>
+          </div>
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="500" data-suffix="+">0+</span>
+            <span class="stat-card__label">精選產品</span>
+          </div>
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="12000" data-suffix="+">0+</span>
+            <span class="stat-card__label">滿意客戶</span>
+          </div>
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="100" data-suffix="%" data-prefix="">0%</span>
+            <span class="stat-card__label">正品保證</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HORIZONTAL SCROLL SHOWCASE ===== -->
+    <section class="hscroll-showcase">
+      <div class="hscroll-showcase__header">
+        <span class="label">靈感美學</span>
+        <h2 class="heading-lg" style="margin-top: var(--space-md);">K-Beauty Lookbook</h2>
+      </div>
+      <div class="hscroll-showcase__track">
+        <div class="hscroll-showcase__card">
+          <img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=600&q=80" alt="Korean beauty look">
+          <div class="hscroll-showcase__card-overlay">
+            <span class="hscroll-showcase__card-label">Glass Skin</span>
+            <h3 class="hscroll-showcase__card-title">透亮水光肌</h3>
+          </div>
+        </div>
+        <div class="hscroll-showcase__card">
+          <img src="https://images.unsplash.com/photo-1593260853607-d0e0f639bdab?w=600&q=80" alt="Natural beauty">
+          <div class="hscroll-showcase__card-overlay">
+            <span class="hscroll-showcase__card-label">Natural Glow</span>
+            <h3 class="hscroll-showcase__card-title">裸妝自然光</h3>
+          </div>
+        </div>
+        <div class="hscroll-showcase__card">
+          <img src="https://images.unsplash.com/photo-1542833807-ad5af0977050?w=600&q=80" alt="Dewy makeup">
+          <div class="hscroll-showcase__card-overlay">
+            <span class="hscroll-showcase__card-label">Dewy Look</span>
+            <h3 class="hscroll-showcase__card-title">水潤光感妝</h3>
+          </div>
+        </div>
+        <div class="hscroll-showcase__card">
+          <img src="https://images.unsplash.com/photo-1648213613846-5f930cb8d653?w=600&q=80" alt="Clean beauty">
+          <div class="hscroll-showcase__card-overlay">
+            <span class="hscroll-showcase__card-label">Clean Beauty</span>
+            <h3 class="hscroll-showcase__card-title">純淨美肌</h3>
+          </div>
+        </div>
+        <div class="hscroll-showcase__card">
+          <img src="https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?w=600&q=80" alt="Skincare routine">
+          <div class="hscroll-showcase__card-overlay">
+            <span class="hscroll-showcase__card-label">Routine</span>
+            <h3 class="hscroll-showcase__card-title">日常護膚儀式</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATEGORY NAVIGATION ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-blur">
+          <span class="label section-header__label">分類選購</span>
+          <h2 class="heading-lg section-header__title">探索分類</h2>
+        </div>
+      </div>
+      <div class="container">
+        <div class="category-grid reveal-stagger">
+          <a href="category.html" class="category-tile">
+            <img class="category-tile__image" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=480&q=80" alt="Skincare">
+            <div class="category-tile__bg"></div>
+            <div class="category-tile__content">
+              <h3 class="category-tile__name">護膚</h3>
+              <span class="category-tile__count">29 個品牌</span>
+            </div>
+          </a>
+          <a href="category.html" class="category-tile">
+            <img class="category-tile__image" src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=480&q=80" alt="Makeup">
+            <div class="category-tile__bg"></div>
+            <div class="category-tile__content">
+              <h3 class="category-tile__name">彩妝</h3>
+              <span class="category-tile__count">19 個品牌</span>
+            </div>
+          </a>
+          <a href="category.html" class="category-tile">
+            <img class="category-tile__image" src="https://images.unsplash.com/photo-1593638112487-4ddea6affcfb?w=480&q=80" alt="Body Care">
+            <div class="category-tile__bg"></div>
+            <div class="category-tile__content">
+              <h3 class="category-tile__name">身體護理</h3>
+              <span class="category-tile__count">12 個品牌</span>
+            </div>
+          </a>
+          <a href="category.html" class="category-tile">
+            <img class="category-tile__image" src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=480&q=80" alt="Fragrance">
+            <div class="category-tile__bg"></div>
+            <div class="category-tile__content">
+              <h3 class="category-tile__name">香氛</h3>
+              <span class="category-tile__count">8 個品牌</span>
+            </div>
+          </a>
+          <a href="category.html" class="category-tile">
+            <img class="category-tile__image" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=480&q=80" alt="Lifestyle">
+            <div class="category-tile__bg"></div>
+            <div class="category-tile__content">
+              <h3 class="category-tile__name">生活風格</h3>
+              <span class="category-tile__count">6 個品牌</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== NEW ARRIVALS ===== -->
+    <section class="section section--warm section--deco">
+      <div class="container">
+        <div class="section-header section-header--split reveal-blur">
+          <div>
+            <span class="label section-header__label">新品上架</span>
+            <h2 class="heading-lg section-header__title">Just Arrived</h2>
+          </div>
+          <a href="category.html" class="btn--ghost">瀏覽全部</a>
+        </div>
+        <div class="product-grid reveal-stagger">
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=480&q=80" alt="hince Radiance Balm">
+              <span class="product-card__badge">新品</span>
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">hince</span>
+            <span class="product-card__name">True Dimension Radiance Balm</span>
+            <span class="product-card__price">HK$175</span>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=480&q=80" alt="Abib Cleanser">
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">Abib</span>
+            <span class="product-card__name">弱酸性 pH 潔面啫喱 Green Tea</span>
+            <span class="product-card__price">HK$128</span>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1617897903246-719242758050?w=480&q=80" alt="MIXSOON Bean Essence">
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">MIXSOON</span>
+            <span class="product-card__name">Bean Essence 發酵大豆精華液</span>
+            <span class="product-card__price">HK$168</span>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=480&q=80" alt="dasique Eyeshadow Palette">
+              <span class="product-card__badge">新品</span>
+              <button class="product-card__wishlist" aria-label="加入願望清單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <div class="product-card__quick-add">快速加入</div>
+            </div>
+            <span class="product-card__brand">dasique</span>
+            <span class="product-card__name">Shadow Palette #18 Grain Field</span>
+            <span class="product-card__price">HK$228</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MOOD BOARD ===== -->
+    <section class="reveal-blur">
+      <div class="mood-board">
+        <div class="mood-board__item mood-board__item--1">
+          <img src="https://images.unsplash.com/photo-1709551264845-e9dddd775388?w=800&q=80" alt="Korean skincare products on table">
+          <span class="mood-board__label">Daily Essentials</span>
+        </div>
+        <div class="mood-board__item mood-board__item--2">
+          <img src="https://images.unsplash.com/photo-1741896135490-4062a3b21abf?w=600&q=80" alt="Skincare serums and dropper bottles">
+          <span class="mood-board__label">Serums</span>
+        </div>
+        <div class="mood-board__item mood-board__item--3">
+          <img src="https://images.unsplash.com/photo-1593260853607-d0e0f639bdab?w=600&q=80" alt="Natural beauty">
+          <span class="mood-board__label">Glass Skin</span>
+        </div>
+        <div class="mood-board__item mood-board__item--4">
+          <img src="https://images.unsplash.com/photo-1687775436954-908d802b625c?w=400&q=80" alt="Korean cream">
+          <span class="mood-board__label">Moisturizer</span>
+        </div>
+        <div class="mood-board__item mood-board__item--5">
+          <img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=800&q=80" alt="Asian beauty model">
+          <span class="mood-board__label">Beauty Goals</span>
+        </div>
+        <div class="mood-board__item mood-board__item--6">
+          <img src="https://images.unsplash.com/photo-1741896136069-f3588d8993b5?w=600&q=80" alt="Skincare on pink">
+          <span class="mood-board__label">Texture</span>
+        </div>
+        <div class="mood-board__item mood-board__item--7">
+          <img src="https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?w=400&q=80" alt="Bottles">
+          <span class="mood-board__label">Routine</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EDITORIAL / JOURNAL ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header section-header--split reveal-blur">
+          <div>
+            <span class="label section-header__label">靈感專欄</span>
+            <h2 class="heading-lg section-header__title">Journal</h2>
+          </div>
+          <a href="#" class="btn--ghost">更多文章</a>
+        </div>
+        <div class="editorial-grid reveal-stagger">
+          <article class="editorial-card">
+            <div class="editorial-card__image-wrap">
+              <img class="editorial-card__image" src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800&q=80" alt="Spring skincare guide">
+            </div>
+            <span class="label editorial-card__tag">K-Beauty 指南</span>
+            <h3 class="editorial-card__title">春季護膚轉換指南：從厚重到輕盈的過渡</h3>
+            <p class="editorial-card__excerpt">換季時肌膚最容易出狀況。我們整理了韓國皮膚科醫師推薦的護膚步驟調整方法。</p>
+          </article>
+          <article class="editorial-card">
+            <div class="editorial-card__image-wrap">
+              <img class="editorial-card__image" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80" alt="hince brand spotlight">
+            </div>
+            <span class="label editorial-card__tag">品牌特寫</span>
+            <h3 class="editorial-card__title">hince：用色彩書寫的韓系美學哲學</h3>
+            <p class="editorial-card__excerpt">低調卻充滿存在感——hince 如何以沉靜色調，重新定義韓國彩妝的成熟美。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== NEWSLETTER ===== -->
+    <section class="newsletter reveal-blur">
+      <h2 class="newsletter__title">訂閱 OUJI 電子報</h2>
+      <p class="newsletter__desc">搶先獲得新品資訊、獨家優惠與 K-Beauty 靈感。</p>
+      <form class="newsletter__form" onsubmit="event.preventDefault();">
+        <input type="email" class="newsletter__input" placeholder="輸入你的電郵地址" required>
+        <button type="submit" class="newsletter__submit">訂閱</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__logo">OUJI</div>
+          <p class="footer__brand-desc">
+            香港最齊全的韓國化妝護膚品專門店。<br>
+            觀塘觀塘道 472–480 號<br>
+            觀塘工業中心一期 地下 B 舖<br>
+            每日 12:00–20:00
+          </p>
+          <div class="footer__social">
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">選購</h4>
+          <ul class="footer__links">
+            <li><a href="category.html">護膚</a></li>
+            <li><a href="category.html">彩妝</a></li>
+            <li><a href="category.html">身體護理</a></li>
+            <li><a href="category.html">香氛</a></li>
+            <li><a href="category.html">生活風格</a></li>
+            <li><a href="#">所有品牌</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">關於</h4>
+          <ul class="footer__links">
+            <li><a href="#">關於 OUJI</a></li>
+            <li><a href="#">我們的故事</a></li>
+            <li><a href="#">靈感專欄</a></li>
+            <li><a href="#">加入我們</a></li>
+            <li><a href="#">媒體報導</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">客戶服務</h4>
+          <ul class="footer__links">
+            <li><a href="#">常見問題</a></li>
+            <li><a href="#">運送及退換</a></li>
+            <li><a href="#">聯絡我們</a></li>
+            <li><a href="#">尺寸指南</a></li>
+            <li><a href="#">追蹤訂單</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">條款</h4>
+          <ul class="footer__links">
+            <li><a href="#">私隱政策</a></li>
+            <li><a href="#">服務條款</a></li>
+            <li><a href="#">Cookie 政策</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2026 OUJI. All rights reserved.</p>
+        <div class="footer__bottom-links">
+          <a href="#">繁體中文</a>
+          <a href="#">English</a>
+          <a href="#">HKD $</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
