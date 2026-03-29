@@ -332,16 +332,27 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 
 .header__logo {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 300;
-  letter-spacing: 0.3em;
-  color: var(--primary-dark);
-  text-transform: uppercase;
-  transition: color var(--duration-normal);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: opacity var(--duration-normal);
 }
 
-.header__logo:hover { color: var(--primary); }
+.header__logo:hover { opacity: 0.75; }
+
+.header__logo-img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+/* Default (transparent / hero top): show white logo */
+.header__logo-img--color { display: none; }
+.header__logo-img--white { display: block; }
+
+/* After scrolling (header becomes white glass): show color logo */
+.header.is-scrolled .header__logo-img--color { display: block; }
+.header.is-scrolled .header__logo-img--white { display: none; }
 
 .header__nav {
   display: flex;
