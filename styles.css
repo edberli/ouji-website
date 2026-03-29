@@ -2384,8 +2384,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 20px 16px 14px;
+  padding: 24px 16px;
   background: rgba(255,255,255,0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -2395,6 +2394,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   transition: all var(--duration-normal) var(--ease-out);
   cursor: pointer;
   animation: fadeUp 0.5s var(--ease-out) both;
+  overflow: hidden;
+  position: relative;
 }
 
 .brand-grid__card:nth-child(1)  { animation-delay: 0.02s; }
@@ -2429,13 +2430,29 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 
 .brand-grid__name {
-  font-size: 0.625rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 7px 8px;
+  font-size: 0.6rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-tertiary);
+  color: var(--primary-dark);
   text-align: center;
   line-height: 1.4;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.22s var(--ease-out), transform 0.22s var(--ease-out);
+}
+
+.brand-grid__card:hover .brand-grid__name {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (max-width: 640px) {
