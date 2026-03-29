@@ -331,15 +331,12 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   align-items: center;
   gap: var(--space-2xl);
   flex: 1;
-  order: 2;
 }
 
 .header__logo {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  order: 1;
-  margin-right: var(--space-2xl);
   font-family: var(--font-brand);
   font-size: 1.6rem;
   font-weight: 700;
@@ -388,7 +385,6 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   display: flex;
   align-items: center;
   gap: var(--space-lg);
-  order: 3;
 }
 
 .header__action-btn {
@@ -1191,34 +1187,28 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 
   /* Mobile header: [☰ left] [OUJI center] [🔍 right] */
   .header__inner {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-rows: var(--header-height);
-    align-items: center;
-  }
-  .header__left {
-    flex: unset;
-    gap: 0;
-    justify-content: flex-start;
-    align-self: center;
-    order: 1;
-  }
-  .header__logo {
-    grid-column: 2;
-    order: 2;
-    justify-self: center;
-    align-self: center;
-    margin-right: 0;
     display: flex;
     align-items: center;
-    height: auto;
-    line-height: 1;
-    padding-top: 6px;
+    justify-content: center;
+    position: relative;
+  }
+  .header__left {
+    display: contents;
+  }
+  .header__menu-toggle {
+    position: absolute;
+    left: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .header__logo {
+    padding-top: 4px;
   }
   .header__actions {
-    order: 3;
-    justify-content: flex-end;
-    align-self: center;
+    position: absolute;
+    right: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
   }
   /* Show only hamburger in left, only search in actions */
   .header__menu-toggle { display: flex; }
