@@ -2588,8 +2588,6 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     line-height: 1;
   }
 
-  /* Bottom nav: remove search tab since search is now in the header */
-  .mobile-bottom-nav .mobile-bottom-nav__item:nth-child(2) { display: none; }
 
   /* Body clearance so content isn't hidden behind the bar */
   body {
