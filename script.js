@@ -324,6 +324,10 @@ function initMobileNav() {
   toggle.addEventListener('click', openNav);
   close?.addEventListener('click', closeNav);
   overlay?.addEventListener('click', closeNav);
+
+  // Bottom nav menu button also opens the same nav
+  const bottomMenuBtn = document.querySelector('.mobile-bottom-nav__menu-btn');
+  bottomMenuBtn?.addEventListener('click', openNav);
 }
 
 /* ----- Filter Sidebar ----- */

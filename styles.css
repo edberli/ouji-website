@@ -2474,3 +2474,96 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     gap: var(--space-sm);
   }
 }
+
+/* ============================================
+   Mobile Bottom Navigation
+   ============================================ */
+
+.mobile-bottom-nav { display: none; }
+
+@media (max-width: 768px) {
+
+  /* Bottom nav bar */
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid var(--border-light);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    justify-content: space-around;
+    align-items: stretch;
+  }
+
+  .mobile-bottom-nav__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex: 1;
+    padding: 10px 4px;
+    color: var(--text-tertiary);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.55rem;
+    letter-spacing: 0.06em;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.18s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-bottom-nav__item svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mobile-bottom-nav__item:hover,
+  .mobile-bottom-nav__item.active {
+    color: var(--primary-dark);
+  }
+
+  /* Icon wrapper for badge positioning */
+  .mobile-bottom-nav__icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-bottom-nav__badge {
+    position: absolute;
+    top: -5px;
+    right: -9px;
+    min-width: 15px;
+    height: 15px;
+    background: var(--primary);
+    color: white;
+    font-size: 0.55rem;
+    font-weight: 700;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    line-height: 1;
+  }
+
+  /* Hide header action icons & hamburger on mobile — they live in the bottom nav */
+  .header__action-btn,
+  .header__menu-toggle {
+    display: none !important;
+  }
+
+  /* Body clearance so content isn't hidden behind the bar */
+  body {
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
+}
