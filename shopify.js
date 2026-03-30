@@ -378,7 +378,10 @@ function isInWishlist(productId) {
 /** 格式化價格顯示 */
 function formatPrice(amount, currencyCode = 'HKD') {
   const num = parseFloat(amount);
-  return `HK$${num.toFixed(0)}`;
+  if (Number.isInteger(num)) {
+    return `HK$${num.toLocaleString('en-US')}`;
+  }
+  return `HK$${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 /** 更新購物袋數字徽章 */

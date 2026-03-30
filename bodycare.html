@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>護膚 — OUJI</title>
-  <meta name="description" content="探索 OUJI 精選韓國護膚品，從潔面、精華到防曬，為你的肌膚找到最佳呵護。">
+  <title>身體護理 — OUJI</title>
+  <meta name="description" content="探索 OUJI 精選韓國身體護理，從沐浴到身體乳，給全身肌膚呵護。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -147,8 +147,8 @@
       <div class="category-banner__overlay"></div>
       <div class="container">
         <div class="category-banner__content">
-          <h1 class="category-banner__title">護膚</h1>
-          <p class="category-banner__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+          <h1 class="category-banner__title">身體護理</h1>
+          <p class="category-banner__desc">精選韓國身體護理品牌，從潔淨沐浴到深層滋潤，全身肌膚都值得被呵護。</p>
         </div>
       </div>
     </section>
@@ -158,7 +158,7 @@
       <nav class="breadcrumb">
         <a href="index.html">首頁</a>
         <span class="breadcrumb__sep">/</span>
-        <span>護膚</span>
+        <span>身體護理</span>
       </nav>
 
       <div class="filter-bar">
@@ -427,7 +427,7 @@
     await initPage();
 
     const params = new URLSearchParams(window.location.search);
-    const collection = params.get('collection') || 'skincare';
+    const collection = params.get('collection') || 'body-care';
 
     const productsData = await getProducts({
       collectionHandle: collection || undefined,
