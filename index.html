@@ -107,40 +107,7 @@
           <button class="hero__carousel-dot" aria-label="Slide 6"></button>
         </div>
       </div>
-      <div class="hero__overlay"></div>
-      <div class="hero__orbs">
-        <div class="hero__orb hero__orb--1"></div>
-        <div class="hero__orb hero__orb--2"></div>
-        <div class="hero__orb hero__orb--3"></div>
-      </div>
-      <div class="hero__content">
-        <p class="hero__label">Spring 2026 Collection</p>
-        <h1 class="hero__title">
-          <span class="hero__title-line"><span class="hero__title-line-inner">探索<span>韓國美妝</span></span></span>
-          <span class="hero__title-line"><span class="hero__title-line-inner">的藝術</span></span>
-        </h1>
-        <p class="hero__subtitle">精選韓國頂級美妝與護膚，為追求質感生活的你，重新定義日常護理儀式。</p>
-        <div class="hero__cta">
-          <a href="category.html" class="btn btn--primary">立即探索</a>
-          <a href="#" class="btn btn--secondary">了解更多</a>
-        </div>
-      </div>
-      <!-- Floating badge -->
-      <div class="hero__badge">
-        <div class="hero__badge-number">48+</div>
-        <div class="hero__badge-text">韓國品牌</div>
-      </div>
-      <div class="hero__floating-images">
-        <div class="hero__float-img hero__float-img--1">
-          <img src="https://images.unsplash.com/photo-1709551264845-e9dddd775388?w=520&q=80" alt="Korean skincare products">
-        </div>
-        <div class="hero__float-img hero__float-img--2">
-          <img src="https://images.unsplash.com/photo-1741896135490-4062a3b21abf?w=400&q=80" alt="K-beauty serums">
-        </div>
-        <div class="hero__float-img hero__float-img--3">
-          <img src="https://images.unsplash.com/photo-1687775436954-908d802b625c?w=280&q=80" alt="Korean cream">
-        </div>
-      </div>
+      <div class="hero__cursor-glow"></div>
     </section>
 
     <!-- ===== MARQUEE ===== -->
@@ -960,7 +927,7 @@
 
       function next() { goTo(current + 1); }
 
-      function startTimer() { timer = setInterval(next, 5000); }
+      function startTimer() { timer = setInterval(next, 8000); }
       function resetTimer() { clearInterval(timer); startTimer(); }
 
       dots.forEach(function (dot, i) {
