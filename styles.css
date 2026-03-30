@@ -311,13 +311,13 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   transition: all var(--duration-normal) var(--ease-out);
 }
 
-/* Transparent header: dark text/icons */
-.header:not(.is-scrolled) .header__logo { color: var(--primary-dark); }
-.header:not(.is-scrolled) .header__nav a { color: var(--text-primary); }
-.header:not(.is-scrolled) .header__nav a:hover { color: var(--primary-dark); }
-.header:not(.is-scrolled) .header__action-btn { color: var(--text-primary); }
-.header:not(.is-scrolled) .header__action-btn:hover { color: var(--primary-dark); }
-.header:not(.is-scrolled) .header__menu-toggle span { background: var(--text-primary); }
+/* Transparent header: white text/icons */
+.header:not(.is-scrolled) .header__logo { color: white; }
+.header:not(.is-scrolled) .header__nav a { color: rgba(255,255,255,0.9); }
+.header:not(.is-scrolled) .header__nav a:hover { color: white; }
+.header:not(.is-scrolled) .header__action-btn { color: rgba(255,255,255,0.9); }
+.header:not(.is-scrolled) .header__action-btn:hover { color: white; }
+.header:not(.is-scrolled) .header__menu-toggle span { background: white; }
 
 .header.is-scrolled {
   background: rgba(255,255,255,0.92);
