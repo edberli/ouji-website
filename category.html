@@ -441,6 +441,9 @@
 
       if (count) count.textContent = `顯示 ${products.length} 件產品`;
 
+      // Prefetch full product details for instant product page loading
+      prefetchProducts(products.map(p => p.handle));
+
       if (grid) {
         grid.innerHTML = products.map(p => {
           const image = p.images?.edges?.[0]?.node;

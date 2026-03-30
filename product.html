@@ -258,8 +258,8 @@
 
     const productDetail = document.querySelector('.product-detail');
 
-    try {
-      const product = await getProduct(handle);
+    // Render product data into the page
+    function renderProduct(product) {
       if (!product) return;
 
       // Update page title
@@ -388,6 +388,20 @@
 
       // Show product detail
       if (productDetail) productDetail.style.opacity = '1';
+    }
+
+    // Try cache first for instant display, fallback to API fetch
+    try {
+      const cached = getCachedProduct(handle);
+      if (cached) {
+        renderProduct(cached);
+      } else {
+        const product = await getProduct(handle);
+        if (product) {
+          cacheProduct(product);
+          renderProduct(product);
+        }
+      }
     } catch (err) {
       console.error('Failed to load product:', err);
       if (productDetail) productDetail.style.opacity = '1';

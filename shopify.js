@@ -102,6 +102,31 @@ async function getProduct(handle) {
   return data?.product;
 }
 
+/** 預存商品資料到 sessionStorage（供 product.html 即時讀取） */
+function cacheProduct(product) {
+  if (!product?.handle) return;
+  try {
+    sessionStorage.setItem('product_' + product.handle, JSON.stringify(product));
+  } catch (e) {}
+}
+
+/** 從 sessionStorage 讀取已快取的商品 */
+function getCachedProduct(handle) {
+  try {
+    const data = sessionStorage.getItem('product_' + handle);
+    return data ? JSON.parse(data) : null;
+  } catch (e) { return null; }
+}
+
+/** 預載入商品列表中每個商品的完整資料 */
+async function prefetchProducts(handles) {
+  handles.forEach(async (handle) => {
+    if (getCachedProduct(handle)) return;
+    const product = await getProduct(handle);
+    if (product) cacheProduct(product);
+  });
+}
+
 /** 搜尋商品 */
 async function searchProducts(query, first = 10) {
   const data = await shopifyFetch(`

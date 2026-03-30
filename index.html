@@ -955,6 +955,9 @@
       const products = productsData?.edges?.map(e => e.node) ?? [];
 
       if (products.length > 0) {
+        // Prefetch full product details for instant product page loading
+        prefetchProducts(products.map(p => p.handle));
+
         // Helper to render product cards
         function renderCards(items) {
           return items.map(p => {
