@@ -422,5 +422,54 @@
 
   <script src="shopify.js"></script>
   <script src="script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initPage();
+
+    const params = new URLSearchParams(window.location.search);
+    const collection = params.get('collection');
+
+    const productsData = await getProducts({
+      collectionHandle: collection || undefined,
+      first: 24
+    });
+    const products = productsData?.edges?.map(e => e.node) ?? [];
+
+    if (products.length > 0) {
+      const grid = document.querySelector('.product-grid');
+      const count = document.querySelector('.filter-bar__count');
+
+      if (count) count.textContent = `顯示 ${products.length} 件產品`;
+
+      if (grid) {
+        grid.innerHTML = products.map(p => {
+          const image = p.images?.edges?.[0]?.node;
+          const price = p.priceRange?.minVariantPrice;
+          const comparePrice = p.compareAtPriceRange?.minVariantPrice;
+          const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
+          const variant = p.variants?.edges?.[0]?.node;
+          const isSoldOut = variant && !variant.availableForSale;
+          return `
+            <a href="product.html?handle=${p.handle}" class="product-card">
+              <div class="product-card__image-wrap">
+                ${image ? `<img class="product-card__image" src="${image.url}" alt="${image.altText || p.title}">` : ''}
+                ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
+                ${isOnSale && !isSoldOut ? '<span class="product-card__badge">特價</span>' : ''}
+                <button class="product-card__wishlist" aria-label="加入願望清單" onclick="event.preventDefault(); event.stopPropagation();">
+                  <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+                <div class="product-card__quick-add">快速加入</div>
+              </div>
+              <span class="product-card__brand">${p.vendor || ''}</span>
+              <span class="product-card__name">${p.title}</span>
+              <span class="product-card__price">${formatPrice(price.amount)}</span>
+              ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(comparePrice.amount)}</span>` : ''}
+            </a>
+          `;
+        }).join('');
+      }
+    }
+  });
+  </script>
 </body>
 </html>

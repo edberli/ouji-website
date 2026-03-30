@@ -322,5 +322,73 @@
 
   <script src="shopify.js"></script>
   <script src="script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initPage();
+
+    const cart = await getCart();
+    const itemsContainer = document.querySelector('.cart-items');
+    const subtotalEl = document.querySelector('[data-subtotal]');
+    const totalEl = document.querySelector('[data-total]');
+    const checkoutBtn = document.querySelector('.cart-summary__checkout .btn');
+
+    // Checkout button
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener('click', async () => {
+        checkoutBtn.textContent = '跳轉中...';
+        await goToCheckout();
+      });
+    }
+
+    if (!cart || !cart.lines?.edges?.length) {
+      // Show empty cart state if no Shopify cart
+      // Keep static content as demo
+      return;
+    }
+
+    // Render cart items from Shopify
+    const lines = cart.lines.edges.map(e => e.node);
+    itemsContainer.innerHTML = lines.map(line => {
+      const merch = line.merchandise;
+      const img = merch.image;
+      const options = merch.selectedOptions?.filter(o => o.name !== 'Title').map(o => o.value).join(' / ');
+      return `
+        <div class="cart-item" data-line-id="${line.id}">
+          <div class="cart-item__image">
+            ${img ? `<img src="${img.url}" alt="${merch.product.title}">` : ''}
+          </div>
+          <div class="cart-item__details">
+            <span class="cart-item__brand">${merch.product.title}</span>
+            <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.title !== 'Default Title' ? merch.title : merch.product.title}</a></h3>
+            ${options ? `<span class="cart-item__variant">${options}</span>` : ''}
+            <div class="cart-item__quantity">
+              <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity - 1})" style="width:32px;height:32px;font-size:0.875rem;">−</button>
+              <input type="number" class="qty-input" value="${line.quantity}" min="1" max="99" style="width:44px;height:32px;font-size:0.8125rem;" onchange="changeQty('${line.id}', this.value)">
+              <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity + 1})" style="width:32px;height:32px;font-size:0.875rem;">+</button>
+              <button class="cart-item__remove" onclick="removeLine('${line.id}')">移除</button>
+            </div>
+          </div>
+          <div class="cart-item__price">${formatPrice(line.cost.totalAmount.amount)}</div>
+        </div>
+      `;
+    }).join('');
+
+    // Update totals
+    if (subtotalEl) subtotalEl.textContent = formatPrice(cart.cost.subtotalAmount.amount);
+    if (totalEl) totalEl.textContent = formatPrice(cart.cost.totalAmount.amount);
+  });
+
+  // Global functions for cart actions
+  window.changeQty = async function(lineId, qty) {
+    if (qty < 1) { await removeLine(lineId); return; }
+    await updateCartLine(lineId, parseInt(qty));
+    location.reload();
+  };
+
+  window.removeLine = async function(lineId) {
+    await removeCartLine(lineId);
+    location.reload();
+  };
+  </script>
 </body>
 </html>

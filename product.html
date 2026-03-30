@@ -358,5 +358,77 @@
 
   <script src="shopify.js"></script>
   <script src="script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initPage();
+
+    const params = new URLSearchParams(window.location.search);
+    const handle = params.get('handle');
+    if (!handle) return;
+
+    const product = await getProduct(handle);
+    if (!product) return;
+
+    // Update title
+    document.title = product.title + ' — OUJI';
+
+    // Update product info
+    const brand = document.querySelector('.product-info__brand');
+    const name = document.querySelector('.product-info__name');
+    const price = document.querySelector('.product-info__price');
+    const desc = document.querySelector('.product-info__short-desc');
+
+    if (brand) brand.textContent = product.vendor || '';
+    if (name) name.textContent = product.title;
+    if (price) {
+      const p = product.priceRange.minVariantPrice;
+      const cp = product.compareAtPriceRange?.minVariantPrice;
+      const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p.amount);
+      price.innerHTML = formatPrice(p.amount) + (isOnSale ? ` <s style="color:var(--text-tertiary);font-size:0.85em;">${formatPrice(cp.amount)}</s>` : '');
+    }
+    if (desc) desc.textContent = product.description ? product.description.substring(0, 300) : '';
+
+    // Update images
+    const images = product.images?.edges?.map(e => e.node) ?? [];
+    const mainImg = document.querySelector('.product-gallery__main img');
+    const thumbsContainer = document.querySelector('.product-gallery__thumbs');
+
+    if (images.length > 0 && mainImg) {
+      mainImg.src = images[0].url;
+      mainImg.alt = images[0].altText || product.title;
+
+      if (thumbsContainer) {
+        thumbsContainer.innerHTML = images.map((img, i) => `
+          <button class="product-gallery__thumb ${i === 0 ? 'is-active' : ''}" onclick="document.querySelector('.product-gallery__main img').src='${img.url}'; document.querySelectorAll('.product-gallery__thumb').forEach(t=>t.classList.remove('is-active')); this.classList.add('is-active');">
+            <img src="${img.url}" alt="${img.altText || 'Thumbnail ' + (i+1)}">
+          </button>
+        `).join('');
+      }
+    }
+
+    // Update add to cart button
+    const addBtn = document.querySelector('.product-info .btn--primary');
+    if (addBtn && product.variants?.edges?.length > 0) {
+      const variantId = product.variants.edges[0].node.id;
+      const newBtn = document.createElement('button');
+      newBtn.className = 'btn btn--primary';
+      newBtn.textContent = '加入購物袋';
+      newBtn.addEventListener('click', async () => {
+        newBtn.textContent = '加入中...';
+        newBtn.disabled = true;
+        await addToCart(variantId, 1);
+        newBtn.textContent = '已加入購物袋 ✓';
+        setTimeout(() => { newBtn.textContent = '加入購物袋'; newBtn.disabled = false; }, 2000);
+      });
+      addBtn.replaceWith(newBtn);
+    }
+
+    // Update variant options if multiple variants
+    if (product.options && product.options.length > 0 && product.variants?.edges?.length > 1) {
+      const optionsContainer = document.querySelector('.product-info__options');
+      // Can add variant selector UI here later
+    }
+  });
+  </script>
 </body>
 </html>
