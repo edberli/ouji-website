@@ -283,7 +283,19 @@
         const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p.amount);
         priceEl.innerHTML = formatPrice(p.amount) + (isOnSale ? ` <s style="color:var(--text-tertiary);font-size:0.85em;margin-left:8px;">${formatPrice(cp.amount)}</s>` : '');
       }
-      if (desc) desc.textContent = product.description ? product.description.substring(0, 500) : '';
+      if (desc) {
+        // Short description: first 200 chars as plain text
+        const plainDesc = product.description || '';
+        desc.textContent = plainDesc.length > 200 ? plainDesc.substring(0, 200) + '…' : plainDesc;
+      }
+
+      // Fill detailed description tab with full description
+      const fullDesc = document.querySelector('.product-description');
+      if (fullDesc && product.descriptionHtml) {
+        fullDesc.innerHTML = product.descriptionHtml;
+      } else if (fullDesc && product.description) {
+        fullDesc.innerHTML = `<p>${product.description}</p>`;
+      }
 
       // Update images
       const images = product.images?.edges?.map(e => e.node) ?? [];

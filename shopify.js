@@ -78,7 +78,7 @@ async function getProduct(handle) {
   const data = await shopifyFetch(`
     query GetProduct($handle: String!) {
       product(handle: $handle) {
-        id handle title description
+        id handle title description descriptionHtml
         vendor tags
         priceRange { minVariantPrice { amount currencyCode } }
         compareAtPriceRange { minVariantPrice { amount currencyCode } }
