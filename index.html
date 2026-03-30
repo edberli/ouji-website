@@ -963,7 +963,7 @@
             const comparePrice = p.compareAtPriceRange?.minVariantPrice;
             const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
             return `
-              <a href="https://5rerjn-mt.myshopify.com/products/${p.handle}" class="product-card">
+              <a href="product.html?handle=${p.handle}" class="product-card">
                 <div class="product-card__image-wrap">
                   ${image ? `<img class="product-card__image" src="${image.url}" alt="${image.altText || p.title}">` : ''}
                   ${isOnSale ? '<span class="product-card__badge">特價</span>' : ''}

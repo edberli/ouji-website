@@ -174,7 +174,7 @@
               <button class="btn btn--primary btn--full">前往結帳</button>
             </div>
 
-            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 滿 HK$600 免運</p>
+            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 滿 HK$400 免運</p>
 
             <div style="display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-lg);">
               <span class="body-sm" style="color: var(--text-tertiary); font-size: 0.6875rem; letter-spacing: 0.06em;">VISA</span>
@@ -359,7 +359,7 @@
           </div>
           <div class="cart-item__details">
             <span class="cart-item__brand">${merch.product.title}</span>
-            <h3 class="cart-item__name"><a href="https://5rerjn-mt.myshopify.com/products/${merch.product.handle}">${merch.title !== 'Default Title' ? merch.title : merch.product.title}</a></h3>
+            <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.title !== 'Default Title' ? merch.title : merch.product.title}</a></h3>
             ${options ? `<span class="cart-item__variant">${options}</span>` : ''}
             <div class="cart-item__quantity">
               <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity - 1})" style="width:32px;height:32px;font-size:0.875rem;">−</button>
