@@ -470,6 +470,28 @@
         addBtn.replaceWith(newBtn);
       }
 
+      // Load related products
+      const relatedData = await getProducts({ first: 4 });
+      const related = relatedData?.edges?.map(e => e.node).filter(p => p.handle !== handle) ?? [];
+      const relatedGrid = document.querySelector('.product-grid');
+      if (relatedGrid && related.length > 0) {
+        relatedGrid.innerHTML = related.slice(0, 4).map(p => {
+          const img = p.images?.edges?.[0]?.node;
+          const pr = p.priceRange?.minVariantPrice;
+          return `
+            <a href="product.html?handle=${p.handle}" class="product-card">
+              <div class="product-card__image-wrap">
+                ${img ? `<img class="product-card__image" src="${img.url}" alt="${img.altText || p.title}">` : ''}
+                <div class="product-card__quick-add">快速加入</div>
+              </div>
+              <span class="product-card__brand">${p.vendor || ''}</span>
+              <span class="product-card__name">${p.title}</span>
+              <span class="product-card__price">${formatPrice(pr.amount)}</span>
+            </a>
+          `;
+        }).join('');
+      }
+
       if (productDetail) productDetail.style.opacity = '1';
     } catch (err) {
       console.error('Failed to load product:', err);

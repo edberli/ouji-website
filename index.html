@@ -942,14 +942,14 @@
     document.addEventListener('DOMContentLoaded', async () => {
       await initPage();
 
-      // Load best sellers
-      const productsData = await getProducts({ first: 8 });
+      // Load products from Shopify
+      const productsData = await getProducts({ first: 20 });
       const products = productsData?.edges?.map(e => e.node) ?? [];
 
       if (products.length > 0) {
-        const grid = document.querySelector('.product-grid');
-        if (grid) {
-          grid.innerHTML = products.map(p => {
+        // Helper to render product cards
+        function renderCards(items) {
+          return items.map(p => {
             const image = p.images?.edges?.[0]?.node;
             const price = p.priceRange?.minVariantPrice;
             const comparePrice = p.compareAtPriceRange?.minVariantPrice;
@@ -971,6 +971,18 @@
               </a>
             `;
           }).join('');
+        }
+
+        // Fill ALL product grids on the page
+        const grids = document.querySelectorAll('.product-grid');
+        grids.forEach(grid => {
+          grid.innerHTML = renderCards(products);
+        });
+
+        // Also update featured collection product cards
+        const featuredCards = document.querySelector('.featured-collection__products');
+        if (featuredCards) {
+          featuredCards.innerHTML = renderCards(products.slice(0, 2));
         }
       }
     });
