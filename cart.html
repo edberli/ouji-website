@@ -359,7 +359,7 @@
           </div>
           <div class="cart-item__details">
             <span class="cart-item__brand">${merch.product.title}</span>
-            <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.title !== 'Default Title' ? merch.title : merch.product.title}</a></h3>
+            <h3 class="cart-item__name"><a href="https://5rerjn-mt.myshopify.com/products/${merch.product.handle}">${merch.title !== 'Default Title' ? merch.title : merch.product.title}</a></h3>
             ${options ? `<span class="cart-item__variant">${options}</span>` : ''}
             <div class="cart-item__quantity">
               <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity - 1})" style="width:32px;height:32px;font-size:0.875rem;">−</button>
