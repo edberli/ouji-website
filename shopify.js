@@ -3,7 +3,7 @@
  * -----------------------------------------
  * 填入你的 Shopify 店鋪資料：
  */
-const SHOPIFY_DOMAIN = 'zbeyzu-3w.myshopify.com';
+const SHOPIFY_DOMAIN = '5rerjn-mt.myshopify.com';
 const SHOPIFY_TOKEN  = '795e2f7cb13da1d3776449eba5802377';
 const SHOPIFY_API    = `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`;
 
