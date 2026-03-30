@@ -89,8 +89,23 @@
 
     <!-- ===== HERO ===== -->
     <section class="hero">
-      <div class="hero__bg-image">
-        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1920&q=80" alt="Korean beauty products">
+      <div class="hero__carousel">
+        <div class="hero__carousel-track">
+          <div class="hero__carousel-slide active"><img src="assets/images/hero-1.png" alt=""></div>
+          <div class="hero__carousel-slide"><img src="assets/images/hero-2.png" alt=""></div>
+          <div class="hero__carousel-slide"><img src="assets/images/hero-3.png" alt=""></div>
+          <div class="hero__carousel-slide"><img src="assets/images/hero-4.png" alt=""></div>
+          <div class="hero__carousel-slide"><img src="assets/images/hero-5.png" alt=""></div>
+          <div class="hero__carousel-slide"><img src="assets/images/hero-6.png" alt=""></div>
+        </div>
+        <div class="hero__carousel-dots">
+          <button class="hero__carousel-dot active" aria-label="Slide 1"></button>
+          <button class="hero__carousel-dot" aria-label="Slide 2"></button>
+          <button class="hero__carousel-dot" aria-label="Slide 3"></button>
+          <button class="hero__carousel-dot" aria-label="Slide 4"></button>
+          <button class="hero__carousel-dot" aria-label="Slide 5"></button>
+          <button class="hero__carousel-dot" aria-label="Slide 6"></button>
+        </div>
       </div>
       <div class="hero__overlay"></div>
       <div class="hero__orbs">
@@ -920,6 +935,39 @@
 
       setupSectionToggle('skincareToggle', 'skincareGridView', 'skincareRows');
       setupSectionToggle('makeupToggle', 'makeupGridView', 'makeupRows');
+    })();
+  </script>
+  <script>
+    // Hero Carousel
+    (function () {
+      var slides = document.querySelectorAll('.hero__carousel-slide');
+      var dots = document.querySelectorAll('.hero__carousel-dot');
+      var current = 0;
+      var timer;
+
+      function goTo(index) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (index + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+        // Restart ken burns on new slide
+        var img = slides[current].querySelector('img');
+        img.style.animation = 'none';
+        img.offsetHeight; // reflow
+        img.style.animation = '';
+      }
+
+      function next() { goTo(current + 1); }
+
+      function startTimer() { timer = setInterval(next, 5000); }
+      function resetTimer() { clearInterval(timer); startTimer(); }
+
+      dots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () { goTo(i); resetTimer(); });
+      });
+
+      startTimer();
     })();
   </script>
 </body>
