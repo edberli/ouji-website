@@ -326,6 +326,12 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   box-shadow: 0 4px 30px rgba(109,163,181,0.06);
   border-bottom: 1px solid rgba(109,163,181,0.1);
 }
+.header.is-scrolled .header__logo { color: var(--text-primary); }
+.header.is-scrolled .header__nav a { color: var(--text-secondary); }
+.header.is-scrolled .header__nav a:hover { color: var(--text-primary); }
+.header.is-scrolled .header__action-btn { color: var(--text-secondary); }
+.header.is-scrolled .header__action-btn:hover { color: var(--text-primary); }
+.header.is-scrolled .header__menu-toggle span { background: var(--text-primary); }
 
 .header__inner {
   display: flex;
@@ -354,7 +360,9 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   letter-spacing: 0.22em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--primary-dark);
+  color: var(--text-primary);
+  line-height: 1;
+  padding-top: 2px;
   transition: color var(--duration-normal), opacity var(--duration-normal);
 }
 
