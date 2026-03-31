@@ -254,9 +254,13 @@
 
     const params = new URLSearchParams(window.location.search);
     const handle = params.get('handle');
-    if (!handle) return;
-
     const productDetail = document.querySelector('.product-detail');
+
+    if (!handle) {
+      // No product handle — show empty page rather than blank
+      if (productDetail) productDetail.style.opacity = '1';
+      return;
+    }
 
     // Render product data into the page
     async function renderProduct(product) {
