@@ -91,13 +91,13 @@
       <!-- Product Detail -->
       <div class="product-detail">
         <!-- Gallery -->
-        <div class="product-gallery reveal">
+        <div class="product-gallery">
           <div class="product-gallery__main"></div>
           <div class="product-gallery__thumbs"></div>
         </div>
 
         <!-- Product Info -->
-        <div class="product-info reveal">
+        <div class="product-info">
           <span class="product-info__brand"></span>
           <h1 class="product-info__name"></h1>
           <div class="product-info__price"></div>
@@ -364,48 +364,62 @@
         });
       }
 
-      // Load related products
-      const relatedData = await getProducts({ first: 5 });
-      const related = relatedData?.edges?.map(e => e.node).filter(p => p.handle !== handle) ?? [];
-      const relatedGrid = document.querySelector('.product-grid');
-      if (relatedGrid && related.length > 0) {
-        relatedGrid.innerHTML = related.slice(0, 4).map(p => {
-          const img = p.images?.edges?.[0]?.node;
-          const pr = p.priceRange?.minVariantPrice;
-          return `
-            <a href="product.html?handle=${p.handle}" class="product-card">
-              <div class="product-card__image-wrap">
-                ${img ? `<img class="product-card__image" src="${img.url}" alt="${img.altText || p.title}">` : ''}
-                <div class="product-card__quick-add">快速加入</div>
-              </div>
-              <span class="product-card__brand">${p.vendor || ''}</span>
-              <span class="product-card__name">${p.title}</span>
-              <span class="product-card__price">${formatPrice(pr.amount)}</span>
-            </a>
-          `;
-        }).join('');
-      }
-
-      // Show product detail
+      // Show product detail immediately (don't wait for related products)
       if (productDetail) productDetail.style.opacity = '1';
+
+      // Load related products in background
+      try {
+        const relatedData = await getProducts({ first: 5 });
+        const related = relatedData?.edges?.map(e => e.node).filter(p => p.handle !== handle) ?? [];
+        const relatedGrid = document.querySelector('.product-grid');
+        if (relatedGrid && related.length > 0) {
+          relatedGrid.innerHTML = related.slice(0, 4).map(p => {
+            const img = p.images?.edges?.[0]?.node;
+            const pr = p.priceRange?.minVariantPrice;
+            return `
+              <a href="product.html?handle=${p.handle}" class="product-card">
+                <div class="product-card__image-wrap">
+                  ${img ? `<img class="product-card__image" src="${img.url}" alt="${img.altText || p.title}">` : ''}
+                  <div class="product-card__quick-add">快速加入</div>
+                </div>
+                <span class="product-card__brand">${p.vendor || ''}</span>
+                <span class="product-card__name">${p.title}</span>
+                <span class="product-card__price">${formatPrice(pr.amount)}</span>
+              </a>
+            `;
+          }).join('');
+        }
+      } catch (e) {
+        console.error('Failed to load related products:', e);
+      }
     }
 
     // Try cache first for instant display, fallback to API fetch
     try {
       const cached = getCachedProduct(handle);
       if (cached) {
-        renderProduct(cached);
+        await renderProduct(cached);
       } else {
         const product = await getProduct(handle);
         if (product) {
           cacheProduct(product);
-          renderProduct(product);
+          await renderProduct(product);
+        } else {
+          // Product not found — show page anyway
+          if (productDetail) productDetail.style.opacity = '1';
         }
       }
     } catch (err) {
       console.error('Failed to load product:', err);
       if (productDetail) productDetail.style.opacity = '1';
     }
+
+    // Failsafe: always show page after 3 seconds no matter what
+    setTimeout(() => {
+      if (productDetail && productDetail.style.opacity === '0') {
+        productDetail.style.opacity = '1';
+      }
+    }, 3000);
   });
   </script>
 </body>

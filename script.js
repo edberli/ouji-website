@@ -26,6 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initMarqueeHoverPause();
   initHScrollDrag();
   initFloatingParticles();
+
+  // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
+  // force all reveal elements visible to prevent blank page
+  setTimeout(function () {
+    document.querySelectorAll('.reveal:not(.is-visible), .reveal-blur:not(.is-visible), .reveal-stagger:not(.is-visible), .reveal-scale:not(.is-visible)').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
+  }, 2000);
 });
 
 /* ----- Scroll Reveal ----- */

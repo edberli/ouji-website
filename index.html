@@ -942,14 +942,6 @@
     document.addEventListener('DOMContentLoaded', async () => {
       await initPage();
 
-      // Header scroll: toggle is-scrolled for transparent → white transition
-      const header = document.querySelector('.header');
-      if (header) {
-        window.addEventListener('scroll', () => {
-          header.classList.toggle('is-scrolled', window.scrollY > 60);
-        });
-      }
-
       // Load products from Shopify
       const productsData = await getProducts({ first: 20 });
       const products = productsData?.edges?.map(e => e.node) ?? [];
