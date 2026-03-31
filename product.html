@@ -416,7 +416,7 @@
 
     // Failsafe: always show page after 3 seconds no matter what
     setTimeout(() => {
-      if (productDetail && productDetail.style.opacity === '0') {
+      if (productDetail && getComputedStyle(productDetail).opacity === '0') {
         productDetail.style.opacity = '1';
       }
     }, 3000);
