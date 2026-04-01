@@ -411,11 +411,12 @@ function formatPrice(amount, currencyCode = 'HKD') {
 
 /** 更新購物袋數字徽章 */
 function updateCartBadge(count) {
-  document.querySelectorAll('.cart-badge').forEach(el => {
+  document.querySelectorAll('.header__cart-count, .mobile-bottom-nav__badge, .cart-badge').forEach(el => {
     if (count > 0) {
       el.textContent = count;
       el.style.display = 'flex';
     } else {
+      el.textContent = '0';
       el.style.display = 'none';
     }
   });
@@ -482,7 +483,6 @@ function productCardHTML(product) {
           </svg>
         </button>
       </div>
-    </button>
     </article>
   `;
 }

@@ -783,6 +783,24 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 .product-card__wishlist svg { width: 14px; height: 14px; stroke: var(--primary-dark); fill: none; stroke-width: 1.5; }
 
+.product-card__wishlist-btn {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-spring);
+  color: var(--text-tertiary);
+  z-index: 2;
+}
+.product-card__wishlist-btn:hover { transform: scale(1.1); background: #fff; }
+.product-card__wishlist-btn.is-active { color: #e74c3c; }
+.product-card__wishlist-btn svg { width: 16px; height: 16px; }
+
 .product-card__brand { font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.08em; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; }
 .product-card__name { font-size: 0.9375rem; font-weight: 400; color: var(--text-primary); line-height: 1.4; margin-bottom: 6px; }
 .product-card__price { font-size: 0.875rem; font-weight: 600; color: var(--primary-dark); }
@@ -1142,6 +1160,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .product-info__wishlist-btn { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-light); border-radius: 14px; transition: all var(--duration-fast); flex-shrink: 0; background: rgba(255,255,255,0.5); }
 .product-info__wishlist-btn:hover { border-color: var(--primary); background: rgba(109,163,181,0.06); transform: scale(1.05); }
 .product-info__wishlist-btn svg { width: 18px; height: 18px; stroke: var(--primary); fill: none; stroke-width: 1.5; }
+.product-info__wishlist-btn.is-active { border-color: #e74c3c; background: rgba(231,76,60,0.06); }
+.product-info__wishlist-btn.is-active svg { stroke: #e74c3c; fill: #e74c3c; }
 
 /* Product Tabs */
 .product-tabs { margin-top: var(--space-2xl); }

@@ -44,7 +44,7 @@
         </a>
         <a href="cart.html" class="header__action-btn" aria-label="購物袋">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span class="header__cart-count">3</span>
+          <span class="header__cart-count" style="display:none;">0</span>
         </a>
       </div>
     </div>
@@ -81,65 +81,19 @@
 
         <h1 class="cart-page__title">購物袋</h1>
 
-        <div class="cart-layout">
-          <!-- Cart Items -->
-          <div class="cart-items">
-
-            <div class="cart-item">
-              <div class="cart-item__image">
-                <img src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=200&q=80" alt="Torriden DIVE-IN Serum">
-              </div>
-              <div class="cart-item__details">
-                <span class="cart-item__brand">Torriden</span>
-                <h3 class="cart-item__name">DIVE-IN Low Molecular Hyaluronic Acid Serum</h3>
-                <span class="cart-item__variant">50ml</span>
-                <div class="cart-item__quantity">
-                  <button class="qty-btn" data-action="decrease" style="width:32px;height:32px;font-size:0.875rem;">−</button>
-                  <input type="number" class="qty-input" value="1" min="1" max="99" style="width:44px;height:32px;font-size:0.8125rem;">
-                  <button class="qty-btn" data-action="increase" style="width:32px;height:32px;font-size:0.875rem;">+</button>
-                  <button class="cart-item__remove">移除</button>
-                </div>
-              </div>
-              <div class="cart-item__price">HK$168</div>
-            </div>
-
-            <div class="cart-item">
-              <div class="cart-item__image">
-                <img src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=200&q=80" alt="rom&nd Lip Tint">
-              </div>
-              <div class="cart-item__details">
-                <span class="cart-item__brand">rom&nd</span>
-                <h3 class="cart-item__name">Juicy Lasting Tint #09 Litchi Coral</h3>
-                <span class="cart-item__variant">3.5g</span>
-                <div class="cart-item__quantity">
-                  <button class="qty-btn" data-action="decrease" style="width:32px;height:32px;font-size:0.875rem;">−</button>
-                  <input type="number" class="qty-input" value="2" min="1" max="99" style="width:44px;height:32px;font-size:0.8125rem;">
-                  <button class="qty-btn" data-action="increase" style="width:32px;height:32px;font-size:0.875rem;">+</button>
-                  <button class="cart-item__remove">移除</button>
-                </div>
-              </div>
-              <div class="cart-item__price">HK$89</div>
-            </div>
-
-            <div class="cart-item">
-              <div class="cart-item__image">
-                <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&q=80" alt="Beauty of Joseon Sunscreen">
-              </div>
-              <div class="cart-item__details">
-                <span class="cart-item__brand">Beauty of Joseon</span>
-                <h3 class="cart-item__name">Relief Sun 朝鮮美人清爽防曬 SPF50+</h3>
-                <span class="cart-item__variant">50ml</span>
-                <div class="cart-item__quantity">
-                  <button class="qty-btn" data-action="decrease" style="width:32px;height:32px;font-size:0.875rem;">−</button>
-                  <input type="number" class="qty-input" value="1" min="1" max="99" style="width:44px;height:32px;font-size:0.8125rem;">
-                  <button class="qty-btn" data-action="increase" style="width:32px;height:32px;font-size:0.875rem;">+</button>
-                  <button class="cart-item__remove">移除</button>
-                </div>
-              </div>
-              <div class="cart-item__price">HK$148</div>
-            </div>
-
+        <!-- Empty Cart State (shown when cart is empty) -->
+        <div class="cart-empty" id="cart-empty" style="text-align: center; padding: var(--space-2xl) 0;">
+          <div style="margin-bottom: 24px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="1" style="width: 64px; height: 64px;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           </div>
+          <p style="color: var(--text-tertiary); margin-bottom: 32px; line-height: 1.8;">你的購物袋暫時是空的。<br>瀏覽我們的產品，找到屬於你的韓系美膚好物。</p>
+          <a href="category.html" class="btn btn--primary">探索產品</a>
+        </div>
+
+        <!-- Cart Layout (shown when cart has items) -->
+        <div class="cart-layout" id="cart-layout" style="display: none;">
+          <!-- Cart Items -->
+          <div class="cart-items"></div>
 
           <!-- Cart Summary -->
           <div class="cart-summary">
@@ -147,14 +101,14 @@
 
             <div class="cart-summary__row">
               <span>小計</span>
-              <span data-subtotal>HK$494</span>
+              <span data-subtotal>HK$0</span>
             </div>
             <div class="cart-summary__row">
               <span>運費</span>
-              <span>HK$40</span>
+              <span data-shipping>HK$0</span>
             </div>
-            <div class="cart-summary__row" style="font-size: 0.75rem; color: var(--primary);">
-              <span>再消費 HK$106 即可享免運費</span>
+            <div class="cart-summary__row" data-free-shipping-msg style="font-size: 0.75rem; color: var(--primary); display: none;">
+              <span></span>
               <span></span>
             </div>
 
@@ -162,7 +116,7 @@
 
             <div class="cart-summary__row cart-summary__total">
               <span>合計</span>
-              <span data-total>HK$534</span>
+              <span data-total>HK$0</span>
             </div>
 
             <div class="cart-summary__promo">
@@ -310,7 +264,7 @@
     <a href="cart.html" class="mobile-bottom-nav__item" aria-label="購物袋">
       <span class="mobile-bottom-nav__icon-wrap">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        <span class="mobile-bottom-nav__badge">2</span>
+        <span class="mobile-bottom-nav__badge" style="display:none;">0</span>
       </span>
       <span>購物袋</span>
     </a>
@@ -327,9 +281,13 @@
     await initPage();
 
     const cart = await getCart();
+    const cartEmpty = document.getElementById('cart-empty');
+    const cartLayout = document.getElementById('cart-layout');
     const itemsContainer = document.querySelector('.cart-items');
     const subtotalEl = document.querySelector('[data-subtotal]');
     const totalEl = document.querySelector('[data-total]');
+    const shippingEl = document.querySelector('[data-shipping]');
+    const freeShipMsg = document.querySelector('[data-free-shipping-msg]');
     const checkoutBtn = document.querySelector('.cart-summary__checkout .btn');
 
     // Checkout button
@@ -341,10 +299,15 @@
     }
 
     if (!cart || !cart.lines?.edges?.length) {
-      // Show empty cart state if no Shopify cart
-      // Keep static content as demo
+      // Show empty cart state
+      cartEmpty.style.display = '';
+      cartLayout.style.display = 'none';
       return;
     }
+
+    // Show cart layout, hide empty state
+    cartEmpty.style.display = 'none';
+    cartLayout.style.display = '';
 
     // Render cart items from Shopify
     const lines = cart.lines.edges.map(e => e.node);
@@ -374,8 +337,22 @@
     }).join('');
 
     // Update totals
-    if (subtotalEl) subtotalEl.textContent = formatPrice(cart.cost.subtotalAmount.amount);
-    if (totalEl) totalEl.textContent = formatPrice(cart.cost.totalAmount.amount);
+    const subtotal = parseFloat(cart.cost.subtotalAmount.amount);
+    const total = parseFloat(cart.cost.totalAmount.amount);
+    const FREE_SHIPPING_THRESHOLD = 400;
+    const SHIPPING_FEE = 40;
+    const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+
+    if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+    if (shippingEl) shippingEl.textContent = shipping === 0 ? '免費' : formatPrice(shipping);
+    if (totalEl) totalEl.textContent = formatPrice(subtotal + shipping);
+
+    if (freeShipMsg) {
+      if (subtotal < FREE_SHIPPING_THRESHOLD) {
+        freeShipMsg.style.display = '';
+        freeShipMsg.querySelector('span').textContent = `再消費 HK$${FREE_SHIPPING_THRESHOLD - subtotal} 即可享免運費`;
+      }
+    }
   });
 
   // Global functions for cart actions
