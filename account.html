@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>會員登入 — OUJI</title>
+  <title>會員帳戶 — OUJI</title>
   <meta name="description" content="OUJI 會員登入及註冊 — 管理訂單、追蹤配送、享受會員優惠。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,55 +74,23 @@
   </nav>
 
   <main style="padding-top: 100px;">
-
-    <!-- 登入頁面（未登入時顯示） -->
-    <section class="section" id="login-section">
+    <section class="section">
       <div class="container" style="max-width: 440px;">
         <div class="section-header" style="text-align: center; margin-bottom: 40px;">
           <div style="margin-bottom: 24px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="1" style="width: 64px; height: 64px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
-          <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em;">會員登入</h1>
-          <p style="color: var(--text-tertiary); margin-top: 8px;">登入帳戶以管理訂單及享受會員優惠</p>
+          <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em;">會員帳戶</h1>
+          <p style="color: var(--text-tertiary); margin-top: 8px;">管理訂單、追蹤配送、享受會員優惠</p>
         </div>
 
-        <button type="button" class="btn btn--primary" id="login-btn" style="width: 100%; justify-content: center;">登入 / 建立帳戶</button>
+        <a href="https://shopify.com/76534055070/account" class="btn btn--primary" style="width: 100%; justify-content: center; text-decoration: none;">登入 / 管理帳戶</a>
 
         <div style="margin-top: 24px; text-align: center;">
-          <p style="color: var(--text-tertiary); font-size: 0.8rem; line-height: 1.6;">點擊上方按鈕將跳轉到安全的 Shopify 登入頁面。<br>你可以使用現有帳戶登入或建立新帳戶。</p>
+          <p style="color: var(--text-tertiary); font-size: 0.8rem; line-height: 1.6;">點擊上方按鈕前往會員帳戶頁面。<br>你可以登入現有帳戶、建立新帳戶、查看訂單或登出。</p>
         </div>
       </div>
     </section>
-
-    <!-- 會員資料頁面（已登入時顯示） -->
-    <section class="section" id="account-section" style="display: none;">
-      <div class="container" style="max-width: 640px;">
-        <div class="section-header" style="text-align: center; margin-bottom: 40px;">
-          <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em;">我的帳戶</h1>
-        </div>
-
-        <!-- 會員資料 -->
-        <div style="background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 32px; margin-bottom: 32px;">
-          <h2 style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 16px;">帳戶資料</h2>
-          <div id="customer-info" style="line-height: 1.8; color: var(--text-secondary);">
-            載入中...
-          </div>
-        </div>
-
-        <!-- 訂單記錄 -->
-        <div style="background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 32px; margin-bottom: 32px;">
-          <h2 style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 16px;">訂單記錄</h2>
-          <div id="order-list" style="color: var(--text-secondary);">
-            載入中...
-          </div>
-        </div>
-
-        <div style="text-align: center;">
-          <button type="button" class="btn btn--secondary" id="logout-btn" style="justify-content: center;">登出</button>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <!-- Footer -->
@@ -203,91 +171,6 @@
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
-
-    const loginSection = document.getElementById('login-section');
-    const accountSection = document.getElementById('account-section');
-    const loginBtn = document.getElementById('login-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-
-    // 檢查是否從 Shopify 登入頁面返回（URL 有 code 參數）
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('code')) {
-      loginBtn.textContent = '登入中...';
-      loginBtn.disabled = true;
-      const success = await handleAuthCallback();
-      if (!success) {
-        loginBtn.textContent = '登入失敗，請重試';
-        loginBtn.disabled = false;
-        return;
-      }
-    }
-
-    // 已登入：顯示帳戶資料
-    const loggedIn = await ensureLoggedIn();
-    if (loggedIn) {
-      loginSection.style.display = 'none';
-      accountSection.style.display = '';
-      document.title = '我的帳戶 — OUJI';
-
-      const customer = await getCustomer();
-      const infoEl = document.getElementById('customer-info');
-      const orderEl = document.getElementById('order-list');
-
-      if (customer) {
-        const email = customer.emailAddress?.emailAddress || '';
-        const name = [customer.firstName, customer.lastName].filter(Boolean).join(' ');
-        infoEl.innerHTML = `
-          ${name ? `<p><strong>姓名：</strong>${name}</p>` : ''}
-          ${email ? `<p><strong>電郵：</strong>${email}</p>` : ''}
-          ${customer.phoneNumber?.phoneNumber ? `<p><strong>電話：</strong>${customer.phoneNumber.phoneNumber}</p>` : ''}
-        `;
-
-        const orders = customer.orders?.edges?.map(e => e.node) || [];
-        if (orders.length > 0) {
-          orderEl.innerHTML = orders.map(order => {
-            const date = new Date(order.processedAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' });
-            const status = order.fulfillments?.nodes?.[0]?.status || order.financialStatus || '';
-            return `
-              <div style="padding: 16px 0; border-bottom: 1px solid var(--border-light);">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-weight: 500;">${order.name}</span>
-                  <span>${formatPrice(order.totalPrice.amount)}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 0.8rem; color: var(--text-tertiary);">
-                  <span>${date}</span>
-                  <span>${status}</span>
-                </div>
-              </div>
-            `;
-          }).join('');
-        } else {
-          orderEl.innerHTML = '<p style="color: var(--text-tertiary);">暫時沒有訂單記錄。</p>';
-        }
-      } else {
-        // Token 無效且無法刷新，自動登出
-        loginSection.style.display = '';
-        accountSection.style.display = 'none';
-        document.title = '會員登入 — OUJI';
-        localStorage.removeItem('customer_access_token');
-        localStorage.removeItem('customer_id_token');
-        localStorage.removeItem('customer_refresh_token');
-        localStorage.removeItem('customer_token_expires');
-      }
-    }
-
-    // 登入按鈕
-    loginBtn.addEventListener('click', async () => {
-      loginBtn.textContent = '跳轉中...';
-      loginBtn.disabled = true;
-      await customerLogin();
-    });
-
-    // 登出按鈕
-    logoutBtn.addEventListener('click', async () => {
-      logoutBtn.textContent = '登出中...';
-      logoutBtn.disabled = true;
-      await customerLogout();
-    });
   });
   </script>
 </body>
