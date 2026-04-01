@@ -122,6 +122,9 @@ function initParallax() {
 function initHeaderScroll() {
   const header = document.querySelector('.header');
   if (!header) return;
+  // Only toggle on pages without is-scrolled set in HTML (i.e. homepage with dark hero).
+  // Other pages always keep is-scrolled for dark text on light backgrounds.
+  if (header.classList.contains('is-scrolled')) return;
   window.addEventListener('scroll', () => {
     header.classList.toggle('is-scrolled', window.scrollY > 60);
   }, { passive: true });
