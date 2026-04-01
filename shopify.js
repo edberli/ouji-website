@@ -390,6 +390,40 @@ async function handleAuthCallback() {
   return false;
 }
 
+/** 使用 refresh_token 取得新的 access_token */
+async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem('customer_refresh_token');
+  if (!refreshToken) return false;
+
+  const shopId = getShopId();
+  try {
+    const res = await fetch(`https://shopify.com/authentication/${shopId}/oauth/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        client_id: CUSTOMER_API_CLIENT_ID,
+        refresh_token: refreshToken,
+      }),
+    });
+
+    const data = await res.json();
+    if (data.access_token) {
+      localStorage.setItem('customer_access_token', data.access_token);
+      if (data.id_token) localStorage.setItem('customer_id_token', data.id_token);
+      if (data.refresh_token) localStorage.setItem('customer_refresh_token', data.refresh_token);
+      if (data.expires_in) {
+        const expiresAt = new Date(Date.now() + data.expires_in * 1000).toISOString();
+        localStorage.setItem('customer_token_expires', expiresAt);
+      }
+      return true;
+    }
+  } catch (err) {
+    console.error('Token 刷新失敗:', err);
+  }
+  return false;
+}
+
 /** 會員登出 */
 async function customerLogout() {
   localStorage.removeItem('customer_access_token');
@@ -399,50 +433,75 @@ async function customerLogout() {
   window.location.href = window.location.origin + '/account.html';
 }
 
-/** 取得會員資料（Customer Account API GraphQL） */
-async function getCustomer() {
+/** 執行 Customer Account API GraphQL 請求 */
+async function customerApiFetch(query) {
   const token = localStorage.getItem('customer_access_token');
   if (!token) return null;
 
   const shopId = getShopId();
   if (!shopId) return null;
 
+  const res = await fetch(`https://shopify.com/${shopId}/account/customer/api/2025-01/graphql`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+    body: JSON.stringify({ query }),
+  });
+
+  if (res.status === 401) {
+    // Token 過期，嘗試刷新
+    const refreshed = await refreshAccessToken();
+    if (refreshed) {
+      const newToken = localStorage.getItem('customer_access_token');
+      const retryRes = await fetch(`https://shopify.com/${shopId}/account/customer/api/2025-01/graphql`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': newToken,
+        },
+        body: JSON.stringify({ query }),
+      });
+      return retryRes.json();
+    }
+    // 刷新失敗，清除所有 token
+    localStorage.removeItem('customer_access_token');
+    localStorage.removeItem('customer_id_token');
+    localStorage.removeItem('customer_refresh_token');
+    localStorage.removeItem('customer_token_expires');
+    return null;
+  }
+
+  return res.json();
+}
+
+/** 取得會員資料（Customer Account API GraphQL） */
+async function getCustomer() {
   try {
-    const res = await fetch(`https://shopify.com/${shopId}/account/customer/api/2025-01/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token,
-      },
-      body: JSON.stringify({
-        query: `query {
-          customer {
-            firstName
-            lastName
-            emailAddress { emailAddress }
-            phoneNumber { phoneNumber }
-            orders(first: 10) {
-              edges {
-                node {
-                  id name processedAt
-                  totalPrice { amount currencyCode }
-                  fulfillments(first: 1) { nodes { status } }
-                  financialStatus
-                }
-              }
+    const data = await customerApiFetch(`query {
+      customer {
+        firstName
+        lastName
+        emailAddress { emailAddress }
+        phoneNumber { phoneNumber }
+        orders(first: 10) {
+          edges {
+            node {
+              id name processedAt
+              totalPrice { amount currencyCode }
+              fulfillments(first: 1) { nodes { status } }
+              financialStatus
             }
           }
-        }`
-      }),
-    });
-    const data = await res.json();
+        }
+      }
+    }`);
+
+    if (!data) return null;
+
     if (data.errors) {
       console.error('Customer API errors:', data.errors);
-      // Token 可能過期，清除登入狀態
-      if (res.status === 401) {
-        localStorage.removeItem('customer_access_token');
-        localStorage.removeItem('customer_token_expires');
-      }
       return null;
     }
     return data?.data?.customer;
@@ -452,15 +511,40 @@ async function getCustomer() {
   }
 }
 
-/** 檢查是否已登入 */
+/** 檢查是否已登入（同步檢查，不含刷新） */
 function isLoggedIn() {
   const token = localStorage.getItem('customer_access_token');
-  const expires = localStorage.getItem('customer_token_expires');
   if (!token) return false;
+  const expires = localStorage.getItem('customer_token_expires');
   if (expires && new Date(expires) < new Date()) {
-    localStorage.removeItem('customer_access_token');
-    localStorage.removeItem('customer_token_expires');
-    return false;
+    // Token 已過期，但可能有 refresh_token 可用
+    // 不在這裡清除，讓 ensureLoggedIn() 處理刷新
+    if (!localStorage.getItem('customer_refresh_token')) {
+      localStorage.removeItem('customer_access_token');
+      localStorage.removeItem('customer_token_expires');
+      return false;
+    }
+    // 有 refresh_token，先當作已登入，之後 API 呼叫會自動刷新
+    return true;
+  }
+  return true;
+}
+
+/** 確保登入狀態（非同步，含 token 刷新） */
+async function ensureLoggedIn() {
+  const token = localStorage.getItem('customer_access_token');
+  if (!token) return false;
+  const expires = localStorage.getItem('customer_token_expires');
+  if (expires && new Date(expires) < new Date()) {
+    // Token 已過期，嘗試刷新
+    const refreshed = await refreshAccessToken();
+    if (!refreshed) {
+      localStorage.removeItem('customer_access_token');
+      localStorage.removeItem('customer_id_token');
+      localStorage.removeItem('customer_refresh_token');
+      localStorage.removeItem('customer_token_expires');
+      return false;
+    }
   }
   return true;
 }

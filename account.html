@@ -223,7 +223,8 @@
     }
 
     // 已登入：顯示帳戶資料
-    if (isLoggedIn()) {
+    const loggedIn = await ensureLoggedIn();
+    if (loggedIn) {
       loginSection.style.display = 'none';
       accountSection.style.display = '';
       document.title = '我的帳戶 — OUJI';
@@ -263,8 +264,14 @@
           orderEl.innerHTML = '<p style="color: var(--text-tertiary);">暫時沒有訂單記錄。</p>';
         }
       } else {
-        infoEl.innerHTML = '<p>無法載入帳戶資料，請重新登入。</p>';
-        orderEl.innerHTML = '';
+        // Token 無效且無法刷新，自動登出
+        loginSection.style.display = '';
+        accountSection.style.display = 'none';
+        document.title = '會員登入 — OUJI';
+        localStorage.removeItem('customer_access_token');
+        localStorage.removeItem('customer_id_token');
+        localStorage.removeItem('customer_refresh_token');
+        localStorage.removeItem('customer_token_expires');
       }
     }
 
