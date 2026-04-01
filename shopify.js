@@ -436,8 +436,12 @@ async function customerLogout() {
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
 
-  // 直接跳返帳戶頁面（配合 customerLogin() 的 prompt=login 強制重新驗證）
-  window.location.href = window.location.origin + '/account.html';
+  // 重新載入頁面顯示登入表單
+  if (window.location.pathname === '/account.html') {
+    window.location.reload();
+  } else {
+    window.location.href = window.location.origin + '/account.html';
+  }
 }
 
 /** 執行 Customer Account API GraphQL 請求 */
