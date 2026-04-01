@@ -339,11 +339,8 @@ async function customerLogin() {
   authUrl.searchParams.set('code_challenge', codeChallenge);
   authUrl.searchParams.set('code_challenge_method', 'S256');
 
-  // 如果剛登出，強制重新驗證（唔會自動用舊 session）
-  if (sessionStorage.getItem('ca_force_login')) {
-    authUrl.searchParams.set('prompt', 'login');
-    sessionStorage.removeItem('ca_force_login');
-  }
+  // 強制每次都重新驗證（防止登出後自動用舊 session）
+  authUrl.searchParams.set('prompt', 'login');
 
   window.location.href = authUrl.toString();
 }
@@ -441,10 +438,16 @@ async function customerLogout() {
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
 
-  // 標記下次登入需要強制重新驗證
-  sessionStorage.setItem('ca_force_login', '1');
-
-  window.location.href = window.location.origin + '/account.html';
+  // 嘗試在 Shopify 端登出（直接跳轉）
+  // 配合 customerLogin() 的 prompt=login，確保下次登入需要重新驗證
+  if (idToken && shopId) {
+    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/logout`);
+    logoutUrl.searchParams.set('id_token_hint', idToken);
+    logoutUrl.searchParams.set('post_logout_redirect_uri', 'https://oujikbeauty.com');
+    window.location.href = logoutUrl.toString();
+  } else {
+    window.location.href = window.location.origin + '/account.html';
+  }
 }
 
 /** 執行 Customer Account API GraphQL 請求 */
