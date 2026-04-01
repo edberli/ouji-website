@@ -82,8 +82,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="1" style="width: 64px; height: 64px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </div>
         <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em; margin-bottom: 16px;">心願單</h1>
-        <p style="color: var(--text-tertiary); margin-bottom: 32px; line-height: 1.8;">你的心願單暫時是空的。<br>瀏覽我們的產品，點擊愛心圖標即可加入心願單。</p>
-        <a href="category.html" class="btn btn--primary">探索產品</a>
+        <p id="wishlist-empty-msg" style="color: var(--text-tertiary); margin-bottom: 32px; line-height: 1.8;">你的心願單暫時是空的。<br>瀏覽我們的產品，點擊愛心圖標即可加入心願單。</p>
+        <a href="category.html" class="btn btn--primary" id="wishlist-empty-action">探索產品</a>
       </div>
     </section>
 
@@ -175,6 +175,17 @@
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
+    // 未登入：顯示登入提示
+    if (!isLoggedIn()) {
+      document.getElementById('wishlist-empty').style.display = '';
+      document.getElementById('wishlist-content').style.display = 'none';
+      document.getElementById('wishlist-empty-msg').innerHTML = '登入帳戶即可使用心願單功能，<br>儲存你喜愛的產品，跨裝置同步。';
+      const actionBtn = document.getElementById('wishlist-empty-action');
+      actionBtn.textContent = '登入 / 註冊';
+      actionBtn.href = '#';
+      actionBtn.addEventListener('click', (e) => { e.preventDefault(); customerLogin(); });
+      return;
+    }
     renderWishlist();
   });
 

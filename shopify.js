@@ -588,22 +588,22 @@ function getWishlist() {
 }
 
 function addToWishlist(product) {
+  if (!isLoggedIn()) { customerLogin(); return; }
   const list = getWishlist();
   if (!list.find(p => p.id === product.id)) {
     list.push(product);
     localStorage.setItem('ouji_wishlist', JSON.stringify(list));
   }
   updateWishlistBadge();
-  // 已登入：同步到 Shopify
-  if (isLoggedIn()) syncWishlistToShopify();
+  syncWishlistToShopify();
 }
 
 function removeFromWishlist(productId) {
+  if (!isLoggedIn()) { customerLogin(); return; }
   const list = getWishlist().filter(p => p.id !== productId);
   localStorage.setItem('ouji_wishlist', JSON.stringify(list));
   updateWishlistBadge();
-  // 已登入：同步到 Shopify
-  if (isLoggedIn()) syncWishlistToShopify();
+  syncWishlistToShopify();
 }
 
 function isInWishlist(productId) {
@@ -622,7 +622,6 @@ async function syncWishlistToShopify() {
     const customerId = custData?.data?.customer?.id;
     if (!customerId) { console.warn('[Wishlist] sync skipped — no customer ID'); return; }
 
-    console.log('[Wishlist] syncing handles:', handles, 'ownerId:', customerId);
     const result = await customerApiFetch(`mutation {
       metafieldsSet(metafields: [{
         ownerId: "${customerId}",
@@ -635,8 +634,7 @@ async function syncWishlistToShopify() {
         userErrors { field message }
       }
     }`);
-    if (!result) { console.warn('[Wishlist] sync skipped — no token'); return; }
-    console.log('[Wishlist] sync response:', JSON.stringify(result));
+    if (!result) return;
     if (result?.errors?.length) {
       console.error('心願單 GraphQL 錯誤:', result.errors);
     }
@@ -658,8 +656,7 @@ async function loadWishlistFromShopify() {
         }
       }
     }`);
-    if (!data) { console.warn('[Wishlist] load skipped — no token'); return; }
-    console.log('[Wishlist] load response:', JSON.stringify(data));
+    if (!data) return;
     if (data?.errors?.length) {
       console.error('心願單載入 GraphQL 錯誤:', data.errors);
       return;
@@ -670,9 +667,7 @@ async function loadWishlistFromShopify() {
 
     // 遠端為空：如果本地有心願單，push 上 Shopify
     if (!raw) {
-      console.log('[Wishlist] 遠端心願單為空');
       if (localList.length > 0) {
-        console.log('[Wishlist] 本地有', localList.length, '個項目，同步上去');
         await syncWishlistToShopify();
       }
       return;
