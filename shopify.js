@@ -288,85 +288,198 @@ async function goToCheckout() {
 }
 
 // ─────────────────────────────────────────────
-// 會員 API（Customer Account）
+// 會員 API（Customer Account API — OAuth 2.0 PKCE）
 // ─────────────────────────────────────────────
 
-/** 會員登入 */
-async function customerLogin(email, password) {
-  const data = await shopifyFetch(`
-    mutation CustomerLogin($input: CustomerAccessTokenCreateInput!) {
-      customerAccessTokenCreate(input: $input) {
-        customerAccessToken { accessToken expiresAt }
-        customerUserErrors { field message }
-      }
-    }
-  `, { input: { email, password } });
+const CUSTOMER_API_CLIENT_ID = '1f1d6e0a-746a-4c4e-9ca5-7006981c9ade';
+const CUSTOMER_API_REDIRECT_URI = window.location.origin + '/account.html';
 
-  const token = data?.customerAccessTokenCreate?.customerAccessToken;
-  if (token) {
-    localStorage.setItem('shopify_customer_token', token.accessToken);
-    localStorage.setItem('shopify_customer_token_expires', token.expiresAt);
+/** 取得 Shop ID（用於 Customer Account API 端點） */
+async function getShopId() {
+  const cached = sessionStorage.getItem('shopify_shop_id');
+  if (cached) return cached;
+  const data = await shopifyFetch(`query { shop { id } }`);
+  const gid = data?.shop?.id;
+  const id = gid?.split('/').pop();
+  if (id) sessionStorage.setItem('shopify_shop_id', id);
+  return id;
+}
+
+/** 產生隨機字串（PKCE 用） */
+function generateRandomString(length) {
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  return Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** 產生 PKCE code challenge */
+async function generateCodeChallenge(verifier) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(verifier);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return btoa(String.fromCharCode(...new Uint8Array(hash)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+/** 會員登入（跳轉到 Shopify 登入頁面） */
+async function customerLogin() {
+  const shopId = await getShopId();
+  if (!shopId) { console.error('無法取得 Shop ID'); return; }
+
+  const codeVerifier = generateRandomString(64);
+  const codeChallenge = await generateCodeChallenge(codeVerifier);
+  const state = generateRandomString(32);
+  const nonce = generateRandomString(32);
+
+  sessionStorage.setItem('ca_code_verifier', codeVerifier);
+  sessionStorage.setItem('ca_state', state);
+  sessionStorage.setItem('ca_nonce', nonce);
+
+  const authUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/authorize`);
+  authUrl.searchParams.set('client_id', CUSTOMER_API_CLIENT_ID);
+  authUrl.searchParams.set('response_type', 'code');
+  authUrl.searchParams.set('redirect_uri', CUSTOMER_API_REDIRECT_URI);
+  authUrl.searchParams.set('scope', 'openid email customer-account-api:full');
+  authUrl.searchParams.set('state', state);
+  authUrl.searchParams.set('nonce', nonce);
+  authUrl.searchParams.set('code_challenge', codeChallenge);
+  authUrl.searchParams.set('code_challenge_method', 'S256');
+
+  window.location.href = authUrl.toString();
+}
+
+/** 處理 OAuth 回調（從 Shopify 登入頁面返回後） */
+async function handleAuthCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const state = params.get('state');
+  if (!code) return false;
+
+  const savedState = sessionStorage.getItem('ca_state');
+  if (state !== savedState) { console.error('State 不符'); return false; }
+
+  const codeVerifier = sessionStorage.getItem('ca_code_verifier');
+  const shopId = await getShopId();
+
+  try {
+    const res = await fetch(`https://shopify.com/authentication/${shopId}/oauth/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        client_id: CUSTOMER_API_CLIENT_ID,
+        redirect_uri: CUSTOMER_API_REDIRECT_URI,
+        code,
+        code_verifier: codeVerifier,
+      }),
+    });
+
+    const data = await res.json();
+    if (data.access_token) {
+      localStorage.setItem('customer_access_token', data.access_token);
+      if (data.id_token) localStorage.setItem('customer_id_token', data.id_token);
+      if (data.refresh_token) localStorage.setItem('customer_refresh_token', data.refresh_token);
+      if (data.expires_in) {
+        const expiresAt = new Date(Date.now() + data.expires_in * 1000).toISOString();
+        localStorage.setItem('customer_token_expires', expiresAt);
+      }
+      // 清除 URL 參數和暫存
+      window.history.replaceState({}, '', window.location.pathname);
+      sessionStorage.removeItem('ca_code_verifier');
+      sessionStorage.removeItem('ca_state');
+      sessionStorage.removeItem('ca_nonce');
+      return true;
+    }
+  } catch (err) {
+    console.error('Token 交換失敗:', err);
   }
-  return data?.customerAccessTokenCreate;
+  return false;
 }
 
 /** 會員登出 */
 async function customerLogout() {
-  const token = localStorage.getItem('shopify_customer_token');
-  if (!token) return;
-  await shopifyFetch(`
-    mutation CustomerLogout($token: String!) {
-      customerAccessTokenDelete(customerAccessToken: $token) {
-        deletedAccessToken
-      }
-    }
-  `, { token });
-  localStorage.removeItem('shopify_customer_token');
-  localStorage.removeItem('shopify_customer_token_expires');
+  const idToken = localStorage.getItem('customer_id_token');
+  const shopId = await getShopId();
+
+  localStorage.removeItem('customer_access_token');
+  localStorage.removeItem('customer_id_token');
+  localStorage.removeItem('customer_refresh_token');
+  localStorage.removeItem('customer_token_expires');
+
+  if (idToken && shopId) {
+    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/logout`);
+    logoutUrl.searchParams.set('id_token_hint', idToken);
+    logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin + '/account.html');
+    window.location.href = logoutUrl.toString();
+    return;
+  }
+  window.location.reload();
 }
 
-/** 會員註冊 */
-async function customerRegister(firstName, lastName, email, password) {
-  const data = await shopifyFetch(`
-    mutation CustomerCreate($input: CustomerCreateInput!) {
-      customerCreate(input: $input) {
-        customer { id email }
-        customerUserErrors { field message }
-      }
-    }
-  `, { input: { firstName, lastName, email, password } });
-  return data?.customerCreate;
-}
-
-/** 取得會員資料 */
+/** 取得會員資料（Customer Account API GraphQL） */
 async function getCustomer() {
-  const token = localStorage.getItem('shopify_customer_token');
+  const token = localStorage.getItem('customer_access_token');
   if (!token) return null;
-  const data = await shopifyFetch(`
-    query GetCustomer($token: String!) {
-      customer(customerAccessToken: $token) {
-        id firstName lastName email phone
-        orders(first: 10) {
-          edges {
-            node {
-              id name processedAt
-              totalPrice { amount currencyCode }
-              fulfillmentStatus financialStatus
+
+  const shopId = await getShopId();
+  if (!shopId) return null;
+
+  try {
+    const res = await fetch(`https://shopify.com/${shopId}/account/customer/api/2024-07/graphql`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        query: `query {
+          customer {
+            firstName
+            lastName
+            emailAddress { emailAddress }
+            phoneNumber { phoneNumber }
+            orders(first: 10) {
+              edges {
+                node {
+                  id name processedAt
+                  totalPrice { amount currencyCode }
+                  fulfillments(first: 1) { nodes { status } }
+                  financialStatus
+                }
+              }
             }
           }
-        }
+        }`
+      }),
+    });
+    const data = await res.json();
+    if (data.errors) {
+      console.error('Customer API errors:', data.errors);
+      // Token 可能過期，清除登入狀態
+      if (res.status === 401) {
+        localStorage.removeItem('customer_access_token');
+        localStorage.removeItem('customer_token_expires');
       }
+      return null;
     }
-  `, { token });
-  return data?.customer;
+    return data?.data?.customer;
+  } catch (err) {
+    console.error('取得會員資料失敗:', err);
+    return null;
+  }
 }
 
 /** 檢查是否已登入 */
 function isLoggedIn() {
-  const token = localStorage.getItem('shopify_customer_token');
-  const expires = localStorage.getItem('shopify_customer_token_expires');
-  if (!token || !expires) return false;
-  return new Date(expires) > new Date();
+  const token = localStorage.getItem('customer_access_token');
+  const expires = localStorage.getItem('customer_token_expires');
+  if (!token) return false;
+  if (expires && new Date(expires) < new Date()) {
+    localStorage.removeItem('customer_access_token');
+    localStorage.removeItem('customer_token_expires');
+    return false;
+  }
+  return true;
 }
 
 // ─────────────────────────────────────────────
