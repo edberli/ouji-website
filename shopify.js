@@ -427,10 +427,8 @@ async function refreshAccessToken() {
   return false;
 }
 
-/** 會員登出（同時在 Shopify 端結束 session） */
+/** 會員登出 */
 async function customerLogout() {
-  const idToken = localStorage.getItem('customer_id_token');
-  const shopId = getShopId();
 
   // 清除本地 token
   localStorage.removeItem('customer_access_token');
@@ -438,16 +436,8 @@ async function customerLogout() {
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
 
-  // 嘗試在 Shopify 端登出（直接跳轉）
-  // 配合 customerLogin() 的 prompt=login，確保下次登入需要重新驗證
-  if (idToken && shopId) {
-    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/logout`);
-    logoutUrl.searchParams.set('id_token_hint', idToken);
-    logoutUrl.searchParams.set('post_logout_redirect_uri', 'https://oujikbeauty.com');
-    window.location.href = logoutUrl.toString();
-  } else {
-    window.location.href = window.location.origin + '/account.html';
-  }
+  // 直接跳返帳戶頁面（配合 customerLogin() 的 prompt=login 強制重新驗證）
+  window.location.href = window.location.origin + '/account.html';
 }
 
 /** 執行 Customer Account API GraphQL 請求 */
