@@ -617,9 +617,15 @@ async function syncWishlistToShopify() {
   const value = JSON.stringify(handles);
 
   try {
-    console.log('[Wishlist] syncing handles:', handles);
+    // 先取得 customer ID（metafieldsSet 需要 ownerId）
+    const custData = await customerApiFetch(`query { customer { id } }`);
+    const customerId = custData?.data?.customer?.id;
+    if (!customerId) { console.warn('[Wishlist] sync skipped — no customer ID'); return; }
+
+    console.log('[Wishlist] syncing handles:', handles, 'ownerId:', customerId);
     const result = await customerApiFetch(`mutation {
       metafieldsSet(metafields: [{
+        ownerId: "${customerId}",
         namespace: "custom",
         key: "wishlist",
         type: "json",
