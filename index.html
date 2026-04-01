@@ -96,6 +96,12 @@
           <div class="hero__carousel-slide"><img src="assets/images/hero-3.png" alt=""></div>
           <div class="hero__carousel-slide"><img src="assets/images/hero-4.png" alt=""></div>
         </div>
+        <button class="hero__carousel-arrow hero__carousel-arrow--prev" aria-label="上一張">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="hero__carousel-arrow hero__carousel-arrow--next" aria-label="下一張">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
         <div class="hero__carousel-dots">
           <button class="hero__carousel-dot active" aria-label="Slide 1"></button>
           <button class="hero__carousel-dot" aria-label="Slide 2"></button>
@@ -930,6 +936,11 @@
       dots.forEach(function (dot, i) {
         dot.addEventListener('click', function () { goTo(i); resetTimer(); });
       });
+
+      var prevBtn = document.querySelector('.hero__carousel-arrow--prev');
+      var nextBtn = document.querySelector('.hero__carousel-arrow--next');
+      if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); resetTimer(); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); resetTimer(); });
 
       startTimer();
     })();
