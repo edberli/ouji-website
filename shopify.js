@@ -660,12 +660,26 @@ async function loadWishlistFromShopify() {
     }
 
     const raw = data?.data?.customer?.metafield?.value;
-    if (!raw) { console.log('[Wishlist] 遠端心願單為空'); return; }
+    const localList = getWishlist();
+
+    // 遠端為空：如果本地有心願單，push 上 Shopify
+    if (!raw) {
+      console.log('[Wishlist] 遠端心願單為空');
+      if (localList.length > 0) {
+        console.log('[Wishlist] 本地有', localList.length, '個項目，同步上去');
+        await syncWishlistToShopify();
+      }
+      return;
+    }
 
     const remoteHandles = JSON.parse(raw);
-    if (!Array.isArray(remoteHandles) || remoteHandles.length === 0) return;
+    if (!Array.isArray(remoteHandles) || remoteHandles.length === 0) {
+      if (localList.length > 0) {
+        await syncWishlistToShopify();
+      }
+      return;
+    }
 
-    const localList = getWishlist();
     const localHandles = new Set(localList.map(p => p.handle));
 
     // 找出本地冇但遠端有嘅 handle
