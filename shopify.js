@@ -293,16 +293,11 @@ async function goToCheckout() {
 
 const CUSTOMER_API_CLIENT_ID = '1f1d6e0a-746a-4c4e-9ca5-7006981c9ade';
 const CUSTOMER_API_REDIRECT_URI = window.location.origin + '/account.html';
+const SHOP_ID = '76534055070';
 
 /** 取得 Shop ID（用於 Customer Account API 端點） */
-async function getShopId() {
-  const cached = sessionStorage.getItem('shopify_shop_id');
-  if (cached) return cached;
-  const data = await shopifyFetch(`query { shop { id } }`);
-  const gid = data?.shop?.id;
-  const id = gid?.split('/').pop();
-  if (id) sessionStorage.setItem('shopify_shop_id', id);
-  return id;
+function getShopId() {
+  return SHOP_ID;
 }
 
 /** 產生隨機字串（PKCE 用） */
@@ -323,8 +318,7 @@ async function generateCodeChallenge(verifier) {
 
 /** 會員登入（跳轉到 Shopify 登入頁面） */
 async function customerLogin() {
-  const shopId = await getShopId();
-  if (!shopId) { console.error('無法取得 Shop ID'); return; }
+  const shopId = getShopId();
 
   const codeVerifier = generateRandomString(64);
   const codeChallenge = await generateCodeChallenge(codeVerifier);
@@ -359,7 +353,7 @@ async function handleAuthCallback() {
   if (state !== savedState) { console.error('State 不符'); return false; }
 
   const codeVerifier = sessionStorage.getItem('ca_code_verifier');
-  const shopId = await getShopId();
+  const shopId = getShopId();
 
   try {
     const res = await fetch(`https://shopify.com/authentication/${shopId}/oauth/token`, {
@@ -399,7 +393,7 @@ async function handleAuthCallback() {
 /** 會員登出 */
 async function customerLogout() {
   const idToken = localStorage.getItem('customer_id_token');
-  const shopId = await getShopId();
+  const shopId = getShopId();
 
   localStorage.removeItem('customer_access_token');
   localStorage.removeItem('customer_id_token');
@@ -421,7 +415,7 @@ async function getCustomer() {
   const token = localStorage.getItem('customer_access_token');
   if (!token) return null;
 
-  const shopId = await getShopId();
+  const shopId = getShopId();
   if (!shopId) return null;
 
   try {
