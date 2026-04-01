@@ -369,10 +369,7 @@ async function handleAuthCallback() {
     });
 
     const data = await res.json();
-    console.log('Token exchange response status:', res.status);
-    console.log('Token exchange response data:', JSON.stringify(data).substring(0, 200));
     if (data.access_token) {
-      console.log('Access token prefix:', data.access_token.substring(0, 10));
       localStorage.setItem('customer_access_token', data.access_token);
       if (data.id_token) localStorage.setItem('customer_id_token', data.id_token);
       if (data.refresh_token) localStorage.setItem('customer_refresh_token', data.refresh_token);
@@ -421,16 +418,12 @@ async function getCustomer() {
   const shopId = getShopId();
   if (!shopId) return null;
 
-  console.log('getCustomer token length:', token.length);
-  console.log('getCustomer token prefix:', token.substring(0, 20));
-  console.log('getCustomer Authorization header:', `Bearer ${token}`.substring(0, 30));
-
   try {
-    const res = await fetch(`https://shopify.com/${shopId}/account/customer/api/2024-07/graphql`, {
+    const res = await fetch(`https://shopify.com/${shopId}/account/customer/api/2025-01/graphql`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        'Authorization': token,
       },
       body: JSON.stringify({
         query: `query {
@@ -454,8 +447,6 @@ async function getCustomer() {
       }),
     });
     const data = await res.json();
-    console.log('Customer API response status:', res.status);
-    console.log('Customer API response:', JSON.stringify(data).substring(0, 300));
     if (data.errors) {
       console.error('Customer API errors:', data.errors);
       // Token 可能過期，清除登入狀態
