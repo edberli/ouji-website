@@ -424,13 +424,26 @@ async function refreshAccessToken() {
   return false;
 }
 
-/** 會員登出 */
+/** 會員登出（同時在 Shopify 端結束 session） */
 async function customerLogout() {
+  const idToken = localStorage.getItem('customer_id_token');
+  const shopId = getShopId();
+
+  // 清除本地 token
   localStorage.removeItem('customer_access_token');
   localStorage.removeItem('customer_id_token');
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
-  window.location.href = window.location.origin + '/account.html';
+
+  // 跳轉到 Shopify logout 端點結束遠端 session
+  if (idToken && shopId) {
+    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/logout`);
+    logoutUrl.searchParams.set('id_token_hint', idToken);
+    logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin);
+    window.location.href = logoutUrl.toString();
+  } else {
+    window.location.href = window.location.origin + '/account.html';
+  }
 }
 
 /** 執行 Customer Account API GraphQL 請求 */
