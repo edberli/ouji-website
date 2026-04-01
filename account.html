@@ -243,9 +243,6 @@
     if (loggedIn) {
       showAccountView();
 
-      // 同步心願單（背景執行，唔阻塞頁面）
-      loadWishlistFromShopify().catch(() => {});
-
       const customer = await getCustomer();
       const infoEl = document.getElementById('customer-info');
       const orderEl = document.getElementById('order-list');

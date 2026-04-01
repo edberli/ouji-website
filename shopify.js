@@ -617,7 +617,7 @@ async function syncWishlistToShopify() {
   const value = JSON.stringify(handles);
 
   try {
-    await customerApiFetch(`mutation {
+    const result = await customerApiFetch(`mutation {
       metafieldsSet(metafields: [{
         namespace: "custom",
         key: "wishlist",
@@ -628,6 +628,9 @@ async function syncWishlistToShopify() {
         userErrors { field message }
       }
     }`);
+    if (result?.data?.metafieldsSet?.userErrors?.length) {
+      console.error('心願單同步錯誤:', result.data.metafieldsSet.userErrors);
+    }
   } catch (e) {
     console.error('心願單同步失敗:', e);
   }
@@ -733,6 +736,9 @@ async function initPage() {
   if (isLoggedIn()) {
     document.querySelectorAll('[data-show-logged-in]').forEach(el => el.style.display = '');
     document.querySelectorAll('[data-show-logged-out]').forEach(el => el.style.display = 'none');
+
+    // 已登入：背景同步心願清單
+    loadWishlistFromShopify().catch(() => {});
   }
 }
 
