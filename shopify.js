@@ -339,9 +339,6 @@ async function customerLogin() {
   authUrl.searchParams.set('code_challenge', codeChallenge);
   authUrl.searchParams.set('code_challenge_method', 'S256');
 
-  // 強制每次都重新驗證（防止登出後自動用舊 session）
-  authUrl.searchParams.set('prompt', 'login');
-
   window.location.href = authUrl.toString();
 }
 
@@ -427,19 +424,41 @@ async function refreshAccessToken() {
   return false;
 }
 
-/** 會員登出 */
+/** 會員登出（撤銷 token + 清除 Shopify session） */
 async function customerLogout() {
+  const idToken = localStorage.getItem('customer_id_token');
+  const refreshToken = localStorage.getItem('customer_refresh_token');
+  const shopId = getShopId();
 
-  // 清除本地 token
+  // 1. 撤銷 refresh token（防止重用）
+  if (refreshToken) {
+    try {
+      await fetch(`https://shopify.com/authentication/${shopId}/oauth/revoke`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          token: refreshToken,
+          client_id: CUSTOMER_API_CLIENT_ID,
+        }),
+      });
+    } catch (e) { /* 忽略 — 本地清除就夠 */ }
+  }
+
+  // 2. 清除本地 token
   localStorage.removeItem('customer_access_token');
   localStorage.removeItem('customer_id_token');
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
 
-  // 重新載入頁面顯示登入表單
-  if (window.location.pathname === '/account.html') {
-    window.location.reload();
+  // 3. 跳去 Shopify logout endpoint 清除 server-side session
+  //    Shopify 會清除 session cookie 再 redirect 回嚟
+  if (idToken) {
+    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/logout`);
+    logoutUrl.searchParams.set('id_token_hint', idToken);
+    logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin + '/account.html');
+    window.location.href = logoutUrl.toString();
   } else {
+    // 冇 id_token，只能清本地再 reload
     window.location.href = window.location.origin + '/account.html';
   }
 }
@@ -561,7 +580,7 @@ async function ensureLoggedIn() {
 }
 
 // ─────────────────────────────────────────────
-// 心願單（本地儲存）
+// 心願單（本地 + 會員同步）
 // ─────────────────────────────────────────────
 
 function getWishlist() {
@@ -575,16 +594,91 @@ function addToWishlist(product) {
     localStorage.setItem('ouji_wishlist', JSON.stringify(list));
   }
   updateWishlistBadge();
+  // 已登入：同步到 Shopify
+  if (isLoggedIn()) syncWishlistToShopify();
 }
 
 function removeFromWishlist(productId) {
   const list = getWishlist().filter(p => p.id !== productId);
   localStorage.setItem('ouji_wishlist', JSON.stringify(list));
   updateWishlistBadge();
+  // 已登入：同步到 Shopify
+  if (isLoggedIn()) syncWishlistToShopify();
 }
 
 function isInWishlist(productId) {
   return getWishlist().some(p => p.id === productId);
+}
+
+/** 將心願單同步到 Shopify customer metafield */
+async function syncWishlistToShopify() {
+  const list = getWishlist();
+  const handles = list.map(p => p.handle).filter(Boolean);
+  const value = JSON.stringify(handles);
+
+  try {
+    await customerApiFetch(`mutation {
+      metafieldsSet(metafields: [{
+        namespace: "custom",
+        key: "wishlist",
+        type: "json",
+        value: ${JSON.stringify(value)}
+      }]) {
+        metafields { id }
+        userErrors { field message }
+      }
+    }`);
+  } catch (e) {
+    console.error('心願單同步失敗:', e);
+  }
+}
+
+/** 從 Shopify 載入心願單並合併本地資料 */
+async function loadWishlistFromShopify() {
+  try {
+    const data = await customerApiFetch(`query {
+      customer {
+        metafield(namespace: "custom", key: "wishlist") {
+          value
+        }
+      }
+    }`);
+
+    const raw = data?.data?.customer?.metafield?.value;
+    if (!raw) return;
+
+    const remoteHandles = JSON.parse(raw);
+    if (!Array.isArray(remoteHandles) || remoteHandles.length === 0) return;
+
+    const localList = getWishlist();
+    const localHandles = new Set(localList.map(p => p.handle));
+
+    // 找出本地冇但遠端有嘅 handle
+    const missing = remoteHandles.filter(h => !localHandles.has(h));
+    if (missing.length === 0 && localList.length === remoteHandles.length) return;
+
+    // 抓取缺少嘅商品資料
+    for (const handle of missing) {
+      try {
+        const product = await getProduct(handle);
+        if (product) {
+          localList.push(product);
+        }
+      } catch (e) { /* 商品可能已下架 */ }
+    }
+
+    localStorage.setItem('ouji_wishlist', JSON.stringify(localList));
+    updateWishlistBadge();
+
+    // 如果本地有遠端冇嘅，反向同步
+    const allHandles = localList.map(p => p.handle).filter(Boolean);
+    if (allHandles.length !== remoteHandles.length ||
+        allHandles.some(h => !remoteHandles.includes(h))) {
+      await syncWishlistToShopify();
+    }
+  } catch (e) {
+    console.error('載入遠端心願單失敗:', e);
+  }
 }
 
 // ─────────────────────────────────────────────

@@ -243,6 +243,9 @@
     if (loggedIn) {
       showAccountView();
 
+      // 同步心願單（背景執行，唔阻塞頁面）
+      loadWishlistFromShopify().catch(() => {});
+
       const customer = await getCustomer();
       const infoEl = document.getElementById('customer-info');
       const orderEl = document.getElementById('order-list');
@@ -294,12 +297,13 @@
       await customerLogin();
     });
 
-    // 登出按鈕 — 直接更新 UI，唔靠 redirect/reload
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('customer_access_token');
-      localStorage.removeItem('customer_id_token');
-      localStorage.removeItem('customer_refresh_token');
-      localStorage.removeItem('customer_token_expires');
+    // 登出按鈕 — 撤銷 token + 清除 Shopify session
+    logoutBtn.addEventListener('click', async () => {
+      logoutBtn.textContent = '登出中...';
+      logoutBtn.disabled = true;
+      await customerLogout();
+      // customerLogout() 會 redirect 去 Shopify 清 session 再回嚟
+      // 如果冇 id_token（fallback），手動切換 UI
       showLoginView();
     });
   });
