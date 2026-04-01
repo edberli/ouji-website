@@ -1314,7 +1314,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .header__menu-toggle { display: flex; }
   .header__action-btn { display: none !important; }
   .header__action-btn[aria-label="搜尋"] { display: flex !important; }
-  .hero { aspect-ratio: 3 / 4; height: auto; min-height: unset; margin-top: 38px; }
+  .hero { aspect-ratio: 3 / 4; height: auto; min-height: unset; margin-top: 0; }
   .hero__floating-images { display: none; }
   .hero__content { padding: 0 var(--space-md); }
   .hero__title { font-size: clamp(2rem, 7vw, 2.8rem); }
@@ -1341,7 +1341,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .product-card__brand { font-size: 0.5625rem; }
   .product-card__name { font-size: 0.8125rem; }
   .category-grid { gap: var(--space-sm); }
-  .hero { aspect-ratio: 3 / 4; height: auto; min-height: unset; margin-top: 38px; }
+  .hero { aspect-ratio: 3 / 4; height: auto; min-height: unset; margin-top: 0; }
   .hero__badge { top: 12%; right: 4%; transform: scale(0.85); transform-origin: top right; }
   .hero__cta { flex-direction: column; gap: var(--space-sm); }
   .hero__cta .btn { width: 100%; text-align: center; }
