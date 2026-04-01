@@ -296,7 +296,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 
 .announcement-bar + .header { top: 36px; }
-.announcement-bar + .header + main { padding-top: 100px; }
+main { padding-top: calc(var(--header-height) + 36px); }
 
 /* ----- Header ----- */
 .header {
@@ -445,6 +445,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   width: 100%;
   aspect-ratio: 88 / 40;
   overflow: hidden;
+  margin-top: calc(-1 * var(--header-height));
 }
 
 .hero__bg-image {
@@ -1314,7 +1315,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .header__menu-toggle { display: flex; }
   .header__action-btn { display: none !important; }
   .header__action-btn[aria-label="搜尋"] { display: flex !important; }
-  .hero { aspect-ratio: 3 / 4; height: auto; min-height: unset; margin-top: 0; }
+  .hero { aspect-ratio: 56 / 75; height: auto; min-height: unset; margin-top: calc(-1 * var(--header-height)); }
+  .hero__carousel-slide img { object-fit: contain; }
   .hero__floating-images { display: none; }
   .hero__content { padding: 0 var(--space-md); }
   .hero__title { font-size: clamp(2rem, 7vw, 2.8rem); }
@@ -1341,7 +1343,6 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .product-card__brand { font-size: 0.5625rem; }
   .product-card__name { font-size: 0.8125rem; }
   .category-grid { gap: var(--space-sm); }
-  .hero { aspect-ratio: 3 / 4; height: auto; min-height: unset; margin-top: 0; }
   .hero__badge { top: 12%; right: 4%; transform: scale(0.85); transform-origin: top right; }
   .hero__cta { flex-direction: column; gap: var(--space-sm); }
   .hero__cta .btn { width: 100%; text-align: center; }
