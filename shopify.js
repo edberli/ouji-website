@@ -455,7 +455,7 @@ async function customerLogout() {
   if (idToken) {
     const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/logout`);
     logoutUrl.searchParams.set('id_token_hint', idToken);
-    logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin + '/account.html');
+    logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin);
     window.location.href = logoutUrl.toString();
   } else {
     // 冇 id_token，只能清本地再 reload
