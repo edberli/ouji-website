@@ -617,6 +617,7 @@ async function syncWishlistToShopify() {
   const value = JSON.stringify(handles);
 
   try {
+    console.log('[Wishlist] syncing handles:', handles);
     const result = await customerApiFetch(`mutation {
       metafieldsSet(metafields: [{
         namespace: "custom",
@@ -624,12 +625,17 @@ async function syncWishlistToShopify() {
         type: "json",
         value: ${JSON.stringify(value)}
       }]) {
-        metafields { id }
+        metafields { id namespace key }
         userErrors { field message }
       }
     }`);
+    if (!result) { console.warn('[Wishlist] sync skipped — no token'); return; }
+    console.log('[Wishlist] sync response:', JSON.stringify(result));
+    if (result?.errors?.length) {
+      console.error('心願單 GraphQL 錯誤:', result.errors);
+    }
     if (result?.data?.metafieldsSet?.userErrors?.length) {
-      console.error('心願單同步錯誤:', result.data.metafieldsSet.userErrors);
+      console.error('心願單同步 userErrors:', result.data.metafieldsSet.userErrors);
     }
   } catch (e) {
     console.error('心願單同步失敗:', e);
@@ -646,9 +652,15 @@ async function loadWishlistFromShopify() {
         }
       }
     }`);
+    if (!data) { console.warn('[Wishlist] load skipped — no token'); return; }
+    console.log('[Wishlist] load response:', JSON.stringify(data));
+    if (data?.errors?.length) {
+      console.error('心願單載入 GraphQL 錯誤:', data.errors);
+      return;
+    }
 
     const raw = data?.data?.customer?.metafield?.value;
-    if (!raw) return;
+    if (!raw) { console.log('[Wishlist] 遠端心願單為空'); return; }
 
     const remoteHandles = JSON.parse(raw);
     if (!Array.isArray(remoteHandles) || remoteHandles.length === 0) return;
