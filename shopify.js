@@ -339,6 +339,12 @@ async function customerLogin() {
   authUrl.searchParams.set('code_challenge', codeChallenge);
   authUrl.searchParams.set('code_challenge_method', 'S256');
 
+  // 如果剛登出，強制重新驗證（唔會自動用舊 session）
+  if (sessionStorage.getItem('ca_force_login')) {
+    authUrl.searchParams.set('prompt', 'login');
+    sessionStorage.removeItem('ca_force_login');
+  }
+
   window.location.href = authUrl.toString();
 }
 
@@ -435,19 +441,8 @@ async function customerLogout() {
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
 
-  // 用隱藏 iframe 在 Shopify 端結束 session（避免跳轉到 Shopify 頁面）
-  if (idToken && shopId) {
-    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/logout`);
-    logoutUrl.searchParams.set('id_token_hint', idToken);
-    logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin);
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = logoutUrl.toString();
-    document.body.appendChild(iframe);
-    // 等待 iframe 載入完成後跳轉
-    await new Promise(r => setTimeout(r, 1500));
-    iframe.remove();
-  }
+  // 標記下次登入需要強制重新驗證
+  sessionStorage.setItem('ca_force_login', '1');
 
   window.location.href = window.location.origin + '/account.html';
 }
