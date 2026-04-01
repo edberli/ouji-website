@@ -521,27 +521,24 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: white;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: none;
+  color: rgba(255,255,255,0.55);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+  transition: color 0.25s, transform 0.25s;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));
 }
-.hero__carousel-arrow svg { width: 22px; height: 22px; }
-.hero__carousel-arrow--prev { left: 24px; }
-.hero__carousel-arrow--next { right: 24px; }
+.hero__carousel-arrow svg { width: 28px; height: 28px; }
+.hero__carousel-arrow--prev { left: 16px; }
+.hero__carousel-arrow--next { right: 16px; }
 .hero__carousel-arrow:hover {
-  background: rgba(255,255,255,0.28);
-  border-color: rgba(255,255,255,0.7);
-  transform: translateY(-50%) scale(1.08);
+  color: rgba(255,255,255,0.95);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .hero__overlay {
