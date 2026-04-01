@@ -392,22 +392,11 @@ async function handleAuthCallback() {
 
 /** 會員登出 */
 async function customerLogout() {
-  const idToken = localStorage.getItem('customer_id_token');
-  const shopId = getShopId();
-
   localStorage.removeItem('customer_access_token');
   localStorage.removeItem('customer_id_token');
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
-
-  if (idToken && shopId) {
-    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/logout`);
-    logoutUrl.searchParams.set('id_token_hint', idToken);
-    logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin);
-    window.location.href = logoutUrl.toString();
-    return;
-  }
-  window.location.reload();
+  window.location.href = window.location.origin + '/account.html';
 }
 
 /** 取得會員資料（Customer Account API GraphQL） */
