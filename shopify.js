@@ -435,15 +435,21 @@ async function customerLogout() {
   localStorage.removeItem('customer_refresh_token');
   localStorage.removeItem('customer_token_expires');
 
-  // 跳轉到 Shopify logout 端點結束遠端 session
+  // 用隱藏 iframe 在 Shopify 端結束 session（避免跳轉到 Shopify 頁面）
   if (idToken && shopId) {
     const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/oauth/logout`);
     logoutUrl.searchParams.set('id_token_hint', idToken);
     logoutUrl.searchParams.set('post_logout_redirect_uri', window.location.origin);
-    window.location.href = logoutUrl.toString();
-  } else {
-    window.location.href = window.location.origin + '/account.html';
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = logoutUrl.toString();
+    document.body.appendChild(iframe);
+    // 等待 iframe 載入完成後跳轉
+    await new Promise(r => setTimeout(r, 1500));
+    iframe.remove();
   }
+
+  window.location.href = window.location.origin + '/account.html';
 }
 
 /** 執行 Customer Account API GraphQL 請求 */
