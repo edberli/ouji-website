@@ -421,6 +421,10 @@ async function getCustomer() {
   const shopId = getShopId();
   if (!shopId) return null;
 
+  console.log('getCustomer token length:', token.length);
+  console.log('getCustomer token prefix:', token.substring(0, 20));
+  console.log('getCustomer Authorization header:', `Bearer ${token}`.substring(0, 30));
+
   try {
     const res = await fetch(`https://shopify.com/${shopId}/account/customer/api/2024-07/graphql`, {
       method: 'POST',
