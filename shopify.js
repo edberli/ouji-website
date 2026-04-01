@@ -735,6 +735,10 @@ function updateCartBadge(count) {
       el.style.display = 'none';
     }
   });
+  // 購物車 icon 變色
+  document.querySelectorAll('.header__action-btn--cart').forEach(el => {
+    el.classList.toggle('has-items', count > 0);
+  });
 }
 
 /** 更新心願單數字徽章 */
@@ -747,6 +751,10 @@ function updateWishlistBadge() {
     } else {
       el.style.display = 'none';
     }
+  });
+  // 心願單 icon 變色
+  document.querySelectorAll('.header__action-btn--wishlist').forEach(el => {
+    el.classList.toggle('has-items', count > 0);
   });
 }
 

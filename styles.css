@@ -422,19 +422,36 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 .header__action-btn svg { width: 18px; height: 18px; stroke-width: 1.5; }
 
-.header__cart-count {
+.header__cart-count,
+.header__wishlist-count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 17px; height: 17px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
   font-size: 0.5625rem;
   font-weight: 600;
   border-radius: 50%;
   padding: 0 4px;
+  position: absolute;
+  top: -4px;
+  right: -6px;
+}
+.header__action-btn--cart,
+.header__action-btn--wishlist { position: relative; }
+
+.header__cart-count {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   box-shadow: 0 2px 8px rgba(109,163,181,0.3);
 }
+.header__wishlist-count {
+  background: linear-gradient(135deg, #e8637a, #d44960);
+  box-shadow: 0 2px 8px rgba(232,99,122,0.3);
+}
+
+/* Icon color when has items */
+.header__action-btn--wishlist.has-items svg { stroke: #e8637a; fill: #e8637a; }
+.header__action-btn--cart.has-items svg { stroke: var(--primary); }
 
 .header__menu-toggle { display: none; flex-direction: column; gap: 5px; padding: 4px; }
 .header__menu-toggle span { display: block; width: 20px; height: 1px; background: var(--text-primary); transition: all var(--duration-normal); }
@@ -2690,13 +2707,13 @@ main { padding-top: calc(var(--header-height) + 36px); }
     justify-content: center;
   }
 
-  .mobile-bottom-nav__badge {
+  .mobile-bottom-nav__badge,
+  .mobile-bottom-nav__wishlist-badge {
     position: absolute;
     top: -5px;
     right: -9px;
     min-width: 15px;
     height: 15px;
-    background: var(--primary);
     color: white;
     font-size: 0.55rem;
     font-weight: 700;
@@ -2705,6 +2722,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
     align-items: center;
     justify-content: center;
     padding: 0 3px;
+  }
+  .mobile-bottom-nav__badge { background: var(--primary); }
+  .mobile-bottom-nav__wishlist-badge { background: #e8637a;
     line-height: 1;
   }
 
