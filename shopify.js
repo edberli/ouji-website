@@ -369,7 +369,10 @@ async function handleAuthCallback() {
     });
 
     const data = await res.json();
+    console.log('Token exchange response status:', res.status);
+    console.log('Token exchange response data:', JSON.stringify(data).substring(0, 200));
     if (data.access_token) {
+      console.log('Access token prefix:', data.access_token.substring(0, 10));
       localStorage.setItem('customer_access_token', data.access_token);
       if (data.id_token) localStorage.setItem('customer_id_token', data.id_token);
       if (data.refresh_token) localStorage.setItem('customer_refresh_token', data.refresh_token);
@@ -447,6 +450,8 @@ async function getCustomer() {
       }),
     });
     const data = await res.json();
+    console.log('Customer API response status:', res.status);
+    console.log('Customer API response:', JSON.stringify(data).substring(0, 300));
     if (data.errors) {
       console.error('Customer API errors:', data.errors);
       // Token 可能過期，清除登入狀態
