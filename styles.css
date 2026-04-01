@@ -1635,6 +1635,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   font-size: clamp(4rem, 12vw, 8rem);
   font-weight: 700;
   letter-spacing: 0.35em;
+  text-indent: 0.35em;
   text-transform: uppercase;
   color: white;
   opacity: 0;
