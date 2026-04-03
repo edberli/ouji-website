@@ -881,15 +881,24 @@ main { padding-top: calc(var(--header-height) + 36px); }
   }
 }
 .brand-card img {
-  max-height: none !important;
   max-width: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
 }
+@media (max-width: 639px) {
+  .brand-card img {
+    max-height: none !important;
+  }
+  /* Constrain logos with square/compact aspect ratios on mobile */
+  .brand-card img[alt="Abib"]      { max-height: 16px !important; }
+  .brand-card img[alt="innisfree"] { max-height: 42px !important; }
+  .brand-card img[alt="Dr.Jart+"]  { max-height: 40px !important; }
+  .brand-card img[alt="beplain"]   { max-height: 18px !important; }
+}
 @media (min-width: 640px) {
   .brand-card img {
-    max-height: 160px !important;
+    max-height: 160px;
     max-width: 85%;
   }
 }
