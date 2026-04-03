@@ -244,7 +244,9 @@ async function addToCart(variantId, quantity = 1) {
     cartId,
     lines: [{ merchandiseId: variantId, quantity }]
   });
-  updateCartBadge(data?.cartLinesAdd?.cart?.totalQuantity);
+  const totalQty = data?.cartLinesAdd?.cart?.totalQuantity;
+  console.log('[Cart] addToCart totalQuantity:', totalQty, 'full response:', JSON.stringify(data));
+  updateCartBadge(totalQty);
   return data?.cartLinesAdd;
 }
 
@@ -745,22 +747,19 @@ function updateCartBadge(count) {
   });
 }
 
-/** 更新心願單數字徽章 */
+/** 更新心願單圖示（只變色，不顯示數字） */
 function updateWishlistBadge() {
   const count = getWishlist().length;
+  // 隱藏所有數字 badge
   document.querySelectorAll('.wishlist-badge').forEach(el => {
-    if (count > 0) {
-      el.textContent = count;
-      el.style.display = 'flex';
-    } else {
-      el.style.display = 'none';
-    }
+    el.style.display = 'none';
   });
   // 心願單 icon 變色（desktop + mobile）
   document.querySelectorAll('.header__action-btn--wishlist').forEach(el => {
     el.classList.toggle('has-items', count > 0);
   });
   document.querySelectorAll('.mobile-bottom-nav__wishlist-badge').forEach(el => {
+    el.style.display = 'none';
     const item = el.closest('.mobile-bottom-nav__item');
     if (item) item.classList.toggle('has-items', count > 0);
   });
