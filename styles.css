@@ -891,13 +891,15 @@ main { padding-top: calc(var(--header-height) + 36px); }
     max-height: none !important;
   }
   /* Constrain logos with square/compact aspect ratios on mobile */
-  /* Square logos — constrain height so they don't fill the whole card */
-  .brand-card img[alt="innisfree"] { max-height: 48px !important; }
-  .brand-card img[alt="Dr.Jart+"]  { max-height: 46px !important; }
-  /* Bold/heavy logos — reduce visual weight to match others */
-  .brand-card img[alt="Abib"]      { max-height: 14px !important; }
-  .brand-card img[alt="beplain"]   { max-height: 16px !important; }
-  .brand-card img[alt="dasique"]   { max-height: 18px !important; }
+  /* Makeup logos — 20% bigger */
+  #makeup-brands .brand-card img { transform: scale(1.2); }
+  /* Skincare: square logos — reduced */
+  .brand-card img[alt="innisfree"] { max-height: 38px !important; }
+  .brand-card img[alt="Dr.Jart+"]  { max-height: 36px !important; }
+  /* Skincare: bold/heavy logos — slightly bigger than before */
+  .brand-card img[alt="Abib"]      { max-height: 16px !important; }
+  .brand-card img[alt="beplain"]   { max-height: 18px !important; }
+  .brand-card img[alt="dasique"]   { max-height: 22px !important; }
 }
 @media (min-width: 640px) {
   .brand-card img {
