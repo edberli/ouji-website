@@ -851,10 +851,18 @@ main { padding-top: calc(var(--header-height) + 36px); }
   border-color: rgba(109,163,181,0.2);
   transform: translateY(-2px);
 }
+.brand-card__logo-wrap {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 .brand-card img {
-  height: 28px;
+  max-height: 26px;
+  max-width: 85%;
   width: auto;
-  max-width: 100%;
+  height: auto;
   object-fit: contain;
 }
 .brand-card span {
