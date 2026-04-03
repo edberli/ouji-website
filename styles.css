@@ -891,15 +891,10 @@ main { padding-top: calc(var(--header-height) + 36px); }
     max-height: none !important;
   }
   /* Constrain logos with square/compact aspect ratios on mobile */
-  /* Makeup logos — 20% bigger */
-  #makeup-brands .brand-card img { transform: scale(1.2); }
-  /* Skincare: square logos — reduced */
-  .brand-card img[alt="innisfree"] { max-height: 38px !important; }
-  .brand-card img[alt="Dr.Jart+"]  { max-height: 36px !important; }
-  /* Skincare: bold/heavy logos — slightly bigger than before */
-  .brand-card img[alt="Abib"]      { max-height: 16px !important; }
-  .brand-card img[alt="beplain"]   { max-height: 18px !important; }
-  .brand-card img[alt="dasique"]   { max-height: 22px !important; }
+  /* All wide/text logos — scale up 20%, reduce max-width so scaled version fits */
+  .brand-card img { max-width: 83%; transform: scale(1.2); }
+  /* Compact/square logos — uniform height */
+  .brand-card--compact img { max-height: 36px !important; }
 }
 @media (min-width: 640px) {
   .brand-card img {
