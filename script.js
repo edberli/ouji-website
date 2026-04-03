@@ -25,12 +25,22 @@ document.addEventListener('DOMContentLoaded', () => {
   initRippleButtons();
   initMarqueeHoverPause();
   initHScrollDrag();
+  initSplitText();
+  initWordReveal();
+  initDirectionReveals();
+  initSectionFloat();
+  initMoodBoardReveal();
+  initLookbookInView();
+  initDividerReveal();
+  initHeroScrollParallax();
+  initScrollParallaxImages();
   initFloatingParticles();
+  initBokeh();
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
   setTimeout(function () {
-    document.querySelectorAll('.reveal:not(.is-visible), .reveal-blur:not(.is-visible), .reveal-stagger:not(.is-visible), .reveal-scale:not(.is-visible)').forEach(function (el) {
+    document.querySelectorAll('.reveal:not(.is-visible), .reveal-blur:not(.is-visible), .reveal-stagger:not(.is-visible), .reveal-scale:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-clip:not(.is-visible), .reveal-clip--right:not(.is-visible), .reveal-clip--up:not(.is-visible), .section-float:not(.is-visible), .section-divider:not(.is-visible), .split-text:not(.is-visible), .word-reveal:not(.is-visible), .mood-board:not(.is-visible)').forEach(function (el) {
       el.classList.add('is-visible');
     });
   }, 2000);
@@ -270,6 +280,7 @@ function initCountUp() {
             }
           }
 
+          el.classList.add('is-counting');
           requestAnimationFrame(update);
           observer.unobserve(el);
         }
@@ -526,5 +537,222 @@ function initFloatingParticles() {
     particle.style.animationDelay = (Math.random() * 10) + 's';
     particle.style.opacity = Math.random() * 0.2 + 0.05;
     container.appendChild(particle);
+  }
+}
+
+/* ----- Split Text into Characters ----- */
+function initSplitText() {
+  const els = document.querySelectorAll('[data-split-text]');
+  els.forEach(el => {
+    const text = el.textContent;
+    el.innerHTML = '';
+    el.classList.add('split-text');
+    let charIndex = 0;
+    [...text].forEach(c => {
+      const span = document.createElement('span');
+      if (c === ' ') {
+        span.classList.add('char', 'char--space');
+        span.innerHTML = '&nbsp;';
+      } else {
+        span.classList.add('char');
+        span.textContent = c;
+      }
+      span.style.transitionDelay = (charIndex * 0.035) + 's';
+      el.appendChild(span);
+      charIndex++;
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  els.forEach(el => observer.observe(el));
+}
+
+/* ----- Word-by-Word Reveal ----- */
+function initWordReveal() {
+  const els = document.querySelectorAll('[data-word-reveal]');
+  els.forEach(el => {
+    const words = el.textContent.trim().split(/\s+/);
+    el.innerHTML = '';
+    el.classList.add('word-reveal');
+    words.forEach((word, i) => {
+      const span = document.createElement('span');
+      span.classList.add('word');
+      span.textContent = word;
+      span.style.transitionDelay = (i * 0.08) + 's';
+      el.appendChild(span);
+      if (i < words.length - 1) {
+        el.appendChild(document.createTextNode(' '));
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  els.forEach(el => observer.observe(el));
+}
+
+/* ----- Direction Reveals (left/right/clip) ----- */
+function initDirectionReveals() {
+  const els = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-clip, .reveal-clip--right, .reveal-clip--up');
+  if (!els.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => observer.observe(el));
+}
+
+/* ----- Section Float Entrance ----- */
+function initSectionFloat() {
+  const els = document.querySelectorAll('.section-float');
+  if (!els.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -60px 0px' });
+  els.forEach(el => observer.observe(el));
+}
+
+/* ----- Mood Board Stagger Reveal ----- */
+function initMoodBoardReveal() {
+  const board = document.querySelector('.mood-board');
+  if (!board) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  observer.observe(board);
+}
+
+/* ----- Lookbook Cards In-View Detection ----- */
+function initLookbookInView() {
+  const cards = document.querySelectorAll('.hscroll-showcase__card');
+  if (!cards.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('is-in-view', entry.isIntersecting);
+    });
+  }, { threshold: 0.5 });
+  cards.forEach(card => observer.observe(card));
+}
+
+/* ----- Section Divider Reveal ----- */
+function initDividerReveal() {
+  const dividers = document.querySelectorAll('.section-divider');
+  if (!dividers.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  dividers.forEach(d => observer.observe(d));
+}
+
+/* ----- Hero Scroll Parallax (shrink + fade on scroll) ----- */
+function initHeroScrollParallax() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const heroH = hero.offsetHeight;
+        if (scrollY < heroH * 1.5) {
+          const progress = Math.min(scrollY / heroH, 1);
+          const scale = 1 - progress * 0.06;
+          const opacity = 1 - progress * 0.4;
+          const radius = progress * 24;
+          hero.style.transform = 'scale(' + scale + ')';
+          hero.style.opacity = opacity;
+          hero.style.borderRadius = radius + 'px';
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+/* ----- Parallax Images Inside Containers ----- */
+function initScrollParallaxImages() {
+  const containers = document.querySelectorAll('.parallax-img');
+  if (!containers.length) return;
+
+  let ticking = false;
+  function update() {
+    containers.forEach(container => {
+      const img = container.querySelector('img');
+      if (!img) return;
+      const rect = container.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) {
+        const progress = (rect.top + rect.height) / (window.innerHeight + rect.height);
+        const offset = (progress - 0.5) * -30;
+        img.style.transform = 'scale(1.18) translateY(' + offset + 'px)';
+      }
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Initial call
+  update();
+}
+
+/* ----- Ambient Bokeh Orbs ----- */
+function initBokeh() {
+  const container = document.querySelector('.particles');
+  if (!container) return;
+
+  for (let i = 0; i < 6; i++) {
+    const orb = document.createElement('div');
+    orb.classList.add('bokeh');
+    const size = Math.random() * 200 + 100;
+    orb.style.width = size + 'px';
+    orb.style.height = size + 'px';
+    orb.style.left = Math.random() * 100 + '%';
+    orb.style.top = Math.random() * 100 + '%';
+    orb.style.setProperty('--bx', (Math.random() * 60 - 30) + 'px');
+    orb.style.setProperty('--by', (Math.random() * 60 - 30) + 'px');
+    orb.style.setProperty('--bs', (Math.random() * 0.3 + 0.9).toFixed(2));
+    orb.style.animationDuration = (Math.random() * 12 + 8) + 's';
+    orb.style.animationDelay = -(Math.random() * 12) + 's';
+    container.appendChild(orb);
   }
 }

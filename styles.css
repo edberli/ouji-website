@@ -2834,3 +2834,300 @@ main { padding-top: calc(var(--header-height) + 36px); }
     padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* ============================================
+   PREMIUM SCROLL EXPERIENCE v6.0
+   ============================================ */
+
+/* ----- Horizontal Slide Reveals ----- */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal-left.is-visible { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal-right.is-visible { opacity: 1; transform: translateX(0); }
+
+/* ----- Image Clip Reveal (wipe effect) ----- */
+.reveal-clip {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.reveal-clip.is-visible { clip-path: inset(0 0 0 0); }
+
+.reveal-clip--right {
+  clip-path: inset(0 0 0 100%);
+  transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.reveal-clip--right.is-visible { clip-path: inset(0 0 0 0); }
+
+.reveal-clip--up {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.reveal-clip--up.is-visible { clip-path: inset(0 0 0 0); }
+
+/* ----- Split Text Characters ----- */
+.split-text .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%) rotateX(-80deg);
+  transform-origin: bottom center;
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+
+.split-text.is-visible .char {
+  opacity: 1;
+  transform: translateY(0) rotateX(0deg);
+}
+
+/* Whitespace chars should not be zero-width */
+.split-text .char--space { width: 0.3em; }
+
+/* ----- Word-by-Word Reveal (Pull Quote) ----- */
+.word-reveal .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(4px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), filter 0.5s var(--ease-out);
+}
+
+.word-reveal.is-visible .word {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* ----- Parallax Image Container ----- */
+.parallax-img {
+  overflow: hidden;
+  position: relative;
+}
+
+.parallax-img img {
+  transform: scale(1.18);
+  will-change: transform;
+  transition: none;
+}
+
+/* ----- Hero Scroll Shrink ----- */
+.hero {
+  will-change: transform, opacity;
+}
+
+/* ----- Section Divider ----- */
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-md) 0;
+  pointer-events: none;
+}
+
+.section-divider__line {
+  height: 1px;
+  flex: 1;
+  max-width: 120px;
+  background: linear-gradient(90deg, transparent, var(--primary-lighter), transparent);
+  transform: scaleX(0);
+  transition: transform 1.2s var(--ease-out);
+}
+
+.section-divider.is-visible .section-divider__line {
+  transform: scaleX(1);
+}
+
+.section-divider__diamond {
+  width: 6px;
+  height: 6px;
+  background: var(--primary-lighter);
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.6s var(--ease-spring) 0.4s;
+}
+
+.section-divider.is-visible .section-divider__diamond {
+  transform: rotate(45deg) scale(1);
+}
+
+/* ----- Stat Counter Glow ----- */
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 30px rgba(109,163,181,0.5), 0 0 60px rgba(109,163,181,0.2); }
+}
+
+.stat-card__number.is-counting {
+  animation: glowPulse 2s ease-in-out;
+}
+
+.stat-card:hover .stat-card__number {
+  text-shadow: 0 0 24px rgba(109,163,181,0.35);
+}
+
+/* ----- Ambient Bokeh Orbs ----- */
+.bokeh {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(109,163,181,0.25) 0%, rgba(109,163,181,0.06) 50%, transparent 70%);
+  pointer-events: none;
+  animation: bokehFloat ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes bokehFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(var(--bx, 20px), var(--by, -30px)) scale(var(--bs, 1.1)); }
+}
+
+/* ----- Scroll Progress Glow Tip ----- */
+.scroll-progress::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 60px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(109,163,181,0.6);
+  filter: blur(4px);
+}
+
+/* ----- Enhanced Product Card Hover ----- */
+.product-card {
+  perspective: 1000px;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+}
+
+.product-card:hover .product-card__image-wrap {
+  box-shadow: 0 20px 50px rgba(109,163,181,0.20), 0 0 0 1px rgba(109,163,181,0.08);
+}
+
+/* ----- Category Tile Enhanced ----- */
+.category-tile:hover .category-tile__image {
+  transform: scale(1.12);
+}
+
+.category-tile__content {
+  transition: transform 0.5s var(--ease-out);
+}
+
+.category-tile:hover .category-tile__content {
+  transform: translateY(-6px);
+}
+
+/* ----- Lookbook Cards In-View ----- */
+.hscroll-showcase__card {
+  opacity: 0.5;
+  transform: scale(0.92);
+  filter: saturate(0.7);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out), filter 0.6s;
+}
+
+.hscroll-showcase__card.is-in-view {
+  opacity: 1;
+  transform: scale(1);
+  filter: saturate(1);
+}
+
+.hscroll-showcase__card:hover {
+  transform: scale(1.04);
+}
+
+/* ----- Mood Board Stagger Reveal ----- */
+.mood-board__item {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+
+.mood-board.is-visible .mood-board__item--1 { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.0s; }
+.mood-board.is-visible .mood-board__item--2 { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.12s; }
+.mood-board.is-visible .mood-board__item--3 { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.24s; }
+.mood-board.is-visible .mood-board__item--4 { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.36s; }
+.mood-board.is-visible .mood-board__item--5 { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.48s; }
+
+/* ----- Section Float (full section entrance) ----- */
+.section-float {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+
+.section-float.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ----- Brand Marquee Logo Hover Glow ----- */
+.brand-marquee__item {
+  transition: transform 0.35s var(--ease-out);
+}
+
+.brand-marquee__item:hover {
+  transform: scale(1.15);
+}
+
+.brand-marquee__item:hover .brand-marquee__logo {
+  filter: drop-shadow(0 0 10px rgba(109,163,181,0.4));
+}
+
+/* ----- Smooth Line Grow ----- */
+.line-grow {
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, var(--primary-lighter), var(--primary), var(--primary-lighter));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.2s var(--ease-out) 0.2s;
+}
+
+.line-grow.is-visible {
+  transform: scaleX(1);
+}
+
+/* ----- Pull Quote Big Mark Animation ----- */
+.pull-quote::before {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.6);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+
+.pull-quote.is-visible::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ----- Enhanced Stagger with more motion ----- */
+.reveal-stagger > * {
+  transform: translateY(36px) scale(0.97);
+}
+
+.reveal-stagger.is-visible > * {
+  transform: translateY(0) scale(1);
+}
+
+/* ----- Newsletter Glow Focus ----- */
+.newsletter__input:focus {
+  box-shadow: 0 0 0 2px rgba(109,163,181,0.3), 0 0 20px rgba(109,163,181,0.15);
+}
+
+/* ----- Floating Badge Enhanced ----- */
+@keyframes floatBadgeShadow {
+  0%, 100% { box-shadow: 0 8px 20px rgba(109,163,181,0.15); }
+  50% { box-shadow: 0 16px 40px rgba(109,163,181,0.25); }
+}
+
+/* ----- Marquee hover slow-down effect ----- */
+.brand-marquee:hover .brand-marquee__track {
+  animation-play-state: paused;
+}
