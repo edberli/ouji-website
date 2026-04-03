@@ -1982,11 +1982,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   border-radius: 3px;
 }
 
-/* ============================================
-   OCEAN EFFECTS
-   ============================================ */
-
-/* ----- Bubbles ----- */
+/* ----- Floating Particles ----- */
 .particles {
   position: fixed;
   inset: 0;
@@ -1995,143 +1991,21 @@ main { padding-top: calc(var(--header-height) + 36px); }
   overflow: hidden;
 }
 
-.bubble {
+.particle {
   position: absolute;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  border: 1.5px solid rgba(109, 163, 181, 0.55);
-  background: radial-gradient(circle at 30% 28%, rgba(255,255,255,0.45) 0%, rgba(109,163,181,0.06) 60%, transparent 100%);
-  box-shadow:
-    inset 0 0 6px rgba(255,255,255,0.3),
-    0 0 4px rgba(109,163,181,0.2);
-  animation: bubbleRise linear infinite;
-}
-.bubble::after {
-  content: '';
-  position: absolute;
-  top: 16%;
-  left: 22%;
-  width: 28%;
-  height: 16%;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.55);
-  transform: rotate(-35deg);
+  background: var(--primary-light);
+  opacity: 0;
+  animation: particleFloat linear infinite;
 }
 
-@keyframes bubbleRise {
-  0%   { transform: translateY(110vh) translateX(0);    opacity: 0; }
-  5%   { opacity: 1; }
-  25%  { transform: translateY(75vh)  translateX(12px); }
-  50%  { transform: translateY(50vh)  translateX(-8px); }
-  75%  { transform: translateY(25vh)  translateX(10px); }
-  95%  { opacity: 0.8; }
-  100% { transform: translateY(-8vh)  translateX(-4px); opacity: 0; }
-}
-
-/* ----- Water Ripple on Click ----- */
-.water-ripple {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  border: 1.5px solid rgba(109, 163, 181, 0.6);
-  transform: scale(0);
-  animation: waterRipple 1s cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
-}
-.water-ripple--2 {
-  animation-delay: 0.15s;
-  border-color: rgba(109, 163, 181, 0.35);
-}
-.water-ripple--3 {
-  animation-delay: 0.3s;
-  border-color: rgba(109, 163, 181, 0.18);
-}
-
-@keyframes waterRipple {
-  0%   { transform: scale(0);   opacity: 1; }
-  100% { transform: scale(1);   opacity: 0; }
-}
-
-/* ----- Hero Wave ----- */
-.hero__wave {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-.hero__wave svg {
-  display: block;
-  width: 200%;
-  height: 64px;
-  animation: waveScroll 8s linear infinite;
-}
-.hero__wave--back svg {
-  height: 48px;
-  animation: waveScroll 12s linear infinite reverse;
-  opacity: 0.45;
-}
-
-@keyframes waveScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ----- Section Wave Dividers ----- */
-.wave-divider {
-  position: relative;
-  overflow: hidden;
-  line-height: 0;
-  pointer-events: none;
-}
-.wave-divider svg {
-  display: block;
-  width: 100%;
-}
-.wave-divider--flip {
-  transform: scaleX(-1);
-}
-
-/* ----- Deep Glow Orbs (caustic light) ----- */
-.ocean-orb {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(60px);
-  animation: orbDrift ease-in-out infinite alternate;
-  opacity: 0.12;
-}
-.ocean-orb--1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, #6da3b5 0%, transparent 70%);
-  top: -100px; left: -100px;
-  animation-duration: 18s;
-}
-.ocean-orb--2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, #89c4d4 0%, transparent 70%);
-  bottom: 20%; right: -80px;
-  animation-duration: 22s;
-  animation-delay: -8s;
-  opacity: 0.09;
-}
-.ocean-orb--3 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, #b5d5df 0%, transparent 70%);
-  top: 40%; left: 30%;
-  animation-duration: 26s;
-  animation-delay: -14s;
-  opacity: 0.07;
-}
-
-@keyframes orbDrift {
-  0%   { transform: translate(0,    0)    scale(1); }
-  33%  { transform: translate(40px, 60px) scale(1.08); }
-  66%  { transform: translate(-30px,30px) scale(0.95); }
-  100% { transform: translate(20px, -40px) scale(1.04); }
+@keyframes particleFloat {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
 }
 
 /* ----- Video-like Ken Burns on Hero ----- */

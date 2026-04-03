@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMarqueeHoverPause();
   initHScrollDrag();
   initFloatingParticles();
-  initWaterRipple();
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
@@ -513,53 +512,19 @@ function initHScrollDrag() {
   });
 }
 
-/* ----- Ocean Bubbles ----- */
+/* ----- Floating Particles ----- */
 function initFloatingParticles() {
   const container = document.querySelector('.particles');
   if (!container) return;
 
-  // Bubble size groups: small, medium, large
-  const bubbleGroups = [
-    { count: 18, minSize: 6,  maxSize: 14, minDur: 12, maxDur: 20, opacity: 0.7  },
-    { count: 10, minSize: 15, maxSize: 26, minDur: 18, maxDur: 28, opacity: 0.55 },
-    { count: 5,  minSize: 28, maxSize: 42, minDur: 25, maxDur: 38, opacity: 0.38 },
-  ];
-
-  bubbleGroups.forEach(({ count, minSize, maxSize, minDur, maxDur, opacity }) => {
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement('div');
-      el.classList.add('bubble');
-      const size = Math.random() * (maxSize - minSize) + minSize;
-      el.style.width  = size + 'px';
-      el.style.height = size + 'px';
-      el.style.left   = Math.random() * 100 + '%';
-      el.style.bottom = '-60px';
-      el.style.animationDuration  = (Math.random() * (maxDur - minDur) + minDur) + 's';
-      el.style.animationDelay     = -(Math.random() * maxDur) + 's'; // start mid-cycle
-      el.style.opacity            = opacity * (Math.random() * 0.4 + 0.6);
-      container.appendChild(el);
-    }
-  });
-}
-
-/* ----- Water Ripple on Click ----- */
-function initWaterRipple() {
-  document.addEventListener('click', function (e) {
-    // Don't ripple on interactive elements
-    if (e.target.closest('a, button, input, select, textarea')) return;
-
-    const size = 120;
-    [0, 1, 2].forEach(i => {
-      const r = document.createElement('div');
-      r.classList.add('water-ripple');
-      if (i === 1) r.classList.add('water-ripple--2');
-      if (i === 2) r.classList.add('water-ripple--3');
-      r.style.width  = size + 'px';
-      r.style.height = size + 'px';
-      r.style.left   = (e.clientX - size / 2) + 'px';
-      r.style.top    = (e.clientY - size / 2) + 'px';
-      document.body.appendChild(r);
-      setTimeout(() => r.remove(), 1200 + i * 200);
-    });
-  });
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+    particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+    particle.style.animationDelay = (Math.random() * 10) + 's';
+    particle.style.opacity = Math.random() * 0.2 + 0.05;
+    container.appendChild(particle);
+  }
 }
