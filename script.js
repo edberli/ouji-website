@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroScrollParallax();
   initScrollParallaxImages();
   initFloatingParticles();
-  initBokeh();
+  // initBokeh(); // removed
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
