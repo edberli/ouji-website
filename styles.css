@@ -282,9 +282,9 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   color: white;
   text-align: center;
   padding: 10px var(--space-md);
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1001;
@@ -825,6 +825,45 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .product-card__brand { font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.08em; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; }
 .product-card__name { font-size: 0.9375rem; font-weight: 400; color: var(--text-primary); line-height: 1.4; margin-bottom: 6px; }
 .product-card__price { font-size: 0.875rem; font-weight: 600; color: var(--primary-dark); }
+
+/* ----- Brands Page Grid ----- */
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+}
+.brand-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px 16px 20px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  text-decoration: none;
+  transition: all 0.2s var(--ease-out);
+  border: 1px solid transparent;
+}
+.brand-card:hover {
+  box-shadow: 0 8px 32px rgba(109,163,181,0.14);
+  border-color: rgba(109,163,181,0.2);
+  transform: translateY(-2px);
+}
+.brand-card img {
+  height: 28px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+.brand-card span {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-tertiary);
+  text-align: center;
+}
 
 /* ----- Brand Story ----- */
 .brand-story {
