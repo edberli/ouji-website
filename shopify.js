@@ -244,10 +244,16 @@ async function addToCart(variantId, quantity = 1) {
     cartId,
     lines: [{ merchandiseId: variantId, quantity }]
   });
-  const totalQty = data?.cartLinesAdd?.cart?.totalQuantity;
-  console.log('[Cart] addToCart totalQuantity:', totalQty, 'full response:', JSON.stringify(data));
-  updateCartBadge(totalQty);
-  return data?.cartLinesAdd;
+  const result = data?.cartLinesAdd;
+  // 如果 mutation 回傳嘅 cart 有錯或 cart ID 過期，重新取得
+  if (result?.cart?.totalQuantity != null) {
+    updateCartBadge(result.cart.totalQuantity);
+  } else {
+    // Fallback: 重新 query cart 攞正確數量
+    const freshCart = await getCart();
+    if (freshCart) updateCartBadge(freshCart.totalQuantity);
+  }
+  return result;
 }
 
 /** 更新購物車商品數量 */
@@ -264,7 +270,9 @@ async function updateCartLine(lineId, quantity) {
     cartId,
     lines: [{ id: lineId, quantity }]
   });
-  return data?.cartLinesUpdate;
+  const result = data?.cartLinesUpdate;
+  if (result?.cart?.totalQuantity != null) updateCartBadge(result.cart.totalQuantity);
+  return result;
 }
 
 /** 移除購物車商品 */
@@ -278,7 +286,9 @@ async function removeCartLine(lineId) {
       }
     }
   `, { cartId, lineIds: [lineId] });
-  return data?.cartLinesRemove;
+  const result = data?.cartLinesRemove;
+  if (result?.cart?.totalQuantity != null) updateCartBadge(result.cart.totalQuantity);
+  return result;
 }
 
 /** 前往 Shopify 結帳 */
