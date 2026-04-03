@@ -830,9 +830,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .brands-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-left: -8px;
-  margin-right: -8px;
+  gap: 4px;
+  margin-left: -12px;
+  margin-right: -12px;
 }
 @media (min-width: 640px) {
   .brands-grid {
@@ -891,10 +891,13 @@ main { padding-top: calc(var(--header-height) + 36px); }
     max-height: none !important;
   }
   /* Constrain logos with square/compact aspect ratios on mobile */
-  .brand-card img[alt="Abib"]      { max-height: 16px !important; }
-  .brand-card img[alt="innisfree"] { max-height: 42px !important; }
-  .brand-card img[alt="Dr.Jart+"]  { max-height: 40px !important; }
-  .brand-card img[alt="beplain"]   { max-height: 18px !important; }
+  /* Square logos — constrain height so they don't fill the whole card */
+  .brand-card img[alt="innisfree"] { max-height: 48px !important; }
+  .brand-card img[alt="Dr.Jart+"]  { max-height: 46px !important; }
+  /* Bold/heavy logos — reduce visual weight to match others */
+  .brand-card img[alt="Abib"]      { max-height: 14px !important; }
+  .brand-card img[alt="beplain"]   { max-height: 16px !important; }
+  .brand-card img[alt="dasique"]   { max-height: 18px !important; }
 }
 @media (min-width: 640px) {
   .brand-card img {
