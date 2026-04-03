@@ -852,14 +852,14 @@ main { padding-top: calc(var(--header-height) + 36px); }
   transform: translateY(-2px);
 }
 .brand-card__logo-wrap {
-  height: 40px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
 .brand-card img {
-  max-height: 26px;
+  max-height: 52px;
   max-width: 85%;
   width: auto;
   height: auto;
