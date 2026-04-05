@@ -193,12 +193,16 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .section { padding: var(--space-5xl) 0; position: relative; }
 .section--sm { padding: var(--space-4xl) 0; }
 .section--brand-intro {
-  background: #6395a6 !important;
-  color: #fff;
+  background: linear-gradient(180deg,
+    rgba(109,163,181,0.06) 0%,
+    rgba(109,163,181,0.10) 50%,
+    rgba(109,163,181,0.06) 100%) !important;
+  backdrop-filter: blur(1px);
+  color: var(--text-primary);
 }
-.section--brand-intro .label { color: rgba(255,255,255,0.65); }
-.section--brand-intro .heading-xl { color: #fff; }
-.section--brand-intro .body-lg { color: rgba(255,255,255,0.8); }
+.section--brand-intro .label { color: var(--text-secondary); }
+.section--brand-intro .heading-xl { color: var(--text-primary); }
+.section--brand-intro .body-lg { color: var(--text-secondary); }
 
 /* ----- Buttons ----- */
 .btn {
