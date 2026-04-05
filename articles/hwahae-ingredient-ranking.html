@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hwahae 成分排行榜：2026 年最受關注的護膚成分 TOP 8 — OUJI 靈感專欄</title>
+  <meta name="description" content="韓國成分分析平台化解（화해）2026年度成分排行榜，積雪草、菸鹼醯胺、多肽等八大熱門成分全面解析。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .article-hero { position: relative; height: 480px; overflow: hidden; }
+    .article-hero__img { width: 100%; height: 100%; object-fit: cover; }
+    .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15,26,30,0.15) 0%, rgba(15,26,30,0.55) 100%); }
+    .article-breadcrumb { font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 32px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .article-breadcrumb a { color: var(--text-tertiary); transition: color 0.2s; }
+    .article-breadcrumb a:hover { color: var(--primary); }
+    .article-breadcrumb__sep { color: var(--gray-300); }
+    .article-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--primary-dark); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 28px; transition: gap 0.2s; }
+    .article-back:hover { gap: 10px; }
+    .article-wrap { max-width: 700px; margin: 0 auto; padding: 56px 24px 80px; }
+    .article-category-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: white; background: var(--primary); padding: 5px 14px; border-radius: 100px; margin-bottom: 20px; }
+    .article-title { font-family: 'Noto Serif TC', serif; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-bottom: 20px; }
+    .article-meta { display: flex; align-items: center; gap: 16px; font-size: 0.78rem; color: var(--text-tertiary); padding-bottom: 28px; border-bottom: 1px solid var(--border-light); margin-bottom: 40px; flex-wrap: wrap; }
+    .article-meta__dot { color: var(--gray-300); }
+    .article-body h2 { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 500; color: var(--text-primary); margin: 40px 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--primary-lightest); }
+    .article-body h3 { font-family: 'Noto Serif TC', serif; font-size: 1.08rem; font-weight: 500; color: var(--primary-dark); margin: 28px 0 12px; }
+    .article-body p { font-size: 0.975rem; line-height: 1.9; color: var(--text-secondary); margin-bottom: 18px; }
+    .article-body ul { margin: 16px 0 20px 0; padding-left: 0; list-style: none; }
+    .article-body ul li { font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary); padding: 6px 0 6px 24px; position: relative; }
+    .article-body ul li::before { content: ''; position: absolute; left: 0; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+    .article-callout { background: var(--primary-lightest); border-left: 3px solid var(--primary); border-radius: 0 12px 12px 0; padding: 18px 20px; margin: 28px 0; }
+    .article-callout p { margin: 0; font-size: 0.92rem; color: var(--primary-dark); }
+    .article-callout strong { color: var(--primary-darker); }
+    .ingredient-block { background: white; border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 2px 16px rgba(0,0,0,0.04); border: 1px solid var(--border-light); }
+    .ingredient-block__header { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+    .ingredient-block__num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-brand); font-size: 1rem; font-weight: 700; flex-shrink: 0; }
+    .ingredient-block__num--1 { background: #c9a227; }
+    .ingredient-block__num--2 { background: var(--primary-dark); }
+    .ingredient-block__titles h4 { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 500; color: var(--text-primary); }
+    .ingredient-block__titles span { font-size: 0.78rem; color: var(--text-tertiary); font-style: italic; }
+    .ingredient-block p { font-size: 0.9rem; line-height: 1.8; color: var(--text-secondary); margin: 0 0 10px; }
+    .ingredient-block p:last-of-type { margin-bottom: 0; }
+    .trend-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; }
+    .trend-badge--up { background: #e8f5e9; color: #2e7d32; }
+    .trend-badge--stable { background: var(--primary-lightest); color: var(--primary-dark); }
+    .trend-badge--new { background: #fff3e0; color: #e65100; }
+    .related-section { background: var(--gray-50); padding: 64px 0; margin-top: 64px; }
+    .related-section__inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .related-section__title { font-family: 'Noto Serif TC', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-primary); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .related-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease; text-decoration: none; display: block; }
+    .related-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(109,163,181,0.12); }
+    .related-card__img-wrap { aspect-ratio: 16/10; overflow: hidden; }
+    .related-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .related-card:hover .related-card__img { transform: scale(1.06); }
+    .related-card__body { padding: 18px; }
+    .related-card__tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); font-weight: 500; }
+    .related-card__title { font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 500; color: var(--text-primary); margin-top: 8px; line-height: 1.5; }
+    @media (max-width: 768px) { .article-hero { height: 300px; } .related-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="announcement-bar">全單滿 HK$400 免運費 &nbsp;·&nbsp; 新客首單 9 折</div>
+  <header class="header is-scrolled">
+    <div class="header__inner">
+      <div class="header__left">
+        <button class="header__menu-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+        <a href="../index.html" class="header__logo">OUJI</a>
+        <nav class="header__nav"><a href="../category.html">護膚</a><a href="../makeup.html">彩妝</a><a href="../bodycare.html">身體護理</a><a href="../fragrance.html">香氛</a><a href="../lifestyle.html">生活風格</a><a href="../brands.html">品牌</a><a href="../column.html">專欄</a></nav>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="搜尋"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+        <a href="../account.html" class="header__action-btn" aria-label="帳戶"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="../wishlist.html" class="header__action-btn" aria-label="願望清單"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+        <a href="../cart.html" class="header__action-btn" aria-label="購物袋"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></a>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-nav-overlay"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav__header"><span class="header__logo">OUJI</span><button class="mobile-nav__close" aria-label="關閉"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="mobile-nav__links"><a href="../category.html">護膚</a><a href="../makeup.html">彩妝</a><a href="../bodycare.html">身體護理</a><a href="../fragrance.html">香氛</a><a href="../lifestyle.html">生活風格</a><a href="../brands.html">品牌</a><a href="../column.html">專欄</a></div>
+  </nav>
+
+  <main style="padding-top: 64px;">
+    <div class="article-hero">
+      <img class="article-hero__img" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=1200&q=80" alt="Hwahae 成分排行榜">
+      <div class="article-hero__overlay"></div>
+    </div>
+
+    <div class="article-wrap">
+      <a href="../column.html" class="article-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>返回專欄</a>
+      <div class="article-breadcrumb">
+        <a href="../index.html">首頁</a><span class="article-breadcrumb__sep">›</span><a href="../column.html">專欄</a><span class="article-breadcrumb__sep">›</span><span>榜單速報</span>
+      </div>
+      <span class="article-category-tag">榜單速報 · Hwahae 榜單</span>
+      <h1 class="article-title">Hwahae 成分排行榜：2026 年最受關注的護膚成分 TOP 8</h1>
+      <div class="article-meta">
+        <span>OUJI 編輯部</span><span class="article-meta__dot">·</span><span>2026 年 3 月 12 日</span><span class="article-meta__dot">·</span><span>閱讀約 5 分鐘</span>
+      </div>
+
+      <div class="article-body">
+        <p>Hwahae（화해，即「化解」）是韓國使用人數最多的成分分析應用程式，用戶可以掃描產品條碼即時查閱成分安全評級。平台每年會整理成分搜尋量數據，公佈年度最受關注的護膚成分排行。2026 年的榜單顯示，韓國消費者對護膚成分的理解已大幅提升，不再只追求品牌故事，而是直接關注成分本身的科學依據。</p>
+
+        <div class="article-callout">
+          <p><strong>關於 Hwahae 數據：</strong>以下排行根據 Hwahae 平台 2025 年底至 2026 年初的成分搜尋量及相關產品評分綜合排列，括號內為成分的 INCI（國際化妝品成分命名）標準名稱。</p>
+        </div>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80" alt="護膚成分研究" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">韓國消費者對護膚成分的理解程度已大幅提升，直接搜尋 INCI 成分名稱成為購物常態</figcaption>
+        </figure>
+
+        <h2>2026 年成分搜尋 TOP 8</h2>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num ingredient-block__num--1">1</div>
+            <div class="ingredient-block__titles">
+              <h4>積雪草 Centella Asiatica</h4>
+              <span>Centella Asiatica Extract / Leaf Water</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--stable">連續三年 #1</span>
+          <p>積雪草穩坐第一，反映的是「屏障修護」仍然是韓國消費者最核心的護膚訴求。其四大活性成分（madecassoside、asiaticoside、asiatic acid、madecassic acid）各自對減少炎症、促進膠原蛋白生成及加速皮膚修護有科學支持。從平價的 SKIN1004 到高端的 Dr.Jart+ Cicapair 系列，積雪草橫跨各個價位層。</p>
+          <p><strong>適合皮膚問題：</strong>泛紅、敏感、暗瘡後留下的痘印、日曬後修護。</p>
+        </div>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num ingredient-block__num--2">2</div>
+            <div class="ingredient-block__titles">
+              <h4>菸鹼醯胺 Niacinamide</h4>
+              <span>Niacinamide（維他命 B3）</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--up">年增 45%</span>
+          <p>菸鹼醯胺的多功能性令它的搜尋量持續攀升。2–5% 的濃度被研究顯示可以抑制黑色素轉移（美白）、調節皮脂分泌（控油）、強化神經醯胺生成（保護屏障）以及具有抗炎效果。不少消費者搜尋的原因是要核實「菸鹼醯胺和維他命 C 真的不能一起用嗎」這個廣泛流傳的護膚都市傳說（答案：在正常護膚品濃度下，兩者可以一起使用）。</p>
+          <p><strong>適合皮膚問題：</strong>暗沉、油光、毛孔粗大、痘痘肌、早期抗老。</p>
+        </div>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num">3</div>
+            <div class="ingredient-block__titles">
+              <h4>多肽複合物 Multi-Peptides</h4>
+              <span>Palmitoyl Pentapeptide-4、Copper Tripeptide-1 等</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--up">年增 320%</span>
+          <p>多肽是 2026 年搜尋量增幅最大的成分，反映「抗老不用藥妝、用護膚品也能有效」的消費趨勢。信號肽（如 Matrixyl）刺激纖維母細胞生成膠原蛋白；銅肽（GHK-Cu）有傷口修護和抗氧化研究支持；神經傳導阻斷型肽（如 Argireline）在面部表情紋上有限度的放鬆效果。韓國品牌的多肽產品通常搭配大量保濕和屏障成分，令多肽配方更溫和友好。</p>
+          <p><strong>適合皮膚問題：</strong>細紋、鬆弛、膠原蛋白流失、成熟肌膚。</p>
+        </div>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num">4</div>
+            <div class="ingredient-block__titles">
+              <h4>玻尿酸（多分子量）Hyaluronic Acid</h4>
+              <span>Sodium Hyaluronate、Hyaluronic Acid、Hydrolyzed Hyaluronic Acid</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--stable">常青榜</span>
+          <p>玻尿酸本身並不新鮮，但消費者開始搜尋「不同分子量玻尿酸有什麼分別」，顯示理解深度提升。高分子量玻尿酸在皮膚表面形成保濕膜；中分子量填補角質層之間的空隙；低分子量（及近年流行的 Sodium Hyaluronate Crosspolymer）則能到達更深的表皮層。Torriden DIVE-IN 的五種分子量配方正是回應了這種消費者需求。</p>
+          <p><strong>適合皮膚問題：</strong>脫水、乾燥、所有膚質的日常基礎保濕。</p>
+        </div>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1573461160327-b450ce3d8e7f?w=800&q=80" alt="精華液成分" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">積雪草、菸鹼醯胺、多肽——2026 年最受矚目的護膚成分，以科學依據主導護膚選擇</figcaption>
+        </figure>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num">5</div>
+            <div class="ingredient-block__titles">
+              <h4>益生菌與後生元 Probiotics / Postbiotics</h4>
+              <span>Lactobacillus Ferment Lysate、Bifida Ferment Lysate</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--up">年增 180%</span>
+          <p>皮膚微生態（Skin Microbiome）是近年護膚科學中最熱門的研究領域之一。益生菌相關成分在護膚品中通常以「發酵萃取物」形式出現——活菌在護膚品中難以穩定存活，因此品牌多選用發酵菌體裂解物（Lysate）或發酵液（Ferment Filtrate）。韓國在發酵護膚的傳統上有深厚根基，SK-II 的 Pitera 本質上就是酵母發酵液。</p>
+          <p><strong>適合皮膚問題：</strong>屏障受損、對外界刺激反應敏感、肌膚微生態失衡。</p>
+        </div>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num">6</div>
+            <div class="ingredient-block__titles">
+              <h4>壬二酸 Azelaic Acid</h4>
+              <span>Azelaic Acid（天然存在於穀物中的二元酸）</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--new">新進榜</span>
+          <p>壬二酸在韓國消費者中的認知度在過去一年急速上升，主要原因是多位韓國護膚 KOL 分享了它對玫瑰痤瘡（Rosacea）和色素沉澱的效果。壬二酸通過抑制酪胺酸酶（Tyrosinase）來阻礙黑色素生成，同時有抗菌和抗炎特性，對暗瘡和痘印雙管齊下。10–15% 的非處方濃度在歐盟和美國均已普遍，20% 則需處方。</p>
+          <p><strong>適合皮膚問題：</strong>色素沉著、玫瑰痤瘡、痘痘、均勻膚色。</p>
+        </div>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num">7</div>
+            <div class="ingredient-block__titles">
+              <h4>巴枯醇 Bakuchiol</h4>
+              <span>Bakuchiol（補骨脂酚，天然視黃醇替代物）</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--up">年增 240%</span>
+          <p>巴枯醇被廣泛稱為「天然視黃醇」，來自補骨脂（Psoralea Corylifolia）種子，研究顯示它可以通過與視黃醇不同的受體路徑達到類似的細胞更新效果，但刺激性顯著更低。適合懷孕或正在備孕、或對視黃醇刺激敏感的用戶。部分韓國品牌已將巴枯醇與低濃度視黃醇結合，以協同效應降低所需視黃醇濃度。</p>
+          <p><strong>適合皮膚問題：</strong>細紋、膚色不均、適合不耐受視黃醇的用戶。</p>
+        </div>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800&q=80" alt="護膚品成分瓶裝" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">壬二酸和巴枯醇是今年新進榜的成分，反映消費者對天然替代選擇的需求日漸增加</figcaption>
+        </figure>
+
+        <div class="ingredient-block">
+          <div class="ingredient-block__header">
+            <div class="ingredient-block__num">8</div>
+            <div class="ingredient-block__titles">
+              <h4>聚麩胺酸 Polyglutamic Acid (PGA)</h4>
+              <span>Polyglutamic Acid（由納豆菌發酵產生的天然多胺基酸）</span>
+            </div>
+          </div>
+          <span class="trend-badge trend-badge--new">新進榜</span>
+          <p>PGA 是 2026 年最具話題性的保濕新成分。研究顯示它的保水能力是玻尿酸的 5 倍，同時能在皮膚表面形成透氣薄膜，減少已有玻尿酸被皮膚酵素降解。多個韓國品牌已推出強調 PGA 的新品，令消費者的搜尋量急升。對比玻尿酸的詳細分析見我們的〈玻尿酸 vs 聚麩胺酸〉深度文章。</p>
+          <p><strong>適合皮膚問題：</strong>嚴重乾燥、保濕持久力不足、想升級保濕程序的用戶。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <div class="related-section__inner">
+        <h2 class="related-section__title">相關文章</h2>
+        <div class="related-grid">
+          <a href="cica-centella-guide.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">成分解碼</span><p class="related-card__title">CICA 積雪草全解析：為什麼韓國品牌都在用？</p></div>
+          </a>
+          <a href="peptides-guide.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">成分解碼</span><p class="related-card__title">2026 年最熱門成分：多肽（Peptides）為什麼突然爆紅？</p></div>
+          </a>
+          <a href="niacinamide-guide.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">成分解碼</span><p class="related-card__title">菸鹼醯胺（Niacinamide）：被低估的全能美白成分</p></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand"><div class="footer__logo">OUJI</div><p class="footer__brand-desc">香港最齊全的韓國化妝護膚品專門店。<br>觀塘觀塘道 472–480 號<br>觀塘工業中心一期 地下 B 舖<br>每日 12:00–20:00</p></div>
+        <div><h4 class="footer__col-title">選購</h4><ul class="footer__links"><li><a href="../category.html">護膚</a></li><li><a href="../makeup.html">彩妝</a></li><li><a href="../bodycare.html">身體護理</a></li><li><a href="../fragrance.html">香氛</a></li></ul></div>
+        <div><h4 class="footer__col-title">關於</h4><ul class="footer__links"><li><a href="../about.html">關於 OUJI</a></li><li><a href="../story.html">我們的故事</a></li><li><a href="../column.html">靈感專欄</a></li><li><a href="../terms.html">服務條款</a></li></ul></div>
+        <div><h4 class="footer__col-title">客戶服務</h4><ul class="footer__links"><li><a href="../faq.html">常見問題</a></li><li><a href="../shipping.html">運送及退換</a></li><li><a href="../contact.html">聯絡我們</a></li></ul></div>
+      </div>
+      <div class="footer__bottom"><p class="footer__copyright">&copy; 2026 OUJI. All rights reserved.</p></div>
+    </div>
+  </footer>
+  <nav class="mobile-bottom-nav">
+    <a href="../index.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>首頁</span></a>
+    <a href="../category.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>類別</span></a>
+    <a href="../wishlist.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>心願單</span></a>
+    <a href="../cart.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>購物袋</span></a>
+    <a href="../account.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>會員</span></a>
+  </nav>
+  <script src="../shopify.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>

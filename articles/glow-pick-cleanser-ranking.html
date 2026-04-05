@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glow Pick 潔面產品排行：溫和潔面時代來臨 — OUJI 靈感專欄</title>
+  <meta name="description" content="Glow Pick 潔面榜單深度解析，低 pH 值胺基酸潔面成主流，五大熱賣潔面逐一介紹，附雙重潔面正確方法。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .article-hero { position: relative; height: 480px; overflow: hidden; }
+    .article-hero__img { width: 100%; height: 100%; object-fit: cover; }
+    .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15,26,30,0.15) 0%, rgba(15,26,30,0.55) 100%); }
+    .article-breadcrumb { font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 32px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .article-breadcrumb a { color: var(--text-tertiary); transition: color 0.2s; }
+    .article-breadcrumb a:hover { color: var(--primary); }
+    .article-breadcrumb__sep { color: var(--gray-300); }
+    .article-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--primary-dark); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 28px; transition: gap 0.2s; }
+    .article-back:hover { gap: 10px; }
+    .article-wrap { max-width: 700px; margin: 0 auto; padding: 56px 24px 80px; }
+    .article-category-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: white; background: var(--primary); padding: 5px 14px; border-radius: 100px; margin-bottom: 20px; }
+    .article-title { font-family: 'Noto Serif TC', serif; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-bottom: 20px; }
+    .article-meta { display: flex; align-items: center; gap: 16px; font-size: 0.78rem; color: var(--text-tertiary); padding-bottom: 28px; border-bottom: 1px solid var(--border-light); margin-bottom: 40px; flex-wrap: wrap; }
+    .article-meta__dot { color: var(--gray-300); }
+    .article-body h2 { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 500; color: var(--text-primary); margin: 40px 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--primary-lightest); }
+    .article-body h3 { font-family: 'Noto Serif TC', serif; font-size: 1.08rem; font-weight: 500; color: var(--primary-dark); margin: 28px 0 12px; }
+    .article-body p { font-size: 0.975rem; line-height: 1.9; color: var(--text-secondary); margin-bottom: 18px; }
+    .article-body ul { margin: 16px 0 20px 0; padding-left: 0; list-style: none; }
+    .article-body ul li { font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary); padding: 6px 0 6px 24px; position: relative; }
+    .article-body ul li::before { content: ''; position: absolute; left: 0; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+    .article-callout { background: var(--primary-lightest); border-left: 3px solid var(--primary); border-radius: 0 12px 12px 0; padding: 18px 20px; margin: 28px 0; }
+    .article-callout p { margin: 0; font-size: 0.92rem; color: var(--primary-dark); }
+    .article-callout strong { color: var(--primary-darker); }
+    .article-tip { background: var(--warm-50); border: 1px solid var(--warm-200); border-radius: 12px; padding: 18px 20px; margin: 28px 0; }
+    .article-tip__label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 8px; }
+    .article-tip p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .cleanser-item { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--border-light); }
+    .cleanser-item:last-child { border-bottom: none; }
+    .cleanser-rank { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-brand); font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+    .cleanser-rank--1 { background: #c9a227; }
+    .cleanser-rank--2 { background: #8a9ba8; }
+    .cleanser-rank--3 { background: #a0724a; }
+    .cleanser-info h4 { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 500; color: var(--text-primary); margin-bottom: 3px; }
+    .cleanser-info .brand { font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 10px; }
+    .cleanser-info p { font-size: 0.9rem; line-height: 1.8; color: var(--text-secondary); margin: 0 0 10px; }
+    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ctag { display: inline-block; font-size: 0.65rem; font-weight: 500; padding: 3px 9px; border-radius: 100px; background: var(--primary-lightest); color: var(--primary-dark); }
+    .ctag--price { background: var(--warm-100); color: var(--warm-600); }
+    .ph-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: var(--primary-dark); background: var(--primary-lightest); padding: 4px 12px; border-radius: 100px; margin-bottom: 8px; }
+    .double-cleanse-steps { margin: 24px 0; }
+    .step-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--border-light); }
+    .step-item:last-child { border-bottom: none; }
+    .step-num { width: 28px; height: 28px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; font-family: var(--font-brand); }
+    .step-content h5 { font-size: 0.92rem; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+    .step-content p { font-size: 0.875rem; line-height: 1.7; color: var(--text-secondary); margin: 0; }
+    .related-section { background: var(--gray-50); padding: 64px 0; margin-top: 64px; }
+    .related-section__inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .related-section__title { font-family: 'Noto Serif TC', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-primary); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .related-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease; text-decoration: none; display: block; }
+    .related-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(109,163,181,0.12); }
+    .related-card__img-wrap { aspect-ratio: 16/10; overflow: hidden; }
+    .related-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .related-card:hover .related-card__img { transform: scale(1.06); }
+    .related-card__body { padding: 18px; }
+    .related-card__tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); font-weight: 500; }
+    .related-card__title { font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 500; color: var(--text-primary); margin-top: 8px; line-height: 1.5; }
+    @media (max-width: 768px) { .article-hero { height: 300px; } .related-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="announcement-bar">全單滿 HK$400 免運費 &nbsp;·&nbsp; 新客首單 9 折</div>
+  <header class="header is-scrolled">
+    <div class="header__inner">
+      <div class="header__left">
+        <button class="header__menu-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+        <a href="../index.html" class="header__logo">OUJI</a>
+        <nav class="header__nav"><a href="../category.html">護膚</a><a href="../makeup.html">彩妝</a><a href="../bodycare.html">身體護理</a><a href="../fragrance.html">香氛</a><a href="../lifestyle.html">生活風格</a><a href="../brands.html">品牌</a><a href="../column.html">專欄</a></nav>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="搜尋"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+        <a href="../account.html" class="header__action-btn" aria-label="帳戶"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="../wishlist.html" class="header__action-btn" aria-label="願望清單"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+        <a href="../cart.html" class="header__action-btn" aria-label="購物袋"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></a>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-nav-overlay"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav__header"><span class="header__logo">OUJI</span><button class="mobile-nav__close" aria-label="關閉"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="mobile-nav__links"><a href="../category.html">護膚</a><a href="../makeup.html">彩妝</a><a href="../bodycare.html">身體護理</a><a href="../fragrance.html">香氛</a><a href="../lifestyle.html">生活風格</a><a href="../brands.html">品牌</a><a href="../column.html">專欄</a></div>
+  </nav>
+
+  <main style="padding-top: 64px;">
+    <div class="article-hero">
+      <img class="article-hero__img" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=1200&q=80" alt="Glow Pick 潔面產品排行">
+      <div class="article-hero__overlay"></div>
+    </div>
+
+    <div class="article-wrap">
+      <a href="../column.html" class="article-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>返回專欄</a>
+      <div class="article-breadcrumb">
+        <a href="../index.html">首頁</a><span class="article-breadcrumb__sep">›</span><a href="../column.html">專欄</a><span class="article-breadcrumb__sep">›</span><span>榜單速報</span>
+      </div>
+      <span class="article-category-tag">榜單速報 · Glow Pick 榜單</span>
+      <h1 class="article-title">Glow Pick 潔面產品排行：溫和潔面時代來臨</h1>
+      <div class="article-meta">
+        <span>OUJI 編輯部</span><span class="article-meta__dot">·</span><span>2026 年 2 月 25 日</span><span class="article-meta__dot">·</span><span>閱讀約 4 分鐘</span>
+      </div>
+
+      <div class="article-body">
+        <p>在韓國護膚哲學中，潔面是整個護膚程序的基礎。過去流行的泡沫豐富、洗後感覺「乾淨緊繃」的潔面方式，正在被一種截然不同的標準取代——低 pH 值、胺基酸系、洗後零緊繃感。Glow Pick 今年的潔面品類榜單，完整呈現了這個轉變的全貌。</p>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800&q=80" alt="潔面護膚產品" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">低 pH 胺基酸潔面成為韓國護膚的新基準——洗後零緊繃感是衡量好潔面的最直接標準</figcaption>
+        </figure>
+
+        <h2>為什麼 pH 值對潔面如此重要？</h2>
+        <p>健康皮膚表面的 pH 值約為 4.5–5.5（偏酸性），這個弱酸環境維持著皮脂膜和皮膚微生物群的健康生態。傳統皂基潔面劑（Soap-based cleanser）的 pH 值通常在 8–10 之間，每次洗面都會大幅提升皮膚表面的 pH 值，需要皮膚花費 1–2 小時恢復。長期使用的結果是屏障功能受損、敏感度上升、以及油性肌膚代償性分泌更多皮脂。</p>
+        <p>相比之下，低 pH 值潔面（4.5–6.5）能在潔淨皮膚的同時維持皮膚原本的酸性環境，配合胺基酸系界面活性劑（對皮膚天然脂質的破壞性遠低於 SLS/SLES），洗後皮膚屏障幾乎不受影響。</p>
+
+        <div class="article-callout">
+          <p><strong>如何判斷潔面的 pH 值？</strong>可以用 pH 測試紙在家測試。若產品不標示 pH，胺基酸系（成分表中有 Sodium Cocoyl Glycinate、Cocamidopropyl Betaine 等）通常偏酸性；皂基（有 Potassium Hydroxide、Sodium Palmate 等）通常偏鹼性。</p>
+        </div>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80" alt="潔面品比較展示" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">皮膚表面的弱酸性環境（pH 4.5–5.5）是維持微生物平衡和屏障健康的關鍵所在</figcaption>
+        </figure>
+
+        <h2>Glow Pick 潔面 TOP 5</h2>
+
+        <div class="cleanser-item">
+          <div class="cleanser-rank cleanser-rank--1">#1</div>
+          <div class="cleanser-info">
+            <h4>Low pH Good Morning Gel Cleanser</h4>
+            <div class="brand">COSRX</div>
+            <span class="ph-indicator">pH 5.0</span>
+            <p>COSRX 的晨間潔面啫喱是低 pH 潔面的標誌性產品，以 Tea Tree 精油提供輕微抗菌效果，同時保持配方的低刺激性。泡沫適中，沖洗後皮膚無緊繃感。由於設計為早晨使用（夜間已用過雙重潔面，早晨只需輕度潔淨），特別適合作為晨間護膚的第一步。</p>
+            <div class="tag-row"><span class="ctag">pH 5.0</span><span class="ctag">晨間使用</span><span class="ctag">Tea Tree</span><span class="ctag ctag--price">HK$85–100</span></div>
+          </div>
+        </div>
+
+        <div class="cleanser-item">
+          <div class="cleanser-rank cleanser-rank--2">#2</div>
+          <div class="cleanser-info">
+            <h4>Gentle Skin Cleanser</h4>
+            <div class="brand">Cetaphil（適樂膚）</div>
+            <span class="ph-indicator">pH 6.3</span>
+            <p>美國品牌 Cetaphil 在韓國護膚圈意外走紅，在 Glow Pick 的潔面榜上連年位居前三。其極度溫和的配方（無香料、無皂鹼、連敏感皮膚協會也認證）符合韓國消費者對「零刺激」的追求。主要活性成分為 Niacinamide，兼具潔面和輕微調理功能。</p>
+            <div class="tag-row"><span class="ctag">極溫和</span><span class="ctag">無香料</span><span class="ctag">敏感肌適用</span><span class="ctag ctag--price">HK$75–90</span></div>
+          </div>
+        </div>
+
+        <div class="cleanser-item">
+          <div class="cleanser-rank cleanser-rank--3">#3</div>
+          <div class="cleanser-info">
+            <h4>Green Plum Refreshing Cleanser</h4>
+            <div class="brand">Beauty of Joseon</div>
+            <span class="ph-indicator">pH 5.5</span>
+            <p>以青梅（Green Plum）萃取為主打成分，帶有天然果酸的輕度煥膚效果，同時具備維持皮膚 pH 平衡的作用。啫喱質地接觸水後起適量泡沫，沖洗乾淨後皮膚呈現輕微水感，不乾燥。特別適合喜歡在早晨潔面後感覺「清新不緊繃」的用戶。</p>
+            <div class="tag-row"><span class="ctag">青梅</span><span class="ctag">輕盈泡沫</span><span class="ctag">日間用</span><span class="ctag ctag--price">HK$90–105</span></div>
+          </div>
+        </div>
+
+        <div class="cleanser-item">
+          <div class="cleanser-rank">#4</div>
+          <div class="cleanser-info">
+            <h4>SOLID-IN Ceramide Low pH Cleanser</h4>
+            <div class="brand">Torriden</div>
+            <span class="ph-indicator">pH 5.0–5.5</span>
+            <p>Torriden 的神經醯胺低 pH 潔面，將「潔面同時補充屏障成分」的理念付諸實踐。配方中含有 5 種神經醯胺，理論上在潔面的短暫接觸時間內也能提供一定的屏障支撐。胺基酸系界面活性劑確保配方的低刺激性。特別推薦給有濕疹史或屏障長期受損的用戶作為日常潔面首選。</p>
+            <div class="tag-row"><span class="ctag">神經醯胺</span><span class="ctag">屏障修護</span><span class="ctag">濕疹友善</span><span class="ctag ctag--price">HK$110–125</span></div>
+          </div>
+        </div>
+
+        <div class="cleanser-item">
+          <div class="cleanser-rank">#5</div>
+          <div class="cleanser-info">
+            <h4>From Green Deep Foaming Cleanser</h4>
+            <div class="brand">Purito</div>
+            <span class="ph-indicator">pH 5.5–6.0</span>
+            <p>雖然名稱有「Deep Foaming」，但 Purito 這款潔面的泡沫是胺基酸起泡，而非 SLS 產生的密集泡沫。清潔力比上述幾款略強，更適合晚間卸妝後的第二步清潔，或不化妝日的一次性深層潔面。同樣無香料、低刺激，植物性萃取成分豐富。</p>
+            <div class="tag-row"><span class="ctag">深層潔淨</span><span class="ctag">夜間使用</span><span class="ctag">無香料</span><span class="ctag ctag--price">HK$95–110</span></div>
+          </div>
+        </div>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=800&q=80" alt="雙重潔面護膚程序" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">五款 Glow Pick 榜首潔面各有特色，從晨間輕潔到夜間深層清潔，對應不同的使用需求</figcaption>
+        </figure>
+
+        <h2>韓國雙重潔面法（Double Cleansing）正確步驟</h2>
+
+        <div class="double-cleanse-steps">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h5>油潔（Oil Cleanser / Balm Cleanser）</h5>
+              <p>在乾燥的臉上使用卸妝油或卸妝膏，以打圈方式溶解防曬、彩妝和多餘皮脂。加水乳化後沖洗。這一步不依賴摩擦力，而是「以油溶油」的原理。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h5>低 pH 水潔（Second Cleanse）</h5>
+              <p>使用上述榜單中的低 pH 潔面，清除油潔的殘餘物和水溶性污垢。這一步才是真正影響皮膚 pH 平衡的關鍵步驟，選擇溫和低 pH 配方至關重要。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h5>用冷/溫水沖洗，輕按乾燥</h5>
+              <p>用微溫水（不是熱水）沖洗，熱水會加速皮脂流失。用乾淨毛巾輕按——切勿用力擦，摩擦會對屏障造成微損傷。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-tip">
+          <div class="article-tip__label">OUJI 編輯提示</div>
+          <p>早晨不需要雙重潔面——睡覺期間皮膚並未接觸污染物或防曬，只需一款低 pH 潔面（或只用清水）即可。過度潔面是韓國皮膚科最常見的「護膚錯誤」排行第一名。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <div class="related-section__inner">
+        <h2 class="related-section__title">相關文章</h2>
+        <div class="related-grid">
+          <a href="sensitive-skin-guide.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">護膚教學</span><p class="related-card__title">敏感肌護膚完全指南：避開這 7 個地雷成分</p></div>
+          </a>
+          <a href="acne-skin-routine.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1573461160327-b450ce3d8e7f?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">護膚教學</span><p class="related-card__title">暗瘡肌的韓式護膚法：從潔面到修護的正確步驟</p></div>
+          </a>
+          <a href="glow-pick-spring-2026.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">榜單速報</span><p class="related-card__title">Glow Pick 2026 春季護膚榜單出爐：今季韓國女生都在用什麼？</p></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand"><div class="footer__logo">OUJI</div><p class="footer__brand-desc">香港最齊全的韓國化妝護膚品專門店。<br>觀塘觀塘道 472–480 號<br>觀塘工業中心一期 地下 B 舖<br>每日 12:00–20:00</p></div>
+        <div><h4 class="footer__col-title">選購</h4><ul class="footer__links"><li><a href="../category.html">護膚</a></li><li><a href="../makeup.html">彩妝</a></li><li><a href="../bodycare.html">身體護理</a></li><li><a href="../fragrance.html">香氛</a></li></ul></div>
+        <div><h4 class="footer__col-title">關於</h4><ul class="footer__links"><li><a href="../about.html">關於 OUJI</a></li><li><a href="../story.html">我們的故事</a></li><li><a href="../column.html">靈感專欄</a></li><li><a href="../terms.html">服務條款</a></li></ul></div>
+        <div><h4 class="footer__col-title">客戶服務</h4><ul class="footer__links"><li><a href="../faq.html">常見問題</a></li><li><a href="../shipping.html">運送及退換</a></li><li><a href="../contact.html">聯絡我們</a></li></ul></div>
+      </div>
+      <div class="footer__bottom"><p class="footer__copyright">&copy; 2026 OUJI. All rights reserved.</p></div>
+    </div>
+  </footer>
+  <nav class="mobile-bottom-nav">
+    <a href="../index.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>首頁</span></a>
+    <a href="../category.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>類別</span></a>
+    <a href="../wishlist.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>心願單</span></a>
+    <a href="../cart.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>購物袋</span></a>
+    <a href="../account.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>會員</span></a>
+  </nav>
+  <script src="../shopify.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>

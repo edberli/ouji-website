@@ -4,11 +4,297 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>靈感專欄 — OUJI</title>
-  <meta name="description" content="OUJI 靈感專欄 — 韓國美妝趨勢、護膚指南及產品推薦。">
+  <meta name="description" content="OUJI 靈感專欄 — 韓國美妝榜單、護膚教學及成分解碼。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Column Page Styles ── */
+    .column-hero {
+      text-align: center;
+      padding: 40px 0 48px;
+    }
+    .column-hero__title {
+      font-family: var(--font-brand);
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+    .column-hero__desc {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Category Tabs ── */
+    .column-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+    }
+    .column-tab {
+      padding: 10px 28px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .column-tab:hover {
+      border-color: var(--primary);
+      color: var(--primary-dark);
+    }
+    .column-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      font-weight: 500;
+    }
+
+    /* ── Section Headers ── */
+    .column-section {
+      margin-bottom: 72px;
+    }
+    .column-section__header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .column-section__label {
+      font-family: var(--font-brand);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+    .column-section__title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--text-primary);
+    }
+    .column-section__count {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      margin-left: auto;
+    }
+
+    /* ── Featured Article ── */
+    .column-featured {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: 72px;
+      padding: 40px;
+      background: linear-gradient(135deg, var(--primary-lightest) 0%, var(--warm-50) 100%);
+      border-radius: 24px;
+    }
+    .column-featured__image-wrap {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(109,163,181,0.15);
+    }
+    .column-featured__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .column-featured:hover .column-featured__image {
+      transform: scale(1.03);
+    }
+    .column-featured__tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: white;
+      background: var(--primary);
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .column-featured__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 400;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .column-featured__excerpt {
+      font-size: 0.925rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+    .column-featured__meta {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Article Card ── */
+    .column-card {
+      border-radius: 16px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      cursor: pointer;
+    }
+    .column-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 36px rgba(109,163,181,0.12);
+    }
+    .column-card__image-wrap {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+    .column-card__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .column-card:hover .column-card__image {
+      transform: scale(1.06);
+    }
+    .column-card__body {
+      padding: 24px;
+    }
+    .column-card__tag {
+      font-size: 0.675rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    .column-card__title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 8px 0 12px;
+      line-height: 1.45;
+      color: var(--text-primary);
+    }
+    .column-card__excerpt {
+      font-size: 0.835rem;
+      color: var(--text-tertiary);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .column-card__meta {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .column-card__read-time {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ── Grid Layouts ── */
+    .column-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .column-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    /* ── Ranking Badge ── */
+    .column-card--ranking .column-card__image-wrap {
+      position: relative;
+    }
+    .column-card__rank-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-brand);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 4px 12px rgba(109,163,181,0.3);
+    }
+
+    /* ── Ingredient Tag Colors ── */
+    .column-card__ingredient-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--primary-lightest);
+      color: var(--primary-dark);
+      margin-top: 10px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .column-featured {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 24px;
+      }
+      .column-grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .column-grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .column-section__header {
+        flex-wrap: wrap;
+      }
+      .column-section__count {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .column-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -75,84 +361,496 @@
   </nav>
 
   <main style="padding-top: 100px;">
-
     <section class="section">
       <div class="container">
-        <div class="section-header" style="text-align: center; margin-bottom: 48px;">
-          <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em;">靈感專欄</h1>
-          <p class="body-lg" style="color: var(--text-tertiary); margin-top: 12px;">韓國美妝趨勢、護膚指南及產品推薦</p>
+
+        <!-- Hero -->
+        <div class="column-hero">
+          <h1 class="column-hero__title">靈感專欄</h1>
+          <p class="column-hero__desc">韓國美妝榜單速報、護膚教學攻略、熱門成分深度解碼 —— 由 OUJI 編輯部為你精選</p>
         </div>
 
-        <div class="editorial-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;">
-          <article style="border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-            <div style="aspect-ratio: 4/3; overflow: hidden;">
-              <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div style="padding: 24px;">
-              <span style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);">護膚指南</span>
-              <h3 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 500; margin: 8px 0 12px;">2026 春季韓國護膚趨勢：玻璃肌的進化</h3>
-              <p style="font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">從水光肌到奶油肌，今年春天韓國美妝界帶來了全新的肌膚質感潮流...</p>
-            </div>
-          </article>
-
-          <article style="border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-            <div style="aspect-ratio: 4/3; overflow: hidden;">
-              <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div style="padding: 24px;">
-              <span style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);">彩妝推薦</span>
-              <h3 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 500; margin: 8px 0 12px;">韓國女生的日常妝容：5 分鐘出門妝教學</h3>
-              <p style="font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">學會韓國女生的減法彩妝哲學，用最少的產品打造最自然的精緻感...</p>
-            </div>
-          </article>
-
-          <article style="border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-            <div style="aspect-ratio: 4/3; overflow: hidden;">
-              <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div style="padding: 24px;">
-              <span style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);">成分解碼</span>
-              <h3 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 500; margin: 8px 0 12px;">CICA 積雪草：韓國國民修護成分全解析</h3>
-              <p style="font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">為什麼韓國品牌都在用積雪草？深入了解這個萬能修護成分的科學原理...</p>
-            </div>
-          </article>
-
-          <article style="border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-            <div style="aspect-ratio: 4/3; overflow: hidden;">
-              <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div style="padding: 24px;">
-              <span style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);">品牌故事</span>
-              <h3 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 500; margin: 8px 0 12px;">Torriden：從成分出發的純素護膚品牌</h3>
-              <p style="font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">走進這個以低分子玻尿酸聞名的韓國品牌，了解他們堅持純素及環保的理念...</p>
-            </div>
-          </article>
-
-          <article style="border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-            <div style="aspect-ratio: 4/3; overflow: hidden;">
-              <img src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=600&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div style="padding: 24px;">
-              <span style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);">護膚攻略</span>
-              <h3 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 500; margin: 8px 0 12px;">敏感肌也能用的韓國防曬推薦 TOP 5</h3>
-              <p style="font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">告別厚重黏膩，這五款韓國防曬輕薄透氣，敏感肌也能安心使用...</p>
-            </div>
-          </article>
-
-          <article style="border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-            <div style="aspect-ratio: 4/3; overflow: hidden;">
-              <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div style="padding: 24px;">
-              <span style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);">購物指南</span>
-              <h3 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 500; margin: 8px 0 12px;">新手入門：第一次買韓國護膚品該怎麼選？</h3>
-              <p style="font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">從潔面到防曬，手把手教你建立適合自己的韓系護膚步驟...</p>
-            </div>
-          </article>
+        <!-- Category Tabs -->
+        <div class="column-tabs">
+          <button class="column-tab active" data-filter="all">全部文章</button>
+          <button class="column-tab" data-filter="ranking">榜單速報</button>
+          <button class="column-tab" data-filter="tutorial">護膚教學</button>
+          <button class="column-tab" data-filter="ingredient">成分解碼</button>
         </div>
+
+        <!-- Featured Article -->
+        <a href="articles/glow-pick-spring-2026.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="column-featured" data-category="ranking" style="cursor:pointer;">
+          <div class="column-featured__image-wrap">
+            <img class="column-featured__image" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=900&q=80" alt="Glow Pick 2026 春季榜單">
+          </div>
+          <div>
+            <span class="column-featured__tag">榜單速報</span>
+            <h2 class="column-featured__title">Glow Pick 2026 春季護膚榜單出爐：今季韓國女生都在用什麼？</h2>
+            <p class="column-featured__excerpt">
+              韓國最大美妝評分平台 Glow Pick 公佈了 2026 年春季最新排行榜。從精華液到防曬霜，我們整理了最值得關注的 TOP 10 產品，看看韓國消費者的真實評價和購買趨勢。不少新面孔意外上榜，也有經典長青款穩守前列。
+            </p>
+            <span class="column-featured__meta">2026 年 4 月 2 日 &nbsp;·&nbsp; 閱讀 6 分鐘</span>
+          </div>
+        </div>
+        </a>
+
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- SECTION 1: 榜單速報 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="column-section" data-section="ranking">
+          <div class="column-section__header">
+            <span class="column-section__label">Rankings</span>
+            <h2 class="column-section__title">榜單速報</h2>
+            <span class="column-section__count">7 篇文章</span>
+          </div>
+
+          <div class="column-grid-3">
+            <!-- Ranking 1 -->
+            <a href="articles/glow-pick-serum-ranking.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card column-card--ranking" data-category="ranking">
+              <div class="column-card__image-wrap">
+                <span class="column-card__rank-badge">TOP</span>
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">Glow Pick 榜單</span>
+                <h3 class="column-card__title">Glow Pick 精華液年度排行：這 5 款精華穩居前十</h3>
+                <p class="column-card__excerpt">從 Torriden DIVE-IN 到 COSRX 蝸牛精華，細看哪些精華液連續多季獲得韓國消費者最高評分，以及它們受歡迎的真正原因。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 28 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    5 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ranking 2 -->
+            <a href="articles/olive-young-sunscreen-ranking.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card column-card--ranking" data-category="ranking">
+              <div class="column-card__image-wrap">
+                <span class="column-card__rank-badge">TOP</span>
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">Olive Young 榜單</span>
+                <h3 class="column-card__title">Olive Young 三月防曬銷量 TOP 10：物理防曬重新崛起</h3>
+                <p class="column-card__excerpt">Olive Young 最新公佈的防曬銷量榜出現了明顯轉變 — 物理防曬和混合型防曬的佔比創歷史新高，反映消費者對成分安全性的重視。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 20 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    4 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ranking 3 -->
+            <a href="articles/hwahae-ingredient-ranking.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card column-card--ranking" data-category="ranking">
+              <div class="column-card__image-wrap">
+                <span class="column-card__rank-badge">TOP</span>
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">Hwahae 榜單</span>
+                <h3 class="column-card__title">Hwahae 成分排行榜：2026 年最受關注的護膚成分 TOP 8</h3>
+                <p class="column-card__excerpt">韓國成分分析平台化解（Hwahae）公佈年度數據，積雪草穩坐第一，而多肽和益生菌相關成分的搜尋量大幅攀升。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 12 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    5 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ranking 4 -->
+            <a href="articles/lipstick-ranking-spring.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card column-card--ranking" data-category="ranking">
+              <div class="column-card__image-wrap">
+                <span class="column-card__rank-badge">NEW</span>
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">彩妝榜單</span>
+                <h3 class="column-card__title">韓國女大學生票選：2026 春季最愛唇膏色號 TOP 7</h3>
+                <p class="column-card__excerpt">每季最受韓國大學生歡迎的唇膏色號都不一樣。今個春天，「溫柔奶茶色」和「冷調玫瑰」成為票選的大贏家。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 5 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    3 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ranking 5 -->
+            <a href="articles/glow-pick-cleanser-ranking.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card column-card--ranking" data-category="ranking">
+              <div class="column-card__image-wrap">
+                <span class="column-card__rank-badge">TOP</span>
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">Glow Pick 榜單</span>
+                <h3 class="column-card__title">Glow Pick 潔面產品排行：溫和潔面時代來臨</h3>
+                <p class="column-card__excerpt">低 pH 值、胺基酸系潔面乳佔據榜單前五。韓國消費者不再追求「洗到乾淨」，而是要求洗完後肌膚零緊繃感。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 2 月 25 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    4 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ranking 6 -->
+            <a href="articles/glow-pick-spring-2025.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+              <article class="column-card column-card--ranking" data-category="ranking">
+                <div class="column-card__image-wrap">
+                  <span class="column-card__rank-badge">TOP</span>
+                  <img class="column-card__image" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&q=80" alt="">
+                </div>
+                <div class="column-card__body">
+                  <span class="column-card__tag">Glow Pick 年度榜單</span>
+                  <h3 class="column-card__title">Glow Pick 2025 年度護膚榜單：哪些產品主宰了整個 2025 年？</h3>
+                  <p class="column-card__excerpt">回顧 2025 年全年銷量和評分數據，盤點在 Glow Pick 平台霸榜全年的護膚明星產品，以及 2025 年最重要的美妝趨勢。</p>
+                  <div class="column-card__meta">
+                    <span>2025 年 12 月 31 日</span>
+                    <span class="column-card__read-time">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      8 分鐘
+                    </span>
+                  </div>
+                </div>
+              </article>
+            </a>
+
+            <!-- Ranking 7 -->
+            <a href="articles/glow-pick-spring-2024.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+              <article class="column-card column-card--ranking" data-category="ranking">
+                <div class="column-card__image-wrap">
+                  <span class="column-card__rank-badge">TOP</span>
+                  <img class="column-card__image" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80" alt="">
+                </div>
+                <div class="column-card__body">
+                  <span class="column-card__tag">Glow Pick 年度榜單</span>
+                  <h3 class="column-card__title">Glow Pick 2024 年度護膚榜單：COSRX 與 Torriden 的雙雄爭霸</h3>
+                  <p class="column-card__excerpt">2024 年的韓國護膚品市場百花齊放。看看哪些品牌和產品在 Glow Pick 年度評選中勝出，以及「玻璃肌」熱潮如何改變消費者的選購習慣。</p>
+                  <div class="column-card__meta">
+                    <span>2024 年 12 月 31 日</span>
+                    <span class="column-card__read-time">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      7 分鐘
+                    </span>
+                  </div>
+                </div>
+              </article>
+            </a>
+          </div>
+        </div>
+
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- SECTION 2: 護膚教學 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="column-section" data-section="tutorial">
+          <div class="column-section__header">
+            <span class="column-section__label">Tutorials</span>
+            <h2 class="column-section__title">護膚教學</h2>
+            <span class="column-section__count">6 篇文章</span>
+          </div>
+
+          <div class="column-grid-3">
+            <!-- Tutorial 1 -->
+            <a href="articles/sensitive-skin-guide.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="tutorial">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">敏感肌攻略</span>
+                <h3 class="column-card__title">敏感肌護膚完全指南：避開這 7 個地雷成分</h3>
+                <p class="column-card__excerpt">泛紅、刺痛、脫皮⋯⋯如果你的肌膚經常「鬧脾氣」，可能是護膚品裡的某些成分在作怪。了解敏感肌應該避開的常見刺激成分，以及如何建立溫和有效的護膚程序。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 4 月 1 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    7 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Tutorial 2 -->
+            <a href="articles/acne-skin-routine.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="tutorial">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1573461160327-b450ce3d8e7f?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">暗瘡護理</span>
+                <h3 class="column-card__title">暗瘡肌的韓式護膚法：從潔面到修護的正確步驟</h3>
+                <p class="column-card__excerpt">暗瘡肌最怕用錯方法越洗越差。韓國皮膚科醫生推薦的護膚順序，強調「先修護屏障、再處理暗瘡」的理念，配合適當的產品選擇，有效改善肌膚狀態。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 25 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    8 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Tutorial 3 -->
+            <a href="articles/oily-skin-hydration.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="tutorial">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">油性肌膚</span>
+                <h3 class="column-card__title">油性肌膚不等於要控油：韓國「水油平衡」護膚法</h3>
+                <p class="column-card__excerpt">很多人以為油性肌膚要拚命控油，但韓國護膚觀念強調的是「以水治油」。透過充足的保濕，讓肌膚減少代償性出油，從根本改善油光問題。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 18 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    6 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Tutorial 4 -->
+            <a href="articles/5min-makeup.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="tutorial">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">彩妝教學</span>
+                <h3 class="column-card__title">韓國女生的 5 分鐘出門妝：日常裸妝教學</h3>
+                <p class="column-card__excerpt">學會韓國女生的減法彩妝哲學。只用 4 個產品就能打造自然精緻感：輕薄底妝、自然眉毛、微光眼影加水潤唇彩，簡單又好看。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 10 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    5 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Tutorial 5 -->
+            <a href="articles/sunscreen-amount-guide.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="tutorial">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">防曬教學</span>
+                <h3 class="column-card__title">防曬到底要搽幾多？韓國皮膚科的「兩指法則」</h3>
+                <p class="column-card__excerpt">大部分人的防曬用量都不夠。韓國皮膚科醫生提出的「兩指法則」，教你用最簡單的方式量度正確的防曬用量，確保足夠的紫外線防護力。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 1 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    4 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Tutorial 6 -->
+            <a href="articles/seasonal-skincare-transition.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="tutorial">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">換季護膚</span>
+                <h3 class="column-card__title">春季護膚轉換指南：從厚重到輕盈的三步過渡法</h3>
+                <p class="column-card__excerpt">換季時肌膚最容易出狀況。不要一次過換掉所有產品，用「三步過渡法」循序漸進地調整護膚程序，讓肌膚平穩度過季節轉換期。</p>
+                <div class="column-card__meta">
+                  <span>2026 年 2 月 20 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    6 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+          </div>
+        </div>
+
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- SECTION 3: 成分解碼 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="column-section" data-section="ingredient">
+          <div class="column-section__header">
+            <span class="column-section__label">Ingredients</span>
+            <h2 class="column-section__title">成分解碼</h2>
+            <span class="column-section__count">6 篇文章</span>
+          </div>
+
+          <div class="column-grid-3">
+            <!-- Ingredient 1 -->
+            <a href="articles/cica-centella-guide.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="ingredient">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">明星成分</span>
+                <h3 class="column-card__title">CICA 積雪草全解析：為什麼韓國品牌都在用？</h3>
+                <p class="column-card__excerpt">積雪草（Centella Asiatica）被稱為韓國國民修護成分，從 Dr.Jart+ 到 SKIN1004 都以它為主打。深入了解積雪草的四大活性成分及其修護原理。</p>
+                <span class="column-card__ingredient-tag">Centella Asiatica</span>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 30 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    7 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ingredient 2 -->
+            <a href="articles/peptides-guide.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="ingredient">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">趨勢成分</span>
+                <h3 class="column-card__title">2026 年最熱門成分：多肽（Peptides）為什麼突然爆紅？</h3>
+                <p class="column-card__excerpt">多肽在韓國護膚品市場的搜尋量按年增長 320%。從銅肽到信號肽，了解不同類型的多肽各自有什麼功效，以及哪些韓國產品值得嘗試。</p>
+                <span class="column-card__ingredient-tag">Peptides</span>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 22 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    8 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ingredient 3 -->
+            <a href="articles/niacinamide-guide.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="ingredient">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">經典成分</span>
+                <h3 class="column-card__title">菸鹼醯胺（Niacinamide）：被低估的全能美白成分</h3>
+                <p class="column-card__excerpt">菸鹼醯胺不只能美白，還能控油、縮毛孔、強化屏障。了解為什麼韓國皮膚科醫生稱它為「最值得長期使用」的護膚成分之一。</p>
+                <span class="column-card__ingredient-tag">Niacinamide</span>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 14 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    6 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ingredient 4 -->
+            <a href="articles/probiotics-skincare.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="ingredient">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">趨勢成分</span>
+                <h3 class="column-card__title">益生菌護膚：你的皮膚微生態為什麼很重要？</h3>
+                <p class="column-card__excerpt">皮膚表面住著數以億計的微生物，它們與肌膚健康息息相關。韓國品牌率先將益生菌（Probiotics）和後生元（Postbiotics）應用到護膚品中的科學原理。</p>
+                <span class="column-card__ingredient-tag">Probiotics</span>
+                <div class="column-card__meta">
+                  <span>2026 年 3 月 6 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    7 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ingredient 5 -->
+            <a href="articles/hyaluronic-vs-pga.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="ingredient">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1573461160327-b450ce3d8e7f?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">成分比較</span>
+                <h3 class="column-card__title">玻尿酸 vs 聚麩胺酸：哪個保濕成分更適合你？</h3>
+                <p class="column-card__excerpt">玻尿酸（HA）是保濕界的王者，但近年「下一代保濕成分」聚麩胺酸（PGA）的保水力據說高出 5 倍。兩者的分子結構和適用膚質有什麼不同？</p>
+                <span class="column-card__ingredient-tag">HA vs PGA</span>
+                <div class="column-card__meta">
+                  <span>2026 年 2 月 28 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    6 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Ingredient 6 -->
+            <a href="articles/retinol-guide.html" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="ingredient">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80" alt="">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">成分科普</span>
+                <h3 class="column-card__title">視黃醇入門指南：韓國品牌如何讓 A 醇變得溫和？</h3>
+                <p class="column-card__excerpt">視黃醇（Retinol）功效強大但容易刺激，韓國品牌透過包裹技術和複合配方降低刺激性。了解如何選擇適合自己的 A 醇產品和正確的使用方法。</p>
+                <span class="column-card__ingredient-tag">Retinol</span>
+                <div class="column-card__meta">
+                  <span>2026 年 2 月 15 日</span>
+                  <span class="column-card__read-time">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    8 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>
+          </div>
+        </div>
+
       </div>
     </section>
-
   </main>
 
   <!-- Footer -->
@@ -233,5 +931,55 @@
 
   <script src="shopify.js"></script>
   <script src="script.js"></script>
+  <script>
+    // ── Column Tab Filter ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.column-tab');
+      const featured = document.querySelector('.column-featured');
+      const sections = document.querySelectorAll('.column-section');
+      const cards = document.querySelectorAll('.column-card');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const filter = tab.dataset.filter;
+
+          // Update active tab
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          if (filter === 'all') {
+            // Show everything
+            featured.style.display = '';
+            sections.forEach(s => s.style.display = '');
+            cards.forEach(c => {
+              c.style.display = '';
+              c.style.opacity = '1';
+              c.style.transform = 'translateY(0)';
+            });
+          } else {
+            // Show/hide featured
+            featured.style.display = featured.dataset.category === filter ? '' : 'none';
+
+            // Show/hide sections
+            sections.forEach(s => {
+              s.style.display = s.dataset.section === filter ? '' : 'none';
+            });
+
+            // Animate visible cards
+            const visibleCards = document.querySelectorAll(`.column-card[data-category="${filter}"]`);
+            visibleCards.forEach((card, i) => {
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(20px)';
+              setTimeout(() => {
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              }, i * 80);
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

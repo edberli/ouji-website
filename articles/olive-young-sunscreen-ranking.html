@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olive Young 三月防曬銷量 TOP 10：物理防曬重新崛起 — OUJI 靈感專欄</title>
+  <meta name="description" content="Olive Young 三月防曬銷量榜單分析，物理防曬崛起趨勢、五大熱賣防曬逐一解析，適合香港市場的韓國防曬推薦。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .article-hero { position: relative; height: 480px; overflow: hidden; }
+    .article-hero__img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15,26,30,0.15) 0%, rgba(15,26,30,0.55) 100%); }
+    .article-breadcrumb { font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 32px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .article-breadcrumb a { color: var(--text-tertiary); transition: color 0.2s; }
+    .article-breadcrumb a:hover { color: var(--primary); }
+    .article-breadcrumb__sep { color: var(--gray-300); }
+    .article-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--primary-dark); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 28px; transition: gap 0.2s; }
+    .article-back:hover { gap: 10px; }
+    .article-wrap { max-width: 700px; margin: 0 auto; padding: 56px 24px 80px; }
+    .article-category-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: white; background: var(--primary); padding: 5px 14px; border-radius: 100px; margin-bottom: 20px; }
+    .article-title { font-family: 'Noto Serif TC', serif; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-bottom: 20px; }
+    .article-meta { display: flex; align-items: center; gap: 16px; font-size: 0.78rem; color: var(--text-tertiary); padding-bottom: 28px; border-bottom: 1px solid var(--border-light); margin-bottom: 40px; flex-wrap: wrap; }
+    .article-meta__dot { color: var(--gray-300); }
+    .article-body h2 { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 500; color: var(--text-primary); margin: 40px 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--primary-lightest); }
+    .article-body h3 { font-family: 'Noto Serif TC', serif; font-size: 1.08rem; font-weight: 500; color: var(--primary-dark); margin: 28px 0 12px; }
+    .article-body p { font-size: 0.975rem; line-height: 1.9; color: var(--text-secondary); margin-bottom: 18px; }
+    .article-body ul { margin: 16px 0 20px 0; padding-left: 0; list-style: none; }
+    .article-body ul li { font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary); padding: 6px 0 6px 24px; position: relative; }
+    .article-body ul li::before { content: ''; position: absolute; left: 0; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+    .article-callout { background: var(--primary-lightest); border-left: 3px solid var(--primary); border-radius: 0 12px 12px 0; padding: 18px 20px; margin: 28px 0; }
+    .article-callout p { margin: 0; font-size: 0.92rem; color: var(--primary-dark); }
+    .article-callout strong { color: var(--primary-darker); }
+    .article-tip { background: var(--warm-50); border: 1px solid var(--warm-200); border-radius: 12px; padding: 18px 20px; margin: 28px 0; }
+    .article-tip__label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-600); margin-bottom: 8px; }
+    .article-tip p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .sunscreen-item { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--border-light); align-items: start; }
+    .sunscreen-item:last-child { border-bottom: none; }
+    .sunscreen-rank { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-brand); font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+    .sunscreen-rank--1 { background: #c9a227; }
+    .sunscreen-rank--2 { background: #8a9ba8; }
+    .sunscreen-rank--3 { background: #a0724a; }
+    .sunscreen-info h4 { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+    .sunscreen-info .brand { font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 10px; }
+    .sunscreen-info p { font-size: 0.9rem; line-height: 1.8; color: var(--text-secondary); margin: 0 0 10px; }
+    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .stag { display: inline-block; font-size: 0.65rem; font-weight: 500; padding: 3px 9px; border-radius: 100px; background: var(--primary-lightest); color: var(--primary-dark); letter-spacing: 0.05em; }
+    .stag--mineral { background: #e8f5e9; color: #388e3c; }
+    .stag--price { background: var(--warm-100); color: var(--warm-600); }
+    .compare-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 0.875rem; }
+    .compare-table th { background: var(--primary-lightest); color: var(--primary-dark); font-weight: 500; padding: 10px 14px; text-align: left; font-size: 0.8rem; letter-spacing: 0.04em; }
+    .compare-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .related-section { background: var(--gray-50); padding: 64px 0; margin-top: 64px; }
+    .related-section__inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .related-section__title { font-family: 'Noto Serif TC', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-primary); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .related-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease; text-decoration: none; display: block; }
+    .related-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(109,163,181,0.12); }
+    .related-card__img-wrap { aspect-ratio: 16/10; overflow: hidden; }
+    .related-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .related-card:hover .related-card__img { transform: scale(1.06); }
+    .related-card__body { padding: 18px; }
+    .related-card__tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); font-weight: 500; }
+    .related-card__title { font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 500; color: var(--text-primary); margin-top: 8px; line-height: 1.5; }
+    @media (max-width: 768px) { .article-hero { height: 300px; } .related-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="announcement-bar">全單滿 HK$400 免運費 &nbsp;·&nbsp; 新客首單 9 折</div>
+  <header class="header is-scrolled">
+    <div class="header__inner">
+      <div class="header__left">
+        <button class="header__menu-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+        <a href="../index.html" class="header__logo">OUJI</a>
+        <nav class="header__nav">
+          <a href="../category.html">護膚</a><a href="../makeup.html">彩妝</a><a href="../bodycare.html">身體護理</a><a href="../fragrance.html">香氛</a><a href="../lifestyle.html">生活風格</a><a href="../brands.html">品牌</a><a href="../column.html">專欄</a>
+        </nav>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="搜尋"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+        <a href="../account.html" class="header__action-btn" aria-label="帳戶"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="../wishlist.html" class="header__action-btn" aria-label="願望清單"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+        <a href="../cart.html" class="header__action-btn" aria-label="購物袋"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></a>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-nav-overlay"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav__header"><span class="header__logo">OUJI</span><button class="mobile-nav__close" aria-label="關閉"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="mobile-nav__links"><a href="../category.html">護膚</a><a href="../makeup.html">彩妝</a><a href="../bodycare.html">身體護理</a><a href="../fragrance.html">香氛</a><a href="../lifestyle.html">生活風格</a><a href="../brands.html">品牌</a><a href="../column.html">專欄</a></div>
+  </nav>
+
+  <main style="padding-top: 64px;">
+    <div class="article-hero">
+      <img class="article-hero__img" src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=1200&q=80" alt="Olive Young 三月防曬銷量 TOP 10">
+      <div class="article-hero__overlay"></div>
+    </div>
+
+    <div class="article-wrap">
+      <a href="../column.html" class="article-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>返回專欄</a>
+      <div class="article-breadcrumb">
+        <a href="../index.html">首頁</a><span class="article-breadcrumb__sep">›</span><a href="../column.html">專欄</a><span class="article-breadcrumb__sep">›</span><span>榜單速報</span>
+      </div>
+      <span class="article-category-tag">榜單速報 · Olive Young 榜單</span>
+      <h1 class="article-title">Olive Young 三月防曬銷量 TOP 10：物理防曬重新崛起</h1>
+      <div class="article-meta">
+        <span>OUJI 編輯部</span><span class="article-meta__dot">·</span><span>2026 年 3 月 20 日</span><span class="article-meta__dot">·</span><span>閱讀約 4 分鐘</span>
+      </div>
+
+      <div class="article-body">
+        <p>韓國最大美妝連鎖零售店 Olive Young 每月都會公佈各品類的銷售數據。今年三月的防曬榜單出現了一個值得關注的轉變：純物理防曬及混合型防曬（物理+化學混合濾光劑）的合計佔比達到 62%，創下近年新高。這反映的不只是一個流行趨勢，而是韓國消費者對防曬成分安全性認識加深後的系統性轉變。</p>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=800&q=80" alt="防曬產品系列" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">韓國防曬市場每月迎來新品，Olive Young 的銷售榜單是追蹤最新趨勢的最佳指標</figcaption>
+        </figure>
+
+        <h2>物理防曬 vs 化學防曬：為什麼消費者在轉移？</h2>
+        <p>物理防曬（礦物質防曬）以氧化鋅（Zinc Oxide）和二氧化鈦（Titanium Dioxide）為活性成分，通過反射和散射紫外線來保護皮膚，而非化學性地吸收紫外線然後轉化為熱能。化學防曬成分如 Benzophenone 系列、Oxybenzone 等，近年在韓國消費者中出現了成分安全性疑慮——部分研究顯示某些化學防曬濾光劑可能有一定的皮膚滲透性。</p>
+
+        <table class="compare-table">
+          <tr><th>特性</th><th>物理防曬</th><th>化學防曬</th></tr>
+          <tr><td>保護原理</td><td>反射/散射 UV</td><td>吸收 UV 並轉化熱能</td></tr>
+          <tr><td>起效時間</td><td>即時有效</td><td>需 20 分鐘後生效</td></tr>
+          <tr><td>適合皮膚</td><td>敏感肌、嬰兒</td><td>所有膚質</td></tr>
+          <tr><td>質地感受</td><td>過去偏厚重（現代配方改善中）</td><td>輕盈透薄</td></tr>
+          <tr><td>白頭問題</td><td>可能有（但韓國新配方大幅減少）</td><td>幾乎無</td></tr>
+        </table>
+
+        <p>值得注意的是，韓國品牌近幾年在物理防曬的配方技術上投入大量研發。微米化的礦物質顆粒、特殊分散技術、以及與皮膚保養成分（如積雪草、益生菌）的結合，令新一代物理防曬在質地和使用感上已大幅改善，不少消費者反映「根本感覺不到塗了物理防曬」。</p>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80" alt="護膚品塗抹過程" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">物理防曬配方技術的進步令新一代礦物質防曬幾乎感覺不到白頭問題，使用感媲美化學防曬</figcaption>
+        </figure>
+
+        <h2>三月銷售 TOP 5 詳細介紹</h2>
+
+        <div class="sunscreen-item">
+          <div class="sunscreen-rank sunscreen-rank--1">#1</div>
+          <div class="sunscreen-info">
+            <h4>Daily Go-To Sunscreen SPF50+ PA++++</h4>
+            <div class="brand">Purito</div>
+            <p>Purito 的 Daily Go-To 防曬連續多月稱霸榜首。以廣譜化學濾光劑為基礎，但不含爭議性的 Benzophenone 和 Oxybenzone，改以 Uvinul A Plus、Tinosorb S 等被認為更安全的新世代歐盟准用濾光劑。質地比水還輕，不留白頭、不黏膩，是韓國護膚 YouTuber 推薦頻率最高的防曬產品之一。適合追求超輕薄感的所有膚質。</p>
+            <div class="tag-row"><span class="stag">SPF50+ PA++++</span><span class="stag">超輕薄</span><span class="stag">無白頭</span><span class="stag stag--price">HK$95–110</span></div>
+          </div>
+        </div>
+
+        <div class="sunscreen-item">
+          <div class="sunscreen-rank sunscreen-rank--2">#2</div>
+          <div class="sunscreen-info">
+            <h4>Relief Sun: Rice + Probiotics SPF50+ PA++++</h4>
+            <div class="brand">Beauty of Joseon</div>
+            <p>Beauty of Joseon 的防曬是物理+化學混合配方的代表作，以米糠萃取（Rice Bran Extract）和乳酸菌發酵物（Lactobacillus Ferment）作為保濕修護成分，令防曬不只是防曬，更帶有護膚效益。白頭問題低，保濕感出色，特別受乾性肌膚和追求「一瓶多用」的消費者歡迎。也是近年香港美妝博主推薦最多的韓國防曬之一。</p>
+            <div class="tag-row"><span class="stag">混合型</span><span class="stag stag--mineral">含礦物質</span><span class="stag">益生菌</span><span class="stag stag--price">HK$115–130</span></div>
+          </div>
+        </div>
+
+        <div class="sunscreen-item">
+          <div class="sunscreen-rank sunscreen-rank--3">#3</div>
+          <div class="sunscreen-info">
+            <h4>Madagascar Centella Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++</h4>
+            <div class="brand">SKIN1004</div>
+            <p>SKIN1004 的積雪草水感防曬精華，以積雪草萃取搭配玻尿酸，主打「防曬同時舒緩修護」。對於敏感肌、痘痘肌或日曬後容易泛紅的用戶來說，這款防曬能一石二鳥。精華質地容易塗抹均勻，是素顏或底妝前使用都適合的全能型防曬。</p>
+            <div class="tag-row"><span class="stag">化學防曬</span><span class="stag">積雪草</span><span class="stag">敏感肌</span><span class="stag stag--price">HK$100–120</span></div>
+          </div>
+        </div>
+
+        <div class="sunscreen-item">
+          <div class="sunscreen-rank">#4</div>
+          <div class="sunscreen-info">
+            <h4>Bean Sunscreen SPF50+ PA++++</h4>
+            <div class="brand">Mixsoon</div>
+            <p>Mixsoon 是近兩年增長最快的韓國護膚新興品牌，以單一功能性成分為核心概念。Bean Sunscreen 以大豆萃取（Soybean Extract）為主要保養成分，添加氧化鋅作為混合濾光劑，白頭問題低，對於追求純淨成分的消費者來說非常具吸引力。</p>
+            <div class="tag-row"><span class="stag stag--mineral">含氧化鋅</span><span class="stag">大豆萃取</span><span class="stag">純淨成分</span><span class="stag stag--price">HK$120–140</span></div>
+          </div>
+        </div>
+
+        <div class="sunscreen-item">
+          <div class="sunscreen-rank">#5</div>
+          <div class="sunscreen-info">
+            <h4>Birch Juice Moisturizing Sun Cream SPF50+ PA++++</h4>
+            <div class="brand">Round Lab</div>
+            <p>Round Lab 的樺樹汁防曬以高達 50% 的樺樹汁含量作基底，保濕感是同類防曬中最出色的之一。對於在戶外時間長、容易感到防曬層乾燥的用戶，這款防曬的舒適度特別高。混合型濾光劑配方，防護力可靠。</p>
+            <div class="tag-row"><span class="stag">混合型</span><span class="stag">樺樹汁保濕</span><span class="stag">長時舒適</span><span class="stag stag--price">HK$110–125</span></div>
+          </div>
+        </div>
+
+        <figure style="margin: 36px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80" alt="韓國護膚品平放展示" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">韓國品牌在防曬配方研發上持續投入，今季五款熱賣產品各有獨特的配方優勢</figcaption>
+        </figure>
+
+        <h2>選擇適合香港天氣的防曬</h2>
+        <p>香港的氣候與首爾不同，夏季高溫多濕，全年 UV 指數偏高。以下幾點是香港消費者選防曬時需要額外考慮的因素：</p>
+        <ul>
+          <li><strong>防水性：</strong>香港夏天出汗多，選擇標示 Water Resistant 的配方更實際，記得每兩小時補搽。</li>
+          <li><strong>PA 等級：</strong>香港全年 UVA 強烈，應選擇 PA++++ 最高等級，而非只看 SPF 數字。</li>
+          <li><strong>質地與黏附力：</strong>輕薄質地在潮濕環境下可能更快消失，油性肌膚可選帶有一定膜感的配方確保持久度。</li>
+        </ul>
+
+        <div class="article-tip">
+          <div class="article-tip__label">OUJI 編輯提示</div>
+          <p>不論選哪款防曬，用量都是最關鍵的因素。面部至少需要一元硬幣大小（約 1/4 茶匙）的份量，才能達到瓶身標示的 SPF 防護力。用量不夠的話，即使是 SPF50 的防曬，實際防護效果可能跌到 SPF15 以下。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <div class="related-section__inner">
+        <h2 class="related-section__title">相關文章</h2>
+        <div class="related-grid">
+          <a href="sunscreen-amount-guide.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">護膚教學</span><p class="related-card__title">防曬到底要搽幾多？韓國皮膚科的「兩指法則」</p></div>
+          </a>
+          <a href="glow-pick-spring-2026.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">榜單速報</span><p class="related-card__title">Glow Pick 2026 春季護膚榜單出爐：今季韓國女生都在用什麼？</p></div>
+          </a>
+          <a href="sensitive-skin-guide.html" class="related-card">
+            <div class="related-card__img-wrap"><img class="related-card__img" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt=""></div>
+            <div class="related-card__body"><span class="related-card__tag">護膚教學</span><p class="related-card__title">敏感肌護膚完全指南：避開這 7 個地雷成分</p></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand"><div class="footer__logo">OUJI</div><p class="footer__brand-desc">香港最齊全的韓國化妝護膚品專門店。<br>觀塘觀塘道 472–480 號<br>觀塘工業中心一期 地下 B 舖<br>每日 12:00–20:00</p></div>
+        <div><h4 class="footer__col-title">選購</h4><ul class="footer__links"><li><a href="../category.html">護膚</a></li><li><a href="../makeup.html">彩妝</a></li><li><a href="../bodycare.html">身體護理</a></li><li><a href="../fragrance.html">香氛</a></li></ul></div>
+        <div><h4 class="footer__col-title">關於</h4><ul class="footer__links"><li><a href="../about.html">關於 OUJI</a></li><li><a href="../story.html">我們的故事</a></li><li><a href="../column.html">靈感專欄</a></li><li><a href="../terms.html">服務條款</a></li></ul></div>
+        <div><h4 class="footer__col-title">客戶服務</h4><ul class="footer__links"><li><a href="../faq.html">常見問題</a></li><li><a href="../shipping.html">運送及退換</a></li><li><a href="../contact.html">聯絡我們</a></li></ul></div>
+      </div>
+      <div class="footer__bottom"><p class="footer__copyright">&copy; 2026 OUJI. All rights reserved.</p></div>
+    </div>
+  </footer>
+  <nav class="mobile-bottom-nav">
+    <a href="../index.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>首頁</span></a>
+    <a href="../category.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>類別</span></a>
+    <a href="../wishlist.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>心願單</span></a>
+    <a href="../cart.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>購物袋</span></a>
+    <a href="../account.html" class="mobile-bottom-nav__item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>會員</span></a>
+  </nav>
+  <script src="../shopify.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glow Pick 2025 年度護膚榜單：哪些產品主宰了整個 2025 年？ — OUJI 靈感專欄</title>
+  <meta name="description" content="回顧 2025 年全年銷量和評分數據，盤點在 Glow Pick 平台霸榜全年的護膚明星產品，以及 2025 年最重要的美妝趨勢。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .article-hero {
+      position: relative;
+      height: 480px;
+      overflow: hidden;
+      border-radius: 0;
+    }
+    .article-hero__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .article-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15,26,30,0.15) 0%, rgba(15,26,30,0.55) 100%);
+    }
+    .article-breadcrumb {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .article-breadcrumb a {
+      color: var(--text-tertiary);
+      transition: color 0.2s;
+    }
+    .article-breadcrumb a:hover { color: var(--primary); }
+    .article-breadcrumb__sep { color: var(--gray-300); }
+    .article-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--primary-dark);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 28px;
+      transition: gap 0.2s;
+    }
+    .article-back:hover { gap: 10px; }
+    .article-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+    .article-category-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: white;
+      background: var(--primary);
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .article-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .article-meta__dot { color: var(--gray-300); }
+    .article-body h2 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 40px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-lightest);
+    }
+    .article-body h3 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.08rem;
+      font-weight: 500;
+      color: var(--primary-dark);
+      margin: 28px 0 12px;
+    }
+    .article-body p {
+      font-size: 0.975rem;
+      line-height: 1.9;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .article-body ul, .article-body ol {
+      margin: 16px 0 20px 0;
+      padding-left: 0;
+      list-style: none;
+    }
+    .article-body ul li, .article-body ol li {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding: 6px 0 6px 24px;
+      position: relative;
+    }
+    .article-body ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+    .article-body ol {
+      counter-reset: ol-counter;
+    }
+    .article-body ol li {
+      counter-increment: ol-counter;
+    }
+    .article-body ol li::before {
+      content: counter(ol-counter);
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 18px;
+      height: 18px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.68rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-brand);
+    }
+    .article-callout {
+      background: var(--primary-lightest);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 12px 12px 0;
+      padding: 18px 20px;
+      margin: 28px 0;
+    }
+    .article-callout p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--primary-dark);
+    }
+    .article-callout strong { color: var(--primary-darker); }
+    .article-tip {
+      background: var(--warm-50);
+      border: 1px solid var(--warm-200);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 28px 0;
+    }
+    .article-tip__label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--warm-600);
+      margin-bottom: 8px;
+    }
+    .article-tip p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .product-rank-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .product-rank-item:last-child { border-bottom: none; }
+    .product-rank-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-brand);
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .product-rank-num--gold { background: #c9a227; }
+    .product-rank-num--silver { background: #8a9ba8; }
+    .product-rank-num--bronze { background: #a0724a; }
+    .product-rank-info h4 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .product-rank-info p { font-size: 0.875rem; line-height: 1.75; margin: 0; color: var(--text-secondary); }
+    .product-price-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--primary-dark);
+      background: var(--primary-lightest);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-top: 8px;
+      letter-spacing: 0.04em;
+    }
+    /* Related articles */
+    .related-section {
+      background: var(--gray-50);
+      padding: 64px 0;
+      margin-top: 64px;
+    }
+    .related-section__inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .related-section__title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 32px;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .related-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+    .related-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 32px rgba(109,163,181,0.12);
+    }
+    .related-card__img-wrap {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+    }
+    .related-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .related-card:hover .related-card__img { transform: scale(1.06); }
+    .related-card__body { padding: 18px; }
+    .related-card__tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    .related-card__title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    @media (max-width: 768px) {
+      .article-hero { height: 300px; }
+      .related-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    全單滿 HK$400 免運費 &nbsp;·&nbsp; 新客首單 9 折
+  </div>
+
+  <!-- Header -->
+  <header class="header is-scrolled">
+    <div class="header__inner">
+      <div class="header__left">
+        <button class="header__menu-toggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+        <a href="../index.html" class="header__logo">OUJI</a>
+        <nav class="header__nav">
+          <a href="../category.html">護膚</a>
+          <a href="../makeup.html">彩妝</a>
+          <a href="../bodycare.html">身體護理</a>
+          <a href="../fragrance.html">香氛</a>
+          <a href="../lifestyle.html">生活風格</a>
+          <a href="../brands.html">品牌</a>
+          <a href="../column.html">專欄</a>
+        </nav>
+      </div>
+      <div class="header__actions">
+        <button class="header__action-btn" aria-label="搜尋">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <a href="../account.html" class="header__action-btn" aria-label="帳戶">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="../wishlist.html" class="header__action-btn" aria-label="願望清單">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </a>
+        <a href="../cart.html" class="header__action-btn" aria-label="購物袋">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav-overlay"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav__header">
+      <span class="header__logo">OUJI</span>
+      <button class="mobile-nav__close" aria-label="關閉">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="mobile-nav__links">
+      <a href="../category.html">護膚</a>
+      <a href="../makeup.html">彩妝</a>
+      <a href="../bodycare.html">身體護理</a>
+      <a href="../fragrance.html">香氛</a>
+      <a href="../lifestyle.html">生活風格</a>
+      <a href="../brands.html">品牌</a>
+      <a href="../column.html">專欄</a>
+    </div>
+  </nav>
+
+  <main style="padding-top: 64px;">
+
+    <!-- Hero Image -->
+    <div class="article-hero">
+      <img class="article-hero__img" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=1200&q=80" alt="Glow Pick 2025 年度護膚榜單">
+      <div class="article-hero__overlay"></div>
+    </div>
+
+    <!-- Article Content -->
+    <div class="article-wrap">
+
+      <a href="../column.html" class="article-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        返回專欄
+      </a>
+
+      <div class="article-breadcrumb">
+        <a href="../index.html">首頁</a>
+        <span class="article-breadcrumb__sep">›</span>
+        <a href="../column.html">專欄</a>
+        <span class="article-breadcrumb__sep">›</span>
+        <span>Glow Pick 年度榜單</span>
+      </div>
+
+      <span class="article-category-tag">Glow Pick 年度榜單</span>
+      <h1 class="article-title">Glow Pick 2025 年度護膚榜單：哪些產品主宰了整個 2025 年？</h1>
+
+      <div class="article-meta">
+        <span>OUJI 編輯部</span>
+        <span class="article-meta__dot">·</span>
+        <span>2025 年 12 月 31 日</span>
+        <span class="article-meta__dot">·</span>
+        <span>閱讀約 8 分鐘</span>
+      </div>
+
+      <div class="article-body">
+
+        <p>2025年對韓國美妝產業而言是充滿變革的一年。K-beauty走出亞洲，在歐美市場的影響力持續擴大；同時，消費者對「成分透明度」的要求愈來愈高，推動品牌更積極公開配方細節。Glow Pick平台匯集了超過三百萬個真實用戶評分，以下是2025年全年綜合表現最出色的護膚產品。</p>
+
+        <div class="article-callout">
+          <p><strong>關於 Glow Pick：</strong>Glow Pick（글로우픽）是韓國用戶評分數量最多的美妝平台，所有評分均由真實購買用戶提交，並以成分安全分析輔助排名，在韓國消費者中具有極高公信力。年度榜單綜合全年十二個月的評分中位數及回購數據計算。</p>
+        </div>
+
+        <h2>2025 年度綜合榜 TOP 10</h2>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num product-rank-num--gold">#1</div>
+          <div class="product-rank-info">
+            <h4>COSRX Advanced Snail 96 Mucin Power Essence（蝸牛精華）</h4>
+            <p>2025年，這款以96%蝸牛分泌濾液為主成分的精華再度蟬聯全年冠軍，回購率高達98.2%——幾乎是所有評分用戶都會重複購買的意思。蝸牛黏液中的天然糖蛋白和膠原蛋白前驅物質能有效修復受損屏障，對痘後暗印尤其有效。適合所有膚質，特別推薦給正處於術後修護或肌膚屏障受損狀態的用戶。</p>
+            <span class="product-price-tag">約 HK$148</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num product-rank-num--silver">#2</div>
+          <div class="product-rank-info">
+            <h4>Torriden DIVE-IN Low Molecule Hyaluronic Acid Serum</h4>
+            <p>被韓國護膚社群譽為「玻璃肌神器」，採用五種不同分子量的玻尿酸（最小分子量僅5Da），能從皮膚最外層到真皮層進行立體補水。質地極輕盈，如薄薄一層水膜，油性肌和混合性肌膚特別喜愛。2025年成為Glow Pick平台史上第一款全年評分從未跌出前三的精華液。</p>
+            <span class="product-price-tag">約 HK$168</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num product-rank-num--bronze">#3</div>
+          <div class="product-rank-info">
+            <h4>Beauty of Joseon Relief Sun: Rice + Probiotics SPF50+ PA++++</h4>
+            <p>韓國防曬品在2025年真正席捲全球市場，而这款以米萃取物提亮、益生菌舒緩為賣點的防曬霜是其中的代表作。無白膜、質地清爽、不致痘，同時提供完整的UVA/UVB防護。在歐美市場的TikTok曝光量突破億次，成為「韓式防曬外交」的最佳代言人。</p>
+            <span class="product-price-tag">約 HK$128</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num">#4</div>
+          <div class="product-rank-info">
+            <h4>SKIN1004 Madagascar Centella Ampoule</h4>
+            <p>CICA成分的先驅之作，以100%馬達加斯加積雪草萃取為唯一功效成分，純粹而高效。單一成分設計讓過敏測試更容易，成分清單短到令人放心。適合所有有肌膚泛紅、乾燥、敏感問題的用戶，2025年在敏感肌社群中的口碑達到歷史新高。</p>
+            <span class="product-price-tag">約 HK$138</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num">#5</div>
+          <div class="product-rank-info">
+            <h4>Some By Mi AHA BHA PHA 30 Days Miracle Toner</h4>
+            <p>三重酸煥膚化妝水，AHA（果酸）溶解老廢角質、BHA（水楊酸）深層疏通毛孔、PHA（葡萄糖酸）溫和去角質同時兼顧保濕。30天一個周期的使用設計讓用戶有明確的進程感。韓國護膚師將其列為「油肌基礎款」的首選，價格親民，性價比高。</p>
+            <span class="product-price-tag">約 HK$135</span>
+          </div>
+        </div>
+
+        <figure style="margin: 32px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80" alt="2025年度護膚榜單產品" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">2025 年 Glow Pick 評分最高的護膚品系列</figcaption>
+        </figure>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num">#6</div>
+          <div class="product-rank-info">
+            <h4>Klairs Freshly Juiced Vitamin Drop</h4>
+            <p>維他命C（抗壞血酸）對敏感肌一直是挑戰，Klairs以5%低濃度抗壞血酸配方解決了這一矛盾。低刺激的設計讓維他命C的提亮和抗氧化功效得以惠及更多肌膚類型。2025年成為Klairs品牌在Glow Pick評分最高的單品，用戶評語中「毛孔縮小」和「膚色均勻」出現頻率最高。</p>
+            <span class="product-price-tag">約 HK$168</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num">#7</div>
+          <div class="product-rank-info">
+            <h4>Round Lab Birch Juice Moisturizing Toner</h4>
+            <p>以樺樹汁（Birch Sap）為主要功效成分的保濕化妝水，樺樹汁天然含有多種礦物質和胺基酸，保濕的同時不造成負擔。質地如礦泉水般輕盈，適合疊用（七層水法），或作為精華液前的第一層補水。2025年在追求「無負擔保濕」的消費者群體中爆發式增長。</p>
+            <span class="product-price-tag">約 HK$155</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num">#8</div>
+          <div class="product-rank-info">
+            <h4>Innisfree Jeju Orchid Eye Cream</h4>
+            <p>以濟州島蘭花提取物為核心成分，針對眼周衰老問題。在Glow Pick年度評分中連續五年維持眼霜類目前三，是「平價抗老」的代表性選擇。用戶普遍反映使用四至六週後眼周紋路明顯改善，是許多韓國護膚入門者的第一款眼霜。</p>
+            <span class="product-price-tag">約 HK$195</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num">#9</div>
+          <div class="product-rank-info">
+            <h4>Dr.Jart+ Cicapair Tiger Grass Serum</h4>
+            <p>Dr.Jart+的明星系列，以積雪草複合配方（Tiger Grass）為賣點，既有舒緩修護功效，又含有色彩校正成分，能即時中和肌膚泛紅。在亞洲以外市場同樣是暢銷產品，2025年繼續在Glow Pick精華液類目穩守前十。</p>
+            <span class="product-price-tag">約 HK$355</span>
+          </div>
+        </div>
+
+        <div class="product-rank-item">
+          <div class="product-rank-num">#10</div>
+          <div class="product-rank-info">
+            <h4>Purito Daily Go-To Sunscreen SPF50+ PA++++</h4>
+            <p>Purito旗下主打「Clean Beauty」的日常防曬，無香精、無礦物油、無矽，成分表相當清爽。不留白膜，質地輕薄，適合敏感肌日常使用。2025年在素食和純素美妝社群中廣受好評，以實惠的價格提供媲美高端防曬的保護力。</p>
+            <span class="product-price-tag">約 HK$118</span>
+          </div>
+        </div>
+
+        <h2>2025 年最大黑馬</h2>
+
+        <p>榜單之外，2025年還出現了幾個表現遠超預期的護膚「黑馬」。它們未必進入年度總榜前十，但在特定時期的銷售增速和話題度遠超同類產品。</p>
+
+        <h3>Medicube Zero Pore Toner Pad</h3>
+        <p>一片即用型煥膚棉片，BHA和AHA雙酸配方加上物理性棉片紋理，能同時進行化學和物理去角質。最大賣點是「30秒完成煥膚步驟」的便利性，直接切中現代人護膚時間有限的痛點。2025年中在韓國本土護膚社群掀起討論後，迅速透過TikTok傳播至東南亞和香港市場。</p>
+
+        <h3>Anua Heartleaf 77% Soothing Toner</h3>
+        <p>77%魚腥草（Heartleaf）濃縮精華化妝水，以極高的天然植物萃取佔比為賣點。以「天然CICA替代品」之姿走紅TikTok，在全球範圍內的曝光量突破20億次，成為2025年最具代表性的K-beauty全球化案例。極致舒緩的效果對日曬後或剛進行護膚療程後的肌膚尤其有效。</p>
+
+        <h3>By Wishtrend Vitamin C 21.5% Advanced Serum</h3>
+        <p>以21.5%的高濃度維他命C配方在市場中殺出一條血路。在同等功效的維他命C精華中，這款的定價只有高端競品的三分之一，性價比極高。建議在夜間使用，並配合防曬。對於希望嘗試高濃度維他命C但預算有限的消費者，是2025年最值得推薦的選擇。</p>
+
+        <figure style="margin: 32px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80" alt="韓國護膚品趨勢" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">2025 年 K-beauty 在全球市場的影響力持續擴張</figcaption>
+        </figure>
+
+        <h2>2025 年度消費趨勢分析</h2>
+
+        <p>除了個別產品的表現，2025年的Glow Pick數據也呈現出幾個值得關注的宏觀消費趨勢。</p>
+
+        <h3>「成分極簡主義」Skinimalism 全面普及</h3>
+        <p>2025年最顯著的護膚趨勢是「以少勝多」。消費者不再追求10步護膚法，而是轉向「3至5款核心產品，每款都有明確功效」的極簡護膚理念（Skinimalism）。反映在Glow Pick數據上，就是含有複雜功效堆疊的產品銷量下滑，而成分清單短、功效聚焦的單一成分精華（如SKIN1004積雪草安瓶、Klairs維他命C精華）評分上升。這個趨勢同時帶動了「成分衝突」相關內容的消費需求——消費者更願意研究哪些成分不能同時使用。</p>
+
+        <h3>韓國防曬全球化</h3>
+        <p>2025年是韓國防曬品正式「征服」西方市場的一年。歐美消費者長期習慣的厚重白膜礦物防曬在TikTok上持續被韓國輕薄化學防曬「碾壓」，推動了大量歐美消費者主動尋找和購買韓系防曬。Glow Pick防曬類目的海外用戶佔比在2025年首次突破30%，Beauty of Joseon和Purito是最大受益者。</p>
+
+        <h3>男士護膚崛起</h3>
+        <p>Glow Pick平台的男性用戶在2025年大幅增加，相關護膚評分數量按年增長45%。男性消費者的選品偏好集中在三大類：防曬（避免曬黑是最主要動機）、控油保濕（一步完成的產品更受歡迎）、以及祛痘修護（暗瘡問題困擾大量男性消費者）。COSRX、Benton、一些藥妝品牌成為男性護膚入門首選。</p>
+
+        <div class="article-tip">
+          <div class="article-tip__label">OUJI 編輯建議</div>
+          <p>如果你正在考慮整理護膚清單，2025年的Glow Pick數據給了一個清晰的方向：一款好的保濕精華（如Torriden DIVE-IN）、一款防曬（如Beauty of Joseon或Purito）、以及一款針對個人問題的功效性產品，已經足夠應對大部分護膚需求。不必追求複雜，關鍵是堅持使用。</p>
+        </div>
+
+        <figure style="margin: 32px 0; border-radius: 16px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=800&q=80" alt="護膚日常程序" style="width:100%; height:280px; object-fit:cover; display:block;">
+          <figcaption style="padding: 12px 16px; background: var(--warm-50); font-size: 0.78rem; color: var(--text-tertiary); text-align:center;">極簡護膚理念在 2025 年成為主流——選對幾款核心產品，效果勝過堆砌十步程序</figcaption>
+        </figure>
+
+      </div>
+    </div>
+
+    <!-- Related Articles -->
+    <div class="related-section">
+      <div class="related-section__inner">
+        <h2 class="related-section__title">相關文章</h2>
+        <div class="related-grid">
+          <a href="glow-pick-spring-2026.html" class="related-card">
+            <div class="related-card__img-wrap">
+              <img class="related-card__img" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80" alt="">
+            </div>
+            <div class="related-card__body">
+              <span class="related-card__tag">Glow Pick 年度榜單</span>
+              <p class="related-card__title">Glow Pick 2026 春季護膚榜單出爐：今季韓國女生都在用什麼？</p>
+            </div>
+          </a>
+          <a href="glow-pick-spring-2024.html" class="related-card">
+            <div class="related-card__img-wrap">
+              <img class="related-card__img" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80" alt="">
+            </div>
+            <div class="related-card__body">
+              <span class="related-card__tag">Glow Pick 年度榜單</span>
+              <p class="related-card__title">Glow Pick 2024 年度護膚榜單：COSRX 與 Torriden 的雙雄爭霸</p>
+            </div>
+          </a>
+          <a href="glow-pick-serum-ranking.html" class="related-card">
+            <div class="related-card__img-wrap">
+              <img class="related-card__img" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80" alt="">
+            </div>
+            <div class="related-card__body">
+              <span class="related-card__tag">Glow Pick 榜單</span>
+              <p class="related-card__title">Glow Pick 精華液年度排行：這 5 款精華穩居前十</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__logo">OUJI</div>
+          <p class="footer__brand-desc">
+            香港最齊全的韓國化妝護膚品專門店。<br>
+            觀塘觀塘道 472–480 號<br>
+            觀塘工業中心一期 地下 B 舖<br>
+            每日 12:00–20:00
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__col-title">選購</h4>
+          <ul class="footer__links">
+            <li><a href="../category.html">護膚</a></li>
+            <li><a href="../makeup.html">彩妝</a></li>
+            <li><a href="../bodycare.html">身體護理</a></li>
+            <li><a href="../fragrance.html">香氛</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">關於</h4>
+          <ul class="footer__links">
+            <li><a href="../about.html">關於 OUJI</a></li>
+            <li><a href="../story.html">我們的故事</a></li>
+            <li><a href="../column.html">靈感專欄</a></li>
+            <li><a href="../terms.html">服務條款</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">客戶服務</h4>
+          <ul class="footer__links">
+            <li><a href="../faq.html">常見問題</a></li>
+            <li><a href="../shipping.html">運送及退換</a></li>
+            <li><a href="../contact.html">聯絡我們</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2026 OUJI. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <a href="../index.html" class="mobile-bottom-nav__item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>首頁</span>
+    </a>
+    <a href="../category.html" class="mobile-bottom-nav__item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>類別</span>
+    </a>
+    <a href="../wishlist.html" class="mobile-bottom-nav__item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>心願單</span>
+    </a>
+    <a href="../cart.html" class="mobile-bottom-nav__item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span>購物袋</span>
+    </a>
+    <a href="../account.html" class="mobile-bottom-nav__item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>會員</span>
+    </a>
+  </nav>
+
+  <script src="../shopify.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>
