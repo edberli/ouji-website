@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMoodBoardReveal();
   initLookbookInView();
   initDividerReveal();
-  initKoraHeroScroll();
-  initKoraTextScale();
+  initHeroScrollParallax();
   initScrollParallaxImages();
   initFloatingParticles();
   // initBokeh(); // removed
@@ -677,82 +676,31 @@ function initDividerReveal() {
   dividers.forEach(d => observer.observe(d));
 }
 
-/* ----- Kora Hero Scroll — sticky hero with dramatic shrink + darken + blur ----- */
-function initKoraHeroScroll() {
-  var hero = document.querySelector('.hero.kora-hero');
+/* ----- Hero Scroll Parallax (shrink + fade on scroll) ----- */
+function initHeroScrollParallax() {
+  const hero = document.querySelector('.hero');
   if (!hero) return;
 
-  var overlay = hero.querySelector('.hero__scroll-overlay');
-  var ticking = false;
-
-  window.addEventListener('scroll', function () {
+  let ticking = false;
+  window.addEventListener('scroll', () => {
     if (!ticking) {
-      requestAnimationFrame(function () {
-        var scrollY = window.scrollY;
-        var heroH = hero.offsetHeight;
-        var progress = Math.min(scrollY / (heroH * 0.85), 1);
-
-        // Scale down: 1 → 0.92
-        var scale = 1 - progress * 0.08;
-        // Border radius: 0 → 28px
-        var radius = progress * 28;
-        // Blur: 0 → 8px
-        var blur = progress * 8;
-
-        hero.style.transform = 'scale(' + scale + ')';
-        hero.style.borderRadius = radius + 'px';
-        hero.style.filter = 'blur(' + blur + 'px)';
-
-        // Darken overlay: 0 → 0.6
-        if (overlay) {
-          overlay.style.opacity = progress * 0.6;
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const heroH = hero.offsetHeight;
+        if (scrollY < heroH * 1.5) {
+          const progress = Math.min(scrollY / heroH, 1);
+          const scale = 1 - progress * 0.06;
+          const opacity = 1 - progress * 0.4;
+          const radius = progress * 24;
+          hero.style.transform = 'scale(' + scale + ')';
+          hero.style.opacity = opacity;
+          hero.style.borderRadius = radius + 'px';
         }
-
         ticking = false;
       });
       ticking = true;
     }
   }, { passive: true });
-}
-
-/* ----- Kora Text Scale — scroll-linked typography shrink ----- */
-function initKoraTextScale() {
-  var els = document.querySelectorAll('[data-kora-scale]');
-  if (!els.length) return;
-
-  var ticking = false;
-
-  function update() {
-    var scrollY = window.scrollY;
-    var viewH = window.innerHeight;
-
-    els.forEach(function (el) {
-      var rect = el.getBoundingClientRect();
-      var elCenter = rect.top + rect.height / 2;
-      // Progress: 0 when element enters bottom, 1 when at center, continues past
-      var progress = 1 - (elCenter / viewH);
-      progress = Math.max(0, Math.min(progress, 1));
-
-      // Scale: starts at 1.3, shrinks to 1
-      var scale = 1.3 - progress * 0.3;
-      // Opacity: 0 → 1
-      var opacity = Math.min(progress * 2, 1);
-
-      el.style.transform = 'scale(' + scale + ')';
-      el.style.opacity = opacity;
-    });
-    ticking = false;
-  }
-
-  window.addEventListener('scroll', function () {
-    if (!ticking) {
-      requestAnimationFrame(update);
-      ticking = true;
-    }
-  }, { passive: true });
-
-  // Initial call
-  update();
 }
 
 /* ----- Parallax Images Inside Containers ----- */

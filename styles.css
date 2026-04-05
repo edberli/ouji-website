@@ -97,7 +97,7 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 body {
@@ -105,7 +105,7 @@ body {
   color: var(--text-primary);
   background: var(--bg-primary);
   line-height: 1.6;
-  overflow-x: clip;
+  overflow-x: hidden;
   background-image:
     radial-gradient(ellipse at 25% 50%, rgba(109,163,181,0.10) 0%, transparent 55%),
     radial-gradient(ellipse at 75% 25%, rgba(141,189,204,0.08) 0%, transparent 45%),
@@ -3130,179 +3130,4 @@ main { padding-top: calc(var(--header-height) + 36px); }
 /* ----- Marquee hover slow-down effect ----- */
 .brand-marquee:hover .brand-marquee__track {
   animation-play-state: paused;
-}
-
-/* ============================================
-   KORA SCROLL STACK SYSTEM
-   Sticky hero + content slide-over + scroll-linked animations
-   ============================================ */
-
-/* Hero sticks at top — content slides over it */
-.hero.kora-hero {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  will-change: transform, opacity;
-  transform-origin: center center;
-}
-
-/* Dark overlay that fades in as user scrolls past hero */
-.hero__scroll-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  opacity: 0;
-  z-index: 5;
-  pointer-events: none;
-  will-change: opacity;
-}
-
-/* Content wrapper — rises over the sticky hero */
-.kora-content {
-  position: relative;
-  z-index: 2;
-  background: var(--bg-primary);
-  border-radius: 28px 28px 0 0;
-  margin-top: -28px;
-  background-image:
-    radial-gradient(ellipse at 25% 50%, rgba(109,163,181,0.10) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 25%, rgba(141,189,204,0.08) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 85%, rgba(181,213,223,0.08) 0%, transparent 50%);
-}
-
-/* Soft shadow at top of content for depth */
-.kora-content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  border-radius: 28px 28px 0 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.06), transparent);
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* ===== Pull Quote — Full Viewport Dramatic ===== */
-.pull-quote--kora {
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-5xl) var(--space-xl);
-}
-
-.pull-quote--kora .pull-quote__text {
-  font-size: clamp(1.8rem, 4.5vw, 3.5rem);
-  font-weight: 300;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
-}
-
-.pull-quote--kora .pull-quote__author {
-  margin-top: var(--space-2xl);
-  font-size: 0.85rem;
-}
-
-/* ===== Kora Brand Intro — Large Typography ===== */
-.brand-intro--kora .heading-lg {
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  letter-spacing: -0.04em;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.brand-intro--kora .body-lg {
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
-  max-width: 600px;
-}
-
-/* ===== Kora Text Scale — scroll-linked shrink ===== */
-[data-kora-scale] {
-  will-change: transform;
-  transform-origin: center center;
-}
-
-/* ===== Kora Panels — stacking within content ===== */
-.kora-panel {
-  position: relative;
-  background: var(--bg-primary);
-}
-
-.kora-panel--white {
-  background: var(--bg-secondary);
-}
-
-.kora-panel--elevated {
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.04);
-}
-
-/* ===== Enhanced Section Entrances for Kora ===== */
-.kora-reveal {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
-}
-
-.kora-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.kora-reveal--scale {
-  opacity: 0;
-  transform: translateY(40px) scale(0.96);
-  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
-}
-
-.kora-reveal--scale.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-/* ===== Kora Stats Section — full width with background ===== */
-.stats-section.kora-panel {
-  padding: var(--space-5xl) 0;
-  background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-dark) 100%);
-  color: var(--text-inverse);
-}
-
-.stats-section.kora-panel .stat-card {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(12px);
-}
-
-.stats-section.kora-panel .stat-card__number {
-  color: #ffffff;
-}
-
-.stats-section.kora-panel .stat-card__label {
-  color: rgba(255,255,255,0.75);
-}
-
-/* ===== Smooth Scroll (Lenis-like feel) ===== */
-html.kora-smooth {
-  scroll-behavior: auto; /* We handle smooth scroll via JS */
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .kora-content {
-    border-radius: 20px 20px 0 0;
-    margin-top: -20px;
-  }
-  .kora-content::before {
-    border-radius: 20px 20px 0 0;
-    height: 40px;
-  }
-  .pull-quote--kora {
-    min-height: 50vh;
-    padding: var(--space-3xl) var(--space-md);
-  }
-  .brand-intro--kora .heading-lg {
-    font-size: clamp(2rem, 10vw, 3.5rem);
-  }
 }
