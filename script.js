@@ -1,13 +1,23 @@
 /* ============================================
-   OUJI — Enhanced JavaScript v4.0
-   Rich Animations, Parallax, Interactions
+   OUJI — Premium Editorial JavaScript v5.0
+   Cinematic Scroll · Editorial Reveals · Luxury Motion
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Core reveals
   initScrollReveal();
   initBlurReveal();
   initStaggerReveal();
   initScaleReveal();
+  initDirectionReveals();
+  initSectionFloat();
+  initMoodBoardReveal();
+  initLookbookInView();
+  initDividerReveal();
+  initSplitText();
+  initWordReveal();
+
+  // Navigation & UI
   initMobileNav();
   initHeaderScroll();
   initFilterSidebar();
@@ -15,27 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuantityControls();
   initVariantSelectors();
   initCartActions();
-  initParallax();
-  initSmoothImages();
-  initScrollProgress();
-  initTiltCards();
-  initMagneticButtons();
-  initCursorGlow();
+
+  // Premium scroll effects
+  initKoraHeroScroll();
+  initKoraTextScale();
+  initScrollParallaxImages();
   initCountUp();
-  initRippleButtons();
+  initScrollProgress();
   initMarqueeHoverPause();
   initHScrollDrag();
-  initSplitText();
-  initWordReveal();
-  initDirectionReveals();
-  initSectionFloat();
-  initMoodBoardReveal();
-  initLookbookInView();
-  initDividerReveal();
-  initHeroScrollParallax();
-  initScrollParallaxImages();
-  initFloatingParticles();
-  // initBokeh(); // removed
+  initSmoothImages();
+
+  // Removed for premium restraint:
+  // initTiltCards, initMagneticButtons, initCursorGlow,
+  // initRippleButtons, initFloatingParticles, initParallax, initBokeh
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
@@ -676,31 +679,80 @@ function initDividerReveal() {
   dividers.forEach(d => observer.observe(d));
 }
 
-/* ----- Hero Scroll Parallax (shrink + fade on scroll) ----- */
-function initHeroScrollParallax() {
-  const hero = document.querySelector('.hero');
+/* ----- Kora Hero Scroll — cinematic sticky hero with scale + blur + darken ----- */
+function initKoraHeroScroll() {
+  var hero = document.querySelector('.hero.kora-hero');
   if (!hero) return;
 
-  let ticking = false;
-  window.addEventListener('scroll', () => {
+  var overlay = hero.querySelector('.hero__scroll-overlay');
+  var ticking = false;
+
+  window.addEventListener('scroll', function () {
     if (!ticking) {
-      requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const heroH = hero.offsetHeight;
-        if (scrollY < heroH * 1.5) {
-          const progress = Math.min(scrollY / heroH, 1);
-          const scale = 1 - progress * 0.06;
-          const opacity = 1 - progress * 0.4;
-          const radius = progress * 24;
-          hero.style.transform = 'scale(' + scale + ')';
-          hero.style.opacity = opacity;
-          hero.style.borderRadius = radius + 'px';
+      requestAnimationFrame(function () {
+        var scrollY = window.scrollY;
+        var heroH = hero.offsetHeight;
+        var progress = Math.min(scrollY / (heroH * 0.8), 1);
+
+        // Scale: 1 → 0.92 (restrained, premium)
+        var scale = 1 - progress * 0.08;
+        // Border radius: 0 → 28px
+        var radius = progress * 28;
+        // Blur: 0 → 6px (subtle)
+        var blur = progress * 6;
+
+        hero.style.transform = 'scale(' + scale + ')';
+        hero.style.borderRadius = radius + 'px';
+        hero.style.filter = 'blur(' + blur + 'px)';
+
+        // Darken overlay: 0 → 0.5
+        if (overlay) {
+          overlay.style.opacity = progress * 0.5;
         }
+
         ticking = false;
       });
       ticking = true;
     }
   }, { passive: true });
+}
+
+/* ----- Kora Text Scale — scroll-linked typography shrink ----- */
+function initKoraTextScale() {
+  var els = document.querySelectorAll('[data-kora-scale]');
+  if (!els.length) return;
+
+  var ticking = false;
+
+  function update() {
+    var viewH = window.innerHeight;
+
+    els.forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      var elCenter = rect.top + rect.height / 2;
+      // Progress: 0 at bottom of viewport, 1 at center
+      var progress = 1 - (elCenter / viewH);
+      progress = Math.max(0, Math.min(progress, 1));
+
+      // Scale: starts at 1.25, shrinks to 1
+      var scale = 1.25 - progress * 0.25;
+      // Opacity: 0.3 → 1
+      var opacity = 0.3 + progress * 0.7;
+
+      el.style.transform = 'scale(' + scale + ')';
+      el.style.opacity = opacity;
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  update();
 }
 
 /* ----- Parallax Images Inside Containers ----- */

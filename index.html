@@ -17,9 +17,6 @@
     <span class="page-loader__brand">OUJI</span>
   </div>
 
-  <!-- Floating Particles -->
-  <div class="particles"></div>
-
   <!-- Scroll Progress Bar -->
   <div class="scroll-progress"></div>
 
@@ -89,7 +86,8 @@
   <main>
 
     <!-- ===== HERO ===== -->
-    <section class="hero">
+    <section class="hero kora-hero">
+      <div class="hero__scroll-overlay"></div>
       <div class="hero__carousel">
         <div class="hero__carousel-track">
           <div class="hero__carousel-slide active"><picture><source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.webp" type="image/webp"><source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.png"><source srcset="assets/images/hero-1.webp" type="image/webp"><img src="assets/images/hero-1.png" alt=""></picture></div>
@@ -112,6 +110,9 @@
       </div>
       <div class="hero__cursor-glow"></div>
     </section>
+
+    <!-- Kora content wrapper — slides over sticky hero -->
+    <div class="kora-content">
 
     <!-- ===== MARQUEE ===== -->
     <div class="marquee">
@@ -496,7 +497,7 @@
     </section>
 
     <!-- ===== PULL QUOTE ===== -->
-    <section class="pull-quote reveal-blur">
+    <section class="pull-quote pull-quote--kora reveal-blur">
       <div class="container">
         <p class="pull-quote__text" data-word-reveal>
           每一瓶精華、每一支唇膏，都是我們對美的一次告白。
@@ -509,7 +510,7 @@
     <div class="section-divider"><span class="section-divider__line"></span><span class="section-divider__diamond"></span><span class="section-divider__line"></span></div>
 
     <!-- ===== BRAND STORY ===== -->
-    <section class="section--sm reveal-scale">
+    <section class="section--sm reveal-scale brand-intro--kora">
       <div class="container">
         <div class="brand-story">
           <div class="brand-story__visual parallax-img reveal-clip--right">
@@ -517,7 +518,7 @@
           </div>
           <div class="brand-story__content reveal-left">
             <span class="label">我們的理念</span>
-            <h2 class="heading-lg" data-split-text>Less, but Better</h2>
+            <h2 class="heading-lg" data-split-text data-kora-scale>Less, but Better</h2>
             <p class="body-lg">
               在資訊過載的時代，OUJI 相信「少即是精」。每一件上架的產品，都經過嚴格篩選——我們只推薦真正值得信賴、成分透明、設計出色的韓國品牌。
             </p>
@@ -528,7 +529,7 @@
     </section>
 
     <!-- ===== STATS ===== -->
-    <section class="stats-section reveal-blur">
+    <section class="stats-section kora-dark reveal-blur">
       <div class="container">
         <div class="stats-grid">
           <div class="stat-card gradient-border">
@@ -785,6 +786,7 @@
 
     <!-- ===== NEWSLETTER ===== -->
 
+    </div><!-- /.kora-content -->
   </main>
 
   <!-- Footer -->
