@@ -333,7 +333,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 
 /* ----- Announcement Bar ----- */
 .announcement-bar {
-  background: #262726;
+  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 50%, #1a2a30 100%);
   color: white;
   text-align: center;
   padding: 10px var(--space-md);
@@ -2167,7 +2167,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   border-radius: 3px;
 }
 
-/* ----- Floating Bubbles (Ocean) ----- */
+/* ----- Floating Particles ----- */
 .particles {
   position: fixed;
   inset: 0;
@@ -2178,21 +2178,19 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 .particle {
   position: absolute;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(109,163,181,0.1));
-  border: 1px solid rgba(255,255,255,0.15);
+  background: var(--primary-light);
   opacity: 0;
-  animation: bubbleFloat linear infinite;
+  animation: particleFloat linear infinite;
 }
 
-@keyframes bubbleFloat {
-  0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
-  10% { opacity: 0.25; transform: translateY(80vh) translateX(10px) scale(0.8); }
-  30% { transform: translateY(55vh) translateX(-15px) scale(1); }
-  50% { opacity: 0.2; transform: translateY(40vh) translateX(12px) scale(1.05); }
-  70% { transform: translateY(25vh) translateX(-8px) scale(0.95); }
-  90% { opacity: 0.15; }
-  100% { transform: translateY(-10vh) translateX(5px) scale(0.7); opacity: 0; }
+@keyframes particleFloat {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
 }
 
 /* ----- Video-like Ken Burns on Hero ----- */
@@ -3144,45 +3142,6 @@ main { padding-top: calc(var(--header-height) + 36px); }
   transform: rotate(45deg) scale(1);
 }
 
-/* ----- Ocean Wave Divider ----- */
-.wave-divider {
-  position: relative;
-  width: 100%;
-  height: 60px;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.wave-divider svg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  animation: waveDrift 8s ease-in-out infinite;
-}
-
-.wave-divider--flip svg {
-  top: 0;
-  bottom: auto;
-  transform: scaleY(-1);
-}
-
-.wave-divider--sm { height: 40px; }
-
-@keyframes waveDrift {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(-25%); }
-}
-
-.wave-divider--flip svg {
-  animation: waveDriftFlip 8s ease-in-out infinite;
-}
-
-@keyframes waveDriftFlip {
-  0%, 100% { transform: scaleY(-1) translateX(0); }
-  50% { transform: scaleY(-1) translateX(-25%); }
-}
 
 /* ----- Stat Counter Glow ----- */
 @keyframes glowPulse {
@@ -3360,163 +3319,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   animation-play-state: paused;
 }
 
-/* ============================================
-   OCEAN THEME
-   ============================================ */
-
-/* ----- Ocean Caustics Overlay ----- */
-.ocean-caustics {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.04;
-  background:
-    radial-gradient(ellipse at 20% 30%, rgba(109,163,181,0.6) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(130,175,193,0.5) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 50%, rgba(168,216,228,0.4) 0%, transparent 55%);
-  background-size: 120% 120%;
-  animation: causticsDrift 12s ease-in-out infinite;
-}
-
-@keyframes causticsDrift {
-  0%, 100% { background-position: 0% 0%; opacity: 0.04; }
-  33% { background-position: 5% -5%; opacity: 0.06; }
-  66% { background-position: -3% 3%; opacity: 0.03; }
-}
-
-/* ----- Hero Ocean Wave Bottom ----- */
-.hero__wave {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  z-index: 5;
-  overflow: hidden;
-}
-
-.hero__wave svg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  animation: heroWave 6s ease-in-out infinite;
-}
-
-@keyframes heroWave {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(-25%); }
-}
-
-/* ----- Ocean-style body gradient ----- */
-body {
-  background-image:
-    radial-gradient(ellipse at 20% 20%, rgba(109,163,181,0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 40%, rgba(141,189,204,0.08) 0%, transparent 45%),
-    radial-gradient(ellipse at 40% 80%, rgba(168,216,228,0.10) 0%, transparent 50%),
-    radial-gradient(ellipse at 60% 60%, rgba(109,163,181,0.05) 0%, transparent 60%) !important;
-}
-
-/* ----- Ocean Pull Quote ----- */
-.pull-quote {
-  background: linear-gradient(180deg,
-    rgba(109,163,181,0.08) 0%,
-    rgba(141,189,204,0.12) 40%,
-    rgba(168,216,228,0.08) 70%,
-    rgba(109,163,181,0.05) 100%) !important;
-}
-
-/* ----- Ocean Stats Section ----- */
-.stats-section::before {
-  background: linear-gradient(135deg,
-    rgba(109,163,181,0.06) 0%,
-    rgba(141,189,204,0.10) 30%,
-    rgba(168,216,228,0.08) 60%,
-    rgba(109,163,181,0.05) 100%) !important;
-  background-size: 200% 200% !important;
-  animation: oceanGradientShift 10s ease-in-out infinite !important;
-}
-
-@keyframes oceanGradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* ----- Ocean Brand Intro ----- */
-.section--brand-intro {
-  background: linear-gradient(180deg,
-    rgba(109,163,181,0.06) 0%,
-    rgba(141,189,204,0.10) 40%,
-    rgba(168,216,228,0.08) 70%,
-    rgba(109,163,181,0.05) 100%) !important;
-}
-
-/* ----- Ocean Newsletter ----- */
-.newsletter {
-  background: linear-gradient(135deg,
-    #3d7a8f 0%,
-    #527d8d 25%,
-    #6395a6 50%,
-    #4a8a9e 75%,
-    #3d7a8f 100%) !important;
-  background-size: 200% 200% !important;
-  animation: oceanNewsletter 8s ease-in-out infinite;
-}
-
-@keyframes oceanNewsletter {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* ----- Ocean Footer ----- */
+/* ----- Deep Footer Override ----- */
 .footer {
   background: linear-gradient(180deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #0f1a1e 100%) !important;
-}
-
-/* ----- Ocean Video Showcase ----- */
-.video-showcase {
-  background: linear-gradient(180deg,
-    #0a1215 0%,
-    #0f1c22 30%,
-    #122028 60%,
-    #0a1215 100%) !important;
-}
-
-.video-showcase::before {
-  background: radial-gradient(ellipse at 30% 20%, rgba(109,163,181,0.06) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 80%, rgba(141,189,204,0.04) 0%, transparent 50%) !important;
-}
-
-/* ----- Ocean Marquee ----- */
-.marquee {
-  background: linear-gradient(135deg, #162530 0%, #1e3038 40%, #1a2a30 70%, #142228 100%) !important;
-}
-
-/* ----- Water Ripple on Product Cards ----- */
-.product-card__image-wrap::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(109,163,181,0.15) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.product-card:hover .product-card__image-wrap::before {
-  opacity: 1;
-}
-
-/* ----- Ocean Stat Card ----- */
-.stat-card {
-  border: 1px solid rgba(109,163,181,0.2) !important;
-  background: rgba(255,255,255,0.5) !important;
-}
-
-.stat-card:hover {
-  border-color: rgba(109,163,181,0.35) !important;
-  box-shadow: 0 12px 40px rgba(109,163,181,0.15), 0 0 60px rgba(109,163,181,0.05) !important;
 }
