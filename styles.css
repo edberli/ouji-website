@@ -386,7 +386,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   box-shadow: 0 4px 30px rgba(30,48,56,0.06);
   border-bottom: 1px solid rgba(30,48,56,0.08);
 }
-.header.is-scrolled .header__logo { color: var(--dark-base); }
+.header.is-scrolled .header__logo { color: #6395a6; }
 .header.is-scrolled .header__nav a { color: var(--text-secondary); }
 .header.is-scrolled .header__nav a:hover { color: var(--dark-base); }
 .header.is-scrolled .header__action-btn { color: var(--text-secondary); }
