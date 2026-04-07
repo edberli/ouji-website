@@ -1178,10 +1178,10 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .video-showcase__item iframe,
 .video-showcase__featured iframe {
   position: absolute;
-  top: 0;
+  top: -60px;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% + 120px);
   border: none;
   pointer-events: none;
 }
