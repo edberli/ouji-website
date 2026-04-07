@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroScrollParallax();
   initScrollParallaxImages();
   initFloatingParticles();
-  // initBokeh(); // removed
+  initWaterRipple();
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
@@ -528,16 +528,30 @@ function initFloatingParticles() {
   const container = document.querySelector('.particles');
   if (!container) return;
 
-  for (let i = 0; i < 20; i++) {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
-    particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-    particle.style.animationDelay = (Math.random() * 10) + 's';
-    particle.style.opacity = Math.random() * 0.2 + 0.05;
-    container.appendChild(particle);
+  for (let i = 0; i < 15; i++) {
+    const bubble = document.createElement('div');
+    bubble.classList.add('particle');
+    bubble.style.left = Math.random() * 100 + '%';
+    const size = Math.random() * 12 + 4;
+    bubble.style.width = bubble.style.height = size + 'px';
+    bubble.style.animationDuration = (Math.random() * 20 + 15) + 's';
+    bubble.style.animationDelay = (Math.random() * 15) + 's';
+    container.appendChild(bubble);
   }
+}
+
+/* ----- Water Ripple on Product Cards ----- */
+function initWaterRipple() {
+  const cards = document.querySelectorAll('.product-card__image-wrap');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--ripple-x', x + '%');
+      card.style.setProperty('--ripple-y', y + '%');
+    });
+  });
 }
 
 /* ----- Split Text into Characters ----- */
