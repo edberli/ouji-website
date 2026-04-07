@@ -1080,7 +1080,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   overflow: hidden;
   white-space: nowrap;
   padding: var(--space-xl) 0;
-  background: linear-gradient(135deg, #1a1f1a 0%, #262726 40%, #2a2f2e 70%, #1e2322 100%);
+  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #1a2a30 100%);
   border-top: none;
   border-bottom: none;
 }
