@@ -914,7 +914,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
   box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   text-decoration: none;
   transition: all 0.2s var(--ease-out);
-  border: 1px solid transparent;
+  border: 1px solid rgba(30,48,56,0.06);
+  box-shadow: 0 2px 12px rgba(30,48,56,0.04);
 }
 @media (min-width: 640px) {
   .brand-card {
@@ -924,9 +925,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
   }
 }
 .brand-card:hover {
-  box-shadow: 0 8px 32px rgba(109,163,181,0.14);
+  box-shadow: 0 8px 32px rgba(30,48,56,0.1);
   border-color: rgba(109,163,181,0.2);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 .brand-card__logo-wrap {
   height: 48px;
