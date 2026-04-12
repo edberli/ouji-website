@@ -935,7 +935,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
 }
 @media (min-width: 640px) {
   .brand-card__logo-wrap {
-    height: 180px;
+    height: 110px;
   }
 }
 .brand-card img {
@@ -956,8 +956,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
 }
 @media (min-width: 640px) {
   .brand-card img {
-    max-height: 160px;
-    max-width: 85%;
+    max-height: 55px;
+    max-width: 80%;
   }
 }
 .brand-card span {
