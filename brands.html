@@ -74,23 +74,30 @@
     </div>
   </nav>
 
-  <main style="padding-top: 100px;">
+  <main class="brands-page" style="padding-top: 100px;">
 
-    <section class="section" style="background: linear-gradient(135deg, #527d8d 0%, #6395a6 50%, #82afc1 100%); padding-top: var(--space-5xl); padding-bottom: var(--space-5xl);">
+    <!-- Smoke video background -->
+    <div class="brands-page__video">
+      <video autoplay muted loop playsinline>
+        <source src="videos/smoke-bg.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <section class="section brands-page__hero">
       <div class="container">
         <div class="section-header" style="text-align: center;">
           <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em; color: #ffffff;">所有品牌</h1>
-          <p class="body-lg" style="color: rgba(255,255,255,0.75); margin-top: 12px;">探索 OUJI 精選的 60+ 韓國美妝護膚品牌</p>
+          <p class="body-lg" style="color: rgba(255,255,255,0.65); margin-top: 12px;">探索 OUJI 精選的 60+ 韓國美妝護膚品牌</p>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section brands-section--makeup">
       <div class="container">
         <!-- 彩妝品牌 -->
-        <div id="makeup-brands" style="margin-bottom: 60px;">
+        <div id="makeup-brands">
           <div style="margin-bottom: 32px;">
-            <span style="display: inline-block; background: linear-gradient(135deg, #527d8d, #6395a6); color: #fff; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; padding: 8px 24px; border-radius: 100px;">彩妝品牌 · 23 brands</span>
+            <span class="brands-page__label brands-page__label--makeup">彩妝品牌 · 23 brands</span>
           </div>
           <div class="brands-grid">
             <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/romand.svg" alt="rom&nd"></div><span>ROM&ND</span></a>
@@ -115,21 +122,35 @@
             <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/jung-saem-mool.svg" alt="Jung Saem Mool"></div><span>JUNG SAEM MOOL</span></a>
             <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/sungboon-editor.svg" alt="Sungboon Editor"></div><span>SUNGBOON EDITOR</span></a>
             <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/ootd.svg" alt="OOTD"></div><span>OOTD</span></a>
-            <a href="makeup.html" class="brand-card brand-card--compact"><div class="brand-card__logo-wrap"><img src="logos/dasique.png" alt="dasique"></div><span>DASIQUE</span></a>
+            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/dasique.png" alt="dasique"></div><span>DASIQUE</span></a>
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <hr class="brands-divider">
+
+    <section class="section brands-section--skincare">
+      <div class="container">
         <!-- 護膚品牌 -->
-        <div style="background: linear-gradient(180deg, rgba(249,239,228,0.3) 0%, rgba(240,221,200,0.15) 100%); margin: 0 calc(-1 * var(--space-2xl)); padding: 48px var(--space-2xl); border-radius: 0;">
+        <div>
           <div style="margin-bottom: 32px;">
-            <span style="display: inline-block; background: linear-gradient(135deg, #527d8d, #6395a6); color: #fff; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; padding: 8px 24px; border-radius: 100px;">護膚品牌 · 28 brands</span>
+            <span class="brands-page__label brands-page__label--skincare">護膚品牌 · 28 brands</span>
           </div>
           <div class="brands-grid">
+            <!-- 粗體/重字體 logo 放埋一齊 -->
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/cosrx.png" alt="COSRX"></div><span>COSRX</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon"></div><span>BEAUTY OF JOSEON</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/torriden.svg" alt="Torriden"></div><span>TORRIDEN</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/anua.png" alt="ANUA"></div><span>ANUA</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img style="max-width:100%" src="logos/skin1004.png" alt="SKIN1004"></div><span>SKIN1004</span></a>
+            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/skin1004.png" alt="SKIN1004"></div><span>SKIN1004</span></a>
+            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/axis-y.png" alt="AXIS-Y"></div><span>AXIS-Y</span></a>
+            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/abib.svg" alt="Abib"></div><span>ABIB</span></a>
+            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/beplain.png" alt="beplain"></div><span>BEPLAIN</span></a>
+            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/innisfree.svg" alt="innisfree"></div><span>INNISFREE</span></a>
+            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/dr-jart.png" alt="Dr.Jart+"></div><span>DR.JART+</span></a>
+            <!-- 標準字體 logo -->
+            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon"></div><span>BEAUTY OF JOSEON</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/mixsoon.svg" alt="MIXSOON"></div><span>MIXSOON</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/goodal.svg" alt="Goodal"></div><span>GOODAL</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/some-by-mi.svg" alt="Some By Mi"></div><span>SOME BY MI</span></a>
@@ -139,7 +160,6 @@
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/purito.svg" alt="Purito"></div><span>PURITO</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/needly.svg" alt="Needly"></div><span>NEEDLY</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/tocobo.svg" alt="Tocobo"></div><span>TOCOBO</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img style="max-width:100%" src="logos/axis-y.png" alt="AXIS-Y"></div><span>AXIS-Y</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/manyo.svg" alt="Manyo"></div><span>MANYO</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/so-natural.svg" alt="So Natural"></div><span>SO NATURAL</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/vt-cosmetics.svg" alt="VT Cosmetics"></div><span>VT COSMETICS</span></a>
@@ -148,11 +168,7 @@
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/lindsay.svg" alt="Lindsay"></div><span>LINDSAY</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/heveblue.svg" alt="Heveblue"></div><span>HEVEBLUE</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/solep.svg" alt="Solep"></div><span>SOLEP</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/abib.svg" alt="Abib"></div><span>ABIB</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/beplain.png" alt="beplain"></div><span>BEPLAIN</span></a>
             <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/boh.svg" alt="BOH"></div><span>BOH</span></a>
-            <a href="category.html" class="brand-card brand-card--compact"><div class="brand-card__logo-wrap"><img src="logos/innisfree.svg" alt="innisfree"></div><span>INNISFREE</span></a>
-            <a href="category.html" class="brand-card brand-card--compact"><div class="brand-card__logo-wrap"><img src="logos/dr-jart.png" alt="Dr.Jart+"></div><span>DR.JART+</span></a>
           </div>
         </div>
 
