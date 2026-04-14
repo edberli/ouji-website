@@ -962,8 +962,6 @@ main { padding-top: calc(var(--header-height) + 36px); }
 /* ── Section label pills — warm vs cool ── */
 .brands-page__label {
   display: inline-block;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -972,12 +970,12 @@ main { padding-top: calc(var(--header-height) + 36px); }
   border-radius: 100px;
 }
 .brands-page__label--makeup {
-  background: rgba(200,140,110,0.15);
+  background: rgba(200,140,110,0.22);
   color: rgba(235,190,160,0.9);
   border: 1px solid rgba(200,150,120,0.2);
 }
 .brands-page__label--skincare {
-  background: rgba(100,170,190,0.12);
+  background: rgba(100,170,190,0.18);
   color: rgba(150,210,220,0.9);
   border: 1px solid rgba(110,180,200,0.18);
 }
@@ -1016,14 +1014,12 @@ main { padding-top: calc(var(--header-height) + 36px); }
   justify-content: center;
   position: relative;
   aspect-ratio: 2 / 1;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(36,56,64,0.75);
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 2px 16px rgba(0,0,0,0.15);
   text-decoration: none;
-  transition: all 0.2s var(--ease-out);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), border-color 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
   padding: 10px 6px;
 }
 @media (min-width: 640px) {
@@ -1033,7 +1029,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   }
 }
 .brand-card:hover {
-  background: rgba(255,255,255,0.14);
+  background: rgba(50,75,85,0.85);
   box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   border-color: rgba(255,255,255,0.2);
   transform: translateY(-4px);
