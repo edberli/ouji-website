@@ -76,10 +76,11 @@
 
   <main class="brands-page" style="padding-top: 100px;">
 
-    <!-- Smoke video background -->
+    <!-- Smoke video background (lazy-loaded) -->
     <div class="brands-page__video">
-      <video autoplay muted loop playsinline>
-        <source src="videos/smoke-bg.mp4" type="video/mp4">
+      <video autoplay muted loop playsinline preload="none" id="smoke-bg">
+        <source src="videos/smoke-bg-short.webm" type="video/webm">
+        <source src="videos/smoke-bg-short.mp4" type="video/mp4">
       </video>
     </div>
 
@@ -255,5 +256,18 @@
 
   <script src="shopify.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Skip video loading on mobile to save bandwidth
+    (function() {
+      var v = document.getElementById('smoke-bg');
+      if (!v) return;
+      if (window.innerWidth < 640) {
+        v.removeAttribute('autoplay');
+        v.removeAttribute('src');
+        while (v.firstChild) v.removeChild(v.firstChild);
+        v.load();
+      }
+    })();
+  </script>
 </body>
 </html>
