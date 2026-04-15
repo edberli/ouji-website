@@ -2793,13 +2793,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
   border-color: rgba(109,163,181,0.3);
 }
 
-/* ----- Newsletter warm+blue gradient ----- */
+/* ----- Newsletter — deep teal to match dark sections ----- */
 .newsletter {
-  background: linear-gradient(135deg,
-    var(--primary-deep) 0%,
-    var(--primary-dark) 30%,
-    var(--primary) 60%,
-    var(--warm-500) 100%) !important;
+  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 50%, #24353e 100%) !important;
 }
 
 /* ----- Animated floating badge on hero ----- */
