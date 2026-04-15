@@ -198,41 +198,13 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .section { padding: var(--space-5xl) 0; position: relative; }
 .section--sm { padding: var(--space-4xl) 0; }
 .section--brand-intro {
-  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #1a2a30 100%) !important;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 45%, rgba(70,110,125,0.18) 0%, transparent 70%),
+    linear-gradient(135deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #1a2a30 100%);
   color: #ffffff;
   position: relative;
   overflow: hidden;
   border-top: 1px solid rgba(99,149,166,0.2);
-}
-
-.section--brand-intro .brand-intro__video {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.section--brand-intro .brand-intro__video video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-  opacity: 0.45;
-  filter: saturate(0.5) brightness(0.8);
-}
-
-.section--brand-intro .brand-intro__video::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(26,42,48,0.5) 0%,
-    rgba(30,48,56,0.4) 50%,
-    rgba(26,42,48,0.55) 100%);
-  pointer-events: none;
 }
 
 .section--brand-intro .container {
