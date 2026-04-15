@@ -1253,20 +1253,38 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 /* ----- Newsletter ----- */
 .newsletter {
-  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 50%, #24353e 100%);
+  background: #1a2a30;
   position: relative;
   text-align: center;
   padding: var(--space-5xl) var(--space-2xl);
   overflow: hidden;
 }
 
-.newsletter::before {
+/* Smoke video bg */
+.newsletter__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.newsletter__video video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  filter: saturate(0.5) brightness(0.7);
+  pointer-events: none;
+}
+.newsletter__video::after {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.08) 0%, transparent 40%);
+  background: linear-gradient(180deg,
+    rgba(26,42,48,0.55) 0%,
+    rgba(30,48,56,0.45) 50%,
+    rgba(26,42,48,0.6) 100%);
+  pointer-events: none;
 }
 
 .newsletter__title { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 300; color: white; margin-bottom: var(--space-md); position: relative; }
@@ -2793,9 +2811,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
   border-color: rgba(109,163,181,0.3);
 }
 
-/* ----- Newsletter — deep teal to match dark sections ----- */
+/* ----- Newsletter — dark smoke bg ----- */
 .newsletter {
-  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 50%, #24353e 100%) !important;
+  background: #1a2a30 !important;
 }
 
 /* ----- Animated floating badge on hero ----- */
