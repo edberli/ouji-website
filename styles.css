@@ -199,6 +199,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .section--sm { padding: var(--space-4xl) 0; }
 /* ----- Brand Intro (light cream, between dark hero and dark brand marquees) ----- */
 .section--brand-intro {
+  /* Compact padding so users reach content below quickly */
+  padding: clamp(48px, 6vw, 80px) 0 !important;
   background:
     radial-gradient(ellipse 70% 55% at 50% 40%, rgba(99,149,166,0.08) 0%, transparent 70%),
     linear-gradient(180deg, var(--warm-50) 0%, #fbf4ec 50%, var(--warm-50) 100%);
@@ -211,7 +213,58 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 
 .section--brand-intro .container {
   position: relative;
+  z-index: 2;
+}
+
+/* Tighten inner spacing */
+.section--brand-intro .section-header {
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+/* ----- Falling petals (CSS only, zero bandwidth) ----- */
+.section--brand-intro .petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   z-index: 1;
+}
+.section--brand-intro .petal {
+  position: absolute;
+  top: -24px;
+  width: 14px;
+  height: 18px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(252,210,210,0.65) 0%, rgba(245,190,190,0.35) 60%, transparent 100%);
+  border-radius: 60% 60% 60% 0;
+  transform-origin: center;
+  opacity: 0;
+  filter: blur(0.4px);
+  animation: petalFall linear infinite;
+  will-change: transform, opacity;
+}
+.section--brand-intro .petal:nth-child(even) {
+  background: radial-gradient(ellipse at 50% 30%, rgba(249,228,199,0.6) 0%, rgba(240,210,170,0.3) 60%, transparent 100%);
+}
+.section--brand-intro .petal:nth-child(1)  { left:  8%; width: 12px; height: 15px; animation-duration: 14s; animation-delay: 0s; }
+.section--brand-intro .petal:nth-child(2)  { left: 18%; width: 10px; height: 13px; animation-duration: 18s; animation-delay: -3s; }
+.section--brand-intro .petal:nth-child(3)  { left: 28%; width: 15px; height: 19px; animation-duration: 12s; animation-delay: -7s; }
+.section--brand-intro .petal:nth-child(4)  { left: 38%; width: 11px; height: 14px; animation-duration: 16s; animation-delay: -1s; }
+.section--brand-intro .petal:nth-child(5)  { left: 50%; width: 13px; height: 17px; animation-duration: 20s; animation-delay: -10s; }
+.section--brand-intro .petal:nth-child(6)  { left: 60%; width:  9px; height: 11px; animation-duration: 15s; animation-delay: -5s; }
+.section--brand-intro .petal:nth-child(7)  { left: 70%; width: 14px; height: 18px; animation-duration: 13s; animation-delay: -8s; }
+.section--brand-intro .petal:nth-child(8)  { left: 80%; width: 10px; height: 13px; animation-duration: 17s; animation-delay: -2s; }
+.section--brand-intro .petal:nth-child(9)  { left: 88%; width: 12px; height: 15px; animation-duration: 19s; animation-delay: -12s; }
+.section--brand-intro .petal:nth-child(10) { left: 94%; width:  9px; height: 12px; animation-duration: 16s; animation-delay: -6s; }
+
+@keyframes petalFall {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.85; }
+  50%  { transform: translate3d(28px, 280px, 0) rotate(180deg); }
+  90%  { opacity: 0.85; }
+  100% { transform: translate3d(-18px, 560px, 0) rotate(360deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section--brand-intro .petal { animation: none; opacity: 0; }
 }
 
 /* ----- Newsletter Note ----- */
@@ -240,11 +293,12 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   line-height: 1.9;
 }
 
-/* Stats cards inside brand intro (light theme) */
+/* Stats cards inside brand intro (light theme, compact) */
 .section--brand-intro .stats-grid {
-  margin-top: clamp(48px, 6vw, 80px);
+  margin-top: clamp(24px, 3vw, 40px);
 }
 .section--brand-intro .stat-card {
+  padding: 20px 12px 16px;
   background: rgba(255,255,255,0.65);
   border: 1px solid rgba(99,149,166,0.15);
   backdrop-filter: none;
