@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUJI — Color Direction</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans+TC:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans TC', 'Inter', sans-serif; background: #111; color: #fff; -webkit-font-smoothing: antialiased; }
+
+  .page-header { text-align: center; padding: 80px 20px 60px; }
+  .page-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; letter-spacing: 0.2em; margin-bottom: 16px; }
+  .page-header p { font-size: 0.85rem; color: #888; letter-spacing: 0.05em; }
+  .page-header .divider { width: 40px; height: 1px; background: #444; margin: 24px auto 0; }
+
+  .section-label { text-align: center; padding: 60px 20px 40px; }
+  .section-label h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.15em; color: #aaa; }
+  .section-label span { display: block; font-size: 0.7rem; color: #555; letter-spacing: 0.12em; margin-top: 8px; text-transform: uppercase; }
+
+  .palettes { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+  .palette { margin-bottom: 80px; background: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #2a2a2a; }
+
+  .palette-header { padding: 40px 44px 32px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .palette-info {}
+  .palette-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 6px; }
+  .palette-desc { font-size: 0.8rem; color: #888; margin-bottom: 14px; }
+  .palette-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { border: 1px solid #333; padding: 3px 12px; border-radius: 20px; font-size: 0.65rem; color: #777; letter-spacing: 0.03em; }
+  .badge-rec { background: linear-gradient(135deg, #c9a96e, #dfc07a); color: #1a1a1a; font-size: 0.65rem; padding: 5px 14px; border-radius: 20px; font-weight: 600; letter-spacing: 0.05em; align-self: flex-start; margin-top: 6px; }
+
+  /* Swatches */
+  .swatches { display: flex; margin: 0 44px; border-radius: 12px; overflow: hidden; height: 80px; }
+  .swatch { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+  .swatch-label { font-size: 0.6rem; letter-spacing: 0.08em; opacity: 0.8; }
+  .swatch-hex { font-size: 0.65rem; font-family: 'Inter', monospace; opacity: 0.6; }
+
+  /* Mini site mockup */
+  .mockup-wrap { padding: 32px 44px 0; }
+  .mockup-title { font-size: 0.7rem; color: #555; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  .mockup { border-radius: 12px; overflow: hidden; border: 1px solid #333; }
+
+  .m-bar { padding: 7px; text-align: center; font-size: 0.6rem; letter-spacing: 0.1em; font-weight: 400; }
+  .m-nav { padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; }
+  .m-logo { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.18em; }
+  .m-links { font-size: 0.65rem; letter-spacing: 0.06em; font-weight: 300; opacity: 0.7; }
+  .m-hero { height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .m-hero-title { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; letter-spacing: 0.05em; }
+  .m-hero-sub { font-size: 0.65rem; letter-spacing: 0.12em; margin-top: 8px; opacity: 0.7; }
+  .m-ticker { padding: 12px; text-align: center; font-size: 0.6rem; letter-spacing: 0.2em; font-weight: 500; }
+  .m-section { padding: 44px 28px; text-align: center; }
+  .m-label { font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .m-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 10px; letter-spacing: 0.02em; }
+  .m-body { font-size: 0.72rem; line-height: 1.7; max-width: 380px; margin: 0 auto 20px; }
+  .m-btn { display: inline-block; padding: 10px 32px; border-radius: 4px; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
+  .m-btn-outline { background: transparent; border: 1px solid; }
+  .m-stats { display: flex; justify-content: center; gap: 52px; padding: 36px 28px; }
+  .m-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; }
+  .m-stat-label { font-size: 0.55rem; letter-spacing: 0.1em; margin-top: 4px; text-transform: uppercase; }
+  .m-quote { padding: 52px 40px; text-align: center; }
+  .m-quote-text { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; font-style: italic; line-height: 1.6; max-width: 420px; margin: 0 auto; }
+  .m-footer { padding: 20px; text-align: center; font-size: 0.6rem; letter-spacing: 0.15em; }
+
+  /* Usage */
+  .usage-wrap { padding: 28px 44px 36px; }
+  .usage-title { font-size: 0.7rem; color: #555; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+  .usage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+  .usage-item { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: #777; }
+  .usage-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+
+  .palette-divider { height: 1px; background: #2a2a2a; margin: 0 44px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>O U J I</h1>
+  <p>Color Direction — 配色方案比較</p>
+  <div class="divider"></div>
+</div>
+
+<!-- ===================== BLUE SECTION ===================== -->
+<div class="section-label">
+  <h2>Blue Palettes</h2>
+  <span>藍色系方案</span>
+</div>
+
+<div class="palettes">
+
+  <!-- BLUE 1: Midnight Coastal -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-info">
+        <div class="palette-name">Midnight Coastal</div>
+        <div class="palette-desc">深邃午夜藍配玫瑰金 — 似翻開 Harper's Bazaar 嘅質感</div>
+        <div class="palette-tags">
+          <span class="tag">Editorial</span>
+          <span class="tag">Luxury</span>
+          <span class="tag">高對比</span>
+        </div>
+      </div>
+      <div class="badge-rec">RECOMMENDED</div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#1b3a4b; color:#fff;"><span class="swatch-label">主色</span><span class="swatch-hex">#1b3a4b</span></div>
+      <div class="swatch" style="background:#0d1f2d; color:#fff;"><span class="swatch-label">深色</span><span class="swatch-hex">#0d1f2d</span></div>
+      <div class="swatch" style="background:#d4a373; color:#fff;"><span class="swatch-label">玫瑰金</span><span class="swatch-hex">#d4a373</span></div>
+      <div class="swatch" style="background:#f5f0eb; color:#1b3a4b;"><span class="swatch-label">米白底</span><span class="swatch-hex">#f5f0eb</span></div>
+      <div class="swatch" style="background:#e8ddd3; color:#1b3a4b;"><span class="swatch-label">暖灰底</span><span class="swatch-hex">#e8ddd3</span></div>
+    </div>
+    <div class="mockup-wrap"><div class="mockup-title">Preview</div>
+      <div class="mockup">
+        <div class="m-bar" style="background:#d4a373; color:#0d1f2d;">全單滿 HK$400 免運費 · 新客首單 9 折</div>
+        <div class="m-nav" style="background:#0d1f2d; color:#fff;"><span class="m-logo">O U J I</span><span class="m-links">護膚 &nbsp; 彩妝 &nbsp; 香氛</span></div>
+        <div class="m-hero" style="background: linear-gradient(160deg, #1b3a4b 0%, #0d1f2d 100%); color:#fff;">
+          <div class="m-hero-title" style="color:#d4a373;">Coralhaze</div>
+          <div class="m-hero-sub" style="color:rgba(255,255,255,0.5);">KOREA OFFICIAL AMBASSADOR</div>
+        </div>
+        <div class="m-ticker" style="background:#d4a373; color:#0d1f2d;">TIRTIR &nbsp; · &nbsp; ROM&ND &nbsp; · &nbsp; DASIQUE &nbsp; · &nbsp; HINCE &nbsp; · &nbsp; ABIB</div>
+        <div class="m-section" style="background:#f5f0eb; color:#0d1f2d;">
+          <span class="m-label" style="color:#d4a373;">關於 OUJI</span>
+          <div class="m-heading">精選，源於講究</div>
+          <div class="m-body" style="color:#666;">OUJI 甄選韓國最具質感的美妝與護膚品牌，為追求精緻生活的你</div>
+          <div class="m-btn" style="background:#1b3a4b; color:#fff;">探索更多</div>
+        </div>
+        <div class="m-quote" style="background:#1b3a4b; color:#fff;">
+          <div class="m-quote-text" style="color:#d4a373;">"每一件產品，都是一次對美的致敬"</div>
+        </div>
+        <div class="m-stats" style="background:#e8ddd3; color:#0d1f2d;">
+          <div><div class="m-stat-num" style="color:#1b3a4b;">50+</div><div class="m-stat-label">合作品牌</div></div>
+          <div><div class="m-stat-num" style="color:#1b3a4b;">2000+</div><div class="m-stat-label">精選產品</div></div>
+          <div><div class="m-stat-num" style="color:#1b3a4b;">98%</div><div class="m-stat-label">好評率</div></div>
+        </div>
+        <div class="m-section" style="background:#f5f0eb; color:#0d1f2d;">
+          <div class="m-heading">本週精選</div>
+          <div class="m-body" style="color:#666;">編輯部嚴選嘅當季必備單品</div>
+          <div class="m-btn-outline" style="color:#1b3a4b; border-color:#1b3a4b; padding:10px 32px; font-size:0.65rem; letter-spacing:0.12em;">立即選購</div>
+        </div>
+        <div class="m-footer" style="background:#0d1f2d; color:rgba(255,255,255,0.4);">O U J I &nbsp; © 2025</div>
+      </div>
+    </div>
+    <div class="palette-divider" style="margin-top:28px;"></div>
+    <div class="usage-wrap">
+      <div class="usage-title">Color Usage</div>
+      <div class="usage-grid">
+        <div class="usage-item"><div class="usage-dot" style="background:#1b3a4b;"></div>品牌介紹、quote section、CTA 按鈕</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#0d1f2d;"></div>Header (nav)、Footer</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#d4a373;"></div>Announcement bar、ticker、label 標籤、accent</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#f5f0eb;"></div>主要內容區域背景</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#e8ddd3;"></div>統計、交替區域背景</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLUE 2: Nordic Ice -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-info">
+        <div class="palette-name">Nordic Ice</div>
+        <div class="palette-desc">冰感淺藍配炭灰 — Scandinavian 極簡美學，乾淨而現代</div>
+        <div class="palette-tags">
+          <span class="tag">Minimal</span>
+          <span class="tag">清新</span>
+          <span class="tag">北歐風</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#7db8ce; color:#fff;"><span class="swatch-label">主色</span><span class="swatch-hex">#7db8ce</span></div>
+      <div class="swatch" style="background:#2c2c2c; color:#fff;"><span class="swatch-label">炭灰</span><span class="swatch-hex">#2c2c2c</span></div>
+      <div class="swatch" style="background:#d6eef5; color:#4a8ea5;"><span class="swatch-label">淺冰藍</span><span class="swatch-hex">#d6eef5</span></div>
+      <div class="swatch" style="background:#fafafa; color:#333;"><span class="swatch-label">純白底</span><span class="swatch-hex">#fafafa</span></div>
+      <div class="swatch" style="background:#e6c9a8; color:#fff;"><span class="swatch-label">裸粉金</span><span class="swatch-hex">#e6c9a8</span></div>
+    </div>
+    <div class="mockup-wrap"><div class="mockup-title">Preview</div>
+      <div class="mockup">
+        <div class="m-bar" style="background:#7db8ce; color:#fff;">全單滿 HK$400 免運費 · 新客首單 9 折</div>
+        <div class="m-nav" style="background:#fafafa; color:#2c2c2c; border-bottom:1px solid #eee;"><span class="m-logo">O U J I</span><span class="m-links">護膚 &nbsp; 彩妝 &nbsp; 香氛</span></div>
+        <div class="m-hero" style="background: linear-gradient(135deg, #d6eef5 0%, #7db8ce 100%); color:#fff;">
+          <div class="m-hero-title">Coralhaze</div>
+          <div class="m-hero-sub">KOREA OFFICIAL AMBASSADOR</div>
+        </div>
+        <div class="m-ticker" style="background:#2c2c2c; color:rgba(255,255,255,0.75);">TIRTIR &nbsp; · &nbsp; ROM&ND &nbsp; · &nbsp; DASIQUE &nbsp; · &nbsp; HINCE &nbsp; · &nbsp; ABIB</div>
+        <div class="m-section" style="background:#fafafa; color:#2c2c2c;">
+          <span class="m-label" style="color:#7db8ce;">關於 OUJI</span>
+          <div class="m-heading">精選，源於講究</div>
+          <div class="m-body" style="color:#888;">OUJI 甄選韓國最具質感的美妝與護膚品牌，為追求精緻生活的你</div>
+          <div class="m-btn" style="background:#7db8ce; color:#fff;">探索更多</div>
+        </div>
+        <div class="m-section" style="background:#d6eef5; color:#2c2c2c;">
+          <span class="m-label" style="color:#5a9db5;">合作品牌</span>
+          <div class="m-heading">Our Brands</div>
+          <div class="m-body" style="color:#5a8090;">匯集韓國最具人氣與口碑的美妝護膚品牌</div>
+        </div>
+        <div class="m-stats" style="background:#fafafa; color:#2c2c2c;">
+          <div><div class="m-stat-num" style="color:#7db8ce;">50+</div><div class="m-stat-label">合作品牌</div></div>
+          <div><div class="m-stat-num" style="color:#7db8ce;">2000+</div><div class="m-stat-label">精選產品</div></div>
+          <div><div class="m-stat-num" style="color:#7db8ce;">98%</div><div class="m-stat-label">好評率</div></div>
+        </div>
+        <div class="m-quote" style="background:#7db8ce; color:#fff;">
+          <div class="m-quote-text">"每一件產品，都是一次對美的致敬"</div>
+        </div>
+        <div class="m-footer" style="background:#2c2c2c; color:rgba(255,255,255,0.4);">O U J I &nbsp; © 2025</div>
+      </div>
+    </div>
+    <div class="palette-divider" style="margin-top:28px;"></div>
+    <div class="usage-wrap">
+      <div class="usage-title">Color Usage</div>
+      <div class="usage-grid">
+        <div class="usage-item"><div class="usage-dot" style="background:#7db8ce;"></div>Announcement bar、CTA 按鈕、quote section</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#2c2c2c;"></div>Ticker、Footer、標題文字</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#d6eef5;"></div>品牌 section、交替背景區域</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#fafafa;"></div>主要內容區域背景</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#e6c9a8;"></div>Special badge、限定標籤</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLUE 3: Electric Dusk -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-info">
+        <div class="palette-name">Electric Dusk</div>
+        <div class="palette-desc">帶紫調嘅靛藍配銀灰 — 最有「mood 感」嘅韓系美學</div>
+        <div class="palette-tags">
+          <span class="tag">有 Mood</span>
+          <span class="tag">韓系</span>
+          <span class="tag">Hince / Hera</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#4a5a8a; color:#fff;"><span class="swatch-label">主色</span><span class="swatch-hex">#4a5a8a</span></div>
+      <div class="swatch" style="background:#1a1e2e; color:#fff;"><span class="swatch-label">深夜藍</span><span class="swatch-hex">#1a1e2e</span></div>
+      <div class="swatch" style="background:#b8a9c8; color:#fff;"><span class="swatch-label">薰衣草</span><span class="swatch-hex">#b8a9c8</span></div>
+      <div class="swatch" style="background:#f4f2f0; color:#4a5a8a;"><span class="swatch-label">暖灰白</span><span class="swatch-hex">#f4f2f0</span></div>
+      <div class="swatch" style="background:#c4b5a0; color:#fff;"><span class="swatch-label">沙金</span><span class="swatch-hex">#c4b5a0</span></div>
+    </div>
+    <div class="mockup-wrap"><div class="mockup-title">Preview</div>
+      <div class="mockup">
+        <div class="m-bar" style="background:#1a1e2e; color:rgba(255,255,255,0.7);">全單滿 HK$400 免運費 · 新客首單 9 折</div>
+        <div class="m-nav" style="background:#f4f2f0; color:#1a1e2e; border-bottom:1px solid #e5e0db;"><span class="m-logo">O U J I</span><span class="m-links">護膚 &nbsp; 彩妝 &nbsp; 香氛</span></div>
+        <div class="m-hero" style="background: linear-gradient(160deg, #4a5a8a 0%, #1a1e2e 100%); color:#fff;">
+          <div class="m-hero-title" style="color:#b8a9c8;">Coralhaze</div>
+          <div class="m-hero-sub" style="color:rgba(255,255,255,0.4);">KOREA OFFICIAL AMBASSADOR</div>
+        </div>
+        <div class="m-ticker" style="background:#1a1e2e; color:rgba(255,255,255,0.6);">TIRTIR &nbsp; · &nbsp; ROM&ND &nbsp; · &nbsp; DASIQUE &nbsp; · &nbsp; HINCE &nbsp; · &nbsp; ABIB</div>
+        <div class="m-section" style="background:#4a5a8a; color:#fff;">
+          <span class="m-label" style="color:#b8a9c8;">關於 OUJI</span>
+          <div class="m-heading">精選，源於講究</div>
+          <div class="m-body" style="color:rgba(255,255,255,0.7);">OUJI 甄選韓國最具質感的美妝與護膚品牌，為追求精緻生活的你</div>
+          <div class="m-btn" style="background:#b8a9c8; color:#1a1e2e;">探索更多</div>
+        </div>
+        <div class="m-section" style="background:#f4f2f0; color:#1a1e2e;">
+          <span class="m-label" style="color:#4a5a8a;">合作品牌</span>
+          <div class="m-heading">Our Brands</div>
+          <div class="m-body" style="color:#888;">匯集韓國最具人氣與口碑的美妝護膚品牌</div>
+        </div>
+        <div class="m-quote" style="background:#1a1e2e; color:#b8a9c8;">
+          <div class="m-quote-text">"每一件產品，都是一次對美的致敬"</div>
+        </div>
+        <div class="m-stats" style="background:#f4f2f0; color:#1a1e2e;">
+          <div><div class="m-stat-num" style="color:#4a5a8a;">50+</div><div class="m-stat-label">合作品牌</div></div>
+          <div><div class="m-stat-num" style="color:#4a5a8a;">2000+</div><div class="m-stat-label">精選產品</div></div>
+          <div><div class="m-stat-num" style="color:#4a5a8a;">98%</div><div class="m-stat-label">好評率</div></div>
+        </div>
+        <div class="m-footer" style="background:#1a1e2e; color:rgba(255,255,255,0.3);">O U J I &nbsp; © 2025</div>
+      </div>
+    </div>
+    <div class="palette-divider" style="margin-top:28px;"></div>
+    <div class="usage-wrap">
+      <div class="usage-title">Color Usage</div>
+      <div class="usage-grid">
+        <div class="usage-item"><div class="usage-dot" style="background:#4a5a8a;"></div>品牌介紹 section、CTA 按鈕</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#1a1e2e;"></div>Announcement bar、ticker、quote、Footer</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#b8a9c8;"></div>Label 標籤、accent 按鈕、裝飾</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#f4f2f0;"></div>主要內容區域背景</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#c4b5a0;"></div>Premium badge、special edition</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== NON-BLUE SECTION ===================== -->
+<div class="section-label">
+  <h2>Beyond Blue</h2>
+  <span>其他色系方案</span>
+</div>
+
+<div class="palettes">
+
+  <!-- NON-BLUE 1: Rosewood -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-info">
+        <div class="palette-name">Rosewood</div>
+        <div class="palette-desc">乾燥玫瑰配深朱古力 — 成熟溫暖，Tom Ford / Charlotte Tilbury 嘅氣質</div>
+        <div class="palette-tags">
+          <span class="tag">溫暖</span>
+          <span class="tag">成熟</span>
+          <span class="tag">最適合美妝</span>
+        </div>
+      </div>
+      <div class="badge-rec">RECOMMENDED</div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#a0616a; color:#fff;"><span class="swatch-label">主色</span><span class="swatch-hex">#a0616a</span></div>
+      <div class="swatch" style="background:#2a1f1f; color:#fff;"><span class="swatch-label">深朱古力</span><span class="swatch-hex">#2a1f1f</span></div>
+      <div class="swatch" style="background:#d4a07a; color:#fff;"><span class="swatch-label">裸金</span><span class="swatch-hex">#d4a07a</span></div>
+      <div class="swatch" style="background:#f8f3ee; color:#2a1f1f;"><span class="swatch-label">米白底</span><span class="swatch-hex">#f8f3ee</span></div>
+      <div class="swatch" style="background:#ebe0d5; color:#2a1f1f;"><span class="swatch-label">暖沙底</span><span class="swatch-hex">#ebe0d5</span></div>
+    </div>
+    <div class="mockup-wrap"><div class="mockup-title">Preview</div>
+      <div class="mockup">
+        <div class="m-bar" style="background:#2a1f1f; color:rgba(255,255,255,0.75);">全單滿 HK$400 免運費 · 新客首單 9 折</div>
+        <div class="m-nav" style="background:#f8f3ee; color:#2a1f1f; border-bottom:1px solid #e8ddd3;"><span class="m-logo">O U J I</span><span class="m-links">護膚 &nbsp; 彩妝 &nbsp; 香氛</span></div>
+        <div class="m-hero" style="background: linear-gradient(160deg, #a0616a 0%, #7a4048 100%); color:#fff;">
+          <div class="m-hero-title">Coralhaze</div>
+          <div class="m-hero-sub" style="color:rgba(255,255,255,0.5);">KOREA OFFICIAL AMBASSADOR</div>
+        </div>
+        <div class="m-ticker" style="background:#2a1f1f; color:rgba(255,255,255,0.65);">TIRTIR &nbsp; · &nbsp; ROM&ND &nbsp; · &nbsp; DASIQUE &nbsp; · &nbsp; HINCE &nbsp; · &nbsp; ABIB</div>
+        <div class="m-section" style="background:#f8f3ee; color:#2a1f1f;">
+          <span class="m-label" style="color:#a0616a;">關於 OUJI</span>
+          <div class="m-heading">精選，源於講究</div>
+          <div class="m-body" style="color:#888;">OUJI 甄選韓國最具質感的美妝與護膚品牌，為追求精緻生活的你</div>
+          <div class="m-btn" style="background:#a0616a; color:#fff;">探索更多</div>
+        </div>
+        <div class="m-quote" style="background:#a0616a; color:#fff;">
+          <div class="m-quote-text">"每一件產品，都是一次對美的致敬"</div>
+        </div>
+        <div class="m-stats" style="background:#ebe0d5; color:#2a1f1f;">
+          <div><div class="m-stat-num" style="color:#a0616a;">50+</div><div class="m-stat-label">合作品牌</div></div>
+          <div><div class="m-stat-num" style="color:#a0616a;">2000+</div><div class="m-stat-label">精選產品</div></div>
+          <div><div class="m-stat-num" style="color:#a0616a;">98%</div><div class="m-stat-label">好評率</div></div>
+        </div>
+        <div class="m-section" style="background:#f8f3ee; color:#2a1f1f;">
+          <div class="m-heading">本週精選</div>
+          <div class="m-body" style="color:#888;">編輯部嚴選嘅當季必備單品</div>
+          <div class="m-btn-outline" style="color:#a0616a; border-color:#a0616a; padding:10px 32px; font-size:0.65rem; letter-spacing:0.12em;">立即選購</div>
+        </div>
+        <div class="m-footer" style="background:#2a1f1f; color:rgba(255,255,255,0.35);">O U J I &nbsp; © 2025</div>
+      </div>
+    </div>
+    <div class="palette-divider" style="margin-top:28px;"></div>
+    <div class="usage-wrap">
+      <div class="usage-title">Color Usage</div>
+      <div class="usage-grid">
+        <div class="usage-item"><div class="usage-dot" style="background:#a0616a;"></div>CTA 按鈕、quote section、label 標籤</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#2a1f1f;"></div>Announcement bar、ticker、Footer</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#d4a07a;"></div>Special badge、hover accent、裝飾</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#f8f3ee;"></div>主要內容區域背景</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#ebe0d5;"></div>統計、交替區域背景</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NON-BLUE 2: Sage & Stone -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-info">
+        <div class="palette-name">Sage & Stone</div>
+        <div class="palette-desc">鼠尾草綠配石灰 — 韓國最流行嘅自然美學，Tamburins / Innisfree 質感</div>
+        <div class="palette-tags">
+          <span class="tag">自然</span>
+          <span class="tag">中性</span>
+          <span class="tag">韓系流行</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#7d9a7f; color:#fff;"><span class="swatch-label">主色</span><span class="swatch-hex">#7d9a7f</span></div>
+      <div class="swatch" style="background:#222a22; color:#fff;"><span class="swatch-label">深森林</span><span class="swatch-hex">#222a22</span></div>
+      <div class="swatch" style="background:#c8b8a0; color:#fff;"><span class="swatch-label">石灰棕</span><span class="swatch-hex">#c8b8a0</span></div>
+      <div class="swatch" style="background:#f6f4f0; color:#333;"><span class="swatch-label">暖白底</span><span class="swatch-hex">#f6f4f0</span></div>
+      <div class="swatch" style="background:#e5ece5; color:#5a6e5a;"><span class="swatch-label">薄荷底</span><span class="swatch-hex">#e5ece5</span></div>
+    </div>
+    <div class="mockup-wrap"><div class="mockup-title">Preview</div>
+      <div class="mockup">
+        <div class="m-bar" style="background:#7d9a7f; color:#fff;">全單滿 HK$400 免運費 · 新客首單 9 折</div>
+        <div class="m-nav" style="background:#f6f4f0; color:#222a22; border-bottom:1px solid #e5e0db;"><span class="m-logo">O U J I</span><span class="m-links">護膚 &nbsp; 彩妝 &nbsp; 香氛</span></div>
+        <div class="m-hero" style="background: linear-gradient(160deg, #7d9a7f 0%, #5a7a5c 100%); color:#fff;">
+          <div class="m-hero-title">Coralhaze</div>
+          <div class="m-hero-sub" style="color:rgba(255,255,255,0.5);">KOREA OFFICIAL AMBASSADOR</div>
+        </div>
+        <div class="m-ticker" style="background:#222a22; color:rgba(255,255,255,0.65);">TIRTIR &nbsp; · &nbsp; ROM&ND &nbsp; · &nbsp; DASIQUE &nbsp; · &nbsp; HINCE &nbsp; · &nbsp; ABIB</div>
+        <div class="m-section" style="background:#f6f4f0; color:#222a22;">
+          <span class="m-label" style="color:#7d9a7f;">關於 OUJI</span>
+          <div class="m-heading">精選，源於講究</div>
+          <div class="m-body" style="color:#888;">OUJI 甄選韓國最具質感的美妝與護膚品牌，為追求精緻生活的你</div>
+          <div class="m-btn" style="background:#7d9a7f; color:#fff;">探索更多</div>
+        </div>
+        <div class="m-section" style="background:#e5ece5; color:#222a22;">
+          <span class="m-label" style="color:#5a7a5c;">合作品牌</span>
+          <div class="m-heading">Our Brands</div>
+          <div class="m-body" style="color:#6a806a;">匯集韓國最具人氣與口碑的美妝護膚品牌</div>
+        </div>
+        <div class="m-quote" style="background:#7d9a7f; color:#fff;">
+          <div class="m-quote-text">"每一件產品，都是一次對美的致敬"</div>
+        </div>
+        <div class="m-stats" style="background:#f6f4f0; color:#222a22;">
+          <div><div class="m-stat-num" style="color:#7d9a7f;">50+</div><div class="m-stat-label">合作品牌</div></div>
+          <div><div class="m-stat-num" style="color:#7d9a7f;">2000+</div><div class="m-stat-label">精選產品</div></div>
+          <div><div class="m-stat-num" style="color:#7d9a7f;">98%</div><div class="m-stat-label">好評率</div></div>
+        </div>
+        <div class="m-footer" style="background:#222a22; color:rgba(255,255,255,0.35);">O U J I &nbsp; © 2025</div>
+      </div>
+    </div>
+    <div class="palette-divider" style="margin-top:28px;"></div>
+    <div class="usage-wrap">
+      <div class="usage-title">Color Usage</div>
+      <div class="usage-grid">
+        <div class="usage-item"><div class="usage-dot" style="background:#7d9a7f;"></div>Announcement bar、CTA 按鈕、quote section</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#222a22;"></div>Ticker、Footer、標題文字</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#c8b8a0;"></div>Badge、hover accent、裝飾線條</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#f6f4f0;"></div>主要內容區域背景</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#e5ece5;"></div>品牌 section、交替背景區域</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NON-BLUE 3: Mauve Noir -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-info">
+        <div class="palette-name">Mauve Noir</div>
+        <div class="palette-desc">煙燻紫灰配黑 — 最有神秘感同高級感，NARS / Byredo 風格</div>
+        <div class="palette-tags">
+          <span class="tag">神秘</span>
+          <span class="tag">高級</span>
+          <span class="tag">Unisex</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#8a7080; color:#fff;"><span class="swatch-label">主色</span><span class="swatch-hex">#8a7080</span></div>
+      <div class="swatch" style="background:#1a1518; color:#fff;"><span class="swatch-label">深黑紫</span><span class="swatch-hex">#1a1518</span></div>
+      <div class="swatch" style="background:#c9b8b0; color:#fff;"><span class="swatch-label">裸棕</span><span class="swatch-hex">#c9b8b0</span></div>
+      <div class="swatch" style="background:#f5f2f0; color:#333;"><span class="swatch-label">灰白底</span><span class="swatch-hex">#f5f2f0</span></div>
+      <div class="swatch" style="background:#d4c4b8; color:#1a1518;"><span class="swatch-label">奶茶底</span><span class="swatch-hex">#d4c4b8</span></div>
+    </div>
+    <div class="mockup-wrap"><div class="mockup-title">Preview</div>
+      <div class="mockup">
+        <div class="m-bar" style="background:#1a1518; color:rgba(255,255,255,0.6);">全單滿 HK$400 免運費 · 新客首單 9 折</div>
+        <div class="m-nav" style="background:#1a1518; color:#fff;"><span class="m-logo">O U J I</span><span class="m-links" style="color:rgba(255,255,255,0.5);">護膚 &nbsp; 彩妝 &nbsp; 香氛</span></div>
+        <div class="m-hero" style="background: linear-gradient(160deg, #8a7080 0%, #1a1518 100%); color:#fff;">
+          <div class="m-hero-title" style="color:#c9b8b0;">Coralhaze</div>
+          <div class="m-hero-sub" style="color:rgba(255,255,255,0.35);">KOREA OFFICIAL AMBASSADOR</div>
+        </div>
+        <div class="m-ticker" style="background:#8a7080; color:rgba(255,255,255,0.75);">TIRTIR &nbsp; · &nbsp; ROM&ND &nbsp; · &nbsp; DASIQUE &nbsp; · &nbsp; HINCE &nbsp; · &nbsp; ABIB</div>
+        <div class="m-section" style="background:#f5f2f0; color:#1a1518;">
+          <span class="m-label" style="color:#8a7080;">關於 OUJI</span>
+          <div class="m-heading">精選，源於講究</div>
+          <div class="m-body" style="color:#888;">OUJI 甄選韓國最具質感的美妝與護膚品牌，為追求精緻生活的你</div>
+          <div class="m-btn" style="background:#1a1518; color:#fff;">探索更多</div>
+        </div>
+        <div class="m-quote" style="background:#1a1518; color:#c9b8b0;">
+          <div class="m-quote-text">"每一件產品，都是一次對美的致敬"</div>
+        </div>
+        <div class="m-stats" style="background:#d4c4b8; color:#1a1518;">
+          <div><div class="m-stat-num" style="color:#8a7080;">50+</div><div class="m-stat-label">合作品牌</div></div>
+          <div><div class="m-stat-num" style="color:#8a7080;">2000+</div><div class="m-stat-label">精選產品</div></div>
+          <div><div class="m-stat-num" style="color:#8a7080;">98%</div><div class="m-stat-label">好評率</div></div>
+        </div>
+        <div class="m-section" style="background:#f5f2f0; color:#1a1518;">
+          <div class="m-heading">本週精選</div>
+          <div class="m-body" style="color:#888;">編輯部嚴選嘅當季必備單品</div>
+          <div class="m-btn-outline" style="color:#8a7080; border-color:#8a7080; padding:10px 32px; font-size:0.65rem; letter-spacing:0.12em;">立即選購</div>
+        </div>
+        <div class="m-footer" style="background:#1a1518; color:rgba(255,255,255,0.25);">O U J I &nbsp; © 2025</div>
+      </div>
+    </div>
+    <div class="palette-divider" style="margin-top:28px;"></div>
+    <div class="usage-wrap">
+      <div class="usage-title">Color Usage</div>
+      <div class="usage-grid">
+        <div class="usage-item"><div class="usage-dot" style="background:#8a7080;"></div>Ticker、label 標籤、按鈕 outline</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#1a1518;"></div>Header、announcement bar、quote、Footer、CTA</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#c9b8b0;"></div>Quote 文字、裝飾 accent</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#f5f2f0;"></div>主要內容區域背景</div>
+        <div class="usage-item"><div class="usage-dot" style="background:#d4c4b8;"></div>統計 section、交替背景</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center; padding: 40px 20px 80px; color:#555; font-size: 0.8rem;">
+  揀好之後話我知，我即刻幫你改晒成個網站
+</div>
+
+</body>
+</html>
