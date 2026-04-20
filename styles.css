@@ -614,6 +614,99 @@ main { padding-top: calc(var(--header-height) + 36px); }
   background: var(--warm-50);
 }
 
+/* Nested submenu items (level-1 row with arrow + level-2 flyout) */
+.header__submenu-item {
+  position: relative;
+}
+
+.header__submenu-item > a {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.header__submenu-item > a::before {
+  content: '';
+  margin-left: auto;
+}
+
+.header__submenu-item > a::after {
+  content: '›' !important;
+  display: inline-block !important;
+  position: static !important;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--text-tertiary);
+  opacity: 0.7;
+  background: none !important;
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+  transition: transform var(--duration-fast), color var(--duration-fast);
+}
+
+.header__submenu-item:hover > a::after {
+  color: var(--primary-dark);
+  transform: translateX(2px) !important;
+  opacity: 1;
+}
+
+.header__subsubmenu {
+  position: absolute;
+  top: -10px;
+  left: 100%;
+  background: white;
+  border: 1px solid rgba(30,48,56,0.08);
+  border-radius: 14px;
+  padding: 10px 0;
+  min-width: 180px;
+  box-shadow: 0 14px 44px rgba(30,48,56,0.14);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(4px);
+  transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out), visibility var(--duration-normal);
+  z-index: 101;
+  margin-left: 4px;
+}
+
+.header__subsubmenu::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+}
+
+.header__subsubmenu a {
+  display: block;
+  padding: 9px 22px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-secondary) !important;
+  white-space: nowrap;
+  transition: color var(--duration-fast), background var(--duration-fast);
+}
+
+.header__subsubmenu a::after { display: none !important; }
+
+.header__subsubmenu a:hover {
+  color: var(--primary-dark) !important;
+  background: var(--warm-50);
+}
+
+.header__submenu-item:hover > .header__subsubmenu,
+.header__submenu-item:focus-within > .header__subsubmenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
 .header__nav-item:hover .header__submenu,
 .header__nav-item:focus-within .header__submenu {
   opacity: 1;
