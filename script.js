@@ -349,6 +349,17 @@ function initMobileNav() {
   // Bottom nav menu button also opens the same nav
   const bottomMenuBtn = document.querySelector('.mobile-bottom-nav__menu-btn');
   bottomMenuBtn?.addEventListener('click', openNav);
+
+  // Accordion toggles for grouped nav items (護膚, 彩妝)
+  nav.querySelectorAll('.mobile-nav__toggle').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const group = btn.closest('.mobile-nav__group');
+      if (!group) return;
+      const open = group.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
 }
 
 /* ----- Filter Sidebar ----- */
