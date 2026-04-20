@@ -197,14 +197,16 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 
 .section { padding: var(--space-5xl) 0; position: relative; }
 .section--sm { padding: var(--space-4xl) 0; }
+/* ----- Brand Intro (light cream, between dark hero and dark brand marquees) ----- */
 .section--brand-intro {
   background:
-    radial-gradient(ellipse 60% 50% at 50% 45%, rgba(70,110,125,0.18) 0%, transparent 70%),
-    linear-gradient(135deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #1a2a30 100%);
-  color: #ffffff;
+    radial-gradient(ellipse 70% 55% at 50% 40%, rgba(99,149,166,0.08) 0%, transparent 70%),
+    linear-gradient(180deg, var(--warm-50) 0%, #fbf4ec 50%, var(--warm-50) 100%);
+  color: var(--text-secondary);
   position: relative;
   overflow: hidden;
-  border-top: 1px solid rgba(99,149,166,0.2);
+  border-top: 1px solid rgba(99,149,166,0.08);
+  border-bottom: 1px solid rgba(99,149,166,0.08);
 }
 
 .section--brand-intro .container {
@@ -220,51 +222,67 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   position: relative;
   letter-spacing: 0.02em;
 }
-.section--brand-intro .label { color: rgba(255,255,255,0.6); font-size: 1.2rem !important; letter-spacing: 0.18em; text-transform: uppercase; }
-.section--brand-intro .heading-xl { color: #ffffff; font-size: clamp(1.5rem, 3vw, 2.5rem) !important; font-weight: 400; }
-.section--brand-intro .body-lg { color: rgba(255,255,255,0.7); font-size: clamp(1.05rem, 1.8vw, 1.25rem); line-height: 1.9; }
 
-/* Stats cards inside brand intro (dark theme) */
+.section--brand-intro .label {
+  color: var(--primary-dark);
+  font-size: 1.2rem !important;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.section--brand-intro .heading-xl {
+  color: var(--primary-dark);
+  font-size: clamp(1.5rem, 3vw, 2.5rem) !important;
+  font-weight: 400;
+}
+.section--brand-intro .body-lg {
+  color: var(--text-secondary);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.9;
+}
+
+/* Stats cards inside brand intro (light theme) */
 .section--brand-intro .stats-grid {
   margin-top: clamp(48px, 6vw, 80px);
 }
 .section--brand-intro .stat-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(99,149,166,0.18);
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(99,149,166,0.15);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+  box-shadow: 0 2px 14px rgba(70,110,125,0.06);
+  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 .section--brand-intro .stat-card:hover {
-  background: rgba(99,149,166,0.10);
-  border-color: rgba(99,149,166,0.4);
+  background: #ffffff;
+  border-color: rgba(99,149,166,0.35);
+  box-shadow: 0 8px 24px rgba(70,110,125,0.12);
   transform: translateY(-4px);
 }
 .section--brand-intro .stat-card__number {
-  color: #ffffff;
+  color: var(--primary-dark);
   font-weight: 300;
-  background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.75) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 .section--brand-intro .stat-card:hover .stat-card__number {
-  text-shadow: none;
+  text-shadow: 0 0 24px rgba(99,149,166,0.2);
 }
 .section--brand-intro .stat-card__label {
-  color: rgba(255,255,255,0.55);
+  color: var(--text-tertiary);
 }
-/* Override the warm/blue alternating variant for dark theme */
+/* Override the warm/blue alternating variant — keep cohesive in light theme */
 .section--brand-intro .stat-card:nth-child(even) {
-  background: rgba(99,149,166,0.07);
-  border-color: rgba(99,149,166,0.22);
+  background: rgba(249,239,228,0.6);
+  border-color: rgba(196,160,122,0.2);
+}
+.section--brand-intro .stat-card:nth-child(even):hover {
+  background: var(--warm-100);
+  border-color: rgba(196,160,122,0.4);
 }
 .section--brand-intro .stat-card:nth-child(even) .stat-card__number {
-  color: #ffffff;
-  background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.75) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--warm-500);
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
 /* ----- Buttons ----- */
