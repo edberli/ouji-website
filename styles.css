@@ -626,11 +626,6 @@ main { padding-top: calc(var(--header-height) + 36px); }
   gap: 12px;
 }
 
-.header__submenu-item > a::before {
-  content: '';
-  margin-left: auto;
-}
-
 .header__submenu-item > a::after {
   content: '›' !important;
   display: inline-block !important;
