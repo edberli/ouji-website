@@ -350,8 +350,8 @@ function initMobileNav() {
   const bottomMenuBtn = document.querySelector('.mobile-bottom-nav__menu-btn');
   bottomMenuBtn?.addEventListener('click', openNav);
 
-  // Accordion toggles for grouped nav items (護膚, 彩妝)
-  nav.querySelectorAll('.mobile-nav__toggle').forEach((btn) => {
+  // Accordion toggles for grouped nav items (護膚, 彩妝) — entire row is the trigger
+  nav.querySelectorAll('.mobile-nav__group-row').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const group = btn.closest('.mobile-nav__group');
