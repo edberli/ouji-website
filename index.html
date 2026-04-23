@@ -7,7 +7,9 @@
   <meta name="description" content="OUJI 是香港最齊全的 K-Beauty 專門店，匯集最受歡迎的韓國美妝護膚品牌。觀塘門市及網上商店。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=League+Spartan:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -184,6 +186,12 @@
           <button class="hero__carousel-dot" aria-label="Slide 2"></button>
           <button class="hero__carousel-dot" aria-label="Slide 3"></button>
           <button class="hero__carousel-dot" aria-label="Slide 4"></button>
+        </div>
+        <div class="hero__cta-overlay">
+          <a href="category.html" class="btn">
+            探索全系列
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
       <div class="hero__cursor-glow"></div>
@@ -501,28 +509,14 @@
             <img src="https://images.unsplash.com/photo-1741896135518-ce303a539bc0?w=960&q=80" alt="Skincare bottles on marble">
           </div>
           <div class="featured-collection__info reveal-right">
-            <span class="label">編輯精選</span>
+            <span class="label">編輯精選 · SPRING 2026</span>
             <h2 class="heading-lg" style="margin-top: var(--space-md);">春日光澤系列</h2>
             <p class="body-lg" style="margin-top: var(--space-md);">迎接春日光澤，我們精選了最適合換季的護膚組合——從溫和潔面到輕盈保濕，層層呵護，煥發自然透亮。</p>
-            <a href="category.html" class="btn--ghost" style="margin-top: var(--space-xl); display: inline-flex; align-items: center;">選購系列</a>
-            <div class="featured-collection__products">
-              <div class="product-card">
-                <div class="product-card__image-wrap">
-                  <img class="product-card__image" src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&q=80" alt="Torriden DIVE-IN Serum">
-                </div>
-                <span class="product-card__brand">Torriden</span>
-                <span class="product-card__name">DIVE-IN 低分子玻尿酸精華</span>
-                <span class="product-card__price">HK$168</span>
-              </div>
-              <div class="product-card">
-                <div class="product-card__image-wrap">
-                  <img class="product-card__image" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80" alt="ANUA Birch 77 Toner">
-                </div>
-                <span class="product-card__brand">ANUA</span>
-                <span class="product-card__name">77% 樺樹液精華水</span>
-                <span class="product-card__price">HK$198</span>
-              </div>
+            <div class="featured-collection__meta">
+              <div><span class="featured-collection__meta-label">系列產品</span><span class="featured-collection__meta-value">12 款</span></div>
+              <div><span class="featured-collection__meta-label">合作品牌</span><span class="featured-collection__meta-value">Torriden · ANUA · Beauty of Joseon</span></div>
             </div>
+            <a href="category.html" class="btn btn--primary" style="margin-top: var(--space-xl); display: inline-flex; align-items: center;">選購系列<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-left:8px;"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
           </div>
         </div>
       </div>
@@ -1000,30 +994,10 @@
         // Prefetch full product details for instant product page loading
         prefetchProducts(products.map(p => p.handle));
 
-        // Helper to render product cards
+        // Use shared productCardHTML from shopify.js for consistent rendering
+        // (clean titles, vendor brand, English SALE/SOLD OUT badges, wishlist toggle)
         function renderCards(items) {
-          return items.map(p => {
-            const image = p.images?.edges?.[0]?.node;
-            const price = p.priceRange?.minVariantPrice;
-            const comparePrice = p.compareAtPriceRange?.minVariantPrice;
-            const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
-            return `
-              <a href="product.html?handle=${p.handle}" class="product-card">
-                <div class="product-card__image-wrap">
-                  ${image ? `<img class="product-card__image" src="${image.url}" alt="${image.altText || p.title}">` : ''}
-                  ${isOnSale ? '<span class="product-card__badge">特價</span>' : ''}
-                  <button class="product-card__wishlist" aria-label="加入願望清單" onclick="event.preventDefault(); event.stopPropagation();">
-                    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                  </button>
-                  <div class="product-card__quick-add">快速加入</div>
-                </div>
-                <span class="product-card__brand">${p.vendor || ''}</span>
-                <span class="product-card__name">${p.title}</span>
-                <span class="product-card__price">${formatPrice(price.amount)}</span>
-                ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(comparePrice.amount)}</span>` : ''}
-              </a>
-            `;
-          }).join('');
+          return items.map(p => productCardHTML(p)).join('');
         }
 
         // Fill ALL product grids on the page

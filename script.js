@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroScrollParallax();
   initScrollParallaxImages();
   initFloatingParticles();
+  initMobileBottomNavActive();
+  initWishlistMicroAnim();
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
@@ -130,13 +132,29 @@ function initParallax() {
 /* ----- Header Scroll ----- */
 function initHeaderScroll() {
   const header = document.querySelector('.header');
-  if (!header) return;
-  // Only toggle on pages without is-scrolled set in HTML (i.e. homepage with dark hero).
-  // Other pages always keep is-scrolled for dark text on light backgrounds.
-  if (header.classList.contains('is-scrolled')) return;
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('is-scrolled', window.scrollY > 60);
-  }, { passive: true });
+  const announcement = document.querySelector('.announcement-bar');
+  let lastY = 0;
+
+  const onScroll = () => {
+    const y = window.scrollY;
+    // Header colour shift on homepage (dark hero -> light section)
+    if (header && !header.dataset.staticScrolled) {
+      header.classList.toggle('is-scrolled', y > 60);
+    }
+    // Auto-hide announcement bar on scroll-down, reveal on scroll-up
+    if (announcement) {
+      const goingDown = y > lastY && y > 80;
+      announcement.classList.toggle('is-hidden', goingDown);
+    }
+    lastY = y;
+  };
+
+  // Mark pages with is-scrolled set by HTML so we don't override
+  if (header && header.classList.contains('is-scrolled')) {
+    header.dataset.staticScrolled = '1';
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
 }
 
 /* ----- Smooth Image Load ----- */
@@ -743,6 +761,51 @@ function initScrollParallaxImages() {
 
   // Initial call
   update();
+}
+
+/* ----- Mobile Bottom Nav: Mark Active Page ----- */
+function initMobileBottomNavActive() {
+  const items = document.querySelectorAll('.mobile-bottom-nav__item');
+  if (!items.length) return;
+
+  // Determine current page filename (default to index.html for trailing slash)
+  let path = window.location.pathname.split('/').pop() || 'index.html';
+  if (!path.endsWith('.html')) path = 'index.html';
+
+  // Map of pages → which bottom-nav target should light up
+  const pageMap = {
+    'index.html': 'index.html',
+    'category.html': 'category.html',
+    'makeup.html': 'category.html',
+    'bodycare.html': 'category.html',
+    'fragrance.html': 'category.html',
+    'lifestyle.html': 'category.html',
+    'brands.html': 'category.html',
+    'product.html': 'category.html',
+    'wishlist.html': 'wishlist.html',
+    'cart.html': 'cart.html',
+    'account.html': 'account.html'
+  };
+  const target = pageMap[path];
+  if (!target) return;
+
+  items.forEach((item) => {
+    const href = (item.getAttribute('href') || '').split('/').pop();
+    if (href === target) item.classList.add('active');
+  });
+}
+
+/* ----- Wishlist Heart Micro-Animation ----- */
+function initWishlistMicroAnim() {
+  document.querySelectorAll('[data-wishlist-toggle], .product-card__wishlist, .wishlist-toggle').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      btn.classList.remove('is-pulsing');
+      // Reflow to restart animation
+      void btn.offsetWidth;
+      btn.classList.add('is-pulsing');
+      setTimeout(() => btn.classList.remove('is-pulsing'), 700);
+    });
+  });
 }
 
 /* ----- Ambient Bokeh Orbs ----- */
