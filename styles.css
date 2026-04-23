@@ -309,50 +309,105 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   line-height: 1.9;
 }
 
-/* Stats cards inside brand intro (light theme, compact) */
+/* Stats cards inside brand intro — refined editorial row (Aesop / Jo Malone) */
 .section--brand-intro .stats-grid {
-  margin-top: clamp(24px, 3vw, 40px);
+  margin-top: clamp(32px, 4vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(99,149,166,0.18);
+  border-bottom: 1px solid rgba(99,149,166,0.18);
+  background: transparent;
 }
-.section--brand-intro .stat-card {
-  padding: 20px 12px 16px;
-  background: rgba(255,255,255,0.65);
-  border: 1px solid rgba(99,149,166,0.15);
+.section--brand-intro .stat-card,
+.section--brand-intro .stat-card.gradient-border {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 16px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  box-shadow: 0 2px 14px rgba(70,110,125,0.06);
-  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: none !important;
+  transition: opacity 0.25s ease;
+}
+/* Override gradient-border ::before so it doesn't paint a rainbow rim */
+.section--brand-intro .stat-card.gradient-border::before {
+  content: none !important;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  animation: none !important;
+}
+/* Vertical 1px hairline between cards */
+.section--brand-intro .stat-card + .stat-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: rgba(99,149,166,0.18);
 }
 .section--brand-intro .stat-card:hover {
-  background: #ffffff;
-  border-color: rgba(99,149,166,0.35);
-  box-shadow: 0 8px 24px rgba(70,110,125,0.12);
-  transform: translateY(-4px);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none;
+  opacity: 0.85;
 }
-.section--brand-intro .stat-card__number {
-  color: var(--primary-dark);
-  font-weight: 300;
-  background: none;
-  -webkit-text-fill-color: initial;
+.section--brand-intro .stat-card__number,
+.section--brand-intro .stat-card:nth-child(even) .stat-card__number {
+  color: var(--primary-deep);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.85rem, 3vw, 2.4rem);
+  letter-spacing: -0.015em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
 }
 .section--brand-intro .stat-card:hover .stat-card__number {
-  text-shadow: 0 0 24px rgba(99,149,166,0.2);
+  text-shadow: none;
 }
 .section--brand-intro .stat-card__label {
   color: var(--text-tertiary);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
-/* Override the warm/blue alternating variant — keep cohesive in light theme */
+/* Reset alternating bg/border at brand-intro scope */
 .section--brand-intro .stat-card:nth-child(even) {
-  background: rgba(249,239,228,0.6);
-  border-color: rgba(196,160,122,0.2);
+  background: transparent !important;
+  border: none !important;
 }
-.section--brand-intro .stat-card:nth-child(even):hover {
-  background: var(--warm-100);
-  border-color: rgba(196,160,122,0.4);
-}
-.section--brand-intro .stat-card:nth-child(even) .stat-card__number {
-  color: var(--warm-500);
-  background: none;
-  -webkit-text-fill-color: initial;
+
+@media (max-width: 768px) {
+  .section--brand-intro .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .section--brand-intro .stat-card {
+    padding: 22px 10px;
+    border-bottom: 1px solid rgba(99,149,166,0.12);
+  }
+  .section--brand-intro .stat-card:nth-last-child(-n+2) { border-bottom: none; }
+  .section--brand-intro .stat-card + .stat-card::after { display: none; }
+  .section--brand-intro .stat-card:nth-child(even)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 25%;
+    bottom: 25%;
+    width: 1px;
+    background: rgba(99,149,166,0.18);
+  }
 }
 
 /* ----- Buttons ----- */
@@ -2906,9 +2961,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 /* ----- Dual Brand Marquees (skincare + makeup) — Dark Smoke Theme ----- */
 .brand-marquees {
-  padding: var(--space-4xl) 0;
+  padding: clamp(72px, 8vw, 112px) 0;
   position: relative;
-  background: #1a2a30;
+  background: #161f24;
   overflow: hidden;
 }
 
@@ -2924,18 +2979,23 @@ main { padding-top: calc(var(--header-height) + 36px); }
   top: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.4;
-  filter: saturate(0.5) brightness(0.7);
+  opacity: 0.28;
+  filter: saturate(0.4) brightness(0.65);
   pointer-events: none;
 }
 .brand-marquees__video::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg,
-    rgba(26,42,48,0.55) 0%,
-    rgba(30,48,56,0.45) 50%,
-    rgba(26,42,48,0.6) 100%);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%,
+      rgba(22,31,36,0.0) 0%,
+      rgba(22,31,36,0.55) 70%,
+      rgba(22,31,36,0.85) 100%),
+    linear-gradient(180deg,
+      rgba(22,31,36,0.65) 0%,
+      rgba(22,31,36,0.35) 50%,
+      rgba(22,31,36,0.75) 100%);
   pointer-events: none;
 }
 
@@ -2948,14 +3008,27 @@ main { padding-top: calc(var(--header-height) + 36px); }
 }
 
 /* Section header text — white on dark */
+.brand-marquees .section-header {
+  text-align: center;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
 .brand-marquees .section-header__label {
-  color: rgba(109,163,181,0.8);
+  color: rgba(140,180,195,0.7);
+  letter-spacing: 0.32em;
+  font-size: 0.7rem;
+  text-transform: uppercase;
 }
 .brand-marquees .section-header__title {
   color: #ffffff;
+  font-weight: 300;
+  letter-spacing: -0.005em;
 }
 .brand-marquees .section-header__desc {
   color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .brand-marquees__section {
@@ -2967,12 +3040,13 @@ main { padding-top: calc(var(--header-height) + 36px); }
 }
 
 .brand-marquees__label {
-  font-size: 1.05rem;
-  font-weight: 400;
-  letter-spacing: 0.35em;
-  color: rgba(255,255,255,0.7);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  color: rgba(255,255,255,0.55);
   white-space: nowrap;
   margin: 0;
+  text-transform: uppercase;
 }
 
 .brand-marquee {
@@ -2994,12 +3068,14 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 .brand-marquee::before {
   left: 0;
-  background: linear-gradient(90deg, rgba(26,42,48,0.95), transparent);
+  width: 160px;
+  background: linear-gradient(90deg, rgba(22,31,36,1) 0%, rgba(22,31,36,0.85) 40%, transparent 100%);
 }
 
 .brand-marquee::after {
   right: 0;
-  background: linear-gradient(270deg, rgba(26,42,48,0.95), transparent);
+  width: 160px;
+  background: linear-gradient(270deg, rgba(22,31,36,1) 0%, rgba(22,31,36,0.85) 40%, transparent 100%);
 }
 
 .brand-marquee__track {
@@ -3025,21 +3101,23 @@ main { padding-top: calc(var(--header-height) + 36px); }
   height: 64px;
   flex-shrink: 0;
   padding: 0 20px;
-  background: rgba(36,56,64,0.75);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), border-color 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
   cursor: pointer;
   text-decoration: none;
   color: rgba(255,255,255,0.7);
+  opacity: 0.6;
 }
 
 .brand-marquee__item:hover {
-  background: rgba(50,75,85,0.85);
-  border-color: rgba(255,255,255,0.2);
+  background: transparent;
+  border: none;
   color: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  transform: translateY(-2px);
+  box-shadow: none;
+  opacity: 1;
 }
 
 .brand-marquee__item-name {
@@ -3052,17 +3130,17 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .brand-marquee__logo {
   width: 100%;
   height: 100%;
-  max-height: 32px;
+  max-height: 36px;
   max-width: 120px;
   object-fit: contain;
   display: block;
   filter: brightness(0) invert(1);
-  opacity: 0.85;
-  transition: opacity 0.3s ease;
+  opacity: 1;
+  transition: filter 0.3s ease;
 }
 
 .brand-marquee__item:hover .brand-marquee__logo {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 @keyframes brandMarquee {
@@ -3293,20 +3371,17 @@ main { padding-top: calc(var(--header-height) + 36px); }
   background-clip: text;
 }
 
-/* ----- Brand marquee section warm/cool alternation (dark theme) ----- */
-.brand-marquees__section:nth-child(odd) .brand-marquee__item {
-  border-color: rgba(100,170,190,0.15);
-}
-
+/* ----- Brand marquee section: removed warm/cool alternation
+   for a cohesive, restrained look. Logos are uniform across sections. ----- */
+.brand-marquees__section:nth-child(odd) .brand-marquee__item,
 .brand-marquees__section:nth-child(even) .brand-marquee__item {
-  border-color: rgba(200,150,120,0.15);
-  background: rgba(50,40,35,0.65);
+  border: none;
+  background: transparent;
 }
-
 .brand-marquees__section:nth-child(even) .brand-marquee__item:hover {
-  background: rgba(65,50,42,0.8);
-  border-color: rgba(200,150,120,0.3);
-  color: rgba(235,190,160,0.9);
+  background: transparent;
+  border: none;
+  color: #ffffff;
 }
 
 /* ----- Footer warm accent line ----- */
@@ -3320,16 +3395,17 @@ main { padding-top: calc(var(--header-height) + 36px); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: var(--space-xl) 0 var(--space-lg);
+  gap: 14px;
+  padding: var(--space-xl) 0 var(--space-md);
 }
 
 /* Flanking-line divider wrapper */
 .brand-section-title {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 28px;
   width: 100%;
+  max-width: 540px;
 }
 
 .brand-section-title::before,
@@ -3337,11 +3413,11 @@ main { padding-top: calc(var(--header-height) + 36px); }
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(109,163,181,0.3));
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18));
 }
 
 .brand-section-title::after {
-  background: linear-gradient(270deg, transparent, rgba(109,163,181,0.3));
+  background: linear-gradient(270deg, transparent, rgba(255,255,255,0.18));
 }
 
 /* Toggle button — centred text link below the title */
