@@ -794,24 +794,6 @@ async function initPage() {
   }
 }
 
-/** 清理產品標題：移除 Korean prefix + bracketed promo tags */
-function cleanProductTitle(title) {
-  if (!title) return '';
-  let t = title;
-  // Strip leading bracketed promo tags: [모공/일직], [애니PICK], [OUTLET], [限定], [PICK] etc.
-  t = t.replace(/^\s*[\[【][^\]】]{1,30}[\]】]\s*/g, '');
-  // Strip trailing Korean fragments (block of 2+ Hangul chars + spaces, after the main title)
-  // Keep mixed Latin/Chinese sections; remove pure Hangul tail like "마다가스카르 센텔라 톤 브라이트닝"
-  t = t.replace(/\s+[가-힣][가-힣\s]{2,}/g, '');
-  return t.trim() || title;
-}
-
-/** 嘗試從標題抽取品牌名稱（首個英文/拉丁字段） */
-function extractBrand(title) {
-  const m = title.match(/\b([A-Z][A-Za-z0-9&+\-]{1,15}(?:\s+[A-Z][A-Za-z0-9&+\-]{1,15})?)\b/);
-  return m ? m[1] : '';
-}
-
 /** 生成商品卡片 HTML */
 function productCardHTML(product) {
   const image = product.images?.edges?.[0]?.node;
@@ -820,21 +802,18 @@ function productCardHTML(product) {
   const variant = product.variants?.edges?.[0]?.node;
   const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
   const isSoldOut = !variant?.availableForSale;
-  const cleanTitle = cleanProductTitle(product.title);
-  const brand = product.vendor || extractBrand(product.title);
 
   return `
     <article class="product-card" data-product-id="${product.id}">
       <a href="product.html?handle=${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
-          ${image ? `<img src="${image.url}" alt="${image.altText || cleanTitle}" loading="lazy" class="product-card__image">` : '<div class="product-card__no-image"></div>'}
-          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">SOLD OUT</span>' : ''}
-          ${isOnSale && !isSoldOut ? '<span class="product-card__badge product-card__badge--sale">SALE</span>' : ''}
+          ${image ? `<img src="${image.url}" alt="${image.altText || product.title}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
+          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
+          ${isOnSale && !isSoldOut ? '<span class="product-card__badge product-card__badge--sale">特價</span>' : ''}
         </div>
       </a>
       <div class="product-card__info">
-        ${brand ? `<span class="product-card__brand">${brand}</span>` : ''}
-        <a href="product.html?handle=${product.handle}" class="product-card__title" title="${(product.title || '').replace(/"/g, '&quot;')}">${cleanTitle}</a>
+        <a href="product.html?handle=${product.handle}" class="product-card__title">${product.title}</a>
         <div class="product-card__prices">
           <span class="product-card__price">${formatPrice(price.amount)}</span>
           ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(comparePrice.amount)}</span>` : ''}
@@ -855,17 +834,11 @@ function productCardHTML(product) {
 window.toggleWishlist = function(e, product) {
   e.preventDefault();
   e.stopPropagation();
-  const btn = e.currentTarget;
   if (isInWishlist(product.id)) {
     removeFromWishlist(product.id);
-    btn.classList.remove('is-active');
+    e.currentTarget.classList.remove('is-active');
   } else {
     addToWishlist(product);
-    btn.classList.add('is-active');
-    // Trigger pulse animation
-    btn.classList.remove('is-pulsing');
-    void btn.offsetWidth;
-    btn.classList.add('is-pulsing');
-    setTimeout(() => btn.classList.remove('is-pulsing'), 700);
+    e.currentTarget.classList.add('is-active');
   }
 };
