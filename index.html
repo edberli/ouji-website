@@ -499,30 +499,32 @@
         <div class="featured-collection">
           <div class="featured-collection__visual parallax-img reveal-clip">
             <img src="https://images.unsplash.com/photo-1741896135518-ce303a539bc0?w=960&q=80" alt="Skincare bottles on marble">
+            <span class="featured-collection__visual-tag">SPRING 2026</span>
           </div>
           <div class="featured-collection__info reveal-right">
-            <span class="label">編輯精選</span>
-            <h2 class="heading-lg" style="margin-top: var(--space-md);">春日光澤系列</h2>
-            <p class="body-lg" style="margin-top: var(--space-md);">迎接春日光澤，我們精選了最適合換季的護膚組合——從溫和潔面到輕盈保濕，層層呵護，煥發自然透亮。</p>
-            <a href="category.html" class="btn--ghost" style="margin-top: var(--space-xl); display: inline-flex; align-items: center;">選購系列</a>
-            <div class="featured-collection__products">
-              <div class="product-card">
-                <div class="product-card__image-wrap">
-                  <img class="product-card__image" src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&q=80" alt="Torriden DIVE-IN Serum">
-                </div>
-                <span class="product-card__brand">Torriden</span>
-                <span class="product-card__name">DIVE-IN 低分子玻尿酸精華</span>
-                <span class="product-card__price">HK$168</span>
-              </div>
-              <div class="product-card">
-                <div class="product-card__image-wrap">
-                  <img class="product-card__image" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80" alt="ANUA Birch 77 Toner">
-                </div>
-                <span class="product-card__brand">ANUA</span>
-                <span class="product-card__name">77% 樺樹液精華水</span>
-                <span class="product-card__price">HK$198</span>
-              </div>
+            <span class="featured-collection__eyebrow">
+              <span class="featured-collection__eyebrow-line"></span>
+              編輯精選 · Editor's Pick
+            </span>
+            <h2 class="featured-collection__title">春日光澤系列</h2>
+            <p class="featured-collection__desc">迎接春日光澤，我們精選了最適合換季的護膚組合——從溫和潔面到輕盈保濕，層層呵護，煥發自然透亮。</p>
+
+            <ol class="featured-collection__steps">
+              <li><span class="featured-collection__step-num">01</span><span class="featured-collection__step-text">溫和潔面 · 喚醒肌膚</span></li>
+              <li><span class="featured-collection__step-num">02</span><span class="featured-collection__step-text">輕盈保濕 · 鎖水補水</span></li>
+              <li><span class="featured-collection__step-num">03</span><span class="featured-collection__step-text">日間防護 · 透亮屏障</span></li>
+            </ol>
+
+            <div class="featured-collection__meta">
+              <span class="featured-collection__meta-item"><em>12</em> 款精選</span>
+              <span class="featured-collection__meta-sep"></span>
+              <span class="featured-collection__meta-item">Torriden · ANUA · Beauty of Joseon</span>
             </div>
+
+            <a href="category.html" class="featured-collection__cta">
+              <span>選購完整系列</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
           </div>
         </div>
       </div>
@@ -1031,12 +1033,6 @@
         grids.forEach(grid => {
           grid.innerHTML = renderCards(products);
         });
-
-        // Also update featured collection product cards
-        const featuredCards = document.querySelector('.featured-collection__products');
-        if (featuredCards) {
-          featuredCards.innerHTML = renderCards(products.slice(0, 2));
-        }
       }
     });
   </script>
