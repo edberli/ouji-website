@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>商品 — OUJI</title>
   <meta name="description" content="OUJI — 香港最齊 K-Beauty 專門店">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#1e3038">
+  <link rel="canonical" href="https://oujikbeauty.com/product">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OUJI">
+  <meta property="og:locale" content="zh_HK">
+  <meta property="og:title" content="商品 — OUJI">
+  <meta property="og:description" content="OUJI — 香港最齊 K-Beauty 專門店">
+  <meta property="og:url" content="https://oujikbeauty.com/product">
+  <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="商品 — OUJI">
+  <meta name="twitter:description" content="OUJI — 香港最齊 K-Beauty 專門店">
+  <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -14,6 +33,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">跳到主要內容</a>
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
@@ -153,7 +173,7 @@
     </div>
   </nav>
 
-  <main style="padding-top: 96px;">
+  <main id="main-content" style="padding-top: 96px;">
     <div class="container">
 
       <!-- Breadcrumb -->
@@ -336,15 +356,38 @@
     const handle = params.get('handle');
     const productDetail = document.querySelector('.product-detail');
 
+    const galleryMain = document.querySelector('.product-gallery__main');
+
+    // Friendly empty / not-found / error state (mirrors the cart empty state)
+    function showProductState(title, text) {
+      if (productDetail) productDetail.style.display = 'none';
+      // Hide the related-products section(s) so the state isn't left dangling
+      document.querySelectorAll('main section').forEach((s) => { s.style.display = 'none'; });
+      const container = (productDetail && productDetail.parentElement) ||
+        document.getElementById('main-content') || document.querySelector('main');
+      if (!container) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'product-state';
+      wrap.innerHTML =
+        '<div class="product-state__icon"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>' +
+        '<h1 class="product-state__title">' + title + '</h1>' +
+        '<p class="product-state__text">' + text + '</p>' +
+        '<a href="category.html" class="btn btn--primary">瀏覽所有產品</a>';
+      container.appendChild(wrap);
+    }
+
     if (!handle) {
-      // No product handle — show empty page rather than blank
-      if (productDetail) productDetail.style.opacity = '1';
+      showProductState('找不到產品', '這個產品連結似乎不完整。瀏覽我們的完整系列，找到屬於你的韓系美膚好物。');
       return;
     }
+
+    // Show a loading skeleton on the gallery while we fetch
+    if (galleryMain) galleryMain.classList.add('is-loading');
 
     // Render product data into the page
     async function renderProduct(product) {
       if (!product) return;
+      if (galleryMain) galleryMain.classList.remove('is-loading');
 
       // Update page title
       document.title = product.title + ' — OUJI';
@@ -509,13 +552,14 @@
           cacheProduct(product);
           await renderProduct(product);
         } else {
-          // Product not found — show page anyway
-          if (productDetail) productDetail.style.opacity = '1';
+          if (galleryMain) galleryMain.classList.remove('is-loading');
+          showProductState('找不到產品', '這個產品可能已售罄或下架。瀏覽我們的完整系列，發掘更多精選好物。');
         }
       }
     } catch (err) {
       console.error('Failed to load product:', err);
-      if (productDetail) productDetail.style.opacity = '1';
+      if (galleryMain) galleryMain.classList.remove('is-loading');
+      showProductState('載入時發生問題', '產品資料暫時無法載入，請稍後再試，或瀏覽其他精選產品。');
     }
 
     // Failsafe: always show page after 3 seconds no matter what

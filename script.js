@@ -4,27 +4,14 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Entrance reveals (CSS makes these instant under reduced-motion) + essential UI
   initScrollReveal();
   initBlurReveal();
   initStaggerReveal();
   initScaleReveal();
-  initMobileNav();
-  initHeaderScroll();
-  initFilterSidebar();
-  initProductTabs();
-  initQuantityControls();
-  initVariantSelectors();
-  initCartActions();
-  initParallax();
-  initSmoothImages();
-  initScrollProgress();
-  initTiltCards();
-  initMagneticButtons();
-  initCursorGlow();
-  initCountUp();
-  initRippleButtons();
-  initMarqueeHoverPause();
-  initHScrollDrag();
   initSplitText();
   initWordReveal();
   initDirectionReveals();
@@ -32,9 +19,38 @@ document.addEventListener('DOMContentLoaded', () => {
   initMoodBoardReveal();
   initLookbookInView();
   initDividerReveal();
-  initHeroScrollParallax();
-  initScrollParallaxImages();
-  initFloatingParticles();
+  initMobileNav();
+  initHeaderScroll();
+  initFilterSidebar();
+  initProductTabs();
+  initQuantityControls();
+  initVariantSelectors();
+  initCartActions();
+  initSmoothImages();
+  initScrollProgress();
+  initRippleButtons();
+  initMarqueeHoverPause();
+  initHScrollDrag();
+
+  if (reduceMotion) {
+    // Show final counter values immediately, skip the count-up animation
+    document.querySelectorAll('[data-count]').forEach((el) => {
+      const t = parseInt(el.dataset.count);
+      if (!isNaN(t)) {
+        el.textContent = (el.dataset.prefix || '') + t.toLocaleString() + (el.dataset.suffix || '');
+      }
+    });
+  } else {
+    // Continuous / pointer-driven motion — only when motion is welcome
+    initParallax();
+    initTiltCards();
+    initMagneticButtons();
+    initCursorGlow();
+    initCountUp();
+    initHeroScrollParallax();
+    initScrollParallaxImages();
+    initFloatingParticles();
+  }
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page

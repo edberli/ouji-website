@@ -4140,3 +4140,100 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .footer {
   background: linear-gradient(180deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #0f1a1e 100%) !important;
 }
+
+/* ============================================
+   Accessibility — focus visibility + reduced motion
+   (appended; later rules intentionally win)
+   ============================================ */
+
+/* Visible keyboard focus (mouse clicks stay clean via :focus-visible) */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+/* Skip-to-content link (hidden until focused) */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: -100px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: var(--dark-base, #1e3038);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 0 0 10px 10px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Respect users who prefer reduced motion: neutralise animation globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Ensure scroll-reveal content is always shown, never stuck hidden */
+  .reveal, .reveal-blur, .reveal-stagger, .reveal-scale,
+  .reveal-left, .reveal-right, .reveal-clip, .reveal-clip--right,
+  .reveal-clip--up, .section-float, .section-divider, .split-text,
+  .word-reveal, .mood-board {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    filter: none !important;
+  }
+  /* Stop the brand marquees from auto-scrolling */
+  .marquee__inner { animation: none !important; }
+}
+
+/* ============================================
+   Product page — loading skeleton + empty/error state
+   ============================================ */
+.product-state {
+  max-width: 520px;
+  margin: 96px auto 120px;
+  text-align: center;
+  padding: 0 24px;
+}
+.product-state__icon { color: var(--primary); opacity: 0.55; margin-bottom: 20px; }
+.product-state__title {
+  font-family: var(--font-serif, 'Noto Serif TC', serif);
+  font-size: 1.6rem; font-weight: 500; margin-bottom: 14px;
+  color: var(--text-primary, #1e3038);
+}
+.product-state__text {
+  color: var(--text-secondary, #6b7a80);
+  line-height: 1.8; margin-bottom: 30px;
+}
+.product-gallery__main.is-loading {
+  min-height: 420px;
+  background: linear-gradient(100deg, #ece7e0 30%, #f6f2eb 50%, #ece7e0 70%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.3s ease-in-out infinite;
+  border-radius: 16px;
+}
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-gallery__main.is-loading { animation: none !important; }
+}
