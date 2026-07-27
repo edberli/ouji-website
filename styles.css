@@ -4237,3 +4237,16 @@ textarea:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .product-gallery__main.is-loading { animation: none !important; }
 }
+
+/* ----- Category empty state ----- */
+.category-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 24px 100px;
+}
+.category-empty__icon { color: var(--primary); opacity: 0.5; margin-bottom: 18px; }
+.category-empty__title {
+  font-family: var(--font-serif, 'Noto Serif TC', serif);
+  font-size: 1.35rem; margin-bottom: 10px; color: var(--text-primary, #1e3038);
+}
+.category-empty__text { color: var(--text-secondary, #6b7a80); margin-bottom: 26px; }

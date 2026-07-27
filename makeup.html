@@ -381,15 +381,14 @@
     await initPage();
 
     const params = new URLSearchParams(window.location.search);
-    const collection = params.get('collection') || 'makeup';
+    const section = params.get('collection') || 'makeup';
+    const cat = params.get('cat');
+    const products = await getCategoryProducts({ section, cat, first: 48 });
+    applyCategoryHeading(section, cat);
 
-    const productsData = await getProducts({
-      collectionHandle: collection || undefined,
-      first: 24
-    });
-    const products = productsData?.edges?.map(e => e.node) ?? [];
-
-    if (products.length > 0) {
+    if (!products.length) {
+      showCategoryEmpty(section, cat);
+    } else {
       const grid = document.querySelector('.product-grid');
       const count = document.querySelector('.filter-bar__count');
 

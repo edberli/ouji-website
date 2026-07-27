@@ -40,7 +40,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
             pageInfo { hasNextPage endCursor }
             edges {
               node {
-                id handle title
+                id handle title vendor productType tags
                 priceRange { minVariantPrice { amount currencyCode } }
                 compareAtPriceRange { minVariantPrice { amount currencyCode } }
                 images(first: 2) { edges { node { url altText } } }
@@ -60,7 +60,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
         pageInfo { hasNextPage endCursor }
         edges {
           node {
-            id handle title
+            id handle title vendor productType tags
             priceRange { minVariantPrice { amount currencyCode } }
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
             images(first: 2) { edges { node { url altText } } }
@@ -134,7 +134,7 @@ async function searchProducts(query, first = 10) {
       products(query: $query, first: $first) {
         edges {
           node {
-            id handle title
+            id handle title vendor productType tags
             priceRange { minVariantPrice { amount currencyCode } }
             images(first: 1) { edges { node { url altText } } }
           }
@@ -156,7 +156,7 @@ async function getCollections(first = 30) {
       collections(first: $first) {
         edges {
           node {
-            id handle title
+            id handle title vendor productType tags
             image { url altText }
             description
           }
@@ -842,3 +842,155 @@ window.toggleWishlist = function(e, product) {
     e.currentTarget.classList.add('is-active');
   }
 };
+
+/* ============================================
+   Category taxonomy
+   Maps the site nav's ?cat= slugs onto product data (productType /
+   tags / title), so browsing works without a Shopify collection per
+   category. Keywords are matched case-insensitively.
+   ============================================ */
+const CATEGORY_TAXONOMY = {
+  skincare: {
+    label: '護膚',
+    keywords: ['skincare', '護膚', '스킨케어'],
+    subs: {
+      cleanser:    { label: '潔面',     keywords: ['cleanser', 'cleansing', 'cleansing foam', '潔面', '洗面', '클렌징'] },
+      toner:       { label: '爽膚水',   keywords: ['toner', '爽膚水', '化妝水', '토너'] },
+      serum:       { label: '精華液',   keywords: ['serum', 'essence', 'ampoule', '精華', '安瓶', '에센스', '앰플'] },
+      moisturizer: { label: '乳液',     keywords: ['moisturizer', 'lotion', 'cream', 'emulsion', '乳液', '面霜', '크림'] },
+      mask:        { label: '面膜',     keywords: ['mask', 'sheet mask', 'mask pack', '面膜', '마스크', '팩'] },
+      eye:         { label: '眼部護理', keywords: ['eye cream', 'eye lifter', 'eye serum', '眼霜', '眼部', '아이'] },
+      sunscreen:   { label: '防曬',     keywords: ['sunscreen', 'suncare', 'sun cream', '防曬', '선크림', '선케어'] },
+    },
+  },
+  makeup: {
+    label: '彩妝',
+    keywords: ['makeup', '彩妝', '메이크업'],
+    subs: {
+      base:       { label: '底妝',   keywords: ['foundation', 'cushion', 'concealer', 'base makeup', '底妝', '粉底', '氣墊', '遮瑕'] },
+      foundation: { label: '粉底',   keywords: ['foundation', '粉底'] },
+      cushion:    { label: '氣墊',   keywords: ['cushion', '氣墊'] },
+      concealer:  { label: '遮瑕',   keywords: ['concealer', '遮瑕'] },
+      eye:        { label: '眼妝',   keywords: ['eyeshadow', 'eye shadow', 'eyeliner', 'mascara', 'brow', '眼影', '眼線', '睫毛', '眉'] },
+      eyeshadow:  { label: '眼影',   keywords: ['eyeshadow', 'eye shadow', '眼影'] },
+      eyeliner:   { label: '眼線',   keywords: ['eyeliner', 'eye liner', '眼線'] },
+      mascara:    { label: '睫毛膏', keywords: ['mascara', '睫毛'] },
+      brow:       { label: '眉筆',   keywords: ['brow', 'eyebrow', '眉'] },
+      lip:        { label: '唇妝',   keywords: ['lipstick', 'lip tint', 'lip gloss', 'lip balm', '唇膏', '唇釉', '唇彩', '唇'] },
+      lipstick:   { label: '唇膏',   keywords: ['lipstick', '唇膏'] },
+      liptint:    { label: '唇釉',   keywords: ['tint', '唇釉'] },
+      lipgloss:   { label: '唇彩',   keywords: ['gloss', '唇彩'] },
+      cheek:      { label: '修容',   keywords: ['blush', 'highlighter', 'contour', 'bronzer', '胭脂', '高光', '修容'] },
+      blush:      { label: '胭脂',   keywords: ['blush', '胭脂'] },
+      contour:    { label: '修容',   keywords: ['contour', 'bronzer', '修容'] },
+      highlight:  { label: '高光',   keywords: ['highlighter', 'highlight', '高光'] },
+    },
+  },
+  'body-care': { label: '身體護理', keywords: ['body', 'body care', 'hand', 'hair', 'shampoo', '身體', '護手', '頭皮', '髮'] },
+  fragrance:   { label: '香氛',     keywords: ['fragrance', 'perfume', 'eau de', 'mist', '香水', '香氛'] },
+  lifestyle:   { label: '生活風格', keywords: ['lifestyle', 'accessory', 'tool', 'goods', '生活', '配件', '工具'] },
+};
+
+// Text blob a product is matched against
+function productHaystack(p) {
+  return [p.productType || '', (p.tags || []).join(' '), p.title || '']
+    .join(' ')
+    .toLowerCase();
+}
+
+function matchesKeywords(p, keywords) {
+  if (!keywords || !keywords.length) return true;
+  const hay = productHaystack(p);
+  return keywords.some((k) => hay.includes(String(k).toLowerCase()));
+}
+
+// Collect the keyword set for a section (+ optional subcategory)
+function categoryKeywords(section, cat) {
+  const sec = CATEGORY_TAXONOMY[section];
+  if (!sec) return [];
+  if (cat && sec.subs && sec.subs[cat]) return sec.subs[cat].keywords;
+  const own = sec.keywords || [];
+  const fromSubs = sec.subs ? Object.values(sec.subs).flatMap((s) => s.keywords) : [];
+  return [...own, ...fromSubs];
+}
+
+function categoryLabel(section, cat) {
+  const sec = CATEGORY_TAXONOMY[section];
+  if (!sec) return '';
+  if (cat && sec.subs && sec.subs[cat]) return sec.subs[cat].label;
+  return sec.label || '';
+}
+
+/**
+ * Products for a section/subcategory. Tries the matching Shopify
+ * collection first; if that collection doesn't exist (or is empty),
+ * falls back to scanning the catalogue and filtering by taxonomy.
+ * Always applies the subcategory filter when `cat` is given.
+ */
+async function getCategoryProducts({ section, cat = null, first = 48 } = {}) {
+  let products = [];
+  try {
+    const viaCollection = await getProducts({ collectionHandle: section, first });
+    products = viaCollection?.edges?.map((e) => e.node) ?? [];
+  } catch (e) {
+    products = [];
+  }
+  if (!products.length) {
+    const all = await getProducts({ first: 250 });
+    const everything = all?.edges?.map((e) => e.node) ?? [];
+    products = everything.filter((p) => matchesKeywords(p, categoryKeywords(section, null)));
+  }
+  if (cat) {
+    products = products.filter((p) => matchesKeywords(p, categoryKeywords(section, cat)));
+  }
+  return products;
+}
+
+/**
+ * Reflect the active section/subcategory in the page chrome:
+ * banner title, breadcrumb tail and document title.
+ */
+function applyCategoryHeading(section, cat) {
+  if (!cat) return;
+  const label = categoryLabel(section, cat);
+  if (!label) return;
+  const sectionLabel = categoryLabel(section, null);
+
+  const title = document.querySelector('.category-banner__title');
+  if (title) title.textContent = label;
+
+  const crumb = document.querySelector('.breadcrumb');
+  if (crumb && !crumb.dataset.categoryApplied) {
+    crumb.dataset.categoryApplied = '1';
+    const tail = crumb.querySelector('span:last-child');
+    if (tail && !tail.classList.contains('breadcrumb__sep')) tail.textContent = label;
+    // Insert the parent section ahead of the subcategory
+    if (tail && sectionLabel && sectionLabel !== label) {
+      const sep = document.createElement('span');
+      sep.className = 'breadcrumb__sep';
+      sep.textContent = '/';
+      const parent = document.createElement('span');
+      parent.textContent = sectionLabel;
+      crumb.insertBefore(parent, tail);
+      crumb.insertBefore(sep, tail);
+    }
+  }
+
+  document.title = `${label} — OUJI`;
+}
+
+/** Friendly state for a category that currently has no products. */
+function showCategoryEmpty(section, cat) {
+  const grid = document.querySelector('.product-grid');
+  const count = document.querySelector('.filter-bar__count');
+  if (count) count.textContent = '顯示 0 件產品';
+  if (!grid) return;
+  const label = categoryLabel(section, cat) || '這個分類';
+  grid.innerHTML =
+    '<div class="category-empty">' +
+    '<div class="category-empty__icon"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>' +
+    '<p class="category-empty__title">' + label + '暫時未有產品</p>' +
+    '<p class="category-empty__text">我們正在為你搜羅更多好物，先看看其他系列吧。</p>' +
+    '<a href="category.html" class="btn btn--primary">瀏覽所有產品</a>' +
+    '</div>';
+}
