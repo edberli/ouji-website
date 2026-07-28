@@ -353,7 +353,10 @@
     await initPage();
 
     const params = new URLSearchParams(window.location.search);
-    const handle = params.get('handle');
+    // Shopify-style /products/<handle> is rewritten server-side, so the
+    // browser URL keeps the path and carries no ?handle= — read either.
+    const pathHandle = (location.pathname.match(/^\/products\/([^/]+)/) || [])[1];
+    const handle = params.get('handle') || (pathHandle ? decodeURIComponent(pathHandle) : null);
     const productDetail = document.querySelector('.product-detail');
 
     const galleryMain = document.querySelector('.product-gallery__main');

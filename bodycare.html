@@ -381,7 +381,11 @@
     await initPage();
 
     const params = new URLSearchParams(window.location.search);
-    const section = params.get('collection') || 'body-care';
+    // /collections/<handle> is rewritten server-side, so the browser URL
+    // keeps the path and carries no ?collection= — read either.
+    const pathCollection = (location.pathname.match(/^\/collections\/([^/]+)/) || [])[1];
+    const section = params.get('collection') ||
+      (pathCollection ? decodeURIComponent(pathCollection) : null) || 'body-care';
     const cat = params.get('cat');
     const products = await getCategoryProducts({ section, cat, first: 48 });
     applyCategoryHeading(section, cat);
