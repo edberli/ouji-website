@@ -144,9 +144,11 @@ body {
 @keyframes r-hero-settle { to { transform: scale(1); } }
 .r-hero__scrim {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg,
-    rgba(20,24,26,0.28) 0%, transparent 32%,
-    transparent 52%, rgba(20,24,26,0.72) 100%);
+  /* Top band carries the nav, bottom band carries the headline —
+     the middle stays clear so the photograph reads. */
+  background:
+    linear-gradient(180deg, rgba(20,24,26,0.46) 0%, rgba(20,24,26,0.10) 18%, transparent 34%),
+    linear-gradient(0deg,  rgba(20,24,26,0.80) 0%, rgba(20,24,26,0.30) 28%, transparent 52%);
 }
 .r-hero__inner {
   position: relative;
