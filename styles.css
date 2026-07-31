@@ -2082,12 +2082,14 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4xl); padding: var(--space-3xl) 0; }
 
 .product-gallery { position: sticky; top: calc(var(--header-height) + 40px + var(--space-xl)); align-self: start; }
-.product-gallery__main { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 20px; margin-bottom: var(--space-md); box-shadow: 0 12px 40px rgba(109,163,181,0.1); }
+/* Square: brand product photography is shot 1:1, so a 3/4 frame cropped
+   a quarter of every image away. */
+.product-gallery__main { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 20px; margin-bottom: var(--space-md); box-shadow: 0 12px 40px rgba(109,163,181,0.1); }
 .product-gallery__main img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--duration-slow) var(--ease-out); }
 .product-gallery__main:hover img { transform: scale(1.05); }
 
 .product-gallery__thumbs { display: flex; gap: var(--space-sm); }
-.product-gallery__thumb { width: 72px; height: 90px; overflow: hidden; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all var(--duration-fast); }
+.product-gallery__thumb { width: 72px; height: 72px; overflow: hidden; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all var(--duration-fast); }
 .product-gallery__thumb.is-active, .product-gallery__thumb:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(109,163,181,0.2); }
 .product-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -4285,4 +4287,41 @@ textarea:focus-visible,
     max-width: 100vw;
   }
   .product-detail-images img { max-width: 100vw; }
+}
+
+/* ============================================
+   Full-width product description
+   The buy box only needs the right column; the long detail strips are
+   authored ~1200px wide and belong under both columns, centred.
+   ============================================ */
+.product-tabs--full {
+  margin-top: var(--space-4xl, 80px);
+  padding-top: var(--space-2xl, 40px);
+  border-top: 1px solid var(--border-light);
+}
+.product-tabs--full .product-tabs__nav {
+  justify-content: center;
+}
+.product-tabs--full .product-description {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* copy block reads better narrower than the imagery */
+.product-tabs--full .product-description > p,
+.product-tabs--full .product-description > ul {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.product-copy__hook {
+  font-family: var(--font-serif, 'Noto Serif TC', serif);
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: var(--space-lg, 24px);
+}
+.product-copy__closer {
+  text-align: center;
+  color: var(--text-secondary, #6b7a80);
+  margin-top: var(--space-xl, 32px);
 }
