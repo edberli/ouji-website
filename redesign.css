@@ -125,56 +125,65 @@ body {
 .r-band--ink .r-link   { color: var(--r-white); border-color: rgba(252,251,249,0.4); }
 .r-band--ink .r-link:hover { color: var(--r-blue); border-color: var(--r-blue); }
 
-/* ---------- Hero: cinematic, type over image, no card ---------- */
+/* ---------- Hero ----------
+   The photographs already carry campaign typography, so the page
+   frames them instead of writing over them. */
 .r-hero {
   position: relative;
-  height: 100svh;
-  min-height: 620px;
-  overflow: hidden;
-  display: grid;
-  align-items: end;
+  height: calc(100svh - 96px);
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
 }
-.r-hero__media { position: absolute; inset: 0; }
-.r-hero__media img {
+.r-hero__stage { position: relative; flex: 1; overflow: hidden; }
+.r-slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 1.4s var(--r-ease);
+}
+.r-slide.is-active { opacity: 1; }
+.r-slide img {
   width: 100%; height: 100%;
   object-fit: cover;
-  transform: scale(1.06);
-  animation: r-hero-settle 2.4s var(--r-ease) forwards;
 }
-@keyframes r-hero-settle { to { transform: scale(1); } }
-.r-hero__scrim {
-  position: absolute; inset: 0;
-  /* Top band carries the nav, bottom band carries the headline —
-     the middle stays clear so the photograph reads. */
-  background:
-    linear-gradient(180deg, rgba(20,24,26,0.46) 0%, rgba(20,24,26,0.10) 18%, transparent 34%),
-    linear-gradient(0deg,  rgba(20,24,26,0.80) 0%, rgba(20,24,26,0.30) 28%, transparent 52%);
-}
-.r-hero__inner {
-  position: relative;
-  padding: 0 var(--r-gutter) clamp(48px, 9vh, 110px);
-  color: var(--r-white);
-  max-width: 1100px;
-}
-.r-hero .r-display { color: var(--r-white); }
-.r-hero__meta {
-  display: flex; gap: clamp(20px, 4vw, 56px);
-  align-items: baseline; flex-wrap: wrap;
-  margin-bottom: clamp(16px, 3vh, 34px);
-}
-.r-hero__meta .r-kicker { color: rgba(252,251,249,0.75); }
+/* Slow drift keeps a still image from feeling static */
+.r-slide.is-active img { animation: r-drift 14s var(--r-ease) forwards; }
+@keyframes r-drift { from { transform: scale(1.045); } to { transform: scale(1); } }
 
-/* Words rise in one after another */
-.r-rise > * {
-  display: block;
-  opacity: 0;
-  transform: translateY(0.5em);
-  animation: r-rise 1.15s var(--r-ease) forwards;
+/* Caption rail sits below the image, on paper — nothing covers the art */
+.r-hero__rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px var(--r-gutter);
+  border-bottom: 1px solid var(--r-line);
+  background: var(--r-paper);
 }
-.r-rise > *:nth-child(1) { animation-delay: 0.15s; }
-.r-rise > *:nth-child(2) { animation-delay: 0.28s; }
-.r-rise > *:nth-child(3) { animation-delay: 0.41s; }
-@keyframes r-rise { to { opacity: 1; transform: none; } }
+.r-hero__caption { display: flex; align-items: center; gap: 18px; }
+.r-hero__sep { width: 26px; height: 1px; background: var(--r-line); }
+#r-slide-brand { color: var(--r-ink); }
+
+.r-hero__dots { display: flex; gap: 10px; }
+.r-hero__dot {
+  width: 34px; height: 2px;
+  background: var(--r-line);
+  border: 0; padding: 0; cursor: pointer;
+  position: relative; overflow: hidden;
+}
+.r-hero__dot::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--r-ink);
+  transform: scaleX(0); transform-origin: left;
+}
+.r-hero__dot.is-active::after { animation: r-dot 6s linear forwards; }
+@keyframes r-dot { to { transform: scaleX(1); } }
+
+@media (max-width: 767px) {
+  .r-hero { height: auto; }
+  .r-hero__stage { aspect-ratio: 3 / 4; flex: none; }
+  .r-hero__rail { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
 
 /* ---------- Editorial split: image and text share the page ---------- */
 .r-split {

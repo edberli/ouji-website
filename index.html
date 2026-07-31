@@ -177,30 +177,48 @@
   <main id="main-content">
 
     <!-- ── 1. Hero ─────────────────────────────────────────────
-         One image, one line. No carousel, no card, no buttons
-         competing for the eye. -->
+         The campaign images carry their own typography, so the page
+         adds none on top of them — just a thin editorial frame:
+         numbered slides, a caption rail, and one link. -->
     <section class="r-hero">
-      <div class="r-hero__media">
-        <picture>
-          <source media="(max-width: 767px)" srcset="assets/images/hero-editorial-mobile.webp" type="image/webp">
-          <source srcset="assets/images/hero-editorial.webp" type="image/webp">
-          <img src="assets/images/hero-editorial.png" alt="" fetchpriority="high">
-        </picture>
+      <div class="r-hero__stage">
+        <div class="r-slide is-active">
+          <picture>
+            <source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.webp" type="image/webp">
+            <source srcset="assets/images/hero-1.webp" type="image/webp">
+            <img src="assets/images/hero-1.png" alt="Coralhaze" fetchpriority="high">
+          </picture>
+        </div>
+        <div class="r-slide">
+          <picture>
+            <source media="(max-width: 767px)" srcset="assets/images/hero-2-mobile.webp" type="image/webp">
+            <source srcset="assets/images/hero-2.webp" type="image/webp">
+            <img src="assets/images/hero-2.png" alt="TIRTIR" loading="lazy">
+          </picture>
+        </div>
+        <div class="r-slide">
+          <picture>
+            <source media="(max-width: 767px)" srcset="assets/images/hero-3-mobile.webp" type="image/webp">
+            <source srcset="assets/images/hero-3.webp" type="image/webp">
+            <img src="assets/images/hero-3.png" alt="dasique" loading="lazy">
+          </picture>
+        </div>
+        <div class="r-slide">
+          <picture>
+            <source media="(max-width: 767px)" srcset="assets/images/hero-4-mobile.webp" type="image/webp">
+            <source srcset="assets/images/hero-4.webp" type="image/webp">
+            <img src="assets/images/hero-4.png" alt="Laka" loading="lazy">
+          </picture>
+        </div>
       </div>
-      <div class="r-hero__scrim"></div>
-      <div class="r-hero__inner">
-        <div class="r-hero__meta r-rise">
-          <span class="r-kicker">Hong Kong</span>
-          <span class="r-kicker">Korean Beauty</span>
-          <span class="r-kicker">Est. 2023</span>
+
+      <div class="r-hero__rail">
+        <div class="r-hero__caption">
+          <span class="r-kicker" id="r-slide-brand">Coralhaze</span>
+          <span class="r-hero__sep"></span>
+          <span class="r-kicker">本月焦點</span>
         </div>
-        <h1 class="r-display r-rise"><span>光，由講究開始</span></h1>
-        <div class="r-rise" style="margin-top: clamp(20px,4vh,44px);">
-          <a href="shop.html" class="r-link">
-            瀏覽全部產品
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+        <div class="r-hero__dots" id="r-slide-dots"></div>
       </div>
     </section>
 
@@ -552,6 +570,32 @@
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
 
+    // Hero carousel — fades between the campaign images
+    (() => {
+      const slides = [...document.querySelectorAll('.r-slide')];
+      const dots   = document.getElementById('r-slide-dots');
+      const brand  = document.getElementById('r-slide-brand');
+      if (!slides.length || !dots) return;
+      const names = slides.map((s) => s.querySelector('img').alt || '');
+      dots.innerHTML = slides.map((_, i) =>
+        `<button class="r-hero__dot${i === 0 ? ' is-active' : ''}" aria-label="第 ${i + 1} 張"></button>`).join('');
+      const buttons = [...dots.children];
+      let i = 0, timer;
+      const show = (n) => {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((s, k) => s.classList.toggle('is-active', k === i));
+        buttons.forEach((b, k) => {
+          b.classList.remove('is-active');
+          if (k === i) { void b.offsetWidth; b.classList.add('is-active'); }
+        });
+        if (brand) brand.textContent = names[i];
+      };
+      const play = () => { clearInterval(timer); timer = setInterval(() => show(i + 1), 6000); };
+      buttons.forEach((b, k) => b.addEventListener('click', () => { show(k); play(); }));
+      play();
+    })();
+
+    // Brand rule
     // Brand rule — doubled so the loop is seamless
     const brands = ['COSRX','ROM&ND','BEAUTY OF JOSEON','TORRIDEN','ANUA','hince','Abib',
                     'TIRTIR','dasique','MIXSOON','Glint','SKIN1004','VT','AXIS-Y','goodal'];
