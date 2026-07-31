@@ -28,22 +28,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=League+Spartan:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="redesign.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
 
-  <!-- Page Loader -->
-  <div class="page-loader">
-    <span class="page-loader__brand">OUJI</span>
-  </div>
-
-  <!-- Floating Particles -->
-  <div class="particles"></div>
-
-  <!-- Scroll Progress Bar -->
-  <div class="scroll-progress"></div>
-
-  <!-- Announcement Bar -->
+<!-- Announcement Bar -->
   <div class="announcement-bar">
     全單滿 HK$400 免運費 &nbsp;·&nbsp; 新客首單 9 折
   </div>
@@ -183,672 +173,159 @@
     </div>
   </nav>
 
+  
   <main id="main-content">
 
-    <!-- ===== HERO ===== -->
-    <section class="hero">
-      <div class="hero__carousel">
-        <div class="hero__carousel-track">
-          <div class="hero__carousel-slide active"><picture><source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.webp" type="image/webp"><source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.png"><source srcset="assets/images/hero-1.webp" type="image/webp"><img src="assets/images/hero-1.png" alt="" fetchpriority="high"></picture></div>
-          <div class="hero__carousel-slide"><picture><source media="(max-width: 767px)" srcset="assets/images/hero-2-mobile.webp" type="image/webp"><source media="(max-width: 767px)" srcset="assets/images/hero-2-mobile.png"><source srcset="assets/images/hero-2.webp" type="image/webp"><img src="assets/images/hero-2.png" alt=""></picture></div>
-          <div class="hero__carousel-slide"><picture><source media="(max-width: 767px)" srcset="assets/images/hero-3-mobile.webp" type="image/webp"><source media="(max-width: 767px)" srcset="assets/images/hero-3-mobile.png"><source srcset="assets/images/hero-3.webp" type="image/webp"><img src="assets/images/hero-3.png" alt=""></picture></div>
-          <div class="hero__carousel-slide"><picture><source media="(max-width: 767px)" srcset="assets/images/hero-4-mobile.webp" type="image/webp"><source media="(max-width: 767px)" srcset="assets/images/hero-4-mobile.png"><source srcset="assets/images/hero-4.webp" type="image/webp"><img src="assets/images/hero-4.png" alt=""></picture></div>
+    <!-- ── 1. Hero ─────────────────────────────────────────────
+         One image, one line. No carousel, no card, no buttons
+         competing for the eye. -->
+    <section class="r-hero">
+      <div class="r-hero__media">
+        <picture>
+          <source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.webp" type="image/webp">
+          <source srcset="assets/images/hero-1.webp" type="image/webp">
+          <img src="assets/images/hero-1.png" alt="" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="r-hero__scrim"></div>
+      <div class="r-hero__inner">
+        <div class="r-hero__meta r-rise">
+          <span class="r-kicker">Hong Kong</span>
+          <span class="r-kicker">Korean Beauty</span>
+          <span class="r-kicker">Est. 2023</span>
         </div>
-        <button class="hero__carousel-arrow hero__carousel-arrow--prev" aria-label="上一張">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-        <button class="hero__carousel-arrow hero__carousel-arrow--next" aria-label="下一張">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </button>
-        <div class="hero__carousel-dots">
-          <button class="hero__carousel-dot active" aria-label="Slide 1"></button>
-          <button class="hero__carousel-dot" aria-label="Slide 2"></button>
-          <button class="hero__carousel-dot" aria-label="Slide 3"></button>
-          <button class="hero__carousel-dot" aria-label="Slide 4"></button>
+        <h1 class="r-display r-rise"><span>光，由講究開始</span></h1>
+        <div class="r-rise" style="margin-top: clamp(20px,4vh,44px);">
+          <a href="shop.html" class="r-link">
+            瀏覽全部產品
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
-      <div class="hero__cursor-glow"></div>
     </section>
 
-    <!-- ===== MARQUEE ===== -->
-    <div class="marquee">
-      <div class="marquee__inner">
-        <span class="marquee__item">COSRX</span>
-        <span class="marquee__item">rom&nd</span>
-        <span class="marquee__item">Beauty of Joseon</span>
-        <span class="marquee__item">Torriden</span>
-        <span class="marquee__item">ANUA</span>
-        <span class="marquee__item">hince</span>
-        <span class="marquee__item">Abib</span>
-        <span class="marquee__item">TIRTIR</span>
-        <span class="marquee__item">dasique</span>
-        <span class="marquee__item">MIXSOON</span>
-        <span class="marquee__item">COSRX</span>
-        <span class="marquee__item">rom&nd</span>
-        <span class="marquee__item">Beauty of Joseon</span>
-        <span class="marquee__item">Torriden</span>
-        <span class="marquee__item">ANUA</span>
-        <span class="marquee__item">hince</span>
-        <span class="marquee__item">Abib</span>
-        <span class="marquee__item">TIRTIR</span>
-        <span class="marquee__item">dasique</span>
-        <span class="marquee__item">MIXSOON</span>
-      </div>
+    <!-- ── 2. Brand rule ──────────────────────────────────── -->
+    <div class="r-marquee">
+      <div class="r-marquee__track" id="r-marquee-track"></div>
     </div>
 
-    <!-- ===== BRAND INTRO + STATS ===== -->
-    <section class="section section--brand-intro">
-      <div class="container">
-        <div class="section-header reveal-blur">
-          <span class="label section-header__label">關於 OUJI</span>
-          <h2 class="heading-xl section-header__title text-shimmer" data-split-text>精選，源於講究</h2>
-          <p class="body-lg section-header__desc">
-            全港最齊全的韓國美妝護膚專門店——從人氣彩妝、高效護膚到韓國保健品，一站式搜羅。更獨家引入 K-pop 明星周邊與限定公仔，讓你的韓系生活，不止於美。
+    <!-- ── 3. Manifesto ───────────────────────────────────────
+         The shop's point of view, given room to breathe. -->
+    <section class="r-band r-band--paper">
+      <div class="r-split">
+        <div class="r-split__media r-wipe r-reveal">
+          <img src="assets/images/hero-3.webp" alt="OUJI 精選韓國美妝" loading="lazy">
+        </div>
+        <div class="r-split__body">
+          <p class="r-kicker r-reveal">關於 OUJI</p>
+          <h2 class="r-h2 r-reveal r-reveal--d1">我們只留下<br>值得留下的</h2>
+          <p class="r-body r-reveal r-reveal--d2">
+            韓國每年推出上千件新品，真正值得放進日常的沒有幾件。
+            我們親自試、親自挑，只把留得住的帶回香港——
+            從人氣彩妝、高效護膚，到 K-pop 限定周邊。
           </p>
-        </div>
-        <div class="stats-grid reveal-blur">
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="100" data-suffix="+">0+</span>
-            <span class="stat-card__label">合作品牌</span>
-          </div>
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="1000" data-suffix="+">0+</span>
-            <span class="stat-card__label">精選產品</span>
-          </div>
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="12000" data-suffix="+">0+</span>
-            <span class="stat-card__label">滿意客戶</span>
-          </div>
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="100" data-suffix="%" data-prefix="">0%</span>
-            <span class="stat-card__label">正品保證</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== BRAND MARQUEES (Skincare + Makeup separated) ===== -->
-    <section class="brand-marquees">
-      <!-- Smoke video background -->
-      <div class="brand-marquees__video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/smoke-bg-short.webm" type="video/webm">
-          <source src="videos/smoke-bg-short.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="container">
-        <div class="section-header reveal-blur">
-          <span class="label section-header__label">合作品牌</span>
-          <h2 class="heading-lg section-header__title">Our Brands</h2>
-          <p class="body-lg section-header__desc">匯集韓國最具人氣與口碑的美妝護膚品牌，每一個都經過嚴選。</p>
-        </div>
-      </div>
-
-      <!-- ── 彩妝品牌 ── -->
-      <div class="brand-marquees__section">
-        <div class="container">
-          <div class="brand-marquees__section-header">
-            <div class="brand-section-title">
-              <p class="brand-marquees__label">彩妝品牌</p>
-            </div>
-            <button class="brand-section-toggle" id="makeupToggle">
-              <span class="brand-section-toggle__text">瀏覽全部 · 19 品牌</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Marquee rows (collapse when grid opens) -->
-        <div class="brand-marquees__rows" id="makeupRows">
-
-        <!-- Makeup Row 1 (reverse) -->
-        <div class="brand-marquee brand-marquee--reverse">
-          <div class="brand-marquee__track">
-            <a href="category.html" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="category.html" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo"></a>
-          </div>
-        </div>
-
-        <!-- Makeup Row 2 (fast) -->
-        <div class="brand-marquee brand-marquee--fast">
-          <div class="brand-marquee__track">
-            <a href="category.html" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="category.html" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo"></a>
-          </div>
-        </div>
-
-        </div><!-- end brand-marquees__rows (makeup) -->
-
-        <!-- Makeup grid (hidden by default) -->
-        <div class="brand-marquees__grid-view" id="makeupGridView">
-          <div class="container">
-            <div class="brand-grid">
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-grid__logo"><span class="brand-grid__name">TIRTIR</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/romand.svg" alt="rom&nd" class="brand-grid__logo"><span class="brand-grid__name">rom&amp;nd</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/dasique.png" alt="dasique" class="brand-grid__logo"><span class="brand-grid__name">dasique</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/hince.svg" alt="hince" class="brand-grid__logo"><span class="brand-grid__name">hince</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/fwee.svg" alt="fwee" class="brand-grid__logo"><span class="brand-grid__name">fwee</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/amuse.svg" alt="AMUSE" class="brand-grid__logo"><span class="brand-grid__name">AMUSE</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-grid__logo"><span class="brand-grid__name">lilybyred</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/glint.svg" alt="GLINT" class="brand-grid__logo"><span class="brand-grid__name">GLINT</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/clio.svg" alt="CLIO" class="brand-grid__logo"><span class="brand-grid__name">CLIO</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/peripera.svg" alt="peripera" class="brand-grid__logo"><span class="brand-grid__name">peripera</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-grid__logo"><span class="brand-grid__name">WAKEMAKE</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-grid__logo"><span class="brand-grid__name">Flower Knows</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/maybelline.svg" alt="Maybelline" class="brand-grid__logo"><span class="brand-grid__name">Maybelline</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/laka.svg" alt="LAKA" class="brand-grid__logo"><span class="brand-grid__name">LAKA</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/2an.svg" alt="2aN" class="brand-grid__logo"><span class="brand-grid__name">2aN</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/braye.svg" alt="BRAYE" class="brand-grid__logo"><span class="brand-grid__name">BRAYE</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-grid__logo"><span class="brand-grid__name">UNLEASHIA</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-grid__logo"><span class="brand-grid__name">Heart Percent</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="makeup"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-grid__logo"><span class="brand-grid__name">Coralhaze</span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── 護膚品牌 ── -->
-      <div class="brand-marquees__section">
-        <div class="container">
-          <div class="brand-marquees__section-header">
-            <div class="brand-section-title">
-              <p class="brand-marquees__label">護膚品牌</p>
-            </div>
-            <button class="brand-section-toggle" id="skincareToggle">
-              <span class="brand-section-toggle__text">瀏覽全部 · 29 品牌</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Marquee rows (collapse when grid opens) -->
-        <div class="brand-marquees__rows" id="skincareRows">
-
-        <!-- Skincare Row 1 (forward) -->
-        <div class="brand-marquee">
-          <div class="brand-marquee__track">
-            <a href="category.html" class="brand-marquee__item"><img src="logos/torriden.svg" alt="Torriden" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/anua.png" alt="ANUA" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/vt-cosmetics.svg" alt="VT Cosmetics" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/abib.svg" alt="Abib" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/round-lab.svg" alt="Round Lab" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/skin1004.png" alt="Skin1004" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/axis-y.png" alt="AXIS-Y" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/beplain.png" alt="Beplain" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/boh.svg" alt="BOH" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/cosrx.png" alt="COSRX" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/dr-jart.png" alt="Dr. Jart+" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/goodal.svg" alt="goodal" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/heveblue.svg" alt="HEVEBLUE" class="brand-marquee__logo"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="category.html" class="brand-marquee__item"><img src="logos/torriden.svg" alt="Torriden" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/anua.png" alt="ANUA" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/vt-cosmetics.svg" alt="VT Cosmetics" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/abib.svg" alt="Abib" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/round-lab.svg" alt="Round Lab" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/skin1004.png" alt="Skin1004" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/axis-y.png" alt="AXIS-Y" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/beplain.png" alt="Beplain" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/boh.svg" alt="BOH" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/cosrx.png" alt="COSRX" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/dr-jart.png" alt="Dr. Jart+" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/goodal.svg" alt="goodal" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/heveblue.svg" alt="HEVEBLUE" class="brand-marquee__logo"></a>
-          </div>
-        </div>
-
-        <!-- Skincare Row 2 (reverse fast) -->
-        <div class="brand-marquee brand-marquee--reverse brand-marquee--fast">
-          <div class="brand-marquee__track">
-            <a href="category.html" class="brand-marquee__item"><img src="logos/lindsay.svg" alt="LINDSAY" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/manyo.svg" alt="Manyo" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/mary-may.svg" alt="Mary &amp; May" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/nineless.svg" alt="NINELESS" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/so-natural.svg" alt="SO Natural" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/solep.svg" alt="SOLEP" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/sungboon-editor.svg" alt="SUNGBOON EDITOR" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/tocobo.svg" alt="TOCOBO" class="brand-marquee__logo"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="category.html" class="brand-marquee__item"><img src="logos/lindsay.svg" alt="LINDSAY" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/manyo.svg" alt="Manyo" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/mary-may.svg" alt="Mary &amp; May" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/nineless.svg" alt="NINELESS" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/so-natural.svg" alt="SO Natural" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/solep.svg" alt="SOLEP" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/sungboon-editor.svg" alt="SUNGBOON EDITOR" class="brand-marquee__logo"></a>
-            <a href="category.html" class="brand-marquee__item"><img src="logos/tocobo.svg" alt="TOCOBO" class="brand-marquee__logo"></a>
-          </div>
-        </div>
-
-        </div><!-- end brand-marquees__rows (skincare) -->
-
-        <!-- Skincare grid (hidden by default) -->
-        <div class="brand-marquees__grid-view" id="skincareGridView">
-          <div class="container">
-            <div class="brand-grid">
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/torriden.svg" alt="Torriden" class="brand-grid__logo"><span class="brand-grid__name">Torriden</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/anua.png" alt="ANUA" class="brand-grid__logo"><span class="brand-grid__name">ANUA</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/vt-cosmetics.svg" alt="VT Cosmetics" class="brand-grid__logo"><span class="brand-grid__name">VT Cosmetics</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/abib.svg" alt="Abib" class="brand-grid__logo"><span class="brand-grid__name">Abib</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/round-lab.svg" alt="Round Lab" class="brand-grid__logo"><span class="brand-grid__name">Round Lab</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/skin1004.png" alt="Skin1004" class="brand-grid__logo"><span class="brand-grid__name">SKIN1004</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/axis-y.png" alt="AXIS-Y" class="brand-grid__logo"><span class="brand-grid__name">AXIS-Y</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon" class="brand-grid__logo"><span class="brand-grid__name">Beauty of Joseon</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/beplain.png" alt="Beplain" class="brand-grid__logo"><span class="brand-grid__name">Beplain</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/boh.svg" alt="BOH" class="brand-grid__logo"><span class="brand-grid__name">BOH</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-grid__logo"><span class="brand-grid__name">Bring Green</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/cosrx.png" alt="COSRX" class="brand-grid__logo"><span class="brand-grid__name">COSRX</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/dr-jart.png" alt="Dr. Jart+" class="brand-grid__logo"><span class="brand-grid__name">Dr. Jart+</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/goodal.svg" alt="goodal" class="brand-grid__logo"><span class="brand-grid__name">goodal</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/heveblue.svg" alt="HEVEBLUE" class="brand-grid__logo"><span class="brand-grid__name">HEVEBLUE</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/lindsay.svg" alt="LINDSAY" class="brand-grid__logo"><span class="brand-grid__name">LINDSAY</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/manyo.svg" alt="Manyo" class="brand-grid__logo"><span class="brand-grid__name">Manyo</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/mary-may.svg" alt="Mary &amp; May" class="brand-grid__logo"><span class="brand-grid__name">Mary &amp; May</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-grid__logo"><span class="brand-grid__name">MIXSOON</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/needly.svg" alt="NEEDLY" class="brand-grid__logo"><span class="brand-grid__name">NEEDLY</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/nineless.svg" alt="NINELESS" class="brand-grid__logo"><span class="brand-grid__name">NINELESS</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/ootd.svg" alt="OOTD" class="brand-grid__logo"><span class="brand-grid__name">OOTD</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-grid__logo"><span class="brand-grid__name">PURITO</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-grid__logo"><span class="brand-grid__name">Skinfood</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/so-natural.svg" alt="SO Natural" class="brand-grid__logo"><span class="brand-grid__name">SO Natural</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/solep.svg" alt="SOLEP" class="brand-grid__logo"><span class="brand-grid__name">SOLEP</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-grid__logo"><span class="brand-grid__name">SOME BY MI</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/sungboon-editor.svg" alt="SUNGBOON EDITOR" class="brand-grid__logo"><span class="brand-grid__name">SUNGBOON EDITOR</span></a>
-              <a href="category.html" class="brand-grid__card" data-category="skincare"><img src="logos/tocobo.svg" alt="TOCOBO" class="brand-grid__logo"><span class="brand-grid__name">TOCOBO</span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ===== FEATURED COLLECTION ===== -->
-    <section class="section--sm reveal-scale">
-      <div class="container">
-        <div class="featured-collection">
-          <div class="featured-collection__visual parallax-img reveal-clip">
-            <img src="https://images.unsplash.com/photo-1741896135518-ce303a539bc0?w=960&q=80" alt="Skincare bottles on marble" loading="lazy" decoding="async">
-            <span class="featured-collection__visual-tag">SPRING 2026</span>
-          </div>
-          <div class="featured-collection__info reveal-right">
-            <span class="featured-collection__eyebrow">
-              <span class="featured-collection__eyebrow-line"></span>
-              編輯精選 · Editor's Pick
-            </span>
-            <h2 class="featured-collection__title">春日光澤系列</h2>
-            <p class="featured-collection__desc">迎接春日光澤，我們精選了最適合換季的護膚組合——從溫和潔面到輕盈保濕，層層呵護，煥發自然透亮。</p>
-
-            <ol class="featured-collection__steps">
-              <li><span class="featured-collection__step-num">01</span><span class="featured-collection__step-text">溫和潔面 · 喚醒肌膚</span></li>
-              <li><span class="featured-collection__step-num">02</span><span class="featured-collection__step-text">輕盈保濕 · 鎖水補水</span></li>
-              <li><span class="featured-collection__step-num">03</span><span class="featured-collection__step-text">日間防護 · 透亮屏障</span></li>
-            </ol>
-
-            <div class="featured-collection__meta">
-              <span class="featured-collection__meta-item"><em>12</em> 款精選</span>
-              <span class="featured-collection__meta-sep"></span>
-              <span class="featured-collection__meta-item">Torriden · ANUA · Beauty of Joseon</span>
-            </div>
-
-            <a href="category.html" class="featured-collection__cta">
-              <span>選購完整系列</span>
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <div class="r-reveal r-reveal--d3">
+            <a href="story.html" class="r-link">
+              我們的故事
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Section Divider -->
-    <div class="section-divider"><span class="section-divider__line"></span><span class="section-divider__diamond"></span><span class="section-divider__line"></span></div>
-
-    <!-- ===== POPULAR PRODUCTS ===== -->
-    <section class="section section--deco section-float">
-      <div class="container">
-        <div class="section-header section-header--split reveal-blur">
-          <div>
-            <span class="label section-header__label">人氣熱賣</span>
-            <h2 class="heading-lg section-header__title">Best Sellers</h2>
-          </div>
-          <a href="category.html" class="btn--ghost">瀏覽全部</a>
+    <!-- ── 4. Selection ───────────────────────────────────────
+         Flat tiles, square imagery, no shadows. -->
+    <section class="r-band r-band--warm">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:clamp(32px,5vh,64px);">
+        <div>
+          <p class="r-kicker r-reveal">本月精選</p>
+          <h2 class="r-h2 r-reveal r-reveal--d1" style="margin-top:12px;">編輯部推薦</h2>
         </div>
-        <div class="product-grid reveal-stagger">
-          <a href="product.html" class="product-card">
-            <div class="product-card__image-wrap">
-              <img class="product-card__image" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=480&q=80" alt="COSRX Snail Mucin" loading="lazy" decoding="async">
-              <span class="product-card__badge">熱賣</span>
-              <button class="product-card__wishlist" aria-label="加入願望清單">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <div class="product-card__quick-add">快速加入</div>
-            </div>
-            <span class="product-card__brand">COSRX</span>
-            <span class="product-card__name">Advanced Snail 96 蝸牛黏液精華</span>
-            <span class="product-card__price">HK$158</span>
-          </a>
-          <a href="product.html" class="product-card">
-            <div class="product-card__image-wrap">
-              <img class="product-card__image" src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=480&q=80" alt="rom&nd Lip Tint" loading="lazy" decoding="async">
-              <button class="product-card__wishlist" aria-label="加入願望清單">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <div class="product-card__quick-add">快速加入</div>
-            </div>
-            <span class="product-card__brand">rom&nd</span>
-            <span class="product-card__name">Juicy Lasting Tint #09 Litchi Coral</span>
-            <span class="product-card__price">HK$89</span>
-          </a>
-          <a href="product.html" class="product-card">
-            <div class="product-card__image-wrap">
-              <img class="product-card__image" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=480&q=80" alt="Beauty of Joseon Sunscreen" loading="lazy" decoding="async">
-              <span class="product-card__badge">新品</span>
-              <button class="product-card__wishlist" aria-label="加入願望清單">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <div class="product-card__quick-add">快速加入</div>
-            </div>
-            <span class="product-card__brand">Beauty of Joseon</span>
-            <span class="product-card__name">朝鮮美人 人蔘精華防曬霜 SPF50+</span>
-            <span class="product-card__price">HK$148</span>
-          </a>
-          <a href="product.html" class="product-card">
-            <div class="product-card__image-wrap">
-              <img class="product-card__image" src="https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=480&q=80" alt="TIRTIR Cushion Foundation" loading="lazy" decoding="async">
-              <button class="product-card__wishlist" aria-label="加入願望清單">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <div class="product-card__quick-add">快速加入</div>
-            </div>
-            <span class="product-card__brand">TIRTIR</span>
-            <span class="product-card__name">Mask Fit Red Cushion 氣墊粉底</span>
-            <span class="product-card__price">HK$198</span>
+        <div class="r-reveal r-reveal--d2">
+          <a href="shop.html" class="r-link">
+            全部產品
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
+      <div class="r-grid" id="r-featured"></div>
     </section>
 
-    <!-- ===== PULL QUOTE ===== -->
-    <section class="pull-quote reveal-blur">
-      <div class="container">
-        <p class="pull-quote__text" data-word-reveal>
-          每一瓶精華、每一支唇膏，都是我們對美的一次告白。
-        </p>
-        <span class="pull-quote__author">— OUJI 創辦人</span>
+    <!-- ── 5. Category index ──────────────────────────────────
+         Categories as a magazine contents page, not tiles. -->
+    <section class="r-band r-band--paper">
+      <p class="r-kicker r-reveal">目錄</p>
+      <h2 class="r-h2 r-reveal r-reveal--d1" style="margin:12px 0 clamp(28px,4vh,52px);">分類瀏覽</h2>
+      <div class="r-index">
+        <a class="r-index__row r-reveal" href="category.html">
+          <span class="r-index__num">01</span>
+          <span class="r-index__title">護膚</span>
+          <span class="r-index__meta">潔面 · 精華 · 面膜 · 防曬</span>
+        </a>
+        <a class="r-index__row r-reveal" href="makeup.html">
+          <span class="r-index__num">02</span>
+          <span class="r-index__title">彩妝</span>
+          <span class="r-index__meta">底妝 · 眼妝 · 唇妝 · 修容</span>
+        </a>
+        <a class="r-index__row r-reveal" href="bodycare.html">
+          <span class="r-index__num">03</span>
+          <span class="r-index__title">身體護理</span>
+          <span class="r-index__meta">沐浴 · 身體乳 · 護手</span>
+        </a>
+        <a class="r-index__row r-reveal" href="fragrance.html">
+          <span class="r-index__num">04</span>
+          <span class="r-index__title">香氛</span>
+          <span class="r-index__meta">香水 · 身體噴霧</span>
+        </a>
+        <a class="r-index__row r-reveal" href="brands.html">
+          <span class="r-index__num">05</span>
+          <span class="r-index__title">所有品牌</span>
+          <span class="r-index__meta">60+ 韓國品牌</span>
+        </a>
       </div>
     </section>
 
-    <!-- Section Divider -->
-    <div class="section-divider"><span class="section-divider__line"></span><span class="section-divider__diamond"></span><span class="section-divider__line"></span></div>
-
-    <!-- ===== BRAND STORY ===== -->
-    <section class="section--sm reveal-scale">
-      <div class="container">
-        <div class="brand-story">
-          <div class="brand-story__visual parallax-img reveal-clip--right">
-            <img src="https://images.unsplash.com/photo-1498843053639-170ff2122f35?w=960&q=80" alt="Korean beauty skincare hand" loading="lazy" decoding="async">
-          </div>
-          <div class="brand-story__content reveal-left">
-            <span class="label">我們的理念</span>
-            <h2 class="heading-lg" data-split-text>Less, but Better</h2>
-            <p class="body-lg">
-              在資訊過載的時代，OUJI 相信「少即是精」。每一件上架的產品，都經過嚴格篩選——我們只推薦真正值得信賴、成分透明、設計出色的韓國品牌。
-            </p>
-            <a href="story.html" class="btn--ghost" style="display: inline-flex; align-items: center;">我們的故事</a>
+    <!-- ── 6. Journal ─────────────────────────────────────── -->
+    <section class="r-band r-band--paper" style="padding-top:0;">
+      <div class="r-split r-split--reverse">
+        <div class="r-split__media r-wipe r-reveal">
+          <img src="assets/images/hero-4.webp" alt="OUJI 靈感專欄" loading="lazy">
+        </div>
+        <div class="r-split__body">
+          <p class="r-kicker r-reveal">靈感專欄</p>
+          <h2 class="r-h2 r-reveal r-reveal--d1">韓國女生<br>今季在用什麼</h2>
+          <p class="r-body r-reveal r-reveal--d2">
+            榜單速報、成分解碼、化妝教學——由 OUJI 編輯部為你翻譯韓國美妝現場。
+          </p>
+          <div class="r-reveal r-reveal--d3">
+            <a href="column.html" class="r-link">
+              閱讀專欄
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== HORIZONTAL SCROLL SHOWCASE ===== -->
-    <section class="hscroll-showcase section-float">
-      <div class="hscroll-showcase__header">
-        <span class="label">靈感美學</span>
-        <h2 class="heading-lg" style="margin-top: var(--space-md);">K-Beauty Lookbook</h2>
-      </div>
-      <div class="hscroll-showcase__track">
-        <div class="hscroll-showcase__card">
-          <img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=600&q=80" alt="Korean beauty look" loading="lazy" decoding="async">
-          <div class="hscroll-showcase__card-overlay">
-            <span class="hscroll-showcase__card-label">Glass Skin</span>
-            <h3 class="hscroll-showcase__card-title">透亮水光肌</h3>
-          </div>
-        </div>
-        <div class="hscroll-showcase__card">
-          <img src="https://images.unsplash.com/photo-1593260853607-d0e0f639bdab?w=600&q=80" alt="Natural beauty" loading="lazy" decoding="async">
-          <div class="hscroll-showcase__card-overlay">
-            <span class="hscroll-showcase__card-label">Natural Glow</span>
-            <h3 class="hscroll-showcase__card-title">裸妝自然光</h3>
-          </div>
-        </div>
-        <div class="hscroll-showcase__card">
-          <img src="https://images.unsplash.com/photo-1542833807-ad5af0977050?w=600&q=80" alt="Dewy makeup" loading="lazy" decoding="async">
-          <div class="hscroll-showcase__card-overlay">
-            <span class="hscroll-showcase__card-label">Dewy Look</span>
-            <h3 class="hscroll-showcase__card-title">水潤光感妝</h3>
-          </div>
-        </div>
-        <div class="hscroll-showcase__card">
-          <img src="https://images.unsplash.com/photo-1648213613846-5f930cb8d653?w=600&q=80" alt="Clean beauty" loading="lazy" decoding="async">
-          <div class="hscroll-showcase__card-overlay">
-            <span class="hscroll-showcase__card-label">Clean Beauty</span>
-            <h3 class="hscroll-showcase__card-title">純淨美肌</h3>
-          </div>
-        </div>
-        <div class="hscroll-showcase__card">
-          <img src="https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?w=600&q=80" alt="Skincare routine" loading="lazy" decoding="async">
-          <div class="hscroll-showcase__card-overlay">
-            <span class="hscroll-showcase__card-label">Routine</span>
-            <h3 class="hscroll-showcase__card-title">日常護膚儀式</h3>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section Divider -->
-    <div class="section-divider"><span class="section-divider__line"></span><span class="section-divider__diamond"></span><span class="section-divider__line"></span></div>
-
-    <!-- ===== CATEGORY NAVIGATION ===== -->
-    <section class="section section-float">
-      <div class="container">
-        <div class="section-header reveal-blur">
-          <span class="label section-header__label">分類選購</span>
-          <h2 class="heading-lg section-header__title">探索分類</h2>
-        </div>
-      </div>
-      <div class="container">
-        <div class="category-grid reveal-stagger">
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=480&q=80" alt="Skincare" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">護膚</h3>
-              <span class="category-tile__count">29 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=480&q=80" alt="Makeup" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">彩妝</h3>
-              <span class="category-tile__count">19 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1593638112487-4ddea6affcfb?w=480&q=80" alt="Body Care" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">身體護理</h3>
-              <span class="category-tile__count">12 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=480&q=80" alt="Fragrance" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">香氛</h3>
-              <span class="category-tile__count">8 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=480&q=80" alt="Lifestyle" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">生活風格</h3>
-              <span class="category-tile__count">6 個品牌</span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== VIDEO SHOWCASE ===== -->
-    <section class="video-showcase">
-      <div class="video-showcase__header container">
-        <span class="label">美 · 的瞬間</span>
-        <h2 class="heading-lg">Beauty in Motion</h2>
-      </div>
-      <div class="video-showcase__grid">
-        <!-- Featured hero video -->
-        <div class="video-showcase__featured">
-          <!-- TIRTIR brand campaign -->
-          <iframe src="https://www.youtube.com/embed/BMmAfxHg71k?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&playlist=BMmAfxHg71k&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-        <!-- Row 1 -->
-        <div class="video-showcase__row">
-          <div class="video-showcase__item">
-            <!-- ABIB brand film -->
-            <iframe src="https://www.youtube.com/embed/uYQjt4Q980s?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&playlist=uYQjt4Q980s&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-          <div class="video-showcase__item">
-            <!-- Torriden campaign -->
-            <iframe src="https://www.youtube.com/embed/xc0xbqn55jo?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&playlist=xc0xbqn55jo&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-          <div class="video-showcase__item">
-            <!-- COSRX Advanced Snail campaign -->
-            <iframe src="https://www.youtube.com/embed/V4Swu6k5CGk?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&playlist=V4Swu6k5CGk&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
-        <!-- Row 2 -->
-        <div class="video-showcase__row">
-          <div class="video-showcase__item">
-            <!-- Amuse brand film -->
-            <iframe src="https://www.youtube.com/embed/CeAdGwKFEeY?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&playlist=CeAdGwKFEeY&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-          <div class="video-showcase__item">
-            <!-- 2aN makeup -->
-            <iframe src="https://www.youtube.com/embed/lA6noAWGNJw?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&playlist=lA6noAWGNJw&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-          <div class="video-showcase__item">
-            <!-- hince OOH campaign -->
-            <iframe src="https://www.youtube.com/embed/QIU4anXaXUY?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&playlist=QIU4anXaXUY&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== EDITORIAL / JOURNAL ===== -->
-    <section class="section section--warm section-float">
-      <div class="container">
-        <div class="section-header section-header--split reveal-blur">
-          <div>
-            <span class="label section-header__label">靈感專欄</span>
-            <h2 class="heading-lg section-header__title">Journal</h2>
-          </div>
-          <a href="column.html" class="btn--ghost">更多文章</a>
-        </div>
-        <div class="editorial-grid reveal-stagger">
-          <article class="editorial-card">
-            <div class="editorial-card__image-wrap">
-              <img class="editorial-card__image" src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800&q=80" alt="Spring skincare guide" loading="lazy" decoding="async">
-            </div>
-            <span class="label editorial-card__tag">K-Beauty 指南</span>
-            <h3 class="editorial-card__title">春季護膚轉換指南：從厚重到輕盈的過渡</h3>
-            <p class="editorial-card__excerpt">換季時肌膚最容易出狀況。我們整理了韓國皮膚科醫師推薦的護膚步驟調整方法。</p>
-          </article>
-          <article class="editorial-card">
-            <div class="editorial-card__image-wrap">
-              <img class="editorial-card__image" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80" alt="hince brand spotlight" loading="lazy" decoding="async">
-            </div>
-            <span class="label editorial-card__tag">品牌特寫</span>
-            <h3 class="editorial-card__title">hince：用色彩書寫的韓系美學哲學</h3>
-            <p class="editorial-card__excerpt">低調卻充滿存在感——hince 如何以沉靜色調，重新定義韓國彩妝的成熟美。</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== NEWSLETTER ===== -->
-    <section class="newsletter section-float">
-      <div class="newsletter__video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/smoke-bg-short.webm" type="video/webm">
-          <source src="videos/smoke-bg-short.mp4" type="video/mp4">
-        </video>
-      </div>
-      <h2 class="newsletter__title">加入 OUJI 美妝通訊</h2>
-      <p class="newsletter__desc">立即訂閱，即送韓國人氣護膚試用套裝一份！搶先收到新品上架、獨家折扣及 K-Beauty 潮流資訊。</p>
-      <form class="newsletter__form" onsubmit="return false;">
-        <input type="email" class="newsletter__input" placeholder="輸入你的電郵地址">
-        <button type="submit" class="newsletter__submit">免費訂閱</button>
+    <!-- ── 7. Newsletter ──────────────────────────────────── -->
+    <section class="r-band r-band--ink" style="text-align:center;">
+      <p class="r-kicker r-reveal">保持聯繫</p>
+      <h2 class="r-h2 r-reveal r-reveal--d1" style="margin:14px auto clamp(18px,3vh,30px); max-width:16ch;">新品與限定，第一時間收到</h2>
+      <p class="r-body r-reveal r-reveal--d2" style="margin:0 auto clamp(26px,4vh,42px);">
+        訂閱 OUJI 通訊，新客首單即享 9 折。
+      </p>
+      <form class="r-reveal r-reveal--d3" style="display:flex; gap:12px; max-width:460px; margin:0 auto; flex-wrap:wrap; justify-content:center;"
+            onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='已訂閱 ✓';">
+        <input type="email" required placeholder="電郵地址" aria-label="電郵地址"
+               style="flex:1; min-width:220px; background:transparent; border:0; border-bottom:1px solid rgba(252,251,249,0.35); color:#FCFBF9; padding:12px 2px; font-family:inherit; font-size:0.9rem; outline:none;">
+        <button type="submit" class="r-link" style="background:none; border:0; border-bottom:1px solid rgba(252,251,249,0.4); color:#FCFBF9; cursor:pointer;">訂閱</button>
       </form>
-      <p class="newsletter__note">首次訂閱即送韓國護膚試用套裝</p>
     </section>
 
   </main>
 
-  <!-- Footer -->
+<!-- Footer -->
   <footer class="footer">
     <div class="container">
       <div class="footer__grid">
@@ -1057,5 +534,61 @@
       }
     });
   </script>
+
+  <script src="shopify.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+  // Reveal on scroll — one observer, no per-element wiring
+  (() => {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.r-reveal, .r-wipe').forEach((el) => io.observe(el));
+  })();
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initPage();
+
+    // Brand rule — doubled so the loop is seamless
+    const brands = ['COSRX','ROM&ND','BEAUTY OF JOSEON','TORRIDEN','ANUA','hince','Abib',
+                    'TIRTIR','dasique','MIXSOON','Glint','SKIN1004','VT','AXIS-Y','goodal'];
+    const track = document.getElementById('r-marquee-track');
+    if (track) track.innerHTML = [...brands, ...brands].map((b) => `<span>${b}</span>`).join('');
+
+    // Featured selection
+    const grid = document.getElementById('r-featured');
+    if (!grid) return;
+    try {
+      const data = await getProducts({ first: 8 });
+      const items = data?.edges?.map((e) => e.node) ?? [];
+      if (!items.length) { grid.closest('section').style.display = 'none'; return; }
+      prefetchProducts(items.map((p) => p.handle));
+      grid.innerHTML = items.map((p) => {
+        const img = p.images?.edges?.[0]?.node;
+        const price = p.priceRange?.minVariantPrice;
+        return `
+          <a class="r-tile" href="products/${p.handle}">
+            <div class="r-tile__frame">
+              ${img ? `<img src="${img.url}" alt="${img.altText || p.title}" loading="lazy">` : ''}
+            </div>
+            <div class="r-tile__brand">${p.vendor || ''}</div>
+            <div class="r-tile__name">${p.title}</div>
+            <div class="r-tile__price">${formatPrice(price.amount)}</div>
+          </a>`;
+      }).join('');
+      grid.querySelectorAll('.r-tile').forEach((el, i) => {
+        el.classList.add('r-reveal');
+        el.style.transitionDelay = (i * 0.06) + 's';
+        setTimeout(() => el.classList.add('is-in'), 60 + i * 60);
+      });
+    } catch (e) {
+      grid.closest('section').style.display = 'none';
+    }
+  });
+  </script>
+
 </body>
 </html>
