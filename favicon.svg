@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#1e3038"/>
-  <text x="32" y="33" font-family="Futura, 'Century Gothic', 'League Spartan', sans-serif"
-        font-size="38" font-weight="600" letter-spacing="0.5"
-        fill="#f4ece0" text-anchor="middle" dominant-baseline="central">O</text>
+  <rect width="64" height="64" rx="13" fill="#1e3038"/>
+  <!-- Ring drawn as a stroked circle: no font dependency, so it renders
+       identically wherever the icon is used. -->
+  <circle cx="32" cy="32" r="16.5" fill="none" stroke="#f4ece0" stroke-width="7"/>
 </svg>
