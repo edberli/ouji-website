@@ -33,6 +33,18 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 STOCK_XLSX = "/Volumes/core/下載/cosmetic_products_shopify.xlsx"
 
+# Shades we hold that the distributor has stopped listing. Names come
+# from a barcode lookup against the manufacturer's own catalogue, so they
+# match the box; without this the stock simply cannot be sold.
+# distributor handle -> [(shade name, barcode)]
+EXTRA_SHADES = {
+    "peripera-ink-mood-glowytint": [
+        ("03 Rose In Mind", "8809828414240"),
+        ("05 Cherry So What", "8809828414264"),
+        ("20 Brown Yakgwa", "8809937590354"),
+    ],
+}
+
 # distributor product_type -> (our productType, section tag)
 TYPE_MAP = {
     "Face": ("胭脂", "修容"),
@@ -111,8 +123,18 @@ def main():
                 if key:
                     index[str(key).strip()] = (p, v)
 
+    extra = {bc: (handle, name)
+             for handle, rows in EXTRA_SHADES.items() for name, bc in rows}
+    dist_by_handle = {p["handle"]: p for p in dist}
+
     groups, unmatched = collections.OrderedDict(), []
     for row in our_rows(args.vendor):
+        if row["barcode"] in extra:
+            handle, name = extra[row["barcode"]]
+            g = groups.setdefault(handle, {"prod": dist_by_handle[handle], "shades": []})
+            g["shades"].append({"name": name, "barcode": row["barcode"],
+                                "qty": row["qty"], "price": row["price"], "image": None})
+            continue
         hit = index.get(row["barcode"])
         if not hit:
             unmatched.append(row)
