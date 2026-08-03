@@ -1,2 +1,9 @@
 .vercel
 .env
+
+# Mirrored brand imagery for brands published via staged uploads. The
+# bytes live on Shopify's CDN; these are only a local cache so a rebuild
+# does not have to re-download them.
+brands/unleashia/
+brands/2an/
+brands/.uploaded.json

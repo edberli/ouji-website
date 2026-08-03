@@ -1111,7 +1111,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 .product-card__image-wrap {
   position: relative;
-  aspect-ratio: 3 / 4;
+  /* Square, like the product gallery. Brand covers are shot square or
+     wide; a 3/4 box cropped the sides off nearly every one of them. */
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 16px;
   margin-bottom: var(--space-md);
@@ -2149,7 +2151,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 .cart-item:hover { background: rgba(255,255,255,0.3); border-radius: 12px; padding-left: var(--space-md); padding-right: var(--space-md); }
 
-.cart-item__image { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 16px rgba(109,163,181,0.06); }
+.cart-item__image { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 16px rgba(109,163,181,0.06); }
 .cart-item__image img { width: 100%; height: 100%; object-fit: cover; }
 .cart-item__brand { font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; }
 .cart-item__name { font-size: 0.9375rem; font-weight: 400; margin-bottom: 4px; }

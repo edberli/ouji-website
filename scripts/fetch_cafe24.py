@@ -88,6 +88,18 @@ BRANDS = {
             "unleashia-mood-shower-face-palette": 251,
         },
     },
+    "2an": {
+        "host": "https://2an.co.kr",
+        "products": {
+            "2an-better-me-eye-palette": 450,
+            "2an-gleaming-tension-pact": 11,
+            "2an-dual-cheek": 449,
+            "2an-pocket-cotton-blurring-stick": 441,
+            "2an-pure-glash-highlighter": 448,
+            "2an-glaze-bouncing-tint": 442,
+            "2an-color-play-dual-liner": 457,
+        },
+    },
 }
 
 
