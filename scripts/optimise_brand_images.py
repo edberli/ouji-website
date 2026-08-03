@@ -19,6 +19,10 @@ QUALITY = 82
 # Storefront themes sprinkle 12-40px UI icons through the detail markup;
 # anything this narrow cannot be product art.
 MIN_W = 300
+# Shopify rejects anything over 20 megapixels, and Korean detail strips
+# run to 55,000px tall. Downscaling to fit would blur them, so they get
+# cut into pieces instead.
+MAX_PIXELS = 18_000_000
 
 
 def optimise(path):
@@ -32,11 +36,25 @@ def optimise(path):
     im = im.convert("RGB")
     if im.width > MAX_W:
         im = im.resize((MAX_W, round(im.height * MAX_W / im.width)), Image.LANCZOS)
-    out = os.path.splitext(path)[0] + ".jpg"
-    im.save(out, "JPEG", quality=QUALITY, optimize=True, progressive=True)
-    if out != path:
+    stem = os.path.splitext(path)[0]
+    parts = -(-im.width * im.height // MAX_PIXELS)
+    written = []
+    if parts > 1:
+        step = -(-im.height // parts)
+        for i in range(parts):
+            top = i * step
+            piece = im.crop((0, top, im.width, min(im.height, top + step)))
+            # 01.jpg, 01s2.jpg, 01s3.jpg — sorts in reading order
+            out = f"{stem}.jpg" if i == 0 else f"{stem}s{i + 1}.jpg"
+            piece.save(out, "JPEG", quality=QUALITY, optimize=True, progressive=True)
+            written.append(out)
+    else:
+        out = stem + ".jpg"
+        im.save(out, "JPEG", quality=QUALITY, optimize=True, progressive=True)
+        written.append(out)
+    if path not in written and os.path.exists(path):
         os.remove(path)
-    return before, os.path.getsize(out), out
+    return before, sum(os.path.getsize(w) for w in written), written[0]
 
 
 def main(root):

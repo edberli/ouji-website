@@ -19,8 +19,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from publish import publish  # noqa: E402
+from upload_files import host, upload_all  # noqa: E402
 
-BASE = "https://oujikbeauty.com/brands/lilybyred"
 VENDOR = "lilybyred"
 
 T_EYE = "lilybyred, K-Beauty, 彩妝, 眼妝, makeup, eye"
@@ -241,16 +241,13 @@ P = {
 }
 
 
-def files_in(group, slug):
+def paths(group, slug):
+    """Split strips land as 01.jpg / 01s2.jpg, which sort in reading order."""
     d = os.path.join("brands", "lilybyred", group)
     if not os.path.isdir(d):
         return []
-    return sorted(n for n in os.listdir(d)
-                  if re.fullmatch(re.escape(slug) + r"-\d+\.jpg", n))
-
-
-def urls(group, slug):
-    return [f"{BASE}/{group}/{n}" for n in files_in(group, slug)]
+    return [os.path.join(d, n) for n in sorted(os.listdir(d))
+            if re.fullmatch(re.escape(slug) + r"-\d+(s\d+)?\.jpg", n)]
 
 
 def description(slug, d):
@@ -259,7 +256,8 @@ def description(slug, d):
     h.append("</ul>")
     h.append(f'<p><strong>用法</strong><br>{d["how"]}</p>')
     h.append("<ul><li>產地：韓國 Made in Korea</li></ul>")
-    strips = urls("detail", slug)
+    strips = host(paths("detail", slug), d["title"])
+    strips = [u for u in strips if u]
     if strips:
         h.append('<div class="product-detail-images">'
                  + "".join(f'<img src="{u}" alt="{d["title"]} 產品介紹" loading="lazy">' for u in strips)
@@ -280,7 +278,8 @@ def main():
         return
 
     for slug, d in P.items():
-        gallery = urls("gallery", slug)
+        gallery_paths = paths("gallery", slug)
+        gallery = upload_all(gallery_paths) if not args.dry_run else gallery_paths
         draft = not gallery
         p = {
             "handle": slug,
@@ -297,7 +296,7 @@ def main():
         }
         flag = "  [草稿：冇圖]" if draft else ""
         print(f'{len(d["shades"]):>2} 色  {len(gallery):>2} 圖  '
-              f'{len(urls("detail", slug)):>2} 長圖  {d["title"]}{flag}')
+              f'{len(paths("detail", slug)):>2} 長圖  {d["title"]}{flag}')
         if not args.dry_run:
             r = publish(p)
             print(f"        -> {r['handle']}  {r['variants']} variants, "
