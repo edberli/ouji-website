@@ -2,8 +2,8 @@
 """
 Shrink mirrored brand imagery to web weight.
 
-Korean brand sites ship 6–9 MB animated GIFs for their swatch demos and
-uncompressed 2000px JPEGs for the detail strips. Serving those as-is
+Korean brand sites ship 6-9 MB animated GIFs and multi-MB WebP for their
+swatch demos, plus uncompressed 2000px JPEGs. Serving those as-is
 would make a product page a 190 MB download, so we flatten GIFs to their
 first frame and cap everything at 1200px / quality 82 JPEG.
 
@@ -37,7 +37,7 @@ def main(root):
     b = a = 0
     for dirpath, _, names in os.walk(root):
         for n in sorted(names):
-            if not n.lower().endswith((".jpg", ".jpeg", ".png", ".gif")):
+            if not n.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".webp")):
                 continue
             try:
                 x, y, out = optimise(os.path.join(dirpath, n))

@@ -96,6 +96,41 @@ def product(pid):
     }
 
 
+# The page template ships an unedited placeholder spec block; it is not
+# CLIO copy and must never reach a product description.
+PLACEHOLDER = {
+    "Key Features:", "Industry-leading noise cancellation",
+    "30-hour battery life", "Touch sensor controls",
+    "Speak-to-chat technology", "OhMyGlow", "Wishlist", "Color:", "-->",
+}
+STOP = ("退換貨條款", "配送及運費", "©")
+# Their shade list is the HK distributor's line-up, not our stock — the
+# tint page lists 16 colours where we carry 8. Titles and shades come
+# from our own product list; only the awards and feature ticks are reused.
+SHADE_HEADING = re.compile(r"^(多色|\d+\s*色(調)?)選擇[：:]?$")
+
+
+def copy_lines(pid):
+    """The Traditional Chinese body copy: awards, feature ticks, shades."""
+    p = product(pid)
+    if not p:
+        return []
+    lines = p["lines"]
+    try:
+        start = max(i for i, ln in enumerate(lines) if ln == "-->") + 1
+    except ValueError:
+        start = 0
+    out = []
+    for ln in lines[start:]:
+        if any(ln.startswith(s) for s in STOP) or SHADE_HEADING.match(ln.strip()):
+            break
+        ln = ln.replace("\xa0", " ").strip()
+        if not ln or ln in PLACEHOLDER or ln == "🏆":
+            continue
+        out.append(ln)
+    return out
+
+
 def build_index():
     ids = []
     for c in CATEGORIES:
