@@ -64,15 +64,19 @@ PRODUCTS = {
             ("21N 象牙色", "8800255688839", 3),
             ("23N 自然色", "8800255688822", 2),
         ]),
+    # 8809937598411 arrived from the supplier labelled as mascara "02 濃密纖長";
+    # the barcode is a brow pencil, and the box is what ships.
     "clio-kill-brow-auto-hard-pencil": (
         "CLIO 自動塑形眉筆連削筆器", "眉筆", T_EYE + ", brow", 155, "58616", [
-            ("01 自然棕", "8809937598404", 4),
-            ("05 灰棕", "8809937598442", 4),
+            ("01 Natural Brown 自然棕", "8809937598404", 4),
+            ("02 Light Brown 淺棕", "8809937598411", 4),
+            ("05 Gray Brown 灰棕", "8809937598442", 4),
         ]),
+    # Likewise 8800255687276 is #20 Bouncy Lash, not the "02 濃密纖長" on the list.
     "clio-kill-lash-superproof-mascara": (
         "CLIO 極緻捲翹超防水睫毛膏", "睫毛膏", T_EYE + ", mascara", 138, "49476", [
-            ("01 持久捲翹", "8809598299719", 3),
-            ("02 濃密纖長", "8800255687276", 5),
+            ("01 Long Curling 纖長捲翹", "8809598299719", 3),
+            ("20 Bouncy Lash 彈力捲翹", "8800255687276", 5),
         ]),
     "clio-superproof-brush-liner": (
         "CLIO 魅黑高效防水眼線液", "眼線", T_EYE + ", eyeliner", 138, "46922", [
