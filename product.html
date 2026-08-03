@@ -400,9 +400,23 @@
       // Update page title
       document.title = product.title + ' — OUJI';
 
-      // Update breadcrumb
+      // Update breadcrumb — the section link is a placeholder until we know the product
       const breadcrumbLast = document.querySelector('.breadcrumb span:last-child');
       if (breadcrumbLast) breadcrumbLast.textContent = product.title;
+      const breadcrumbSection = document.querySelector('.breadcrumb a[href^="category"], .breadcrumb a[href^="makeup"]');
+      if (breadcrumbSection) {
+        const sections = [
+          ['makeup.html', '彩妝', ['彩妝', 'makeup', '唇', '眼', '胭脂', '底妝', 'lip', 'eye', 'cheek', 'blush']],
+          ['bodycare.html', '身體護理', ['身體', 'body', '護手', '沐浴']],
+          ['fragrance.html', '香氛', ['香水', '香氛', 'fragrance', 'perfume']],
+          ['lifestyle.html', '生活風格', ['生活', 'lifestyle', '工具']],
+        ];
+        const haystack = [product.productType, ...(product.tags || [])].join(' ').toLowerCase();
+        const hit = sections.find(([, , keys]) => keys.some(k => haystack.includes(k.toLowerCase())));
+        const [href, label] = hit || ['category.html', '護膚'];
+        breadcrumbSection.href = href;
+        breadcrumbSection.textContent = label;
+      }
 
       // Update product info
       const brand = document.querySelector('.product-info__brand');
@@ -449,6 +463,17 @@
         }
       }
 
+      // Show a shade's own swatch when it has one attached
+      function showVariantImage(variant) {
+        const url = variant?.image?.url;
+        if (!url) return;
+        const mainImg = document.querySelector('.product-gallery__main img');
+        if (mainImg) mainImg.src = url;
+        document.querySelectorAll('.product-gallery__thumb').forEach(t => {
+          t.classList.toggle('is-active', t.querySelector('img')?.src === url);
+        });
+      }
+
       // Handle variants
       const variants = product.variants?.edges?.map(e => e.node) ?? [];
       const optionsContainer = document.querySelector('.product-info__options');
@@ -474,6 +499,7 @@
             btn.classList.add('is-selected');
             selectedVariantId = btn.dataset.variantId;
             const v = variants.find(v => v.id === selectedVariantId);
+            showVariantImage(v);
             if (v && priceEl) {
               const cp2 = v.compareAtPrice;
               const isOnSale2 = cp2 && parseFloat(cp2.amount) > parseFloat(v.price.amount);

@@ -79,10 +79,10 @@ async function getProduct(handle) {
     query GetProduct($handle: String!) {
       product(handle: $handle) {
         id handle title description descriptionHtml
-        vendor tags
+        vendor tags productType
         priceRange { minVariantPrice { amount currencyCode } }
         compareAtPriceRange { minVariantPrice { amount currencyCode } }
-        images(first: 10) { edges { node { url altText } } }
+        images(first: 50) { edges { node { url altText } } }
         variants(first: 50) {
           edges {
             node {
@@ -92,6 +92,7 @@ async function getProduct(handle) {
               availableForSale
               quantityAvailable
               selectedOptions { name value }
+              image { url altText }
             }
           }
         }
