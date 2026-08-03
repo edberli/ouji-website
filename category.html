@@ -184,59 +184,6 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <div class="filter-group">
-      <div class="filter-group__title">分類 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
-      <div class="filter-group__options">
-        <label class="filter-option"><input type="checkbox"> 潔面</label>
-        <label class="filter-option"><input type="checkbox"> 化妝水 / 精華水</label>
-        <label class="filter-option"><input type="checkbox"> 精華液</label>
-        <label class="filter-option"><input type="checkbox"> 面霜</label>
-        <label class="filter-option"><input type="checkbox"> 防曬</label>
-        <label class="filter-option"><input type="checkbox"> 面膜</label>
-        <label class="filter-option"><input type="checkbox"> 眼部護理</label>
-      </div>
-    </div>
-    <div class="filter-group">
-      <div class="filter-group__title">品牌 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
-      <div class="filter-group__options">
-        <label class="filter-option"><input type="checkbox"> Torriden</label>
-        <label class="filter-option"><input type="checkbox"> ANUA</label>
-        <label class="filter-option"><input type="checkbox"> COSRX</label>
-        <label class="filter-option"><input type="checkbox"> Beauty of Joseon</label>
-        <label class="filter-option"><input type="checkbox"> Abib</label>
-        <label class="filter-option"><input type="checkbox"> Round Lab</label>
-        <label class="filter-option"><input type="checkbox"> Skin1004</label>
-        <label class="filter-option"><input type="checkbox"> AXIS-Y</label>
-        <label class="filter-option"><input type="checkbox"> Dr. Jart+</label>
-        <label class="filter-option"><input type="checkbox"> Beplain</label>
-        <label class="filter-option"><input type="checkbox"> MIXSOON</label>
-        <label class="filter-option"><input type="checkbox"> PURITO SEOUL</label>
-        <label class="filter-option"><input type="checkbox"> TOCOBO</label>
-      </div>
-    </div>
-    <div class="filter-group">
-      <div class="filter-group__title">膚質需求 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
-      <div class="filter-group__options">
-        <label class="filter-option"><input type="checkbox"> 保濕補水</label>
-        <label class="filter-option"><input type="checkbox"> 抗衰老</label>
-        <label class="filter-option"><input type="checkbox"> 美白提亮</label>
-        <label class="filter-option"><input type="checkbox"> 祛痘控油</label>
-        <label class="filter-option"><input type="checkbox"> 敏感修護</label>
-        <label class="filter-option"><input type="checkbox"> 毛孔護理</label>
-      </div>
-    </div>
-    <div class="filter-group">
-      <div class="filter-group__title">價格 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
-      <div class="filter-group__options">
-        <label class="filter-option"><input type="checkbox"> HK$100 以下</label>
-        <label class="filter-option"><input type="checkbox"> HK$100 – HK$200</label>
-        <label class="filter-option"><input type="checkbox"> HK$200 – HK$400</label>
-        <label class="filter-option"><input type="checkbox"> HK$400+</label>
-      </div>
-    </div>
-    <div style="padding: var(--space-xl);">
-      <button class="btn btn--primary btn--full btn--sm">套用篩選</button>
-    </div>
   </aside>
 
   <main id="main-content" style="padding-top: 96px;">
@@ -283,7 +230,7 @@
       </div>
 
       <!-- Product Grid -->
-      <div class="product-grid reveal-stagger"></div>
+      <div class="catalog reveal-stagger" data-catalog></div>
 
     </div>
   </main>
@@ -380,6 +327,7 @@
   </nav>
 
   <script src="shopify.js"></script>
+  <script src="catalog.js"></script>
   <script src="script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
@@ -398,41 +346,7 @@
     if (!products.length) {
       showCategoryEmpty(section, cat);
     } else {
-      const grid = document.querySelector('.product-grid');
-      const count = document.querySelector('.filter-bar__count');
-
-      if (count) count.textContent = `顯示 ${products.length} 件產品`;
-
-      // Prefetch full product details for instant product page loading
-      prefetchProducts(products.map(p => p.handle));
-
-      if (grid) {
-        grid.innerHTML = products.map(p => {
-          const image = p.images?.edges?.[0]?.node;
-          const price = p.priceRange?.minVariantPrice;
-          const comparePrice = p.compareAtPriceRange?.minVariantPrice;
-          const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
-          const variant = p.variants?.edges?.[0]?.node;
-          const isSoldOut = variant && !variant.availableForSale;
-          return `
-            <a href="product.html?handle=${p.handle}" class="product-card">
-              <div class="product-card__image-wrap">
-                ${image ? `<img class="product-card__image" src="${image.url}" alt="${image.altText || p.title}">` : ''}
-                ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-                ${isOnSale && !isSoldOut ? '<span class="product-card__badge">特價</span>' : ''}
-                <button class="product-card__wishlist" aria-label="加入願望清單" onclick="event.preventDefault(); event.stopPropagation();">
-                  <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                </button>
-                <div class="product-card__quick-add">快速加入</div>
-              </div>
-              <span class="product-card__brand">${p.vendor || ''}</span>
-              <span class="product-card__name">${p.title}</span>
-              <span class="product-card__price">${formatPrice(price.amount)}</span>
-              ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(comparePrice.amount)}</span>` : ''}
-            </a>
-          `;
-        }).join('');
-      }
+      initCatalog({ section: section, products });
     }
   });
   </script>

@@ -4325,3 +4325,89 @@ textarea:focus-visible,
   color: var(--text-secondary, #6b7a80);
   margin-top: var(--space-xl, 32px);
 }
+
+/* ============================================================
+   BRAND SECTIONS + LIVE FILTERS
+   Category pages group by brand so a Coralhaze lip does not sit
+   next to a Glint highlighter with nothing marking the change.
+   ============================================================ */
+.brand-section { margin-bottom: var(--space-4xl, 96px); }
+.brand-section + .brand-section { padding-top: var(--space-2xl); }
+
+.brand-section__head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 140px;
+  padding: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+  border-radius: var(--radius-lg, 16px);
+  overflow: hidden;
+  background: var(--warm-gradient);
+  border: 1px solid var(--border-subtle);
+}
+.brand-section__head--art { min-height: 220px; align-items: flex-end; }
+.brand-section__art {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Scrim from the label corner outward — a bottom-only gradient leaves the
+   eyebrow and count sitting on whatever the photo happens to put there. */
+.brand-section__head--art::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(100deg, rgba(46,80,92,0.78) 0%, rgba(46,80,92,0.3) 30%, rgba(46,80,92,0) 55%),
+    linear-gradient(180deg, rgba(46,80,92,0) 55%, rgba(46,80,92,0.35) 100%);
+}
+.brand-section__label { position: relative; z-index: 2; }
+.brand-section__head--art .brand-section__label { color: #fff; }
+
+.brand-section__eyebrow {
+  display: block;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+}
+.brand-section__head--art .brand-section__eyebrow { color: rgba(255,255,255,0.72); }
+
+.brand-section__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+}
+.brand-section__count {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+.brand-section__head--art .brand-section__count { color: rgba(255,255,255,0.78); }
+
+.filter-option { justify-content: space-between; }
+.filter-option span:first-of-type { flex: 1; }
+.filter-option__count { font-size: 0.6875rem; color: var(--text-tertiary); }
+.filter-sidebar__actions { padding: var(--space-xl); }
+
+.catalog-empty {
+  padding: var(--space-4xl, 96px) 0;
+  text-align: center;
+  color: var(--text-secondary);
+}
+.link-btn {
+  margin-left: 8px;
+  color: var(--primary-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .brand-section__head { min-height: 110px; padding: var(--space-lg); }
+  .brand-section__head--art { min-height: 160px; }
+  .brand-section { margin-bottom: var(--space-3xl, 64px); }
+}
