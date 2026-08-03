@@ -74,6 +74,20 @@ BRANDS = {
             "lilybyred-sugar-wrapping-tint-gloss": 406,
         },
     },
+    "unleashia": {
+        "host": "https://unleashiacosmetics.com",
+        "products": {
+            "unleashia-glitterpedia-eye-palette": 141,
+            "unleashia-sunset-dazzle-gloss-balm": 260,
+            "unleashia-oh-happy-day-lip-pencil": 248,
+            "unleashia-cotton-candy-face-palette": 263,
+            "unleashia-babe-skin-baby-blue-cushion": 252,
+            "unleashia-satin-wear-healthy-green-cushion": 224,
+            "unleashia-tap-me-palette-duo": 118,
+            "unleashia-moonlight-liquid-glitter": 262,
+            "unleashia-mood-shower-face-palette": 251,
+        },
+    },
 }
 
 
