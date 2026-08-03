@@ -53,6 +53,27 @@ BRANDS = {
             "heart-percent-dote-on-mood-eye-palette": 165,
         },
     },
+    # Survival Colorcara is not on the official site any more — it needs an
+    # Olive Young fallback or it ships as a draft.
+    "lilybyred": {
+        "host": "https://lilybyred.co.kr",
+        "products": {
+            "lilybyred-infinite-mascara": 21,
+            "lilybyred-survival-penliner": 17,
+            "lilybyred-bloody-liar-coating-tint": 336,
+            "lilybyred-dewy-fit-palette": 384,
+            "lilybyred-luv-beam-blur-cheek": 169,
+            "lilybyred-luv-beam-cheek-mousse": 395,
+            "lilybyred-luv-beam-glow-veil": 179,
+            "lilybyred-luv-beam-sherbet-cheek": 401,
+            "lilybyred-milky-blur-fondue-bar": 339,
+            "lilybyred-mood-it-palette": 343,
+            "lilybyred-skinny-mes-brow-pencil": 25,
+            "lilybyred-smiley-lip-blending-stick": 183,
+            "lilybyred-starry-eyes-gel-eyeliner": 18,
+            "lilybyred-sugar-wrapping-tint-gloss": 406,
+        },
+    },
 }
 
 
