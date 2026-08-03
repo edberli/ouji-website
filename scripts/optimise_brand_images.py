@@ -16,11 +16,17 @@ from PIL import Image, ImageSequence
 
 MAX_W = 1200
 QUALITY = 82
+# Storefront themes sprinkle 12-40px UI icons through the detail markup;
+# anything this narrow cannot be product art.
+MIN_W = 300
 
 
 def optimise(path):
     before = os.path.getsize(path)
     im = Image.open(path)
+    if im.width < MIN_W:
+        os.remove(path)
+        return before, 0, None
     if getattr(im, "is_animated", False):
         im = next(ImageSequence.Iterator(im))
     im = im.convert("RGB")
@@ -42,6 +48,8 @@ def main(root):
             try:
                 x, y, out = optimise(os.path.join(dirpath, n))
                 b, a = b + x, a + y
+                if out is None:
+                    print(f"  drop {n} (太細，係介面圖示)")
             except Exception as e:
                 print(f"  FAIL {n}: {e}")
     print(f"{b/1024/1024:.1f} MB → {a/1024/1024:.1f} MB")
