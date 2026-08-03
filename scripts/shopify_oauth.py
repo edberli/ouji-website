@@ -21,7 +21,7 @@ import urllib.request
 SHOP = "5rerjn-mt.myshopify.com"
 CLIENT_ID = "9fc605c8b834aeee903a478a9a2da336"
 SCOPES = ("read_products,write_products,read_inventory,write_inventory,"
-          "read_locations,write_files")
+          "read_locations,write_files,read_publications,write_publications")
 REDIRECT = "http://localhost:8787/callback"
 PORT = 8787
 

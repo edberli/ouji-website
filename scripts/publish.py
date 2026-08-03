@@ -55,7 +55,7 @@ def build_input(p):
             v["file"] = {"originalSource": s["image"], "contentType": "IMAGE", "alt": s["name"]}
         variants.append(v)
 
-    return {
+    base = {
         "handle": p["handle"],
         "title": p["title"],
         "descriptionHtml": p["descriptionHtml"],
@@ -70,14 +70,65 @@ def build_input(p):
         "variants": variants,
         "files": files,
     }
+    if p.get("id"):
+        base["id"] = p["id"]
+    return base
+
+
+PUBLICATIONS_QUERY = "{ publications(first: 20) { edges { node { id name } } } }"
+# The storefront reads through the headless channel; the other two are
+# where a shopper would otherwise find us.
+WANTED_CHANNELS = {"Online Store", "ouji Headless", "Shop"}
+
+PUBLISH = """
+mutation($id: ID!, $input: [PublicationInput!]!) {
+  publishablePublish(id: $id, input: $input) {
+    userErrors { field message }
+  }
+}
+"""
+
+_channels = None
+
+
+def channels():
+    """productSet creates products unpublished — nothing reaches the
+    storefront until they are published to a sales channel."""
+    global _channels
+    if _channels is None:
+        edges = gql(PUBLICATIONS_QUERY)["publications"]["edges"]
+        _channels = [e["node"]["id"] for e in edges if e["node"]["name"] in WANTED_CHANNELS]
+    return _channels
+
+
+BY_HANDLE = """
+query($handle: String!) { productByIdentifier(identifier: {handle: $handle}) { id } }
+"""
+
+
+def existing_id(handle):
+    """productSet keys off the id — given only a handle it tries to create
+    and trips HANDLE_NOT_UNIQUE, so a rebuild has to look the id up."""
+    found = gql(BY_HANDLE, {"handle": handle}).get("productByIdentifier")
+    return found["id"] if found else None
 
 
 def publish(p):
+    p = {**p, "id": p.get("id") or existing_id(p["handle"])}
     data = gql(PRODUCT_SET, {"input": build_input(p)})
     user_errors(data, "productSet")
     prod = data["productSet"]["product"]
+
+    published = 0
+    if p.get("status", "ACTIVE") == "ACTIVE":
+        out = gql(PUBLISH, {"id": prod["id"],
+                            "input": [{"publicationId": c} for c in channels()]})
+        user_errors(out, "publishablePublish")
+        published = len(channels())
+
     return {
         "handle": prod["handle"],
         "variants": len(prod["variants"]["edges"]),
         "media": len(prod["media"]["edges"]),
+        "channels": published,
     }

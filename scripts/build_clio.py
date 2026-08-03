@@ -217,7 +217,7 @@ def main():
         print(f"{len(shades):>2} 色  {len(images):>2} 圖  {len(detail_urls(slug)):>2} 長圖  {title}{flag}")
         if not args.dry_run:
             r = publish(p)
-            print(f"        -> {r['handle']}  {r['variants']} variants, {r['media']} media")
+            print(f"        -> {r['handle']}  {r['variants']} variants, {r['media']} media, {r['channels']} channels")
 
 
 if __name__ == "__main__":
