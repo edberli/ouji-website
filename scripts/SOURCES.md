@@ -29,12 +29,17 @@ Laka, AMUSE, hince.
 
 | Brand | SKUs | Source |
 |---|---|---|
-| fwee | 98 | `fwee.co.kr` did not resolve — needs a re-probe |
-| TIR TIR | 55 | `tirtir.com` is a parked domain — find the real one |
-| MAYBELLINE | 53 | Global brand; HK site likely has zh-Hant copy |
-| 花知曉 Flower Knows | 37 | Chinese brand, so Chinese copy exists |
-| dasique | 68 | `dasique.co.kr` blocks HK IPs |
-| wakemake | 44 | **`www.wakemake.hk` exists** — see below |
+| fwee | 98 | **`fwee.kr`** — Cafe24, use `fetch_cafe24.py` |
+| TIR TIR | 55 | **`tirtir.co.kr`** — Cafe24, use `fetch_cafe24.py` |
+| MAYBELLINE | 53 | **`maybelline.com.hk`** — HK official, Traditional Chinese |
+| 花知曉 Flower Knows | 37 | No HK or reachable brand site found yet |
+| dasique | 68 | `dasique.co.kr` blocks HK IPs; `dasique.com` rate-limits |
+| ~~wakemake~~ | ~~44~~ | Done — `www.wakemake.hk`, SHOPLINE |
+
+Worth noting: `wakemake.hk`, `fwee.kr` and `tirtir.co.kr` were all
+previously written off as unreachable because the first domain guess
+failed. Try the www/no-www and .kr/.co.kr variants before concluding a
+brand has no site.
 
 ### wakemake.hk — handles already matched
 All 13 of our lines resolve against its 30 product handles:
