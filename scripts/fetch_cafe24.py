@@ -88,6 +88,24 @@ BRANDS = {
             "unleashia-mood-shower-face-palette": 251,
         },
     },
+    # romand.co.kr is thick with editions and bundles, so these are the
+    # canonical pages rather than the first name match. Juicy Roll Cheek,
+    # Twinkle Pen Liner and the Better Than Cheek base are not on the
+    # official mall any more and still need a source.
+    "romand": {
+        "host": "https://romand.co.kr",
+        "products": {
+            "romand-juicy-lasting-tint": 958,
+            "romand-better-than-palette": 802,
+            "romand-lip-mate-pencil": 769,
+            "romand-han-all-brow-cara": 671,
+            "romand-blur-fudge-tint": 608,
+            "romand-slide-in-single": 957,
+            "romand-better-than-eyes": 175,
+            "romand-better-than-eyes-music": 299,
+            "romand-glasting-color-gloss": 847,
+        },
+    },
     "2an": {
         "host": "https://2an.co.kr",
         "products": {
