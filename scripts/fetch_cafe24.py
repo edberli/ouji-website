@@ -121,6 +121,25 @@ BRANDS = {
             "laka-dreambeam-highlighter": 167,
         },
     },
+    # 唇線筆 has no page on amusemakeup.com.
+    "amuse": {
+        "host": "https://amusemakeup.com",
+        "products": {
+            "amuse-dew-tint": 486,
+            "amuse-jelfit-tint": 359,
+            "amuse-bebe-tint": 436,
+            "amuse-powder-velvet-tint": 599,
+            "amuse-powder-lip-cheek": 614,
+            "amuse-lip-cheek-healthy-balm": 397,
+            "amuse-cheek-tok-tok": 551,
+            "amuse-vegan-hand-cream": 1041,
+            "amuse-ceramic-skin-cushion": 456,
+            "amuse-dew-jelly-cushion": 541,
+            "amuse-dew-power-cushion": 315,
+            "amuse-sanrio-cushion": 835,
+            "amuse-sanrio-powder-velvet-tint": 840,
+        },
+    },
     "2an": {
         "host": "https://2an.co.kr",
         "products": {
