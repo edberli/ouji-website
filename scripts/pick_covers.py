@@ -73,9 +73,36 @@ def score(path_or_bytes):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("vendor")
+    ap.add_argument("vendor", nargs="?", help="omit with --audit to scan every brand")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--audit", action="store_true",
+                    help="list products whose cover is still dark or flat, "
+                         "meaning their whole gallery is and a new image must "
+                         "be sourced (Olive Young, the brand's Instagram)")
     args = ap.parse_args()
+
+    if args.audit:
+        bad = []
+        for p in all_products():
+            if p["status"] != "ACTIVE":
+                continue
+            if args.vendor and p["vendor"].lower() != args.vendor.lower():
+                continue
+            m = gql(MEDIA_Q, {"id": p["id"]})["product"]["media"]["edges"]
+            url = next(((e["node"].get("image") or {}).get("url") for e in m), None)
+            if not url:
+                continue
+            try:
+                s_ = score(fetch(url))
+            except Exception:
+                continue
+            if s_ < 20:
+                bad.append((round(s_), p["vendor"], p["title"]))
+        bad.sort()
+        print(f"{len(bad)} 個產品封面仍然偏暗／單調，要另外搵圖：")
+        for s_, v, t in bad:
+            print(f"{s_:>5}  {v:<14} {t}")
+        return
 
     moved = 0
     for p in all_products():
