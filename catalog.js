@@ -8,19 +8,25 @@
  * Everything here is derived from the products actually on the page.
  */
 
-/* Vendor -> the folder its artwork lives in under brands/. */
-const BRAND_SLUGS = {
-  'Coralhaze': 'coralhaze',
-  'Heart Percent': 'heartpercent',
-  'Glint': 'glint',
-  'BRAYE': 'braye',
+/* Section-header artwork per brand. The first four were cut from
+   mirrored imagery and are served from this repo; the rest point at a
+   product cover already on Shopify's CDN, since brand imagery no longer
+   lives here. Falls back to a typographic band for an unknown vendor. */
+const CDN = 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/';
+const BRAND_ART = {
+  'Coralhaze': 'brands/coralhaze/banner.jpg',
+  'Heart Percent': 'brands/heartpercent/banner.jpg',
+  'Glint': 'brands/glint/banner.jpg',
+  'BRAYE': 'brands/braye/banner.jpg',
+  'lilybyred': CDN + 'lilybyred-smiley-lip-blending-stick-01_4ef65b0e-7370-4068-b388-1dd668098e08.jpg',
+  'UNLEASHIA': CDN + 'unleashia-glitterpedia-eye-palette-01_5ca9d7a1-6299-40c0-991f-eef225a18858.jpg',
+  '2aN': CDN + '2an-dual-cheek-01_9d2e303b-b80d-4817-af99-1d02203d2902.jpg',
+  'Peripera': CDN + 'Ink_Airy_Velvet_T_1_652cc774-f990-4aee-9d78-6ed4a83b84bd.jpg',
+  'CLIO': CDN + 'clio-crystal-glam-tint-01.jpg',
 };
 
-/* Brands whose section header art we have mirrored. Falls back to a
-   typographic band, so a brand can ship before its banner does. */
 function brandArt(vendor) {
-  const slug = BRAND_SLUGS[vendor];
-  return slug ? `brands/${slug}/banner.jpg` : null;
+  return BRAND_ART[vendor] || null;
 }
 
 const PRICE_BUCKETS = [

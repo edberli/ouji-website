@@ -952,7 +952,8 @@ async function getCategoryProducts({ section, cat = null, first = 48 } = {}) {
  * banner title, breadcrumb tail and document title.
  */
 function applyCategoryHeading(section, cat) {
-  if (!cat) return;
+  // Without a subcategory this used to bail, leaving whichever heading and
+  // <title> the page shipped with — /collections/makeup read "護膚".
   const label = categoryLabel(section, cat);
   if (!label) return;
   const sectionLabel = categoryLabel(section, null);
