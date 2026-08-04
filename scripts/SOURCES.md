@@ -31,9 +31,9 @@ Laka, AMUSE, hince.
 |---|---|---|
 | fwee | 98 | **`fwee.kr`** — mapped, ready to mirror |
 | TIR TIR | 55 | **`tirtir.co.kr`** — 15 pages mapped, ready to mirror |
-| MAYBELLINE | 53 | **`maybelline.com.hk`** — titles already zh-Hant; needs imagery only |
-| 花知曉 Flower Knows | 37 | No HK or reachable brand site found yet |
-| dasique | 68 | `dasique.co.kr` blocks HK IPs; `dasique.com` rate-limits |
+| ~~MAYBELLINE~~ | ~~53~~ | Done — `maybelline.com.hk`, Vue-rendered |
+| 花知曉 Flower Knows | 37 | `flowerknows.co` / `flower-knows.jp` — Shopify, but our IP is rate-limited; retry later |
+| dasique | 68 | **`dasique.com` works in the browser** — 66 products, Shopify |
 | ~~wakemake~~ | ~~44~~ | Done — `www.wakemake.hk`, SHOPLINE |
 
 Worth noting: `wakemake.hk`, `fwee.kr` and `tirtir.co.kr` were all
@@ -119,3 +119,17 @@ imagery.
 Eleven lines published as drafts because their pages were not in the
 category sweep: the pink and aura cushions, all four minis, both
 fixers, the eye cream, rescue serum and sun cream.
+
+### dasique — reachable, but no barcodes
+`dasique.com` refuses curl with a 429 yet loads fine in the browser, and
+an in-page fetch of products.json returns all 66 products with images
+and variants. The catch: its variant SKUs are text codes
+(`JUICY-TINT-08`, `candyrolling_mint`), not barcodes — so unlike
+Peripera and CLIO the join to our workbook has to be by product name,
+which needs checking rather than trusting.
+
+### Flower Knows
+`flowerknows.co` (global) and `flower-knows.jp` are both Shopify. Both
+return `local_rate_limited` right now, from curl and the browser alike,
+so this is our IP rather than geo-blocking — worth retrying rather than
+routing around.
