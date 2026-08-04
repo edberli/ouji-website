@@ -172,6 +172,29 @@ BRANDS = {
             "fwee-one-minute-ready-lip-serum": 202,
         },
     },
+    # TIR TIR is cushion-heavy and the first brand with real skincare.
+    # The pink and aura cushions did not surface in the sweep and still
+    # need pages.
+    "tirtir": {
+        "host": "https://tirtir.co.kr",
+        "products": {
+            "tirtir-mask-fit-red-cushion": 1652,
+            "tirtir-mask-fit-ai-filter-cushion": 1915,
+            "tirtir-mask-fit-crystal-mesh-cushion": 1740,
+            "tirtir-mask-fit-red-foundation": 1873,
+            "tirtir-mask-fit-red-foundation-mini": 2049,
+            "tirtir-mask-fit-cool-sun-cushion": 1646,
+            "tirtir-glide-hide-blurring-concealer": 1853,
+            "tirtir-mask-fit-makeup-fixer": 1639,
+            "tirtir-mask-fit-makeup-cool-fixer": 1647,
+            "tirtir-waterism-glow-tint": 1969,
+            "tirtir-waterism-glow-melting-balm": 1971,
+            "tirtir-ceramic-cream": 1993,
+            "tirtir-ceramic-milk-ampoule": 1995,
+            "tirtir-milk-skin-toner": 1991,
+            "tirtir-air-fit-hyacis-sun-cream": 1846,
+        },
+    },
     "2an": {
         "host": "https://2an.co.kr",
         "products": {

@@ -30,7 +30,7 @@ Laka, AMUSE, hince.
 | Brand | SKUs | Source |
 |---|---|---|
 | fwee | 98 | **`fwee.kr`** — mapped, ready to mirror |
-| TIR TIR | 55 | **`tirtir.co.kr`** — Cafe24, use `fetch_cafe24.py` |
+| TIR TIR | 55 | **`tirtir.co.kr`** — 15 pages mapped, ready to mirror |
 | MAYBELLINE | 53 | **`maybelline.com.hk`** — HK official, Traditional Chinese |
 | 花知曉 Flower Knows | 37 | No HK or reachable brand site found yet |
 | dasique | 68 | `dasique.co.kr` blocks HK IPs; `dasique.com` rate-limits |
@@ -82,3 +82,14 @@ they group by price plus series keyword rather than by title prefix.
 | Pocket Cheek Palette | 4 | $168 | 222 |
 | SPA Glowing UV Tone Up Base | 2 | $138 | 306 |
 | One Minute Ready Lip Serum | 1 | $88 | 202 |
+
+### TIR TIR — note
+Cushion-heavy: six full-size cushions plus four minis, all Mask Fit
+variants that differ only by case colour, so they must stay separate
+products rather than becoming shades of one. It is also the first brand
+here with real skincare (toner, cream, ampoule, sun care) — worth
+tagging skin type and concern into metafields as those go up, since
+that is what any future recommendation feature would filter on.
+
+The pink and aura cushions did not surface in the category sweep and
+still need their pages found.
