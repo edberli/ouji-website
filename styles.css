@@ -4416,60 +4416,133 @@ textarea:focus-visible,
 
 /* ============================================================
    BRAND RAIL
-   Eleven brands stacked run several screens; the rail says which
-   one you are in and lets you jump.
+   A swell in the water rather than a list with one item bolded:
+   each tick's length falls off with its distance from the current
+   brand, and a soft crest rides along behind them.
    ============================================================ */
 .brand-rail {
   position: fixed;
-  right: max(16px, calc((100vw - 1280px) / 2 - 130px));
+  right: max(14px, calc((100vw - 1280px) / 2 - 132px));
   top: 50%;
   transform: translateY(-50%);
   z-index: 900;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: var(--space-sm) 0;
+  gap: 7px;
+  padding: var(--space-md) 0;
+  --wave: 44px;
+}
+
+/* the crest — a soft blob of light that follows the active brand */
+.brand-rail__crest {
+  position: absolute;
+  left: -10px;
+  top: var(--space-md);
+  width: 62px;
+  height: 34px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgba(109,163,181,0.30), rgba(109,163,181,0.10) 62%, transparent 100%);
+  filter: blur(6px);
+  transform: translateY(calc(var(--crest, 0) * 21px - 4px));
+  transition: transform 420ms cubic-bezier(.22,.9,.28,1);
 }
 
 .brand-rail__item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px 0;
+  height: 14px;
   color: var(--text-tertiary);
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  transition: color var(--duration-normal);
+  /* the wave: full length at the crest, tapering either side */
+  --fall: max(0, calc(1 - var(--d, 9) * 0.22));
+  transition: color 320ms var(--ease-out);
 }
 
 .brand-rail__tick {
-  width: 18px;
   height: 2px;
   border-radius: 2px;
-  background: var(--border-light, rgba(109,163,181,0.28));
-  transition: width var(--duration-normal) var(--ease-out),
-              background var(--duration-normal);
   flex: none;
+  width: calc(12px + var(--wave) * var(--fall));
+  background: color-mix(in srgb, var(--primary)
+              calc(24% + 76% * var(--fall)), transparent);
+  transform: translateX(calc(var(--wave) * var(--fall) * -0.28));
+  transition: width 420ms cubic-bezier(.22,.9,.28,1),
+              transform 420ms cubic-bezier(.22,.9,.28,1),
+              background 320ms var(--ease-out);
 }
 
 .brand-rail__name {
   opacity: 0;
   transform: translateX(-4px);
-  transition: opacity var(--duration-normal), transform var(--duration-normal);
+  transition: opacity 260ms, transform 260ms;
 }
 
 .brand-rail:hover .brand-rail__name,
 .brand-rail__item.is-current .brand-rail__name { opacity: 1; transform: none; }
 
 .brand-rail__item:hover { color: var(--primary-dark); }
-.brand-rail__item:hover .brand-rail__tick { width: 26px; background: var(--primary-light); }
-
 .brand-rail__item.is-current { color: var(--primary-deep); font-weight: 500; }
-.brand-rail__item.is-current .brand-rail__tick { width: 32px; background: var(--primary); }
 
-/* No room beside the grid — the section headers carry the wayfinding. */
-@media (max-width: 1180px) { .brand-rail { display: none; } }
+/* Mobile: the rail lies down as a tide line above the bottom nav. */
+@media (max-width: 1180px) {
+  .brand-rail {
+    right: 0; left: 0; top: auto;
+    bottom: calc(var(--mobile-nav-height, 62px) + 10px);
+    transform: none;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 14px;
+    width: max-content;
+    margin: 0 auto;
+    border-radius: 999px;
+    background: var(--glass-bg-strong, rgba(255,255,255,0.78));
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border, rgba(255,255,255,0.5));
+    box-shadow: 0 6px 24px rgba(109,163,181,0.16);
+    --wave: 20px;
+  }
+  .brand-rail__crest {
+    left: 14px; top: auto; bottom: 5px;
+    width: 34px; height: 22px;
+    transform: translateX(calc(var(--crest, 0) * 12px - 8px));
+  }
+  .brand-rail__item {
+    height: auto;
+    flex-direction: column-reverse;
+    gap: 0;
+    width: 6px;
+  }
+  .brand-rail__tick {
+    width: 4px;
+    height: calc(6px + var(--wave) * var(--fall));
+    transform: none;
+    transition: height 420ms cubic-bezier(.22,.9,.28,1), background 320ms;
+  }
+  /* only the current brand is named — there is no room for a list */
+  .brand-rail__name {
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+    color: var(--primary-deep);
+  }
+  .brand-rail:hover .brand-rail__name { opacity: 0; }
+  .brand-rail__item.is-current .brand-rail__name {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .brand-rail__tick, .brand-rail__name { transition: none; }
+  .brand-rail__tick, .brand-rail__name, .brand-rail__crest { transition: none; }
 }

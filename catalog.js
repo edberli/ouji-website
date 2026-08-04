@@ -220,8 +220,9 @@ function buildBrandRail(order) {
   const rail = document.createElement('nav');
   rail.className = 'brand-rail';
   rail.setAttribute('aria-label', '品牌導覽');
-  rail.innerHTML = order.map(([vendor], i) => `
-    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}">
+  rail.innerHTML = `<span class="brand-rail__crest" aria-hidden="true"></span>`
+    + order.map(([vendor], i) => `
+    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}" style="--d:${i}">
       <span class="brand-rail__tick"></span>
       <span class="brand-rail__name">${vendor}</span>
     </a>`).join('');
@@ -229,7 +230,17 @@ function buildBrandRail(order) {
 
   const items = [...rail.querySelectorAll('.brand-rail__item')];
   const sections = [...document.querySelectorAll('.brand-section')];
-  const mark = (i) => items.forEach((el, n) => el.classList.toggle('is-current', n === i));
+
+  // Each tick's length falls off with its distance from the current one,
+  // so the rail reads as a swell in the water rather than a list with one
+  // item bolded. CSS turns --d into width, opacity and offset.
+  const mark = (i) => {
+    items.forEach((el, n) => {
+      el.classList.toggle('is-current', n === i);
+      el.style.setProperty('--d', String(Math.abs(n - i)));
+    });
+    rail.style.setProperty('--crest', String(i));
+  };
   mark(0);
 
   // A section taller than the viewport never reaches a high intersection

@@ -140,6 +140,25 @@ BRANDS = {
             "amuse-sanrio-powder-velvet-tint": 840,
         },
     },
+    "hince": {
+        "host": "https://hince.co.kr",
+        "products": {
+            "hince-raw-glow-gel-tint": 1112,
+            "hince-raw-glow-dewy-ball": 1267,
+            "hince-mood-enhancer-water-liquid-glow": 778,
+            "hince-mood-enhancer-lip-glow": 907,
+            "hince-dewy-liquid-cheek": 1113,
+            "hince-true-dimension-radiance-balm": 776,
+            "hince-all-round-eye-palette": 1031,
+            "hince-second-skin-cover-concealer": 344,
+            "hince-second-skin-foundation": 343,
+            "hince-second-skin-glow-cushion": 217,
+            "hince-second-skin-mesh-matte-cushion": 1007,
+            "hince-second-skin-tone-up-base": 734,
+            "hince-second-skin-airy-powder": 1107,
+            "hince-second-skin-hydrating-primer": 670,
+        },
+    },
     "2an": {
         "host": "https://2an.co.kr",
         "products": {
