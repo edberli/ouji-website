@@ -29,7 +29,7 @@ Laka, AMUSE, hince.
 
 | Brand | SKUs | Source |
 |---|---|---|
-| fwee | 98 | **`fwee.kr`** — Cafe24, use `fetch_cafe24.py` |
+| fwee | 98 | **`fwee.kr`** — mapped, ready to mirror |
 | TIR TIR | 55 | **`tirtir.co.kr`** — Cafe24, use `fetch_cafe24.py` |
 | MAYBELLINE | 53 | **`maybelline.com.hk`** — HK official, Traditional Chinese |
 | 花知曉 Flower Knows | 37 | No HK or reachable brand site found yet |
@@ -67,3 +67,18 @@ returns HTML, not JSON). Listings live at `/products` (24 per page) and
 Imagery is on `img.shoplineapp.com` and the copy is Traditional Chinese.
 Needs a small parser of its own — the title is not in `<title>` and the
 shades sit in embedded page data rather than markup.
+
+### fwee — lines and pages
+Its 98 rows carry the shade code inline with no consistent separator, so
+they group by price plus series keyword rather than by title prefix.
+
+| Line | ~SKUs | Price | Page |
+|---|---|---|---|
+| Lip&Cheek Blurry Pudding Pot | 33 | $128 | 154 |
+| Lip&Cheek Glowy Jelly Pot | 17 | $118 | 195 |
+| 3D Volumizing Glass Tint | 21 | $108 | 244 |
+| Glitz Stone Highlighter | 12 | $128 | 206 |
+| Pocket Eye Palette | 5 | $148 | 221 |
+| Pocket Cheek Palette | 4 | $168 | 222 |
+| SPA Glowing UV Tone Up Base | 2 | $138 | 306 |
+| One Minute Ready Lip Serum | 1 | $88 | 202 |

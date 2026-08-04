@@ -159,6 +159,19 @@ BRANDS = {
             "hince-second-skin-hydrating-primer": 670,
         },
     },
+    "fwee": {
+        "host": "https://fwee.kr",
+        "products": {
+            "fwee-lip-cheek-blurry-pudding-pot": 154,
+            "fwee-lip-cheek-glowy-jelly-pot": 195,
+            "fwee-glitz-stone-highlighter": 206,
+            "fwee-pocket-eye-palette": 221,
+            "fwee-pocket-cheek-palette": 222,
+            "fwee-3d-volumizing-glass-tint": 244,
+            "fwee-spa-glowing-uv-tone-up-base": 306,
+            "fwee-one-minute-ready-lip-serum": 202,
+        },
+    },
     "2an": {
         "host": "https://2an.co.kr",
         "products": {
