@@ -36,6 +36,25 @@ Laka, AMUSE, hince.
 | dasique | 68 | `dasique.co.kr` blocks HK IPs |
 | wakemake | 44 | **`www.wakemake.hk` exists** — see below |
 
+### wakemake.hk — handles already matched
+All 13 of our lines resolve against its 30 product handles:
+
+| Our line | SKUs | Handle |
+|---|---|---|
+| Healthy Glow Balm Stick | 5 | `healthy-glow-balm-stick` |
+| Soft Blurring Eye Palette | 5 | `soft-blurring-eye-palette-ad` |
+| Real Defining Pencil Liner | 5 | `real-defining-pencil-liner` |
+| 3 in 1 自然造型眉筆 | 5 | `soft-drawing-slim-brow-n` |
+| Over Blurring Pot | 4 | `over-blurring-pot` |
+| 輕透無瑕遮瑕膏 | 4 | `defining-cover-concealer-spf30-pa` |
+| Seamless Wear Foundation | 3 | `seamless-wear-foundation-spf30-pa` |
+| 水光亮感貼肌氣墊 | 3 | `water-glow-coating-cushion` |
+| Real Defining Brush Liner | 3 | `real-defining-brush-liner` |
+| Stay Fixer Multi Color Powder | 2 | `stay-fixer-multi-color-powder` |
+| 輕透無瑕遮瑕修容盤 | 2 | `defining-cover-conceal-fit-palette` |
+| Real Defining Lash Mascara | 2 | `real-defining-lash-mascara` |
+| 維他命水嫩光感底霜 | 1 | `vitamin-watery-tok-glow-tone-up-lotion` |
+
 ### wakemake.hk
 An official HK store on **SHOPLINE** (not Shopify, so `products.json`
 returns HTML, not JSON). Listings live at `/products` (24 per page) and
