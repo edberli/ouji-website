@@ -4413,3 +4413,63 @@ textarea:focus-visible,
   .brand-section__head--art { min-height: 160px; }
   .brand-section { margin-bottom: var(--space-3xl, 64px); }
 }
+
+/* ============================================================
+   BRAND RAIL
+   Eleven brands stacked run several screens; the rail says which
+   one you are in and lets you jump.
+   ============================================================ */
+.brand-rail {
+  position: fixed;
+  right: max(16px, calc((100vw - 1280px) / 2 - 130px));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-sm) 0;
+}
+
+.brand-rail__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  color: var(--text-tertiary);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color var(--duration-normal);
+}
+
+.brand-rail__tick {
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--border-light, rgba(109,163,181,0.28));
+  transition: width var(--duration-normal) var(--ease-out),
+              background var(--duration-normal);
+  flex: none;
+}
+
+.brand-rail__name {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--duration-normal), transform var(--duration-normal);
+}
+
+.brand-rail:hover .brand-rail__name,
+.brand-rail__item.is-current .brand-rail__name { opacity: 1; transform: none; }
+
+.brand-rail__item:hover { color: var(--primary-dark); }
+.brand-rail__item:hover .brand-rail__tick { width: 26px; background: var(--primary-light); }
+
+.brand-rail__item.is-current { color: var(--primary-deep); font-weight: 500; }
+.brand-rail__item.is-current .brand-rail__tick { width: 32px; background: var(--primary); }
+
+/* No room beside the grid — the section headers carry the wayfinding. */
+@media (max-width: 1180px) { .brand-rail { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .brand-rail__tick, .brand-rail__name { transition: none; }
+}

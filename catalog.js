@@ -191,10 +191,10 @@ function productCard(p) {
     </a>`;
 }
 
-function brandSection(vendor, items) {
+function brandSection(vendor, items, index) {
   const art = brandArt(vendor);
   return `
-    <section class="brand-section">
+    <section class="brand-section" id="brand-${index}">
       <header class="brand-section__head${art ? ' brand-section__head--art' : ''}">
         ${art ? `<img class="brand-section__art" src="${art}" alt="${vendor}" loading="lazy">` : ''}
         <div class="brand-section__label">
@@ -207,9 +207,62 @@ function brandSection(vendor, items) {
     </section>`;
 }
 
+/**
+ * A rail down the side listing the brands on the page, marking the one
+ * you are scrolling through. With eleven brands stacked the page runs to
+ * several screens, and without it there is no way to tell where you are
+ * or to skip ahead.
+ */
+function buildBrandRail(order) {
+  document.querySelector('.brand-rail')?.remove();
+  if (order.length < 2) return;
+
+  const rail = document.createElement('nav');
+  rail.className = 'brand-rail';
+  rail.setAttribute('aria-label', '品牌導覽');
+  rail.innerHTML = order.map(([vendor], i) => `
+    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}">
+      <span class="brand-rail__tick"></span>
+      <span class="brand-rail__name">${vendor}</span>
+    </a>`).join('');
+  document.body.appendChild(rail);
+
+  const items = [...rail.querySelectorAll('.brand-rail__item')];
+  const sections = [...document.querySelectorAll('.brand-section')];
+  const mark = (i) => items.forEach((el, n) => el.classList.toggle('is-current', n === i));
+  mark(0);
+
+  // A section taller than the viewport never reaches a high intersection
+  // ratio, so ratio-based spying kept crowning whichever short section
+  // happened to be fully on screen. Track the last heading to pass the
+  // top of the viewport instead.
+  function spy() {
+    const line = window.innerHeight * 0.28;
+    let current = 0;
+    sections.forEach((sec, i) => {
+      if (sec.getBoundingClientRect().top <= line) current = i;
+    });
+    mark(current);
+  }
+  // Run it inline rather than behind requestAnimationFrame: a handful of
+  // getBoundingClientRect calls is cheap, and rAF gets throttled in
+  // background tabs, which left the rail stuck on the first brand.
+  window.addEventListener('scroll', spy, { passive: true });
+  window.addEventListener('resize', spy, { passive: true });
+  spy();
+
+  rail.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-rail]');
+    if (!a) return;
+    e.preventDefault();
+    sections[+a.dataset.rail]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
 /** Group into brand sections, or fall back to one grid when filtered. */
 function renderProducts(container, products, { grouped }) {
   if (!grouped) {
+    document.querySelector('.brand-rail')?.remove();
     container.innerHTML = `<div class="product-grid">${products.map(productCard).join('')}</div>`;
     return;
   }
@@ -220,7 +273,8 @@ function renderProducts(container, products, { grouped }) {
     byVendor.get(v).push(p);
   });
   const order = [...byVendor.entries()].sort((a, b) => b[1].length - a[1].length);
-  container.innerHTML = order.map(([v, items]) => brandSection(v, items)).join('');
+  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
+  buildBrandRail(order);
 }
 
 /**
@@ -228,7 +282,7 @@ function renderProducts(container, products, { grouped }) {
  * grid once the shopper filters or sorts, since grouping only helps
  * while you are browsing.
  */
-function initCatalog({ section, products }) {
+function initCatalog({ section, cat, products }) {
   const host = document.querySelector('[data-catalog]')
     || document.querySelector('.product-grid')?.parentElement;
   if (!host) return;
@@ -246,7 +300,10 @@ function initCatalog({ section, products }) {
     const cmp = SORTS[sortKey];
     if (cmp) list = [...list].sort(cmp);
 
-    const filtered = sel.cat.size || sel.vendor.size || sel.price.size;
+    // Arriving on a subcategory from the nav (底妝, 唇妝 …) is already a
+    // narrowed request — the shopper wants every base product, not a
+    // tour of the brands — so group only while browsing the whole section.
+    const filtered = cat || sel.cat.size || sel.vendor.size || sel.price.size;
     const grouped = !filtered && !cmp && new Set(list.map((p) => p.vendor)).size > 1;
 
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
