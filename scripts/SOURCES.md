@@ -31,7 +31,7 @@ Laka, AMUSE, hince.
 |---|---|---|
 | fwee | 98 | **`fwee.kr`** — mapped, ready to mirror |
 | TIR TIR | 55 | **`tirtir.co.kr`** — 15 pages mapped, ready to mirror |
-| MAYBELLINE | 53 | **`maybelline.com.hk`** — HK official, Traditional Chinese |
+| MAYBELLINE | 53 | **`maybelline.com.hk`** — titles already zh-Hant; needs imagery only |
 | 花知曉 Flower Knows | 37 | No HK or reachable brand site found yet |
 | dasique | 68 | `dasique.co.kr` blocks HK IPs; `dasique.com` rate-limits |
 | ~~wakemake~~ | ~~44~~ | Done — `www.wakemake.hk`, SHOPLINE |
@@ -93,3 +93,29 @@ that is what any future recommendation feature would filter on.
 
 The pink and aura cushions did not surface in the category sweep and
 still need their pages found.
+
+### MAYBELLINE — 15 lines, titles already Traditional Chinese
+Unlike the Korean brands, every supplier title is already in Traditional
+Chinese, so nothing needs translating and the HK site is needed only for
+imagery.
+
+| Line | SKUs | Price |
+|---|---|---|
+| SUPERSTAY 超持久30H空氣感粉底液 | 7 | $135 |
+| Cushion 遮瑕筆 | 7 | $79 |
+| 專業柔霧造型眉筆 | 6 | $79 |
+| Fit Me 柔滑遮瑕遮瑕膏 | 8 | $75–89 |
+| 月光小忌廉 30H 氣墊粉底霜 | 4 | $189 |
+| 透明質酸「嘟嘟」唇蜜 | 4 | $99 |
+| 超銳目極限持久眼線筆 | 3 | $89 |
+| 超持久水光唇膏液 | 3 | $89–107 |
+| FIT ME! 反孔特霧粉底液 | 2 | $125 |
+| 飛天翹防水睫毛膏 | 2 | $119 |
+| 眼唇二合一卸妝液 | 2 | $89–119 |
+| 超持久24H小奶蓋定妝噴霧 | 2 | $155–189 |
+| 瞬盈防水睫毛液 / 無極限濃密睫毛液 / SKY HIGH 組合 | 各 1 | — |
+
+### TIR TIR — pages still missing
+Eleven lines published as drafts because their pages were not in the
+category sweep: the pink and aura cushions, all four minis, both
+fixers, the eye cream, rescue serum and sun cream.
