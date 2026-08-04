@@ -106,6 +106,21 @@ BRANDS = {
             "romand-glasting-color-gloss": 847,
         },
     },
+    # Bulky Matte Lipstick and Maxi Glayer Tint are not on laka.co.kr.
+    "laka": {
+        "host": "https://laka.co.kr",
+        "products": {
+            "laka-fruity-glam-tint": 180,
+            "laka-fruity-glam-tint-mini-duo": 181,
+            "laka-popping-balloon-tint": 162,
+            "laka-jelling-nude-gloss": 170,
+            "laka-mono-eyeshadow": 164,
+            "laka-forever-6-eye-palette": 174,
+            "laka-love-silk-blush": 168,
+            "laka-fixi-brow-cara": 163,
+            "laka-dreambeam-highlighter": 167,
+        },
+    },
     "2an": {
         "host": "https://2an.co.kr",
         "products": {
