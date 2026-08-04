@@ -115,10 +115,13 @@ LINES = [
 
 # 18 Pudding Pot rows reached us with the shade stripped from the title.
 # These came back from barcode lookups against the manufacturer's
-# catalogue; seven others are not in any database we can reach and stay
-# off the product until someone reads the box.
+# catalogue and from retailer listings; four others appear in no source
+# we can reach and stay off the product until someone reads the box.
 BY_BARCODE = {
     "8809652582498": "ND02 Like",
+    "8809652582573": "CR05 Girls",
+    "8809652582627": "PK05 Sth",
+    "8809652582689": "MV01 Chill'N",
     "8809652582559": "CR03 BFF",
     "8809652582603": "PK03 Cherry",
     "8809652582610": "PK04 Crush",
