@@ -4459,8 +4459,7 @@ textarea:focus-visible,
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  /* the wave: full length at the crest, tapering either side */
-  --fall: max(0, calc(1 - var(--d, 9) * 0.22));
+  /* --fall (1 at the crest, 0 far away) is set per item by catalog.js */
   transition: color 320ms var(--ease-out);
 }
 

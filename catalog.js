@@ -222,7 +222,7 @@ function buildBrandRail(order) {
   rail.setAttribute('aria-label', '品牌導覽');
   rail.innerHTML = `<span class="brand-rail__crest" aria-hidden="true"></span>`
     + order.map(([vendor], i) => `
-    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}" style="--d:${i}">
+    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}" style="--fall:0">
       <span class="brand-rail__tick"></span>
       <span class="brand-rail__name">${vendor}</span>
     </a>`).join('');
@@ -237,7 +237,10 @@ function buildBrandRail(order) {
   const mark = (i) => {
     items.forEach((el, n) => {
       el.classList.toggle('is-current', n === i);
-      el.style.setProperty('--d', String(Math.abs(n - i)));
+      // Compute the falloff here rather than in CSS: nesting a var() inside
+      // max()/calc() for --fall resolved once and left every tick sized off
+      // its index instead of its distance from the crest.
+      el.style.setProperty('--fall', String(Math.max(0, 1 - Math.abs(n - i) * 0.22)));
     });
     rail.style.setProperty('--crest', String(i));
   };
