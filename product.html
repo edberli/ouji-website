@@ -354,6 +354,52 @@
   <script src="shopify.js"></script>
   <script src="script.js"></script>
   <script>
+  /**
+   * The brands' detail strips run to tens of thousands of pixels — the
+   * Coralhaze lip fondue alone stacks 42 of them. Showing the lot means
+   * scrolling past all of it to reach anything below, so the block is
+   * capped and opened on request.
+   */
+  function collapseDetailStrips() {
+    const block = document.querySelector('.product-detail-images');
+    if (!block || block.dataset.collapsible) return;
+
+    const settle = () => {
+      // Strip count is the reliable signal: scrollHeight reads 0 while the
+      // description sits in a tab that has not been shown yet.
+      const strips = block.querySelectorAll('img').length;
+      if (strips < 4 && block.scrollHeight < 1400) return;
+      block.dataset.collapsible = '1';
+      block.classList.add('is-collapsed');
+
+      const more = document.createElement('button');
+      more.className = 'detail-more';
+      more.type = 'button';
+      more.innerHTML = '<span>查看更多產品圖</span>'
+        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">'
+        + '<path d="m6 9 6 6 6-6"/></svg>';
+      block.after(more);
+
+      more.addEventListener('click', () => {
+        const opening = block.classList.contains('is-collapsed');
+        block.classList.toggle('is-collapsed', !opening);
+        more.classList.toggle('is-open', opening);
+        more.querySelector('span').textContent = opening ? '收起產品圖' : '查看更多產品圖';
+        if (!opening) more.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      });
+    };
+
+    // Strips are lazy-loaded, so scrollHeight is meaningless until the
+    // first few have a size to contribute.
+    const imgs = [...block.querySelectorAll('img')].slice(0, 3);
+    const pending = imgs.filter((i) => !i.complete);
+    if (!pending.length) return settle();
+    let left = pending.length;
+    pending.forEach((i) => i.addEventListener('load', () => { if (!--left) settle(); },
+                                              { once: true }));
+    setTimeout(settle, 2500);
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
 
@@ -445,6 +491,7 @@
       } else if (fullDesc && product.description) {
         fullDesc.innerHTML = `<p>${product.description}</p>`;
       }
+      collapseDetailStrips();
 
       // Update images
       const images = product.images?.edges?.map(e => e.node) ?? [];

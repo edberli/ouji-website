@@ -4545,3 +4545,61 @@ textarea:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .brand-rail__tick, .brand-rail__name, .brand-rail__crest { transition: none; }
 }
+
+/* ============================================================
+   COLLAPSIBLE DETAIL STRIPS
+   Korean detail pages stack tens of thousands of pixels of
+   imagery; capping it keeps everything below reachable.
+   ============================================================ */
+.product-detail-images.is-collapsed {
+  max-height: 860px;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-detail-images.is-collapsed::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 200px;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(247,250,251,0) 0%,
+    rgba(247,250,251,0.72) 55%,
+    var(--bg, #f7fafb) 100%);
+}
+
+.detail-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: var(--space-lg) auto var(--space-2xl);
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 1px solid var(--border-light, rgba(109,163,181,0.28));
+  background: var(--glass-bg-strong, rgba(255,255,255,0.75));
+  backdrop-filter: blur(10px);
+  color: var(--primary-deep);
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color var(--duration-normal), box-shadow var(--duration-normal),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.detail-more:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 26px rgba(109,163,181,0.16);
+  transform: translateY(-1px);
+}
+
+.detail-more svg {
+  width: 15px; height: 15px;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+.detail-more.is-open svg { transform: rotate(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .detail-more, .detail-more svg { transition: none; }
+}
