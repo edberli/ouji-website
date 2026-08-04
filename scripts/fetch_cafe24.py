@@ -151,7 +151,13 @@ def scrape(host, product_no):
 
 
 def save(url, host, dest):
-    data = get(urllib.parse.quote(absolute(url, host), safe=":/?&=%"), host)
+    full = absolute(url, host)
+    # Some storefronts (rom&nd) serve detail strips from cafe24.poxo.com
+    # under base64-ish paths whose '+' is significant — percent-encoding
+    # those turns every fetch into a 404. Only escape what has to be.
+    if any(ord(c) > 127 or c == " " for c in full):
+        full = urllib.parse.quote(full, safe=":/?&=%+")
+    data = get(full, host)
     with open(dest, "wb") as f:
         f.write(data)
     return len(data)
