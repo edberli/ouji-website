@@ -113,6 +113,26 @@ LINES = [
         how="上唇妝前薄搽一層；或睡前厚敷當唇膜。")),
 ]
 
+# 18 Pudding Pot rows reached us with the shade stripped from the title.
+# These came back from barcode lookups against the manufacturer's
+# catalogue; seven others are not in any database we can reach and stay
+# off the product until someone reads the box.
+BY_BARCODE = {
+    "8809652582498": "ND02 Like",
+    "8809652582559": "CR03 BFF",
+    "8809652582603": "PK03 Cherry",
+    "8809652582610": "PK04 Crush",
+    "8809652582658": "RD03 Ambitious",
+    "8809652582665": "Fav",
+    "8809652582672": "RD05 Greedy",
+    "8809652582719": "MV04 Slayyy",
+    "8809652582764": "RS04 Memories",
+    "8809652582771": "RS05 Film",
+}
+# Filed under the Pudding Pot price but actually the lip serum.
+REASSIGN = {"8809652585796": "fwee-one-minute-ready-lip-serum"}
+SERUM_SHADE = {"8809652585796": "Keyring 套裝"}
+
 SERIES = re.compile(
     r"^\s*FWEE\s*[-–]?\s*(\*Keyring\*)?\s*"
     r"(Lip\s*&?\s*Cheek\s+Blurry\s+Pudding\s+Pot|Lip\s*&?\s*Cheek\s+Glowy\s+Jelly\s+Pot"
@@ -148,10 +168,11 @@ NO_SHADE = []
 all_rows = rows()
 used = set()
 for slug, title, ptype, tags, price, (need, avoid), copy in LINES:
-    matched = [(shade_of(t), b, q) for t, b, p, q in all_rows
-               if p == price and b not in used
-               and (not need or need.lower() in t.lower())
-               and (not avoid or avoid.lower() not in t.lower())]
+    matched = [(BY_BARCODE.get(b) or SERUM_SHADE.get(b) or shade_of(t), b, q) for t, b, p, q in all_rows
+               if (REASSIGN.get(b) == slug or p == price) and b not in used
+               and REASSIGN.get(b, slug) == slug
+               and (REASSIGN.get(b) or not need or need.lower() in t.lower())
+               and (REASSIGN.get(b) or not avoid or avoid.lower() not in t.lower())]
     used.update(b for _, b, _ in matched)
     picked = [x for x in matched if x[0]]
     NO_SHADE.extend(b for n, b, _ in matched if not n)
