@@ -4433,10 +4433,11 @@ textarea:focus-visible,
    ============================================================ */
 .brand-rail {
   position: fixed;
-  /* On the left, where the eye already is. It only ever renders above
-     1500px (see the breakpoint below), so this always lands in real
-     margin rather than on top of the first column of cards. */
-  left: calc((100vw - 1280px) / 2 - 150px);
+  /* Pinned near the left edge rather than centred in the margin — on a
+     wide screen the margin is hundreds of pixels and the rail drifted
+     out to float in the middle of nothing. Capped so it still clears the
+     grid on the narrowest screen that shows it at all. */
+  left: clamp(18px, calc((100vw - 1280px) / 2 - 150px), 56px);
   top: 50%;
   transform: translateY(-50%);
   z-index: 900;
