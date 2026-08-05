@@ -188,27 +188,35 @@
     </div>
   </aside>
 
-  <main id="main-content" style="padding-top: 96px;">
+  <main id="main-content" class="awards-page">
 
-    <section class="category-banner awards-banner">
-      <div class="category-banner__overlay"></div>
-      <div class="container">
-        <div class="category-banner__content">
-          <h1 class="category-banner__title">獲獎產品</h1>
-          <p class="category-banner__desc">呢度每一項都係得獎名單上面查到嘅結果 —— 邊個獎、邊一年、第幾名，全部照原文寫。</p>
-        </div>
+    <section class="awards-hero">
+      <div class="awards-hero__glow" aria-hidden="true"></div>
+      <div class="container awards-hero__inner">
+        <span class="awards-hero__eyebrow">HALL OF AWARDS</span>
+        <h1 class="awards-hero__title">獲獎產品</h1>
+        <p class="awards-hero__desc">由韓國、日本、美國嘅評審機構頒出，逐項查返得獎名單原文 —— 邊個獎、邊一年、第幾名。</p>
+        <div class="awards-hero__stats" data-awards-stats></div>
       </div>
+      <div class="awards-hero__crests" data-awards-crests></div>
     </section>
 
     <div class="container">
-      <nav class="breadcrumb">
+      <nav class="breadcrumb breadcrumb--onlight">
         <a href="index.html">首頁</a>
         <span class="breadcrumb__sep">/</span>
         <span>獲獎產品</span>
       </nav>
 
-      <div class="awards-legend" data-awards-legend></div>
-      <div class="awards-years" data-awards></div>
+      <div class="awards-filters" data-awards-legend></div>
+
+      <section class="awards-podium" data-awards-podium></section>
+
+      <section class="awards-grid" data-awards></section>
+
+      <p class="awards-note">
+        獎項名稱同名次照各評審機構公布嘅原文列出。徽章由 OUJI 自行設計，並非各機構嘅official 標誌。
+      </p>
     </div>
 
   </main>
@@ -309,95 +317,119 @@
   <script src="catalog.js"></script>
   <script src="script.js"></script>
   <script>
-  /* One page listing every award any product of ours has won, newest year
-     first. The data lives in awards.js; the products come from the live
-     catalogue, so a line that goes out of stock or gets renamed follows
-     automatically instead of drifting out of sync with a hard-coded list. */
+  /* Grouped by product, not by award: the same lipstick winning five
+     times is one entry with five lines, not five entries. Sorted by how
+     many firsts it holds, then by how many awards in total. */
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
 
     const all = await getProducts({ first: 250 });
     const byHandle = new Map((all?.edges || []).map((e) => [e.node.handle, e.node]));
 
-    // year -> [{product, award}], and the award bodies actually represented
-    const years = new Map();
-    const bodies = new Set();
-    Object.entries(AWARDS).forEach(([handle, list]) => {
-      const product = byHandle.get(handle);
-      if (!product) return;               // not stocked (or drafted) — skip
-      list.forEach((award) => {
-        bodies.add(award.body);
-        if (!years.has(award.year)) years.set(award.year, []);
-        years.get(award.year).push({ product, award });
-      });
-    });
+    const entries = awardedProducts()
+      .map((e) => ({ ...e, product: byHandle.get(e.handle) }))
+      .filter((e) => e.product);          // not stocked — drop it entirely
 
-    // The bodies double as a filter: nearly ninety entries is a lot to
-    // scroll if you only trust one of them.
+    const bodies = [...new Set(entries.flatMap((e) => e.awards.map((a) => a.body)))];
+    const years = [...new Set(entries.flatMap((e) => e.awards.map((a) => a.year)))]
+      .sort((a, b) => b - a);
+    const total = entries.reduce((n, e) => n + e.count, 0);
+
+    const stats = document.querySelector('[data-awards-stats]');
+    if (stats) {
+      stats.innerHTML = [
+        [total, '項獎'], [entries.length, '件產品'],
+        [bodies.length, '個評審機構'], [`${years[years.length - 1]}–${years[0]}`, '年'],
+      ].map(([n, label]) => `<div class="awards-stat">
+          <span class="awards-stat__n">${n}</span>
+          <span class="awards-stat__label">${label}</span>
+        </div>`).join('');
+    }
+
+    const crests = document.querySelector('[data-awards-crests]');
+    if (crests) {
+      crests.innerHTML = bodies.map((b) => `<div class="awards-crest">
+        ${awardCrest(b)}
+        <span class="awards-crest__name">${AWARD_BODIES[b].name}</span>
+        <span class="awards-crest__region">${AWARD_BODIES[b].region}</span>
+      </div>`).join('');
+    }
+
     let only = null;
     const legend = document.querySelector('[data-awards-legend]');
     if (legend) {
-      legend.innerHTML = `<button class="award-body is-active" data-body="">全部</button>`
-        + [...bodies].map((b) => {
-          const info = AWARD_BODIES[b];
-          const n = [...years.values()].flat().filter((r) => r.award.body === b).length;
-          return `<button class="award-body" data-body="${b}">
-            <span class="award-body__name">${info.name}</span>
-            <span class="award-body__region">${info.region} · ${n}</span>
-          </button>`;
+      legend.innerHTML = `<button class="awards-filter is-active" data-body="">全部 ${total}</button>`
+        + bodies.map((b) => {
+          const n = entries.reduce((c, e) =>
+            c + e.awards.filter((a) => a.body === b).length, 0);
+          return `<button class="awards-filter" data-body="${b}">
+            ${AWARD_BODIES[b].name}<span>${n}</span></button>`;
         }).join('');
       legend.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-body]');
         if (!btn) return;
         only = btn.dataset.body || null;
-        legend.querySelectorAll('.award-body').forEach((el) =>
+        legend.querySelectorAll('.awards-filter').forEach((el) =>
           el.classList.toggle('is-active', el === btn));
         render();
       });
     }
 
-    const host = document.querySelector('[data-awards]');
-    if (!host) return;
-    if (!years.size) {
-      host.innerHTML = '<p class="catalog-empty">暫時未有得獎產品。</p>';
-      return;
-    }
+    const medal = (rank) => rank === 0 ? '★' : rank;
+    const line = (a) => `<li class="award-line award-line--r${a.rank}">
+        <span class="award-line__medal">${medal(a.rank)}</span>
+        <span class="award-line__year">${a.year}</span>
+        <span class="award-line__text">
+          <b>${AWARD_BODIES[a.body].name}</b>
+          <span>${a.category}${rankLabel(a.rank)}${a.note ? ` · ${a.note}` : ''}</span>
+        </span>
+      </li>`;
+
+    const card = (e, featured) => {
+      const p = e.product;
+      const img = p.images?.edges?.[0]?.node;
+      const price = p.priceRange?.minVariantPrice;
+      const shown = e.awards.filter((a) => !only || a.body === only);
+      const top = shown[0];
+      return `<a class="award-card${featured ? ' award-card--featured' : ''}"
+                 href="/products/${p.handle}">
+        <div class="award-card__media">
+          ${img ? `<img src="${img.url}" alt="${p.title}" loading="lazy">` : ''}
+          <span class="award-card__seal">
+            <span class="award-card__seal-n">${shown.length}</span>
+            <span class="award-card__seal-label">項獎</span>
+          </span>
+          ${top && top.rank === 1 ? '<span class="award-card__first">NO.1</span>' : ''}
+        </div>
+        <div class="award-card__body">
+          <span class="award-card__brand">${p.vendor || ''}</span>
+          <h3 class="award-card__title">${p.title}</h3>
+          <ul class="award-card__lines">${shown.map(line).join('')}</ul>
+          <span class="award-card__price">${price ? formatPrice(price.amount) : ''}</span>
+        </div>
+      </a>`;
+    };
+
+    const podium = document.querySelector('[data-awards-podium]');
+    const grid = document.querySelector('[data-awards]');
 
     function render() {
-    host.innerHTML = [...years.keys()].sort((a, b) => b - a).map((year) => {
-      const rows = years.get(year)
-        .filter((r) => !only || r.award.body === only)
-        .sort((a, b) => (a.award.rank || 99) - (b.award.rank || 99));
-      if (!rows.length) return '';
-      return `<section class="award-year">
-        <header class="award-year__head">
-          <span class="award-year__number">${year}</span>
-          <span class="award-year__count">${rows.length} 項</span>
-        </header>
-        <div class="award-list">
-          ${rows.map(({ product, award }) => {
-            const img = product.images?.edges?.[0]?.node;
-            const price = product.priceRange?.minVariantPrice;
-            const rank = rankLabel(award.rank);
-            return `<a class="award-row" href="/products/${product.handle}">
-              <span class="award-row__rank${award.rank === 1 ? ' is-first' : ''}">${award.rank || '★'}</span>
-              <span class="award-row__thumb">
-                ${img ? `<img src="${img.url}" alt="${product.title}" loading="lazy">` : ''}
-              </span>
-              <span class="award-row__text">
-                <span class="award-row__brand">${product.vendor || ''}</span>
-                <span class="award-row__title">${product.title}</span>
-                <span class="award-row__award">
-                  ${AWARD_BODIES[award.body].name} · ${award.category}${rank}
-                  ${award.note ? `<em>${award.note}</em>` : ''}
-                </span>
-              </span>
-              <span class="award-row__price">${price ? formatPrice(price.amount) : ''}</span>
-            </a>`;
-          }).join('')}
-        </div>
-      </section>`;
-    }).join('');
+      const list = entries
+        .map((e) => ({ ...e, shown: e.awards.filter((a) => !only || a.body === only) }))
+        .filter((e) => e.shown.length)
+        .sort((a, b) => b.shown.filter((x) => x.rank === 1).length
+                      - a.shown.filter((x) => x.rank === 1).length
+                     || b.shown.length - a.shown.length);
+
+      podium.innerHTML = list.length
+        ? `<h2 class="awards-section-title"><span>殿堂</span></h2>
+           <div class="awards-podium__row">${list.slice(0, 3).map((e) => card(e, true)).join('')}</div>`
+        : '';
+      grid.innerHTML = list.length > 3
+        ? `<h2 class="awards-section-title"><span>其餘得獎產品</span></h2>
+           <div class="awards-grid__row">${list.slice(3).map((e) => card(e, false)).join('')}</div>`
+        : '';
+      if (!list.length) grid.innerHTML = '<p class="catalog-empty">暫時未有得獎產品。</p>';
     }
     render();
   });

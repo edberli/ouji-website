@@ -241,3 +241,37 @@ function awardRibbon(handle) {
     <span class="award-ribbon__body">${a.bodyName} ${a.year}</span>
   </span>`;
 }
+
+
+/* ---------- helpers the awards page renders from ---------- */
+
+/** Every awarded product, richest first, with its awards attached. */
+function awardedProducts() {
+  return Object.entries(AWARDS).map(([handle, list]) => {
+    const sorted = [...list].sort((a, b) => b.year - a.year
+      || (a.rank || 99) - (b.rank || 99));
+    const firsts = list.filter((a) => a.rank === 1).length;
+    return { handle, awards: sorted, count: list.length, firsts,
+             latest: Math.max(...list.map((a) => a.year)) };
+  }).sort((a, b) => b.firsts - a.firsts || b.count - a.count || b.latest - a.latest);
+}
+
+/** A seal drawn for us, not any award body's own mark — see the page copy. */
+function awardCrest(body) {
+  const info = AWARD_BODIES[body];
+  const initials = { OLIVE_YOUNG: 'OY', GLOWPICK: 'GP', HWAHAE: '화해',
+                     ALLURE_RC: 'RC', ALLURE_BOB: 'BB', COSME: '@c' }[body] || '★';
+  return `<svg class="crest" viewBox="0 0 72 72" aria-hidden="true">
+    <defs><linearGradient id="g-${body}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8cf9a"/><stop offset="0.5" stop-color="#b48b4a"/>
+      <stop offset="1" stop-color="#7a5c2e"/></linearGradient></defs>
+    <circle cx="36" cy="36" r="30" fill="none" stroke="url(#g-${body})" stroke-width="1.4"/>
+    <circle cx="36" cy="36" r="25.5" fill="none" stroke="url(#g-${body})" stroke-width="0.6" opacity="0.7"/>
+    <path d="M20 40c-4-6-3-13 1-18 1 7 3 12 7 16" fill="none"
+          stroke="url(#g-${body})" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M52 40c4-6 3-13-1-18-1 7-3 12-7 16" fill="none"
+          stroke="url(#g-${body})" stroke-width="1.6" stroke-linecap="round"/>
+    <text x="36" y="41" text-anchor="middle" font-size="15" fill="url(#g-${body})"
+          font-family="inherit" letter-spacing="0.5">${initials}</text>
+  </svg>`;
+}
