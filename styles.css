@@ -4422,7 +4422,7 @@ textarea:focus-visible,
 @media (max-width: 768px) {
   .brand-section__head { min-height: 110px; padding: var(--space-lg); }
   .brand-section__head--art { min-height: 160px; }
-  .brand-section { margin-bottom: var(--space-3xl, 64px); }
+  .brand-section { margin-bottom: var(--space-lg, 24px); }
 }
 
 /* ============================================================
