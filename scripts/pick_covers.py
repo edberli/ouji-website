@@ -42,6 +42,21 @@ mutation($id: ID!, $moves: [MoveInput!]!) {
 }
 """
 
+# Covers chosen by eye, which this must never overwrite. Scoring cannot
+# tell a swatch chart from a packshot, so every sweep used to undo the
+# hand-fixed ones and the same covers went bad again.
+LOCK_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         "covers.lock.json")
+
+
+def locked():
+    import json
+    try:
+        with open(LOCK_PATH) as f:
+            return set(json.load(f))
+    except (OSError, ValueError):
+        return set()
+
 
 def fetch(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
@@ -123,8 +138,12 @@ def main():
         return
 
     moved = 0
+    keep = locked()
     for p in all_products():
         if p["vendor"].lower() != args.vendor.lower():
+            continue
+        if p["handle"] in keep:
+            print(f"  lock   {p['title'][:44]}")
             continue
         media = gql(MEDIA_Q, {"id": p["id"]})["product"]["media"]["edges"]
         imgs = [(e["node"]["id"], (e["node"].get("image") or {}).get("url"))
