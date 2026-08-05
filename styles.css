@@ -4339,8 +4339,9 @@ textarea:focus-visible,
    next to a Glint highlighter with nothing marking the change.
    ============================================================ */
 /* Tight enough that the next brand reads as the next section rather than
-   a different page — 96px plus a 2xl pad left a screenful of nothing. */
-.brand-section { margin-bottom: var(--space-2xl, 48px); }
+   a different page — 96px plus a 2xl pad left a screenful of nothing, and
+   the sparser the gap the thinner the range looks. */
+.brand-section { margin-bottom: var(--space-lg, 24px); }
 
 .brand-section__head {
   position: relative;
@@ -4348,7 +4349,7 @@ textarea:focus-visible,
   align-items: flex-end;
   min-height: 140px;
   padding: var(--space-xl);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-xl);
   border-radius: var(--radius-lg, 16px);
   overflow: hidden;
   background: var(--warm-gradient);
@@ -4359,9 +4360,10 @@ textarea:focus-visible,
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  /* The source frames are square campaign shots; a 220px band cut from
-     their vertical centre lands on a chin, so bias the crop upward. */
-  object-position: center 34%;
+  /* Slightly above centre: the key visuals put their subject mid-frame,
+     the square campaign fallbacks put a face in the upper half, and a
+     dead-centre crop lands on a chin for the latter. */
+  object-position: center 42%;
 }
 /* Scrim from the label corner outward — a bottom-only gradient leaves the
    eyebrow and count sitting on whatever the photo happens to put there. */
@@ -4441,7 +4443,9 @@ textarea:focus-visible,
   display: flex;
   flex-direction: column;
   gap: 7px;
-  padding: var(--space-md) 0;
+  /* Horizontal padding widens the hit area so the wave answers a mouse
+     passing near the rail, not only one exactly on a 2px tick. */
+  padding: var(--space-md) 12px;
   --wave: 44px;
 }
 

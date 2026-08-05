@@ -12,29 +12,35 @@
    an unmapped brand fell back to a plain gradient band, which next to a
    photographed one read as unfinished.
 
-   These are campaign frames from each brand's own media rather than a
-   packshot: a packshot cropped to a 220px band is a close-up of nothing,
-   while a model shot still reads at that height. */
+   Nine are the brand's own homepage key visual, already shot to be read
+   as a wide band — mirrored onto our CDN because the Korean storefronts
+   check the Referer and would serve a placeholder to our pages. The rest
+   have no usable KV (their homepage banner is a bare wordmark), so they
+   fall back to a campaign frame from the brand's product media: a
+   packshot cropped to a 220px band is a close-up of nothing, a model
+   shot still reads at that height. */
 const CDN = 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/';
 const BRAND_ART = {
+  // official key visuals
+  'Coralhaze': CDN + 'coralhaze-banner.jpg',
+  'lilybyred': CDN + 'lilybyred-banner.jpg',
+  'UNLEASHIA': CDN + 'unleashia-banner.jpg',
+  'rom&nd': CDN + 'romand-banner.jpg',
+  'hince': CDN + 'hince-banner.jpg',
+  'fwee': CDN + 'fwee-banner.jpg',
+  'MAYBELLINE': CDN + 'maybelline-banner.jpg',
+  '花知曉 Flower Knows': CDN + 'flowerknows-banner.jpg',
+  'BRAYE': CDN + 'braye-banner.jpg',
+  // no usable KV on the brand site — campaign frame from its own media
   'Glint': CDN + 'glint-highlighter-03.jpg',
-  'BRAYE': CDN + 'braye-thin-glow-tint-05.jpg',
   'Heart Percent': CDN + '3281c1e2c212110d5a09790bddb0b998.jpg',
-  'Coralhaze': CDN + 'coralhaze-glow-lock-jelly-tint-04.jpg',
   'CLIO': CDN + 'clio-kill-lash-superproof-mascara-01.jpg',
   'Peripera': CDN + 'Peripera_VShadingBlendingStick_T_4.jpg',
-  'lilybyred': CDN + 'lilybyred-smiley-lip-blending-stick-05_0c0ecc6e-a136-402e-8441-3fb18e636222.jpg',
-  'UNLEASHIA': CDN + 'unleashia-babe-skin-baby-blue-cushion-10_a02a22ed-a496-4f8d-bb1c-0cea6e472fe9.jpg',
   '2aN': CDN + '2an-better-me-eye-palette-01_ec48f74b-0cd8-467e-80b6-b3549cb6d567.jpg',
-  'rom&nd': CDN + 'romand-juicy-lasting-tint-03_b66a32f0-27a1-49f3-8664-e69239bdf3d1.jpg',
   'Laka': CDN + 'laka-fruity-glam-tint-02_995c6109-9d56-412b-92eb-e7db4c8858e1.jpg',
   'AMUSE': CDN + 'amuse-powder-lip-cheek-08.jpg',
-  'hince': CDN + 'hince-dewy-liquid-cheek-04_f826a098-7064-487b-b813-fd43e757f1c5.jpg',
   'WAKEMAKE': CDN + 'wakemake-seamless-wear-foundation-01_697499fe-3af6-4453-951a-8427076ee269.jpg',
-  'fwee': CDN + 'fwee-lip-cheek-blurry-pudding-pot-01_d98602f5-33cd-46e9-ba38-51c0db84ca91.jpg',
   'TIRTIR': CDN + 'tirtir-waterism-glow-melting-balm-03_1fc51da6-4d84-41ba-b4cd-4e7b7e4b0732.jpg',
-  'MAYBELLINE': CDN + 'maybelline-fit-me-matte-poreless-foundation-01_befe3720-8b82-433b-877c-b84d10a75169.jpg',
-  '花知曉 Flower Knows': CDN + '06_8088defc-a940-4e80-aa90-15a1516c4075.jpg',
 };
 
 function brandArt(vendor) {
@@ -246,23 +252,67 @@ function buildBrandRail(order) {
   // Each tick's length falls off with its distance from the current one,
   // so the rail reads as a swell in the water rather than a list with one
   // item bolded. CSS turns --d into width, opacity and offset.
-  const mark = (i) => {
+  // `at` may be fractional: the scrollspy passes a whole index, the
+  // pointer passes wherever it actually is between two ticks, which is
+  // what makes the swell track a finger rather than snap to the nearest
+  // brand.
+  const mark = (at, current = Math.round(at)) => {
     items.forEach((el, n) => {
-      el.classList.toggle('is-current', n === i);
+      el.classList.toggle('is-current', n === current);
       // Compute the falloff here rather than in CSS: nesting a var() inside
       // max()/calc() for --fall resolved once and left every tick sized off
       // its index instead of its distance from the crest.
-      el.style.setProperty('--fall', String(Math.max(0, 1 - Math.abs(n - i) * 0.22)));
+      el.style.setProperty('--fall', String(Math.max(0, 1 - Math.abs(n - at) * 0.22)));
     });
-    rail.style.setProperty('--crest', String(i));
+    rail.style.setProperty('--crest', String(at));
   };
   mark(0);
+
+  /* Where the pointer sits along the rail, as a fractional index. The rail
+     is vertical on desktop and horizontal on mobile, so the axis is read
+     off the ticks themselves rather than hard-coded. */
+  function indexAt(clientX, clientY) {
+    const boxes = items.map((el) => el.getBoundingClientRect());
+    const first = boxes[0], last = boxes[boxes.length - 1];
+    const vertical = Math.abs(last.top - first.top) >= Math.abs(last.left - first.left);
+    const pos = vertical ? clientY : clientX;
+    const centres = boxes.map((b) => (vertical ? b.top + b.height / 2
+                                               : b.left + b.width / 2));
+    if (pos <= centres[0]) return 0;
+    if (pos >= centres[centres.length - 1]) return centres.length - 1;
+    for (let n = 0; n < centres.length - 1; n++) {
+      if (pos <= centres[n + 1]) {
+        const span = centres[n + 1] - centres[n] || 1;
+        return n + (pos - centres[n]) / span;
+      }
+    }
+    return centres.length - 1;
+  }
+
+  let tracking = false;
+  const follow = (e) => {
+    const t = e.touches ? e.touches[0] : e;
+    if (!t) return;
+    tracking = true;
+    // The pointer wins over the scroll position while it is on the rail,
+    // so hovering ahead previews where you are about to jump.
+    mark(indexAt(t.clientX, t.clientY));
+    if (e.cancelable) e.preventDefault();   // don't scroll the page mid-drag
+  };
+  const release = () => { tracking = false; spy(); };
+
+  rail.addEventListener('pointermove', follow);
+  rail.addEventListener('pointerleave', release);
+  rail.addEventListener('touchmove', follow, { passive: false });
+  rail.addEventListener('touchend', release);
+  rail.addEventListener('touchcancel', release);
 
   // A section taller than the viewport never reaches a high intersection
   // ratio, so ratio-based spying kept crowning whichever short section
   // happened to be fully on screen. Track the last heading to pass the
   // top of the viewport instead.
   function spy() {
+    if (tracking) return;          // a finger on the rail outranks the page
     const line = window.innerHeight * 0.28;
     let current = 0;
     sections.forEach((sec, i) => {
