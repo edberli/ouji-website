@@ -4672,3 +4672,209 @@ textarea:focus-visible,
 .shop-sheet__item:active { background: var(--primary-pale, rgba(109,163,181,0.12)); }
 
 @media (min-width: 769px) { .shop-sheet { display: none !important; } }
+
+/* ============================================================
+   QUICK TABS, ACTIVE FILTER CHIPS, AWARD RIBBON
+   Filtering used to live entirely behind one 篩選 button, so you
+   could not see what was applied without reopening the drawer.
+   ============================================================ */
+.quick-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 0 10px;
+  margin: 0 calc(var(--space-md) * -1);
+  padding-inline: var(--space-md);
+}
+.quick-tabs::-webkit-scrollbar { display: none; }
+.quick-tabs:empty { display: none; }
+
+.quick-tab {
+  flex: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface, #fff);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--duration-fast), color var(--duration-fast),
+              border-color var(--duration-fast);
+}
+.quick-tab:hover { border-color: var(--primary); color: var(--primary-deep); }
+.quick-tab.is-active {
+  background: var(--primary-deep, #2e505c);
+  border-color: var(--primary-deep, #2e505c);
+  color: #fff;
+}
+.quick-tab__count { font-size: 0.75rem; opacity: 0.6; }
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-lg);
+}
+.active-filters:empty { display: none; }
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--primary);
+  background: var(--primary-pale, rgba(109,163,181,0.12));
+  color: var(--primary-deep);
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.filter-chip span { opacity: 0.6; font-size: 0.9375rem; line-height: 1; }
+.filter-chip:hover { background: var(--primary); color: #fff; }
+.filter-chip:hover span { opacity: 0.9; }
+.filter-chip--clear {
+  border-style: dashed;
+  background: transparent;
+  color: var(--text-tertiary);
+}
+
+/* The ribbon sits opposite the wishlist heart so the two never collide. */
+.award-ribbon {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 5px 9px 5px 8px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7a5c2e, #b48b4a 55%, #7a5c2e);
+  color: #fff;
+  line-height: 1.15;
+  box-shadow: 0 4px 12px rgba(60,42,14,0.28);
+  pointer-events: none;
+}
+.award-ribbon__rank { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+.award-ribbon__body { font-size: 0.5625rem; letter-spacing: 0.06em; opacity: 0.85; }
+
+@media (max-width: 768px) {
+  .award-ribbon { left: 6px; bottom: 6px; padding: 4px 7px; }
+  .award-ribbon__rank { font-size: 0.6875rem; }
+  .award-ribbon__body { font-size: 0.5rem; }
+}
+
+/* ============================================================
+   AWARDS PAGE
+   A ranked list rather than a grid: the rank is the point, and a
+   grid of covers buries it.
+   ============================================================ */
+.awards-banner { background: linear-gradient(120deg, #2e505c, #6da3b5 62%, #b48b4a); }
+.awards-banner .category-banner__overlay { background: rgba(20,38,46,0.24); }
+
+.awards-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: var(--space-lg) 0 var(--space-2xl);
+}
+.award-body {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface, #fff);
+}
+.award-body__name { font-size: 0.875rem; color: var(--text-primary); }
+.award-body__region { font-size: 0.75rem; color: var(--text-tertiary); }
+
+.award-year { margin-bottom: var(--space-2xl); }
+.award-year__head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.award-year__number {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+.award-year__count { font-size: 0.8125rem; color: var(--text-tertiary); }
+
+.award-list { display: flex; flex-direction: column; gap: 10px; }
+
+.award-row {
+  display: grid;
+  grid-template-columns: 40px 76px 1fr auto;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 12px 14px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface, #fff);
+  text-decoration: none;
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast),
+              transform var(--duration-fast);
+}
+.award-row:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(46,80,92,0.10);
+  transform: translateY(-1px);
+}
+
+.award-row__rank {
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--primary-pale, rgba(109,163,181,0.14));
+  color: var(--primary-deep);
+  font-size: 0.9375rem;
+}
+.award-row__rank.is-first {
+  background: linear-gradient(135deg, #7a5c2e, #b48b4a 55%, #7a5c2e);
+  color: #fff;
+}
+
+.award-row__thumb {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-sm, 8px);
+  overflow: hidden;
+  background: var(--surface-alt, #f4f2ec);
+}
+.award-row__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.award-row__text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.award-row__brand {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.award-row__title { color: var(--text-primary); font-size: 0.9375rem; }
+.award-row__award { font-size: 0.8125rem; color: var(--primary-deep); }
+.award-row__award em { font-style: normal; color: var(--text-tertiary); }
+.award-row__award em::before { content: ' · '; }
+.award-row__price { color: var(--text-secondary); font-size: 0.875rem; white-space: nowrap; }
+
+@media (max-width: 768px) {
+  .award-row {
+    grid-template-columns: 30px 60px 1fr;
+    gap: var(--space-sm);
+    padding: 10px;
+  }
+  .award-row__rank { width: 28px; height: 28px; font-size: 0.8125rem; }
+  .award-row__price { grid-column: 2 / -1; font-size: 0.8125rem; }
+  .award-year__number { font-size: 1.5rem; }
+}

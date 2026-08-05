@@ -6,26 +6,26 @@
        keep every relative asset resolving from the site root. -->
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>護膚 — OUJI</title>
-  <meta name="description" content="探索 OUJI 精選韓國護膚品，從潔面、精華到防曬，為你的肌膚找到最佳呵護。">
+  <title>獲獎產品 — OUJI</title>
+  <meta name="description" content="喺 Olive Young Awards、Glowpick、Allure、@cosme 攞過獎嘅韓妝產品，逐個列出得獎年份、類別同名次。">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#1e3038">
-  <link rel="canonical" href="https://oujikbeauty.com/category">
+  <link rel="canonical" href="https://oujikbeauty.com/makeup">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OUJI">
   <meta property="og:locale" content="zh_HK">
-  <meta property="og:title" content="護膚 — OUJI">
-  <meta property="og:description" content="探索 OUJI 精選韓國護膚品，從潔面、精華到防曬，為你的肌膚找到最佳呵護。">
-  <meta property="og:url" content="https://oujikbeauty.com/category">
+  <meta property="og:title" content="彩妝 — OUJI">
+  <meta property="og:description" content="喺 Olive Young Awards、Glowpick、Allure、@cosme 攞過獎嘅韓妝產品，逐個列出得獎年份、類別同名次。">
+  <meta property="og:url" content="https://oujikbeauty.com/makeup">
   <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="護膚 — OUJI">
-  <meta name="twitter:description" content="探索 OUJI 精選韓國護膚品，從潔面、精華到防曬，為你的肌膚找到最佳呵護。">
+  <meta name="twitter:title" content="彩妝 — OUJI">
+  <meta name="twitter:description" content="喺 Olive Young Awards、Glowpick、Allure、@cosme 攞過獎嘅韓妝產品，逐個列出得獎年份、類別同名次。">
   <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -190,55 +190,27 @@
 
   <main id="main-content" style="padding-top: 96px;">
 
-    <!-- Category Banner -->
-    <section class="category-banner">
-      <div class="category-banner__bg">
-        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=1920&q=80" alt="Skincare banner" loading="lazy" decoding="async">
-      </div>
+    <section class="category-banner awards-banner">
       <div class="category-banner__overlay"></div>
       <div class="container">
         <div class="category-banner__content">
-          <h1 class="category-banner__title">護膚</h1>
-          <p class="category-banner__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+          <h1 class="category-banner__title">獲獎產品</h1>
+          <p class="category-banner__desc">呢度每一項都係得獎名單上面查到嘅結果 —— 邊個獎、邊一年、第幾名，全部照原文寫。</p>
         </div>
       </div>
     </section>
 
-    <!-- Breadcrumb & Filter Bar -->
     <div class="container">
       <nav class="breadcrumb">
         <a href="index.html">首頁</a>
         <span class="breadcrumb__sep">/</span>
-        <span>護膚</span>
+        <span>獲獎產品</span>
       </nav>
 
-      <div class="quick-tabs" data-quick-tabs></div>
-
-      <div class="filter-bar">
-        <div class="filter-bar__left">
-          <button class="filter-btn" data-filter-toggle>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
-            篩選
-          </button>
-          <span class="filter-bar__count"></span>
-        </div>
-        <div class="filter-bar__sort">
-          <select>
-            <option>排序：推薦</option>
-            <option>價格：由低至高</option>
-            <option>價格：由高至低</option>
-            <option>最新</option>
-            <option>最暢銷</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="active-filters" data-active-filters></div>
-
-      <!-- Product Grid -->
-      <div class="catalog reveal-stagger" data-catalog></div>
-
+      <div class="awards-legend" data-awards-legend></div>
+      <div class="awards-years" data-awards></div>
     </div>
+
   </main>
 
   <!-- Footer -->
@@ -337,24 +309,78 @@
   <script src="catalog.js"></script>
   <script src="script.js"></script>
   <script>
+  /* One page listing every award any product of ours has won, newest year
+     first. The data lives in awards.js; the products come from the live
+     catalogue, so a line that goes out of stock or gets renamed follows
+     automatically instead of drifting out of sync with a hard-coded list. */
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
 
-    const params = new URLSearchParams(window.location.search);
-    // /collections/<handle> is rewritten server-side, so the browser URL
-    // keeps the path and carries no ?collection= — read either.
-    const pathCollection = (location.pathname.match(/^\/collections\/([^/]+)/) || [])[1];
-    const section = params.get('collection') ||
-      (pathCollection ? decodeURIComponent(pathCollection) : null) || 'skincare';
-    const cat = params.get('cat');
-    const products = await getCategoryProducts({ section, cat, first: 48 });
-    applyCategoryHeading(section, cat);
+    const all = await getProducts({ first: 250 });
+    const byHandle = new Map((all?.edges || []).map((e) => [e.node.handle, e.node]));
 
-    if (!products.length) {
-      showCategoryEmpty(section, cat);
-    } else {
-      initCatalog({ section: section, cat, products });
+    // year -> [{product, award}], and the award bodies actually represented
+    const years = new Map();
+    const bodies = new Set();
+    Object.entries(AWARDS).forEach(([handle, list]) => {
+      const product = byHandle.get(handle);
+      if (!product) return;               // not stocked (or drafted) — skip
+      list.forEach((award) => {
+        bodies.add(award.body);
+        if (!years.has(award.year)) years.set(award.year, []);
+        years.get(award.year).push({ product, award });
+      });
+    });
+
+    const legend = document.querySelector('[data-awards-legend]');
+    if (legend) {
+      legend.innerHTML = [...bodies].map((b) => {
+        const info = AWARD_BODIES[b];
+        return `<div class="award-body">
+          <span class="award-body__name">${info.name}</span>
+          <span class="award-body__region">${info.region}</span>
+        </div>`;
+      }).join('');
     }
+
+    const host = document.querySelector('[data-awards]');
+    if (!host) return;
+    if (!years.size) {
+      host.innerHTML = '<p class="catalog-empty">暫時未有得獎產品。</p>';
+      return;
+    }
+
+    host.innerHTML = [...years.keys()].sort((a, b) => b - a).map((year) => {
+      const rows = years.get(year).sort((a, b) => a.award.rank - b.award.rank);
+      return `<section class="award-year">
+        <header class="award-year__head">
+          <span class="award-year__number">${year}</span>
+          <span class="award-year__count">${rows.length} 項</span>
+        </header>
+        <div class="award-list">
+          ${rows.map(({ product, award }) => {
+            const img = product.images?.edges?.[0]?.node;
+            const price = product.priceRange?.minVariantPrice;
+            const rank = award.rank === 1 ? '第一位' : `第${award.rank}位`;
+            return `<a class="award-row" href="/products/${product.handle}">
+              <span class="award-row__rank${award.rank === 1 ? ' is-first' : ''}">${award.rank}</span>
+              <span class="award-row__thumb">
+                ${img ? `<img src="${img.url}" alt="${product.title}" loading="lazy">` : ''}
+              </span>
+              <span class="award-row__text">
+                <span class="award-row__brand">${product.vendor || ''}</span>
+                <span class="award-row__title">${product.title}</span>
+                <span class="award-row__award">
+                  ${AWARD_BODIES[award.body].name} · ${award.category}${rank}
+                  ${award.note ? `<em>${award.note}</em>` : ''}
+                </span>
+              </span>
+              <span class="award-row__price">${price ? formatPrice(price.amount) : ''}</span>
+            </a>`;
+          }).join('')}
+        </div>
+      </section>`;
+    }).join('');
   });
   </script>
 </body>

@@ -154,6 +154,22 @@ function buildFilterSidebar(section, products) {
       </div></div>`);
   }
 
+  // Stock and awards go first: they cut the grid hardest and neither is
+  // derivable from the other three groups.
+  const inStock = products.filter((p) => p.variants?.edges?.[0]?.node?.availableForSale).length;
+  const awarded = products.filter((p) => typeof awardsFor === 'function'
+    && awardsFor(p.handle).length).length;
+  const flags = [];
+  if (inStock && inStock < products.length) {
+    flags.push(optionRow('flag', 'instock', '有貨', inStock));
+  }
+  if (awarded) flags.push(optionRow('flag', 'award', '得獎產品', awarded));
+  if (flags.length) {
+    groups.unshift(`<div class="filter-group">
+      <div class="filter-group__title">精選</div>
+      <div class="filter-group__options">${flags.join('')}</div></div>`);
+  }
+
   sidebar.querySelectorAll('.filter-group, .filter-sidebar__actions').forEach((n) => n.remove());
   sidebar.insertAdjacentHTML('beforeend', groups.join('') + `
     <div class="filter-sidebar__actions">
@@ -162,7 +178,7 @@ function buildFilterSidebar(section, products) {
 }
 
 function activeFilters() {
-  const sel = { cat: new Set(), vendor: new Set(), price: new Set() };
+  const sel = { cat: new Set(), vendor: new Set(), price: new Set(), flag: new Set() };
   document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked')
     .forEach((el) => sel[el.dataset.group]?.add(el.value));
   return sel;
@@ -170,6 +186,9 @@ function activeFilters() {
 
 function applyFilters(section, products, sel) {
   return products.filter((p) => {
+    if (sel.flag.has('instock') && !p.variants?.edges?.[0]?.node?.availableForSale) return false;
+    if (sel.flag.has('award') && !(typeof awardsFor === 'function'
+        && awardsFor(p.handle).length)) return false;
     if (sel.vendor.size && !sel.vendor.has(p.vendor || '其他')) return false;
     if (sel.price.size) {
       const v = price(p);
@@ -185,6 +204,42 @@ function applyFilters(section, products, sel) {
   });
 }
 
+/* ----- The two bars above the grid -----
+   Filtering used to live entirely behind one 篩選 button: you could not
+   see what was applied without reopening the drawer, and the commonest
+   move of all — jump to 唇妝 — took three taps. */
+
+/** A row of subcategory pills, the one filter worth having always-on. */
+function buildQuickTabs(section, products, sel) {
+  const host = document.querySelector('[data-quick-tabs]');
+  if (!host) return;
+  const subs = availableSubs(section, products);
+  if (subs.length < 2) { host.innerHTML = ''; return; }
+  const active = sel.cat;
+  host.innerHTML = `
+    <button class="quick-tab${active.size ? '' : ' is-active'}" data-quick="">全部</button>`
+    + subs.map((s) => `<button class="quick-tab${active.has(s.id) ? ' is-active' : ''}"
+        data-quick="${s.id}">${s.label}<span class="quick-tab__count">${s.count}</span></button>`).join('');
+}
+
+/** What is applied right now, each removable on its own. */
+function buildActiveChips(section, sel) {
+  const host = document.querySelector('[data-active-filters]');
+  if (!host) return;
+  const label = (group, value) => {
+    if (group === 'cat') return catOptions(section).find(([id]) => id === value)?.[1]?.label || value;
+    if (group === 'price') return PRICE_BUCKETS.find((b) => b.id === value)?.label || value;
+    if (group === 'flag') return value === 'instock' ? '有貨' : '得獎產品';
+    return value;
+  };
+  const chips = ['flag', 'cat', 'vendor', 'price'].flatMap((g) =>
+    [...sel[g]].map((v) => `<button class="filter-chip" data-unset-group="${g}" data-unset-value="${v}">
+      ${label(g, v)}<span aria-hidden="true">×</span></button>`));
+  host.innerHTML = chips.length
+    ? chips.join('') + '<button class="filter-chip filter-chip--clear" data-filter-clear>清除全部</button>'
+    : '';
+}
+
 function productCard(p) {
   const image = p.images?.edges?.[0]?.node;
   const p0 = p.priceRange?.minVariantPrice;
@@ -198,6 +253,7 @@ function productCard(p) {
         ${image ? `<img class="product-card__image" src="${image.url}" alt="${image.altText || p.title}" loading="lazy">` : ''}
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${isOnSale && !isSoldOut ? '<span class="product-card__badge">特價</span>' : ''}
+        ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button class="product-card__wishlist" aria-label="加入願望清單" onclick="event.preventDefault(); event.stopPropagation();">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
@@ -380,9 +436,11 @@ function initCatalog({ section, cat, products }) {
     // Arriving on a subcategory from the nav (底妝, 唇妝 …) is already a
     // narrowed request — the shopper wants every base product, not a
     // tour of the brands — so group only while browsing the whole section.
-    const filtered = cat || sel.cat.size || sel.vendor.size || sel.price.size;
+    const filtered = cat || sel.cat.size || sel.vendor.size || sel.price.size || sel.flag.size;
     const grouped = !filtered && !cmp && new Set(list.map((p) => p.vendor)).size > 1;
 
+    buildQuickTabs(section, products, sel);
+    buildActiveChips(section, sel);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
     if (!list.length) {
       host.innerHTML = `<p class="catalog-empty">冇產品符合呢個篩選。<button class="link-btn" data-filter-clear>清除篩選</button></p>`;
@@ -395,11 +453,31 @@ function initCatalog({ section, cat, products }) {
   document.addEventListener('change', (e) => {
     if (e.target.closest('.filter-sidebar') || e.target === sortEl) draw();
   });
+  const boxes = (group, value) =>
+    [...document.querySelectorAll('.filter-sidebar input[type="checkbox"]')]
+      .filter((el) => (!group || el.dataset.group === group)
+                   && (value == null || el.value === value));
+
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('[data-filter-clear]')) return;
-    document.querySelectorAll('.filter-sidebar input[type="checkbox"]')
-      .forEach((el) => { el.checked = false; });
-    draw();
+    const clear = e.target.closest('[data-filter-clear]');
+    if (clear) {
+      boxes().forEach((el) => { el.checked = false; });
+      return draw();
+    }
+    // A quick tab is a 分類 filter that happens to live outside the drawer,
+    // so it drives the same checkboxes rather than keeping its own state.
+    const tab = e.target.closest('[data-quick]');
+    if (tab) {
+      const id = tab.dataset.quick;
+      boxes('cat').forEach((el) => { el.checked = !!id && el.value === id; });
+      return draw();
+    }
+    const chip = e.target.closest('[data-unset-group]');
+    if (chip) {
+      boxes(chip.dataset.unsetGroup, chip.dataset.unsetValue)
+        .forEach((el) => { el.checked = false; });
+      return draw();
+    }
   });
 
   draw();
