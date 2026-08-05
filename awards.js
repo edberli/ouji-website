@@ -256,22 +256,36 @@ function awardedProducts() {
   }).sort((a, b) => b.firsts - a.firsts || b.count - a.count || b.latest - a.latest);
 }
 
-/** A seal drawn for us, not any award body's own mark — see the page copy. */
+/** A seal drawn for us, not any award body's own mark — see the page copy.
+    Two laurel branches curving inward under a double ring, the way a
+    medal reads; the first version's branches curved out and looked like
+    horns. */
 function awardCrest(body) {
-  const info = AWARD_BODIES[body];
   const initials = { OLIVE_YOUNG: 'OY', GLOWPICK: 'GP', HWAHAE: '화해',
                      ALLURE_RC: 'RC', ALLURE_BOB: 'BB', COSME: '@c' }[body] || '★';
+  const g = `g-${body}`;
+  // one branch, drawn once and mirrored
+  const leaves = [0, 1, 2, 3, 4].map((i) => {
+    const t = i / 4;
+    const x = 22 - t * 6, y = 46 - t * 20;
+    return `<ellipse cx="${x - 3}" cy="${y}" rx="3.4" ry="1.9"
+              transform="rotate(${-52 + t * 22} ${x - 3} ${y})" fill="url(#${g})" opacity="0.9"/>`;
+  }).join('');
   return `<svg class="crest" viewBox="0 0 72 72" aria-hidden="true">
-    <defs><linearGradient id="g-${body}" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#e8cf9a"/><stop offset="0.5" stop-color="#b48b4a"/>
+    <defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0dcae"/><stop offset="0.5" stop-color="#c9a463"/>
       <stop offset="1" stop-color="#7a5c2e"/></linearGradient></defs>
-    <circle cx="36" cy="36" r="30" fill="none" stroke="url(#g-${body})" stroke-width="1.4"/>
-    <circle cx="36" cy="36" r="25.5" fill="none" stroke="url(#g-${body})" stroke-width="0.6" opacity="0.7"/>
-    <path d="M20 40c-4-6-3-13 1-18 1 7 3 12 7 16" fill="none"
-          stroke="url(#g-${body})" stroke-width="1.6" stroke-linecap="round"/>
-    <path d="M52 40c4-6 3-13-1-18-1 7-3 12-7 16" fill="none"
-          stroke="url(#g-${body})" stroke-width="1.6" stroke-linecap="round"/>
-    <text x="36" y="41" text-anchor="middle" font-size="15" fill="url(#g-${body})"
+    <circle cx="36" cy="36" r="31" fill="none" stroke="url(#${g})" stroke-width="1.2"/>
+    <circle cx="36" cy="36" r="27" fill="none" stroke="url(#${g})" stroke-width="0.5" opacity="0.6"/>
+    <path d="M36 8.5l1.5 3.1 3.4.5-2.5 2.4.6 3.4-3-1.6-3 1.6.6-3.4-2.5-2.4 3.4-.5z"
+          fill="url(#${g})"/>
+    <path d="M22 47c-4.5-5.5-4.8-13-1-18.5" fill="none" stroke="url(#${g})"
+          stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M50 47c4.5-5.5 4.8-13 1-18.5" fill="none" stroke="url(#${g})"
+          stroke-width="1.3" stroke-linecap="round"/>
+    <g>${leaves}</g>
+    <g transform="translate(72,0) scale(-1,1)">${leaves}</g>
+    <text x="36" y="42" text-anchor="middle" font-size="14" fill="url(#${g})"
           font-family="inherit" letter-spacing="0.5">${initials}</text>
   </svg>`;
 }
