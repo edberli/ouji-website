@@ -2532,9 +2532,10 @@ main { padding-top: calc(var(--header-height) + 36px); }
 }
 
 /* ----- Brand Logo Grid ----- */
-.brand-section {
-  padding: var(--space-5xl) 0;
-}
+/* No `.brand-section { padding: 5xl 0 }` here: the class was reused by the
+   category page's per-brand sections, where 128px top and bottom put an
+   empty screen between one brand and the next. Nothing renders this
+   block's own section any more. */
 
 .brand-logo-grid {
   display: grid;
@@ -4626,3 +4627,48 @@ textarea:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .detail-more, .detail-more svg { transition: none; }
 }
+
+/* ----- Mobile bottom nav: the shop sheet -----
+   Anchored to the bottom bar rather than centred, so the tab you tapped
+   stays visible and the sheet reads as belonging to it. */
+.shop-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: none;
+  background: rgba(20,32,38,0.28);
+  backdrop-filter: blur(2px);
+}
+.shop-sheet.is-open { display: block; }
+
+.shop-sheet__panel {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--mobile-nav-height, 62px) + 10px);
+  padding: 6px;
+  border-radius: 18px;
+  background: var(--glass-bg-strong, rgba(255,255,255,0.94));
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.6));
+  box-shadow: 0 14px 40px rgba(24,48,58,0.22);
+  animation: shopSheetIn 220ms var(--ease-out, cubic-bezier(.22,.9,.28,1));
+}
+
+@keyframes shopSheetIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.shop-sheet__item {
+  display: block;
+  padding: 15px 18px;
+  border-radius: 13px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  text-decoration: none;
+}
+.shop-sheet__item + .shop-sheet__item { border-top: 1px solid var(--border-subtle); }
+.shop-sheet__item:active { background: var(--primary-pale, rgba(109,163,181,0.12)); }
+
+@media (min-width: 769px) { .shop-sheet { display: none !important; } }

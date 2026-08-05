@@ -782,3 +782,40 @@ function initBokeh() {
     container.appendChild(orb);
   }
 }
+
+/* ----- Mobile bottom nav: the shop sheet -----
+   The middle tab used to go to category.html, a full page of nested
+   subcategories — three taps deep before you saw a product. It opens a
+   three-line sheet instead, because 全部 / 彩妝 / 護膚 is the only split
+   anyone actually needs from a bottom bar. */
+function initShopSheet() {
+  const btn = document.querySelector('[data-shop-menu]');
+  if (!btn) return;
+
+  const sheet = document.createElement('div');
+  sheet.className = 'shop-sheet';
+  sheet.innerHTML = `
+    <div class="shop-sheet__panel" role="menu" aria-label="選購">
+      <a class="shop-sheet__item" role="menuitem" href="shop.html">全部產品</a>
+      <a class="shop-sheet__item" role="menuitem" href="makeup.html">彩妝</a>
+      <a class="shop-sheet__item" role="menuitem" href="category.html">護膚</a>
+    </div>`;
+  document.body.appendChild(sheet);
+
+  const close = () => {
+    sheet.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+  };
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const open = sheet.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  // A tap on the backdrop closes it; one on the panel is a menu choice.
+  sheet.addEventListener('click', (e) => {
+    if (!e.target.closest('.shop-sheet__panel')) close();
+  });
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && close());
+}
+
+document.addEventListener('DOMContentLoaded', initShopSheet);
