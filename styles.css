@@ -4120,7 +4120,12 @@ main { padding-top: calc(var(--header-height) + 36px); }
   transform: translateY(50px) scale(0.96);
 }
 
+/* The nth-child rules above only reach the 15th child, so a category page
+   with more brand sections than that left the last few at opacity 0 —
+   BRAYE, Coralhaze and Glint rendered as blank space. Reveal every child;
+   the enumerated rules just stagger the ones they name. */
 .reveal-stagger.is-visible > * {
+  opacity: 1;
   transform: translateY(0) scale(1);
 }
 
@@ -4333,8 +4338,9 @@ textarea:focus-visible,
    Category pages group by brand so a Coralhaze lip does not sit
    next to a Glint highlighter with nothing marking the change.
    ============================================================ */
-.brand-section { margin-bottom: var(--space-4xl, 96px); }
-.brand-section + .brand-section { padding-top: var(--space-2xl); }
+/* Tight enough that the next brand reads as the next section rather than
+   a different page — 96px plus a 2xl pad left a screenful of nothing. */
+.brand-section { margin-bottom: var(--space-2xl, 48px); }
 
 .brand-section__head {
   position: relative;
@@ -4422,7 +4428,9 @@ textarea:focus-visible,
    ============================================================ */
 .brand-rail {
   position: fixed;
-  right: max(14px, calc((100vw - 1280px) / 2 - 132px));
+  /* On the left, where the eye already is — on the right it sat past the
+     end of every line of text and went unread. */
+  left: max(14px, calc((100vw - 1280px) / 2 - 148px));
   top: 50%;
   transform: translateY(-50%);
   z-index: 900;
@@ -4454,10 +4462,10 @@ textarea:focus-visible,
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 14px;
+  height: 18px;
   color: var(--text-tertiary);
-  font-size: 0.6875rem;
-  letter-spacing: 0.04em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   /* --fall (1 at the crest, 0 far away) is set per item by catalog.js */
   transition: color 320ms var(--ease-out);
@@ -4470,20 +4478,25 @@ textarea:focus-visible,
   width: calc(12px + var(--wave) * var(--fall));
   background: color-mix(in srgb, var(--primary)
               calc(24% + 76% * var(--fall)), transparent);
-  transform: translateX(calc(var(--wave) * var(--fall) * -0.28));
+  /* Left-anchored now that the rail is on the left; the old negative
+     shift pulled the crest away from its own label. */
   transition: width 420ms cubic-bezier(.22,.9,.28,1),
-              transform 420ms cubic-bezier(.22,.9,.28,1),
               background 320ms var(--ease-out);
 }
 
+/* Every brand stays legible — the label used to appear only on hover or
+   at the crest, which meant the rail read as an unlabelled row of dashes. */
 .brand-rail__name {
-  opacity: 0;
-  transform: translateX(-4px);
+  opacity: 0.42;
   transition: opacity 260ms, transform 260ms;
 }
 
-.brand-rail:hover .brand-rail__name,
-.brand-rail__item.is-current .brand-rail__name { opacity: 1; transform: none; }
+.brand-rail:hover .brand-rail__name { opacity: 0.85; }
+.brand-rail__item.is-current .brand-rail__name {
+  opacity: 1;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
 
 .brand-rail__item:hover { color: var(--primary-dark); }
 .brand-rail__item.is-current { color: var(--primary-deep); font-weight: 500; }
@@ -4525,19 +4538,22 @@ textarea:focus-visible,
     transform: none;
     transition: height 420ms cubic-bezier(.22,.9,.28,1), background 320ms;
   }
-  /* only the current brand is named — there is no room for a list */
+  /* only the current brand is named — there is no room for a list, and
+     the labels are stacked on one spot, so the rest stay hidden */
   .brand-rail__name {
     position: absolute;
     bottom: calc(100% + 7px);
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     letter-spacing: 0.06em;
     color: var(--primary-deep);
+    opacity: 0;
   }
   .brand-rail:hover .brand-rail__name { opacity: 0; }
   .brand-rail__item.is-current .brand-rail__name {
     opacity: 1;
+    font-size: 0.75rem;
     transform: translateX(-50%);
   }
 }
