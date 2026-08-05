@@ -31,6 +31,7 @@ const BRAND_ART = {
   'MAYBELLINE': CDN + 'maybelline-banner.jpg',
   '花知曉 Flower Knows': CDN + 'flowerknows-banner.jpg',
   'BRAYE': CDN + 'braye-banner.jpg',
+  'dasique': CDN + 'dasique-banner.jpg',
   // no usable KV on the brand site — campaign frame from its own media
   'Glint': CDN + 'glint-highlighter-03.jpg',
   'Heart Percent': CDN + '3281c1e2c212110d5a09790bddb0b998.jpg',
