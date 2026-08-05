@@ -49,27 +49,45 @@ def fetch(url):
 
 
 def score(path_or_bytes):
-    """Higher is a better cover."""
+    """Higher is a better cover.
+
+    The product has to be visible. Scoring on skin alone promoted macro
+    shots of an eye, a lip or a swatch — frames where the product does not
+    appear at all, which tells a shopper nothing about what they are
+    buying. Packaging has hard edges and straight lines; skin and swatches
+    do not, so edge density is what separates them.
+
+    Order of preference: a studio product shot, a model holding the
+    product, a plain packshot. Never a skin macro or a colour chart.
+    """
     import io
+    from PIL import ImageFilter, ImageStat
+
     im = Image.open(io.BytesIO(path_or_bytes) if isinstance(path_or_bytes, bytes)
                     else path_or_bytes).convert("RGB")
-    im.thumbnail((160, 160))
+    im.thumbnail((200, 200))
     px = list(im.getdata())
     n = len(px)
     lum = [(r * 299 + g * 587 + b * 114) / 1000 for r, g, b in px]
     mean = sum(lum) / n
 
-    # a black studio backdrop: most of the frame is nearly black
     dark_share = sum(1 for v in lum if v < 40) / n
-    # skin: warm, mid-bright, red above blue by a clear margin
     skin = sum(1 for r, g, b in px
                if 95 < r < 245 and 55 < g < 200 and 40 < b < 190
                and r > b + 18 and r > g + 8) / n
-    # near-monochrome frames (pure packshots) read flat
-    sat = sum(max(p) - min(p) for p in px) / n
 
-    return (skin * 260) - (dark_share * 200) + (mean * 0.28) + (sat * 0.25)
+    # crisp packaging edges vs smooth skin / soft swatches
+    edges = ImageStat.Stat(im.convert("L").filter(ImageFilter.FIND_EDGES)).mean[0]
 
+    s = 0.0
+    s += min(edges, 30) * 4.0          # product in frame — the main signal
+    s += (mean - 110) * 0.30           # bright studio background
+    s -= dark_share * 260              # black backdrop
+    if skin > 0.50:
+        s -= (skin - 0.50) * 500       # a face or swatch filling the frame
+    elif 0.08 < skin < 0.40:
+        s += 25                        # a model holding it reads well
+    return s
 
 def main():
     ap = argparse.ArgumentParser()
