@@ -4359,6 +4359,9 @@ textarea:focus-visible,
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  /* The source frames are square campaign shots; a 220px band cut from
+     their vertical centre lands on a chin, so bias the crop upward. */
+  object-position: center 34%;
 }
 /* Scrim from the label corner outward — a bottom-only gradient leaves the
    eyebrow and count sitting on whatever the photo happens to put there. */
@@ -4428,9 +4431,10 @@ textarea:focus-visible,
    ============================================================ */
 .brand-rail {
   position: fixed;
-  /* On the left, where the eye already is — on the right it sat past the
-     end of every line of text and went unread. */
-  left: max(14px, calc((100vw - 1280px) / 2 - 148px));
+  /* On the left, where the eye already is. It only ever renders above
+     1500px (see the breakpoint below), so this always lands in real
+     margin rather than on top of the first column of cards. */
+  left: calc((100vw - 1280px) / 2 - 150px);
   top: 50%;
   transform: translateY(-50%);
   z-index: 900;
@@ -4462,10 +4466,10 @@ textarea:focus-visible,
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 18px;
+  height: 15px;
   color: var(--text-tertiary);
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
   white-space: nowrap;
   /* --fall (1 at the crest, 0 far away) is set per item by catalog.js */
   transition: color 320ms var(--ease-out);
@@ -4484,25 +4488,24 @@ textarea:focus-visible,
               background 320ms var(--ease-out);
 }
 
-/* Every brand stays legible — the label used to appear only on hover or
-   at the crest, which meant the rail read as an unlabelled row of dashes. */
+/* Only the brand you have scrolled to is named — a full list of eighteen
+   labels競爭 with the grid instead of marking your place in it. */
 .brand-rail__name {
-  opacity: 0.42;
+  opacity: 0;
+  transform: translateX(-4px);
   transition: opacity 260ms, transform 260ms;
 }
 
-.brand-rail:hover .brand-rail__name { opacity: 0.85; }
-.brand-rail__item.is-current .brand-rail__name {
-  opacity: 1;
-  font-size: 0.9375rem;
-  font-weight: 500;
-}
+.brand-rail:hover .brand-rail__name,
+.brand-rail__item.is-current .brand-rail__name { opacity: 1; transform: none; }
 
 .brand-rail__item:hover { color: var(--primary-dark); }
 .brand-rail__item.is-current { color: var(--primary-deep); font-weight: 500; }
 
-/* Mobile: the rail lies down as a tide line above the bottom nav. */
-@media (max-width: 1180px) {
+/* Below 1500px the left margin is too narrow for a vertical rail — it
+   would sit on the first column of cards — so it lies down as a tide
+   line above the bottom nav instead. */
+@media (max-width: 1500px) {
   .brand-rail {
     right: 0; left: 0; top: auto;
     bottom: calc(var(--mobile-nav-height, 62px) + 10px);
@@ -4553,7 +4556,6 @@ textarea:focus-visible,
   .brand-rail:hover .brand-rail__name { opacity: 0; }
   .brand-rail__item.is-current .brand-rail__name {
     opacity: 1;
-    font-size: 0.75rem;
     transform: translateX(-50%);
   }
 }

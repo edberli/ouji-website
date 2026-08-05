@@ -8,21 +8,33 @@
  * Everything here is derived from the products actually on the page.
  */
 
-/* Section-header artwork per brand. The first four were cut from
-   mirrored imagery and are served from this repo; the rest point at a
-   product cover already on Shopify's CDN, since brand imagery no longer
-   lives here. Falls back to a typographic band for an unknown vendor. */
+/* Section-header artwork per brand, one entry for every vendor we carry —
+   an unmapped brand fell back to a plain gradient band, which next to a
+   photographed one read as unfinished.
+
+   These are campaign frames from each brand's own media rather than a
+   packshot: a packshot cropped to a 220px band is a close-up of nothing,
+   while a model shot still reads at that height. */
 const CDN = 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/';
 const BRAND_ART = {
-  'Coralhaze': 'brands/coralhaze/banner.jpg',
-  'Heart Percent': 'brands/heartpercent/banner.jpg',
-  'Glint': 'brands/glint/banner.jpg',
-  'BRAYE': 'brands/braye/banner.jpg',
-  'lilybyred': CDN + 'lilybyred-smiley-lip-blending-stick-01_4ef65b0e-7370-4068-b388-1dd668098e08.jpg',
-  'UNLEASHIA': CDN + 'unleashia-glitterpedia-eye-palette-01_5ca9d7a1-6299-40c0-991f-eef225a18858.jpg',
-  '2aN': CDN + '2an-dual-cheek-01_9d2e303b-b80d-4817-af99-1d02203d2902.jpg',
-  'Peripera': CDN + 'Ink_Airy_Velvet_T_1_652cc774-f990-4aee-9d78-6ed4a83b84bd.jpg',
-  'CLIO': CDN + 'clio-crystal-glam-tint-01.jpg',
+  'Glint': CDN + 'glint-highlighter-03.jpg',
+  'BRAYE': CDN + 'braye-thin-glow-tint-05.jpg',
+  'Heart Percent': CDN + '3281c1e2c212110d5a09790bddb0b998.jpg',
+  'Coralhaze': CDN + 'coralhaze-glow-lock-jelly-tint-04.jpg',
+  'CLIO': CDN + 'clio-kill-lash-superproof-mascara-01.jpg',
+  'Peripera': CDN + 'Peripera_VShadingBlendingStick_T_4.jpg',
+  'lilybyred': CDN + 'lilybyred-smiley-lip-blending-stick-05_0c0ecc6e-a136-402e-8441-3fb18e636222.jpg',
+  'UNLEASHIA': CDN + 'unleashia-babe-skin-baby-blue-cushion-10_a02a22ed-a496-4f8d-bb1c-0cea6e472fe9.jpg',
+  '2aN': CDN + '2an-better-me-eye-palette-01_ec48f74b-0cd8-467e-80b6-b3549cb6d567.jpg',
+  'rom&nd': CDN + 'romand-juicy-lasting-tint-03_b66a32f0-27a1-49f3-8664-e69239bdf3d1.jpg',
+  'Laka': CDN + 'laka-fruity-glam-tint-02_995c6109-9d56-412b-92eb-e7db4c8858e1.jpg',
+  'AMUSE': CDN + 'amuse-powder-lip-cheek-08.jpg',
+  'hince': CDN + 'hince-dewy-liquid-cheek-04_f826a098-7064-487b-b813-fd43e757f1c5.jpg',
+  'WAKEMAKE': CDN + 'wakemake-seamless-wear-foundation-01_697499fe-3af6-4453-951a-8427076ee269.jpg',
+  'fwee': CDN + 'fwee-lip-cheek-blurry-pudding-pot-01_d98602f5-33cd-46e9-ba38-51c0db84ca91.jpg',
+  'TIRTIR': CDN + 'tirtir-waterism-glow-melting-balm-03_1fc51da6-4d84-41ba-b4cd-4e7b7e4b0732.jpg',
+  'MAYBELLINE': CDN + 'maybelline-fit-me-matte-poreless-foundation-01_befe3720-8b82-433b-877c-b84d10a75169.jpg',
+  '花知曉 Flower Knows': CDN + '06_8088defc-a940-4e80-aa90-15a1516c4075.jpg',
 };
 
 function brandArt(vendor) {
