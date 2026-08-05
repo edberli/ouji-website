@@ -56,6 +56,7 @@ const QUESTIONS = [
 let DATA = null;
 const answers = { look: null, skin: new Set(), coverage: null, wear: null };
 let step = 0;
+let strictGentle = false;      // the opt-in strict view for sensitive skin
 const swapped = {};        // slot -> index into its ranked list
 
 /* ---------------------------------------------------------------- score */
@@ -63,9 +64,12 @@ const swapped = {};        // slot -> index into its ranked list
 /** Hard exclusions. Nothing here is a preference; each is a "never". */
 function excluded(p) {
   if (!p.inStock) return true;
-  // "Sensitive" is the one answer we refuse to approximate: unless the
-  // brand states the formula is gentle, the product is not offered.
-  if (answers.skin.has('sensitive') && p.gentle !== true) return true;
+  // Sensitive skin does not hard-exclude. Only two of our products carry
+  // a stated gentle formula, so excluding on it left a "face" of one
+  // item — which is not honesty, it is a broken feature. Instead the
+  // stated-gentle ones are pushed to the top and everything else is
+  // labelled as unconfirmed, and there is a switch for the strict view.
+  if (strictGentle && p.gentle !== true) return true;
   return false;
 }
 
@@ -88,9 +92,15 @@ function score(p) {
     s += p.longevity >= want ? 14 : -10 * (want - p.longevity);
   }
 
+  // Sensitive skin: a stated gentle formula outranks everything else,
+  // short of the look itself.
+  if (answers.skin.has('sensitive')) {
+    if (p.gentle === true) s += 38;
+    if (p.vegan) s += 6;
+  }
+
   // Small nudges, only ever tie-breakers.
   if (typeof awardsFor === 'function' && awardsFor(p.handle).length) s += 6;
-  if (answers.skin.has('sensitive') && p.vegan) s += 3;
   if (p.image) s += 2;
   return s;
 }
@@ -122,6 +132,7 @@ function reasons(p) {
     out.push(['', '日常持妝', '全日持妝', '防水持妝'][p.longevity]);
   }
   if (p.gentle) out.push('品牌標明溫和');
+  else if (answers.skin.has('sensitive')) out.push('未標明溫和');
   if (typeof awardsFor === 'function') {
     const a = typeof topAward === 'function' && topAward(p.handle);
     if (a) out.push(awardLabel(a));
@@ -217,9 +228,15 @@ function renderFace() {
       </div>
     </div>
 
-    ${answers.skin.has('sensitive') ? `<p class="face-note">
-      你揀咗敏感肌，所以只顯示品牌自己標明溫和配方嘅產品。未標明嘅一律唔推薦
-      —— 上妝前建議喺耳後試一試。</p>` : ''}
+    ${answers.skin.has('sensitive') ? `<div class="face-warning">
+      <p><b>你揀咗敏感肌。</b>「品牌標明溫和」嗰啲已經排晒最前。其餘標住
+      「未標明溫和」嘅，係品牌冇公開講過配方溫和 —— 唔代表唔溫和，只係我哋
+      唔會幫佢講。任何情況都建議上妝前喺耳後試一試。</p>
+      <label class="face-strict">
+        <input type="checkbox" data-strict ${strictGentle ? 'checked' : ''}>
+        <span>只顯示已標明溫和嘅產品</span>
+      </label>
+    </div>` : ''}
     <p class="face-note">配對根據產品質地、持妝度同遮瑕度計算，唔係醫學建議。
       如果皮膚有狀況，請先問過醫生。</p>`;
 }
@@ -247,6 +264,11 @@ async function initMatch() {
     if (e.target.closest('[data-next]')) {
       step++;
       return step < QUESTIONS.length ? renderQuestion() : renderFace();
+    }
+    if (e.target.closest('[data-strict]')) {
+      strictGentle = e.target.checked;
+      Object.keys(swapped).forEach((k) => delete swapped[k]);
+      return renderFace();
     }
     const swap = e.target.closest('[data-swap]');
     if (swap) {

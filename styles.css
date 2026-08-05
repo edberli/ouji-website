@@ -5277,3 +5277,15 @@ textarea:focus-visible,
   .face-total__actions { justify-content: stretch; }
   .face-total__actions .btn { flex: 1; }
 }
+
+.face-warning {
+  margin-top: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid rgba(198,124,78,0.35);
+  background: rgba(198,124,78,0.07);
+}
+.face-warning p { margin: 0; font-size: 0.8125rem; line-height: 1.95; color: var(--text-secondary); }
+.face-warning b { color: var(--text-primary); }
+.face-strict { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; cursor: pointer; }
+.face-strict span { font-size: 0.8125rem; color: var(--text-primary); }
