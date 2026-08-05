@@ -2,27 +2,30 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+  <!-- Rewritten /products/ and /collections/ URLs sit one level deep;
+       keep every relative asset resolving from the site root. -->
+  <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>所有品牌 — OUJI</title>
-  <meta name="description" content="OUJI 代理的所有韓國美妝護膚品牌一覽。">
+  <title>妝感配對 — OUJI</title>
+  <meta name="description" content="答四條問題，配一套啱你膚質同妝感嘅完整妝容。">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#1e3038">
-  <link rel="canonical" href="https://oujikbeauty.com/brands">
+  <link rel="canonical" href="https://oujikbeauty.com/makeup">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OUJI">
   <meta property="og:locale" content="zh_HK">
-  <meta property="og:title" content="所有品牌 — OUJI">
-  <meta property="og:description" content="OUJI 代理的所有韓國美妝護膚品牌一覽。">
-  <meta property="og:url" content="https://oujikbeauty.com/brands">
+  <meta property="og:title" content="彩妝 — OUJI">
+  <meta property="og:description" content="答四條問題，配一套啱你膚質同妝感嘅完整妝容。">
+  <meta property="og:url" content="https://oujikbeauty.com/makeup">
   <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="所有品牌 — OUJI">
-  <meta name="twitter:description" content="OUJI 代理的所有韓國美妝護膚品牌一覽。">
+  <meta name="twitter:title" content="彩妝 — OUJI">
+  <meta name="twitter:description" content="答四條問題，配一套啱你膚質同妝感嘅完整妝容。">
   <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -176,107 +179,34 @@
     </div>
   </nav>
 
-  <main id="main-content" class="brands-page" style="padding-top: 100px;">
-
-    <!-- Smoke video background (lazy-loaded) -->
-    <div class="brands-page__video">
-      <video autoplay muted loop playsinline>
-        <source src="videos/smoke-bg-short.webm" type="video/webm">
-        <source src="videos/smoke-bg-short.mp4" type="video/mp4">
-      </video>
+  <!-- Filter Sidebar -->
+  <div class="filter-overlay"></div>
+  <aside class="filter-sidebar">
+    <div class="filter-sidebar__header">
+      <span class="filter-sidebar__title">篩選</span>
+      <button class="filter-sidebar__close" aria-label="關閉篩選">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
     </div>
+  </aside>
 
-    <section class="section brands-page__hero">
+  <main id="main-content" class="match-page">
+
+    <section class="match-hero">
       <div class="container">
-        <div class="section-header" style="text-align: center;">
-          <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em; color: #ffffff;">所有品牌</h1>
-          <p class="body-lg" style="color: rgba(255,255,255,0.65); margin-top: 12px;">探索 OUJI 精選的 60+ 韓國美妝護膚品牌</p>
-        </div>
+        <span class="match-hero__eyebrow">MAKEUP MATCH</span>
+        <h1 class="match-hero__title">妝感配對</h1>
+        <p class="match-hero__desc">
+          答四條問題 —— 想要邊種妝感、你嘅膚質、想要幾自然、要頂幾耐。
+          我哋會由 <b data-match-count>200+</b> 件產品入面，砌一套完整妝容出嚟。
+        </p>
       </div>
     </section>
 
-    <section class="section brands-section--makeup">
-      <div class="container">
-        <!-- 彩妝品牌 -->
-        <div id="makeup-brands">
-          <div style="margin-bottom: 32px;">
-            <span class="brands-page__label brands-page__label--makeup">彩妝品牌 · 23 brands</span>
-          </div>
-          <div class="brands-grid">
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/romand.svg" alt="rom&nd"></div><span>ROM&ND</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/tirtir.svg" alt="TIRTIR"></div><span>TIRTIR</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/hince.svg" alt="hince"></div><span>HINCE</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/clio.svg" alt="CLIO"></div><span>CLIO</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/amuse.svg" alt="AMUSE"></div><span>AMUSE</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/peripera.svg" alt="peripera"></div><span>PERIPERA</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/maybelline.svg" alt="Maybelline"></div><span>MAYBELLINE</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/lilybyred.svg" alt="Lilybyred"></div><span>LILYBYRED</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/fwee.svg" alt="fwee"></div><span>FWEE</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/glint.svg" alt="GLINT"></div><span>GLINT</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/wakemake.svg" alt="WAKEMAKE"></div><span>WAKEMAKE</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/flower-knows.svg" alt="Flower Knows"></div><span>FLOWER KNOWS</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/laka.svg" alt="LAKA"></div><span>LAKA</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/espoir.svg" alt="espoir"></div><span>ESPOIR</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/coralhaze.svg" alt="Coralhaze"></div><span>CORALHAZE</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/heart-percent.svg" alt="Heart Percent"></div><span>HEART PERCENT</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/unleashia.svg" alt="UNLEASHIA"></div><span>UNLEASHIA</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/2an.svg" alt="2aN"></div><span>2AN</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/braye.svg" alt="BRAYE"></div><span>BRAYE</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/jung-saem-mool.svg" alt="Jung Saem Mool"></div><span>JUNG SAEM MOOL</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/sungboon-editor.svg" alt="Sungboon Editor"></div><span>SUNGBOON EDITOR</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/ootd.svg" alt="OOTD"></div><span>OOTD</span></a>
-            <a href="makeup.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/dasique.png" alt="dasique"></div><span>DASIQUE</span></a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <hr class="brands-divider">
-
-    <section class="section brands-section--skincare">
-      <div class="container">
-        <!-- 護膚品牌 -->
-        <div>
-          <div style="margin-bottom: 32px;">
-            <span class="brands-page__label brands-page__label--skincare">護膚品牌 · 28 brands</span>
-          </div>
-          <div class="brands-grid">
-            <!-- 粗體/重字體 logo 放埋一齊 -->
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/cosrx.png" alt="COSRX"></div><span>COSRX</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/torriden.svg" alt="Torriden"></div><span>TORRIDEN</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/anua.png" alt="ANUA"></div><span>ANUA</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/skin1004.png" alt="SKIN1004"></div><span>SKIN1004</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/axis-y.png" alt="AXIS-Y"></div><span>AXIS-Y</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/abib.svg" alt="Abib"></div><span>ABIB</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/beplain.png" alt="beplain"></div><span>BEPLAIN</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/innisfree.svg" alt="innisfree"></div><span>INNISFREE</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/dr-jart.png" alt="Dr.Jart+"></div><span>DR.JART+</span></a>
-            <!-- 標準字體 logo -->
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon"></div><span>BEAUTY OF JOSEON</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/mixsoon.svg" alt="MIXSOON"></div><span>MIXSOON</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/goodal.svg" alt="Goodal"></div><span>GOODAL</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/some-by-mi.svg" alt="Some By Mi"></div><span>SOME BY MI</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/round-lab.svg" alt="Round Lab"></div><span>ROUND LAB</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/mary-may.svg" alt="Mary & May"></div><span>MARY &amp; MAY</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/bring-green.svg" alt="Bring Green"></div><span>BRING GREEN</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/purito.svg" alt="Purito"></div><span>PURITO</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/needly.svg" alt="Needly"></div><span>NEEDLY</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/tocobo.svg" alt="Tocobo"></div><span>TOCOBO</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/manyo.svg" alt="Manyo"></div><span>MANYO</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/so-natural.svg" alt="So Natural"></div><span>SO NATURAL</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/vt-cosmetics.svg" alt="VT Cosmetics"></div><span>VT COSMETICS</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/skinfood.svg" alt="Skinfood"></div><span>SKINFOOD</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/nineless.svg" alt="Nineless"></div><span>NINELESS</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/lindsay.svg" alt="Lindsay"></div><span>LINDSAY</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/heveblue.svg" alt="Heveblue"></div><span>HEVEBLUE</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/solep.svg" alt="Solep"></div><span>SOLEP</span></a>
-            <a href="category.html" class="brand-card"><div class="brand-card__logo-wrap"><img src="logos/boh.svg" alt="BOH"></div><span>BOH</span></a>
-          </div>
-        </div>
-
-      </div>
-    </section>
+    <div class="container">
+      <div class="match-shell" data-match-quiz></div>
+      <div class="match-shell match-shell--wide" data-match-result></div>
+    </div>
 
   </main>
 
@@ -292,6 +222,14 @@
             觀塘工業中心一期 地下 B 舖<br>
             每日 12:00–20:00
           </p>
+          <div class="footer__social">
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          </div>
         </div>
         <div>
           <h4 class="footer__col-title">選購</h4>
@@ -300,6 +238,7 @@
             <li><a href="makeup.html">彩妝</a></li>
             <li><a href="bodycare.html">身體護理</a></li>
             <li><a href="fragrance.html">香氛</a></li>
+            <li><a href="lifestyle.html">生活風格</a></li>
           </ul>
         </div>
         <div>
@@ -322,10 +261,16 @@
       </div>
       <div class="footer__bottom">
         <p class="footer__copyright">&copy; 2026 OUJI. All rights reserved.</p>
+        <div class="footer__bottom-links">
+          <a href="#">繁體中文</a>
+          <a href="#">English</a>
+          <a href="#">HKD $</a>
+        </div>
       </div>
     </div>
   </footer>
 
+  
   <!-- Mobile Bottom Navigation -->
   <nav class="mobile-bottom-nav">
     <a href="index.html" class="mobile-bottom-nav__item">
@@ -357,6 +302,14 @@
   </nav>
 
   <script src="shopify.js"></script>
+  <script src="awards.js"></script>
+  <script src="catalog.js"></script>
   <script src="script.js"></script>
+  <script src="match.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initPage();
+    await initMatch();
+  });
+  </script>
 </body>
-</html>
