@@ -4791,7 +4791,20 @@ textarea:focus-visible,
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
   background: var(--surface, #fff);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: background var(--duration-fast), border-color var(--duration-fast),
+              color var(--duration-fast);
 }
+.award-body:hover { border-color: var(--primary); }
+.award-body.is-active {
+  background: var(--primary-deep, #2e505c);
+  border-color: var(--primary-deep, #2e505c);
+  color: #fff;
+}
+.award-body.is-active .award-body__name,
+.award-body.is-active .award-body__region { color: inherit; }
 .award-body__name { font-size: 0.875rem; color: var(--text-primary); }
 .award-body__region { font-size: 0.75rem; color: var(--text-tertiary); }
 

@@ -332,15 +332,28 @@
       });
     });
 
+    // The bodies double as a filter: nearly ninety entries is a lot to
+    // scroll if you only trust one of them.
+    let only = null;
     const legend = document.querySelector('[data-awards-legend]');
     if (legend) {
-      legend.innerHTML = [...bodies].map((b) => {
-        const info = AWARD_BODIES[b];
-        return `<div class="award-body">
-          <span class="award-body__name">${info.name}</span>
-          <span class="award-body__region">${info.region}</span>
-        </div>`;
-      }).join('');
+      legend.innerHTML = `<button class="award-body is-active" data-body="">全部</button>`
+        + [...bodies].map((b) => {
+          const info = AWARD_BODIES[b];
+          const n = [...years.values()].flat().filter((r) => r.award.body === b).length;
+          return `<button class="award-body" data-body="${b}">
+            <span class="award-body__name">${info.name}</span>
+            <span class="award-body__region">${info.region} · ${n}</span>
+          </button>`;
+        }).join('');
+      legend.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-body]');
+        if (!btn) return;
+        only = btn.dataset.body || null;
+        legend.querySelectorAll('.award-body').forEach((el) =>
+          el.classList.toggle('is-active', el === btn));
+        render();
+      });
     }
 
     const host = document.querySelector('[data-awards]');
@@ -350,8 +363,12 @@
       return;
     }
 
+    function render() {
     host.innerHTML = [...years.keys()].sort((a, b) => b - a).map((year) => {
-      const rows = years.get(year).sort((a, b) => a.award.rank - b.award.rank);
+      const rows = years.get(year)
+        .filter((r) => !only || r.award.body === only)
+        .sort((a, b) => (a.award.rank || 99) - (b.award.rank || 99));
+      if (!rows.length) return '';
       return `<section class="award-year">
         <header class="award-year__head">
           <span class="award-year__number">${year}</span>
@@ -361,9 +378,9 @@
           ${rows.map(({ product, award }) => {
             const img = product.images?.edges?.[0]?.node;
             const price = product.priceRange?.minVariantPrice;
-            const rank = award.rank === 1 ? '第一位' : `第${award.rank}位`;
+            const rank = rankLabel(award.rank);
             return `<a class="award-row" href="/products/${product.handle}">
-              <span class="award-row__rank${award.rank === 1 ? ' is-first' : ''}">${award.rank}</span>
+              <span class="award-row__rank${award.rank === 1 ? ' is-first' : ''}">${award.rank || '★'}</span>
               <span class="award-row__thumb">
                 ${img ? `<img src="${img.url}" alt="${product.title}" loading="lazy">` : ''}
               </span>
@@ -381,6 +398,8 @@
         </div>
       </section>`;
     }).join('');
+    }
+    render();
   });
   </script>
 </body>
