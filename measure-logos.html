@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><body style="background:#fff">
+<script>
+const LOGOS={"lilybyred":"lilybyred.svg","AMUSE":"amuse.svg","hince":"hince.svg","WAKEMAKE":"wakemake.svg",
+"CLIO":"clio.svg","dasique":"dasique.png","TIRTIR":"tirtir.svg","MAYBELLINE":"maybelline.svg",
+"UNLEASHIA":"unleashia.svg","rom&nd":"romand.svg","Laka":"laka.svg","花知曉 Flower Knows":"flower-knows.svg",
+"fwee":"fwee.svg","Heart Percent":"heart-percent.svg","Peripera":"peripera.png","2aN":"2an.svg",
+"BRAYE":"braye.svg","Coralhaze":"coralhaze.svg","Glint":"glint.svg"};
+window.measure=async()=>{const out={};
+for(const [b,f] of Object.entries(LOGOS)){
+  const img=new Image(); img.src='logos/'+f;
+  await new Promise(r=>{img.onload=r;img.onerror=r});
+  const H=300, W=Math.max(1,Math.round(H*(img.naturalWidth/img.naturalHeight||1)));
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
+  const x=c.getContext('2d',{willReadFrequently:true}); x.drawImage(img,0,0,W,H);
+  const d=x.getImageData(0,0,W,H).data;
+  let ink=0,minX=W,maxX=0,minY=H,maxY=0;
+  for(let py=0;py<H;py++)for(let px=0;px<W;px++){const i=(py*W+px)*4;
+    const a=d[i+3]; const lum=(d[i]*299+d[i+1]*587+d[i+2]*114)/1000;
+    const on = a>24 && lum<235;      // ink = opaque and not near-white
+    if(on){ink++; if(px<minX)minX=px; if(px>maxX)maxX=px; if(py<minY)minY=py; if(py>maxY)maxY=py;}}
+  const bw=Math.max(1,maxX-minX+1), bh=Math.max(1,maxY-minY+1);
+  out[b]={nat:[img.naturalWidth,img.naturalHeight],box:[W,H],trim:[bw,bh],
+          inkPx:ink, inkRatio:+(ink/(bw*bh)).toFixed(3), aspect:+(bw/bh).toFixed(2)};
+}
+return out};
+</script></body>
