@@ -5539,11 +5539,8 @@ textarea:focus-visible,
 
 .brand-section__plate {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+  display: grid;
+  place-items: center;
   padding: var(--space-lg);
   background: var(--plate, #eeeae3);
 }
@@ -5559,8 +5556,8 @@ textarea:focus-visible,
 .brand-section__logo {
   display: block;
   width: 100%;
-  max-width: 168px;
-  max-height: 58px;
+  max-width: 76%;
+  max-height: 96px;
   object-fit: contain;
 }
 /* Most marks we hold are single-colour SVGs; on a dark plate they need
@@ -5593,11 +5590,10 @@ textarea:focus-visible,
 
 @media (max-width: 900px) {
   .brand-section__head--split { height: 168px; grid-template-columns: minmax(116px, 34%) 1fr; }
-  .brand-section__logo { max-width: 116px; max-height: 40px; }
-  .brand-section__count { font-size: 0.625rem; }
+  .brand-section__logo { max-width: 78%; max-height: 62px; }
   .brand-section__wordmark { font-size: 0.9375rem; }
 }
 @media (max-width: 560px) {
   .brand-section__head--split { height: 132px; }
-  .brand-section__logo { max-width: 92px; max-height: 32px; }
+  .brand-section__logo { max-width: 80%; max-height: 46px; }
 }

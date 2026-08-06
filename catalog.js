@@ -21,27 +21,30 @@
    shot still reads at that height. */
 const CDN = 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/';
 const BRAND_ART = {
-  // official key visuals
+  // The brands' own wide key visuals, mirrored onto our CDN because the
+  // Korean storefronts check the Referer.
   'Coralhaze': CDN + 'coralhaze-banner.jpg',
   'lilybyred': CDN + 'lilybyred-banner.jpg',
-  'UNLEASHIA': CDN + 'unleashia-banner.jpg',
+  'UNLEASHIA': CDN + 'unleashia-banner_fd13a93b-38f1-4c06-bebc-7fe29b470740.jpg',
   'rom&nd': CDN + 'romand-banner.jpg',
   'hince': CDN + 'hince-banner.jpg',
   'fwee': CDN + 'fwee-banner.jpg',
-  'MAYBELLINE': CDN + 'maybelline-banner.jpg',
-  '花知曉 Flower Knows': CDN + 'flowerknows-banner.jpg',
+  'MAYBELLINE': CDN + 'maybelline-banner_f5c7307d-576d-4796-b634-3e250ef3e300.jpg',
+  '花知曉 Flower Knows': CDN + 'flowerknows-banner_6c6a0c46-1361-4db5-befd-e7526560c84e.jpg',
   'BRAYE': CDN + 'braye-banner.jpg',
-  'dasique': CDN + 'dasique-banner.jpg',
-  // no usable KV on the brand site — campaign frame from its own media
-  'Glint': CDN + 'glint-highlighter-03.jpg',
-  'Heart Percent': CDN + '3281c1e2c212110d5a09790bddb0b998.jpg',
-  'CLIO': CDN + 'clio-kill-lash-superproof-mascara-01.jpg',
-  'Peripera': CDN + 'Peripera_VShadingBlendingStick_T_4.jpg',
-  '2aN': CDN + '2an-better-me-eye-palette-01_ec48f74b-0cd8-467e-80b6-b3549cb6d567.jpg',
+  'dasique': CDN + 'dasique-banner_46065717-bfee-49a9-ab6a-6e31808e785f.jpg',
   'Laka': CDN + 'laka-fruity-glam-tint-02_995c6109-9d56-412b-92eb-e7db4c8858e1.jpg',
   'AMUSE': CDN + 'amuse-powder-lip-cheek-08.jpg',
-  'WAKEMAKE': CDN + 'wakemake-seamless-wear-foundation-01_697499fe-3af6-4453-951a-8427076ee269.jpg',
   'TIRTIR': CDN + 'tirtir-waterism-glow-melting-balm-03_1fc51da6-4d84-41ba-b4cd-4e7b7e4b0732.jpg',
+  // No wide art exists for these six — their sites publish square frames
+  // only. Rather than let a 2.4:1 slot cut into the subject, the frame is
+  // centred on a blurred extension of itself at 1800x750.
+  'Heart Percent': CDN + 'heartpercent-banner.jpg',
+  '2aN': CDN + '2an-banner.jpg',
+  'CLIO': CDN + 'clio-banner.jpg',
+  'WAKEMAKE': CDN + 'wakemake-banner.jpg',
+  'Peripera': CDN + 'peripera-banner.jpg',
+  'Glint': CDN + 'glint-banner.jpg',
 };
 
 /* Each brand's own colour, for the plate its logo sits on. Sampling the
@@ -362,7 +365,6 @@ function brandSection(vendor, items, index) {
           ${logo
             ? `<img class="brand-section__logo" src="${logo}" alt="${vendor}" loading="lazy">`
             : `<span class="brand-section__wordmark">${vendor}</span>`}
-          <span class="brand-section__count">${items.length} 件產品</span>
         </div>
         <div class="brand-section__shot">
           ${art ? `<img class="brand-section__art" src="${art}" alt="" loading="lazy">` : ''}
