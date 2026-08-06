@@ -43,6 +43,17 @@ async function initHome() {
     </a>`;
   };
 
+  /* ----- the counts in the about block, from the catalogue itself ----- */
+  const stat = (key, n) => {
+    const el = document.querySelector(`[data-stat="${key}"]`);
+    if (el) el.dataset.count = n;          // the counter animation reads this
+  };
+  stat('products', products.length);
+  stat('brands', new Set(products.map((p) => p.vendor)).size);
+  if (typeof AWARDS === 'object') {
+    stat('awards', Object.values(AWARDS).reduce((n, l) => n + l.length, 0));
+  }
+
   /* ----- 精選推薦 ----- */
   const pick = document.querySelector('[data-home-featured]');
   if (pick) {
