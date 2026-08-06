@@ -65,12 +65,23 @@ function awardWeight(p) {
   }, 0);
 }
 
-/* "推薦" is the default, so it has to mean something. Until there are
-   orders to rank by — and cost prices to rank margin by — the honest
-   proxies are what a product has won and what it is worth: awards first,
-   then price. Swap the first term for real sales data when it exists. */
+/* Unit profit, as a 0–100 rank rather than an amount. featured.json is a
+   public file, so it carries the ordering and not the money — cost prices
+   are not something to publish. Loaded once, best-effort: the sort still
+   works on awards alone if it is unavailable. */
+let PROFIT_RANK = {};
+fetch('featured.json')
+  .then((r) => (r.ok ? r.json() : null))
+  .then((d) => { if (d?.profitRank) PROFIT_RANK = d.profitRank; })
+  .catch(() => {});
+
+/* "推薦" is the default, so it has to mean something. Margin leads —
+   that is the shop's own interest and the merchant asked for it — with
+   awards as the customer-facing counterweight so the top of the grid is
+   not simply the dearest thing we stock. Bestsellers join this term for
+   term once there are orders to count. */
 function featuredScore(p) {
-  return awardWeight(p) * 100 + Math.min(price(p), 900);
+  return (PROFIT_RANK[p.handle] || 0) * 10 + awardWeight(p) * 6;
 }
 
 const SORTS = {
