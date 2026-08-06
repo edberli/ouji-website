@@ -92,6 +92,26 @@ const BRAND_LOGO = {
   'Glint': 'logos/glint.svg',
 };
 
+
+/* Displayed logo height per brand, so every mark reads the same size.
+   Sizing on a shared max-height does not work: these marks carry wildly
+   different amounts of ink inside their box — hince's hairline wordmark
+   covers 13% of its bounding box, WAKEMAKE's covers 46% — so at equal
+   height one looks twice the weight of the other. Each SVG was rasterised
+   and its ink pixels counted, then the height set so the ink area comes
+   out equal. Measured, not eyeballed. */
+const BRAND_LOGO_H = {
+  'hince': 115, 'fwee': 116, 'Coralhaze': 71, 'Glint': 68, 'WAKEMAKE': 47,
+  'UNLEASHIA': 52, 'lilybyred': 78, 'rom&nd': 69, 'MAYBELLINE': 53,
+  'AMUSE': 48, 'CLIO': 57, 'TIRTIR': 59, 'BRAYE': 56, 'Heart Percent': 75,
+  'Peripera': 36, 'Laka': 60, '2aN': 69, 'dasique': 36,
+  '花知曉 Flower Knows': 74,
+};
+
+function brandLogoHeight(vendor) {
+  return BRAND_LOGO_H[vendor] || 58;
+}
+
 function brandArt(vendor) {
   return BRAND_ART[vendor] || null;
 }
@@ -349,30 +369,22 @@ function productCard(p) {
 }
 
 function brandSection(vendor, items, index) {
-  const art = brandArt(vendor);
   const logo = brandLogo(vendor);
   const plate = brandPlate(vendor);
-  // Split rather than overlaid. Laying the logo over the photo meant it
-  // sat on whatever the crop happened to leave — sometimes a face,
-  // sometimes a bright patch — and half the brands read as unlabelled.
-  // The logo gets its own panel in the brand's colour, so it is never
-  // cropped and every banner reads the same way; the photo takes the rest.
+  // A colour field, the brand's own logo, and its name. Photography was
+  // tried twice and abandoned: nineteen brands shoot nineteen ways, half
+  // of them burn their own wordmark into the frame, and nine publish
+  // nothing wider than a square — no crop makes that set look like one
+  // thing. A plate cannot crop, cannot clash, and never misrepresents.
   return `
     <section class="brand-section" id="brand-${index}">
-      <header class="brand-section__head brand-section__head--split${plate.dark ? ' is-dark' : ''}"
+      <header class="brand-plate${plate.dark ? ' is-dark' : ''}"
               style="--plate:${plate.tint}">
-        <div class="brand-section__plate">
-          ${logo
-            ? `<img class="brand-section__logo" src="${logo}" alt="${vendor}" loading="lazy">`
-            : `<span class="brand-section__wordmark">${vendor}</span>`}
-        </div>
-        <div class="brand-section__shot">
-          ${items.slice(0, 5).map((p) => {
-            const img = p.images?.edges?.[0]?.node;
-            return `<span class="brand-shot">${img
-              ? `<img src="${img.url}" alt="${p.title}" loading="lazy">` : ''}</span>`;
-          }).join('')}
-        </div>
+        ${logo
+          ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
+                  style="height:${brandLogoHeight(vendor)}px" loading="lazy">`
+          : `<span class="brand-plate__wordmark">${vendor}</span>`}
+        <span class="brand-plate__name">${vendor}</span>
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
       <div class="product-grid">${items.map(productCard).join('')}</div>

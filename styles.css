@@ -5524,96 +5524,57 @@ textarea:focus-visible,
    whatever the crop left and half the brands read as unlabelled.
    It gets its own panel now, in the brand's own colour.
    ============================================================ */
-.brand-section__head--split {
-  display: grid;
-  grid-template-columns: minmax(200px, 25%) 1fr;
-  align-items: stretch;
-  min-height: 0;
-  height: 232px;
-  padding: 0;
-  overflow: hidden;
+/* ============================================================
+   BRAND PLATE
+   A colour field, the brand's own logo, and its name. Photography
+   was tried twice: nineteen brands shoot nineteen ways, half burn
+   their own wordmark into the frame, and nine publish nothing
+   wider than a square. A plate cannot crop and cannot clash.
+   ============================================================ */
+.brand-plate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 172px;
+  padding: var(--space-lg) var(--space-xl);
+  margin-bottom: var(--space-xl);
   border-radius: var(--radius-lg, 16px);
-  border: 1px solid var(--border-subtle);
-  background: var(--surface, #fff);
-}
-
-.brand-section__plate {
-  position: relative;
-  display: grid;
-  place-items: center;
-  padding: var(--space-lg);
   background: var(--plate, #eeeae3);
-}
-/* a hairline between plate and photo, so the seam looks intended */
-.brand-section__plate::after {
-  content: '';
-  position: absolute;
-  right: 0; top: 0; bottom: 0;
-  width: 1px;
-  background: rgba(0,0,0,0.07);
+  border: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
 }
 
-.brand-section__logo {
+/* Height is set per brand from measured ink area — see BRAND_LOGO_H. */
+.brand-plate__logo {
   display: block;
-  width: 100%;
-  max-width: 76%;
-  max-height: 96px;
+  width: auto;
+  max-width: min(280px, 62vw);
   object-fit: contain;
 }
-/* Most marks we hold are single-colour SVGs; on a dark plate they need
-   knocking out white, on a light one they are already right. */
-.brand-section__head--split.is-dark .brand-section__logo {
-  filter: brightness(0) invert(1);
-}
-.brand-section__wordmark {
-  font-size: 1.25rem;
-  letter-spacing: 0.08em;
+.brand-plate.is-dark .brand-plate__logo { filter: brightness(0) invert(1); }
+
+.brand-plate__wordmark {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
   color: var(--text-primary);
-  text-align: center;
 }
-.brand-section__head--split.is-dark .brand-section__wordmark { color: #fff; }
+.brand-plate.is-dark .brand-plate__wordmark { color: #fff; }
 
-.brand-section__count {
+.brand-plate__name {
   font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  color: rgba(0,0,0,0.46);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.42);
 }
-.brand-section__head--split.is-dark .brand-section__count { color: rgba(255,255,255,0.6); }
+.brand-plate.is-dark .brand-plate__name { color: rgba(255,255,255,0.55); }
 
-/* A row of that brand's own products rather than one campaign photo.
-   Nineteen brands shoot nineteen different ways — some send a wide key
-   visual, most send a square with their wordmark already burnt into it,
-   and no crop makes that set look like one thing. Composing from product
-   covers cannot crop badly, needs no sourcing, and shows what is for sale. */
-.brand-section__shot {
-  display: flex;
-  align-items: center;
-  gap: clamp(8px, 1.2vw, 18px);
-  padding: 0 clamp(12px, 1.8vw, 26px);
-  overflow: hidden;
-  background: var(--plate, #eeeae3);
+@media (max-width: 768px) {
+  .brand-plate { height: 128px; gap: 10px; margin-bottom: var(--space-lg); }
+  /* Scale every mark by the same factor so they stay equal to each other. */
+  .brand-plate__logo { transform: scale(0.74); }
+  .brand-plate__name { font-size: 0.625rem; letter-spacing: 0.24em; }
 }
-.brand-shot {
-  flex: 1 1 0;
-  aspect-ratio: 1 / 1;
-  max-height: calc(100% - 44px);
-  border-radius: var(--radius-sm, 8px);
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 2px 10px rgba(24,20,14,0.10);
-}
-.brand-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* Past four, the row gets cramped on a narrow window — drop the tail. */
-@media (max-width: 1100px) { .brand-shot:nth-child(n+5) { display: none; } }
-@media (max-width: 780px)  { .brand-shot:nth-child(n+4) { display: none; } }
-@media (max-width: 560px)  { .brand-shot:nth-child(n+3) { display: none; } }
-
-@media (max-width: 900px) {
-  .brand-section__head--split { height: 168px; grid-template-columns: minmax(116px, 34%) 1fr; }
-  .brand-section__logo { max-width: 78%; max-height: 62px; }
-  .brand-section__wordmark { font-size: 0.9375rem; }
-}
-@media (max-width: 560px) {
-  .brand-section__head--split { height: 132px; }
-  .brand-section__logo { max-width: 80%; max-height: 46px; }
 }
