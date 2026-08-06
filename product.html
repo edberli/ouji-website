@@ -399,11 +399,19 @@
       cuff.innerHTML = chevron('m18 15-6-6-6 6') + '<span>收起產品圖</span>';
       block.after(cuff);
 
+      // The observer only fires when intersection *changes*, and a block
+      // this tall is already intersecting when it is opened — so opening
+      // has to show the cuff itself, and the observer only takes it away
+      // once you scroll clear of the block.
+      let onScreen = true;
+      const syncCuff = () => cuff.classList.toggle('is-shown',
+        onScreen && !block.classList.contains('is-collapsed'));
+
       const setOpen = (open) => {
         block.classList.toggle('is-collapsed', !open);
         more.classList.toggle('is-open', open);
         more.querySelector('span').textContent = open ? '收起產品圖' : '查看更多產品圖';
-        document.body.classList.toggle('detail-open', open);
+        syncCuff();
       };
 
       more.addEventListener('click', () => {
@@ -418,11 +426,10 @@
       });
 
       // The cuff shows only while the open block is actually on screen.
-      const io = new IntersectionObserver(([e]) => {
-        cuff.classList.toggle('is-shown',
-          e.isIntersecting && !block.classList.contains('is-collapsed'));
-      }, { rootMargin: '-10% 0px -10% 0px' });
-      io.observe(block);
+      new IntersectionObserver(([e]) => {
+        onScreen = e.isIntersecting;
+        syncCuff();
+      }, { rootMargin: '-10% 0px -10% 0px' }).observe(block);
     };
 
     // Strips are lazy-loaded, so scrollHeight is meaningless until the

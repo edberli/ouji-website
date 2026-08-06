@@ -44,8 +44,27 @@ const BRAND_ART = {
   'TIRTIR': CDN + 'tirtir-waterism-glow-melting-balm-03_1fc51da6-4d84-41ba-b4cd-4e7b7e4b0732.jpg',
 };
 
+/* The brands' own logos, which we already hold as SVG. They ride on top
+   of the banner rather than being cropped out of it. */
+const BRAND_LOGO = {
+  'lilybyred': 'logos/lilybyred.svg', 'AMUSE': 'logos/amuse.svg',
+  'hince': 'logos/hince.svg', 'WAKEMAKE': 'logos/wakemake.svg',
+  'CLIO': 'logos/clio.svg', 'dasique': 'logos/dasique.png',
+  'TIRTIR': 'logos/tirtir.svg', 'MAYBELLINE': 'logos/maybelline.svg',
+  'UNLEASHIA': 'logos/unleashia.svg', 'rom&nd': 'logos/romand.svg',
+  'Laka': 'logos/laka.svg', '花知曉 Flower Knows': 'logos/flower-knows.svg',
+  'fwee': 'logos/fwee.svg', 'Heart Percent': 'logos/heart-percent.svg',
+  'Peripera': 'logos/peripera.png', '2aN': 'logos/2an.svg',
+  'BRAYE': 'logos/braye.svg', 'Coralhaze': 'logos/coralhaze.svg',
+  'Glint': 'logos/glint.svg',
+};
+
 function brandArt(vendor) {
   return BRAND_ART[vendor] || null;
+}
+
+function brandLogo(vendor) {
+  return BRAND_LOGO[vendor] || null;
 }
 
 const PRICE_BUCKETS = [
@@ -298,15 +317,23 @@ function productCard(p) {
 
 function brandSection(vendor, items, index) {
   const art = brandArt(vendor);
+  const logo = brandLogo(vendor);
+  // The banner is composed rather than cropped: the campaign shot is a
+  // background, the brand's own logo is a separate layer on top. Setting
+  // a photo as the whole banner meant a 1200×628 key visual losing two
+  // thirds of itself to a letterbox, and whatever survived was rarely the
+  // part with the brand on it.
   return `
     <section class="brand-section" id="brand-${index}">
       <header class="brand-section__head${art ? ' brand-section__head--art' : ''}">
-        ${art ? `<img class="brand-section__art" src="${art}" alt="${vendor}" loading="lazy">` : ''}
+        ${art ? `<img class="brand-section__art" src="${art}" alt="" loading="lazy">` : ''}
         <div class="brand-section__label">
-          <span class="brand-section__eyebrow">品牌</span>
-          <h2 class="brand-section__name">${vendor}</h2>
+          ${logo
+            ? `<img class="brand-section__logo" src="${logo}" alt="${vendor}" loading="lazy">`
+            : `<h2 class="brand-section__name">${vendor}</h2>`}
           <span class="brand-section__count">${items.length} 件產品</span>
         </div>
+        ${logo ? `<h2 class="visually-hidden">${vendor}</h2>` : ''}
       </header>
       <div class="product-grid">${items.map(productCard).join('')}</div>
     </section>`;

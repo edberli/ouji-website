@@ -4372,8 +4372,8 @@ textarea:focus-visible,
   content: '';
   position: absolute; inset: 0;
   background:
-    linear-gradient(100deg, rgba(46,80,92,0.78) 0%, rgba(46,80,92,0.3) 30%, rgba(46,80,92,0) 55%),
-    linear-gradient(180deg, rgba(46,80,92,0) 55%, rgba(46,80,92,0.35) 100%);
+    linear-gradient(100deg, rgba(20,34,40,0.80) 0%, rgba(20,34,40,0.42) 38%, rgba(20,34,40,0.04) 66%),
+    linear-gradient(180deg, rgba(20,34,40,0) 45%, rgba(20,34,40,0.45) 100%);
 }
 .brand-section__label { position: relative; z-index: 2; }
 .brand-section__head--art .brand-section__label { color: #fff; }
@@ -5374,3 +5374,146 @@ textarea:focus-visible,
 .face-warning b { color: var(--text-primary); }
 .face-strict { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; cursor: pointer; }
 .face-strict span { font-size: 0.8125rem; color: var(--text-primary); }
+
+/* The brand's own logo, knocked out white on the scrim. Most of the marks
+   we hold are single-colour SVGs, so a brightness/invert filter gives a
+   clean white version without keeping a second file per brand. */
+.brand-section__logo {
+  display: block;
+  height: clamp(26px, 3.4vw, 40px);
+  width: auto;
+  max-width: min(320px, 52vw);
+  object-fit: contain;
+  object-position: left center;
+  margin-bottom: 10px;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 10px rgba(0,0,0,0.35));
+}
+.brand-section__head:not(.brand-section__head--art) .brand-section__logo {
+  filter: none;
+}
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (max-width: 768px) {
+  .brand-section__head--art { min-height: 190px; }
+  .brand-section__logo { height: 24px; margin-bottom: 8px; }
+}
+
+/* ============================================================
+   HOMEPAGE — awards strip and matcher entry
+   These replaced a hard-coded "Best Sellers" grid of brands we
+   do not carry, and three sections of manifesto copy.
+   ============================================================ */
+.home-awards {
+  padding: var(--space-4xl, 96px) 0;
+  background:
+    radial-gradient(110% 90% at 50% 0%, #2a241a 0%, transparent 62%),
+    linear-gradient(180deg, #14110d 0%, #1d1812 100%);
+  color: #f2ece0;
+}
+.home-awards__head { text-align: center; margin-bottom: var(--space-2xl); }
+.home-awards__eyebrow {
+  font-size: 0.6875rem; letter-spacing: 0.36em; color: #cba86a;
+}
+.home-awards__title {
+  margin: 10px 0 12px;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  background: linear-gradient(120deg, #f6ead0, #cba86a 48%, #f2e2bd);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.home-awards__desc {
+  max-width: 34rem; margin: 0 auto;
+  color: rgba(242,236,224,0.62); font-size: 0.875rem; line-height: 2;
+}
+.home-awards__desc b { color: #e8cf9a; font-weight: 500; }
+
+.won-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-md);
+}
+.won-card { display: flex; flex-direction: column; gap: 6px; text-decoration: none; }
+.won-card__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md, 12px);
+  overflow: hidden;
+  background: #241d16;
+  border: 1px solid rgba(203,168,106,0.28);
+}
+.won-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.won-card__seal {
+  position: absolute; right: 8px; top: 8px;
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(140deg, #f0dcae, #b48b4a);
+  color: #17130f; font-size: 0.8125rem; font-weight: 600;
+}
+.won-card__brand {
+  margin-top: 4px;
+  font-size: 0.625rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(203,168,106,0.8);
+}
+.won-card__title {
+  font-size: 0.8125rem; line-height: 1.5; color: #f2ece0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.won-card__award { font-size: 0.6875rem; color: rgba(242,236,224,0.5); }
+
+.home-awards__cta {
+  display: block;
+  width: fit-content;
+  margin: var(--space-2xl) auto 0;
+  padding: 13px 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(203,168,106,0.55);
+  color: #e8cf9a;
+  font-size: 0.8125rem; letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: background var(--duration-normal), color var(--duration-normal);
+}
+.home-awards__cta:hover { background: rgba(203,168,106,0.14); color: #f6ead0; }
+
+/* ----- matcher entry ----- */
+.home-match__grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+.home-match__copy h2 { margin: 10px 0 12px; }
+.home-match__copy p {
+  color: var(--text-secondary); line-height: 2; font-size: 0.9375rem;
+  margin-bottom: var(--space-lg);
+}
+.home-match__looks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.look-pill {
+  display: flex; flex-direction: column; gap: 5px;
+  padding: 16px 18px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface, #fff);
+  text-decoration: none;
+  transition: border-color var(--duration-fast), transform var(--duration-fast);
+}
+.look-pill:hover { border-color: var(--primary); transform: translateY(-2px); }
+.look-pill__name { font-size: 0.9375rem; color: var(--text-primary); }
+.look-pill__desc {
+  font-size: 0.75rem; line-height: 1.7; color: var(--text-tertiary);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+@media (max-width: 1000px) {
+  .won-row { grid-template-columns: repeat(3, 1fr); }
+  .home-match__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .won-row { grid-template-columns: repeat(2, 1fr); }
+  .home-match__looks { grid-template-columns: repeat(2, 1fr); }
+  .home-awards { padding: var(--space-3xl, 64px) 0; }
+}
