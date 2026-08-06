@@ -5550,7 +5550,10 @@ textarea:focus-visible,
 .brand-plate__logo {
   display: block;
   width: auto;
-  max-width: min(280px, 62vw);
+  /* No width cap: the height is what carries the optical sizing, and the
+     SVG boxes are mostly padding — capping width clamped six of them and
+     undid the equalisation. */
+  max-width: min(520px, 86vw);
   object-fit: contain;
 }
 .brand-plate.is-dark .brand-plate__logo { filter: brightness(0) invert(1); }
