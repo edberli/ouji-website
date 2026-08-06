@@ -994,7 +994,12 @@ function applyCategoryHeading(section, cat) {
 
 /** Friendly state for a category that currently has no products. */
 function showCategoryEmpty(section, cat) {
-  const grid = document.querySelector('.product-grid');
+  // The catalogue renders into [data-catalog]; .product-grid only exists
+  // once there are products to put in it. Writing into the grid meant an
+  // empty category rendered nothing at all — a blank page under a heading,
+  // with no explanation.
+  const grid = document.querySelector('[data-catalog]')
+    || document.querySelector('.product-grid');
   const count = document.querySelector('.filter-bar__count');
   if (count) count.textContent = '顯示 0 件產品';
   if (!grid) return;
