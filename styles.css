@@ -5517,3 +5517,87 @@ textarea:focus-visible,
   .home-match__looks { grid-template-columns: repeat(2, 1fr); }
   .home-awards { padding: var(--space-3xl, 64px) 0; }
 }
+
+/* ============================================================
+   BRAND BANNER — split plate
+   The logo used to be laid over the campaign photo, so it sat on
+   whatever the crop left and half the brands read as unlabelled.
+   It gets its own panel now, in the brand's own colour.
+   ============================================================ */
+.brand-section__head--split {
+  display: grid;
+  grid-template-columns: minmax(200px, 25%) 1fr;
+  align-items: stretch;
+  min-height: 0;
+  height: 232px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg, 16px);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface, #fff);
+}
+
+.brand-section__plate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: var(--space-lg);
+  background: var(--plate, #eeeae3);
+}
+/* a hairline between plate and photo, so the seam looks intended */
+.brand-section__plate::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(0,0,0,0.07);
+}
+
+.brand-section__logo {
+  display: block;
+  width: 100%;
+  max-width: 168px;
+  max-height: 58px;
+  object-fit: contain;
+}
+/* Most marks we hold are single-colour SVGs; on a dark plate they need
+   knocking out white, on a light one they are already right. */
+.brand-section__head--split.is-dark .brand-section__logo {
+  filter: brightness(0) invert(1);
+}
+.brand-section__wordmark {
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  text-align: center;
+}
+.brand-section__head--split.is-dark .brand-section__wordmark { color: #fff; }
+
+.brand-section__count {
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: rgba(0,0,0,0.46);
+}
+.brand-section__head--split.is-dark .brand-section__count { color: rgba(255,255,255,0.6); }
+
+.brand-section__shot { position: relative; overflow: hidden; background: var(--surface-alt, #f4f2ec); }
+.brand-section__shot .brand-section__art {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+@media (max-width: 900px) {
+  .brand-section__head--split { height: 168px; grid-template-columns: minmax(116px, 34%) 1fr; }
+  .brand-section__logo { max-width: 116px; max-height: 40px; }
+  .brand-section__count { font-size: 0.625rem; }
+  .brand-section__wordmark { font-size: 0.9375rem; }
+}
+@media (max-width: 560px) {
+  .brand-section__head--split { height: 132px; }
+  .brand-section__logo { max-width: 92px; max-height: 32px; }
+}

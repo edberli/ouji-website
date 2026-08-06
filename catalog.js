@@ -44,6 +44,36 @@ const BRAND_ART = {
   'TIRTIR': CDN + 'tirtir-waterism-glow-melting-balm-03_1fc51da6-4d84-41ba-b4cd-4e7b7e4b0732.jpg',
 };
 
+/* Each brand's own colour, for the plate its logo sits on. Sampling the
+   campaign photo was tried first and gave nineteen shades of mud — these
+   are taken from the brands' own identities instead. `dark` says whether
+   the logo needs knocking out white. */
+const BRAND_PLATE = {
+  'rom&nd': { tint: '#efe7dc' },
+  'CLIO': { tint: '#14110f', dark: true },
+  'hince': { tint: '#e6dbd0' },
+  'TIRTIR': { tint: '#b8172a', dark: true },
+  'dasique': { tint: '#f0e3d8' },
+  'lilybyred': { tint: '#f3dcdd' },
+  'AMUSE': { tint: '#f7dfe0' },
+  'WAKEMAKE': { tint: '#eae7e2' },
+  'Peripera': { tint: '#f8dbe4' },
+  'UNLEASHIA': { tint: '#e8e5dc' },
+  'Laka': { tint: '#5b2434', dark: true },
+  'fwee': { tint: '#f6d7e2' },
+  'MAYBELLINE': { tint: '#14110f', dark: true },
+  '2aN': { tint: '#eee6dd' },
+  'Heart Percent': { tint: '#f2e6e2' },
+  'Coralhaze': { tint: '#f7ddd4' },
+  'BRAYE': { tint: '#ebe9e6' },
+  'Glint': { tint: '#e9e4dd' },
+  '花知曉 Flower Knows': { tint: '#f6e2e6' },
+};
+
+function brandPlate(vendor) {
+  return BRAND_PLATE[vendor] || { tint: '#eeeae3' };
+}
+
 /* The brands' own logos, which we already hold as SVG. They ride on top
    of the banner rather than being cropped out of it. */
 const BRAND_LOGO = {
@@ -318,22 +348,26 @@ function productCard(p) {
 function brandSection(vendor, items, index) {
   const art = brandArt(vendor);
   const logo = brandLogo(vendor);
-  // The banner is composed rather than cropped: the campaign shot is a
-  // background, the brand's own logo is a separate layer on top. Setting
-  // a photo as the whole banner meant a 1200×628 key visual losing two
-  // thirds of itself to a letterbox, and whatever survived was rarely the
-  // part with the brand on it.
+  const plate = brandPlate(vendor);
+  // Split rather than overlaid. Laying the logo over the photo meant it
+  // sat on whatever the crop happened to leave — sometimes a face,
+  // sometimes a bright patch — and half the brands read as unlabelled.
+  // The logo gets its own panel in the brand's colour, so it is never
+  // cropped and every banner reads the same way; the photo takes the rest.
   return `
     <section class="brand-section" id="brand-${index}">
-      <header class="brand-section__head${art ? ' brand-section__head--art' : ''}">
-        ${art ? `<img class="brand-section__art" src="${art}" alt="" loading="lazy">` : ''}
-        <div class="brand-section__label">
+      <header class="brand-section__head brand-section__head--split${plate.dark ? ' is-dark' : ''}"
+              style="--plate:${plate.tint}">
+        <div class="brand-section__plate">
           ${logo
             ? `<img class="brand-section__logo" src="${logo}" alt="${vendor}" loading="lazy">`
-            : `<h2 class="brand-section__name">${vendor}</h2>`}
+            : `<span class="brand-section__wordmark">${vendor}</span>`}
           <span class="brand-section__count">${items.length} 件產品</span>
         </div>
-        ${logo ? `<h2 class="visually-hidden">${vendor}</h2>` : ''}
+        <div class="brand-section__shot">
+          ${art ? `<img class="brand-section__art" src="${art}" alt="" loading="lazy">` : ''}
+        </div>
+        <h2 class="visually-hidden">${vendor}</h2>
       </header>
       <div class="product-grid">${items.map(productCard).join('')}</div>
     </section>`;
