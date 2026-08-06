@@ -33,10 +33,7 @@ const BRAND_ART = {
   '花知曉 Flower Knows': CDN + 'flowerknows-banner_6c6a0c46-1361-4db5-befd-e7526560c84e.jpg',
   'BRAYE': CDN + 'braye-banner.jpg',
   'dasique': CDN + 'dasique-banner_46065717-bfee-49a9-ab6a-6e31808e785f.jpg',
-  'Laka': CDN + 'laka-fruity-glam-tint-02_995c6109-9d56-412b-92eb-e7db4c8858e1.jpg',
-  'AMUSE': CDN + 'amuse-powder-lip-cheek-08.jpg',
-  'TIRTIR': CDN + 'tirtir-waterism-glow-melting-balm-03_1fc51da6-4d84-41ba-b4cd-4e7b7e4b0732.jpg',
-  // No wide art exists for these six — their sites publish square frames
+  // No wide art exists for these nine — their sites publish square frames
   // only. Rather than let a 2.4:1 slot cut into the subject, the frame is
   // centred on a blurred extension of itself at 1800x750.
   'Heart Percent': CDN + 'heartpercent-banner.jpg',
@@ -45,6 +42,9 @@ const BRAND_ART = {
   'WAKEMAKE': CDN + 'wakemake-banner.jpg',
   'Peripera': CDN + 'peripera-banner.jpg',
   'Glint': CDN + 'glint-banner.jpg',
+  'Laka': CDN + 'laka-banner.jpg',
+  'AMUSE': CDN + 'amuse-banner.jpg',
+  'TIRTIR': CDN + 'tirtir-banner.jpg',
 };
 
 /* Each brand's own colour, for the plate its logo sits on. Sampling the
