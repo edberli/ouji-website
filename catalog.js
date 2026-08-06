@@ -435,7 +435,13 @@ function renderProducts(container, products, { grouped }) {
     if (!byVendor.has(v)) byVendor.set(v, []);
     byVendor.get(v).push(p);
   });
-  const order = [...byVendor.entries()].sort((a, b) => b[1].length - a[1].length);
+  // Brands used to be ordered by how many products they had, which meant
+  // the default page opened on whoever we happened to stock most of.
+  // Order them by their best product instead, so "推薦" reaches the top of
+  // the page and not just the inside of each section.
+  const best = (items) => Math.max(...items.map(featuredScore));
+  const order = [...byVendor.entries()]
+    .sort((a, b) => best(b[1]) - best(a[1]) || b[1].length - a[1].length);
   container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
   buildBrandRail(order);
 }
