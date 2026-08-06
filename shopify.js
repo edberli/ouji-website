@@ -893,16 +893,27 @@ const CATEGORY_TAXONOMY = {
 };
 
 // Text blob a product is matched against
+/* Two haystacks, deliberately. productType and tags are curated per
+   product; the title is whatever the brand called the thing. Matching the
+   title put every TIRTIR "Mask Fit" cushion under 護膚 › 面膜 — thirteen
+   cushions and not one face mask — so the title is only consulted when
+   the curated fields say nothing at all. */
 function productHaystack(p) {
-  return [p.productType || '', (p.tags || []).join(' '), p.title || '']
-    .join(' ')
-    .toLowerCase();
+  return [p.productType || '', (p.tags || []).join(' ')].join(' ').toLowerCase();
+}
+
+function productHaystackLoose(p) {
+  return `${productHaystack(p)} ${(p.title || '').toLowerCase()}`;
 }
 
 function matchesKeywords(p, keywords) {
-  if (!keywords || !keywords.length) return true;
-  const hay = productHaystack(p);
-  return keywords.some((k) => hay.includes(String(k).toLowerCase()));
+  // An unknown section used to match everything, so a typo in a section id
+  // showed the whole catalogue under the wrong heading.
+  if (!keywords || !keywords.length) return false;
+  const hit = (hay) => keywords.some((k) => hay.includes(String(k).toLowerCase()));
+  if (hit(productHaystack(p))) return true;
+  // Untyped, untagged products still have to land somewhere.
+  return !p.productType && !(p.tags || []).length && hit(productHaystackLoose(p));
 }
 
 // Collect the keyword set for a section (+ optional subcategory)
