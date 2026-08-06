@@ -369,6 +369,10 @@
     if (!block || block.dataset.collapsible) return;
 
     const settle = () => {
+      // Both the load handlers and the timeout call this, so the guard has
+      // to live here as well as in the caller — otherwise a slow image
+      // gets you two buttons.
+      if (block.dataset.collapsible) return;
       // Strip count is the reliable signal: scrollHeight reads 0 while the
       // description sits in a tab that has not been shown yet.
       const strips = block.querySelectorAll('img').length;
@@ -376,21 +380,49 @@
       block.dataset.collapsible = '1';
       block.classList.add('is-collapsed');
 
+      const chevron = (d) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"'
+        + ` stroke-width="1.6"><path d="${d}"/></svg>`;
+
       const more = document.createElement('button');
       more.className = 'detail-more';
       more.type = 'button';
-      more.innerHTML = '<span>查看更多產品圖</span>'
-        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">'
-        + '<path d="m6 9 6 6 6-6"/></svg>';
+      more.innerHTML = `<span>查看更多產品圖</span><em>${strips} 張</em>`
+        + chevron('m6 9 6 6 6-6');
       block.after(more);
+
+      // Opened, the block runs for tens of thousands of pixels — a collapse
+      // control only at the end means scrolling all of it to get back. This
+      // one rides along the bottom of the viewport while you are inside it.
+      const cuff = document.createElement('button');
+      cuff.className = 'detail-cuff';
+      cuff.type = 'button';
+      cuff.innerHTML = chevron('m18 15-6-6-6 6') + '<span>收起產品圖</span>';
+      block.after(cuff);
+
+      const setOpen = (open) => {
+        block.classList.toggle('is-collapsed', !open);
+        more.classList.toggle('is-open', open);
+        more.querySelector('span').textContent = open ? '收起產品圖' : '查看更多產品圖';
+        document.body.classList.toggle('detail-open', open);
+      };
 
       more.addEventListener('click', () => {
         const opening = block.classList.contains('is-collapsed');
-        block.classList.toggle('is-collapsed', !opening);
-        more.classList.toggle('is-open', opening);
-        more.querySelector('span').textContent = opening ? '收起產品圖' : '查看更多產品圖';
+        setOpen(opening);
         if (!opening) more.scrollIntoView({ block: 'center', behavior: 'smooth' });
       });
+
+      cuff.addEventListener('click', () => {
+        setOpen(false);
+        block.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      });
+
+      // The cuff shows only while the open block is actually on screen.
+      const io = new IntersectionObserver(([e]) => {
+        cuff.classList.toggle('is-shown',
+          e.isIntersecting && !block.classList.contains('is-collapsed'));
+      }, { rootMargin: '-10% 0px -10% 0px' });
+      io.observe(block);
     };
 
     // Strips are lazy-loaded, so scrollHeight is meaningless until the

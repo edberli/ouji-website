@@ -237,8 +237,12 @@ function awardRibbon(handle) {
   const rank = a.rank === 0 ? 'WINNER' : `NO.${a.rank}`;
   const count = awardsFor(handle).length;
   return `<span class="award-ribbon" title="${awardLabel(a)}${count > 1 ? ` · 共 ${count} 項` : ''}">
+    <span class="award-ribbon__crown" aria-hidden="true">
+      <svg viewBox="0 0 24 10"><path d="M2 9h20l-2-7-4 3-4-4-4 4-4-3z" fill="currentColor"/></svg>
+    </span>
     <span class="award-ribbon__rank">${rank}</span>
     <span class="award-ribbon__body">${a.bodyName} ${a.year}</span>
+    ${count > 1 ? `<span class="award-ribbon__count">共 ${count} 項獎</span>` : ''}
   </span>`;
 }
 

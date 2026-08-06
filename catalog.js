@@ -55,10 +55,29 @@ const PRICE_BUCKETS = [
   { id: 'o400', label: 'HK$400 以上', test: (v) => v >= 400 },
 ];
 
+/* How much a product has won, as one number: a first place is worth more
+   than a third, and a recent win more than an old one. */
+function awardWeight(p) {
+  if (typeof awardsFor !== 'function') return 0;
+  return awardsFor(p.handle).reduce((n, a) => {
+    const place = a.rank === 1 ? 6 : a.rank === 0 ? 3 : 7 - a.rank * 2;
+    return n + place + Math.max(0, a.year - 2022);
+  }, 0);
+}
+
+/* "推薦" is the default, so it has to mean something. Until there are
+   orders to rank by — and cost prices to rank margin by — the honest
+   proxies are what a product has won and what it is worth: awards first,
+   then price. Swap the first term for real sales data when it exists. */
+function featuredScore(p) {
+  return awardWeight(p) * 100 + Math.min(price(p), 900);
+}
+
 const SORTS = {
-  featured: null,
+  featured: (a, b) => featuredScore(b) - featuredScore(a),
   'price-asc': (a, b) => price(a) - price(b),
   'price-desc': (a, b) => price(b) - price(a),
+  award: (a, b) => awardWeight(b) - awardWeight(a) || price(b) - price(a),
   'name-asc': (a, b) => (a.title || '').localeCompare(b.title || '', 'zh-Hant'),
 };
 
@@ -437,7 +456,10 @@ function initCatalog({ section, cat, products }) {
     // narrowed request — the shopper wants every base product, not a
     // tour of the brands — so group only while browsing the whole section.
     const filtered = cat || sel.cat.size || sel.vendor.size || sel.price.size || sel.flag.size;
-    const grouped = !filtered && !cmp && new Set(list.map((p) => p.vendor)).size > 1;
+    // Brand sections only survive the default order — asking for "cheapest
+    // first" and getting it inside each brand is not what was asked.
+    const grouped = !filtered && sortKey === 'featured'
+      && new Set(list.map((p) => p.vendor)).size > 1;
 
     buildQuickTabs(section, products, sel);
     buildActiveChips(section, sel);
