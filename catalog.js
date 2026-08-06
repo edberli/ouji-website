@@ -367,7 +367,11 @@ function brandSection(vendor, items, index) {
             : `<span class="brand-section__wordmark">${vendor}</span>`}
         </div>
         <div class="brand-section__shot">
-          ${art ? `<img class="brand-section__art" src="${art}" alt="" loading="lazy">` : ''}
+          ${items.slice(0, 5).map((p) => {
+            const img = p.images?.edges?.[0]?.node;
+            return `<span class="brand-shot">${img
+              ? `<img src="${img.url}" alt="${p.title}" loading="lazy">` : ''}</span>`;
+          }).join('')}
         </div>
         <h2 class="visually-hidden">${vendor}</h2>
       </header>

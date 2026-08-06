@@ -5580,13 +5580,33 @@ textarea:focus-visible,
 }
 .brand-section__head--split.is-dark .brand-section__count { color: rgba(255,255,255,0.6); }
 
-.brand-section__shot { position: relative; overflow: hidden; background: var(--surface-alt, #f4f2ec); }
-.brand-section__shot .brand-section__art {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 42%;
+/* A row of that brand's own products rather than one campaign photo.
+   Nineteen brands shoot nineteen different ways — some send a wide key
+   visual, most send a square with their wordmark already burnt into it,
+   and no crop makes that set look like one thing. Composing from product
+   covers cannot crop badly, needs no sourcing, and shows what is for sale. */
+.brand-section__shot {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.2vw, 18px);
+  padding: 0 clamp(12px, 1.8vw, 26px);
+  overflow: hidden;
+  background: var(--plate, #eeeae3);
 }
+.brand-shot {
+  flex: 1 1 0;
+  aspect-ratio: 1 / 1;
+  max-height: calc(100% - 44px);
+  border-radius: var(--radius-sm, 8px);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(24,20,14,0.10);
+}
+.brand-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Past four, the row gets cramped on a narrow window — drop the tail. */
+@media (max-width: 1100px) { .brand-shot:nth-child(n+5) { display: none; } }
+@media (max-width: 780px)  { .brand-shot:nth-child(n+4) { display: none; } }
+@media (max-width: 560px)  { .brand-shot:nth-child(n+3) { display: none; } }
 
 @media (max-width: 900px) {
   .brand-section__head--split { height: 168px; grid-template-columns: minmax(116px, 34%) 1fr; }
