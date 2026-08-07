@@ -140,8 +140,15 @@ def main():
                json.load(open(MATCHED)).get(args.brand, [])}
     store = json.load(open(STORES)).get(args.brand, [])
 
-    live = drafted = 0
+    live = drafted = skipped = 0
     for r in sorted(rows, key=lambda x: -x["qty"]):
+        # One Anua row carries no selling price. A product without a price
+        # is not a product — it is a gap in the sheet, and guessing one
+        # would be inventing a number the merchant has to honour.
+        if not r["price"]:
+            print(f'  ⚠️  冇售價，跳過：{r["barcode"]}  {r["title"][:40]}')
+            skipped += 1
+            continue
         m = matched.get(r["barcode"]) or {}
         src = store[m["index"]] if m.get("index") is not None else None
         imgs = (src or {}).get("imgs", [])
@@ -169,6 +176,7 @@ def main():
         set_costs(item["handle"], [r])
 
     print(f'\n{args.brand}：{live} 件上架、{drafted} 件 draft'
+          + (f'、{skipped} 件冇售價跳過' if skipped else '')
           + ("（dry run）" if args.dry_run else ""))
 
 
