@@ -5875,3 +5875,75 @@ textarea:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .ing-sheet, .ing-sheet__box { animation: none; }
 }
+
+/* ─────────────────────────────────────────────
+   隱形眼鏡度數
+   ───────────────────────────────────────────── */
+
+/* Twenty-five powers. A wrapping row of full-width buttons turns into a
+   page of its own, so they sit in a tight grid you can scan for your own
+   number the way you scan a bus timetable for your stop. */
+.product-info__variants--power {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+  gap: 7px;
+}
+.power-btn {
+  padding: 9px 4px;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid var(--border-light, #e6e2dc);
+  background: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: border-color 160ms, background 160ms, color 160ms;
+}
+/* In stock and pre-order are told apart by weight and a tint, not by one
+   of them looking broken: a pre-order power is a thing you can buy, and
+   greying it out would read as "unavailable" and lose the sale. */
+.power-btn.is-ready { color: var(--text-primary, #2c2926); }
+.power-btn.is-preorder {
+  color: var(--text-secondary, #6f6a63);
+  border-style: dashed;
+  background: transparent;
+}
+.power-btn:hover { border-color: var(--primary, #6da3b5); }
+.power-btn.is-selected {
+  border-color: var(--primary, #6da3b5);
+  border-style: solid;
+  background: rgba(109,163,181,0.1);
+  color: var(--primary-deep, #3c6b7d);
+  font-weight: 600;
+}
+
+.power-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 12px;
+  font-size: 0.6875rem;
+  color: var(--text-tertiary, #9a9a9a);
+}
+.power-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.power-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 1px solid var(--border-light, #ddd);
+}
+.power-dot--ready { background: var(--primary, #6da3b5); border-color: transparent; }
+.power-dot--preorder { background: transparent; border-style: dashed; }
+
+.power-note {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.power-note.is-ready { background: rgba(109,163,181,0.09); color: #35637a; }
+.power-note.is-preorder { background: rgba(190,140,60,0.1); color: #8a5f22; }
+
+@media (max-width: 768px) {
+  .product-info__variants--power { grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 6px; }
+  .power-btn { padding: 8px 2px; font-size: 0.75rem; }
+}

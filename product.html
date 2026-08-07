@@ -106,6 +106,7 @@
               </div>
             </div>
           </div>
+          <a href="lens.html">隱形眼鏡</a>
           <a href="bodycare.html">身體護理</a>
           <a href="fragrance.html">香氛</a>
           <a href="lifestyle.html">生活風格</a>
@@ -175,7 +176,8 @@
           <a href="makeup.html?cat=highlight" class="mobile-nav__subitem">高光</a>
         </div>
       </div>
-      <a href="bodycare.html">身體護理</a>
+      <a href="lens.html">隱形眼鏡</a>
+          <a href="bodycare.html">身體護理</a>
       <a href="fragrance.html">香氛</a>
       <a href="lifestyle.html">生活風格</a>
       <a href="brands.html">品牌</a>
@@ -295,7 +297,8 @@
           <ul class="footer__links">
             <li><a href="shop.html">全部產品</a><a href="category.html">護膚</a></li>
             <li><a href="makeup.html">彩妝</a></li>
-            <li><a href="bodycare.html">身體護理</a></li>
+            <li><a href="lens.html">隱形眼鏡</a>
+          <a href="bodycare.html">身體護理</a></li>
             <li><a href="fragrance.html">香氛</a></li>
           </ul>
         </div>
@@ -604,16 +607,52 @@
 
       if (variants.length > 1 && optionsContainer) {
         const optionName = product.options?.[0]?.name || 'TYPE';
+        // Lenses are chosen by a number, not browsed. Twenty-five buttons
+        // each carrying the same price is a wall of noise; what a shopper
+        // needs is to find their own power and know whether it ships today
+        // or has to be ordered. Same price on every power, so it is shown
+        // once, above.
+        const isPower = optionName === '度數';
+        // A pre-order power is buyable — Shopify says availableForSale
+        // because its policy is CONTINUE — but the page has to say so
+        // before anyone pays, not after.
+        const inStock = (v) => (v.quantityAvailable ?? 0) > 0;
+
         optionsContainer.innerHTML = `
           <div class="product-info__option-label">${optionName}</div>
-          <div class="product-info__variants">
+          <div class="product-info__variants${isPower ? ' product-info__variants--power' : ''}">
             ${variants.map((v, i) => {
               const optionText = v.title !== 'Default Title' ? v.title : '';
+              if (isPower) {
+                const ready = inStock(v);
+                return `<button class="variant-btn power-btn ${ready ? 'is-ready' : 'is-preorder'} ${i === 0 ? 'is-selected' : ''}"
+                  data-variant-id="${v.id}" data-preorder="${ready ? '' : '1'}"
+                  title="${ready ? '現貨' : '預訂 · 約 14 日到貨'}">${optionText}</button>`;
+              }
               const vPrice = formatPrice(v.price.amount);
               return `<button class="variant-btn ${i === 0 ? 'is-selected' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${optionText}${optionText ? ' — ' : ''}${vPrice}</button>`;
             }).join('')}
           </div>
+          ${isPower ? `<div class="power-legend">
+            <span><i class="power-dot power-dot--ready"></i>現貨 ${variants.filter(inStock).length} 個度數</span>
+            <span><i class="power-dot power-dot--preorder"></i>預訂 ${variants.filter((v) => !inStock(v)).length} 個度數 · 約 14 日到貨</span>
+          </div>
+          <p class="power-note" data-power-note hidden></p>` : ''}
         `;
+
+        // Say it again next to the chosen power: the legend explains the
+        // colours, this says what the one you picked actually means.
+        const note = optionsContainer.querySelector('[data-power-note]');
+        const sayStock = (btn) => {
+          if (!note || !btn) return;
+          const pre = btn.dataset.preorder === '1';
+          note.hidden = false;
+          note.className = `power-note ${pre ? 'is-preorder' : 'is-ready'}`;
+          note.textContent = pre
+            ? `${btn.textContent} 冇現貨 —— 落單後我哋幫你叫貨，約 14 日到，可以照落單付款。`
+            : `${btn.textContent} 有現貨，落單即日出貨。`;
+        };
+        if (isPower) sayStock(optionsContainer.querySelector('.power-btn.is-selected'));
 
         // Variant click handler
         optionsContainer.querySelectorAll('.variant-btn').forEach(btn => {
@@ -621,6 +660,7 @@
             optionsContainer.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('is-selected'));
             btn.classList.add('is-selected');
             selectedVariantId = btn.dataset.variantId;
+            if (btn.classList.contains('power-btn')) sayStock(btn);
             const v = variants.find(v => v.id === selectedVariantId);
             showVariantImage(v);
             if (v && priceEl) {

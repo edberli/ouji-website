@@ -945,6 +945,17 @@ const CATEGORY_TAXONOMY = {
       highlight:  { label: '高光',   keywords: ['highlighter', 'highlight', '高光'] },
     },
   },
+  lens: {
+    label: '隱形眼鏡',
+    keywords: ['隱形眼鏡', 'contact lens', '美瞳', '日拋'],
+    subs: {
+      feliamo: { label: 'Feliamo', keywords: ['feliamo'] },
+      lilmoon: { label: 'Lilmoon', keywords: ['lilmoon'] },
+      molak: { label: 'Molak', keywords: ['molak'] },
+      nscollection: { label: "N's Collection", keywords: ["n's collection", 'ns collection'] },
+      topards: { label: 'TOPARDS', keywords: ['topards'] },
+    },
+  },
   'body-care': { label: '身體護理', keywords: ['body', 'body care', 'hand', 'hair', 'shampoo', '身體', '護手', '頭皮', '髮'] },
   fragrance:   { label: '香氛',     keywords: ['fragrance', 'perfume', 'eau de', 'mist', '香水', '香氛'] },
   lifestyle:   { label: '生活風格', keywords: ['lifestyle', 'accessory', 'tool', 'goods', '生活', '配件', '工具'] },
