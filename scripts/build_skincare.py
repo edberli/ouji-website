@@ -55,6 +55,8 @@ query($id: ID!) {
 KIND = [
     ("防曬", r"防曬|sun ?(?:screen|cream|serum|stick)|spf"),
     ("頭髮護理", r"頭皮|洗髮|髮絲|shampoo|scalp|hair"),
+    ("美容工具", r"刮刀|黑頭鏟|清潔刷|洗臉刷|潔面刷|刮痧|括痧|滾輪|美容儀|"
+                 r"棉棒|冷卻大師|\bbrush\b|\btool\b|spatula|device"),
     # 面膜 outranks 套裝 because "面膜套裝 [25毫升 x 10片]" is ten of the same
     # mask, not a kit of different things; and it outranks 局部護理 so an
     # acne sheet mask stays findable under 面膜.
@@ -63,14 +65,15 @@ KIND = [
     ("套裝", r"套裝|套組|入門組|kit\b|\bset\b"),
     ("潔面", r"潔面|洗面|卸妝|清潔|潔顏|潔.?[喱哩]|去角質|cleans|foam|"
              r"peeling|scrub|balm"),
-    ("眼霜", r"眼霜|眼部|眼下|eye ?(?:cream|patch|serum)"),
+    ("眼霜", r"眼霜|眼部|眼下|眼膜|eye ?(?:cream|patch|serum|mask)"),
     ("身體護理", r"身體|沐浴|護手|\bbody\b|hand ?cream"),
     ("爽膚水", r"爽膚水|化妝水|超能水|活膚水|噴霧|toner|mist"),
     # 精華 before 局部護理: a 祛痘 serum is still a serum. What is left for
     # 局部護理 is what only goes on one spot — patches, spot creams, gels.
     ("精華", r"精華|安瓶|肌底液|修護液|增強劑|serum|ampoule|essence|booster"),
-    ("局部護理", r"暗瘡貼|痘痘貼|暗瘡膏|祛痘|重點修護|spot"),
-    ("面霜", r"面霜|乳霜|修護霜|保濕霜|調理霜|水霜|凝露|凝霜|凝膠|cream|gel"),
+    ("局部護理", r"暗瘡貼|痘痘貼|鼻貼|清鼻|暗瘡膏|祛痘|重點修護|spot"),
+    ("面霜", r"面霜|乳霜|修護霜|保濕霜|調理霜|水霜|凝露|凝霜|凝膠|"
+             r"積雪草霜|moisture|cream|gel"),
     ("乳液", r"乳液|lotion|emulsion"),
     ("唇部護理", r"唇膜|潤唇|lip"),
 ]
@@ -83,6 +86,7 @@ TAGS_BY_KIND = {
     "唇部護理": "lip, 唇部護理", "身體護理": "body, 身體護理",
     "頭髮護理": "hair, 頭髮護理", "套裝": "set, 套裝",
     "局部護理": "spot care, 局部護理",
+    "美容工具": "tool, 美容工具",
 }
 
 
@@ -116,6 +120,7 @@ def body(title, kind, size, vendor):
         "身體護理": ("身體皮膚一樣會乾。", "沖完涼三分鐘內搽，鎖水效果最好。"),
         "頭髮護理": ("頭皮都係皮膚，一樣會出油會敏感。", "掉髮同頭皮狀態有關，護髮素搽落髮尾解決唔到頭皮嗰邊。"),
         "局部護理": ("邊度出事就搽邊度。", "高濃度成分只落喺一點，唔使成面孭住刺激。"),
+        "美容工具": ("用手做唔到嗰啲，交俾工具。", "工具唔會改善皮膚本身，佢做嘅係令你手上嗰啲產品用得順手啲。"),
         "套裝": ("成套配好，唔使自己夾。", "同一條線嘅產品一齊用，質地同成分先唔會打交。"),
     }.get(kind, ("韓國護膚。", "由品牌官方渠道入貨，逐件對條碼上架。"))
     specs = [f"容量／規格：{size}"] if size else []

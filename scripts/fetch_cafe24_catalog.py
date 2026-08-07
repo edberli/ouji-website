@@ -22,17 +22,18 @@ swatch-chart covers the makeup range had to be cleaned of.
 """
 import argparse
 import concurrent.futures as cf
+import html
 import json
 import os
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 
 STORES = "/tmp/skin/stores.json"
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 "
-                     "Safari/537.36")}
+                     "AppleWebKit/537.36 Chrome/120 Safari/537.36")}
 
 # Cafe24 stores keep non-products in /product/ too: payment landing pages,
 # shipping-fee line items, gift wrapping. They have no gallery, so they fall
@@ -47,8 +48,23 @@ def fetch(url, limit=900_000):
         return h.read(limit).decode("utf8", "ignore")
 
 
-def product_urls(host):
-    """Every /product/ URL the store lists in its own sitemap."""
+def product_urls(host, tries=6):
+    """Every /product/ URL the store lists in its own sitemap.
+
+    Cafe24 answers a burst of requests with a challenge page instead of the
+    sitemap, and the challenge looks like a successful 200 with no URLs in
+    it. Retry with a widening wait rather than reporting an empty catalogue.
+    """
+    for attempt in range(tries):
+        got = _sitemap_products(host)
+        if got:
+            return got
+        if attempt < tries - 1:
+            time.sleep(5 * (attempt + 1))
+    return []
+
+
+def _sitemap_products(host):
     seen, out = set(), []
     todo = [f"https://{host}/sitemap.xml"]
     while todo:
@@ -56,7 +72,13 @@ def product_urls(host):
             body = fetch(todo.pop(0), 4_000_000)
         except Exception:
             continue
-        for loc in re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", body):
+        # Cafe24 sometimes serves the sitemap through an HTML wrapper that
+        # eats the <loc> tags and leaves the URLs as bare text. Same list,
+        # different envelope — read whichever arrived.
+        found = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", body)
+        if not found:
+            found = re.findall(r"https?://[^\s<>\"']+", body)
+        for loc in found:
             if loc.endswith(".xml") and loc not in seen:
                 seen.add(loc)
                 todo.append(loc)
@@ -90,14 +112,23 @@ def read_product(url):
         imgs = [raw] if isinstance(raw, str) else list(raw)
         break
 
-    # Some pages carry no JSON-LD; fall back to the markup, which uses the
-    # same /web/product/ paths.
-    if not imgs:
-        imgs = re.findall(r'(?:src|data-src)="([^"]+/web/product/'
-                          r'(?:big|extra/big)/[^"]+)"', page)
+    # Extra gallery shots live under /extra/big/. Plain /big/ in the markup
+    # is the *cover of some other product* — Abib's page ends with a
+    # recommended-items rail, and pulling those in put a serum's packshot
+    # into a face cream's gallery. Merge only the extras.
+    imgs += re.findall(r'(?:src|data-src)="([^"]+/web/product/extra/big/[^"]+)"',
+                       page)
     if not name:
         m = re.search(r"<title>(.*?)</title>", page, re.S)
         name = m.group(1).strip() if m else ""
+
+    # Abib writes its product names as markup — "PDRN 글로우 세럼<br />
+    # <strong>4.0 펌프</strong>" — so the name has to be un-marked-up before
+    # it is used as a title or matched against our sheet.
+    name = re.sub(r"<br\s*/?>", " ", name)
+    name = re.sub(r"<[^>]+>", "", name)
+    name = html.unescape(name)
+    name = re.sub(r"\s+", " ", name).strip()
 
     # /web/product/big is the gallery; medium and small are the same photos
     # downscaled, and shipping them would put a 200px cover on the card.
