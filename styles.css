@@ -5581,3 +5581,48 @@ textarea:focus-visible,
   .brand-plate__name { font-size: 0.625rem; letter-spacing: 0.24em; }
 }
 }
+
+/* ============================================================
+   SOLD-OUT DISCLOSURE
+   Sold-out stock still gets listed — people search for it and it
+   comes back — but a grid opening on greyed-out cards reads as a
+   shop that has run dry. It sits behind a toggle at the end.
+   ============================================================ */
+.sold-out {
+  margin-top: var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-md);
+}
+.sold-out__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface, #fff);
+  color: var(--text-tertiary);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--duration-fast), border-color var(--duration-fast);
+}
+.sold-out__toggle::-webkit-details-marker { display: none; }
+.sold-out__toggle::after {
+  content: '';
+  width: 7px; height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform var(--duration-fast);
+}
+.sold-out[open] .sold-out__toggle::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.sold-out__toggle:hover { color: var(--text-secondary); border-color: var(--primary); }
+.sold-out__n {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surface-alt, #f4f2ec);
+  font-size: 0.6875rem;
+}
+.sold-out__grid { margin-top: var(--space-md); opacity: 0.62; }
+.sold-out__grid .product-card:hover { opacity: 1; }

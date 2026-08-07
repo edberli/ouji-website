@@ -168,6 +168,27 @@ function price(p) {
   return parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
 }
 
+function soldOut(p) {
+  const vs = p.variants?.edges || [];
+  return vs.length > 0 && !vs.some((e) => e.node.availableForSale);
+}
+
+/* The order you actually use the things in. A brand section used to list
+   a serum next to a sunscreen next to a toner in whatever order the
+   scorer produced, which reads as a pile rather than a routine. */
+const ROUTINE = ['潔面', '卸妝', '爽膚水', '棉片', '精華', '安瓶', '乳液',
+                 '面霜', '眼霜', '面膜', '防曬', '唇部護理', '身體護理',
+                 // makeup follows the order you put it on in
+                 '妝前乳', '底妝', '氣墊粉底', '粉底', '遮瑕', '蜜粉',
+                 '眼影', '眼線', '眼線筆', '睫毛膏', '眉筆',
+                 '胭脂', '修容', '高光', '多用彩妝',
+                 '唇膏', '唇釉', '唇彩', '唇蜜', '唇線筆', '潤唇膏'];
+
+function routineStep(p) {
+  const i = ROUTINE.indexOf(p.productType || '');
+  return i === -1 ? ROUTINE.length : i;   // unknown types sit at the end
+}
+
 /* The 分類 filter offers this section's subcategories, or — on the
    all-products page, where there is no one section — the top level. */
 function catOptions(section) {
@@ -371,6 +392,11 @@ function productCard(p) {
 function brandSection(vendor, items, index) {
   const logo = brandLogo(vendor);
   const plate = brandPlate(vendor);
+  // Within a brand, list the routine in the order you use it, then let
+  // the featured score decide inside each step.
+  const ordered = [...items].sort((a, b) =>
+    routineStep(a) - routineStep(b) || featuredScore(b) - featuredScore(a));
+  const [inStock, out] = splitStock(ordered);
   // A colour field, the brand's own logo, and its name. Photography was
   // tried twice and abandoned: nineteen brands shoot nineteen ways, half
   // of them burn their own wordmark into the frame, and nine publish
@@ -387,7 +413,8 @@ function brandSection(vendor, items, index) {
         <span class="brand-plate__name">${vendor}</span>
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
-      <div class="product-grid">${items.map(productCard).join('')}</div>
+      <div class="product-grid">${inStock.map(productCard).join('')}</div>
+      ${soldOutBlock(out, index)}
     </section>`;
 }
 
@@ -502,10 +529,30 @@ function buildBrandRail(order) {
 }
 
 /** Group into brand sections, or fall back to one grid when filtered. */
+/* Sold-out stock is still worth listing — people search for it, and it
+   comes back — but a grid opening on four greyed-out cards reads as a
+   shop that has run dry. It goes behind a disclosure at the end instead. */
+function splitStock(items) {
+  return [items.filter((p) => !soldOut(p)), items.filter(soldOut)];
+}
+
+function soldOutBlock(items, id) {
+  if (!items.length) return '';
+  return `<details class="sold-out" ${''}>
+    <summary class="sold-out__toggle">
+      <span>售完商品</span><span class="sold-out__n">${items.length}</span>
+    </summary>
+    <div class="product-grid sold-out__grid">${items.map(productCard).join('')}</div>
+  </details>`;
+}
+
 function renderProducts(container, products, { grouped }) {
   if (!grouped) {
     document.querySelector('.brand-rail')?.remove();
-    container.innerHTML = `<div class="product-grid">${products.map(productCard).join('')}</div>`;
+    const [inStock, out] = splitStock(products);
+    container.innerHTML =
+      `<div class="product-grid">${inStock.map(productCard).join('')}</div>`
+      + soldOutBlock(out, 'all');
     return;
   }
   const byVendor = new Map();
