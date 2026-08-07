@@ -65,13 +65,13 @@ KIND = [
     ("套裝", r"套裝|套組|入門組|kit\b|\bset\b"),
     ("潔面", r"潔面|洗面|卸妝|清潔|潔顏|潔.?[喱哩]|去角質|cleans|foam|"
              r"peeling|scrub|balm"),
-    ("眼霜", r"眼霜|眼部|眼下|眼膜|eye ?(?:cream|patch|serum|mask)"),
+    ("眼霜", r"眼霜|眼部|眼下|眼膜|眼膠|眼貼|eye ?(?:cream|patch|serum|mask|gel)"),
     ("身體護理", r"身體|沐浴|護手|\bbody\b|hand ?cream"),
     ("爽膚水", r"爽膚水|化妝水|超能水|活膚水|噴霧|toner|mist"),
     # 精華 before 局部護理: a 祛痘 serum is still a serum. What is left for
     # 局部護理 is what only goes on one spot — patches, spot creams, gels.
     ("精華", r"精華|安瓶|肌底液|修護液|增強劑|serum|ampoule|essence|booster"),
-    ("局部護理", r"暗瘡貼|痘痘貼|鼻貼|清鼻|暗瘡膏|祛痘|重點修護|spot"),
+    ("局部護理", r"暗瘡貼|痘痘貼|鼻貼|清鼻|暗瘡膏|祛痘|重點修護|局部|spot"),
     ("面霜", r"面霜|乳霜|修護霜|保濕霜|調理霜|水霜|凝露|凝霜|凝膠|"
              r"積雪草霜|moisture|cream|gel"),
     ("乳液", r"乳液|lotion|emulsion"),
