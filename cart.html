@@ -424,15 +424,21 @@
     itemsContainer.innerHTML = lines.map(line => {
       const merch = line.merchandise;
       const img = merch.image;
-      const options = merch.selectedOptions?.filter(o => o.name !== 'Title').map(o => o.value).join(' / ');
+      // Skincare has one variant per product, and Shopify names it 單一規格.
+      // Printing that as the product name left rows reading "單一規格"
+      // twice with the real product name pushed into the brand slot.
+      const placeholder = (v) => !v || v === 'Default Title' || v === '單一規格';
+      const options = merch.selectedOptions
+        ?.filter((o) => o.name !== 'Title' && !placeholder(o.value))
+        .map((o) => o.value).join(' / ');
       return `
         <div class="cart-item" data-line-id="${line.id}">
           <div class="cart-item__image">
             ${img ? `<img src="${img.url}" alt="${merch.product.title}">` : ''}
           </div>
           <div class="cart-item__details">
-            <span class="cart-item__brand">${merch.product.title}</span>
-            <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.title !== 'Default Title' ? merch.title : merch.product.title}</a></h3>
+            <span class="cart-item__brand">${merch.product.vendor || ''}</span>
+            <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.product.title}</a></h3>
             ${options ? `<span class="cart-item__variant">${options}</span>` : ''}
             <div class="cart-item__quantity">
               <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity - 1})" style="width:32px;height:32px;font-size:0.875rem;">−</button>

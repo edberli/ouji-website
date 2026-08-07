@@ -154,7 +154,47 @@ def read_product(url):
     if not name or not imgs:
         return None
     no = re.search(r"/(\d+)/?$", url)
-    return {"title": name, "handle": no.group(1) if no else url, "imgs": imgs}
+    return {"title": name, "handle": no.group(1) if no else url, "imgs": imgs,
+            "detail": detail_strips(page, host), "url": url}
+
+
+DETAIL_BLOCK = re.compile(
+    r'id="prdDetail"(.*?)(?:id="prdReview"|id="prdQnA"|<div class="titleArea"|</body>)',
+    re.S)
+
+
+def detail_strips(page, host):
+    """The tall marketing image under Product Info.
+
+    Korean stores tell the whole product story in one 640 x 10,000 strip
+    rather than in prose — ingredients, before/after, how to use. It is
+    the part of a product page a shopper actually reads, and skincare went
+    up without it. Only what is inside #prdDetail counts: the same page
+    also carries banners, delivery notices and a recommended-items rail.
+    """
+    block = DETAIL_BLOCK.search(page)
+    if not block:
+        return []
+    urls = re.findall(r'(?:src|data-src|ec-data-src)="([^"]+\.(?:jpg|jpeg|png|gif))"',
+                      block.group(1), re.I)
+    out = []
+    for u in urls:
+        u = re.sub(r"^https?:(?=https?://)", "", u.strip())
+        if u.startswith("//"):
+            u = "https:" + u
+        elif u.startswith("/"):
+            u = f"https://{host}{u}"
+        if any(s in u for s in SKIP_STRIP):
+            continue
+        if u not in out:
+            out.append(u)
+    return out
+
+
+# storefront furniture that sits inside #prdDetail but is not the product's
+# own story: delivery tables, seasonal event banners, icon sprites
+SKIP_STRIP = ("/common/", "/img/pc/", "/img/mobile/", "event/delivery",
+              "icon_", "btn_", "banner", "/OrderOption")
 
 
 def main():

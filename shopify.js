@@ -194,16 +194,31 @@ async function getCollections(first = 30) {
 // 購物車 API
 // ─────────────────────────────────────────────
 
+/**
+ * The market every cart belongs to.
+ *
+ * Shopify decides a cart's market from the buyer's IP unless it is told
+ * otherwise, and this shop's Markets only cover Hong Kong. A shopper
+ * connecting from anywhere else — mainland China, Taiwan, the US, or
+ * anyone behind a VPN — got a cart that accepted the line and then set its
+ * quantity to 0 with a MERCHANDISE_OUT_OF_STOCK warning: the item vanished
+ * with no error on screen and the badge stayed at 0.
+ *
+ * We sell in HKD and ship from Hong Kong, so pin every cart to HK rather
+ * than let the buyer's address decide whether the shop works.
+ */
+const CART_COUNTRY = 'HK';
+
 /** 建立購物車 */
 async function createCart() {
   const data = await shopifyFetch(`
-    mutation CreateCart {
-      cartCreate {
+    mutation CreateCart($country: CountryCode!) @inContext(country: $country) {
+      cartCreate(input: { buyerIdentity: { countryCode: $country } }) {
         cart { id checkoutUrl }
         userErrors { field message }
       }
     }
-  `);
+  `, { country: CART_COUNTRY });
   const cart = data?.cartCreate?.cart;
   if (cart) localStorage.setItem('shopify_cart_id', cart.id);
   return cart;
@@ -223,7 +238,7 @@ async function getCart() {
   if (!cartId) return null;
 
   const data = await shopifyFetch(`
-    query GetCart($cartId: ID!) {
+    query GetCart($cartId: ID!, $country: CountryCode!) @inContext(country: $country) {
       cart(id: $cartId) {
         id checkoutUrl totalQuantity
         cost {
@@ -240,7 +255,7 @@ async function getCart() {
                   id title
                   price { amount currencyCode }
                   image { url altText }
-                  product { title handle }
+                  product { title handle vendor }
                   selectedOptions { name value }
                 }
               }
@@ -249,25 +264,42 @@ async function getCart() {
         }
       }
     }
-  `, { cartId });
+  `, { cartId, country: CART_COUNTRY });
   return data?.cart;
 }
 
 /** 加入商品到購物車 */
-async function addToCart(variantId, quantity = 1) {
+async function addToCart(variantId, quantity = 1, retried = false) {
   const cartId = await getOrCreateCartId();
   const data = await shopifyFetch(`
-    mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!) {
+    mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!, $country: CountryCode!)
+    @inContext(country: $country) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
         cart { id totalQuantity }
         userErrors { field message }
+        warnings { code message }
       }
     }
   `, {
     cartId,
-    lines: [{ merchandiseId: variantId, quantity }]
+    lines: [{ merchandiseId: variantId, quantity }],
+    country: CART_COUNTRY,
   });
   const result = data?.cartLinesAdd;
+
+  // Shopify accepts the line and then silently zeroes it when the cart
+  // belongs to a market that does not carry the product. A cart saved
+  // before the market was pinned stays stuck that way for as long as it
+  // sits in localStorage, so throw it away and build a new one — once.
+  const swallowed = result?.cart && result.cart.totalQuantity === 0 && quantity > 0;
+  if (swallowed && !retried) {
+    localStorage.removeItem('shopify_cart_id');
+    return addToCart(variantId, quantity, true);
+  }
+  if (result?.warnings?.length) {
+    console.warn('購物車警告:', result.warnings.map((w) => `${w.code} ${w.message}`).join(' / '));
+  }
+
   // 如果 mutation 回傳嘅 cart 有錯或 cart ID 過期，重新取得
   if (result?.cart?.totalQuantity != null) {
     updateCartBadge(result.cart.totalQuantity);
@@ -283,7 +315,8 @@ async function addToCart(variantId, quantity = 1) {
 async function updateCartLine(lineId, quantity) {
   const cartId = localStorage.getItem('shopify_cart_id');
   const data = await shopifyFetch(`
-    mutation UpdateCart($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    mutation UpdateCart($cartId: ID!, $lines: [CartLineUpdateInput!]!, $country: CountryCode!)
+    @inContext(country: $country) {
       cartLinesUpdate(cartId: $cartId, lines: $lines) {
         cart { id totalQuantity }
         userErrors { field message }
@@ -291,7 +324,8 @@ async function updateCartLine(lineId, quantity) {
     }
   `, {
     cartId,
-    lines: [{ id: lineId, quantity }]
+    lines: [{ id: lineId, quantity }],
+    country: CART_COUNTRY,
   });
   const result = data?.cartLinesUpdate;
   if (result?.cart?.totalQuantity != null) updateCartBadge(result.cart.totalQuantity);
@@ -302,13 +336,14 @@ async function updateCartLine(lineId, quantity) {
 async function removeCartLine(lineId) {
   const cartId = localStorage.getItem('shopify_cart_id');
   const data = await shopifyFetch(`
-    mutation RemoveCartLine($cartId: ID!, $lineIds: [ID!]!) {
+    mutation RemoveCartLine($cartId: ID!, $lineIds: [ID!]!, $country: CountryCode!)
+    @inContext(country: $country) {
       cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
         cart { id totalQuantity }
         userErrors { field message }
       }
     }
-  `, { cartId, lineIds: [lineId] });
+  `, { cartId, lineIds: [lineId], country: CART_COUNTRY });
   const result = data?.cartLinesRemove;
   if (result?.cart?.totalQuantity != null) updateCartBadge(result.cart.totalQuantity);
   return result;
