@@ -57,9 +57,23 @@ def fetch(url, limit=900_000):
 
 
 def slugs(shade):
+    """Every way these sites might have spelled it.
+
+    "Pearl CatsEye" is pearl_cats_eye on topards.jp — the brand splits a
+    word our own listing runs together, and the site answers 200 for the
+    wrong slug, so a missing form looks like a missing colour rather than
+    a missing guess."""
     s = re.sub(r"[^a-z0-9]+", "_", shade.lower()).strip("_")
     flat = s.replace("_", "")
-    return [s, flat, f"{s}_1day", f"{flat}_1day", f"1day_{s}"]
+    # split runs like "catseye" -> "cats_eye" on known joins
+    split = s
+    for a, b in (("catseye", "cats_eye"), ("cateye", "cat_eye"),
+                 ("catspearl", "cat_pearl")):
+        split = split.replace(a, b)
+    out = [s, split, flat]
+    for base in (s, split, flat):
+        out += [f"{base}_1day", f"1day_{base}"]
+    return list(dict.fromkeys(out))
 
 
 def from_brand(colour):
@@ -82,16 +96,33 @@ def from_brand(colour):
             continue
         found = re.findall(r'(?:src|data-src)="([^"]+\.(?:jpe?g|png|webp))"',
                            page, re.I)
+        # Every colour page ends with a rail of the other colours, each
+        # with its own lens.png — the same trap Abib's recommended-items
+        # rail set. An image counts only if it sits in *this* colour's
+        # directory. The directory uses the run-together spelling even
+        # when the page slug is split, so accept either.
+        dirs = {f"/{d}/" for d in (s, s.replace("_", ""), want)}
         imgs = []
         for u in dict.fromkeys(found):
             if any(k in u.lower() for k in SKIP):
                 continue
             full = urllib.parse.urljoin(url, u)
-            if f"/{s}/" in full or want in re.sub(r"[^a-z0-9]", "", full.lower()):
+            low = full.lower()
+            # lineup_*.png are the front page's thumbnails, not the product
+            if "lineup_" in low:
+                continue
+            if any(d in low for d in dirs):
                 imgs.append(full)
         if imgs:
-            # @2x first: it is the packshot at print resolution.
-            imgs.sort(key=lambda u: (0 if "@2x" in u else 1, "sample" in u, u))
+            # the packshot and the worn-eye shot lead; @2x is print-res
+            order = ("package", "lens_on", "product", "sample", "image")
+            def rank(u):
+                n = u.rsplit("/", 1)[-1].lower()
+                for i, k in enumerate(order):
+                    if k in n:
+                        return (i, 0 if "@2x" in n else 1, n)
+                return (len(order), 1, n)
+            imgs.sort(key=rank)
             return imgs[:10]
     return []
 
