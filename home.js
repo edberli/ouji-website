@@ -10,7 +10,7 @@
  * pages order 推薦: margin first, awards as the counterweight.
  */
 async function initHome() {
-  const all = await getProducts({ first: 250 });
+  const all = await getAllProducts();
   const products = (all?.edges || []).map((e) => e.node)
     .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale);
   if (!products.length) return;
@@ -44,9 +44,18 @@ async function initHome() {
   };
 
   /* ----- the counts in the about block, from the catalogue itself ----- */
+  // The count-up animation reads `data-count` when the block scrolls into
+  // view, so setting it is usually enough. Usually — but not if the counter
+  // has already run (reduced motion writes the numbers at load, and a short
+  // window can have the block in view before this fetch returns). In that
+  // case the markup's placeholder is what the shopper is left looking at, so
+  // overwrite the text as well.
   const stat = (key, n) => {
     const el = document.querySelector(`[data-stat="${key}"]`);
-    if (el) el.dataset.count = n;          // the counter animation reads this
+    if (!el) return;
+    const spent = el.textContent.trim() !== '0' || el.classList.contains('is-counting');
+    el.dataset.count = n;
+    if (spent) el.textContent = (el.dataset.prefix || '') + n.toLocaleString() + (el.dataset.suffix || '');
   };
   stat('products', products.length);
   stat('brands', new Set(products.map((p) => p.vendor)).size);

@@ -325,7 +325,7 @@
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
 
-    const all = await getProducts({ first: 250 });
+    const all = await getAllProducts();
     const byHandle = new Map((all?.edges || []).map((e) => [e.node.handle, e.node]));
 
     const entries = awardedProducts()

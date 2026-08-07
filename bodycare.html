@@ -349,7 +349,7 @@
     const section = params.get('collection') ||
       (pathCollection ? decodeURIComponent(pathCollection) : null) || 'body-care';
     const cat = params.get('cat');
-    const products = await getCategoryProducts({ section, cat, first: 48 });
+    const products = await getCategoryProducts({ section, cat });
     applyCategoryHeading(section, cat);
 
     if (!products.length) {

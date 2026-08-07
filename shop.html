@@ -348,7 +348,7 @@
     const pathCollection = (location.pathname.match(/^\/collections\/([^/]+)/) || [])[1];
     // 全部產品：唔限 section，直接攞成個目錄
     const cat = params.get('cat');
-    const all = await getProducts({ first: 250 });
+    const all = await getAllProducts();
     let products = all?.edges?.map((e) => e.node) ?? [];
     if (cat) {
       products = products.filter((p) =>

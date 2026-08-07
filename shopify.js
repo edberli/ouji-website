@@ -73,6 +73,28 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
   return data?.products;
 }
 
+/**
+ * Every product, not the first page of them.
+ *
+ * The Storefront API caps `first` at 250. That was invisible while the
+ * catalogue was smaller than a page, but the shop passed 250 the day the
+ * skincare range went up, and every caller asking for `first: 250` was
+ * silently dropping the remainder — a third of the catalogue missing from
+ * the grid, the matcher and the homepage with no error anywhere.
+ */
+async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
+  const out = [];
+  let after = null;
+  while (out.length < max) {
+    const page = await getProducts({ collectionHandle, first: pageSize, after });
+    const edges = page?.edges || [];
+    out.push(...edges);
+    if (!page?.pageInfo?.hasNextPage || !edges.length) break;
+    after = page.pageInfo.endCursor;
+  }
+  return { edges: out };
+}
+
 /** 取得單一商品詳情 */
 async function getProduct(handle) {
   const data = await shopifyFetch(`
@@ -939,16 +961,19 @@ function categoryLabel(section, cat) {
  * falls back to scanning the catalogue and filtering by taxonomy.
  * Always applies the subcategory filter when `cat` is given.
  */
-async function getCategoryProducts({ section, cat = null, first = 48 } = {}) {
+async function getCategoryProducts({ section, cat = null } = {}) {
   let products = [];
   try {
-    const viaCollection = await getProducts({ collectionHandle: section, first });
+    // Paged, not `first: 48`. The old cap silently decided which brands the
+    // 護膚 page showed — whichever four happened to land in the first 48 of
+    // the collection — and there was nothing on screen to say so.
+    const viaCollection = await getAllProducts({ collectionHandle: section });
     products = viaCollection?.edges?.map((e) => e.node) ?? [];
   } catch (e) {
     products = [];
   }
   if (!products.length) {
-    const all = await getProducts({ first: 250 });
+    const all = await getAllProducts();
     const everything = all?.edges?.map((e) => e.node) ?? [];
     products = everything.filter((p) => matchesKeywords(p, categoryKeywords(section, null)));
   }
