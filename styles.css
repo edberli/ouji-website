@@ -4339,11 +4339,24 @@ textarea:focus-visible,
 }
 /* copy block reads better narrower than the imagery */
 .product-tabs--full .product-description > p,
+.product-tabs--full .product-description > h3,
 .product-tabs--full .product-description > ul {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 }
+/* 優點 / 用法 / 主要成分 — small headings inside the copy, not page titles */
+.product-description > h3 {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--primary-deep, var(--text-primary));
+  margin: var(--space-lg) 0 var(--space-xs);
+}
+.product-description > h3:first-child { margin-top: 0; }
+.product-description > ul { padding-left: 1.15em; }
+.product-description > ul li { margin-bottom: 4px; }
 .product-copy__hook {
   font-family: var(--font-serif, 'Noto Serif TC', serif);
   font-size: clamp(1.15rem, 2vw, 1.5rem);
