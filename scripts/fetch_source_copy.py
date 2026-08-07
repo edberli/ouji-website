@@ -29,8 +29,10 @@ OUT = "/tmp/skin/copy.json"
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                      "AppleWebKit/537.36 Chrome/120 Safari/537.36")}
 
-# Where each brand's imagery came from, and therefore where its words are.
-RETAILERS = ["nudieglow", "hikoco", "kbeautyworld", "seoulmills"]
+# Every stockist catalogue that has been cached, whichever pass fetched it.
+# Naming them one by one meant the eight added in the second sweep were
+# never read, and the products sourced from them came out wordless.
+import glob
 
 
 def text_of(body_html):
@@ -73,13 +75,12 @@ def retailer_bodies():
     """The stockists' listings, keyed by handle. They write the fullest
     English copy of anyone — description, ingredients, how to use."""
     out = {}
-    for name in RETAILERS:
-        path = f"/tmp/skin/ret_{name}.json"
-        if not os.path.exists(path):
-            continue
+    for path in sorted(glob.glob("/tmp/skin/ret_*.json")):
         with open(path) as f:
             for p in json.load(f):
-                out.setdefault(p["handle"], text_of(p.get("body_html")))
+                body = text_of(p.get("body_html"))
+                if len(body) > len(out.get(p["handle"], "")):
+                    out[p["handle"]] = body
     return out
 
 
@@ -96,13 +97,16 @@ def main():
             copy = json.load(f)
 
     for brand, rows in matched.items():
-        if only and brand not in (only, f"{only} RET"):
+        if only and brand.split(" RET")[0].split(" SK")[0].split(" R2")[0] != only:
             continue
         store = stores.get(brand, [])
         # "<Brand> RET" is a stockist list matched purely for its words —
         # the Cafe24 brands tell their whole story in images, so their own
         # pages carry no text at all to translate.
-        base = brand[:-4] if brand.endswith(" RET") else brand
+        base, borrowed = brand, False
+        for tag in (" RET", " SK", " R2"):
+            if brand.endswith(tag):
+                base, borrowed = brand[:-len(tag)], True
         bodies = shopify_bodies(hosts[base]) if base in hosts else {}
         got = 0
         for m in rows:
@@ -115,7 +119,7 @@ def main():
                 continue
             # A brand's own words beat a stockist's, so the RET pass fills
             # gaps rather than overwriting what the maker wrote.
-            if brand.endswith(" RET") and m["barcode"] in copy:
+            if borrowed and m["barcode"] in copy:
                 continue
             copy[m["barcode"]] = {"brand": base, "source": src["title"],
                                   "text": body[:4000]}

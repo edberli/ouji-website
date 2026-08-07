@@ -149,15 +149,25 @@ def set_costs(handle, rows):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("brand")
+    # A brand can be sourced twice: once from its own store, and again from
+    # an exporter for the sizes that store never listed. --source picks
+    # which catalogue the imagery comes from, --only limits the run to the
+    # products still waiting for one.
+    ap.add_argument("--source", help="stores.json / matched.json key")
+    ap.add_argument("--only", help="檔案，每行一個 barcode")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+    source = args.source or args.brand
 
     rows = by_vendor(load(args.brand)).get(args.brand, [])
     if not rows:
         raise SystemExit(f"{args.brand}: 個 sheet 入面搵唔到")
+    if args.only:
+        want = {l.strip() for l in open(args.only) if l.strip()}
+        rows = [r for r in rows if r["barcode"] in want]
     matched = {str(m["barcode"]): m for m in
-               json.load(open(MATCHED)).get(args.brand, [])}
-    store = json.load(open(STORES)).get(args.brand, [])
+               json.load(open(MATCHED)).get(source, [])}
+    store = json.load(open(STORES)).get(source, [])
 
     live = drafted = skipped = 0
     for r in sorted(rows, key=lambda x: -x["qty"]):

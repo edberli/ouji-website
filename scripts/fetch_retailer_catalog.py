@@ -33,7 +33,9 @@ UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
 # Ordered by how well each one photographs the product on white. The first
 # stockist that carries a product wins; the rest fill the gaps.
 STOCKISTS = ["nudieglow.com", "hikoco.co.nz", "kbeautyworld.com",
-             "seoulmills.com"]
+             "seoulmills.com", "stylestory.com.au", "asianbeautyessentials.com",
+             "koreanskincare.nl", "luxiface.com", "wishtrend.com",
+             "seoulceuticals.com", "limese.com", "hermo.my"]
 
 CACHE = "/tmp/skin/ret_{}.json"
 

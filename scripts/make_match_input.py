@@ -28,9 +28,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("brand")
     ap.add_argument("--key", help="stores.json key, if not the brand name")
+    # A second pass only needs the products that are still without a photo.
+    # Feeding the model the ones already matched wastes its attention and
+    # invites it to re-decide something that is already right.
+    ap.add_argument("--only", help="檔案，每行一個 barcode（淨係配呢啲）")
     args = ap.parse_args()
 
     rows = by_vendor(load(args.brand)).get(args.brand, [])
+    if args.only:
+        want = {l.strip() for l in open(args.only) if l.strip()}
+        rows = [r for r in rows if r["barcode"] in want]
     store = json.load(open(STORES)).get(args.key or args.brand, [])
     if not rows or not store:
         raise SystemExit(f"{args.brand}: 庫存 {len(rows)} 件、官網 {len(store)} 件，做唔到")

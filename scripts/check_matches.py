@@ -82,9 +82,16 @@ def main():
 
     bad = total = 0
     for brand, rows in matched.items():
-        if brand.endswith(" RET") or (only and brand != only):
+        # "<Brand> RET" is a stockist list borrowed for its words only.
+        # "<Brand> SK" is a second imagery source and does need checking.
+        if brand.endswith(" RET"):
             continue
         base = brand
+        for tag in (" SK", " R2"):
+            if brand.endswith(tag):
+                base = brand[:-len(tag)]
+        if only and base != only:
+            continue
         store = stores.get(brand, [])
         ours = {r["barcode"]: r["title"] for r in by_vendor(load(base)).get(base, [])}
         flagged = []
