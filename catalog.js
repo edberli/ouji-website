@@ -420,10 +420,18 @@ function brandSection(vendor, items, index) {
 }
 
 /**
- * A rail down the side listing the brands on the page, marking the one
- * you are scrolling through. With eleven brands stacked the page runs to
- * several screens, and without it there is no way to tell where you are
- * or to skip ahead.
+ * The wave down the side of the page: which brand you are in, and a way
+ * to move between them by running a finger along it.
+ *
+ * It used to be a row of ticks in a glass pill, with the brand's name
+ * hidden until you hovered a 4px target — which on a phone meant the
+ * name never appeared at all, because a phone has no hover. And landing
+ * on a brand took two actions: hover to aim, then tap to go.
+ *
+ * Now: no frame, just the water. One label rides above the crest and
+ * always says where you are. Moving along the rail moves the page with
+ * you — pointer or finger, no second tap — so it reads as scrubbing
+ * through the shop rather than operating a control.
  */
 function buildBrandRail(order) {
   document.querySelector('.brand-rail')?.remove();
@@ -432,35 +440,43 @@ function buildBrandRail(order) {
   const rail = document.createElement('nav');
   rail.className = 'brand-rail';
   rail.setAttribute('aria-label', '品牌導覽');
-  rail.innerHTML = `<span class="brand-rail__crest" aria-hidden="true"></span>`
+  rail.innerHTML = '<span class="brand-rail__label" aria-hidden="true"></span>'
     + order.map(([vendor], i) => `
-    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}" style="--fall:0">
-      <span class="brand-rail__tick"></span>
-      <span class="brand-rail__name">${vendor}</span>
-    </a>`).join('');
+    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
+       aria-label="${vendor}" style="--fall:0"><span class="brand-rail__tick"></span></a>`).join('');
   document.body.appendChild(rail);
 
   const items = [...rail.querySelectorAll('.brand-rail__item')];
+  const label = rail.querySelector('.brand-rail__label');
   const sections = [...document.querySelectorAll('.brand-section')];
+  const names = order.map(([vendor]) => vendor);
 
-  // Each tick's length falls off with its distance from the current one,
-  // so the rail reads as a swell in the water rather than a list with one
-  // item bolded. CSS turns --d into width, opacity and offset.
-  // `at` may be fractional: the scrollspy passes a whole index, the
-  // pointer passes wherever it actually is between two ticks, which is
-  // what makes the swell track a finger rather than snap to the nearest
-  // brand.
+  /**
+   * Height falls off with distance from the crest, so the ticks read as a
+   * swell rather than a list with one entry bolded. cos gives a rounded
+   * shoulder where a linear falloff gave a tent.
+   */
+  const swell = (d) => (d >= 2.6 ? 0 : (Math.cos((d / 2.6) * Math.PI) + 1) / 2);
+
   const mark = (at, current = Math.round(at)) => {
     items.forEach((el, n) => {
       el.classList.toggle('is-current', n === current);
-      // Compute the falloff here rather than in CSS: nesting a var() inside
-      // max()/calc() for --fall resolved once and left every tick sized off
-      // its index instead of its distance from the crest.
-      el.style.setProperty('--fall', String(Math.max(0, 1 - Math.abs(n - at) * 0.22)));
+      // Computed here rather than in CSS: nesting a var() inside max()/calc()
+      // resolved once and left every tick sized off its index.
+      el.style.setProperty('--fall', String(swell(Math.abs(n - at))));
     });
     rail.style.setProperty('--crest', String(at));
+    if (label && names[current] !== undefined) {
+      label.textContent = names[current];
+      // The label sits over the crest, clamped so it never hangs off the
+      // edge of a phone screen at the first or last brand.
+      const box = items[current]?.getBoundingClientRect();
+      const railBox = rail.getBoundingClientRect();
+      if (box && railBox.width > railBox.height) {
+        label.style.left = `${box.left + box.width / 2 - railBox.left}px`;
+      }
+    }
   };
-  mark(0);
 
   /* Where the pointer sits along the rail, as a fractional index. The rail
      is vertical on desktop and horizontal on mobile, so the axis is read
@@ -484,16 +500,40 @@ function buildBrandRail(order) {
   }
 
   let tracking = false;
+  let landed = -1;
+
+  /**
+   * Move the page to a brand. Instant, not smoothed: while a finger is
+   * running along the rail, a smooth scroll queues up animations behind
+   * the finger and the page arrives somewhere the finger has already left.
+   */
+  function goTo(i, smooth) {
+    const sec = sections[i];
+    if (!sec || i === landed) return;
+    landed = i;
+    const y = window.scrollY + sec.getBoundingClientRect().top
+      - (parseFloat(getComputedStyle(document.documentElement)
+        .getPropertyValue('--header-height')) || 72) - 12;
+    window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+  }
+
   const follow = (e) => {
     const t = e.touches ? e.touches[0] : e;
     if (!t) return;
     tracking = true;
-    // The pointer wins over the scroll position while it is on the rail,
-    // so hovering ahead previews where you are about to jump.
-    mark(indexAt(t.clientX, t.clientY));
+    rail.classList.add('is-live');
+    const at = indexAt(t.clientX, t.clientY);
+    mark(at);
+    // Hover takes you there — the whole point of the change. No second tap.
+    goTo(Math.round(at), false);
     if (e.cancelable) e.preventDefault();   // don't scroll the page mid-drag
   };
-  const release = () => { tracking = false; spy(); };
+  const release = () => {
+    tracking = false;
+    landed = -1;
+    rail.classList.remove('is-live');
+    spy();
+  };
 
   rail.addEventListener('pointermove', follow);
   rail.addEventListener('pointerleave', release);
@@ -519,13 +559,17 @@ function buildBrandRail(order) {
   // background tabs, which left the rail stuck on the first brand.
   window.addEventListener('scroll', spy, { passive: true });
   window.addEventListener('resize', spy, { passive: true });
+  mark(0);
   spy();
 
+  // Tapping still works — for a keyboard, a screen reader, and for anyone
+  // who aims before committing.
   rail.addEventListener('click', (e) => {
     const a = e.target.closest('[data-rail]');
     if (!a) return;
     e.preventDefault();
-    sections[+a.dataset.rail]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    landed = -1;
+    goTo(+a.dataset.rail, true);
   });
 }
 
