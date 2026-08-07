@@ -176,8 +176,9 @@ function soldOut(p) {
 /* The order you actually use the things in. A brand section used to list
    a serum next to a sunscreen next to a toner in whatever order the
    scorer produced, which reads as a pile rather than a routine. */
-const ROUTINE = ['潔面', '卸妝', '爽膚水', '棉片', '精華', '安瓶', '乳液',
-                 '面霜', '眼霜', '面膜', '防曬', '唇部護理', '身體護理',
+const ROUTINE = ['潔面', '卸妝', '爽膚水', '棉片', '精華', '安瓶', '局部護理',
+                 '乳液', '面霜', '眼霜', '面膜', '防曬', '唇部護理',
+                 '身體護理', '頭髮護理', '套裝',
                  // makeup follows the order you put it on in
                  '妝前乳', '底妝', '氣墊粉底', '粉底', '遮瑕', '蜜粉',
                  '眼影', '眼線', '眼線筆', '睫毛膏', '眉筆',

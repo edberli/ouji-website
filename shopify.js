@@ -879,6 +879,7 @@ const CATEGORY_TAXONOMY = {
     subs: {
       cleanser:    { label: '潔面',     keywords: ['cleanser', 'cleansing', 'cleansing foam', '潔面', '洗面', '클렌징'] },
       toner:       { label: '爽膚水',   keywords: ['toner', '爽膚水', '化妝水', '토너'] },
+      pad:         { label: '棉片',     keywords: ['pad', '棉片', '化妝棉', '패드'] },
       serum:       { label: '精華液',   keywords: ['serum', 'essence', 'ampoule', '精華', '安瓶', '에센스', '앰플'] },
       moisturizer: { label: '乳液',     keywords: ['moisturizer', 'lotion', 'cream', 'emulsion', '乳液', '面霜', '크림'] },
       mask:        { label: '面膜',     keywords: ['mask', 'sheet mask', 'mask pack', '面膜', '마스크', '팩'] },
