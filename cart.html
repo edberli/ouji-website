@@ -254,52 +254,15 @@
           <a href="category.html" class="btn--ghost" style="display: inline-flex; align-items: center;">繼續選購</a>
         </div>
 
-        <!-- You May Also Like -->
-        <section class="section--sm">
-          <div class="section-header section-header--split reveal" style="margin-bottom: var(--space-2xl);">
+        <!-- 完成程序：由購物袋內容計出嚟，唔係寫死嘅樣板 -->
+        <section class="section--sm" data-next-steps hidden>
+          <div class="section-header section-header--split" style="margin-bottom: var(--space-2xl);">
             <div>
-              <span class="label section-header__label">完善你的護膚程序</span>
-              <h2 class="heading-lg section-header__title">為你推薦</h2>
+              <span class="label section-header__label">完成你嘅護膚程序</span>
+              <h2 class="heading-lg section-header__title" data-next-title>仲差呢幾步</h2>
             </div>
           </div>
-          <div class="product-grid reveal-stagger">
-            <a href="product.html" class="product-card">
-              <div class="product-card__image-wrap">
-                <img class="product-card__image" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=480&q=80" alt="ANUA Toner" loading="lazy" decoding="async">
-                <div class="product-card__quick-add">快速加入</div>
-              </div>
-              <span class="product-card__brand">ANUA</span>
-              <span class="product-card__name">Heartleaf 77% Soothing Toner</span>
-              <span class="product-card__price">HK$198</span>
-            </a>
-            <a href="product.html" class="product-card">
-              <div class="product-card__image-wrap">
-                <img class="product-card__image" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=480&q=80" alt="Abib Cleanser" loading="lazy" decoding="async">
-                <div class="product-card__quick-add">快速加入</div>
-              </div>
-              <span class="product-card__brand">Abib</span>
-              <span class="product-card__name">弱酸性 pH 潔面啫喱 Green Tea</span>
-              <span class="product-card__price">HK$128</span>
-            </a>
-            <a href="product.html" class="product-card">
-              <div class="product-card__image-wrap">
-                <img class="product-card__image" src="https://images.unsplash.com/photo-1583209814683-c023dd293cc6?w=480&q=80" alt="TOCOBO Sunscreen" loading="lazy" decoding="async">
-                <div class="product-card__quick-add">快速加入</div>
-              </div>
-              <span class="product-card__brand">TOCOBO</span>
-              <span class="product-card__name">Bio Watery Sun Cream SPF50+</span>
-              <span class="product-card__price">HK$128</span>
-            </a>
-            <a href="product.html" class="product-card">
-              <div class="product-card__image-wrap">
-                <img class="product-card__image" src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=480&q=80" alt="MIXSOON Essence" loading="lazy" decoding="async">
-                <div class="product-card__quick-add">快速加入</div>
-              </div>
-              <span class="product-card__brand">MIXSOON</span>
-              <span class="product-card__name">Bean Essence 發酵大豆精華液</span>
-              <span class="product-card__price">HK$168</span>
-            </a>
-          </div>
+          <div class="next-steps" data-next-body></div>
         </section>
 
       </div>
@@ -457,14 +420,10 @@
       `;
     }).join('');
 
-    // 同一籃嘢入面唔啱一齊用嘅組合。放喺清單同總數之間 —— 見到嘅時候
-    // 仲改得切，去到結帳頁先講已經太遲。
+    // 買精華嘅人係喺度砌緊一套護膚，唔係買緊一件貨。同一套仲差邊幾步，
+    // 就係佢最想知、亦都係最抬得起單價嘅嘢。
     if (typeof loadIngredients === 'function') {
-      loadIngredients().then(() => {
-        const host = document.querySelector('[data-cart-notes]');
-        if (!host) return;
-        host.innerHTML = basketNotesHtml(lines.map((l) => l.merchandise.product.handle));
-      });
+      suggestNextSteps(lines.map((l) => l.merchandise.product.handle));
     }
 
     // Update totals
@@ -487,6 +446,81 @@
   });
 
   // Global functions for cart actions
+  /**
+   * What the basket is missing, and one product to fill each gap.
+   *
+   * The block this replaces was four hard-coded Unsplash photos, one of
+   * them a brand we do not stock, all four linking to a bare product.html.
+   * These are live products, chosen for the steps this particular basket
+   * has not covered yet, ordered the way the category pages order 推薦.
+   */
+  async function suggestNextSteps(handles) {
+    const host = document.querySelector('[data-next-steps]');
+    const body = document.querySelector('[data-next-body]');
+    const title = document.querySelector('[data-next-title]');
+    if (!host || !body) return;
+
+    await loadIngredients();
+    const gaps = routineGaps(handles);
+    if (!gaps.missing.length) {
+      host.hidden = true;
+      return;
+    }
+
+    const [all, rank] = await Promise.all([
+      getAllProducts(),
+      fetch('featured.json').then((r) => (r.ok ? r.json() : null))
+        .then((d) => d?.profitRank || {}).catch(() => ({})),
+    ]);
+    const pool = (all?.edges || []).map((e) => e.node)
+      .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale)
+      .filter((p) => !handles.includes(p.handle));
+
+    const picks = gaps.missing.map((step) => {
+      const of = pool.filter((p) => p.productType === step
+        || (step === '面霜' && p.productType === '乳液')
+        || (step === '精華' && p.productType === '安瓶'));
+      if (!of.length) return null;
+      of.sort((a, b) => (rank[b.handle] || 0) - (rank[a.handle] || 0));
+      return { step, product: of[0] };
+    }).filter(Boolean).slice(0, 3);
+
+    if (!picks.length) {
+      host.hidden = true;
+      return;
+    }
+    if (title) title.textContent = `仲差 ${picks.map((p) => p.step).join('、')}`;
+    host.hidden = false;
+    body.innerHTML = picks.map(({ step, product }) => {
+      const img = product.images?.edges?.[0]?.node;
+      const v = product.variants?.edges?.[0]?.node;
+      const money = formatPrice(product.priceRange.minVariantPrice.amount);
+      return `<div class="next-step">
+        <span class="next-step__tag">${step}</span>
+        <a class="next-step__card" href="/products/${product.handle}">
+          ${img ? `<img src="${img.url}" alt="${product.title}" loading="lazy">` : ''}
+          <span class="next-step__brand">${product.vendor || ''}</span>
+          <span class="next-step__name">${product.title}</span>
+        </a>
+        <p class="next-step__why">${STEP_PITCH[step] || ''}</p>
+        <div class="next-step__foot">
+          <span class="next-step__price">${money}</span>
+          <button class="btn btn--sm" data-add="${v?.id || ''}">加入購物袋</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    body.querySelectorAll('[data-add]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!btn.dataset.add) return;
+        btn.disabled = true;
+        btn.textContent = '加緊…';
+        await addToCart(btn.dataset.add, 1);
+        location.reload();
+      });
+    });
+  }
+
   window.changeQty = async function(lineId, qty) {
     if (qty < 1) { await removeLine(lineId); return; }
     await updateCartLine(lineId, parseInt(qty));

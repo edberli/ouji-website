@@ -1,26 +1,20 @@
 /**
- * What a product costs per 100ml, what is in it, and what not to use it with.
+ * What a product is made of, and what it needs alongside it.
  *
- * Every K-beauty shop in Hong Kong sells the same serums at the same
- * prices and tells you nothing that helps you choose between them. Three
- * questions a shopper actually has, and nobody answers:
+ * This started out doing more: unit prices, a cheapest-quarter badge, and
+ * a basket warning when two products overlapped. All of it worked and all
+ * of it was wrong for a shop — it coached people to buy less and to shop
+ * on price. Removed. What is left is the part that sells: telling a
+ * shopper what a product is built on, and what completes the routine they
+ * have already started.
  *
- *   - is this one better value than that one? (43 serums, all "HK$2xx")
- *   - does it have alcohol or fragrance in it? (the first thing anyone
- *     with reactive skin wants to know)
- *   - can I use these two together? (retinol and an acid in the same
- *     basket is a real problem, and no shop says a word)
+ * Data comes from ingredients.json, built offline by
+ * scripts/build_ingredients.py — a single static file, so the chips
+ * appear with the card rather than a second later.
  *
- * The answers come from ingredients.json, built offline by
- * scripts/build_ingredients.py. Nothing here calls an API at page load:
- * the data is a single static file, so the badges appear with the card
- * rather than a second later.
- *
- * The honesty rule that shapes all of it: a product whose ingredient list
- * we do not hold shows 未有成分資料, never a clean bill. Half this
- * catalogue has no published list, and reading silence as "safe" would
- * make the label worse than useless — it would make it a lie for the
- * exact person who relies on it.
+ * Silence stays silent. A product whose ingredient list we do not hold
+ * shows nothing at all, not a placeholder: an empty label draws the eye
+ * to an absence and answers a question nobody asked.
  */
 
 let INGREDIENTS = null;
@@ -42,39 +36,6 @@ function ing(handle) {
 }
 
 /* ─────────────────────────────────────────────
-   每 100ml 幾錢
-   ───────────────────────────────────────────── */
-
-const UNIT_LABEL = { ml: 'ml', g: 'g', 片: '片' };
-
-/** "HK$112 / 100ml" — or nothing, when we do not know the size. */
-function unitPriceLabel(handle) {
-  const r = ing(handle);
-  if (!r || !r.unitPrice) return '';
-  const per = r.per === 10 ? '10片' : `${r.per}${UNIT_LABEL[r.unit] || r.unit}`;
-  return `HK$${r.unitPrice % 1 ? r.unitPrice.toFixed(1) : r.unitPrice} / ${per}`;
-}
-
-/**
- * Where this sits among the same kind of product — cheapest quarter,
- * dearest quarter, or in between. Rank is only meaningful against like
- * for like, so a toner is compared with toners.
- */
-function valueRank(handle) {
-  const r = ing(handle);
-  if (!r || !r.unitPrice || !INGREDIENTS) return null;
-  const peers = Object.values(INGREDIENTS)
-    .filter((x) => x.type === r.type && x.unitPrice && x.unit === r.unit)
-    .map((x) => x.unitPrice)
-    .sort((a, b) => a - b);
-  if (peers.length < 6) return null;
-  const at = peers.filter((v) => v < r.unitPrice).length / peers.length;
-  if (at <= 0.25) return { label: '同類最抵四分一', tone: 'good' };
-  if (at >= 0.75) return { label: '同類最貴四分一', tone: 'warn' };
-  return null;
-}
-
-/* ─────────────────────────────────────────────
    成分避雷
    ───────────────────────────────────────────── */
 
@@ -93,9 +54,10 @@ function safetyFlags(handle) {
 
 function flagChips(handle) {
   const flags = safetyFlags(handle);
-  if (flags === null) {
-    return '<span class="ing-chip ing-chip--unknown" title="品牌未有公開全成分表">未有成分資料</span>';
-  }
+  // No published list means no chip. A "未有成分資料" placeholder puts a
+  // shrug where a fact should be, on a product that has done nothing
+  // wrong.
+  if (flags === null) return '';
   if (!flags.length) {
     return '<span class="ing-chip ing-chip--clean">無酒精 · 無香料 · 無精油</span>';
   }
@@ -133,61 +95,41 @@ function strengthOf(r, active) {
 }
 
 /* ─────────────────────────────────────────────
-   唔好一齊用
+   仲差咩先完整
    ───────────────────────────────────────────── */
 
 /**
- * Pairs that irritate when layered on the same night. This is the
- * ordinary advice a good counter assistant gives — use them on alternate
- * evenings — not a medical claim, and the wording stays on that side of
- * the line: it says what may sting, never what will heal.
+ * The steps a basket is missing.
+ *
+ * Someone buying a serum is building a routine, not buying an object. The
+ * serum needs something to seal it in and something to protect it in the
+ * morning, and saying so is both the most useful thing on the page and
+ * the thing that grows the order. It reads as advice because it is
+ * advice — it just happens to sell.
  */
-const CLASHES = [
-  ['視黃醇', 'AHA/BHA', '一齊用刺激性會疊加，建議分開早晚或者隔日'],
-  ['視黃醇', '維他命C', 'A 醇同高濃度維 C 一齊用容易泛紅，建議維 C 早上、A 醇晚上'],
-  ['維他命C', 'AHA/BHA', '兩樣都係酸性活性成分，同一次用可能刺痛'],
-];
+const ROUTINE_STEPS = ['潔面', '爽膚水', '精華', '面霜', '防曬'];
 
-/**
- * Warnings for a basket. Returns both the clashes and the duplicates —
- * two retinol products is not dangerous, it is just money spent twice.
- */
-function basketNotes(handles) {
-  const notes = [];
-  // Only what a product is sold as counts. Reading the full active list
-  // would warn about a moisturiser that happens to contain a trace of
-  // salicylic acid, and a warning that fires on everything is ignored.
-  const has = {};
+const STEP_PITCH = {
+  潔面: '洗得乾淨但唔繃緊，後面幾步先入到去',
+  爽膚水: '皮膚濕住嘅時候上精華，吸收得快好多',
+  精華: '一套護膚入面真正做嘢嗰支',
+  面霜: '冇面霜嘅話，前面搽落去嘅精華會蒸發走',
+  防曬: '日頭唔搽防曬，晚上做嘅嘢會白做',
+};
+
+/** Which of the five steps this basket has, and which it has not. */
+function routineGaps(handles) {
+  const have = new Set();
   handles.forEach((h) => {
-    (ing(h)?.head || []).forEach((a) => {
-      has[a] = (has[a] || 0) + 1;
-    });
+    const t = ing(h)?.type;
+    if (t) have.add(t);
   });
-  CLASHES.forEach(([a, b, why]) => {
-    if (has[a] && has[b]) notes.push({ kind: 'clash', what: `${a} ＋ ${b}`, why });
-  });
-  ['視黃醇', '維他命C', 'AHA/BHA'].forEach((a) => {
-    if (has[a] > 1) {
-      notes.push({
-        kind: 'dup',
-        what: `${a} × ${has[a]}`,
-        why: `你揀咗 ${has[a]} 件${a}產品，功效重疊，一件通常夠用`,
-      });
-    }
-  });
-  return notes;
-}
-
-function basketNotesHtml(handles) {
-  const notes = basketNotes(handles);
-  if (!notes.length) return '';
-  return `<div class="ing-notes">
-    ${notes
-      .map(
-        (n) => `<div class="ing-note ing-note--${n.kind}">
-          <strong>${n.what}</strong><span>${n.why}</span>
-        </div>`
-      )
-      .join('')}
-  </div>`;
+  // 乳液 finishes the same job as 面霜; owning either closes that step.
+  if (have.has('乳液')) have.add('面霜');
+  if (have.has('安瓶')) have.add('精華');
+  if (have.has('化妝水')) have.add('爽膚水');
+  return {
+    have: ROUTINE_STEPS.filter((s) => have.has(s)),
+    missing: ROUTINE_STEPS.filter((s) => !have.has(s)),
+  };
 }

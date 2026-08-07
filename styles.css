@@ -5677,26 +5677,6 @@ textarea:focus-visible,
    成分同單價標籤
    ───────────────────────────────────────────── */
 
-/* The unit price sits under the sticker price in the card's own quiet
-   voice — it is there for the shopper who is comparing, and must not
-   compete with the price itself. */
-.product-card__unit {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.6875rem;
-  color: var(--text-tertiary, #9a9a9a);
-  letter-spacing: 0.01em;
-}
-.product-card__value {
-  font-style: normal;
-  margin-left: 6px;
-  padding: 1px 6px;
-  border-radius: 999px;
-  font-size: 0.625rem;
-}
-.product-card__value--good { background: rgba(60,140,90,0.1); color: #2f7a4d; }
-.product-card__value--warn { background: rgba(180,120,40,0.1); color: #96682a; }
-
 .ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .ing-chip {
   display: inline-flex;
@@ -5711,14 +5691,6 @@ textarea:focus-visible,
 .ing-chip--clean { background: rgba(60,140,90,0.08); color: #2f7a4d; }
 .ing-chip--warn { background: rgba(190,110,60,0.1); color: #9a5726; }
 .ing-chip--active { background: rgba(109,163,181,0.1); color: var(--primary-deep, #3c6b7d); }
-/* Deliberately grey and unalarming: "we do not have the list" is not a
-   warning about the product, and must not read as one. */
-.ing-chip--unknown {
-  background: transparent;
-  color: var(--text-tertiary, #9a9a9a);
-  border-color: var(--border-light, #e6e2dc);
-}
-
 .ing-panel {
   border: 1px solid var(--border-light, #e8e4de);
   border-radius: 16px;
@@ -5749,3 +5721,66 @@ textarea:focus-visible,
 .ing-note strong { flex: 0 0 auto; font-weight: 600; }
 .ing-note--clash { background: rgba(190,110,60,0.09); color: #8a4f22; }
 .ing-note--dup { background: rgba(109,163,181,0.09); color: #35637a; }
+
+/* ─────────────────────────────────────────────
+   完成你嘅護膚程序
+   ───────────────────────────────────────────── */
+
+.next-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-lg, 20px);
+}
+.next-step {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg, 20px);
+  border: 1px solid var(--border-light, #e8e4de);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.55);
+}
+.next-step__tag {
+  align-self: flex-start;
+  padding: 3px 10px;
+  margin-bottom: var(--space-md, 14px);
+  border-radius: 999px;
+  background: var(--primary, #6da3b5);
+  color: #fff;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+}
+.next-step__card { display: block; text-decoration: none; color: inherit; }
+.next-step__card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.next-step__brand {
+  display: block;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary, #6da3b5);
+}
+.next-step__name {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  margin-top: 2px;
+}
+.next-step__why {
+  flex: 1;
+  margin: 10px 0 14px;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #6f6a63);
+}
+.next-step__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.next-step__price { font-weight: 600; }
+.next-step .btn--sm { padding: 8px 14px; font-size: 0.75rem; }
+
+@media (max-width: 768px) {
+  .next-steps { grid-template-columns: 1fr; }
+}

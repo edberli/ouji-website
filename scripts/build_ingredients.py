@@ -5,7 +5,6 @@ Build the data the shop needs to answer "which one is right for me".
 Three things a K-beauty shopper cannot get anywhere in Hong Kong today,
 and all three are already sitting in data we hold:
 
-  * what a product costs per 100ml, so 43 serums can be ranked honestly
   * whether it contains alcohol, fragrance or essential oils, which is
     the first question anyone with reactive skin asks
   * which active it is built on and at what strength, so two centella
@@ -184,13 +183,12 @@ def main():
 
             rec = {"type": p["productType"], "vendor": p["vendor"],
                    "price": price, "inci": bool(inci)}
+            # No unit price. It was built and then taken out: telling a
+            # shopper which serum is cheaper per millilitre is a service to
+            # them and a tax on the shop, and this is the shop's site.
             if n:
                 rec["size"] = n
                 rec["unit"] = unit
-                # per 100ml/100g, per 10 sheets — numbers a person can hold
-                per = 100 if unit in ("ml", "g") else 10
-                rec["unitPrice"] = round(price / n * per, 1)
-                rec["per"] = per
             if inci:
                 rec["flags"] = flags(inci)
             act = actives_of(hay)
@@ -214,11 +212,9 @@ def main():
     with open(OUT, "w") as f:
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
 
-    have_price = sum(1 for r in out.values() if "unitPrice" in r)
     have_inci = sum(1 for r in out.values() if r["inci"])
     flagged = sum(1 for r in out.values() if r.get("flags"))
     print(f"{len(out)} 件上架產品 → {OUT}")
-    print(f"  有單價: {have_price}")
     print(f"  有全成分表: {have_inci}（其中 {flagged} 件有酒精／香料／精油）")
     print(f"  有活性成分標籤: {sum(1 for r in out.values() if r.get('actives'))}")
 
