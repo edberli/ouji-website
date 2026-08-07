@@ -73,6 +73,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("brand")
     ap.add_argument("--match", help="vendor substring, if it differs from brand")
+    # A brand can appear twice in stores.json: once for the imagery it was
+    # published with, once for a stockist list used only to borrow the
+    # words. --key keeps the two from overwriting each other.
+    ap.add_argument("--key", help="stores.json key, if not the brand name")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -109,7 +113,7 @@ def main():
     if os.path.exists(STORES):
         with open(STORES) as f:
             store = json.load(f)
-    store[args.brand] = items
+    store[args.key or args.brand] = items
     with open(STORES, "w") as f:
         json.dump(store, f, ensure_ascii=False)
 

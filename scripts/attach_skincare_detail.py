@@ -114,18 +114,24 @@ def shrink(path):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("brand")
+    # Several brands sell abroad on Shopify and at home on Cafe24. The
+    # Shopify store gave us the gallery and the English names we matched
+    # against; only the Korean store carries the long strip. So the source
+    # of the strips can be a different catalogue from the vendor name.
+    ap.add_argument("--source", help="stores.json key, if not the vendor")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+    source = args.source or args.brand
 
     if not os.path.isdir("/Volumes/core"):
         raise SystemExit("/Volumes/core 未掛載 —— 長圖唔可以寫落內置 SSD")
 
-    store = json.load(open(STORES)).get(args.brand, [])
-    matched = {m["barcode"]: m for m in json.load(open(MATCHED)).get(args.brand, [])}
+    store = json.load(open(STORES)).get(source, [])
+    matched = {m["barcode"]: m for m in json.load(open(MATCHED)).get(source, [])}
     if not store:
-        raise SystemExit(f"{args.brand}: /tmp/skin/stores.json 冇呢個品牌")
+        raise SystemExit(f"{source}: /tmp/skin/stores.json 冇呢個品牌")
 
-    work = os.path.join(WORK, re.sub(r"\W+", "-", args.brand.lower()))
+    work = os.path.join(WORK, re.sub(r"\W+", "-", source.lower()))
     os.makedirs(work, exist_ok=True)
 
     done = skipped = 0

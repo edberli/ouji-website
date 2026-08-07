@@ -27,10 +27,11 @@ STORES = "/tmp/skin/stores.json"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("brand")
+    ap.add_argument("--key", help="stores.json key, if not the brand name")
     args = ap.parse_args()
 
     rows = by_vendor(load(args.brand)).get(args.brand, [])
-    store = json.load(open(STORES)).get(args.brand, [])
+    store = json.load(open(STORES)).get(args.key or args.brand, [])
     if not rows or not store:
         raise SystemExit(f"{args.brand}: 庫存 {len(rows)} 件、官網 {len(store)} 件，做唔到")
 

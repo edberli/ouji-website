@@ -2090,8 +2090,20 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .product-gallery__main img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--duration-slow) var(--ease-out); }
 .product-gallery__main:hover img { transform: scale(1.05); }
 
-.product-gallery__thumbs { display: flex; gap: var(--space-sm); }
-.product-gallery__thumb { width: 72px; height: 72px; overflow: hidden; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all var(--duration-fast); }
+/* The thumb row scrolls; it does not stretch the page.
+   A grid track's automatic minimum is its min-content width, and an
+   unscrollable flex row of nine 72px thumbs measures 712px. On a 375px
+   phone that made the whole product column 712px wide: the main image and
+   the description ran off the right edge with no way to scroll to them,
+   because the body clips the overflow. overflow-x drops the row's
+   min-content contribution to zero and the column fits the screen again. */
+.product-gallery__thumbs {
+  display: flex; gap: var(--space-sm);
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.product-gallery__thumbs::-webkit-scrollbar { display: none; }
+.product-detail > * { min-width: 0; }
+.product-gallery__thumb { flex: 0 0 auto; width: 72px; height: 72px; overflow: hidden; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all var(--duration-fast); }
 .product-gallery__thumb.is-active, .product-gallery__thumb:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(109,163,181,0.2); }
 .product-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -2103,7 +2115,10 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .product-info__short-desc { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: var(--space-lg); }
 .product-info__options { margin-bottom: var(--space-xl); }
 .product-info__option-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-sm); color: var(--text-secondary); }
-.product-info__variants { display: flex; gap: var(--space-sm); }
+/* Shades wrap. A liner with eight of them ran the row off a phone
+   screen, and unlike the thumb strip there is nothing to hint that
+   the ones past the edge exist. */
+.product-info__variants { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
 
 .variant-btn { padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.06em; border: 1px solid var(--border-light); border-radius: 10px; transition: all var(--duration-fast); background: rgba(255,255,255,0.5); }
 .variant-btn:hover, .variant-btn.is-selected { border-color: var(--primary); color: var(--primary-dark); background: rgba(109,163,181,0.06); box-shadow: 0 2px 10px rgba(109,163,181,0.1); }
@@ -2387,8 +2402,16 @@ main { padding-top: calc(var(--header-height) + 36px); }
   .category-grid { grid-template-columns: repeat(2, 1fr); }
   .product-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-lg) var(--space-md); }
   .editorial-grid { grid-template-columns: 1fr; }
-  .product-detail { grid-template-columns: 1fr; gap: var(--space-xl); }
+  /* On a phone the two columns stack, so the desktop's 64px of top
+     padding plus a square hero pushed the product name and price below
+     the fold — you scrolled past a full screen of photo to find out what
+     the thing was called or what it cost. */
+  .product-detail { grid-template-columns: 1fr; gap: var(--space-lg);
+                    padding: var(--space-lg) 0 var(--space-2xl); }
   .product-gallery { position: static; }
+  .product-gallery__thumb { width: 60px; height: 60px; }
+  .brand-rail { gap: 3px; padding: 9px 10px; }
+  .brand-rail__item { width: 5px; }
   .cart-layout { grid-template-columns: 1fr; }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__bottom { flex-direction: column; gap: var(--space-md); text-align: center; }
@@ -4521,7 +4544,13 @@ textarea:focus-visible,
     justify-content: center;
     gap: 6px;
     padding: 9px 14px;
+    /* 38 brands at 12px each is 456px — wider than a phone, and the pill
+       is centred, so both ends were clipped off screen. Cap it to the
+       viewport and let it scroll rather than run past the bezel. */
     width: max-content;
+    max-width: calc(100vw - 28px);
+    overflow-x: auto;
+    scrollbar-width: none;
     margin: 0 auto;
     border-radius: 999px;
     background: var(--glass-bg-strong, rgba(255,255,255,0.78));
@@ -4535,11 +4564,13 @@ textarea:focus-visible,
     width: 34px; height: 22px;
     transform: translateX(calc(var(--crest, 0) * 12px - 8px));
   }
+  .brand-rail::-webkit-scrollbar { display: none; }
   .brand-rail__item {
     height: auto;
     flex-direction: column-reverse;
     gap: 0;
     width: 6px;
+    flex: 0 0 auto;
   }
   .brand-rail__tick {
     width: 4px;
