@@ -525,9 +525,15 @@
         priceEl.innerHTML = formatPrice(p.amount) + (isOnSale ? ` <s style="color:var(--text-tertiary);font-size:0.85em;margin-left:8px;">${formatPrice(cp.amount)}</s>` : '');
       }
       if (desc) {
-        // Short description: first 200 chars as plain text
-        const plainDesc = product.description || '';
-        desc.textContent = plainDesc.length > 200 ? plainDesc.substring(0, 200) + '…' : plainDesc;
+        // The opening paragraph, not the first 200 characters of everything.
+        // Once the descriptions gained 優點 / 用法 / 主要成分 headings, the
+        // flattened text ran them together — "…做好準備。優點 改善膚質同膚色
+        // 令暗…" — which reads as one broken sentence at the top of the page.
+        const intro = (product.descriptionHtml || '').match(/<p[^>]*>([\s\S]*?)<\/p>/);
+        const plain = intro
+          ? intro[1].replace(/<[^>]+>/g, '').trim()
+          : (product.description || '');
+        desc.textContent = plain.length > 200 ? plain.substring(0, 200) + '…' : plain;
       }
 
       // Fill detailed description tab with full description
