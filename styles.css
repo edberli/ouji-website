@@ -5947,3 +5947,22 @@ textarea:focus-visible,
   .product-info__variants--power { grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 6px; }
   .power-btn { padding: 8px 2px; font-size: 0.75rem; }
 }
+
+/* Ordering past the shelf is allowed; saying nothing about it is not.
+   Both notes are informational, not warnings — the order is fine. */
+.cart-item__split {
+  margin: 6px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #6f6a63);
+}
+.cart-item__split strong { color: var(--primary-deep, #3c6b7d); font-weight: 600; }
+.cart-summary__split {
+  margin: 0 0 var(--space-md, 16px);
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: rgba(109,163,181,0.09);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: #35637a;
+}

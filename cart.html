@@ -100,7 +100,15 @@
               </div>
             </div>
           </div>
-          <a href="lens.html">隱形眼鏡</a>
+          <div class="mobile-nav__group">
+        <button class="mobile-nav__group-row" aria-expanded="false"><span>隱形眼鏡</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg></button><div class="mobile-nav__sublinks"><a href="lens.html">全部隱形眼鏡</a>
+          <a href="lens.html?cat=feliamo" class="mobile-nav__subitem">Feliamo</a>
+          <a href="lens.html?cat=lilmoon" class="mobile-nav__subitem">Lilmoon</a>
+          <a href="lens.html?cat=molak" class="mobile-nav__subitem">Molak</a>
+          <a href="lens.html?cat=nscollection" class="mobile-nav__subitem">N&#39;s Collection</a>
+          <a href="lens.html?cat=topards" class="mobile-nav__subitem">TOPARDS</a>
+        </div>
+      </div>
           <a href="bodycare.html">身體護理</a>
           <a href="fragrance.html">香氛</a>
           <a href="lifestyle.html">生活風格</a>
@@ -212,6 +220,7 @@
           <div class="cart-summary">
             <h2 class="cart-summary__title">訂單摘要</h2>
 
+            <div data-summary-split></div>
             <div class="cart-summary__row">
               <span>小計</span>
               <span data-subtotal>HK$0</span>
@@ -419,6 +428,7 @@
             </div>
           </div>
           <div class="cart-item__price">${formatPrice(line.cost.totalAmount.amount)}</div>
+          ${stockSplit(line)}
         </div>
       `;
     }).join('');
@@ -427,6 +437,20 @@
     // 就係佢最想知、亦都係最抬得起單價嘅嘢。
     if (typeof loadIngredients === 'function') {
       suggestNextSteps(lines.map((l) => l.merchandise.product.handle));
+    }
+
+    // Say it once more beside the checkout button. The per-line note is
+    // easy to scroll past; this is the last thing before paying.
+    const split = document.querySelector('[data-summary-split]');
+    if (split) {
+      const wait = lines.reduce((n, l) => {
+        const have = l.merchandise.quantityAvailable;
+        return n + (have == null ? 0 : Math.max(0, l.quantity - Math.max(0, have)));
+      }, 0);
+      split.innerHTML = wait
+        ? `<p class="cart-summary__split">訂單入面有 <strong>${wait} 件</strong>要預訂，
+           約 ${LEAD_DAYS} 日到貨。現貨嗰部分我哋會先出，唔使等齊。</p>`
+        : '';
     }
 
     // Update totals
@@ -449,6 +473,29 @@
   });
 
   // Global functions for cart actions
+  /**
+   * "2 件現貨，其餘 3 件預訂" — said here, before anyone pays.
+   *
+   * Ordering more than is on the shelf used to be refused outright, which
+   * loses a customer who genuinely wants fifty boxes and can have two on
+   * Friday. They are allowed to order the fifty; what they are owed is a
+   * plain sentence about which part arrives when. Silence would be the
+   * dishonest version of the same permissiveness.
+   */
+  const LEAD_DAYS = 14;
+
+  function stockSplit(line) {
+    const have = line.merchandise.quantityAvailable;
+    if (have == null) return '';
+    const want = line.quantity;
+    if (want <= have) return '';
+    const ready = Math.max(0, have);
+    const wait = want - ready;
+    return `<p class="cart-item__split">${
+      ready ? `<strong>${ready} 件現貨</strong>，其餘 ` : ''
+    }<strong>${wait} 件預訂</strong> · 約 ${LEAD_DAYS} 日到貨</p>`;
+  }
+
   /**
    * What the basket is missing, and one product to fill each gap.
    *

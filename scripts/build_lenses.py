@@ -29,7 +29,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lens_data import LADDER, brand_of, load, shade_of  # noqa: E402
-from publish import existing_id  # noqa: E402
+from publish import channels, existing_id  # noqa: E402
 from shopify_admin import gql, user_errors  # noqa: E402
 
 IMAGES = "/tmp/lens_images.json"
@@ -46,9 +46,12 @@ mutation($input: ProductSetInput!) {
 }
 """
 
+# publishablePublishToCurrentChannel publishes to whichever channel the
+# app itself owns — not the headless one the storefront reads, so the
+# products existed in admin and were invisible on the site.
 PUBLISH = """
-mutation($id: ID!) {
-  publishablePublishToCurrentChannel(id: $id) { userErrors { field message } }
+mutation($id: ID!, $input: [PublicationInput!]!) {
+  publishablePublish(id: $id, input: $input) { userErrors { field message } }
 }
 """
 
@@ -164,7 +167,8 @@ def main():
         out = gql(PRODUCT_SET, {"input": item})
         user_errors(out, "productSet")
         prod = out["productSet"]["product"]
-        gql(PUBLISH, {"id": prod["id"]})
+        gql(PUBLISH, {"id": prod["id"],
+                      "input": [{"publicationId": c} for c in channels()]})
 
         # Cost sits on the inventory item and only exists once created.
         if r["cost"]:

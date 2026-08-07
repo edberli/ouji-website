@@ -257,6 +257,7 @@ async function getCart() {
                   image { url altText }
                   product { title handle vendor }
                   selectedOptions { name value }
+                  quantityAvailable
                 }
               }
             }
