@@ -5957,6 +5957,8 @@ textarea:focus-visible,
   color: var(--text-secondary, #6f6a63);
 }
 .cart-item__split strong { color: var(--primary-deep, #3c6b7d); font-weight: 600; }
+/* It sits in the details column, not the price column: the price column
+   is a third the width and broke the sentence after every other word. */
 .cart-summary__split {
   margin: 0 0 var(--space-md, 16px);
   padding: 11px 14px;

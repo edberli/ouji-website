@@ -127,6 +127,21 @@ def from_brand(colour):
     return []
 
 
+def product_shaped(url):
+    """Big enough and square enough to be a photograph of the product."""
+    try:
+        import io
+        from PIL import Image
+        blob = urllib.request.urlopen(
+            urllib.request.Request(url, headers=UA), timeout=25).read(400_000)
+        w, h = Image.open(io.BytesIO(blob)).size
+    except Exception:
+        return False
+    if min(w, h) < 300:
+        return False
+    return 0.5 <= w / h <= 2.0
+
+
 def from_supplier(colour, locs):
     brand = re.sub(r"[^a-z0-9]", "", brand_of(colour).lower())
     shade = re.sub(r"[^a-z0-9]+", "-", shade_of(colour).lower()).strip("-")
@@ -147,7 +162,11 @@ def from_supplier(colour, locs):
                 x = x.split("?")[0]
                 if x not in imgs and not any(k in x.lower() for k in SKIP):
                     imgs.append(x)
-            return imgs[:10]
+            # Shop furniture is hashed like everything else, so it has to
+            # be told apart by shape: a 32x32 favicon, a 280x80 wordmark,
+            # a 2000x100 divider. Product photography is big and roughly
+            # square.
+            return [u for u in imgs if product_shaped(u)][:10]
     return []
 
 
@@ -160,11 +179,15 @@ def main():
     locs = json.load(open(SUPPLIER_URLS)) if os.path.exists(SUPPLIER_URLS) else []
 
     def one(colour):
-        got = from_supplier(colour, locs)
-        where = "供應商"
+        # The brand's own page first. The supplier's SHOPLINE store mixes
+        # its shop furniture into the page — its logo, a favicon, a PayMe
+        # badge, a 2000x100 divider — and those arrive as hashed CDN URLs
+        # with nothing in the filename to give them away.
+        got = from_brand(colour)
+        where = "品牌官網"
         if not got:
-            got = from_brand(colour)
-            where = "品牌官網"
+            got = from_supplier(colour, locs)
+            where = "供應商"
         return colour, got, (where if got else "—")
 
     out = {}

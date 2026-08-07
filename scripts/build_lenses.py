@@ -14,9 +14,10 @@ only difference is what the option says:
     -3.25  現貨          on the shelf, ships today
     -3.50  預訂 · 14 日   ordered in, and the page says so before you pay
 
-Shopify carries that distinction in inventoryPolicy: DENY for the stocked
-powers so we cannot oversell what is on the shelf, CONTINUE for the rest
-so a customer can actually buy them.
+Every power stays buyable — inventoryPolicy CONTINUE throughout. The
+stock count decides what the page says, not whether the sale is allowed:
+someone ordering five of a power with one on the shelf is told
+"1 件現貨，其餘 4 件預訂" at the basket rather than being refused.
 
     python3 scripts/build_lenses.py --dry-run
     python3 scripts/build_lenses.py "Feliamo 1Day #Espresso"
@@ -126,9 +127,13 @@ def main():
                 "inventoryQuantities": [{"locationId": LOCATION,
                                          "name": "available",
                                          "quantity": int(qty)}],
-                # Stocked powers cannot be oversold; the rest are the
-                # pre-order and must stay buyable at zero.
-                "inventoryPolicy": "DENY" if qty > 0 else "CONTINUE",
+                # Always CONTINUE. Blocking the order was the wrong end to
+                # solve this at — someone who wants fifty boxes and can
+                # have two on Friday still wants the fifty, and is owed a
+                # sentence about it at the basket rather than a refusal.
+                # The quantity above is what the page and basket read to
+                # say 現貨 or 預訂; it no longer gates the sale.
+                "inventoryPolicy": "CONTINUE",
             }
             code = r["barcode"].get(p)
             if code:
