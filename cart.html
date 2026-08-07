@@ -200,7 +200,11 @@
         <!-- Cart Layout (shown when cart has items) -->
         <div class="cart-layout" id="cart-layout" style="display: none;">
           <!-- Cart Items -->
-          <div class="cart-items"></div>
+          <div class="cart-column">
+            <div class="cart-items"></div>
+            <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
+            <div data-cart-notes></div>
+          </div>
 
           <!-- Cart Summary -->
           <div class="cart-summary">
@@ -385,6 +389,7 @@
   </nav>
 
   <script src="shopify.js"></script>
+  <script src="ingredients.js"></script>
   <script src="script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
@@ -451,6 +456,16 @@
         </div>
       `;
     }).join('');
+
+    // 同一籃嘢入面唔啱一齊用嘅組合。放喺清單同總數之間 —— 見到嘅時候
+    // 仲改得切，去到結帳頁先講已經太遲。
+    if (typeof loadIngredients === 'function') {
+      loadIngredients().then(() => {
+        const host = document.querySelector('[data-cart-notes]');
+        if (!host) return;
+        host.innerHTML = basketNotesHtml(lines.map((l) => l.merchandise.product.handle));
+      });
+    }
 
     // Update totals
     const subtotal = parseFloat(cart.cost.subtotalAmount.amount);

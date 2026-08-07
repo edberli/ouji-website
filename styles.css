@@ -2152,6 +2152,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .cart-page__title { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 300; margin-bottom: var(--space-2xl); }
 
 .cart-layout { display: grid; grid-template-columns: 1fr 400px; gap: var(--space-3xl); align-items: start; }
+.cart-column { min-width: 0; }
 .cart-items { border-top: 1px solid var(--border-light); }
 
 .cart-item {
@@ -5670,3 +5671,81 @@ textarea:focus-visible,
 }
 .sold-out__grid { margin-top: var(--space-md); opacity: 0.62; }
 .sold-out__grid .product-card:hover { opacity: 1; }
+
+
+/* ─────────────────────────────────────────────
+   成分同單價標籤
+   ───────────────────────────────────────────── */
+
+/* The unit price sits under the sticker price in the card's own quiet
+   voice — it is there for the shopper who is comparing, and must not
+   compete with the price itself. */
+.product-card__unit {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.6875rem;
+  color: var(--text-tertiary, #9a9a9a);
+  letter-spacing: 0.01em;
+}
+.product-card__value {
+  font-style: normal;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 0.625rem;
+}
+.product-card__value--good { background: rgba(60,140,90,0.1); color: #2f7a4d; }
+.product-card__value--warn { background: rgba(180,120,40,0.1); color: #96682a; }
+
+.ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ing-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+}
+.ing-chip--clean { background: rgba(60,140,90,0.08); color: #2f7a4d; }
+.ing-chip--warn { background: rgba(190,110,60,0.1); color: #9a5726; }
+.ing-chip--active { background: rgba(109,163,181,0.1); color: var(--primary-deep, #3c6b7d); }
+/* Deliberately grey and unalarming: "we do not have the list" is not a
+   warning about the product, and must not read as one. */
+.ing-chip--unknown {
+  background: transparent;
+  color: var(--text-tertiary, #9a9a9a);
+  border-color: var(--border-light, #e6e2dc);
+}
+
+.ing-panel {
+  border: 1px solid var(--border-light, #e8e4de);
+  border-radius: 16px;
+  padding: var(--space-lg, 20px);
+  margin-bottom: var(--space-lg, 20px);
+  background: rgba(255,255,255,0.5);
+}
+.ing-panel__row { display: flex; gap: 14px; align-items: baseline; margin-bottom: 12px; }
+.ing-panel__row:last-child { margin-bottom: 0; }
+.ing-panel__label {
+  flex: 0 0 68px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary, #9a9a9a);
+}
+.ing-panel__unit { font-size: 1rem; font-weight: 600; color: var(--primary-dark, #3c6b7d); }
+
+.ing-notes { display: grid; gap: 8px; margin: var(--space-md, 16px) 0; }
+.ing-note {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.ing-note strong { flex: 0 0 auto; font-weight: 600; }
+.ing-note--clash { background: rgba(190,110,60,0.09); color: #8a4f22; }
+.ing-note--dup { background: rgba(109,163,181,0.09); color: #35637a; }

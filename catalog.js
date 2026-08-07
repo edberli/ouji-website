@@ -387,7 +387,26 @@ function productCard(p) {
       <span class="product-card__name">${p.title}</span>
       <span class="product-card__price">${formatPrice(p0.amount)}</span>
       ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(cp.amount)}</span>` : ''}
+      ${cardUnitPrice(p.handle)}
     </a>`;
+}
+
+/**
+ * Price per 100ml under the price.
+ *
+ * Every serum on this page is "HK$2xx" and they are not the same size, so
+ * the sticker price says nothing about which is better value. The unit
+ * price is the one number that lets a shopper compare across brands, and
+ * no K-beauty shop here prints it.
+ */
+function cardUnitPrice(handle) {
+  if (typeof unitPriceLabel !== 'function') return '';
+  const label = unitPriceLabel(handle);
+  if (!label) return '';
+  const rank = typeof valueRank === 'function' ? valueRank(handle) : null;
+  return `<span class="product-card__unit">${label}${
+    rank ? `<em class="product-card__value product-card__value--${rank.tone}">${rank.label}</em>` : ''
+  }</span>`;
 }
 
 function brandSection(vendor, items, index) {
@@ -578,11 +597,16 @@ function renderProducts(container, products, { grouped }) {
  * grid once the shopper filters or sorts, since grouping only helps
  * while you are browsing.
  */
-function initCatalog({ section, cat, products }) {
+async function initCatalog({ section, cat, products }) {
   const host = document.querySelector('[data-catalog]')
     || document.querySelector('.product-grid')?.parentElement;
   if (!host) return;
   host.setAttribute('data-catalog', '');
+
+  // Unit prices and ingredient chips are drawn into the cards, so the
+  // data has to be in hand before the first draw — otherwise the badges
+  // pop in a beat later and the grid jumps.
+  if (typeof loadIngredients === 'function') await loadIngredients();
 
   buildFilterSidebar(section, products);
 
