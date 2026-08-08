@@ -221,8 +221,15 @@ function availableSubs(section, products) {
   // The taxonomy nests 唇膏/唇釉 under 唇妝, and every level matches. Keep
   // the widest option and drop any whose products another already covers,
   // so the sidebar reads as one flat, non-overlapping list.
+  //
+  // Only within one axis, though. K-pop is filtered by group *and* by
+  // format, and those are independent: every IVE album is also 專輯, so
+  // collapsing across axes swallowed all nine groups into one 專輯 tab
+  // and left the page with nothing to filter by.
+  const axis = (s) => catOptions(section).find(([id]) => id === s.id)?.[1]?.axis || 'main';
   const kept = all.filter((s) => !all.some((o) =>
-    o !== s && o.set.size > s.set.size && [...s.set].every((i) => o.set.has(i))));
+    o !== s && axis(o) === axis(s)
+    && o.set.size > s.set.size && [...s.set].every((i) => o.set.has(i))));
   const seen = new Set();
   return kept.filter((s) => !seen.has(s.label) && seen.add(s.label))
     .map((s) => ({ id: s.id, label: s.label, count: s.set.size }));

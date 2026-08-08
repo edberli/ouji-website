@@ -949,9 +949,21 @@ const CATEGORY_TAXONOMY = {
   kpop: {
     label: 'K-pop 周邊',
     keywords: ['k-pop', 'kpop', '周邊', '專輯', '寫真書'],
+    // Split by group first, by format second. A K-pop shopper arrives
+    // knowing whose album they want — "專輯 vs 寫真書" is 24 against 1
+    // and answers a question nobody asked.
     subs: {
-      album: { label: '專輯', keywords: ['專輯', 'album'] },
-      photobook: { label: '寫真書', keywords: ['寫真書', 'photobook'] },
+      seventeen: { label: 'SEVENTEEN', keywords: ['seventeen'] },
+      ive: { label: 'IVE', keywords: ['ive'] },
+      illit: { label: 'ILLIT', keywords: ['illit'] },
+      straykids: { label: 'Stray Kids', keywords: ['stray kids'] },
+      enhypen: { label: 'ENHYPEN', keywords: ['enhypen'] },
+      lesserafim: { label: 'LE SSERAFIM', keywords: ['le sserafim'] },
+      gidle: { label: '(G)I-DLE', keywords: ['(g)i-dle', 'gidle', 'yuqi'] },
+      twice: { label: 'TWICE', keywords: ['twice'] },
+      txt: { label: 'TXT', keywords: ['tomorrow x together', 'yeonjun'] },
+      album: { label: '專輯', keywords: ['專輯'], axis: 'format' },
+      photobook: { label: '寫真書', keywords: ['寫真書'], axis: 'format' },
     },
   },
   lens: {
