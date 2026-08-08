@@ -64,17 +64,29 @@ def tokens(s):
 
 # Our own working files live in the same directory; only the retailer
 # caches are catalogues.
-OURS = {"matched", "fails"}
+# Our own working files live beside the caches. Matching them by name
+# was a losing game — every new pass added another — so a catalogue is
+# recognised by shape instead: a list of products.
+OURS = ()
 
 
 def pool():
     out = []
     for f in glob.glob(os.path.join(POOL, "*.json")):
         src = os.path.basename(f)[:-5]
-        if src in OURS:
-            continue
-        for p in json.load(open(f)):
-            imgs = [i["src"] for i in p.get("images", []) if i.get("src")]
+
+        data = json.load(open(f))
+        if not isinstance(data, list) or not data or not isinstance(data[0], dict) \
+                or "title" not in data[0]:
+            continue                      # not a retailer catalogue
+        for p in data:
+            # Most stores give images as objects with a src; a couple
+            # give plain URL strings. Take whichever shape arrives.
+            imgs = []
+            for i in p.get("images", []):
+                u = i.get("src") if isinstance(i, dict) else i
+                if isinstance(u, str) and u.startswith("http"):
+                    imgs.append(u)
             if imgs:
                 out.append({"src": src, "title": p["title"],
                             "handle": p["handle"], "imgs": imgs})
