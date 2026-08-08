@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Clean the bulk review dump and pick which reviews each product shows.
+"""Clean the bulk review dumps and pick which reviews each product shows.
 
 Same filters as `oy_reviews.py` — spam, duplicates, anything about price
 — applied across the whole pull, plus the part that only matters in bulk:
@@ -55,9 +55,14 @@ def pick(rows):
 
 
 def main():
-    raw = json.load(open(f"{SRC}/reviews-raw.json"))
-    top = json.load(open(f"{SRC}/top100.json"))
+    # 分兩批拉 —— 先做評價最多嗰一百件，之後補返其餘。兩份夾埋當一份。
+    raw = {}
+    for name in ("reviews-raw.json", "reviews-rest.json"):
+        f = f"{SRC}/{name}"
+        if os.path.exists(f):
+            raw.update(json.load(open(f)))
     ratings = json.load(open(f"{SRC}/ratings.json"))
+    top = [{"h": h, "no": v["prdtNo"]} for h, v in ratings.items()]
 
     by_no = {}
     stats = {"原始": 0, "spam": 0, "講價錢": 0, "太短": 0, "重覆": 0, "留低": 0}

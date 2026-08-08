@@ -21,10 +21,12 @@ import glob
 import json
 import os
 import re
+import shutil
 
 SRC = "/Volumes/core/ouji-oy"
-SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                    "data", "reviews.json")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE = os.path.join(ROOT, "data", "reviews")
+INDEX = os.path.join(ROOT, "data", "ratings.json")
 
 NOTE = ("以下評價由 Olive Young 顧客撰寫，OUJI 原文引用、只加中文翻譯，"
         "冇改動內容，亦冇刪走負評。只顯示我哋有貨嘅色號，"
@@ -33,7 +35,7 @@ NOTE = ("以下評價由 Olive Young 顧客撰寫，OUJI 原文引用、只加�
 
 def load_translations():
     out = {}
-    for f in sorted(glob.glob(f"{SRC}/tr-out/*.md")):
+    for f in sorted(glob.glob(f"{SRC}/tr-out/*.md") + glob.glob(f"{SRC}/tr-out2/*.md")):
         raw = re.sub(r"^```(?:json)?|```$", "", open(f).read().strip(), flags=re.M)
         try:
             for r in json.loads(raw.strip()):
@@ -79,8 +81,26 @@ def main():
     if not args.write:
         print("\n（dry run，加 --write 先會寫落 data/reviews.json）")
         return
-    json.dump(out, open(SITE, "w"), ensure_ascii=False, separators=(",", ":"))
-    print(f"\n寫咗 {SITE}  ({os.path.getsize(SITE) / 1024:.0f} KB)")
+    # 一件產品一個檔：入一版產品頁淨係攞嗰件嘅，唔使拖埋成個目錄。
+    shutil.rmtree(SITE, ignore_errors=True)
+    os.makedirs(SITE)
+    for handle, v in out.items():
+        with open(os.path.join(SITE, f"{handle}.json"), "w") as f:
+            json.dump(v, f, ensure_ascii=False, separators=(",", ":"))
+
+    # 索引標明邊件有原文 —— 冇嘅連 request 都唔使發。
+    idx = json.load(open(INDEX))
+    for h, v in idx["products"].items():
+        v.pop("text", None)
+        if h in out:
+            v["text"] = 1
+    with open(INDEX, "w") as f:
+        json.dump(idx, f, ensure_ascii=False, separators=(",", ":"))
+
+    sizes = [os.path.getsize(os.path.join(SITE, x)) for x in os.listdir(SITE)]
+    print(f"\n寫咗 {len(out)} 個檔落 {SITE}  "
+          f"（每個 {min(sizes) // 1024}–{max(sizes) // 1024} KB，"
+          f"索引 {os.path.getsize(INDEX) // 1024} KB）")
 
 
 if __name__ == "__main__":
