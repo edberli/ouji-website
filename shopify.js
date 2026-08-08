@@ -411,11 +411,33 @@ async function removeCartLine(lineId) {
   return result;
 }
 
+/* 結帳頁由 Shopify 主理，佢回嘅網址係 5rerjn-mt.myshopify.com。
+   客人由 oujikbeauty.com 一路揀嘢，到俾錢嗰一刻跳去一個亂碼域名 ——
+   嗰下就係最多人縮手嘅位。
+
+   Shopify 會用「主要網域」出結帳頁，所以喺 Shopify 後台加一個
+   shop.oujikbeauty.com 並設做主要網域之後，只需要換返個 host。
+   （apex 同 www 指緊 Vercel，唔郁得。）
+
+   未接域名之前呢個變數留空 —— 唔好亂改 host，改咗會直接壞咗結帳。 */
+const CHECKOUT_DOMAIN = '';   // 接好之後填 'shop.oujikbeauty.com'
+
+function brandCheckoutUrl(url) {
+  if (!CHECKOUT_DOMAIN || !url) return url;
+  try {
+    const u = new URL(url);
+    u.host = CHECKOUT_DOMAIN;
+    return u.toString();
+  } catch (e) {
+    return url;
+  }
+}
+
 /** 前往 Shopify 結帳 */
 async function goToCheckout() {
   const cart = await getCart();
   if (cart?.checkoutUrl) {
-    window.location.href = cart.checkoutUrl;
+    window.location.href = brandCheckoutUrl(cart.checkoutUrl);
   }
 }
 
