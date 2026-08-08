@@ -6166,3 +6166,82 @@ textarea:focus-visible,
   color: var(--text-tertiary, #bbb);
 }
 .shop-sheet__item--all .shop-sheet__label { font-weight: 600; }
+
+/* ----- 評價（Olive Young 引用） ----- */
+.reviews { padding: var(--space-3xl) 0; border-top: 1px solid var(--border-light); }
+
+.rv-head { display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--space-lg); flex-wrap: wrap; margin-bottom: var(--space-xl); }
+.rv-head__src { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem;
+  color: var(--text-secondary); border-bottom: 1px solid var(--border-light);
+  padding-bottom: 3px; transition: color var(--duration-fast), border-color var(--duration-fast); }
+.rv-head__src:hover { color: var(--primary); border-bottom-color: currentColor; }
+.rv-head__src svg { width: 13px; height: 13px; }
+
+/* 星 —— 一行灰底，一行金色裁到百分比，半星就唔使另外整圖 */
+.stars { position: relative; display: inline-block; white-space: nowrap;
+  letter-spacing: 2px; line-height: 1; font-size: 0.95rem; }
+.stars__row--bg { color: var(--gray-300); }
+.stars__fill { position: absolute; inset: 0; overflow: hidden; }
+.stars__row--fg { color: #e8a13a; }
+
+.rv-summary { display: grid; grid-template-columns: auto 1fr 1fr; gap: var(--space-2xl);
+  align-items: center; padding: var(--space-xl); border-radius: 16px;
+  background: var(--gray-50, #faf9f7); }
+
+.rv-score { text-align: center; }
+.rv-score__num { display: block; font-family: var(--font-display, inherit);
+  font-size: 3rem; line-height: 1; font-weight: 300; color: var(--text-primary); }
+.rv-score .stars { margin: 8px 0 6px; font-size: 1.05rem; }
+.rv-score__meta { display: block; font-size: 0.75rem; color: var(--text-tertiary); }
+
+.rv-dist__row { display: grid; grid-template-columns: 26px 1fr 34px; gap: 10px;
+  align-items: center; font-size: 0.75rem; color: var(--text-tertiary); }
+.rv-dist__row + .rv-dist__row { margin-top: 6px; }
+.rv-dist__track { height: 5px; border-radius: 3px; background: var(--gray-200, #e8e5e0); overflow: hidden; }
+.rv-dist__bar { display: block; height: 100%; border-radius: 3px; background: #e8a13a; }
+.rv-dist__pct { text-align: right; font-variant-numeric: tabular-nums; }
+
+.rv-attr { display: grid; grid-template-columns: 3.6em 1fr 2em; gap: 10px;
+  align-items: center; font-size: 0.75rem; color: var(--text-secondary); }
+.rv-attr + .rv-attr { margin-top: 8px; }
+.rv-attr__track { height: 5px; border-radius: 3px; background: var(--gray-200, #e8e5e0); overflow: hidden; }
+.rv-attr__bar { display: block; height: 100%; border-radius: 3px; background: var(--primary); }
+.rv-attr__num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+
+.rv-note { margin: var(--space-lg) 0 var(--space-xl); font-size: 0.75rem;
+  line-height: 1.7; color: var(--text-tertiary); }
+
+.rv-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
+.rv-card { padding: var(--space-lg); border: 1px solid var(--border-light); border-radius: 14px; }
+.rv-card__head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rv-card__who { font-size: 0.75rem; color: var(--text-secondary); }
+.rv-card__date { font-size: 0.75rem; color: var(--text-tertiary); margin-left: auto;
+  font-variant-numeric: tabular-nums; }
+.rv-card__shade { display: inline-block; margin-top: 10px; padding: 3px 9px;
+  border-radius: 999px; background: var(--gray-100, #f2efea);
+  font-size: 0.6875rem; color: var(--text-secondary); }
+.rv-card__text { margin: 10px 0 0; font-size: 0.875rem; line-height: 1.75; color: var(--text-primary); }
+.rv-card__attrs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.rv-card__attr { font-size: 0.6875rem; color: var(--text-tertiary);
+  border: 1px solid var(--border-light); border-radius: 999px; padding: 2px 8px; }
+.rv-card__attr b { color: var(--text-primary); font-weight: 500; }
+.rv-card__src { margin-top: 12px; }
+.rv-card__src summary { cursor: pointer; font-size: 0.6875rem; color: var(--text-tertiary);
+  list-style: none; }
+.rv-card__src summary::-webkit-details-marker { display: none; }
+.rv-card__src summary::before { content: '＋ '; }
+.rv-card__src[open] summary::before { content: '－ '; }
+.rv-card__src summary:hover { color: var(--primary); }
+.rv-card__src p { margin: 8px 0 0; font-size: 0.8125rem; line-height: 1.7;
+  color: var(--text-tertiary); }
+
+@media (max-width: 900px) {
+  .rv-summary { grid-template-columns: 1fr; gap: var(--space-lg); }
+  .rv-score { display: flex; align-items: baseline; justify-content: center;
+    gap: 12px; flex-wrap: wrap; }
+  .rv-score__num { font-size: 2.25rem; }
+  /* 「韓國 16,026 · 全球 4,975」唔可以喺數字中間斷行 */
+  .rv-score__meta { flex-basis: 100%; }
+  .rv-list { grid-template-columns: 1fr; }
+}
