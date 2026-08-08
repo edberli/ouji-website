@@ -3,8 +3,8 @@
  *
  * OUJI is new, so it has no reviews of its own — and inventing them was
  * never on the table. What it can do is show what Olive Young's shoppers
- * said about the same product, quoted and credited, next to a link to
- * the page it came from. A shopper can check every word.
+ * said about the same product, quoted and credited, with the original
+ * text one tap away. A shopper can check every word.
  *
  * Three rules the renderer enforces rather than trusts the data for:
  *
@@ -24,18 +24,19 @@
  *      match runs against the live variant list at render time, so it
  *      self-corrects the moment stock changes.
  */
-const REVIEWS_URL = 'data/reviews.json';
 const RATINGS_URL = 'data/ratings.json';
 
-let REVIEWS_CACHE = null;
 let RATINGS_CACHE = null;
 
-async function loadReviews() {
-  if (REVIEWS_CACHE) return REVIEWS_CACHE;
-  REVIEWS_CACHE = await fetch(REVIEWS_URL)
-    .then((r) => (r.ok ? r.json() : {}))
-    .catch(() => ({}));
-  return REVIEWS_CACHE;
+/** 一件產品一個檔。全部夾埋係 800 KB —— 冇理由為咗睇一支唇釉
+ *  嘅評價而攞埋其餘九十九件嘅。索引 (`ratings.json`) 話畀我哋知
+ *  邊件有原文，冇嘅連 request 都唔使發。 */
+async function loadReviews(handle) {
+  const idx = await loadRatings();
+  if (!idx[handle]?.text) return null;
+  return fetch(`data/reviews/${encodeURIComponent(handle)}.json`)
+    .then((r) => (r.ok ? r.json() : null))
+    .catch(() => null);
 }
 
 /* 分數同評價原文分開兩個檔，因為兩者嘅覆蓋率差好遠。分數係目錄
@@ -108,7 +109,9 @@ function sameShade(a, b) {
   return hit >= Math.min(2, Math.min(x.words.size, y.words.size));
 }
 
-/** 呢件產品實際賣緊嘅色號；冇色號選項（單一規格）就回 null = 唔篩。 */
+/** 呢件產品實際賣緊嘅色號；冇色號選項（單一規格）就回 null。
+ *  回 null 有兩個作用：唔篩評價，同埋唔好喺評價卡度貼個「色號」——
+ *  單一規格嘅產品，OY 嗰個欄位其實係成個產品名。 */
 function sellableShades(product) {
   const opt = (product?.options || []).find((o) => (o.values || []).length > 1);
   if (!opt) return null;
@@ -118,7 +121,7 @@ function sellableShades(product) {
   return live.length ? live : opt.values;
 }
 
-function reviewCard(r) {
+function reviewCard(r, showShade) {
   const attrs = (r.attrs || [])
     .map((a) => `<span class="rv-card__attr">${esc(a.name)} <b>${a.score}</b></span>`).join('');
   // 譯文行先、原文收喺 details 入面 —— 讀得明係頭等大事，
@@ -129,7 +132,7 @@ function reviewCard(r) {
       <span class="rv-card__who">${esc(r.who)}</span>
       <time class="rv-card__date">${esc(r.date)}</time>
     </header>
-    ${r.shade ? `<span class="rv-card__shade">${esc(r.shade)}</span>` : ''}
+    ${showShade && r.shade ? `<span class="rv-card__shade">${esc(r.shade)}</span>` : ''}
     <p class="rv-card__text">${esc(r.zh || r.text).replace(/\n+/g, '<br>')}</p>
     ${attrs ? `<div class="rv-card__attrs">${attrs}</div>` : ''}
     ${r.zh ? `<details class="rv-card__src">
@@ -163,7 +166,7 @@ async function initReviews(handle, product) {
   const host = document.querySelector('[data-reviews]');
   if (!handle) return;
 
-  const d = (await loadReviews())[handle];
+  const d = await loadReviews(handle);
   if (!d || !d.count) {
     // 得分數冇評價原文 —— 出返標題下面嗰行就算，唔好開個空嘅評價區。
     const r = (await loadRatings())[handle];
@@ -197,7 +200,7 @@ async function initReviews(handle, product) {
       <div class="rv-score">
         <span class="rv-score__num">${d.star}</span>
         ${stars(d.star)}
-        <span class="rv-score__meta">${regions}</span>
+        ${regions ? `<span class="rv-score__meta">${regions}</span>` : ''}
       </div>
       <div class="rv-dist">${d.dist.map((x) => distBar(x, max)).join('')}</div>
       <div class="rv-attrs">
@@ -211,5 +214,5 @@ async function initReviews(handle, product) {
     </div>
 
     ${shown.length ? `<p class="rv-note">${esc(d.note || '')}</p>
-    <div class="rv-list">${shown.map(reviewCard).join('')}</div>` : ''}`;
+    <div class="rv-list">${shown.map((r) => reviewCard(r, !!shades)).join('')}</div>` : ''}`;
 }
