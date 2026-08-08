@@ -946,6 +946,14 @@ const CATEGORY_TAXONOMY = {
       highlight:  { label: '高光',   keywords: ['highlighter', 'highlight', '高光'] },
     },
   },
+  kpop: {
+    label: 'K-pop 周邊',
+    keywords: ['k-pop', 'kpop', '周邊', '專輯', '寫真書'],
+    subs: {
+      album: { label: '專輯', keywords: ['專輯', 'album'] },
+      photobook: { label: '寫真書', keywords: ['寫真書', 'photobook'] },
+    },
+  },
   lens: {
     label: '隱形眼鏡',
     keywords: ['隱形眼鏡', 'contact lens', '美瞳', '日拋'],

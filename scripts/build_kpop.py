@@ -71,13 +71,22 @@ def handle_of(item):
     return f"kpop-{s}-{item['barcode'][-4:]}"
 
 
-def body(item):
+def body(item, version_match=True):
     versions = re.search(r"\((\d+)\s*Versions?\)", item["title"], re.I)
     note = ("<li>版本：隨機出貨（共 %s 款），恕不指定</li>" % versions.group(1)
             if versions else "")
+    # The retailers we source imagery from do not carry every version we
+    # hold, so some listings show a different pressing of the same album.
+    # Said plainly, at the top, where it is read before the picture is
+    # trusted — not buried in the small print.
+    caveat = ("" if version_match else
+              '<p><strong>圖片僅供參考，實際版本以標題為準。</strong><br>'
+              '相片係同一張專輯嘅另一個版本，封面設計會有分別；'
+              '你收到嘅係標題寫嗰個版本。</p>')
     return (
         f'<p><strong>{item["artist"]}</strong></p>'
         f'<p>{item["title"]}</p>'
+        f'{caveat}'
         f'<ul>'
         f'<li>韓國原裝正版，附官方贈品（小卡等隨機內容以實物為準）</li>'
         f'{note}'
@@ -104,7 +113,7 @@ def main():
         prod = {
             "handle": handle_of(item),
             "title": item["title"],
-            "descriptionHtml": body(item),
+            "descriptionHtml": body(item, m.get("version_match", True)),
             "vendor": item["artist"],
             "productType": kind,
             "tags": ["K-pop", "kpop", "周邊", kind, item["artist"]],
