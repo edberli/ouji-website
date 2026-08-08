@@ -76,6 +76,30 @@ def slugs(shade):
     return list(dict.fromkeys(out))
 
 
+# Nobody can tell a circle lens's colour from a photograph of its box.
+# The order below is the order someone actually decides in: the colour on
+# an eye, then the lens itself, then the model shot, and the packaging
+# last. Getting this backwards put a beige carton on every listing.
+COVER_ORDER = (
+    ("lens_on", "sample_0", "wear", "eye_on"),      # worn on an eye
+    ("lens.", "lens@", "product@2x", "product."),   # the lens itself
+    ("eyecatch", "image_0", "model", "main"),       # campaign portrait
+    ("package",),                                   # the box
+)
+
+# Spec diagrams, wordmarks and the 1-month box. None of them is a
+# photograph of what is being sold.
+JUNK = re.compile(r"lens_size|lens_name|copy\.|_1month|size\.|spec|chart|design_|new\.|ttl|title|txt|text|bg_|deco", re.I)
+
+
+def cover_rank(url):
+    name = url.rsplit("/", 1)[-1].lower()
+    for i, keys in enumerate(COVER_ORDER):
+        if any(k in name for k in keys):
+            return (i, 0 if "@2x" in name else 1, name)
+    return (len(COVER_ORDER), 1, name)
+
+
 def from_brand(colour):
     """The brand's own colour page, if the page really is that colour."""
     host = BRAND_SITE.get(brand_of(colour))
@@ -114,15 +138,8 @@ def from_brand(colour):
             if any(d in low for d in dirs):
                 imgs.append(full)
         if imgs:
-            # the packshot and the worn-eye shot lead; @2x is print-res
-            order = ("package", "lens_on", "product", "sample", "image")
-            def rank(u):
-                n = u.rsplit("/", 1)[-1].lower()
-                for i, k in enumerate(order):
-                    if k in n:
-                        return (i, 0 if "@2x" in n else 1, n)
-                return (len(order), 1, n)
-            imgs.sort(key=rank)
+            imgs = [u for u in imgs if not JUNK.search(u.rsplit("/", 1)[-1])]
+            imgs.sort(key=cover_rank)
             return imgs[:10]
     return []
 
