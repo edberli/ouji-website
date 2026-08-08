@@ -4,9 +4,8 @@
     {
       "name": "OUJI Server",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server"],
+      "runtimeArgs": ["_serve.py", "8085"],
       "port": 8085,
-      "autoPort": true,
       "cwd": "/Users/winstonli/Documents/ouji-website"
     }
   ]

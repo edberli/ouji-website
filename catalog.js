@@ -253,6 +253,29 @@ function optionRow(group, value, label, count) {
   </label>`;
 }
 
+/**
+ * A brand named in the URL, matched against what the page actually holds.
+ *
+ * Every brand link on the site — 48 tiles on the homepage, the whole of
+ * brands.html — pointed at a bare category.html. Tapping TIRTIR gave you
+ * all 529 skincare products and no sign the shop had heard of TIRTIR.
+ * The vendor filter existed the whole time; nothing ever set it from a
+ * link.
+ *
+ * Matched loosely because a link is typed by a human and a vendor is
+ * typed by whoever loaded the sheet: "rom&nd" arrives url-encoded,
+ * "N's Collection" has an apostrophe, "(G)I-DLE" has brackets.
+ */
+function brandFromUrl(products) {
+  const want = new URLSearchParams(location.search).get('brand');
+  if (!want) return null;
+  const flat = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const target = flat(want);
+  const hit = products.find((p) => flat(p.vendor) === target)
+    || products.find((p) => flat(p.vendor).startsWith(target) && target.length > 2);
+  return hit ? hit.vendor : null;
+}
+
 function buildFilterSidebar(section, products) {
   const sidebar = document.querySelector('.filter-sidebar');
   if (!sidebar) return;
@@ -313,6 +336,13 @@ function activeFilters() {
   document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked')
     .forEach((el) => sel[el.dataset.group]?.add(el.value));
   return sel;
+}
+
+/** Tick the sidebar box for a brand, so the URL and the UI agree. */
+function preselectBrand(vendor) {
+  if (!vendor) return;
+  document.querySelectorAll('.filter-sidebar input[data-group="vendor"]')
+    .forEach((el) => { if (el.value === vendor) el.checked = true; });
 }
 
 function applyFilters(section, products, sel) {
@@ -641,6 +671,24 @@ async function initCatalog({ section, cat, products }) {
   if (typeof loadIngredients === 'function') await loadIngredients();
 
   buildFilterSidebar(section, products);
+  // A brand in the URL is a filter like any other, just set before the
+  // first draw instead of by a click.
+  const urlBrand = brandFromUrl(products);
+  preselectBrand(urlBrand);
+  // Say whose page this is. Filtering silently looks like the link went
+  // to the wrong place — which is exactly what it used to do.
+  if (urlBrand) {
+    const title = document.querySelector('.category-banner__title');
+    if (title) title.textContent = urlBrand;
+    const desc = document.querySelector('.category-banner__desc');
+    if (desc) {
+      const n = products.filter((p) => p.vendor === urlBrand).length;
+      desc.textContent = `${urlBrand} 喺 OUJI 有 ${n} 件產品。`;
+    }
+    const tail = document.querySelector('.breadcrumb span:last-child');
+    if (tail && !tail.classList.contains('breadcrumb__sep')) tail.textContent = urlBrand;
+    document.title = `${urlBrand} — OUJI`;
+  }
 
   const countEl = document.querySelector('.filter-bar__count');
   const sortEl = document.querySelector('.filter-bar__sort select');

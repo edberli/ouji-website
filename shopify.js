@@ -940,7 +940,8 @@ const CATEGORY_TAXONOMY = {
       lipstick:   { label: '唇膏',   keywords: ['lipstick', '唇膏'] },
       liptint:    { label: '唇釉',   keywords: ['tint', '唇釉'] },
       lipgloss:   { label: '唇彩',   keywords: ['gloss', '唇彩'] },
-      cheek:      { label: '修容',   keywords: ['blush', 'highlighter', 'contour', 'bronzer', '胭脂', '高光', '修容'] },
+      // 傘形，蓋住胭脂／修容／高光。同下面 contour 撞名嘅話，導航會出兩個「修容」。
+      cheek:      { label: '頰彩',   keywords: ['blush', 'highlighter', 'contour', 'bronzer', '胭脂', '高光', '修容'] },
       blush:      { label: '胭脂',   keywords: ['blush', '胭脂'] },
       contour:    { label: '修容',   keywords: ['contour', 'bronzer', '修容'] },
       highlight:  { label: '高光',   keywords: ['highlighter', 'highlight', '高光'] },

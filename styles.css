@@ -1986,7 +1986,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .footer__bottom { display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-2xl); border-top: 1px solid rgba(255,255,255,0.2); }
 .footer__copyright { font-size: 0.75rem; color: rgba(255,255,255,0.65); }
 .footer__bottom-links { display: flex; gap: var(--space-lg); }
-.footer__bottom-links a { font-size: 0.75rem; color: rgba(255,255,255,0.65); transition: color var(--duration-fast); }
+.footer__bottom-links a,
+.footer__bottom-links span { font-size: 0.75rem; color: rgba(255,255,255,0.65); transition: color var(--duration-fast); }
 .footer__bottom-links a:hover { color: #ffffff; }
 
 /* ----- Breadcrumb ----- */
@@ -2109,6 +2110,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 .product-info { padding-top: var(--space-lg); }
 .product-info__brand { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary); margin-bottom: var(--space-sm); }
+.product-info__brand a { color: inherit; border-bottom: 1px solid transparent; transition: border-color var(--duration-fast); }
+.product-info__brand a:hover { border-bottom-color: currentColor; }
 .product-info__name { font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 400; line-height: 1.25; margin-bottom: var(--space-md); }
 .product-info__price { font-size: 1.25rem; font-weight: 600; color: var(--primary-dark); margin-bottom: var(--space-lg); }
 .product-info__divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-light), transparent); margin: var(--space-lg) 0; }
@@ -4745,6 +4748,10 @@ textarea:focus-visible,
   border: 1px solid var(--glass-border, rgba(255,255,255,0.6));
   box-shadow: 0 14px 40px rgba(24,48,58,0.22);
   animation: shopSheetIn 220ms var(--ease-out, cubic-bezier(.22,.9,.28,1));
+  /* 八個類別喺 iPhone SE 高度會爆出屏幕頂 —— 頂到就自己捲。 */
+  max-height: calc(100dvh - var(--mobile-nav-height, 62px) - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 @keyframes shopSheetIn {

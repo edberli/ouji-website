@@ -798,6 +798,10 @@ const SHOP_SHEET = [
   { href: 'category.html', label: '護膚', note: '潔面 · 精華 · 面霜 · 防曬' },
   { href: 'lens.html', label: '隱形眼鏡', note: '日拋 · 全度數' },
   { href: 'kpop.html', label: 'K-pop 周邊', note: '專輯 · 寫真書' },
+  // 細類別都要有位企 —— 唔喺呢度出現，手機用戶就淨係喺 footer 搵到。
+  { href: 'bodycare.html', label: '身體護理', note: '沐浴 · 護手 · 頭皮' },
+  { href: 'fragrance.html', label: '香氛', note: '香水' },
+  { href: 'lifestyle.html', label: '生活風格', note: '美容工具 · 配件' },
 ];
 
 function initShopSheet() {
