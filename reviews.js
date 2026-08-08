@@ -6,7 +6,7 @@
  * said about the same product, quoted and credited, next to a link to
  * the page it came from. A shopper can check every word.
  *
- * Two rules the renderer enforces rather than trusts the data for:
+ * Three rules the renderer enforces rather than trusts the data for:
  *
  *   1. **The bad reviews stay.** A block that is all five stars is the
  *      thing people have learned to discount. The 3★ oxidation complaint
@@ -14,7 +14,15 @@
  *      between two shades.
  *   2. **Never presented as ours.** Every unit carries the source, the
  *      reviewer's masked handle and the date, and the header says plainly
- *      that these came from Olive Young.
+ *      that these came from Olive Young. It says it in text — there is no
+ *      link. Naming your source is honest; handing a shopper a one-click
+ *      route to the shop you sourced from is just losing the sale.
+ *   3. **Only shades we can actually sell.** Olive Young carries 38
+ *      colours of this tint; we carry ten. A glowing review of a shade
+ *      that is not in the picker reads as a listing error, and the
+ *      shopper is right — they cannot buy the thing being praised. The
+ *      match runs against the live variant list at render time, so it
+ *      self-corrects the moment stock changes.
  */
 const REVIEWS_URL = 'data/reviews.json';
 
@@ -49,6 +57,42 @@ function distBar(d, max) {
   </div>`;
 }
 
+/* ----- 色號對唔對得上 -----
+ *
+ * Olive Young 寫 "23 Peach Peach Me"、"[SET/miffy EDITION] 03 Bare Grape
+ * (+Blur Fudge Pot)"；我哋寫 "#23 Peach Peach Me"。編號係最穩陣嘅鎖匙 ——
+ * 全世界都跟返 rom&nd 官方編號，唔會因為套裝包裝而變。冇編號就拆返做字，
+ * 睇名夠唔夠重疊。 */
+function shadeKeys(s) {
+  const t = String(s || '')
+    .replace(/\[[^\]]*\]/g, ' ')          // [SET/miffy EDITION]
+    .replace(/\([^)]*\)/g, ' ')           // (+Blur Fudge Pot)
+    .toLowerCase();
+  const num = t.match(/(?:^|[^\d])(\d{1,3})(?=\D|$)/);
+  return {
+    num: num ? String(+num[1]) : null,
+    words: new Set(t.replace(/[^a-z一-鿿 ]+/g, ' ').split(/\s+/).filter((w) => w.length > 2)),
+  };
+}
+
+function sameShade(a, b) {
+  const x = shadeKeys(a); const y = shadeKeys(b);
+  if (x.num && y.num) return x.num === y.num;
+  if (!x.words.size || !y.words.size) return false;
+  const hit = [...x.words].filter((w) => y.words.has(w)).length;
+  return hit >= Math.min(2, Math.min(x.words.size, y.words.size));
+}
+
+/** 呢件產品實際賣緊嘅色號；冇色號選項（單一規格）就回 null = 唔篩。 */
+function sellableShades(product) {
+  const opt = (product?.options || []).find((o) => (o.values || []).length > 1);
+  if (!opt) return null;
+  const live = (product?.variants?.edges || [])
+    .filter((e) => e.node.availableForSale)
+    .map((e) => e.node.title);
+  return live.length ? live : opt.values;
+}
+
 function reviewCard(r) {
   const attrs = (r.attrs || [])
     .map((a) => `<span class="rv-card__attr">${esc(a.name)} <b>${a.score}</b></span>`).join('');
@@ -70,11 +114,16 @@ function reviewCard(r) {
   </article>`;
 }
 
-async function initReviews(handle) {
+async function initReviews(handle, product) {
   const host = document.querySelector('[data-reviews]');
   if (!host || !handle) return;
   const d = (await loadReviews())[handle];
   if (!d || !d.count) return;
+
+  const shades = sellableShades(product);
+  const shown = shades
+    ? d.reviews.filter((r) => !r.shade || shades.some((v) => sameShade(v, r.shade)))
+    : d.reviews;
 
   const max = Math.max(...d.dist.map((x) => x.count));
   const regions = Object.entries(d.byRegion || {})
@@ -87,11 +136,7 @@ async function initReviews(handle) {
         <span class="label">評價</span>
         <h2 class="heading-lg">${d.count.toLocaleString()} 位顧客評過</h2>
       </div>
-      <a class="rv-head__src" href="${esc(d.sourceUrl)}" target="_blank" rel="noopener">
-        ${esc(d.source)}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-             aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-      </a>
+      <span class="rv-head__src">評分來自 ${esc(d.source)}</span>
     </div>
 
     <div class="rv-summary">
@@ -111,6 +156,6 @@ async function initReviews(handle) {
       </div>
     </div>
 
-    <p class="rv-note">${esc(d.note || '')}</p>
-    <div class="rv-list">${d.reviews.map(reviewCard).join('')}</div>`;
+    ${shown.length ? `<p class="rv-note">${esc(d.note || '')}</p>
+    <div class="rv-list">${shown.map(reviewCard).join('')}</div>` : ''}`;
 }

@@ -6172,11 +6172,7 @@ textarea:focus-visible,
 
 .rv-head { display: flex; align-items: flex-end; justify-content: space-between;
   gap: var(--space-lg); flex-wrap: wrap; margin-bottom: var(--space-xl); }
-.rv-head__src { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem;
-  color: var(--text-secondary); border-bottom: 1px solid var(--border-light);
-  padding-bottom: 3px; transition: color var(--duration-fast), border-color var(--duration-fast); }
-.rv-head__src:hover { color: var(--primary); border-bottom-color: currentColor; }
-.rv-head__src svg { width: 13px; height: 13px; }
+.rv-head__src { font-size: 0.75rem; color: var(--text-tertiary); }
 
 /* 星 —— 一行灰底，一行金色裁到百分比，半星就唔使另外整圖 */
 .stars { position: relative; display: inline-block; white-space: nowrap;

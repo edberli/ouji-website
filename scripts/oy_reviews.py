@@ -5,13 +5,17 @@ The raw dump comes out of the OY product page's own Vue state (see
 `docs/oy-review-scrape.md`); this script is only the cleaning half, so it
 stays runnable offline and its judgement calls are reviewable.
 
-Three things get thrown away, and it matters which:
+Four things get thrown away, and it matters which:
 
 * **Spam.** Marketplace sellers paste a wall of "fast shipping, great
   seller" filler to clear a minimum-character bonus. It says nothing
   about the product.
 * **Duplicates.** The same reviewer posting near-identical text under two
   shades is one opinion, not two.
+* **Anything about price.** "Worth it", "cheap", "bought it on sale" —
+  these were written about Olive Young's price in Korea, not ours. Quoting
+  them on our page makes a claim about our own pricing that we never made
+  and that may well be false.
 * **Nothing else.** In particular the low scores stay. A review block
   that is 100% five stars is the thing shoppers have learned to distrust,
   and the honest distribution is already good.
@@ -28,6 +32,15 @@ from difflib import SequenceMatcher
 SPAM = re.compile(
     r"複製貼上|通用評價|湊字數|滿\d+個字|值得信賴的賣家|出貨速度(非常)?快"
     r"|fast shipping|great seller|five stars? for the seller",
+    re.I)
+
+# 價錢字眼 —— 韓／日／英／中都要接住，因為評價係多國語言混住嚟。
+PRICE = re.compile(
+    r"price|pricey|cheap|expensive|affordable|bargain|worth (the|it|every)"
+    r"|value for money|good value|on sale|discount|deal\b|\$\d|₩|￥|元\b|蚊\b"
+    r"|價錢|價格|平|貴|抵買|抵用|抵|折扣|特價|減價|CP值|性價比"
+    r"|安い|安く|高い|お得|セール|割引|値段|コスパ"
+    r"|싸|저렴|비싸|가성비|할인|세일|가격",
     re.I)
 
 ATTR_ZH = {"Formulation": "質地", "Long-lasting": "持久度", "Color payoff": "顯色度",
@@ -66,7 +79,7 @@ def main():
     rows = []
     for r in raw["reviews"]:
         t = clean(r["text"])
-        if len(t) < 12 or spammy(t):
+        if len(t) < 12 or spammy(t) or PRICE.search(t):
             continue
         d = r["date"]
         rows.append({
@@ -92,8 +105,9 @@ def main():
 
     json.dump({
         "source": "Olive Young Global",
-        "sourceUrl": raw["url"],
-        "sourceTitle": raw["oyTitle"],
+        # 出街唔帶 URL —— 講明出處係誠實，畀條連結送客過去就係倒米。
+        # prdtNo 留返自己下次 re-scrape 用。
+        "sourceRef": raw["prdtNo"],
         "star": star,
         "count": total,
         "byRegion": {"韓國": k["count"], "全球": g["count"]},

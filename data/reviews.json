@@ -1,8 +1,7 @@
 {
   "romand-juicy-lasting-tint": {
     "source": "Olive Young Global",
-    "sourceUrl": "https://global.oliveyoung.com/product/detail?prdtNo=GA251235991",
-    "sourceTitle": "[NEW Soy Beige Core] rom&nd The Juicy Lasting Tint (38 Colors)",
+    "sourceRef": "GA251235991",
     "star": 4.7,
     "count": 21001,
     "byRegion": {
@@ -51,29 +50,6 @@
       }
     ],
     "reviews": [
-      {
-        "star": 4,
-        "date": "2026-07-22",
-        "who": "ma*****",
-        "shade": "[SET/ZO&FRIENDS EDITION] 36 Kitten Rich",
-        "text": "安くなっていたので買ったら、想像以上に可愛い色で使いやすい。淡いピンク色で良い。模様をアセトン入りの除光液で拭いて取ってシールでデコった。",
-        "attrs": [
-          {
-            "name": "顯色度",
-            "score": 3
-          },
-          {
-            "name": "質地",
-            "score": 4
-          },
-          {
-            "name": "持久度",
-            "score": 3
-          }
-        ],
-        "zh": "因為減價就買咗，點知隻色比想像中更可愛、更易用。淡粉紅色，好靚。我用含丙酮嘅甩甲水抹走咗管身圖案，再貼貼紙裝飾。",
-        "lang": "日文"
-      },
       {
         "star": 5,
         "date": "2026-06-21",
@@ -236,6 +212,6 @@
         "lang": "英文"
       }
     ],
-    "note": "以下評價由 Olive Young 顧客撰寫。OUJI 原文引用、只加中文翻譯，冇改動內容，亦冇刪走負評。"
+    "note": "以下評價由 Olive Young 顧客撰寫，OUJI 原文引用、只加中文翻譯，冇改動內容，亦冇刪走負評。只顯示我哋有貨嘅色號，同價錢有關嘅評價唔會收錄（兩邊售價唔同）。"
   }
 }
