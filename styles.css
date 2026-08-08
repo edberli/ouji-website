@@ -6259,3 +6259,89 @@ textarea:focus-visible,
 .card-rating span { font-size: 0.6875rem; color: var(--text-tertiary); }
 .product-info__rating.is-static { cursor: default; }
 .product-info__rating.is-static:hover { border-bottom-color: transparent; }
+
+/* ----- 全部產品 mega menu -----
+ *
+ * 頂欄本來排住十二條連結，喺一般手提電腦闊度會斷行，而且係喺字中間
+ * 斷（「隱形眼／鏡」）。分類全部收埋入呢一格，頂欄淨返五條。
+ */
+.header__nav-item--mega { position: relative; }
+
+.header__mega {
+  position: absolute;
+  top: 100%;
+  /* 靠左對齊觸發嗰個連結，唔好置中 —— 「全部產品」係頂欄最左，
+     置中會令面板一半跌出螢幕外。 */
+  left: 0;
+  transform: translateY(4px);
+  display: flex;
+  gap: var(--space-xl);
+  padding: var(--space-lg) var(--space-xl);
+  margin-top: 10px;
+  border-radius: 16px;
+  background: linear-gradient(135deg,
+    rgba(210, 230, 240, 0.62) 0%,
+    rgba(175, 205, 222, 0.68) 45%,
+    rgba(140, 180, 200, 0.62) 100%);
+  backdrop-filter: blur(22px) saturate(170%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 18px 50px rgba(40, 80, 110, 0.24),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out),
+              visibility var(--duration-normal);
+  z-index: 100;
+}
+
+/* 由連結去到面板之間有段空白，唔補住個橋接就會鼠標一離開就收埋 */
+.header__mega::before {
+  content: '';
+  position: absolute;
+  bottom: 100%; left: 0; right: 0; height: 14px;
+}
+
+.header__nav-item--mega:hover .header__mega,
+.header__nav-item--mega:focus-within .header__mega {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.header__mega-col { display: flex; flex-direction: column; gap: var(--space-lg); }
+.header__mega-group { display: flex; flex-direction: column; }
+
+.header__mega-title {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: none !important;
+  color: var(--dark-base) !important;
+  padding: 0 0 6px !important;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  white-space: nowrap;
+}
+.header__mega-title::after { display: none !important; }
+
+.header__mega-group a:not(.header__mega-title) {
+  display: block;
+  padding: 5px 0 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--text-primary) !important;
+  white-space: nowrap;
+}
+.header__mega-group a:not(.header__mega-title)::after { display: none !important; }
+.header__mega-group a:not(.header__mega-title):hover { color: var(--primary-dark) !important; }
+
+/* 窄啲嘅手提電腦：五欄會爆出螢幕外，摺成兩行 */
+@media (max-width: 1400px) {
+  .header__mega { flex-wrap: wrap; max-width: 92vw; gap: var(--space-lg); }
+}
