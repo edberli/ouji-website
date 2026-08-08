@@ -125,6 +125,20 @@ async function initReviews(handle, product) {
     ? d.reviews.filter((r) => !r.shade || shades.some((v) => sameShade(v, r.shade)))
     : d.reviews;
 
+  /* 標題下面嗰行分數。人未捲落去之前就見到，撳落去就去到成段評價 ——
+     呢個係大部分人喺產品頁上面唯一會搵嘅一樣嘢。 */
+  const jump = document.querySelector('[data-rating-jump]');
+  if (jump) {
+    jump.hidden = false;
+    jump.innerHTML = `${stars(d.star)}
+      <b class="product-info__rating-num">${d.star}</b>
+      <span class="product-info__rating-n">${d.count.toLocaleString()} 則評價</span>`;
+    jump.addEventListener('click', (e) => {
+      e.preventDefault();
+      host.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   const max = Math.max(...d.dist.map((x) => x.count));
   const regions = Object.entries(d.byRegion || {})
     .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(' · ');

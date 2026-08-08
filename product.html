@@ -231,6 +231,8 @@
         <div class="product-info">
           <span class="product-info__brand"></span>
           <h1 class="product-info__name"></h1>
+          <!-- 評分摘要 —— 有評價先出，撳一下捲落去成段評價 -->
+          <a class="product-info__rating" data-rating-jump href="#reviews" hidden></a>
           <div class="product-info__price"></div>
 
           <div class="product-info__divider"></div>
@@ -286,7 +288,7 @@
       </div>
 
       <!-- 評價 —— 由 data/reviews.json 填，冇資料就成塊唔出現 -->
-      <section class="reviews" data-reviews hidden></section>
+      <section class="reviews" id="reviews" data-reviews hidden></section>
 
       <!-- Related Products -->
       <section class="section--sm" style="border-top: 1px solid var(--border-light);">
