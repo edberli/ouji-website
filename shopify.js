@@ -82,7 +82,49 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
  * silently dropping the remainder — a third of the catalogue missing from
  * the grid, the matcher and the homepage with no error anywhere.
  */
+/* Cursor paging cannot be parallelised — page two needs page one's
+   cursor — so eight hundred products is five round trips end to end,
+   about a second before the grid can draw anything. Doing that again on
+   every hop between 彩妝 and 護膚 and 全部產品 is what makes the site
+   feel slow, and none of it is new information.
+
+   So the answer is cached for the tab session. Five minutes is short
+   enough that a price change or a sell-out shows up while somebody is
+   still browsing, and long enough that moving around the shop costs
+   nothing. sessionStorage, not localStorage: a new visit should see
+   today's catalogue, not last week's. */
+const CATALOG_TTL = 5 * 60 * 1000;
+const MEM_CACHE = new Map();
+
+function cacheRead(key) {
+  const hit = MEM_CACHE.get(key);
+  if (hit && Date.now() - hit.at < CATALOG_TTL) return hit.v;
+  try {
+    const raw = sessionStorage.getItem(key);
+    if (!raw) return null;
+    const { at, v } = JSON.parse(raw);
+    if (Date.now() - at >= CATALOG_TTL) return null;
+    MEM_CACHE.set(key, { at, v });
+    return v;
+  } catch (e) {
+    return null;
+  }
+}
+
+function cacheWrite(key, v) {
+  MEM_CACHE.set(key, { at: Date.now(), v });
+  try {
+    sessionStorage.setItem(key, JSON.stringify({ at: Date.now(), v }));
+  } catch (e) {
+    // 配額爆咗（大目錄 + 私隱模式）—— 記憶體嗰份照用，唔使理。
+  }
+}
+
 async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
+  const key = `ouji_catalog:${collectionHandle || 'all'}`;
+  const cached = cacheRead(key);
+  if (cached) return { edges: cached };
+
   const out = [];
   let after = null;
   while (out.length < max) {
@@ -92,6 +134,7 @@ async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } =
     if (!page?.pageInfo?.hasNextPage || !edges.length) break;
     after = page.pageInfo.endCursor;
   }
+  cacheWrite(key, out);
   return { edges: out };
 }
 
@@ -141,13 +184,31 @@ function getCachedProduct(handle) {
   } catch (e) { return null; }
 }
 
-/** 預載入商品列表中每個商品的完整資料 */
-async function prefetchProducts(handles) {
-  handles.forEach(async (handle) => {
-    if (getCachedProduct(handle)) return;
-    const product = await getProduct(handle);
-    if (product) cacheProduct(product);
-  });
+/**
+ * 預載入商品列表頭幾件嘅完整資料，等撳落去嗰下即刻出到。
+ *
+ * 呢個本來一次過發十二個 query，而且係喺格仔畫完即刻發。每個
+ * `getProduct` 都攞五十張圖同五十個變體 —— 十二個加埋比成頁嘢
+ * 都重，仲要同真正要顯示嘅產品相爭頻寬，結果係為咗令「可能會撳」
+ * 嗰下快啲，令「而家就要睇」嗰下慢咗。
+ *
+ * 改成四件，而且等瀏覽器閒咗先發。
+ */
+function prefetchProducts(handles, limit = 4) {
+  const run = () => {
+    handles.slice(0, limit).forEach(async (handle) => {
+      if (getCachedProduct(handle)) return;
+      try {
+        const product = await getProduct(handle);
+        if (product) cacheProduct(product);
+      } catch (e) { /* 預載失敗唔緊要，撳落去嗰陣照樣攞到 */ }
+    });
+  };
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(run, { timeout: 4000 });
+  } else {
+    setTimeout(run, 1500);
+  }
 }
 
 /** 搜尋商品 */

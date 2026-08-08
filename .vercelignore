@@ -1,0 +1,11 @@
+# 呢啲係開發／營運工具，唔屬於個網站。
+# 之前全部部署咗上去，任何人都揀得到 /scripts/backup_store.py 嚟睇 ——
+# 冇 credential 喺入面（token 喺 .env，.env 冇入 git），但佢暴露咗
+# 內部路徑、location ID、成本價點處理、評價點攞。冇理由公開。
+scripts/
+docs/
+_serve.py
+serve.json
+*.md
+!index.md
+.claude/
