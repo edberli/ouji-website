@@ -6251,3 +6251,11 @@ textarea:focus-visible,
   .rv-score__meta { flex-basis: 100%; }
   .rv-list { grid-template-columns: 1fr; }
 }
+
+/* 產品卡上面嗰行細星 */
+.card-rating { display: flex; align-items: center; gap: 5px; margin-top: 4px; }
+.card-rating .stars { font-size: 0.7rem; letter-spacing: 1px; }
+.card-rating b { font-size: 0.75rem; font-weight: 500; color: var(--text-primary); }
+.card-rating span { font-size: 0.6875rem; color: var(--text-tertiary); }
+.product-info__rating.is-static { cursor: default; }
+.product-info__rating.is-static:hover { border-bottom-color: transparent; }

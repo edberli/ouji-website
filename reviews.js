@@ -25,8 +25,10 @@
  *      self-corrects the moment stock changes.
  */
 const REVIEWS_URL = 'data/reviews.json';
+const RATINGS_URL = 'data/ratings.json';
 
 let REVIEWS_CACHE = null;
+let RATINGS_CACHE = null;
 
 async function loadReviews() {
   if (REVIEWS_CACHE) return REVIEWS_CACHE;
@@ -34,6 +36,29 @@ async function loadReviews() {
     .then((r) => (r.ok ? r.json() : {}))
     .catch(() => ({}));
   return REVIEWS_CACHE;
+}
+
+/* 分數同評價原文分開兩個檔，因為兩者嘅覆蓋率差好遠。分數係目錄
+   一個 request 就攞到成個品牌，五百幾件都有；評價原文要逐件入產品頁
+   先拎到。分開放，個網就唔使等齊先出得到星。 */
+async function loadRatings() {
+  if (RATINGS_CACHE) return RATINGS_CACHE;
+  RATINGS_CACHE = await fetch(RATINGS_URL)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => d?.products || {})
+    .catch(() => ({}));
+  return RATINGS_CACHE;
+}
+
+/** 產品卡上面嗰行細星。冇分就回空字串，唔會留個窿。
+ *
+ *  卡片模板係同步嘅，所以呢個一定要同步答到 —— 頁面渲染之前
+ *  行一次 `await loadRatings()` 就得，之後全部卡片即刻攞到。 */
+function ratingChip(handle) {
+  const r = RATINGS_CACHE?.[handle];
+  if (!r) return '';
+  return `<span class="card-rating">${stars(r.star)}
+    <b>${r.star}</b><span>(${r.count.toLocaleString()})</span></span>`;
 }
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g,
@@ -114,30 +139,45 @@ function reviewCard(r) {
   </article>`;
 }
 
+/* 標題下面嗰行分數。人未捲落去之前就見到 —— 呢個係大部分人喺產品頁
+   上面唯一會搵嘅一樣嘢。有評價原文先撳得，冇就淨係顯示唔畀撳。 */
+function ratingLine(star, count, jumpTo) {
+  const el = document.querySelector('[data-rating-jump]');
+  if (!el) return;
+  el.hidden = false;
+  el.innerHTML = `${stars(star)}
+    <b class="product-info__rating-num">${star}</b>
+    <span class="product-info__rating-n">${count.toLocaleString()} 則評價</span>`;
+  if (!jumpTo) {
+    el.removeAttribute('href');
+    el.classList.add('is-static');
+    return;
+  }
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    jumpTo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
 async function initReviews(handle, product) {
   const host = document.querySelector('[data-reviews]');
-  if (!host || !handle) return;
+  if (!handle) return;
+
   const d = (await loadReviews())[handle];
-  if (!d || !d.count) return;
+  if (!d || !d.count) {
+    // 得分數冇評價原文 —— 出返標題下面嗰行就算，唔好開個空嘅評價區。
+    const r = (await loadRatings())[handle];
+    if (r) ratingLine(r.star, r.count, null);
+    return;
+  }
+  if (!host) return;
 
   const shades = sellableShades(product);
   const shown = shades
     ? d.reviews.filter((r) => !r.shade || shades.some((v) => sameShade(v, r.shade)))
     : d.reviews;
 
-  /* 標題下面嗰行分數。人未捲落去之前就見到，撳落去就去到成段評價 ——
-     呢個係大部分人喺產品頁上面唯一會搵嘅一樣嘢。 */
-  const jump = document.querySelector('[data-rating-jump]');
-  if (jump) {
-    jump.hidden = false;
-    jump.innerHTML = `${stars(d.star)}
-      <b class="product-info__rating-num">${d.star}</b>
-      <span class="product-info__rating-n">${d.count.toLocaleString()} 則評價</span>`;
-    jump.addEventListener('click', (e) => {
-      e.preventDefault();
-      host.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  }
+  ratingLine(d.star, d.count, host);
 
   const max = Math.max(...d.dist.map((x) => x.count));
   const regions = Object.entries(d.byRegion || {})

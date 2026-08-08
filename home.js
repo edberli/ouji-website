@@ -11,6 +11,7 @@
  */
 async function initHome() {
   const all = await getAllProducts();
+  if (typeof loadRatings === 'function') await loadRatings();
   const products = (all?.edges || []).map((e) => e.node)
     .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale);
   if (!products.length) return;
@@ -39,6 +40,7 @@ async function initHome() {
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${p.title}</span>
+      ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
       <span class="product-card__price">${formatPrice(p0.amount)}</span>
     </a>`;
   };

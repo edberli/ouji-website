@@ -422,6 +422,7 @@ function productCard(p) {
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${p.title}</span>
+      ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
       <span class="product-card__price">${formatPrice(p0.amount)}</span>
       ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(cp.amount)}</span>` : ''}
     </a>`;
@@ -669,6 +670,7 @@ async function initCatalog({ section, cat, products }) {
   // data has to be in hand before the first draw — otherwise the badges
   // pop in a beat later and the grid jumps.
   if (typeof loadIngredients === 'function') await loadIngredients();
+  if (typeof loadRatings === 'function') await loadRatings();
 
   buildFilterSidebar(section, products);
   // A brand in the URL is a filter like any other, just set before the
