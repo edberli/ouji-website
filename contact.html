@@ -216,8 +216,8 @@
             <p style="margin-top: 16px;"><strong>營業時間</strong><br>每日 12:00–20:00</p>
 
             <h2 style="font-family: var(--font-brand); font-size: 1.25rem; font-weight: 600; color: var(--primary-dark); margin: 32px 0 16px;">聯絡方式</h2>
-            <p style="margin-bottom: 8px;"><strong>WhatsApp：</strong>+852 9123 4567</p>
-            <p style="margin-bottom: 8px;"><strong>電郵：</strong>hello@ouji.hk</p>
+            <p style="margin-bottom: 8px;"><strong>WhatsApp：</strong><a href="https://wa.me/85290195092" target="_blank" rel="noopener">+852 9019 5092</a></p>
+            <p style="margin-bottom: 8px;"><strong>電郵：</strong><a href="mailto:info@oujikbeauty.com">info@oujikbeauty.com</a></p>
             <p style="margin-bottom: 8px;"><strong>Instagram：</strong><a href="https://www.instagram.com/ouji_kbeauty/" target="_blank" rel="noopener">@ouji_kbeauty</a></p>
             <p style="margin-bottom: 8px;"><strong>Facebook：</strong><a href="https://www.facebook.com/Oujihk" target="_blank" rel="noopener">Ouji HK</a></p>
             <p><strong>Threads：</strong><a href="https://www.threads.com/@ouji_kbeauty" target="_blank" rel="noopener">@ouji_kbeauty</a></p>
@@ -225,12 +225,13 @@
 
           <div>
             <h2 style="font-family: var(--font-brand); font-size: 1.25rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 16px;">傳送訊息</h2>
-            <form style="display: flex; flex-direction: column; gap: 16px;">
-              <input type="text" placeholder="你的名字" style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'">
-              <input type="email" placeholder="電郵地址" style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'">
-              <input type="text" placeholder="主題" style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'">
-              <textarea placeholder="你的訊息" rows="5" style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; resize: vertical; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'"></textarea>
+            <form data-contact-form style="display: flex; flex-direction: column; gap: 16px;">
+              <input type="text" placeholder="你的名字" name="name" required style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'">
+              <input type="email" placeholder="電郵地址" name="email" required style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'">
+              <input type="text" placeholder="主題" name="subject" required style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'">
+              <textarea placeholder="你的訊息" name="message" rows="5" required style="padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 10px; font-family: inherit; font-size: 0.9rem; resize: vertical; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border-light)'"></textarea>
               <button type="submit" class="btn btn--primary" style="align-self: flex-start;">送出訊息</button>
+              <p style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0;">撳「送出訊息」會開 WhatsApp 並帶埋你打嘅內容，你確認咗先寄出。想用電郵嘅話，直接寄去 <a href="mailto:info@oujikbeauty.com">info@oujikbeauty.com</a>。</p>
             </form>
           </div>
         </div>
@@ -337,5 +338,25 @@
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="script.js"></script>
+
+  <script>
+    // 冇後端，所以表單唔可以自己「送出」—— 以前撳完乜都唔會發生，
+    // 客人以為聯絡咗我哋。而家改成開 WhatsApp 並帶埋佢打嘅嘢，
+    // 佢自己撳寄出，訊息真係到得手。
+    document.querySelector('[data-contact-form]')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const get = (n) => (f.elements[n]?.value || '').trim();
+      if (!f.reportValidity()) return;
+      const body = [
+        `【${get('subject') || '網站查詢'}】`,
+        `姓名：${get('name')}`,
+        `電郵：${get('email')}`,
+        '',
+        get('message'),
+      ].join('\n');
+      window.open('https://wa.me/85290195092?text=' + encodeURIComponent(body), '_blank', 'noopener');
+    });
+  </script>
 </body>
 </html>
