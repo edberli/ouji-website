@@ -567,7 +567,7 @@
 
     <!-- ===== FEATURED COLLECTION ===== -->
 
-    <!-- 精選推薦 — live, ordered like the category pages' 推薦 -->
+    <!-- 逐個類別一條橫向捲軸 — 由實際目錄砌出嚟 -->
     <section class="section section-float">
       <div class="container">
         <div class="section-header section-header--split reveal-blur">
@@ -577,8 +577,8 @@
           </div>
           <a href="shop.html" class="btn--ghost">瀏覽全部</a>
         </div>
-        <div class="product-grid reveal-stagger" data-home-featured></div>
       </div>
+      <div data-home-rails></div>
     </section>
 
     <!-- 獲獎產品 -->
@@ -657,57 +657,14 @@
       </div>
     </section>
 
-    <section class="section section-float">
+    <section class="section--sm section-float">
       <div class="container">
         <div class="section-header reveal-blur">
           <span class="label section-header__label">分類選購</span>
           <h2 class="heading-lg section-header__title">探索分類</h2>
         </div>
       </div>
-      <div class="container">
-        <div class="category-grid reveal-stagger">
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=480&q=80" alt="Skincare" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">護膚</h3>
-              <span class="category-tile__count">29 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=480&q=80" alt="Makeup" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">彩妝</h3>
-              <span class="category-tile__count">19 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1593638112487-4ddea6affcfb?w=480&q=80" alt="Body Care" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">身體護理</h3>
-              <span class="category-tile__count">12 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=480&q=80" alt="Fragrance" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">香氛</h3>
-              <span class="category-tile__count">8 個品牌</span>
-            </div>
-          </a>
-          <a href="category.html" class="category-tile">
-            <img class="category-tile__image" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=480&q=80" alt="Lifestyle" loading="lazy" decoding="async">
-            <div class="category-tile__bg"></div>
-            <div class="category-tile__content">
-              <h3 class="category-tile__name">生活風格</h3>
-              <span class="category-tile__count">6 個品牌</span>
-            </div>
-          </a>
-        </div>
-      </div>
+      <div class="cat-circles" data-home-cats></div>
     </section>
 
     <section class="section section--warm section-float">

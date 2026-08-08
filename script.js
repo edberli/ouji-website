@@ -786,8 +786,20 @@ function initBokeh() {
 /* ----- Mobile bottom nav: the shop sheet -----
    The middle tab used to go to category.html, a full page of nested
    subcategories — three taps deep before you saw a product. It opens a
-   three-line sheet instead, because 全部 / 彩妝 / 護膚 is the only split
-   anyone actually needs from a bottom bar. */
+   sheet instead.
+
+   The sheet listed 全部 / 彩妝 / 護膚 and stopped there, which was the
+   whole catalogue when it was written. Lenses and K-pop went up and were
+   reachable from the bottom bar by nobody: the one control a phone user
+   presses to browse did not know two of the four things the shop sells. */
+const SHOP_SHEET = [
+  { href: 'shop.html', label: '全部產品', note: '成個目錄', all: true },
+  { href: 'makeup.html', label: '彩妝', note: '底妝 · 眼妝 · 唇妝' },
+  { href: 'category.html', label: '護膚', note: '潔面 · 精華 · 面霜 · 防曬' },
+  { href: 'lens.html', label: '隱形眼鏡', note: '日拋 · 全度數' },
+  { href: 'kpop.html', label: 'K-pop 周邊', note: '專輯 · 寫真書' },
+];
+
 function initShopSheet() {
   const btn = document.querySelector('[data-shop-menu]');
   if (!btn) return;
@@ -796,9 +808,15 @@ function initShopSheet() {
   sheet.className = 'shop-sheet';
   sheet.innerHTML = `
     <div class="shop-sheet__panel" role="menu" aria-label="選購">
-      <a class="shop-sheet__item" role="menuitem" href="shop.html">全部產品</a>
-      <a class="shop-sheet__item" role="menuitem" href="makeup.html">彩妝</a>
-      <a class="shop-sheet__item" role="menuitem" href="category.html">護膚</a>
+      <span class="shop-sheet__grip" aria-hidden="true"></span>
+      ${SHOP_SHEET.map((i) => `
+        <a class="shop-sheet__item${i.all ? ' shop-sheet__item--all' : ''}"
+           role="menuitem" href="${i.href}">
+          <span class="shop-sheet__label">${i.label}</span>
+          <span class="shop-sheet__note">${i.note}</span>
+          <svg class="shop-sheet__chev" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </a>`).join('')}
     </div>`;
   document.body.appendChild(sheet);
 

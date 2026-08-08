@@ -5968,3 +5968,194 @@ textarea:focus-visible,
   line-height: 1.65;
   color: #35637a;
 }
+
+/* ─────────────────────────────────────────────
+   首頁：分類圓圈 + 逐類捲軸
+   ───────────────────────────────────────────── */
+
+/* Circles rather than tiles. The tiles were four big cards carrying stock
+   photography and invented brand counts; they ate most of a screen to say
+   less than a line of text. A circle each, scrolled sideways, fits eleven
+   categories in the space two cards used. */
+/* The section wrapping this keeps a full section's padding, which left a
+   screen of nothing under a 130px-tall row. */
+.section--sm:has(.cat-circles) { padding-bottom: var(--space-lg, 20px); }
+.cat-circles {
+  display: flex;
+  gap: var(--space-lg, 20px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  /* Snapping aligns a child with the scrollport edge, which ignores the
+     padding — every rail loaded already scrolled 16px, with its first
+     card clipped. scroll-padding tells the snap where the content
+     actually starts. */
+  scroll-padding-inline-start: var(--space-md, 16px);
+  padding: 4px var(--space-md, 16px) var(--space-md, 16px);
+  /* Bleed to the screen edge so the row reads as continuing, not as a
+     box that happens to be full. */
+  margin-inline: calc(var(--space-md, 16px) * -1);
+}
+.cat-circles::-webkit-scrollbar { display: none; }
+@media (min-width: 1024px) {
+  .cat-circles {
+    scroll-padding-inline-start: max(var(--space-md, 16px), calc((100vw - 1280px) / 2 + 24px));
+    padding-inline: max(var(--space-md, 16px), calc((100vw - 1280px) / 2 + 24px));
+    margin-inline: 0;
+  }
+}
+
+.cat-circle {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 88px;
+  text-decoration: none;
+  color: inherit;
+}
+.cat-circle__ring {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--surface-alt, #f2efea);
+  /* A hairline ring plus a gap reads as a deliberate frame; a border
+     straight on the image reads as a rendering artefact. */
+  box-shadow: 0 0 0 1px var(--border-light, #e6e2dc), 0 0 0 4px var(--surface, #fff),
+              0 4px 14px rgba(109,163,181,0.14);
+  transition: transform 220ms var(--ease-out, ease), box-shadow 220ms;
+}
+.cat-circle__ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cat-circle:hover .cat-circle__ring {
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px var(--primary, #6da3b5), 0 0 0 4px var(--surface, #fff),
+              0 8px 20px rgba(109,163,181,0.24);
+}
+.cat-circle__name {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  text-align: center;
+}
+.cat-circle__n {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary, #9a9a9a);
+  font-variant-numeric: tabular-nums;
+}
+
+/* One row per category, swiped sideways. */
+.home-rail { margin-bottom: var(--space-2xl, 40px); }
+.home-rail:last-child { margin-bottom: 0; }
+.home-rail__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md, 16px);
+  margin-bottom: var(--space-md, 16px);
+}
+.home-rail__title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 0;
+}
+.home-rail__title em {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-tertiary, #9a9a9a);
+}
+.home-rail__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.8125rem;
+  color: var(--primary-deep, #3c6b7d);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.home-rail__all svg { width: 15px; height: 15px; }
+
+.home-rail__track {
+  display: flex;
+  gap: var(--space-md, 16px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline-start: var(--space-md, 16px);
+  padding: 2px var(--space-md, 16px) var(--space-sm, 10px);
+  margin-inline: calc(var(--space-md, 16px) * -1);
+}
+.home-rail__track::-webkit-scrollbar { display: none; }
+@media (min-width: 1024px) {
+  .home-rail__track {
+    scroll-padding-inline-start: max(var(--space-md, 16px), calc((100vw - 1280px) / 2 + 24px));
+    padding-inline: max(var(--space-md, 16px), calc((100vw - 1280px) / 2 + 24px));
+    margin-inline: 0;
+  }
+}
+.home-rail__track .product-card {
+  flex: 0 0 auto;
+  width: 172px;
+  scroll-snap-align: start;
+}
+@media (min-width: 768px) { .home-rail__track .product-card { width: 210px; } }
+
+/* The end of the row is a door, not a dead stop. */
+.home-rail__more {
+  flex: 0 0 auto;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 128px;
+  border: 1px dashed var(--border-light, #e0dcd5);
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--primary-deep, #3c6b7d);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-align: center;
+  scroll-snap-align: start;
+}
+.home-rail__more svg { width: 18px; height: 18px; }
+.home-rail__more:hover { border-color: var(--primary, #6da3b5); background: rgba(109,163,181,0.05); }
+
+/* The sheet grew from three lines to five, so it needs a handle and a
+   little more room to read as a sheet rather than a dropdown. */
+.shop-sheet__grip {
+  display: block;
+  width: 38px;
+  height: 4px;
+  margin: 10px auto 6px;
+  border-radius: 999px;
+  background: var(--border-light, #ddd);
+}
+.shop-sheet__item {
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  row-gap: 2px;
+  padding: 13px 18px;
+}
+.shop-sheet__label { font-size: 0.9375rem; }
+.shop-sheet__note {
+  grid-column: 1;
+  font-size: 0.6875rem;
+  color: var(--text-tertiary, #9a9a9a);
+}
+.shop-sheet__chev {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 18px;
+  height: 18px;
+  color: var(--text-tertiary, #bbb);
+}
+.shop-sheet__item--all .shop-sheet__label { font-weight: 600; }

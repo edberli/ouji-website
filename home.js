@@ -63,11 +63,101 @@ async function initHome() {
     stat('awards', Object.values(AWARDS).reduce((n, l) => n + l.length, 0));
   }
 
-  /* ----- 精選推薦 ----- */
-  const pick = document.querySelector('[data-home-featured]');
-  if (pick) {
-    const list = [...products].sort((a, b) => featured(b) - featured(a)).slice(0, 8);
-    pick.innerHTML = list.map(card).join('');
+  /* ----- 逐個類別一條捲軸 -----
+   *
+   * One grid of "everything popular" made sense when the shop sold one
+   * kind of thing. With makeup, skincare, lenses and K-pop in the same
+   * catalogue it stopped meaning anything: a shopper looking for a lens
+   * colour scrolled past eight serums to find out we sell lenses at all.
+   *
+   * Each category gets its own row instead — swipe along it, or take the
+   * link at the end of the row into the full category. */
+  const RAILS = [
+    { id: 'makeup', label: '彩妝', href: 'makeup.html',
+      has: (p) => hasTag(p, '彩妝', 'makeup') },
+    { id: 'skincare', label: '護膚', href: 'category.html',
+      has: (p) => hasTag(p, '護膚', 'skincare') },
+    { id: 'lens', label: '隱形眼鏡', href: 'lens.html',
+      has: (p) => hasTag(p, '隱形眼鏡') },
+    { id: 'kpop', label: 'K-pop 周邊', href: 'kpop.html',
+      has: (p) => hasTag(p, 'K-pop', 'kpop') },
+  ];
+
+  function hasTag(p, ...want) {
+    const tags = (p.tags || []).map((t) => t.toLowerCase());
+    return want.some((w) => tags.includes(w.toLowerCase()));
+  }
+
+  const rails = document.querySelector('[data-home-rails]');
+  if (rails) {
+    rails.innerHTML = RAILS.map((r) => {
+      const list = products.filter(r.has).sort((a, b) => featured(b) - featured(a));
+      if (list.length < 3) return '';       // a row of two is not a row
+      return `<div class="home-rail">
+        <div class="container home-rail__head">
+          <h3 class="home-rail__title">${r.label}<em>${list.length}</em></h3>
+          <a class="home-rail__all" href="${r.href}">睇晒
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        </div>
+        <div class="home-rail__track" data-rail="${r.id}">
+          ${list.slice(0, 12).map(card).join('')}
+          <a class="home-rail__more" href="${r.href}">
+            <span>睇晒<br>${r.label}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  /* ----- 分類圓圈 -----
+   *
+   * This was four big tiles carrying Unsplash stock photos and invented
+   * brand counts — "護膚 29 個品牌" next to a photograph of somebody
+   * else's shelf. It took most of a screen to say less than a line of
+   * text, and two of the four categories did not exist any more.
+   *
+   * A scrolling row of circles instead: each one a real product we
+   * actually stock, and the real number behind it. */
+  const CATS = [
+    { label: '彩妝', href: 'makeup.html', has: (p) => hasTag(p, '彩妝', 'makeup') },
+    { label: '護膚', href: 'category.html', has: (p) => hasTag(p, '護膚', 'skincare') },
+    { label: '隱形眼鏡', href: 'lens.html', has: (p) => hasTag(p, '隱形眼鏡') },
+    { label: 'K-pop', href: 'kpop.html', has: (p) => hasTag(p, 'K-pop', 'kpop') },
+    { label: '精華', href: 'category.html?cat=serum', type: '精華' },
+    { label: '面膜', href: 'category.html?cat=mask', type: '面膜' },
+    { label: '防曬', href: 'category.html?cat=sunscreen', type: '防曬' },
+    { label: '氣墊', href: 'makeup.html?cat=cushion', type: '氣墊粉底' },
+    { label: '唇釉', href: 'makeup.html?cat=liptint', type: '唇釉' },
+    { label: '眼影', href: 'makeup.html?cat=eyeshadow', type: '眼影' },
+    { label: '身體護理', href: 'bodycare.html', has: (p) => hasTag(p, '身體護理') },
+  ];
+
+  const cats = document.querySelector('[data-home-cats]');
+  if (cats) {
+    // 護膚 and 精華 overlap, and both would otherwise wear the same
+    // bottle — two circles side by side showing one product reads as a
+    // rendering bug. Each takes the best picture not already spoken for.
+    const taken = new Set();
+    cats.innerHTML = CATS.map((c) => {
+      const test = c.has || ((p) => p.productType === c.type);
+      const list = products.filter(test).sort((a, b) => featured(b) - featured(a));
+      if (list.length < 3) return '';
+      const pick = list.find((p) => p.images?.edges?.[0]?.node
+        && !taken.has(p.images.edges[0].node.url))
+        || list.find((p) => p.images?.edges?.[0]?.node);
+      const img = pick?.images?.edges?.[0]?.node;
+      if (img) taken.add(img.url);
+      return `<a class="cat-circle" href="${c.href}">
+        <span class="cat-circle__ring">
+          ${img ? `<img src="${img.url}" alt="" loading="lazy">` : ''}
+        </span>
+        <span class="cat-circle__name">${c.label}</span>
+        <span class="cat-circle__n">${list.length}</span>
+      </a>`;
+    }).join('');
   }
 
   /* ----- 獲獎產品 ----- */
