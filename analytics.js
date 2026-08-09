@@ -176,6 +176,59 @@ if (TRACK_ON) {
   initMeta();
 }
 
+/* ---------- 產品頁嘅 SEO meta ----------
+ *
+ * product.html 係一個模板，807 件產品共用。之前佢個 <head> 由頭到尾都係
+ * 死嘅：每一版都叫「商品 — OUJI」、同一段描述、而且 canonical 全部指住
+ * `https://oujikbeauty.com/product`。
+ *
+ * 最後嗰樣係致命傷 —— canonical 等於同 Google 講「唔好收錄我，去收錄
+ * /product」。807 件產品全部自我除名，一件都排唔到。
+ *
+ * 呢個函數喺攞到產品資料之後，將成組 meta 改返做嗰件產品自己嘅。
+ */
+function setMeta(selector, attr, value) {
+  if (!value) return;
+  const el = document.querySelector(selector);
+  if (el) el.setAttribute(attr, value);
+}
+
+/** canonical 喺 product.html 特登冇寫死（寫死就一定係錯嘅嗰個），要即場開。 */
+function setCanonical(url) {
+  let el = document.querySelector('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.rel = 'canonical';
+    document.head.appendChild(el);
+  }
+  el.href = url;
+}
+
+function applyProductSeo(product) {
+  if (!product) return;
+  const url = `https://oujikbeauty.com/products/${product.handle}`;
+  const title = `${product.title} — OUJI`;
+  /* 描述取產品自己嘅文案頭 150 字；冇就用品牌做 fallback，
+     總之唔可以 807 版一模一樣。 */
+  const raw = (product.description || '').replace(/\s+/g, ' ').trim();
+  const desc = raw
+    ? raw.slice(0, 150) + (raw.length > 150 ? '…' : '')
+    : `${product.vendor || 'OUJI'} ${product.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
+  const image = product.images?.edges?.[0]?.node?.url;
+
+  document.title = title;
+  setCanonical(url);
+  setMeta('meta[name="description"]', 'content', desc);
+  setMeta('meta[property="og:type"]', 'content', 'product');
+  setMeta('meta[property="og:url"]', 'content', url);
+  setMeta('meta[property="og:title"]', 'content', title);
+  setMeta('meta[property="og:description"]', 'content', desc);
+  setMeta('meta[property="og:image"]', 'content', image);
+  setMeta('meta[name="twitter:title"]', 'content', title);
+  setMeta('meta[name="twitter:description"]', 'content', desc);
+  setMeta('meta[name="twitter:image"]', 'content', image);
+}
+
 /* ---------- 結構化資料（schema.org Product）----------
  *
  * Google 靠呢段嘢先知道一版嘢係一件產品、幾錢、仲有冇貨 —— 搜尋結果
@@ -184,7 +237,7 @@ if (TRACK_ON) {
  *
  * ⚠️ 特登唔放 aggregateRating。 我哋嘅評分係 Olive Young 顧客畀嘅，
  * 唔係 OUJI 顧客畀嘅。將人哋嘅評分放入自己個 Product schema，等於同
- * Google 講「呢啲係我哋收到嘅評價」—— 違反佢嘅評論摘要政策，會food
+ * Google 講「呢啲係我哋收到嘅評價」—— 違反佢嘅評論摘要政策，會招致
  * 人手處罰。頁面上照樣顯示（有寫明出處），但唔會餵去搜尋引擎。
  */
 function injectProductSchema(product, variant) {

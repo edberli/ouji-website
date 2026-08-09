@@ -13,7 +13,8 @@
   <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#1e3038">
-  <link rel="canonical" href="https://oujikbeauty.com/product">
+  <!-- canonical 由 analytics.js 嘅 applyProductSeo() 按 handle 即場寫入。
+       寫死喺度只會變成 807 版共用同一條 canonical，等於叫 Google 全部唔好收錄。 -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OUJI">
   <meta property="og:locale" content="zh_HK">
@@ -715,6 +716,7 @@
       // 評價自己 fetch 一個細 JSON，唔好阻住個頁出。
       initReviews(handle, product);
       if (typeof trackViewItem === 'function') trackViewItem(product);
+      if (typeof applyProductSeo === 'function') applyProductSeo(product);
       if (typeof injectProductSchema === 'function') injectProductSchema(product);
 
       // Load related products in background
