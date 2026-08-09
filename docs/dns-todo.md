@@ -31,24 +31,22 @@ DNS 喺 **GoDaddy**（`oujikbeauty.com` → ns53/ns54.domaincontrol.com）。
 `shopify.js` 個 `CHECKOUT_DOMAIN` **繼續留空** —— Shopify 而家原生就回
 正確網域，唔使改 host。填咗反而多一重出錯機會。
 
-### ⚠️ 未做：擋爬蟲行 Shopify 個主題
+### 擋爬蟲行 Shopify 主題 —— 老闆決定唔做（2026-08-09）
 
-`shop.oujikbeauty.com` 而家會直接出 Shopify 主題（800 件產品都
-publish 咗去線上商店），同 oujikbeauty.com 重複內容。主題本身有段
-script 會將 `*.myshopify.com` 轉去 oujikbeauty.com，但新網域唔中呢個條件。
+`shop.oujikbeauty.com` 會直接出 Shopify 主題（800 件產品都 publish 咗去
+線上商店），理論上同 oujikbeauty.com 重複內容。主題本身有段 script 會將
+`*.myshopify.com` 轉去 oujikbeauty.com，但新網域唔中呢個條件。
 
-**要做**：線上商店 → 佈景主題（Savor，id `154988085406`）→ 編輯程式碼
-→ 新增 `templates/robots.txt.liquid`，內容：
+**老闆話唔使做**，理由係唔想再郁 Shopify 後台（郁得多錯得多）。呢個判斷
+合理 —— 影響係「將來可能有」而唔係「而家壞咗」，而每次改後台都係即時風險。
 
-```liquid
-User-agent: *
-Disallow: /
-```
+點知幾時要翻兜：開咗 Google Search Console 之後，如果見到
+`shop.oujikbeauty.com/products/…` 出現喺索引，先至值得處理。到時方法係
+線上商店 → 佈景主題（Savor，id `154988085406`）→ 編輯程式碼 → 新增
+`templates/robots.txt.liquid`，入面兩行 `User-agent: *` / `Disallow: /`。
 
-（headless 站唔靠 Shopify 主題做 SEO，全擋冇損失。）
-
-我試過但做唔到：Shopify 後台個佈景主題程式碼編輯器喺瀏覽器度渲染唔到
-（一片空白），而 Admin API token 冇 `read_themes`／`write_themes` 權限。
+（我當日試過但做唔到：後台個佈景主題程式碼編輯器渲染唔到，一片空白；
+Admin API token 又冇 `read_themes`／`write_themes` 權限。）
 
 ## 6 筆 —— 令訂單電郵由 info@oujikbeauty.com 寄出（仲未做）
 
