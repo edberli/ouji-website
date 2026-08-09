@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /account
+Disallow: /wishlist
+Disallow: /*?variant=
+
+Sitemap: https://oujikbeauty.com/sitemap.xml

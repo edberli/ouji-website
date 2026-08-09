@@ -175,3 +175,52 @@ if (TRACK_ON) {
   initGoogle();
   initMeta();
 }
+
+/* ---------- 結構化資料（schema.org Product）----------
+ *
+ * Google 靠呢段嘢先知道一版嘢係一件產品、幾錢、仲有冇貨 —— 搜尋結果
+ * 嘅價錢／庫存標籤、同埋 Google Shopping 嘅免費刊登都由佢嚟。
+ * 之前一版都冇。
+ *
+ * ⚠️ 特登唔放 aggregateRating。 我哋嘅評分係 Olive Young 顧客畀嘅，
+ * 唔係 OUJI 顧客畀嘅。將人哋嘅評分放入自己個 Product schema，等於同
+ * Google 講「呢啲係我哋收到嘅評價」—— 違反佢嘅評論摘要政策，會food
+ * 人手處罰。頁面上照樣顯示（有寫明出處），但唔會餵去搜尋引擎。
+ */
+function injectProductSchema(product, variant) {
+  if (!product) return;
+  document.getElementById('ouji-product-schema')?.remove();
+
+  const v = variant || product.variants?.edges?.[0]?.node;
+  const price = v?.price?.amount ?? product.priceRange?.minVariantPrice?.amount;
+  const inStock = product.variants?.edges?.some((e) => e.node.availableForSale);
+  const images = (product.images?.edges || []).slice(0, 6).map((e) => e.node.url);
+
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: (product.description || '').slice(0, 500) || undefined,
+    sku: v?.sku || undefined,
+    image: images.length ? images : undefined,
+    brand: product.vendor ? { '@type': 'Brand', name: product.vendor } : undefined,
+    category: product.productType || undefined,
+    offers: {
+      '@type': 'Offer',
+      url: `https://oujikbeauty.com/products/${product.handle}`,
+      priceCurrency: 'HKD',
+      price: price ? Number(price).toFixed(2) : undefined,
+      availability: inStock
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition',
+      seller: { '@type': 'Organization', name: 'OUJI' },
+    },
+  };
+
+  const s = document.createElement('script');
+  s.type = 'application/ld+json';
+  s.id = 'ouji-product-schema';
+  s.textContent = JSON.stringify(data, (k, val) => (val === undefined ? undefined : val));
+  document.head.appendChild(s);
+}
