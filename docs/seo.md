@@ -72,16 +72,40 @@ Google 見到頁面價同結構化資料唔夾，Merchant Center 會拒收。
 形狀由 query 決定；一改 query，舊 session 嘅快取就會少咗新欄位，
 新程式碼讀落去係 undefined，唔報錯但靜靜哋行錯分支。改 query 順手 +1。
 
-## 仲未做（免費，優先做）
+## ✅ Google Search Console（2026-08-09 開好）
 
-1. **Google Search Console** —— 未開。sitemap 從來冇提交過。開咗先知
-   Google 到底收錄咗幾多版、有冇報錯。呢個係所有 SEO 嘢嘅前提。
-2. **Google Merchant Center** —— 未開。香港做 K-beauty，購物免費刊登
-   通常比自然搜尋更快見效。Shopify 有官方 app 自動出 feed，
-   **唔受 headless 影響**，但要記住將產品連結設成
-   `oujikbeauty.com/products/<handle>`，唔好用 myshopify 網址。
+- **戶口**：`asahikanlimited@gmail.com`（同 Shopify 同一個公司戶口）
+- **資源類型**：網址前置字元 `https://oujikbeauty.com`
+- **驗證方法**：首頁 `<head>` 嘅 meta 標記
+  （`index.html`，`content="E0PunCsCzII-…"`）
+- **Sitemap**：已提交 `/sitemap.xml` → 狀態「成功」，Google 讀到 **807 條網址**
+
+⚠️ **`index.html` 嗰個 meta 標記唔可以刪。** 刪咗 Google 會當你唔再擁有
+呢個網站，Search Console 啲數據即刻停。
+
+本來想用 Google 畀嘅 `.html` 驗證檔，但 `vercel.json` 開咗 `cleanUrls`，
+`/xxx.html` 會 308 轉去 `/xxx`，Google 未必認，所以改用 meta 標記。
+（日後要加第二種驗證方法做保險，DNS TXT 係最穩陣嗰個。）
+
+## 仲未做：Google Merchant Center
+
+`asahikanlimited@gmail.com` 未有 Merchant Center 帳戶。**要老闆自己開** ——
+開帳戶同接受服務條款我唔會代做。
+
+兩條路：
+
+| 做法 | 點做 | 分別 |
+|---|---|---|
+| **Shopify 官方 app**（建議） | Shopify 後台 → 應用程式 → 裝「Google & YouTube」→ 跟指示連 Google 戶口 | 自動幫你開 Merchant Center、自動出 807 件產品 feed、自動更新價錢同庫存 |
+| 自己開 | merchants.google.com → 註冊 → 再自己整 feed | 要人手維護 feed，唔值得 |
+
+**一定要用返 `asahikanlimited@gmail.com`** —— 呢個戶口已經驗證咗
+oujikbeauty.com，Merchant Center 會直接沿用，唔使再驗一次。
+
+裝完之後嗌我，我要入去改一個設定：產品連結要指
+`oujikbeauty.com/products/<handle>`，唔可以用 myshopify 網址
+（用錯就等於將客人送去一個唔跟你設計嘅頁）。
 
 ## 唔使做
 
 - **hreflang** —— 單一地區單一語言，唔需要。
-- **DMARC／SPF** —— 已經有（唔關 SEO 事，但成日有人問埋一齊）。
