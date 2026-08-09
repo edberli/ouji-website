@@ -436,9 +436,12 @@ function brandCheckoutUrl(url) {
 /** 前往 Shopify 結帳 */
 async function goToCheckout() {
   const cart = await getCart();
-  if (cart?.checkoutUrl) {
-    window.location.href = brandCheckoutUrl(cart.checkoutUrl);
-  }
+  if (!cart?.checkoutUrl) return;
+  // 呢個係網站呢邊最後一個追蹤得到嘅動作 —— 之後就跳咗去 Shopify。
+  if (typeof trackBeginCheckout === 'function') trackBeginCheckout(cart);
+  let url = brandCheckoutUrl(cart.checkoutUrl);
+  if (typeof decorateCheckoutUrl === 'function') url = decorateCheckoutUrl(url);
+  window.location.href = url;
 }
 
 // ─────────────────────────────────────────────

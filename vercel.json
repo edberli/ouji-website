@@ -32,7 +32,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cdn.shopify.com https://*.myshopify.com https://images.unsplash.com; connect-src 'self' https://5rerjn-mt.myshopify.com https://shopify.com; frame-ancestors 'self'; form-action 'self' https://5rerjn-mt.myshopify.com; base-uri 'self'; object-src 'none'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.google.com.hk https://googleads.g.doubleclick.net https://www.facebook.com https://cdn.shopify.com https://*.myshopify.com https://images.unsplash.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.google.com.hk https://googleads.g.doubleclick.net https://www.facebook.com https://5rerjn-mt.myshopify.com https://shopify.com; frame-ancestors 'self'; form-action 'self' https://5rerjn-mt.myshopify.com; base-uri 'self'; object-src 'none'"
         }
       ]
     },
