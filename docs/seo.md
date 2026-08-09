@@ -87,24 +87,25 @@ Google 見到頁面價同結構化資料唔夾，Merchant Center 會拒收。
 `/xxx.html` 會 308 轉去 `/xxx`，Google 未必認，所以改用 meta 標記。
 （日後要加第二種驗證方法做保險，DNS TXT 係最穩陣嗰個。）
 
-## 仲未做：Google Merchant Center
+## Google Merchant Center —— 差最後兩步
 
-`asahikanlimited@gmail.com` 未有 Merchant Center 帳戶。**要老闆自己開** ——
-開帳戶同接受服務條款我唔會代做。
+**已經做咗（2026-08-09）：**
 
-兩條路：
+1. Shopify 裝咗官方「**Google & YouTube**」app（Google LLC，免費）
+2. Google 戶口已連結 —— 確認咗係 **asahikanlimited@gmail.com**
+   （去 myaccount.google.com/u/2/connections 睇到「Google and Youtube Channel」
+   同「Shopify」兩個授權；呢個就係 Search Console 嗰個戶口，驗證會沿用）
 
-| 做法 | 點做 | 分別 |
-|---|---|---|
-| **Shopify 官方 app**（建議） | Shopify 後台 → 應用程式 → 裝「Google & YouTube」→ 跟指示連 Google 戶口 | 自動幫你開 Merchant Center、自動出 807 件產品 feed、自動更新價錢同庫存 |
-| 自己開 | merchants.google.com → 註冊 → 再自己整 feed | 要人手維護 feed，唔值得 |
+**剩返兩步，要老闆自己撳**（Shopify → Google & YouTube → 設定精靈）：
 
-**一定要用返 `asahikanlimited@gmail.com`** —— 呢個戶口已經驗證咗
-oujikbeauty.com，Merchant Center 會直接沿用，唔使再驗一次。
+1. **建立新帳戶** —— 開 Merchant Center 帳戶
+2. **同意條款及細則** —— Google 嘅服務條款
 
-裝完之後嗌我，我要入去改一個設定：產品連結要指
-`oujikbeauty.com/products/<handle>`，唔可以用 myshopify 網址
-（用錯就等於將客人送去一個唔跟你設計嘅頁）。
+呢兩樣係開帳戶同簽條款，我唔會代做。
+
+撳完之後嗌我，我要改一個設定：**產品連結要指
+`oujikbeauty.com/products/<handle>`，唔可以用 myshopify 網址**。
+用錯就等於將 Google 帶嚟嘅客送去一個唔跟我哋設計嘅頁。
 
 ## 唔使做
 
