@@ -67,6 +67,24 @@ Admin API token 又冇 `read_themes`／`write_themes` 權限。）
 | CNAME | `mailer1ki` | `edc61d7d4e17.p477.email.myshopify.com` |
 | CNAME | `mailerkjo` | `57e04585dd85.p811.email.myshopify.com` |
 
-加完返 Shopify → 設定 → 通知 → 電子郵件網域驗證 → 撳「我已更新 DNS 記錄」。
+### 喺 GoDaddy 逐條加嘅步驟
+
+1. dcc.godaddy.com → 左邊 **DNS** → 揀 `oujikbeauty.com`
+2. 捲落去撳 **Add New Record**
+3. **Type** 揀 `CNAME`
+4. **Name** 打上面表入面「名稱」嗰欄 —— **淨係打前面嗰截**，
+   唔好加 `.oujikbeauty.com`（GoDaddy 自己會補）
+5. **Value** 打「值」嗰欄，成串照抄
+6. **TTL** 唔使改（1/2 Hour 或者 1 Hour 都得）
+7. 撳 **Save**，然後由第 2 步重複，一共六次
+
+⚠️ 全程 **唔好郁 `@` 同 `www` 嗰兩條**。呢兩條指住 Vercel，
+改咗 oujikbeauty.com 即刻斷線。你係「新增」，唔係「編輯」，
+所以只要唔撳現有記錄旁邊嘅鉛筆／垃圾桶就安全。
+
+加完六條，返 Shopify → 設定 → 通知 → 電子郵件網域驗證 →
+撳「我已更新 DNS 記錄」。DNS 要幾分鐘至一個鐘先傳開，
+如果即刻話唔得，等陣再撳一次。
+
 
 （呢六條係 Shopify 幫 `oujikbeauty.com` 生成嘅，唔通用，唔好抄去第二個店。）
