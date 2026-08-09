@@ -1,7 +1,14 @@
 # 廣告追蹤：點裝、裝喺邊、點驗
 
-**現況（2026-08-09）**：程式碼全部寫好，但 **ID 未填，所以完全冇追蹤**。
-填咗 `analytics.js` 頂嗰四個 ID 就即刻生效。
+**現況（2026-08-09）**
+
+| | ID | 狀態 |
+|---|---|---|
+| Meta pixel | `1618903536462904`（「OUJI 網店」） | ✅ 已上線，`PageView`／`ViewContent`／`AddToCart` 喺 oujikbeauty.com 實測發得出 |
+| GA4 | — | ❌ 老闆未開戶 |
+| Google Ads | — | ❌ 老闆未開戶 |
+
+填咗 `analytics.js` 頂嗰啲 ID 就即刻生效。
 
 ## 一件最緊要嘅事：呢個網站係 headless
 
@@ -120,8 +127,44 @@ analytics.subscribe('checkout_completed', (event) => {
 3. Meta 事件管理工具 → 測試事件。
 4. 落一張真單，睇 GA4 有冇 `purchase`、金額啱唔啱。
 
+### ⚠️ 兩個驗證陷阱（實測撞過，唔好再撞）
+
+**一、Meta 唔係用 image beacon 發所有事件。**
+`PageView` 用 GET image beacon，Resource Timing 睇得到；但 `AddToCart`
+呢啲帶多參數嘅事件係 **喺隱藏 iframe 度 POST 一個 form 去
+`facebook.com/tr/`**。`performance.getEntriesByType('resource')` 記錄唔到
+form POST，攔截 `fetch`／`sendBeacon`／`Image.src` 一樣捉唔到。
+睇錯就會以為「AddToCart 冇發」。要驗就 patch `HTMLFormElement.prototype.submit`：
+
+```js
+const os = HTMLFormElement.prototype.submit;
+HTMLFormElement.prototype.submit = function () {
+  console.log('form →', this.action); return os.apply(this, arguments);
+};
+fbq('track', 'AddToCart', { content_ids: ['x'], value: 1, currency: 'HKD' });
+// 見到 form → https://www.facebook.com/tr/ 就係發咗
+```
+
+**二、老闆自己部 Chrome 有廣告攔截器。**
+喺嗰度 `fbevents.js` 個 script tag 插得入，但檔案載唔到 —— 表現係
+`fbq.callMethod === false`、`fbq.queue` 一路積埋唔清。所以
+**Meta「測試事件」喺老闆部 Chrome 行唔到**（嗰個工具要求同一部瀏覽器）。
+要驗就用冇攔截器嘅瀏覽器，或者等總覽嘅數（有幾十分鐘延遲）。
+
 ## ⚠️ CSP
 
 `vercel.json` 個 Content-Security-Policy 已經開咗 Google 同 Meta 嘅網域。
 **日後再加第三方追蹤（TikTok、Hotjar 之類）要記住喺嗰度加返**，唔加就會
 被瀏覽器靜靜哋擋住，而且喺本機測試睇唔到（本機冇 CSP）。
+
+Meta pixel 特別要留意：除咗 `script-src`／`img-src`／`connect-src`，
+仲要開 **`form-action`** 同 **`frame-src`**，否則得 `PageView` 行到，
+其餘事件全部靜靜哋被擋（原因見上面陷阱一）。而家嘅設定：
+
+```
+script-src  … https://connect.facebook.net
+img-src     … https://www.facebook.com
+connect-src … https://connect.facebook.net https://www.facebook.com
+frame-src   … https://www.facebook.com https://connect.facebook.net
+form-action … https://www.facebook.com https://connect.facebook.net
+```
