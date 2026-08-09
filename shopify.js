@@ -96,6 +96,13 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
 const CATALOG_TTL = 5 * 60 * 1000;
 const MEM_CACHE = new Map();
 
+/* 快取住嘅係 GraphQL 回嚟嗰個物件，所以佢嘅「形狀」由 query 決定。
+   一改 query（加咗 maxVariantPrice 嗰次就係），舊 session 入面啲快取
+   就會少咗新欄位，新程式碼讀落去係 undefined —— 唔會報錯，只會靜靜哋
+   行錯分支，最難捉。改 query 就順手 +1 呢個號，舊 key 自然失效。 */
+const CACHE_VERSION = 2;
+const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
+
 function cacheRead(key) {
   const hit = MEM_CACHE.get(key);
   if (hit && Date.now() - hit.at < CATALOG_TTL) return hit.v;
@@ -121,7 +128,7 @@ function cacheWrite(key, v) {
 }
 
 async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
-  const key = `ouji_catalog:${collectionHandle || 'all'}`;
+  const key = cacheKey(`catalog:${collectionHandle || 'all'}`);
   const cached = cacheRead(key);
   if (cached) return { edges: cached };
 
@@ -177,14 +184,14 @@ async function getProduct(handle) {
 function cacheProduct(product) {
   if (!product?.handle) return;
   try {
-    sessionStorage.setItem('product_' + product.handle, JSON.stringify(product));
+    sessionStorage.setItem(cacheKey('product:' + product.handle), JSON.stringify(product));
   } catch (e) {}
 }
 
 /** 從 sessionStorage 讀取已快取的商品 */
 function getCachedProduct(handle) {
   try {
-    const data = sessionStorage.getItem('product_' + handle);
+    const data = sessionStorage.getItem(cacheKey('product:' + handle));
     return data ? JSON.parse(data) : null;
   } catch (e) { return null; }
 }
