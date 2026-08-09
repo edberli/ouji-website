@@ -12,21 +12,49 @@ DNS 喺 **GoDaddy**（`oujikbeauty.com` → ns53/ns54.domaincontrol.com）。
 > 自動連結有機會連呢兩個一齊「修正」去 Shopify，就會拆咗個網站。
 > 手動加，風險係零。
 
-## 1 筆 —— 令結帳唔再係 5rerjn-mt.myshopify.com
+## ✅ 1 筆 —— 令結帳唔再係 5rerjn-mt.myshopify.com（2026-08-09 做完）
 
 | 類型 | 名稱 | 值 |
 |---|---|---|
 | CNAME | `shop` | `shops.myshopify.com` |
 
-加完之後：
+做咗嘅嘢同驗證結果：
 
-1. 等 Shopify 網域設定顯示 `shop.oujikbeauty.com` **已連線**（幾分鐘到一個鐘）
-2. 喺 Shopify 將佢設做**主要網域**
-3. 話我知 —— 我填返 `shopify.js` 個 `CHECKOUT_DOMAIN = 'shop.oujikbeauty.com'`
+1. GoDaddy 加咗條 CNAME（15 條記錄，`@` 同 `www` 冇郁過）
+2. Shopify 網域設定：`shop.oujikbeauty.com` **已連線**，TLS 憑證已發
+3. Shopify 主要網域已改成 `shop.oujikbeauty.com`
+4. Storefront API 出嘅 `checkoutUrl` 已經係
+   `https://shop.oujikbeauty.com/cart/c/…`，跟到落
+   `/checkouts/cn/…`（標題「結帳 - OUJI」，HTTP 200）
+5. `vercel.json` 個 CSP `connect-src` 同 `form-action` 加咗新網域
 
-冇做第 3 步之前，程式碼唔會改任何嘢（`CHECKOUT_DOMAIN` 留空 = 原封不動）。
+`shopify.js` 個 `CHECKOUT_DOMAIN` **繼續留空** —— Shopify 而家原生就回
+正確網域，唔使改 host。填咗反而多一重出錯機會。
 
-## 6 筆 —— 令訂單電郵由 info@oujikbeauty.com 寄出
+### ⚠️ 未做：擋爬蟲行 Shopify 個主題
+
+`shop.oujikbeauty.com` 而家會直接出 Shopify 主題（800 件產品都
+publish 咗去線上商店），同 oujikbeauty.com 重複內容。主題本身有段
+script 會將 `*.myshopify.com` 轉去 oujikbeauty.com，但新網域唔中呢個條件。
+
+**要做**：線上商店 → 佈景主題（Savor，id `154988085406`）→ 編輯程式碼
+→ 新增 `templates/robots.txt.liquid`，內容：
+
+```liquid
+User-agent: *
+Disallow: /
+```
+
+（headless 站唔靠 Shopify 主題做 SEO，全擋冇損失。）
+
+我試過但做唔到：Shopify 後台個佈景主題程式碼編輯器喺瀏覽器度渲染唔到
+（一片空白），而 Admin API token 冇 `read_themes`／`write_themes` 權限。
+
+## 6 筆 —— 令訂單電郵由 info@oujikbeauty.com 寄出（仲未做）
+
+2026-08-09 試過加，但 GoDaddy 個「Add New Record」表單撳極都唔彈出嚟
+（同一 session 加 `shop` 嗰陣係正常嘅，之後就壞咗）。過陣時重開個頁再試。
+值已經同 Shopify 後台核對過，照舊有效。
 
 而家 `info@oujikbeauty.com` 係「未驗證」，所以 Shopify 實際用緊
 `store+76534055070@shopifyemail.com` 寄訂單確認信。個地址一睇就唔似
