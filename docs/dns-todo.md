@@ -48,15 +48,22 @@ DNS 喺 **GoDaddy**（`oujikbeauty.com` → ns53/ns54.domaincontrol.com）。
 （我當日試過但做唔到：後台個佈景主題程式碼編輯器渲染唔到，一片空白；
 Admin API token 又冇 `read_themes`／`write_themes` 權限。）
 
-## 6 筆 —— 令訂單電郵由 info@oujikbeauty.com 寄出（仲未做）
+## ✅ 6 筆 —— 令訂單電郵由 info@oujikbeauty.com 寄出（2026-08-09 做完）
 
-2026-08-09 試過加，但 GoDaddy 個「Add New Record」表單撳極都唔彈出嚟
-（同一 session 加 `shop` 嗰陣係正常嘅，之後就壞咗）。過陣時重開個頁再試。
-值已經同 Shopify 後台核對過，照舊有效。
+**老闆自己喺 GoDaddy 手動加嘅**（我嗰邊個「Add New Record」表單撳極唔彈，
+但佢自己入去就正常）。六條 dig 出嚟全對，`@`／`www`／`shop` 一條都冇郁。
+Shopify → 電子郵件網域驗證 已經變 **已驗證**，寄件人嗰個「未驗證」標籤消失。
 
-而家 `info@oujikbeauty.com` 係「未驗證」，所以 Shopify 實際用緊
-`store+76534055070@shopifyemail.com` 寄訂單確認信。個地址一睇就唔似
-你哋，入 spam 嘅機會高好多。
+即係訂單確認信而家由 `info@oujikbeauty.com` 寄，唔再係
+`store+76534055070@shopifyemail.com`。
+
+順帶查過，唔使再做：
+- **DMARC** 已經有（`p=quarantine`，GoDaddy 代管 rua）
+- **SPF** 已經有（`v=spf1 include:dc-8e814c8572._spfm.oujikbeauty.com ~all`）
+- **MX** 指住 Zoho，冇受影響
+
+（Shopify 後台仲會顯示「DMARC 記錄設定 → 檢視步驟」，嗰個係通用說明文，
+唔係話你未設定。撳落去只會開 help 文件。）
 
 | 類型 | 名稱 | 值 |
 |---|---|---|
