@@ -245,9 +245,41 @@ function injectProductSchema(product, variant) {
   document.getElementById('ouji-product-schema')?.remove();
 
   const v = variant || product.variants?.edges?.[0]?.node;
-  const price = v?.price?.amount ?? product.priceRange?.minVariantPrice?.amount;
-  const inStock = product.variants?.edges?.some((e) => e.node.availableForSale);
+  const variants = (product.variants?.edges || []).map((e) => e.node);
+  const inStock = variants.some((x) => x.availableForSale);
   const images = (product.images?.edges || []).slice(0, 6).map((e) => e.node.url);
+  const url = `https://oujikbeauty.com/products/${product.handle}`;
+
+  /* 多變體產品唔可以淨係攞第一個變體嘅價。BRAYE Lipsleek 八隻色，
+     七隻 $138、一隻 $118 —— 頁面顯示「HK$118」（最低價）。schema 若果
+     寫住第一個變體嘅 $138，Google 就會見到頁面價同結構化資料唔夾，
+     Merchant Center 直情拒收。所以有價格範圍就出 AggregateOffer。
+     （同 api/product.js 嘅 buildOffers() 要一致。） */
+  const lo = product.priceRange?.minVariantPrice?.amount;
+  const hi = product.priceRange?.maxVariantPrice?.amount;
+  const availability = inStock
+    ? 'https://schema.org/InStock'
+    : 'https://schema.org/OutOfStock';
+  const offers = (lo != null && hi != null && Number(lo) !== Number(hi))
+    ? {
+      '@type': 'AggregateOffer',
+      url,
+      priceCurrency: 'HKD',
+      lowPrice: Number(lo).toFixed(2),
+      highPrice: Number(hi).toFixed(2),
+      offerCount: variants.length || undefined,
+      availability,
+      seller: { '@type': 'Organization', name: 'OUJI' },
+    }
+    : {
+      '@type': 'Offer',
+      url,
+      priceCurrency: 'HKD',
+      price: lo != null ? Number(lo).toFixed(2) : undefined,
+      availability,
+      itemCondition: 'https://schema.org/NewCondition',
+      seller: { '@type': 'Organization', name: 'OUJI' },
+    };
 
   const data = {
     '@context': 'https://schema.org',
@@ -258,17 +290,7 @@ function injectProductSchema(product, variant) {
     image: images.length ? images : undefined,
     brand: product.vendor ? { '@type': 'Brand', name: product.vendor } : undefined,
     category: product.productType || undefined,
-    offers: {
-      '@type': 'Offer',
-      url: `https://oujikbeauty.com/products/${product.handle}`,
-      priceCurrency: 'HKD',
-      price: price ? Number(price).toFixed(2) : undefined,
-      availability: inStock
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
-      itemCondition: 'https://schema.org/NewCondition',
-      seller: { '@type': 'Organization', name: 'OUJI' },
-    },
+    offers,
   };
 
   const s = document.createElement('script');

@@ -145,7 +145,12 @@ async function getProduct(handle) {
       product(handle: $handle) {
         id handle title description descriptionHtml
         vendor tags productType
-        priceRange { minVariantPrice { amount currencyCode } }
+        # maxVariantPrice 係畀 schema.org 用 —— 一件產品幾隻色唔同價
+        # 嗰陣要出 AggregateOffer，唔可以淨係報第一個變體嘅價。
+        priceRange {
+          minVariantPrice { amount currencyCode }
+          maxVariantPrice { amount currencyCode }
+        }
         compareAtPriceRange { minVariantPrice { amount currencyCode } }
         images(first: 50) { edges { node { url altText } } }
         variants(first: 50) {

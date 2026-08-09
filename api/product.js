@@ -31,8 +31,11 @@ query($handle: String!) @inContext(country: HK) {
   product(handle: $handle) {
     handle title description vendor productType
     images(first: 1) { edges { node { url } } }
-    variants(first: 1) { edges { node { sku availableForSale price { amount } } } }
-    priceRange { minVariantPrice { amount } }
+    variants(first: 50) { edges { node { sku availableForSale price { amount } } } }
+    priceRange {
+      minVariantPrice { amount }
+      maxVariantPrice { amount }
+    }
   }
 }`;
 
@@ -68,6 +71,46 @@ async function fetchProduct(handle) {
   }
 }
 
+/**
+ * 多變體產品唔可以淨係攞第一個變體嘅價。
+ *
+ * 例：BRAYE Lipsleek 八隻色，七隻 $138、一隻 $118。頁面顯示「HK$118」
+ * （最低價），但如果 schema 寫住第一個變體嘅 $138，Google 就會見到
+ * 頁面價同結構化資料價唔夾 —— Merchant Center 直情會拒收。
+ *
+ * 所以：價格一致就出 Offer，有價格範圍就出 AggregateOffer。
+ */
+function buildOffers(p, variants, url) {
+  const lo = p.priceRange?.minVariantPrice?.amount;
+  const hi = p.priceRange?.maxVariantPrice?.amount;
+  const inStock = variants.some((v) => v.availableForSale);
+  const availability = inStock
+    ? 'https://schema.org/InStock'
+    : 'https://schema.org/OutOfStock';
+
+  if (lo != null && hi != null && Number(lo) !== Number(hi)) {
+    return {
+      '@type': 'AggregateOffer',
+      url,
+      priceCurrency: 'HKD',
+      lowPrice: Number(lo).toFixed(2),
+      highPrice: Number(hi).toFixed(2),
+      offerCount: variants.length || undefined,
+      availability,
+      seller: { '@type': 'Organization', name: 'OUJI' },
+    };
+  }
+  return {
+    '@type': 'Offer',
+    url,
+    priceCurrency: 'HKD',
+    price: lo != null ? Number(lo).toFixed(2) : undefined,
+    availability,
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@type': 'Organization', name: 'OUJI' },
+  };
+}
+
 /** 同 analytics.js 嘅 applyProductSeo() 保持一致，兩邊出同一組值。 */
 function buildHead(p) {
   const url = `${SITE}/products/${p.handle}`;
@@ -77,8 +120,8 @@ function buildHead(p) {
     ? raw.slice(0, 150) + (raw.length > 150 ? '…' : '')
     : `${p.vendor || 'OUJI'} ${p.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
   const image = p.images?.edges?.[0]?.node?.url || `${SITE}/og-image.jpg`;
-  const v = p.variants?.edges?.[0]?.node;
-  const price = v?.price?.amount ?? p.priceRange?.minVariantPrice?.amount;
+  const variants = (p.variants?.edges || []).map((e) => e.node);
+  const v = variants[0];
 
   /* JSON-LD 都要喺服務端出一次。Google Merchant Center 嘅免費刊登靠佢，
      而嗰個爬蟲同社交爬蟲一樣唔一定行 JS。客戶端嗰段用同一個 id，
@@ -92,17 +135,7 @@ function buildHead(p) {
     image: [image],
     brand: p.vendor ? { '@type': 'Brand', name: p.vendor } : undefined,
     category: p.productType || undefined,
-    offers: {
-      '@type': 'Offer',
-      url,
-      priceCurrency: 'HKD',
-      price: price ? Number(price).toFixed(2) : undefined,
-      availability: v?.availableForSale
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
-      itemCondition: 'https://schema.org/NewCondition',
-      seller: { '@type': 'Organization', name: 'OUJI' },
-    },
+    offers: buildOffers(p, variants, url),
   };
 
   return `  <title>${esc(title)}</title>
