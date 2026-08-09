@@ -19,7 +19,7 @@ const TRACKING = {
   // Google Ads「加入購物車」／「開始結帳」嘅轉換標籤（選填）
   googleAdsLabels: { addToCart: '', beginCheckout: '' },
   // Meta pixel ID，喺 Meta 事件管理工具攞。純數字。
-  metaPixel: '',
+  metaPixel: '1618903536462904',
 };
 
 const TRACK_ON = Object.values(TRACKING).some((v) => typeof v === 'string' && v);
