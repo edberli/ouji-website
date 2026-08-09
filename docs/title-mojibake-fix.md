@@ -1,5 +1,26 @@
 # Shopify 產品標題亂碼修正清單
 
+> ## ✅ 2026-08-09 已全部修正
+> 網站 session 已改好 **42 件全部**，線上核對回 0 個殘留。
+> Script：`scripts/fix_title_mojibake.py`（可重跑，冪等）。
+>
+> **兩處同下面原清單唔同，改咗之後先啱：**
+>
+> 1. **`煙?胺` → `煙酰胺`，唔係 `煙醯胺`。** 原清單揀咗少數派。逐件對返
+>    產品自己嘅描述（描述冇壞）：Anua×2、COSRX、KSECRET×2 全部寫「煙酰胺」；
+>    全店描述亦係 **煙酰胺 67 件 vs 煙醯胺 12 件**。ROUND LAB 三件描述用
+>    「菸鹼醯胺」，但嗰個係四個字，塞唔入 `煙?胺` 呢個三字位。
+> 2. **兩件「待確認」已經解決**（對返 Olive Young 官方英文名）：
+>    - `cosrx-cosrx-25ml-1070` → **COSRX 高級蝸牛肽眼霜25ml**
+>      （官方 *Advanced Snail Peptide Eye Cream*；缺嗰個字係「肽」，
+>       唔係「胜肽」——`?` 只係一個字位）
+>    - `some-by-mi-somebymi-30-3078` → **SOMEBYMI 柚子煙酰胺30天奇蹟美白精華**
+>      （官方 *Yuja Niacin*；佢自己描述通篇用「煙酰胺」。
+>       ⚠️ 呢件改咗三個字 `?酸胺` → `煙酰胺`，唔止填一個窿）
+>
+> handle 一個都冇掂過。
+
+
 **42 件產品嘅標題喺 Shopify 源頭係亂碼**，客而家喺 oujikbeauty.com 就咁樣見緊。
 
 來源：`/Volumes/core/ouji-backup/products.json`（備份日 2026-08-08），全店 807 件掃出 42 件；
