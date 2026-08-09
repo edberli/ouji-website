@@ -1,0 +1,165 @@
+/**
+ * 產品頁嘅服務端 <head>。
+ *
+ * 點解要有呢個檔：
+ *
+ * `analytics.js` 入面嘅 applyProductSeo() 已經會喺瀏覽器度寫返正確嘅
+ * title／description／canonical／og。Google 會執行 JS，所以佢睇到。
+ * 但 **WhatsApp、Facebook、LINE、IG、Slack 嘅連結預覽爬蟲唔會執行 JS**
+ * —— 佢哋淨係讀原始 HTML。結果任何人分享產品連結，預覽永遠都係
+ * 「商品 — OUJI」加一張通用圖。對一間靠 IG／WhatsApp 落單嘅店，
+ * 呢個係實實在在嘅損失。
+ *
+ * 所以 /products/:handle 交畀呢個 function：向 Storefront API 攞資料，
+ * 喺 product.html 個 <head> 度換好先出。之後客戶端嗰段 JS 照樣行，
+ * 寫入一模一樣嘅值（同一個 canonical、同一個 title），唔會打架。
+ *
+ * ⚠️ 安全網：任何一步出事（API 掛咗、handle 唔存在、逾時）都會原封不動
+ * 回 product.html。呢一版最衰嘅情況等於冇咗呢個 function 之前嘅行為，
+ * 唔會白畫面、唔會 500。
+ */
+const fs = require('fs');
+const path = require('path');
+
+const SHOP = '5rerjn-mt.myshopify.com';
+const TOKEN = '795e2f7cb13da1d3776449eba5802377';
+const API = `https://${SHOP}/api/2024-10/graphql.json`;
+const SITE = 'https://oujikbeauty.com';
+
+const QUERY = `
+query($handle: String!) @inContext(country: HK) {
+  product(handle: $handle) {
+    handle title description vendor productType
+    images(first: 1) { edges { node { url } } }
+    variants(first: 1) { edges { node { sku availableForSale price { amount } } } }
+    priceRange { minVariantPrice { amount } }
+  }
+}`;
+
+/** 放入 HTML 屬性之前一定要跳脫，唔係產品名有引號就會拆咗個 tag。 */
+const esc = (s) => String(s ?? '')
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;');
+
+function readTemplate() {
+  return fs.readFileSync(path.join(process.cwd(), 'product.html'), 'utf8');
+}
+
+async function fetchProduct(handle) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 3000);
+  try {
+    const r = await fetch(API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': TOKEN,
+      },
+      body: JSON.stringify({ query: QUERY, variables: { handle } }),
+      signal: ctrl.signal,
+    });
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j?.data?.product || null;
+  } catch (e) {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** 同 analytics.js 嘅 applyProductSeo() 保持一致，兩邊出同一組值。 */
+function buildHead(p) {
+  const url = `${SITE}/products/${p.handle}`;
+  const title = `${p.title} — OUJI`;
+  const raw = (p.description || '').replace(/\s+/g, ' ').trim();
+  const desc = raw
+    ? raw.slice(0, 150) + (raw.length > 150 ? '…' : '')
+    : `${p.vendor || 'OUJI'} ${p.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
+  const image = p.images?.edges?.[0]?.node?.url || `${SITE}/og-image.jpg`;
+  const v = p.variants?.edges?.[0]?.node;
+  const price = v?.price?.amount ?? p.priceRange?.minVariantPrice?.amount;
+
+  /* JSON-LD 都要喺服務端出一次。Google Merchant Center 嘅免費刊登靠佢，
+     而嗰個爬蟲同社交爬蟲一樣唔一定行 JS。客戶端嗰段用同一個 id，
+     行到嗰陣會整個換走，唔會出兩份。 */
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.title,
+    description: raw.slice(0, 500) || undefined,
+    sku: v?.sku || undefined,
+    image: [image],
+    brand: p.vendor ? { '@type': 'Brand', name: p.vendor } : undefined,
+    category: p.productType || undefined,
+    offers: {
+      '@type': 'Offer',
+      url,
+      priceCurrency: 'HKD',
+      price: price ? Number(price).toFixed(2) : undefined,
+      availability: v?.availableForSale
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition',
+      seller: { '@type': 'Organization', name: 'OUJI' },
+    },
+  };
+
+  return `  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(desc)}">
+  <link rel="canonical" href="${esc(url)}">
+  <meta property="og:type" content="product">
+  <meta property="og:site_name" content="OUJI">
+  <meta property="og:locale" content="zh_HK">
+  <meta property="og:title" content="${esc(title)}">
+  <meta property="og:description" content="${esc(desc)}">
+  <meta property="og:url" content="${esc(url)}">
+  <meta property="og:image" content="${esc(image)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${esc(title)}">
+  <meta name="twitter:description" content="${esc(desc)}">
+  <meta name="twitter:image" content="${esc(image)}">
+  <script type="application/ld+json" id="ouji-product-schema">${
+    JSON.stringify(ld).replace(/</g, '\\u003c')
+  }</script>`;
+}
+
+/* product.html 用兩個註解標記包住成組 SEO tag，就係為咗喺度可以精準
+   換走。用 regex 由 <title> 掃到 twitter:image 會連 favicon 都食埋。 */
+const HEAD_BLOCK = /<!-- OUJI-SEO:START[\s\S]*?OUJI-SEO:END -->/;
+
+module.exports = async function handler(req, res) {
+  let html;
+  try {
+    html = readTemplate();
+  } catch (e) {
+    res.status(500).send('product template missing');
+    return;
+  }
+
+  const handle = String(req.query?.handle || '').trim();
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+
+  if (!handle) {
+    res.setHeader('Cache-Control', 'public, s-maxage=600');
+    res.status(200).send(html);
+    return;
+  }
+
+  const product = await fetchProduct(handle);
+  if (!product) {
+    /* 攞唔到就照出原本嗰版 —— 客戶端嗰段 JS 會自己處理「搵唔到產品」。
+       快取短啲，等 API 恢復之後唔使等太耐。 */
+    res.setHeader('Cache-Control', 'public, s-maxage=60');
+    res.status(200).send(html);
+    return;
+  }
+
+  const out = HEAD_BLOCK.test(html)
+    ? html.replace(HEAD_BLOCK, buildHead(product))
+    : html.replace('</head>', `${buildHead(product)}\n</head>`);
+
+  res.setHeader('Cache-Control',
+    'public, s-maxage=3600, stale-while-revalidate=86400');
+  res.status(200).send(out);
+};

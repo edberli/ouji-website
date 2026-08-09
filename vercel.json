@@ -1,9 +1,14 @@
 {
   "cleanUrls": true,
+  "functions": {
+    "api/product.js": {
+      "includeFiles": "product.html"
+    }
+  },
   "rewrites": [
     {
       "source": "/products/:handle",
-      "destination": "/product?handle=:handle"
+      "destination": "/api/product?handle=:handle"
     },
     {
       "source": "/collections/:handle",

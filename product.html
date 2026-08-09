@@ -6,28 +6,32 @@
        keep every relative asset resolving from the site root. -->
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品 — OUJI</title>
-  <meta name="description" content="OUJI — 香港最齊 K-Beauty 專門店">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#1e3038">
-  <!-- canonical 由 analytics.js 嘅 applyProductSeo() 按 handle 即場寫入。
-       寫死喺度只會變成 807 版共用同一條 canonical，等於叫 Google 全部唔好收錄。 -->
+
+  <!-- OUJI-SEO:START —— 呢一段由 api/product.js 喺服務端整段換走，
+       換成嗰件產品自己嘅 title／描述／canonical／og／JSON-LD。
+       兩個標記係佢嘅定位點，改名或者刪咗就會 fallback 返呢啲通用值。
+       客戶端 analytics.js 嘅 applyProductSeo() 之後會寫入一模一樣嘅值，
+       所以就算 function 出事，瀏覽器同 Google 睇到嘅都仲係啱。
+       ⚠️ canonical 特登唔喺度寫死 —— 807 版共用一條 canonical 等於
+       叫 Google 全部唔好收錄，之前就係咁樣中招。 -->
+  <title>商品 — OUJI</title>
+  <meta name="description" content="OUJI — 香港最齊 K-Beauty 專門店">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OUJI">
   <meta property="og:locale" content="zh_HK">
   <meta property="og:title" content="商品 — OUJI">
   <meta property="og:description" content="OUJI — 香港最齊 K-Beauty 專門店">
-  <meta property="og:url" content="https://oujikbeauty.com/product">
   <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="商品 — OUJI">
   <meta name="twitter:description" content="OUJI — 香港最齊 K-Beauty 專門店">
   <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
+  <!-- OUJI-SEO:END -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
