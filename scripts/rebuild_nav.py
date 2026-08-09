@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fold every category into one 全部產品 menu.
+"""Fold every category into one 全部產品 menu — same look as the mobile drawer.
 
 The top bar had grown to twelve links — 全部產品, 護膚, 彩妝, 隱形眼鏡,
 K-pop 周邊, 身體護理, 香氛, 生活風格, 品牌, 獲獎產品, 妝感配對, 專欄 —
@@ -7,92 +7,108 @@ and on a normal laptop it wrapped onto two lines with every label broken
 mid-word（「隱形眼／鏡」）. A navigation bar that wraps is not a
 navigation bar, it is a wall.
 
-The categories now live in one panel under 全部產品, the way the mobile
-drawer already did it. That leaves five links across the top, and every
-subcategory is one hover away instead of two.
+**2026-08-10 改版。** 第一版係一塊五欄闊嘅淺色半透明面板。喺深色首頁
+睇落幾靚，但一放喺產品格上面就散晒 —— 後面啲產品相直接透上嚟，
+「潔面」兩隻字疊住一舊眼影盤，讀都讀唔到。老闆嘅原話係「相 1 好差，
+我要相 2 嗰個」，相 2 就係手機嗰個抽屜。
+
+所以而家兩邊用同一套語言：深色實淨面板、白字、一行一個大分類、
+右邊一個箭嘴，撳落去先展開。手機嗰個抽屜行咗好耐都冇問題，
+桌面冇理由要另一套。
 
     python3 scripts/rebuild_nav.py
 """
 import glob
 import re
 
-# 一欄一組。分欄係為咗排得平均，唔係分類邏輯 —— 彩妝本身太深，
-# 硬塞落一欄會拉到成個 panel 長過螢幕。
-COLUMNS = [
-    [("護膚", "category.html", [
-        ("潔面", "category.html?cat=cleanser"),
-        ("爽膚水", "category.html?cat=toner"),
-        ("棉片", "category.html?cat=pad"),
-        ("精華液", "category.html?cat=serum"),
-        ("乳液", "category.html?cat=moisturizer"),
-        ("面膜", "category.html?cat=mask"),
-        ("眼部護理", "category.html?cat=eye"),
-        ("防曬", "category.html?cat=sunscreen"),
-    ])],
-    [("彩妝 · 底妝", "makeup.html?cat=base", [
-        ("粉底", "makeup.html?cat=foundation"),
-        ("氣墊", "makeup.html?cat=cushion"),
-        ("遮瑕", "makeup.html?cat=concealer"),
-     ]),
-     ("彩妝 · 眼妝", "makeup.html?cat=eye", [
-        ("眼影", "makeup.html?cat=eyeshadow"),
-        ("眼線", "makeup.html?cat=eyeliner"),
-        ("睫毛膏", "makeup.html?cat=mascara"),
-        ("眉筆", "makeup.html?cat=brow"),
-     ])],
-    [("彩妝 · 唇妝", "makeup.html?cat=lip", [
-        ("唇膏", "makeup.html?cat=lipstick"),
-        ("唇釉", "makeup.html?cat=liptint"),
-        ("唇彩", "makeup.html?cat=lipgloss"),
-     ]),
-     ("彩妝 · 頰彩", "makeup.html?cat=cheek", [
-        ("胭脂", "makeup.html?cat=blush"),
-        ("修容", "makeup.html?cat=contour"),
-        ("高光", "makeup.html?cat=highlight"),
-     ])],
-    [("隱形眼鏡", "lens.html", [
-        ("Feliamo", "lens.html?cat=feliamo"),
-        ("Lilmoon", "lens.html?cat=lilmoon"),
-        ("Molak", "lens.html?cat=molak"),
-        ("N's Collection", "lens.html?cat=nscollection"),
-        ("TOPARDS", "lens.html?cat=topards"),
-     ]),
-     ("K-pop 周邊", "kpop.html", [
-        ("專輯", "kpop.html?cat=album"),
-        ("寫真書", "kpop.html?cat=photobook"),
-     ])],
-    [("其他", None, [
-        ("身體護理", "bodycare.html"),
-        ("香氛", "fragrance.html"),
-        ("生活風格", "lifestyle.html"),
-     ]),
-     ("全部", None, [
-        ("瀏覽全部產品", "shop.html"),
-        ("所有品牌", "brands.html"),
-     ])],
+# 一個 tuple 一個可摺疊嘅大分類：(標題, 標題連去邊, 子項)
+# 子項每個係 (文字, 連結, 種類)；種類 None＝普通、"heading"＝細標題、
+# "sub"＝細標題下面嗰啲（多縮一格）。
+GROUPS = [
+    ("護膚", "category.html", [
+        ("全部護膚產品", "category.html", None),
+        ("潔面", "category.html?cat=cleanser", None),
+        ("爽膚水", "category.html?cat=toner", None),
+        ("棉片", "category.html?cat=pad", None),
+        ("精華液", "category.html?cat=serum", None),
+        ("乳液", "category.html?cat=moisturizer", None),
+        ("面膜", "category.html?cat=mask", None),
+        ("眼部護理", "category.html?cat=eye", None),
+        ("防曬", "category.html?cat=sunscreen", None),
+    ]),
+    # 彩妝本身太深，四個子分類唔開細標題就變成一條十四項嘅長清單。
+    ("彩妝", "makeup.html", [
+        ("全部彩妝產品", "makeup.html", None),
+        ("底妝", "makeup.html?cat=base", "heading"),
+        ("粉底", "makeup.html?cat=foundation", "sub"),
+        ("氣墊", "makeup.html?cat=cushion", "sub"),
+        ("遮瑕", "makeup.html?cat=concealer", "sub"),
+        ("眼妝", "makeup.html?cat=eye", "heading"),
+        ("眼影", "makeup.html?cat=eyeshadow", "sub"),
+        ("眼線", "makeup.html?cat=eyeliner", "sub"),
+        ("睫毛膏", "makeup.html?cat=mascara", "sub"),
+        ("眉筆", "makeup.html?cat=brow", "sub"),
+        ("唇妝", "makeup.html?cat=lip", "heading"),
+        ("唇膏", "makeup.html?cat=lipstick", "sub"),
+        ("唇釉", "makeup.html?cat=liptint", "sub"),
+        ("唇彩", "makeup.html?cat=lipgloss", "sub"),
+        ("頰彩", "makeup.html?cat=cheek", "heading"),
+        ("胭脂", "makeup.html?cat=blush", "sub"),
+        ("修容", "makeup.html?cat=contour", "sub"),
+        ("高光", "makeup.html?cat=highlight", "sub"),
+    ]),
+    ("隱形眼鏡", "lens.html", [
+        ("全部隱形眼鏡", "lens.html", None),
+        ("Feliamo", "lens.html?cat=feliamo", None),
+        ("Lilmoon", "lens.html?cat=lilmoon", None),
+        ("Molak", "lens.html?cat=molak", None),
+        ("N's Collection", "lens.html?cat=nscollection", None),
+        ("TOPARDS", "lens.html?cat=topards", None),
+    ]),
+    ("K-pop 周邊", "kpop.html", [
+        ("全部 K-pop 周邊", "kpop.html", None),
+        ("專輯", "kpop.html?cat=album", None),
+        ("寫真書", "kpop.html?cat=photobook", None),
+    ]),
+    ("其他", None, [
+        ("身體護理", "bodycare.html", None),
+        ("香氛", "fragrance.html", None),
+        ("生活風格", "lifestyle.html", None),
+    ]),
+    ("全部", None, [
+        ("瀏覽全部產品", "shop.html", None),
+        ("所有品牌", "brands.html", None),
+    ]),
 ]
 
 TAIL = [("品牌", "brands.html"), ("獲獎產品", "awards.html"),
         ("妝感配對", "match.html"), ("專欄", "column.html")]
 
+CHEVRON = ('<svg class="header__mega-chevron" viewBox="0 0 24 24" fill="none" '
+           'stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>')
+
+CLS = {None: "", "heading": ' class="header__mega-subheading"',
+       "sub": ' class="header__mega-subitem"'}
+
 
 def build():
-    cols = []
-    for groups in COLUMNS:
-        blocks = []
-        for title, href, items in groups:
-            head = (f'<a class="header__mega-title" href="{href}">{title}</a>'
-                    if href else f'<span class="header__mega-title">{title}</span>')
-            links = "".join(f'<a href="{h}">{t}</a>' for t, h in items)
-            blocks.append(f'<div class="header__mega-group">{head}{links}</div>')
-        cols.append('<div class="header__mega-col">' + "".join(blocks) + "</div>")
+    groups = []
+    for title, _href, items in GROUPS:
+        links = "".join(f'<a href="{h}"{CLS[kind]}>{t}</a>' for t, h, kind in items)
+        groups.append(
+            '<div class="header__mega-group">'
+            f'<button class="header__mega-row" aria-expanded="false">'
+            f'<span>{title}</span>{CHEVRON}</button>'
+            f'<div class="header__mega-sub">{links}</div>'
+            '</div>'
+        )
 
     tail = "".join(f'\n          <a href="{h}">{t}</a>' for t, h in TAIL)
     return (
         '<nav class="header__nav">\n'
         '          <div class="header__nav-item header__nav-item--mega">\n'
         '            <a href="shop.html">全部產品</a>\n'
-        '            <div class="header__mega">' + "".join(cols) + '</div>\n'
+        '            <div class="header__mega">' + "".join(groups) + '</div>\n'
         '          </div>' + tail + '\n        </nav>'
     )
 
@@ -110,7 +126,7 @@ def main():
             open(f, "w").write(h2)
             n += 1
     print(f"{n} 版導航重寫咗")
-    print(f"頂欄由 12 條減到 {1 + len(TAIL)} 條")
+    print(f"頂欄 {1 + len(TAIL)} 條，面板 {len(GROUPS)} 個可摺疊分類")
 
 
 if __name__ == "__main__":

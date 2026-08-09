@@ -6267,6 +6267,11 @@ textarea:focus-visible,
  */
 .header__nav-item--mega { position: relative; }
 
+/* 面板本身。
+   第一版係淺色半透明（rgba(210,230,240,0.62)）加大量 blur。喺深色首頁
+   幾靚，但面板一蓋落產品格上面就散晒 —— 後面啲產品相透上嚟，「潔面」
+   兩隻字疊住一舊眼影盤。所以而家跟返手機抽屜嗰套：同一個藍綠色系，
+   但**幾乎全不透明**（0.97），無論背後係咩都讀得到。 */
 .header__mega {
   position: absolute;
   top: 100%;
@@ -6275,19 +6280,25 @@ textarea:focus-visible,
   left: 0;
   transform: translateY(4px);
   display: flex;
-  gap: var(--space-xl);
-  padding: var(--space-lg) var(--space-xl);
+  flex-direction: column;
+  width: min(340px, 90vw);
+  /* 展開晒全部分類會長過螢幕，畀佢自己捲。 */
+  max-height: min(70vh, 620px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
   margin-top: 10px;
   border-radius: 16px;
-  background: linear-gradient(135deg,
-    rgba(210, 230, 240, 0.62) 0%,
-    rgba(175, 205, 222, 0.68) 45%,
-    rgba(140, 180, 200, 0.62) 100%);
-  backdrop-filter: blur(22px) saturate(170%);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  box-shadow: 0 18px 50px rgba(40, 80, 110, 0.24),
-              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  /* 完全唔透明。試過 0.97 加 backdrop-filter，個 saturate(180%) 會將
+     後面啲產品相嘅顏色抽上嚟，睇落仲係花。呢一格嘅唯一要求係讀得到，
+     所以索性實色，連 backdrop-filter 都唔要（順便慳返一層合成）。 */
+  background: linear-gradient(165deg,
+    rgb(60, 100, 116) 0%,
+    rgb(78, 126, 143) 50%,
+    rgb(60, 100, 116) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 18px 50px rgba(40, 80, 110, 0.32),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -6312,36 +6323,76 @@ textarea:focus-visible,
   transform: translateY(0);
 }
 
-.header__mega-col { display: flex; flex-direction: column; gap: var(--space-lg); }
+/* 由呢度落去係摺疊列，同 .mobile-nav__group 嗰套刻意一模一樣。
+   兩邊行同一個視覺語言，改一邊就要記住改埋另一邊。 */
 .header__mega-group { display: flex; flex-direction: column; }
 
-.header__mega-title {
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: none !important;
-  color: var(--dark-base) !important;
-  padding: 0 0 6px !important;
-  margin-bottom: 4px;
-  border-bottom: 1px solid rgba(255,255,255,0.5);
-  white-space: nowrap;
+.header__mega-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-sm) 0;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: none;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--duration-fast);
 }
-.header__mega-title::after { display: none !important; }
+.header__mega-row:hover { color: white; }
+.header__mega-row::after { display: none !important; }
 
-.header__mega-group a:not(.header__mega-title) {
-  display: block;
-  padding: 5px 0 !important;
-  font-size: 0.8125rem !important;
+.header__mega-chevron {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.6);
+  transition: transform var(--duration-normal) var(--ease-out),
+              color var(--duration-fast);
+}
+.header__mega-row[aria-expanded="true"] { color: white; }
+.header__mega-row[aria-expanded="true"] .header__mega-chevron {
+  transform: rotate(-180deg);
+  color: white;
+}
+
+.header__mega-sub {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-normal) var(--ease-out);
+}
+.header__mega-group.is-open .header__mega-sub { max-height: 1200px; }
+
+.header__mega-sub > a {
+  display: block !important;
+  font-family: var(--font-sans) !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+  padding: 9px var(--space-md) !important;
+  font-size: 0.9375rem !important;
   font-weight: 400 !important;
-  letter-spacing: 0 !important;
-  text-transform: none !important;
-  color: var(--text-primary) !important;
-  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.75) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-.header__mega-group a:not(.header__mega-title)::after { display: none !important; }
-.header__mega-group a:not(.header__mega-title):hover { color: var(--primary-dark) !important; }
+.header__mega-sub > a::after { display: none !important; }
+.header__mega-sub > a:hover { color: white !important; }
 
-/* 窄啲嘅手提電腦：五欄會爆出螢幕外，摺成兩行 */
-@media (max-width: 1400px) {
-  .header__mega { flex-wrap: wrap; max-width: 92vw; gap: var(--space-lg); }
+.header__mega-sub > a.header__mega-subheading {
+  font-family: var(--font-display) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  padding-top: 14px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+.header__mega-sub > a.header__mega-subitem {
+  padding-left: var(--space-xl) !important;
+  font-size: 0.875rem !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }

@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLookbookInView();
   initDividerReveal();
   initMobileNav();
+  initMegaMenu();
   initHeaderScroll();
   initFilterSidebar();
   initProductTabs();
@@ -374,6 +375,46 @@ function initMobileNav() {
       if (!group) return;
       const open = group.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+}
+
+/* ----- 桌面版「全部產品」摺疊選單 -----
+ *
+ * 同上面手機抽屜嗰個係同一個行為，特登嘅。之前桌面係一塊五欄嘅淺色
+ * 半透明面板 —— 一蓋落產品格上面，後面啲產品相就透上嚟，啲字讀唔到。
+ * 而家兩邊都係：一行一個大分類，撳落去先展開。
+ *
+ * 面板本身仲係靠 CSS 嘅 :hover / :focus-within 開合，呢度淨係管展開。
+ */
+function initMegaMenu() {
+  const mega = document.querySelector('.header__mega');
+  if (!mega) return;
+
+  mega.querySelectorAll('.header__mega-row').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const group = btn.closest('.header__mega-group');
+      if (!group) return;
+      /* 一次只開一個。桌面面板有高度上限，兩三個一齊開就要捲，
+         而「要捲先揾到嘢」正正係第一版最為人詬病嗰點。 */
+      mega.querySelectorAll('.header__mega-group.is-open').forEach((other) => {
+        if (other === group) return;
+        other.classList.remove('is-open');
+        other.querySelector('.header__mega-row')
+          ?.setAttribute('aria-expanded', 'false');
+      });
+      const open = group.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* 滑鼠離開成個選單就收返，唔好留住上次撳開嗰個。 */
+  const item = mega.closest('.header__nav-item--mega');
+  item?.addEventListener('mouseleave', () => {
+    mega.querySelectorAll('.header__mega-group.is-open').forEach((g) => {
+      g.classList.remove('is-open');
+      g.querySelector('.header__mega-row')?.setAttribute('aria-expanded', 'false');
     });
   });
 }
