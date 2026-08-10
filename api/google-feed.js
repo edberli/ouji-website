@@ -117,6 +117,9 @@ function googleCategory(p) {
 }
 
 function itemsFor(p) {
+  /* `__test` 係畀付款測試商品用嘅。一件 HK$1、寫明「唔係真貨」嘅嘢
+     流去 Google 購物，輕則被拒、重則拖低成個帳戶嘅信任度。 */
+  if ((p.tags || []).includes('__test')) return '';
   const variants = (p.variants?.edges || []).map((e) => e.node);
   if (!variants.length) return '';
   const desc = clean(p.description).slice(0, 4900)
