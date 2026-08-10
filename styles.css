@@ -5,14 +5,18 @@
    ============================================ */
 
 :root {
-  /* Brand Color — #6395a6 based palette */
-  --primary: #6395a6;
+  /* Brand Color — #6da3b5 based palette
+     2026-08-10：老闆睇過另一個版本嘅設計，指名要嗰隻藍。抽返出嚟係
+     #6da3b5 / #4e8497 / #2b4c58 / #e7f1f4 一組，同我哋原本嗰組
+     （#6395a6…）好接近，但深色嗰頭差好遠 —— 我哋原本個 footer 係
+     #1e2120，其實係灰墨綠，根本唔係藍。呢個先係佢覺得靚嗰個分別。 */
+  --primary: #6da3b5;
   --primary-light: #82afc1;
   --primary-lighter: #aecbd8;
-  --primary-lightest: #daedf3;
-  --primary-dark: #527d8d;
+  --primary-lightest: #e7f1f4;
+  --primary-dark: #4e8497;
   --primary-darker: #3f6574;
-  --primary-deep: #2e505c;
+  --primary-deep: #2b4c58;
 
   /* Extended palette */
   --accent: #89c4d4;
@@ -51,10 +55,11 @@
   --gray-800: #1e3038;
   --gray-900: #0f1a1e;
 
-  /* Dark base — deep blue-green (footer tone) */
-  --dark-base: #1e3038;
-  --dark-deep: #0f1a1e;
-  --dark-mid: #1a2a30;
+  /* Dark base — 就係 footer 同訂閱區嗰隻藍。三隻都係同一個色相，
+     淨係深淺唔同，唔好再撈灰或者墨綠入去。 */
+  --dark-base: #2b4c58;
+  --dark-deep: #1f3a44;
+  --dark-mid: #2b4c58;
 
   /* Semantic */
   --text-primary: #1e3038;
@@ -440,7 +445,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .btn:hover::before { opacity: 1; }
 
 .btn--primary {
-  background: linear-gradient(135deg, #1e3038 0%, #24353e 100%);
+  background: linear-gradient(135deg, #335866 0%, #335866 100%);
   color: white;
   border: none;
   box-shadow: 0 4px 16px rgba(30,48,56,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
@@ -493,7 +498,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 
 /* ----- Announcement Bar ----- */
 .announcement-bar {
-  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 50%, #1a2a30 100%);
+  background: linear-gradient(135deg, #2b4c58 0%, #335866 50%, #2b4c58 100%);
   color: white;
   text-align: center;
   padding: 10px var(--space-md);
@@ -1210,7 +1215,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
 /* ----- Brands Page — Dark Smoke Theme ----- */
 .brands-page {
   position: relative;
-  background: #1a2a30;
+  background: #2b4c58;
   overflow: hidden;
 }
 
@@ -1234,9 +1239,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(26,42,48,0.55) 0%,
-    rgba(30,48,56,0.45) 50%,
-    rgba(26,42,48,0.6) 100%);
+    rgba(43,76,88,0.55) 0%,
+    rgba(43,76,88,0.45) 50%,
+    rgba(43,76,88,0.6) 100%);
   pointer-events: none;
 }
 
@@ -1741,7 +1746,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   overflow: hidden;
   white-space: nowrap;
   padding: var(--space-xl) 0;
-  background: linear-gradient(135deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #1a2a30 100%);
+  background: linear-gradient(135deg, #2b4c58 0%, #335866 40%, #23414c 70%, #2b4c58 100%);
   border-top: none;
   border-bottom: none;
 }
@@ -1769,7 +1774,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 /* ----- Newsletter ----- */
 .newsletter {
-  background: #1a2a30;
+  /* 同 footer 同一隻藍 —— 兩格喺頁尾上下相連，色唔一致好明顯。 */
+  background: var(--dark-base);
   position: relative;
   text-align: center;
   padding: var(--space-5xl) var(--space-2xl);
@@ -1797,9 +1803,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(26,42,48,0.55) 0%,
-    rgba(30,48,56,0.45) 50%,
-    rgba(26,42,48,0.6) 100%);
+    rgba(43,76,88,0.55) 0%,
+    rgba(43,76,88,0.45) 50%,
+    rgba(43,76,88,0.6) 100%);
   pointer-events: none;
 }
 
@@ -1851,7 +1857,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
 /* ----- Video Showcase ----- */
 .video-showcase {
   padding: var(--space-5xl) 0;
-  background: linear-gradient(180deg, #0f1a1e 0%, #162228 30%, #1a2a30 60%, #0f1a1e 100%);
+  background: linear-gradient(180deg, #1a333d 0%, #23414c 30%, #2b4c58 60%, #1a333d 100%);
   position: relative;
 }
 
@@ -1935,7 +1941,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 /* ----- Footer ----- */
 .footer {
-  background: linear-gradient(180deg, #1e2120 0%, #262726 40%, #2a2d2a 100%);
+  /* 原本係 linear-gradient(#1e2120 → #2a2d2a) —— 灰墨綠，唔係藍。
+     跟返老闆指名嗰隻，同參考版本一樣用平色 #2b4c58。 */
+  background: var(--dark-base);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border-top: none;
@@ -1947,7 +1955,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 20% 0%, rgba(109,163,181,0.06) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 20% 0%, rgba(231,241,244,0.08) 0%, transparent 55%);
   pointer-events: none;
 }
 
@@ -3463,7 +3471,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
 
 /* ----- Newsletter — dark smoke bg ----- */
 .newsletter {
-  background: #1a2a30 !important;
+  background: #2b4c58 !important;
 }
 
 /* ----- Animated floating badge on hero ----- */
@@ -4173,9 +4181,12 @@ main { padding-top: calc(var(--header-height) + 36px); }
   animation-play-state: paused;
 }
 
-/* ----- Deep Footer Override ----- */
+/* ----- Deep Footer Override -----
+   本來係四段漸變，由 #2b4c58 一路沉到近黑。老闆指名要嘅係參考版本嗰隻
+   平色 #2b4c58 —— 漸變到最後果兩段一深，成個 footer 就唔再讀到係「藍」，
+   變返做黑。訂閱區就喺上面貼住，兩格色唔一致好明顯，所以兩格都用平色。 */
 .footer {
-  background: linear-gradient(180deg, #1a2a30 0%, #1e3038 40%, #162530 70%, #0f1a1e 100%) !important;
+  background: var(--dark-base) !important;
 }
 
 /* ============================================
@@ -4205,7 +4216,7 @@ textarea:focus-visible,
   top: -100px;
   transform: translateX(-50%);
   z-index: 9999;
-  background: var(--dark-base, #1e3038);
+  background: var(--dark-base, #335866);
   color: #fff;
   padding: 12px 24px;
   border-radius: 0 0 10px 10px;
