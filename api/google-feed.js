@@ -43,7 +43,7 @@ query($cursor: String, $n: Int!) @inContext(country: HK) {
       featuredImage { url }
       images(first: 10) { edges { node { url } } }
       variants(first: 50) { edges { node {
-        title sku barcode availableForSale
+        id title sku barcode availableForSale
         price { amount currencyCode }
         compareAtPrice { amount }
         image { url }
@@ -150,7 +150,11 @@ function itemsFor(p) {
       + (grouped ? tag('g:item_group_id', p.handle) : '')
       + tag('g:title', clean(title).slice(0, 150))
       + tag('g:description', desc)
-      + tag('g:link', `${SITE}/products/${p.handle}`)
+      /* 帶住色號入去。唔帶嘅話客人撳咗 #08（$118）會落喺 #01（$138），
+         Google 對唔到價就當「價格不符」。canonical 仍然係乾淨嗰條網址，
+         唔會拆散收錄。 */
+      + tag('g:link', `${SITE}/products/${p.handle}`
+        + (grouped ? `?variant=${String(v.id).split('/').pop()}` : ''))
       + tag('g:image_link', img)
       + extra.map((u) => tag('g:additional_image_link', u)).join('')
       + tag('g:availability', v.availableForSale ? 'in_stock' : 'out_of_stock')

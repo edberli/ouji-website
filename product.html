@@ -605,7 +605,18 @@
       // Handle variants
       const variants = product.variants?.edges?.map(e => e.node) ?? [];
       const optionsContainer = document.querySelector('.product-info__options');
-      let selectedVariantId = variants[0]?.id;
+
+      /* Google 購物一個色號一筆貨，所以佢帶客人入嚟嗰條連結會夾住
+         ?variant=<id>。冇呢段就一律開返第一個色號 —— 客人撳咗 #08
+         磚紅（$118）入到嚟見到 #01 招牌紅（$138），價錢同 Google
+         上面見到嗰個唔一樣，Merchant Center 會當「價格不符」處理。
+         Shopify 個 id 係 gid://shopify/ProductVariant/1234，
+         網址度淨係帶最後嗰串數字。 */
+      const wantedVariant = new URLSearchParams(location.search).get('variant');
+      const preselected = wantedVariant
+        ? variants.find((v) => String(v.id).endsWith(`/${wantedVariant}`))
+        : null;
+      let selectedVariantId = (preselected || variants[0])?.id;
 
       if (variants.length > 1 && optionsContainer) {
         const optionName = product.options?.[0]?.name || 'TYPE';
@@ -672,6 +683,15 @@
             }
           });
         });
+
+        /* 由 Google 購物入嚟嗰陣，直接撳返嗰個色號個掣。借用返上面
+           成套 click 邏輯（選中狀態、價錢、換相、庫存字句），好過喺
+           三處地方各自複製一次。 */
+        if (preselected) {
+          optionsContainer
+            .querySelector(`.variant-btn[data-variant-id="${preselected.id}"]`)
+            ?.click();
+        }
       } else if (optionsContainer) {
         optionsContainer.style.display = 'none';
       }
