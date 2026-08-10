@@ -3,6 +3,9 @@
   "functions": {
     "api/product.js": {
       "includeFiles": "product.html"
+    },
+    "api/google-feed.js": {
+      "maxDuration": 60
     }
   },
   "rewrites": [
@@ -13,6 +16,10 @@
     {
       "source": "/collections/:handle",
       "destination": "/category?collection=:handle"
+    },
+    {
+      "source": "/google-feed.xml",
+      "destination": "/api/google-feed"
     }
   ],
   "headers": [
