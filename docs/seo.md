@@ -129,14 +129,36 @@ logo 位得個網址，仲要顯示第一個變體嘅價而唔係最低價。我
   乾淨嗰條網址，唔會拆散收錄。
 - **出唔到就回 500**，唔回空 feed —— 回空等於同 Google 講全線落架。
 
-### ⚠️ 仲要做：熄咗 Shopify 嗰邊嘅產品同步
+### 喺 Merchant Center 度做咗嘅設定（2026-08-10）
 
-Shopify「Google & YouTube」app 而家仍然會將產品推去同一個 Merchant
-Center 帳戶。同一批貨兩個來源會打交（Shopify 嗰邊嘅連結指去
-shop 子網域）。要喺 app 入面熄咗產品同步，只留自己呢份 feed。
+**1. 認證網域由 `shop.oujikbeauty.com` 改成 `oujikbeauty.com`。**
 
-跟住喺 Merchant Center → 產品 → 資料摘要 → 新增，
-排程抓取 `https://oujikbeauty.com/google-feed.xml`，一日一次。
+呢個係最關鍵嗰步，差啲漏咗。Merchant Center 規定產品連結一定要喺
+**已認領嗰個網域**之內。原本認領咗嘅係 shop 子網域（Shopify app 開帳戶
+嗰陣自動填），即係我份 feed 全部連結都會被判「網域唔符」而拒收。
+
+改嗰陣 Google 會警告「認領會失效、產品會被拒批」，但因為
+`oujikbeauty.com` 已經喺 Search Console 驗證過（同一個 Google 戶口），
+所以一改就**自動重新驗證兼認領**，冇斷過。
+
+**2. 加咗自己嗰個 feed 做主要來源。**
+「PRODUCTS SOURCE 2」→ `https://oujikbeauty.com/google-feed.xml`，
+香港、中文、每 24 小時自動更新。首次抓取：**2,239 件，零問題**。
+
+**3. 刪咗 Shopify App API 嗰個來源。**
+兩個來源同時推同一批貨，而 Shopify 嗰邊嘅連結指去 shop 子網域 ——
+改咗認證網域之後嗰批一定會被拒批。而家淨返一個來源。
+
+⚠️ **Shopify「Google & YouTube」app 仲會再推。** 要入去熄咗產品同步，
+否則過幾日會自己重新出現。我試咗幾次都開唔到嗰個設定畫面
+（Shopify 個 app iframe 今日一直白畫面），要老闆自己入去熄。
+
+### 帳戶層面仲有兩個提示
+
+- **未連結 Google Ads** —— 只影響付費廣告，免費刊登唔需要。
+- **缺少門市庫存資料**（影響 100% 產品）—— 呢個係**實體店**免費刊登
+  （local inventory ads）嘅要求，唔關網購事。三間鋪嘅存貨冇餵去 Google，
+  所以永遠差呢一項。如果唔做實體店刊登，可以無視。
 
 ## 唔使做
 
