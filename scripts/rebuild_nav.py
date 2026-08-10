@@ -21,7 +21,9 @@ navigation bar, it is a wall.
 import glob
 import re
 
-# 一個 tuple 一個可摺疊嘅大分類：(標題, 標題連去邊, 子項)
+# 一個 tuple 一格：(標題, 連去邊, 子項)
+# 子項 = None 即係唔摺疊，成行就係一條連結，撳落去直接去嗰版。
+# 分類入面得三兩件嘢就唔值得摺 —— 多一下手續，少一個入口。
 # 子項每個係 (文字, 連結, 種類)；種類 None＝普通、"heading"＝細標題、
 # "sub"＝細標題下面嗰啲（多縮一格）。
 GROUPS = [
@@ -57,27 +59,13 @@ GROUPS = [
         ("修容", "makeup.html?cat=contour", "sub"),
         ("高光", "makeup.html?cat=highlight", "sub"),
     ]),
-    ("隱形眼鏡", "lens.html", [
-        ("全部隱形眼鏡", "lens.html", None),
-        ("Feliamo", "lens.html?cat=feliamo", None),
-        ("Lilmoon", "lens.html?cat=lilmoon", None),
-        ("Molak", "lens.html?cat=molak", None),
-        ("N's Collection", "lens.html?cat=nscollection", None),
-        ("TOPARDS", "lens.html?cat=topards", None),
-    ]),
-    ("K-pop 周邊", "kpop.html", [
-        ("全部 K-pop 周邊", "kpop.html", None),
-        ("專輯", "kpop.html?cat=album", None),
-        ("寫真書", "kpop.html?cat=photobook", None),
-    ]),
+    # 呢兩個項目少，摺埋反而阻住 —— 直接一撳入去。
+    ("隱形眼鏡", "lens.html", None),
+    ("K-pop 周邊", "kpop.html", None),
     ("其他", None, [
         ("身體護理", "bodycare.html", None),
         ("香氛", "fragrance.html", None),
         ("生活風格", "lifestyle.html", None),
-    ]),
-    ("全部", None, [
-        ("瀏覽全部產品", "shop.html", None),
-        ("所有品牌", "brands.html", None),
     ]),
 ]
 
@@ -93,7 +81,15 @@ CLS = {None: "", "heading": ' class="header__mega-subheading"',
 
 def build():
     groups = []
-    for title, _href, items in GROUPS:
+    for title, href, items in GROUPS:
+        if items is None:
+            groups.append(
+                '<div class="header__mega-group">'
+                f'<a class="header__mega-row header__mega-row--link" href="{href}">'
+                f'<span>{title}</span></a>'
+                '</div>'
+            )
+            continue
         links = "".join(f'<a href="{h}"{CLS[kind]}>{t}</a>' for t, h, kind in items)
         groups.append(
             '<div class="header__mega-group">'
@@ -126,7 +122,8 @@ def main():
             open(f, "w").write(h2)
             n += 1
     print(f"{n} 版導航重寫咗")
-    print(f"頂欄 {1 + len(TAIL)} 條，面板 {len(GROUPS)} 個可摺疊分類")
+    fold = sum(1 for _, _, i in GROUPS if i is not None)
+    print(f"頂欄 {1 + len(TAIL)} 條，面板 {fold} 個可摺疊 + {len(GROUPS)-fold} 條直接連結")
 
 
 if __name__ == "__main__":

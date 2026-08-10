@@ -6289,13 +6289,19 @@ textarea:focus-visible,
   padding: var(--space-md) var(--space-lg) var(--space-lg);
   margin-top: 10px;
   border-radius: 16px;
-  /* 完全唔透明。試過 0.97 加 backdrop-filter，個 saturate(180%) 會將
-     後面啲產品相嘅顏色抽上嚟，睇落仲係花。呢一格嘅唯一要求係讀得到，
-     所以索性實色，連 backdrop-filter 都唔要（順便慳返一層合成）。 */
+  /* 通透但讀得到。
+     最初嗰版讀唔到係因為面板本身**淺色**（rgba(210,230,240,0.62)）配深字 ——
+     後面一有產品相，字同背景就撞埋一齊。而家係深色底配白字，反差夠大，
+     所以透返出嚟都仲清楚。0.86 係試出嚟嘅位：再高就變實色一嚿，
+     再低白字邊緣就開始同背景糊埋。
+     saturate 由 180% 收到 150% —— 太高會將後面啲產品相嘅顏色抽上嚟，
+     面板會泛住一撻撻色。 */
   background: linear-gradient(165deg,
-    rgb(60, 100, 116) 0%,
-    rgb(78, 126, 143) 50%,
-    rgb(60, 100, 116) 100%);
+    rgba(60, 100, 116, 0.86) 0%,
+    rgba(78, 126, 143, 0.86) 50%,
+    rgba(60, 100, 116, 0.86) 100%);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 18px 50px rgba(40, 80, 110, 0.32),
               inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -6308,12 +6314,24 @@ textarea:focus-visible,
   z-index: 100;
 }
 
-/* 由連結去到面板之間有段空白，唔補住個橋接就會鼠標一離開就收埋 */
-.header__mega::before {
+/* 連結同面板之間有 10px 空白，唔補住就係滑鼠一行落去就收埋。
+   條橋本來做喺 .header__mega::before（面板自己上面），但面板加咗
+   `overflow-y: auto` 之後，任何伸出面板範圍嘅嘢都會被剪走 —— 包括條橋。
+   所以搬去父層做，父層冇 overflow，剪唔到。
+
+   平時 pointer-events: none，唔好無端擋住下面啲嘢；淨係喺選單開住
+   嗰陣先接管滑鼠。 */
+.header__nav-item--mega::after {
   content: '';
   position: absolute;
-  bottom: 100%; left: 0; right: 0; height: 14px;
+  top: 100%;
+  left: 0;
+  width: min(340px, 90vw);
+  height: 16px;
+  pointer-events: none;
 }
+.header__nav-item--mega:hover::after,
+.header__nav-item--mega:focus-within::after { pointer-events: auto; }
 
 .header__nav-item--mega:hover .header__mega,
 .header__nav-item--mega:focus-within .header__mega {
@@ -6346,6 +6364,22 @@ textarea:focus-visible,
 }
 .header__mega-row:hover { color: white; }
 .header__mega-row::after { display: none !important; }
+
+/* 隱形眼鏡、K-pop 周邊 —— 項目太少，摺埋淨係多一下手續。成行就係連結。
+   要一堆 !important 係因為 .header__nav a 嗰組規則（頂欄用嘅細字、
+   大寫、深色）會蓋過嚟。 */
+a.header__mega-row--link {
+  display: flex !important;
+  text-decoration: none;
+  font-family: var(--font-display) !important;
+  font-size: 1.0625rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: none !important;
+  padding: var(--space-sm) 0 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+a.header__mega-row--link:hover { color: white !important; }
 
 .header__mega-chevron {
   width: 20px;
