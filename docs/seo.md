@@ -87,25 +87,56 @@ Google 見到頁面價同結構化資料唔夾，Merchant Center 會拒收。
 `/xxx.html` 會 308 轉去 `/xxx`，Google 未必認，所以改用 meta 標記。
 （日後要加第二種驗證方法做保險，DNS TXT 係最穩陣嗰個。）
 
-## Google Merchant Center —— 差最後兩步
+## ✅ Google 購物產品清單（2026-08-10 做好）
 
-**已經做咗（2026-08-09）：**
+**Merchant Center 帳戶**：「OUJI」`5837071825`，喺 `asahikanlimited@gmail.com`。
 
-1. Shopify 裝咗官方「**Google & YouTube**」app（Google LLC，免費）
-2. Google 戶口已連結 —— 確認咗係 **asahikanlimited@gmail.com**
-   （去 myaccount.google.com/u/2/connections 睇到「Google and Youtube Channel」
-   同「Shopify」兩個授權；呢個就係 Search Console 嗰個戶口，驗證會沿用）
+### 點解唔用 Shopify 官方 app 出嘅 feed
 
-**剩返兩步，要老闆自己撳**（Shopify → Google & YouTube → 設定精靈）：
+Shopify 個 Google app 出 feed 嗰陣，產品連結一律用「線上商店主要網域」。
+2026-08-09 為咗修好廣告歸因，主要網域改咗做 `shop.oujikbeauty.com`，
+即係 Google 購物啲點擊會落喺 **Shopify 現成主題** —— 冇選單、冇評分、
+logo 位得個網址，仲要顯示第一個變體嘅價而唔係最低價。我哋做嘅 SEO
+修正全部喺 oujikbeauty.com 嗰邊，用唔上。老闆決定自己出一份。
 
-1. **建立新帳戶** —— 開 Merchant Center 帳戶
-2. **同意條款及細則** —— Google 嘅服務條款
+### 自己嗰份
 
-呢兩樣係開帳戶同簽條款，我唔會代做。
+**網址：`https://oujikbeauty.com/google-feed.xml`**（`api/google-feed.js`）
 
-撳完之後嗌我，我要改一個設定：**產品連結要指
-`oujikbeauty.com/products/<handle>`，唔可以用 myshopify 網址**。
-用錯就等於將 Google 帶嚟嘅客送去一個唔跟我哋設計嘅頁。
+即時由 Storefront API 出，唔預先生成 —— 一份過期 feed 換嚟嘅係
+「價格不符」停權。CDN 快取一個鐘。
+
+實測（2026-08-10）：
+
+| | |
+|---|---|
+| 筆數 | **2240**（逐個色號一筆，唔係 807 件產品）|
+| 大小／時間 | 4.8MB／2–7 秒 |
+| XML 合法 | ✅ |
+| 重複 g:id | 0 |
+| 缺必填欄位 | 0 |
+| 連結全部指 oujikbeauty.com | ✅ |
+| 有 GTIN（條碼） | 1982／2240（88%）|
+
+幾個要緊嘅取捨：
+
+- **一個變體一筆 offer。** Google 購物係變體層面嘅。多變體用
+  `item_group_id` 綁埋一組；單變體唔加，免得變成殘缺分組。
+- **`g:price` 係原價、`g:sale_price` 係現售價。** 只有 `compareAtPrice`
+  真係高過現價先報，唔製造假折扣。
+- **產品頁支援 `?variant=`。** feed 帶住色號入去，客人撳咗 #08
+  磚紅（$118）就落喺 #08，唔會見到 #01（$138）。canonical 仍然係
+  乾淨嗰條網址，唔會拆散收錄。
+- **出唔到就回 500**，唔回空 feed —— 回空等於同 Google 講全線落架。
+
+### ⚠️ 仲要做：熄咗 Shopify 嗰邊嘅產品同步
+
+Shopify「Google & YouTube」app 而家仍然會將產品推去同一個 Merchant
+Center 帳戶。同一批貨兩個來源會打交（Shopify 嗰邊嘅連結指去
+shop 子網域）。要喺 app 入面熄咗產品同步，只留自己呢份 feed。
+
+跟住喺 Merchant Center → 產品 → 資料摘要 → 新增，
+排程抓取 `https://oujikbeauty.com/google-feed.xml`，一日一次。
 
 ## 唔使做
 
