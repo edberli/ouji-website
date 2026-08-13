@@ -417,8 +417,28 @@ function smAllVendors() {
  * and weight from the labels, actives and flags from the brand's own
  * ingredient list — so there is no excuse for restating the question.
  *
- * Ingredient purposes are read from INGREDIENT_INFO in ingredients.js, the
- * copy already reviewed for claims. Nothing new is asserted here. */
+ * The second version restated the *shelf* instead. 「泡沫。清爽，油肌搽落
+ * 唔會笠。」 is true of thirty-six cleansers, and 「含煙酰胺，常用嚟處理暗沉、
+ * 粗大毛孔同出油。」 was word for word the same sentence on every bottle that
+ * had niacinamide in it — the shop's own reading was 「好行貨」, and it was.
+ * A reason that would fit the product next to it is not a reason.
+ *
+ * Three things make this one line belong to this one product:
+ *
+ *   · `hook` in attrs.json is written per product — 305 different lines
+ *     across the 307 that carry one — and it names what the product is
+ *     actually built on (綠豆, 92% 蝸牛, 米糠＋益生菌, PHA). It was sitting
+ *     here as the fallback nobody ever reached. It leads now.
+ *   · the ingredient sentence is picked by *her* concern, in the order she
+ *     ranked them, so 煙酰胺 answers 毛孔 differently from 暗沉 — same
+ *     bottle, different shopper, different sentence.
+ *   · when the brand published no list, the product's own primary job from
+ *     the label pass carries the line instead of a texture platitude.
+ *
+ * Nothing new is claimed about what an ingredient does: SM_ACTIVE_FOR still
+ * decides which concerns an active may be offered for, and the wording stays
+ * in the register INGREDIENT_INFO was reviewed in — 常用嚟, not 醫好.
+ */
 
 const SM_TEX_ZH = {
   watery: '水感', essence: '精華質地', milky: '乳液質地', creamy: '綿密',
@@ -427,7 +447,9 @@ const SM_TEX_ZH = {
 };
 
 /* Which concern each active is normally reached for. Used only to decide
-   whether an ingredient is worth naming to this shopper. */
+   whether an ingredient is worth naming to this shopper. Deliberately not
+   widened when SM_ACTIVE_WHY was written: a new pair here is a new claim
+   about what an ingredient treats, and that is not a copy edit. */
 const SM_ACTIVE_FOR = {
   煙酰胺: ['dull', 'pore', 'oil'],
   積雪草: ['sensitive', 'barrier'],
@@ -442,34 +464,249 @@ const SM_ACTIVE_FOR = {
   PDRN: ['barrier'],
 };
 
+/* The same active, answering the concern she actually named.
+ *
+ * Every line here is the corresponding INGREDIENT_INFO entry narrowed to one
+ * concern — the claim is the same claim, said to one person instead of to
+ * everybody. A pair missing from here falls back to INGREDIENT_INFO.use,
+ * which is what the whole table used to be. */
+const SM_ACTIVE_WHY = {
+  煙酰胺: {
+    dull: '維他命 B3，暗沉不均最多人由呢隻入手',
+    pore: '維他命 B3，常用嚟收斂粗大毛孔',
+    oil: '維他命 B3，常用嚟平衡出油',
+  },
+  積雪草: {
+    sensitive: '韓國 cica 講嘅就係佢，常用嚟鎮靜泛紅',
+    barrier: '韓國 cica 講嘅就係佢，屏障唔穩陣嗰排好多人用',
+  },
+  透明質酸: {
+    dry: '抓水嗰層底工，皮膚仲濕住搽落去先鎖得住',
+  },
+  神經醯胺: {
+    dry: '屏障本身嘅脂質，補返去可以減少水分流走',
+    barrier: '屏障本身嘅脂質，用嚟補返缺咗嗰浸',
+  },
+  泛醇: {
+    sensitive: '維他命 B5，保濕兼鎮靜，好少人會敏感',
+    barrier: '維他命 B5，修護類產品最常見嗰隻',
+    dry: '維他命 B5，抓水之餘安撫繃緊',
+  },
+  維他命C: {
+    dull: '抗氧化，常用嚟提亮膚色',
+    spot: '抗氧化，常用嚟對付曬後留低嘅暗沉',
+  },
+  '曲酸／傳明酸': {
+    spot: '走抑制黑色素生成嗰條路，連續用幾個月先講得到分別',
+    dull: '走抑制黑色素生成嗰條路，一定要配埋防曬',
+  },
+  'AHA/BHA': {
+    texture: '果酸代謝角質，摸落去粗糙嗰陣好多人用',
+    pore: '溶於油嗰種果酸，入到毛孔裏面',
+    blackhead: '溶於油嗰種果酸，黑頭最多人由呢度入手',
+    acne: '代謝角質兼疏通毛孔，粉刺期常見',
+  },
+  視黃醇: {
+    wrinkle: '研究得最多嘅 A 醇，晚上用、日頭要防曬',
+    texture: 'A 醇，粗糙膚質常用，由隔日晚上開始試',
+  },
+  胜肽: {
+    wrinkle: '訊號胜肽，唔想用 A 醇又想做抗老就係呢類',
+  },
+  PDRN: {
+    barrier: '三文魚 DNA 片段，近年最紅嘅修護成分，性質溫和',
+  },
+};
+
+/* 佢嘅膚質配呢一步，講返呢一步嘅嘢。
+ *
+ * The old rider was three lines for the whole shop, fired off weight alone,
+ * so a cleanser and a sunscreen both said 「油肌搽落唔會笠」. Keyed by step it
+ * says something about washing when it is a wash; and it only fires when the
+ * label actually rates the product 'good' for her skin, which is a fact about
+ * this bottle rather than about its weight. */
+const SM_FIT_RIDER = {
+  oily: {
+    cleanse: '洗完唔會即刻返油', toner: '油肌用落唔會焗',
+    serum: '油肌搽咗都吸收得晒', cream: '油肌搽落唔會笠',
+    sun: '油肌搽足一日都唔會谷住',
+  },
+  dry: {
+    cleanse: '洗完唔會繃緊', toner: '乾肌打底夠濕',
+    serum: '乾肌用落唔會覺得唔夠', cream: '乾到起皮嗰陣包得住',
+    sun: '乾肌搽落唔會起皮',
+  },
+  combo: {
+    cleanse: 'T 字位同兩頰用同一支就得', toner: 'T 字位同兩頰都用得',
+    serum: '混合肌成面搽都唔怕', cream: 'T 字位唔焗，兩頰又夠',
+    sun: '混合肌成面搽都均勻',
+  },
+  normal: {
+    cleanse: '中性肌日日洗都得', toner: '中性肌日常打底啱用',
+    serum: '中性肌日日搽都得', cream: '中性肌一年四季用得',
+    sun: '中性肌日日搽都得',
+  },
+};
+
+/* Can this active be printed as a fact about the bottle?
+ *
+ * `actives` come out of build_ingredients.py by reading the brand's own title
+ * and its own copy, so naming them is quoting the brand. `actives_src:'model'`
+ * is a model's recollection at 0.5–0.75 confidence; ingredients.js already
+ * refuses to put those on a chip, and a sentence is not a smaller promise
+ * than a chip. Same rule, same reason. */
+function smNamedActives(k) {
+  if (!k || k.actives_src === 'model') return [];
+  return k.actives || [];
+}
+
+/* The same vocabulary build_ingredients.py reads INCI lists with, plus the
+   spellings marketing uses (cica, 玻尿酸, B5). Only used to check a hook
+   against the pack — never to decide that something is *in* a product. */
+const SM_ING_PAT = {
+  視黃醇: /retinol|retinal|視黃醇|視黃醛|a\s*醇|a\s*醛/i,
+  維他命C: /vitamin ?c|維他命 ?c|維生素 ?c|抗壞血/i,
+  煙酰胺: /niacinamide|煙.胺|菸鹼醯胺|菸鹼胺|煙鹼醯胺/i,
+  'AHA/BHA': /\baha\b|\bbha\b|\bpha\b|果酸|水楊酸|甘醇酸|杏仁酸/i,
+  PDRN: /\bpdrn\b/i,
+  胜肽: /peptide|胜肽|勝肽/i,
+  透明質酸: /hyaluron|透明質酸|玻尿酸/i,
+  積雪草: /centella|madecass|積雪草|\bcica\b/i,
+  神經醯胺: /ceramide|神經醯胺|神經酰胺/i,
+  泛醇: /panthenol|泛醇|\bb5\b/i,
+  '曲酸／傳明酸': /kojic|tranexamic|arbutin|曲酸|傳明酸|熊果/i,
+};
+
+/* Is the hook safe to lead with?
+ *
+ * `hook` was written in the labelling pass off the product's copy, and until
+ * now it was the line nobody reached. Leading with it puts it in front of
+ * every shopper, so it has to clear the same bar as everything else on this
+ * card: an ingredient it names, or a percentage it quotes, has to be on the
+ * pack — in the title the shop itself wrote, or in the actives read out of
+ * the brand's own text. Eight bottles in the five steps fail that. They lose
+ * their opener and keep everything else; a good line we cannot stand behind
+ * is not a good line. */
+const SM_HOOK_MED = /患處|治療|根治|醫治|消炎|抗炎|殺菌|療效|抗痘|去痘|消痘/;
+
+function smHookOk(a, k) {
+  const hook = a.hook || '';
+  const title = a.t || '';
+  // 「積雪草修護暗瘡患處」 is a sentence about a condition, not about a cream.
+  // The panel carries a disclaimer; it is not a licence to write around it.
+  if (SM_HOOK_MED.test(hook)) return false;
+  const pct = hook.match(/\d+(?:\.\d+)?(?=\s*%)/g) || [];
+  if (pct.some((n) => title.indexOf(n) < 0)) return false;
+  const known = smNamedActives(k);
+  return !Object.keys(SM_ING_PAT).some((nm) => SM_ING_PAT[nm].test(hook)
+    && !SM_ING_PAT[nm].test(title) && known.indexOf(nm) < 0);
+}
+
+/* Has this line already said this?
+ *
+ * Three sources write into one sentence and none of them can see the others:
+ * a hook reading 「乾到起皮嗰陣用」 followed by a rider reading 「乾到起皮嗰陣
+ * 包得住」 is one thought said twice, and it reads worse than either half
+ * alone. Any three characters in common is enough to call it a repeat —
+ * Chinese runs short, so a shared run of three is a shared phrase. */
+function smFresh(had, s) {
+  for (let i = 0; i + 3 <= s.length; i += 1) {
+    if (had.indexOf(s.slice(i, i + 3)) > -1) return false;
+  }
+  return true;
+}
+
 function smWhy(a, ans, h) {
   const k = (SM_BAKED && h) ? SM_BAKED[h] : null;
+  const L = SM.labels;
   const out = [];
 
-  // 1 · what it feels like, and who that suits
-  const tex = SM_TEX_ZH[a.tex];
-  const wt = a.wt ? SM.labels.wt[a.wt] : '';
-  if (tex || wt) {
-    let t = [tex, wt].filter(Boolean).join('、');
-    if (ans.skin === 'oily' && a.wt === 1) t += '，油肌搽落唔會笠';
-    else if (ans.skin === 'dry' && a.wt === 3) t += '，乾到起皮嗰陣包得住';
-    else if (ans.skin === 'combo' && a.wt === 2) t += '，T 字位同兩頰都用得';
-    out.push(t + '。');
+  // 1 · 呢支係乜。The one line written for this bottle and no other.
+  const hook = smHookOk(a, k) ? (a.hook || '').trim() : '';
+  if (hook) out.push(hook.replace(/[。．.]$/, '') + '。');
+
+  // 2 · 點解喺你張單度。The active she has a use for, said the way that use
+  //     needs to hear it — her ranking decides which concern gets answered,
+  //     so the first thing she asked for is the first thing addressed.
+  const acts = smNamedActives(k);
+  let name = null;
+  let concern = null;
+  for (const c of ans.concerns) {
+    const hit = acts.find((x) => (SM_ACTIVE_FOR[x] || []).indexOf(c) > -1);
+    if (hit) { name = hit; concern = c; break; }
+  }
+  if (!name) name = acts[0] || null;
+
+  // An active she has no use for is not a reason. 「含透明質酸，幾乎所有保濕
+  // 產品都會有」 was on the card of a toner recommended for 油光 — true, and an
+  // argument for buying any other bottle just as much as this one. What the
+  // product is *for* comes first in that case; c1 was read off the brand's own
+  // copy in the label pass, so it is still a fact we hold.
+  const job = (a.c1 || []).find((c) => ans.concerns.includes(c))
+    || (a.c2 || []).find((c) => ans.concerns.includes(c));
+  const info = (name && typeof INGREDIENT_INFO === 'object') ? INGREDIENT_INFO[name] : null;
+  // With no concern to answer, take the ingredient's first reason rather than
+  // its INGREDIENT_INFO line. 透明質酸's reads 「幾乎所有保濕產品都會有」 — true,
+  // and an argument for the bottle beside it just as much as for this one.
+  const why = SM_ACTIVE_WHY[name] || {};
+  const say = (concern && why[concern]) || Object.values(why)[0]
+    || (info ? info.use.replace(/。$/, '') : '');
+
+  // The hook on a cica sunscreen has already said 積雪草, and 訊號胜肽 says
+  // 胜肽 itself. Naming it a second time in the same breath is the tell of a
+  // sentence assembled rather than written, so say what it does instead.
+  //
+  // Matched on the parts, not the whole: 「AHA/BHA」 is one label over two
+  // ingredients, and the hook that reads 「AHA加BHA同時溫和去角質」 has already
+  // introduced it however the label happens to be punctuated.
+  const named = () => {
+    if (!name || !say) return '';
+    const parts = name.split(/[/／]/);
+    if (parts.some((x) => hook.indexOf(x) > -1 || say.indexOf(x) > -1)) {
+      // 「積雪草紓緩泛紅兼保濕」 followed by 「常用嚟舒緩泛紅同鎮靜…」 is the hook
+      // read back to her. Drop the whole clause; the job line below is a
+      // second thing to say, and saying one thing twice is not.
+      return smFresh(hook, say) ? `${say}。` : '';
+    }
+    // 主打 is only for what the product is *named* after: `head` is read off
+    // the title alone, so it is the brand calling it the headline, not us.
+    const lead = (k.head || []).indexOf(name) > -1 ? '主打' : '配方有';
+    return `${lead}${/^[A-Za-z]/.test(name) ? ' ' : ''}${name}，${say}。`;
+  };
+
+  // c1 is what the product is sold to do; c2 is what it also happens to
+  // cover. Calling the second one 主打 would be the shop overselling by a
+  // word, on the strength of a field that says the opposite.
+  const ingLine = named();
+  const jobLine = (job && smFresh(out.join('') + ingLine, L.concern[job]))
+    ? `${(a.c1 || []).indexOf(job) > -1 ? '主打嘅就係' : '順帶都覆蓋到'}「${L.concern[job]}」。`
+    : '';
+  if (concern && ingLine) out.push(ingLine);
+  else if (jobLine) out.push(jobLine);
+  else if (ingLine) out.push(ingLine);
+
+  // 3 · 佢嘅膚質。Only when the label rates this product good for it, and only
+  //     if there is room left — three clauses is a card, four is a paragraph.
+  const rider = ((a.fit || {})[ans.skin] === 'good')
+    ? (SM_FIT_RIDER[ans.skin] || {})[a.step] : null;
+  const said = out.join('');
+  if (rider && said.length <= 34 && smFresh(said, rider)) out.push(rider + '。');
+
+  // 4 · 冇嘢好講嗰十六件。No hook was written, no list was published, and her
+  //     concerns are not what this one is sold for. 「泡沫。」 was what shipped,
+  //     which is the complaint in miniature — so hand over the small true
+  //     things instead: how it feels, how much is in the bottle, and whether
+  //     it is somewhere to start. The size is what tells the 160ml green bean
+  //     cleanser from the 80ml one.
+  if (!out.length) {
+    const bits = [[SM_TEX_ZH[a.tex], a.wt ? L.wt[a.wt] : ''].filter(Boolean).join('、')];
+    if (k && k.size) bits.push(`${k.size}${k.unit === '片' ? ' 片' : k.unit}`);
+    if (a.beg === 1) bits.push(L.beg[1]);
+    const line = bits.filter(Boolean).join('，');
+    if (line) out.push(line + '。');
   }
 
-  // 2 · what is in it, and what that is for — named only when the brand
-  //     published the list, and only when it answers something she asked
-  const acts = smKnowsIng(k) ? (k.actives || []) : [];
-  const useful = acts.filter((x) => (SM_ACTIVE_FOR[x] || [])
-    .some((c) => ans.concerns.includes(c)));
-  const name = useful[0] || acts[0];
-  if (name) {
-    const info = (typeof INGREDIENT_INFO === 'object') ? INGREDIENT_INFO[name] : null;
-    const pct = (k.strength && typeof strengthOf === 'function') ? strengthOf(k, name) : null;
-    out.push(`含${name}${pct ? ` ${pct}%` : ''}${info ? '，' + info.use : ''}`);
-  }
-
-  // 3 · what the label says is not in it — the first thing reactive skin checks
+  // 5 · what the label says is not in it — the first thing reactive skin checks
   // A read label may say "成分表標明". A recalled one may not — it says
   // "據我哋掌握" and carries the hedge with it, so the shopper can tell
   // which of the two she is being handed.
@@ -488,8 +725,8 @@ function smWhy(a, ans, h) {
     out.push('品牌未公開全成分表，敏感肌用前建議先試。');
   }
 
-  // 4 · only if nothing above landed
-  if (!out.length) out.push(a.hook || `一支基本嘅${SM_STEP_ZH[a.step] || '護膚品'}。`);
+  // 6 · only if nothing above landed
+  if (!out.length) out.push(`一支基本嘅${SM_STEP_ZH[a.step] || '護膚品'}。`);
   return out.join('');
 }
 

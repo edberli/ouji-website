@@ -6,6 +6,9 @@
     },
     "api/google-feed.js": {
       "maxDuration": 60
+    },
+    "api/restock.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [

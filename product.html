@@ -706,9 +706,34 @@
         optionsContainer.style.display = 'none';
       }
 
-      // Add to cart button
+      /* 缺貨就唔好扮做買得。以前個掣照著，客揀完、撳完、去到結帳
+         先畀 Shopify 話佢知售罄 —— 白行一轉之餘，仲要係喺畀錢嗰一步
+         先話佢知。而家喺呢度就攔住，順便問佢想唔想我哋補返貨。 */
       const addBtn = document.getElementById('add-to-cart-btn');
-      if (addBtn) {
+      /* 同 catalog.js 一樣：數量報 0 就當冇貨，唔好淨係信
+         availableForSale（店入面好多貨係「賣完照賣」政策）。
+         隱形眼鏡度數係例外 —— 嗰邊本來就係做預訂，頁面已經逐個
+         度數寫明「現貨／預訂 約 14 日到貨」，唔應該當佢缺貨封鎖。 */
+      const isLensPower = (product.options?.[0]?.name || '') === '度數';
+      const hasStock = (v) => v.availableForSale
+        && (v.quantityAvailable == null || v.quantityAvailable > 0);
+      const anyStock = isLensPower
+        ? variants.some((v) => v.availableForSale)
+        : variants.some(hasStock);
+      if (addBtn && !anyStock) {
+        addBtn.textContent = '暫時缺貨';
+        addBtn.disabled = true;
+        addBtn.classList.add('btn--sold-out');
+        const ask = document.createElement('button');
+        ask.type = 'button';
+        ask.className = 'btn btn--secondary product-info__restock';
+        ask.textContent = '想要？通知我補貨';
+        ask.dataset.restock = product.handle;
+        ask.dataset.restockTitle = product.title || '';
+        addBtn.insertAdjacentElement('afterend', ask);
+      }
+
+      if (addBtn && anyStock) {
         addBtn.addEventListener('click', async () => {
           const qtyInput = document.querySelector('.qty-input');
           const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
@@ -766,7 +791,7 @@
               <a href="product.html?handle=${p.handle}" class="product-card">
                 <div class="product-card__image-wrap">
                   ${img ? `<img class="product-card__image" src="${img.url}" alt="${img.altText || p.title}">` : ''}
-                  <div class="product-card__quick-add">快速加入</div>
+                  <div class="product-card__quick-add product-card__quick-add--pick">入去睇</div>
                 </div>
                 <span class="product-card__brand">${p.vendor || ''}</span>
                 <span class="product-card__name">${p.title}</span>

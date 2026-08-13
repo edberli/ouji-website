@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuantityControls();
   initVariantSelectors();
   initCartActions();
+  initQuickAdd();
   initSmoothImages();
   initScrollProgress();
   initRippleButtons();
@@ -493,6 +494,56 @@ function watchFrameRate() {
     }
   }
   requestAnimationFrame(tick);
+}
+
+/* ----- 卡片上面嘅「快速加入」同「通知我補貨」 -----
+
+   兩粒掣都坐喺成張卡嘅 <a> 入面，所以第一件事係攔住個連結，
+   否則撳完會跳咗去產品頁，加冇加到都唔知。
+   用委派：卡片係即時砌出嚟嘅，逐張掛 listener 會漏咗之後先出現嗰批。 */
+function initQuickAdd() {
+  document.addEventListener('click', async (e) => {
+    const add = e.target.closest('[data-quick-add]');
+    if (add) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (add.disabled) return;
+      const label = add.textContent;
+      add.disabled = true;
+      add.textContent = '加緊…';
+      try {
+        const ok = await addToCart(add.dataset.quickAdd, 1);
+        add.textContent = ok === false ? '加唔到，再試' : '加咗入袋 ✓';
+      } catch (err) {
+        add.textContent = '加唔到，再試';
+      }
+      setTimeout(() => { add.textContent = label; add.disabled = false; }, 1800);
+      return;
+    }
+
+    const ask = e.target.closest('[data-restock]');
+    if (ask) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (ask.disabled) return;
+      ask.disabled = true;
+      const before = ask.textContent;
+      ask.textContent = '記低咗…';
+      try {
+        const r = await fetch('/api/restock', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ handle: ask.dataset.restock, title: ask.dataset.restockTitle || '' }),
+        });
+        ask.textContent = r.ok ? '收到，有貨會補返 ✓' : '記唔到，遲啲再試';
+        if (!r.ok) { ask.disabled = false; setTimeout(() => { ask.textContent = before; }, 2200); }
+      } catch (err) {
+        ask.textContent = '記唔到，遲啲再試';
+        ask.disabled = false;
+        setTimeout(() => { ask.textContent = before; }, 2200);
+      }
+    }
+  });
 }
 
 /* ----- Mobile Navigation ----- */

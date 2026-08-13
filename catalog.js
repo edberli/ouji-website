@@ -168,9 +168,20 @@ function price(p) {
   return parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
 }
 
+/* 「有冇貨」唔可以淨係信 availableForSale。
+   店入面好多貨嘅存貨政策係 CONTINUE（賣完照賣），所以數量係 0
+   Shopify 一樣會報 availableForSale: true。實測 808 件貨入面有
+   89 件係「冇貨但買得到」—— 客落咗單、畀咗錢，我哋先發現要等入貨。
+   所以數量報到係 0 就當冇貨。
+   quantityAvailable 係 null 代表嗰件貨根本冇追蹤存貨，唔關佢事。 */
+function variantInStock(v) {
+  if (!v || !v.availableForSale) return false;
+  return v.quantityAvailable == null || v.quantityAvailable > 0;
+}
+
 function soldOut(p) {
   const vs = p.variants?.edges || [];
-  return vs.length > 0 && !vs.some((e) => e.node.availableForSale);
+  return vs.length > 0 && !vs.some((e) => variantInStock(e.node));
 }
 
 /* The order you actually use the things in. A brand section used to list
@@ -310,7 +321,7 @@ function buildFilterSidebar(section, products) {
 
   // Stock and awards go first: they cut the grid hardest and neither is
   // derivable from the other three groups.
-  const inStock = products.filter((p) => p.variants?.edges?.[0]?.node?.availableForSale).length;
+  const inStock = products.filter((p) => !soldOut(p)).length;
   const awarded = products.filter((p) => typeof awardsFor === 'function'
     && awardsFor(p.handle).length).length;
   const flags = [];
@@ -347,7 +358,7 @@ function preselectBrand(vendor) {
 
 function applyFilters(section, products, sel) {
   return products.filter((p) => {
-    if (sel.flag.has('instock') && !p.variants?.edges?.[0]?.node?.availableForSale) return false;
+    if (sel.flag.has('instock') && soldOut(p)) return false;
     if (sel.flag.has('award') && !(typeof awardsFor === 'function'
         && awardsFor(p.handle).length)) return false;
     if (sel.vendor.size && !sel.vendor.has(p.vendor || '其他')) return false;
@@ -401,13 +412,35 @@ function buildActiveChips(section, sel) {
     : '';
 }
 
+/* 卡片右下角嗰粒掣。
+   以前係一個 <div>「快速加入」，包喺成張卡嘅 <a> 入面 —— 冇 handler，
+   撳落去只係跟住條連結入產品頁。即係擺明話「一撳即加」，實際上乜都
+   冇加，客以為加咗，去到購物袋見到空嘅。 */
+function quickAddControl(p, { isSoldOut, oneVariant, variantId }) {
+  if (isSoldOut) {
+    return `<button type="button" class="product-card__restock"
+      data-restock="${p.handle}" data-restock-title="${(p.title || '').replace(/"/g, '&quot;')}"
+      >想要？通知我補貨</button>`;
+  }
+  if (!oneVariant || !variantId) {
+    // 唔扮做掣。成張卡本身就係去產品頁嘅連結，寫明要入去揀。
+    return '<div class="product-card__quick-add product-card__quick-add--pick">入去揀規格</div>';
+  }
+  return `<button type="button" class="product-card__quick-add"
+    data-quick-add="${variantId}">快速加入</button>`;
+}
+
 function productCard(p) {
   const image = p.images?.edges?.[0]?.node;
   const p0 = p.priceRange?.minVariantPrice;
   const cp = p.compareAtPriceRange?.minVariantPrice;
   const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount);
-  const variant = p.variants?.edges?.[0]?.node;
-  const isSoldOut = variant && !variant.availableForSale;
+  const variants = p.variants?.edges || [];
+  const variant = variants[0]?.node;
+  const isSoldOut = variants.length > 0 && !variants.some((e) => variantInStock(e.node));
+  // 得一個規格先可以一撳就加。多過一個（例如口紅色號）就要客自己揀 ——
+  // 幫佢揀咗第一隻色，等於幫佢買錯嘢。
+  const oneVariant = variants.length === 1;
   return `
     <a href="/products/${p.handle}" class="product-card">
       <div class="product-card__image-wrap">
@@ -418,7 +451,7 @@ function productCard(p) {
         <button class="product-card__wishlist" aria-label="加入願望清單" onclick="event.preventDefault(); event.stopPropagation();">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
-        <div class="product-card__quick-add">快速加入</div>
+        ${quickAddControl(p, { isSoldOut, oneVariant, variantId: variant?.id })}
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${p.title}</span>

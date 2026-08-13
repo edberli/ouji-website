@@ -44,7 +44,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
                 priceRange { minVariantPrice { amount currencyCode } }
                 compareAtPriceRange { minVariantPrice { amount currencyCode } }
                 images(first: 2) { edges { node { url altText } } }
-                variants(first: 1) { edges { node { id availableForSale } } }
+                variants(first: 2) { edges { node { id availableForSale quantityAvailable } } }
               }
             }
           }
@@ -64,7 +64,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
             priceRange { minVariantPrice { amount currencyCode } }
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
             images(first: 2) { edges { node { url altText } } }
-            variants(first: 1) { edges { node { id availableForSale } } }
+            variants(first: 2) { edges { node { id availableForSale quantityAvailable } } }
           }
         }
       }
@@ -100,7 +100,12 @@ const MEM_CACHE = new Map();
    一改 query（加咗 maxVariantPrice 嗰次就係），舊 session 入面啲快取
    就會少咗新欄位，新程式碼讀落去係 undefined —— 唔會報錯，只會靜靜哋
    行錯分支，最難捉。改 query 就順手 +1 呢個號，舊 key 自然失效。 */
-const CACHE_VERSION = 2;
+/* 3：列表 query 由 variants(first: 1) 改成 first: 2，同時要埋
+   quantityAvailable。卡片要知道件貨
+   係咪得一個規格 —— 得一個先可以「快速加入」，多過一個就要客自己
+   揀色，唔可以幫佢決定。改咗 query 就一定要 +1，否則舊 session 攞到
+   嘅快取只有一個 variant，新碼會當佢單規格。 */
+const CACHE_VERSION = 3;
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
 
 function cacheRead(key) {
