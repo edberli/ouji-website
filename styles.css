@@ -6702,3 +6702,14 @@ html.is-lite .section--brand-intro::after {
   box-shadow: none !important;
 }
 .product-info__restock { margin-top: var(--space-sm); width: 100%; }
+
+/* 心心加咗之後要睇得出。而且唔可以再淨係 hover 先出現 ——
+   加咗入願望清單但個心心平時隱形，等於冇加過。 */
+.product-card__wishlist.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+.product-card__wishlist.is-active svg {
+  fill: var(--primary);
+  stroke: var(--primary);
+}

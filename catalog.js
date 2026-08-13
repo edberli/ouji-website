@@ -448,7 +448,11 @@ function productCard(p) {
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${isOnSale && !isSoldOut ? '<span class="product-card__badge">特價</span>' : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
-        <button class="product-card__wishlist" aria-label="加入願望清單" onclick="event.preventDefault(); event.stopPropagation();">
+        <button type="button" class="product-card__wishlist${
+          typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"
+          aria-label="加入願望清單" data-wish="${p.id}"
+          data-wish-handle="${p.handle}"
+          data-wish-title="${(p.title || '').replace(/"/g, '&quot;')}">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
         ${quickAddControl(p, { isSoldOut, oneVariant, variantId: variant?.id })}

@@ -521,6 +521,26 @@ function initQuickAdd() {
       return;
     }
 
+    /* 卡片個心心。以前個 onclick 只係
+       `event.preventDefault(); event.stopPropagation();` —— 即係
+       攔住咗成張卡條連結，然後乜都唔做。撳落去一世都冇反應，
+       同「快速加入」係同一個病。 */
+    const wish = e.target.closest('[data-wish]');
+    if (wish) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof isInWishlist !== 'function') return;
+      const id = wish.dataset.wish;
+      if (isInWishlist(id)) {
+        removeFromWishlist(id);
+      } else {
+        addToWishlist({ id, handle: wish.dataset.wishHandle, title: wish.dataset.wishTitle });
+      }
+      // addToWishlist 未登入會彈登入流程，嗰陣個心心唔應該扮咗做加咗
+      wish.classList.toggle('is-active', isInWishlist(id));
+      return;
+    }
+
     const ask = e.target.closest('[data-restock]');
     if (ask) {
       e.preventDefault();
