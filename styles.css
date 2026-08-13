@@ -4646,9 +4646,13 @@ textarea:focus-visible,
   }
   /* 57 個品牌 × 固定行高 = 1200 幾 px，比屏幕仲高，頭尾各有十幾個
      品牌跌咗出畫面外，撳都撳唔到。改成大家夾份分屏幕高度。 */
+  /* 57 個品牌 × 固定行高 = 1200 幾 px，比屏幕仲高，頭尾十幾個
+     跌咗出畫面外撳唔到。改成大家夾份分同一段高度。
+     420px 封頂 —— 貼住成條屏幕高會好似一條長長嘅欄杆，
+     縮短返做一嚿細嘢擺喺左邊，冇咁搶。 */
   .brand-rail {
     gap: 0;
-    height: calc(100vh - 160px);
+    height: min(calc(100vh - 200px), 420px);
   }
   .brand-rail__item {
     flex: 1 1 0;
@@ -4849,10 +4853,16 @@ html.is-lite .brand-rail__crest { filter: none; }
   bottom: calc(var(--mobile-nav-height, 62px) + 10px);
   padding: 6px;
   border-radius: 18px;
-  background: var(--glass-bg-strong, rgba(255,255,255,0.94));
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border, rgba(255,255,255,0.6));
-  box-shadow: 0 14px 40px rgba(24,48,58,0.22);
+  /* 同側邊抽屜、下拉選單、底部導覽一模一樣嗰隻半透明藍玻璃 */
+  background: linear-gradient(165deg,
+    rgba(72, 115, 131, 0.62) 0%,
+    rgba(89, 139, 156, 0.7) 50%,
+    rgba(72, 115, 131, 0.65) 100%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 40px rgba(40, 80, 110, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.08);
   animation: shopSheetIn 220ms var(--ease-out, cubic-bezier(.22,.9,.28,1));
   /* 八個類別喺 iPhone SE 高度會爆出屏幕頂 —— 頂到就自己捲。 */
   max-height: calc(100dvh - var(--mobile-nav-height, 62px) - 96px);
@@ -4869,12 +4879,12 @@ html.is-lite .brand-rail__crest { filter: none; }
   display: block;
   padding: 15px 18px;
   border-radius: 13px;
-  color: var(--text-primary);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 1rem;
   text-decoration: none;
 }
-.shop-sheet__item + .shop-sheet__item { border-top: 1px solid var(--border-subtle); }
-.shop-sheet__item:active { background: var(--primary-pale, rgba(109,163,181,0.12)); }
+.shop-sheet__item + .shop-sheet__item { border-top: 1px solid rgba(255, 255, 255, 0.15); }
+.shop-sheet__item:active { background: rgba(255, 255, 255, 0.14); }
 
 @media (min-width: 769px) { .shop-sheet { display: none !important; } }
 
@@ -6249,7 +6259,7 @@ html.is-lite .brand-rail__crest { filter: none; }
   height: 4px;
   margin: 10px auto 6px;
   border-radius: 999px;
-  background: var(--border-light, #ddd);
+  background: rgba(255, 255, 255, 0.4);
 }
 .shop-sheet__item {
   display: grid !important;
@@ -6262,14 +6272,14 @@ html.is-lite .brand-rail__crest { filter: none; }
 .shop-sheet__note {
   grid-column: 1;
   font-size: 0.6875rem;
-  color: var(--text-tertiary, #9a9a9a);
+  color: rgba(255, 255, 255, 0.6);
 }
 .shop-sheet__chev {
   grid-column: 2;
   grid-row: 1 / span 2;
   width: 18px;
   height: 18px;
-  color: var(--text-tertiary, #bbb);
+  color: rgba(255, 255, 255, 0.55);
 }
 .shop-sheet__item--all .shop-sheet__label { font-weight: 600; }
 
@@ -6558,8 +6568,8 @@ html.is-lite .mobile-nav { background: rgba(78, 122, 138, 0.94); }
    慢機淨係唔模糊，唔會轉色。 */
 html.is-lite .header__mega { background: rgba(78, 122, 138, 0.94); }
 html.is-lite .filter-sidebar,
-html.is-lite .shop-sheet__panel,
 html.is-lite .ing-sheet__panel { background: #ffffff; }
+html.is-lite .shop-sheet__panel { background: rgba(78, 122, 138, 0.94); }
 
 /* 一路喺度轉／飄嘅裝飾。慢機上面佢哋唔會靚，只會卡。 */
 html.is-lite .brand-marquees__video,
