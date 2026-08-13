@@ -3221,10 +3221,7 @@ button.product-card__quick-add,
 
 /* ----- Dual Brand Marquees (skincare + makeup) — Dark Smoke Theme ----- */
 .brand-marquees {
-  /* 由 clamp(72,8vw,112) 收細。呢一格喺手機佔咗 966px，即係成個
-     螢幕零 20%，而客要碌足三個螢幕先見到第一件產品。品牌牆係
-     好嘢，但唔值一個螢幕。 */
-  padding: clamp(40px, 5vw, 64px) 0;
+  padding: clamp(72px, 8vw, 112px) 0;
   position: relative;
   background: #161f24;
   overflow: hidden;
@@ -3273,9 +3270,8 @@ button.product-card__quick-add,
 /* Section header text — white on dark */
 .brand-marquees .section-header {
   text-align: center;
-  margin-bottom: clamp(14px, 2vw, 22px);
+  margin-bottom: clamp(32px, 4vw, 56px);
 }
-.brand-marquees .section-header__desc { display: none; }
 .brand-marquees .section-header__label {
   color: rgba(140,180,195,0.7);
   letter-spacing: 0.32em;
@@ -3296,7 +3292,7 @@ button.product-card__quick-add,
 }
 
 .brand-marquees__section {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-2xl);
 }
 
 .brand-marquees__section:last-child {
@@ -3708,8 +3704,8 @@ button.product-card__quick-add,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: var(--space-md) 0 var(--space-sm);
+  gap: 14px;
+  padding: var(--space-xl) 0 var(--space-md);
 }
 
 /* Flanking-line divider wrapper */
@@ -6155,71 +6151,104 @@ html.is-lite .brand-rail__crest { filter: none; }
    categories in the space two cards used. */
 /* The section wrapping this keeps a full section's padding, which left a
    screen of nothing under a 130px-tall row. */
-.section--sm:has(.cat-circles) { padding-bottom: var(--space-lg, 20px); }
-.cat-circles {
+/* 分類卡：一行可以橫掃嘅卡牌。
+   本來係 78px 嘅細圓形 —— 張相入面睇到嘅嘢太細，十一個細圓排埋
+   一齊似一串頭像多過似入口。卡有相有名有件數，撳落去有反應。
+   上下嘅留白亦都收窄咗：一行 200px 高嘅卡，上下各留成個 section
+   嘅 padding，變咗成屏都係白位。 */
+.section--sm:has(.cat-cards) {
+  padding-top: var(--space-xl, 32px);
+  padding-bottom: var(--space-lg, 20px);
+}
+.section--sm:has(.cat-cards) .section-header { margin-bottom: var(--space-lg, 20px); }
+
+.cat-cards {
   display: flex;
-  gap: var(--space-lg, 20px);
+  gap: var(--space-md, 16px);
   overflow-x: auto;
   scrollbar-width: none;
   scroll-snap-type: x proximity;
-  /* Snapping aligns a child with the scrollport edge, which ignores the
-     padding — every rail loaded already scrolled 16px, with its first
-     card clipped. scroll-padding tells the snap where the content
-     actually starts. */
   scroll-padding-inline-start: var(--space-md, 16px);
   padding: 4px var(--space-md, 16px) var(--space-md, 16px);
-  /* Bleed to the screen edge so the row reads as continuing, not as a
-     box that happens to be full. */
+  /* 貼到螢幕邊，睇落係「仲有得掃」而唔係「一個裝滿咗嘅盒」 */
   margin-inline: calc(var(--space-md, 16px) * -1);
 }
-.cat-circles::-webkit-scrollbar { display: none; }
+.cat-cards::-webkit-scrollbar { display: none; }
+
 @media (min-width: 1024px) {
-  .cat-circles {
+  .cat-cards {
     scroll-padding-inline-start: max(var(--space-2xl), calc((100vw - var(--max-width)) / 2 + var(--space-2xl)));
     padding-inline: max(var(--space-2xl), calc((100vw - var(--max-width)) / 2 + var(--space-2xl)));
     margin-inline: 0;
   }
 }
 
-.cat-circle {
+.cat-card {
   flex: 0 0 auto;
   scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 88px;
+  position: relative;
+  display: block;
+  width: 148px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface, #fff);
   text-decoration: none;
   color: inherit;
+  box-shadow: 0 1px 2px rgba(30,48,56,0.06), 0 6px 18px rgba(109,163,181,0.10);
+  transition: transform 260ms var(--ease-out, ease), box-shadow 260ms var(--ease-out, ease);
+  will-change: transform;
 }
-.cat-circle__ring {
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
-  overflow: hidden;
+
+.cat-card__shot {
+  display: block;
+  aspect-ratio: 4 / 5;
   background: var(--surface-alt, #f2efea);
-  /* A hairline ring plus a gap reads as a deliberate frame; a border
-     straight on the image reads as a rendering artefact. */
-  box-shadow: 0 0 0 1px var(--border-light, #e6e2dc), 0 0 0 4px var(--surface, #fff),
-              0 4px 14px rgba(109,163,181,0.14);
-  transition: transform 220ms var(--ease-out, ease), box-shadow 220ms;
+  overflow: hidden;
 }
-.cat-circle__ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.cat-circle:hover .cat-circle__ring {
-  transform: translateY(-3px);
-  box-shadow: 0 0 0 1px var(--primary, #6da3b5), 0 0 0 4px var(--surface, #fff),
-              0 8px 20px rgba(109,163,181,0.24);
+.cat-card__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 420ms var(--ease-out, ease);
 }
-.cat-circle__name {
-  font-size: 0.8125rem;
-  line-height: 1.3;
-  text-align: center;
+
+.cat-card__body {
+  display: block;
+  padding: 10px 12px 12px;
 }
-.cat-circle__n {
+.cat-card__name {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.cat-card__n {
+  display: block;
+  margin-top: 2px;
   font-size: 0.6875rem;
   color: var(--text-tertiary, #9a9a9a);
   font-variant-numeric: tabular-nums;
 }
+
+.cat-card:hover,
+.cat-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 2px 4px rgba(30,48,56,0.08), 0 16px 34px rgba(109,163,181,0.22);
+}
+.cat-card:hover .cat-card__shot img,
+.cat-card:focus-visible .cat-card__shot img { transform: scale(1.07); }
+.cat-card:active { transform: translateY(-2px); }
+
+@media (max-width: 480px) {
+  .cat-card { width: 128px; }
+}
+
+/* 慢機唔好逐張卡做位移同放大 —— 呢啲係一路掃一路做，最食效能 */
+html.is-lite .cat-card,
+html.is-lite .cat-card__shot img { transition: none; }
+html.is-lite .cat-card:hover { transform: none; }
+html.is-lite .cat-card:hover .cat-card__shot img { transform: none; }
 
 /* One row per category, swiped sideways. */
 .home-rail { margin-bottom: var(--space-2xl, 40px); }
@@ -6777,4 +6806,16 @@ html.is-lite .section--brand-intro::after {
 @media (max-width: 768px) {
   .brand-strip__item { width: 72px; height: 36px; }
   .brand-strip__item img { max-height: 17px; }
+}
+
+/* 冇 logo 檔嘅品牌用文字卡。呢五個（April Skin、KSECRET、
+   Haruharu Wonder、Dr. Melaxin、ILSO）一直有貨但一直冇喺品牌牆
+   出現過 —— 個標籤仲要寫住「29 品牌」，實際個 grid 得 16 個。 */
+.brand-grid__card--text {
+  justify-content: center;
+  min-height: 88px;
+}
+.brand-grid__card--text .brand-grid__name {
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
 }

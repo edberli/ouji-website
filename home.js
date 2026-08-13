@@ -175,12 +175,17 @@ async function initHome() {
         || list.find((p) => p.images?.edges?.[0]?.node);
       const img = pick?.images?.edges?.[0]?.node;
       if (img) taken.add(img.url);
-      return `<a class="cat-circle" href="${c.href}">
-        <span class="cat-circle__ring">
+      /* 由細圓形改做卡。圓形得 78px，張相入面睇到嘅嘢太細，
+         十一個細圓排埋一齊反而似一串頭像多過似入口。
+         卡有相有名有件數，撳落去嗰下亦都有反應。 */
+      return `<a class="cat-card" href="${c.href}">
+        <span class="cat-card__shot">
           ${img ? `<img src="${img.url}" alt="" loading="lazy">` : ''}
         </span>
-        <span class="cat-circle__name">${c.label}</span>
-        <span class="cat-circle__n">${list.length}</span>
+        <span class="cat-card__body">
+          <span class="cat-card__name">${c.label}</span>
+          <span class="cat-card__n">${list.length} 件</span>
+        </span>
       </a>`;
     }).join('');
   }
