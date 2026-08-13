@@ -6178,11 +6178,18 @@ html.is-lite .brand-rail__crest { filter: none; }
 }
 .cat-cards::-webkit-scrollbar { display: none; }
 
+/* 闊螢幕就唔好再用橫掃 —— 標題喺正中，但一行卡由容器左邊開始、
+   一路衝出螢幕右邊，睇落就係唔置中。有位就摺兩行、置中排。
+   窄螢幕維持橫掃（摺落嚟會變成好長一條）。 */
 @media (min-width: 1024px) {
   .cat-cards {
-    scroll-padding-inline-start: max(var(--space-2xl), calc((100vw - var(--max-width)) / 2 + var(--space-2xl)));
-    padding-inline: max(var(--space-2xl), calc((100vw - var(--max-width)) / 2 + var(--space-2xl)));
-    margin-inline: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: visible;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--space-2xl);
+    row-gap: var(--space-md, 16px);
   }
 }
 
@@ -6300,11 +6307,16 @@ html.is-lite .cat-card:hover .cat-card__shot img { transform: none; }
   margin-inline: calc(var(--space-md, 16px) * -1);
 }
 .home-rail__track::-webkit-scrollbar { display: none; }
+/* 同 .cat-cards 一樣嘅毛病：舊寫法用 padding-inline: max(…100vw…)，
+   令一行貨由 container 左邊起、一路衝出螢幕右邊 —— 標題喺正中，貨行右飄。
+   但呢行有十幾件貨，摺行會變成好幾行，所以保持橫掃，
+   改為將捲軸本身收返 container 闊度再置中：左右邊界同標題對齊，入面照掃。 */
 @media (min-width: 1024px) {
   .home-rail__track {
-    scroll-padding-inline-start: max(var(--space-2xl), calc((100vw - var(--max-width)) / 2 + var(--space-2xl)));
-    padding-inline: max(var(--space-2xl), calc((100vw - var(--max-width)) / 2 + var(--space-2xl)));
-    margin-inline: 0;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--space-2xl);
+    scroll-padding-inline-start: var(--space-2xl);
   }
 }
 .home-rail__track .product-card {
