@@ -529,19 +529,32 @@ function initQuickAdd() {
       ask.disabled = true;
       const before = ask.textContent;
       ask.textContent = '記低咗…';
+      /* 兩條路，行得通邊條就邊條。
+         伺服器嗰邊要一個 Shopify 權杖先寫得入 metafield，而嗰個
+         設定要老闆自己喺 Vercel 加。未加之前唔可以就咁彈個
+         「記唔到」畀客睇 —— 客乜都做唔到，我哋亦都收唔到需求。
+         所以寫唔入就開 WhatsApp，訊息預先填好邊件貨，客撳一下send
+         就到老闆手。點票冇咗，但個需求傳到，而且即刻用得。 */
+      let counted = false;
       try {
         const r = await fetch('/api/restock', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ handle: ask.dataset.restock, title: ask.dataset.restockTitle || '' }),
         });
-        ask.textContent = r.ok ? '收到，有貨會補返 ✓' : '記唔到，遲啲再試';
-        if (!r.ok) { ask.disabled = false; setTimeout(() => { ask.textContent = before; }, 2200); }
-      } catch (err) {
-        ask.textContent = '記唔到，遲啲再試';
-        ask.disabled = false;
-        setTimeout(() => { ask.textContent = before; }, 2200);
+        counted = r.ok;
+      } catch (err) { counted = false; }
+
+      if (counted) {
+        ask.textContent = '收到，有貨會補返 ✓';
+        return;
       }
+
+      const name = ask.dataset.restockTitle || ask.dataset.restock;
+      const msg = `你好，我想要呢件貨：${name}\n（${location.origin}/products/${ask.dataset.restock}）\n請問幾時補返貨？`;
+      window.open('https://wa.me/85290195092?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      ask.textContent = '幫你開咗 WhatsApp ✓';
+      setTimeout(() => { ask.textContent = before; ask.disabled = false; }, 3000);
     }
   });
 }
