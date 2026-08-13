@@ -3862,10 +3862,14 @@ main { padding-top: calc(var(--header-height) + 36px); }
     left: 0;
     right: 0;
     z-index: 2000;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-top: 1px solid var(--border-light);
+    /* 同頂部下拉選單一套：淺藍玻璃 */
+    background: linear-gradient(180deg,
+      rgba(236, 245, 248, 0.93) 0%,
+      rgba(219, 234, 241, 0.95) 100%);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 -8px 28px rgba(40, 80, 110, 0.10);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     justify-content: space-around;
     align-items: stretch;
@@ -6390,22 +6394,23 @@ html.is-lite .brand-rail__crest { filter: none; }
   padding: var(--space-md) var(--space-lg) var(--space-lg);
   margin-top: 10px;
   border-radius: 16px;
-  /* 通透但讀得到。
-     最初嗰版讀唔到係因為面板本身**淺色**（rgba(210,230,240,0.62)）配深字 ——
-     後面一有產品相，字同背景就撞埋一齊。而家係深色底配白字，反差夠大，
-     所以透返出嚟都仲清楚。0.86 係試出嚟嘅位：再高就變實色一嚿，
-     再低白字邊緣就開始同背景糊埋。
-     saturate 由 180% 收到 150% —— 太高會將後面啲產品相嘅顏色抽上嚟，
+  /* 淺色藍玻璃。
+     最早試過 rgba(210,230,240,0.62) 淺色，讀唔到 —— 太通透，後面
+     一有產品相，深色字就同相撞埋一齊。跟住改咗深色底白字，讀到，
+     但老闆要淺色。
+     解決方法係**淺色但唔通透咁交關**：0.93 夠遮實後面啲相，
+     模糊同飽和照舊，所以仲係玻璃感，唔係一塊實色板。
+     saturate 收喺 150% —— 太高會將後面產品相嘅顏色抽上嚟，
      面板會泛住一撻撻色。 */
   background: linear-gradient(165deg,
-    rgba(60, 100, 116, 0.86) 0%,
-    rgba(78, 126, 143, 0.86) 50%,
-    rgba(60, 100, 116, 0.86) 100%);
+    rgba(236, 245, 248, 0.93) 0%,
+    rgba(219, 234, 241, 0.93) 50%,
+    rgba(236, 245, 248, 0.93) 100%);
   backdrop-filter: blur(28px) saturate(150%);
   -webkit-backdrop-filter: blur(28px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 18px 50px rgba(40, 80, 110, 0.32),
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 18px 50px rgba(40, 80, 110, 0.18),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -6453,17 +6458,17 @@ html.is-lite .brand-rail__crest { filter: none; }
   width: 100%;
   padding: var(--space-sm) 0;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(43, 76, 88, 0.14);
   background: none;
   font-family: var(--font-display);
   font-size: 1.0625rem;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--primary-deep, #2b4c58);
   cursor: pointer;
   text-align: left;
   transition: color var(--duration-fast);
 }
-.header__mega-row:hover { color: white; }
+.header__mega-row:hover { color: var(--primary-dark); }
 .header__mega-row::after { display: none !important; }
 
 /* 隱形眼鏡、K-pop 周邊 —— 項目太少，摺埋淨係多一下手續。成行就係連結。
@@ -6478,15 +6483,15 @@ a.header__mega-row--link {
   letter-spacing: 0.06em !important;
   text-transform: none !important;
   padding: var(--space-sm) 0 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: var(--primary-deep, #2b4c58) !important;
 }
-a.header__mega-row--link:hover { color: white !important; }
+a.header__mega-row--link:hover { color: var(--primary-dark) !important; }
 
 .header__mega-chevron {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(43, 76, 88, 0.5);
   transition: transform var(--duration-normal) var(--ease-out),
               color var(--duration-fast);
 }
@@ -6511,25 +6516,25 @@ a.header__mega-row--link:hover { color: white !important; }
   padding: 9px var(--space-md) !important;
   font-size: 0.9375rem !important;
   font-weight: 400 !important;
-  color: rgba(255, 255, 255, 0.75) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(43, 76, 88, 0.75) !important;
+  border-bottom: 1px solid rgba(43, 76, 88, 0.08);
 }
 .header__mega-sub > a::after { display: none !important; }
-.header__mega-sub > a:hover { color: white !important; }
+.header__mega-sub > a:hover { color: var(--primary-dark) !important; }
 
 .header__mega-sub > a.header__mega-subheading {
   font-family: var(--font-display) !important;
   font-size: 1rem !important;
   font-weight: 600 !important;
-  color: rgba(255, 255, 255, 0.95) !important;
+  color: var(--primary-deep, #2b4c58) !important;
   padding-top: 14px !important;
   padding-bottom: 8px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(43, 76, 88, 0.16);
 }
 .header__mega-sub > a.header__mega-subitem {
   padding-left: var(--space-xl) !important;
   font-size: 0.875rem !important;
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(43, 76, 88, 0.68) !important;
 }
 
 /* ============================================
@@ -6551,9 +6556,11 @@ html.is-lite *::after {
 }
 
 html.is-lite .header.is-scrolled { background: #f6f5f0; }
-html.is-lite .mobile-bottom-nav { background: #ffffff; }
+html.is-lite .mobile-bottom-nav { background: #e9f2f6; }
 html.is-lite .mobile-nav { background: #21353d; }
-html.is-lite .header__mega { background: rgba(43, 76, 88, 0.97); }
+/* 之前呢度寫住深色，所以同一個選單喺慢機上面會變深 —— 老闆見到嘅
+   「有時深色有時淺色」就係呢個。改成同一隻淺色，只係唔模糊。 */
+html.is-lite .header__mega { background: #e9f2f6; }
 html.is-lite .filter-sidebar,
 html.is-lite .shop-sheet__panel,
 html.is-lite .ing-sheet__panel { background: #ffffff; }
