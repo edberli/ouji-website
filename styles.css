@@ -4878,13 +4878,20 @@ html.is-lite .brand-rail__crest { filter: none; }
 .shop-sheet__item {
   display: block;
   padding: 15px 18px;
-  border-radius: 13px;
+  /* 唔要圓角。之前 border-radius: 13px 撞上 border-top，
+     條分隔線兩頭會跟住彎，成排睇落似一格格圓角卡片 ——
+     desktop 下拉選單係乾淨嘅直線，兩邊統一。 */
+  border-radius: 0;
   color: rgba(255, 255, 255, 0.92);
   font-size: 1rem;
   text-decoration: none;
 }
 .shop-sheet__item + .shop-sheet__item { border-top: 1px solid rgba(255, 255, 255, 0.15); }
 .shop-sheet__item:active { background: rgba(255, 255, 255, 0.14); }
+
+/* 第一同最後一格要跟返面板嘅圓角，否則撳落去嗰浸底色會爆角 */
+.shop-sheet__item:first-of-type { border-radius: 13px 13px 0 0; }
+.shop-sheet__item:last-child { border-radius: 0 0 13px 13px; }
 
 @media (min-width: 769px) { .shop-sheet { display: none !important; } }
 
