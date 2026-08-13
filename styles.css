@@ -216,8 +216,11 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   padding: 0 var(--space-2xl);
 }
 
-.section { padding: var(--space-5xl) 0; position: relative; }
-.section--sm { padding: var(--space-4xl) 0; }
+/* 本來係 128px 上下（即係兩節之間 256px 淨空氣）同 96px。
+   喺一部手機上面，等於每碌兩三下就係一屏白位 —— 老闆嘅講法係
+   「你嘥晒啲位」。收到一半有多，闊螢幕先俾多啲。 */
+.section { padding: clamp(48px, 5.5vw, 80px) 0; position: relative; }
+.section--sm { padding: clamp(32px, 3.6vw, 52px) 0; }
 /* ----- Brand Intro (light cream, between dark hero and dark brand marquees) ----- */
 .section--brand-intro {
   /* Compact padding so users reach content below quickly */
@@ -3221,7 +3224,7 @@ button.product-card__quick-add,
 
 /* ----- Dual Brand Marquees (skincare + makeup) — Dark Smoke Theme ----- */
 .brand-marquees {
-  padding: clamp(72px, 8vw, 112px) 0;
+  padding: clamp(40px, 4.5vw, 64px) 0;
   position: relative;
   background: #161f24;
   overflow: hidden;
@@ -3270,7 +3273,7 @@ button.product-card__quick-add,
 /* Section header text — white on dark */
 .brand-marquees .section-header {
   text-align: center;
-  margin-bottom: clamp(32px, 4vw, 56px);
+  margin-bottom: clamp(18px, 2.4vw, 30px);
 }
 .brand-marquees .section-header__label {
   color: rgba(140,180,195,0.7);
@@ -3292,7 +3295,7 @@ button.product-card__quick-add,
 }
 
 .brand-marquees__section {
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-lg);
 }
 
 .brand-marquees__section:last-child {
@@ -3704,8 +3707,8 @@ button.product-card__quick-add,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: var(--space-xl) 0 var(--space-md);
+  gap: 10px;
+  padding: var(--space-md) 0 var(--space-sm);
 }
 
 /* Flanking-line divider wrapper */
@@ -6157,10 +6160,10 @@ html.is-lite .brand-rail__crest { filter: none; }
    上下嘅留白亦都收窄咗：一行 200px 高嘅卡，上下各留成個 section
    嘅 padding，變咗成屏都係白位。 */
 .section--sm:has(.cat-cards) {
-  padding-top: var(--space-xl, 32px);
-  padding-bottom: var(--space-lg, 20px);
+  padding-top: var(--space-lg, 20px);
+  padding-bottom: var(--space-md, 16px);
 }
-.section--sm:has(.cat-cards) .section-header { margin-bottom: var(--space-lg, 20px); }
+.section--sm:has(.cat-cards) .section-header { margin-bottom: var(--space-md, 16px); }
 
 .cat-cards {
   display: flex;
