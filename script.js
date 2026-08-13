@@ -6,6 +6,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const reduceMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lite = isLiteDevice();
+  if (lite) document.documentElement.classList.add('is-lite');
 
   // Entrance reveals (CSS makes these instant under reduced-motion) + essential UI
   initScrollReveal();
@@ -31,7 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress();
   initRippleButtons();
   initMarqueeHoverPause();
+  initBrandMarquee();
+  initOffscreenPause();
   initHScrollDrag();
+  watchFrameRate();
 
   if (reduceMotion) {
     // Show final counter values immediately, skip the count-up animation
@@ -42,15 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   } else {
-    // Continuous / pointer-driven motion — only when motion is welcome
-    initParallax();
-    initTiltCards();
-    initMagneticButtons();
-    initCursorGlow();
     initCountUp();
-    initHeroScrollParallax();
-    initScrollParallaxImages();
-    initFloatingParticles();
+    // 每一 frame 都要計數／改 transform 嘅效果。慢機行到 20fps，
+    // 靚機先睇得出分別，所以低配一律唔行。
+    if (!lite) {
+      initParallax();
+      initTiltCards();
+      initMagneticButtons();
+      initCursorGlow();
+      initHeroScrollParallax();
+      initScrollParallaxImages();
+      initFloatingParticles();
+    }
   }
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
@@ -185,11 +193,29 @@ function initSmoothImages() {
 function initScrollProgress() {
   const bar = document.querySelector('.scroll-progress');
   if (!bar) return;
+
+  // scrollHeight 讀一次就要成頁重新計 layout。之前每一下 scroll 事件
+  // 都讀（一秒可以幾十次），慢機就係卡喺呢度。改成量度一次、
+  // 每 frame 最多寫一次。
+  let docHeight = 0;
+  function measure() {
+    docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  }
+  measure();
+  window.addEventListener('resize', measure);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(measure).observe(document.body);
+  }
+
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    bar.style.width = progress + '%';
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const progress = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+      bar.style.width = progress + '%';
+      ticking = false;
+    });
   }, { passive: true });
 }
 
@@ -340,6 +366,135 @@ function initMarqueeHoverPause() {
   });
 }
 
+/* ----- 品牌跑馬燈：掂到先停低、顯示品牌名，撳第二下先入去 -----
+
+   之前個行為係：logo 一路飄，滑鼠掂到就即刻可以撳入去。問題係
+   (1) 只得個 logo，認唔出係邊個牌子先撳落去；
+   (2) 手機上面碌版順手掂到就跳咗去第二版，好易撳錯。
+   而家掂到會停晒兩行、所有品牌名一齊浮出嚟，睇清楚先撳。
+   手機（冇 hover）要撳兩下：第一下停低兼顯示名，第二下先真係入去。 */
+function initBrandMarquee() {
+  const section = document.querySelector('.brand-marquees');
+  if (!section) return;
+  const tracks = section.querySelectorAll('.brand-marquee__track');
+  if (!tracks.length) return;
+
+  // 品牌名由 logo 個 alt 攞，唔使喺 HTML 度成一百個位重複寫多次
+  section.querySelectorAll('.brand-marquee__item').forEach((item) => {
+    if (item.querySelector('.brand-marquee__item-name')) return;
+    const img = item.querySelector('img');
+    if (!img || !img.alt) return;
+    const name = document.createElement('span');
+    name.className = 'brand-marquee__item-name';
+    name.textContent = img.alt;
+    name.setAttribute('aria-hidden', 'true');
+    item.appendChild(name);
+  });
+
+  let armed = null;
+  function disarm() {
+    if (armed) armed.classList.remove('is-armed');
+    armed = null;
+  }
+  function setPaused(on) {
+    section.classList.toggle('is-paused', on);
+    tracks.forEach((t) => { t.style.animationPlayState = on ? 'paused' : ''; });
+  }
+
+  section.querySelectorAll('.brand-marquee').forEach((row) => {
+    row.addEventListener('mouseenter', () => setPaused(true));
+    row.addEventListener('mouseleave', () => { setPaused(false); disarm(); });
+    row.addEventListener('focusin', () => setPaused(true));
+    row.addEventListener('focusout', () => setPaused(false));
+  });
+
+  const coarse = window.matchMedia && window.matchMedia('(hover: none)').matches;
+  if (!coarse) return;
+
+  section.addEventListener('click', (e) => {
+    const item = e.target.closest('.brand-marquee__item');
+    if (!item) return;
+    if (armed === item) { disarm(); return; }   // 第二下：放行，照跳
+    e.preventDefault();
+    disarm();
+    armed = item;
+    item.classList.add('is-armed');
+    setPaused(true);
+  });
+
+  // 撳去第二度就取消，唔好一直停住
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.brand-marquee__item')) return;
+    if (!armed) return;
+    disarm();
+    setPaused(false);
+  });
+}
+
+/* ----- 睇唔到嘅動畫就停 -----
+   跑馬燈同背景煙霧片就算碌到十萬八千里之外都照行，慢機成日
+   得幾成 CPU 淨，白白畀咗佢哋食。 */
+function initOffscreenPause() {
+  if (!('IntersectionObserver' in window)) return;
+
+  const targets = [];
+  document.querySelectorAll('.brand-marquees').forEach((section) => {
+    targets.push({
+      el: section,
+      on() {
+        section.querySelectorAll('.brand-marquee__track').forEach((t) => {
+          if (!section.classList.contains('is-paused')) t.style.animationPlayState = '';
+        });
+        const v = section.querySelector('video');
+        if (v && v.paused) v.play().catch(() => {});
+      },
+      off() {
+        section.querySelectorAll('.brand-marquee__track').forEach((t) => {
+          t.style.animationPlayState = 'paused';
+        });
+        const v = section.querySelector('video');
+        if (v && !v.paused) v.pause();
+      },
+    });
+  });
+
+  if (!targets.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const t = targets.find((x) => x.el === entry.target);
+      if (t) (entry.isIntersecting ? t.on : t.off)();
+    });
+  }, { rootMargin: '120px' });
+  targets.forEach((t) => io.observe(t.el));
+}
+
+/* ----- 低配電腦：熄咗最食效能嗰批效果 ----- */
+function isLiteDevice() {
+  const cores = navigator.hardwareConcurrency || 8;
+  const mem = navigator.deviceMemory || 8;
+  return cores <= 4 || mem <= 4;
+}
+
+/* 開頭兩秒實測畫面順唔順。規格數字呃得人（有啲舊機報 8 核但
+   整合顯示卡好弱），跌得太交關就即刻轉慳電模式。 */
+function watchFrameRate() {
+  if (document.documentElement.classList.contains('is-lite')) return;
+  if (!window.requestAnimationFrame) return;
+
+  let frames = 0;
+  let start = null;
+  function tick(now) {
+    if (start === null) start = now;
+    frames++;
+    const elapsed = now - start;
+    if (elapsed < 2000) { requestAnimationFrame(tick); return; }
+    if (frames / (elapsed / 1000) < 40) {
+      document.documentElement.classList.add('is-lite');
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
 /* ----- Mobile Navigation ----- */
 function initMobileNav() {
   const toggle = document.querySelector('.header__menu-toggle');
@@ -391,7 +546,9 @@ function initMegaMenu() {
   const mega = document.querySelector('.header__mega');
   if (!mega) return;
 
-  mega.querySelectorAll('.header__mega-row').forEach((btn) => {
+  /* 「隱形眼鏡」同「K-pop 周邊」係直接連結，冇下拉。以前連佢哋都當
+     成摺疊掣，落咗 preventDefault，結果撳極都唔會去到嗰版。 */
+  mega.querySelectorAll('.header__mega-row:not(.header__mega-row--link)').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const group = btn.closest('.header__mega-group');
@@ -748,20 +905,22 @@ function initHeroScrollParallax() {
   const hero = document.querySelector('.hero');
   if (!hero) return;
 
+  // offsetHeight 一讀就迫瀏覽器重算 layout，唔好逐 frame 讀
+  let heroH = hero.offsetHeight || 1;
+  window.addEventListener('resize', () => { heroH = hero.offsetHeight || 1; });
+
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(() => {
         const scrollY = window.scrollY;
-        const heroH = hero.offsetHeight;
         if (scrollY < heroH * 1.5) {
           const progress = Math.min(scrollY / heroH, 1);
           const scale = 1 - progress * 0.06;
-          const opacity = 1 - progress * 0.4;
-          const radius = progress * 24;
-          hero.style.transform = 'scale(' + scale + ')';
-          hero.style.opacity = opacity;
-          hero.style.borderRadius = radius + 'px';
+          hero.style.transform = 'scale3d(' + scale + ',' + scale + ',1)';
+          hero.style.opacity = 1 - progress * 0.4;
+          // 之前仲逐 frame 改 border-radius。transform／opacity 顯示卡
+          // 自己搞得掂，圓角一改就要成個 hero 重畫一次，好貴又幾乎睇唔到。
         }
         ticking = false;
       });

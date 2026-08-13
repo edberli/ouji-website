@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Create (or remove) a HK$1 product so the owner can run a real payment through.
+"""Create (or remove) a HK$10 product so the owner can run a real payment through.
 
 The shop has never taken an online order, so nobody has ever watched money
 actually move — card form, 3-D Secure, order confirmation email, the
-Purchase pixel. A one-dollar item is the cheapest way to see the whole
+Purchase pixel. A cheap throwaway item is the cheapest way to see the whole
 chain work end to end before real customers arrive.
 
 Deliberate choices:
@@ -12,9 +12,9 @@ Deliberate choices:
   oujikbeauty.com reads through the Storefront API. Keeping it off the
   Online Store channel means the Shopify theme never lists it.
 - **Tagged `__test`.** `api/google-feed.js` drops anything with that tag,
-  so a dollar test item can never reach Google Shopping.
+  so the test item can never reach Google Shopping.
 - **Shipping required.** The owner can still pick 觀塘門市自取 (free) and
-  pay exactly the dollar, but the shipping step gets exercised too —
+  pay exactly the item price, but the shipping step gets exercised too —
   that step has been wrong before (a rate was priced in CNY).
 - **Inventory not tracked.** One less thing that can block the test.
 
@@ -28,7 +28,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from shopify_admin import gql  # noqa: E402
 
-HANDLE = "test-payment-hkd1"
+HANDLE = "test-payment-hkd1"   # handle 保持唔變，價錢已改做 HK$10
 HEADLESS_PUB = "gid://shopify/Publication/202340466846"   # ouji Headless
 
 FIND = """
@@ -100,7 +100,7 @@ def main():
 
     out = gql(CREATE, {
         "input": {
-            "title": "【測試】付款測試商品 HK$1",
+            "title": "【測試】付款測試商品 HK$10",
             "handle": HANDLE,
             "descriptionHtml": DESCRIPTION,
             "vendor": "OUJI",
@@ -125,7 +125,7 @@ def main():
         "pid": p["id"],
         "vars": [{
             "id": vid,
-            "price": "1.00",
+            "price": "10.00",
             "inventoryItem": {"tracked": False, "requiresShipping": True},
         }],
     })["productVariantsBulkUpdate"]["userErrors"]

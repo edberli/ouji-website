@@ -458,157 +458,201 @@ function brandSection(vendor, items, index) {
 }
 
 /**
- * The wave down the side of the page: which brand you are in, and a way
- * to move between them by running a finger along it.
+ * 頁邊嘅品牌導覽：你而家喺邊個品牌，同埋點樣跳去另一個。
  *
- * It used to be a row of ticks in a glass pill, with the brand's name
- * hidden until you hovered a 4px target — which on a phone meant the
- * name never appeared at all, because a phone has no hover. And landing
- * on a brand took two actions: hover to aim, then tap to go.
+ * 樣式係一列短線，浪頭（你所在嗰個）附近嗰幾條會伸長、變深，
+ * 旁邊一個標籤講你而家掂住／身處邊個品牌。
+ * （試過掂到就成排品牌名一齊彈出嚟，五十幾個太多、太亂，撤回咗。）
  *
- * Now: no frame, just the water. One label rides above the crest and
- * always says where you are. Moving along the rail moves the page with
- * you — pointer or finger, no second tap — so it reads as scrubbing
- * through the shop rather than operating a control.
+ * 兩件事同上一版唔同，兩件都係老闆撞過先改：
+ *  1. 掂到**只係預覽**。以前一掂到就即刻捲版，碌版時滑鼠掃過條 rail
+ *     就會無端端彈咗去第二個品牌。而家要撳落去先真係去。
+ *  2. 幾何量一次就快取住。以前滑鼠每郁一下都要逐條線問一次位置
+ *     （五十幾次，每次迫瀏覽器重算成版排版），再逐條改闊度 —— 就係窒
+ *     嘅來源。而家只改浪頭附近嗰幾條。
  */
 function buildBrandRail(order) {
   document.querySelector('.brand-rail')?.remove();
   if (order.length < 2) return;
 
+  const names = order.map(([vendor]) => vendor);
   const rail = document.createElement('nav');
   rail.className = 'brand-rail';
   rail.setAttribute('aria-label', '品牌導覽');
-  rail.innerHTML = '<span class="brand-rail__label" aria-hidden="true"></span>'
-    + order.map(([vendor], i) => `
-    <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
-       aria-label="${vendor}" style="--fall:0"><span class="brand-rail__tick"></span></a>`).join('');
+  rail.innerHTML =
+    '<span class="brand-rail__label" aria-hidden="true"></span>'
+    + '<span class="brand-rail__crest" aria-hidden="true"></span>'
+    + names.map((vendor, i) => `
+      <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
+         aria-label="${vendor}" style="--fall:0"><span class="brand-rail__tick"></span></a>`).join('');
   document.body.appendChild(rail);
 
   const items = [...rail.querySelectorAll('.brand-rail__item')];
   const label = rail.querySelector('.brand-rail__label');
   const sections = [...document.querySelectorAll('.brand-section')];
-  const names = order.map(([vendor]) => vendor);
 
-  /**
-   * Height falls off with distance from the crest, so the ticks read as a
-   * swell rather than a list with one entry bolded. cos gives a rounded
-   * shoulder where a linear falloff gave a tent.
-   */
-  const swell = (d) => (d >= 2.6 ? 0 : (Math.cos((d / 2.6) * Math.PI) + 1) / 2);
+  /* 浪頭附近先算數。cos 出嚟嘅肩膊圓，線性會變成尖帳篷。 */
+  const REACH = 2.6;
+  const swell = (d) => (d >= REACH ? 0 : (Math.cos((d / REACH) * Math.PI) + 1) / 2);
 
-  const mark = (at, current = Math.round(at)) => {
-    items.forEach((el, n) => {
-      el.classList.toggle('is-current', n === current);
-      // Computed here rather than in CSS: nesting a var() inside max()/calc()
-      // resolved once and left every tick sized off its index.
-      el.style.setProperty('--fall', String(swell(Math.abs(n - at))));
-    });
-    rail.style.setProperty('--crest', String(at));
-    if (label && names[current] !== undefined) {
-      label.textContent = names[current];
-      // The label sits over the crest, clamped so it never hangs off the
-      // edge of a phone screen at the first or last brand.
-      const box = items[current]?.getBoundingClientRect();
-      const railBox = rail.getBoundingClientRect();
-      if (box && railBox.width > railBox.height) {
-        label.style.left = `${box.left + box.width / 2 - railBox.left}px`;
-      }
-    }
-  };
-
-  /* Where the pointer sits along the rail, as a fractional index. The rail
-     is vertical on desktop and horizontal on mobile, so the axis is read
-     off the ticks themselves rather than hard-coded. */
-  function indexAt(clientX, clientY) {
-    const boxes = items.map((el) => el.getBoundingClientRect());
-    const first = boxes[0], last = boxes[boxes.length - 1];
-    const vertical = Math.abs(last.top - first.top) >= Math.abs(last.left - first.left);
-    const pos = vertical ? clientY : clientX;
-    const centres = boxes.map((b) => (vertical ? b.top + b.height / 2
-                                               : b.left + b.width / 2));
-    if (pos <= centres[0]) return 0;
-    if (pos >= centres[centres.length - 1]) return centres.length - 1;
-    for (let n = 0; n < centres.length - 1; n++) {
-      if (pos <= centres[n + 1]) {
-        const span = centres[n + 1] - centres[n] || 1;
-        return n + (pos - centres[n]) / span;
-      }
-    }
-    return centres.length - 1;
+  /* ── 幾何：量一次就夠 ──────────────────────────────────
+     條 rail 係 fixed，唔會跟住碌版郁，所以位置只需要喺開頭同改窗
+     大細嗰陣量。 */
+  let geo = null;
+  function measure() {
+    const box = rail.getBoundingClientRect();
+    if (!box.width || !box.height) { geo = null; return; }
+    const vertical = box.height >= box.width;
+    geo = {
+      vertical,
+      left: box.left,
+      top: box.top,
+      centres: items.map((el) => {
+        const b = el.getBoundingClientRect();
+        return vertical ? b.top + b.height / 2 - box.top
+                        : b.left + b.width / 2 - box.left;
+      }),
+    };
   }
 
-  let tracking = false;
-  let landed = -1;
+  function posOf(at) {
+    if (!geo) return 0;
+    const c = geo.centres;
+    const i = Math.max(0, Math.min(c.length - 1, at));
+    const lo = Math.floor(i);
+    const hi = Math.min(c.length - 1, lo + 1);
+    return c[lo] + (c[hi] - c[lo]) * (i - lo);
+  }
 
-  /**
-   * Move the page to a brand. Instant, not smoothed: while a finger is
-   * running along the rail, a smooth scroll queues up animations behind
-   * the finger and the page arrives somewhere the finger has already left.
-   */
+  /* ── 標示 ──────────────────────────────────────────────
+     只改浪頭夠得到嗰幾條，同埋上一次改過而今次夠唔到嘅要清返 0。
+     五十幾條逐條寫係之前窒嘅主因。 */
+  let touched = [];
+  let currentIdx = -1;
+
+  function mark(at, current = Math.round(at)) {
+    const lo = Math.max(0, Math.ceil(at - REACH));
+    const hi = Math.min(items.length - 1, Math.floor(at + REACH));
+    const next = [];
+    for (let n = lo; n <= hi; n++) {
+      items[n].style.setProperty('--fall', String(swell(Math.abs(n - at))));
+      next.push(n);
+    }
+    touched.forEach((n) => {
+      if (n < lo || n > hi) items[n].style.setProperty('--fall', '0');
+    });
+    touched = next;
+
+    if (current !== currentIdx) {
+      items[currentIdx]?.classList.remove('is-current');
+      items[current]?.classList.add('is-current');
+      currentIdx = current;
+    }
+
+    if (!geo) return;
+    const p = posOf(at);
+    rail.style.setProperty('--crest-x', (geo.vertical ? 14 : p) + 'px');
+    rail.style.setProperty('--crest-y', (geo.vertical ? p : 20) + 'px');
+    if (label && names[current] !== undefined) {
+      label.textContent = names[current];
+      if (geo.vertical) label.style.top = posOf(current) + 'px';
+      else label.style.left = posOf(current) + 'px';
+    }
+  }
+
+  function indexAt(clientX, clientY) {
+    if (!geo) measure();
+    if (!geo) return 0;
+    const { vertical, centres, left, top } = geo;
+    const pos = vertical ? clientY - top : clientX - left;
+    const last = centres.length - 1;
+    if (pos <= centres[0]) return 0;
+    if (pos >= centres[last]) return last;
+    for (let n = 0; n < last; n++) {
+      if (pos <= centres[n + 1]) {
+        const s = centres[n + 1] - centres[n] || 1;
+        return n + (pos - centres[n]) / s;
+      }
+    }
+    return last;
+  }
+
   function goTo(i, smooth) {
     const sec = sections[i];
-    if (!sec || i === landed) return;
-    landed = i;
+    if (!sec) return;
     const y = window.scrollY + sec.getBoundingClientRect().top
       - (parseFloat(getComputedStyle(document.documentElement)
         .getPropertyValue('--header-height')) || 72) - 12;
     window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
   }
 
-  const follow = (e) => {
+  /* ── 掂到＝預覽，撳落去＝先至去 ──────────────────────── */
+  let previewing = false;
+  let dragged = false;
+
+  const preview = (e) => {
     const t = e.touches ? e.touches[0] : e;
     if (!t) return;
-    tracking = true;
+    previewing = true;
     rail.classList.add('is-live');
-    const at = indexAt(t.clientX, t.clientY);
-    mark(at);
-    // Hover takes you there — the whole point of the change. No second tap.
-    goTo(Math.round(at), false);
-    if (e.cancelable) e.preventDefault();   // don't scroll the page mid-drag
+    mark(indexAt(t.clientX, t.clientY));
   };
   const release = () => {
-    tracking = false;
-    landed = -1;
+    previewing = false;
     rail.classList.remove('is-live');
     spy();
   };
 
-  rail.addEventListener('pointermove', follow);
+  rail.addEventListener('pointermove', preview);
   rail.addEventListener('pointerleave', release);
-  rail.addEventListener('touchmove', follow, { passive: false });
-  rail.addEventListener('touchend', release);
-  rail.addEventListener('touchcancel', release);
+  rail.addEventListener('touchstart', () => { dragged = false; }, { passive: true });
+  rail.addEventListener('touchmove', (e) => {
+    dragged = true;
+    preview(e);
+    if (e.cancelable) e.preventDefault();   // 拉緊條 rail 就唔好順手捲版
+  }, { passive: false });
+  rail.addEventListener('touchend', () => {
+    // 手指沿住條 rail 拉完鬆手 → 去嗰個位。輕㩒一下就當普通點擊。
+    if (dragged) goTo(Math.round(currentIdx), true);
+    dragged = false;
+    release();
+  });
+  rail.addEventListener('touchcancel', () => { dragged = false; release(); });
 
-  // A section taller than the viewport never reaches a high intersection
-  // ratio, so ratio-based spying kept crowning whichever short section
-  // happened to be fully on screen. Track the last heading to pass the
-  // top of the viewport instead.
-  function spy() {
-    if (tracking) return;          // a finger on the rail outranks the page
-    const line = window.innerHeight * 0.28;
-    let current = 0;
-    sections.forEach((sec, i) => {
-      if (sec.getBoundingClientRect().top <= line) current = i;
-    });
-    mark(current);
-  }
-  // Run it inline rather than behind requestAnimationFrame: a handful of
-  // getBoundingClientRect calls is cheap, and rAF gets throttled in
-  // background tabs, which left the rail stuck on the first brand.
-  window.addEventListener('scroll', spy, { passive: true });
-  window.addEventListener('resize', spy, { passive: true });
-  mark(0);
-  spy();
-
-  // Tapping still works — for a keyboard, a screen reader, and for anyone
-  // who aims before committing.
   rail.addEventListener('click', (e) => {
     const a = e.target.closest('[data-rail]');
     if (!a) return;
     e.preventDefault();
-    landed = -1;
     goTo(+a.dataset.rail, true);
   });
+
+  /* ── 跟住碌版行 ──────────────────────────────────────
+     每段嘅位置都快取住，所以 spy() 只係加減數，唔使問排版。
+     inline 行（唔用 rAF）—— 背景分頁 rAF 會停，以前試過令條 rail
+     一直卡喺第一個品牌。 */
+  let tops = [];
+  function measureSections() {
+    tops = sections.map((s) => s.getBoundingClientRect().top + window.scrollY);
+  }
+  function spy() {
+    if (previewing || !tops.length) return;
+    const line = window.scrollY + window.innerHeight * 0.28;
+    let current = 0;
+    for (let i = 0; i < tops.length; i++) if (tops[i] <= line) current = i;
+    mark(current);
+  }
+
+  function remeasure() { measure(); measureSections(); spy(); }
+
+  window.addEventListener('scroll', spy, { passive: true });
+  window.addEventListener('resize', remeasure, { passive: true });
+  window.addEventListener('load', remeasure);
+  // 圖片載入會推低下面嘅段落，快取住嘅位置要跟住更新
+  setTimeout(remeasure, 600);
+  setTimeout(remeasure, 2000);
+
+  remeasure();
+  mark(0);
 }
 
 /** Group into brand sections, or fall back to one grid when filtered. */

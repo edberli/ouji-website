@@ -82,9 +82,19 @@
   --space-4xl: 96px;
   --space-5xl: 128px;
 
-  /* Typography */
-  --font-display: 'League Spartan', 'Noto Serif TC', sans-serif;
-  --font-body: 'League Spartan', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Typography — 高級襯線：Cormorant Garamond（英文）× Noto Serif TC（中文）
+
+     兩隻字要夾埋用，中英文先唔會斷開兩種氣質。Cormorant 本身生得細，
+     同中文並排會矮一截，所以凡係中英夾雜嘅標題都用 --font-display，
+     入面 Cormorant 行先、Noto Serif TC 補中文。
+
+     內文（--font-body）留返無襯線：整版襯線體喺細字度會糊，
+     手機睇尤其累眼。襯線負責標題同品牌感，內文負責睇得清楚。 */
+  --font-display: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+  --font-body: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  /* ⚠️ --font-brand 唔准跟住主題改。OUJI 個字樣係品牌識別，
+     換咗字體就係換咗個 logo。頁首、頁尾、載入畫面嗰個 OUJI
+     一律用返 League Spartan。 */
   --font-brand: 'League Spartan', sans-serif;
 
   /* Transitions */
@@ -163,21 +173,25 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   border: 1px solid var(--glass-border-strong);
 }
 
-/* ----- Typography ----- */
+/* ----- Typography -----
+
+   Cormorant Garamond 嘅小寫字生得矮（x-height 細），同一個 px 數
+   擺落去會細成一個碼咁滯，所以標題全部要上調返，字距亦都收窄 ——
+   襯線體本身已經有裝飾，再拉開就散。 */
 .heading-xl {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 300;
-  letter-spacing: 0.02em;
-  line-height: 1.15;
+  font-size: clamp(2.35rem, 4.6vw, 4rem);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1.12;
 }
 
 .heading-lg {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.75rem, 3.4vw, 2.85rem);
   font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
+  letter-spacing: 0.005em;
+  line-height: 1.18;
 }
 
 .body-lg { font-size: 1.0625rem; line-height: 1.7; color: var(--text-secondary); }
@@ -3254,7 +3268,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
 .brand-marquee {
   overflow: hidden;
   position: relative;
-  padding: var(--space-sm) 0;
+  /* 下面留位畀品牌名浮出嚟，唔留就會畀 overflow:hidden 剪走 */
+  padding: var(--space-sm) 0 26px;
 }
 
 .brand-marquee::before,
@@ -3285,6 +3300,9 @@ main { padding-top: calc(var(--header-height) + 36px); }
   gap: var(--space-md);
   animation: brandMarquee 60s linear infinite;
   width: max-content;
+  /* 明確叫顯示卡開一層畀佢，唔好每 frame 喺 CPU 度重畫成行 logo */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .brand-marquee--reverse .brand-marquee__track {
@@ -3296,6 +3314,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
 }
 
 .brand-marquee__item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3313,7 +3332,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
   opacity: 0.6;
 }
 
-.brand-marquee__item:hover {
+.brand-marquee__item:hover,
+.brand-marquee__item.is-armed {
   background: transparent;
   border: none;
   color: #ffffff;
@@ -3322,11 +3342,54 @@ main { padding-top: calc(var(--header-height) + 36px); }
   opacity: 1;
 }
 
+/* 停低嗰陣成行都亮返啲，唔淨係滑鼠指住嗰個 */
+.brand-marquees.is-paused .brand-marquee__item {
+  opacity: 0.82;
+}
+
+/* 品牌名：平時收埋，掂到／停低先浮出嚟。用 absolute 令佢
+   出現嗰陣唔會撑高成行 logo（一撑就成版跳） */
 .brand-marquee__item-name {
-  font-size: 0.75rem;
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  bottom: -15px;
+  text-align: center;
+  font-size: 0.6rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+  pointer-events: none;
+}
+
+.brand-marquees.is-paused .brand-marquee__item-name,
+.brand-marquee__item:hover .brand-marquee__item-name,
+.brand-marquee__item:focus-visible .brand-marquee__item-name,
+.brand-marquee__item.is-armed .brand-marquee__item-name {
+  opacity: 1;
+  transform: none;
+}
+
+.brand-marquee__item:hover .brand-marquee__item-name,
+.brand-marquee__item.is-armed .brand-marquee__item-name {
+  color: #ffffff;
+}
+
+/* 手機撳咗第一下：框住佢，話畀客知「再撳一次先入去」 */
+.brand-marquee__item.is-armed::after {
+  content: '';
+  position: absolute;
+  inset: -6px -2px -18px;
+  border: 1px solid rgba(109, 163, 181, 0.6);
+  border-radius: 10px;
+  pointer-events: none;
 }
 
 .brand-marquee__logo {
@@ -3346,8 +3409,8 @@ main { padding-top: calc(var(--header-height) + 36px); }
 }
 
 @keyframes brandMarquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 /* ----- Blue frosted section backgrounds ----- */
@@ -4500,21 +4563,25 @@ textarea:focus-visible,
      passing near the rail, not only one exactly on a 2px tick. */
   padding: var(--space-md) 12px;
   --wave: 44px;
+  /* 只圈 layout —— 圈埋 paint 會剪走凸出條 rail 外面嘅品牌名同光暈 */
+  contain: layout;
 }
 
-/* the crest — a soft blob of light that follows the active brand */
+/* 浪頭嘅光暈 —— 位置由 catalog.js 用 px 寫落 --crest-x / --crest-y，
+   唔再靠「第幾個品牌 × 每格幾多 px」估，橫豎兩個方向都啱。 */
 .brand-rail__crest {
   position: absolute;
-  left: -10px;
-  top: var(--space-md);
-  width: 62px;
-  height: 34px;
+  left: 0;
+  top: 0;
+  width: 66px;
+  height: 38px;
+  margin: -19px 0 0 -33px;
   border-radius: 50%;
   pointer-events: none;
   background: radial-gradient(closest-side,
-    rgba(109,163,181,0.30), rgba(109,163,181,0.10) 62%, transparent 100%);
-  filter: blur(6px);
-  transform: translateY(calc(var(--crest, 0) * 21px - 4px));
+    rgba(109,163,181,0.32), rgba(109,163,181,0.10) 62%, transparent 100%);
+  filter: blur(7px);
+  transform: translate3d(var(--crest-x, 0px), var(--crest-y, 0px), 0);
   transition: transform 420ms cubic-bezier(.22,.9,.28,1);
 }
 
@@ -4522,32 +4589,33 @@ textarea:focus-visible,
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex: none;
   height: 15px;
-  color: var(--text-tertiary);
-  font-size: 0.75rem;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-  /* --fall (1 at the crest, 0 far away) is set per item by catalog.js */
-  transition: color 320ms var(--ease-out);
+  /* --fall：1 = 正正喺浪頭，0 = 遠離。由 catalog.js 逐個寫，
+     但只寫浪頭附近嗰幾個，唔會五十幾個一齊改。 */
 }
 
 .brand-rail__tick {
   height: 2px;
   border-radius: 2px;
   flex: none;
-  width: calc(12px + var(--wave) * var(--fall));
+  width: calc(12px + var(--wave) * var(--fall, 0));
   background: color-mix(in srgb, var(--primary)
-              calc(24% + 76% * var(--fall)), transparent);
-  /* Left-anchored now that the rail is on the left; the old negative
-     shift pulled the crest away from its own label. */
+              calc(24% + 76% * var(--fall, 0)), transparent);
   transition: width 420ms cubic-bezier(.22,.9,.28,1),
               background 320ms var(--ease-out);
 }
 
-/* One label rides above the crest and always says where you are — the
-   per-tick names it replaces were only visible on hover, which on a
-   phone meant never. */
+
+
+.brand-rail__item:focus-visible {
+  outline: 1px solid var(--primary, #6da3b5);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* 冇掂到條 rail 嗰陣，用一個標籤講你而家喺邊個品牌。
+   一掂到就交畀成排品牌名，呢個就收埋。 */
 .brand-rail__label {
   position: absolute;
   white-space: nowrap;
@@ -4558,17 +4626,27 @@ textarea:focus-visible,
   transition: opacity 200ms, transform 200ms;
 }
 
+
 /* Desktop: the rail is vertical, so the label sits beside the crest and
-   slides with it. --crest is the fractional index the JS writes. */
+   slides with it. top 由 JS 用 px 寫，唔再靠索引數乘固定行高。 */
 @media (min-width: 1501px) {
   .brand-rail__label {
-    left: calc(100% + 4px);
-    top: calc(var(--space-md, 16px) + var(--crest, 0) * 19px);
-    transform: translateY(-3px);
+    left: calc(100% + 10px);
+    top: 0;
+    transform: translateY(-50%);
+  }
+  /* 57 個品牌 × 固定行高 = 1200 幾 px，比屏幕仲高，頭尾各有十幾個
+     品牌跌咗出畫面外，撳都撳唔到。改成大家夾份分屏幕高度。 */
+  .brand-rail {
+    gap: 0;
+    height: calc(100vh - 160px);
+  }
+  .brand-rail__item {
+    flex: 1 1 0;
+    height: auto;
+    min-height: 3px;
   }
 }
-.brand-rail__item:hover { color: var(--primary-dark); }
-.brand-rail__item.is-current { color: var(--primary-deep); font-weight: 500; }
 
 /* Below 1500px the left margin is too narrow for a vertical rail — it
    would sit on the first column of cards — so it lies down as a tide
@@ -4601,8 +4679,8 @@ textarea:focus-visible,
   /* The label sits above the crest; left is set from JS so it follows the
      brand you are in rather than the middle of the rail. */
   .brand-rail__label {
-    left: 50%;
-    bottom: calc(100% - 20px);
+    left: 0;
+    bottom: calc(100% - 22px);
     transform: translateX(-50%);
     padding: 3px 10px;
     border-radius: 999px;
@@ -4611,17 +4689,25 @@ textarea:focus-visible,
     font-size: 0.6875rem;
   }
   .brand-rail__crest { display: none; }
+  .brand-rail__item {
+    width: 9px;
+    height: 28px;
+    align-items: flex-end;
+  }
   .brand-rail__tick {
     width: 4px;
-    height: calc(6px + var(--wave) * var(--fall));
-    transform: none;
+    height: calc(6px + var(--wave) * var(--fall, 0));
     transition: height 420ms cubic-bezier(.22,.9,.28,1), background 320ms;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brand-rail__tick, .brand-rail__label, .brand-rail__crest { transition: none; }
+  .brand-rail__label,
+  .brand-rail__crest,
+  .brand-rail__tick { transition: none; }
 }
+
+html.is-lite .brand-rail__crest { filter: none; }
 
 /* ============================================================
    COLLAPSIBLE DETAIL STRIPS
@@ -6440,4 +6526,97 @@ a.header__mega-row--link:hover { color: white !important; }
   padding-left: var(--space-xl) !important;
   font-size: 0.875rem !important;
   color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ============================================
+   慢機模式 (html.is-lite)
+
+   由 script.js 開：核心數／記憶體偏低，或者開頭兩秒實測
+   畫面唔夠 40fps，就會加呢個 class。目標係碌版順，
+   唔係好睇 —— 所以熄嘅係「郁緊嘅嘢」同「毛玻璃」，
+   排版、顏色、字體一律唔動。
+   ============================================ */
+
+/* backdrop-filter 係最貴嗰樣：每次碌版都要將背後嗰浸嘢
+   重新模糊一次。全站熄咗，再逐個補返夠深嘅底色。 */
+html.is-lite *,
+html.is-lite *::before,
+html.is-lite *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.is-lite .header.is-scrolled { background: #f6f5f0; }
+html.is-lite .mobile-bottom-nav { background: #ffffff; }
+html.is-lite .mobile-nav { background: #21353d; }
+html.is-lite .header__mega { background: rgba(43, 76, 88, 0.97); }
+html.is-lite .filter-sidebar,
+html.is-lite .shop-sheet__panel,
+html.is-lite .ing-sheet__panel { background: #ffffff; }
+
+/* 一路喺度轉／飄嘅裝飾。慢機上面佢哋唔會靚，只會卡。 */
+html.is-lite .brand-marquees__video,
+html.is-lite .particles,
+html.is-lite .cursor-glow { display: none !important; }
+
+/* 大範圍模糊光暈 —— 呢啲最貴：成塊區域每 frame 重新模糊一次。
+   品牌簡介嗰兩浸極光加埋 22 秒同 28 秒動畫，係碌版卡嘅主因之一。 */
+html.is-lite .hero__orbs { display: none !important; }
+html.is-lite .section--brand-intro::before,
+html.is-lite .section--brand-intro::after {
+  animation: none !important;
+  filter: none !important;
+  opacity: 0.5;
+}
+
+/* 慢機唔好再加一層跑馬燈動畫落去 */
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee__track { animation: none !important; }
+}
+
+/* ============================================
+   襯線字延伸到產品資料
+
+   換咗字之後，標題係襯線、產品名同價錢仍然係無襯線，同一版
+   兩種氣質好唔夾。產品名／品牌／價錢係客最常睇嘅字，交返畀
+   襯線；按鈕、導覽、篩選呢啲操作用嘅字照舊無襯線 —— 操作要
+   一眼睇得清，唔係要靚。
+
+   Cormorant 嘅小寫同數字都生得矮，所以每項都要上調字級，
+   唔上調就會細過原本嗰隻字一截。
+   ============================================ */
+.product-card__brand {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.product-card__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.product-card__price {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.product-info__brand {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+}
+
+.product-info__price {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .product-card__brand { font-size: 0.625rem; }
+  .product-card__name { font-size: 0.9375rem; }
+  .product-card__price { font-size: 0.9375rem; }
 }
