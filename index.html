@@ -247,40 +247,36 @@
       </div>
     </div>
 
-    <!-- ===== BRAND INTRO + STATS ===== -->
-    <section class="section section--brand-intro">
+    <!-- 客一入到嚟最想做嘅係搵嘢，唔係讀我哋自我介紹。
+         呢一格本來排喺第六位，要碌三個螢幕先見到 —— 搬咗上嚟。 -->
+    <section class="section--sm section-float">
       <div class="container">
         <div class="section-header reveal-blur">
-          <span class="label section-header__label">關於 OUJI</span>
-          <h2 class="heading-xl section-header__title text-shimmer" data-split-text>精選，源於講究</h2>
-          <p class="body-lg section-header__desc">
-            由韓國品牌官方渠道入貨，逐件對條碼上架。每件產品嘅質地、持妝度同適合膚質都寫清楚，唔靠形容詞。
-          </p>
-        </div>
-        <!-- Counted from the live catalogue at build time, not made up:
-             the old set claimed 100 brands, 1,000 products and 12,000
-             customers, and the shop has none of those. -->
-        <div class="stats-grid reveal-blur">
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="29" data-stat="brands">0</span>
-            <span class="stat-card__label">合作品牌</span>
-          </div>
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="383" data-stat="products">0</span>
-            <span class="stat-card__label">在售產品</span>
-          </div>
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="89" data-stat="awards">0</span>
-            <span class="stat-card__label">國際獎項</span>
-          </div>
-          <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-count="100" data-suffix="%" data-prefix="">0%</span>
-            <span class="stat-card__label">正品保證</span>
-          </div>
+          <span class="label section-header__label">分類選購</span>
+          <h2 class="heading-lg section-header__title">探索分類</h2>
         </div>
       </div>
+      <div class="cat-circles" data-home-cats></div>
     </section>
 
+    <!-- ===== FEATURED COLLECTION ===== -->
+
+    <!-- 逐個類別一條橫向捲軸 — 由實際目錄砌出嚟 -->
+    <section class="section section-float">
+      <div class="container">
+        <div class="section-header section-header--split reveal-blur">
+          <div>
+            <span class="label section-header__label">精選推薦</span>
+            <h2 class="heading-lg section-header__title">Editors' Picks</h2>
+          </div>
+          <a href="shop.html" class="btn--ghost">瀏覽全部</a>
+        </div>
+      </div>
+      <div data-home-rails></div>
+    </section>
+
+    <!-- 品牌牆擺喺第一批產品之後。客一入嚟想睇貨，唔係想睇 logo 牆；
+         但睇完頭幾件貨之後，「你哋有邊啲牌子」就變返有用。 -->
     <!-- ===== BRAND MARQUEES (Skincare + Makeup separated) ===== -->
     <section class="brand-marquees">
       <!-- Smoke video background -->
@@ -314,58 +310,55 @@
 
         <!-- Marquee rows (collapse when grid opens) -->
         <div class="brand-marquees__rows" id="makeupRows">
+        <!-- 本來每個分類兩行，喺手機食咗 196px。兩行嘅品牌合埋做一行，
+             一個品牌都冇少，但慳返一半高度。 -->
+        <div class="brand-marquee">
+          <div class="brand-marquee__track">
+            <a href="shop.html?brand=TIRTIR" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=rom%26nd" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=dasique" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=hince" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=fwee" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=AMUSE" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=lilybyred" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Glint" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=CLIO" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Peripera" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=WAKEMAKE" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=%E8%8A%B1%E7%9F%A5%E6%9B%89%20Flower%20Knows" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=MAYBELLINE" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Laka" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=2aN" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=BRAYE" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=UNLEASHIA" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Heart%20Percent" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Coralhaze" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo"></a>
+            <!-- duplicate for seamless loop -->
+            <a href="shop.html?brand=TIRTIR" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=rom%26nd" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=dasique" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=hince" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=fwee" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=AMUSE" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=lilybyred" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Glint" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=CLIO" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Peripera" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=WAKEMAKE" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=%E8%8A%B1%E7%9F%A5%E6%9B%89%20Flower%20Knows" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=MAYBELLINE" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Laka" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=2aN" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=BRAYE" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=UNLEASHIA" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Heart%20Percent" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Coralhaze" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo"></a>
+          </div>
+        </div>
 
         <!-- Makeup Row 1 (reverse) -->
-        <div class="brand-marquee brand-marquee--reverse">
-          <div class="brand-marquee__track">
-            <a href="shop.html?brand=TIRTIR" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=rom%26nd" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=dasique" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=hince" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=fwee" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=AMUSE" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=lilybyred" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Glint" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=CLIO" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Peripera" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="shop.html?brand=TIRTIR" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=rom%26nd" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=dasique" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=hince" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=fwee" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=AMUSE" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=lilybyred" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Glint" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=CLIO" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Peripera" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo"></a>
-          </div>
-        </div>
 
         <!-- Makeup Row 2 (fast) -->
-        <div class="brand-marquee brand-marquee--fast">
-          <div class="brand-marquee__track">
-            <a href="shop.html?brand=WAKEMAKE" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=%E8%8A%B1%E7%9F%A5%E6%9B%89%20Flower%20Knows" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=MAYBELLINE" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Laka" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=2aN" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=BRAYE" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=UNLEASHIA" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Heart%20Percent" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Coralhaze" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="shop.html?brand=WAKEMAKE" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=%E8%8A%B1%E7%9F%A5%E6%9B%89%20Flower%20Knows" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=MAYBELLINE" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Laka" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=2aN" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=BRAYE" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=UNLEASHIA" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Heart%20Percent" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Coralhaze" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo"></a>
-          </div>
-        </div>
 
         </div><!-- end brand-marquees__rows (makeup) -->
 
@@ -413,8 +406,8 @@
 
         <!-- Marquee rows (collapse when grid opens) -->
         <div class="brand-marquees__rows" id="skincareRows">
-
-        <!-- Skincare Row 1 (forward) -->
+        <!-- 本來每個分類兩行，喺手機食咗 196px。兩行嘅品牌合埋做一行，
+             一個品牌都冇少，但慳返一半高度。 -->
         <div class="brand-marquee">
           <div class="brand-marquee__track">
             <a href="shop.html?brand=Torriden" class="brand-marquee__item"><img src="logos/torriden.svg" alt="Torriden" class="brand-marquee__logo"></a>
@@ -427,6 +420,12 @@
             <a href="shop.html?brand=Bring%20Green" class="brand-marquee__item"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-marquee__logo"></a>
             <a href="shop.html?brand=COSRX" class="brand-marquee__item"><img src="logos/cosrx.png" alt="COSRX" class="brand-marquee__logo"></a>
             <a href="shop.html?brand=Goodal" class="brand-marquee__item"><img src="logos/goodal.svg" alt="goodal" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Mixsoon" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Needly" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=OOTD" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Purito" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Skinfood" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Some%20By%20Mi" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo"></a>
             <!-- duplicate for seamless loop -->
             <a href="shop.html?brand=Torriden" class="brand-marquee__item"><img src="logos/torriden.svg" alt="Torriden" class="brand-marquee__logo"></a>
             <a href="shop.html?brand=Anua" class="brand-marquee__item"><img src="logos/anua.png" alt="ANUA" class="brand-marquee__logo"></a>
@@ -438,27 +437,18 @@
             <a href="shop.html?brand=Bring%20Green" class="brand-marquee__item"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-marquee__logo"></a>
             <a href="shop.html?brand=COSRX" class="brand-marquee__item"><img src="logos/cosrx.png" alt="COSRX" class="brand-marquee__logo"></a>
             <a href="shop.html?brand=Goodal" class="brand-marquee__item"><img src="logos/goodal.svg" alt="goodal" class="brand-marquee__logo"></a>
-            </div>
+            <a href="shop.html?brand=Mixsoon" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Needly" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=OOTD" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Purito" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Skinfood" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo"></a>
+            <a href="shop.html?brand=Some%20By%20Mi" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo"></a>
+          </div>
         </div>
 
+        <!-- Skincare Row 1 (forward) -->
+
         <!-- Skincare Row 2 (reverse fast) -->
-        <div class="brand-marquee brand-marquee--reverse brand-marquee--fast">
-          <div class="brand-marquee__track">
-            <a href="shop.html?brand=Mixsoon" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Needly" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=OOTD" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Purito" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Skinfood" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Some%20By%20Mi" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="shop.html?brand=Mixsoon" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Needly" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=OOTD" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Purito" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Skinfood" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo"></a>
-            <a href="shop.html?brand=Some%20By%20Mi" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo"></a>
-            </div>
-        </div>
 
         </div><!-- end brand-marquees__rows (skincare) -->
 
@@ -487,22 +477,6 @@
         </div>
       </div>
 
-    </section>
-
-    <!-- ===== FEATURED COLLECTION ===== -->
-
-    <!-- 逐個類別一條橫向捲軸 — 由實際目錄砌出嚟 -->
-    <section class="section section-float">
-      <div class="container">
-        <div class="section-header section-header--split reveal-blur">
-          <div>
-            <span class="label section-header__label">精選推薦</span>
-            <h2 class="heading-lg section-header__title">Editors' Picks</h2>
-          </div>
-          <a href="shop.html" class="btn--ghost">瀏覽全部</a>
-        </div>
-      </div>
-      <div data-home-rails></div>
     </section>
 
     <!-- 獲獎產品 -->
@@ -581,15 +555,6 @@
       </div>
     </section>
 
-    <section class="section--sm section-float">
-      <div class="container">
-        <div class="section-header reveal-blur">
-          <span class="label section-header__label">分類選購</span>
-          <h2 class="heading-lg section-header__title">探索分類</h2>
-        </div>
-      </div>
-      <div class="cat-circles" data-home-cats></div>
-    </section>
 
     <section class="section section--warm section-float">
       <div class="container">
@@ -617,6 +582,42 @@
             <h3 class="editorial-card__title">hince：用色彩書寫的韓系美學哲學</h3>
             <p class="editorial-card__excerpt">低調卻充滿存在感——hince 如何以沉靜色調，重新定義韓國彩妝的成熟美。</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 信任嘅嘢（我哋點入貨、幾多個品牌）擺喺客睇完產品之後先講，
+         擺喺前面就係擋住佢搵嘢。 -->
+    <!-- ===== BRAND INTRO + STATS ===== -->
+    <section class="section section--brand-intro">
+      <div class="container">
+        <div class="section-header reveal-blur">
+          <span class="label section-header__label">關於 OUJI</span>
+          <h2 class="heading-xl section-header__title text-shimmer" data-split-text>精選，源於講究</h2>
+          <p class="body-lg section-header__desc">
+            由韓國品牌官方渠道入貨，逐件對條碼上架。每件產品嘅質地、持妝度同適合膚質都寫清楚，唔靠形容詞。
+          </p>
+        </div>
+        <!-- Counted from the live catalogue at build time, not made up:
+             the old set claimed 100 brands, 1,000 products and 12,000
+             customers, and the shop has none of those. -->
+        <div class="stats-grid reveal-blur">
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="29" data-stat="brands">0</span>
+            <span class="stat-card__label">合作品牌</span>
+          </div>
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="383" data-stat="products">0</span>
+            <span class="stat-card__label">在售產品</span>
+          </div>
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="89" data-stat="awards">0</span>
+            <span class="stat-card__label">國際獎項</span>
+          </div>
+          <div class="stat-card gradient-border">
+            <span class="stat-card__number" data-count="100" data-suffix="%" data-prefix="">0%</span>
+            <span class="stat-card__label">正品保證</span>
+          </div>
         </div>
       </div>
     </section>

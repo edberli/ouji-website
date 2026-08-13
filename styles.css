@@ -2129,9 +2129,11 @@ button.product-card__quick-add,
 .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2xl) var(--space-lg); }
 
 /* ----- Category Banner ----- */
+/* 由 300px 收到 176px。呢條 banner 唔賣到嘢 —— 佢淨係講返個分類名，
+   而個名喺麵包屑同標籤度已經有。慳返嘅位直接變成多睇到一行貨。 */
 .category-banner {
   position: relative;
-  height: 300px;
+  height: 176px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -2487,7 +2489,7 @@ button.product-card__quick-add,
   .newsletter__input { border-radius: 14px 14px 0 0; border-right: 1px solid rgba(255,255,255,0.2); border-bottom: none; }
   .newsletter__submit { border-radius: 0 0 14px 14px; }
   .section-header--split { flex-direction: column; align-items: flex-start; }
-  .category-banner { height: 220px; border-radius: 0 0 24px 24px; }
+  .category-banner { height: 140px; border-radius: 0 0 20px 20px; }
 }
 
 @media (max-width: 480px) {
@@ -3219,7 +3221,10 @@ button.product-card__quick-add,
 
 /* ----- Dual Brand Marquees (skincare + makeup) — Dark Smoke Theme ----- */
 .brand-marquees {
-  padding: clamp(72px, 8vw, 112px) 0;
+  /* 由 clamp(72,8vw,112) 收細。呢一格喺手機佔咗 966px，即係成個
+     螢幕零 20%，而客要碌足三個螢幕先見到第一件產品。品牌牆係
+     好嘢，但唔值一個螢幕。 */
+  padding: clamp(40px, 5vw, 64px) 0;
   position: relative;
   background: #161f24;
   overflow: hidden;
@@ -3268,8 +3273,9 @@ button.product-card__quick-add,
 /* Section header text — white on dark */
 .brand-marquees .section-header {
   text-align: center;
-  margin-bottom: clamp(32px, 4vw, 56px);
+  margin-bottom: clamp(14px, 2vw, 22px);
 }
+.brand-marquees .section-header__desc { display: none; }
 .brand-marquees .section-header__label {
   color: rgba(140,180,195,0.7);
   letter-spacing: 0.32em;
@@ -3290,7 +3296,7 @@ button.product-card__quick-add,
 }
 
 .brand-marquees__section {
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-lg);
 }
 
 .brand-marquees__section:last-child {
@@ -3702,8 +3708,8 @@ button.product-card__quick-add,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: var(--space-xl) 0 var(--space-md);
+  gap: 8px;
+  padding: var(--space-md) 0 var(--space-sm);
 }
 
 /* Flanking-line divider wrapper */
@@ -6712,4 +6718,63 @@ html.is-lite .section--brand-intro::after {
 .product-card__wishlist.is-active svg {
   fill: var(--primary);
   stroke: var(--primary);
+}
+
+/* ============================================
+   品牌 logo 一行（產品列表頁）
+
+   客好多時係認住個牌子入嚟 —— 「我要買 TIRTIR」。以前喺搵緊貨
+   嗰版反而冇入口，要行返首頁品牌牆或者品牌頁。
+   ============================================ */
+.brand-strip {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 2px 0 10px;
+  margin-bottom: var(--space-sm);
+  /* 兩邊淡出，示意仲有得掃 */
+  mask-image: linear-gradient(90deg, transparent 0, #000 18px,
+              #000 calc(100% - 26px), transparent 100%);
+}
+.brand-strip::-webkit-scrollbar { display: none; }
+.brand-strip:empty { display: none; }
+
+.brand-strip__item {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle, rgba(30,48,56,0.08));
+  background: #fff;
+  opacity: 0.72;
+  transition: opacity var(--duration-fast), border-color var(--duration-fast),
+              transform var(--duration-fast);
+}
+.brand-strip__item img {
+  max-width: 100%;
+  max-height: 20px;
+  object-fit: contain;
+  /* logo 原色五花八門，統一壓做深藍綠，一行睇落先似一組嘢 */
+  filter: grayscale(1) brightness(0.35);
+}
+.brand-strip__item:hover,
+.brand-strip__item:focus-visible,
+.brand-strip__item.is-active {
+  opacity: 1;
+  border-color: var(--primary, #6da3b5);
+  transform: translateY(-1px);
+}
+.brand-strip__item:hover img,
+.brand-strip__item.is-active img { filter: none; }
+
+@media (max-width: 768px) {
+  .brand-strip__item { width: 72px; height: 36px; }
+  .brand-strip__item img { max-height: 17px; }
 }

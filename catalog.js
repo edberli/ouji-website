@@ -90,6 +90,19 @@ const BRAND_LOGO = {
   'Peripera': 'logos/peripera.png', '2aN': 'logos/2an.svg',
   'BRAYE': 'logos/braye.svg', 'Coralhaze': 'logos/coralhaze.svg',
   'Glint': 'logos/glint.svg',
+  /* 護膚牌子。以前呢個表淨係得彩妝，所以護膚分類頁一個 logo 都出唔到。
+     五個牌子（April Skin、Dr. Melaxin、Haruharu Wonder、ILSO、KSECRET）
+     手上冇 logo 檔，一行 logo 入面就唔出佢哋 —— 得個名會好突兀，
+     佢哋照樣喺品牌頁同篩選度搵得返。 */
+  'Abib': 'logos/abib.svg', 'Anua': 'logos/anua.png',
+  'Beauty of Joseon': 'logos/beauty-of-joseon.svg',
+  'Beplain': 'logos/beplain.png', 'Bring Green': 'logos/bring-green.svg',
+  'COSRX': 'logos/cosrx.png', 'Goodal': 'logos/goodal.svg',
+  'Mixsoon': 'logos/mixsoon.svg', 'Needly': 'logos/needly.svg',
+  'OOTD': 'logos/ootd.svg', 'Purito': 'logos/purito.svg',
+  'Round Lab': 'logos/round-lab.svg', 'Skin1004': 'logos/skin1004.png',
+  'Skinfood': 'logos/skinfood.svg', 'Some By Mi': 'logos/some-by-mi.svg',
+  'Torriden': 'logos/torriden.svg',
 };
 
 
@@ -392,6 +405,32 @@ function buildQuickTabs(section, products, sel) {
     <button class="quick-tab${active.size ? '' : ' is-active'}" data-quick="">全部</button>`
     + subs.map((s) => `<button class="quick-tab${active.has(s.id) ? ' is-active' : ''}"
         data-quick="${s.id}">${s.label}<span class="quick-tab__count">${s.count}</span></button>`).join('');
+}
+
+/** 品牌 logo 一行，撳一下直接跳去嗰個牌子。
+ *
+ * 客好多時係認住個牌子先入嚟嘅 —— 「我要買 TIRTIR」。以前要行
+ * 首頁品牌牆或者品牌頁先揀得到，即係喺搵緊貨嗰版反而冇入口。
+ * 擺喺分類 pill 下面，同一個位置解決「揀類別」同「揀牌子」。
+ *
+ * 只出有 logo 檔嘅牌子 —— 得個名嘅一行 logo 入面會好突兀，
+ * 佢哋照樣喺品牌頁搵得返。 */
+function buildBrandStrip(products, sel) {
+  const host = document.querySelector('[data-brand-strip]');
+  if (!host) return;
+  const count = new Map();
+  products.forEach((p) => {
+    const v = p.vendor;
+    if (v && brandLogo(v)) count.set(v, (count.get(v) || 0) + 1);
+  });
+  const rows = [...count.entries()].sort((a, b) => b[1] - a[1]);
+  if (rows.length < 3) { host.innerHTML = ''; return; }
+  const active = (sel.brand instanceof Set) ? sel.brand : new Set();
+  host.innerHTML = rows.map(([v, n]) => `
+    <a class="brand-strip__item${active.has(v) ? ' is-active' : ''}"
+       href="shop.html?brand=${encodeURIComponent(v)}" title="${v}｜${n} 件">
+      <img src="${brandLogo(v)}" alt="${v}" loading="lazy">
+    </a>`).join('');
 }
 
 /** What is applied right now, each removable on its own. */
@@ -793,6 +832,7 @@ async function initCatalog({ section, cat, products }) {
       && new Set(list.map((p) => p.vendor)).size > 1;
 
     buildQuickTabs(section, products, sel);
+  buildBrandStrip(products, sel);
     buildActiveChips(section, sel);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
     if (!list.length) {
