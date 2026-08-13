@@ -41,7 +41,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- 淨係護膚配方面板嗰個大標題用 —— 其他版唔載 -->
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- 護膚配方（玻璃版）。skincare-match.css 睇落似殘留，但入面
+       仲有幾條 .sm 基礎 rule 生效，唔可以剩係要 modes 嗰張。 -->
+  <link rel="stylesheet" href="skincare-match.css">
+  <link rel="stylesheet" href="skincare-modes.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -196,6 +202,11 @@
         <span>護膚</span>
       </nav>
 
+      <!-- 護膚配方：摺埋咗嘅面板，撳開先載 attrs.json／ingredients.json
+           （加埋成 350KB，唔應該逼每個入護膚頁嘅人都食）。
+           入面啲嘢全部由 skincare-match.js 生成。 -->
+      <section class="sm" data-skincare-match aria-label="護膚配方"></section>
+
       <div class="quick-tabs" data-quick-tabs></div>
 
       <div class="filter-bar">
@@ -330,10 +341,15 @@
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
   <script src="catalog.js"></script>
+  <!-- modes 一定要喺 match 之前：match 會即刻叫 modes 入面啲 render。 -->
+  <script src="skincare-modes.js"></script>
+  <script src="skincare-match.js"></script>
   <script src="script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
+
+    initSkincareMatch(document.querySelector('[data-skincare-match]'));
 
     const params = new URLSearchParams(window.location.search);
     // /collections/<handle> is rewritten server-side, so the browser URL

@@ -1,0 +1,612 @@
+/*
+  護膚配方 — 拉桿同佢嘅結果
+  ==========================================================================
+  Was five layouts for five ways of answering. The shop picked the lever, so
+  this is the lever, the routine it produces, and the drawer that narrows it.
+
+  OWN-WORLD: glass. Superseded the paper build — a dark teal sheet with
+  fibre noise and torn SVG edges. Paper wants weight and a deckle; the shop
+  reads as light and water, and the tear was doing craft the rest of the site
+  never asks for. This is the same palette lit from behind instead: a deep
+  teal field with soft blooms of --primary and warm sand drifting under it,
+  and every surface a pane of frosted glass laid over that light.
+
+  The rules of the world: exactly one element blurs the page (.sm__sheet).
+  Everything nested inside it is a translucent fill on top of that one blur —
+  stacked backdrop-filters cost real frames and come out muddy. Depth is a
+  1px light line at the top of a pane, never a heavier shadow. Anything
+  committed is opaque sand; anything merely available is glass.
+
+  `--plate` stays white on any theme: a packshot composited with
+  `mix-blend-mode: multiply` needs a light ground or it disappears.
+  ========================================================================== */
+
+.sm {
+  /* The shop's palette, read from the site rather than restated. `--primary`
+     et al are defined in styles.css; the fallbacks are the live values, so
+     this stays right if it is ever loaded on its own, and the feature
+     follows the shop instead of dating alongside it. */
+  --page: var(--bg-primary, #f6f5f0);
+  --plate: #ffffff;
+  --edge: var(--warm-300, #e4c9a8);
+  --tone: var(--primary, #6da3b5);
+  --tone-deep: var(--primary-deep, #2b4c58);
+  --sand: var(--warm-500, #c4a07a);
+
+  --ink: var(--primary-deep, #2b4c58);
+  --raw: var(--warm-50, #fdf8f3);
+  --dim: var(--primary-lighter, #aecbd8);
+  --gardenia: var(--warm-300, #e4c9a8);
+  --jade: var(--accent-light, #a8d8e4);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── the glass itself ──────────────────────────────────────────────
+     Four fills, not one. A single opacity for every pane flattens the
+     stack: the drawer inside the sheet inside the field all read at the
+     same distance. These climb, so nesting reads as coming forward. */
+  --gl-1: rgba(253, 248, 243, 0.055);   /* a region inside the pane      */
+  --gl-2: rgba(253, 248, 243, 0.085);   /* a tile that holds its own     */
+  --gl-3: rgba(253, 248, 243, 0.135);   /* a control, hovered or current */
+  --gl-line: rgba(253, 248, 243, 0.16);
+  --gl-line-2: rgba(253, 248, 243, 0.28);
+  /* The specular top edge. Glass is only convincing where the light
+     catches the rim — this is the one highlight, reused everywhere. */
+  --gl-rim: inset 0 1px 0 rgba(253, 248, 243, 0.18);
+  --gl-blur: saturate(160%) blur(26px);
+
+  --r-pane: 20px;
+  --r-tile: 14px;
+  --r-ctl: 10px;
+}
+/* ══ 玻璃 ═══════════════════════════════════════════════════════════════
+   The field, the pane, and the light between them.
+
+   Glass is not a fill — it is a fill plus something worth blurring. A
+   frosted pane over a flat colour is just a lighter flat colour, so the
+   field carries three soft blooms (teal, sand, pale jade) at the corners
+   the pane overlaps. What the shopper reads as "glass" is those blooms
+   going soft and wide exactly where the pane covers them, and staying
+   sharp in the gutter around it. That gutter is why the section has
+   padding: a pane flush to the viewport has no page left to be over.
+
+   The blooms drift, very slowly and never in step, so a surface she looks
+   at for thirty seconds is not a still image. It is one composited
+   transform on a pseudo element — no layout, no paint per frame.
+
+   Superseded: fibre noise and three torn SVG edges. Kept here as a note
+   for the next person who wonders why the sheet has no texture — it has
+   light instead, and the two together read as neither. */
+
+.sm {
+  padding: clamp(1rem, 3.5vw, 3rem) clamp(0.75rem, 3.5vw, 3rem);
+  /* Tight blooms, not a wash. The first pass ran three soft 100%-wide
+     gradients and the pane had nothing to distort: a frosted sheet over an
+     even field is an even field. These are small and high-contrast, and
+     they are placed to cross the pane's rim — the blur is only legible at
+     the boundary where the same bloom is sharp on one side and smeared on
+     the other. */
+  background:
+    radial-gradient(46% 40% at 4% -6%, rgba(122, 186, 205, 0.62), transparent 66%),
+    radial-gradient(38% 34% at 99% 8%, rgba(228, 201, 168, 0.42), transparent 66%),
+    radial-gradient(42% 38% at 2% 74%, rgba(168, 216, 228, 0.30), transparent 68%),
+    radial-gradient(52% 44% at 88% 104%, rgba(109, 163, 181, 0.44), transparent 66%),
+    linear-gradient(168deg, #24424e 0%, #1b3540 46%, #142932 100%);
+  isolation: isolate;
+  /* `clip`, not `hidden`. Both contain the drifting blooms, but `hidden`
+     makes this a scroll container and the drawer's sticky action bar inside
+     it silently stops sticking. */
+  overflow: hidden;
+  overflow: clip;
+}
+
+/* The drift. Two blooms on one layer, offset in phase by running one at a
+   different duration rather than a delay — a delay would sync them up again
+   every time the shorter loop came round. */
+.sm::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 42% at 24% 30%, rgba(109, 163, 181, 0.34), transparent 70%),
+    radial-gradient(32% 36% at 78% 66%, rgba(228, 201, 168, 0.20), transparent 70%);
+  animation: sm-drift 34s linear infinite alternate;
+}
+@keyframes sm-drift {
+  from { transform: translate3d(-3%, -2%, 0) scale(1); }
+  to   { transform: translate3d(3%, 2%, 0) scale(1.08); }
+}
+.sm > * { position: relative; z-index: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sm::after { animation: none; }
+}
+
+/* The pane. The only element in the feature that blurs the page behind it —
+   everything nested inside is a translucent fill riding on this one blur.
+   The rim highlight does the work a border cannot: a full 1px stroke at this
+   opacity reads as a drawn box, while a light line on the top edge alone
+   reads as thickness. */
+.sm__sheet { position: relative; color: var(--raw); border-radius: var(--r-pane);
+             background: var(--gl-1); border: 1px solid var(--gl-line);
+             -webkit-backdrop-filter: var(--gl-blur); backdrop-filter: var(--gl-blur);
+             box-shadow: var(--gl-rim),
+                         0 2px 8px rgba(9, 22, 27, .18),
+                         0 32px 64px -32px rgba(9, 22, 27, .70);
+             overflow: hidden; overflow: clip; }
+/* The specular sweep, replacing the paper's fibre. Cut off at 44% so it is a
+   glancing light on the top-left shoulder and not a gradient fill. */
+.sm__sheet::before { content: ''; position: absolute; inset: 0; pointer-events: none;
+                     border-radius: inherit; z-index: 0;
+                     background: linear-gradient(148deg, rgba(253,248,243,.13), rgba(253,248,243,0) 44%); }
+.sm__sheet > * { position: relative; z-index: 1; }
+
+/* Where the browser has no backdrop-filter, glass has to stop pretending:
+   the fill goes opaque enough to carry cream type on its own. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .sm__sheet { background: rgba(26, 50, 60, .90); }
+}
+
+/* Kept as a no-op so a cached skincare-match.js still renders. */
+.sm__tear { display: none; }
+
+/* ══ 收埋，用一句講清楚係乜 ══════════════════════════════════════════════
+   Someone arriving at 護膚 came to look at products. Opening straight into
+   dials and chips reads as a wrong turn, so the whole thing folds down to
+   one line that says what it is and stays out of the way. */
+
+.sm__open { appearance: none; width: 100%; cursor: pointer; font: inherit; text-align: left;
+            background: transparent; color: var(--raw); border: 0;
+            padding: 1.6rem 1.2rem 1.8rem; display: flex; align-items: center; gap: 1rem;
+            position: relative; z-index: 3; }
+.sm__open:hover { background: var(--gl-1); }
+.sm__open:focus-visible { outline: 2px solid var(--gardenia); outline-offset: -3px; }
+.sm__open-lede { flex: 1; display: flex; flex-direction: column; gap: .3rem; min-width: 0; }
+.sm__open-kicker { font-size: .68rem; letter-spacing: .24em; color: var(--gardenia); }
+.sm__open-title { font-family: 'Bodoni Moda', Georgia, serif;
+                  font-size: clamp(1.15rem, 4.2vw, 1.7rem); line-height: 1.25; }
+.sm__open-sub { font-size: .8rem; line-height: 1.5; color: var(--dim); max-width: 44ch; }
+.sm__open-mark { flex: none; width: 2.4rem; height: 2.4rem; display: grid; place-items: center;
+                 border: 1px solid var(--gl-line-2); border-radius: var(--r-ctl);
+                 background: var(--gl-1); box-shadow: var(--gl-rim); position: relative; }
+.sm__open-mark::before, .sm__open-mark::after {
+  content: ''; position: absolute; background: var(--gardenia);
+  transition: transform 240ms var(--ease); }
+.sm__open-mark::before { width: .9rem; height: 1px; }
+.sm__open-mark::after { width: 1px; height: .9rem; }
+.sm__open[aria-expanded="true"] .sm__open-mark::after { transform: scaleY(0); }
+@media (min-width: 720px) { .sm__open { padding: 1.8rem 2rem; } }
+
+/* ══ 化開 ═══════════════════════════════════════════════════════════════
+   Opening frosts in.
+
+   Same two-beat structure the tear had, translated. First a seam of light
+   runs left to right across the fold in a fifth of a second — where paper
+   ripped, glass catches an edge. Then the panel resolves out of the blur
+   behind it: it arrives already in place and simply comes into focus,
+   because glass has no weight to overshoot with. A bounce here was the one
+   thing that still read as paper after the texture was gone.
+
+   The seam stays as the panel's top edge, so the line the shopper just made
+   is the line she keeps looking at. */
+
+.sm__panel { position: relative; }
+.sm__panel:not([hidden]) { animation: sm-unfold 520ms var(--ease) both; }
+.sm__panel:not([hidden])::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; z-index: 4;
+  background: linear-gradient(90deg, transparent,
+                              rgba(253,248,243,.42) 18%,
+                              rgba(228,201,168,.85) 50%,
+                              rgba(253,248,243,.42) 82%, transparent);
+  transform-origin: left center; animation: sm-seam 240ms linear both; }
+
+@keyframes sm-seam { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes sm-unfold {
+  from { opacity: 0; transform: translateY(-6px); filter: blur(7px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.sm__stage > * { animation: sm-in 420ms var(--ease) both; }
+@keyframes sm-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .sm__stage > *, .sm__panel:not([hidden]),
+  .sm__panel:not([hidden])::before { animation: none; }
+}
+
+/* ══ 4 · 拉桿 ══════════════════════════════════════════════════════════
+   Everything on one screen, nothing sequential. The live count is the
+   biggest thing on the page because it is the only thing that answers
+   "is this working". */
+
+/* Transparent, not another fill. The lever is inside the pane, so giving it
+   a surface of its own would put a second sheet of glass over the first. */
+.dl { background: transparent; color: var(--raw); min-height: 78vh; padding: 2rem 1.2rem 2.5rem;
+      display: flex; flex-direction: column; gap: 1.6rem; }
+.dl__count { margin: 0; display: flex; align-items: baseline; gap: .5rem; }
+.dl__count b { font-family: 'Bodoni Moda',serif; font-size: clamp(3rem,14vw,5.5rem);
+               line-height: .9; font-variant-numeric: tabular-nums; }
+.dl__count span { font-size: .9rem; opacity: .7; }
+/* The question, not a caption for one. At .68 opacity in the same weight as
+   the stop labels underneath, these read as the quietest thing on a row they
+   are supposed to be introducing — a shopper scans four rails and never sees
+   what any of them is asking. */
+.dl__label { font-size: .95rem; letter-spacing: .04em; opacity: 1; color: var(--raw);
+             margin: 0 0 .7rem; padding-left: .6rem; border-left: 2px solid var(--gardenia);
+             display: flex; align-items: baseline; flex-wrap: wrap; gap: .5rem; }
+/* Says which rows the shop refuses to guess for her, before she reaches a
+   dead button and has to work out why. */
+.dl__req { font-size: .66rem; letter-spacing: .12em; color: var(--gardenia);
+           border: 1px solid rgba(228,201,168,.5); padding: .1rem .4rem; opacity: 1; }
+.dl__hint { letter-spacing: 0; font-size: .74rem; color: var(--dim); }
+
+/* ── 拉桿 ─────────────────────────────────────────────────────────────
+   A rail with one handle on it and every stop named underneath. The old
+   version filled from the left, so choosing 油性 lit 乾性 and 混合性 too and
+   the whole row read as three answers instead of one position. A single
+   knob can only ever mean one thing. */
+.dl__stops { position: relative; display: flex; touch-action: pan-y; cursor: pointer; }
+.dl__scale { flex: 1; position: relative; display: flex; min-width: 0; }
+/* Reserved on every lever, occupied on three of them. This is what makes the
+   four rails the same length: the column exists whether or not the question
+   has an off-scale answer. */
+.dl__off { flex: 0 0 clamp(4.5rem, 18%, 9rem); position: relative; display: flex; min-width: 0; }
+
+/* The line runs the length of the scale and stops there. The answers past
+   it — 唔清楚, 隨便, 唔講 — are on the same control and take the same handle,
+   but they are not positions on it, and the break says so without needing
+   a second row of buttons to explain itself. */
+/* Edge to edge of the scale column, not first-dot to last-dot: three stops
+   and four stops put their outer centres in different places, so measuring
+   the track off the dots gave every lever a different length. */
+/* A groove, not a line. Two hairlines a pixel apart — a dark one under a
+   light one — reads as cut into the glass rather than drawn on it, which is
+   what lets the knob sit in something instead of on top of nothing. */
+.dl__rail { position: absolute; top: .55rem; height: 2px; border-radius: 2px;
+            background: rgba(9,22,27,.28); box-shadow: 0 1px 0 rgba(253,248,243,.14);
+            left: 0; right: 0; }
+.dl__stop--off { opacity: .82; }
+.dl__stop--off .dl__stop-dot { background: none; border: 1px solid rgba(253,248,243,.38); }
+.dl__off::before { content: ''; position: absolute; top: .2rem; left: 0;
+                   width: 1px; height: .75rem; background: rgba(253,248,243,.18); }
+.dl__stops:not(.is-off) .dl__off .dl__knob,
+.dl__stops.is-off .dl__scale .dl__knob { display: none; }
+
+/* Never the click target: a press that lands on the handle or the track has
+   to reach the stop underneath it. */
+.dl__rail, .dl__knob { pointer-events: none; }
+/* The one bead of solid in a glass surface: her position is the single thing
+   here that is settled, so it is the single thing that is not translucent.
+   The halo is the light it throws on the pane around it. */
+.dl__knob { position: absolute; top: 0; width: 1.15rem; height: 1.15rem; margin-left: -.575rem;
+            border-radius: 50%;
+            background: radial-gradient(circle at 34% 28%, #f4e3cd, var(--gardenia) 62%);
+            box-shadow: 0 0 0 6px rgba(228,201,168,.14),
+                        0 0 14px rgba(228,201,168,.45),
+                        inset 0 1px 0 rgba(255,255,255,.55);
+            transition: left 260ms var(--ease); }
+.dl__scale .dl__knob { left: calc((var(--i) + .5) * (100% / var(--s))); }
+.dl__off .dl__knob { left: calc((var(--j) + .5) * (100% / var(--o))); }
+.dl__stops.is-unset .dl__knob { display: none; }
+.dl__stops.is-dragging .dl__knob { transition: none; transform: scale(1.15); }
+.dl__stop { flex: 1; position: relative; appearance: none; border: 0; background: transparent;
+            font: inherit; font-size: .8rem; color: var(--raw); cursor: pointer;
+            padding: 1.5rem 0 0; display: block; text-align: center; }
+.dl__stop-dot { position: absolute; top: .32rem; left: 50%; width: .45rem; height: .45rem;
+                margin-left: -.225rem; border-radius: 50%; background: rgba(253,248,243,.38); }
+.dl__stop-name { display: inline-block; padding-top: .35rem; opacity: .68;
+                 transition: opacity 160ms var(--ease), color 160ms var(--ease); }
+.dl__stop[aria-checked="true"] .dl__stop-name { opacity: 1; color: var(--gardenia); }
+.dl__stop:focus-visible { outline: 2px solid var(--gardenia); outline-offset: 2px; }
+.dl__unset { margin: .5rem 0 0; font-size: .74rem; color: var(--dim); }
+
+.dl__tally { margin: 0; font-size: .88rem; font-variant-numeric: tabular-nums; color: var(--dim);
+             flex: 1 0 100%; text-align: right; }
+.dl__tally b { font-family: 'Bodoni Moda',serif; font-size: 1.7em; color: var(--raw);
+               margin: 0 .15rem; }
+.dl__acts { display: flex; flex-wrap: wrap; gap: .5rem; align-items: stretch;
+            flex: 1 1 16rem; justify-content: flex-end; }
+.dl__acts .dl__go { flex: 1 1 auto; margin: 0; }
+/* ── controls, in three states of solidity ───────────────────────────
+   Available is glass, chosen is opaque cream, and the one button that
+   commits is opaque sand. A shopper can tell what she has picked from the
+   far side of the room without reading a word of it. */
+.dl__reset, .dl__tag, .dl__want-b, .rf__tag, .rf__clear,
+.ed__again, .ed__all, .ed__swap, .cw__add {
+  background: var(--gl-2); border: 1px solid var(--gl-line);
+  border-radius: var(--r-ctl); box-shadow: var(--gl-rim);
+  transition: background 160ms var(--ease), border-color 160ms var(--ease);
+}
+.dl__reset:hover, .dl__tag:hover, .dl__want-b:hover, .rf__tag:not([disabled]):hover,
+.rf__clear:hover, .ed__again:hover, .ed__all:hover, .ed__swap:hover {
+  background: var(--gl-3); border-color: var(--gl-line-2);
+}
+.dl__go, .ed__add, .rf__go, .rf__cut {
+  border-radius: var(--r-ctl);
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 8px 22px -12px rgba(228,201,168,.75);
+}
+
+.dl__reset { appearance: none; cursor: pointer; font: inherit; font-size: .82rem;
+             padding: .95rem 1.2rem; color: var(--raw); }
+.dl__tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.dl__tag { appearance: none; font: inherit; font-size: .86rem; cursor: pointer; padding: .55rem .85rem;
+           color: var(--raw);
+           display: inline-flex; align-items: center; gap: .4rem; }
+.dl__tag[aria-pressed="true"] { background: var(--raw); color: var(--ink); border-color: var(--raw); }
+.dl__tag b { font-family: 'Bodoni Moda',serif; }
+.dl__go { appearance: none; border: 0; cursor: pointer; font: inherit; font-size: .85rem;
+          letter-spacing: .14em; padding: 1.05rem; background: var(--gardenia); color: var(--ink);
+          margin-top: auto; }
+.dl__go[disabled] { opacity: .35; box-shadow: none; }
+
+/* ══ mode switcher + result ═══════════════════════════════════════════ */
+
+
+.sm__wait { background: transparent; color: var(--raw); min-height: 60vh; display: flex;
+            flex-direction: column; align-items: center; justify-content: center; gap: .6rem; padding: 2rem; }
+.sm__wait p { margin: 0; font-family: 'Bodoni Moda',Georgia,serif; font-size: 1.6rem; }
+.sm__wait-sub { font-family: inherit !important; font-size: .88rem !important; opacity: .6; }
+
+.ed { background: transparent; color: var(--raw); }
+.ed__head { padding: 2rem 1.2rem 1.4rem; border-bottom: 1px solid rgba(253,248,243,.16); }
+.ed__kicker { margin: 0 0 .5rem; font-size: .72rem; letter-spacing: .22em; color: var(--gardenia); }
+.ed__read { margin: 0; font-family: 'Bodoni Moda',Georgia,serif; font-size: clamp(1.15rem,4.4vw,1.8rem);
+            line-height: 1.4; max-width: 34ch; }
+
+/* all five at once — the comparison she asked for. The column count comes
+   from the routine, because asking for 精華 alone should not leave four
+   empty bays where the rest of a set would have been. */
+/* Capped at the width five bays would take, so asking for one toner does not
+   blow that toner up to a full-bleed hero. */
+.ed__strip { max-width: max(6rem, calc(var(--n,5) * 20%));
+             display: grid; grid-template-columns: repeat(var(--n,5),1fr); gap: 1px;
+             background: rgba(253,248,243,.16); border-bottom: 1px solid rgba(253,248,243,.16); }
+.ed__cell { appearance: none; border: 0; cursor: pointer; background: var(--gl-1); color: var(--raw);
+            padding: .7rem .25rem .6rem; display: flex; flex-direction: column; align-items: center; gap: .35rem;
+            transition: background 160ms var(--ease); }
+.ed__cell:hover { background: var(--gl-3); }
+.ed__cell-step { font-size: .62rem; letter-spacing: .1em; opacity: .65; }
+.ed__cell-shot { width: 100%; aspect-ratio: 1; background: var(--plate); display: grid; place-items: center;
+                 border-radius: 8px; }
+.ed__cell-shot img { width: 84%; height: 84%; object-fit: contain; mix-blend-mode: multiply; }
+.ed__cell-price { font-size: .68rem; font-variant-numeric: tabular-nums; opacity: .8; }
+.ed__total { margin: 0; padding: .9rem 1.2rem; font-size: .9rem; font-variant-numeric: tabular-nums;
+             border-bottom: 1px solid rgba(253,248,243,.16); }
+.ed__total b { font-family: 'Bodoni Moda',serif; font-size: 1.35em; }
+.ed__warn { margin: 0; padding: .8rem 1.2rem; background: rgba(228,201,168,.14);
+            color: var(--gardenia); font-size: .82rem; }
+
+.ed__row { display: grid; grid-template-columns: 2.2rem 6.5rem 1fr; gap: .9rem; align-items: start;
+           padding: 1.2rem; border-bottom: 1px solid rgba(253,248,243,.12); }
+.ed__no { margin: 0; font-family: 'Bodoni Moda',serif; font-size: 1.6rem; opacity: .35;
+          font-variant-numeric: tabular-nums; }
+.ed__shot { aspect-ratio: 1; background: var(--plate); display: grid; place-items: center;
+            border-radius: var(--r-ctl); }
+.ed__shot img { width: 84%; height: 84%; object-fit: contain; mix-blend-mode: multiply; }
+.ed__body { display: flex; flex-direction: column; gap: .3rem; }
+.ed__step { margin: 0; font-size: .68rem; letter-spacing: .18em; color: var(--gardenia); }
+.ed__vendor { margin: 0; font-size: .78rem; opacity: .6; }
+.ed__name { margin: 0; font-family: 'Bodoni Moda',Georgia,serif; font-size: 1.05rem; line-height: 1.25; }
+.ed__name a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(253,248,243,.3); }
+.ed__why { margin: .2rem 0 0; font-size: .86rem; line-height: 1.6; opacity: .85; }
+.ed__price { margin: .2rem 0 0; font-variant-numeric: tabular-nums; }
+.ed__swap { appearance: none; margin-top: .5rem; align-self: flex-start; cursor: pointer;
+            color: var(--gardenia); font: inherit; font-size: .78rem;
+            border-color: rgba(228,201,168,.4); padding: .45rem .8rem; }
+.ed__foot { padding: 1.4rem 1.2rem 2.2rem; }
+.ed__fine { margin: 0 0 1.2rem; font-size: .74rem; line-height: 1.65; opacity: .55; max-width: 46ch; }
+.ed__acts { display: flex; gap: .6rem; flex-wrap: wrap; }
+.ed__add { appearance: none; border: 0; cursor: pointer; font: inherit; font-size: .84rem;
+           letter-spacing: .12em; padding: .95rem 1.8rem; background: var(--gardenia); color: var(--ink); }
+.ed__add[disabled] { opacity: .5; box-shadow: none; }
+.ed__again { appearance: none; cursor: pointer; font: inherit; font-size: .84rem; padding: .95rem 1.5rem;
+             color: var(--raw); }
+
+@media (min-width: 720px) {
+  .ed__row { grid-template-columns: 3rem 10rem 1fr; padding: 1.6rem 2rem; }
+  .ed__head, .ed__total, .ed__foot { padding-left: 2rem; padding-right: 2rem; }
+}
+
+/* ── 拉桿：而家會配到 ────────────────────────────────────────────────
+   Replaces the remaining-count. A shopper has no use for how much of the
+   catalogue still qualifies; she wants to know what she is getting. This
+   is computed offline from the labels, so it moves under a thumb. */
+
+.dl__peek { background: var(--gl-2); border: 1px solid var(--gl-line); box-shadow: var(--gl-rim);
+            border-radius: var(--r-tile); padding: .9rem 1rem; }
+.dl__peek-label { margin: 0 0 .6rem; font-size: .68rem; letter-spacing: .2em; color: var(--gardenia); }
+.dl__peek-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .45rem; }
+.dl__peek-item { display: grid; grid-template-columns: 3.6rem 1fr; gap: .7rem; align-items: baseline;
+                 font-size: .84rem; line-height: 1.4; }
+.dl__peek-step { color: var(--dim); font-size: .74rem; }
+.dl__peek-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl__peek-item.is-empty .dl__peek-name { color: var(--dim); font-style: italic; }
+
+/* The bottom bar: what you want on the left, the button that fetches it on
+   the right. On a phone they stack, and the button stays full width. */
+.dl__bar { display: flex; flex-wrap: wrap; gap: .9rem 1.2rem; align-items: flex-end;
+           border-top: 1px solid rgba(253,248,243,.16); padding-top: 1.1rem; margin-top: .3rem; }
+.dl__want { display: flex; gap: .35rem; flex-wrap: wrap; flex: 1 1 20rem; }
+.dl__want-b { appearance: none; font: inherit; font-size: .82rem; cursor: pointer; padding: .5rem .8rem;
+              color: var(--raw); }
+.dl__want-b[aria-pressed="true"] { background: var(--raw); color: var(--ink); border-color: var(--raw); }
+
+.dl__more { appearance: none; cursor: pointer; font: inherit; font-size: .82rem; text-align: left;
+            background: transparent; color: var(--gardenia); border: 0; border-top: 1px solid rgba(253,248,243,.16);
+            padding: .9rem 0 .4rem; display: flex; justify-content: space-between; }
+.dl__more::after { content: '＋'; }
+.dl__more[aria-expanded="true"]::after { content: '－'; }
+.dl__adv { display: flex; flex-direction: column; gap: .5rem; padding-bottom: .4rem; }
+.dl__note { margin: .8rem 0 0; font-size: .74rem; line-height: 1.6; color: var(--dim); }
+.dl__note b { color: var(--raw); font-weight: 500; }
+
+/* ── 每步嘅真實深度 ─────────────────────────────────────────────────
+   The shop has 77 cleansers that suit her. Showing one and hiding the
+   rest behind a "swap" button told her the shelf was six deep. */
+.ed__more { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .6rem; }
+.ed__swap, .ed__all { appearance: none; cursor: pointer; font: inherit;
+                      font-size: .78rem; padding: .45rem .8rem; }
+.ed__swap { color: var(--gardenia); border-color: rgba(228,201,168,.4); }
+.ed__all  { color: var(--raw); }
+.ed__list { margin-top: .8rem; max-height: 19rem; overflow-y: auto;
+            background: var(--gl-1); border: 1px solid var(--gl-line);
+            border-radius: var(--r-tile); box-shadow: var(--gl-rim); }
+.ed__li { display: grid; grid-template-columns: 5.5rem 1fr auto; gap: .6rem; align-items: baseline;
+          padding: .6rem .7rem; font-size: .8rem; color: var(--raw); text-decoration: none;
+          border-bottom: 1px solid rgba(253,248,243,.1); }
+.ed__li:last-child { border-bottom: 0; }
+.ed__li:hover { background: rgba(253,248,243,.07); }
+.ed__li-v { color: var(--dim); font-size: .72rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed__li-t { line-height: 1.35; }
+.ed__li-p { font-variant-numeric: tabular-nums; color: var(--dim); font-size: .74rem; }
+
+/* A count riding on a chip. Small, tabular and dimmed, so the brand name
+   still reads as the label and the number as an aside. */
+.dl__tag i, .rf__tag i { font-style: normal; font-size: .72em; opacity: .55;
+                         margin-left: .4rem; font-variant-numeric: tabular-nums; }
+.dl__tag[aria-pressed="true"] i, .rf__tag[aria-pressed="true"] i { opacity: .7; }
+
+/* ══ 每步三件，向右掃 ═══════════════════════════════════════════════════
+   Stacking three per step made the page a catalogue, which is why the first
+   build shipped one. A rail solves the thing that was actually wrong: the
+   trio occupies one row of screen however deep the shelf is, and 第二推薦
+   costs a thumb-flick instead of a scroll past four rows.
+
+   Selection lives in the scroll position, so the price and the basket at the
+   top follow the card facing her without anything being tapped. */
+
+.ed__row.cw { display: block; padding: 1.2rem 0 1.4rem; }
+.cw__head { display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; padding: 0 1.2rem .7rem; }
+.cw__dots { display: flex; gap: .4rem; }
+.cw__dot { appearance: none; border: 0; cursor: pointer; padding: 0; width: 1.5rem; height: .2rem;
+           background: rgba(253,248,243,.28); transition: background 180ms var(--ease); }
+.cw__dot[aria-pressed="true"] { background: var(--gardenia); }
+.cw__dot:focus-visible { outline: 2px solid var(--gardenia); outline-offset: 3px; }
+
+.cw__rail { display: flex; align-items: stretch; gap: .9rem; overflow-x: auto; scroll-snap-type: x mandatory;
+            scroll-padding-inline: 1.2rem; padding: 0 1.2rem .4rem;
+            scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.cw__rail::-webkit-scrollbar { display: none; }
+.cw__rail:focus-visible { outline: 2px solid var(--gardenia); outline-offset: -2px; }
+
+/* Each card is its own small pane. The one facing her is lit from the sand
+   side — a warmer fill and a rim that catches — so the rail reads as one
+   card forward of the others rather than one card outlined. */
+.cw__card { scroll-snap-align: start; flex: 0 0 min(86%, 23rem); display: flex;
+            flex-direction: column; gap: .1rem; cursor: pointer;
+            padding: .7rem .8rem .9rem; border: 1px solid var(--gl-line);
+            border-radius: var(--r-tile); background: var(--gl-1);
+            transition: border-color 180ms var(--ease), background 180ms var(--ease),
+                        box-shadow 180ms var(--ease); }
+.cw__card[aria-current="true"] { border-color: rgba(228,201,168,.42);
+                                 background: rgba(228,201,168,.10);
+                                 box-shadow: inset 0 1px 0 rgba(253,248,243,.22),
+                                             0 14px 30px -22px rgba(9,22,27,.9); }
+.cw__card:hover { border-color: var(--gl-line-2); background: var(--gl-2); }
+.cw__rank { margin: 0 0 .45rem; font-size: .66rem; letter-spacing: .2em; color: var(--gardenia);
+            display: flex; justify-content: space-between; gap: .6rem; }
+.cw__on { opacity: 0; letter-spacing: .1em; }
+.cw__card[aria-current="true"] .cw__on { opacity: 1; }
+.cw__main { display: grid; grid-template-columns: 5.5rem 1fr; gap: .8rem; align-items: start; }
+.cw__shot { aspect-ratio: 1; background: var(--plate); display: grid; place-items: center;
+            border-radius: var(--r-ctl); }
+.cw__shot img { width: 84%; height: 84%; object-fit: contain; mix-blend-mode: multiply; }
+.cw__body { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.cw__vendor { margin: 0; font-size: .76rem; opacity: .6; }
+.cw__name { margin: 0; font-family: 'Bodoni Moda',Georgia,serif; font-size: .98rem; line-height: 1.25; }
+.cw__name a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(253,248,243,.3); }
+.cw__why { margin: .55rem 0 0; font-size: .82rem; line-height: 1.55; opacity: .85; }
+.cw__price { margin: .25rem 0 0; font-variant-numeric: tabular-nums; font-size: .92rem; }
+/* Pushed to the foot of the card so the button lines up across the rail
+   however long the reason underneath each product runs. */
+.cw__acts { margin-top: auto; padding-top: .7rem; }
+.cw__add { appearance: none; cursor: pointer; font: inherit; font-size: .78rem;
+           letter-spacing: .08em; padding: .6rem 1.1rem; width: 100%;
+           color: var(--gardenia); border-color: rgba(228,201,168,.4); }
+.cw__card[aria-current="true"] .cw__add { background: var(--gardenia); color: var(--ink);
+                                          border-color: var(--gardenia);
+                                          box-shadow: 0 1px 0 rgba(255,255,255,.35) inset; }
+.cw__add[disabled] { opacity: .4; cursor: not-allowed; color: var(--dim);
+                     border-color: var(--gl-line); background: transparent; box-shadow: none; }
+.cw .ed__more, .cw .ed__list { margin-left: 1.2rem; margin-right: 1.2rem; }
+
+.ed__hint { margin: 0; padding: .7rem 1.2rem; font-size: .76rem; color: var(--dim);
+            border-bottom: 1px solid rgba(253,248,243,.12); }
+.ed__off { display: block; margin-top: .3rem; letter-spacing: 0; color: var(--dim);
+           font-size: .72rem; text-transform: none; }
+.ed__row--none { display: block; padding: 1.2rem; }
+.ed__none { margin: .4rem 0 0; font-size: .84rem; color: var(--dim); }
+
+@media (min-width: 720px) {
+  .cw__head, .cw__rail, .cw .ed__more, .cw .ed__list { padding-left: 2rem; padding-right: 2rem; }
+  .cw .ed__more, .cw .ed__list { margin-left: 0; margin-right: 0; }
+  .cw__rail { scroll-padding-inline: 2rem; }
+  .cw__card { flex: 0 0 min(48%, 24rem); }
+  .cw__main { grid-template-columns: 7rem 1fr; }
+  .ed__hint { padding-left: 2rem; padding-right: 2rem; }
+}
+
+/* ══ 收窄：拉到底嗰個抽屜 ═══════════════════════════════════════════════
+   Under the routine, beside 上一步 — a shopper only knows she cannot choose
+   after she has scrolled all three rails trying to. At the top it sat in
+   the one place she was guaranteed to scroll straight past.
+
+   Six dimensions, not three, because three could not finish the job: the
+   drawer has to be able to reach single figures or answering it was work
+   for nothing. */
+
+/* The drawer is the one region that gets a fill of its own: it is a tool
+   pulled out from under the routine, so it has to read as a layer that was
+   not there a moment ago. Warm, because everything in it is a commitment. */
+.rf { border-top: 1px solid var(--gl-line);
+      border-bottom: 1px solid var(--gl-line); background: rgba(228,201,168,.08);
+      box-shadow: var(--gl-rim); }
+.rf__now { margin: .2rem 0 .4rem; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.rf__now b { font-family: 'Bodoni Moda',serif; font-size: 2.1em; color: var(--gardenia);
+             margin-right: .35rem; }
+.rf__now span { color: var(--dim); font-size: .82rem; }
+.rf__more { display: block; margin-top: .2rem; color: var(--gardenia) !important; opacity: .8; }
+.rf__cut { appearance: none; cursor: pointer; font: inherit; font-size: .82rem; text-align: left;
+           width: 100%; margin: 0 0 .3rem; padding: .7rem .9rem; color: var(--ink);
+           background: var(--gardenia); border: 0; }
+.rf__cut b { font-family: 'Bodoni Moda',serif; font-size: 1.25em; }
+.rf__toggle { appearance: none; border: 0; cursor: pointer; font: inherit; width: 100%;
+              background: transparent; color: var(--raw); text-align: left;
+              padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: .2rem; }
+.rf__toggle b { font-size: .9rem; font-weight: 500; }
+.rf__toggle span { font-size: .76rem; color: var(--dim); }
+.rf__toggle::after { content: '＋'; position: absolute; right: 1.2rem; color: var(--gardenia); }
+.rf__toggle[aria-expanded="true"]::after { content: '－'; }
+.rf { position: relative; }
+.rf__body { padding: 0 1.2rem 1.3rem; display: flex; flex-direction: column; gap: .5rem; }
+.rf__label { margin: .7rem 0 .1rem; font-size: .72rem; letter-spacing: .14em; color: var(--gardenia); }
+.rf__sub { color: var(--dim); letter-spacing: 0; margin-left: .5rem; }
+.rf__tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.rf__tag { appearance: none; font: inherit; font-size: .82rem; cursor: pointer; padding: .5rem .8rem;
+           color: var(--raw); }
+.rf__tag[aria-pressed="true"] { background: var(--raw); color: var(--ink); border-color: var(--raw); }
+.rf__tag[disabled] { opacity: .3; cursor: not-allowed; }
+.rf__note { margin: .9rem 0 0; font-size: .72rem; line-height: 1.6; color: var(--dim); }
+/* The one nested pane allowed to blur, because it is the only surface with
+   the drawer's own content scrolling under it. Without the blur the chips
+   underneath read straight through the bar. */
+.rf__acts { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .9rem;
+            position: sticky; bottom: 0; padding: .7rem 1.2rem; margin-inline: -1.2rem;
+            background: rgba(24, 46, 55, .72);
+            -webkit-backdrop-filter: saturate(150%) blur(14px);
+            backdrop-filter: saturate(150%) blur(14px);
+            box-shadow: 0 -1px 0 var(--gl-line); }
+.rf__go { appearance: none; border: 0; cursor: pointer; font: inherit; font-size: .82rem;
+          letter-spacing: .1em; padding: .8rem 1.4rem; background: var(--gardenia); color: var(--ink); }
+.rf__go[disabled] { opacity: .4; cursor: not-allowed; box-shadow: none; }
+.rf__clear { appearance: none; cursor: pointer; font: inherit; font-size: .82rem; padding: .8rem 1.1rem;
+             color: var(--raw); }
+
+@media (min-width: 720px) {
+  .rf__toggle, .rf__body { padding-left: 2rem; padding-right: 2rem; }
+  .rf__toggle::after { right: 2rem; }
+  /* The bar has to reach the drawer's own edges, so its negative margin
+     tracks whatever padding the body is running at this breakpoint. */
+  .rf__acts { padding-left: 2rem; padding-right: 2rem; margin-inline: -2rem; }
+}

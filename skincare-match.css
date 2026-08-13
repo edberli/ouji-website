@@ -1,0 +1,396 @@
+/*
+  護膚配方 — 韓妝雜誌版式
+  ==========================================================================
+  THESIS: A routine is an edit, not a form result. This surface refuses the
+  beauty-quiz scaffold — pastel ground, rounded cards, progress dots — and
+  runs as a magazine that happens to be about you: flat saturated fields,
+  product cutouts at plate scale, numbered picks.
+
+  OWN-WORLD: paper. Warm sheet (--warm-50) laid on the shop's own ground
+  (--bg-primary), ink (--text-primary) for type, dusty teal (--primary) for
+  anything live, deep teal (--primary-deep) for anything committed. The
+  palette is not restated here — it is read from styles.css, so the feature
+  follows the shop rather than dating alongside it. Every edge that meets
+  the page is torn rather than cut. Bodoni Moda mastheads against Noto Sans
+  TC body and League Spartan micro-labels tracked to 0.24em. No rounded
+  corners above 2px; depth comes from the sheet's own shadow and its edges.
+
+  Superseded: the first build ran a Korean natural-dye palette on near-black
+  — indigo #1F2E5A, persimmon #C8452A, gardenia #E0A93B on ink #14120F. It
+  was a handsome surface belonging to a different shop, and dropped into a
+  warm-paper site it read as a page from somewhere else.
+
+  STORY: She is in bed, phone in one hand. She answers five things in her
+  own words' worth of taps. The shop hands back five products in order,
+  each with the one sentence that says why it is hers.
+
+  FIRST VIEWPORT: A full-bleed persimmon field. The masthead 「你嘅配方」
+  at display scale, flush left, ink on persimmon. Under it one line of
+  body. The first question is already on the field — no button to press
+  first, no cover to get past.
+
+  FORM: Korean beauty magazine spread; candidate 6 of the grounded list,
+  chosen by the user over the roll's assignment (seed 22b86811).
+
+  FINISH: unreviewed and undocumented is unfinished; this build ends with
+  the finish review, the verdict, and DESIGN.md.
+  ========================================================================== */
+
+.sm {
+  /* Korean natural dyes. Named for what they are, not for their role, so a
+     later surface can reach for 감물 without inheriting "accent". */
+  --sm-ink: var(--primary-deep, #2b4c58);
+  --sm-ink-2: var(--dark-deep, #1f3a44);
+  --sm-raw: var(--warm-50, #fdf8f3);
+  --sm-raw-dim: var(--primary-lighter, #aecbd8);
+  --sm-indigo: var(--dark-deep, #1f3a44);
+  --sm-persimmon: var(--warm-300, #e4c9a8);
+  --sm-gardenia: var(--warm-300, #e4c9a8);
+  --sm-jade: var(--accent-light, #a8d8e4);
+
+  --sm-rule: 1px solid rgba(253,248,243,0.22);
+  --sm-page: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  margin: 0 calc(50% - 50vw) var(--space-3xl);
+  width: 100vw;
+  background: var(--sm-ink);
+  color: var(--sm-raw);
+  font-family: 'Noto Sans TC', var(--font-body);
+  overflow: hidden;
+}
+
+/* The masthead face. Loaded only here so the rest of the shop is untouched. */
+.sm__display {
+  font-family: 'Bodoni Moda', 'Noto Serif TC', Georgia, serif;
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Micro-label. The magazine's rubric line: tracked, small, never a kicker
+   above a heading — it labels a field or a numeral, never introduces one. */
+.sm__label {
+  font-family: 'League Spartan', var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--sm-raw-dim);
+}
+
+/* ── the field ──────────────────────────────────────────────────────── */
+
+.sm__field {
+  position: relative;
+  padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 4rem);
+  min-height: min(78vh, 620px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sm__field--persimmon { background: var(--sm-persimmon); color: var(--sm-ink); }
+.sm__field--indigo    { background: var(--sm-indigo); }
+.sm__field--gardenia  { background: var(--sm-gardenia); color: var(--sm-ink); }
+.sm__field--jade      { background: var(--sm-jade); }
+.sm__field--ink       { background: var(--sm-ink); }
+
+.sm__field--persimmon .sm__label,
+.sm__field--gardenia .sm__label { color: rgba(20, 18, 15, 0.62); }
+
+/* One authored moment: the page turn. The outgoing field wipes off under
+   the incoming one, the way a spread turns — not a fade, not a slide-in
+   on every element. Everything inside arrives already visible. */
+@keyframes sm-turn {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.sm__field.is-entering { animation: sm-turn 620ms var(--sm-page) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sm__field.is-entering { animation: none; }
+}
+
+/* ── masthead ───────────────────────────────────────────────────────── */
+
+.sm__masthead {
+  font-size: clamp(2.75rem, 11vw, 7rem);
+  margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
+  max-width: 14ch;
+}
+
+.sm__standfirst {
+  font-size: clamp(0.9375rem, 2.4vw, 1.125rem);
+  line-height: 1.65;
+  max-width: 34ch;
+  margin: 0 0 clamp(2rem, 5vw, 3rem);
+  color: inherit;
+  opacity: 0.82;
+}
+
+.sm__ask {
+  font-size: clamp(1.5rem, 5.5vw, 2.75rem);
+  margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+  max-width: 18ch;
+}
+
+/* Where you are in the edit. A page number, not a progress bar — it tells
+   you the extent without pretending the extent is an achievement. */
+.sm__folio {
+  position: absolute;
+  top: clamp(1.25rem, 4vw, 2.5rem);
+  right: clamp(1.25rem, 5vw, 4rem);
+  font-family: 'League Spartan', var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.55;
+}
+
+/* ── picks: the option grid ─────────────────────────────────────────── */
+
+.sm__picks {
+  display: grid;
+  gap: 1px;
+  background: rgba(20, 18, 15, 0.28);
+  border: 1px solid rgba(20, 18, 15, 0.28);
+  grid-template-columns: repeat(2, 1fr);
+}
+.sm__picks--three { grid-template-columns: repeat(3, 1fr); }
+
+.sm__field--indigo .sm__picks,
+.sm__field--jade .sm__picks,
+.sm__field--ink .sm__picks {
+  background: rgba(253,248,243,0.22);
+  border-color: rgba(253,248,243,0.22);
+}
+
+.sm__pick {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: var(--sm-persimmon);
+  padding: clamp(1rem, 3.5vw, 1.75rem) clamp(0.875rem, 3vw, 1.5rem);
+  min-height: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  transition: background var(--duration-fast) var(--sm-page),
+              color var(--duration-fast) var(--sm-page);
+}
+.sm__field--indigo .sm__pick   { background: var(--sm-indigo); }
+.sm__field--gardenia .sm__pick { background: var(--sm-gardenia); }
+.sm__field--jade .sm__pick     { background: var(--sm-jade); }
+.sm__field--ink .sm__pick      { background: var(--sm-ink); }
+
+.sm__pick:hover { background: var(--sm-ink-2); color: var(--sm-raw); }
+.sm__field--ink .sm__pick:hover { background: var(--sm-indigo); }
+
+.sm__pick[aria-pressed="true"],
+.sm__pick[aria-checked="true"] {
+  background: var(--sm-raw);
+  color: var(--sm-ink);
+}
+
+.sm__pick:focus-visible {
+  outline: 2px solid var(--sm-gardenia);
+  outline-offset: -4px;
+}
+
+.sm__pick-name {
+  font-size: clamp(1rem, 3.4vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.sm__pick-note {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  opacity: 0.72;
+}
+
+/* The pick numeral: a magazine numbers its selections, and here the number
+   is the shopper's own priority order, so it has to be legible as rank. */
+.sm__pick-rank {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  align-self: flex-start;
+  margin-bottom: auto;
+}
+.sm__pick:not([aria-pressed="true"]) .sm__pick-rank { opacity: 0.28; }
+
+/* ── the remaining count ────────────────────────────────────────────── */
+
+.sm__remain {
+  margin-top: clamp(1.25rem, 3vw, 2rem);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+.sm__remain b {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+
+/* ── controls ───────────────────────────────────────────────────────── */
+
+.sm__controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+  flex-wrap: wrap;
+}
+
+.sm__go, .sm__back {
+  appearance: none;
+  font-family: 'League Spartan', var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--sm-page),
+              color var(--duration-fast) var(--sm-page);
+}
+.sm__go {
+  background: var(--sm-ink);
+  color: var(--sm-raw);
+  border: 1px solid var(--sm-ink);
+}
+.sm__field--indigo .sm__go,
+.sm__field--jade .sm__go,
+.sm__field--ink .sm__go {
+  background: var(--sm-raw);
+  color: var(--sm-ink);
+  border-color: var(--sm-raw);
+}
+.sm__go[disabled] { opacity: 0.32; cursor: not-allowed; }
+.sm__go:not([disabled]):hover { background: var(--sm-gardenia); color: var(--sm-ink); border-color: var(--sm-gardenia); }
+
+.sm__back {
+  background: transparent;
+  border: 1px solid currentColor;
+  opacity: 0.7;
+}
+.sm__back:hover { opacity: 1; }
+
+/* ── the edit (result) ──────────────────────────────────────────────── */
+
+.sm__edit { background: var(--sm-ink); }
+
+.sm__edit-head {
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 2.5rem);
+  border-bottom: var(--sm-rule);
+}
+
+.sm__edit-title {
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  margin: 0 0 0.75rem;
+}
+
+.sm__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sm__tags li {
+  font-family: 'League Spartan', var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(253,248,243,0.3);
+  color: var(--sm-raw-dim);
+}
+
+/* Each step is a plate: the product photographed large against its own
+   field, the way a roundup page gives one product one page. */
+.sm__step {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-bottom: var(--sm-rule);
+}
+
+.sm__step-plate {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.sm__step:nth-child(5n+1) .sm__step-plate { background: var(--sm-persimmon); }
+.sm__step:nth-child(5n+2) .sm__step-plate { background: var(--sm-indigo); }
+.sm__step:nth-child(5n+3) .sm__step-plate { background: var(--sm-gardenia); }
+.sm__step:nth-child(5n+4) .sm__step-plate { background: var(--sm-jade); }
+.sm__step:nth-child(5n+5) .sm__step-plate { background: var(--sm-ink-2); }
+
+.sm__step-plate img {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.sm__field--indigo .sm__step-plate img { mix-blend-mode: normal; }
+
+.sm__step-no {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  left: clamp(0.75rem, 2vw, 1.5rem);
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(20, 18, 15, 0.35);
+  font-variant-numeric: tabular-nums;
+}
+
+.sm__step-body {
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sm__step-vendor { font-size: 0.8125rem; letter-spacing: 0.06em; color: var(--sm-raw-dim); }
+.sm__step-name   { font-size: clamp(1.125rem, 3.6vw, 1.625rem); margin: 0; }
+.sm__step-why    { font-size: 0.9375rem; line-height: 1.7; opacity: 0.85; max-width: 46ch; }
+.sm__step-price  { font-variant-numeric: tabular-nums; font-size: 1.0625rem; }
+
+/* ── browser surfaces ───────────────────────────────────────────────── */
+
+.sm ::selection { background: var(--sm-gardenia); color: var(--sm-ink); }
+.sm { scrollbar-color: var(--sm-raw-dim) var(--sm-ink); }
+
+/* ── desktop: the spread opens to two pages ─────────────────────────── */
+
+@media (min-width: 860px) {
+  .sm__picks { grid-template-columns: repeat(3, 1fr); }
+  .sm__picks--wide { grid-template-columns: repeat(5, 1fr); }
+  .sm__step {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: stretch;
+  }
+  .sm__step-plate { aspect-ratio: auto; min-height: 340px; }
+  .sm__step-body { justify-content: center; }
+}
+
+@media (max-width: 560px) {
+  .sm__picks--three { grid-template-columns: repeat(2, 1fr); }
+}

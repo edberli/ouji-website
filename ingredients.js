@@ -136,6 +136,11 @@ const INGREDIENT_INFO = {
 function activeChips(handle) {
   const r = ing(handle);
   if (!r || !r.actives?.length) return '';
+  /* `actives_src: 'model'` 標住嗰批係由模型推斷返嚟（信心 0.5–0.75），
+     唔係抄自官方成分表。用嚟做護膚配方推薦冇問題 —— 排錯次序最多
+     係推薦冇咁準。但喺產品頁掛個「含積雪草」嘅牌就係同客講事實，
+     估錯就係講錯，所以呢批唔顯示。 */
+  if (r.actives_src === 'model') return '';
   return r.actives
     .slice(0, 4)
     .map((a) => {
