@@ -429,9 +429,11 @@ function smAllVendors() {
  *     across the 307 that carry one — and it names what the product is
  *     actually built on (綠豆, 92% 蝸牛, 米糠＋益生菌, PHA). It was sitting
  *     here as the fallback nobody ever reached. It leads now.
- *   · the ingredient sentence is picked by *her* concern, in the order she
- *     ranked them, so 煙酰胺 answers 毛孔 differently from 暗沉 — same
- *     bottle, different shopper, different sentence.
+ *   · the ingredient sentence is spoken to a concern she named, so 煙酰胺
+ *     answers 毛孔 differently from 暗沉 — same bottle, different shopper,
+ *     different sentence — and the active it speaks about is the one that
+ *     separates this bottle from the shelf rather than the one she ranked
+ *     first, because 透明質酸 is in 197 of them.
  *   · when the brand published no list, the product's own primary job from
  *     the label pass carries the line instead of a texture platitude.
  *
@@ -518,6 +520,16 @@ const SM_ACTIVE_WHY = {
   },
 };
 
+/* 防曬係唯一一件「晚上用」講唔通嘅嘢。
+ *
+ * ROUND LAB 山茶花防曬精華 carries a retinoid, and the retinoid line ends
+ * 「晚上用、日頭要防曬」 — read off a bottle of sunscreen it contradicts the
+ * product in its own sentence. Same claim, said the way it is true of a
+ * daytime product. */
+const SM_ACTIVE_WHY_SUN = {
+  視黃醇: '研究得最多嘅抗紋成分，而防曬本身就係用佢嘅前提',
+};
+
 /* 佢嘅膚質配呢一步，講返呢一步嘅嘢。
  *
  * The old rider was three lines for the whole shop, fired off weight alone,
@@ -602,6 +614,22 @@ function smHookOk(a, k) {
     && !SM_ING_PAT[nm].test(title) && known.indexOf(nm) < 0);
 }
 
+/* How many bottles on this shelf carry each active.
+ *
+ * Counted off the same file the cards are drawn from rather than written
+ * down, so the day the shop takes on a ceramide brand the answer moves with
+ * it. Only what may be named counts — a recalled active is not on the shelf
+ * as far as anything a shopper reads is concerned. */
+let SM_ACT_N = null;
+function smActiveSpread() {
+  if (SM_ACT_N) return SM_ACT_N;
+  SM_ACT_N = new Map();
+  for (const h in SM_BAKED) {
+    smNamedActives(SM_BAKED[h]).forEach((x) => SM_ACT_N.set(x, (SM_ACT_N.get(x) || 0) + 1));
+  }
+  return SM_ACT_N;
+}
+
 /* Has this line already said this?
  *
  * Three sources write into one sentence and none of them can see the others:
@@ -626,16 +654,24 @@ function smWhy(a, ans, h) {
   if (hook) out.push(hook.replace(/[。．.]$/, '') + '。');
 
   // 2 · 點解喺你張單度。The active she has a use for, said the way that use
-  //     needs to hear it — her ranking decides which concern gets answered,
-  //     so the first thing she asked for is the first thing addressed.
+  //     needs to hear it.
+  //
+  //     Her ranking used to decide this outright, and 乾燥繃緊 at number one
+  //     handed 透明質酸 to eight of the fifteen cards in one routine — it is in
+  //     197 of the products we hold, so answering with it answers nothing.
+  //     Which active *tells this bottle from the next one* comes first now:
+  //     the one on the label, else the one fewest other bottles carry. Her
+  //     ranking is the tie-breaker, and it still decides the wording, because
+  //     the concern the winner is spoken to is always one she named.
   const acts = smNamedActives(k);
-  let name = null;
-  let concern = null;
-  for (const c of ans.concerns) {
-    const hit = acts.find((x) => (SM_ACTIVE_FOR[x] || []).indexOf(c) > -1);
-    if (hit) { name = hit; concern = c; break; }
-  }
-  if (!name) name = acts[0] || null;
+  const cand = acts
+    .map((x) => ({ x, ci: ans.concerns.findIndex((c) => (SM_ACTIVE_FOR[x] || []).indexOf(c) > -1) }))
+    .filter((o) => o.ci > -1)
+    .sort((p, q) => ((k.head || []).indexOf(q.x) > -1) - ((k.head || []).indexOf(p.x) > -1)
+      || (smActiveSpread().get(p.x) || 0) - (smActiveSpread().get(q.x) || 0)
+      || p.ci - q.ci)[0];
+  const name = cand ? cand.x : (acts[0] || null);
+  const concern = cand ? ans.concerns[cand.ci] : null;
 
   // An active she has no use for is not a reason. 「含透明質酸，幾乎所有保濕
   // 產品都會有」 was on the card of a toner recommended for 油光 — true, and an
@@ -649,7 +685,8 @@ function smWhy(a, ans, h) {
   // its INGREDIENT_INFO line. 透明質酸's reads 「幾乎所有保濕產品都會有」 — true,
   // and an argument for the bottle beside it just as much as for this one.
   const why = SM_ACTIVE_WHY[name] || {};
-  const say = (concern && why[concern]) || Object.values(why)[0]
+  const say = (a.step === 'sun' && SM_ACTIVE_WHY_SUN[name])
+    || (concern && why[concern]) || Object.values(why)[0]
     || (info ? info.use.replace(/。$/, '') : '');
 
   // The hook on a cica sunscreen has already said 積雪草, and 訊號胜肽 says

@@ -9,6 +9,9 @@
     },
     "api/restock.js": {
       "maxDuration": 10
+    },
+    "api/restock-report.js": {
+      "maxDuration": 30
     }
   },
   "rewrites": [
@@ -23,6 +26,10 @@
     {
       "source": "/google-feed.xml",
       "destination": "/api/google-feed"
+    },
+    {
+      "source": "/restock-report",
+      "destination": "/api/restock-report"
     }
   ],
   "headers": [

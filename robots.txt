@@ -6,3 +6,7 @@ Disallow: /wishlist
 Disallow: /*?variant=
 
 Sitemap: https://oujikbeauty.com/sitemap.xml
+
+# 入貨用嘅內部清單，唔好收錄
+Disallow: /restock-report
+Disallow: /api/
