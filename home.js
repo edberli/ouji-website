@@ -32,11 +32,34 @@ async function initHome() {
     const cp = p.compareAtPriceRange?.minVariantPrice;
     const p0 = p.priceRange?.minVariantPrice;
     const onSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount);
+    /* 首頁啲卡本來一粒掣都冇 —— 心心同快速加入淨係喺分類頁有。
+       同一張卡喺兩個地方做到唔同嘅嘢，客會當佢壞咗。
+       數量報 0 就當冇貨（好多貨嘅存貨政策係「賣完照賣」，
+       availableForSale 靠唔住），同 catalog.js 一把尺。 */
+    const vs = (p.variants?.edges || []).map((e) => e.node);
+    const inStock = (x) => x.availableForSale
+      && (x.quantityAvailable == null || x.quantityAvailable > 0);
+    const soldOut = vs.length > 0 && !vs.some(inStock);
+    const one = vs.length === 1;
     return `<a href="/products/${p.handle}" class="product-card">
       <div class="product-card__image-wrap">
         ${img ? `<img class="product-card__image" src="${img.url}" alt="${p.title}" loading="lazy">` : ''}
-        ${onSale ? '<span class="product-card__badge">特價</span>' : ''}
+        ${onSale && !soldOut ? '<span class="product-card__badge">特價</span>' : ''}
+        ${soldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
+        <button type="button" class="product-card__wishlist${
+          typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"
+          aria-label="加入願望清單" data-wish="${p.id}"
+          data-wish-handle="${p.handle}"
+          data-wish-title="${(p.title || '').replace(/"/g, '&quot;')}">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        ${soldOut
+          ? `<button type="button" class="product-card__restock" data-restock="${p.handle}"
+               data-restock-title="${(p.title || '').replace(/"/g, '&quot;')}">想要？通知我補貨</button>`
+          : (one && v
+            ? `<button type="button" class="product-card__quick-add" data-quick-add="${v.id}">快速加入</button>`
+            : '<div class="product-card__quick-add product-card__quick-add--pick">入去揀規格</div>')}
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${p.title}</span>
