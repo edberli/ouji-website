@@ -2,6 +2,16 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+  <!-- Microsoft Clarity（工作階段錄影＋熱度圖）—— 專案 OUJI 網店 y1kuv6ust0。
+       擺喺 <head> 最頭，先過其他 script，否則早段行為（例如即刻彈走）錄唔到。
+       ⚠️ vercel.json 個 CSP 要開返 clarity.ms，唔開就會靜靜哋被瀏覽器擋住。 -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y1kuv6ust0");
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OUJI — 香港最齊 K-Beauty 專門店</title>
   <meta name="description" content="OUJI 是香港最齊全的 K-Beauty 專門店，匯集最受歡迎的韓國美妝護膚品牌。觀塘門市及網上商店。">
