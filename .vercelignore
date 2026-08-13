@@ -9,3 +9,8 @@ serve.json
 *.md
 !index.md
 .claude/
+
+# 設計比稿用嘅內部對比頁，唔屬於個網站
+preview-cathead.html
+preview-bg.html
+color-preview.html

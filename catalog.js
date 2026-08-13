@@ -832,9 +832,41 @@ async function initCatalog({ section, cat, products }) {
       && new Set(list.map((p) => p.vendor)).size > 1;
 
     buildQuickTabs(section, products, sel);
-  buildBrandStrip(products, sel);
+    buildBrandStrip(products, sel);
     buildActiveChips(section, sel);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
+
+    /* 分類標頭右邊嗰行細字。用成個分類嘅總數（唔跟篩選郁）——
+       篩選咗之後仲話「529 件」會誤導，所以篩緊嘅時候唔出件數，
+       嗰個數已經喺下面「顯示 N 件產品」度講咗。 */
+    /* 標頭張相：喺呢個分類自己啲貨度抽最當造嗰件。
+       只做一次 —— 篩選咗之後換相會令成版好似跳咗去第二版。
+       抽唔到（例如成個分類冇相）就乜都唔做，CSS 會收返個標頭。 */
+    const shot = document.querySelector('[data-cat-shot]');
+    if (shot && !shot.firstElementChild) {
+      /* 揀評分最高嗰件（利潤排名＋得獎），唔好就咁攞第一件 ——
+         第一件好多時係包裝好雜嘅細貨（試過抽咗盒痘痘貼出嚟做主角）。
+         得獎同主推嗰啲，官方相通常影得靚。 */
+      const hero = [...products]
+        .filter((x) => x.images?.edges?.[0]?.node?.url)
+        .sort((a, b) => featuredScore(b) - featuredScore(a))[0];
+      const url = hero?.images.edges[0].node.url;
+      if (url) {
+        const img = document.createElement('img');
+        // Shopify CDN 識收窄，唔好落成張原圖 —— 呢個位闊極都係半版。
+        img.src = url + (url.includes('?') ? '&' : '?') + 'width=1100';
+        img.alt = '';
+        img.decoding = 'async';
+        shot.appendChild(img);
+      }
+    }
+
+    const headMeta = document.querySelector('[data-cat-count]');
+    if (headMeta) {
+      const brands = new Set(products.map((x) => x.vendor).filter(Boolean)).size;
+      headMeta.textContent = filtered ? ''
+        : `${products.length} 件 · ${brands} 個品牌`;
+    }
     if (!list.length) {
       host.innerHTML = `<p class="catalog-empty">冇產品符合呢個篩選。<button class="link-btn" data-filter-clear>清除篩選</button></p>`;
       return;

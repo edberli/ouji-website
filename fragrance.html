@@ -174,17 +174,21 @@
 
   <main id="main-content" style="padding-top: 96px;">
 
-    <!-- Category Banner -->
-    <section class="category-banner">
-      <div class="category-banner__bg">
-        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=1920&q=80" alt="Skincare banner" loading="lazy" decoding="async">
-      </div>
-      <div class="category-banner__overlay"></div>
+    <!-- 分類標頭。本來係一張 Unsplash 圖庫相（一支 ORIGINS —— 我哋
+         唔賣嘅美國牌子）。冇自己嘅分類相就唔好夾硬揾張相頂上，
+         改為靠排版做質感：細楷英文引子、大字標題、一條幼線、
+         右邊擺件數同當期優惠。 -->
+    <section class="cat-head cat-head--shot">
+      <!-- 張相由 catalog.js 喺呢個分類自己啲貨度抽 —— 賣緊嘅嘢，
+           唔係圖庫相。抽唔到就淨低乾淨嘅標題，唔會爛版。 -->
+      <div class="cat-head__shot" data-cat-shot aria-hidden="true"></div>
       <div class="container">
-        <div class="category-banner__content">
-          <h1 class="category-banner__title">香氛</h1>
-          <p class="category-banner__desc">精選韓國香氛品牌，從個人香水到空間香氛，用氣味點綴日常。</p>
+        <p class="cat-head__eyebrow">FRAGRANCE</p>
+        <div class="cat-head__row">
+          <h1 class="cat-head__title">香氛</h1>
+          <p class="cat-head__meta"><span data-cat-count></span></p>
         </div>
+        <p class="cat-head__desc">精選韓國香氛品牌，從個人香水到空間香氛，用氣味點綴日常。</p>
       </div>
     </section>
 

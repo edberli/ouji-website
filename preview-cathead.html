@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>分類標頭 — 八個款</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: #e9e7e0; }
+    .pv { max-width: 1200px; margin: 0 auto; padding: 40px 20px 80px; }
+    .pv__label {
+      font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600;
+      letter-spacing: 0.1em; color: #2b4c58; margin: 40px 0 10px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pv__label span {
+      background: #2b4c58; color: #fff; border-radius: 999px;
+      padding: 3px 10px; font-size: 0.6875rem;
+    }
+    .pv__note { font-family: var(--font-body); font-size: 0.75rem; color: #6b8794; margin: 0 0 10px; }
+    .pv__frame {
+      background: var(--bg, #f6f5f0); border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 20px rgba(30,48,56,0.10);
+    }
+    .pv__after { padding: 14px 24px 22px; border-top: 1px solid rgba(43,76,88,0.08); }
+    .pv__chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pv__chip {
+      font-family: var(--font-body); font-size: 0.75rem; padding: 7px 14px;
+      border-radius: 999px; border: 1px solid rgba(43,76,88,0.12); background: #fff; color: #2b4c58;
+    }
+    .pv__chip--on { background: #22414c; color: #fff; border-color: #22414c; }
+
+    /* ── B 置中 ── */
+    .hB { text-align: center; padding: clamp(36px,5vw,64px) 0 clamp(20px,2.6vw,30px); }
+    .hB .cat-head__row { justify-content: center; border: 0; padding-bottom: 0; }
+    .hB .cat-head__meta { margin-top: 10px; }
+    .hB .cat-head__desc { margin-left: auto; margin-right: auto; text-align: center; }
+    .hB .cat-head__rule { width: 48px; height: 1px; background: rgba(43,76,88,0.28); margin: 18px auto 0; }
+
+    /* ── C 深色 ── */
+    .hC {
+      background: linear-gradient(160deg, #22414c 0%, #2f5b69 55%, #22414c 100%);
+      padding: clamp(32px,4.4vw,60px) 0 clamp(24px,3vw,36px);
+    }
+    .hC::before { display: none; }
+    .hC .cat-head__eyebrow { color: rgba(255,255,255,0.62); }
+    .hC .cat-head__title { color: #fff; }
+    .hC .cat-head__meta { color: rgba(255,255,255,0.6); }
+    .hC .cat-head__desc { color: rgba(255,255,255,0.76); }
+    .hC .cat-head__row { border-bottom-color: rgba(255,255,255,0.2); }
+
+    /* ── D 分割 ── */
+    .hD .cat-head__row { align-items: flex-end; }
+    .hD .pv__perks { display: flex; flex-direction: column; gap: 3px; text-align: right; flex: none; }
+    .hD .pv__perks b {
+      font-family: var(--font-body); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.02em; color: #2b4c58;
+    }
+    .hD .pv__perks small { font-family: var(--font-body); font-size: 0.6875rem; color: #6b8794; }
+
+    /* ── E 極簡 ── */
+    .hE { padding: clamp(18px,2.4vw,28px) 0 0; }
+    .hE::before { display: none; }
+    .hE .cat-head__row { border: 0; padding-bottom: 0; align-items: baseline; justify-content: flex-start; gap: 14px; }
+    .hE .cat-head__title { font-size: clamp(1.5rem,2.4vw,1.875rem); }
+    .hE .cat-head__meta { font-size: 0.8125rem; }
+
+    .crumb {
+      font-family: var(--font-body); font-size: 0.75rem; color: #9aa8ae;
+      padding: 14px 0 0;
+    }
+
+    /* ── F 產品牆 ── */
+    .hF { padding: 0; position: relative; min-height: 260px; display: flex; align-items: flex-end; }
+    .hF::before { display: none; }
+    .hF__wall {
+      position: absolute; inset: 0; display: grid;
+      grid-template-columns: repeat(9, 1fr); gap: 2px;
+    }
+    .hF__wall img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hF__veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(20,38,45,0.30) 0%, rgba(20,38,45,0.72) 62%, rgba(20,38,45,0.90) 100%);
+    }
+    .hF > .container { position: relative; z-index: 2; padding-top: 90px; padding-bottom: 26px; }
+    .hF .cat-head__eyebrow { color: rgba(255,255,255,0.7); }
+    .hF .cat-head__title { color: #fff; }
+    .hF .cat-head__meta { color: rgba(255,255,255,0.72); }
+    .hF .cat-head__desc { color: rgba(255,255,255,0.82); }
+    .hF .cat-head__row { border-bottom-color: rgba(255,255,255,0.24); }
+
+    /* ── G 左字右貨架 ── */
+    .hG { padding: clamp(26px,3.4vw,44px) 0; }
+    .hG__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2xl); }
+    .hG .cat-head__title { margin: 4px 0 8px; }
+    .hG .cat-head__desc { margin: 0 0 8px; }
+    .hG__shelf { display: flex; gap: 14px; flex: none; }
+    .hG__pod {
+      width: 120px; height: 120px; border-radius: 14px; overflow: hidden;
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 5px rgba(30,48,56,0.06), 0 14px 30px rgba(109,163,181,0.18);
+      transition: transform 300ms var(--ease-out);
+    }
+    .hG__pod:hover { transform: translateY(-6px); }
+    .hG__pod img { width: 100%; height: 100%; object-fit: cover; }
+    @media (max-width: 860px) { .hG__inner { flex-direction: column; align-items: flex-start; } .hG__pod { width: 92px; height: 92px; } }
+
+    /* ── H 單一主角 ── */
+    .hH { position: relative; min-height: 300px; display: flex; align-items: center; overflow: hidden; padding: 0; }
+    .hH::before { display: none; }
+    .hH__shot { position: absolute; inset: 0 0 0 38%; }
+    .hH__shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hH::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(90deg, var(--bg,#f6f5f0) 0%, var(--bg,#f6f5f0) 34%, rgba(246,245,240,0.86) 46%, rgba(246,245,240,0) 68%);
+    }
+    .hH > .container { position: relative; z-index: 2; padding-top: 30px; padding-bottom: 30px; }
+    .hH .cat-head__title { margin: 4px 0 8px; }
+    .hH .cat-head__desc { max-width: 22em; margin: 0 0 8px; }
+  </style>
+</head>
+<body>
+<div class="pv">
+
+  <div class="pv__label"><span>A</span>編輯型 · 左對齊（而家線上嗰個）</div>
+  <p class="pv__note">細楷英文引子 → 大標題 → 幼線 → 右邊件數。雜誌內頁嘅做法。</p>
+  <div class="pv__frame">
+    <section class="cat-head">
+      <div class="container">
+        <p class="cat-head__eyebrow">SKINCARE</p>
+        <div class="cat-head__row">
+          <h1 class="cat-head__title">護膚</h1>
+          <p class="cat-head__meta">529 件 · 23 個品牌</p>
+        </div>
+        <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+  <div class="pv__label"><span>B</span>置中 · 沉靜</div>
+  <p class="pv__note">全部置中，一條短幼線收尾。最似 Aesop／COS 嗰種安靜。</p>
+  <div class="pv__frame">
+    <section class="cat-head hB">
+      <div class="container">
+        <p class="cat-head__eyebrow">SKINCARE</p>
+        <div class="cat-head__row">
+          <h1 class="cat-head__title">護膚</h1>
+        </div>
+        <p class="cat-head__meta">529 件 · 23 個品牌</p>
+        <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+        <div class="cat-head__rule"></div>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+  <div class="pv__label"><span>C</span>深色色塊 · 貴氣</div>
+  <p class="pv__note">用返網站嗰隻深藍綠。同下面淺色貨區反差最大，最「開一版新章節」。</p>
+  <div class="pv__frame">
+    <section class="cat-head hC">
+      <div class="container">
+        <p class="cat-head__eyebrow">SKINCARE</p>
+        <div class="cat-head__row">
+          <h1 class="cat-head__title">護膚</h1>
+          <p class="cat-head__meta">529 件 · 23 個品牌</p>
+        </div>
+        <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+  <div class="pv__label"><span>D</span>左標題 · 右優惠</div>
+  <p class="pv__note">右邊由件數變成當期優惠。Sephora／Mecca 嘅做法 —— 頂部畀個而家買嘅理由。</p>
+  <div class="pv__frame">
+    <section class="cat-head hD">
+      <div class="container">
+        <p class="cat-head__eyebrow">SKINCARE</p>
+        <div class="cat-head__row">
+          <h1 class="cat-head__title">護膚</h1>
+          <div class="pv__perks">
+            <b>8 月 31 日前 · 全單 9 折</b>
+            <small>滿 HK$400 免運 · 觀塘門市自取免費</small>
+            <small>529 件 · 23 個品牌</small>
+          </div>
+        </div>
+        <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+  <div class="pv__label"><span>E</span>極簡 · 一行過</div>
+  <p class="pv__note">冇獨立標頭，標題同件數同一行。慳最多位，客最快見到貨。MUJI 嗰種。</p>
+  <div class="pv__frame">
+    <section class="cat-head hE">
+      <div class="container">
+        <p class="crumb">首頁 / 護膚</p>
+        <div class="cat-head__row">
+          <h1 class="cat-head__title">護膚</h1>
+          <p class="cat-head__meta">529 件 · 23 個品牌</p>
+        </div>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+  <div class="pv__label"><span>F</span>產品牆 · 出血</div>
+  <p class="pv__note">用返我哋自己賣緊嘅真產品相砌一幅牆，深色罩住，標題坐喺上面。零圖庫相。</p>
+  <div class="pv__frame">
+    <section class="cat-head hF">
+      <div class="hF__wall"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum.jpg?v=1786092210&width=500" alt="OOTD" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_ffa1fe96-a691-43eb-b7a7-215318661303.png?v=1786103493&width=500" alt="Bring Green" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/KSECRET-Instant-Relief-Eye-Gel-Patches-_Caffeine_-Nudie-Glow-Australia.jpg?v=1786081125&width=500" alt="KSECRET" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HIKOCO_DrMelaxin_TXCream_01.jpg?v=1786081061&width=500" alt="Dr. Melaxin" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Cotton-Dreamlight-Nudie-Glow-Australia_6f2230bc-45ae-43c0-9bbe-f91b34efdee8.jpg?v=1786081030&width=500" alt="Purito" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Goodal-Green-Tangerine-Vita-C-Dark-Spot-Serum-Mask-Nudie-Glow-Australia_eaa10426-de28-4b9d-bb07-e12a4a55a933.jpg?v=1786080964&width=500" alt="Goodal" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HIKOCO_Skinfood_RiceMaskWashOff_01_f20dd052-4c74-4fdc-9b01-159de1c38238.jpg?v=1786080847&width=500" alt="Skinfood" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/839fe58dc0e593d7b0922c4c0eabbbf6.jpg?v=1786080101&width=500" alt="ILSO" loading="lazy"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ab5f911ef65d32a5d43e3db121182207.jpg?v=1786079623&width=500" alt="Abib" loading="lazy"></div>
+      <div class="hF__veil"></div>
+      <div class="container">
+        <p class="cat-head__eyebrow">SKINCARE</p>
+        <div class="cat-head__row">
+          <h1 class="cat-head__title">護膚</h1>
+          <p class="cat-head__meta">529 件 · 23 個品牌</p>
+        </div>
+        <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+  <div class="pv__label"><span>G</span>左字右貨架</div>
+  <p class="pv__note">左邊標題，右邊三件真貨排開，好似擺喺架上面。撳到入去嗰件貨。</p>
+  <div class="pv__frame">
+    <section class="cat-head hG">
+      <div class="container hG__inner">
+        <div>
+          <p class="cat-head__eyebrow">SKINCARE</p>
+          <h1 class="cat-head__title">護膚</h1>
+          <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護。</p>
+          <p class="cat-head__meta">529 件 · 23 個品牌</p>
+        </div>
+        <div class="hG__shelf"><span class="hG__pod"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HIKOCO_DrMelaxin_TXCream_01.jpg?v=1786081061&width=500" alt="Dr. Melaxin" loading="lazy"></span><span class="hG__pod"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/839fe58dc0e593d7b0922c4c0eabbbf6.jpg?v=1786080101&width=500" alt="ILSO" loading="lazy"></span><span class="hG__pod"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ab5f911ef65d32a5d43e3db121182207.jpg?v=1786079623&width=500" alt="Abib" loading="lazy"></span></div>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+  <div class="pv__label"><span>H</span>單一主角 · 出血</div>
+  <p class="pv__note">一件當造嘅貨放大做背景，標題壓喺左邊。似雜誌封面，最有氣勢。</p>
+  <div class="pv__frame">
+    <section class="cat-head hH">
+      <div class="hH__shot"><img class="" src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HIKOCO_DrMelaxin_TXCream_01.jpg?v=1786081061&width=500" alt="Dr. Melaxin" loading="lazy"></div>
+      <div class="container">
+        <p class="cat-head__eyebrow">SKINCARE</p>
+        <h1 class="cat-head__title">護膚</h1>
+        <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護。</p>
+        <p class="cat-head__meta">529 件 · 23 個品牌</p>
+      </div>
+    </section>
+    <div class="pv__after"><div class="pv__chips"><span class="pv__chip pv__chip--on">全部</span><span class="pv__chip">潔面 77</span><span class="pv__chip">爽膚水 53</span><span class="pv__chip">精華液 82</span></div></div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -6844,3 +6844,168 @@ html.is-lite .section--brand-intro::after {
   font-size: 0.9375rem;
   letter-spacing: 0.04em;
 }
+
+/* ============================================
+   分類標頭 —— 用排版做質感，唔用相
+
+   本來係一張 Unsplash 圖庫相（一支 ORIGINS，我哋唔賣嘅美國牌子）
+   八版共用。冇自己嘅分類相就唔應該夾硬揾張相頂住 —— 一張唔屬於
+   自己嘅相，係全版最快穿煲嗰樣嘢。
+
+   大牌子（COS、Jil Sander、Aesop）分類頁都係得字：細楷英文引子、
+   一個夠大夠定嘅標題、一條幼線、右邊擺實用資料。質感嚟自留白同
+   字距，唔係嚟自相。
+   ============================================ */
+.cat-head {
+  position: relative;
+  padding: clamp(28px, 4vw, 56px) 0 clamp(18px, 2.4vw, 28px);
+  background: var(--bg, #f6f5f0);
+  overflow: hidden;
+}
+
+/* 一浸好淡嘅品牌色，斜住由右上角散開。呢個係唯一嘅「圖像」——
+   夠淡到唔會同字爭，但唔會令成塊嘢死實實。 */
+.cat-head::before {
+  content: '';
+  position: absolute;
+  inset: -40% -10% auto auto;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgba(109, 163, 181, 0.16), rgba(109, 163, 181, 0.05) 55%, transparent 100%);
+  pointer-events: none;
+}
+.cat-head > .container { position: relative; z-index: 1; }
+
+.cat-head__eyebrow {
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--primary, #6da3b5);
+}
+
+.cat-head__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(43, 76, 88, 0.14);
+}
+
+.cat-head__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 3.25rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+/* 件數用襯線嘅舊體數字，同標題同一套字，唔會似後補上去 */
+.cat-head__meta {
+  margin: 0;
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  color: var(--text-tertiary, #9a9a9a);
+  white-space: nowrap;
+  font-variant-numeric: oldstyle-nums;
+}
+.cat-head__meta:empty { display: none; }
+
+.cat-head__desc {
+  margin: 12px 0 0;
+  max-width: 46em;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .cat-head__row { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .cat-head__meta { font-size: 0.875rem; }
+  .cat-head::before { width: 380px; height: 380px; }
+}
+
+/* ── 分類標頭：單一主角出血（老闆揀咗嘅款）──────────────
+   一件當造嘅真貨放大做背景，標題壓喺左邊，中間用漸變化開。
+   張相由 catalog.js 喺該分類自己啲貨度抽 —— 即係永遠係我哋
+   賣緊嘅嘢，而且入新貨會自己換，唔使人手維護。 */
+.cat-head--shot {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+}
+.cat-head--shot::before { display: none; }
+
+.cat-head__shot {
+  position: absolute;
+  inset: 0 0 0 38%;
+}
+.cat-head__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 由左邊嘅底色化開去張相。唔用一浸灰罩 —— 罩住會令張相濁，
+   漸變化開先睇得出係一張真相。 */
+.cat-head--shot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    var(--bg, #f6f5f0) 0%,
+    var(--bg, #f6f5f0) 34%,
+    rgba(246, 245, 240, 0.86) 46%,
+    rgba(246, 245, 240, 0) 68%);
+}
+
+.cat-head--shot > .container {
+  position: relative;
+  z-index: 2;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+.cat-head--shot .cat-head__title { margin: 4px 0 8px; }
+.cat-head--shot .cat-head__row { border: 0; padding-bottom: 0; display: block; }
+.cat-head--shot .cat-head__desc { max-width: 22em; margin: 0 0 8px; }
+.cat-head--shot .cat-head__meta { display: block; margin: 0; }
+
+/* 抽唔到相就當普通標頭，唔好留住一忽空白 */
+.cat-head--shot:not(:has(.cat-head__shot img)) { min-height: 0; display: block; }
+.cat-head--shot:not(:has(.cat-head__shot img))::after { display: none; }
+
+@media (max-width: 860px) {
+  .cat-head--shot { min-height: 230px; }
+  .cat-head__shot { inset: 0 0 0 46%; }
+  .cat-head--shot::after {
+    background: linear-gradient(90deg,
+      var(--bg, #f6f5f0) 0%,
+      var(--bg, #f6f5f0) 42%,
+      rgba(246, 245, 240, 0.88) 54%,
+      rgba(246, 245, 240, 0) 76%);
+  }
+}
+
+@media (max-width: 560px) {
+  /* 窄到呢度，左邊淨返半個螢幕擺唔落標題。改為張相坐喺低，
+     文字喺上面，兩者唔再爭同一忽位。 */
+  .cat-head--shot { min-height: 0; display: block; }
+  .cat-head__shot { position: relative; inset: auto; height: 132px; margin-top: 4px; }
+  .cat-head--shot::after {
+    background: linear-gradient(180deg, rgba(246,245,240,0.9) 0%, rgba(246,245,240,0) 30%);
+    top: auto; height: 132px; bottom: 0;
+  }
+  .cat-head--shot > .container { padding-bottom: var(--space-md); }
+}
