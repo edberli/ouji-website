@@ -6163,7 +6163,16 @@ html.is-lite .brand-rail__crest { filter: none; }
   padding-top: var(--space-lg, 20px);
   padding-bottom: var(--space-md, 16px);
 }
-.section--sm:has(.cat-cards) .section-header { margin-bottom: var(--space-md, 16px); }
+.cat-cards__title {
+  font-family: var(--font-display);
+  /* 唔好大過下面啲卡。標題係指路牌，唔係主角。 */
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin: 0 0 var(--space-md, 16px);
+  color: var(--text-primary);
+}
 
 .cat-cards {
   display: flex;
