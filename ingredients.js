@@ -196,11 +196,20 @@ const STRENGTH_KEY = {
   'AHA/BHA': ['aha', 'bha', 'pha'],
 };
 
+/* 暫時一律唔顯示濃度。
+ *
+ * `strength` 係由產品名／文案掃數字掃返嚟嘅，掃錯咗都唔知：
+ *   APRILSKIN「TXA 99」→ 記住「煙酰胺 99%」（99 係產品線名，唔係濃度）
+ *   KSECRET「1988-12」 → 記住「視黃醛 12%」（視黃醛實際用 0.05–0.1%）
+ * 十一件有記濃度嘅貨入面，至少五件係咁樣嚟。
+ *
+ * 而家啲數之所以冇喺產品頁出現過，純粹係因為 key 有亂碼（「煙?胺」）
+ * 對唔上，唔係我哋擋住咗 —— 即係邊個修好個亂碼（scripts/
+ * fix_title_mojibake.py 已經寫好但未跑過），啲錯數就會即刻見客。
+ *
+ * 濃度係客會照住嚟揀強弱嘅數字，講錯過唔到自己嗰關。要重新開返，
+ * 先要對住品牌公開嘅成分表逐件核，唔可以再靠掃數字。 */
 function strengthOf(r, active) {
-  if (!r.strength) return null;
-  for (const k of STRENGTH_KEY[active] || []) {
-    if (r.strength[k] != null) return r.strength[k];
-  }
   return null;
 }
 
