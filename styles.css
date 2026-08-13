@@ -6187,18 +6187,19 @@ html.is-lite .brand-rail__crest { filter: none; }
 }
 .cat-cards::-webkit-scrollbar { display: none; }
 
-/* 闊螢幕就唔好再用橫掃 —— 標題喺正中，但一行卡由容器左邊開始、
-   一路衝出螢幕右邊，睇落就係唔置中。有位就摺兩行、置中排。
-   窄螢幕維持橫掃（摺落嚟會變成好長一條）。 */
+/* 由頭到尾都係一行、向右掃。
+   之前為咗解決「唔置中」試過摺兩行 —— 錯咗，摺行就唔再係滾輪。
+   真正嘅問題係成條 rail 本身唔置中：佢由容器左邊開始，然後一路
+   衝出螢幕右邊。而家用 fit-content ＋ margin auto，成條 rail
+   當作一嚿嘢擺喺正中；塞唔落就喺 rail 入面掃，唔係摺落去。 */
 @media (min-width: 1024px) {
   .cat-cards {
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow: visible;
-    max-width: var(--max-width);
+    flex-wrap: nowrap;
+    width: fit-content;
+    max-width: min(100%, var(--max-width));
     margin-inline: auto;
     padding-inline: var(--space-2xl);
-    row-gap: var(--space-md, 16px);
+    scroll-padding-inline-start: var(--space-2xl);
   }
 }
 
