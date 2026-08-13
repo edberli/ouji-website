@@ -513,7 +513,7 @@ function initQuickAdd() {
       add.textContent = '加緊…';
       try {
         const ok = await addToCart(add.dataset.quickAdd, 1);
-        add.textContent = ok === false ? '加唔到，再試' : '加咗入袋 ✓';
+        add.textContent = ok ? '加咗入袋 ✓' : '加唔到，再試';
       } catch (err) {
         add.textContent = '加唔到，再試';
       }

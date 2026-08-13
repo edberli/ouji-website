@@ -314,6 +314,7 @@ async function getOrCreateCartId() {
 async function getCart() {
   const cartId = localStorage.getItem('shopify_cart_id');
   if (!cartId) return null;
+  // 下面攞唔到就會清走個 ID（見尾）
 
   const data = await shopifyFetch(`
     query GetCart($cartId: ID!, $country: CountryCode!) @inContext(country: $country) {
@@ -344,6 +345,9 @@ async function getCart() {
       }
     }
   `, { cartId, country: CART_COUNTRY });
+  /* 個 ID 指住一個唔存在嘅購物車 → 清走佢。唔清嘅話，購物袋一版
+     永遠都係空，而下一次加貨又會撞返同一個死 ID。 */
+  if (!data?.cart) localStorage.removeItem('shopify_cart_id');
   return data?.cart;
 }
 
@@ -371,9 +375,28 @@ async function addToCart(variantId, quantity = 1, retried = false) {
   // before the market was pinned stays stuck that way for as long as it
   // sits in localStorage, so throw it away and build a new one — once.
   const swallowed = result?.cart && result.cart.totalQuantity === 0 && quantity > 0;
-  if (swallowed && !retried) {
+
+  /* 購物車 ID 死咗（過期、或者結咗帳嗰個仲擺喺度）。
+     Shopify 唔會嘈，佢回一個冇 cart 嘅結果就算數 —— 舊碼跟住乜都
+     唔做，件貨就咁不見咗。而且個死 ID 一路留喺 localStorage，
+     即係之後每一次加貨都會照樣不見，喺同一部機上面永遠好唔返。
+     老闆撞到嘅「加咗入購物袋但入面乜都冇」就係呢個。 */
+  const dead = !result?.cart;
+  if ((swallowed || dead) && !retried) {
     localStorage.removeItem('shopify_cart_id');
     return addToCart(variantId, quantity, true);
+  }
+
+  /* ⚠️ 呢兩行係「加咗入購物袋但入面乜都冇」嘅真正解藥。
+     Shopify 收到一個過期／唔認得嘅購物車 ID 之後，唔會報錯 ——
+     佢會開一個新車、加咗件貨入去，然後喺回覆度**畀返一個新 ID**。
+     舊碼由頭到尾冇讀過個回覆嘅 ID，localStorage 仍然指住舊嗰個死車，
+     所以：加貨每次都話成功，但購物袋一版永遠係空，而且喺同一部機
+     上面唔會自己好返 —— 個死 ID 一直喺度。
+     實測：發一個亂作嘅 ID 上去，Shopify 照回一個 totalQuantity 1
+     嘅車，ID 同送出去嗰個唔同。 */
+  if (result.cart.id && result.cart.id !== cartId) {
+    localStorage.setItem('shopify_cart_id', result.cart.id);
   }
   if (result?.warnings?.length) {
     console.warn('購物車警告:', result.warnings.map((w) => `${w.code} ${w.message}`).join(' / '));
@@ -386,6 +409,14 @@ async function addToCart(variantId, quantity = 1, retried = false) {
     // Fallback: 重新 query cart 攞正確數量
     const freshCart = await getCart();
     if (freshCart) updateCartBadge(freshCart.totalQuantity);
+  }
+
+  /* 回 null 代表真係加唔到。舊碼一律回個 result 物件 —— 就算件貨
+     根本冇入到袋都係 truthy，所以粒掣照樣顯示「加咗入袋 ✓」，
+     客信咗，去到購物袋先發現冇。 */
+  if (!result?.cart) {
+    console.error('加入購物車失敗：', result?.userErrors || data);
+    return null;
   }
   return result;
 }

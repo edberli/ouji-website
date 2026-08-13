@@ -739,7 +739,14 @@
           const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
           addBtn.textContent = '加入中...';
           addBtn.disabled = true;
-          await addToCart(selectedVariantId, qty);
+          const ok = await addToCart(selectedVariantId, qty);
+          // 加唔到就要照講。之前一律顯示「已加入購物袋 ✓」，客信咗，
+          // 去到購物袋先發現冇 —— 到嗰陣佢多數已經走咗。
+          if (!ok) {
+            addBtn.textContent = '加唔到，請再試一次';
+            setTimeout(() => { addBtn.textContent = '加入購物袋'; addBtn.disabled = false; }, 2500);
+            return;
+          }
           if (typeof trackAddToCart === 'function') {
             const chosen = variants.find(v => v.id === selectedVariantId);
             trackAddToCart(product, qty, chosen?.price?.amount);
