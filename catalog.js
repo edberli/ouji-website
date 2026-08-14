@@ -120,8 +120,32 @@ const BRAND_LOGO = {
   'Lilmoon': 'logos/lilmoon.svg', 'Molak': 'logos/molak.svg',
   "N's Collection": 'logos/ns-collection.svg',
   'TOPARDS': 'logos/topards.svg', 'Feliamo': 'logos/feliamo.svg',
-  /* 頭髮護理：solepkorea.com 頁頭 h_solep_logo.png（895×138 透明底）。 */
+  /* 頭髮護理：solepkorea.com 頁頭嗰個 114×43 細版（唔用「SINCE Solep
+     2005」嗰條 6.5:1 長帶 —— 太扁，喺手機卡度睇唔到）。 */
   'SOLEP': 'logos/solep.png',
+
+  /* 2026-08-14 要上架嗰 11 個牌子。逐個喺品牌官網揾正稿：
+       VT Cosmetics    — vt-cosmetics.com /images/cm_logo_1_black.png
+       LINDSAY         — lindsay.co.kr 頁頭 logo_black
+       TOCOBO          — tocobo.cafe24.com /wib/img/icon/logo.svg
+       ma:nyo          — manyo.co.kr /img/common/h_logo.png
+       SUNGBOON EDITOR — Shopify 頁頭 header__logo-image
+       HEVEBLUE        — heveblue.co.kr 頁頭（HB 橢圓印章，直度嘅）
+       BOH             — bioheal-boh.com 冇獨立 logo 檔，喺佢個 OG.png
+                         度剪出嚟再去白底
+       Dr.Jart+        — drjart.co.kr 頁頭 SVG sprite <symbol id="logo">
+     揀圖規矩（今次踩過嘅雷）：**要粗體、長寬比唔好過 8:1、透明底**。
+     幼體又扁嘅版本喺手機品牌卡（110px 闊）淨係 9px 高，等於冇。 */
+  'VT Cosmetics': 'logos/vt-cosmetics.png',
+  'LINDSAY': 'logos/lindsay.png',
+  'TOCOBO': 'logos/tocobo.svg',
+  'ma:nyo': 'logos/manyo.png',
+  'SUNGBOON EDITOR': 'logos/sungboon-editor.png',
+  'HEVEBLUE': 'logos/heveblue.png',
+  'BOH': 'logos/boh.png',
+  'Dr.Jart+': 'logos/dr-jart.svg',
+  // SO Natural 仲未有 —— sonatural.co.kr 喺呢度連唔到（DNS 唔通），
+  // Olive Young 品牌頁得 banner 冇 logo，Wayback 而家 429。要再試。
 };
 
 
