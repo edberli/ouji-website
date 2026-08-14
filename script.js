@@ -380,17 +380,8 @@ function initBrandMarquee() {
   const tracks = section.querySelectorAll('.brand-marquee__track');
   if (!tracks.length) return;
 
-  // 品牌名由 logo 個 alt 攞，唔使喺 HTML 度成一百個位重複寫多次
-  section.querySelectorAll('.brand-marquee__item').forEach((item) => {
-    if (item.querySelector('.brand-marquee__item-name')) return;
-    const img = item.querySelector('img');
-    if (!img || !img.alt) return;
-    const name = document.createElement('span');
-    name.className = 'brand-marquee__item-name';
-    name.textContent = img.alt;
-    name.setAttribute('aria-hidden', 'true');
-    item.appendChild(name);
-  });
+  /* 特登唔加品牌名。試過 hover 顯示個名，但每個 logo 本身就係嗰個
+     英文名 —— 喺 logo 下面再寫多次「TIRTIR」係同一個字講兩次。 */
 
   let armed = null;
   function disarm() {

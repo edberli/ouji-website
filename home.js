@@ -130,7 +130,7 @@ async function initHome() {
     e.node.availableForSale && (e.node.quantityAvailable == null || e.node.quantityAvailable > 0));
 
   const TABS = [
-    { id: 'loved', label: '熱門口碑', note: '按 Olive Young 真實評價數排',
+    { id: 'hot', label: '熱賣', note: '韓國 Olive Young 最多人評價嗰批',
       pick: (list) => list.filter((p) => reviewCount(p) >= 50)
         .sort((a, b) => reviewCount(b) - reviewCount(a)) },
     { id: 'new', label: '新品上架', note: '最近上架',
@@ -139,13 +139,10 @@ async function initHome() {
     { id: 'deal', label: '限時優惠', note: '有原價劃線先入呢度',
       pick: (list) => list.filter((p) => onSale(p) > 0)
         .sort((a, b) => onSale(b) - onSale(a)) },
-    { id: 'ready', label: '現貨即日發', note: '存貨最足，落單唔使等',
-      pick: (list) => list.filter((p) => stockDepth(p) >= 6)
-        .sort((a, b) => stockDepth(b) - stockDepth(a)) },
   ];
 
-  const rails = document.querySelector('[data-home-rails]');
-  if (rails) {
+  const tabHost = document.querySelector('[data-home-tabs]');
+  if (tabHost) {
     const live = products.filter(inStock);
 
     /* 評價數要等 ratings.json 返嚟先計得到。之前喺載入之前就決定
@@ -157,15 +154,15 @@ async function initHome() {
 
       const paint = (id) => {
         const t = shown.find((x) => x.id === id) || shown[0];
-        rails.querySelectorAll('.home-tabs__btn').forEach((b) =>
+        tabHost.querySelectorAll('.home-tabs__btn').forEach((b) =>
           b.classList.toggle('is-on', b.dataset.tab === t.id));
-        const note = rails.querySelector('[data-tab-note]');
+        const note = tabHost.querySelector('[data-tab-note]');
         if (note) note.textContent = t.note;
-        const track = rails.querySelector('[data-rail]');
+        const track = tabHost.querySelector('[data-rail]');
         if (track) track.innerHTML = t.pick(live).slice(0, 14).map(card).join('');
       };
 
-      rails.innerHTML = `
+      tabHost.innerHTML = `
         <div class="container">
           <div class="home-tabs" role="tablist">
             ${shown.map((t) => `<button type="button" class="home-tabs__btn" role="tab"
@@ -175,7 +172,7 @@ async function initHome() {
         </div>
         <div class="home-rail__track" data-rail="tabs"></div>`;
 
-      rails.addEventListener('click', (e) => {
+      tabHost.addEventListener('click', (e) => {
         const b = e.target.closest('[data-tab]');
         if (b) paint(b.dataset.tab);
       });
@@ -186,6 +183,42 @@ async function initHome() {
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => { RATINGS = d?.products || null; build(); })
       .catch(() => build());
+  }
+
+  /* 分類行 —— 老闆講明呢啲要留返，tab 係加上去，唔係換走佢哋。 */
+  const RAILS = [
+    { id: 'makeup', label: '彩妝', href: 'makeup.html',
+      has: (p) => hasTag(p, '彩妝', 'makeup') },
+    { id: 'skincare', label: '護膚', href: 'category.html',
+      has: (p) => hasTag(p, '護膚', 'skincare') },
+    { id: 'lens', label: '隱形眼鏡', href: 'lens.html',
+      has: (p) => hasTag(p, '隱形眼鏡') },
+    { id: 'kpop', label: 'K-pop 周邊', href: 'kpop.html',
+      has: (p) => hasTag(p, 'K-pop', 'kpop') },
+  ];
+
+  const rails = document.querySelector('[data-home-rails]');
+  if (rails) {
+    rails.innerHTML = RAILS.map((r) => {
+      const list = products.filter(r.has).sort((a, b) => featured(b) - featured(a));
+      if (list.length < 3) return '';
+      return `<div class="home-rail">
+        <div class="container home-rail__head">
+          <h3 class="home-rail__title">${r.label}<em>${list.length}</em></h3>
+          <a class="home-rail__all" href="${r.href}">睇晒
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        </div>
+        <div class="home-rail__track" data-rail="${r.id}">
+          ${list.slice(0, 12).map(card).join('')}
+          <a class="home-rail__more" href="${r.href}">
+            <span>睇晒<br>${r.label}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>`;
+    }).join('');
   }
 
   /* ----- 分類圓圈 -----

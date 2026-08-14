@@ -90,11 +90,9 @@ const BRAND_LOGO = {
   'Peripera': 'logos/peripera.png', '2aN': 'logos/2an.svg',
   'BRAYE': 'logos/braye.svg', 'Coralhaze': 'logos/coralhaze.svg',
   'Glint': 'logos/glint.svg',
-  /* 護膚牌子。以前呢個表淨係得彩妝，所以護膚分類頁一個 logo 都出唔到。
-     五個牌子（April Skin、Dr. Melaxin、Haruharu Wonder、ILSO、KSECRET）
-     手上冇 logo 檔，一行 logo 入面就唔出佢哋 —— 得個名會好突兀，
-     佢哋照樣喺品牌頁同篩選度搵得返。 */
+  /* 護膚牌子。以前呢個表淨係得彩妝，所以護膚分類頁一個 logo 都出唔到。 */
   'Abib': 'logos/abib.svg', 'Anua': 'logos/anua.png',
+  'Arencia': 'logos/arencia.png',
   'Beauty of Joseon': 'logos/beauty-of-joseon.svg',
   'Beplain': 'logos/beplain.png', 'Bring Green': 'logos/bring-green.svg',
   'COSRX': 'logos/cosrx.png', 'Goodal': 'logos/goodal.svg',
@@ -104,10 +102,18 @@ const BRAND_LOGO = {
   'Skinfood': 'logos/skinfood.svg', 'Some By Mi': 'logos/some-by-mi.svg',
   'Torriden': 'logos/torriden.svg',
   /* 由品牌官網攞返嚟（2026-08-14）：aprilskin.com、ksecret.co.kr。
-     Haruharu Wonder、ILSO、Dr. Melaxin 三個官網搵唔到乾淨嘅 logo 檔，
-     暫時維持文字卡 —— 供應商通常有品牌素材包，攞到就掉入 logos/。 */
+     另外四個 .com 官網要唔係得文字 logo、要唔係憑證過期，兜咗一圈先搵到：
+       Arencia        — arencia.com Cafe24 頂部 banner（webpb 應用嘅 JSON 入面）
+       Haruharu Wonder— haruharuindia.com 官方印度站 black-logo.png
+       ILSO           — ilso.kr Cafe24 頁尾 logo.svg（theilso.org 憑證過期入唔到）
+       Dr. Melaxin    — drmelaxin.us Shopify main_logo_black2.png
+     四個都係透明底。brand-grid__logo 落咗 brightness(0) invert(1)，
+     白底圖會變成一嚿白方格，所以之後換檔一定要保住 alpha。 */
   'April Skin': 'logos/april-skin.svg',
   'KSECRET': 'logos/ksecret.png',
+  'Haruharu Wonder': 'logos/haruharu-wonder.png',
+  'ILSO': 'logos/ilso.svg',
+  'Dr. Melaxin': 'logos/dr-melaxin.png',
 };
 
 

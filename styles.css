@@ -3401,41 +3401,6 @@ button.product-card__quick-add,
   opacity: 0.82;
 }
 
-/* 品牌名：平時收埋，掂到／停低先浮出嚟。用 absolute 令佢
-   出現嗰陣唔會撑高成行 logo（一撑就成版跳） */
-.brand-marquee__item-name {
-  position: absolute;
-  left: -6px;
-  right: -6px;
-  bottom: -15px;
-  text-align: center;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.8);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
-  pointer-events: none;
-}
-
-.brand-marquees.is-paused .brand-marquee__item-name,
-.brand-marquee__item:hover .brand-marquee__item-name,
-.brand-marquee__item:focus-visible .brand-marquee__item-name,
-.brand-marquee__item.is-armed .brand-marquee__item-name {
-  opacity: 1;
-  transform: none;
-}
-
-.brand-marquee__item:hover .brand-marquee__item-name,
-.brand-marquee__item.is-armed .brand-marquee__item-name {
-  color: #ffffff;
-}
-
 /* 手機撳咗第一下：框住佢，話畀客知「再撳一次先入去」 */
 .brand-marquee__item.is-armed::after {
   content: '';
@@ -7077,3 +7042,37 @@ html.is-lite .section--brand-intro::after {
 
 html.is-lite .home-tabs__btn,
 html.is-lite .home-tabs__btn::after { transition: none; }
+
+/* 分類卡：畀客知道右邊仲有嘢。
+   本來淨係得橫掃，喺 desktop 冇滾動條、冇箭嘴，客根本唔知右邊
+   仲有六個分類 —— 睇落就係「得咁多」。 */
+.cat-cards {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(43, 76, 88, 0.28) transparent;
+  padding-bottom: 14px;
+}
+.cat-cards::-webkit-scrollbar { display: block; height: 6px; }
+.cat-cards::-webkit-scrollbar-track {
+  background: rgba(43, 76, 88, 0.07);
+  border-radius: 999px;
+}
+.cat-cards::-webkit-scrollbar-thumb {
+  background: rgba(43, 76, 88, 0.26);
+  border-radius: 999px;
+}
+.cat-cards::-webkit-scrollbar-thumb:hover { background: rgba(43, 76, 88, 0.42); }
+
+/* 同一個問題：首頁啲產品橫行都係得掃冇提示 */
+.home-rail__track {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(43, 76, 88, 0.28) transparent;
+}
+.home-rail__track::-webkit-scrollbar { display: block; height: 6px; }
+.home-rail__track::-webkit-scrollbar-track {
+  background: rgba(43, 76, 88, 0.07);
+  border-radius: 999px;
+}
+.home-rail__track::-webkit-scrollbar-thumb {
+  background: rgba(43, 76, 88, 0.26);
+  border-radius: 999px;
+}
