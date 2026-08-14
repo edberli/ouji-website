@@ -114,6 +114,14 @@ const BRAND_LOGO = {
   'Haruharu Wonder': 'logos/haruharu-wonder.png',
   'ILSO': 'logos/ilso.svg',
   'Dr. Melaxin': 'logos/dr-melaxin.png',
+  /* 隱形眼鏡（2026-08-14）。五個都係日本 T-Garden 系嘅牌子，官網
+     頭嗰個 logo.svg 就係正稿：lilmoon.jp、molak.jp、ns-collection.jp、
+     topards.jp、feliamo.jp。之前成個隱形眼鏡分類一個 logo 都冇。 */
+  'Lilmoon': 'logos/lilmoon.svg', 'Molak': 'logos/molak.svg',
+  "N's Collection": 'logos/ns-collection.svg',
+  'TOPARDS': 'logos/topards.svg', 'Feliamo': 'logos/feliamo.svg',
+  /* 頭髮護理：solepkorea.com 頁頭 h_solep_logo.png（895×138 透明底）。 */
+  'SOLEP': 'logos/solep.png',
 };
 
 

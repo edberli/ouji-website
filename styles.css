@@ -1335,6 +1335,24 @@ button.product-card__quick-add,
     rgba(16,34,40,0.6) 100%);
 }
 
+/* 隱形眼鏡／頭髮護理：唔再係暖冷二分，所以借品牌色做第三個調子 */
+.brands-section--lens {
+  padding-top: 48px;
+  padding-bottom: 64px;
+}
+.brands-page__label--lens {
+  background: rgba(109,163,181,0.2);
+  color: rgba(180,220,232,0.92);
+  border: 1px solid rgba(109,163,181,0.24);
+}
+.brands-section--lens .brand-card {
+  border-color: rgba(109,163,181,0.12);
+}
+.brands-section--lens .brand-card:hover {
+  border-color: rgba(109,163,181,0.28);
+  box-shadow: 0 8px 32px rgba(109,163,181,0.14);
+}
+
 /* ── Glowing divider between sections ── */
 .brands-divider {
   height: 1px;
@@ -1511,31 +1529,16 @@ button.product-card__quick-add,
   }
 }
 
-/* Brand name — hidden by default, show on hover/touch */
+/* 品牌名唔畫出嚟。以前 hover 會喺 logo 下面彈個名，但「TIRTIR」個
+   logo 本身就係「TIRTIR」四個字 —— 等於同一個字講兩次。
+   留喺 DOM 度係畀讀屏軟件同搜尋器用，冇視覺重複。 */
 .brand-card span {
-  font-size: 0.4375rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.5);
-  text-align: center;
-  line-height: 1.3;
   position: absolute;
-  bottom: 4px;
-  left: 0;
-  right: 0;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.brand-card:hover span,
-.brand-card:active span {
-  opacity: 1;
-}
-@media (min-width: 640px) {
-  .brand-card span {
-    font-size: 0.5625rem;
-    letter-spacing: 0.12em;
-    bottom: 8px;
-  }
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ----- Brand Story ----- */
@@ -3832,28 +3835,15 @@ button.product-card__quick-add,
   opacity: 0.85;
 }
 
+/* 同品牌牆一樣：hover 唔再彈個英文名出嚟。個 logo 本身就係嗰個名。
+   留喺 DOM 度淨係畀讀屏軟件同搜尋器用。 */
 .brand-grid__name {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 7px 8px;
-  font-size: 0.6rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  text-align: center;
-  line-height: 1.4;
-  background: rgba(26,42,48,0.8);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.22s var(--ease-out), transform 0.22s var(--ease-out);
-}
-
-.brand-grid__card:hover .brand-grid__name {
-  opacity: 1;
-  transform: translateY(0);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 @media (max-width: 640px) {
