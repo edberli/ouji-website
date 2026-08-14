@@ -40,7 +40,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
             pageInfo { hasNextPage endCursor }
             edges {
               node {
-                id handle title vendor productType tags
+                id handle title vendor productType tags createdAt
                 priceRange { minVariantPrice { amount currencyCode } }
                 compareAtPriceRange { minVariantPrice { amount currencyCode } }
                 images(first: 2) { edges { node { url altText } } }
@@ -60,7 +60,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
         pageInfo { hasNextPage endCursor }
         edges {
           node {
-            id handle title vendor productType tags
+            id handle title vendor productType tags createdAt
             priceRange { minVariantPrice { amount currencyCode } }
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
             images(first: 2) { edges { node { url altText } } }
@@ -105,7 +105,7 @@ const MEM_CACHE = new Map();
    係咪得一個規格 —— 得一個先可以「快速加入」，多過一個就要客自己
    揀色，唔可以幫佢決定。改咗 query 就一定要 +1，否則舊 session 攞到
    嘅快取只有一個 variant，新碼會當佢單規格。 */
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 4;
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
 
 function cacheRead(key) {
@@ -235,7 +235,7 @@ async function searchProducts(query, first = 10) {
       products(query: $query, first: $first) {
         edges {
           node {
-            id handle title vendor productType tags
+            id handle title vendor productType tags createdAt
             priceRange { minVariantPrice { amount currencyCode } }
             images(first: 1) { edges { node { url altText } } }
           }
@@ -257,7 +257,7 @@ async function getCollections(first = 30) {
       collections(first: $first) {
         edges {
           node {
-            id handle title vendor productType tags
+            id handle title vendor productType tags createdAt
             image { url altText }
             description
           }

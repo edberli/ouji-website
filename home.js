@@ -97,44 +97,95 @@ async function initHome() {
    *
    * Each category gets its own row instead — swipe along it, or take the
    * link at the end of the row into the full category. */
-  const RAILS = [
-    { id: 'makeup', label: '彩妝', href: 'makeup.html',
-      has: (p) => hasTag(p, '彩妝', 'makeup') },
-    { id: 'skincare', label: '護膚', href: 'category.html',
-      has: (p) => hasTag(p, '護膚', 'skincare') },
-    { id: 'lens', label: '隱形眼鏡', href: 'lens.html',
-      has: (p) => hasTag(p, '隱形眼鏡') },
-    { id: 'kpop', label: 'K-pop 周邊', href: 'kpop.html',
-      has: (p) => hasTag(p, 'K-pop', 'kpop') },
-  ];
-
+  /* 首頁主推區：四個 tab，唔係四個分類。
+   *
+   * 本來係彩妝／護膚／隱形眼鏡／K-pop 四行 —— 但呢啲客喺選單同分類頁
+   * 已經揀得到，喺首頁再排一次係重複導覽。四個 tab 答嘅係「我應該買
+   * 咩」，唔係「嗰樣嘢喺邊」。
+   *
+   * ⚠️ 四個都要講得出根據。老闆本來想將庫存多嘅貨標做「熱賣」嚟清貨 ——
+   * 咁樣係將滯銷貨叫做暢銷貨，客信一次，第二次就唔信我哋。而且冇必要作：
+   *   熱門口碑 = Olive Young 真實評價數（523 件有數，最多一萬個）
+   *   新品上架 = Shopify 真實建立日期
+   *   限時優惠 = 真係有原價劃線先入
+   *   現貨即日發 = 真實庫存深度 ← 庫存多嘅擺呢度，賣點係「唔使等」
+   * 清貨最快嘅唔係叫佢做熱賣，係畀個真理由客而家買。 */
+  /* 分類卡（CATS）仲用緊佢 —— 之前剷走分類 rail 嗰陣連呢個都剷埋，
+     結果成排分類卡靜靜哋消失咗。 */
   function hasTag(p, ...want) {
     const tags = (p.tags || []).map((t) => t.toLowerCase());
     return want.some((w) => tags.includes(w.toLowerCase()));
   }
 
+  let RATINGS = null;
+  const reviewCount = (p) => RATINGS?.[p.handle]?.count || 0;
+  const onSale = (p) => {
+    const cp = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0);
+    const p0 = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
+    return cp > p0 ? (cp - p0) / cp : 0;
+  };
+  const stockDepth = (p) => (p.variants?.edges || [])
+    .reduce((n, e) => n + (e.node.quantityAvailable ?? 0), 0);
+  const inStock = (p) => (p.variants?.edges || []).some((e) =>
+    e.node.availableForSale && (e.node.quantityAvailable == null || e.node.quantityAvailable > 0));
+
+  const TABS = [
+    { id: 'loved', label: '熱門口碑', note: '按 Olive Young 真實評價數排',
+      pick: (list) => list.filter((p) => reviewCount(p) >= 50)
+        .sort((a, b) => reviewCount(b) - reviewCount(a)) },
+    { id: 'new', label: '新品上架', note: '最近上架',
+      pick: (list) => [...list].sort((a, b) =>
+        String(b.createdAt || '').localeCompare(String(a.createdAt || ''))) },
+    { id: 'deal', label: '限時優惠', note: '有原價劃線先入呢度',
+      pick: (list) => list.filter((p) => onSale(p) > 0)
+        .sort((a, b) => onSale(b) - onSale(a)) },
+    { id: 'ready', label: '現貨即日發', note: '存貨最足，落單唔使等',
+      pick: (list) => list.filter((p) => stockDepth(p) >= 6)
+        .sort((a, b) => stockDepth(b) - stockDepth(a)) },
+  ];
+
   const rails = document.querySelector('[data-home-rails]');
   if (rails) {
-    rails.innerHTML = RAILS.map((r) => {
-      const list = products.filter(r.has).sort((a, b) => featured(b) - featured(a));
-      if (list.length < 3) return '';       // a row of two is not a row
-      return `<div class="home-rail">
-        <div class="container home-rail__head">
-          <h3 class="home-rail__title">${r.label}<em>${list.length}</em></h3>
-          <a class="home-rail__all" href="${r.href}">睇晒
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+    const live = products.filter(inStock);
+
+    /* 評價數要等 ratings.json 返嚟先計得到。之前喺載入之前就決定
+       邊個 tab 出唔出，結果「熱門口碑」永遠計到零件貨、永遠唔出。
+       所以成格喺資料到齊之後先砌。 */
+    const build = () => {
+      const shown = TABS.filter((t) => t.pick(live).length >= 3);
+      if (!shown.length) return;
+
+      const paint = (id) => {
+        const t = shown.find((x) => x.id === id) || shown[0];
+        rails.querySelectorAll('.home-tabs__btn').forEach((b) =>
+          b.classList.toggle('is-on', b.dataset.tab === t.id));
+        const note = rails.querySelector('[data-tab-note]');
+        if (note) note.textContent = t.note;
+        const track = rails.querySelector('[data-rail]');
+        if (track) track.innerHTML = t.pick(live).slice(0, 14).map(card).join('');
+      };
+
+      rails.innerHTML = `
+        <div class="container">
+          <div class="home-tabs" role="tablist">
+            ${shown.map((t) => `<button type="button" class="home-tabs__btn" role="tab"
+               data-tab="${t.id}">${t.label}</button>`).join('')}
+          </div>
+          <p class="home-tabs__note" data-tab-note></p>
         </div>
-        <div class="home-rail__track" data-rail="${r.id}">
-          ${list.slice(0, 12).map(card).join('')}
-          <a class="home-rail__more" href="${r.href}">
-            <span>睇晒<br>${r.label}</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
-                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-          </a>
-        </div>
-      </div>`;
-    }).join('');
+        <div class="home-rail__track" data-rail="tabs"></div>`;
+
+      rails.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-tab]');
+        if (b) paint(b.dataset.tab);
+      });
+      paint(shown[0].id);
+    };
+
+    fetch('data/ratings.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { RATINGS = d?.products || null; build(); })
+      .catch(() => build());
   }
 
   /* ----- 分類圓圈 -----
