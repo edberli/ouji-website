@@ -52,8 +52,12 @@
   --sm-page: cubic-bezier(0.16, 1, 0.3, 1);
 
   position: relative;
-  margin: 0 calc(50% - 50vw) var(--space-3xl);
-  width: 100vw;
+  /* 本來 `margin: 0 calc(50% - 50vw); width: 100vw` 抽出容器外，
+     變成一條打通成版嘅深色帶。老闆唔要嗰條帶 —— 收返入容器，
+     成嚿嘢變返一張獨立嘅卡，坐喺頁面自己嘅米色上面。 */
+  margin: 0 0 var(--space-3xl);
+  width: auto;
+  border-radius: 20px;
   background: var(--sm-ink);
   color: var(--sm-raw);
   font-family: 'Noto Sans TC', var(--font-body);

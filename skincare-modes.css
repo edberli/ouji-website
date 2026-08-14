@@ -78,7 +78,8 @@
    light instead, and the two together read as neither. */
 
 .sm {
-  padding: clamp(1rem, 3.5vw, 3rem) clamp(0.75rem, 3.5vw, 3rem);
+  padding: clamp(1rem, 3vw, 2.25rem) clamp(0.9rem, 3vw, 2.25rem);
+  border-radius: 20px;
   /* Tight blooms, not a wash. The first pass ran three soft 100%-wide
      gradients and the pane had nothing to distort: a frosted sheet over an
      even field is an even field. These are small and high-contrast, and
