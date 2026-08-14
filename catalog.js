@@ -103,6 +103,11 @@ const BRAND_LOGO = {
   'Round Lab': 'logos/round-lab.svg', 'Skin1004': 'logos/skin1004.png',
   'Skinfood': 'logos/skinfood.svg', 'Some By Mi': 'logos/some-by-mi.svg',
   'Torriden': 'logos/torriden.svg',
+  /* 由品牌官網攞返嚟（2026-08-14）：aprilskin.com、ksecret.co.kr。
+     Haruharu Wonder、ILSO、Dr. Melaxin 三個官網搵唔到乾淨嘅 logo 檔，
+     暫時維持文字卡 —— 供應商通常有品牌素材包，攞到就掉入 logos/。 */
+  'April Skin': 'logos/april-skin.svg',
+  'KSECRET': 'logos/ksecret.png',
 };
 
 
