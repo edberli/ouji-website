@@ -39,7 +39,11 @@ async function initHome() {
     const vs = (p.variants?.edges || []).map((e) => e.node);
     const inStock = (x) => x.availableForSale
       && (x.quantityAvailable == null || x.quantityAvailable > 0);
-    const soldOut = vs.length > 0 && !vs.some(inStock);
+    /* totalInventory 行先 —— 呢度淨係攞到頭兩個規格，隱形眼鏡一件貨
+       有 25 個度數，頭兩個度數斷咗貨就會成件標「售完」。 */
+    const soldOut = typeof p.totalInventory === 'number'
+      ? p.totalInventory <= 0
+      : (vs.length > 0 && !vs.some(inStock));
     const one = vs.length === 1;
     return `<a href="/products/${p.handle}" class="product-card">
       <div class="product-card__image-wrap">
@@ -124,10 +128,15 @@ async function initHome() {
     const p0 = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
     return cp > p0 ? (cp - p0) / cp : 0;
   };
-  const stockDepth = (p) => (p.variants?.edges || [])
-    .reduce((n, e) => n + (e.node.quantityAvailable ?? 0), 0);
-  const inStock = (p) => (p.variants?.edges || []).some((e) =>
-    e.node.availableForSale && (e.node.quantityAvailable == null || e.node.quantityAvailable > 0));
+  const stockDepth = (p) => (typeof p.totalInventory === 'number'
+    ? p.totalInventory
+    : (p.variants?.edges || []).reduce((n, e) => n + (e.node.quantityAvailable ?? 0), 0));
+  /* totalInventory 行先。列表 query 得頭兩個規格，隱形眼鏡一件貨有
+     25 個度數，頭兩個斷咗就會成件當冇貨。 */
+  const inStock = (p) => (typeof p.totalInventory === 'number'
+    ? p.totalInventory > 0
+    : (p.variants?.edges || []).some((e) =>
+        e.node.availableForSale && (e.node.quantityAvailable == null || e.node.quantityAvailable > 0)));
 
   const TABS = [
     { id: 'hot', label: '熱賣', note: '韓國 Olive Young 最多人評價嗰批',

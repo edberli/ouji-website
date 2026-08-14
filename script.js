@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBrandMarquee();
   initOffscreenPause();
   initHScrollDrag();
+  initHScrollArrows();
   watchFrameRate();
 
   if (reduceMotion) {
@@ -1116,3 +1117,75 @@ function initShopSheet() {
 }
 
 document.addEventListener('DOMContentLoaded', initShopSheet);
+
+/* 橫向捲軸嘅左右箭嘴。
+   本來喺 .cat-cards 加咗條睇得見嘅滾動條，老闆話唔好睇 —— 一條灰槓
+   成日擺喺度。改成一對細箭嘴：平時透明，滑鼠掂到成個區先浮出嚟，
+   掃到盡頭嗰邊自動收埋。手機唔出，手指本身就掃得。
+
+   注意：分類卡同首頁產品行係 JS 砌出嚟嘅，所以要等佢哋出咗先包得到。
+   用 MutationObserver 睇住，唔使估幾時砌完。 */
+function initHScrollArrows() {
+  const SELECTORS = '.cat-cards, .home-rail__track, .brand-strip';
+  const ICON = (dir) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${
+      dir === 'prev' ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6'}"/></svg>`;
+
+  function wrap(track) {
+    if (track.dataset.hscroll) return;
+    track.dataset.hscroll = '1';
+
+    const shell = document.createElement('div');
+    shell.className = 'h-scroll';
+    // 深色底嘅行（品牌牆）要白箭嘴，否則白掣壓喺深藍上面好突兀
+    if (track.closest('.brand-marquees, .dark-section')) shell.classList.add('h-scroll--dark');
+    track.parentNode.insertBefore(shell, track);
+    shell.appendChild(track);
+
+    const mk = (dir) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = `h-scroll__arrow h-scroll__arrow--${dir}`;
+      b.setAttribute('aria-label', dir === 'prev' ? '睇返左邊' : '睇多啲');
+      b.innerHTML = ICON(dir);
+      b.addEventListener('click', (e) => {
+        e.preventDefault();
+        // 掃八成闊度，留少少重疊位畀客對得返上文下理
+        const step = Math.max(160, track.clientWidth * 0.8);
+        track.scrollBy({ left: dir === 'prev' ? -step : step, behavior: 'smooth' });
+      });
+      shell.appendChild(b);
+      return b;
+    };
+    const prev = mk('prev');
+    const next = mk('next');
+
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      // 冇嘢好掃就兩邊都收埋，唔好畀個掣客撳完乜都唔郁
+      const none = max <= 4;
+      prev.hidden = none || track.scrollLeft <= 2;
+      next.hidden = none || track.scrollLeft >= max - 2;
+    };
+    sync();
+    track._hsSync = sync;
+    track.addEventListener('scroll', () => {
+      if (track._hsTick) return;
+      track._hsTick = true;
+      requestAnimationFrame(() => { track._hsTick = false; sync(); });
+    }, { passive: true });
+    window.addEventListener('resize', sync);
+    if ('ResizeObserver' in window) new ResizeObserver(sync).observe(track);
+  }
+
+  /* 包完之後仲要再算一次。啲卡係 fetch 返嚟先塞入去，包嗰陣條行仲係空
+     —— 果陣 scrollWidth 等於 clientWidth，兩邊箭嘴都會收埋，之後就冇嘢
+     再叫佢重算（ResizeObserver 睇條行本身，入面加仔女佢唔會响）。 */
+  const scan = () => {
+    document.querySelectorAll(SELECTORS).forEach(wrap);
+    document.querySelectorAll(SELECTORS).forEach((t) => t._hsSync && t._hsSync());
+  };
+  scan();
+  // 啲行係 fetch 返嚟先砌，所以要一路望住
+  new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+}

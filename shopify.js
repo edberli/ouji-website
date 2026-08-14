@@ -44,6 +44,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
                 priceRange { minVariantPrice { amount currencyCode } }
                 compareAtPriceRange { minVariantPrice { amount currencyCode } }
                 images(first: 2) { edges { node { url altText } } }
+                totalInventory
                 variants(first: 2) { edges { node { id availableForSale quantityAvailable } } }
               }
             }
@@ -64,6 +65,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
             priceRange { minVariantPrice { amount currencyCode } }
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
             images(first: 2) { edges { node { url altText } } }
+            totalInventory
             variants(first: 2) { edges { node { id availableForSale quantityAvailable } } }
           }
         }
@@ -105,7 +107,10 @@ const MEM_CACHE = new Map();
    係咪得一個規格 —— 得一個先可以「快速加入」，多過一個就要客自己
    揀色，唔可以幫佢決定。改咗 query 就一定要 +1，否則舊 session 攞到
    嘅快取只有一個 variant，新碼會當佢單規格。 */
-const CACHE_VERSION = 4;
+/* 4：加咗 totalInventory。列表 query 淨係攞頭兩個規格，隱形眼鏡一件貨
+   有 25 個度數，頭兩個度數斷咗貨就會成件標「售完」—— 其實仲有十幾個
+   度數有貨。totalInventory 係成件貨嘅總數，一個欄位就解決。 */
+const CACHE_VERSION = 5;
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
 
 function cacheRead(key) {
