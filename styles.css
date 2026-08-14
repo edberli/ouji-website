@@ -7009,3 +7009,116 @@ html.is-lite .section--brand-intro::after {
   }
   .cat-head--shot > .container { padding-bottom: var(--space-md); }
 }
+
+/* ============================================================
+   品牌頁改淺藍玻璃（2026-08-14）
+
+   本來成版係深墨綠 + 一段煙霧影片墊底，卡係深色框、logo 用
+   brightness(0) invert(1) 迫成白色。三個問題：
+   影片食效能又同賣緊嘅嘢冇關；深底令一堆本身就係深色字標嘅
+   logo 要反白，好多牌子反白之後就唔似佢自己；卡太大，一版
+   得十幾個牌子，要碌好耐先睇得晒。
+
+   而家：淺藍水色底 + 白玻璃卡，logo 用返品牌原本嘅深色。
+   ============================================================ */
+.brands-page {
+  background:
+    radial-gradient(1200px 600px at 78% -8%, rgba(109,163,181,0.20), transparent 62%),
+    radial-gradient(900px 520px at 8% 12%, rgba(141,189,204,0.16), transparent 58%),
+    linear-gradient(180deg, #eaf1f4 0%, #f2f6f7 46%, #eef4f6 100%);
+}
+
+/* 煙霧片喺淺底上面淨係變一浸灰，冇咗佢反而乾淨 */
+.brands-page .brands-page__video { display: none; }
+
+/* ── 標題 ── */
+.brands-page__hero {
+  padding-top: clamp(40px, 5vw, 72px);
+  padding-bottom: clamp(24px, 3vw, 40px);
+  background: none;
+  border-bottom: 1px solid rgba(43, 76, 88, 0.10);
+}
+.brands-page__head { text-align: center; }
+.brands-page__title {
+  margin: 0;
+  font-family: var(--font-brand);
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--primary-deep, #2b4c58);
+}
+.brands-page__sub {
+  margin: 10px 0 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+/* ── 分區 ── */
+.brands-section--makeup,
+.brands-section--skincare {
+  padding-top: clamp(24px, 3vw, 40px);
+  padding-bottom: clamp(24px, 3vw, 40px);
+  background: none;
+}
+.brands-divider {
+  background: linear-gradient(90deg, transparent, rgba(43,76,88,0.16) 30%,
+              rgba(43,76,88,0.22) 50%, rgba(43,76,88,0.16) 70%, transparent);
+}
+
+.brands-page__label--makeup {
+  background: rgba(196, 138, 106, 0.14);
+  color: #9a6446;
+  border: 1px solid rgba(196, 138, 106, 0.24);
+}
+.brands-page__label--skincare {
+  background: rgba(109, 163, 181, 0.16);
+  color: var(--primary-deep, #2b4c58);
+  border: 1px solid rgba(109, 163, 181, 0.28);
+}
+
+/* ── 卡：細一半，白玻璃 ──
+   注意：呢一版用 .brands-grid / .brand-card，同首頁嗰個
+   .brand-grid__card 係兩套嘢，唔好撈亂。 */
+.brands-page .brands-grid {
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 10px;
+}
+
+.brands-page .brand-card {
+  aspect-ratio: 5 / 2;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 2px rgba(30, 48, 56, 0.04), 0 8px 22px rgba(43, 76, 88, 0.07);
+}
+.brands-page .brand-card:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(109, 163, 181, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 2px 4px rgba(30, 48, 56, 0.06), 0 14px 30px rgba(43, 76, 88, 0.14);
+}
+
+/* logo 統一壓成深墨色。
+   本來係 brightness(0) invert(1) 迫成白（配深底）。轉咗淺底之後
+   試過索性唔加 filter、用返品牌原色 —— 但一堆字標（hince、
+   Coralhaze、Skinfood、Round Lab…）本身係為深底而畫嘅白色檔，
+   放上白玻璃就即刻隱形。
+   brightness(0) 唔理原色一律壓黑，所以三十五個牌子睇落係同一組
+   嘢，唔會有幾個特別搶、幾個消失。 */
+.brands-page .brand-card img {
+  filter: brightness(0);
+  opacity: 0.72;
+  transition: opacity 0.2s var(--ease-out);
+}
+.brands-page .brand-card:hover img { opacity: 1; }
+
+/* 品牌名文字剷走 —— 個 logo 本身就係個英文名，寫多次係重複。 */
+.brands-page .brand-card span { display: none; }
+
+@media (max-width: 480px) {
+  .brands-page .brands-grid { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+}
+
+html.is-lite .brands-page .brand-card { background: #ffffff; }
