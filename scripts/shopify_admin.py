@@ -10,6 +10,8 @@ dozen browser round-trips.
 Reads SHOPIFY_ADMIN_TOKEN from .env (gitignored).
 """
 import json
+import socket
+import ssl
 import os
 import time
 import urllib.error
@@ -44,6 +46,13 @@ def gql(query, variables=None, retries=4):
             data = json.load(urllib.request.urlopen(req, timeout=90))
         except urllib.error.HTTPError as e:
             if e.code == 429 and attempt < retries - 1:
+                time.sleep(2 ** attempt)
+                continue
+            raise
+        except (urllib.error.URLError, socket.timeout, ssl.SSLError, OSError) as e:
+            # 上載一個牌子成廿分鐘，中途 TLS 斷一次成個 run 就死。
+            # 呢啲係網絡問題唔係 API 問題，等陣重試就得。
+            if attempt < retries - 1:
                 time.sleep(2 ** attempt)
                 continue
             raise
