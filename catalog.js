@@ -144,8 +144,10 @@ const BRAND_LOGO = {
   'HEVEBLUE': 'logos/heveblue.png',
   'BOH': 'logos/boh.png',
   'Dr.Jart+': 'logos/dr-jart.svg',
-  // SO Natural 仲未有 —— sonatural.co.kr 喺呢度連唔到（DNS 唔通），
-  // Olive Young 品牌頁得 banner 冇 logo，Wayback 而家 429。要再試。
+  /* SO Natural：佢自己個韓國站 sonatural.co.kr 喺呢部機連唔通，
+     Wayback 又封住，最尾喺 ohmyglow 個品牌頁攞到張 300×300 方形
+     logo，剪走白底再去白。呢個係疊字版（1.4:1），入 2:1 卡好靚。 */
+  'SO Natural': 'logos/so-natural.png',
 };
 
 
