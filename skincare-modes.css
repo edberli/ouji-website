@@ -77,33 +77,23 @@
    for the next person who wonders why the sheet has no texture — it has
    light instead, and the two together read as neither. */
 
+/* 老闆睇到兩個圓角框疊住：出面一個做背景，入面 .sm__sheet 又一個。
+   佢要一個。所以深色漸變、圓角、飄動光暈全部搬咗落 .sm__sheet，
+   呢個容器而家淨係做定位 —— 冇底、冇邊、冇 padding。 */
 .sm {
-  padding: clamp(1rem, 3vw, 2.25rem) clamp(0.9rem, 3vw, 2.25rem);
-  border-radius: 20px;
   /* Tight blooms, not a wash. The first pass ran three soft 100%-wide
      gradients and the pane had nothing to distort: a frosted sheet over an
      even field is an even field. These are small and high-contrast, and
      they are placed to cross the pane's rim — the blur is only legible at
      the boundary where the same bloom is sharp on one side and smeared on
      the other. */
-  background:
-    radial-gradient(46% 40% at 4% -6%, rgba(122, 186, 205, 0.62), transparent 66%),
-    radial-gradient(38% 34% at 99% 8%, rgba(228, 201, 168, 0.42), transparent 66%),
-    radial-gradient(42% 38% at 2% 74%, rgba(168, 216, 228, 0.30), transparent 68%),
-    radial-gradient(52% 44% at 88% 104%, rgba(109, 163, 181, 0.44), transparent 66%),
-    linear-gradient(168deg, #24424e 0%, #1b3540 46%, #142932 100%);
   isolation: isolate;
-  /* `clip`, not `hidden`. Both contain the drifting blooms, but `hidden`
-     makes this a scroll container and the drawer's sticky action bar inside
-     it silently stops sticking. */
-  overflow: hidden;
-  overflow: clip;
 }
 
 /* The drift. Two blooms on one layer, offset in phase by running one at a
    different duration rather than a delay — a delay would sync them up again
    every time the shorter loop came round. */
-.sm::after {
+.sm__sheet::after {
   content: '';
   position: absolute;
   inset: -20%;
@@ -118,10 +108,10 @@
   from { transform: translate3d(-3%, -2%, 0) scale(1); }
   to   { transform: translate3d(3%, 2%, 0) scale(1.08); }
 }
-.sm > * { position: relative; z-index: 1; }
+.sm__sheet > * { position: relative; z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .sm::after { animation: none; }
+  .sm__sheet::after { animation: none; }
 }
 
 /* The pane. The only element in the feature that blurs the page behind it —
@@ -129,12 +119,18 @@
    The rim highlight does the work a border cannot: a full 1px stroke at this
    opacity reads as a drawn box, while a light line on the top edge alone
    reads as thickness. */
-/* 呢塊玻璃而家係唯一嗰個框 —— 出面個 .sm 容器唔再有深色底，所以
-   深色要喺呢度自己企得住（唔係就係啡黃色底上面睇唔到啲米色字）。
-   background-color 做底，background-image 疊返原本嗰浸玻璃色。 */
+/* 呢塊而家係唯一嗰個框。本來出面個 .sm 容器有深色漸變、入面呢塊又有
+   一浸玻璃色，兩個圓角框疊住。深色漸變（連同四團光暈）搬咗落嚟，
+   呢塊自己企得住。 */
 .sm__sheet { position: relative; color: var(--raw); border-radius: var(--r-pane);
-             background-color: var(--ink, #2b4c58);
-             background-image: linear-gradient(var(--gl-1), var(--gl-1));
+             padding: clamp(1rem, 3vw, 2.25rem) clamp(0.9rem, 3vw, 2.25rem);
+             background:
+               radial-gradient(46% 40% at 4% -6%, rgba(122, 186, 205, 0.62), transparent 66%),
+               radial-gradient(38% 34% at 99% 8%, rgba(228, 201, 168, 0.42), transparent 66%),
+               radial-gradient(42% 38% at 2% 74%, rgba(168, 216, 228, 0.30), transparent 68%),
+               radial-gradient(52% 44% at 88% 104%, rgba(109, 163, 181, 0.44), transparent 66%),
+               linear-gradient(168deg, #24424e 0%, #1b3540 46%, #142932 100%);
+             isolation: isolate;
              border: 1px solid var(--gl-line);
              -webkit-backdrop-filter: var(--gl-blur); backdrop-filter: var(--gl-blur);
              box-shadow: var(--gl-rim),
