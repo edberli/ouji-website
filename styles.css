@@ -7179,107 +7179,112 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 }
 
 /* ============================================
-   由煩惱搵起 —— 雜誌感嘅卡，封面係嗰格真係賣緊嗰幾件貨
+   由煩惱搵起 —— 雜誌開版：滿版相、一行大字、冇多餘嘢
    ============================================ */
 .section--concerns {
   background: linear-gradient(180deg,
     rgba(109,163,181,0.06) 0%,
     rgba(109,163,181,0.02) 100%);
 }
+/* 說明句跟返標題嘅對齊，唔好一個置中一個靠左 */
+.section--concerns .section-header { text-align: center; }
 .section-header__note {
-  margin: 10px 0 0;
+  margin: 12px auto 0;
   max-width: 34em;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--text-muted, rgba(30,48,56,0.6));
 }
+
+/* 八格＝desktop 四欄兩行、手機兩欄四行，永遠排得齊，唔會爛尾。
+   之前用 auto-fill 喺 1440 出五欄放八件，右下角一個窿。 */
 .concern-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
-  gap: 18px;
-  margin-top: var(--space-lg);
-}
-.concern-card {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  text-decoration: none;
-  box-shadow: 0 1px 2px rgba(43,76,88,0.06), 0 10px 30px -18px rgba(43,76,88,0.4);
-  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
-}
-.concern-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 2px 4px rgba(43,76,88,0.08), 0 20px 40px -20px rgba(43,76,88,0.45);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: var(--space-xl);
 }
 
-/* 封面：三件貨疊埋，一大兩細。雜誌開版嗰種擺法 —— 主角壓住，
-   兩件配角喺右邊斜住排，唔係一格格排到齊卜卜咁悶。 */
-.concern-card__cover {
+/* 一張相由頭鋪到尾，字反白喺相上面 —— 雜誌開版就係咁。
+   舊版係三格拼貼＋白底＋灰字：淺色疊淺色疊淺色，四個位對比度唔合格。
+   字踩喺深色漸變罩上面，對比度問題連根拔起。 */
+.concern-card {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3;
-  background: linear-gradient(148deg, #eef4f6 0%, #e2ecef 100%);
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
   overflow: hidden;
+  background: #24424e;
+  text-decoration: none;
+  isolation: isolate;
+  box-shadow: 0 2px 6px rgba(30,48,56,0.10), 0 18px 32px -22px rgba(30,48,56,0.55);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
 }
 .concern-card__shot {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px -8px rgba(30,48,56,0.5);
-  background: #fff;
-  transition: transform 0.35s var(--ease-out);
+  z-index: 0;
+  transition: transform 0.6s var(--ease-out);
 }
-.concern-card__shot--1 { left: 6%;  top: 10%;  width: 54%; height: 74%; z-index: 3; }
-.concern-card__shot--2 { right: 8%; top: 6%;   width: 38%; height: 46%; z-index: 2; }
-.concern-card__shot--3 { right: 4%; bottom: 8%; width: 34%; height: 40%; z-index: 1; }
-.concern-card:hover .concern-card__shot--1 { transform: translateY(-3px) rotate(-1.5deg); }
-.concern-card:hover .concern-card__shot--2 { transform: translateY(-2px) rotate(2deg); }
-.concern-card:hover .concern-card__shot--3 { transform: translateY(2px) rotate(-2deg); }
-
-/* 期數式編號。雜誌會用嚟做索引 —— 呢度佢真係一個次序（件數由多到少），
-   唔係擺嚟好睇。 */
-.concern-card__no {
+/* 罩由 42% 先開始 —— 上面留返件貨睇得清，下面夠深托得起反白字 */
+.concern-card::after {
+  content: '';
   position: absolute;
-  left: 10px;
-  bottom: 8px;
-  z-index: 4;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2.25rem;
-  line-height: 1;
-  color: rgba(43,76,88,0.28);
+  inset: 0;
+  z-index: 1;
   pointer-events: none;
-}
-.concern-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 14px 16px 16px;
-  border-top: 1px solid rgba(43,76,88,0.08);
+  background: linear-gradient(180deg,
+    rgba(20,41,50,0) 40%,
+    rgba(20,41,50,0.58) 66%,
+    rgba(20,41,50,0.93) 100%);
 }
 .concern-card__label {
-  font-weight: 600;
-  font-size: 1.0625rem;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 34px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.15;
   letter-spacing: 0.01em;
-  color: #1e3038;
-}
-.concern-card__note {
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  color: var(--text-muted, rgba(30,48,56,0.55));
+  color: #fdf8f3;
+  text-wrap: balance;
 }
 .concern-card__n {
-  margin-top: 6px;
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  color: var(--primary, #6da3b5);
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 2;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  /* 由罩嘅藍色調出嚟，唔用灰 */
+  color: rgba(190, 220, 231, 0.92);
+}
+.concern-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(30,48,56,0.12), 0 28px 44px -24px rgba(30,48,56,0.6);
+}
+.concern-card:hover .concern-card__shot { transform: scale(1.05); }
+.concern-card:focus-visible {
+  outline: 2px solid var(--primary, #6da3b5);
+  outline-offset: 3px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .concern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .concern-card__body { padding: 11px 12px 13px; }
-  .concern-card__label { font-size: 0.9375rem; }
-  .concern-card__note { font-size: 0.75rem; }
-  .concern-card__no { font-size: 1.75rem; }
 }
+@media (max-width: 640px) {
+  .concern-card__label { font-size: 1.0625rem; left: 13px; right: 13px; bottom: 30px; }
+  .concern-card__n { left: 13px; bottom: 11px; font-size: 0.6875rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .concern-card, .concern-card__shot { transition: none; }
+  .concern-card:hover { transform: none; }
+  .concern-card:hover .concern-card__shot { transform: none; }
+}
+

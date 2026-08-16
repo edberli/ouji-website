@@ -397,41 +397,47 @@ async function initHome() {
   if (concerns && typeof CONCERNS !== 'undefined') {
     const live = products.filter((p) =>
       typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true);
-    const rows = CONCERNS
-      .map((c) => {
-        const hits = live.filter((p) => matchesConcern(p, c));
-        /* 封面就係嗰格入面真係賣緊嗰幾件貨疊埋 —— 唔用圖庫相，
-           唔用插畫。客見到張封面，撳入去見到嘅就係同一批貨。 */
-        const cover = hits
-          .filter((p) => p.images?.edges?.[0]?.node?.url)
-          .sort((a, b) => featured(b) - featured(a))
-          .slice(0, 3);
-        return { c, n: hits.length, cover };
-      })
-      // 少過 8 件、或者夾唔到三張相砌封面，就唔出嗰格
-      .filter((x) => x.n >= 8 && x.cover.length === 3);
 
+    /* 封面相要逐格唔同。上一版每格各自攞自己嘅冠軍，但幾格嘅條件本身
+       重疊（暗瘡同毛孔都收「黑頭」），排序又係同一條，結果八張封面得
+       四件貨 —— 同一支 COSRX toner 做咗兩格主角，「油光」仲喺同一張卡
+       用咗同一張相兩次。而家兩輪砌：先計晒每格有邊啲貨，再由件數最少
+       嗰格開始揀相，揀過嘅相同貨品全域記住唔再用。
+       由最少嗰格先揀，因為佢揀擇最窄；大格有幾百件貨，執到啲乜都夠。 */
+    const buckets = CONCERNS
+      .map((c) => ({ c, hits: live.filter((p) => matchesConcern(p, c)) }))
+      .filter((b) => b.hits.length >= 8);
+
+    const usedImg = new Set();
+    const usedHandle = new Set();
+    [...buckets].sort((a, b) => a.hits.length - b.hits.length).forEach((b) => {
+      b.cover = b.hits
+        .filter((p) => p.images?.edges?.[0]?.node?.url)
+        .sort((x, y) => featured(y) - featured(x))
+        .filter((p) => {
+          const u = p.images.edges[0].node.url;
+          if (usedImg.has(u) || usedHandle.has(p.handle)) return false;
+          usedImg.add(u); usedHandle.add(p.handle);
+          return true;
+        })
+        .slice(0, 1)[0] || null;
+    });
+
+    const rows = buckets.filter((b) => b.cover);
     if (rows.length >= 4) {
       concerns.innerHTML = `
         <div class="container">
           <div class="section-header reveal-blur">
-            <span class="label section-header__label">由煩惱搵起</span>
-            <h2 class="heading-lg section-header__title">想解決咩？</h2>
-            <p class="section-header__note">揀個你最想搞掂嘅，我哋將講到呢方面嘅貨揀出嚟畀你自己揀。</p>
+            <h2 class="heading-lg section-header__title">想搵咩？</h2>
+            <p class="section-header__note">揀個範疇，我哋將講到呢方面嘅貨排埋一齊。</p>
           </div>
           <div class="concern-grid">
-            ${rows.map(({ c, n, cover }, i) => `
+            ${rows.map(({ c, hits, cover }) => `
               <a class="concern-card" href="shop.html?concern=${c.id}">
-                <span class="concern-card__cover">
-                  ${cover.map((p, k) => `<img class="concern-card__shot concern-card__shot--${k + 1}"
-                      src="${p.images.edges[0].node.url}&width=360" alt="" loading="lazy">`).join('')}
-                  <span class="concern-card__no">${String(i + 1).padStart(2, '0')}</span>
-                </span>
-                <span class="concern-card__body">
-                  <span class="concern-card__label">${c.label}</span>
-                  <span class="concern-card__note">${c.note}</span>
-                  <span class="concern-card__n">${n} 件</span>
-                </span>
+                <img class="concern-card__shot" src="${cover.images.edges[0].node.url}&width=560"
+                     alt="" loading="lazy">
+                <span class="concern-card__label">${c.label}</span>
+                <span class="concern-card__n">${hits.length} 件</span>
               </a>`).join('')}
           </div>
         </div>`;
