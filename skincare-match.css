@@ -55,13 +55,15 @@
   /* 本來 `margin: 0 calc(50% - 50vw); width: 100vw` 抽出容器外，
      變成一條打通成版嘅深色帶。老闆唔要嗰條帶 —— 收返入容器，
      成嚿嘢變返一張獨立嘅卡，坐喺頁面自己嘅米色上面。 */
+  /* 再收多一層：本來呢個容器自己有深色底同圓角，入面 .sm__sheet 又係
+     一塊玻璃卡 —— 兩個框疊住，睇落似張卡入面又貼咗張卡。老闆話唔要
+     出面嗰個背景。而家深色底淨係留喺 .sm__sheet（睇 skincare-modes.css），
+     呢個容器只做定位同上落間距。 */
   margin: 0 0 var(--space-3xl);
   width: auto;
-  border-radius: 20px;
-  background: var(--sm-ink);
+  background: none;
   color: var(--sm-raw);
   font-family: 'Noto Sans TC', var(--font-body);
-  overflow: hidden;
 }
 
 /* The masthead face. Loaded only here so the rest of the shop is untouched. */

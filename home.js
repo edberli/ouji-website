@@ -350,7 +350,17 @@ async function initHome() {
       .slice(0, 14);
 
     if (newest.length >= 4) {
-      const logo = (v) => (typeof brandLogo === 'function' ? brandLogo(v) : null);
+      /* 每個牌子一張 header 相。有品牌自己張主視覺就用佢；冇（官網得
+         一幅韓文促銷 banner）就用我哋自己張產品相 —— 韓文廣告字擺喺
+         香港客面前係擺錯，寧願用一張乾淨嘅貨相。 */
+      const shotOf = (vendor) => {
+        const kv = typeof brandKV === 'function' ? brandKV(vendor) : null;
+        if (kv) return kv;
+        const best = products
+          .filter((p) => p.vendor === vendor && p.images?.edges?.[0]?.node?.url)
+          .sort((a, b) => featured(b) - featured(a))[0];
+        return best ? best.images.edges[0].node.url : null;
+      };
       fresh.innerHTML = `
         <div class="container">
           <div class="section-header section-header--split reveal-blur">
@@ -361,11 +371,15 @@ async function initHome() {
             <a href="shop.html?sort=new" class="btn--ghost">睇晒新貨</a>
           </div>
           ${brands.length ? `<div class="new-brands">${brands.map((b) => {
-            const src = logo(b.vendor);
-            return `<a class="new-brands__item" href="shop.html?brand=${encodeURIComponent(b.vendor)}">
-              ${src ? `<img src="${src}" alt="${b.vendor}" loading="lazy">`
-                    : `<span class="new-brands__name">${b.vendor}</span>`}
-              <span class="new-brands__n">${b.n} 件</span>
+            const shot = shotOf(b.vendor);
+            return `<a class="new-brands__card" href="shop.html?brand=${encodeURIComponent(b.vendor)}">
+              <span class="new-brands__media">
+                ${shot ? `<img src="${shot}" alt="" loading="lazy">` : ''}
+              </span>
+              <span class="new-brands__meta">
+                <span class="new-brands__name">${b.vendor}</span>
+                <span class="new-brands__n">${b.n} 件</span>
+              </span>
             </a>`;
           }).join('')}</div>` : ''}
         </div>
@@ -384,9 +398,19 @@ async function initHome() {
     const live = products.filter((p) =>
       typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true);
     const rows = CONCERNS
-      .map((c) => ({ c, n: live.filter((p) => matchesConcern(p, c)).length }))
-      // 少過 8 件就唔出嗰格 —— 撳入去得三件貨，比冇個格更失望
-      .filter((x) => x.n >= 8);
+      .map((c) => {
+        const hits = live.filter((p) => matchesConcern(p, c));
+        /* 封面就係嗰格入面真係賣緊嗰幾件貨疊埋 —— 唔用圖庫相，
+           唔用插畫。客見到張封面，撳入去見到嘅就係同一批貨。 */
+        const cover = hits
+          .filter((p) => p.images?.edges?.[0]?.node?.url)
+          .sort((a, b) => featured(b) - featured(a))
+          .slice(0, 3);
+        return { c, n: hits.length, cover };
+      })
+      // 少過 8 件、或者夾唔到三張相砌封面，就唔出嗰格
+      .filter((x) => x.n >= 8 && x.cover.length === 3);
+
     if (rows.length >= 4) {
       concerns.innerHTML = `
         <div class="container">
@@ -396,12 +420,18 @@ async function initHome() {
             <p class="section-header__note">揀個你最想搞掂嘅，我哋將講到呢方面嘅貨揀出嚟畀你自己揀。</p>
           </div>
           <div class="concern-grid">
-            ${rows.map(({ c, n }) => `
+            ${rows.map(({ c, n, cover }, i) => `
               <a class="concern-card" href="shop.html?concern=${c.id}">
-                <span class="concern-card__icon" aria-hidden="true">${c.icon}</span>
-                <span class="concern-card__label">${c.label}</span>
-                <span class="concern-card__note">${c.note}</span>
-                <span class="concern-card__n">${n} 件</span>
+                <span class="concern-card__cover">
+                  ${cover.map((p, k) => `<img class="concern-card__shot concern-card__shot--${k + 1}"
+                      src="${p.images.edges[0].node.url}&width=360" alt="" loading="lazy">`).join('')}
+                  <span class="concern-card__no">${String(i + 1).padStart(2, '0')}</span>
+                </span>
+                <span class="concern-card__body">
+                  <span class="concern-card__label">${c.label}</span>
+                  <span class="concern-card__note">${c.note}</span>
+                  <span class="concern-card__n">${n} 件</span>
+                </span>
               </a>`).join('')}
           </div>
         </div>`;

@@ -7114,61 +7114,72 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 .home-rail__track::-webkit-scrollbar { display: none; }
 
 /* ============================================
-   新品速遞 —— 啱啱返嘅牌子 + 最新嗰批貨
+   新品速遞 —— 每個新牌子一張 header 相
    ============================================ */
 .new-brands {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 4px;
   margin-bottom: var(--space-md);
 }
 .new-brands::-webkit-scrollbar { display: none; }
-.new-brands__item {
+.new-brands__card {
   flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 116px;
-  padding: 14px 10px 11px;
-  border: 1px solid var(--border-subtle, rgba(30,48,56,0.1));
-  border-radius: 12px;
+  width: 210px;
+  border-radius: 14px;
+  overflow: hidden;
   background: #fff;
   text-decoration: none;
-  transition: border-color var(--duration-fast), transform var(--duration-fast),
-              box-shadow var(--duration-fast);
+  box-shadow: 0 1px 2px rgba(43,76,88,0.06), 0 10px 26px -18px rgba(43,76,88,0.45);
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
 }
-.new-brands__item:hover {
-  border-color: var(--primary, #6da3b5);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(43,76,88,0.08);
+.new-brands__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 4px rgba(43,76,88,0.08), 0 18px 34px -18px rgba(43,76,88,0.5);
 }
-.new-brands__item img {
+.new-brands__media {
+  display: block;
+  aspect-ratio: 3 / 2;
+  background: linear-gradient(148deg, #eef4f6 0%, #e2ecef 100%);
+  overflow: hidden;
+}
+.new-brands__media img {
   width: 100%;
-  max-height: 26px;
-  object-fit: contain;
-  /* logo 原色五花八門，統一壓做深藍綠先似一組嘢 */
-  filter: grayscale(1) brightness(0.3);
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease-out);
+}
+.new-brands__card:hover .new-brands__media img { transform: scale(1.04); }
+.new-brands__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 13px 13px;
 }
 .new-brands__name {
-  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #2b4c58;
-  text-align: center;
-  line-height: 1.25;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  color: #1e3038;
 }
 .new-brands__n {
+  flex: none;
   font-size: 0.6875rem;
   letter-spacing: 0.06em;
-  color: var(--text-muted, rgba(30,48,56,0.5));
+  color: var(--primary, #6da3b5);
+}
+
+@media (max-width: 640px) {
+  .new-brands__card { width: 168px; }
+  .new-brands__name { font-size: 0.875rem; }
 }
 
 /* ============================================
-   由煩惱搵起
+   由煩惱搵起 —— 雜誌感嘅卡，封面係嗰格真係賣緊嗰幾件貨
    ============================================ */
 .section--concerns {
   background: linear-gradient(180deg,
@@ -7184,37 +7195,72 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 }
 .concern-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+  gap: 18px;
   margin-top: var(--space-lg);
 }
 .concern-card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 20px 18px 18px;
-  border: 1px solid rgba(109,163,181,0.22);
-  border-radius: 14px;
   background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
   text-decoration: none;
-  transition: border-color var(--duration-fast), transform var(--duration-fast),
-              box-shadow var(--duration-fast);
+  box-shadow: 0 1px 2px rgba(43,76,88,0.06), 0 10px 30px -18px rgba(43,76,88,0.4);
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
 }
 .concern-card:hover {
-  border-color: var(--primary, #6da3b5);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(43,76,88,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 2px 4px rgba(43,76,88,0.08), 0 20px 40px -20px rgba(43,76,88,0.45);
 }
-.concern-card__icon {
-  font-size: 1.125rem;
+
+/* 封面：三件貨疊埋，一大兩細。雜誌開版嗰種擺法 —— 主角壓住，
+   兩件配角喺右邊斜住排，唔係一格格排到齊卜卜咁悶。 */
+.concern-card__cover {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(148deg, #eef4f6 0%, #e2ecef 100%);
+  overflow: hidden;
+}
+.concern-card__shot {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px -8px rgba(30,48,56,0.5);
+  background: #fff;
+  transition: transform 0.35s var(--ease-out);
+}
+.concern-card__shot--1 { left: 6%;  top: 10%;  width: 54%; height: 74%; z-index: 3; }
+.concern-card__shot--2 { right: 8%; top: 6%;   width: 38%; height: 46%; z-index: 2; }
+.concern-card__shot--3 { right: 4%; bottom: 8%; width: 34%; height: 40%; z-index: 1; }
+.concern-card:hover .concern-card__shot--1 { transform: translateY(-3px) rotate(-1.5deg); }
+.concern-card:hover .concern-card__shot--2 { transform: translateY(-2px) rotate(2deg); }
+.concern-card:hover .concern-card__shot--3 { transform: translateY(2px) rotate(-2deg); }
+
+/* 期數式編號。雜誌會用嚟做索引 —— 呢度佢真係一個次序（件數由多到少），
+   唔係擺嚟好睇。 */
+.concern-card__no {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  z-index: 4;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.25rem;
   line-height: 1;
-  color: var(--primary, #6da3b5);
-  margin-bottom: 6px;
+  color: rgba(43,76,88,0.28);
+  pointer-events: none;
+}
+.concern-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 16px 16px;
+  border-top: 1px solid rgba(43,76,88,0.08);
 }
 .concern-card__label {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   letter-spacing: 0.01em;
   color: #1e3038;
 }
@@ -7224,15 +7270,16 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   color: var(--text-muted, rgba(30,48,56,0.55));
 }
 .concern-card__n {
-  margin-top: 10px;
+  margin-top: 6px;
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   color: var(--primary, #6da3b5);
 }
 
 @media (max-width: 640px) {
-  .concern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .concern-card { padding: 16px 14px 14px; }
+  .concern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .concern-card__body { padding: 11px 12px 13px; }
   .concern-card__label { font-size: 0.9375rem; }
   .concern-card__note { font-size: 0.75rem; }
+  .concern-card__no { font-size: 1.75rem; }
 }

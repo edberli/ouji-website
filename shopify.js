@@ -1386,3 +1386,26 @@ const BRAND_LOGO = {
 function brandLogo(vendor) {
   return BRAND_LOGO[vendor] || null;
 }
+
+/* 新上架牌子嘅主視覺（2026-08-16）。
+   老闆睇完頭一版話「唔需要 logo，寧願攞佢哋嗰啲品牌相擺喺嗰度，
+   即係一個類似 header 咁樣」—— 所以呢度放嘅係品牌自己嗰張 KV，
+   唔係 logo。
+
+   全部搬咗上我哋自己個 Shopify CDN：韓國站會查 Referer，直接 hotlink
+   落我哋啲頁面會出佔位圖。
+   有四個牌子（Arencia、HEVEBLUE、ma:nyo、SO Natural）官網嗰張 KV 係
+   一整幅韓文促銷 banner —— 韓文廣告字擺喺香港客面前係擺錯，所以佢哋
+   唔入呢個表，改用我哋自己張產品相做封面（睇 home.js）。 */
+const BRAND_KV = {
+  'VT Cosmetics': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/vt-cosmetics.jpg',
+  'LINDSAY': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lindsay.jpg',
+  'BOH': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/boh.jpg',
+  'TOCOBO': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/tocobo.png',
+  'SUNGBOON EDITOR': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/sungboon-editor.jpg',
+  'SOLEP': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/solep.jpg',
+};
+
+function brandKV(vendor) {
+  return BRAND_KV[vendor] || null;
+}

@@ -129,8 +129,13 @@
    The rim highlight does the work a border cannot: a full 1px stroke at this
    opacity reads as a drawn box, while a light line on the top edge alone
    reads as thickness. */
+/* 呢塊玻璃而家係唯一嗰個框 —— 出面個 .sm 容器唔再有深色底，所以
+   深色要喺呢度自己企得住（唔係就係啡黃色底上面睇唔到啲米色字）。
+   background-color 做底，background-image 疊返原本嗰浸玻璃色。 */
 .sm__sheet { position: relative; color: var(--raw); border-radius: var(--r-pane);
-             background: var(--gl-1); border: 1px solid var(--gl-line);
+             background-color: var(--ink, #2b4c58);
+             background-image: linear-gradient(var(--gl-1), var(--gl-1));
+             border: 1px solid var(--gl-line);
              -webkit-backdrop-filter: var(--gl-blur); backdrop-filter: var(--gl-blur);
              box-shadow: var(--gl-rim),
                          0 2px 8px rgba(9, 22, 27, .18),
