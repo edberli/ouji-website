@@ -612,3 +612,26 @@
      tracks whatever padding the body is running at this breakpoint. */
   .rf__acts { padding-left: 2rem; padding-right: 2rem; margin-inline: -2rem; }
 }
+
+/* ══ 張卡右邊嗰疊真貨相 ═══════════════════════════════════════════════
+   本來張卡得文字，要客淨係讀完六個字就肯撳。三張真實產品相斜住疊，
+   即係「我哋要喺呢批貨入面幫你揀」—— 用真貨相，唔用插畫或者圖庫相。
+   手機唔出：得嗰 320px 闊，擺埋三張相就冇位畀個標題。 */
+.sm__open-stack { display: none; }
+@media (min-width: 720px) {
+  .sm__open-stack { position: relative; flex: none; width: 132px; height: 92px;
+                    display: block; margin-right: .25rem; }
+  .sm__open-shot { position: absolute; width: 62px; height: 62px; object-fit: cover;
+                   border-radius: 10px; background: #fff;
+                   box-shadow: 0 8px 20px -8px rgba(9,22,27,.7);
+                   transition: transform .45s var(--ease); }
+  .sm__open-shot--1 { left: 0;    top: 16px; z-index: 3; transform: rotate(-7deg); }
+  .sm__open-shot--2 { left: 36px; top: 2px;  z-index: 2; transform: rotate(3deg); }
+  .sm__open-shot--3 { left: 70px; top: 22px; z-index: 1; transform: rotate(9deg); }
+  .sm__open:hover .sm__open-shot--1 { transform: rotate(-11deg) translateY(-3px); }
+  .sm__open:hover .sm__open-shot--2 { transform: rotate(1deg) translateY(-6px); }
+  .sm__open:hover .sm__open-shot--3 { transform: rotate(13deg) translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sm__open-shot, .sm__open:hover .sm__open-shot { transition: none; }
+}
