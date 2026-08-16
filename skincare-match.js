@@ -1311,7 +1311,7 @@ function smWireRails(scope, onPick) {
   });
 }
 
-async function initSkincareMatch(root, opts = {}) {
+async function initSkincareMatch(root) {
   if (!root) return;
   const ans = SM_BLANK();
   let mode, st;
@@ -1330,25 +1330,13 @@ async function initSkincareMatch(root, opts = {}) {
    * It is also why nothing loads until she taps: attrs.json and
    * ingredients.json are a quarter of a megabyte that every visitor to the
    * category page was paying for whether or not they ever used this. */
-  /* 張卡本來得文字。老闆話「點樣可以吸引到啲人撳落去睇？即係嗰啲視覺
-     元素、貼圖嗰啲」—— 所以右邊擺三張真實產品相疊住，即係「我哋要
-     喺呢批貨入面幫你揀」。用真貨相，唔用插畫圖庫相：客撳入去見到嘅
-     就係同一批嘢。相由 category.html 傳入嚟（嗰度先攞到目錄），
-     傳唔到就照出返純文字版，唔會爛。 */
-  const shots = (opts.shots || []).slice(0, 3);
   root.innerHTML = `<div class="sm__sheet">
     <button type="button" class="sm__open" data-open aria-expanded="false">
       <span class="sm__open-lede">
         <span class="sm__open-kicker">護膚配方</span>
-        <!-- 標題要短。本來寫「唔知揀邊支好？答三條，幫你揀」—— 個鈎同個
-             動作寫晒喺同一行，14 個字，人未讀完已經碌過咗。而家得六個字：
-             要做乜（答三條）、得到乜（幫你揀）。個鈎讓畀下面嗰行。 -->
-        <span class="sm__open-title">答三條，幫你揀</span>
-        <span class="sm__open-sub">503 件護膚品，揀出啱你嗰幾件</span>
+        <span class="sm__open-title">唔知揀邊支好？答三條，幫你揀</span>
+        <span class="sm__open-sub">503 件護膚品，對膚質、成分同質地揀出屬於你嗰幾件</span>
       </span>
-      ${shots.length === 3 ? `<span class="sm__open-stack" aria-hidden="true">
-        ${shots.map((u, i) => `<img class="sm__open-shot sm__open-shot--${i + 1}" src="${u}" alt="" loading="lazy">`).join('')}
-      </span>` : ''}
       <span class="sm__open-mark" aria-hidden="true"></span>
     </button>
     <div class="sm__panel" hidden>

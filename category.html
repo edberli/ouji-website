@@ -356,6 +356,8 @@
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
 
+    initSkincareMatch(document.querySelector('[data-skincare-match]'));
+
     const params = new URLSearchParams(window.location.search);
     // /collections/<handle> is rewritten server-side, so the browser URL
     // keeps the path and carries no ?collection= — read either.
@@ -365,15 +367,6 @@
     const cat = params.get('cat');
     const products = await getCategoryProducts({ section, cat });
     applyCategoryHeading(section, cat);
-
-    /* 護膚配方張卡要三張真實產品相做視覺鈎。要等目錄返嚟先揀得到，
-       所以喺呢度先叫 —— 揀最當造嗰三件，同分類頁排「推薦」同一把尺。 */
-    const shots = products
-      .filter((p) => p.images?.edges?.[0]?.node?.url)
-      .slice(0, 24)
-      .map((p) => p.images.edges[0].node.url + '&width=320')
-      .slice(0, 3);
-    initSkincareMatch(document.querySelector('[data-skincare-match]'), { shots });
 
     if (!products.length) {
       showCategoryEmpty(section, cat);
