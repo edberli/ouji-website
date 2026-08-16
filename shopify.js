@@ -1248,3 +1248,141 @@ function showCategoryEmpty(section, cat) {
     '<a href="category.html" class="btn btn--primary">瀏覽所有產品</a>' +
     '</div>';
 }
+
+/* ============================================================
+   煩惱分類 —— 客唔係諗住「我要支精華」，係諗住「我塊面又爆瘡」。
+   分類頁係按貨品類型切，呢個係按客自己講得出嘅煩惱切。
+
+   ⚠️ 呢度**唔係**話邊支貨醫得好邊個問題。我哋唔可以講療效。
+   每格淨係做一件事：將講到呢個範疇嘅貨揀出嚟畀客自己揀。
+   所以文案一律寫「揀畀你睇」「大家搵得最多」，唔准寫「治好」
+   「有效改善」「消炎」呢類字。
+
+   配對睇標題＋標籤＋類型。同 matchesKeywords 唔同 —— 嗰個特登唔睇
+   標題（免得 TIRTIR「Mask Fit」氣墊跌晒入面膜）。但成分同功效字
+   （積雪草、水楊酸、玻尿酸）就係寫喺標題度，唔睇標題就乜都搵唔到。
+   ============================================================ */
+const CONCERNS = [
+  { id: 'acne',      label: '暗瘡・粉刺', icon: '✦',
+    note: '茶樹、水楊酸、痘痘貼呢類',
+    re: /暗瘡|痘|粉刺|黑頭|acne|blemish|spot patch|水楊酸|salicylic|茶樹|tea tree|bha/i },
+  { id: 'pore',      label: '毛孔粗大', icon: '◎',
+    note: '收毛孔、去角質嗰批',
+    re: /毛孔|收毛孔|pore|黑頭|blackhead|去角質|peeling|scrub|bha|pha/i },
+  { id: 'sensitive', label: '泛紅・敏感', icon: '❋',
+    note: '積雪草、鎮靜舒緩系列',
+    re: /敏感|泛紅|鎮靜|舒緩|修護|calming|soothing|sensitive|redness|cica|centella|積雪草|panthenol|泛醇/i },
+  { id: 'dry',       label: '乾燥・缺水', icon: '◇',
+    note: '玻尿酸、神經醯胺、補水面膜',
+    re: /保濕|補水|乾燥|水潤|鎖水|hydra|moist|hyaluron|玻尿酸|透明質酸|ceramide|神經醯胺|barrier|屏障/i },
+  { id: 'dull',      label: '暗沉・色斑', icon: '☀',
+    note: '維他命 C、煙酰胺、穀胱甘肽',
+    re: /美白|亮白|提亮|暗沉|色斑|斑印|透亮|煥白|bright|whitening|glow|tone.?up|glutathione|穀胱甘肽|vitamin ?c|維他命 ?c|niacinamide|煙酰胺|煙醯胺|arbutin|tranexamic|傳明酸/i },
+  { id: 'aging',     label: '細紋・鬆弛', icon: '△',
+    note: '膠原、胜肽、視黃醇',
+    re: /抗皺|細紋|皺紋|緊緻|提拉|彈力|抗老|逆齡|lifting|firming|wrinkle|anti.?aging|collagen|膠原|retinol|視黃醇|retinal|peptide|胜肽|多肽|pdrn/i },
+  { id: 'oily',      label: '油光・出油', icon: '◐',
+    note: '控油、啞光、吸油',
+    re: /控油|油光|出油|清爽|sebum|oil ?control|matte|啞光|no.?sebum|powder wash/i },
+  { id: 'sun',       label: '防曬', icon: '⊙',
+    note: '每日都要搽嗰支',
+    re: /防曬|spf|sun ?(cream|stick|serum|essence|cushion|lotion|screen)|uv|선크림/i },
+];
+
+function concernById(id) {
+  return CONCERNS.find((c) => c.id === id) || null;
+}
+
+/* 只計護膚品。唔設呢個閘嘅話，「水潤透亮胭脂液」會跌入乾燥缺水、
+   「啞光眼影」跌入油光、氣墊粉底跌入防曬 —— 客撳「乾燥缺水」入去
+   見到一堆唇釉，就知我哋係亂夾字。 */
+function isSkincare(p) {
+  const tags = (p.tags || []).map((t) => t.toLowerCase());
+  if (tags.includes('makeup') || tags.includes('彩妝')) return false;
+  return tags.includes('skincare') || tags.includes('護膚');
+}
+
+/* 一件貨可以同時屬幾格（積雪草面霜又鎮靜又保濕）—— 呢個係啱嘅，
+   客由邊個煩惱入嚟都搵得返佢。 */
+function matchesConcern(p, concern) {
+  if (!concern || !isSkincare(p)) return false;
+  const hay = `${p.title || ''} ${p.productType || ''} ${(p.tags || []).join(' ')}`;
+  return concern.re.test(hay);
+}
+
+/* The brands' own logos, which we already hold as SVG. They ride on top
+   of the banner rather than being cropped out of it. */
+const BRAND_LOGO = {
+  'lilybyred': 'logos/lilybyred.svg', 'AMUSE': 'logos/amuse.svg',
+  'hince': 'logos/hince.svg', 'WAKEMAKE': 'logos/wakemake.svg',
+  'CLIO': 'logos/clio.svg', 'dasique': 'logos/dasique.png',
+  'TIRTIR': 'logos/tirtir.svg', 'MAYBELLINE': 'logos/maybelline.svg',
+  'UNLEASHIA': 'logos/unleashia.svg', 'rom&nd': 'logos/romand.svg',
+  'Laka': 'logos/laka.svg', '花知曉 Flower Knows': 'logos/flower-knows.svg',
+  'fwee': 'logos/fwee.svg', 'Heart Percent': 'logos/heart-percent.svg',
+  'Peripera': 'logos/peripera.png', '2aN': 'logos/2an.svg',
+  'BRAYE': 'logos/braye.svg', 'Coralhaze': 'logos/coralhaze.svg',
+  'Glint': 'logos/glint.svg',
+  /* 護膚牌子。以前呢個表淨係得彩妝，所以護膚分類頁一個 logo 都出唔到。 */
+  'Abib': 'logos/abib.svg', 'Anua': 'logos/anua.png',
+  'Arencia': 'logos/arencia.png',
+  'Beauty of Joseon': 'logos/beauty-of-joseon.svg',
+  'Beplain': 'logos/beplain.png', 'Bring Green': 'logos/bring-green.svg',
+  'COSRX': 'logos/cosrx.png', 'Goodal': 'logos/goodal.svg',
+  'Mixsoon': 'logos/mixsoon.svg', 'Needly': 'logos/needly.svg',
+  'OOTD': 'logos/ootd.svg', 'Purito': 'logos/purito.svg',
+  'Round Lab': 'logos/round-lab.svg', 'Skin1004': 'logos/skin1004.png',
+  'Skinfood': 'logos/skinfood.svg', 'Some By Mi': 'logos/some-by-mi.svg',
+  'Torriden': 'logos/torriden.svg',
+  /* 由品牌官網攞返嚟（2026-08-14）：aprilskin.com、ksecret.co.kr。
+     另外四個 .com 官網要唔係得文字 logo、要唔係憑證過期，兜咗一圈先搵到：
+       Arencia        — arencia.com Cafe24 頂部 banner（webpb 應用嘅 JSON 入面）
+       Haruharu Wonder— haruharuindia.com 官方印度站 black-logo.png
+       ILSO           — ilso.kr Cafe24 頁尾 logo.svg（theilso.org 憑證過期入唔到）
+       Dr. Melaxin    — drmelaxin.us Shopify main_logo_black2.png
+     四個都係透明底。brand-grid__logo 落咗 brightness(0) invert(1)，
+     白底圖會變成一嚿白方格，所以之後換檔一定要保住 alpha。 */
+  'April Skin': 'logos/april-skin.svg',
+  'KSECRET': 'logos/ksecret.png',
+  'Haruharu Wonder': 'logos/haruharu-wonder.png',
+  'ILSO': 'logos/ilso.svg',
+  'Dr. Melaxin': 'logos/dr-melaxin.png',
+  /* 隱形眼鏡（2026-08-14）。五個都係日本 T-Garden 系嘅牌子，官網
+     頭嗰個 logo.svg 就係正稿：lilmoon.jp、molak.jp、ns-collection.jp、
+     topards.jp、feliamo.jp。之前成個隱形眼鏡分類一個 logo 都冇。 */
+  'Lilmoon': 'logos/lilmoon.svg', 'Molak': 'logos/molak.svg',
+  "N's Collection": 'logos/ns-collection.svg',
+  'TOPARDS': 'logos/topards.svg', 'Feliamo': 'logos/feliamo.svg',
+  /* 頭髮護理：solepkorea.com 頁頭嗰個 114×43 細版（唔用「SINCE Solep
+     2005」嗰條 6.5:1 長帶 —— 太扁，喺手機卡度睇唔到）。 */
+  'SOLEP': 'logos/solep.png',
+
+  /* 2026-08-14 要上架嗰 11 個牌子。逐個喺品牌官網揾正稿：
+       VT Cosmetics    — vt-cosmetics.com /images/cm_logo_1_black.png
+       LINDSAY         — lindsay.co.kr 頁頭 logo_black
+       TOCOBO          — tocobo.cafe24.com /wib/img/icon/logo.svg
+       ma:nyo          — manyo.co.kr /img/common/h_logo.png
+       SUNGBOON EDITOR — Shopify 頁頭 header__logo-image
+       HEVEBLUE        — heveblue.co.kr 頁頭（HB 橢圓印章，直度嘅）
+       BOH             — bioheal-boh.com 冇獨立 logo 檔，喺佢個 OG.png
+                         度剪出嚟再去白底
+       Dr.Jart+        — drjart.co.kr 頁頭 SVG sprite <symbol id="logo">
+     揀圖規矩（今次踩過嘅雷）：**要粗體、長寬比唔好過 8:1、透明底**。
+     幼體又扁嘅版本喺手機品牌卡（110px 闊）淨係 9px 高，等於冇。 */
+  'VT Cosmetics': 'logos/vt-cosmetics.png',
+  'LINDSAY': 'logos/lindsay.png',
+  'TOCOBO': 'logos/tocobo.svg',
+  'ma:nyo': 'logos/manyo.png',
+  'SUNGBOON EDITOR': 'logos/sungboon-editor.png',
+  'HEVEBLUE': 'logos/heveblue.png',
+  'BOH': 'logos/boh.png',
+  'Dr.Jart+': 'logos/dr-jart.svg',
+  /* SO Natural：佢自己個韓國站 sonatural.co.kr 喺呢部機連唔通，
+     Wayback 又封住，最尾喺 ohmyglow 個品牌頁攞到張 300×300 方形
+     logo，剪走白底再去白。呢個係疊字版（1.4:1），入 2:1 卡好靚。 */
+  'SO Natural': 'logos/so-natural.png',
+};
+
+function brandLogo(vendor) {
+  return BRAND_LOGO[vendor] || null;
+}

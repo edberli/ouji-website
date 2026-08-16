@@ -356,6 +356,28 @@
           .some((sec) => matchesKeywords(p, categoryKeywords(sec, cat))));
     }
 
+    /* 由首頁「想解決咩？」入嚟。呢個唔係貨品類型，係客自己講得出嘅
+       煩惱 —— 所以行 matchesConcern（睇埋標題），唔行 categoryKeywords。 */
+    const concern = concernById(params.get('concern'));
+    if (concern) {
+      products = products.filter((p) => matchesConcern(p, concern));
+      const head = document.querySelector('.cat-head__title');
+      if (head) head.textContent = concern.label;
+      const eyebrow = document.querySelector('.cat-head__eyebrow');
+      if (eyebrow) eyebrow.textContent = '由煩惱搵起';
+      const desc = document.querySelector('.cat-head__desc');
+      if (desc) {
+        desc.textContent = `講到${concern.label.replace('・', '同')}呢方面嘅護膚品，全部喺呢度。`;
+      }
+      document.title = `${concern.label} — OUJI`;
+    }
+
+    // 首頁「睇晒新貨」入嚟：最新上架行先
+    if (params.get('sort') === 'new') {
+      products = [...products].sort((a, b) =>
+        String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
+    }
+
     if (!products.length) {
       showCategoryEmpty('skincare', cat);
     } else {

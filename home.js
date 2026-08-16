@@ -310,6 +310,104 @@ async function initHome() {
     }).join('');
   }
 
+  /* ----- 新品速遞 -----
+     一次過多咗 11 個牌子、114 件貨。呢個唔係「新品上架」嗰個 tab 嘅
+     重複：tab 係逐件排時間，呢格係話畀客知「多咗邊幾個牌子」，
+     順便畀佢一撳就入到嗰個牌子。件數係實數，數得出先寫。 */
+  const fresh = document.querySelector('[data-home-new]');
+  if (fresh) {
+    /* 最近一造上架嘅牌子 —— 唔寫死名單，由 createdAt 自己浮出嚟，
+       下次再入貨都唔使改碼。 */
+    const byBrand = new Map();
+    products.forEach((p) => {
+      if (!p.vendor || !p.createdAt) return;
+      const cur = byBrand.get(p.vendor);
+      if (!cur || p.createdAt > cur.newest) {
+        byBrand.set(p.vendor, { newest: p.createdAt, n: (cur?.n || 0) + 1, sample: cur?.sample || p });
+      } else {
+        cur.n += 1;
+      }
+    });
+    const brands = [...byBrand.entries()]
+      .map(([vendor, v]) => ({ vendor, ...v }))
+      .sort((a, b) => String(b.newest).localeCompare(String(a.newest)))
+      .slice(0, 12)
+      .filter((b) => b.n >= 3);
+
+    /* 要有相 —— 冇相嗰啲上晒架但等緊舖頭補影，成行灰格唔好睇。
+       同一個牌子最多兩件：最後上嗰個牌子（LINDSAY）自己就夠塞滿成行，
+       客會以為我哋淨係入咗一個牌子。 */
+    const perBrand = new Map();
+    const newest = [...products]
+      .filter((p) => p.createdAt && p.images?.edges?.[0]?.node?.url
+        && (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true))
+      .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
+      .filter((p) => {
+        const n = (perBrand.get(p.vendor) || 0) + 1;
+        perBrand.set(p.vendor, n);
+        return n <= 2;
+      })
+      .slice(0, 14);
+
+    if (newest.length >= 4) {
+      const logo = (v) => (typeof brandLogo === 'function' ? brandLogo(v) : null);
+      fresh.innerHTML = `
+        <div class="container">
+          <div class="section-header section-header--split reveal-blur">
+            <div>
+              <span class="label section-header__label">新品速遞</span>
+              <h2 class="heading-lg section-header__title">啱啱返嘅貨</h2>
+            </div>
+            <a href="shop.html?sort=new" class="btn--ghost">睇晒新貨</a>
+          </div>
+          ${brands.length ? `<div class="new-brands">${brands.map((b) => {
+            const src = logo(b.vendor);
+            return `<a class="new-brands__item" href="shop.html?brand=${encodeURIComponent(b.vendor)}">
+              ${src ? `<img src="${src}" alt="${b.vendor}" loading="lazy">`
+                    : `<span class="new-brands__name">${b.vendor}</span>`}
+              <span class="new-brands__n">${b.n} 件</span>
+            </a>`;
+          }).join('')}</div>` : ''}
+        </div>
+        <div class="home-rail__track" data-rail="new">${newest.map(card).join('')}</div>`;
+    }
+  }
+
+  /* ----- 想解決咩問題 -----
+     分類頁係按貨品類型切（精華、面霜、面膜）。但客入嚟嗰陣諗嘅唔係
+     「我要支精華」，係「我塊面又爆瘡」。呢格就係照佢個諗法切。
+
+     ⚠️ 呢度唔會講邊支貨醫得好邊個問題 —— 我哋唔可以講療效。每格
+     淨係將講到呢個範疇嘅護膚品揀出嚟畀客自己揀，文案要企得住。 */
+  const concerns = document.querySelector('[data-home-concerns]');
+  if (concerns && typeof CONCERNS !== 'undefined') {
+    const live = products.filter((p) =>
+      typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true);
+    const rows = CONCERNS
+      .map((c) => ({ c, n: live.filter((p) => matchesConcern(p, c)).length }))
+      // 少過 8 件就唔出嗰格 —— 撳入去得三件貨，比冇個格更失望
+      .filter((x) => x.n >= 8);
+    if (rows.length >= 4) {
+      concerns.innerHTML = `
+        <div class="container">
+          <div class="section-header reveal-blur">
+            <span class="label section-header__label">由煩惱搵起</span>
+            <h2 class="heading-lg section-header__title">想解決咩？</h2>
+            <p class="section-header__note">揀個你最想搞掂嘅，我哋將講到呢方面嘅貨揀出嚟畀你自己揀。</p>
+          </div>
+          <div class="concern-grid">
+            ${rows.map(({ c, n }) => `
+              <a class="concern-card" href="shop.html?concern=${c.id}">
+                <span class="concern-card__icon" aria-hidden="true">${c.icon}</span>
+                <span class="concern-card__label">${c.label}</span>
+                <span class="concern-card__note">${c.note}</span>
+                <span class="concern-card__n">${n} 件</span>
+              </a>`).join('')}
+          </div>
+        </div>`;
+    }
+  }
+
   /* ----- 妝感配對 ----- */
   const looks = document.querySelector('[data-home-looks]');
   if (looks) {

@@ -77,78 +77,9 @@ function brandPlate(vendor) {
   return BRAND_PLATE[vendor] || { tint: '#eeeae3' };
 }
 
-/* The brands' own logos, which we already hold as SVG. They ride on top
-   of the banner rather than being cropped out of it. */
-const BRAND_LOGO = {
-  'lilybyred': 'logos/lilybyred.svg', 'AMUSE': 'logos/amuse.svg',
-  'hince': 'logos/hince.svg', 'WAKEMAKE': 'logos/wakemake.svg',
-  'CLIO': 'logos/clio.svg', 'dasique': 'logos/dasique.png',
-  'TIRTIR': 'logos/tirtir.svg', 'MAYBELLINE': 'logos/maybelline.svg',
-  'UNLEASHIA': 'logos/unleashia.svg', 'rom&nd': 'logos/romand.svg',
-  'Laka': 'logos/laka.svg', '花知曉 Flower Knows': 'logos/flower-knows.svg',
-  'fwee': 'logos/fwee.svg', 'Heart Percent': 'logos/heart-percent.svg',
-  'Peripera': 'logos/peripera.png', '2aN': 'logos/2an.svg',
-  'BRAYE': 'logos/braye.svg', 'Coralhaze': 'logos/coralhaze.svg',
-  'Glint': 'logos/glint.svg',
-  /* 護膚牌子。以前呢個表淨係得彩妝，所以護膚分類頁一個 logo 都出唔到。 */
-  'Abib': 'logos/abib.svg', 'Anua': 'logos/anua.png',
-  'Arencia': 'logos/arencia.png',
-  'Beauty of Joseon': 'logos/beauty-of-joseon.svg',
-  'Beplain': 'logos/beplain.png', 'Bring Green': 'logos/bring-green.svg',
-  'COSRX': 'logos/cosrx.png', 'Goodal': 'logos/goodal.svg',
-  'Mixsoon': 'logos/mixsoon.svg', 'Needly': 'logos/needly.svg',
-  'OOTD': 'logos/ootd.svg', 'Purito': 'logos/purito.svg',
-  'Round Lab': 'logos/round-lab.svg', 'Skin1004': 'logos/skin1004.png',
-  'Skinfood': 'logos/skinfood.svg', 'Some By Mi': 'logos/some-by-mi.svg',
-  'Torriden': 'logos/torriden.svg',
-  /* 由品牌官網攞返嚟（2026-08-14）：aprilskin.com、ksecret.co.kr。
-     另外四個 .com 官網要唔係得文字 logo、要唔係憑證過期，兜咗一圈先搵到：
-       Arencia        — arencia.com Cafe24 頂部 banner（webpb 應用嘅 JSON 入面）
-       Haruharu Wonder— haruharuindia.com 官方印度站 black-logo.png
-       ILSO           — ilso.kr Cafe24 頁尾 logo.svg（theilso.org 憑證過期入唔到）
-       Dr. Melaxin    — drmelaxin.us Shopify main_logo_black2.png
-     四個都係透明底。brand-grid__logo 落咗 brightness(0) invert(1)，
-     白底圖會變成一嚿白方格，所以之後換檔一定要保住 alpha。 */
-  'April Skin': 'logos/april-skin.svg',
-  'KSECRET': 'logos/ksecret.png',
-  'Haruharu Wonder': 'logos/haruharu-wonder.png',
-  'ILSO': 'logos/ilso.svg',
-  'Dr. Melaxin': 'logos/dr-melaxin.png',
-  /* 隱形眼鏡（2026-08-14）。五個都係日本 T-Garden 系嘅牌子，官網
-     頭嗰個 logo.svg 就係正稿：lilmoon.jp、molak.jp、ns-collection.jp、
-     topards.jp、feliamo.jp。之前成個隱形眼鏡分類一個 logo 都冇。 */
-  'Lilmoon': 'logos/lilmoon.svg', 'Molak': 'logos/molak.svg',
-  "N's Collection": 'logos/ns-collection.svg',
-  'TOPARDS': 'logos/topards.svg', 'Feliamo': 'logos/feliamo.svg',
-  /* 頭髮護理：solepkorea.com 頁頭嗰個 114×43 細版（唔用「SINCE Solep
-     2005」嗰條 6.5:1 長帶 —— 太扁，喺手機卡度睇唔到）。 */
-  'SOLEP': 'logos/solep.png',
-
-  /* 2026-08-14 要上架嗰 11 個牌子。逐個喺品牌官網揾正稿：
-       VT Cosmetics    — vt-cosmetics.com /images/cm_logo_1_black.png
-       LINDSAY         — lindsay.co.kr 頁頭 logo_black
-       TOCOBO          — tocobo.cafe24.com /wib/img/icon/logo.svg
-       ma:nyo          — manyo.co.kr /img/common/h_logo.png
-       SUNGBOON EDITOR — Shopify 頁頭 header__logo-image
-       HEVEBLUE        — heveblue.co.kr 頁頭（HB 橢圓印章，直度嘅）
-       BOH             — bioheal-boh.com 冇獨立 logo 檔，喺佢個 OG.png
-                         度剪出嚟再去白底
-       Dr.Jart+        — drjart.co.kr 頁頭 SVG sprite <symbol id="logo">
-     揀圖規矩（今次踩過嘅雷）：**要粗體、長寬比唔好過 8:1、透明底**。
-     幼體又扁嘅版本喺手機品牌卡（110px 闊）淨係 9px 高，等於冇。 */
-  'VT Cosmetics': 'logos/vt-cosmetics.png',
-  'LINDSAY': 'logos/lindsay.png',
-  'TOCOBO': 'logos/tocobo.svg',
-  'ma:nyo': 'logos/manyo.png',
-  'SUNGBOON EDITOR': 'logos/sungboon-editor.png',
-  'HEVEBLUE': 'logos/heveblue.png',
-  'BOH': 'logos/boh.png',
-  'Dr.Jart+': 'logos/dr-jart.svg',
-  /* SO Natural：佢自己個韓國站 sonatural.co.kr 喺呢部機連唔通，
-     Wayback 又封住，最尾喺 ohmyglow 個品牌頁攞到張 300×300 方形
-     logo，剪走白底再去白。呢個係疊字版（1.4:1），入 2:1 卡好靚。 */
-  'SO Natural': 'logos/so-natural.png',
-};
+/* BRAND_LOGO 同 brandLogo() 搬咗去 shopify.js。
+   首頁載 shopify.js 但唔載 catalog.js，而「新品速遞」嗰格都要
+   攞品牌 logo —— 放喺共用嗰層先兩邊都用得。 */
 
 
 /* Displayed logo height per brand, so every mark reads the same size.
@@ -174,9 +105,6 @@ function brandArt(vendor) {
   return BRAND_ART[vendor] || null;
 }
 
-function brandLogo(vendor) {
-  return BRAND_LOGO[vendor] || null;
-}
 
 const PRICE_BUCKETS = [
   { id: 'u100', label: 'HK$100 以下', test: (v) => v < 100 },
