@@ -36,6 +36,9 @@ function smPickToggle(ans, q, v) {
  * between 乾 and 油.
  *
  * `off` counts the stops at the tail that are not on the scale. */
+// 門口寫「答三條」，就只可以有三條。呢兩支加埋想改善就係嗰三條。
+const SM_FIRST = ['skin', 'tex'];
+
 const SM_ROWS = [
   { key: 'skin', label: '你嘅皮膚', req: true, off: 1,
     stops: [['dry', '乾性'], ['normal', '中性'], ['combo', '混合性'], ['oily', '油性'],
@@ -178,6 +181,11 @@ function smPreview(ans) {
 
 const smModeDials = {
   id: 'dials', name: '拉桿', gesture: '拉住郁 · 即時見到套嘢',
+  /* 「答三條」以前係講大話：門口寫三條，撳開係五支拉桿、十一個 chip、
+     兩個抽屜，1592px 高。呢度唔係改文案 —— 係將張表縮返做三條。
+     頭三條＝皮膚、質地、想改善（要揀嘅只有皮膚同想改善）。
+     敏感、年齡、酸類耐受、品牌、進階要求全部收埋落一個「再精準啲」，
+     由本來兩個抽屜合併成一個。 */
   init(st, ans) {
     // 質地 is the only one with a real default, because 「隨便」 is a genuine
     // answer and it is the one shown as chosen. Everything else stays empty.
@@ -186,8 +194,7 @@ const smModeDials = {
     ans.adv = ans.adv || {};
     ans.brands = ans.brands || [];
     ans.fine = ans.fine || {};
-    st.adv = st.adv || false;
-    st.brands = st.brands || false;
+    st.fine = st.fine || false;
   },
   render(st, ans) {
     const c = smQ('concerns');
@@ -204,7 +211,7 @@ const smModeDials = {
 
     return `<div class="dl">
 
-      ${SM_ROWS.map((d) => smLever(d, ans)).join('')}
+      ${SM_ROWS.filter((d) => SM_FIRST.includes(d.key)).map((d) => smLever(d, ans)).join('')}
 
       <div class="dl__concerns">
         <p class="dl__label">想改善<span class="dl__req">要揀</span>
@@ -218,10 +225,18 @@ const smModeDials = {
         </div>
       </div>
 
-      <button type="button" class="dl__more" data-brands aria-expanded="${st.brands}">
-        品牌${ans.brands.length ? `（揀咗 ${ans.brands.length} 個）` : `（全部 ${vendors.length} 個）`}
+      <button type="button" class="dl__more" data-fine aria-expanded="${st.fine}">
+        再精準啲${(() => {
+          const n = (ans.sens ? 1 : 0) + (ans.age ? 1 : 0) + (ans.tol ? 1 : 0)
+            + ans.brands.length + advOn;
+          return n ? `（開咗 ${n} 項）` : '';
+        })()}
       </button>
-      ${st.brands ? `<div class="dl__adv">
+      ${st.fine ? `<div class="dl__adv">
+        ${SM_ROWS.filter((d) => !SM_FIRST.includes(d.key)).map((d) => smLever(d, ans)).join('')}
+
+        <p class="dl__label" style="margin-top:1.4rem">品牌${
+          ans.brands.length ? `（揀咗 ${ans.brands.length} 個）` : `（全部 ${vendors.length} 個）`}</p>
         <div class="dl__tags">
           <button type="button" class="dl__tag" data-brand-all
             aria-pressed="${!ans.brands.length}">全部品牌</button>
@@ -229,12 +244,8 @@ const smModeDials = {
             aria-pressed="${ans.brands.includes(x.v)}">${smEsc(x.v)}<i>${x.n}</i></button>`).join('')}
         </div>
         <p class="dl__note">唔揀＝全部品牌。個數係喺你而家嘅條件下，嗰個牌子仲有幾多件啱你。</p>
-      </div>` : ''}
 
-      <button type="button" class="dl__more" data-adv aria-expanded="${st.adv}">
-        進階要求${advOn ? `（開咗 ${advOn} 項）` : ''}
-      </button>
-      ${st.adv ? `<div class="dl__adv">
+        <p class="dl__label" style="margin-top:1.4rem">進階要求${advOn ? `（開咗 ${advOn} 項）` : ''}</p>
         <div class="dl__tags">
           ${SM_ADV.map((a) => `<button type="button" class="dl__tag" data-adv-k="${a.k}"
             aria-pressed="${!!ans.adv[a.k]}">${smEsc(a.name)}</button>`).join('')}
@@ -251,7 +262,8 @@ const smModeDials = {
 
       ${(() => {
         // Say what is still missing rather than greying out and going quiet.
-        const need = SM_ROWS.filter((d) => d.req && !ans[d.key]).map((d) => d.label)
+        const need = SM_ROWS.filter((d) => SM_FIRST.includes(d.key) && d.req && !ans[d.key])
+          .map((d) => d.label)
           .concat(ans.concerns.length ? [] : ['想改善']);
         // 質地 starts on 隨便 by design, so it does not count as touched.
         const touched = ans.skin || ans.sens || ans.tol || ans.age || ans.tex !== 'any'
@@ -288,7 +300,7 @@ const smModeDials = {
     if (e.target.closest('[data-reset]')) {
       Object.assign(ans, { skin: '', sens: '', concerns: [], tol: '', tex: 'any', age: '',
         want: 'set', adv: {}, brands: [], fine: {} });
-      st.adv = false; st.brands = false;
+      st.fine = false;
       return 'redraw';
     }
     const w = e.target.closest('[data-want]');
@@ -305,7 +317,7 @@ const smModeDials = {
     }
     const p = e.target.closest('[data-pick]');
     if (p) { smPickToggle(ans, smQ('concerns'), p.dataset.pick); return 'redraw'; }
-    if (e.target.closest('[data-brands]')) { st.brands = !st.brands; return 'redraw'; }
+    if (e.target.closest('[data-fine]')) { st.fine = !st.fine; return 'redraw'; }
     if (e.target.closest('[data-brand-all]')) { ans.brands = []; return 'redraw'; }
     const bd = e.target.closest('[data-brand]');
     if (bd) {
@@ -313,7 +325,6 @@ const smModeDials = {
       if (at > -1) ans.brands.splice(at, 1); else ans.brands.push(bd.dataset.brand);
       return 'redraw';
     }
-    if (e.target.closest('[data-adv]')) { st.adv = !st.adv; return 'redraw'; }
     const ak = e.target.closest('[data-adv-k]');
     if (ak) { ans.adv[ak.dataset.advK] = !ans.adv[ak.dataset.advK]; return 'redraw'; }
     const av = e.target.closest('[data-active]');
