@@ -180,21 +180,20 @@
 
   <main id="main-content" style="padding-top: 96px;">
 
-    <!-- 分類標頭。本來係一張 Unsplash 圖庫相（一支 ORIGINS —— 我哋
-         唔賣嘅美國牌子）。冇自己嘅分類相就唔好夾硬揾張相頂上，
-         改為靠排版做質感：細楷英文引子、大字標題、一條幼線、
-         右邊擺件數同當期優惠。 -->
-    <section class="cat-head cat-head--shot">
-      <!-- 張相由 catalog.js 喺呢個分類自己啲貨度抽 —— 賣緊嘅嘢，
-           唔係圖庫相。抽唔到就淨低乾淨嘅標題，唔會爛版。 -->
-      <div class="cat-head__shot" data-cat-shot aria-hidden="true"></div>
+    <!-- 分類頁頂。
+         量過 Olive Young 個護膚分類頁：第一件貨喺 219px，佢個頂得
+         分類名（16px）＋「3797 items · filter · sort」。冇大標題、
+         冇說明句、冇 hero。我哋本來係大襯線標題 ＋ 件數 ＋ 兩行說明
+         ＋ 一塊玻璃 —— 手機第一件貨喺 900px，差四倍。
+         老闆睇完五個版本揀咗「入口」：冇標題塊，子分類本身就係個頭。
+         啲 tile 由 catalog.js 砌（要件數同每格一張真貨相）。 -->
+    <section class="cat-gate">
       <div class="container">
-        <p class="cat-head__eyebrow">SKINCARE</p>
-        <div class="cat-head__row">
-          <h1 class="cat-head__title">護膚</h1>
-          <p class="cat-head__meta"><span data-cat-count></span></p>
+        <div class="cat-gate__tiles" data-cat-gate></div>
+        <div class="cat-gate__bar">
+          <h1 class="cat-gate__h">護膚</h1>
+          <span class="cat-gate__n" data-cat-count></span>
         </div>
-        <p class="cat-head__desc">精選韓國護膚品牌，從基礎保濕到專業修護，給肌膚最溫柔且有效的照顧。</p>
       </div>
     </section>
 
@@ -206,12 +205,9 @@
         <span>護膚</span>
       </nav>
 
-      <!-- 護膚配方：摺埋咗嘅面板，撳開先載 attrs.json／ingredients.json
-           （加埋成 350KB，唔應該逼每個入護膚頁嘅人都食）。
-           入面啲嘢全部由 skincare-match.js 生成。 -->
-      <section class="sm" data-skincare-match aria-label="護膚配方"></section>
-
-      <div class="quick-tabs" data-quick-tabs></div>
+      <!-- 子分類 pill 剷咗：頁頂嘅入口 tile 已經做緊同一件事
+           （同一批子分類、同一個件數、同一個 data-quick）。
+           留兩份係重複導覽，客要諗「呢兩行有咩分別」。 -->
 
       <!-- 品牌 logo 一行，撳一下直接去嗰個牌子 -->
       <div class="brand-strip" data-brand-strip></div>
@@ -239,6 +235,13 @@
 
       <!-- Product Grid -->
       <div class="catalog reveal-stagger" data-catalog></div>
+
+      <!-- 護膚配方，擺喺第一批貨之後。
+           本來喺頁頂，佔 211px，客一入嚟未見過一件貨就先見到一份問卷。
+           客係嚟睇貨嘅 —— 睇完第一批仲揀唔到，先係佢想要幫手嗰刻。
+           摺埋咗，撳開先載 attrs.json／ingredients.json（加埋 350KB）。
+           catalog.js 會喺砌完第一段之後將佢搬到第一個品牌區後面。 -->
+      <section class="sm" data-skincare-match aria-label="護膚配方"></section>
 
     </div>
   </main>

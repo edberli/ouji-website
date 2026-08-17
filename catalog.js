@@ -371,6 +371,43 @@ function applyFilters(section, products, sel) {
    see what was applied without reopening the drawer, and the commonest
    move of all — jump to 唇妝 — took three taps. */
 
+/** 分類頁頂嘅入口 tile —— 每個子分類一格，一張真貨相加件數。
+ *
+ * 之前呢個位係一個大標題塊：細楷英文引子、40px 襯線標題、兩行說明、
+ * 一塊淺藍虛化玻璃。量過之後，手機第一件貨喺 900px；Olive Young 同一
+ * 種頁面係 219px。個標題塊乜都冇幫到手 —— 客係嚟睇貨，唔係嚟讀說明。
+ *
+ * 每格張相喺嗰個子分類自己啲貨度抽（同一把尺：推薦排序第一件），
+ * 唔用圖示、唔用圖庫相。抽唔到相就淨係出名同件數，唔會爛版。 */
+function buildCatGate(section, products, sel) {
+  const host = document.querySelector('[data-cat-gate]');
+  if (!host) return;
+  const subs = availableSubs(section, products);
+  if (subs.length < 3) { host.innerHTML = ''; return; }
+  const kw = new Map(catOptions(section).map(([id, sub]) => [id, sub.keywords]));
+  const used = new Set();
+  const shot = (id) => {
+    // 每格一張唔同嘅相 —— 兩格出同一支貨會令人以為我哋得嗰幾件
+    const hit = products
+      .filter((p) => matchesKeywords(p, kw.get(id)) && p.images?.edges?.[0]?.node?.url
+        && !used.has(p.handle))
+      .sort((a, b) => featuredScore(b) - featuredScore(a))[0];
+    if (!hit) return null;
+    used.add(hit.handle);
+    return hit.images.edges[0].node.url + '&width=260';
+  };
+  const active = sel.cat;
+  host.innerHTML = subs.map((sub) => {
+    const u = shot(sub.id);
+    return `<button type="button" class="cat-gate__tile${active.has(sub.id) ? ' is-on' : ''}"
+      data-quick="${sub.id}">
+      <span class="cat-gate__shot">${u ? `<img src="${u}" alt="" loading="lazy">` : ''}</span>
+      <span class="cat-gate__label">${sub.label}</span>
+      <span class="cat-gate__c">${sub.count} 件</span>
+    </button>`;
+  }).join('');
+}
+
 /** A row of subcategory pills, the one filter worth having always-on. */
 function buildQuickTabs(section, products, sel) {
   const host = document.querySelector('[data-quick-tabs]');
@@ -726,6 +763,8 @@ function soldOutBlock(items, id) {
   </details>`;
 }
 
+let SM_NODE = null;
+
 function renderProducts(container, products, { grouped }) {
   if (!grouped) {
     document.querySelector('.brand-rail')?.remove();
@@ -808,6 +847,7 @@ async function initCatalog({ section, cat, products }) {
     const grouped = !filtered && sortKey === 'featured'
       && new Set(list.map((p) => p.vendor)).size > 1;
 
+    buildCatGate(section, products, sel);
     buildQuickTabs(section, products, sel);
     buildBrandStrip(products, sel);
     buildActiveChips(section, sel);
@@ -832,6 +872,18 @@ async function initCatalog({ section, cat, products }) {
       return;
     }
     renderProducts(host, list, { grouped });
+
+    /* 護膚配方擺喺第一個品牌區之後 —— 客睇完第一批貨仲揀唔到，就係佢
+       想要幫手嗰刻。擺喺頁頂太早（未見過一件貨就見到一份問卷），留喺
+       頁尾太遲（碌到嗰度嘅人已經揀好）。
+       一定要喺 renderProducts 之後行：早過佢，`host` 仲係空；而且唔可以
+       塞入 host 入面，下次重畫 innerHTML 會連佢一齊剷埋。 */
+    /* 個節點揸喺手，唔靠 querySelector —— renderProducts 用 innerHTML
+       重畫，塞咗入 host 嘅 .sm 會俾佢剷走；但 JS 引用仲有效，剷完再插
+       返入去，入面嘅 listener 同已經載咗嘅資料都保得住。 */
+    SM_NODE = SM_NODE || document.querySelector('[data-skincare-match]');
+    const firstBlock = host && host.children[0];
+    if (SM_NODE && firstBlock) firstBlock.after(SM_NODE);
     prefetchProducts(list.slice(0, 12).map((p) => p.handle));
   }
 

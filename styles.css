@@ -7320,3 +7320,104 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .concern-card:hover .concern-card__shot { transform: none; }
 }
 
+
+/* ============================================
+   分類頁頂：入口 tile
+   量過 Olive Young 個護膚分類頁 —— 第一件貨喺 219px，佢個頂得分類名
+   （16px）加一條「3797 items · filter · sort」。冇大標題、冇說明句、
+   冇 hero。我哋本來係大襯線標題 ＋ 件數 ＋ 兩行說明 ＋ 一塊淺藍玻璃，
+   手機第一件貨喺 900px。呢格嘅目標唔係「好睇啲」，係「唔好阻住」。
+   ============================================ */
+.cat-gate { padding: 14px 0 0; }
+.cat-gate__tiles {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+.cat-gate__tile {
+  appearance: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid var(--border-subtle, rgba(30,48,56,0.1));
+  border-radius: 10px;
+  padding: 9px 9px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: transform 160ms ease-out, border-color 200ms var(--ease-out);
+}
+.cat-gate__tile:active { transform: scale(0.98); }
+.cat-gate__tile:hover { border-color: var(--primary, #6da3b5); }
+.cat-gate__tile.is-on {
+  border-color: var(--primary-deep, #2b4c58);
+  box-shadow: 0 0 0 1px var(--primary-deep, #2b4c58) inset;
+}
+.cat-gate__tile:focus-visible {
+  outline: 2px solid var(--primary, #6da3b5);
+  outline-offset: 2px;
+}
+.cat-gate__shot {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #f4f5f6;
+  margin-bottom: 7px;
+}
+.cat-gate__shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cat-gate__label { font-size: 0.875rem; font-weight: 600; color: #1e3038; }
+.cat-gate__c {
+  font-family: 'Manrope', var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted, rgba(30,48,56,0.55));
+}
+
+/* 標題條。<h1> 由 40px 襯線縮到 17px —— Google 照樣讀得到，
+   但唔再食成屏嘅高度。 */
+.cat-gate__bar {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 0 0;
+}
+.cat-gate__h {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.cat-gate__n {
+  font-family: 'Manrope', var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted, rgba(30,48,56,0.55));
+}
+
+/* 手機唔用格仔，用一條掃得郁嘅行。
+   七格喺 390px 度排三欄＝三行，成個入口區 568px —— 比原本個大標題塊
+   仲要高，即係慳返嘅嘢又還返晒畀你。一行橫掃得 194px。
+   OY 手機都係咁做。 */
+@media (max-width: 900px) {
+  .cat-gate__tiles {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+    /* 出返容器邊，掃到盡先見到留白 —— 唔好喺屏幕中間就斷 */
+    margin-inline: calc(var(--space-md) * -1);
+    padding-inline: var(--space-md);
+  }
+  .cat-gate__tiles::-webkit-scrollbar { display: none; }
+  .cat-gate__tile { flex: none; width: 104px; padding: 7px 7px 9px; }
+  .cat-gate__label { font-size: 0.8125rem; }
+  .cat-gate__c { font-size: 0.65rem; }
+  .cat-gate__bar { padding-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cat-gate__tile { transition: none; }
+}
