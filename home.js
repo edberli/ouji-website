@@ -350,9 +350,9 @@ async function initHome() {
       .slice(0, 14);
 
     if (newest.length >= 4) {
-      /* 每個牌子一張 header 相。有品牌自己張主視覺就用佢；冇（官網得
-         一幅韓文促銷 banner）就用我哋自己張產品相 —— 韓文廣告字擺喺
-         香港客面前係擺錯，寧願用一張乾淨嘅貨相。 */
+      /* 每個牌子一張橫相卡。有品牌自己張主視覺就用佢；冇（官網得一幅
+         韓文促銷 banner）就用我哋自己張產品相 —— 韓文廣告字擺喺香港客
+         面前係擺錯。 */
       const shotOf = (vendor) => {
         const kv = typeof brandKV === 'function' ? brandKV(vendor) : null;
         if (kv) return kv;
@@ -361,38 +361,29 @@ async function initHome() {
           .sort((a, b) => featured(b) - featured(a))[0];
         return best ? best.images.edges[0].node.url : null;
       };
+      /* 品牌卡同產品卡本來 desktop 同係 210px、同一套圓角，上下相隔 16px
+         —— 兩條行讀落似一個爛咗嘅兩行 grid，一掃就走位。而家品牌係
+         16:9 橫相（闊）、產品係直度卡（窄），一眼睇得出係兩件事。
+         字反白喺相上面，同下面「想搵咩？」嗰批卡同一套語言。 */
       fresh.innerHTML = `
         <div class="container">
           <div class="section-header section-header--split reveal-blur">
-            <div>
-              <span class="label section-header__label">新品速遞</span>
-              <h2 class="heading-lg section-header__title">啱啱返嘅貨</h2>
-            </div>
+            <h2 class="heading-lg section-header__title">啱啱返嘅貨</h2>
             <a href="shop.html?sort=new" class="btn--ghost">睇晒新貨</a>
           </div>
           ${brands.length ? `<div class="new-brands">${brands.map((b) => {
             const shot = shotOf(b.vendor);
             return `<a class="new-brands__card" href="shop.html?brand=${encodeURIComponent(b.vendor)}">
-              <span class="new-brands__media">
-                ${shot ? `<img src="${shot}" alt="" loading="lazy">` : ''}
-              </span>
-              <span class="new-brands__meta">
-                <span class="new-brands__name">${b.vendor}</span>
-                <span class="new-brands__n">${b.n} 件</span>
-              </span>
+              ${shot ? `<img class="new-brands__shot" src="${shot}" alt="" loading="lazy">` : ''}
+              <span class="new-brands__name">${b.vendor}</span>
+              <span class="new-brands__n">${b.n} 件</span>
             </a>`;
           }).join('')}</div>` : ''}
         </div>
-        <div class="home-rail__track" data-rail="new">${newest.map(card).join('')}</div>`;
+        <div class="home-rail__track home-rail__track--new" data-rail="new">${newest.map(card).join('')}</div>`;
     }
   }
 
-  /* ----- 想解決咩問題 -----
-     分類頁係按貨品類型切（精華、面霜、面膜）。但客入嚟嗰陣諗嘅唔係
-     「我要支精華」，係「我塊面又爆瘡」。呢格就係照佢個諗法切。
-
-     ⚠️ 呢度唔會講邊支貨醫得好邊個問題 —— 我哋唔可以講療效。每格
-     淨係將講到呢個範疇嘅護膚品揀出嚟畀客自己揀，文案要企得住。 */
   const concerns = document.querySelector('[data-home-concerns]');
   if (concerns && typeof CONCERNS !== 'undefined') {
     const live = products.filter((p) =>

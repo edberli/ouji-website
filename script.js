@@ -1126,7 +1126,7 @@ document.addEventListener('DOMContentLoaded', initShopSheet);
    注意：分類卡同首頁產品行係 JS 砌出嚟嘅，所以要等佢哋出咗先包得到。
    用 MutationObserver 睇住，唔使估幾時砌完。 */
 function initHScrollArrows() {
-  const SELECTORS = '.cat-cards, .home-rail__track, .brand-strip';
+  const SELECTORS = '.cat-cards, .home-rail__track, .brand-strip, .new-brands';
   const ICON = (dir) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${
       dir === 'prev' ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6'}"/></svg>`;

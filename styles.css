@@ -7114,68 +7114,100 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 .home-rail__track::-webkit-scrollbar { display: none; }
 
 /* ============================================
-   新品速遞 —— 每個新牌子一張 header 相
+   新品速遞 —— 品牌係橫相，產品係直卡，一眼分得開
    ============================================ */
 .new-brands {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 4px;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-lg);
 }
 .new-brands::-webkit-scrollbar { display: none; }
+
+/* 16:9 橫相。之前品牌卡同產品卡 desktop 同係 210px、同一套圓角，上下
+   相隔 16px —— 兩條行讀落似一個爛咗嘅兩行 grid，一掃就走位。
+   字反白喺相上面，同「想搵咩？」嗰批卡同一套語言。 */
 .new-brands__card {
+  position: relative;
   flex: none;
-  width: 210px;
+  width: 300px;
+  aspect-ratio: 16 / 9;
   border-radius: 14px;
   overflow: hidden;
-  background: #fff;
+  background: #24424e;
   text-decoration: none;
-  box-shadow: 0 1px 2px rgba(43,76,88,0.06), 0 10px 26px -18px rgba(43,76,88,0.45);
-  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+  isolation: isolate;
+  box-shadow: 0 2px 6px rgba(30,48,56,0.10), 0 18px 32px -22px rgba(30,48,56,0.55);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
 }
-.new-brands__card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 2px 4px rgba(43,76,88,0.08), 0 18px 34px -18px rgba(43,76,88,0.5);
-}
-.new-brands__media {
-  display: block;
-  aspect-ratio: 3 / 2;
-  background: linear-gradient(148deg, #eef4f6 0%, #e2ecef 100%);
-  overflow: hidden;
-}
-.new-brands__media img {
+.new-brands__shot {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.5s var(--ease-out);
+  z-index: 0;
+  transition: transform 0.6s var(--ease-out);
 }
-.new-brands__card:hover .new-brands__media img { transform: scale(1.04); }
-.new-brands__meta {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 11px 13px 13px;
+.new-brands__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(20,41,50,0) 44%,
+    rgba(20,41,50,0.58) 70%,
+    rgba(20,41,50,0.93) 100%);
 }
 .new-brands__name {
-  font-weight: 600;
-  font-size: 0.9375rem;
-  letter-spacing: 0.01em;
-  color: #1e3038;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 30px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #fdf8f3;
+  text-wrap: balance;
 }
 .new-brands__n {
-  flex: none;
-  font-size: 0.6875rem;
+  position: absolute;
+  left: 16px;
+  bottom: 12px;
+  z-index: 2;
+  font-size: 0.75rem;
   letter-spacing: 0.06em;
-  color: var(--primary, #6da3b5);
+  /* 由罩嘅藍調出嚟，唔用灰 —— 之前 #6da3b5 踩白底得 2.78:1 */
+  color: rgba(190, 220, 231, 0.92);
+}
+.new-brands__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(30,48,56,0.12), 0 28px 44px -24px rgba(30,48,56,0.6);
+}
+.new-brands__card:hover .new-brands__shot { transform: scale(1.05); }
+.new-brands__card:focus-visible {
+  outline: 2px solid var(--primary, #6da3b5);
+  outline-offset: 3px;
 }
 
+/* 產品行縮窄，同上面嘅橫相拉開距離 */
+.home-rail__track--new .product-card { width: 168px; }
+
 @media (max-width: 640px) {
-  .new-brands__card { width: 168px; }
-  .new-brands__name { font-size: 0.875rem; }
+  .new-brands__card { width: 252px; }
+  .new-brands__name { font-size: 1.125rem; left: 13px; right: 13px; bottom: 27px; }
+  .new-brands__n { left: 13px; bottom: 10px; font-size: 0.6875rem; }
+  .home-rail__track--new .product-card { width: 148px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .new-brands__card, .new-brands__shot { transition: none; }
+  .new-brands__card:hover { transform: none; }
+  .new-brands__card:hover .new-brands__shot { transform: none; }
 }
 
 /* ============================================
