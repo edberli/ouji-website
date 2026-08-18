@@ -1177,17 +1177,30 @@ function matchesKeywords(p, keywords) {
 }
 
 /* 彩妝五大類嘅產品名規則。順序即係優先次序：行到邊個 match 就歸邊個，
-   唔會再試下面嘅，所以一件貨只入一格。「唇頰彩妝」歸唇妝，因為個名以
-   唇行先 —— 呢個係有意嘅，唔係 bug。
+   唔會再試下面嘅，所以一件貨只入一格。「唇頰兩用」嗰類歸唇妝，因為個名
+   以唇行先 —— 呢個係有意嘅，唔係 bug。
+
+   每個字都係由真貨度執返嚟，唔係憑空砌：
+     唇線／唇筆    唇線筆、纖細唇筆（Heart Percent、UNLEASHIA、AMUSE）
+     唇頰          唇頰暈染棒、唇頰兩用膏、滾珠唇頰露
+     唇膜／唇凍    睡眠唇膜、牛油唇膜、成膜唇凍
+     tint          「Laka Fruity Glam Tint 禮盒」呢種淨係得英文名嘅
+                   （加咗字界，唔會撞到 tinted 防曬）
+     臥蠶／閃粉    臥蠶製造筆、星塵閃粉、月光液體閃粉（全部係眼部貨）
+     定妝          定妝噴霧 11 件（SO Natural 8＋TIRTIR 2＋Maybelline 1）
+                   ——「定妝粉」本來就喺度，放寬做「定妝」一次過收埋
+     底霜          光感底霜（妝前打底）
+     水光棒        Radiance Balm 水光棒（打亮用）
+     多用彩膏／多用膏  dasique 兩支多用彩膏，臉頰為主
 
    ⚠️ 同 scripts/makeup_subcats.py 嘅 RULES 係同一套，改就兩邊一齊改，
    否則頁面同 script 會報唔同嘅件數。 */
 const MAKEUP_RULES = [
-  ['lip',     /唇膏|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|lip/i],
-  ['eye',     /眼影|眼線|睫毛|眉筆|眉粉|染眉|眼彩|eyeshadow|eyeliner|mascara|\bbrow\b/i],
-  ['base',    /粉底|氣墊|遮瑕|妝前|飾底|蜜粉|定妝粉|素顏霜|cushion|foundation|concealer|primer/i],
-  ['contour', /修容|高光|打亮|陰影|contour|highlight|shading/i],
-  ['cheek',   /胭脂|腮紅|頰彩|blush|cheek/i],
+  ['lip',     /唇膏|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|唇線|唇筆|唇頰|唇膜|唇凍|\btint\b|lip/i],
+  ['eye',     /眼影|眼線|睫毛|眉筆|眉粉|染眉|眼彩|臥蠶|閃粉|eyeshadow|eyeliner|mascara|\bbrow\b/i],
+  ['base',    /粉底|氣墊|遮瑕|妝前|飾底|蜜粉|定妝|素顏霜|底霜|cushion|foundation|concealer|primer/i],
+  ['contour', /修容|高光|打亮|陰影|水光棒|contour|highlight|shading/i],
+  ['cheek',   /胭脂|腮紅|頰彩|多用彩膏|多用膏|blush|cheek/i],
 ];
 
 function makeupBucket(p) {
