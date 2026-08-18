@@ -117,7 +117,7 @@ NOTE_HTML = """
 <div class="note" id="note" role="dialog" aria-modal="true" aria-label="說明">
  <div class="note-sheet">
   <div class="note-head">
-   <div><h2>彩妝頁頂十揀一</h2><p class="sub">10 directions · real stock, real photos</p></div>
+   <div><h2>彩妝頁頂十揀一</h2><p class="sub">rebuild 2 · real stock, real photos</p></div>
    <button class="note-x" id="noteX" aria-label="閂咗佢">&times;</button>
   </div>
 
@@ -125,46 +125,56 @@ NOTE_HTML = """
   <ul>
    <li>撳下面條黑色掣揭版本（電腦可以襟 <b>1–9</b>、<b>0</b>，或者 <b>←</b> <b>→</b>）。</li>
    <li>版面下面條<b>紅色虛線</b>係「第一件貨由頂計落嚟幾多 px」。Olive Young 係 219px。</li>
-   <li>啲相、件數、品牌數全部係 Shopify 現貨真數，唔係填充。</li>
+   <li>啲相、件數、品牌數全部係 Shopify 現貨真數。</li>
   </ul>
 
   <h3>今次改咗個諗法</h3>
   <p>上一輪十個全部係「大標題 ＋ 一張相」，下面再排多一行子分類方格。
-   今次<b>子分類本身就係 header</b> —— 十個入面九個唔使再排多一行，
-   所以第一件貨由 677–948px 跌到 <b>376–592px</b>。</p>
+   今次<b>子分類本身就係 header</b> —— 十個入面九個係咁，所以第一件貨由
+   677–948px 跌到 <b>359–614px</b>。</p>
 
   <h3>十個係咩</h3>
   <table class="note-tbl">
    <colgroup><col class="c1"><col><col class="c3"></colgroup>
    <thead><tr><th>版本</th><th>世界</th><th style="text-align:right">第一件貨</th></tr></thead>
    <tbody>
-    <tr><td><b>1 色票</b></td><td>顏料色塊，五格就係五個子分類</td><td class="px">481</td></tr>
-    <tr data-pick><td><b>2 燈箱</b></td><td>地鐵站背光廣告板＋韓國模特相</td><td class="px">589</td></tr>
-    <tr data-pick><td><b>3 手寫牌</b></td><td>香港藥房螢光紙手寫價錢牌</td><td class="px">387</td></tr>
-    <tr data-pick><td><b>4 收銀紙</b></td><td>感熱收銀單，件數就係單據行</td><td class="px">553</td></tr>
-    <tr><td><b>5 應援卡</b></td><td>K-pop 小卡＋鐳射咭套</td><td class="px">568</td></tr>
-    <tr><td><b>6 色號輪</b></td><td>專櫃色號盤</td><td class="px">417</td></tr>
-    <tr><td><b>7 抽屜</b></td><td>由上望落嘅亞加力化妝收納格</td><td class="px">453</td></tr>
-    <tr><td><b>8 貨架</b></td><td>藥妝店層板＋吊牌</td><td class="px">592</td></tr>
-    <tr><td><b>9 鏡</b></td><td>化妝鏡燈膽（<b>唯一</b>仲要多排一行）</td><td class="px">752</td></tr>
-    <tr data-pick><td><b>10 標籤</b></td><td>未撕嘅條碼貼紙紙</td><td class="px">376</td></tr>
+    <tr><td><b>1 色卡</b></td><td>油漆色卡，模切缺口，色由真貨相抽出</td><td class="px">614</td></tr>
+    <tr data-pick><td><b>2 菲林</b></td><td>燈檯上一條菲林，齒孔＋格號</td><td class="px">403</td></tr>
+    <tr data-pick><td><b>3 手寫牌</b></td><td>香港藥房螢光紙手寫價錢牌</td><td class="px">408</td></tr>
+    <tr data-pick><td><b>4 收銀紙</b></td><td>感熱收銀單，件數就係單據行</td><td class="px">561</td></tr>
+    <tr><td><b>5 咭簿</b></td><td>小卡簿內頁，抽起一張</td><td class="px">596</td></tr>
+    <tr><td><b>6 扇卡</b></td><td>專櫃色號扇卡，鉚釘串住</td><td class="px">433</td></tr>
+    <tr><td><b>7 分格盤</b></td><td>亞加力化妝盤，格唔等大</td><td class="px">440</td></tr>
+    <tr><td><b>8 貨架</b></td><td>洞洞板＋掛鈎＋吊牌</td><td class="px">600</td></tr>
+    <tr><td><b>9 鏡</b></td><td>化妝鏡燈膽（<b>對照組</b>，唯一要多排一行）</td><td class="px">776</td></tr>
+    <tr data-pick><td><b>10 貼紙</b></td><td>模切貼紙紙，翹起個角</td><td class="px">359</td></tr>
    </tbody>
   </table>
 
   <h3>我點睇</h3>
   <ul>
-   <li><b>2 燈箱</b>最震撼，亦都最貼韓式零售 —— 用嘅係目錄本身嗰啲韓國模特相。</li>
-   <li><b>3 手寫牌</b>最有香港味，<b>4 收銀紙</b>最出奇（件數變咗一張單），
-    <b>10 標籤</b>最矮（376px）。</li>
-   <li><b>9 鏡</b>我特登留住冇改 —— 佢係唯一唔食子分類嗰個，
-    擺喺度做對比：同一個做法之下，多排一行係要付 376px 嘅代價。</li>
+   <li><b>2 菲林</b>同 <b>3 手寫牌</b>最出色。菲林用返目錄本身嗰啲韓國模特相，
+    手寫牌最有香港味。兩個都喺 400px 左右。</li>
+   <li><b>4 收銀紙</b>最出奇（件數變咗一張單），<b>10 貼紙</b>最矮（359px）。</li>
+   <li><b>9 鏡</b>係<b>對照組</b>，特登唔食子分類 —— 睇下多排一行要付幾多代價（376px）。</li>
+  </ul>
+
+  <h3>呢一版係 rebuild 過嘅</h3>
+  <p>頭一版交出去之前俾 review agent 判咗 <b>rebuild</b>，主要三點，已經改咗：</p>
+  <ul>
+   <li>本來嘅「燈箱」係<b>一張大相＋黑漸變＋標題</b> —— 即係你彈咗四輪嗰個款。
+    改咗做菲林。</li>
+   <li>色票／應援卡／抽屜／標籤本來係<b>同一副骨</b>（五張相一行加幾行字），
+    各自換咗做色卡、咭簿、分格盤、貼紙紙。</li>
+   <li>剷走咗<b>作出嚟嘅嘢</b>：貨架本來只喺兩格標「現貨」（等於作咗個庫存分別，
+    其實 182 件全部有貨）；貼紙同收銀紙本來有假 SKU 碼。</li>
   </ul>
 
   <h3>要留意</h3>
   <ul>
-   <li>呢十個係<b>樣稿</b>，睇個款為主，未執到上得生產線。</li>
-   <li>就算最矮嗰個（376px）都仲未到 Olive Young 嘅 219px。要再落，
-    就要郁埋「篩選／排序」條 —— 嗰個要你話事。</li>
+   <li>呢十個係<b>樣稿</b>。未做嘅：菲林／錫紙／亞加力／離型紙嘅真實貼圖、動效。</li>
+   <li>最矮嗰個（359px）都仲未到 Olive Young 嘅 219px。要再落就要郁埋
+    「篩選／排序」條 —— 嗰個要你話事。</li>
   </ul>
  </div>
 </div>

@@ -10,17 +10,17 @@
 
 :root{
  --ink:#14201f;--dim:#6b7b7e;--line:#e6ebec;--paper:#fff;
- --ouji:#2b4c58;              /* 老闆指定：footer 嗰隻藍 */
+ --ouji:#2b4c58;
  --sans:'Noto Sans TC',system-ui,sans-serif;
  --tcserif:'Noto Serif TC',serif;
  --brush:'Ma Shan Zheng',cursive;
- --anton:'Anton',Impact,sans-serif;
+ --anton:'Anton',sans-serif;
  --arch:'Archivo',system-ui,sans-serif;
  --mono:'Chivo Mono',ui-monospace,monospace;
- --bodoni:'Bodoni Moda',Didot,serif;
+ --bodoni:'Bodoni Moda',serif;
 }
 *{box-sizing:border-box}
-.grid>*,.v1 .chips>*,.v2 .tabs>*,.v5 .row>*,.v7 .cells>*,.v8 .rail>*,.v10 .labels>*{min-width:0}
+.grid>*,.v2 .strip>*,.v5 .page>*,.v7 .cells>*,.v8 .rail>*,.v10 .labels>*{min-width:0}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 img{display:block}
 .frame{max-width:1200px;margin:0 auto;padding:0 20px}
@@ -45,51 +45,59 @@ img{display:block}
 .mark{position:absolute;left:0;right:0;border-top:2px dashed #e0342c;pointer-events:none;z-index:60}
 .mark span{position:absolute;left:0;top:-11px;background:#e0342c;color:#fff;font-size:10px;
  font-family:var(--arch);font-weight:700;padding:2px 8px;white-space:nowrap;border-radius:0 3px 3px 0}
+.ctrl{background:#fff4d6;border-bottom:1px solid #e8d9a8;color:#6b5a22;
+ font-size:.72rem;text-align:center;padding:6px 12px}
 
-/* ══ 1 色票 ══ 顏料本身就係介面。五條放到好大嘅貨相 = 五格色。 */
-.v1{position:relative;background:#0f1417}
-.v1 .chips{display:grid;grid-template-columns:repeat(5,1fr);height:clamp(230px,26vw,320px)}
-.v1 a{position:relative;overflow:hidden;text-decoration:none;display:block;
- transition:flex .4s cubic-bezier(.2,.9,.25,1)}
-.v1 a img{width:100%;height:100%;object-fit:cover;transform:scale(2.9);filter:saturate(1.6) contrast(1.08)}
-.v1 a::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,20,23,.10),rgba(15,20,23,.78))}
-.v1 .chips::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
- background:linear-gradient(100deg,rgba(10,14,16,.66) 0%,rgba(10,14,16,.18) 34%,transparent 52%)}
-.v1 .chips{position:relative}
-.v1 .plate{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:12px 14px;color:#fff}
-.v1 .plate i{display:block;font-style:normal;font-family:var(--mono);font-size:.58rem;
- letter-spacing:.2em;opacity:.72;margin-bottom:4px}
-.v1 .plate strong{display:block;font-family:var(--tcserif);font-weight:900;font-size:clamp(1.1rem,2vw,1.5rem);line-height:1}
-.v1 .plate u{text-decoration:none;font-family:var(--arch);font-weight:900;font-size:.8rem;opacity:.85}
-.v1 h1{position:absolute;z-index:3;left:max(20px,calc((100% - 1200px)/2 + 20px));top:50%;transform:translateY(-50%);margin:0;
- text-align:left;font-family:var(--tcserif);font-weight:900;color:#fff;
- font-size:clamp(3.4rem,11vw,9rem);line-height:.9;letter-spacing:.02em;
- text-shadow:0 6px 40px rgba(0,0,0,.55);pointer-events:none}
-.v1 .tot{position:absolute;z-index:3;right:16px;top:12px;
- font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;color:#fff;opacity:.9;pointer-events:none}
+/* ══ 1 色卡 ══ 油漆色卡：模切缺口、疊住扇開。啲色由每個子分類頭一件貨
+     張相度抽返嚟（最鮮嗰批像素），唔係我揀。 */
+.v1{background:#dfdcd6;padding:26px 0 30px}
+.v1 .fan{display:flex;align-items:flex-start;padding-left:6px;gap:0}
+.v1 a{flex:1 1 0;min-width:0;aspect-ratio:.78;margin-left:-18px;
+ border-radius:3px;position:relative;text-decoration:none;color:#fff;padding:14px 12px;
+ display:flex;flex-direction:column;justify-content:flex-end;
+ box-shadow:-2px 0 0 rgba(0,0,0,.12),0 10px 20px rgba(0,0,0,.16);
+ transform-origin:50% 100%;transition:transform .3s cubic-bezier(.2,.9,.25,1)}
+.v1 a:first-child{margin-left:0}
+.v1 a:nth-child(1){transform:rotate(-5deg)}.v1 a:nth-child(2){transform:rotate(-2.5deg)}
+.v1 a:nth-child(4){transform:rotate(2.5deg)}.v1 a:nth-child(5){transform:rotate(5deg)}
+.v1 a:hover{transform:rotate(0) translateY(-10px)}
+/* 模切缺口：色卡頂嗰個掛孔 */
+.v1 a::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);
+ width:26px;height:11px;border-radius:0 0 13px 13px;background:#dfdcd6}
+.v1 a b{font-size:clamp(1rem,1.6vw,1.4rem);line-height:1.1}
+.v1 a u{text-decoration:none;font-family:var(--arch);font-weight:900;font-size:clamp(1.6rem,3vw,2.6rem);line-height:1}
+.v1 a i{font-style:normal;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;opacity:.75;margin-top:5px}
+.v1 .cap{display:flex;align-items:baseline;gap:14px;margin-bottom:16px}
+.v1 h1{margin:0;font-family:var(--tcserif);font-weight:900;font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:.03em}
+.v1 .cap em{font-style:normal;font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;color:#6d685f}
 
-/* ══ 2 燈箱 ══ 地鐵站嗰塊背光廣告板。 */
-.v2{position:relative;background:#07090b;overflow:hidden}
-.v2 .lit{position:relative;height:clamp(260px,30vw,380px)}
-.v2 .lit img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85;object-position:50% 34%;
- filter:contrast(1.15) saturate(1.1)}
-.v2 .lit::after{content:'';position:absolute;inset:0;
- background:radial-gradient(78% 64% at 50% 46%,rgba(190,232,255,.30),transparent 72%),
-  linear-gradient(180deg,rgba(7,9,11,.5),rgba(7,9,11,.92))}
-.v2 .txt{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:0 0 20px}
-.v2 h1{margin:0;font-family:var(--sans);font-weight:900;color:#fff;letter-spacing:-.02em;
- font-size:clamp(3rem,9vw,7.5rem);line-height:.88}
-/* 燈箱應該係塊板發光，唔係啲字發光。光暈交返畀 .lit::after 嗰個 radial。 */
-.v2 .en{font-family:var(--anton);letter-spacing:.14em;font-size:clamp(.8rem,1.8vw,1.15rem);
- color:#9fe4ff;text-transform:uppercase;margin-bottom:6px}
-.v2 .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(255,255,255,.14)}
-.v2 .tabs a{background:#0d1216;color:#fff;text-decoration:none;padding:13px 12px;
- display:flex;align-items:baseline;justify-content:space-between;gap:8px}
-.v2 .tabs a:hover{background:#16212a}
-.v2 .tabs span{font-family:var(--sans);font-weight:700;font-size:.92rem}
-.v2 .tabs u{text-decoration:none;font-family:var(--anton);color:#9fe4ff;font-size:.9rem}
+/* ══ 2 菲林 ══ 燈檯上面一條菲林：齒孔、片邊、格號。五格 = 五個子分類。 */
+.v2{background:#101418;padding:20px 0 22px}
+.v2 .lightbox{background:linear-gradient(#f6fbff,#dfeaf2);padding:9px 0;position:relative;
+ box-shadow:inset 0 0 60px rgba(120,170,200,.5)}
+.v2 .perf{height:13px;display:block;
+ background:repeating-linear-gradient(90deg,transparent 0 9px,#101418 9px 9px,#101418 9px 20px,transparent 20px 29px);
+ -webkit-mask:repeating-linear-gradient(90deg,#000 0 29px);}
+.v2 .film{background:#14181c;padding:9px 0;position:relative}
+.v2 .sprock{position:absolute;left:0;right:0;height:9px;
+ background:repeating-linear-gradient(90deg,#14181c 0 10px,#e9eef2 10px 24px,#14181c 24px 34px)}
+.v2 .sprock.t{top:0}.v2 .sprock.b{bottom:0}
+.v2 .strip{display:grid;grid-template-columns:1.15fr repeat(5,1fr);gap:3px;margin:9px 0}
+.v2 .strip>*{position:relative;aspect-ratio:3/2.05;overflow:hidden;background:#0b0e11;display:block}
+.v2 .strip img{width:100%;height:100%;object-fit:cover}
+.v2 .strip .lead{display:flex;flex-direction:column;justify-content:center;padding:0 14px;background:#1b2026}
+.v2 .strip .lead h1{margin:0;font-family:var(--sans);font-weight:900;color:#fff;
+ font-size:clamp(1.7rem,4.2vw,3.2rem);line-height:.94;letter-spacing:.02em}
+.v2 .strip .lead span{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;color:#8fb4c8;margin-top:7px}
+.v2 .strip a .nm{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;color:#fff;
+ display:flex;align-items:baseline;justify-content:space-between;gap:6px;
+ background:linear-gradient(transparent,rgba(8,11,14,.85))}
+.v2 .strip a .nm b{font-size:.92rem}
+.v2 .strip a .nm u{text-decoration:none;font-family:var(--arch);font-weight:900;font-size:.86rem;color:#ffd84d}
+.v2 .strip a .no{position:absolute;top:5px;left:7px;font-family:var(--mono);font-size:.54rem;
+ color:#ffb43a;letter-spacing:.1em}
 
-/* ══ 3 手寫牌 ══ 香港藥房嗰啲螢光紙手寫價錢牌。 */
+/* ══ 3 手寫牌 ══ 香港藥房螢光紙。（reviewer 叫唔好郁，只執手機排行） */
 .v3{background:#f3f1ec;padding:26px 0 30px}
 .v3 .cards{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
 .v3 .big{flex:none;background:#ff2d1f;color:#fff;padding:18px 24px 20px;
@@ -109,12 +117,16 @@ img{display:block}
 .v3 a i{font-style:normal;display:block;font-family:var(--brush);font-size:2.6rem;color:#d81f12;line-height:1}
 .v3 .foot{margin-top:16px;font-family:var(--brush);font-size:1.15rem;color:#5c554a}
 
-/* ══ 4 收銀紙 ══ 抽中嘅方向。一張感熱紙，件數就係單據行。 */
+/* ══ 4 收銀紙 ══ 抽中嘅方向。撕邊、微微捲。 */
 .v4{background:linear-gradient(#e6e9e8,#dcdfde);padding:16px 0 0;position:relative}
-.v4 .slip{max-width:560px;margin:0 auto;background:#fff;padding:20px 30px 26px;
+.v4 .slip{max-width:560px;margin:0 auto;background:#fff;padding:22px 30px 26px;
  font-family:var(--mono);color:#1b1b1b;font-size:.78rem;line-height:1.55;
- box-shadow:0 10px 26px rgba(0,0,0,.13);position:relative}
-.v4 .slip::after{content:'';position:absolute;left:0;right:0;bottom:-11px;height:12px;background:#fff;
+ box-shadow:0 10px 26px rgba(0,0,0,.16);position:relative}
+.v4 .slip::before,.v4 .slip::after{content:'';position:absolute;left:0;right:0;height:11px;background:#fff}
+.v4 .slip::before{top:-10px;
+ -webkit-mask:repeating-linear-gradient(90deg,#000 0 5px,transparent 5px 11px);
+ mask:repeating-linear-gradient(90deg,#000 0 5px,transparent 5px 11px)}
+.v4 .slip::after{bottom:-10px;
  -webkit-mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 14px);
  mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 14px)}
 .v4 .hd{text-align:center;border-bottom:1px dashed #b9b9b9;padding-bottom:12px}
@@ -130,91 +142,102 @@ img{display:block}
  display:flex;justify-content:space-between;font-weight:700;font-size:.92rem}
 .v4 .bc{margin-top:11px;height:26px;
  background:repeating-linear-gradient(90deg,#1b1b1b 0 2px,transparent 2px 4px,#1b1b1b 4px 5px,transparent 5px 9px)}
-.v4 .bcn{text-align:center;font-size:.6rem;letter-spacing:.42em;margin-top:5px;color:#555}
+.v4 .bcn{text-align:center;font-size:.6rem;letter-spacing:.3em;margin-top:5px;color:#555}
 
-/* ══ 5 應援卡 ══ K-pop 小卡＋鐳射咭套。 */
-.v5{background:linear-gradient(168deg,#ffe9f2,#e8f0ff);padding:18px 0 20px}
-.v5 .row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.v5 a{position:relative;display:block;text-decoration:none;border-radius:9px;overflow:hidden;
- aspect-ratio:3/4;background:#fff;box-shadow:0 8px 20px rgba(20,25,30,.16);
- transition:transform .3s cubic-bezier(.2,.9,.25,1)}
-.v5 a:nth-child(odd){transform:rotate(-2deg)}
-.v5 a:nth-child(even){transform:rotate(1.6deg)}
-.v5 a:hover{transform:rotate(0) translateY(-6px);box-shadow:0 16px 30px rgba(20,25,30,.22)}
+/* ══ 5 咭簿 ══ K-pop 小卡簿內頁：斜插入膠套，其中一張抽起一半。 */
+.v5{background:#3b2a4a;padding:22px 0 24px}
+.v5 .page{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
+ background:rgba(255,255,255,.07);border-radius:8px;padding:12px;
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}
+.v5 .slot{position:relative;aspect-ratio:3/4;border-radius:5px;overflow:hidden;
+ background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.v5 a{position:absolute;inset:0;display:block;text-decoration:none;border-radius:4px;overflow:hidden;
+ background:#fff;transition:transform .3s cubic-bezier(.2,.9,.25,1);box-shadow:0 6px 16px rgba(0,0,0,.34)}
+.v5 .slot:nth-child(1) a{transform:rotate(-3deg)}
+.v5 .slot:nth-child(2) a{transform:translateY(-16%) rotate(1deg)}   /* 抽起一半嗰張 */
+.v5 .slot:nth-child(3) a{transform:rotate(2deg)}
+.v5 .slot:nth-child(4) a{transform:rotate(-1.5deg)}
+.v5 .slot:nth-child(5) a{transform:rotate(3deg)}
+.v5 a:hover{transform:translateY(-20%) rotate(0)}
 .v5 a img{width:100%;height:100%;object-fit:cover}
 .v5 a::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;
- background:linear-gradient(122deg,rgba(255,0,140,.42),rgba(0,224,255,.42) 32%,rgba(255,238,0,.42) 58%,rgba(140,0,255,.42));
- opacity:.5}
-.v5 a .cap{position:absolute;z-index:3;left:0;right:0;bottom:0;padding:9px 10px;color:#fff;
- background:linear-gradient(transparent,rgba(30,10,45,.82))}
-.v5 a .cap b{display:block;font-size:.95rem}
-.v5 a .cap i{font-style:normal;font-family:var(--arch);font-weight:900;font-size:.72rem;opacity:.9}
-.v5 .hd{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+ background:linear-gradient(122deg,rgba(255,0,140,.34),rgba(0,224,255,.34) 32%,rgba(255,238,0,.34) 58%,rgba(140,0,255,.34));
+ opacity:.46}
+.v5 a .cap{position:absolute;z-index:3;left:0;right:0;bottom:0;padding:7px 8px;color:#fff;
+ background:linear-gradient(transparent,rgba(24,10,36,.88))}
+.v5 a .cap b{display:block;font-size:.9rem}
+.v5 a .cap i{font-style:normal;font-family:var(--arch);font-weight:900;font-size:.72rem;color:#ffd84d}
+.v5 .hd{display:flex;align-items:baseline;gap:14px;margin-bottom:12px}
 .v5 h1{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(1.7rem,4vw,2.6rem);
- letter-spacing:.04em;color:#4a2b5e}
+ letter-spacing:.04em;color:#fff}
 .v5 .hd em{font-style:normal;font-family:var(--arch);font-weight:700;font-size:.7rem;
- letter-spacing:.22em;color:#8a6ba0}
+ letter-spacing:.22em;color:#c6a9dd}
 
-/* ══ 6 色號輪 ══ 專櫃嗰個色號盤。 */
-.v6{background:#12161a;padding:26px 0 24px;color:#fff}
-.v6 .in{display:flex;align-items:center;gap:clamp(18px,4vw,54px);flex-wrap:wrap}
-.v6 .dial{flex:none;width:clamp(150px,20vw,206px);aspect-ratio:1;border-radius:50%;position:relative;
- background:conic-gradient(#e8c9a8 0 20%,#c2708a 20% 40%,#d0433f 40% 60%,#e07a6a 60% 80%,#b98c6a 80% 100%);
- box-shadow:inset 0 0 0 9px #1b2126,0 14px 40px rgba(0,0,0,.5)}
-.v6 .dial::after{content:'';position:absolute;inset:32%;border-radius:50%;background:#12161a;
- box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
-.v6 .dial b{position:absolute;z-index:2;inset:0;display:flex;align-items:center;justify-content:center;
- font-family:var(--arch);font-weight:900;font-size:1.5rem}
+/* ══ 6 色號扇卡 ══ 專櫃嗰疊用鉚釘串住嘅色片，扇開。 */
+.v6{background:#171b20;padding:26px 0 26px;color:#fff}
+.v6 .in{display:flex;align-items:center;gap:clamp(20px,5vw,60px);flex-wrap:wrap}
+.v6 .deck{flex:none;position:relative;width:clamp(230px,32vw,380px);height:clamp(140px,19vw,220px)}
+.v6 .deck a{position:absolute;left:0;bottom:0;width:46%;height:100%;border-radius:5px 5px 40% 40%;
+ transform-origin:14% 88%;text-decoration:none;color:#12161a;
+ box-shadow:0 4px 12px rgba(0,0,0,.45);display:flex;flex-direction:column;
+ align-items:center;justify-content:flex-end;padding-bottom:11px;
+ transition:transform .3s cubic-bezier(.2,.9,.25,1)}
+.v6 .deck a b{font-size:.94rem;line-height:1}
+.v6 .deck a u{text-decoration:none;font-family:var(--arch);font-weight:900;font-size:1.15rem}
+.v6 .deck a:hover{filter:brightness(1.12)}
+.v6 .deck::after{content:'';position:absolute;left:calc(14% * .46 + 3px);bottom:9px;width:11px;height:11px;
+ border-radius:50%;background:#c9ced3;box-shadow:inset 0 1px 2px rgba(0,0,0,.5);z-index:9}
 .v6 h1{margin:0 0 3px;font-family:var(--tcserif);font-weight:900;font-size:clamp(2rem,5vw,3.4rem);letter-spacing:.03em}
-.v6 .sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;color:#8fa3ab;margin-bottom:14px}
-.v6 ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.v6 ol a{display:flex;align-items:center;gap:9px;text-decoration:none;color:#fff;
- border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 14px 7px 8px;font-size:.86rem}
-.v6 ol a:hover{background:rgba(255,255,255,.09)}
-.v6 ol a s{text-decoration:none;width:16px;height:16px;border-radius:50%;flex:none}
-.v6 ol a u{text-decoration:none;font-family:var(--arch);font-weight:900;font-size:.74rem;color:#8fa3ab}
+.v6 .sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;color:#8fa3ab}
+.v6 .tot{font-family:var(--arch);font-weight:900;font-size:clamp(2.4rem,6vw,4rem);line-height:1;margin-top:10px}
+.v6 .tot small{font-family:var(--sans);font-weight:700;font-size:.9rem;margin-left:8px;color:#8fa3ab}
 
-/* ══ 7 抽屜 ══ 由上望落去嘅亞加力化妝收納格。 */
-.v7{background:#b9b3a8;padding:20px 0 22px}
-.v7 .box{background:linear-gradient(#efeeea,#e2e0da);border-radius:8px;padding:12px;
- box-shadow:inset 0 2px 0 rgba(255,255,255,.9),0 12px 30px rgba(0,0,0,.18)}
-.v7 .cells{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.v7 a{position:relative;display:block;text-decoration:none;border-radius:5px;overflow:hidden;
- aspect-ratio:4/3;background:#cfccc4;
- box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),inset 0 8px 16px rgba(0,0,0,.22)}
-.v7 a img{width:100%;height:100%;object-fit:cover}
-.v7 a .tag{position:absolute;left:7px;bottom:6px;background:rgba(255,255,255,.94);
- border-radius:3px;padding:3px 7px;font-size:.72rem;font-weight:700;color:#2c2c2c}
-.v7 a .tag u{text-decoration:none;font-family:var(--arch);font-weight:900;color:#6d6a63;margin-left:5px}
+/* ══ 7 分格盤 ══ 由上望落嘅亞加力化妝盤：格唔等大，有邊光。 */
+.v7{background:#a89f92;padding:20px 0 22px}
+.v7 .box{background:linear-gradient(150deg,#f2f1ee,#dcdad4);border-radius:6px;padding:11px;
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.95),0 14px 34px rgba(0,0,0,.28)}
+.v7 .cells{display:grid;gap:9px;
+ grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:auto auto;
+ grid-template-areas:'a b c' 'a d e'}
+.v7 .cells a:nth-child(1){grid-area:a}.v7 .cells a:nth-child(2){grid-area:b}
+.v7 .cells a:nth-child(3){grid-area:c}.v7 .cells a:nth-child(4){grid-area:d}
+.v7 .cells a:nth-child(5){grid-area:e}
+.v7 a{position:relative;display:block;text-decoration:none;overflow:hidden;background:#c8c5be;
+ min-height:74px;
+ box-shadow:inset 1px 1px 0 rgba(255,255,255,.85),inset -1px -1px 0 rgba(0,0,0,.22),
+  inset 0 10px 18px rgba(0,0,0,.2)}
+.v7 a img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.v7 a .tag{position:absolute;left:6px;bottom:6px;z-index:2;background:rgba(255,255,255,.95);
+ padding:3px 8px;font-size:.74rem;font-weight:700;color:#2c2c2c}
+.v7 a .tag u{text-decoration:none;font-family:var(--arch);font-weight:900;color:#6d6a63;margin-left:6px}
 .v7 .lid{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
-.v7 h1{margin:0;font-family:var(--tcserif);font-weight:700;font-size:clamp(1.4rem,3vw,2rem);color:#33312c}
-.v7 .lid em{font-style:normal;font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;color:#7a766d}
+.v7 h1{margin:0;font-family:var(--tcserif);font-weight:900;font-size:clamp(1.4rem,3vw,2rem);color:#2a2822}
+.v7 .lid em{font-style:normal;font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;color:#6b6459}
 
-/* ══ 8 貨架 ══ 韓國藥妝店嗰條層板同吊牌。 */
-.v8{background:#f6f7f5;padding:20px 0 0}
-.v8 .shelf{position:relative;padding-bottom:16px}
-.v8 .rail{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:end}
-.v8 a{text-decoration:none;color:inherit;display:block;position:relative}
-.v8 a .ph{aspect-ratio:1;border-radius:4px 4px 0 0;overflow:hidden;background:#fff}
+/* ══ 8 掛鈎貨架 ══ 洞洞板 + 掛鈎 + 吊牌。 */
+.v8{background:#eceeec;padding:18px 0 0;
+ background-image:radial-gradient(#d3d8d5 1.4px,transparent 1.5px);background-size:15px 15px}
+.v8 .rail{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:start;margin-top:9px}
+.v8 a{text-decoration:none;color:inherit;display:block;position:relative;padding-top:16px}
+.v8 a .hook{position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:17px;
+ border:2px solid #9aa3a0;border-bottom:0;border-radius:11px 11px 0 0}
+.v8 a .ph{aspect-ratio:1;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.14)}
 .v8 a .ph img{width:100%;height:100%;object-fit:cover}
 .v8 a .flag{background:var(--ouji);color:#fff;padding:7px 10px;display:flex;
  align-items:baseline;justify-content:space-between;gap:6px}
 .v8 a .flag b{font-size:.88rem}
 .v8 a .flag u{text-decoration:none;font-family:var(--arch);font-weight:900;font-size:.78rem;color:#ffd84d}
-.v8 a .win{position:absolute;top:7px;left:7px;background:#ffd84d;color:#20302f;
- font-family:var(--arch);font-weight:900;font-size:.6rem;padding:3px 6px;border-radius:2px}
-.v8 .plank{height:11px;background:linear-gradient(#cfd4d1,#aab2af);border-radius:0 0 3px 3px;
- box-shadow:0 7px 14px rgba(0,0,0,.14)}
-.v8 .top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.v8 .top{display:flex;align-items:baseline;justify-content:space-between}
 .v8 h1{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(1.5rem,3.4vw,2.2rem);letter-spacing:.04em}
 .v8 .top em{font-style:normal;font-family:var(--arch);font-weight:700;font-size:.72rem;letter-spacing:.14em;color:var(--dim)}
+.v8 .plank{height:10px;background:linear-gradient(#cfd4d1,#a6afab);margin-top:14px;
+ box-shadow:0 6px 12px rgba(0,0,0,.14)}
 
-/* ══ 9 鏡 ══ 化妝鏡燈膽。（呢個唔食子分類，所以下面照樣要多一行 tile） */
-.v9{background:radial-gradient(72% 82% at 50% 34%,#4a3520,#22180f 52%,#100b07);padding:30px 0 34px;position:relative}
-.v9 .mir{max-width:880px;margin:0 auto;border-radius:200px 200px 12px 12px;
- background:linear-gradient(#1d232a,#141a20);padding:44px 30px 30px;position:relative;
+/* ══ 9 鏡 ══ 對照組：唯一唔食子分類嗰個。 */
+.v9{background:radial-gradient(72% 82% at 50% 34%,#4a3520,#22180f 52%,#100b07);padding:28px 0 32px}
+.v9 .mir{max-width:880px;margin:0 auto;border-radius:220px 220px 12px 12px;
+ background:linear-gradient(#1d232a,#141a20);padding:44px 30px 28px;position:relative;
  box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
-/* 面鏡射出嚟嘅暖光應該落喺後面幅牆度，唔係喺個框上面加一圈光暈。 */
 .v9 .bulbs{position:absolute;inset:0;pointer-events:none}
 .v9 .bulbs i{position:absolute;width:13px;height:13px;border-radius:50%;background:#ffdca6;
  box-shadow:0 0 12px 4px rgba(255,205,130,.6)}
@@ -225,51 +248,58 @@ img{display:block}
 .v9 p{margin:12px 0 0;text-align:center;font-family:var(--mono);font-size:.64rem;
  letter-spacing:.26em;color:#c7ac8b}
 
-/* ══ 10 標籤紙 ══ 一張未撕嘅貼紙／條碼標籤紙。 */
-.v10{background:#eceae4;padding:22px 0 24px}
-.v10 .sheet{background:#fff;border-radius:4px;padding:14px;box-shadow:0 8px 22px rgba(0,0,0,.1)}
-.v10 .labels{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.v10 a{display:block;text-decoration:none;color:inherit;border:1px dashed #c4c8c9;border-radius:6px;
- padding:11px 12px 12px;background:#fff;position:relative;transition:transform .28s ease}
-.v10 a:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:0 10px 20px rgba(0,0,0,.12)}
-.v10 a:first-child{transform:rotate(-3deg) translateY(-5px);box-shadow:4px 8px 18px rgba(0,0,0,.16)}
-.v10 a b{display:block;font-family:var(--sans);font-weight:900;font-size:1.05rem;margin-bottom:2px}
-.v10 a em{font-style:normal;display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--dim)}
-.v10 a .code{margin-top:9px;height:26px;
+/* ══ 10 貼紙紙 ══ 模切標籤：離型紙、切線、其中一張翹起個角。 */
+.v10{background:#d8d5cd;padding:20px 0 22px}
+.v10 .sheet{background:
+  linear-gradient(#fdfdfb,#f4f3ef);padding:14px;position:relative;
+  box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.v10 .sheet::before{content:'';position:absolute;inset:6px;border:1px dashed #cdd2cc;pointer-events:none}
+.v10 .labels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;position:relative;z-index:2}
+.v10 a{display:block;text-decoration:none;color:inherit;background:#fff;padding:12px 12px 13px;
+ border-radius:8px;position:relative;box-shadow:0 1px 0 rgba(0,0,0,.1);
+ transition:transform .28s ease}
+.v10 a::after{content:'';position:absolute;inset:-4px;border:1px dashed #b9c0b8;border-radius:11px;pointer-events:none}
+.v10 a:hover{transform:translateY(-5px) rotate(-1.5deg);box-shadow:0 12px 20px rgba(0,0,0,.18)}
+/* 翹起嗰個角 */
+.v10 a:first-child{transform:rotate(-2.5deg) translateY(-4px);box-shadow:5px 9px 16px rgba(0,0,0,.2)}
+.v10 a:first-child::before{content:'';position:absolute;right:-1px;bottom:-1px;width:26px;height:26px;
+ background:linear-gradient(315deg,#e2e0d8 46%,#fff 47%);border-radius:0 0 8px 0;
+ box-shadow:-2px -2px 5px rgba(0,0,0,.14)}
+.v10 a b{display:block;font-family:var(--sans);font-weight:900;font-size:1.05rem;margin-bottom:1px}
+.v10 a .qt{font-family:var(--arch);font-weight:900;font-size:1.6rem;line-height:1;display:block;margin-top:6px}
+.v10 a .code{margin-top:9px;height:22px;
  background:repeating-linear-gradient(90deg,var(--ouji) 0 2px,transparent 2px 4px,var(--ouji) 4px 5px,transparent 5px 8px)}
-.v10 a .qt{font-family:var(--arch);font-weight:900;font-size:1.5rem;line-height:1;margin-top:7px;display:block}
-.v10 .hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.v10 .hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:11px}
 .v10 h1{margin:0;font-family:var(--mono);font-weight:700;font-size:clamp(1.2rem,2.6vw,1.6rem);letter-spacing:.2em}
-.v10 .hd em{font-style:normal;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--dim)}
+.v10 .hd em{font-style:normal;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:#6a675f}
 
 @media (max-width:900px){
  .grid{grid-template-columns:repeat(2,1fr)}
- /* 唔食子分類嗰啲版本（例如「鏡」）手機要多一行 tile；排成 2 欄大格會令
-    第一件貨跌到 1100px。改成橫掃行，同生產站一樣。 */
  .tilerow{display:flex;overflow-x:auto;scrollbar-width:none;gap:10px}
  .tilerow>a{flex:none;width:104px}
  .nav .in{gap:14px;overflow-x:auto}.nav a{white-space:nowrap}
- .v1 .chips{grid-template-columns:repeat(5,1fr);height:210px}
- .v1 .plate strong{font-size:.92rem}.v1 .plate i{display:none}
- .v2 .tabs{grid-template-columns:repeat(5,1fr)}
- .v2 .tabs a{flex-direction:column;align-items:flex-start;gap:2px;padding:9px 6px}
- .v2 .tabs span{font-size:.76rem}
- .v5 .row,.v7 .cells,.v8 .rail,.v10 .labels{grid-template-columns:repeat(5,1fr);gap:7px}
- .v5 a .cap b{font-size:.7rem}.v5 a .cap i{font-size:.6rem}
- .v7 a .tag{font-size:.6rem;padding:2px 5px}
- .v8 a .flag{flex-direction:column;align-items:flex-start;gap:1px;padding:6px}
- .v8 a .flag b{font-size:.72rem}
- .v10 a{padding:7px}.v10 a b{font-size:.74rem}.v10 a .qt{font-size:1rem}.v10 a em{display:none}
- .v10 a .code{height:16px}
- .v4 .slip{padding:14px 14px 18px}.v4 li .nm{font-size:.78rem}.v4 .sum{font-size:.8rem}
- .v1 .plate{padding:8px 7px}.v1 .plate strong{font-size:.8rem}.v1 .plate u{font-size:.66rem}
- .v5 a .cap{padding:6px}.v5 a .cap b{font-size:.66rem}
- .v6 ol a{padding:5px 10px 5px 6px;font-size:.78rem}
- .v4 .slip{max-width:none}
+ .v1 .fan{overflow-x:auto;scrollbar-width:none;padding-bottom:6px}
+ .v1 a{width:104px;padding:10px 9px}.v1 a b{font-size:.86rem}.v1 a u{font-size:1.35rem}.v1 a i{display:none}
+ .v2 .strip{grid-template-columns:1fr;gap:2px}
+ .v2 .strip>*{aspect-ratio:16/6}
+ .v2 .strip .lead{aspect-ratio:auto;padding:12px 14px}
+ /* 手寫牌手機要排兩行，唔好三行 */
+ .v3 a{min-width:0;flex:1 1 calc(33.33% - 10px);padding:11px 12px 12px}
+ .v3 a span{font-size:1.35rem}.v3 a i{font-size:1.9rem}
+ .v3 .big{padding:12px 16px 14px}.v3 .big strong{font-size:3rem}
+ .v4 .slip{max-width:none;padding:16px 16px 20px}.v4 li .nm{font-size:.78rem}.v4 .sum{font-size:.8rem}
+ .v5 .page{gap:6px;padding:8px}.v5 a .cap{padding:5px}.v5 a .cap b{font-size:.66rem}
+ .v5 a .cap i{font-size:.6rem}
+ .v6 .deck{width:170px;height:104px}.v6 .deck a b{font-size:.68rem}.v6 .deck a u{font-size:.78rem}
+ .v7 .cells{grid-template-columns:1.5fr 1fr 1fr}
+ .v7 a{min-height:56px}.v7 a .tag{font-size:.62rem;padding:2px 6px;left:4px;bottom:4px}
+ .v8 .rail{gap:6px}.v8 a .flag{flex-direction:column;align-items:flex-start;gap:1px;padding:5px 6px}
+ .v8 a .flag b{font-size:.72rem}.v8 a .hook{width:16px;height:12px}
+ .v10 .labels{gap:6px}.v10 a{padding:8px 7px}.v10 a b{font-size:.76rem}
+ .v10 a .qt{font-size:1.1rem}.v10 a .code{height:14px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
-/* 揀版本嗰條掣（工具，唔算設計嘅一部分）*/
 .proto-picker{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:2147483647;
  display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgba(10,10,10,.84);
  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);max-width:calc(100vw - 16px);
@@ -283,27 +313,35 @@ img{display:block}
 @media (max-width:900px){.proto-picker{bottom:10px;font-size:12px}.proto-picker-item{padding:0 9px}}
 </style></head><body>
 <!--
-THESIS: 呢版頁頂唔係「標題 + 一張相」，係**分類入口本身**。彩妝五個子分類唔再
-排喺 header 下面做多餘一行 tile —— 佢哋就係 header。拒絕嘅正是呢個品類永遠出嘅
-嘢：大襯線字擺喺白底中間、右邊吊張產品相、下面再排一行方格。
-OWN-WORLD: 十個世界，每個有自己嘅材質同色彩策略 —— 顏料色票、燈箱膠片、螢光手寫紙、
-感熱收銀紙、鐳射應援卡、色號盤、亞加力抽屜、貨架吊牌、化妝鏡燈膽、貼紙標籤紙。
-共通嘅只有 OUJI 個藍 #2b4c58 同真貨真相。
+THESIS: 呢版頁頂唔係「標題 + 一張相」，係分類入口本身。五個子分類唔再喺 header 下面
+排多餘一行 tile —— 佢哋就係 header。拒絕嘅正是呢個品類永遠出嘅嘢：大字擺喺中間、
+配一張大相、加一層黑色漸變、下面再排一行方格。
+OWN-WORLD: 十個世界，每個用返自己嗰件實物嘅語法 —— 色卡（模切缺口）、菲林（齒孔、
+片邊、格號）、螢光手寫紙、感熱收銀紙（撕邊）、咭簿內頁（斜插、抽起一張）、色號扇卡
+（鉚釘、疊片）、亞加力分格盤（唔等大、邊光）、掛鈎貨架、化妝鏡燈膽、模切貼紙紙
+（離型紙、翹起角）。共通嘅只有 OUJI 個藍 #2b4c58 同真貨真相。
 STORY: 客一眼見到「呢度有好多嘢」（182 件 · 23 個牌子），即刻撳得入五個子分類。
-FIRST VIEWPORT: 頁頂 220–360px 就係五個子分類入口，件數用大字報住；第一件貨最快
-喺 300px 左右見到（舊版最好 677px，Olive Young 219px）。
+FIRST VIEWPORT: 頁頂就係五個入口，件數用大字報住。
 FORM: 我自己排嘅十個方向入面第 4 個（收銀紙）係 concept-seed 抽中嘅，key ad3dfff0。
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+
+REBUILD 2（finish reviewer 判 rebuild 之後）：
+- 燈箱本來係「一張大相＋黑漸變＋標題」= 老闆彈咗四輪嗰個款。改成菲林片。
+- 色票／應援卡／抽屜／標籤本來係同一副骨（五張相一行＋字），各自換咗拓撲。
+- 剷走作出嚟嘅嘢：貨架嘅「現貨」牌（只標兩格，等於作咗個庫存分別）、
+  標籤同收銀紙嘅假 SKU 碼。條碼保留做圖形，但唔再扮 encode 住嘢。
+- 未做（老闆講明係樣稿，唔使執到生產級）：菲林／錫紙／亞加力／離型紙嘅
+  真實貼圖（要出 raster asset）、動效、將「篩選／排序」條摺入 header。
 -->
 <div id="stage"></div>
 <nav class="proto-picker" aria-label="版本"></nav>
 <script>
 const DATA={"subs":[{"label":"底妝","n":46,"picks":[{"t":"CLIO 極致持妝無瑕氣墊粉底 附補充裝 SPF40+ PA++","v":"CLIO","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-founwear-cushion-01.jpg?v=1785764635","price":269},{"t":"CLIO 柔霧遮瑕氣墊粉底 附補充裝 SPF40+ PA++","v":"CLIO","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-skin-fixer-cushion-01.jpg?v=1785764637","price":269},{"t":"CLIO 網光亮肌精華氣墊粉底 附補充裝 SPF50+ PA+++","v":"CLIO","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-high-glow-cushion-01.jpg?v=1785764640","price":269},{"t":"UNLEASHIA Babe Skin Baby Blue 氣墊粉底","v":"UNLEASHIA","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-babe-skin-baby-blue-cushion.jpg?v=1785904491","price":178}]},{"label":"眼妝","n":50,"picks":[{"t":"Heart Percent Dote on Mood 眼影盤","v":"Heart Percent","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2a6ff6ccf99e7154a4b67cafb2811612.jpg?v=1785667240","price":198},{"t":"Heart Percent Dote on Mood 眼線膠筆","v":"Heart Percent","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/e25a2e62868900e3cd4f21f88bfdbe6e.jpg?v=1785748479","price":85},{"t":"CLIO 自動塑形眉筆連削筆器","v":"CLIO","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-brow-auto-hard-pencil-01.jpg?v=1785764643","price":155},{"t":"CLIO 魅黑高效防水眼線液","v":"CLIO","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-superproof-brush-liner-01.jpg?v=1785764649","price":138}]},{"label":"唇妝","n":58,"picks":[{"t":"BRAYE Lipsleek 唇頰彩妝","v":"BRAYE","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-03.jpg?v=1785519682","price":118},{"t":"BRAYE Lipsleek Blur 霧感唇頰彩妝","v":"BRAYE","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-blur-04.jpg?v=1785519682","price":118},{"t":"BRAYE Thin Glow Tint 薄透唇釉","v":"BRAYE","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-thin-glow-tint-03.jpg?v=1785519684","price":108},{"t":"BRAYE Pocket Lip Brush 隨身唇掃","v":"BRAYE","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-04_432a8b06-4704-47b9-b0fc-2dc98de2bf35.jpg?v=1785519684","price":49}]},{"label":"頰彩","n":16,"picks":[{"t":"Glint Baked Blush 烘焙胭脂","v":"Glint","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-baked-blush-08.jpg?v=1785469561","price":128},{"t":"Coralhaze 絲柔胭脂","v":"Coralhaze","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/coralhaze-soft-blur-cheek-01.jpg?v=1785751446","price":89},{"t":"CLIO Essential Blush Tap 胭脂","v":"CLIO","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIOEssentialBlushTap8Colors-7.jpg?v=1785913549","price":138},{"t":"Peripera 水潤透亮胭脂液","v":"Peripera","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Syrupy_Tok_Cheek_Pink_Haguma__T_1.jpg?v=1785768447","price":108}]},{"label":"修容","n":12,"picks":[{"t":"Glint Stick Highlighter 高光棒","v":"Glint","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-stick-highlighter-04.jpg?v=1785469560","price":138},{"t":"Glint Highlighter 高光粉","v":"Glint","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-highlighter-02.jpg?v=1785469559","price":128},{"t":"Peripera 三色V面修容盤","v":"Peripera","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Peripera__NEW_VShading_coverpic_3.jpg?v=1785768439","price":122},{"t":"LILYBYRED Dewy Fit 水光修容盤","v":"lilybyred","img":"https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lilybyred-dewy-fit-palette-01_992d2953-9c33-4248-a62b-a22de2e2bc74.jpg?v=1785769847","price":198}]}],"total":182};
+const CHIP={"底妝": "#79635a", "眼妝": "#664b51", "唇妝": "#938283", "頰彩": "#c27966", "修容": "#ad9182"};
 const SUB=DATA.subs, TOT=DATA.total, BRANDS=23;
 const q=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const w=(u,n)=>u+(u.includes('?')?'&':'?')+'width='+n;
 const ALL=SUB.flatMap(c=>c.picks);
-const hero=i=>SUB[i].picks[0].img;
 
 const shell=()=>`<div class="bar">8 月 31 日前 全單 9 折 · 滿 HK$400 免運費</div>
 <div class="nav"><div class="in"><b>OUJI</b><a href="#">全部產品</a><a href="#">品牌</a>
@@ -316,19 +354,23 @@ const tools=()=>`<div class="frame"><div class="tools"><span class="n">${TOT} �
 const grid=()=>`<div class="frame"><div class="grid" id="grid">${ALL.slice(0,10).map(p=>`
  <div class="pc"><img src="${w(p.img,420)}" alt="" loading="lazy"><em>${q(p.v)}</em>
  <p>${q(p.t)}</p><b>HK$${p.price}</b></div>`).join('')}</div></div>`;
-// ownsSubs = 呢個 header 本身已經係五個子分類入口，唔使下面再排多一行 tile
 const body=(head,ownsSubs)=>shell()+head+(ownsSubs?'':tiles())+tools()+grid();
 
 const variants=[
-/* 1 色票 */()=>body(`<section class="v1">
- <div class="chips">${SUB.map((c,i)=>`<a href="#"><img src="${w(c.picks[0].img,600)}" alt="">
-  <span class="plate"><i>NO.0${i+1}</i><strong>${q(c.label)}</strong><u>${c.n}</u></span></a>`).join('')}</div>
- <h1>彩妝</h1><span class="tot">${TOT} 件 · ${BRANDS} 個品牌</span></section>`,1),
+/* 1 色卡 */()=>body(`<section class="v1"><div class="frame">
+ <div class="cap"><h1>彩妝</h1><em>${TOT} 件 · ${BRANDS} 個品牌 · 色由真貨相抽出</em></div>
+ <div class="fan">${SUB.map(c=>`<a href="#" style="background:${CHIP[c.label]}">
+  <b>${q(c.label)}</b><u>${c.n}</u><i>${CHIP[c.label].toUpperCase()}</i></a>`).join('')}</div>
+ </div></section>`,1),
 
-/* 2 燈箱 */()=>body(`<section class="v2">
- <div class="lit"><img src="${w(ALL[1].img,1400)}" alt="">
-  <div class="txt"><div class="frame"><div class="en">OUJI · KOREAN MAKEUP · ${TOT} ITEMS</div><h1>彩妝</h1></div></div></div>
- <div class="tabs">${SUB.map(c=>`<a href="#"><span>${q(c.label)}</span><u>${c.n}</u></a>`).join('')}</div></section>`,1),
+/* 2 菲林 */()=>body(`<section class="v2"><div class="lightbox"><div class="film">
+ <span class="sprock t"></span><span class="sprock b"></span>
+ <div class="frame"><div class="strip">
+  <div class="lead"><h1>彩妝</h1><span>${TOT} 件 · ${BRANDS} BRANDS</span></div>
+  ${SUB.map((c,i)=>`<a href="#"><img src="${w(c.picks[0].img,520)}" alt="">
+   <span class="no">${String(i+1).padStart(2,'0')}A</span>
+   <span class="nm"><b>${q(c.label)}</b><u>${c.n}</u></span></a>`).join('')}
+ </div></div></div></div></section>`,1),
 
 /* 3 手寫牌 */()=>body(`<section class="v3"><div class="frame"><div class="cards">
  <div class="big"><em>彩妝現貨</em><strong>${TOT}</strong><u>件 · ${BRANDS} 個牌子</u></div>
@@ -336,47 +378,51 @@ const variants=[
  <div class="foot">全部韓國直送 · 現貨</div></div></section>`,1),
 
 /* 4 收銀紙（抽中嗰個） */()=>body(`<section class="v4"><div class="slip">
- <div class="hd"><h1>彩妝</h1><em>OUJI KBEAUTY · KOWLOON HK</em></div>
+ <div class="hd"><h1>彩妝</h1><em>OUJI KBEAUTY · 現貨清單</em></div>
  <ul>${SUB.map((c,i)=>`<li><a href="#"><span class="nm">${String(i+1).padStart(2,'0')}  ${q(c.label)}</span>
   <span class="dots"></span><span class="qt">${c.n}</span></a></li>`).join('')}</ul>
  <div class="sum"><span>合計</span><span>${TOT} 件 / ${BRANDS} 個品牌</span></div>
- <div class="bc"></div><div class="bcn">OUJI-MAKEUP-${TOT}</div></div></section>`,1),
+ <div class="bc"></div><div class="bcn">全部現貨</div></div></section>`,1),
 
-/* 5 應援卡 */()=>body(`<section class="v5"><div class="frame">
+/* 5 咭簿 */()=>body(`<section class="v5"><div class="frame">
  <div class="hd"><h1>彩妝</h1><em>${TOT} ITEMS · ${BRANDS} BRANDS</em></div>
- <div class="row">${SUB.map(c=>`<a href="#"><img src="${w(c.picks[0].img,420)}" alt="">
-  <span class="cap"><b>${q(c.label)}</b><i>${c.n}</i></span></a>`).join('')}</div></div></section>`,1),
+ <div class="page">${SUB.map(c=>`<span class="slot"><a href="#">
+  <img src="${w(c.picks[0].img,420)}" alt="">
+  <span class="cap"><b>${q(c.label)}</b><i>${c.n}</i></span></a></span>`).join('')}</div>
+ </div></section>`,1),
 
-/* 6 色號輪 */()=>body(`<section class="v6"><div class="frame"><div class="in">
- <div class="dial"><b>${TOT}</b></div>
+/* 6 色號扇卡 */()=>body(`<section class="v6"><div class="frame"><div class="in">
+ <div class="deck">${SUB.map((c,i)=>`<a href="#" style="background:${CHIP[c.label]};
+  transform:rotate(${-60+i*30}deg);z-index:${5-i}"><b>${q(c.label)}</b><u>${c.n}</u></a>`).join('')}</div>
  <div><h1>彩妝</h1><div class="sub">${BRANDS} BRANDS · IN STOCK</div>
- <ol>${SUB.map((c,i)=>`<a href="#"><s style="background:${['#e8c9a8','#c2708a','#d0433f','#e07a6a','#b98c6a'][i]}"></s>
-  ${q(c.label)}<u>${c.n}</u></a>`).join('')}</ol></div></div></div></section>`,1),
+  <div class="tot">${TOT}<small>件現貨</small></div></div>
+ </div></div></section>`,1),
 
-/* 7 抽屜 */()=>body(`<section class="v7"><div class="frame"><div class="box">
+/* 7 分格盤 */()=>body(`<section class="v7"><div class="frame"><div class="box">
  <div class="lid"><h1>彩妝</h1><em>${TOT} PCS · ${BRANDS} BRANDS</em></div>
  <div class="cells">${SUB.map(c=>`<a href="#"><img src="${w(c.picks[0].img,420)}" alt="">
   <span class="tag">${q(c.label)}<u>${c.n}</u></span></a>`).join('')}</div></div></div></section>`,1),
 
-/* 8 貨架 */()=>body(`<section class="v8"><div class="frame"><div class="shelf">
+/* 8 掛鈎貨架 */()=>body(`<section class="v8"><div class="frame">
  <div class="top"><h1>彩妝</h1><em>${TOT} 件 · ${BRANDS} 個品牌</em></div>
- <div class="rail">${SUB.map((c,i)=>`<a href="#"><span class="ph"><img src="${w(c.picks[0].img,420)}" alt="">
-  ${i<2?'<span class="win">現貨</span>':''}</span>
+ <div class="rail">${SUB.map(c=>`<a href="#"><span class="hook"></span>
+  <span class="ph"><img src="${w(c.picks[0].img,420)}" alt=""></span>
   <span class="flag"><b>${q(c.label)}</b><u>${c.n}</u></span></a>`).join('')}</div>
- <div class="plank"></div></div></div></section>`,1),
+ <div class="plank"></div></div></section>`,1),
 
-/* 9 鏡（唔食子分類）*/()=>body(`<section class="v9"><div class="frame"><div class="mir">
- <span class="bulbs">${Array.from({length:14},(_,i)=>{const a=Math.PI*(0.06+0.88*i/13);
-  return `<i style="left:${(50-46*Math.cos(a)).toFixed(1)}%;top:${(52-46*Math.sin(a)).toFixed(1)}%"></i>`}).join('')}</span>
+/* 9 鏡（對照組）*/()=>body(`<div class="ctrl">對照組 —— 十個入面唯一唔食子分類嗰個，所以下面仲要多排一行</div>
+<section class="v9"><div class="frame"><div class="mir">
+ <span class="bulbs">${Array.from({length:16},(_,i)=>{const a=Math.PI*(0.05+0.90*i/15);
+  return `<i style="left:${(50-47*Math.cos(a)).toFixed(1)}%;top:${(54-47*Math.sin(a)).toFixed(1)}%"></i>`}).join('')}</span>
  <h1>MAKEUP</h1><div class="cn">彩妝</div><p>${TOT} 件 · ${BRANDS} 個品牌</p></div></div></section>`,0),
 
-/* 10 標籤紙 */()=>body(`<section class="v10"><div class="frame"><div class="sheet">
- <div class="hd"><h1>彩妝 / MAKEUP</h1><em>TOTAL ${TOT} · ${BRANDS} BRANDS</em></div>
- <div class="labels">${SUB.map((c,i)=>`<a href="#"><b>${q(c.label)}</b><em>OUJI-MK-0${i+1}</em>
+/* 10 貼紙紙 */()=>body(`<section class="v10"><div class="frame"><div class="sheet">
+ <div class="hd"><h1>彩妝 / MAKEUP</h1><em>${TOT} 件 · ${BRANDS} 個品牌</em></div>
+ <div class="labels">${SUB.map(c=>`<a href="#"><b>${q(c.label)}</b>
   <span class="qt">${c.n}</span><span class="code"></span></a>`).join('')}</div></div></div></section>`,1),
 ];
 
-const NAMES=['色票','燈箱','手寫牌','收銀紙','應援卡','色號輪','抽屜','貨架','鏡','標籤'];
+const NAMES=['色卡','菲林','手寫牌','收銀紙','咭簿','扇卡','分格盤','貨架','鏡','貼紙'];
 const stage=document.getElementById('stage'), picker=document.querySelector('.proto-picker');
 picker.innerHTML=NAMES.map(n=>`<button class="proto-picker-item">${n}</button>`).join('');
 const items=[...picker.querySelectorAll('.proto-picker-item')];
