@@ -763,8 +763,6 @@ function soldOutBlock(items, id) {
   </details>`;
 }
 
-let SM_NODE = null;
-
 function renderProducts(container, products, { grouped }) {
   if (!grouped) {
     document.querySelector('.brand-rail')?.remove();
@@ -873,17 +871,6 @@ async function initCatalog({ section, cat, products }) {
     }
     renderProducts(host, list, { grouped });
 
-    /* 護膚配方擺喺第一個品牌區之後 —— 客睇完第一批貨仲揀唔到，就係佢
-       想要幫手嗰刻。擺喺頁頂太早（未見過一件貨就見到一份問卷），留喺
-       頁尾太遲（碌到嗰度嘅人已經揀好）。
-       一定要喺 renderProducts 之後行：早過佢，`host` 仲係空；而且唔可以
-       塞入 host 入面，下次重畫 innerHTML 會連佢一齊剷埋。 */
-    /* 個節點揸喺手，唔靠 querySelector —— renderProducts 用 innerHTML
-       重畫，塞咗入 host 嘅 .sm 會俾佢剷走；但 JS 引用仲有效，剷完再插
-       返入去，入面嘅 listener 同已經載咗嘅資料都保得住。 */
-    SM_NODE = SM_NODE || document.querySelector('[data-skincare-match]');
-    const firstBlock = host && host.children[0];
-    if (SM_NODE && firstBlock) firstBlock.after(SM_NODE);
     prefetchProducts(list.slice(0, 12).map((p) => p.handle));
   }
 

@@ -197,6 +197,16 @@
       </div>
     </section>
 
+    <div class="container">
+      <!-- 護膚配方，貼住分類 tile 下面。
+           試過擺喺第一個品牌區之後（客未見過一件貨就見到一份問卷，
+           擺頁頂太早），但老闆要佢喺分類下面 —— 揀完類別跟住就係
+           「唔知揀邊支」，兩件事連住講先順。
+           摺埋咗，撳開先載 attrs.json／ingredients.json（加埋 350KB），
+           唔應該逼每個入護膚頁嘅人都食。 -->
+      <section class="sm" data-skincare-match aria-label="護膚配方"></section>
+    </div>
+
     <!-- Breadcrumb & Filter Bar -->
     <div class="container">
       <nav class="breadcrumb">
@@ -236,12 +246,7 @@
       <!-- Product Grid -->
       <div class="catalog reveal-stagger" data-catalog></div>
 
-      <!-- 護膚配方，擺喺第一批貨之後。
-           本來喺頁頂，佔 211px，客一入嚟未見過一件貨就先見到一份問卷。
-           客係嚟睇貨嘅 —— 睇完第一批仲揀唔到，先係佢想要幫手嗰刻。
-           摺埋咗，撳開先載 attrs.json／ingredients.json（加埋 350KB）。
-           catalog.js 會喺砌完第一段之後將佢搬到第一個品牌區後面。 -->
-      <section class="sm" data-skincare-match aria-label="護膚配方"></section>
+
 
     </div>
   </main>

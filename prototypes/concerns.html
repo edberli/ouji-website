@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>想搵咩？ — 四個概念</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   四個概念，唔係四種排法。之前七個版本全部係「長方形入面放張相加
+   幾行字」—— 咁樣分歧嘅係間距同圓角，唔係設計。
+   呢四個各自答一個唔同嘅問題：
+     1 面 —— 煩惱本身有位置。擺返落塊面度，唔使畫格仔
+     2 字 —— 字就係版面。相收喺字入面
+     3 櫃 —— 抽屜。物料同深度，唔係卡片同陰影
+     4 句 —— 成格得一句嘢。你揀個詞，下面即刻換貨
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#14292f; --ink-2:#2b4c58; --blue:#6da3b5; --cream:#f6f5f0; --raw:#fdf8f3;
+  --dim:#7c878e; --line:rgba(43,76,88,.14);
+  --sans:'Noto Sans TC','Manrope',system-ui,sans-serif;
+  --serif:'Noto Serif TC',Georgia,serif;
+  --num:'Manrope',system-ui,sans-serif;
+  --out:cubic-bezier(.23,1,.32,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);
+     -webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.frame{max-width:1180px;margin:0 auto;padding:0 20px}
+.neighbour{background:#fff;padding:20px 0 22px;border-bottom:1px solid var(--line)}
+.neighbour h3{font-size:1rem;font-weight:700;margin:0 0 11px}
+.nrow{display:flex;gap:8px;overflow:hidden}
+.ncard{flex:none;width:112px}
+.ncard i{display:block;aspect-ratio:1;background:#f7f8f9;border-radius:6px;overflow:hidden}
+.ncard img{width:100%;height:100%;object-fit:cover;display:block}
+.ncard span{display:block;font-size:.72rem;line-height:1.3;margin-top:6px;color:var(--dim);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.foot{padding:44px 0 130px;text-align:center;color:#b3b9bd;font-size:.75rem}
+
+/* 真人相做底。手畫線稿講唔到「皮膚」—— 護膚品講緊嘅係一塊真皮膚，
+   線稿係圖示，圖示冇質感。呢幾張係我哋自己 CDN 上面嘅品牌主視覺，
+   demo 用；出街之前應該影返自己嗰張，或者買授權。 */
+.f-photo{position:absolute;inset:0;border-radius:50% 50% 48% 48%/44% 44% 56% 56%;
+  overflow:hidden;box-shadow:0 30px 60px -34px rgba(20,41,50,.6)}
+.f-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block}
+.f-photo::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(70% 60% at 50% 38%,transparent 40%,rgba(20,41,50,.28) 100%)}
+.f-ring{position:absolute;width:74px;height:74px;border-radius:50%;
+  transform:translate(-50%,-50%) scale(.5);opacity:0;pointer-events:none;
+  border:1.5px solid rgba(253,248,243,.9);
+  box-shadow:0 0 0 1px rgba(20,41,50,.25),0 0 30px rgba(253,248,243,.5) inset;
+  transition:transform 320ms var(--out),opacity 320ms var(--out)}
+.f-ring[data-on]{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* ═══ 1 · 面 ═══════════════════════════════════════════════════ */
+.f-sec{background:linear-gradient(170deg,#eef3f4 0%,#e3ecee 100%);padding:44px 0 52px}
+.f-in{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;align-items:center}
+.f-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.7rem,3vw,2.5rem);margin:0 0 6px;
+     letter-spacing:-.01em}
+.f-sub{margin:0 0 22px;font-size:.9rem;color:var(--dim)}
+.f-stage{position:relative;width:100%;aspect-ratio:1/1.06;max-width:430px;margin:0 auto}
+.f-stage svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.f-line{fill:none;stroke:var(--ink-2);stroke-width:1.1;opacity:.5}
+.f-zone{fill:rgba(109,163,181,.001);cursor:pointer}
+.f-blob{fill:var(--blue);opacity:0;transition:opacity 220ms var(--out);pointer-events:none}
+.f-pin{position:absolute;transform:translate(-50%,-50%);z-index:2}
+.f-dot{width:11px;height:11px;border-radius:50%;background:var(--raw);border:1.5px solid var(--ink-2);
+       cursor:pointer;transition:transform 200ms var(--out),background-color 200ms var(--out)}
+.f-pin[data-on] .f-dot{background:var(--blue);border-color:var(--blue);transform:scale(1.55)}
+.f-tag{position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
+       white-space:nowrap;font-size:.75rem;font-weight:500;color:var(--ink-2);
+       background:rgba(253,248,243,.86);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+       padding:3px 9px;border-radius:999px;pointer-events:none;
+       opacity:.55;transition:opacity 200ms var(--out)}
+.f-pin[data-on] .f-tag{opacity:1;font-weight:700}
+.f-panel{background:rgba(253,248,243,.72);-webkit-backdrop-filter:blur(18px) saturate(1.3);
+  backdrop-filter:blur(18px) saturate(1.3);border:1px solid rgba(255,255,255,.6);
+  border-radius:18px;padding:22px;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,
+  0 26px 50px -30px rgba(20,41,50,.5)}
+.f-name{font-family:var(--serif);font-size:1.6rem;font-weight:500;margin:0 0 3px;line-height:1.15}
+.f-note{margin:0 0 16px;font-size:.8125rem;color:var(--dim);line-height:1.5}
+.f-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.f-shots span{display:block;aspect-ratio:1;border-radius:9px;overflow:hidden;background:#fff}
+.f-shots img{width:100%;height:100%;object-fit:cover;display:block}
+.f-go{display:inline-flex;align-items:baseline;gap:6px;font-size:.875rem;font-weight:600;
+      color:var(--ink-2);border-bottom:1.5px solid var(--blue);padding-bottom:2px;
+      transition:transform 160ms ease-out}
+.f-go:active{transform:scale(.97)}
+.f-go b{font-family:var(--num);font-size:1.05rem}
+
+/* ═══ 5 · 全版 ═══════════════════════════════════════════════ */
+.b-sec{position:relative;min-height:min(88vh,720px);overflow:hidden;background:#0e1d23}
+.b-bg{position:absolute;inset:0}
+.b-bg img{width:100%;height:100%;object-fit:cover;object-position:52% 26%;display:block}
+.b-bg::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(14,29,35,.9) 0%,rgba(14,29,35,.55) 38%,rgba(14,29,35,.05) 62%)}
+.b-in{position:relative;z-index:2;padding:60px 0;display:grid;
+      grid-template-columns:minmax(0,420px) 1fr;gap:30px;align-items:center;min-height:inherit}
+.b-h{font-family:var(--serif);font-weight:300;color:var(--raw);margin:0 0 8px;
+     font-size:clamp(2rem,4vw,3.2rem);line-height:1.12;letter-spacing:-.02em}
+.b-sub{margin:0 0 26px;color:rgba(253,248,243,.62);font-size:.9rem;line-height:1.6}
+.b-list{display:flex;flex-direction:column;gap:1px}
+.b-row{display:flex;align-items:baseline;gap:12px;padding:11px 2px;
+  border-bottom:1px solid rgba(253,248,243,.13);color:rgba(253,248,243,.72);
+  transition:padding-left 300ms var(--out),color 300ms var(--out)}
+.b-row b{font-size:1.05rem;font-weight:500;color:var(--raw)}
+.b-row i{font-style:normal;font-family:var(--num);font-size:.78rem;margin-left:auto;
+  color:rgba(253,248,243,.5)}
+@media (hover:hover) and (pointer:fine){.b-row:hover{padding-left:14px;color:var(--raw)}}
+.b-dot{position:absolute;width:13px;height:13px;border-radius:50%;background:var(--raw);
+  transform:translate(-50%,-50%);z-index:3;box-shadow:0 0 0 6px rgba(253,248,243,.22);
+  opacity:0;transition:opacity 280ms var(--out)}
+.b-dot[data-on]{opacity:1}
+
+/* ═══ 6 · 鏡 ═══════════════════════════════════════════════════ */
+.m-sec{padding:0;display:grid;grid-template-columns:1fr 1fr;min-height:min(84vh,680px)}
+.m-left{position:relative;overflow:hidden;background:#dfe6e8}
+.m-left img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transform:scale(1);transform-origin:50% 30%;
+  transition:transform 520ms var(--out),transform-origin 520ms var(--out)}
+.m-cap{position:absolute;left:20px;bottom:18px;z-index:2;color:#fff;
+  font-family:var(--serif);font-size:1.5rem;font-weight:500;
+  text-shadow:0 2px 18px rgba(14,29,35,.65)}
+.m-right{background:var(--cream);padding:clamp(26px,3.4vw,46px);display:flex;
+  flex-direction:column;justify-content:center}
+.m-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.5rem,2.6vw,2.1rem);margin:0 0 4px}
+.m-sub{margin:0 0 20px;font-size:.85rem;color:var(--dim)}
+.m-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.m-chip{padding:8px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;
+  font-size:.875rem;font-weight:500;cursor:pointer;color:var(--ink);
+  transition:transform 160ms ease-out,background-color 200ms var(--out),color 200ms var(--out)}
+.m-chip:active{transform:scale(.97)}
+.m-chip[data-on]{background:var(--ink-2);border-color:var(--ink-2);color:var(--raw)}
+.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.m-grid a{display:block}
+.m-grid i{display:block;aspect-ratio:1;background:#fff;border-radius:11px;overflow:hidden}
+.m-grid img{width:100%;height:100%;object-fit:cover;display:block}
+.m-grid span{display:block;font-size:.75rem;line-height:1.35;margin-top:7px;color:var(--dim);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.m-go{margin-top:20px;align-self:flex-start;font-size:.875rem;font-weight:600;color:var(--ink-2);
+  border-bottom:1.5px solid var(--blue);padding-bottom:2px}
+
+/* ═══ 2 · 字 ═══════════════════════════════════════════════════ */
+.t-sec{background:var(--ink);padding:52px 0 40px;overflow:hidden}
+.t-h{color:rgba(253,248,243,.5);font-size:.8rem;letter-spacing:.24em;margin:0 0 26px}
+.t-rail{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;padding-bottom:14px}
+.t-rail::-webkit-scrollbar{display:none}
+.t-item{position:relative;flex:none;padding:0 30px 0 0;text-align:left}
+.t-word{display:block;font-family:var(--sans);font-weight:900;
+  font-size:clamp(3.4rem,9vw,7rem);line-height:.92;letter-spacing:-.045em;
+  color:transparent;-webkit-background-clip:text;background-clip:text;
+  background-position:center;background-size:cover;
+  -webkit-text-stroke:1px rgba(253,248,243,.32);
+  transition:-webkit-text-stroke-color 240ms var(--out)}
+.t-item:hover .t-word{-webkit-text-stroke-color:transparent}
+.t-meta{display:flex;align-items:baseline;gap:9px;margin-top:8px;color:rgba(253,248,243,.6)}
+.t-meta b{font-family:var(--num);font-size:1.1rem;font-weight:800;color:var(--raw)}
+.t-meta span{font-size:.75rem}
+.t-hint{color:rgba(253,248,243,.32);font-size:.72rem;margin-top:16px}
+
+/* ═══ 3 · 櫃 ═══════════════════════════════════════════════════ */
+.d-sec{background:#e9e3d8;padding:46px 0 54px;
+  background-image:repeating-linear-gradient(90deg,rgba(120,96,64,.05) 0 2px,transparent 2px 7px)}
+.d-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,2.8vw,2.2rem);margin:0 0 18px}
+.d-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.d-cell{position:relative;height:150px;perspective:900px}
+.d-front{position:absolute;inset:0;border-radius:5px;
+  background:linear-gradient(176deg,#c8b393 0%,#b39c78 60%,#a68e6a 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 -3px 8px rgba(90,68,40,.28) inset,
+             0 10px 18px -12px rgba(70,52,30,.7);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+  transform-origin:50% 100%;
+  transition:transform 340ms var(--out),box-shadow 340ms var(--out)}
+.d-plate{background:rgba(253,248,243,.92);border-radius:3px;padding:6px 13px;
+  box-shadow:0 1px 2px rgba(70,52,30,.3);text-align:center;min-width:104px}
+.d-plate b{display:block;font-family:var(--serif);font-size:.95rem;font-weight:700;
+  letter-spacing:.02em;line-height:1.2}
+.d-plate i{display:block;font-style:normal;font-family:var(--num);font-size:.65rem;
+  font-weight:700;color:#8a7355;margin-top:2px}
+.d-knob{width:26px;height:6px;border-radius:3px;background:rgba(70,52,30,.42);
+  box-shadow:0 1px 0 rgba(255,255,255,.35)}
+.d-inside{position:absolute;inset:0;border-radius:5px;overflow:hidden;
+  background:#3a2f22;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:9px;
+  align-content:center}
+.d-inside span{display:block;aspect-ratio:1;border-radius:4px;overflow:hidden;background:#4a3d2c}
+.d-inside img{width:100%;height:100%;object-fit:cover;display:block}
+@media (hover:hover) and (pointer:fine){
+  .d-cell:hover .d-front{transform:rotateX(74deg) translateY(6px);
+    box-shadow:0 16px 22px -14px rgba(70,52,30,.85)}
+}
+.d-cell:focus-within .d-front{transform:rotateX(74deg) translateY(6px)}
+.d-note{margin:16px 0 0;font-size:.78rem;color:#8a7355}
+
+/* ═══ 4 · 句 ═══════════════════════════════════════════════════ */
+.s-sec{padding:60px 0 56px}
+.s-line{font-family:var(--serif);font-weight:300;line-height:1.5;
+  font-size:clamp(1.7rem,4.4vw,3.1rem);letter-spacing:-.01em;margin:0 0 34px}
+.s-pick{position:relative;display:inline-block}
+.s-btn{font:inherit;color:var(--ink-2);background:none;border:0;padding:0 .1em .06em;
+  border-bottom:2px solid var(--blue);cursor:pointer;font-weight:500;
+  transition:transform 160ms ease-out}
+.s-btn:active{transform:scale(.98)}
+.s-btn::after{content:'　▾';font-size:.5em;color:var(--blue);vertical-align:middle}
+.s-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:9;min-width:230px;
+  background:rgba(253,248,243,.86);-webkit-backdrop-filter:blur(20px) saturate(1.4);
+  backdrop-filter:blur(20px) saturate(1.4);border:1px solid rgba(255,255,255,.7);
+  border-radius:14px;padding:6px;box-shadow:0 26px 50px -28px rgba(20,41,50,.55);
+  transform-origin:top left;
+  opacity:0;transform:scale(.96);pointer-events:none;
+  transition:opacity 180ms var(--out),transform 180ms var(--out)}
+.s-pick[data-open] .s-menu{opacity:1;transform:scale(1);pointer-events:auto}
+.s-opt{display:flex;align-items:baseline;justify-content:space-between;gap:14px;width:100%;
+  font-family:var(--sans);font-size:.95rem;font-weight:500;padding:9px 12px;border:0;
+  background:none;border-radius:9px;cursor:pointer;text-align:left;color:var(--ink)}
+.s-opt i{font-style:normal;font-family:var(--num);font-size:.78rem;font-weight:700;color:var(--dim)}
+.s-opt:hover{background:rgba(109,163,181,.14)}
+.s-opt[data-on]{background:var(--ink-2);color:var(--raw)}
+.s-opt[data-on] i{color:rgba(253,248,243,.7)}
+.s-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.s-card{display:block}
+.s-card i{display:block;aspect-ratio:1;background:#fff;border-radius:12px;overflow:hidden}
+.s-card img{width:100%;height:100%;object-fit:cover;display:block}
+.s-card b{display:block;font-size:.68rem;font-weight:700;color:var(--dim);margin:9px 0 2px}
+.s-card span{display:block;font-size:.8rem;line-height:1.35;font-weight:500;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.s-swap{animation:sIn 300ms var(--out) both}
+@keyframes sIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+@media (max-width:900px){
+  .f-in{grid-template-columns:1fr;gap:22px}
+  .d-wall{grid-template-columns:repeat(2,1fr)}
+  .s-strip{grid-template-columns:repeat(3,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.proto-picker{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2147483647;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(12px) saturate(1.4);backdrop-filter:blur(12px) saturate(1.4);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 24px rgba(0,0,0,.24),0 2px 6px rgba(0,0,0,.12);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;line-height:1;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none}
+.proto-picker-highlight{position:absolute;top:4px;left:0;height:28px;border-radius:999px;background:rgba(255,255,255,.12);will-change:transform}
+.proto-picker[data-ready] .proto-picker-highlight{transition:transform 250ms cubic-bezier(.23,1,.32,1),width 250ms cubic-bezier(.23,1,.32,1)}
+@media (prefers-reduced-motion:reduce){.proto-picker[data-ready] .proto-picker-highlight{transition:none}}
+.proto-picker-item{position:relative;display:flex;align-items:center;height:28px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.55);font:inherit;cursor:pointer;transition:color 150ms ease-out}
+.proto-picker-item:hover{color:rgba(255,255,255,.85)}
+.proto-picker-item:active{transform:scale(.97)}
+.proto-picker-item:focus-visible{outline:2px solid rgba(255,255,255,.4);outline-offset:2px}
+.proto-picker-item[data-active]{color:#fff}
+.proto-picker-divider{width:1px;height:16px;margin:0 4px;background:rgba(255,255,255,.12)}
+.proto-picker-replay{padding:0 10px;font-size:14px}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<nav class="proto-picker" aria-label="Prototype variants">
+  <span class="proto-picker-highlight" aria-hidden="true"></span>
+  <button class="proto-picker-item" data-active aria-current="true">面</button>
+  <button class="proto-picker-item">字</button>
+  <button class="proto-picker-item">櫃</button>
+  <button class="proto-picker-item">句</button>
+  <button class="proto-picker-item">全版</button>
+  <button class="proto-picker-item">鏡</button>
+  <span class="proto-picker-divider" aria-hidden="true"></span>
+  <button class="proto-picker-replay proto-picker-item" aria-label="Replay (R)">↻</button>
+</nav>
+<script>
+const D=[{"id": "sun", "label": "防曬", "note": "每日都要搽嗰支", "picks": [{"t": "CLIO 極致持妝無瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-founwear-cushion-01.jpg?v=1785764635"}, {"t": "CLIO 柔霧遮瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-skin-fixer-cushion-01.jpg?v=1785764637"}, {"t": "CLIO 網光亮肌精華氣墊粉底 附補充裝 SPF50+ PA+++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-high-glow-cushion-01.jpg?v=1785764640"}], "n": 72}, {"id": "oily", "label": "油光・出油", "note": "控油、啞光、吸油", "picks": [{"t": "rom&nd Slide In Single 單色眼影（啞光）", "v": "rom&nd", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-slide-in-single-matte-08_ba66384d-b9e5-436f-830d-c2d9d68f66e3.jpg?v=1785820330"}, {"t": "Laka Bulky Matte Lipstick 霧面唇膏", "v": "Laka", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LakaBulkyMatteLipstick4g_10colorstochoose_-3.jpg?v=1785913527"}, {"t": "hince Mood Enhancer Matte 霧面唇膏", "v": "hince", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hinceMoodEnhancerMatte3.5g9colors-1.jpg?v=1785913542"}], "n": 21}, {"id": "pore", "label": "毛孔粗大", "note": "收毛孔、去角質嗰批", "picks": [{"t": "COSRX 二合一毛孔清透修護液 [100ml]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/two-in-one-poreless-power-liquid-cosrx-official-1_5457d813-038f-40d9-8b7a-872c16c2078e.jpg?v=1786088366"}, {"t": "COSRX 清新 AHA BHA 維他命 C 每日爽膚水 [150ml]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/refresh-abc-daily-toner-aha-bha-vitamin-c-cosrx-official-1_ccd60593-f558-43a9-89fe-a3a152e84351.jpg?v=1786088371"}, {"t": "COSRX AHA/BHA 潔淨修護噴霧爽膚水150ml", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ahabha-clarifying-treatment-toner-cosrx-official-1_27d23394-f07d-4df7-921d-47ecaa5332a9.jpg?v=1786088403"}], "n": 56}, {"id": "acne", "label": "暗瘡・粉刺", "note": "茶樹、水楊酸、痘痘貼呢類", "picks": [{"t": "COSRX - AHA 7果酸白頭粉刺水楊白頭超能水 100ml", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/aha-7-whitehead-power-liquid-cosrx-official-1.jpg?v=1786088399"}, {"t": "COSRX - 天然水楊酸黑頭超能水 100ml", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/bha-blackhead-power-liquid-cosrx-official-1_7b65cb29-7173-4ace-9222-58a03c9be123.jpg?v=1786088431"}, {"t": "Skin1004 馬達加斯加積雪草茶樹淨膚控油爽膚水 210ml", "v": "Skin1004", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/skin1004-toner-210ml-tea-trica-purifying-toner-38642933399798.png?v=1786070124"}], "n": 22}, {"id": "dull", "label": "暗沉・色斑", "note": "維他命 C、煙酰胺、穀胱甘肽", "picks": [{"t": "BRAYE Thin Glow Tint 薄透唇釉", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-thin-glow-tint-03.jpg?v=1785519684"}, {"t": "Peripera 水潤透亮胭脂液", "v": "Peripera", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Syrupy_Tok_Cheek_Pink_Haguma__T_1.jpg?v=1785768447"}, {"t": "hince Raw Glow Gel Tint 果凍唇釉", "v": "hince", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-raw-glow-gel-tint-01_8fd07e93-939e-4bff-a488-411ff3d8531a.jpg?v=1785833653"}], "n": 79}, {"id": "aging", "label": "細紋・鬆弛", "note": "膠原、胜肽、視黃醇", "picks": [{"t": "TIRTIR 膠原蛋白緊緻眼霜", "v": "TIRTIR", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Thumbnailtest_0010_EyeCream_fe2632a9-1793-4f89-9bca-f810d1f683a9.jpg?v=1785912382"}, {"t": "COSRX 視黃醇 0.1% 面霜 [20ml]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/RetinolCream_800x1067_a24af6b0-ca3d-403b-84d6-43619bd0fb09.jpg?v=1786088357"}, {"t": "COSRX 6 胜肽肌膚增強劑 [150ml]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/THE_6_PEPTIDE_SKIN_BOOSTER_SERUM___800x1067_1_f19406a1-23bc-4601-88bd-6f7740de7ad3.webp?v=1786088435"}], "n": 70}, {"id": "sensitive", "label": "泛紅・敏感", "note": "積雪草、鎮靜舒緩系列", "picks": [{"t": "COSRX AC 淨膚系列終極重點修護霜 [30g]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ac-collection-ultimate-spot-cream-cosrx-official-1_144c9538-237d-41f7-85de-143d8365a0eb.jpg?v=1786088348"}, {"t": "COSRX 積雪草修護霜 [30ml]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/cosrx-cosrx-30ml-0368-01.jpg?v=1786102100"}, {"t": "COSRX 白樺樹液無油舒緩極致保濕乳液100ml", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/oil-free-ultra-moisturizing-lotion-with-birch-sap-cosrx-official-1_0253f6fd-805f-41b7-a7a7-654cbdab03a8.png?v=1786088408"}], "n": 163}, {"id": "dry", "label": "乾燥・缺水", "note": "玻尿酸、神經醯胺、補水面膜", "picks": [{"t": "hince Second Skin Hydrating Primer 保濕妝前乳", "v": "hince", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-second-skin-hydrating-primer-03_9d8787f3-ced1-4c7f-ab59-4903c3f7502a.jpg?v=1785834392"}, {"t": "WAKEMAKE 柔亮水潤唇膏", "v": "WAKEMAKE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemake-healthy-glow-balm-stick-01_5513e2df-cb1f-4253-8068-b9222f2c6703.jpg?v=1785839098"}, {"t": "fwee 瞬間水潤唇部精華", "v": "fwee", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fwee-serum.jpg?v=1785990978"}], "n": 175}];
+const q=(s)=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const w=(u,n)=>u+(u.includes('?')?'&':'?')+'width='+n;
+const href=(id)=>'http://localhost:8085/shop.html?concern='+id;
+
+/* 煩惱喺塊面邊個位 —— 呢個唔係亂擺，係搽嗰隻嘢真係搽嗰度 */
+const ZONE={sun:[50,20],oily:[50,33],pore:[50,48],acne:[50,78],
+            dull:[27,52],aging:[70,40],sensitive:[74,58],dry:[26,70]};
+/* Demo 用嘅真人相 —— 我哋自己 CDN 上面嘅品牌主視覺。出街要換返
+   自己影嘅／買授權嘅。 */
+const CDNF='https://cdn.shopify.com/s/files/1/0765/3405/5070/files/';
+const FACE=CDNF+'hince-banner.jpg';
+const FACE2=CDNF+'clio-banner.jpg';
+
+const context=(inner)=>`
+  <div class="neighbour"><div class="frame"><h3>啱啱返嘅貨</h3>
+    <div class="nrow">${D.slice(0,4).flatMap(c=>c.picks).slice(0,9).map(p=>`
+      <div class="ncard"><i><img src="${w(p.img,240)}" alt=""></i>
+        <span>${q(p.t.slice(0,22))}</span></div>`).join('')}</div>
+  </div></div>${inner}<div class="foot">— 頁尾 —</div>`;
+
+const variants=[
+/* ─── 1 · 面 ─────────────────────────────────────────────────── */
+()=>context(`<section class="f-sec"><div class="frame"><div class="f-in">
+  <div class="f-stage" id="face">
+    <span class="f-photo"><img src="${FACE}?width=760" alt="" loading="lazy"></span>
+    <span class="f-ring" id="ring"></span>
+    ${D.map((c,i)=>`
+      <span class="f-pin" style="left:${ZONE[c.id][0]}%;top:${ZONE[c.id][1]}%"
+            data-pin="${i}"${i===0?' data-on':''}>
+        <span class="f-tag">${q(c.label)}</span><span class="f-dot"></span>
+      </span>`).join('')}
+  </div>
+  <div>
+    <h2 class="f-h">邊度唔妥？</h2>
+    <p class="f-sub">撳塊面上面嘅點，我哋將講到嗰個位嘅貨排埋一齊。</p>
+    <div class="f-panel" id="fpanel"></div>
+  </div>
+</div></div></section>`),
+
+/* ─── 2 · 字 ─────────────────────────────────────────────────── */
+()=>context(`<section class="t-sec"><div class="frame">
+  <p class="t-h">想搵咩</p>
+  <div class="t-rail">${D.map(c=>`
+    <a class="t-item" href="${href(c.id)}">
+      <span class="t-word" style="background-image:url('${w(c.picks[0].img,700)}')">${q(c.label.replace('・',''))}</span>
+      <span class="t-meta"><b>${c.n}</b><span>件</span></span>
+    </a>`).join('')}</div>
+  <p class="t-hint">← 掃 · 掂到啲字，入面就會現返件貨</p>
+</div></section>`),
+
+/* ─── 3 · 櫃 ─────────────────────────────────────────────────── */
+()=>context(`<section class="d-sec"><div class="frame">
+  <h2 class="d-h">拉開睇下</h2>
+  <div class="d-wall">${D.map(c=>`
+    <a class="d-cell" href="${href(c.id)}">
+      <span class="d-inside">${c.picks.map(p=>`
+        <span><img src="${w(p.img,200)}" alt="" loading="lazy"></span>`).join('')}</span>
+      <span class="d-front">
+        <span class="d-plate"><b>${q(c.label)}</b><i>${c.n}</i></span>
+        <span class="d-knob"></span>
+      </span>
+    </a>`).join('')}</div>
+  <p class="d-note">每格入面係我哋真係入緊嗰批貨 —— 唔係擺樣。</p>
+</div></section>`),
+
+/* ─── 4 · 句 ─────────────────────────────────────────────────── */
+()=>context(`<section class="s-sec"><div class="frame">
+  <p class="s-line">我想搞掂<span class="s-pick" id="pick">
+    <button class="s-btn" id="pbtn">${q(D[0].label)}</button>
+    <span class="s-menu" id="pmenu">${D.map((c,i)=>`
+      <button class="s-opt" data-opt="${i}"${i===0?' data-on':''}>${q(c.label)}<i>${c.n}</i></button>`).join('')}
+    </span></span>。</p>
+  <div class="s-strip" id="sstrip"></div>
+</div></section>`),
+
+/* ─── 5 · 全版 ────────────────────────────────────────────────── */
+()=>context(`<section class="b-sec" id="bsec">
+  <span class="b-bg"><img src="${FACE2}?width=1500" alt="" loading="lazy"></span>
+  ${D.map((c,i)=>`<span class="b-dot" data-bd="${i}"
+      style="left:${ZONE[c.id][0]*0.42+52}%;top:${ZONE[c.id][1]*0.62+16}%"></span>`).join('')}
+  <div class="frame"><div class="b-in"><div>
+    <h2 class="b-h">由邊度<br>入手？</h2>
+    <p class="b-sub">八個範疇，掂一下就知我哋有幾多件貨講緊呢樣。</p>
+    <div class="b-list">${D.map((c,i)=>`
+      <a class="b-row" data-br="${i}" href="${href(c.id)}">
+        <b>${q(c.label)}</b><i>${c.n} 件</i></a>`).join('')}</div>
+  </div><div></div></div></div>
+</section>`),
+
+/* ─── 6 · 鏡 ─────────────────────────────────────────────────── */
+()=>context(`<section class="m-sec">
+  <div class="m-left"><img id="mimg" src="${FACE}?width=1100" alt="">
+    <span class="m-cap" id="mcap">${q(D[0].label)}</span></div>
+  <div class="m-right">
+    <h2 class="m-h">想搵咩？</h2>
+    <p class="m-sub">揀一個，右邊即刻換返嗰批貨。</p>
+    <div class="m-chips">${D.map((c,i)=>`
+      <button class="m-chip" data-mc="${i}"${i===0?' data-on':''}>${q(c.label)}</button>`).join('')}</div>
+    <div class="m-grid" id="mgrid"></div>
+    <a class="m-go" id="mgo" href="${href(D[0].id)}">睇晒 ${D[0].n} 件</a>
+  </div>
+</section>`),
+];
+
+/* ── 每個版本自己嘅互動 ── */
+const wire=[
+  ()=>{ const panel=document.getElementById('fpanel');
+    const draw=(i)=>{const c=D[i];
+      panel.innerHTML=`<h3 class="f-name">${q(c.label)}</h3><p class="f-note">${q(c.note)}</p>
+        <div class="f-shots">${c.picks.map(p=>`<span><img src="${w(p.img,260)}" alt=""></span>`).join('')}</div>
+        <a class="f-go" href="${href(c.id)}">睇呢 <b>${c.n}</b> 件</a>`;
+      const [x,y]=ZONE[c.id];const ring=document.getElementById('ring');
+      ring.style.left=x+'%';ring.style.top=y+'%';ring.setAttribute('data-on','');
+      document.querySelectorAll('.f-pin').forEach((p,j)=>p.toggleAttribute('data-on',j===i));};
+    document.querySelectorAll('.f-pin').forEach((p)=>{
+      const go=()=>draw(+p.dataset.pin);
+      p.addEventListener('pointerenter',go);p.addEventListener('click',go);});
+    draw(0);},
+  ()=>{},
+  ()=>{},
+  ()=>{ const pick=document.getElementById('pick');const btn=document.getElementById('pbtn');
+    const strip=document.getElementById('sstrip');
+    const fill=(i)=>{const c=D[i];btn.textContent=c.label;
+      strip.innerHTML=c.picks.concat(c.picks).slice(0,6).map(p=>`
+        <a class="s-card s-swap" href="${href(c.id)}"><i><img src="${w(p.img,300)}" alt=""></i>
+          <b>${q(p.v)}</b><span>${q(p.t.slice(0,24))}</span></a>`).join('');
+      document.querySelectorAll('.s-opt').forEach((o,j)=>o.toggleAttribute('data-on',j===i));};
+    btn.addEventListener('click',(e)=>{e.stopPropagation();pick.toggleAttribute('data-open');});
+    document.querySelectorAll('.s-opt').forEach((o)=>o.addEventListener('click',()=>{
+      fill(+o.dataset.opt);pick.removeAttribute('data-open');}));
+    document.addEventListener('click',()=>pick.removeAttribute('data-open'));
+    fill(0);},
+  /* 5 · 全版：掂邊行，塊面上面對應嗰點就著 */
+  ()=>{ const dots=[...document.querySelectorAll('.b-dot')];
+    const on=(i)=>dots.forEach((d,j)=>d.toggleAttribute('data-on',j===i));
+    document.querySelectorAll('.b-row').forEach((rw)=>{
+      rw.addEventListener('pointerenter',()=>on(+rw.dataset.br));});
+    document.getElementById('bsec').addEventListener('pointerleave',()=>on(-1));
+    on(0);},
+  /* 6 · 鏡：揀個範疇，左邊塊面 zoom 去嗰個位，右邊換貨 */
+  ()=>{ const img=document.getElementById('mimg');const cap=document.getElementById('mcap');
+    const grid=document.getElementById('mgrid');const go=document.getElementById('mgo');
+    const set=(i)=>{const c=D[i];const [x,y]=ZONE[c.id];
+      img.style.transformOrigin=`${x}% ${y*0.8+10}%`;img.style.transform='scale(1.5)';
+      cap.textContent=c.label;
+      grid.innerHTML=c.picks.concat(c.picks).slice(0,6).map(p=>`
+        <a href="${href(c.id)}"><i><img src="${w(p.img,300)}" alt=""></i>
+          <span>${q(p.t.slice(0,22))}</span></a>`).join('');
+      go.textContent='睇晒 '+c.n+' 件';go.href=href(c.id);
+      document.querySelectorAll('.m-chip').forEach((b,j)=>b.toggleAttribute('data-on',j===i));};
+    document.querySelectorAll('.m-chip').forEach((b)=>
+      b.addEventListener('click',()=>set(+b.dataset.mc)));
+    set(0);},
+];
+const stage=document.getElementById('stage');const picker=document.querySelector('.proto-picker');
+const highlight=picker.querySelector('.proto-picker-highlight');
+const items=[...picker.querySelectorAll('.proto-picker-item:not(.proto-picker-replay)')];
+const replay=picker.querySelector('.proto-picker-replay');let current=0;
+function moveHighlight(){const el=items[current];highlight.style.width=el.offsetWidth+'px';
+  highlight.style.transform=`translateX(${el.offsetLeft}px)`;}
+function mount(i){stage.innerHTML='';requestAnimationFrame(()=>{stage.innerHTML=variants[i]();
+  (wire[i]||(()=>{}))();});}
+function setActive(i){if(i<0||i>=variants.length)return;current=i;
+  items.forEach((el,j)=>{el.toggleAttribute('data-active',j===i);
+    if(j===i)el.setAttribute('aria-current','true');else el.removeAttribute('aria-current');});
+  moveHighlight();const url=new URL(location);url.searchParams.set('v',i+1);
+  history.replaceState(null,'',url);mount(i);}
+items.forEach((el,i)=>el.addEventListener('click',()=>setActive(i)));
+replay?.addEventListener('click',()=>mount(current));
+window.addEventListener('resize',moveHighlight);
+document.addEventListener('keydown',(e)=>{
+  if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)||e.target.isContentEditable)return;
+  if(e.metaKey||e.ctrlKey||e.altKey)return;const num=parseInt(e.key,10);
+  if(num>=1&&num<=variants.length)setActive(num-1);
+  else if(e.key==='ArrowRight')setActive((current+1)%variants.length);
+  else if(e.key==='ArrowLeft')setActive((current-1+variants.length)%variants.length);
+  else if(e.key==='r'||e.key==='R')mount(current);});
+setActive((parseInt(new URLSearchParams(location.search).get('v'),10)||1)-1);
+requestAnimationFrame(()=>requestAnimationFrame(()=>picker.setAttribute('data-ready','')));
+</script>
+</body>
+</html>

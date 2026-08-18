@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>分類頁頂 — 五個版本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════════════════
+   量過 Olive Young 個護膚分類頁：**第一件貨喺 219px**。
+   佢個頂得三樣嘢 —— 倒數優惠條、分類名（16px）、「3797 items ·
+   filter · Most Popular」。冇大標題、冇說明句、冇 hero。
+   我哋而家：大襯線標題 ＋ 件數 ＋ 兩行說明 ＋ 玻璃問卷（212px）
+   ＋ 篩選 chip ＋ 品牌列 → 手機第一件貨喺 900px。差四倍。
+   五個版本全部由「攞走幾多」出發，唔係「加啲乜落去」。
+   ════════════════════════════════════════════════════════════ */
+:root{--ink:#14292f;--ink2:#2b4c58;--blue:#6da3b5;--hot:#e8503f;--cream:#f6f5f0;
+  --line:rgba(43,76,88,.13);--dim:#7c878e;--raw:#fdf8f3;
+  --sans:'Noto Sans TC','Manrope',system-ui,sans-serif;--serif:'Noto Serif TC',Georgia,serif;
+  --num:'Manrope',system-ui,sans-serif;--out:cubic-bezier(.23,1,.32,1)}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.frame{max-width:1180px;margin:0 auto;padding:0 16px}
+.bar{background:var(--ink2);color:var(--raw);font-size:.78rem;text-align:center;padding:9px}
+.nav{border-bottom:1px solid var(--line);padding:13px 0}
+.nav .frame{display:flex;align-items:center;gap:22px}
+.logo{font-family:'Manrope';font-weight:700;letter-spacing:.22em;font-size:1rem;color:var(--ink2)}
+.nav b{font-size:.82rem;font-weight:500;color:var(--dim)}
+/* 產品格 —— 五個版本共用，用嚟量「第一件貨喺幾高」 */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:16px 0 40px}
+.pc i{display:block;aspect-ratio:1;background:#f4f5f6;border-radius:8px;overflow:hidden}
+.pc img{width:100%;height:100%;object-fit:cover;display:block}
+.pc b{display:block;font-size:.68rem;color:var(--dim);margin:8px 0 2px;font-weight:600}
+.pc span{display:block;font-size:.8rem;line-height:1.35;font-weight:500;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc em{display:block;font-style:normal;font-family:var(--num);font-weight:700;font-size:.85rem;margin-top:4px}
+.mark{position:fixed;left:0;right:0;border-top:1px dashed var(--hot);z-index:50;pointer-events:none}
+.mark span{position:absolute;left:8px;top:-19px;background:var(--hot);color:#fff;font-size:.62rem;
+ padding:2px 7px;border-radius:3px;font-family:var(--num);font-weight:700}
+
+/* ── A 無頭 ── */
+.a-strip{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.a-h{font-size:1.05rem;font-weight:700;margin:0}
+.a-n{font-family:var(--num);font-size:.8rem;font-weight:700;color:var(--dim)}
+.a-sp{margin-left:auto;display:flex;gap:8px}
+.a-btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 13px;
+ font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:transform 160ms ease-out}
+.a-btn:active{transform:scale(.97)}
+.a-chips{display:flex;gap:7px;overflow-x:auto;padding:11px 0;scrollbar-width:none;border-bottom:1px solid var(--line)}
+.a-chips::-webkit-scrollbar{display:none}
+.a-chip{flex:none;padding:6px 13px;border-radius:999px;border:1px solid var(--line);font-size:.8rem;font-weight:600;color:var(--dim)}
+.a-chip[data-on]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* ── B 倒數 ── */
+.b-deal{background:var(--hot);color:#fff;padding:11px 0}
+.b-deal .frame{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.b-deal p{margin:0;font-size:.9rem;font-weight:700}
+.b-clock{display:flex;gap:5px;font-family:var(--num);font-weight:800}
+.b-clock span{background:rgba(0,0,0,.22);border-radius:5px;padding:4px 7px;font-size:.85rem;
+ font-variant-numeric:tabular-nums}
+.b-clock i{font-style:normal;font-size:.62rem;opacity:.75;align-self:center}
+
+/* ── C 貨牆 ── */
+.c-wall{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;background:#e9ebec}
+.c-wall span{display:block;aspect-ratio:1;overflow:hidden;background:#f4f5f6}
+.c-wall img{width:100%;height:100%;object-fit:cover;display:block}
+.c-over{position:absolute;inset:0;display:flex;align-items:flex-end;padding:22px;
+ background:linear-gradient(180deg,rgba(20,41,50,0) 34%,rgba(20,41,50,.82) 100%)}
+.c-over h1{margin:0;color:#fff;font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:900;letter-spacing:-.02em}
+.c-over em{font-style:normal;font-family:var(--num);font-size:.85rem;font-weight:700;
+ color:rgba(255,255,255,.8);margin-left:12px}
+
+/* ── D 一行 ── */
+.d-line{padding:26px 0 16px;border-bottom:1px solid var(--line)}
+.d-line p{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(1.15rem,2.3vw,1.7rem);
+ line-height:1.5;letter-spacing:-.01em}
+.d-line b{font-weight:500;font-family:var(--sans)}
+.d-line u{text-decoration:none;font-family:var(--num);font-weight:700;color:var(--ink2)}
+.d-line s{text-decoration:none;color:var(--dim)}
+
+/* ── E 入口 ── */
+.e-tiles{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:16px 0}
+.e-tile{border:1px solid var(--line);border-radius:10px;padding:10px 10px 12px;background:#fff;
+ transition:transform 160ms ease-out,border-color 200ms var(--out)}
+.e-tile:active{transform:scale(.98)}
+.e-tile:hover{border-color:var(--blue)}
+.e-tile i{display:block;aspect-ratio:1;border-radius:7px;overflow:hidden;background:#f4f5f6;margin-bottom:8px}
+.e-tile img{width:100%;height:100%;object-fit:cover;display:block}
+.e-tile b{display:block;font-size:.85rem;font-weight:700}
+.e-tile em{font-style:normal;font-family:var(--num);font-size:.72rem;font-weight:700;color:var(--dim)}
+
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}
+ .c-wall{grid-template-columns:repeat(4,1fr)}.e-tiles{grid-template-columns:repeat(3,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.proto-picker{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2147483647;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(12px) saturate(1.4);backdrop-filter:blur(12px) saturate(1.4);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 24px rgba(0,0,0,.24);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;line-height:1;user-select:none}
+.proto-picker-highlight{position:absolute;top:4px;left:0;height:28px;border-radius:999px;background:rgba(255,255,255,.12)}
+.proto-picker[data-ready] .proto-picker-highlight{transition:transform 250ms cubic-bezier(.23,1,.32,1),width 250ms cubic-bezier(.23,1,.32,1)}
+.proto-picker-item{position:relative;display:flex;align-items:center;height:28px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.55);font:inherit;cursor:pointer;transition:color 150ms ease-out}
+.proto-picker-item:hover{color:rgba(255,255,255,.85)}
+.proto-picker-item:active{transform:scale(.97)}
+.proto-picker-item[data-active]{color:#fff}
+.proto-picker-divider{width:1px;height:16px;margin:0 4px;background:rgba(255,255,255,.12)}
+.proto-picker-replay{padding:0 10px;font-size:14px}
+</style></head><body>
+<div id="stage"></div>
+<nav class="proto-picker" aria-label="Prototype variants">
+ <span class="proto-picker-highlight" aria-hidden="true"></span>
+ <button class="proto-picker-item" data-active aria-current="true">無頭</button>
+ <button class="proto-picker-item">倒數</button>
+ <button class="proto-picker-item">貨牆</button>
+ <button class="proto-picker-item">一行</button>
+ <button class="proto-picker-item">入口</button>
+ <span class="proto-picker-divider" aria-hidden="true"></span>
+ <button class="proto-picker-replay proto-picker-item" aria-label="Replay (R)">↻</button>
+</nav>
+<script>
+const S={"shots": [{"t": "hince Second Skin Hydrating Primer 保濕妝前乳", "v": "hince", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-second-skin-hydrating-primer-03_9d8787f3-ced1-4c7f-ab59-4903c3f7502a.jpg?v=1785834392"}, {"t": "WAKEMAKE 柔亮水潤唇膏", "v": "WAKEMAKE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemake-healthy-glow-balm-stick-01_5513e2df-cb1f-4253-8068-b9222f2c6703.jpg?v=1785839098"}, {"t": "fwee 瞬間水潤唇部精華", "v": "fwee", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fwee-serum.jpg?v=1785990978"}, {"t": "COSRX AC 淨膚系列終極重點修護霜 [30g]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ac-collection-ultimate-spot-cream-cosrx-official-1_144c9538-237d-41f7-85de-143d8365a0eb.jpg?v=1786088348"}, {"t": "COSRX 積雪草修護霜 [30ml]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/cosrx-cosrx-30ml-0368-01.jpg?v=1786102100"}, {"t": "COSRX 白樺樹液無油舒緩極致保濕乳液100ml", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/oil-free-ultra-moisturizing-lotion-with-birch-sap-cosrx-official-1_0253f6fd-805f-41b7-a7a7-654cbdab03a8.png?v=1786088408"}, {"t": "BRAYE Thin Glow Tint 薄透唇釉", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-thin-glow-tint-03.jpg?v=1785519684"}, {"t": "Peripera 水潤透亮胭脂液", "v": "Peripera", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Syrupy_Tok_Cheek_Pink_Haguma__T_1.jpg?v=1785768447"}, {"t": "hince Raw Glow Gel Tint 果凍唇釉", "v": "hince", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-raw-glow-gel-tint-01_8fd07e93-939e-4bff-a488-411ff3d8531a.jpg?v=1785833653"}, {"t": "CLIO 極致持妝無瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-founwear-cushion-01.jpg?v=1785764635"}, {"t": "CLIO 柔霧遮瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-skin-fixer-cushion-01.jpg?v=1785764637"}, {"t": "CLIO 網光亮肌精華氣墊粉底 附補充裝 SPF50+ PA+++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-high-glow-cushion-01.jpg?v=1785764640"}, {"t": "TIRTIR 膠原蛋白緊緻眼霜", "v": "TIRTIR", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Thumbnailtest_0010_EyeCream_fe2632a9-1793-4f89-9bca-f810d1f683a9.jpg?v=1785912382"}, {"t": "COSRX 視黃醇 0.1% 面霜 [20ml]", "v": "COSRX", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/RetinolCream_800x1067_a24af6b0-ca3d-403b-84d6-43619bd0fb09.jpg?v=1786088357"}]}.shots;
+const q=(s)=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const w=(u,n)=>u+(u.includes('?')?'&':'?')+'width='+n;
+const SUB=[['全部',627],['潔面',93],['爽膚水',53],['棉片',36],['精華液',105],['乳液',101],['面膜',132],['防曬',67]];
+const P=[39,148,219,280,79,338,168,99,229,58];
+
+const shell=()=>`<div class="bar">8 月 31 日前 全單 9 折 · 滿 HK$400 免運費</div>
+ <div class="nav"><div class="frame"><span class="logo">OUJI</span>
+  <b>全部產品</b><b>品牌</b><b>獲獎產品</b><b>妝感配對</b><b>專欄</b></div></div>`;
+const grid=()=>`<div class="frame"><div class="grid" id="grid">${S.slice(0,10).map((p,i)=>`
+ <a class="pc" href="#"><i><img src="${w(p.img,300)}" alt="" loading="lazy"></i>
+  <b>${q(p.v)}</b><span>${q(p.t.slice(0,26))}</span><em>HK$${P[i]}</em></a>`).join('')}</div></div>`;
+
+const variants=[
+/* A 無頭 —— OY 真係咁做：分類名細、件數、篩選、排序，一條 strip 完 */
+()=>shell()+`<div class="frame">
+ <div class="a-strip"><h1 class="a-h">護膚</h1><span class="a-n">627 件</span>
+  <span class="a-sp"><button class="a-btn">篩選</button><button class="a-btn">排序：推薦 ▾</button></span></div>
+ <div class="a-chips">${SUB.map(([n,c],i)=>`<span class="a-chip"${i===0?' data-on':''}>${n} ${c}</span>`).join('')}</div>
+</div>`+grid(),
+
+/* B 倒數 —— OY 頂條係一個真嘅倒數。我哋 8/31 個 deadline 係真嘅 */
+()=>`<div class="b-deal"><div class="frame">
+  <p>全單 9 折 · 仲有</p>
+  <span class="b-clock" id="clock"></span>
+  <p style="font-weight:500;opacity:.9">滿 HK$400 免運費</p>
+ </div></div>
+ <div class="nav"><div class="frame"><span class="logo">OUJI</span>
+  <b>全部產品</b><b>品牌</b><b>獲獎產品</b><b>妝感配對</b><b>專欄</b></div></div>
+ <div class="frame">
+  <div class="a-strip"><h1 class="a-h">護膚</h1><span class="a-n">627 件</span>
+   <span class="a-sp"><button class="a-btn">篩選</button><button class="a-btn">排序：推薦 ▾</button></span></div>
+  <div class="a-chips">${SUB.map(([n,c],i)=>`<span class="a-chip"${i===0?' data-on':''}>${n} ${c}</span>`).join('')}</div>
+ </div>`+grid(),
+
+/* C 貨牆 —— 個頭本身就係貨。零裝飾空間 */
+()=>shell()+`<div class="c-wall">${S.slice(0,7).map(p=>`
+  <span><img src="${w(p.img,320)}" alt="" loading="lazy"></span>`).join('')}
+  <div class="c-over"><h1>護膚<em>627 件 · 32 個牌子</em></h1></div>
+ </div><div class="frame">
+  <div class="a-chips">${SUB.map(([n,c],i)=>`<span class="a-chip"${i===0?' data-on':''}>${n} ${c}</span>`).join('')}</div>
+ </div>`+grid(),
+
+/* D 一行 —— 個頭係一句真數字砌成嘅句 */
+()=>shell()+`<div class="frame"><div class="d-line">
+  <p><b>護膚</b>　<u>627</u> 件貨、<u>32</u> 個韓國牌子，最平 <u>HK$39</u>，<s>今日全部有現貨。</s></p>
+ </div>
+ <div class="a-chips">${SUB.map(([n,c],i)=>`<span class="a-chip"${i===0?' data-on':''}>${n} ${c}</span>`).join('')}</div>
+</div>`+grid(),
+
+/* E 入口 —— 冇標題塊。子分類本身就係個頭 */
+()=>shell()+`<div class="frame"><div class="e-tiles">${SUB.slice(1).map(([n,c],i)=>`
+ <a class="e-tile" href="#"><i><img src="${w(S[i].img,240)}" alt="" loading="lazy"></i>
+  <b>${n}</b><em>${c} 件</em></a>`).join('')}</div>
+ <div class="a-strip" style="border-top:1px solid var(--line)"><h1 class="a-h">全部護膚</h1>
+  <span class="a-n">627 件</span>
+  <span class="a-sp"><button class="a-btn">篩選</button><button class="a-btn">排序：推薦 ▾</button></span></div>
+</div>`+grid(),
+];
+
+const wire=[0,1,2,3,4].map(()=>()=>{
+ /* 量返第一件貨喺幾高，畫條紅線出嚟 —— 呢個先係重點 */
+ document.querySelectorAll('.mark').forEach(e=>e.remove());
+ const g=document.getElementById('grid');if(!g)return;
+ const y=Math.round(g.querySelector('.pc').getBoundingClientRect().top+scrollY);
+ const m=document.createElement('div');m.className='mark';m.style.top=y+'px';
+ m.innerHTML=`<span>第一件貨 ${y}px　·　Olive Young 係 219px</span>`;
+ document.body.appendChild(m);
+ const c=document.getElementById('clock');
+ if(c){const end=new Date('2026-08-31T23:59:59+08:00');
+  const tick=()=>{let s=Math.max(0,(end-Date.now())/1000|0);
+   const d=s/86400|0;s-=d*86400;const h=s/3600|0;s-=h*3600;const mi=s/60|0;s-=mi*60;
+   c.innerHTML=`<span>${d}</span><i>日</i><span>${String(h).padStart(2,'0')}</span><i>時</i>`+
+    `<span>${String(mi).padStart(2,'0')}</span><i>分</i><span>${String(s).padStart(2,'0')}</span><i>秒</i>`;};
+  tick();clearInterval(window.__t);window.__t=setInterval(tick,1000);}
+});
+const stage=document.getElementById('stage');const picker=document.querySelector('.proto-picker');
+const highlight=picker.querySelector('.proto-picker-highlight');
+const items=[...picker.querySelectorAll('.proto-picker-item:not(.proto-picker-replay)')];
+const replay=picker.querySelector('.proto-picker-replay');let current=0;
+function moveHighlight(){const el=items[current];highlight.style.width=el.offsetWidth+'px';
+ highlight.style.transform=`translateX(${el.offsetLeft}px)`;}
+function mount(i){stage.innerHTML='';requestAnimationFrame(()=>{stage.innerHTML=variants[i]();(wire[i]||(()=>{}))();});}
+function setActive(i){if(i<0||i>=variants.length)return;current=i;
+ items.forEach((el,j)=>{el.toggleAttribute('data-active',j===i);
+  if(j===i)el.setAttribute('aria-current','true');else el.removeAttribute('aria-current');});
+ moveHighlight();const u=new URL(location);u.searchParams.set('v',i+1);history.replaceState(null,'',u);mount(i);}
+items.forEach((el,i)=>el.addEventListener('click',()=>setActive(i)));
+replay?.addEventListener('click',()=>mount(current));
+window.addEventListener('resize',moveHighlight);
+document.addEventListener('keydown',(e)=>{
+ if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)||e.target.isContentEditable)return;
+ if(e.metaKey||e.ctrlKey||e.altKey)return;const n=parseInt(e.key,10);
+ if(n>=1&&n<=variants.length)setActive(n-1);
+ else if(e.key==='ArrowRight')setActive((current+1)%variants.length);
+ else if(e.key==='ArrowLeft')setActive((current-1+variants.length)%variants.length);
+ else if(e.key==='r'||e.key==='R')mount(current);});
+setActive((parseInt(new URLSearchParams(location.search).get('v'),10)||1)-1);
+requestAnimationFrame(()=>requestAnimationFrame(()=>picker.setAttribute('data-ready','')));
+</script></body></html>
