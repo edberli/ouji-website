@@ -30,23 +30,23 @@ img { display: block; }
 .photo-strip > span { display: block; padding: 7px 2px 1px; overflow: hidden; font-family: "Space Mono", monospace; font-size: 7px; font-weight: 700; letter-spacing: .04em; text-align: center; white-space: nowrap; }
 @keyframes strip-in { from { opacity: 0; transform: translateY(-38px) rotate(9deg); } to { opacity: 1; } }
 
-.skin-cats { position: absolute; z-index: 10; left: 50%; bottom: 7px; width: min(960px, calc(100% - 28px)); display: grid; grid-template-columns: repeat(8, minmax(0,1fr)); align-items: end; gap: clamp(2px, .55vw, 7px); transform: translateX(-50%); }
-.skin-cat { --shift: 0px; --lift: 0px; --tilt: 0deg; --scale: 1; position: relative; min-width: 0; min-height: 76px; display: grid; place-items: center; border: 0; padding: 0 4px 15px; color: var(--ink); background: transparent; cursor: pointer; transform: translate(var(--shift),var(--lift)) rotate(var(--tilt)) scale(var(--scale)); transition: transform 160ms ease-out; }
+.skin-cats { position: absolute; z-index: 10; left: 50%; bottom: 0; width: min(960px, calc(100% - 28px)); height: 112px; transform: translateX(-50%); }
+.skin-cat { --shift: 0px; --lift: 0px; --tilt: 0deg; --scale: 1; position: absolute; left: var(--x); bottom: var(--y); width: var(--w); height: var(--h,82px); min-width: 44px; min-height: 44px; display: grid; place-items: center; border: 0; padding: 0 4px 15px; color: var(--ink); background: transparent; cursor: pointer; transform: translate(var(--shift),var(--lift)) rotate(var(--tilt)) scale(var(--scale)); transform-origin: 50% 80%; transition: transform 160ms ease-out; }
 .skin-cat:hover { transform: translate(var(--shift),calc(var(--lift) - 5px)) rotate(0) scale(1.06); }
 .skin-cat[data-active] { z-index: 12; color: var(--ink); background: transparent; }
-.skin-cat-icon { width: 58px; height: 61px; overflow: visible; filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(3px 4px 0 rgba(17,19,26,.27)); transition: transform 160ms ease-out; }
+.skin-cat-icon { width: var(--icon-w,58px); height: var(--icon-h,61px); overflow: visible; filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(3px 4px 0 rgba(17,19,26,.27)); transition: transform 160ms ease-out; }
 .skin-cat b { position: absolute; left: 50%; bottom: 1px; min-width: 43px; padding: 2px 6px; border: 1.5px solid var(--ink); background: var(--cat-tint); box-shadow: 2px 2px 0 rgba(17,19,26,.28); font-size: 9px; line-height: 1.15; text-align: center; white-space: nowrap; transform: translateX(-50%) rotate(calc(var(--tilt) * -.45)); transition: color 140ms ease-out, background 140ms ease-out; }
 .skin-cat small { position: absolute; right: 10%; top: 2px; min-width: 20px; padding: 2px 3px; border: 1.5px solid var(--ink); background: white; box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.25); font-family: "Space Mono", monospace; font-size: 6.5px; font-weight: 700; line-height: 1; text-align: center; transform: rotate(8deg); }
 .skin-cat[data-active] .skin-cat-icon { transform: scale(1.12); }
 .skin-cat[data-active] b { border-color: white; background: var(--ink); color: white; box-shadow: 3px 3px 0 var(--cat-tint); }
-.skin-cat:nth-child(1) { --shift: -5px; --lift: -3px; --tilt: -8deg; --scale: 1.03; }
-.skin-cat:nth-child(2) { --shift: 6px; --lift: 3px; --tilt: 5deg; --scale: .94; }
-.skin-cat:nth-child(3) { --shift: -2px; --lift: -1px; --tilt: -4deg; --scale: 1.08; }
-.skin-cat:nth-child(4) { --shift: 7px; --lift: 4px; --tilt: 8deg; --scale: .98; }
-.skin-cat:nth-child(5) { --shift: -7px; --lift: -4px; --tilt: -6deg; --scale: 1.04; }
-.skin-cat:nth-child(6) { --shift: 3px; --lift: 2px; --tilt: 7deg; --scale: .96; }
-.skin-cat:nth-child(7) { --shift: -4px; --lift: -2px; --tilt: -9deg; --scale: 1.02; }
-.skin-cat:nth-child(8) { --shift: 5px; --lift: 3px; --tilt: 5deg; --scale: .97; }
+.skin-cat:nth-child(1) { --x: 0%; --y: 2px; --w: 11%; --h: 78px; --icon-w: 51px; --icon-h: 57px; --tilt: -10deg; }
+.skin-cat:nth-child(2) { --x: 10.5%; --y: 22px; --w: 12%; --h: 68px; --icon-w: 43px; --icon-h: 49px; --tilt: 7deg; }
+.skin-cat:nth-child(3) { --x: 22%; --y: -2px; --w: 13%; --h: 96px; --icon-w: 72px; --icon-h: 73px; --tilt: -5deg; }
+.skin-cat:nth-child(4) { --x: 34%; --y: 16px; --w: 14%; --h: 90px; --icon-w: 62px; --icon-h: 72px; --tilt: 9deg; }
+.skin-cat:nth-child(5) { --x: 48%; --y: 0; --w: 10%; --h: 72px; --icon-w: 45px; --icon-h: 48px; --tilt: -7deg; }
+.skin-cat:nth-child(6) { --x: 57.5%; --y: 21px; --w: 14%; --h: 96px; --icon-w: 70px; --icon-h: 76px; --tilt: 8deg; }
+.skin-cat:nth-child(7) { --x: 71%; --y: -3px; --w: 15%; --h: 87px; --icon-w: 64px; --icon-h: 66px; --tilt: -11deg; }
+.skin-cat:nth-child(8) { --x: 85%; --y: 18px; --w: 12%; --h: 72px; --icon-w: 47px; --icon-h: 54px; --tilt: 6deg; }
 
 /* 1 — 水光房：記憶點係一粒好似鏡頭、又似精華液嘅透明水珠。 */
 .hydro { background: repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0 1px,transparent 1px 6px), linear-gradient(135deg,#b9c9d4,#effcff 48%,#aab9ca); }
@@ -165,12 +165,18 @@ img { display: block; }
   .site-nav a:nth-of-type(n+3) { display: none; }
   .skin-hero { min-height: 350px; height: 350px; }
   .photo-strip { width: 112px; padding: 5px; }.photo-strip__frames { gap: 3px; }.photo-strip > span { padding-top: 5px; font-size: 5.5px; }
-  .skin-cats { bottom: 4px; width: calc(100% - 12px); grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0 2px; }
-  .skin-cat { min-height: 55px; padding: 0 2px 12px; }
-  .skin-cat-icon { width: 40px; height: 42px; filter: drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(2px 2px 0 rgba(17,19,26,.28)); }
+  .skin-cats { bottom: 10px; width: calc(100% - 8px); height: 126px; }
+  .skin-cat { padding: 0 2px 12px; }
+  .skin-cat-icon { filter: drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(2px 2px 0 rgba(17,19,26,.28)); }
   .skin-cat b { min-width: 38px; padding: 1px 4px; font-size: 8px; }.skin-cat small { top: 0; right: 9%; min-width: 17px; padding: 1px 2px; font-size: 5.5px; }
-  .skin-cat:nth-child(1) { --shift: -2px; --lift: -2px; }.skin-cat:nth-child(2) { --shift: 3px; --lift: 2px; }.skin-cat:nth-child(3) { --shift: -3px; --lift: -1px; }.skin-cat:nth-child(4) { --shift: 2px; --lift: 2px; }
-  .skin-cat:nth-child(5) { --shift: -3px; --lift: -1px; }.skin-cat:nth-child(6) { --shift: 2px; --lift: 2px; }.skin-cat:nth-child(7) { --shift: -2px; --lift: -2px; }.skin-cat:nth-child(8) { --shift: 3px; --lift: 1px; }
+  .skin-cat:nth-child(1) { --x: 0%; --y: 61px; --w: 22%; --h: 58px; --icon-w: 38px; --icon-h: 43px; --tilt: -10deg; }
+  .skin-cat:nth-child(2) { --x: 21%; --y: 73px; --w: 26%; --h: 49px; --icon-w: 31px; --icon-h: 36px; --tilt: 8deg; }
+  .skin-cat:nth-child(3) { --x: 47%; --y: 55px; --w: 23%; --h: 67px; --icon-w: 49px; --icon-h: 50px; --tilt: -5deg; }
+  .skin-cat:nth-child(4) { --x: 69%; --y: 69px; --w: 29%; --h: 61px; --icon-w: 43px; --icon-h: 51px; --tilt: 10deg; }
+  .skin-cat:nth-child(5) { --x: 0%; --y: 0; --w: 24%; --h: 50px; --icon-w: 32px; --icon-h: 35px; --tilt: -8deg; }
+  .skin-cat:nth-child(6) { --x: 22%; --y: 13px; --w: 27%; --h: 65px; --icon-w: 49px; --icon-h: 54px; --tilt: 8deg; }
+  .skin-cat:nth-child(7) { --x: 48%; --y: -2px; --w: 29%; --h: 59px; --icon-w: 45px; --icon-h: 44px; --tilt: -12deg; }
+  .skin-cat:nth-child(8) { --x: 75%; --y: 10px; --w: 23%; --h: 52px; --icon-w: 34px; --icon-h: 40px; --tilt: 7deg; }
 
   .hydro__title { left: 13px; top: 17px; }.hydro__title h1 { font-size: 43px; -webkit-text-stroke-width: 1px; text-shadow: 3px 4px 0 #b8ff62; }.hydro__title p { margin-top: 8px; font-size: 8px; }
   .hydro__strip { top: 49px; right: 12px; }.hydro__orb { left: 36%; top: 124px; width: 105px; height: 112px; }.hydro__orb span { font-size: 17px; }
@@ -196,7 +202,7 @@ img { display: block; }
 }
 
 @media (max-width: 350px) {
-  .skin-cat b { min-width: 34px; font-size: 7px; }.skin-cat-icon { width: 36px; height: 39px; }.skin-cat { min-height: 52px; }
+  .skin-cat b { min-width: 34px; font-size: 7px; }.skin-cat { --scale: .9; }
   .hydro__title h1,.maskbooth__title h1 { font-size: 38px; }.lab__title h1 { font-size: 34px; }
   .boot__title h1 { font-size: 34px; }.boot__window { width: 184px; }.boot__dialog { width: 155px; }.boot__taskbar span { display: none; }
 }
