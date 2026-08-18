@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>月白意境 — OUJI 彩妝</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    :root { --night: #0a1733; --moon: #f4efe6; --jade: #88aaa1; --lilac: #bcb0ce; --coral: #ca8078; }
+    .moon {
+      position: relative;
+      min-height: 500px;
+      overflow: hidden;
+      background:
+        linear-gradient(115deg, rgba(136,170,161,.12), transparent 38%),
+        linear-gradient(180deg, #0d1e42 0%, var(--night) 68%, #071026 100%);
+      color: var(--moon);
+      isolation: isolate;
+    }
+    .moon::before {
+      content: "";
+      position: absolute;
+      width: clamp(280px, 42vw, 620px);
+      aspect-ratio: 1;
+      top: -43%;
+      right: 4%;
+      border-radius: 50%;
+      background: var(--moon);
+      opacity: .94;
+      box-shadow: 0 28px 80px rgba(244,239,230,.13);
+      z-index: -1;
+    }
+    .moon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100px;
+      background: linear-gradient(180deg, transparent, rgba(6,14,35,.88));
+      z-index: -1;
+    }
+    .moon__copy {
+      position: absolute;
+      left: clamp(20px, 7vw, 110px);
+      top: 66px;
+      z-index: 4;
+    }
+    .moon__copy h1 {
+      margin: 0;
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(58px, 9vw, 128px);
+      font-weight: 900;
+      line-height: .92;
+      letter-spacing: .06em;
+    }
+    .moon__copy h1 small {
+      display: block;
+      margin-top: 12px;
+      color: var(--jade);
+      font: 400 clamp(22px, 3vw, 42px)/1 "Italiana", serif;
+      letter-spacing: .18em;
+    }
+    .moon__copy p {
+      max-width: 23em;
+      margin: 24px 0 0;
+      color: rgba(244,239,230,.75);
+      font-family: "Noto Serif TC", serif;
+      font-size: 13px;
+      line-height: 1.9;
+      letter-spacing: .08em;
+    }
+    .moon__silks {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .moon__silk {
+      position: absolute;
+      width: clamp(120px, 17vw, 230px);
+      aspect-ratio: .76;
+      overflow: hidden;
+      border: 1px solid rgba(244,239,230,.25);
+      background: rgba(244,239,230,.08);
+      box-shadow: 0 24px 60px rgba(0,0,0,.32);
+      animation: silk-in 750ms cubic-bezier(.23, 1, .32, 1) both, silk-float 7s 850ms ease-in-out infinite alternate;
+    }
+    .moon__silk img { width: 100%; height: 100%; object-fit: cover; opacity: .88; }
+    .moon__silk:nth-child(1) { right: 26%; top: 62px; transform: rotate(-5deg); }
+    .moon__silk:nth-child(2) { right: 8%; top: 164px; transform: rotate(7deg); animation-delay: 100ms, 950ms; }
+    .moon__silk:nth-child(3) { right: 18%; top: 290px; width: clamp(100px, 13vw, 180px); transform: rotate(-2deg); animation-delay: 180ms, 1030ms; }
+    .moon__nav {
+      position: absolute;
+      left: clamp(20px, 7vw, 110px);
+      right: clamp(20px, 7vw, 110px);
+      bottom: 28px;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid rgba(244,239,230,.3);
+    }
+    .moon__nav button {
+      position: relative;
+      border: 0;
+      background: transparent;
+      color: rgba(244,239,230,.58);
+      padding: 14px 8px 7px;
+      text-align: left;
+      cursor: pointer;
+      transition: color 180ms ease-out;
+    }
+    .moon__nav button::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 8px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .moon__nav button[data-active] { color: var(--moon); }
+    .moon__nav b { display: block; font-family: "Noto Serif TC", serif; font-size: 15px; }
+    .moon__nav span { color: var(--jade); font-size: 10px; font-weight: 700; }
+    @keyframes silk-in { from { opacity: 0; clip-path: inset(100% 0 0); } to { opacity: 1; clip-path: inset(0); } }
+    @keyframes silk-float { to { translate: 0 -9px; } }
+    @media (max-width: 720px) {
+      .moon { min-height: 530px; }
+      .moon::before { width: 340px; top: -36%; right: -28%; }
+      .moon__copy { top: 48px; left: 20px; }
+      .moon__copy h1 { font-size: 65px; }
+      .moon__copy h1 small { font-size: 23px; }
+      .moon__copy p { max-width: 18em; font-size: 12px; }
+      .moon__silk:nth-child(1) { right: 25px; top: 215px; width: 138px; }
+      .moon__silk:nth-child(2) { right: -35px; top: 285px; width: 118px; }
+      .moon__silk:nth-child(3) { display: none; }
+      .moon__nav { left: 14px; right: 14px; bottom: 20px; overflow-x: auto; }
+      .moon__nav button { min-width: 84px; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: 彩妝頁頂係一幅月下陳列，唔係促銷框；情緒同產品一齊領路。
+  OWN-WORLD: 夜藍、月白、玉綠、浮動絲面、宋體與安靜節點。
+  STORY: 先感到彩妝嘅質感，再沿月下五個節點入分類。
+  FIRST VIEWPORT: 左詩性標題、右三幅浮動真貨絲帶、底五個分類節點。
+  FORM: grounded candidate 3, assigned by seed 6bdc6133.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <div id="site-chrome"></div>
+  <main>
+    <section class="moon">
+      <div class="moon__copy"><h1>月下<br>妝色<small>MAKEUP IN MOONLIGHT</small></h1><p>月色落在妝面上。182 件現貨，沿住底妝、眼、唇、頰、修容五個方向慢慢揀。</p></div>
+      <div class="moon__silks" aria-hidden="true">
+        <figure class="moon__silk"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-03.jpg?v=1785519682&width=520" alt=""></figure>
+        <figure class="moon__silk"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-high-glow-cushion-01.jpg?v=1785764640&width=520" alt=""></figure>
+        <figure class="moon__silk"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-baked-blush-08.jpg?v=1785469561&width=420" alt=""></figure>
+      </div>
+      <nav class="moon__nav" aria-label="彩妝分類">
+        <button class="cat-control" type="button" data-cat="底妝"><b>底妝</b><span>46 件</span></button>
+        <button class="cat-control" type="button" data-cat="眼妝"><b>眼妝</b><span>50 件</span></button>
+        <button class="cat-control" type="button" data-cat="唇妝"><b>唇妝</b><span>58 件</span></button>
+        <button class="cat-control" type="button" data-cat="頰彩"><b>頰彩</b><span>16 件</span></button>
+        <button class="cat-control" type="button" data-cat="修容"><b>修容</b><span>12 件</span></button>
+      </nav>
+    </section>
+    <div id="product-preview"></div>
+  </main>
+  <script src="common.js"></script>
+  <script>bootPrototype("唇妝");</script>
+</body>
+</html>
+

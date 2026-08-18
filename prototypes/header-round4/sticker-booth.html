@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>貼紙相機 — OUJI 彩妝</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    :root { --pink: #ff70bd; --blue: #5d73ff; --lime: #cbff48; --silver: #d8d9e5; }
+    .booth {
+      position: relative;
+      min-height: 510px;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,.32) 0 1px, transparent 1px 6px),
+        linear-gradient(135deg, #cdd0dc, #f2f2f7 46%, #bfc2d1);
+      color: #13141a;
+    }
+    .booth__title {
+      position: absolute;
+      left: clamp(18px, 5vw, 76px);
+      top: 34px;
+      z-index: 4;
+      transform: rotate(-3deg);
+    }
+    .booth__title h1 {
+      margin: 0;
+      font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+      font-size: clamp(52px, 8vw, 116px);
+      font-weight: 400;
+      line-height: .82;
+      color: var(--blue);
+      -webkit-text-stroke: 2px #101218;
+      text-shadow: 4px 6px 0 var(--lime);
+    }
+    .booth__title p {
+      display: inline-block;
+      margin: 14px 0 0 12px;
+      padding: 7px 12px;
+      background: #101218;
+      color: white;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+    .booth__strip {
+      position: absolute;
+      top: 28px;
+      left: 51%;
+      width: clamp(190px, 22vw, 285px);
+      padding: 10px;
+      background: white;
+      box-shadow: 0 24px 55px rgba(25,28,50,.28);
+      transform: rotate(4deg);
+      animation: strip-in 480ms cubic-bezier(.23, 1, .32, 1) both;
+    }
+    .booth__strip::after {
+      content: "OUJI PHOTO CLUB · 182 / 23";
+      display: block;
+      padding: 9px 2px 2px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-align: center;
+    }
+    .booth__frames { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .booth__frames img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #eceef1; }
+    .booth__stickers button {
+      position: absolute;
+      z-index: 5;
+      border: 2px solid #11131a;
+      border-radius: 999px;
+      padding: 9px 15px;
+      color: #11131a;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 3px 4px 0 rgba(17,19,26,.28);
+      transition: transform 160ms ease-out;
+    }
+    .booth__stickers button:hover { transform: translateY(-5px) rotate(0) !important; }
+    .booth__stickers button[data-active] { background: #11131a !important; color: white; border-color: white; }
+    .booth__stickers button:nth-child(1) { left: 8%; bottom: 72px; background: var(--pink); transform: rotate(-8deg); }
+    .booth__stickers button:nth-child(2) { left: 28%; bottom: 35px; background: var(--lime); transform: rotate(4deg); }
+    .booth__stickers button:nth-child(3) { right: 8%; bottom: 72px; background: #fff; transform: rotate(7deg); }
+    .booth__stickers button:nth-child(4) { right: 30%; top: 54px; background: #ffd64d; transform: rotate(-5deg); }
+    .booth__stickers button:nth-child(5) { right: 7%; top: 30px; background: #98e4ff; transform: rotate(8deg); }
+    .booth__burst {
+      position: absolute;
+      right: -35px;
+      bottom: -50px;
+      width: 180px;
+      height: 180px;
+      background: var(--pink);
+      transform: rotate(15deg);
+      clip-path: polygon(50% 0, 61% 34%, 90% 10%, 70% 40%, 100% 50%, 67% 59%, 91% 88%, 60% 69%, 50% 100%, 40% 68%, 10% 90%, 33% 59%, 0 50%, 32% 40%, 10% 11%, 40% 33%);
+    }
+    .booth__flash { position: absolute; inset: 0; z-index: 20; pointer-events: none; background: white; animation: flash 520ms ease-out both; }
+    @keyframes flash { 0%, 15% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes strip-in { from { opacity: 0; transform: translateY(-70px) rotate(9deg); } to { opacity: 1; transform: rotate(4deg); } }
+    @media (max-width: 720px) {
+      .booth { min-height: 560px; }
+      .booth__title { left: 16px; top: 26px; }
+      .booth__title h1 { font-size: 58px; -webkit-text-stroke-width: 1px; text-shadow: 3px 4px 0 var(--lime); }
+      .booth__strip { top: 178px; left: 50%; width: 178px; transform: translateX(-50%) rotate(3deg); }
+      @keyframes strip-in { from { opacity: 0; transform: translate(-50%, -60px) rotate(8deg); } to { opacity: 1; transform: translateX(-50%) rotate(3deg); } }
+      .booth__stickers button { padding: 7px 11px; font-size: 12px; }
+      .booth__stickers button:nth-child(1) { left: 12px; bottom: 72px; }
+      .booth__stickers button:nth-child(2) { left: 100px; bottom: 28px; }
+      .booth__stickers button:nth-child(3) { right: 13px; bottom: 72px; }
+      .booth__stickers button:nth-child(4) { right: 72px; top: 116px; }
+      .booth__stickers button:nth-child(5) { right: 10px; top: 78px; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: 彩妝頁頂係首爾貼紙相機出嚟嗰張相紙，分類係可撳貼紙。
+  OWN-WORLD: 銀色機身、電藍、泡泡粉、青檸、相紙、閃光同層疊貼紙。
+  STORY: 先見四格真貨相紙，再撳散落貼紙揀分類。
+  FIRST VIEWPORT: 左玩味巨字、中四格相紙、四周五個分類貼紙。
+  FORM: grounded Korean youth-culture candidate under seed 6bdc6133.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <div id="site-chrome"></div>
+  <main>
+    <section class="booth">
+      <div class="booth__flash" aria-hidden="true"></div>
+      <div class="booth__title"><h1>OUJI<br>STICKER<br>CLUB</h1><p>彩妝 · 182 件 · 23 品牌</p></div>
+      <div class="booth__strip" aria-hidden="true"><div class="booth__frames">
+        <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-founwear-cushion-01.jpg?v=1785764635&width=360" alt="">
+        <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2a6ff6ccf99e7154a4b67cafb2811612.jpg?v=1785667240&width=360" alt="">
+        <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-03.jpg?v=1785519682&width=360" alt="">
+        <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-baked-blush-08.jpg?v=1785469561&width=360" alt="">
+      </div></div>
+      <div class="booth__stickers">
+        <button class="cat-control" type="button" data-cat="底妝">底妝 46</button>
+        <button class="cat-control" type="button" data-cat="眼妝">眼妝 50</button>
+        <button class="cat-control" type="button" data-cat="唇妝">唇妝 58</button>
+        <button class="cat-control" type="button" data-cat="頰彩">頰彩 16</button>
+        <button class="cat-control" type="button" data-cat="修容">修容 12</button>
+      </div>
+      <div class="booth__burst" aria-hidden="true"></div>
+    </section>
+    <div id="product-preview"></div>
+  </main>
+  <script src="common.js"></script>
+  <script>bootPrototype("眼妝");</script>
+</body>
+</html>

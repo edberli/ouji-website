@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>韓式連鎖藥妝 — OUJI 彩妝</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    :root { --lime: #d8ff35; --orange: #ff5b24; --retail-blue: #173e91; }
+    .retail {
+      background: #f8faf8;
+      color: #101615;
+      border-bottom: 10px solid var(--retail-blue);
+    }
+    .retail__sign {
+      min-height: 94px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 20px;
+      padding: 12px clamp(18px, 4vw, 58px);
+      background: var(--lime);
+      border-bottom: 2px solid #101615;
+    }
+    .retail__sign h1 {
+      margin: 0;
+      font-family: "League Gothic", "Noto Sans TC", sans-serif;
+      font-size: clamp(48px, 7vw, 92px);
+      font-weight: 400;
+      line-height: .8;
+      letter-spacing: .01em;
+    }
+    .retail__sign h1 span {
+      display: inline-block;
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: .53em;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .retail__sign p { max-width: 32ch; margin: 0; font-size: 12px; font-weight: 700; line-height: 1.5; }
+    .retail__stat { display: flex; gap: 4px; }
+    .retail__stat b {
+      min-width: 72px;
+      padding: 9px 10px;
+      background: #fff;
+      border: 2px solid #101615;
+      text-align: center;
+      font-size: 10px;
+      line-height: 1.25;
+    }
+    .retail__stat strong { display: block; font: 400 34px/1 "League Gothic", sans-serif; }
+    .retail__rail {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 7px;
+      padding: 13px clamp(18px, 4vw, 58px) 16px;
+      background-image: linear-gradient(#f8faf8 0 86%, #cad1cf 86% 91%, #909b98 91% 95%, #e6e9e8 95%);
+    }
+    .retail__ticket {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      align-items: stretch;
+      padding: 0;
+      overflow: hidden;
+      border: 2px solid #101615;
+      background: white;
+      color: #101615;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 5px 0 rgba(16, 22, 21, .16);
+      transition: transform 180ms ease-out;
+    }
+    .retail__ticket:hover { transform: translateY(-4px); }
+    .retail__ticket img { width: 78px; height: 78px; object-fit: cover; background: #f2f4f4; }
+    .retail__ticket span { min-width: 0; padding: 8px 8px 6px; }
+    .retail__ticket b { display: block; font-size: 15px; }
+    .retail__ticket strong { font: 400 30px/1 "League Gothic", sans-serif; color: var(--retail-blue); }
+    .retail__ticket i { display: block; font-style: normal; font-size: 9px; font-weight: 900; color: var(--orange); }
+    .retail__ticket[data-active] { background: var(--retail-blue); color: white; }
+    .retail__ticket[data-active] strong { color: var(--lime); }
+    .retail__ticket[data-active] i { color: white; }
+    .retail__ticker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      overflow-x: auto;
+      padding: 6px clamp(18px, 4vw, 58px);
+      background: var(--orange);
+      color: white;
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    @media (max-width: 720px) {
+      .retail__sign { min-height: 108px; grid-template-columns: 1fr auto; gap: 10px; padding-inline: 14px; }
+      .retail__sign p { display: none; }
+      .retail__sign h1 { font-size: 50px; }
+      .retail__stat b { min-width: 54px; padding-inline: 7px; }
+      .retail__stat strong { font-size: 28px; }
+      .retail__rail { display: flex; overflow-x: auto; padding: 10px 14px 15px; }
+      .retail__ticket { flex: 0 0 154px; grid-template-columns: 58px 1fr; }
+      .retail__ticket img { width: 58px; height: 68px; }
+      .retail__ticket strong { font-size: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: 分類頁頂係韓式連鎖藥妝店嘅貨架招牌，五張價牌本身就係入口。
+  OWN-WORLD: 螢光青、OUJI 藍、橙色提示、粗黑框、貨架票同高密度資訊。
+  STORY: 一秒見到 182 件、23 品牌，再按貨架票即刻睇貨。
+  FIRST VIEWPORT: 上招牌、下五張真貨價牌，產品列表緊接其後。
+  FORM: user-pinned Korean chain drugstore direction; seed 6bdc6133.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <div id="site-chrome"></div>
+  <main>
+    <section class="retail">
+      <header class="retail__sign">
+        <h1>MAKEUP <span>彩妝區</span></h1>
+        <p>分類唔藏喺落拉選單：五張貨架票，就係五個入口。</p>
+        <div class="retail__stat"><b><strong>182</strong>件現貨</b><b><strong>23</strong>個品牌</b></div>
+      </header>
+      <div class="retail__rail">
+        <button class="retail__ticket cat-control" type="button" data-cat="底妝"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-founwear-cushion-01.jpg?v=1785764635&width=180" alt="CLIO 氣墊粉底"><span><b>底妝</b><strong>46</strong><i>BASE</i></span></button>
+        <button class="retail__ticket cat-control" type="button" data-cat="眼妝"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2a6ff6ccf99e7154a4b67cafb2811612.jpg?v=1785667240&width=180" alt="Heart Percent 眼影盤"><span><b>眼妝</b><strong>50</strong><i>EYE</i></span></button>
+        <button class="retail__ticket cat-control" type="button" data-cat="唇妝"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-03.jpg?v=1785519682&width=180" alt="BRAYE 唇頰彩妝"><span><b>唇妝</b><strong>58</strong><i>LIP</i></span></button>
+        <button class="retail__ticket cat-control" type="button" data-cat="頰彩"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-baked-blush-08.jpg?v=1785469561&width=180" alt="Glint 胭脂"><span><b>頰彩</b><strong>16</strong><i>CHEEK</i></span></button>
+        <button class="retail__ticket cat-control" type="button" data-cat="修容"><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-stick-highlighter-04.jpg?v=1785469560&width=180" alt="Glint 高光棒"><span><b>修容</b><strong>12</strong><i>CONTOUR</i></span></button>
+      </div>
+      <div class="retail__ticker"><span>OUJI MAKEUP BAR · 182 件現貨 · 23 個品牌 · 底妝 · 眼妝 · 唇妝 · 頰彩 · 修容</span><span>OUJI MAKEUP BAR · 182 件現貨 · 23 個品牌</span></div>
+    </section>
+    <div id="product-preview"></div>
+  </main>
+  <script src="common.js"></script>
+  <script>bootPrototype("底妝");</script>
+</body>
+</html>

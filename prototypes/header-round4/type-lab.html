@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>字體實驗 — OUJI 彩妝</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500;700&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    :root { --lab-blue: #2145ff; --lab-coral: #ff6f61; --wght: 520; }
+    .lab {
+      min-height: 470px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      background: #f7f6f1;
+      color: #111;
+      border-bottom: 8px solid var(--lab-blue);
+    }
+    .lab__specimen {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      padding: 28px clamp(18px, 4vw, 58px) 24px;
+      border-right: 1px solid #111;
+    }
+    .lab__title {
+      margin: 0;
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: clamp(104px, 18vw, 260px);
+      font-weight: var(--wght);
+      font-variation-settings: "wght" var(--wght);
+      line-height: .8;
+      letter-spacing: -.08em;
+      transition: font-variation-settings 80ms linear, font-weight 80ms linear;
+    }
+    .lab__meta {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      margin-top: 18px;
+      font: 700 11px/1.4 "Azeret Mono", monospace;
+      letter-spacing: .08em;
+    }
+    .lab__meta strong { color: var(--lab-blue); font-size: 28px; }
+    .lab__panel { padding: 26px clamp(18px, 3vw, 42px); }
+    .lab__panel h2 { margin: 0 0 20px; font-size: 15px; font-weight: 900; }
+    .lab__axis {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      font: 700 10px "Azeret Mono", monospace;
+    }
+    .lab__axis output { min-width: 42px; color: var(--lab-coral); font-size: 15px; }
+    .lab__axis input { width: 100%; accent-color: var(--lab-blue); }
+    .lab__glyphs { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid #111; border-left: 1px solid #111; }
+    .lab__glyphs button {
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 8px;
+      border: 0;
+      border-right: 1px solid #111;
+      border-bottom: 1px solid #111;
+      background: transparent;
+      color: #111;
+      padding: 10px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .lab__glyphs button:last-child { grid-column: 1 / -1; }
+    .lab__glyphs b {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: clamp(24px, 3vw, 42px);
+      font-weight: var(--wght);
+      font-variation-settings: "wght" var(--wght);
+      line-height: 1;
+    }
+    .lab__glyphs span { font: 700 12px "Azeret Mono", monospace; color: var(--lab-blue); }
+    .lab__glyphs button[data-active] { background: var(--lab-blue); color: white; }
+    .lab__glyphs button[data-active] span { color: #d9ff46; }
+    @media (max-width: 720px) {
+      .lab { min-height: 550px; grid-template-columns: 1fr; }
+      .lab__specimen { min-height: 260px; border-right: 0; border-bottom: 1px solid #111; }
+      .lab__title { font-size: clamp(100px, 38vw, 150px); }
+      .lab__panel { padding: 18px 14px 22px; }
+      .lab__axis { margin-bottom: 16px; }
+      .lab__glyphs button { min-height: 58px; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: 分類頁頂係可玩嘅字體標本，五個分類靠尺度同字重成為內容。
+  OWN-WORLD: 紙白、鈷藍、珊瑚、變體黑體、基線格同實時軸值。
+  STORY: 拉字重感受整版性格，再按五個字形入真產品。
+  FIRST VIEWPORT: 左巨型彩妝、右字重拉桿與五個分類字形格。
+  FORM: variable-font challenger, competitive under seed 6bdc6133.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <div id="site-chrome"></div>
+  <main>
+    <section class="lab">
+      <div class="lab__specimen"><h1 class="lab__title">彩妝</h1><div class="lab__meta"><strong>182</strong><span>ITEMS / 23 BRANDS<br>OUJI VARIABLE MAKEUP SPECIMEN</span></div></div>
+      <div class="lab__panel">
+        <h2>用字重揀一種妝感</h2>
+        <label class="lab__axis"><span>100</span><input id="weight" type="range" min="100" max="900" value="520" step="10" aria-label="字重"><output id="weight-output">520</output></label>
+        <div class="lab__glyphs">
+          <button class="cat-control" type="button" data-cat="底妝"><b>底妝</b><span>46</span></button>
+          <button class="cat-control" type="button" data-cat="眼妝"><b>眼妝</b><span>50</span></button>
+          <button class="cat-control" type="button" data-cat="唇妝"><b>唇妝</b><span>58</span></button>
+          <button class="cat-control" type="button" data-cat="頰彩"><b>頰彩</b><span>16</span></button>
+          <button class="cat-control" type="button" data-cat="修容"><b>修容</b><span>12</span></button>
+        </div>
+      </div>
+    </section>
+    <div id="product-preview"></div>
+  </main>
+  <script src="common.js"></script>
+  <script>
+    bootPrototype("底妝");
+    const range = document.getElementById("weight");
+    const output = document.getElementById("weight-output");
+    range.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--wght", range.value);
+      output.value = range.value;
+    });
+  </script>
+</body>
+</html>
+

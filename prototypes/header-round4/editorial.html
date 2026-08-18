@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>雜誌特集 — OUJI 彩妝</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500;700&family=Bodoni+Moda:opsz,wght@6..96,700;6..96,900&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    :root { --paper: #f1efe8; --red: #a32935; --editorial-blue: #2b4c58; }
+    body { background: var(--paper); }
+    .editorial {
+      min-height: 440px;
+      display: grid;
+      grid-template-columns: minmax(100px, .75fr) minmax(300px, 1.65fr) minmax(250px, 1fr);
+      grid-template-rows: 54px 1fr 74px;
+      gap: 0;
+      padding: 0 clamp(18px, 4vw, 58px);
+      overflow: hidden;
+      background: var(--paper);
+    }
+    .editorial__mast {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #1a1a1a;
+      font-family: "Azeret Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+    }
+    .editorial__mast strong { font-size: 17px; letter-spacing: .28em; }
+    .editorial__mast span:nth-child(2) { margin-left: auto; }
+    .editorial__mast span:last-child { margin-left: 24px; color: var(--red); }
+    .editorial__folio {
+      position: relative;
+      padding-top: 30px;
+      border-right: 1px solid #1a1a1a;
+    }
+    .editorial__folio b {
+      display: block;
+      font-family: "Bodoni Moda", serif;
+      font-size: clamp(76px, 9vw, 146px);
+      line-height: .72;
+      color: var(--red);
+      transform: translateX(-5px);
+    }
+    .editorial__folio span {
+      position: absolute;
+      left: 0;
+      bottom: 22px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: "Azeret Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+    }
+    .editorial__story {
+      position: relative;
+      min-width: 0;
+      padding: 24px clamp(18px, 3vw, 42px) 18px;
+    }
+    .editorial__story h1 {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0;
+      font-family: "Bodoni Moda", "Noto Sans TC", serif;
+      font-size: clamp(54px, 8vw, 118px);
+      font-weight: 900;
+      line-height: .84;
+      letter-spacing: -.045em;
+    }
+    .editorial__story h1 span {
+      display: block;
+      margin-left: 14%;
+      color: var(--editorial-blue);
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: .58em;
+      letter-spacing: -.08em;
+    }
+    .editorial__story p {
+      max-width: 31ch;
+      margin: 20px 0 0 16%;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .editorial__image {
+      min-width: 0;
+      padding: 22px 0 18px 20px;
+      border-left: 1px solid #1a1a1a;
+    }
+    .editorial__image figure { height: 100%; margin: 0; position: relative; overflow: hidden; }
+    .editorial__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 35%;
+      animation: editorial-reveal 520ms cubic-bezier(.23, 1, .32, 1) both;
+    }
+    .editorial__image figcaption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 26px 12px 10px;
+      background: linear-gradient(transparent, rgba(0,0,0,.7));
+      color: white;
+      font: 700 9px/1.4 "Azeret Mono", monospace;
+      letter-spacing: .08em;
+    }
+    .editorial__index {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid #1a1a1a;
+    }
+    .editorial__index button {
+      position: relative;
+      border: 0;
+      border-right: 1px solid #1a1a1a;
+      background: transparent;
+      color: #1a1a1a;
+      text-align: left;
+      padding: 12px 12px 10px;
+      cursor: pointer;
+    }
+    .editorial__index button:last-child { border-right: 0; }
+    .editorial__index b { display: block; font-size: 15px; }
+    .editorial__index span { font: 700 10px "Azeret Mono", monospace; color: var(--red); }
+    .editorial__index button::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 5px;
+      height: 3px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 180ms ease-out;
+    }
+    .editorial__index button[data-active]::after { transform: scaleX(1); }
+    @keyframes editorial-reveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+
+    @media (max-width: 720px) {
+      .editorial {
+        min-height: 520px;
+        grid-template-columns: 64px 1fr;
+        grid-template-rows: 46px 300px auto;
+        padding-inline: 14px;
+      }
+      .editorial__mast { grid-column: 1 / -1; }
+      .editorial__mast span:nth-child(2) { display: none; }
+      .editorial__folio { grid-row: 2; }
+      .editorial__folio b { font-size: 74px; }
+      .editorial__story { grid-column: 2; grid-row: 2; padding: 20px 0 12px 16px; }
+      .editorial__story h1 { font-size: clamp(54px, 18vw, 76px); }
+      .editorial__story h1 span { margin-left: 0; font-size: .52em; }
+      .editorial__story p { margin: 18px 0 0; font-size: 12px; }
+      .editorial__image { display: none; }
+      .editorial__index { grid-column: 1 / -1; grid-row: 3; overflow-x: auto; }
+      .editorial__index button { min-width: 94px; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: 彩妝分類頁係一本雜誌特集嘅開場跨頁，拒絕居中標題加一張圖。
+  OWN-WORLD: 紙白、墨線、胭脂紅、Bodoni 巨字、不對稱欄網同頁碼。
+  STORY: 先見 182 件／23 品牌嘅規模，再由五個索引入分類。
+  FIRST VIEWPORT: 左頁碼、中巨標、右真產品相、底部分類索引。
+  FORM: user-pinned magazine direction; seed 6bdc6133.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <div id="site-chrome"></div>
+  <main>
+    <section class="editorial">
+      <div class="editorial__mast"><strong>OUJI BEAUTY PAPER</strong><span>MAKE-UP / HONG KONG</span><span>182 件 · 23 品牌</span></div>
+      <aside class="editorial__folio"><b>23</b><span>MAKE-UP EDITION</span></aside>
+      <div class="editorial__story"><h1>THE <span>彩妝特集</span></h1><p>由底妝到唇色，一頁打開五個分類。所有件數同產品都係店內現貨真資料。</p></div>
+      <div class="editorial__image"><figure><img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2a6ff6ccf99e7154a4b67cafb2811612.jpg?v=1785667240&width=900" alt="Heart Percent 眼影盤"><figcaption>HEART PERCENT<br>DOTE ON MOOD</figcaption></figure></div>
+      <div class="editorial__index">
+        <button class="cat-control" type="button" data-cat="底妝"><b>底妝</b><span>46 件</span></button>
+        <button class="cat-control" type="button" data-cat="眼妝"><b>眼妝</b><span>50 件</span></button>
+        <button class="cat-control" type="button" data-cat="唇妝"><b>唇妝</b><span>58 件</span></button>
+        <button class="cat-control" type="button" data-cat="頰彩"><b>頰彩</b><span>16 件</span></button>
+        <button class="cat-control" type="button" data-cat="修容"><b>修容</b><span>12 件</span></button>
+      </div>
+    </section>
+    <div id="product-preview"></div>
+  </main>
+  <script src="common.js"></script>
+  <script>bootPrototype("眼妝");</script>
+</body>
+</html>
+
