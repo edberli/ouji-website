@@ -62,6 +62,17 @@ def bucket_of(title):
     return None
 
 
+# 相入錯咗嘅貨（Shopify 後台問題，唔係呢個 script 嘅 bug）。
+# 呢啲貨照計入件數，但唔會攞嚟做 tile／原型嘅示範相 —— 因為老闆係憑
+# demo 判斷，示範相出錯比 code 出錯更嚴重。
+# 修好咗（喺 Shopify 換返張相）就由呢度剷走。
+BAD_IMAGE = {
+    # 檔名係 clio-kill-lash-superproof-mascara-01.jpg，名啱，
+    # 但張圖本身係支唇釉。2026-08-18 發現。
+    "CLIO 極緻捲翹超防水睫毛膏",
+}
+
+
 def build():
     live = fetch_all()
     buckets = {label: [] for label, _ in RULES}
@@ -80,7 +91,7 @@ def build():
             "v": p["vendor"],
             "img": p["images"]["edges"][0]["node"]["url"],
             "price": int(float(p["priceRange"]["minVariantPrice"]["amount"])),
-        } for p in buckets[label][:4]],
+        } for p in buckets[label] if p["title"] not in BAD_IMAGE][:4],
     } for label in ORDER]
 
 

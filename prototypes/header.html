@@ -72,7 +72,7 @@ a{text-decoration:none;color:inherit}
 .v2 .folio{font-family:var(--num);font-size:.64rem;letter-spacing:.34em;color:var(--blue);margin:0 0 16px}
 .v2 h1{margin:0;font-family:var(--corm);font-weight:300;font-size:clamp(3.4rem,7vw,5.6rem);
  line-height:.9;letter-spacing:-.03em}
-.v2 .rule{width:44px;height:1px;background:var(--ink);margin:22px 0 14px}
+.v2 .rule{display:block;width:44px;height:1px;background:var(--ink);margin:22px 0 14px}
 .v2 p{margin:0;font-size:.84rem;line-height:1.7;color:var(--dim);max-width:26ch}
 .v2 .r{background:#eef2f3;display:flex;align-items:center;justify-content:center;padding:38px}
 .v2 .r i{display:block;width:100%;max-width:330px;aspect-ratio:1;border-radius:50%;overflow:hidden}
@@ -82,10 +82,10 @@ a{text-decoration:none;color:inherit}
 .v3{padding:44px 0 26px;border-bottom:1px solid var(--ink)}
 .v3 h1{margin:0 0 20px;font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,5vw,3.6rem);
  letter-spacing:.06em;line-height:1}
-.v3 dl{display:grid;grid-template-columns:repeat(4,auto);gap:0 44px;margin:0;
+.v3 dl{display:grid;grid-template-columns:repeat(4,auto);gap:0 44px;margin:0;align-items:baseline;
  border-top:1px solid var(--line);padding-top:14px;width:max-content}
 .v3 dt{font-family:var(--num);font-size:.58rem;letter-spacing:.24em;color:var(--dim);text-transform:uppercase}
-.v3 dd{margin:5px 0 0;font-family:var(--num);font-size:1.05rem;font-weight:600}
+.v3 dd{margin:0;font-family:var(--num);font-size:1.05rem;font-weight:600}
 
 /* 4 暗房 */
 .v4{background:#0d1a1f;color:var(--raw);padding:52px 0;position:relative;overflow:hidden}
@@ -114,17 +114,22 @@ a{text-decoration:none;color:inherit}
 .v6 .wall{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#e6e9ea}
 .v6 .wall span{display:block;aspect-ratio:4/5;overflow:hidden;background:#f6f7f8}
 .v6 .wall img{width:100%;height:100%;object-fit:cover;display:block}
+.v6::after{content:'';position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 78% at 50% 50%,rgba(13,26,31,.62) 0%,rgba(13,26,31,.34) 46%,rgba(13,26,31,.12) 100%)}
 .v6 h1{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);margin:0;text-align:center;
  font-family:var(--corm);font-weight:400;font-size:clamp(4rem,13vw,11rem);line-height:1;
- letter-spacing:-.04em;color:#fff;mix-blend-mode:difference;pointer-events:none}
-.v6 .n{position:absolute;right:16px;bottom:12px;font-family:var(--num);font-size:.72rem;
- font-weight:700;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+ letter-spacing:-.04em;color:#fff;z-index:2;pointer-events:none;
+ text-shadow:0 2px 34px rgba(13,26,31,.5)}
+.v6 .n{position:absolute;left:0;right:0;bottom:22px;z-index:2;text-align:center;
+ font-family:var(--num);font-size:.74rem;letter-spacing:.22em;
+ font-weight:700;color:#fff;text-shadow:0 1px 12px rgba(13,26,31,.75)}
 
 /* 7 一句 */
 .v7{padding:60px 0 34px;border-bottom:1px solid var(--line)}
-.v7 p{margin:0;font-family:var(--corm);font-weight:300;font-size:clamp(1.9rem,4.6vw,3.4rem);
- line-height:1.42;letter-spacing:-.01em;max-width:20ch}
+.v7 h1{margin:0;font-family:var(--corm);font-weight:300;font-size:clamp(1.7rem,4.2vw,3.1rem);
+ line-height:1.42;letter-spacing:-.01em;max-width:16em}
 .v7 b{font-weight:500;font-family:var(--serif);font-size:.92em}
+.v7 h1 br{line-height:0}
 .v7 u{text-decoration:none;font-family:var(--num);font-weight:600;font-size:.66em;
  color:var(--blue);vertical-align:.32em;margin-left:.2em}
 
@@ -153,7 +158,7 @@ a{text-decoration:none;color:inherit}
 .v9 .sub{margin:20px 0 0;display:flex;align-items:baseline;gap:12px}
 .v9 h1{margin:0;font-family:var(--serif);font-weight:500;font-size:1.25rem;letter-spacing:.02em}
 .v9 .n{font-family:var(--num);font-size:.76rem;font-weight:700;color:var(--dim)}
-.v9 .row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:18px}
+.v9 .row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px;max-width:720px}
 .v9 .row i{display:block;aspect-ratio:1;border-radius:9px;overflow:hidden;background:#f6f7f8}
 .v9 .row img{width:100%;height:100%;object-fit:cover;display:block}
 
@@ -164,17 +169,27 @@ a{text-decoration:none;color:inherit}
  font-size:clamp(4rem,11vw,9rem);line-height:.86;letter-spacing:-.04em;color:var(--ink)}
 .v10 .refl{text-align:center;font-family:var(--corm);font-weight:300;
  font-size:clamp(4rem,11vw,9rem);line-height:.86;letter-spacing:-.04em;color:var(--ink);
- transform:scaleY(-1);opacity:.16;
- -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 62%);
- mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 62%);margin-top:2px}
-.v10 p{margin:-1.2em 0 0;text-align:center;position:relative;z-index:2;
+ transform:scaleY(-1);opacity:.13;height:.5em;overflow:hidden;
+ -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.85),transparent 78%);
+ mask-image:linear-gradient(180deg,rgba(0,0,0,.85),transparent 78%);margin-top:2px}
+.v10 p{margin:18px 0 0;text-align:center;position:relative;z-index:2;
  font-family:var(--num);font-size:.74rem;font-weight:600;letter-spacing:.24em;color:var(--dim)}
 
 @media (max-width:900px){
- .grid,.tiles,.v9 .row{grid-template-columns:repeat(2,1fr)}
+ .grid,.tiles{grid-template-columns:repeat(2,1fr)}
  .tiles{display:flex;overflow-x:auto;scrollbar-width:none}.tile{flex:none;width:104px}
- .v2,.v6 .wall{grid-template-columns:1fr}.v4 .in{flex-direction:column;align-items:flex-start;gap:22px}
- .v3 dl{grid-template-columns:repeat(2,auto);gap:14px 30px}}
+ .v2{grid-template-columns:1fr}.v4 .in{flex-direction:column;align-items:flex-start;gap:22px}
+ .v3 dl{grid-template-columns:repeat(2,auto);gap:14px 30px}
+ /* 對開：手機一疊起，個圓形相食晒成屏。收細佢。 */
+ .v2 .l{padding:30px 0}.v2 .r{padding:18px}.v2 .r i{max-width:190px}
+ .v2 .l .frame{margin:0!important;padding-right:20px!important;max-width:none!important}
+ /* 貨牆：唔可以變一欄 —— 五張 4:5 疊起就係 2348px 高，成個 header 塞爆部電話。
+    手機保持一條橫帶，剩三張，比例改扁。 */
+ .v6 .wall{grid-template-columns:repeat(3,1fr)}
+ .v6 .wall span{aspect-ratio:3/4}
+ .v6 .wall span:nth-child(n+4){display:none}
+ /* 本週：四格細相排一行好過兩行大相 */
+ .v9 .row{grid-template-columns:repeat(4,1fr);max-width:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .proto-picker{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2147483647;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(12px) saturate(1.4);backdrop-filter:blur(12px) saturate(1.4);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 24px rgba(0,0,0,.24);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;line-height:1;user-select:none}
 .proto-picker-highlight{position:absolute;top:4px;left:0;height:28px;border-radius:999px;background:rgba(255,255,255,.12)}
@@ -203,7 +218,7 @@ a{text-decoration:none;color:inherit}
  <button class="proto-picker-replay proto-picker-item" aria-label="Replay (R)">↻</button>
 </nav>
 <script>
-const DATA={"subs": [{"label": "底妝", "n": 46, "picks": [{"t": "CLIO 極致持妝無瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-founwear-cushion-01.jpg?v=1785764635", "price": 269}, {"t": "CLIO 柔霧遮瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-skin-fixer-cushion-01.jpg?v=1785764637", "price": 269}, {"t": "CLIO 網光亮肌精華氣墊粉底 附補充裝 SPF50+ PA+++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-high-glow-cushion-01.jpg?v=1785764640", "price": 269}, {"t": "UNLEASHIA Babe Skin Baby Blue 氣墊粉底", "v": "UNLEASHIA", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-babe-skin-baby-blue-cushion.jpg?v=1785904491", "price": 178}]}, {"label": "眼妝", "n": 50, "picks": [{"t": "Heart Percent Dote on Mood 眼影盤", "v": "Heart Percent", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2a6ff6ccf99e7154a4b67cafb2811612.jpg?v=1785667240", "price": 198}, {"t": "Heart Percent Dote on Mood 眼線膠筆", "v": "Heart Percent", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/e25a2e62868900e3cd4f21f88bfdbe6e.jpg?v=1785748479", "price": 85}, {"t": "CLIO 自動塑形眉筆連削筆器", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-brow-auto-hard-pencil-01.jpg?v=1785764643", "price": 155}, {"t": "CLIO 極緻捲翹超防水睫毛膏", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-lash-superproof-mascara-01.jpg?v=1785764646", "price": 138}]}, {"label": "唇妝", "n": 58, "picks": [{"t": "BRAYE Lipsleek 唇頰彩妝", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-03.jpg?v=1785519682", "price": 118}, {"t": "BRAYE Lipsleek Blur 霧感唇頰彩妝", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-blur-04.jpg?v=1785519682", "price": 118}, {"t": "BRAYE Thin Glow Tint 薄透唇釉", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-thin-glow-tint-03.jpg?v=1785519684", "price": 108}, {"t": "BRAYE Pocket Lip Brush 隨身唇掃", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-04_432a8b06-4704-47b9-b0fc-2dc98de2bf35.jpg?v=1785519684", "price": 49}]}, {"label": "頰彩", "n": 16, "picks": [{"t": "Glint Baked Blush 烘焙胭脂", "v": "Glint", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-baked-blush-08.jpg?v=1785469561", "price": 128}, {"t": "Coralhaze 絲柔胭脂", "v": "Coralhaze", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/coralhaze-soft-blur-cheek-01.jpg?v=1785751446", "price": 89}, {"t": "CLIO Essential Blush Tap 胭脂", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIOEssentialBlushTap8Colors-7.jpg?v=1785913549", "price": 138}, {"t": "Peripera 水潤透亮胭脂液", "v": "Peripera", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Syrupy_Tok_Cheek_Pink_Haguma__T_1.jpg?v=1785768447", "price": 108}]}, {"label": "修容", "n": 12, "picks": [{"t": "Glint Stick Highlighter 高光棒", "v": "Glint", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-stick-highlighter-04.jpg?v=1785469560", "price": 138}, {"t": "Glint Highlighter 高光粉", "v": "Glint", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-highlighter-02.jpg?v=1785469559", "price": 128}, {"t": "Peripera 三色V面修容盤", "v": "Peripera", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Peripera__NEW_VShading_coverpic_3.jpg?v=1785768439", "price": 122}, {"t": "LILYBYRED Dewy Fit 水光修容盤", "v": "lilybyred", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lilybyred-dewy-fit-palette-01_992d2953-9c33-4248-a62b-a22de2e2bc74.jpg?v=1785769847", "price": 198}]}], "total": 182};const SUB=DATA.subs;const TOT=DATA.total;
+const DATA={"subs": [{"label": "底妝", "n": 46, "picks": [{"t": "CLIO 極致持妝無瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-founwear-cushion-01.jpg?v=1785764635", "price": 269}, {"t": "CLIO 柔霧遮瑕氣墊粉底 附補充裝 SPF40+ PA++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-skin-fixer-cushion-01.jpg?v=1785764637", "price": 269}, {"t": "CLIO 網光亮肌精華氣墊粉底 附補充裝 SPF50+ PA+++", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-cover-high-glow-cushion-01.jpg?v=1785764640", "price": 269}, {"t": "UNLEASHIA Babe Skin Baby Blue 氣墊粉底", "v": "UNLEASHIA", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-babe-skin-baby-blue-cushion.jpg?v=1785904491", "price": 178}]}, {"label": "眼妝", "n": 50, "picks": [{"t": "Heart Percent Dote on Mood 眼影盤", "v": "Heart Percent", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2a6ff6ccf99e7154a4b67cafb2811612.jpg?v=1785667240", "price": 198}, {"t": "Heart Percent Dote on Mood 眼線膠筆", "v": "Heart Percent", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/e25a2e62868900e3cd4f21f88bfdbe6e.jpg?v=1785748479", "price": 85}, {"t": "CLIO 自動塑形眉筆連削筆器", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-kill-brow-auto-hard-pencil-01.jpg?v=1785764643", "price": 155}, {"t": "CLIO 魅黑高效防水眼線液", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-superproof-brush-liner-01.jpg?v=1785764649", "price": 138}]}, {"label": "唇妝", "n": 58, "picks": [{"t": "BRAYE Lipsleek 唇頰彩妝", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-03.jpg?v=1785519682", "price": 118}, {"t": "BRAYE Lipsleek Blur 霧感唇頰彩妝", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-blur-04.jpg?v=1785519682", "price": 118}, {"t": "BRAYE Thin Glow Tint 薄透唇釉", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-thin-glow-tint-03.jpg?v=1785519684", "price": 108}, {"t": "BRAYE Pocket Lip Brush 隨身唇掃", "v": "BRAYE", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-04_432a8b06-4704-47b9-b0fc-2dc98de2bf35.jpg?v=1785519684", "price": 49}]}, {"label": "頰彩", "n": 16, "picks": [{"t": "Glint Baked Blush 烘焙胭脂", "v": "Glint", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-baked-blush-08.jpg?v=1785469561", "price": 128}, {"t": "Coralhaze 絲柔胭脂", "v": "Coralhaze", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/coralhaze-soft-blur-cheek-01.jpg?v=1785751446", "price": 89}, {"t": "CLIO Essential Blush Tap 胭脂", "v": "CLIO", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIOEssentialBlushTap8Colors-7.jpg?v=1785913549", "price": 138}, {"t": "Peripera 水潤透亮胭脂液", "v": "Peripera", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Syrupy_Tok_Cheek_Pink_Haguma__T_1.jpg?v=1785768447", "price": 108}]}, {"label": "修容", "n": 12, "picks": [{"t": "Glint Stick Highlighter 高光棒", "v": "Glint", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-stick-highlighter-04.jpg?v=1785469560", "price": 138}, {"t": "Glint Highlighter 高光粉", "v": "Glint", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-highlighter-02.jpg?v=1785469559", "price": 128}, {"t": "Peripera 三色V面修容盤", "v": "Peripera", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Peripera__NEW_VShading_coverpic_3.jpg?v=1785768439", "price": 122}, {"t": "LILYBYRED Dewy Fit 水光修容盤", "v": "lilybyred", "img": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lilybyred-dewy-fit-palette-01_992d2953-9c33-4248-a62b-a22de2e2bc74.jpg?v=1785769847", "price": 198}]}], "total": 182};const SUB=DATA.subs;const TOT=DATA.total;
 const q=(s)=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const w=(u,n)=>u+(u.includes('?')?'&':'?')+'width='+n;
 const ALL=SUB.flatMap(c=>c.picks);
@@ -243,16 +258,16 @@ const variants=[
   <span><img src="${w(p.img,380)}" alt="" loading="lazy"></span>`).join('')}</div>
   <h1>彩妝</h1><span class="n">${TOT} 件</span></section>`),
 /* 7 一句 */()=>body(`<section class="v7"><div class="frame">
-  <p>今日想化<b>彩妝</b>邊一步？<br>底妝、眼、唇，${TOT} 件都喺度。<u>${TOT}</u></p></div></section>`),
+  <h1>今日想化<b>彩妝</b>邊一步？<br>底妝、眼、唇，<u>${TOT}</u> 件都喺度。</h1></div></section>`),
 /* 8 索引 */()=>body(`<section class="v8"><div class="frame">
   <div class="top"><h1>彩妝</h1><span class="tot">${TOT} 件 · 23 個品牌</span></div>
   <ol>${SUB.map((c,i)=>`<li><a href="#"><span class="i">${String(i+1).padStart(2,'0')}</span>
    <span class="t">${c.label}</span><span class="c">${c.n}</span></a></li>`).join('')}</ol></div></section>`),
 /* 9 本週 */()=>body(`<section class="v9"><div class="frame">
   <div class="lead"><span class="big">${SUB[2].n}</span>
-   <span class="say">件唇妝<br>今個星期喺架上。</span></div>
+   <span class="say">件唇妝<br>而家喺架上。</span></div>
   <div class="sub"><h1>彩妝</h1><span class="n">全部 ${TOT} 件 · 23 個品牌</span></div>
-  <div class="row">${ALL.slice(0,5).map(p=>`<i><img src="${w(p.img,300)}" alt=""></i>`).join('')}</div>
+  <div class="row">${SUB[2].picks.map(p=>`<i><img src="${w(p.img,300)}" alt="${q(p.t)}"></i>`).join('')}</div>
  </div></section>`),
 /* 10 鏡面 */()=>body(`<section class="v10"><div class="frame">
   <h1>彩妝</h1><div class="refl" aria-hidden="true">彩妝</div>
