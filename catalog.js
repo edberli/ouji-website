@@ -215,7 +215,9 @@ function availableSubs(section, products) {
     .map(([id, sub]) => ({
       id,
       label: sub.label,
-      set: new Set(products.filter((p) => matchesKeywords(p, sub.keywords)).map((p) => index.get(p))),
+      set: new Set(products.filter((p) => (section
+        ? subMatch(section, id, p)
+        : matchesKeywords(p, sub.keywords))).map((p) => index.get(p))),
     }))
     .filter((s) => s.set.size);
 
@@ -228,7 +230,13 @@ function availableSubs(section, products) {
   // collapsing across axes swallowed all nine groups into one 專輯 tab
   // and left the page with nothing to filter by.
   const axis = (s) => catOptions(section).find(([id]) => id === s.id)?.[1]?.axis || 'main';
-  const kept = all.filter((s) => !all.some((o) =>
+  // 細分類（`parent`）保證係阿爸嗰格嘅一部分，所以阿爸喺度就唔使出佢。
+  // 唔可以淨係靠下面「細過」嗰條規則 —— 胭脂同頰彩件數一模一樣，
+  // 「細過」唔成立，結果兩格都出咗。
+  const parentOf = (id) => catOptions(section).find(([k]) => k === id)?.[1]?.parent;
+  const ids = new Set(all.map((s) => s.id));
+  const flat = all.filter((s) => !ids.has(parentOf(s.id)));
+  const kept = flat.filter((s) => !flat.some((o) =>
     o !== s && axis(o) === axis(s)
     && o.set.size > s.set.size && [...s.set].every((i) => o.set.has(i))));
   const seen = new Set();
@@ -358,8 +366,9 @@ function applyFilters(section, products, sel) {
       if (!hit) return false;
     }
     if (sel.cat.size) {
-      const hit = [...sel.cat].some((id) =>
-        matchesKeywords(p, catKeywords(section, id)));
+      const hit = [...sel.cat].some((id) => (section
+        ? subMatch(section, id, p)
+        : matchesKeywords(p, catKeywords(section, id))));
       if (!hit) return false;
     }
     return true;
@@ -379,17 +388,75 @@ function applyFilters(section, products, sel) {
  *
  * 每格張相喺嗰個子分類自己啲貨度抽（同一把尺：推薦排序第一件），
  * 唔用圖示、唔用圖庫相。抽唔到相就淨係出名同件數，唔會爛版。 */
-function buildCatGate(section, products, sel) {
+/* 相入錯咗嘅貨（Shopify 後台問題，唔係呢度嘅 bug）。件數照計，但唔會
+   攞嚟做示範相 —— 老闆係憑 demo 判斷，示範相出錯比 code 出錯更嚴重。
+   同 scripts/makeup_subcats.py 嘅 BAD_IMAGE 同步；喺後台換返張相就
+   兩邊一齊剷走。 */
+const BAD_IMAGE = new Set([
+  // 檔名係 clio-kill-lash-superproof-mascara-01.jpg，名啱，但張圖係支唇釉。
+  'CLIO 極緻捲翹超防水睫毛膏',
+]);
+
+/* 彩妝頁頂嘅貼紙相機。靜態裝飾同五粒掣本身寫死喺 makeup.html —— 咁樣
+   閃光同相紙落下嘅動畫只會喺第一次載入播一次，之後換分類唔會成塊嘢
+   重新閃過。呢度淨係填會變嘅嘢：件數、選中狀態、相紙嗰四張相。 */
+function buildMakeupBooth(section, products, sel, lockCat) {
+  const booth = document.querySelector('[data-makeup-booth]');
+  if (!booth) return false;
+
+  const counts = new Map(availableSubs(section, products).map((x) => [x.id, x.count]));
+  // 選中邊格：側欄嘅 分類 剔（撳貼紙會剔佢）＋ URL 帶入嚟嗰個。
+  const active = new Set(sel.cat);
+  if (lockCat) active.add(CATEGORY_TAXONOMY[section]?.subs?.[lockCat]?.parent || lockCat);
+
+  booth.querySelectorAll('[data-booth-sticker]').forEach((btn) => {
+    const id = btn.dataset.quick;
+    const n = counts.get(id) || 0;
+    const on = active.has(id);
+    btn.querySelector(`[data-booth-n="${id}"]`).textContent = n;
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.toggleAttribute('data-active', on);
+  });
+
+  const meta = booth.querySelector('[data-booth-meta]');
+  const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
+  if (meta) meta.textContent = `彩妝 · ${products.length} 件 · ${brands} 個品牌`;
+
+  /* 相紙揀而家睇緊嗰格嘅貨，冇揀分類就成個彩妝度揀。同一把尺（推薦排序）
+     揀頭四件有相嘅，跳過已知影錯相嗰啲 —— 寧願得三格，都好過掛住一支
+     唔啱嘅貨。 */
+  const pool = active.size
+    ? products.filter((p) => [...active].some((id) => subMatch(section, id, p)))
+    : products;
+  const shots = pool
+    .filter((p) => p.images?.edges?.[0]?.node?.url && !BAD_IMAGE.has(p.title))
+    .sort((a, b) => featuredScore(b) - featuredScore(a))
+    .slice(0, 4)
+    .map((p) => p.images.edges[0].node.url + '&width=360');
+
+  const frames = booth.querySelectorAll('.makeup-booth__frames img');
+  frames.forEach((img, i) => {
+    // 唔夠四張就收起嗰格，唔好留個 broken image 或者補張假貨相。
+    if (shots[i]) { img.src = shots[i]; img.hidden = false; }
+    else { img.removeAttribute('src'); img.hidden = true; }
+  });
+  const cap = booth.querySelector('[data-booth-caption]');
+  if (cap) cap.textContent = `OUJI PHOTO CLUB · ${products.length} / ${brands}`;
+  return true;
+}
+
+function buildCatGate(section, products, sel, lockCat) {
+  // 彩妝頁換咗做貼紙相機，五粒掣寫死喺 HTML，唔行下面砌 tile 嗰段。
+  if (buildMakeupBooth(section, products, sel, lockCat)) return;
   const host = document.querySelector('[data-cat-gate]');
   if (!host) return;
   const subs = availableSubs(section, products);
   if (subs.length < 3) { host.innerHTML = ''; return; }
-  const kw = new Map(catOptions(section).map(([id, sub]) => [id, sub.keywords]));
   const used = new Set();
   const shot = (id) => {
     // 每格一張唔同嘅相 —— 兩格出同一支貨會令人以為我哋得嗰幾件
     const hit = products
-      .filter((p) => matchesKeywords(p, kw.get(id)) && p.images?.edges?.[0]?.node?.url
+      .filter((p) => subMatch(section, id, p) && p.images?.edges?.[0]?.node?.url
         && !used.has(p.handle))
       .sort((a, b) => featuredScore(b) - featuredScore(a))[0];
     if (!hit) return null;
@@ -794,7 +861,7 @@ function renderProducts(container, products, { grouped }) {
  * grid once the shopper filters or sorts, since grouping only helps
  * while you are browsing.
  */
-async function initCatalog({ section, cat, products }) {
+async function initCatalog({ section, cat, products, presetCat = null }) {
   const host = document.querySelector('[data-catalog]')
     || document.querySelector('.product-grid')?.parentElement;
   if (!host) return;
@@ -807,6 +874,17 @@ async function initCatalog({ section, cat, products }) {
   if (typeof loadRatings === 'function') await loadRatings();
 
   buildFilterSidebar(section, products);
+  /* URL 入面嘅 ?cat= 當一個已經揀咗嘅篩選處理，唔喺攞資料嗰陣預先篩走 ——
+     咁樣分類入口先仲見到晒成套選擇同真件數。側欄冇對應嗰粒掣嘅（細分類
+     例如 ?cat=foundation 會被收埋喺「底妝」下面），就落 lockCat，每次
+     draw 都夾硬篩多一層。 */
+  let lockCat = null;
+  if (presetCat) {
+    const box = [...document.querySelectorAll('.filter-sidebar input[data-group="cat"]')]
+      .find((el) => el.value === presetCat);
+    if (box) box.checked = true;
+    else if (CATEGORY_TAXONOMY[section]?.subs?.[presetCat]) lockCat = presetCat;
+  }
   // A brand in the URL is a filter like any other, just set before the
   // first draw instead of by a click.
   const urlBrand = brandFromUrl(products);
@@ -833,19 +911,21 @@ async function initCatalog({ section, cat, products }) {
     const sel = activeFilters();
     const sortKey = sortEl?.value || 'featured';
     let list = applyFilters(section, products, sel);
+    if (lockCat) list = list.filter((p) => subMatch(section, lockCat, p));
     const cmp = SORTS[sortKey];
     if (cmp) list = [...list].sort(cmp);
 
     // Arriving on a subcategory from the nav (底妝, 唇妝 …) is already a
     // narrowed request — the shopper wants every base product, not a
     // tour of the brands — so group only while browsing the whole section.
-    const filtered = cat || sel.cat.size || sel.vendor.size || sel.price.size || sel.flag.size;
+    const filtered = cat || lockCat || sel.cat.size || sel.vendor.size
+      || sel.price.size || sel.flag.size;
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
     const grouped = !filtered && sortKey === 'featured'
       && new Set(list.map((p) => p.vendor)).size > 1;
 
-    buildCatGate(section, products, sel);
+    buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, products, sel);
     buildBrandStrip(products, sel);
     buildActiveChips(section, sel);
@@ -892,7 +972,12 @@ async function initCatalog({ section, cat, products }) {
     // so it drives the same checkboxes rather than keeping its own state.
     const tab = e.target.closest('[data-quick]');
     if (tab) {
-      const id = tab.dataset.quick;
+      // 貼紙牆冇「全部」嗰格，所以再撳一次選中嗰張就係解除 —— 唔係
+      // 咁樣揀完一格就返唔到轉頭。pill 嗰行有「全部」，照舊。
+      const off = tab.hasAttribute('data-booth-sticker')
+        && tab.getAttribute('aria-pressed') === 'true';
+      const id = off ? '' : tab.dataset.quick;
+      lockCat = null;
       boxes('cat').forEach((el) => { el.checked = !!id && el.value === id; });
       return draw();
     }

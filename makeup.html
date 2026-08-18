@@ -40,7 +40,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -174,19 +174,69 @@
 
   <main id="main-content" style="padding-top: 96px;">
 
-    <!-- 分類標頭。本來係一張 Unsplash 圖庫相（一支 ORIGINS —— 我哋
-         唔賣嘅美國牌子）。冇自己嘅分類相就唔好夾硬揾張相頂上，
-         改為靠排版做質感：細楷英文引子、大字標題、一條幼線、
-         右邊擺件數同當期優惠。 -->
-    <!-- 分類頁頂：同護膚頁一樣嘅入口式。tile 由 catalog.js 砌。 -->
-    <section class="cat-gate">
-      <div class="container">
-        <div class="cat-gate__tiles" data-cat-gate></div>
-        <div class="cat-gate__bar">
-          <h1 class="cat-gate__h">彩妝</h1>
-          <span class="cat-gate__n" data-cat-count></span>
-        </div>
+    <!-- 彩妝頁頂：首爾貼紙相機。護膚頁嗰種入口 tile 喺呢版換成貼紙牆 ——
+         銀色機身、泡泡主標、四格相紙同五張歪歪哋嘅分類貼紙。
+
+         裝飾（相紙、塗鴉、爆炸形）全部 aria-hidden 而且 pointer-events:none，
+         讀屏唔會讀多次啲產品。五張貼紙係真 <button>，DOM 同鍵盤次序固定
+         底妝 → 眼妝 → 唇妝 → 頰彩 → 修容，唔跟視覺上嘅高低亂序。
+
+         件數、相紙四張相、選中狀態全部由 catalog.js 嘅 buildMakeupBooth()
+         用 Storefront 真資料填 —— 呢度一個數都唔准寫死。 -->
+    <section class="makeup-booth" data-makeup-booth>
+      <div class="makeup-booth__flash" aria-hidden="true"></div>
+
+      <div class="makeup-booth__title">
+        <h1>OUJI<br>STICKER<br>CLUB</h1>
+        <p class="makeup-booth__meta" data-booth-meta>彩妝</p>
       </div>
+
+      <!-- 相紙。四個 <img> 一開始就喺度（淨係冇 src），等 aspect-ratio
+           先撐住格位，圖遲到都唔會跳版。 -->
+      <div class="makeup-booth__strip" aria-hidden="true">
+        <div class="makeup-booth__frames">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+        </div>
+        <span class="makeup-booth__caption" data-booth-caption></span>
+      </div>
+
+      <div class="makeup-booth__collage" aria-hidden="true">
+        <div class="makeup-booth__word">MAKE <span>A FACE!</span><small>PICK YOUR COLOUR</small></div>
+        <svg class="makeup-booth__kiss" viewBox="0 0 120 78"><g fill="currentColor" stroke="#11131a" stroke-width="2.5" stroke-linejoin="round"><path d="M7 39C20 20 36 15 59 28 83 14 99 21 113 39 97 57 82 65 60 61 39 65 22 58 7 39Z"/><path d="M8 39c22-3 37-3 51-11 16 8 31 9 53 11-20 6-35 8-52 8S29 45 8 39Z" fill="#fff"/></g><path d="M38 31c6 3 13 3 21-2m2 0c8 5 15 5 22 2" fill="none" stroke="#11131a" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="makeup-booth__flashword">FLASH!</div>
+        <svg class="makeup-booth__star" viewBox="0 0 64 64"><path d="m32 3 7 20 21-7-15 17 17 13-22-3-4 21-7-20-21 7 15-17L6 21l22 3 4-21Z" fill="currentColor" stroke="#11131a" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        <svg class="makeup-booth__heart" viewBox="0 0 64 58"><path d="M32 55C26 46 6 36 6 20 6 7 22 2 32 15 42 2 58 7 58 20c0 16-20 26-26 35Z" fill="currentColor" stroke="#11131a" stroke-width="3" stroke-linejoin="round"/><path d="M16 18c2-5 6-7 11-4" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>
+        <svg class="makeup-booth__swatch" viewBox="0 0 120 54"><path d="M8 36C27 17 43 17 60 31" fill="none" stroke="#ff70bd" stroke-width="14" stroke-linecap="round"/><path d="M34 18c23-10 45-5 67 15" fill="none" stroke="#cbff48" stroke-width="11" stroke-linecap="round"/><path d="M58 41c17-13 33-14 52-5" fill="none" stroke="#5d73ff" stroke-width="9" stroke-linecap="round"/><path d="m100 9 3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1 3-7Z" fill="#ffd64d" stroke="#11131a" stroke-width="2"/></svg>
+        <div class="makeup-booth__kbeauty">K-BEAUTY!</div>
+      </div>
+
+      <div class="makeup-booth__stickers" data-cat-gate>
+        <button type="button" class="makeup-booth__sticker" data-quick="base" data-booth-sticker aria-pressed="false">
+          <svg class="makeup-booth__icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M39 8C24 8 15 18 16 34c1 12 8 21 19 22 9 1 17-4 20-13-8-2-12-8-12-16 0-7 2-13 6-17-3-1-6-2-10-2Z" fill="#fff"/><path d="M27 27c3-3 7-3 10 0m-9 9c4 3 8 3 12 0"/><circle cx="49" cy="21" r="7" fill="#cbff48"/><path d="m49 17 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z"/></g></svg>
+          <b>底妝</b><small data-booth-n="base"></small>
+        </button>
+        <button type="button" class="makeup-booth__sticker" data-quick="eye" data-booth-sticker aria-pressed="false">
+          <svg class="makeup-booth__icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 31s10-15 25-15 25 15 25 15-10 15-25 15S7 31 7 31Z" fill="#fff"/><path d="m32 21 3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1 3-7Z" fill="#ff70bd"/><path d="M15 19l-4-6m13 3-1-8m18 9 3-8m5 13 6-5M17 48l-3 7m32-7 4 7"/></g></svg>
+          <b>眼妝</b><small data-booth-n="eye"></small>
+        </button>
+        <button type="button" class="makeup-booth__sticker" data-quick="lip" data-booth-sticker aria-pressed="false">
+          <svg class="makeup-booth__icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M5 32C13 20 22 17 32 24c11-8 21-4 27 8-8 11-17 16-27 14C21 48 12 43 5 32Z" fill="#ff70bd"/><path d="M6 32c11 0 19-2 26-8 8 6 17 8 26 8-11 3-19 5-26 5S16 35 6 32Z" fill="#fff"/></g><path d="M13 19l-4-5m44 8 5-3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+          <b>唇妝</b><small data-booth-n="lip"></small>
+        </button>
+        <button type="button" class="makeup-booth__sticker" data-quick="cheek" data-booth-sticker aria-pressed="false">
+          <svg class="makeup-booth__icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M32 8c15 0 24 10 23 24-1 15-10 24-23 24S9 47 9 32C8 18 17 8 32 8Z" fill="#fff"/><path d="M20 28c2 2 5 2 7 0m10 0c2 2 5 2 7 0M27 40c3 2 7 2 10 0"/><circle cx="18" cy="37" r="7" fill="#ff70bd" stroke="none"/><circle cx="46" cy="37" r="7" fill="#ff70bd" stroke="none"/><path d="m50 10 2 4 5 1-4 3 1 5-4-3-4 3 1-5-4-3 5-1 2-4Z" fill="#cbff48"/></g></svg>
+          <b>頰彩</b><small data-booth-n="cheek"></small>
+        </button>
+        <button type="button" class="makeup-booth__sticker" data-quick="contour" data-booth-sticker aria-pressed="false">
+          <svg class="makeup-booth__icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M38 7C23 7 13 18 14 34c1 14 9 22 20 23 10 1 18-5 21-15-7-1-11-5-12-11 6-2 9-7 9-13-4-7-8-11-14-11Z" fill="#fff"/><path d="M21 18c6 3 11 3 17 0l-4 10-12 2-1-12Z" fill="#ffd64d"/><path d="M22 35c7 3 13 3 20-1l-2 12c-5 5-11 7-17 3l-1-14Z" fill="#c99165"/><path d="M31 31c3-2 6-2 9 0m-13 11c4 2 8 2 12-1M52 8l3-4m-1 11 6-1"/></g></svg>
+          <b>修容</b><small data-booth-n="contour"></small>
+        </button>
+      </div>
+
+      <div class="makeup-booth__burst" aria-hidden="true"></div>
     </section>
 
     <!-- Breadcrumb & Filter Bar -->
@@ -346,13 +396,21 @@
     const section = params.get('collection') ||
       (pathCollection ? decodeURIComponent(pathCollection) : null) || 'makeup';
     const cat = params.get('cat');
-    const products = await getCategoryProducts({ section, cat });
+
+    /* 貼紙牆要五張貼紙一路喺度，同埋要顯示成個彩妝分類嘅真件數，
+       所以呢版唔喺攞資料嗰陣就篩走 —— 攞晒成個分類返嚟，
+       ?cat= 交畀 initCatalog 當一個已經揀咗嘅篩選處理。
+       （之前 ?cat=lip 入嚟，成排入口 tile 會消失，因為淨係剩返一格。） */
+    const products = await getCategoryProducts({ section });
     applyCategoryHeading(section, cat);
 
     if (!products.length) {
+      // 攞唔到貨都唔可以令頁頂冧咗 —— 貼紙牆照企喺度，五格顯示 0，
+      // 產品區行原本嘅 empty state。
+      buildCatGate(section, [], { cat: new Set() }, null);
       showCategoryEmpty(section, cat);
     } else {
-      initCatalog({ section: section, cat, products });
+      initCatalog({ section: section, products, presetCat: cat });
     }
   });
   </script>

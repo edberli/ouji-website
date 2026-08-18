@@ -27,7 +27,7 @@ TOKEN = "795e2f7cb13da1d3776449eba5802377"   # Storefront public token，公開�
 # 順序即係優先次序：行到邊個 match 就歸邊個，唔會再試下面嘅。
 RULES = [
     ("唇妝", r"唇膏|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|lip"),
-    ("眼妝", r"眼影|眼線|睫毛|眉筆|眉粉|染眉|眼彩|eyeshadow|eyeliner|mascara|brow"),
+    ("眼妝", r"眼影|眼線|睫毛|眉筆|眉粉|染眉|眼彩|eyeshadow|eyeliner|mascara|\bbrow\b"),
     ("底妝", r"粉底|氣墊|遮瑕|妝前|飾底|蜜粉|定妝粉|素顏霜|cushion|foundation|concealer|primer"),
     ("修容", r"修容|高光|打亮|陰影|contour|highlight|shading"),
     ("頰彩", r"胭脂|腮紅|頰彩|blush|cheek"),

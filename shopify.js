@@ -1068,25 +1068,52 @@ const CATEGORY_TAXONOMY = {
   makeup: {
     label: '彩妝',
     keywords: ['makeup', '彩妝', '메이크업'],
+    /* 彩妝子分類只可以睇產品名 —— Shopify 個 tag 亂到唔用得：實測高光
+       被標成「頰彩」、胭脂被標成「修容」，用 tag 分出嚟係頰彩 39／修容
+       39，兩格都係錯嘅數。同一套規則 scripts/makeup_subcats.py 有一份，
+       改就兩邊一齊改。
+
+       `bucket` 係五大類，互斥 —— 一件貨只入一格，順序由最 specific 行
+       到最闊（唇 → 眼 → 底妝 → 修容 → 頰彩），所以「唇頰彩妝」歸唇妝。
+       `parent` 係細分類，一定係佢阿爸嗰格入面嘅一部分，咁篩選側欄先
+       收得埋佢哋，唔會多出幾格重複嘅。
+       `keywords` 留返畀 section 層面用（categoryKeywords 會合埋佢哋
+       decide 邊啲貨算彩妝），子分類本身唔再靠佢。 */
     subs: {
-      base:       { label: '底妝',   keywords: ['foundation', 'cushion', 'concealer', 'base makeup', '底妝', '粉底', '氣墊', '遮瑕'] },
-      foundation: { label: '粉底',   keywords: ['foundation', '粉底'] },
-      cushion:    { label: '氣墊',   keywords: ['cushion', '氣墊'] },
-      concealer:  { label: '遮瑕',   keywords: ['concealer', '遮瑕'] },
-      eye:        { label: '眼妝',   keywords: ['eyeshadow', 'eye shadow', 'eyeliner', 'mascara', 'brow', '眼影', '眼線', '睫毛', '眉'] },
-      eyeshadow:  { label: '眼影',   keywords: ['eyeshadow', 'eye shadow', '眼影'] },
-      eyeliner:   { label: '眼線',   keywords: ['eyeliner', 'eye liner', '眼線'] },
-      mascara:    { label: '睫毛膏', keywords: ['mascara', '睫毛'] },
-      brow:       { label: '眉筆',   keywords: ['brow', 'eyebrow', '眉'] },
-      lip:        { label: '唇妝',   keywords: ['lipstick', 'lip tint', 'lip gloss', 'lip balm', '唇膏', '唇釉', '唇彩', '唇'] },
-      lipstick:   { label: '唇膏',   keywords: ['lipstick', '唇膏'] },
-      liptint:    { label: '唇釉',   keywords: ['tint', '唇釉'] },
-      lipgloss:   { label: '唇彩',   keywords: ['gloss', '唇彩'] },
-      // 傘形，蓋住胭脂／修容／高光。同下面 contour 撞名嘅話，導航會出兩個「修容」。
-      cheek:      { label: '頰彩',   keywords: ['blush', 'highlighter', 'contour', 'bronzer', '胭脂', '高光', '修容'] },
-      blush:      { label: '胭脂',   keywords: ['blush', '胭脂'] },
-      contour:    { label: '修容',   keywords: ['contour', 'bronzer', '修容'] },
-      highlight:  { label: '高光',   keywords: ['highlighter', 'highlight', '高光'] },
+      base:       { label: '底妝',   bucket: 'base',
+                    keywords: ['foundation', 'cushion', 'concealer', 'base makeup', '底妝', '粉底', '氣墊', '遮瑕'] },
+      foundation: { label: '粉底',   parent: 'base', title: /粉底|foundation/i,
+                    keywords: ['foundation', '粉底'] },
+      cushion:    { label: '氣墊',   parent: 'base', title: /氣墊|cushion/i,
+                    keywords: ['cushion', '氣墊'] },
+      concealer:  { label: '遮瑕',   parent: 'base', title: /遮瑕|concealer/i,
+                    keywords: ['concealer', '遮瑕'] },
+      eye:        { label: '眼妝',   bucket: 'eye',
+                    keywords: ['eyeshadow', 'eye shadow', 'eyeliner', 'mascara', 'brow', '眼影', '眼線', '睫毛', '眉'] },
+      eyeshadow:  { label: '眼影',   parent: 'eye', title: /眼影|eyeshadow/i,
+                    keywords: ['eyeshadow', 'eye shadow', '眼影'] },
+      eyeliner:   { label: '眼線',   parent: 'eye', title: /眼線|eyeliner/i,
+                    keywords: ['eyeliner', 'eye liner', '眼線'] },
+      mascara:    { label: '睫毛膏', parent: 'eye', title: /睫毛|mascara/i,
+                    keywords: ['mascara', '睫毛'] },
+      brow:       { label: '眉筆',   parent: 'eye', title: /眉筆|眉粉|染眉|\bbrow\b/i,
+                    keywords: ['brow', 'eyebrow', '眉'] },
+      lip:        { label: '唇妝',   bucket: 'lip',
+                    keywords: ['lipstick', 'lip tint', 'lip gloss', 'lip balm', '唇膏', '唇釉', '唇彩', '唇'] },
+      lipstick:   { label: '唇膏',   parent: 'lip', title: /唇膏|lipstick/i,
+                    keywords: ['lipstick', '唇膏'] },
+      liptint:    { label: '唇釉',   parent: 'lip', title: /唇釉|tint/i,
+                    keywords: ['tint', '唇釉'] },
+      lipgloss:   { label: '唇彩',   parent: 'lip', title: /唇彩|唇蜜|gloss/i,
+                    keywords: ['gloss', '唇彩'] },
+      cheek:      { label: '頰彩',   bucket: 'cheek',
+                    keywords: ['blush', '胭脂', '腮紅', '頰彩'] },
+      blush:      { label: '胭脂',   parent: 'cheek', title: /胭脂|腮紅|blush/i,
+                    keywords: ['blush', '胭脂'] },
+      contour:    { label: '修容',   bucket: 'contour',
+                    keywords: ['contour', 'bronzer', 'highlighter', '修容', '高光', '打亮'] },
+      highlight:  { label: '高光',   parent: 'contour', title: /高光|打亮|highlight/i,
+                    keywords: ['highlighter', 'highlight', '高光'] },
     },
   },
   kpop: {
@@ -1149,6 +1176,35 @@ function matchesKeywords(p, keywords) {
   return !p.productType && !(p.tags || []).length && hit(productHaystackLoose(p));
 }
 
+/* 彩妝五大類嘅產品名規則。順序即係優先次序：行到邊個 match 就歸邊個，
+   唔會再試下面嘅，所以一件貨只入一格。「唇頰彩妝」歸唇妝，因為個名以
+   唇行先 —— 呢個係有意嘅，唔係 bug。
+
+   ⚠️ 同 scripts/makeup_subcats.py 嘅 RULES 係同一套，改就兩邊一齊改，
+   否則頁面同 script 會報唔同嘅件數。 */
+const MAKEUP_RULES = [
+  ['lip',     /唇膏|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|lip/i],
+  ['eye',     /眼影|眼線|睫毛|眉筆|眉粉|染眉|眼彩|eyeshadow|eyeliner|mascara|\bbrow\b/i],
+  ['base',    /粉底|氣墊|遮瑕|妝前|飾底|蜜粉|定妝粉|素顏霜|cushion|foundation|concealer|primer/i],
+  ['contour', /修容|高光|打亮|陰影|contour|highlight|shading/i],
+  ['cheek',   /胭脂|腮紅|頰彩|blush|cheek/i],
+];
+
+function makeupBucket(p) {
+  const hit = MAKEUP_RULES.find(([, re]) => re.test(p.title || ''));
+  return hit ? hit[0] : null;
+}
+
+/* 一個子分類收唔收呢件貨。彩妝行上面嘅產品名規則，其餘照舊睇
+   標題＋標籤＋類型（matchesKeywords）。 */
+function subMatch(section, id, p) {
+  const sub = CATEGORY_TAXONOMY[section]?.subs?.[id];
+  if (!sub) return false;
+  if (sub.bucket) return makeupBucket(p) === sub.bucket;
+  if (sub.parent) return makeupBucket(p) === sub.parent && sub.title.test(p.title || '');
+  return matchesKeywords(p, sub.keywords);
+}
+
 // Collect the keyword set for a section (+ optional subcategory)
 function categoryKeywords(section, cat) {
   const sec = CATEGORY_TAXONOMY[section];
@@ -1189,7 +1245,10 @@ async function getCategoryProducts({ section, cat = null } = {}) {
     products = everything.filter((p) => matchesKeywords(p, categoryKeywords(section, null)));
   }
   if (cat) {
-    products = products.filter((p) => matchesKeywords(p, categoryKeywords(section, cat)));
+    // 彩妝行產品名規則（睇 subMatch），其餘照舊行 keyword。
+    products = products.filter((p) => (CATEGORY_TAXONOMY[section]?.subs?.[cat]
+      ? subMatch(section, cat, p)
+      : matchesKeywords(p, categoryKeywords(section, cat))));
   }
   return products;
 }
