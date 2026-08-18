@@ -5,7 +5,7 @@ document.getElementById("site-chrome").innerHTML = `
     <a href="#">全部產品</a><a href="#">品牌</a><a href="#">獲獎產品</a><a href="#">妝感配對</a>
   </nav>`;
 
-const variants = [renderHydro, renderMask, renderLab];
+const variants = [renderHydro, renderMask, renderLab, renderBoot];
 const stage = document.getElementById('stage');
 const picker = document.querySelector('.proto-picker');
 const highlight = picker.querySelector('.proto-picker-highlight');

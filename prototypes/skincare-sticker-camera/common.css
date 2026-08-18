@@ -30,21 +30,23 @@ img { display: block; }
 .photo-strip > span { display: block; padding: 7px 2px 1px; overflow: hidden; font-family: "Space Mono", monospace; font-size: 7px; font-weight: 700; letter-spacing: .04em; text-align: center; white-space: nowrap; }
 @keyframes strip-in { from { opacity: 0; transform: translateY(-38px) rotate(9deg); } to { opacity: 1; } }
 
-.skin-cats { position: absolute; z-index: 10; left: 50%; bottom: 10px; width: min(1040px, calc(100% - 28px)); display: grid; grid-template-columns: repeat(8, minmax(0,1fr)); align-items: center; gap: clamp(4px, .75vw, 9px); transform: translateX(-50%); }
-.skin-cat { --lift: 0px; --tilt: 0deg; --scale: 1; position: relative; min-width: 0; min-height: 60px; display: grid; grid-template-columns: 36px minmax(0,1fr); grid-template-rows: 1fr; align-items: center; gap: 2px; border: 2px solid var(--ink); padding: 5px 5px; color: var(--ink); background: var(--cat-tint); cursor: pointer; box-shadow: 3px 4px 0 rgba(17,19,26,.26); transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--scale)); transition: transform 160ms ease-out; }
-.skin-cat:hover { transform: translateY(calc(var(--lift) - 4px)) rotate(0) scale(1.04); }
-.skin-cat[data-active] { color: white; background: var(--ink); border-color: white; z-index: 12; }
-.skin-cat-icon { width: 36px; height: 36px; overflow: visible; }
-.skin-cat b { min-width: 0; font-size: 10px; line-height: 1.1; white-space: nowrap; }
-.skin-cat small { position: absolute; top: 3px; right: 4px; min-width: 19px; padding: 2px 3px; border: 1px solid currentColor; border-radius: 999px; font-family: "Space Mono", monospace; font-size: 7px; line-height: 1; text-align: center; }
-.skin-cat:nth-child(1) { --lift: -5px; --tilt: -6deg; --scale: 1.02; border-radius: 47% 40% 52% 45%; }
-.skin-cat:nth-child(2) { --lift: 4px; --tilt: 4deg; --scale: .95; border-radius: 40% 54% 43% 50%; }
-.skin-cat:nth-child(3) { --lift: -1px; --tilt: -3deg; --scale: 1.04; border-radius: 52% 42% 55% 44%; }
-.skin-cat:nth-child(4) { --lift: 5px; --tilt: 7deg; --scale: .98; border-radius: 44% 54% 48% 52%; }
-.skin-cat:nth-child(5) { --lift: -5px; --tilt: -5deg; --scale: 1.02; border-radius: 55% 43% 42% 53%; }
-.skin-cat:nth-child(6) { --lift: 3px; --tilt: 6deg; --scale: .96; border-radius: 42% 51% 55% 44%; }
-.skin-cat:nth-child(7) { --lift: -3px; --tilt: -7deg; --scale: 1.03; border-radius: 54% 46% 42% 55%; }
-.skin-cat:nth-child(8) { --lift: 4px; --tilt: 4deg; --scale: .98; border-radius: 44% 56% 51% 42%; }
+.skin-cats { position: absolute; z-index: 10; left: 50%; bottom: 7px; width: min(960px, calc(100% - 28px)); display: grid; grid-template-columns: repeat(8, minmax(0,1fr)); align-items: end; gap: clamp(2px, .55vw, 7px); transform: translateX(-50%); }
+.skin-cat { --shift: 0px; --lift: 0px; --tilt: 0deg; --scale: 1; position: relative; min-width: 0; min-height: 76px; display: grid; place-items: center; border: 0; padding: 0 4px 15px; color: var(--ink); background: transparent; cursor: pointer; transform: translate(var(--shift),var(--lift)) rotate(var(--tilt)) scale(var(--scale)); transition: transform 160ms ease-out; }
+.skin-cat:hover { transform: translate(var(--shift),calc(var(--lift) - 5px)) rotate(0) scale(1.06); }
+.skin-cat[data-active] { z-index: 12; color: var(--ink); background: transparent; }
+.skin-cat-icon { width: 58px; height: 61px; overflow: visible; filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(3px 4px 0 rgba(17,19,26,.27)); transition: transform 160ms ease-out; }
+.skin-cat b { position: absolute; left: 50%; bottom: 1px; min-width: 43px; padding: 2px 6px; border: 1.5px solid var(--ink); background: var(--cat-tint); box-shadow: 2px 2px 0 rgba(17,19,26,.28); font-size: 9px; line-height: 1.15; text-align: center; white-space: nowrap; transform: translateX(-50%) rotate(calc(var(--tilt) * -.45)); transition: color 140ms ease-out, background 140ms ease-out; }
+.skin-cat small { position: absolute; right: 10%; top: 2px; min-width: 20px; padding: 2px 3px; border: 1.5px solid var(--ink); background: white; box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.25); font-family: "Space Mono", monospace; font-size: 6.5px; font-weight: 700; line-height: 1; text-align: center; transform: rotate(8deg); }
+.skin-cat[data-active] .skin-cat-icon { transform: scale(1.12); }
+.skin-cat[data-active] b { border-color: white; background: var(--ink); color: white; box-shadow: 3px 3px 0 var(--cat-tint); }
+.skin-cat:nth-child(1) { --shift: -5px; --lift: -3px; --tilt: -8deg; --scale: 1.03; }
+.skin-cat:nth-child(2) { --shift: 6px; --lift: 3px; --tilt: 5deg; --scale: .94; }
+.skin-cat:nth-child(3) { --shift: -2px; --lift: -1px; --tilt: -4deg; --scale: 1.08; }
+.skin-cat:nth-child(4) { --shift: 7px; --lift: 4px; --tilt: 8deg; --scale: .98; }
+.skin-cat:nth-child(5) { --shift: -7px; --lift: -4px; --tilt: -6deg; --scale: 1.04; }
+.skin-cat:nth-child(6) { --shift: 3px; --lift: 2px; --tilt: 7deg; --scale: .96; }
+.skin-cat:nth-child(7) { --shift: -4px; --lift: -2px; --tilt: -9deg; --scale: 1.02; }
+.skin-cat:nth-child(8) { --shift: 5px; --lift: 3px; --tilt: 5deg; --scale: .97; }
 
 /* 1 — 水光房：記憶點係一粒好似鏡頭、又似精華液嘅透明水珠。 */
 .hydro { background: repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0 1px,transparent 1px 6px), linear-gradient(135deg,#b9c9d4,#effcff 48%,#aab9ca); }
@@ -82,7 +84,7 @@ img { display: block; }
 .maskbooth__patch--b { left: 37%; top: 197px; width: 38px; height: 38px; color: #ff719d; transform: rotate(-9deg); }
 .maskbooth__patch--c { left: 67%; top: 42px; width: 31px; height: 31px; color: #24bfb6; }
 .maskbooth__note { position: absolute; left: 68%; top: 216px; padding: 5px 8px; border: 2px solid var(--ink); background: #7de7e0; font-family: "Space Mono", monospace; font-size: 8px; font-weight: 700; transform: rotate(6deg); }
-.skin-cats--mask .skin-cat { box-shadow: 3px 4px 0 #7a66ff; }
+.skin-cats--mask .skin-cat-icon { filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(3px 4px 0 #7a66ff); }
 
 /* 3 — 成分掃描：相機變成韓國配方實驗室掃描器。 */
 .lab { color: #f7fff4; background: #161a20; }
@@ -105,9 +107,45 @@ img { display: block; }
 .lab__tag--b { left: 64%; top: 212px; color: #11131a; background: #c8ff45; transform: rotate(5deg); }
 .lab__molecule { left: 28%; top: 77px; color: #7fffd4; font-size: 12px; transform: rotate(-90deg); }
 .lab__stamp { right: 27%; top: 82px; width: 65px; height: 65px; display: grid; place-items: center; border: 2px solid #ff6f7d; border-radius: 50%; color: #ff6f7d; font-size: 8px; text-align: center; transform: rotate(12deg); }
-.skin-cats--lab .skin-cat { border-radius: 3px; box-shadow: 3px 4px 0 #6d6cff; }
-.skin-cats--lab .skin-cat:nth-child(even) { clip-path: polygon(3% 0,100% 5%,97% 100%,0 94%); }
-.skin-cats--lab .skin-cat:nth-child(odd) { clip-path: polygon(0 4%,96% 0,100% 95%,3% 100%); }
+.skin-cats--lab .skin-cat-icon { filter: drop-shadow(2px 0 0 #f7fff4) drop-shadow(-2px 0 0 #f7fff4) drop-shadow(0 2px 0 #f7fff4) drop-shadow(0 -2px 0 #f7fff4) drop-shadow(3px 4px 0 #6d6cff); }
+
+/* 4 — Boot Disk：護膚程序變成一張可開機嘅 Y2K 桌面。 */
+.boot { color: #10131b; background: #63c7ff; font-family: "Pixelify Sans", var(--sans); }
+.boot__wallpaper { position: absolute; inset: 0; overflow: hidden; background: linear-gradient(#62c9ff 0 60%,#aee765 61% 100%); }
+.boot__wallpaper::after { content: ""; position: absolute; left: -8%; right: -8%; bottom: 25px; height: 132px; border-radius: 50% 46% 0 0 / 100% 90% 0 0; background: linear-gradient(155deg,#77d743,#29a63d); transform: rotate(-2deg); box-shadow: inset 0 7px 0 rgba(255,255,255,.35); }
+.boot__cloud { position: absolute; z-index: 1; width: 86px; height: 22px; border-radius: 999px; background: rgba(255,255,255,.85); filter: drop-shadow(20px -8px 0 rgba(255,255,255,.85)) drop-shadow(43px 2px 0 rgba(255,255,255,.85)); }
+.boot__cloud--a { left: 7%; top: 31px; }.boot__cloud--b { right: 28%; top: 58px; transform: scale(.64); }
+.boot__title { position: absolute; z-index: 4; left: clamp(18px,4vw,58px); top: 18px; width: 320px; }
+.boot__title > span { display: inline-block; padding: 3px 7px; border: 2px solid #10131b; background: #fff06a; box-shadow: 3px 3px 0 #10131b; font-family: "VT323", monospace; font-size: 15px; }
+.boot__title h1 { margin: 8px 0 0; color: white; font-family: "Pixelify Sans", sans-serif; font-size: clamp(49px,5vw,68px); font-weight: 700; letter-spacing: -.06em; line-height: .76; -webkit-text-stroke: 2px #10131b; text-shadow: 5px 5px 0 #084cc7,8px 8px 0 #ff67b3; }
+.boot__title p { display: inline-block; margin: 13px 0 0; padding: 4px 7px; border: 1.5px solid #10131b; background: white; font-family: "VT323", monospace; font-size: 14px; }
+.boot__window { position: absolute; z-index: 5; left: 49%; top: 18px; width: 270px; border: 3px solid #0a45ba; background: #ece9d8; box-shadow: 7px 8px 0 rgba(16,19,27,.3); transform: rotate(2deg); }
+.boot__windowbar, .boot__dialogbar { min-height: 25px; display: flex; align-items: center; gap: 3px; padding: 3px 4px 3px 8px; background: linear-gradient(90deg,#0754d7,#3a8cf2); color: white; font-size: 12px; font-weight: 700; }
+.boot__windowbar span { margin-right: auto; }.boot__windowbar i { width: 18px; height: 18px; display: grid; place-items: center; border: 1px solid white; background: #2381ef; font-family: Arial,sans-serif; font-size: 11px; font-style: normal; line-height: 1; }
+.boot__windowbar i:last-child { background: #e85535; }
+.boot__windowbody { padding: 6px; border: 2px solid white; background: white; }
+.boot__windowbody .photo-strip__frames { grid-template-columns: repeat(4,1fr); gap: 4px; }
+.boot__windowbody img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.boot__status { display: flex; align-items: center; padding: 3px 6px; border-top: 1px solid #b7b5aa; font-family: "VT323",monospace; font-size: 12px; }
+.boot__status b { margin-left: auto; color: #0955cd; }
+.boot__disk { position: absolute; z-index: 6; right: clamp(28px,5vw,74px); top: 25px; width: 104px; height: 118px; display: grid; place-items: center; border: 3px solid #10131b; border-radius: 3px 3px 10px 3px; background: #ff69b4; box-shadow: inset -11px 0 0 rgba(0,0,0,.13),7px 8px 0 rgba(16,19,27,.28); transform: rotate(7deg); }
+.boot__disk::before { content: ""; position: absolute; left: 17px; right: 17px; top: 0; height: 33px; border: 2px solid #10131b; border-top: 0; background: #cbd0d7; }
+.boot__disk::after { content: ""; position: absolute; left: 25px; right: 15px; bottom: -3px; height: 32px; border: 3px solid #10131b; background: #20242d; }
+.boot__disk span { position: relative; z-index: 2; padding: 4px 9px; border: 2px solid #10131b; background: white; color: #084cc7; font-family: "VT323",monospace; font-size: 17px; font-weight: 700; line-height: .72; text-align: center; transform: rotate(-3deg); }
+.boot__disk small { position: absolute; z-index: 2; right: 7px; bottom: 5px; color: white; font-family: "VT323",monospace; font-size: 11px; }
+.boot__dialog { position: absolute; z-index: 7; right: clamp(36px,12vw,178px); top: 157px; width: 238px; border: 3px solid #084cc7; background: #ece9d8; box-shadow: 7px 7px 0 rgba(16,19,27,.28); transform: rotate(-2deg); }
+.boot__dialog p { margin: 8px 9px 4px; font-family: "VT323",monospace; font-size: 15px; }
+.boot__progress { height: 17px; margin: 0 9px 5px; overflow: hidden; border: 2px inset #fff; background: white; }
+.boot__progress i { display: block; width: 82%; height: 100%; background: repeating-linear-gradient(90deg,#1cbb42 0 11px,transparent 11px 14px); animation: boot-progress 1.1s ease-out both; }
+@keyframes boot-progress { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+.boot__dialog > span { display: block; margin: 0 9px 7px; color: #084cc7; font-family: "VT323",monospace; font-size: 11px; }
+.boot__cursor { position: absolute; z-index: 9; right: 30%; top: 214px; color: white; font-family: Arial,sans-serif; font-size: 28px; -webkit-text-stroke: 2px #10131b; transform: rotate(47deg); }
+.boot__taskbar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; height: 29px; display: flex; align-items: center; gap: 7px; padding-right: 8px; background: linear-gradient(#2f79ed,#0753ca); color: white; font-family: "VT323",monospace; font-size: 13px; }
+.boot__taskbar b { align-self: stretch; display: flex; align-items: center; padding: 0 17px 0 11px; border-radius: 0 13px 13px 0; background: linear-gradient(#63ce59,#208d31); font-family: "Pixelify Sans",sans-serif; font-size: 12px; font-style: italic; }
+.boot__taskbar span { padding: 3px 18px 3px 7px; border: 1px solid rgba(255,255,255,.3); background: #1d63cf; }.boot__taskbar time { margin-left: auto; }
+.skin-cats--boot { bottom: 28px; }
+.skin-cats--boot .skin-cat-icon { filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(3px 4px 0 #084cc7); }
+.skin-cats--boot .skin-cat b { border-radius: 0; font-family: "Pixelify Sans",sans-serif; }
 
 .products { padding: 18px clamp(18px,4vw,58px) 100px; background: white; }
 .products__bar { display: flex; align-items: center; gap: 12px; padding: 0 0 13px; border-bottom: 1px solid var(--line); }
@@ -127,11 +165,12 @@ img { display: block; }
   .site-nav a:nth-of-type(n+3) { display: none; }
   .skin-hero { min-height: 350px; height: 350px; }
   .photo-strip { width: 112px; padding: 5px; }.photo-strip__frames { gap: 3px; }.photo-strip > span { padding-top: 5px; font-size: 5.5px; }
-  .skin-cats { bottom: 7px; width: calc(100% - 14px); grid-template-columns: repeat(4,minmax(0,1fr)); gap: 3px 4px; }
-  .skin-cat { min-height: 48px; grid-template-columns: 27px minmax(0,1fr); padding: 2px; box-shadow: 2px 3px 0 rgba(17,19,26,.24); }
-  .skin-cat-icon { width: 27px; height: 27px; }.skin-cat b { font-size: 9px; }.skin-cat small { top: 2px; right: 2px; min-width: 17px; font-size: 6px; }
-  .skin-cat:nth-child(1) { --lift: -2px; }.skin-cat:nth-child(2) { --lift: 2px; }.skin-cat:nth-child(3) { --lift: -1px; }.skin-cat:nth-child(4) { --lift: 2px; }
-  .skin-cat:nth-child(5) { --lift: -1px; }.skin-cat:nth-child(6) { --lift: 2px; }.skin-cat:nth-child(7) { --lift: -2px; }.skin-cat:nth-child(8) { --lift: 1px; }
+  .skin-cats { bottom: 4px; width: calc(100% - 12px); grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0 2px; }
+  .skin-cat { min-height: 55px; padding: 0 2px 12px; }
+  .skin-cat-icon { width: 40px; height: 42px; filter: drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(2px 2px 0 rgba(17,19,26,.28)); }
+  .skin-cat b { min-width: 38px; padding: 1px 4px; font-size: 8px; }.skin-cat small { top: 0; right: 9%; min-width: 17px; padding: 1px 2px; font-size: 5.5px; }
+  .skin-cat:nth-child(1) { --shift: -2px; --lift: -2px; }.skin-cat:nth-child(2) { --shift: 3px; --lift: 2px; }.skin-cat:nth-child(3) { --shift: -3px; --lift: -1px; }.skin-cat:nth-child(4) { --shift: 2px; --lift: 2px; }
+  .skin-cat:nth-child(5) { --shift: -3px; --lift: -1px; }.skin-cat:nth-child(6) { --shift: 2px; --lift: 2px; }.skin-cat:nth-child(7) { --shift: -2px; --lift: -2px; }.skin-cat:nth-child(8) { --shift: 3px; --lift: 1px; }
 
   .hydro__title { left: 13px; top: 17px; }.hydro__title h1 { font-size: 43px; -webkit-text-stroke-width: 1px; text-shadow: 3px 4px 0 #b8ff62; }.hydro__title p { margin-top: 8px; font-size: 8px; }
   .hydro__strip { top: 49px; right: 12px; }.hydro__orb { left: 36%; top: 124px; width: 105px; height: 112px; }.hydro__orb span { font-size: 17px; }
@@ -144,12 +183,22 @@ img { display: block; }
   .lab__scanner { left: 49%; top: 119px; width: 112px; height: 111px; box-shadow: 4px 5px 0 #6d6cff; }.lab__sample { inset: 10px; }.lab__sample b { font-size: 14px; }.lab__scanline { height: 3px; }@keyframes scan { to { transform: translateY(68px); } }
   .lab__strip { top: 44px; right: 11px; }.lab__tag--a { left: 9px; top: 181px; font-size: 7px; }.lab__tag--b { right: 9px; left: auto; top: 205px; font-size: 6px; }.lab__molecule,.lab__stamp { display: none; }
 
+  .boot__cloud--a { left: 3%; top: 37px; transform: scale(.6); }.boot__cloud--b { display: none; }
+  .boot__wallpaper::after { bottom: 22px; height: 112px; }
+  .boot__title { left: 12px; top: 10px; width: 250px; }.boot__title > span { padding: 2px 5px; font-size: 11px; box-shadow: 2px 2px 0 #10131b; }.boot__title h1 { margin-top: 5px; font-size: 37px; -webkit-text-stroke-width: 1.5px; text-shadow: 3px 3px 0 #084cc7,5px 5px 0 #ff67b3; }.boot__title p { margin-top: 7px; padding: 2px 4px; font-size: 10px; }
+  .boot__window { left: 11px; top: 107px; width: 206px; border-width: 2px; box-shadow: 4px 5px 0 rgba(16,19,27,.3); }.boot__windowbar { min-height: 20px; font-size: 9px; }.boot__windowbar i { width: 14px; height: 14px; font-size: 8px; }.boot__windowbody { padding: 4px; }.boot__windowbody .photo-strip__frames { gap: 2px; }.boot__status { padding-block: 1px; font-size: 9px; }
+  .boot__disk { right: 13px; top: 76px; width: 76px; height: 88px; border-width: 2px; box-shadow: inset -8px 0 0 rgba(0,0,0,.13),4px 5px 0 rgba(16,19,27,.28); }.boot__disk::before { left: 12px; right: 12px; height: 24px; }.boot__disk::after { left: 18px; right: 11px; height: 23px; border-width: 2px; }.boot__disk span { padding: 3px 6px; font-size: 12px; }.boot__disk small { right: 4px; bottom: 3px; font-size: 8px; }
+  .boot__dialog { right: 10px; top: 144px; width: 170px; border-width: 2px; box-shadow: 4px 4px 0 rgba(16,19,27,.28); }.boot__dialogbar { min-height: 20px; font-size: 9px; }.boot__dialog p { margin: 4px 6px 2px; font-size: 11px; }.boot__progress { height: 11px; margin: 0 6px 2px; }.boot__dialog > span { margin: 0 6px 4px; font-size: 8px; }.boot__cursor { right: 18%; top: 198px; font-size: 20px; }
+  .boot__taskbar { height: 25px; font-size: 10px; }.boot__taskbar b { padding-inline: 8px 13px; font-size: 9px; }.boot__taskbar span { padding-inline: 4px 9px; }
+  .skin-cats--boot { bottom: 24px; }
+
   .products { padding-inline: 14px; }.product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 
 @media (max-width: 350px) {
-  .skin-cat b { font-size: 8px; }.skin-cat-icon { width: 24px; height: 24px; }.skin-cat { grid-template-columns: 24px minmax(0,1fr); }
+  .skin-cat b { min-width: 34px; font-size: 7px; }.skin-cat-icon { width: 36px; height: 39px; }.skin-cat { min-height: 52px; }
   .hydro__title h1,.maskbooth__title h1 { font-size: 38px; }.lab__title h1 { font-size: 34px; }
+  .boot__title h1 { font-size: 34px; }.boot__window { width: 184px; }.boot__dialog { width: 155px; }.boot__taskbar span { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
