@@ -9,10 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="common.css">
   <style>
-    :root { --pink: #ff70bd; --blue: #5d73ff; --lime: #cbff48; --silver: #d8d9e5; }
+    :root { --pink: #ff70bd; --blue: #5d73ff; --lime: #cbff48; --yellow: #ffd64d; --silver: #d8d9e5; }
     .booth {
       position: relative;
-      min-height: 510px;
+      min-height: 350px;
       overflow: hidden;
       background:
         repeating-linear-gradient(90deg, rgba(255,255,255,.32) 0 1px, transparent 1px 6px),
@@ -22,14 +22,14 @@
     .booth__title {
       position: absolute;
       left: clamp(18px, 5vw, 76px);
-      top: 34px;
+      top: 24px;
       z-index: 4;
       transform: rotate(-3deg);
     }
     .booth__title h1 {
       margin: 0;
       font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
-      font-size: clamp(52px, 8vw, 116px);
+      font-size: clamp(50px, 6vw, 76px);
       font-weight: 400;
       line-height: .82;
       color: var(--blue);
@@ -38,8 +38,8 @@
     }
     .booth__title p {
       display: inline-block;
-      margin: 14px 0 0 12px;
-      padding: 7px 12px;
+      margin: 10px 0 0 8px;
+      padding: 6px 10px;
       background: #101218;
       color: white;
       font-size: 11px;
@@ -48,10 +48,10 @@
     }
     .booth__strip {
       position: absolute;
-      top: 28px;
-      left: 51%;
-      width: clamp(190px, 22vw, 285px);
-      padding: 10px;
+      top: 20px;
+      right: clamp(28px, 12vw, 180px);
+      width: clamp(154px, 16vw, 205px);
+      padding: 8px;
       background: white;
       box-shadow: 0 24px 55px rgba(25,28,50,.28);
       transform: rotate(4deg);
@@ -68,26 +68,103 @@
     }
     .booth__frames { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
     .booth__frames img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #eceef1; }
-    .booth__stickers button {
+    .booth__collage { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+    .booth__word-face {
       position: absolute;
-      z-index: 5;
+      left: 32%;
+      top: 43px;
+      transform: rotate(2deg);
+      color: var(--pink);
+      font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+      font-size: clamp(30px, 4vw, 55px);
+      line-height: .78;
+      -webkit-text-stroke: 1.5px #11131a;
+      text-shadow: 3px 4px 0 white;
+    }
+    .booth__word-face span { display: block; margin-left: 24px; color: var(--blue); }
+    .booth__word-face small {
+      display: block;
+      width: max-content;
+      margin: 11px 0 0 42px;
+      padding: 5px 8px;
+      background: #11131a;
+      color: white;
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 9px;
+      letter-spacing: .08em;
+      -webkit-text-stroke: 0;
+      text-shadow: none;
+    }
+    .booth__kiss {
+      position: absolute;
+      left: 48%;
+      top: 155px;
+      width: 98px;
+      color: var(--pink);
+      filter: drop-shadow(3px 4px 0 white);
+      transform: rotate(-11deg);
+    }
+    .booth__flash-word {
+      position: absolute;
+      left: 67%;
+      top: 186px;
+      padding: 8px 13px;
       border: 2px solid #11131a;
-      border-radius: 999px;
-      padding: 9px 15px;
+      border-radius: 50% 42% 48% 45%;
+      background: var(--yellow);
+      font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+      font-size: 20px;
+      transform: rotate(9deg);
+      box-shadow: 3px 4px 0 rgba(17,19,26,.24);
+    }
+    .booth__stickers {
+      position: absolute;
+      z-index: 6;
+      left: 50%;
+      bottom: 14px;
+      width: min(650px, calc(100% - 28px));
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(6px, 1.1vw, 12px);
+      transform: translateX(-50%);
+    }
+    .booth__stickers button {
+      position: relative;
+      min-width: 0;
+      min-height: 72px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 1px;
+      border: 2px solid #11131a;
+      padding: 5px 4px 7px;
       color: #11131a;
-      font-size: 14px;
       font-weight: 900;
       cursor: pointer;
       box-shadow: 3px 4px 0 rgba(17,19,26,.28);
       transition: transform 160ms ease-out;
     }
-    .booth__stickers button:hover { transform: translateY(-5px) rotate(0) !important; }
+    .booth__stickers button:hover { transform: translateY(-4px) rotate(0) !important; }
     .booth__stickers button[data-active] { background: #11131a !important; color: white; border-color: white; }
-    .booth__stickers button:nth-child(1) { left: 8%; bottom: 72px; background: var(--pink); transform: rotate(-8deg); }
-    .booth__stickers button:nth-child(2) { left: 28%; bottom: 35px; background: var(--lime); transform: rotate(4deg); }
-    .booth__stickers button:nth-child(3) { right: 8%; bottom: 72px; background: #fff; transform: rotate(7deg); }
-    .booth__stickers button:nth-child(4) { right: 30%; top: 54px; background: #ffd64d; transform: rotate(-5deg); }
-    .booth__stickers button:nth-child(5) { right: 7%; top: 30px; background: #98e4ff; transform: rotate(8deg); }
+    .booth__stickers button b { font-size: 11px; line-height: 1; }
+    .booth__stickers button small {
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      min-width: 20px;
+      padding: 2px 4px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 8px;
+      line-height: 1;
+    }
+    .booth__sticker-icon { width: 40px; height: 40px; overflow: visible; }
+    .booth__sticker-icon * { vector-effect: non-scaling-stroke; }
+    .booth__stickers button:nth-child(1) { border-radius: 50% 42% 48% 45%; background: var(--pink); transform: rotate(-4deg); }
+    .booth__stickers button:nth-child(2) { border-radius: 44% 52% 43% 55%; background: var(--lime); transform: rotate(3deg); }
+    .booth__stickers button:nth-child(3) { border-radius: 52% 42% 55% 45%; background: #fff; transform: rotate(-2deg); }
+    .booth__stickers button:nth-child(4) { border-radius: 43% 55% 48% 52%; background: var(--yellow); transform: rotate(4deg); }
+    .booth__stickers button:nth-child(5) { border-radius: 55% 45% 42% 52%; background: #98e4ff; transform: rotate(-3deg); }
     .booth__burst {
       position: absolute;
       right: -35px;
@@ -102,17 +179,20 @@
     @keyframes flash { 0%, 15% { opacity: 1; } 100% { opacity: 0; } }
     @keyframes strip-in { from { opacity: 0; transform: translateY(-70px) rotate(9deg); } to { opacity: 1; transform: rotate(4deg); } }
     @media (max-width: 720px) {
-      .booth { min-height: 560px; }
-      .booth__title { left: 16px; top: 26px; }
-      .booth__title h1 { font-size: 58px; -webkit-text-stroke-width: 1px; text-shadow: 3px 4px 0 var(--lime); }
-      .booth__strip { top: 178px; left: 50%; width: 178px; transform: translateX(-50%) rotate(3deg); }
-      @keyframes strip-in { from { opacity: 0; transform: translate(-50%, -60px) rotate(8deg); } to { opacity: 1; transform: translateX(-50%) rotate(3deg); } }
-      .booth__stickers button { padding: 7px 11px; font-size: 12px; }
-      .booth__stickers button:nth-child(1) { left: 12px; bottom: 72px; }
-      .booth__stickers button:nth-child(2) { left: 100px; bottom: 28px; }
-      .booth__stickers button:nth-child(3) { right: 13px; bottom: 72px; }
-      .booth__stickers button:nth-child(4) { right: 72px; top: 116px; }
-      .booth__stickers button:nth-child(5) { right: 10px; top: 78px; }
+      .booth { min-height: 350px; }
+      .booth__title { left: 15px; top: 20px; }
+      .booth__title h1 { font-size: 49px; -webkit-text-stroke-width: 1px; text-shadow: 3px 4px 0 var(--lime); }
+      .booth__title p { margin-top: 8px; font-size: 9px; }
+      .booth__strip { top: 58px; right: 17px; width: 126px; transform: rotate(3deg); }
+      @keyframes strip-in { from { opacity: 0; transform: translateY(-55px) rotate(8deg); } to { opacity: 1; transform: rotate(3deg); } }
+      .booth__word-face { display: none; }
+      .booth__kiss { left: 49%; top: 194px; width: 66px; }
+      .booth__flash-word { left: 17px; top: 213px; padding: 5px 9px; font-size: 14px; }
+      .booth__stickers { bottom: 12px; width: calc(100% - 20px); gap: 5px; }
+      .booth__stickers button { min-height: 68px; padding-inline: 2px; }
+      .booth__sticker-icon { width: 34px; height: 34px; }
+      .booth__stickers button b { font-size: 10px; }
+      .booth__stickers button small { top: 4px; right: 4px; min-width: 18px; font-size: 7px; }
     }
   </style>
 </head>
@@ -136,12 +216,32 @@
         <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-lipsleek-03.jpg?v=1785519682&width=360" alt="">
         <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/glint-baked-blush-08.jpg?v=1785469561&width=360" alt="">
       </div></div>
+      <div class="booth__collage" aria-hidden="true">
+        <div class="booth__word-face">MAKE <span>A FACE!</span><small>PICK YOUR COLOUR</small></div>
+        <svg class="booth__kiss" viewBox="0 0 120 78"><g fill="currentColor" stroke="#11131a" stroke-width="2.5" stroke-linejoin="round"><path d="M7 39C20 20 36 15 59 28 83 14 99 21 113 39 97 57 82 65 60 61 39 65 22 58 7 39Z"/><path d="M8 39c22-3 37-3 51-11 16 8 31 9 53 11-20 6-35 8-52 8S29 45 8 39Z" fill="#fff"/></g><path d="M38 31c6 3 13 3 21-2m2 0c8 5 15 5 22 2" fill="none" stroke="#11131a" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="booth__flash-word">FLASH!</div>
+      </div>
       <div class="booth__stickers">
-        <button class="cat-control" type="button" data-cat="底妝">底妝 46</button>
-        <button class="cat-control" type="button" data-cat="眼妝">眼妝 50</button>
-        <button class="cat-control" type="button" data-cat="唇妝">唇妝 58</button>
-        <button class="cat-control" type="button" data-cat="頰彩">頰彩 16</button>
-        <button class="cat-control" type="button" data-cat="修容">修容 12</button>
+        <button class="cat-control" type="button" data-cat="底妝">
+          <svg class="booth__sticker-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M39 8C24 8 15 18 16 34c1 12 8 21 19 22 9 1 17-4 20-13-8-2-12-8-12-16 0-7 2-13 6-17-3-1-6-2-10-2Z" fill="#fff"/><path d="M27 27c3-3 7-3 10 0m-9 9c4 3 8 3 12 0"/><circle cx="49" cy="21" r="7" fill="#cbff48"/><path d="m49 17 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z"/></g></svg>
+          <b>底妝</b><small>46</small>
+        </button>
+        <button class="cat-control" type="button" data-cat="眼妝">
+          <svg class="booth__sticker-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 31s10-15 25-15 25 15 25 15-10 15-25 15S7 31 7 31Z" fill="#fff"/><path d="m32 21 3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1 3-7Z" fill="#ff70bd"/><path d="M15 19l-4-6m13 3-1-8m18 9 3-8m5 13 6-5M17 48l-3 7m32-7 4 7"/></g></svg>
+          <b>眼妝</b><small>50</small>
+        </button>
+        <button class="cat-control" type="button" data-cat="唇妝">
+          <svg class="booth__sticker-icon" viewBox="0 0 64 64" aria-hidden="true"><g stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M5 32C13 20 22 17 32 24c11-8 21-4 27 8-8 11-17 16-27 14C21 48 12 43 5 32Z" fill="#ff70bd"/><path d="M6 32c11 0 19-2 26-8 8 6 17 8 26 8-11 3-19 5-26 5S16 35 6 32Z" fill="#fff"/></g><path d="M13 19l-4-5m44 8 5-3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+          <b>唇妝</b><small>58</small>
+        </button>
+        <button class="cat-control" type="button" data-cat="頰彩">
+          <svg class="booth__sticker-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M32 8c15 0 24 10 23 24-1 15-10 24-23 24S9 47 9 32C8 18 17 8 32 8Z" fill="#fff"/><path d="M20 28c2 2 5 2 7 0m10 0c2 2 5 2 7 0M27 40c3 2 7 2 10 0"/><circle cx="18" cy="37" r="7" fill="#ff70bd" stroke="none"/><circle cx="46" cy="37" r="7" fill="#ff70bd" stroke="none"/><path d="m50 10 2 4 5 1-4 3 1 5-4-3-4 3 1-5-4-3 5-1 2-4Z" fill="#cbff48"/></g></svg>
+          <b>頰彩</b><small>16</small>
+        </button>
+        <button class="cat-control" type="button" data-cat="修容">
+          <svg class="booth__sticker-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M38 7C23 7 13 18 14 34c1 14 9 22 20 23 10 1 18-5 21-15-7-1-11-5-12-11 6-2 9-7 9-13-4-7-8-11-14-11Z" fill="#fff"/><path d="M21 18c6 3 11 3 17 0l-4 10-12 2-1-12Z" fill="#ffd64d"/><path d="M22 35c7 3 13 3 20-1l-2 12c-5 5-11 7-17 3l-1-14Z" fill="#c99165"/><path d="M31 31c3-2 6-2 9 0m-13 11c4 2 8 2 12-1M52 8l3-4m-1 11 6-1"/></g></svg>
+          <b>修容</b><small>12</small>
+        </button>
       </div>
       <div class="booth__burst" aria-hidden="true"></div>
     </section>
