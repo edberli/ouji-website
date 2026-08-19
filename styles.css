@@ -8309,3 +8309,127 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   padding-left: var(--space-lg) !important;
   font-size: 0.9375rem !important;
 }
+
+/* ============================================================
+   首頁配色：藍色微光（prototypes/homepage-redesign 第 4 款）
+
+   原本首頁行米白／奶油色系（--warm-* 一族係啡黃）。老闆揀咗第 4 款，
+   將同一組 token 換成偏冷嘅藍灰，**品牌藍本身唔郁**（--primary #6da3b5、
+   --primary-deep #2b4c58 完全冇改），所以係「同一套色調得更統一」，
+   唔係換咗個牌子。
+
+   ⚠️ 收喺 html.home-cool 底下，即係淨係首頁行呢套。其他版仲係米白 ——
+   要全站轉就將 index.html 嗰個 class 搬去共用 header，或者直接改
+   :root 嗰堆 --warm-* 值。
+   ============================================================ */
+html.home-cool {
+  --bg-primary: #f7f9f9;
+  --bg-secondary: #ffffff;
+  --surface: #ffffff;
+  --surface-alt: #eef3f4;
+  --warm-50:  #f7f9f9;
+  --warm-100: #eef4f5;
+  --warm-200: #dce9ec;
+  --warm-300: #c8dce2;
+  --warm-400: #aecbd8;
+  --warm-500: #82afc1;
+  --warm-600: #3f6574;
+  --warm-gradient: linear-gradient(135deg, #f7f9f9 0%, #eef4f5 100%);
+  --warm-glass: rgba(231, 241, 244, 0.62);
+  /* 邊線由品牌淺藍改成深藍調，喺冷底上面先睇得清 */
+  --border-light: rgba(43, 76, 88, 0.16);
+  --border-subtle: rgba(43, 76, 88, 0.09);
+  --glass-bg: rgba(255, 255, 255, 0.76);
+  --glass-bg-strong: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(43, 76, 88, 0.11);
+  --glass-border-strong: rgba(43, 76, 88, 0.16);
+  scrollbar-color: var(--primary) var(--primary-lightest);
+}
+
+html.home-cool ::selection { color: #fff; background: var(--primary-deep); }
+html.home-cool body { background: var(--bg-primary); background-image: none; }
+html.home-cool body::before { opacity: 0.18; }
+
+html.home-cool .announcement-bar,
+html.home-cool .marquee { background: var(--primary-deep); }
+html.home-cool .header.is-scrolled {
+  background: rgba(247, 249, 249, 0.96);
+  border-bottom-color: rgba(43, 76, 88, 0.11);
+}
+html.home-cool .header.is-scrolled .header__logo { color: var(--primary-dark); }
+html.home-cool .header__submenu,
+html.home-cool .header__subsubmenu {
+  background: rgba(247, 249, 249, 0.96);
+  border-color: rgba(43, 76, 88, 0.13);
+}
+
+html.home-cool .section--sm:has(.cat-cards) {
+  background: linear-gradient(180deg, #edf4f6 0%, #e7f1f4 100%);
+}
+html.home-cool .section--warm { background: #ffffff; }
+html.home-cool .cat-card { background: #ffffff; }
+html.home-cool .cat-cards__title,
+html.home-cool .cat-card__name { color: var(--primary-deep); }
+html.home-cool .cat-card__n { color: var(--primary-darker); }
+html.home-cool .cat-card__shot,
+html.home-cool .product-card__image-wrap { background: var(--surface-alt); }
+html.home-cool .product-card__brand { color: var(--primary-darker); }
+html.home-cool .section--concerns { background: var(--primary-lightest); }
+html.home-cool .look-pill,
+html.home-cool .stat-card,
+html.home-cool .stat-card:nth-child(even) { background: #ffffff; }
+html.home-cool .stat-card__number,
+html.home-cool .stat-card:nth-child(even) .stat-card__number { color: var(--primary-dark); }
+html.home-cool .btn--ghost,
+html.home-cool .btn--ghost::after { color: var(--primary-darker); }
+
+/* 得獎緞帶：由暖金改成深藍底 */
+html.home-cool .award-ribbon {
+  background: var(--primary-deep);
+  border-color: rgba(174, 203, 216, 0.5);
+}
+html.home-cool .award-ribbon__crown { color: var(--primary-lighter); }
+html.home-cool .award-ribbon__rank {
+  color: #ffffff;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+}
+html.home-cool .award-ribbon__body,
+html.home-cool .award-ribbon__count { color: rgba(231, 241, 244, 0.78); }
+html.home-cool .award-ribbon__count { border-top-color: rgba(174, 203, 216, 0.28); }
+
+/* 得獎產品區：由暖啡深底改成藍墨深底 */
+html.home-cool .home-awards {
+  color: #f4f8f9;
+  background:
+    radial-gradient(80% 72% at 50% 35%, rgba(109, 163, 181, 0.2) 0%, transparent 68%),
+    linear-gradient(180deg, #2b4c58 0, #213f49 72px, #18343e 112px, #18343e 100%);
+  border-bottom: 1px solid rgba(174, 203, 216, 0.16);
+}
+html.home-cool .home-awards::before {
+  background: radial-gradient(ellipse at center,
+    rgba(174, 203, 216, 0.14) 0%, rgba(109, 163, 181, 0.05) 44%, transparent 72%);
+}
+html.home-cool .home-awards__eyebrow,
+html.home-cool .won-card__brand,
+html.home-cool .home-awards__desc b { color: #aecbd8; }
+html.home-cool .home-awards__title {
+  color: #f4f8f9;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+}
+html.home-cool .home-awards__desc,
+html.home-cool .won-card__award { color: rgba(216, 231, 235, 0.76); }
+html.home-cool .won-card__title { color: #f4f8f9; }
+html.home-cool .won-card__media {
+  background: #ffffff;
+  border-color: rgba(174, 203, 216, 0.18);
+}
+html.home-cool .won-card__seal { color: #ffffff; background: #3f6574; }
+html.home-cool .home-awards__cta {
+  border-color: rgba(174, 203, 216, 0.48);
+  color: #e7f1f4;
+}
+html.home-cool .home-awards__cta:hover { color: #fff; background: rgba(109, 163, 181, 0.16); }
