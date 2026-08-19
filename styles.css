@@ -2334,13 +2334,10 @@ button.product-card__quick-add,
   position: fixed; top: 0; left: 0;
   width: min(85%, 340px);
   height: 100vh;
-  /* 本來 0.62–0.7 透明度，後面嘅頁面（尤其係彩妝嗰塊花花貼紙 hero）
-     會透晒上嚟，啲字讀唔到。改成實色 —— 老闆講咗兩次仲透，1.5% 都夠一堆大字透上嚟，
-     但底下嘅嘢唔會再同啲字爭。 */
   background: linear-gradient(165deg,
-    rgb(56, 96, 111) 0%,
-    rgb(72, 119, 135) 50%,
-    rgb(56, 96, 111) 100%);
+    rgba(72, 115, 131, 0.62) 0%,
+    rgba(89, 139, 156, 0.7) 50%,
+    rgba(72, 115, 131, 0.65) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border-right: 1px solid rgba(255, 255, 255, 0.18);
@@ -2424,7 +2421,7 @@ button.product-card__quick-add,
   color: rgba(255,255,255,0.7);
 }
 .mobile-nav__sublinks > a:hover { color: white; }
-.mobile-nav-overlay { position: fixed; inset: 0; background: rgba(20, 50, 65, 0.42); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 2999; opacity: 0; visibility: hidden; transition: all var(--duration-normal); cursor: pointer; }
+.mobile-nav-overlay { position: fixed; inset: 0; background: rgba(20, 50, 65, 0.18); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 2999; opacity: 0; visibility: hidden; transition: all var(--duration-normal); cursor: pointer; }
 .mobile-nav-overlay.is-visible { opacity: 1; visibility: visible; }
 
 /* ----- Responsive ----- */
@@ -6479,14 +6476,14 @@ html.is-lite .cat-card:hover .cat-card__shot img { transform: none; }
   padding: var(--space-md) var(--space-lg) var(--space-lg);
   margin-top: 10px;
   border-radius: 16px;
-  /* 同 .mobile-nav 側邊抽屜同一隻藍玻璃。本來 0.62–0.7 通透，但換咗
-     花花貼紙 hero 之後，成個「OUJI STICKER CLUB」透晒上嚟同啲字爭，
-     讀唔到 —— 老闆 2026-08-19 叫加厚，加到 0.985 佢話仲透，所以改成實色。
-     呢個取代咗之前「淺、通透、後面睇得到」嗰個指示。 */
+  /* 藍玻璃，但**冇**手機抽屜咁通透。本來同抽屜一樣 0.62–0.7，換咗花花
+     貼紙 hero 之後「OUJI STICKER CLUB」嗰堆大字透晒上嚟同選單啲字爭，
+     讀唔到。老闆 2026-08-19：淨係調桌面呢個，唔好做實色，手機抽屜維持
+     原樣。所以呢度收到 0.92 —— 仲見到後面嘅顏色同 blur，但唔會再撈亂。 */
   background: linear-gradient(165deg,
-    rgb(56, 96, 111) 0%,
-    rgb(72, 119, 135) 50%,
-    rgb(56, 96, 111) 100%);
+    rgba(64, 105, 121, 0.92) 0%,
+    rgba(80, 129, 146, 0.93) 50%,
+    rgba(64, 105, 121, 0.92) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.18);
