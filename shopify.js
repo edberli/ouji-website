@@ -1059,7 +1059,11 @@ const CATEGORY_TAXONOMY = {
       toner:       { label: '爽膚水',   keywords: ['toner', '爽膚水', '化妝水', '토너'] },
       pad:         { label: '棉片',     keywords: ['pad', '棉片', '化妝棉', '패드'] },
       serum:       { label: '精華液',   keywords: ['serum', 'essence', 'ampoule', '精華', '安瓶', '에센스', '앰플'] },
-      moisturizer: { label: '乳液',     keywords: ['moisturizer', 'lotion', 'cream', 'emulsion', '乳液', '面霜', '크림'] },
+      /* 眼霜個名一定有「霜／cream」，所以本來 24 件眼部護理全部同時
+         中晒乳液 —— 「眼部護理」變成乳液嘅子集，喺分類入口度直接
+         消失咗。眼霜屬於眼部護理，唔應該又計落乳液，所以剔走佢哋。 */
+      moisturizer: { label: '乳液',     exclude: ['eye'],
+                     keywords: ['moisturizer', 'lotion', 'cream', 'emulsion', '乳液', '面霜', '크림'] },
       mask:        { label: '面膜',     keywords: ['mask', 'sheet mask', 'mask pack', '面膜', '마스크', '팩'] },
       eye:         { label: '眼部護理', keywords: ['eye cream', 'eye lifter', 'eye serum', '眼霜', '眼部', '아이'] },
       sunscreen:   { label: '防曬',     keywords: ['sunscreen', 'suncare', 'sun cream', '防曬', '선크림', '선케어'] },
@@ -1215,7 +1219,10 @@ function subMatch(section, id, p) {
   if (!sub) return false;
   if (sub.bucket) return makeupBucket(p) === sub.bucket;
   if (sub.parent) return makeupBucket(p) === sub.parent && sub.title.test(p.title || '');
-  return matchesKeywords(p, sub.keywords);
+  if (!matchesKeywords(p, sub.keywords)) return false;
+  // 專門嗰格有優先權：中咗 `exclude` 入面嗰啲格就唔算呢格嘅貨。
+  return !(sub.exclude || []).some((other) =>
+    matchesKeywords(p, CATEGORY_TAXONOMY[section]?.subs?.[other]?.keywords));
 }
 
 // Collect the keyword set for a section (+ optional subcategory)

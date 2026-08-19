@@ -40,7 +40,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
   <!-- 淨係護膚配方面板嗰個大標題用 —— 其他版唔載 -->
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -187,13 +187,89 @@
          ＋ 一塊玻璃 —— 手機第一件貨喺 900px，差四倍。
          老闆睇完五個版本揀咗「入口」：冇標題塊，子分類本身就係個頭。
          啲 tile 由 catalog.js 砌（要件數同每格一張真貨相）。 -->
-    <section class="cat-gate">
-      <div class="container">
-        <div class="cat-gate__tiles" data-cat-gate></div>
-        <div class="cat-gate__bar">
-          <h1 class="cat-gate__h">護膚</h1>
-          <span class="cat-gate__n" data-cat-count></span>
+    <!-- 護膚頁頂：水光房貼紙相機。原本嗰行入口 tile 喺呢版換成一間首爾
+         「水光貼紙相機」—— 銀藍機身、透明精華水珠、凝膠泡泡、四格真
+         產品相紙，加八張按產品輪廓剪出嚟嘅分類貼紙。
+
+         八張貼紙係真 <button>，DOM 同鍵盤次序固定
+         潔面 → 爽膚水 → 棉片 → 精華液 → 乳液 → 面膜 → 眼部護理 → 防曬，
+         唔跟視覺上嘅高低大細亂序。裝飾全部 aria-hidden ＋
+         pointer-events:none，讀屏唔會讀多次啲產品。
+
+         件數、相紙四張相、選中狀態全部由 catalog.js 嘅
+         buildSkincareBooth() 用 Storefront 真資料填 —— 呢度一個數都唔准寫死。 -->
+    <section class="skincare-booth" data-skincare-booth aria-labelledby="skincare-booth-title">
+      <div class="skincare-booth__flash" aria-hidden="true"></div>
+
+      <div class="skincare-booth__title">
+        <h1 id="skincare-booth-title">OUJI<br><span>DEW CLUB</span></h1>
+        <p class="skincare-booth__meta" data-skincare-booth-meta>護膚</p>
+      </div>
+
+      <!-- 相紙。四個 <img> 一開始就喺度（淨係冇 src），等 aspect-ratio
+           撐住格位，圖遲到都唔會跳版。 -->
+      <div class="skincare-booth__strip" aria-hidden="true">
+        <div class="skincare-booth__frames">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
         </div>
+        <span data-skincare-booth-caption></span>
+      </div>
+
+      <div class="skincare-booth__art" aria-hidden="true">
+        <div class="skincare-booth__orb"><span>DROP<br>YOUR<br>ROUTINE!</span></div>
+        <span class="skincare-booth__gel skincare-booth__gel--a"></span>
+        <span class="skincare-booth__gel skincare-booth__gel--b"></span>
+        <span class="skincare-booth__gel skincare-booth__gel--c"></span>
+        <span class="skincare-booth__bubble skincare-booth__bubble--a"></span>
+        <span class="skincare-booth__bubble skincare-booth__bubble--b"></span>
+        <span class="skincare-booth__splash">SPLASH!</span>
+        <span class="skincare-booth__glow">GLOW MODE</span>
+      </div>
+
+      <div class="skincare-booth__cats" data-cat-gate aria-label="護膚分類">
+        <button type="button" class="skincare-booth__cat" data-quick="cleanser" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#70e5ff">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="m20 9 36 7-8 47-37-7Z" fill="var(--cat-tint)"/><path d="m16 55 32 6-2 9-32-6Z" fill="#fff"/><path d="M30 10 44 3l8 12" fill="#fff"/><path d="M23 30c8-6 18-2 20 6-5 8-15 10-23 5Z" fill="#fff"/></g><circle cx="35" cy="34" r="3" fill="currentColor"/><circle cx="46" cy="25" r="4" fill="#fff" stroke="currentColor" stroke-width="2.5"/><path d="m57 36 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#7de7e0" stroke="currentColor" stroke-width="2"/></svg>
+          <b>潔面</b><small data-skincare-booth-n="cleanser"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="toner" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#b8ff62">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="M28 6h18v8H28Z" fill="#fff"/><path d="M31 14h12v7l7 9v36H22V30l9-9Z" fill="var(--cat-tint)"/><path d="M26 38h20v20H26Z" fill="#fff"/></g><path d="M33 31c4-7 8-7 10 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M31 45h10M31 50h7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="53" cy="20" r="4" fill="#63e7ff" stroke="currentColor" stroke-width="2"/></svg>
+          <b>爽膚水</b><small data-skincare-booth-n="toner"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="pad" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#fff06a">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8"><ellipse cx="35" cy="21" rx="25" ry="12" fill="#fff"/><path d="M10 21v34c0 7 11 13 25 13s25-6 25-13V21c0 7-11 13-25 13S10 28 10 21Z" fill="var(--cat-tint)"/><ellipse cx="35" cy="21" rx="20" ry="8" fill="#fff"/><path d="M17 48c11 5 25 5 36 0" fill="none" stroke-linecap="round"/></g><path d="M22 18c8-3 17-3 25 0M24 22c7-2 14-2 22 0M26 26c6-1 12-1 18 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m57 7 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#fff06a" stroke="currentColor" stroke-width="2"/></svg>
+          <b>棉片</b><small data-skincare-booth-n="pad"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="serum" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#ff82c9">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="M30 3h18v8H30Z" fill="#11131a"/><path d="M34 11h10v8H34Z" fill="#fff"/><path d="M24 19h30l4 48H20Z" fill="var(--cat-tint)"/><path d="M26 37h25v24H26Z" fill="#fff"/></g><path d="M39 25c5 7 7 10 7 14a7 7 0 1 1-14 0c0-4 2-7 7-14Z" fill="#7de7e0" stroke="currentColor" stroke-width="2.4"/><path d="M31 46h16M31 51h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <b>精華液</b><small data-skincare-booth-n="serum"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="moisturizer" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#c8a6ff">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="M16 27h40l4 11H12Z" fill="#fff"/><path d="M13 38h46l-4 29H17Z" fill="var(--cat-tint)"/><path d="M19 47h34v13H19Z" fill="#fff"/></g><path d="M26 25c-3-7 10-6 7-16 10 5 16 10 10 17" fill="#fff" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 53c7-5 12 5 19 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <b>乳液</b><small data-skincare-booth-n="moisturizer"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="mask" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#ff987c">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><path d="M16 5h40l7 13-5 52H14L9 18Z" fill="var(--cat-tint)" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M17 14h38l-3 48H20Z" fill="#fff" stroke="currentColor" stroke-width="2.4"/><path d="M26 29c0-7 4-11 10-11s10 4 10 11v13c0 10-5 16-10 16s-10-6-10-16Z" fill="#e8f7ed" stroke="currentColor" stroke-width="2.2"/><ellipse cx="31" cy="34" rx="3.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="41" cy="34" rx="3.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M33 48c2-1 4-1 6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m56 8 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#ff82c9" stroke="currentColor" stroke-width="2"/></svg>
+          <b>面膜</b><small data-skincare-booth-n="mask"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="eye" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#77c8ff">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><path d="M8 18c9-5 18-5 27 1-3 12-10 20-23 23-4-8-5-16-4-24Z" fill="#7de7e0" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M64 18c-9-5-18-5-27 1 3 12 10 20 23 23 4-8 5-16 4-24Z" fill="#7de7e0" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M15 22c6-2 11-1 16 2M57 22c-6-2-11-1-16 2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M21 49c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9Zm30 0c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9Z" fill="var(--cat-tint)" stroke="currentColor" stroke-width="2.6"/><path d="m21 53 1.5 3.5L26 58l-3.5 1.5L21 63l-1.5-3.5L16 58l3.5-1.5Z" fill="#fff"/></svg>
+          <b>眼部護理</b><small data-skincare-booth-n="eye"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="sunscreen" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#ffce4f">
+          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="m20 12 34 6-9 45-34-6Z" fill="var(--cat-tint)"/><path d="m14 55 31 6-2 9-31-6Z" fill="#fff"/><path d="M24 28h22l-4 22H20Z" fill="#fff"/></g><circle cx="34" cy="38" r="6" fill="#fff06a" stroke="currentColor" stroke-width="2"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M34 27v4M34 45v4M23 38h4M41 38h4M26 30l3 3M39 43l3 3M42 30l-3 3M29 43l-3 3"/></g><path d="m57 7 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#ff82c9" stroke="currentColor" stroke-width="2"/></svg>
+          <b>防曬</b><small data-skincare-booth-n="sunscreen"></small>
+        </button>
       </div>
     </section>
 
@@ -373,13 +449,19 @@
     const section = params.get('collection') ||
       (pathCollection ? decodeURIComponent(pathCollection) : null) || 'skincare';
     const cat = params.get('cat');
-    const products = await getCategoryProducts({ section, cat });
+
+    /* 貼紙牆要八張貼紙一路喺度，同埋要顯示成個護膚分類嘅真件數，
+       所以呢版唔喺攞資料嗰陣就篩走 —— 攞晒成個分類返嚟，
+       ?cat= 交畀 initCatalog 當一個已經揀咗嘅篩選處理。 */
+    const products = await getCategoryProducts({ section });
     applyCategoryHeading(section, cat);
 
     if (!products.length) {
+      // 攞唔到貨都唔可以令頁頂冧咗：貼紙牆照企喺度，八格顯示 0。
+      buildCatGate(section, [], { cat: new Set() }, null);
       showCategoryEmpty(section, cat);
     } else {
-      initCatalog({ section: section, cat, products });
+      initCatalog({ section: section, products, presetCat: cat });
     }
   });
   </script>

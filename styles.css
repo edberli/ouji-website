@@ -7745,3 +7745,330 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .makeup-booth__strip { animation-duration: 1ms; }
   .makeup-booth__sticker { transition: none; }
 }
+
+/* ============================================================
+   護膚頁頂：水光房貼紙相機（category.html 專用）
+
+   同彩妝嗰邊嘅貼紙相機係一家人，但係另一個世界：銀藍水光機身、
+   透明精華水珠、凝膠泡泡，八張按產品輪廓剪出嚟嘅分類貼紙。
+   全部 selector 收喺 .skincare-booth 下面。Hero 硬上限 350px。
+   ============================================================ */
+.skincare-booth {
+  --skin-ink: #11131a;
+  --skin-blue: #536cff;
+  --skin-aqua: #36d6ed;
+  --skin-lime: #b8ff62;
+  --skin-pink: #ff82c9;
+  --skin-yellow: #fff06a;
+  position: relative;
+  height: 350px;
+  min-height: 350px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--skin-ink);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.3) 0 1px, transparent 1px 6px),
+    linear-gradient(135deg, #b9c9d4, #effcff 48%, #aab9ca);
+}
+
+/* ----- 主標 ----- */
+.skincare-booth__title {
+  position: absolute;
+  z-index: 4;
+  left: clamp(18px, 5vw, 72px);
+  top: 20px;
+  transform: rotate(-3deg);
+}
+.skincare-booth__title h1 {
+  margin: 0;
+  color: var(--skin-blue);
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-size: clamp(50px, 5.5vw, 74px);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: .78;
+  -webkit-text-stroke: 2px var(--skin-ink);
+  text-shadow: 4px 5px 0 var(--skin-lime);
+}
+.skincare-booth__title h1 span { color: var(--skin-aqua); }
+.skincare-booth__meta {
+  display: inline-block;
+  margin: 11px 0 0 7px;
+  padding: 5px 9px;
+  background: var(--skin-ink);
+  color: #fff;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* ----- 四格相紙 ----- */
+.skincare-booth__strip {
+  position: absolute;
+  z-index: 5;
+  top: 17px;
+  right: clamp(24px, 8vw, 120px);
+  width: 188px;
+  padding: 7px;
+  border: 2px solid var(--skin-ink);
+  background: #fff;
+  box-shadow: 7px 9px 0 rgba(17,19,26,.2);
+  transform: rotate(4deg);
+  animation: dew-strip-in 240ms cubic-bezier(.23, 1, .32, 1) both;
+}
+.skincare-booth__frames { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.skincare-booth__frames img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #eef1f2;   /* 圖未到都撐住格位，唔會跳版 */
+}
+.skincare-booth__strip > span {
+  display: block;
+  padding: 7px 2px 1px;
+  overflow: hidden;
+  font-family: "Space Mono", monospace;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ----- 中央水光藝術。純裝飾，唔可以擋住啲掣 ----- */
+.skincare-booth__art { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.skincare-booth__orb {
+  position: absolute;
+  left: 46%;
+  top: 34px;
+  width: 170px;
+  height: 188px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--skin-ink);
+  border-radius: 54% 46% 55% 45% / 62% 58% 42% 38%;
+  background:
+    radial-gradient(circle at 32% 22%, #fff 0 8%, transparent 9%),
+    radial-gradient(circle at 36% 28%, rgba(255,255,255,.9), rgba(76,231,242,.44) 43%, rgba(99,107,255,.4) 76%, rgba(255,255,255,.25));
+  box-shadow: inset -14px -18px 30px rgba(56,78,194,.2), 8px 10px 0 rgba(17,19,26,.16);
+  transform: rotate(8deg);
+}
+.skincare-booth__orb span {
+  color: #fff;
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-size: 25px;
+  line-height: .8;
+  text-align: center;
+  -webkit-text-stroke: 1.5px var(--skin-ink);
+  text-shadow: 2px 3px 0 var(--skin-blue);
+  transform: rotate(-8deg);
+}
+.skincare-booth__gel {
+  position: absolute;
+  border: 2px solid var(--skin-ink);
+  background: rgba(255,130,201,.64);
+  box-shadow: 3px 4px 0 rgba(17,19,26,.18);
+}
+.skincare-booth__gel--a { left: 32%; top: 172px; width: 72px; height: 44px; border-radius: 66% 34% 62% 38%; transform: rotate(-12deg); }
+.skincare-booth__gel--b { left: 64%; top: 143px; width: 58px; height: 58px; border-radius: 50%; background: rgba(184,255,98,.72); }
+.skincare-booth__gel--c { left: 26%; top: 93px; width: 38px; height: 38px; border-radius: 45% 55% 50% 50%; background: rgba(112,229,255,.7); }
+.skincare-booth__bubble {
+  position: absolute;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: inset 3px 3px 0 rgba(255,255,255,.55), 2px 3px 0 rgba(17,19,26,.22);
+}
+.skincare-booth__bubble--a { left: 71%; top: 55px; width: 32px; height: 32px; }
+.skincare-booth__bubble--b { left: 39%; top: 31px; width: 21px; height: 21px; }
+.skincare-booth__splash,
+.skincare-booth__glow {
+  position: absolute;
+  padding: 6px 10px;
+  border: 2px solid var(--skin-ink);
+  box-shadow: 3px 4px 0 rgba(17,19,26,.22);
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+}
+.skincare-booth__splash { left: 67%; top: 202px; background: var(--skin-yellow); font-size: 18px; transform: rotate(8deg); }
+.skincare-booth__glow {
+  left: 34%;
+  top: 224px;
+  background: var(--skin-pink);
+  color: #fff;
+  font-family: "Space Mono", monospace;
+  font-size: 8px;
+  font-weight: 700;
+  transform: rotate(-5deg);
+}
+
+/* ----- 八張分類貼紙。散落式絕對定位 —— 大細、高低、角度都要唔同，
+   但 DOM 同 tab 次序照舊 潔面 → 爽膚水 → 棉片 → 精華液 → 乳液 →
+   面膜 → 眼部護理 → 防曬 ----- */
+.skincare-booth__cats {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  /* 唔可以貼實 0 —— 棉片同眼部護理歪咗之後，個名牌會畀 hero 嘅
+     overflow:hidden 剃走兩三個像素。抬高成組，相對高低差原封不動。 */
+  bottom: 5px;
+  width: min(960px, calc(100% - 28px));
+  height: 112px;
+  transform: translateX(-50%);
+}
+.skincare-booth__cat {
+  --tilt: 0deg;
+  --scale: 1;
+  position: absolute;
+  left: var(--x);
+  bottom: var(--y);
+  width: var(--w);
+  height: var(--h, 82px);
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px 15px;
+  border: 0;
+  background: transparent;
+  color: var(--skin-ink);
+  font-family: "Noto Sans TC", sans-serif;
+  cursor: pointer;
+  transform: rotate(var(--tilt)) scale(var(--scale));
+  transform-origin: 50% 80%;
+  transition: transform 160ms ease-out;
+}
+/* 白色剪紙外沿由 drop-shadow 疊出嚟，唔用圓形容器包住個 icon。 */
+.skincare-booth__icon {
+  width: var(--icon-w, 58px);
+  height: var(--icon-h, 61px);
+  overflow: visible;
+  filter:
+    drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)
+    drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff)
+    drop-shadow(3px 4px 0 rgba(17,19,26,.27));
+  transition: transform 160ms ease-out;
+}
+.skincare-booth__cat b {
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  min-width: 43px;
+  padding: 2px 6px;
+  border: 1.5px solid var(--skin-ink);
+  background: var(--cat-tint);
+  box-shadow: 2px 2px 0 rgba(17,19,26,.28);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  white-space: nowrap;
+  transform: translateX(-50%) rotate(calc(var(--tilt) * -.45));
+  transition: color 140ms ease-out, background 140ms ease-out;
+}
+.skincare-booth__cat small {
+  position: absolute;
+  right: 10%;
+  top: 2px;
+  min-width: 20px;
+  padding: 2px 3px;
+  border: 1.5px solid var(--skin-ink);
+  background: #fff;
+  box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.25);
+  font-family: "Space Mono", monospace;
+  font-size: 6.5px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  transform: rotate(8deg);
+}
+@media (hover: hover) {
+  .skincare-booth__cat:hover { transform: translateY(-5px) rotate(0) scale(1.06); }
+}
+.skincare-booth__cat:active { transform: rotate(var(--tilt)) scale(.98); }
+.skincare-booth__cat:focus-visible {
+  outline: 3px solid #e75d4e;
+  outline-offset: 3px;
+  z-index: 13;   /* focus 環唔可以畀隔籬張貼紙蓋住 */
+}
+.skincare-booth__cat[data-active] { z-index: 12; }
+.skincare-booth__cat[data-active] .skincare-booth__icon { transform: scale(1.12); }
+.skincare-booth__cat[data-active] b {
+  border-color: #fff;
+  background: var(--skin-ink);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--cat-tint);
+}
+
+.skincare-booth__cat:nth-child(1) { --x: 0%;     --y: 2px;  --w: 11%; --h: 78px; --icon-w: 51px; --icon-h: 57px; --tilt: -10deg; }
+.skincare-booth__cat:nth-child(2) { --x: 10.5%;  --y: 22px; --w: 12%; --h: 68px; --icon-w: 43px; --icon-h: 49px; --tilt: 7deg; }
+.skincare-booth__cat:nth-child(3) { --x: 22%;    --y: -2px; --w: 13%; --h: 96px; --icon-w: 72px; --icon-h: 73px; --tilt: -5deg; }
+.skincare-booth__cat:nth-child(4) { --x: 34%;    --y: 16px; --w: 14%; --h: 90px; --icon-w: 62px; --icon-h: 72px; --tilt: 9deg; }
+.skincare-booth__cat:nth-child(5) { --x: 48%;    --y: 0;    --w: 10%; --h: 72px; --icon-w: 45px; --icon-h: 48px; --tilt: -7deg; }
+.skincare-booth__cat:nth-child(6) { --x: 57.5%;  --y: 21px; --w: 14%; --h: 96px; --icon-w: 70px; --icon-h: 76px; --tilt: 8deg; }
+.skincare-booth__cat:nth-child(7) { --x: 71%;    --y: -3px; --w: 15%; --h: 87px; --icon-w: 64px; --icon-h: 66px; --tilt: -11deg; }
+.skincare-booth__cat:nth-child(8) { --x: 85%;    --y: 18px; --w: 12%; --h: 72px; --icon-w: 47px; --icon-h: 54px; --tilt: 6deg; }
+
+/* ----- 閃光。只喺第一次載入播一次 ----- */
+.skincare-booth__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #fff;
+  pointer-events: none;
+  animation: dew-flash 260ms ease-out both;
+}
+@keyframes dew-flash { 0%, 18% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes dew-strip-in {
+  from { opacity: 0; transform: translateY(-38px) rotate(9deg); }
+  to   { opacity: 1; transform: rotate(4deg); }
+}
+
+@media (max-width: 720px) {
+  .skincare-booth__title { left: 13px; top: 17px; }
+  .skincare-booth__title h1 { font-size: 43px; -webkit-text-stroke-width: 1px; text-shadow: 3px 4px 0 var(--skin-lime); }
+  .skincare-booth__meta { margin-top: 8px; font-size: 8px; }
+  .skincare-booth__strip { top: 49px; right: 12px; width: 112px; padding: 5px; }
+  .skincare-booth__frames { gap: 3px; }
+  .skincare-booth__strip > span { padding-top: 5px; font-size: 5.5px; }
+  .skincare-booth__orb { left: 36%; top: 124px; width: 105px; height: 112px; }
+  .skincare-booth__orb span { font-size: 17px; }
+  .skincare-booth__gel--a { left: 12%; top: 189px; width: 56px; height: 33px; }
+  .skincare-booth__gel--b { left: 70%; top: 180px; width: 38px; height: 38px; }
+  .skincare-booth__gel--c,
+  .skincare-booth__bubble--a,
+  .skincare-booth__bubble--b,
+  .skincare-booth__glow { display: none; }
+  .skincare-booth__splash { left: 10px; top: 148px; padding: 4px 7px; font-size: 13px; }
+
+  .skincare-booth__cats { bottom: 10px; width: calc(100% - 8px); height: 126px; }
+  .skincare-booth__cat { padding: 0 2px 12px; }
+  .skincare-booth__icon {
+    filter:
+      drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff)
+      drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff)
+      drop-shadow(2px 2px 0 rgba(17,19,26,.28));
+  }
+  .skincare-booth__cat b { min-width: 38px; padding: 1px 4px; font-size: 8px; }
+  .skincare-booth__cat small { top: 0; right: 9%; min-width: 17px; padding: 1px 2px; font-size: 5.5px; }
+  .skincare-booth__cat:nth-child(1) { --x: 0%;  --y: 61px; --w: 22%; --h: 58px; --icon-w: 38px; --icon-h: 43px; --tilt: -10deg; }
+  .skincare-booth__cat:nth-child(2) { --x: 21%; --y: 73px; --w: 26%; --h: 49px; --icon-w: 31px; --icon-h: 36px; --tilt: 8deg; }
+  .skincare-booth__cat:nth-child(3) { --x: 47%; --y: 55px; --w: 23%; --h: 67px; --icon-w: 49px; --icon-h: 50px; --tilt: -5deg; }
+  .skincare-booth__cat:nth-child(4) { --x: 69%; --y: 69px; --w: 29%; --h: 61px; --icon-w: 43px; --icon-h: 51px; --tilt: 10deg; }
+  .skincare-booth__cat:nth-child(5) { --x: 0%;  --y: 0;    --w: 24%; --h: 50px; --icon-w: 32px; --icon-h: 35px; --tilt: -8deg; }
+  .skincare-booth__cat:nth-child(6) { --x: 22%; --y: 13px; --w: 27%; --h: 65px; --icon-w: 49px; --icon-h: 54px; --tilt: 8deg; }
+  .skincare-booth__cat:nth-child(7) { --x: 48%; --y: -2px; --w: 29%; --h: 59px; --icon-w: 45px; --icon-h: 44px; --tilt: -12deg; }
+  .skincare-booth__cat:nth-child(8) { --x: 75%; --y: 10px; --w: 23%; --h: 52px; --icon-w: 34px; --icon-h: 40px; --tilt: 7deg; }
+}
+
+@media (max-width: 350px) {
+  .skincare-booth__title h1 { font-size: 38px; }
+  .skincare-booth__cat { --scale: .9; }
+  .skincare-booth__cat b { min-width: 34px; font-size: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skincare-booth__flash,
+  .skincare-booth__strip { animation-duration: 1ms; }
+  .skincare-booth__cat,
+  .skincare-booth__icon { transition: none; }
+}
