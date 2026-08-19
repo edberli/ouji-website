@@ -3242,39 +3242,9 @@ button.product-card__quick-add,
   overflow: hidden;
 }
 
-/* Smoke video bg (absolute within section) */
-.brand-marquees__video {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-.brand-marquees__video video {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0.28;
-  filter: saturate(0.4) brightness(0.65);
-  pointer-events: none;
-}
-.brand-marquees__video::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 50%,
-      rgba(43,76,88,0.0) 0%,
-      rgba(43,76,88,0.55) 70%,
-      rgba(43,76,88,0.85) 100%),
-    linear-gradient(180deg,
-      rgba(43,76,88,0.65) 0%,
-      rgba(43,76,88,0.35) 50%,
-      rgba(43,76,88,0.75) 100%);
-  pointer-events: none;
-}
+/* Lift all content above video: 煙霧片 2026-08-19 剷咗（淺底上面等於見唔到），
+   呢兩條 z-index 留返 —— 段落本身仲要企喺背景之上。 */
 
-/* Lift all content above video */
 .brand-marquees > .container,
 .brand-marquees > .brand-marquees__section,
 .brand-marquees__section {
@@ -4977,9 +4947,11 @@ html.is-lite .brand-rail__crest { filter: none; }
   color: var(--text-tertiary);
 }
 
-/* Black and gold, and big enough to read across a grid — a small gold
-   chip was being taken for a discount sticker. Sits opposite the wishlist
-   heart so the two never collide. */
+/* 得獎章：黑底金線，直度嘅小印章（闊 : 高 = 3 : 5）。
+   兩個極端都試過 —— 上下三行嗰個太大嚿，遮住成張產品相；壓成一條橫帶
+   又太扁，睇落似個標籤多過似個獎。呢個係中間落墨：夠位讀到 NO.1 同邊個
+   機構頒，但淨係佔張相一個角。黑金係獎項本身嘅語言，擺喺任何產品相上面
+   都唔會搶色。位置同心心相反，兩個唔會撞。 */
 .award-ribbon {
   position: absolute;
   left: 10px;
@@ -4988,49 +4960,53 @@ html.is-lite .brand-rail__crest { filter: none; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 9px 15px 8px;
-  border-radius: 10px;
+  justify-content: center;
+  gap: 3px;
+  width: 62px;
+  min-height: 103px;
+  padding: 10px 6px;
+  border-radius: 9px;
   background: linear-gradient(165deg, #14110d 0%, #241d14 58%, #14110d 100%);
-  border: 1px solid rgba(203,168,106,0.5);
-  box-shadow: 0 8px 22px rgba(15,12,8,0.4);
-  line-height: 1.1;
+  border: 1px solid rgba(203, 168, 106, 0.5);
+  box-shadow: 0 8px 22px rgba(15, 12, 8, 0.4);
+  line-height: 1.15;
+  text-align: center;
   pointer-events: none;
 }
-.award-ribbon__crown { width: 21px; height: 9px; color: #cba86a; }
+.award-ribbon__crown { width: 20px; height: 9px; color: #cba86a; }
 .award-ribbon__crown svg { width: 100%; height: 100%; display: block; }
+/* 實色，唔用漸變字 —— 漸變字細過 12px 會糊，而且係一望就知係「生成」嘅招 */
 .award-ribbon__rank {
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  background: linear-gradient(120deg, #f8eed6, #cba86a 52%, #f2e2bd);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  letter-spacing: 0.03em;
+  color: #f6ecd8;
 }
 .award-ribbon__body {
-  font-size: 0.5625rem;
-  letter-spacing: 0.1em;
-  color: rgba(232,207,154,0.72);
-  white-space: nowrap;
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  color: rgba(232, 207, 154, 0.78);
 }
 .award-ribbon__count {
-  margin-top: 3px;
+  margin-top: 2px;
   padding-top: 3px;
   width: 100%;
-  text-align: center;
-  border-top: 1px solid rgba(203,168,106,0.26);
-  font-size: 0.5rem;
-  letter-spacing: 0.08em;
-  color: rgba(232,207,154,0.62);
+  border-top: 1px solid rgba(203, 168, 106, 0.26);
+  font-size: 0.4375rem;
+  letter-spacing: 0.06em;
+  color: rgba(232, 207, 154, 0.62);
   white-space: nowrap;
 }
 
 @media (max-width: 768px) {
-  .award-ribbon { left: 7px; bottom: 7px; padding: 7px 11px 6px; border-radius: 8px; }
-  .award-ribbon__rank { font-size: 0.875rem; }
+  .award-ribbon {
+    left: 7px; bottom: 7px;
+    width: 46px; min-height: 77px;
+    padding: 7px 4px; border-radius: 7px;
+  }
+  .award-ribbon__rank { font-size: 0.75rem; }
   .award-ribbon__crown { width: 17px; height: 7px; }
-  .award-ribbon__body { font-size: 0.5rem; }
+  .award-ribbon__body { font-size: 0.4375rem; }
   .award-ribbon__count { display: none; }
 }
 
@@ -6648,7 +6624,6 @@ html.is-lite .ing-sheet__panel { background: #ffffff; }
 html.is-lite .shop-sheet__panel { background: rgba(78, 122, 138, 0.94); }
 
 /* 一路喺度轉／飄嘅裝飾。慢機上面佢哋唔會靚，只會卡。 */
-html.is-lite .brand-marquees__video,
 html.is-lite .particles,
 html.is-lite .cursor-glow { display: none !important; }
 
@@ -8362,21 +8337,8 @@ body::before { opacity: 0.18; }
 .btn--ghost,
 .btn--ghost::after { color: var(--primary-darker); }
 
-/* 得獎緞帶：由暖金改成深藍底 */
-.award-ribbon {
-  background: var(--primary-deep);
-  border-color: rgba(174, 203, 216, 0.5);
-}
-.award-ribbon__crown { color: var(--primary-lighter); }
-.award-ribbon__rank {
-  color: #ffffff;
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-}
-.award-ribbon__body,
-.award-ribbon__count { color: rgba(231, 241, 244, 0.78); }
-.award-ribbon__count { border-top-color: rgba(174, 203, 216, 0.28); }
+/* 得獎章冇跟全站轉藍 —— 藍底章擺喺藍灰嘅站入面就唔似「獎」，
+   黑金先係一望就知。 */
 
 /* 得獎產品區：由暖啡深底改成藍墨深底 */
 .home-awards {
@@ -8435,23 +8397,6 @@ body::before { opacity: 0.18; }
   padding: clamp(22px, 2.4vw, 32px) 0;       /* 上下 padding 減半 */
   background: var(--warm-100);
 }
-/* 段煙霧片留返做質感，但喺淺底要反過嚟：拉走顏色、推高光度、
-   壓低透明度，唔好同啲 logo 爭。 */
-.brand-marquees__video video {
-  opacity: 0.14;
-  filter: grayscale(1) brightness(1.75) contrast(0.8);
-}
-.brand-marquees__video::after {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 50%,
-      rgba(238, 244, 245, 0) 0%,
-      rgba(238, 244, 245, 0.72) 72%,
-      rgba(238, 244, 245, 0.94) 100%),
-    linear-gradient(180deg,
-      rgba(238, 244, 245, 0.86) 0%,
-      rgba(238, 244, 245, 0.5) 50%,
-      rgba(238, 244, 245, 0.9) 100%);
-}
 /* logo 本來 brightness(0) invert(1) 迫成白色；淺底要調返做深墨 */
 .brand-marquees .brand-marquee__logo,
 .brand-marquees .brand-grid__logo {
@@ -8498,39 +8443,9 @@ body::before { opacity: 0.18; }
 .home-awards__head { margin-bottom: var(--space-xl); }
 .home-awards__title { letter-spacing: 0.08em; }
 
-/* 得獎章：黑底、一行、幼身。
-   試過淺色牌匾，太闊太厚，成張產品相畀佢遮住咗一大忽。獎項本身就係
-   黑底金字嗰種語言，莊重啲，而且黑色喺產品相上面唔會搶。
-   本來係上下三行（皇冠／NO.1／機構年份／共幾項），而家壓成一行，
-   「共 N 項獎」搬咗落卡片下面嘅文字度。 */
-.home-awards .award-ribbon {
-  left: 10px;
-  bottom: 10px;
-  flex-direction: row;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 11px;
-  border-radius: 6px;
-  background: rgba(12, 14, 16, 0.88);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-}
-.home-awards .award-ribbon__crown { width: 15px; height: 7px; color: #d8c79a; }
-.home-awards .award-ribbon__rank {
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
-  color: #ffffff;
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-}
-.home-awards .award-ribbon__body {
-  font-size: 0.5625rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-.home-awards .award-ribbon__count { display: none; }   /* 搬咗落文字行 */
+/* 得獎區用返同一個得獎章，唔另外發明一個。「共 N 項獎」喺呢度已經寫咗
+   落卡片下面嘅文字行，所以章上面唔再重複。 */
+.home-awards .award-ribbon__count { display: none; }
 
 /* ---------- 得獎產品：放大 ＋ 向右碌 ---------- */
 .won-row {
@@ -8568,3 +8483,73 @@ body::before { opacity: 0.18; }
   color: #cfe2e8;
 }
 .won-card__title { font-size: 0.875rem; }
+
+
+/* ============================================================
+   品牌條拆兩條，跟返所屬分類（2026-08-19）
+
+   之前係一幅獨立嘅「Our Brands」牆，41 個牌子擺埋一齊，客要自己對邊個
+   係彩妝邊個係護膚。而家拆開兩條，插入返各自嗰行貨嘅頭頂：睇緊彩妝，
+   上面就係彩妝品牌；睇緊護膚，上面就係護膚品牌。同一批 logo，冇加嘢，
+   但由「一幅牆」變成「兩個分類各自嘅開場」。
+
+   兩條用唔同底色分身份：彩妝藍、護膚白。兩隻都係站內已經有嘅色
+   （--warm-200 / 純白），冇加新色；深色仍然係得獎區獨用。
+   ============================================================ */
+.brand-marquees--makeup,
+.brand-marquees--skincare {
+  padding: 0 0 2px;
+  margin: 2px 0 var(--space-md);
+  border-top: 1px solid rgba(43, 76, 88, 0.09);
+  border-bottom: 1px solid rgba(43, 76, 88, 0.09);
+}
+.brand-marquees--makeup { background: var(--warm-200); }
+.brand-marquees--skincare { background: #ffffff; }
+
+/* 兩邊嘅淡出漸變要跟返各自嘅底色，唔跟就會見到一嚿色差 */
+.brand-marquees--makeup .brand-marquee::before {
+  background: linear-gradient(90deg,
+    #dce9ec 0%, rgba(220, 233, 236, 0.86) 42%, rgba(220, 233, 236, 0) 100%);
+}
+.brand-marquees--makeup .brand-marquee::after {
+  background: linear-gradient(270deg,
+    #dce9ec 0%, rgba(220, 233, 236, 0.86) 42%, rgba(220, 233, 236, 0) 100%);
+}
+.brand-marquees--skincare .brand-marquee::before {
+  background: linear-gradient(90deg,
+    #ffffff 0%, rgba(255, 255, 255, 0.86) 42%, rgba(255, 255, 255, 0) 100%);
+}
+.brand-marquees--skincare .brand-marquee::after {
+  background: linear-gradient(270deg,
+    #ffffff 0%, rgba(255, 255, 255, 0.86) 42%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* 分類名剷咗（上面 rail 個標題已經寫住「彩妝」「護膚」，再寫一次
+   「彩妝品牌」係阻住）。淨返「瀏覽全部 · N 品牌」一條連結。 */
+.brand-marquees--makeup .brand-marquees__section-header,
+.brand-marquees--skincare .brand-marquees__section-header {
+  padding: 7px 0 1px;
+}
+.brand-marquees--makeup .brand-marquees__section,
+.brand-marquees--skincare .brand-marquees__section {
+  margin-bottom: 0;
+}
+
+/* toggle 本來寫死白色（配以前嘅深底），淺底要調返深色，
+   hover／展開態一樣要跟，唔跟就撳落去個字會白到見唔到。 */
+.brand-marquees .brand-section-toggle:hover,
+.brand-marquees .brand-section-toggle.active {
+  color: var(--primary-deep);
+  border-color: rgba(43, 76, 88, 0.18);
+  background: rgba(43, 76, 88, 0.05);
+}
+
+/* 展開嗰個品牌格仔本來係深底卡（配深色牆）。牆轉咗淺，logo 又已經
+   壓成深墨 —— 深卡 + 深 logo = 乜都睇唔到。 */
+.brand-marquees--makeup .brand-grid__card { background: rgba(255, 255, 255, 0.86); }
+.brand-marquees--skincare .brand-grid__card { background: var(--warm-50); }
+.brand-marquees .brand-grid__card { border-color: rgba(43, 76, 88, 0.1); }
+.brand-marquees .brand-grid__card:hover {
+  background: #ffffff;
+  border-color: rgba(43, 76, 88, 0.22);
+}

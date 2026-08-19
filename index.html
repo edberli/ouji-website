@@ -281,33 +281,17 @@
          ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。 -->
     <section class="section section--concerns section-float" data-home-concerns></section>
 
-    <!-- 品牌牆擺喺第一批產品之後。客一入嚟想睇貨，唔係想睇 logo 牆；
-         但睇完頭幾件貨之後，「你哋有邊啲牌子」就變返有用。 -->
-    <!-- ===== BRAND MARQUEES (Skincare + Makeup separated) ===== -->
-    <section class="brand-marquees">
-      <!-- Smoke video background -->
-      <div class="brand-marquees__video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/smoke-bg-short.webm" type="video/webm">
-          <source src="videos/smoke-bg-short.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="container">
-        <!-- 剷走咗 eyebrow「合作品牌」（標題自己講得晒，多一行細字只係
-             推低咗個標題）同埋原本嗰句說明 —— 嗰句寫住「最具人氣與口碑」，
-             我哋冇銷量／口碑數據，唔講得。 -->
-        <div class="section-header reveal-blur">
-          <h2 class="heading-lg section-header__title">Our Brands</h2>
-        </div>
-      </div>
 
-      <!-- ── 彩妝品牌 ── -->
+    <!-- 品牌條唔再自成一大幅牆，拆成兩條跟返所屬分類：彩妝行嘅頭頂出
+         彩妝品牌，護膚行嘅頭頂出護膚品牌。由 home.js 喺 rail 砌好之後
+         搬入去（rail 本身係 JS 出嘅，所以呢兩條要等佢先入到位）。
+         hidden：搬入去之前唔好喺原本位置閃一閃。
+         煙霧背景片剷咗 —— 淺色底上面透明度得 0.14，等於見唔到，
+         但每次入首頁都要落載成條片。 -->
+    <section class="brand-marquees brand-marquees--makeup" data-brands="makeup" hidden>
       <div class="brand-marquees__section">
         <div class="container">
           <div class="brand-marquees__section-header">
-            <div class="brand-section-title">
-              <p class="brand-marquees__label">彩妝品牌</p>
-            </div>
             <button class="brand-section-toggle" id="makeupToggle">
               <span class="brand-section-toggle__text">瀏覽全部 · 19 品牌</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
@@ -399,14 +383,12 @@
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- ── 護膚品牌 ── -->
+    <section class="brand-marquees brand-marquees--skincare" data-brands="skincare" hidden>
       <div class="brand-marquees__section">
         <div class="container">
           <div class="brand-marquees__section-header">
-            <div class="brand-section-title">
-              <p class="brand-marquees__label">護膚品牌</p>
-            </div>
             <button class="brand-section-toggle" id="skincareToggle">
               <span class="brand-section-toggle__text">瀏覽全部 · 22 品牌</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
@@ -500,7 +482,6 @@
           </div>
         </div>
       </div>
-
     </section>
 
     <!-- 獲獎產品 -->
