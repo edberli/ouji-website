@@ -2335,12 +2335,12 @@ button.product-card__quick-add,
   width: min(85%, 340px);
   height: 100vh;
   /* 本來 0.62–0.7 透明度，後面嘅頁面（尤其係彩妝嗰塊花花貼紙 hero）
-     會透晒上嚟，啲字讀唔到。加厚到 0.985 —— 邊位仲係有 blur 嘅玻璃感，
+     會透晒上嚟，啲字讀唔到。改成實色 —— 老闆講咗兩次仲透，1.5% 都夠一堆大字透上嚟，
      但底下嘅嘢唔會再同啲字爭。 */
   background: linear-gradient(165deg,
-    rgba(56, 96, 111, 0.985) 0%,
-    rgba(72, 119, 135, 0.99) 50%,
-    rgba(56, 96, 111, 0.985) 100%);
+    rgb(56, 96, 111) 0%,
+    rgb(72, 119, 135) 50%,
+    rgb(56, 96, 111) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border-right: 1px solid rgba(255, 255, 255, 0.18);
@@ -6479,12 +6479,14 @@ html.is-lite .cat-card:hover .cat-card__shot img { transform: none; }
   padding: var(--space-md) var(--space-lg) var(--space-lg);
   margin-top: 10px;
   border-radius: 16px;
-  /* 同 .mobile-nav 側邊抽屜一模一樣嗰隻半透明藍玻璃 —— 老闆指定
-     全站統一用呢隻。淺、通透、後面睇得到，唔係一塊實色板。 */
+  /* 同 .mobile-nav 側邊抽屜同一隻藍玻璃。本來 0.62–0.7 通透，但換咗
+     花花貼紙 hero 之後，成個「OUJI STICKER CLUB」透晒上嚟同啲字爭，
+     讀唔到 —— 老闆 2026-08-19 叫加厚，加到 0.985 佢話仲透，所以改成實色。
+     呢個取代咗之前「淺、通透、後面睇得到」嗰個指示。 */
   background: linear-gradient(165deg,
-    rgba(72, 115, 131, 0.62) 0%,
-    rgba(89, 139, 156, 0.7) 50%,
-    rgba(72, 115, 131, 0.65) 100%);
+    rgb(56, 96, 111) 0%,
+    rgb(72, 119, 135) 50%,
+    rgb(56, 96, 111) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -8300,4 +8302,13 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .cat-subs::-webkit-scrollbar { display: none; }
   .cat-subs__item { flex: none; padding: 6px 12px 6px 7px; font-size: 12px; }
   .cat-subs__item img { width: 32px; height: 32px; }
+}
+
+/* 得一個細分類嘅大分類（頰彩、修容）—— 冇咗下面嗰行，個標題就唔應該
+   再撐到咁大（標題本來係帶頭嗰批細分類用嘅）。收返做同細分類一樣嘅
+   字級，但保留標題嘅粗度，等人分得出佢係一個分類唔係一件貨。 */
+.header__mega-sub > a.header__mega-subheading--solo,
+.mobile-nav__sublinks .mobile-nav__subheading--solo {
+  padding-left: var(--space-lg) !important;
+  font-size: 0.9375rem !important;
 }
