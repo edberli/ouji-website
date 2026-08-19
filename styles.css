@@ -8412,3 +8412,159 @@ body::before { opacity: 0.18; }
   color: #e7f1f4;
 }
 .home-awards__cta:hover { color: #fff; background: rgba(109, 163, 181, 0.16); }
+
+/* ============================================================
+   首頁：品牌牆瘦身轉淺 ＋ 得獎產品區立返個獎章
+   （impeccable / bolder，2026-08-19）
+
+   問題一：品牌牆 858px 高，而且同下面「得獎產品」一樣係深藍
+   —— 兩個深色區貼住，得獎區就冇咗「呢度唔同」嘅感覺。
+   做法：品牌牆轉淺、縮到一半；深色留返畀得獎區獨用，成個首頁
+   碌落去只有嗰一段係深色，佢就自然成為節奏上嘅高點。
+
+   問題二：得獎區之前每張卡右上角得粒數字（5、4）。「5」係得獎
+   次數，對客嚟講唔代表任何嘢；真正有力嗰句「2025 올리브영 唇釉
+   第一位」反而擺喺最底、最細、半透明。
+   做法：**唔另外發明新語言** —— 網站本身喺產品卡已經有一套得獎章
+   （皇冠＋NO.1＋頒獎機構年份＋共幾多項），得獎區反而冇用。而家
+   將同一個得獎章搬入嚟，喺深底上面反白做「蓋喺相上面嘅印章」。
+   ============================================================ */
+
+/* ---------- 品牌牆：轉淺 ---------- */
+.brand-marquees {
+  padding: clamp(22px, 2.4vw, 32px) 0;       /* 上下 padding 減半 */
+  background: var(--warm-100);
+}
+/* 段煙霧片留返做質感，但喺淺底要反過嚟：拉走顏色、推高光度、
+   壓低透明度，唔好同啲 logo 爭。 */
+.brand-marquees__video video {
+  opacity: 0.14;
+  filter: grayscale(1) brightness(1.75) contrast(0.8);
+}
+.brand-marquees__video::after {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%,
+      rgba(238, 244, 245, 0) 0%,
+      rgba(238, 244, 245, 0.72) 72%,
+      rgba(238, 244, 245, 0.94) 100%),
+    linear-gradient(180deg,
+      rgba(238, 244, 245, 0.86) 0%,
+      rgba(238, 244, 245, 0.5) 50%,
+      rgba(238, 244, 245, 0.9) 100%);
+}
+/* logo 本來 brightness(0) invert(1) 迫成白色；淺底要調返做深墨 */
+.brand-marquees .brand-marquee__logo,
+.brand-marquees .brand-grid__logo {
+  /* 深墨而唔係純黑：純黑喺呢隻冷白底上面太硬。0.62 試過太淡，
+     TIRTIR、hince 呢類幼身 logo 幾乎見唔到。 */
+  filter: brightness(0) saturate(0);
+  opacity: 0.82;
+}
+.brand-marquees .brand-marquee__item:hover .brand-marquee__logo,
+.brand-marquees .brand-marquee__item.is-armed .brand-marquee__logo { opacity: 1; }
+.brand-marquees .section-header__title { color: var(--primary-deep); }
+.brand-marquees .brand-marquee__item { color: var(--primary-darker); }
+.brand-marquees .brand-marquee__item:hover,
+.brand-marquees .brand-marquee__item.is-armed { color: var(--primary-deep); }
+.brand-marquees__label { color: rgba(43, 76, 88, 0.62); }
+.brand-marquees .brand-section-toggle { color: var(--primary-darker); }
+.brand-marquees .brand-section-title::before,
+.brand-marquees .brand-section-title::after { background: rgba(43, 76, 88, 0.18); }
+
+/* ---------- 品牌牆：瘦身（858 → ~430，即係一半）----------
+   兩行 logo 兩個分類都要留 —— 「同場 56 個品牌」係 OUJI 唯一嘅真優勢，
+   剪走一行等於自己收埋個賣點。所以縮嘅係空隙唔係內容：外框 padding、
+   分類標題行、每行預留畀 hover 標籤嗰段位、同埋 logo 格本身。 */
+.brand-marquees { padding: clamp(12px, 1.4vw, 18px) 0; }
+.brand-marquees .section-header { margin-bottom: 6px; }
+.brand-marquees .section-header__title { font-size: clamp(1.5rem, 3vw, 2rem); }
+.brand-marquees__section-header { padding: 2px 0 0; gap: 2px; }
+.brand-marquees__rows { max-height: 240px; }
+.brand-marquees .brand-marquee { padding: 4px 0 11px; }
+/* 兩邊嘅淡出漸變原本寫死深藍（配返以前嘅深色底）。轉咗淺底之後，
+   佢哋變成左右兩嚿深色方塊壓住啲 logo —— 要跟返而家嘅底色。 */
+.brand-marquees .brand-marquee::before {
+  background: linear-gradient(90deg,
+    var(--warm-100) 0%, rgba(238, 244, 245, 0.86) 42%, rgba(238, 244, 245, 0) 100%);
+}
+.brand-marquees .brand-marquee::after {
+  background: linear-gradient(270deg,
+    var(--warm-100) 0%, rgba(238, 244, 245, 0.86) 42%, rgba(238, 244, 245, 0) 100%);
+}
+.brand-marquees .brand-marquee__item { height: 38px; padding: 0 12px; width: 126px; }
+.brand-marquees__section { padding-bottom: 4px; }
+
+/* ---------- 得獎產品：立返個獎章 ---------- */
+.home-awards__head { margin-bottom: var(--space-xl); }
+.home-awards__title { letter-spacing: 0.08em; }
+
+/* 得獎章：黑底、一行、幼身。
+   試過淺色牌匾，太闊太厚，成張產品相畀佢遮住咗一大忽。獎項本身就係
+   黑底金字嗰種語言，莊重啲，而且黑色喺產品相上面唔會搶。
+   本來係上下三行（皇冠／NO.1／機構年份／共幾項），而家壓成一行，
+   「共 N 項獎」搬咗落卡片下面嘅文字度。 */
+.home-awards .award-ribbon {
+  left: 10px;
+  bottom: 10px;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  background: rgba(12, 14, 16, 0.88);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.home-awards .award-ribbon__crown { width: 15px; height: 7px; color: #d8c79a; }
+.home-awards .award-ribbon__rank {
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+}
+.home-awards .award-ribbon__body {
+  font-size: 0.5625rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+.home-awards .award-ribbon__count { display: none; }   /* 搬咗落文字行 */
+
+/* ---------- 得獎產品：放大 ＋ 向右碌 ---------- */
+.won-row {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* 出返成個容器闊度之外，等啲卡碌到貼邊先淡出，唔會硬生生切一刀 */
+  padding-bottom: 4px;
+}
+.won-row::-webkit-scrollbar { display: none; }
+/* 右邊淡出：唔淡出嘅話最後嗰張卡係硬生生喺容器邊界切一刀，
+   睇落似壞咗多過似「右邊仲有」。碌到尾就冇咗個淡出。 */
+.won-row {
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 86%, transparent 100%);
+}
+.won-row.is-scroll-end {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.won-card {
+  flex: 0 0 auto;
+  width: clamp(190px, 20vw, 250px);   /* 本來六等分約 180px */
+  scroll-snap-align: start;
+}
+.won-card__media { aspect-ratio: 1 / 1; }
+
+/* 得獎嗰句先係重點，唔應該係最細最暗嗰行 */
+.won-card__award {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #cfe2e8;
+}
+.won-card__title { font-size: 0.875rem; }

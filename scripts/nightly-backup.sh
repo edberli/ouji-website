@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # 每晚備份 OUJI 全店。由 launchd 叫（com.ouji.backup.plist）。
 #
 # 外置碟未掛就直接收工 —— 唔好靜靜哋寫落內置 SSD，嗰度長期得幾十 GB。

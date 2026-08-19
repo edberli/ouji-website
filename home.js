@@ -286,10 +286,12 @@ async function initHome() {
   /* ----- 獲獎產品 ----- */
   const won = document.querySelector('[data-home-awards]');
   if (won && typeof AWARDS === 'object') {
+    /* 由 6 件加到 12 件 —— 呢排而家係向右碌嘅，唔再係一行剛剛好塞滿
+       六格，多出嚟嗰啲就係碌落去嘅理由。全店有 38 件得過獎。 */
     const rows = products
       .filter((p) => awards(p.handle).length)
       .sort((a, b) => weight(b) - weight(a))
-      .slice(0, 6);
+      .slice(0, 12);
     const total = Object.values(AWARDS).reduce((n, l) => n + l.length, 0);
     document.querySelectorAll('[data-award-total]').forEach((e) => { e.textContent = total; });
     document.querySelectorAll('[data-award-products]').forEach((e) => {
@@ -301,13 +303,22 @@ async function initHome() {
       return `<a class="won-card" href="/products/${p.handle}">
         <span class="won-card__media">
           ${img ? `<img src="${img.url}" alt="${p.title}" loading="lazy">` : ''}
-          <span class="won-card__seal">${awards(p.handle).length}</span>
+          ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         </span>
         <span class="won-card__brand">${p.vendor || ''}</span>
         <span class="won-card__title">${p.title}</span>
-        <span class="won-card__award">${awardLabel(a)}</span>
+        <span class="won-card__award">${awardLabel(a)}${
+          awards(p.handle).length > 1 ? ` · 共 ${awards(p.handle).length} 項獎` : ''}</span>
       </a>`;
     }).join('');
+
+    /* 碌到最右就收起個淡出，唔係最後嗰張卡會一路半透明。 */
+    const endWatch = () => {
+      won.classList.toggle('is-scroll-end',
+        won.scrollLeft + won.clientWidth >= won.scrollWidth - 4);
+    };
+    won.addEventListener('scroll', endWatch, { passive: true });
+    endWatch();
   }
 
   /* ----- 新品速遞 -----

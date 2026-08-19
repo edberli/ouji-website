@@ -8,3 +8,8 @@ brands/*
 !brands/*/
 brands/*/*
 !brands/*/banner.jpg
+
+# Local design tooling / prototypes — not for production deploy
+.impeccable/
+.playwright-cli/
+prototypes/
