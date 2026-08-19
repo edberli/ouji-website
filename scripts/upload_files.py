@@ -45,9 +45,15 @@ def _cache():
 
 
 def _save(cache):
+    # Two brands uploading at once truncate each other: open(..., "w") empties
+    # the file, and a shorter write leaves the longer one's tail behind, so the
+    # next reader gets "Extra data" and every upload after it dies. Write a
+    # temp file and rename it — a rename is atomic, a partial write is not.
     os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
-    with open(CACHE_PATH, "w") as f:
+    tmp = f"{CACHE_PATH}.{os.getpid()}.tmp"
+    with open(tmp, "w") as f:
         json.dump(cache, f, indent=1)
+    os.replace(tmp, CACHE_PATH)
 
 
 def _multipart(url, fields, filename, blob, mime):
