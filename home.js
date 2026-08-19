@@ -228,18 +228,6 @@ async function initHome() {
         </div>
       </div>`;
     }).join('');
-    /* 品牌條搬入所屬嘅 rail：擺喺標題同貨之間 —— 客啱啱讀完「彩妝 204」，
-       跟住就見到係邊啲牌子，再落去先係貨。
-       markup 留喺 index.html（41 個 logo 靜態出，唔使等 API），呢度淨係
-       搬位；搬完先解開 hidden，唔會喺原本位置閃一閃。 */
-    ['makeup', 'skincare'].forEach((id) => {
-      const band = document.querySelector(`[data-brands="${id}"]`);
-      const rail = rails.querySelector(`[data-rail="${id}"]`)?.closest('.home-rail');
-      if (!band || !rail) return;
-      const head = rail.querySelector('.home-rail__head');
-      rail.insertBefore(band, head ? head.nextSibling : rail.firstChild);
-      band.hidden = false;
-    });
   }
 
   /* ----- 分類圓圈 -----

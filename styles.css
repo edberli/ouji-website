@@ -3242,8 +3242,39 @@ button.product-card__quick-add,
   overflow: hidden;
 }
 
-/* Lift all content above video: 煙霧片 2026-08-19 剷咗（淺底上面等於見唔到），
-   呢兩條 z-index 留返 —— 段落本身仲要企喺背景之上。 */
+/* Smoke video bg (absolute within section) */
+.brand-marquees__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.brand-marquees__video video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.28;
+  filter: saturate(0.4) brightness(0.65);
+  pointer-events: none;
+}
+.brand-marquees__video::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%,
+      rgba(43,76,88,0.0) 0%,
+      rgba(43,76,88,0.55) 70%,
+      rgba(43,76,88,0.85) 100%),
+    linear-gradient(180deg,
+      rgba(43,76,88,0.65) 0%,
+      rgba(43,76,88,0.35) 50%,
+      rgba(43,76,88,0.75) 100%);
+  pointer-events: none;
+}
+
+/* Lift all content above video */
 
 .brand-marquees > .container,
 .brand-marquees > .brand-marquees__section,
@@ -6624,6 +6655,7 @@ html.is-lite .ing-sheet__panel { background: #ffffff; }
 html.is-lite .shop-sheet__panel { background: rgba(78, 122, 138, 0.94); }
 
 /* 一路喺度轉／飄嘅裝飾。慢機上面佢哋唔會靚，只會卡。 */
+html.is-lite .brand-marquees__video,
 html.is-lite .particles,
 html.is-lite .cursor-glow { display: none !important; }
 
@@ -8381,8 +8413,9 @@ body::before { opacity: 0.18; }
 
    問題一：品牌牆 858px 高，而且同下面「得獎產品」一樣係深藍
    —— 兩個深色區貼住，得獎區就冇咗「呢度唔同」嘅感覺。
-   做法：品牌牆轉淺、縮到一半；深色留返畀得獎區獨用，成個首頁
-   碌落去只有嗰一段係深色，佢就自然成為節奏上嘅高點。
+   做法：**縮到一半，再搬上去「而家買咩好」下面**。轉淺色同拆兩條
+   都試過，老闆兩樣都否決（淺色冇咁靚、兩截散）。真正解決撞色嘅
+   係距離唔係顏色：中間隔住新品同煩惱兩格，兩幅深色唔再貼住。
 
    問題二：得獎區之前每張卡右上角得粒數字（5、4）。「5」係得獎
    次數，對客嚟講唔代表任何嘢；真正有力嗰句「2025 올리브영 唇釉
@@ -8392,31 +8425,7 @@ body::before { opacity: 0.18; }
    將同一個得獎章搬入嚟，喺深底上面反白做「蓋喺相上面嘅印章」。
    ============================================================ */
 
-/* ---------- 品牌牆：轉淺 ---------- */
-.brand-marquees {
-  padding: clamp(22px, 2.4vw, 32px) 0;       /* 上下 padding 減半 */
-  background: var(--warm-100);
-}
-/* logo 本來 brightness(0) invert(1) 迫成白色；淺底要調返做深墨 */
-.brand-marquees .brand-marquee__logo,
-.brand-marquees .brand-grid__logo {
-  /* 深墨而唔係純黑：純黑喺呢隻冷白底上面太硬。0.62 試過太淡，
-     TIRTIR、hince 呢類幼身 logo 幾乎見唔到。 */
-  filter: brightness(0) saturate(0);
-  opacity: 0.82;
-}
-.brand-marquees .brand-marquee__item:hover .brand-marquee__logo,
-.brand-marquees .brand-marquee__item.is-armed .brand-marquee__logo { opacity: 1; }
-.brand-marquees .section-header__title { color: var(--primary-deep); }
-.brand-marquees .brand-marquee__item { color: var(--primary-darker); }
-.brand-marquees .brand-marquee__item:hover,
-.brand-marquees .brand-marquee__item.is-armed { color: var(--primary-deep); }
-.brand-marquees__label { color: rgba(43, 76, 88, 0.62); }
-.brand-marquees .brand-section-toggle { color: var(--primary-darker); }
-.brand-marquees .brand-section-title::before,
-.brand-marquees .brand-section-title::after { background: rgba(43, 76, 88, 0.18); }
-
-/* ---------- 品牌牆：瘦身（858 → ~430，即係一半）----------
+/* ---------- 品牌牆：瘦身（858 → ~430，即係一半）＋ 留返深藍底 ----------
    兩行 logo 兩個分類都要留 —— 「同場 56 個品牌」係 OUJI 唯一嘅真優勢，
    剪走一行等於自己收埋個賣點。所以縮嘅係空隙唔係內容：外框 padding、
    分類標題行、每行預留畀 hover 標籤嗰段位、同埋 logo 格本身。 */
@@ -8426,16 +8435,6 @@ body::before { opacity: 0.18; }
 .brand-marquees__section-header { padding: 2px 0 0; gap: 2px; }
 .brand-marquees__rows { max-height: 240px; }
 .brand-marquees .brand-marquee { padding: 4px 0 11px; }
-/* 兩邊嘅淡出漸變原本寫死深藍（配返以前嘅深色底）。轉咗淺底之後，
-   佢哋變成左右兩嚿深色方塊壓住啲 logo —— 要跟返而家嘅底色。 */
-.brand-marquees .brand-marquee::before {
-  background: linear-gradient(90deg,
-    var(--warm-100) 0%, rgba(238, 244, 245, 0.86) 42%, rgba(238, 244, 245, 0) 100%);
-}
-.brand-marquees .brand-marquee::after {
-  background: linear-gradient(270deg,
-    var(--warm-100) 0%, rgba(238, 244, 245, 0.86) 42%, rgba(238, 244, 245, 0) 100%);
-}
 .brand-marquees .brand-marquee__item { height: 38px; padding: 0 12px; width: 126px; }
 .brand-marquees__section { padding-bottom: 4px; }
 
@@ -8483,73 +8482,3 @@ body::before { opacity: 0.18; }
   color: #cfe2e8;
 }
 .won-card__title { font-size: 0.875rem; }
-
-
-/* ============================================================
-   品牌條拆兩條，跟返所屬分類（2026-08-19）
-
-   之前係一幅獨立嘅「Our Brands」牆，41 個牌子擺埋一齊，客要自己對邊個
-   係彩妝邊個係護膚。而家拆開兩條，插入返各自嗰行貨嘅頭頂：睇緊彩妝，
-   上面就係彩妝品牌；睇緊護膚，上面就係護膚品牌。同一批 logo，冇加嘢，
-   但由「一幅牆」變成「兩個分類各自嘅開場」。
-
-   兩條用唔同底色分身份：彩妝藍、護膚白。兩隻都係站內已經有嘅色
-   （--warm-200 / 純白），冇加新色；深色仍然係得獎區獨用。
-   ============================================================ */
-.brand-marquees--makeup,
-.brand-marquees--skincare {
-  padding: 0 0 2px;
-  margin: 2px 0 var(--space-md);
-  border-top: 1px solid rgba(43, 76, 88, 0.09);
-  border-bottom: 1px solid rgba(43, 76, 88, 0.09);
-}
-.brand-marquees--makeup { background: var(--warm-200); }
-.brand-marquees--skincare { background: #ffffff; }
-
-/* 兩邊嘅淡出漸變要跟返各自嘅底色，唔跟就會見到一嚿色差 */
-.brand-marquees--makeup .brand-marquee::before {
-  background: linear-gradient(90deg,
-    #dce9ec 0%, rgba(220, 233, 236, 0.86) 42%, rgba(220, 233, 236, 0) 100%);
-}
-.brand-marquees--makeup .brand-marquee::after {
-  background: linear-gradient(270deg,
-    #dce9ec 0%, rgba(220, 233, 236, 0.86) 42%, rgba(220, 233, 236, 0) 100%);
-}
-.brand-marquees--skincare .brand-marquee::before {
-  background: linear-gradient(90deg,
-    #ffffff 0%, rgba(255, 255, 255, 0.86) 42%, rgba(255, 255, 255, 0) 100%);
-}
-.brand-marquees--skincare .brand-marquee::after {
-  background: linear-gradient(270deg,
-    #ffffff 0%, rgba(255, 255, 255, 0.86) 42%, rgba(255, 255, 255, 0) 100%);
-}
-
-/* 分類名剷咗（上面 rail 個標題已經寫住「彩妝」「護膚」，再寫一次
-   「彩妝品牌」係阻住）。淨返「瀏覽全部 · N 品牌」一條連結。 */
-.brand-marquees--makeup .brand-marquees__section-header,
-.brand-marquees--skincare .brand-marquees__section-header {
-  padding: 7px 0 1px;
-}
-.brand-marquees--makeup .brand-marquees__section,
-.brand-marquees--skincare .brand-marquees__section {
-  margin-bottom: 0;
-}
-
-/* toggle 本來寫死白色（配以前嘅深底），淺底要調返深色，
-   hover／展開態一樣要跟，唔跟就撳落去個字會白到見唔到。 */
-.brand-marquees .brand-section-toggle:hover,
-.brand-marquees .brand-section-toggle.active {
-  color: var(--primary-deep);
-  border-color: rgba(43, 76, 88, 0.18);
-  background: rgba(43, 76, 88, 0.05);
-}
-
-/* 展開嗰個品牌格仔本來係深底卡（配深色牆）。牆轉咗淺，logo 又已經
-   壓成深墨 —— 深卡 + 深 logo = 乜都睇唔到。 */
-.brand-marquees--makeup .brand-grid__card { background: rgba(255, 255, 255, 0.86); }
-.brand-marquees--skincare .brand-grid__card { background: var(--warm-50); }
-.brand-marquees .brand-grid__card { border-color: rgba(43, 76, 88, 0.1); }
-.brand-marquees .brand-grid__card:hover {
-  background: #ffffff;
-  border-color: rgba(43, 76, 88, 0.22);
-}

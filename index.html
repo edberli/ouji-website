@@ -273,25 +273,34 @@
       <div data-home-rails></div>
     </section>
 
-    <!-- 新品速遞。一次過多咗 11 個牌子、114 件貨，值得自己一格 —— 上面
-         個「新品上架」tab 係逐件排時間，呢格答嘅係「多咗邊幾個牌子」。 -->
-    <section class="section section--sm section-float" data-home-new></section>
+    <!-- 品牌牆擺喺「而家買咩好」下面：客啱啱睇完頭幾行貨，
+         「你哋有邊啲牌子」就變返有用。
+         試過拆兩條插入各自嗰行貨嘅頭頂（彩妝一條、護膚一條），
+         老闆睇完話兩截冇一幅咁好睇 —— 合併返一幅。 -->
+    <section class="brand-marquees">
+      <!-- Smoke video background -->
+      <div class="brand-marquees__video">
+        <video autoplay muted loop playsinline>
+          <source src="videos/smoke-bg-short.webm" type="video/webm">
+          <source src="videos/smoke-bg-short.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="container">
+        <!-- 剷走咗 eyebrow「合作品牌」（標題自己講得晒，多一行細字只係
+             推低咗個標題）同埋原本嗰句說明 —— 嗰句寫住「最具人氣與口碑」，
+             我哋冇銷量／口碑數據，唔講得。 -->
+        <div class="section-header reveal-blur">
+          <h2 class="heading-lg section-header__title">Our Brands</h2>
+        </div>
+      </div>
 
-    <!-- 由煩惱搵起。分類頁按貨品類型切，呢格按客自己講得出嘅煩惱切。
-         ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。 -->
-    <section class="section section--concerns section-float" data-home-concerns></section>
-
-
-    <!-- 品牌條唔再自成一大幅牆，拆成兩條跟返所屬分類：彩妝行嘅頭頂出
-         彩妝品牌，護膚行嘅頭頂出護膚品牌。由 home.js 喺 rail 砌好之後
-         搬入去（rail 本身係 JS 出嘅，所以呢兩條要等佢先入到位）。
-         hidden：搬入去之前唔好喺原本位置閃一閃。
-         煙霧背景片剷咗 —— 淺色底上面透明度得 0.14，等於見唔到，
-         但每次入首頁都要落載成條片。 -->
-    <section class="brand-marquees brand-marquees--makeup" data-brands="makeup" hidden>
+      <!-- ── 彩妝品牌 ── -->
       <div class="brand-marquees__section">
         <div class="container">
           <div class="brand-marquees__section-header">
+            <div class="brand-section-title">
+              <p class="brand-marquees__label">彩妝品牌</p>
+            </div>
             <button class="brand-section-toggle" id="makeupToggle">
               <span class="brand-section-toggle__text">瀏覽全部 · 19 品牌</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
@@ -383,12 +392,14 @@
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="brand-marquees brand-marquees--skincare" data-brands="skincare" hidden>
+      <!-- ── 護膚品牌 ── -->
       <div class="brand-marquees__section">
         <div class="container">
           <div class="brand-marquees__section-header">
+            <div class="brand-section-title">
+              <p class="brand-marquees__label">護膚品牌</p>
+            </div>
             <button class="brand-section-toggle" id="skincareToggle">
               <span class="brand-section-toggle__text">瀏覽全部 · 22 品牌</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
@@ -482,7 +493,17 @@
           </div>
         </div>
       </div>
+
     </section>
+
+    <!-- 新品速遞。一次過多咗 11 個牌子、114 件貨，值得自己一格 —— 上面
+         個「新品上架」tab 係逐件排時間，呢格答嘅係「多咗邊幾個牌子」。 -->
+    <section class="section section--sm section-float" data-home-new></section>
+
+    <!-- 由煩惱搵起。分類頁按貨品類型切，呢格按客自己講得出嘅煩惱切。
+         ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。 -->
+    <section class="section section--concerns section-float" data-home-concerns></section>
+
 
     <!-- 獲獎產品 -->
     <section class="home-awards">
