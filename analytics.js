@@ -13,7 +13,7 @@
  */
 const TRACKING = {
   // GA4 評估 ID，喺 GA4 → 管理 → 資料串流 攞。格式 G-XXXXXXXXXX
-  ga4: '',
+  ga4: 'G-54MEJHNCXQ',
   // Google Ads 轉換 ID，喺 Google Ads → 目標 → 轉換 攞。格式 AW-XXXXXXXXX
   googleAds: '',
   // Google Ads「加入購物車」／「開始結帳」嘅轉換標籤（選填）
