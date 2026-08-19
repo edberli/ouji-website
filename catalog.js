@@ -405,7 +405,7 @@ function buildMakeupBooth(section, products, sel, lockCat) {
   if (!booth) return false;
 
   const counts = new Map(availableSubs(section, products).map((x) => [x.id, x.count]));
-  // 選中邊格：側欄嘅 分類 剔（撳貼紙會剔佢）＋ URL 帶入嚟嗰個。
+  // 選中邊格：側欄嘅 分類 剔（撳大貼紙會剔佢）＋ URL／細分類帶入嚟嗰個。
   const active = new Set(sel.cat);
   if (lockCat) active.add(CATEGORY_TAXONOMY[section]?.subs?.[lockCat]?.parent || lockCat);
 
@@ -416,6 +416,19 @@ function buildMakeupBooth(section, products, sel, lockCat) {
     btn.querySelector(`[data-booth-n="${id}"]`).textContent = n;
     btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     btn.toggleAttribute('data-active', on);
+  });
+
+  /* 圍住大貼紙嗰啲細分類（粉底／氣墊／遮瑕⋯）。件數唔可以問
+     availableSubs —— 佢特登會收埋細分類，所以直接數。 */
+  booth.querySelectorAll('[data-booth-sub]').forEach((btn) => {
+    const id = btn.dataset.quick;
+    const n = products.filter((p) => subMatch(section, id, p)).length;
+    const on = lockCat === id;
+    btn.querySelector(`[data-booth-subn="${id}"]`).textContent = n;
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.toggleAttribute('data-active', on);
+    // 冇貨嘅細分類唔好留粒死掣喺度
+    btn.hidden = !n;
   });
 
   const meta = booth.querySelector('[data-booth-meta]');
@@ -574,7 +587,7 @@ function buildBrandStrip(products, sel) {
 }
 
 /** What is applied right now, each removable on its own. */
-function buildActiveChips(section, sel) {
+function buildActiveChips(section, sel, lockCat) {
   const host = document.querySelector('[data-active-filters]');
   if (!host) return;
   const label = (group, value) => {
@@ -586,6 +599,12 @@ function buildActiveChips(section, sel) {
   const chips = ['flag', 'cat', 'vendor', 'price'].flatMap((g) =>
     [...sel[g]].map((v) => `<button class="filter-chip" data-unset-group="${g}" data-unset-value="${v}">
       ${label(g, v)}<span aria-hidden="true">×</span></button>`));
+  /* 細分類（粉底、氣墊⋯）唔喺側欄剔嗰度，喺 lockCat。冇呢粒 chip 嘅話，
+     碌落去就冇嘢話畀客知篩緊乜、亦都清唔到。 */
+  if (lockCat) {
+    chips.unshift(`<button class="filter-chip" data-unset-lock="1">
+      ${label('cat', lockCat)}<span aria-hidden="true">×</span></button>`);
+  }
   host.innerHTML = chips.length
     ? chips.join('') + '<button class="filter-chip filter-chip--clear" data-filter-clear>清除全部</button>'
     : '';
@@ -987,7 +1006,7 @@ async function initCatalog({ section, cat, products, presetCat = null }) {
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, products, sel);
     buildBrandStrip(products, sel);
-    buildActiveChips(section, sel);
+    buildActiveChips(section, sel, lockCat);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
 
     /* 分類標頭右邊嗰行細字。用成個分類嘅總數（唔跟篩選郁）——
@@ -1025,6 +1044,7 @@ async function initCatalog({ section, cat, products, presetCat = null }) {
     const clear = e.target.closest('[data-filter-clear]');
     if (clear) {
       boxes().forEach((el) => { el.checked = false; });
+      lockCat = null;   // 細分類唔喺 checkbox 度，唔清佢就清唔乾淨
       return draw();
     }
     // A quick tab is a 分類 filter that happens to live outside the drawer,
@@ -1033,13 +1053,17 @@ async function initCatalog({ section, cat, products, presetCat = null }) {
     if (tab) {
       // 貼紙牆冇「全部」嗰格，所以再撳一次選中嗰張就係解除 —— 唔係
       // 咁樣揀完一格就返唔到轉頭。pill 嗰行有「全部」，照舊。
-      const off = tab.hasAttribute('data-booth-sticker')
-        && tab.getAttribute('aria-pressed') === 'true';
-      const id = off ? '' : tab.dataset.quick;
-      lockCat = null;
+      const isBooth = tab.hasAttribute('data-booth-sticker') || tab.hasAttribute('data-booth-sub');
+      const off = isBooth && tab.getAttribute('aria-pressed') === 'true';
+      /* 細分類（粉底、氣墊⋯）喺篩選側欄係冇對應嗰粒剔嘅 —— availableSubs
+         特登收埋咗佢哋。所以細分類要行 lockCat 呢條路，大分類就照舊剔側欄。 */
+      const isSub = tab.hasAttribute('data-booth-sub');
+      lockCat = (!off && isSub) ? tab.dataset.quick : null;
+      const id = (off || isSub) ? '' : tab.dataset.quick;
       boxes('cat').forEach((el) => { el.checked = !!id && el.value === id; });
       return draw();
     }
+    if (e.target.closest('[data-unset-lock]')) { lockCat = null; return draw(); }
     const chip = e.target.closest('[data-unset-group]');
     if (chip) {
       boxes(chip.dataset.unsetGroup, chip.dataset.unsetValue)

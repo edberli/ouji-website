@@ -214,7 +214,8 @@
       </div>
 
       <div class="makeup-booth__stickers" data-cat-gate>
-        <button type="button" class="makeup-booth__sticker" data-quick="base" data-booth-sticker aria-pressed="false">
+        <div class="makeup-booth__cell">
+          <button type="button" class="makeup-booth__sticker" data-quick="base" data-booth-sticker aria-pressed="false">
           <picture>
             <source srcset="assets/images/makeup-category-stickers/base-makeup.webp" type="image/webp">
             <img class="makeup-booth__icon" src="assets/images/makeup-category-stickers/base-makeup.png"
@@ -222,7 +223,35 @@
           </picture>
           <b>底妝</b><small data-booth-n="base"></small>
         </button>
-        <button type="button" class="makeup-booth__sticker" data-quick="eye" data-booth-sticker aria-pressed="false">
+          <span class="makeup-booth__subs">
+            <button type="button" class="makeup-booth__sub" data-quick="foundation" data-booth-sub
+              aria-pressed="false" aria-label="粉底" title="粉底">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/foundation.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/foundation.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="foundation"></small>
+            </button>
+            <button type="button" class="makeup-booth__sub" data-quick="cushion" data-booth-sub
+              aria-pressed="false" aria-label="氣墊" title="氣墊">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/cushion.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/cushion.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="cushion"></small>
+            </button>
+            <button type="button" class="makeup-booth__sub" data-quick="concealer" data-booth-sub
+              aria-pressed="false" aria-label="遮瑕" title="遮瑕">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/concealer.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/concealer.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="concealer"></small>
+            </button>
+          </span>
+        </div>
+        <div class="makeup-booth__cell">
+          <button type="button" class="makeup-booth__sticker" data-quick="eye" data-booth-sticker aria-pressed="false">
           <picture>
             <source srcset="assets/images/makeup-category-stickers/eye-makeup.webp" type="image/webp">
             <img class="makeup-booth__icon" src="assets/images/makeup-category-stickers/eye-makeup.png"
@@ -230,7 +259,43 @@
           </picture>
           <b>眼妝</b><small data-booth-n="eye"></small>
         </button>
-        <button type="button" class="makeup-booth__sticker" data-quick="lip" data-booth-sticker aria-pressed="false">
+          <span class="makeup-booth__subs">
+            <button type="button" class="makeup-booth__sub" data-quick="eyeshadow" data-booth-sub
+              aria-pressed="false" aria-label="眼影" title="眼影">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/eyeshadow.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/eyeshadow.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="eyeshadow"></small>
+            </button>
+            <button type="button" class="makeup-booth__sub" data-quick="eyeliner" data-booth-sub
+              aria-pressed="false" aria-label="眼線" title="眼線">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/eyeliner.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/eyeliner.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="eyeliner"></small>
+            </button>
+            <button type="button" class="makeup-booth__sub" data-quick="mascara" data-booth-sub
+              aria-pressed="false" aria-label="睫毛膏" title="睫毛膏">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/mascara.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/mascara.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="mascara"></small>
+            </button>
+            <button type="button" class="makeup-booth__sub" data-quick="brow" data-booth-sub
+              aria-pressed="false" aria-label="眉筆" title="眉筆">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/brow-pencil.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/brow-pencil.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="brow"></small>
+            </button>
+          </span>
+        </div>
+        <div class="makeup-booth__cell">
+          <button type="button" class="makeup-booth__sticker" data-quick="lip" data-booth-sticker aria-pressed="false">
           <picture>
             <source srcset="assets/images/makeup-category-stickers/lip-makeup.webp" type="image/webp">
             <img class="makeup-booth__icon" src="assets/images/makeup-category-stickers/lip-makeup.png"
@@ -238,7 +303,35 @@
           </picture>
           <b>唇妝</b><small data-booth-n="lip"></small>
         </button>
-        <button type="button" class="makeup-booth__sticker" data-quick="cheek" data-booth-sticker aria-pressed="false">
+          <span class="makeup-booth__subs">
+            <button type="button" class="makeup-booth__sub" data-quick="lipstick" data-booth-sub
+              aria-pressed="false" aria-label="唇膏" title="唇膏">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/lipstick.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/lipstick.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="lipstick"></small>
+            </button>
+            <button type="button" class="makeup-booth__sub" data-quick="liptint" data-booth-sub
+              aria-pressed="false" aria-label="唇釉" title="唇釉">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/lip-tint.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/lip-tint.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="liptint"></small>
+            </button>
+            <button type="button" class="makeup-booth__sub" data-quick="lipgloss" data-booth-sub
+              aria-pressed="false" aria-label="唇彩" title="唇彩">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/lip-gloss.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/lip-gloss.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="lipgloss"></small>
+            </button>
+          </span>
+        </div>
+        <div class="makeup-booth__cell">
+          <button type="button" class="makeup-booth__sticker" data-quick="cheek" data-booth-sticker aria-pressed="false">
           <picture>
             <source srcset="assets/images/makeup-category-stickers/cheek-makeup.webp" type="image/webp">
             <img class="makeup-booth__icon" src="assets/images/makeup-category-stickers/cheek-makeup.png"
@@ -246,7 +339,19 @@
           </picture>
           <b>頰彩</b><small data-booth-n="cheek"></small>
         </button>
-        <button type="button" class="makeup-booth__sticker" data-quick="contour" data-booth-sticker aria-pressed="false">
+          <span class="makeup-booth__subs">
+            <button type="button" class="makeup-booth__sub" data-quick="blush" data-booth-sub
+              aria-pressed="false" aria-label="胭脂" title="胭脂">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/blush.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/blush.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="blush"></small>
+            </button>
+          </span>
+        </div>
+        <div class="makeup-booth__cell">
+          <button type="button" class="makeup-booth__sticker" data-quick="contour" data-booth-sticker aria-pressed="false">
           <picture>
             <source srcset="assets/images/makeup-category-stickers/contour-makeup.webp" type="image/webp">
             <img class="makeup-booth__icon" src="assets/images/makeup-category-stickers/contour-makeup.png"
@@ -254,6 +359,17 @@
           </picture>
           <b>修容</b><small data-booth-n="contour"></small>
         </button>
+          <span class="makeup-booth__subs">
+            <button type="button" class="makeup-booth__sub" data-quick="highlight" data-booth-sub
+              aria-pressed="false" aria-label="高光" title="高光">
+              <picture>
+                <source srcset="assets/images/makeup-subcategory-stickers/highlighter.webp" type="image/webp">
+                <img src="assets/images/makeup-subcategory-stickers/highlighter.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+              </picture>
+              <small data-booth-subn="highlight"></small>
+            </button>
+          </span>
+        </div>
       </div>
 
       <div class="makeup-booth__burst" aria-hidden="true"></div>
