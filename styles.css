@@ -2334,10 +2334,13 @@ button.product-card__quick-add,
   position: fixed; top: 0; left: 0;
   width: min(85%, 340px);
   height: 100vh;
+  /* 本來 0.62–0.7 透明度，後面嘅頁面（尤其係彩妝嗰塊花花貼紙 hero）
+     會透晒上嚟，啲字讀唔到。加厚到 0.985 —— 邊位仲係有 blur 嘅玻璃感，
+     但底下嘅嘢唔會再同啲字爭。 */
   background: linear-gradient(165deg,
-    rgba(72, 115, 131, 0.62) 0%,
-    rgba(89, 139, 156, 0.7) 50%,
-    rgba(72, 115, 131, 0.65) 100%);
+    rgba(56, 96, 111, 0.985) 0%,
+    rgba(72, 119, 135, 0.99) 50%,
+    rgba(56, 96, 111, 0.985) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border-right: 1px solid rgba(255, 255, 255, 0.18);
@@ -2421,7 +2424,7 @@ button.product-card__quick-add,
   color: rgba(255,255,255,0.7);
 }
 .mobile-nav__sublinks > a:hover { color: white; }
-.mobile-nav-overlay { position: fixed; inset: 0; background: rgba(20, 50, 65, 0.18); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 2999; opacity: 0; visibility: hidden; transition: all var(--duration-normal); cursor: pointer; }
+.mobile-nav-overlay { position: fixed; inset: 0; background: rgba(20, 50, 65, 0.42); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 2999; opacity: 0; visibility: hidden; transition: all var(--duration-normal); cursor: pointer; }
 .mobile-nav-overlay.is-visible { opacity: 1; visibility: visible; }
 
 /* ----- Responsive ----- */
