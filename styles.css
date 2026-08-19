@@ -7767,9 +7767,10 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   overflow: hidden;
   isolation: isolate;
   color: var(--skin-ink);
+  /* 老闆要粉紅機身。條紋保留 —— 冇咗就變成一塊淨色，唔似部機。 */
   background:
-    repeating-linear-gradient(90deg, rgba(255,255,255,.3) 0 1px, transparent 1px 6px),
-    linear-gradient(135deg, #b9c9d4, #effcff 48%, #aab9ca);
+    repeating-linear-gradient(90deg, rgba(255,255,255,.32) 0 1px, transparent 1px 6px),
+    linear-gradient(135deg, #f6afcd, #fff1f7 48%, #f2a5c6);
 }
 
 /* ----- 主標 ----- */
@@ -7867,12 +7868,13 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 .skincare-booth__gel {
   position: absolute;
   border: 2px solid var(--skin-ink);
-  background: rgba(255,130,201,.64);
+  /* 底色轉咗粉紅，凝膠就唔可以再用粉紅 —— 會同背景溶埋一齊。 */
+  background: rgba(76,231,242,.72);
   box-shadow: 3px 4px 0 rgba(17,19,26,.18);
 }
 .skincare-booth__gel--a { left: 32%; top: 172px; width: 72px; height: 44px; border-radius: 66% 34% 62% 38%; transform: rotate(-12deg); }
 .skincare-booth__gel--b { left: 64%; top: 143px; width: 58px; height: 58px; border-radius: 50%; background: rgba(184,255,98,.72); }
-.skincare-booth__gel--c { left: 26%; top: 93px; width: 38px; height: 38px; border-radius: 45% 55% 50% 50%; background: rgba(112,229,255,.7); }
+.skincare-booth__gel--c { left: 26%; top: 93px; width: 38px; height: 38px; border-radius: 45% 55% 50% 50%; background: rgba(99,107,255,.55); }
 .skincare-booth__bubble {
   position: absolute;
   border: 2px solid #fff;
@@ -7893,7 +7895,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 .skincare-booth__glow {
   left: 34%;
   top: 224px;
-  background: var(--skin-pink);
+  background: var(--skin-blue);
   color: #fff;
   font-family: "Space Mono", monospace;
   font-size: 8px;
@@ -7911,8 +7913,10 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   /* 唔可以貼實 0 —— 棉片同眼部護理歪咗之後，個名牌會畀 hero 嘅
      overflow:hidden 剃走兩三個像素。抬高成組，相對高低差原封不動。 */
   bottom: 5px;
-  width: min(960px, calc(100% - 28px));
-  height: 112px;
+  /* 桌面本來得 112px 高、960px 闊，成個中間同兩邊都吉。放大公仔，
+     順手撐闊條貼紙帶，等佢哋填得滿啲。 */
+  width: min(1600px, calc(100% - 36px));
+  height: 152px;
   transform: translateX(-50%);
 }
 .skincare-booth__cat {
@@ -7952,12 +7956,12 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   position: absolute;
   left: 50%;
   bottom: 1px;
-  min-width: 43px;
-  padding: 2px 6px;
+  min-width: 52px;
+  padding: 3px 8px;
   border: 1.5px solid var(--skin-ink);
   background: var(--cat-tint);
   box-shadow: 2px 2px 0 rgba(17,19,26,.28);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 1.15;
   text-align: center;
@@ -7975,7 +7979,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   background: #fff;
   box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.25);
   font-family: "Space Mono", monospace;
-  font-size: 6.5px;
+  font-size: 8px;
   font-weight: 700;
   line-height: 1;
   text-align: center;
@@ -7999,14 +8003,14 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   box-shadow: 3px 3px 0 var(--cat-tint);
 }
 
-.skincare-booth__cat:nth-child(1) { --x: 0%;     --y: 2px;  --w: 11%; --h: 78px; --icon-w: 51px; --icon-h: 57px; --tilt: -10deg; }
-.skincare-booth__cat:nth-child(2) { --x: 10.5%;  --y: 22px; --w: 12%; --h: 68px; --icon-w: 43px; --icon-h: 49px; --tilt: 7deg; }
-.skincare-booth__cat:nth-child(3) { --x: 22%;    --y: -2px; --w: 13%; --h: 96px; --icon-w: 72px; --icon-h: 73px; --tilt: -5deg; }
-.skincare-booth__cat:nth-child(4) { --x: 34%;    --y: 16px; --w: 14%; --h: 90px; --icon-w: 62px; --icon-h: 72px; --tilt: 9deg; }
-.skincare-booth__cat:nth-child(5) { --x: 48%;    --y: 0;    --w: 10%; --h: 72px; --icon-w: 45px; --icon-h: 48px; --tilt: -7deg; }
-.skincare-booth__cat:nth-child(6) { --x: 57.5%;  --y: 21px; --w: 14%; --h: 96px; --icon-w: 70px; --icon-h: 76px; --tilt: 8deg; }
-.skincare-booth__cat:nth-child(7) { --x: 71%;    --y: -3px; --w: 15%; --h: 87px; --icon-w: 64px; --icon-h: 66px; --tilt: -11deg; }
-.skincare-booth__cat:nth-child(8) { --x: 85%;    --y: 18px; --w: 12%; --h: 72px; --icon-w: 47px; --icon-h: 54px; --tilt: 6deg; }
+.skincare-booth__cat:nth-child(1) { --x: 0%;     --y: 4px;  --w: 11%; --h: 106px; --icon-w: 71px;  --icon-h: 79px;  --tilt: -10deg; }
+.skincare-booth__cat:nth-child(2) { --x: 10.5%;  --y: 32px; --w: 12%; --h: 92px;  --icon-w: 60px;  --icon-h: 68px;  --tilt: 7deg; }
+.skincare-booth__cat:nth-child(3) { --x: 22%;    --y: 0;    --w: 13%; --h: 130px; --icon-w: 100px; --icon-h: 101px; --tilt: -5deg; }
+.skincare-booth__cat:nth-child(4) { --x: 34%;    --y: 22px; --w: 14%; --h: 122px; --icon-w: 86px;  --icon-h: 100px; --tilt: 9deg; }
+.skincare-booth__cat:nth-child(5) { --x: 48%;    --y: 2px;  --w: 10%; --h: 98px;  --icon-w: 63px;  --icon-h: 67px;  --tilt: -7deg; }
+.skincare-booth__cat:nth-child(6) { --x: 57.5%;  --y: 30px; --w: 14%; --h: 130px; --icon-w: 97px;  --icon-h: 106px; --tilt: 8deg; }
+.skincare-booth__cat:nth-child(7) { --x: 71%;    --y: 0;    --w: 15%; --h: 118px; --icon-w: 89px;  --icon-h: 92px;  --tilt: -11deg; }
+.skincare-booth__cat:nth-child(8) { --x: 85%;    --y: 26px; --w: 12%; --h: 98px;  --icon-w: 65px;  --icon-h: 75px;  --tilt: 6deg; }
 
 /* ----- 閃光。只喺第一次載入播一次 ----- */
 .skincare-booth__flash {

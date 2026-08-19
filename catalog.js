@@ -468,16 +468,31 @@ function buildSkincareBooth(section, products, sel, lockCat) {
   const meta = booth.querySelector('[data-skincare-booth-meta]');
   if (meta) meta.textContent = `護膚 · ${products.length} 件 · ${brands} 品牌`;
 
-  /* 相紙揀而家睇緊嗰格嘅貨，冇揀分類就成個護膚度揀。同一把尺（推薦排序）
-     揀頭四件有相嘅 —— 唔夠四張就收起嗰格，唔補假圖、唔用同一支貨扮四張。 */
+  /* 相紙先用人手驗過有模特／情境嘅相（booth-shots.js）—— 貼紙相機要似
+     影相機，四格白底 packshot 做唔到嗰種感覺。冇揀分類就八格度輪住抽，
+     唔夠四張先用返推薦排序頭幾件補。全部都係嗰件貨自己嘅相。 */
+  const live = new Set(products.map((p) => p.handle));
+  const picked = typeof BOOTH_SHOTS === 'object' && BOOTH_SHOTS
+    ? (active.size
+        ? [...active].flatMap((id) => BOOTH_SHOTS[id] || [])
+        // 冇揀分類：八格輪流抽一張，唔好一整排都係同一格嘅貨
+        : Object.values(BOOTH_SHOTS).flatMap((rows, i) => rows[i % rows.length] || []))
+      .filter((r) => live.has(r.handle))
+    : [];
+
+  const used = new Set(picked.map((r) => r.handle));
   const pool = active.size
     ? products.filter((p) => [...active].some((id) => subMatch(section, id, p)))
     : products;
-  const shots = pool
-    .filter((p) => p.images?.edges?.[0]?.node?.url && !BAD_IMAGE.has(p.title))
+  const filler = pool
+    .filter((p) => p.images?.edges?.[0]?.node?.url && !BAD_IMAGE.has(p.title)
+      && !used.has(p.handle))
     .sort((a, b) => featuredScore(b) - featuredScore(a))
+    .map((p) => p.images.edges[0].node.url);
+
+  const shots = [...picked.map((r) => r.url), ...filler]
     .slice(0, 4)
-    .map((p) => p.images.edges[0].node.url + '&width=300');
+    .map((u) => u + '&width=300');
 
   booth.querySelectorAll('.skincare-booth__frames img').forEach((img, i) => {
     if (shots[i]) { img.src = shots[i]; img.hidden = false; }
