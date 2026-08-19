@@ -7608,54 +7608,81 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   position: absolute;
   z-index: 6;
   left: 50%;
-  bottom: 14px;
-  width: min(650px, calc(100% - 28px));
-  height: 92px;
+  bottom: 10px;
+  width: min(820px, calc(100% - 28px));
+  height: 124px;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: end;
   gap: clamp(6px, 1.1vw, 12px);
   transform: translateX(-50%);
 }
+/* 五粒掣本來係彩色橢圓包住一個細 icon。而家換成老闆畫嘅剪紙貼紙
+   （PNG 本身已經印咗白色剪紙邊），所以橢圓底、邊框、圓角全部剷走 ——
+   張圖自己就係貼紙，掣淨係負責位置、角度同可撳範圍。 */
 .makeup-booth__sticker {
   --lift: 0px;
   --tilt: 0deg;
   --sticker-scale: 1;
   position: relative;
   min-width: 0;
-  height: 72px;
+  height: 104px;
   display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 1px;
-  padding: 5px 4px 7px;
-  border: 2px solid var(--booth-ink);
+  place-items: end center;
+  align-content: end;
+  gap: 2px;
+  padding: 0 2px 16px;
+  border: 0;
+  background: transparent;
   color: var(--booth-ink);
   font-family: "Noto Sans TC", sans-serif;
   font-weight: 900;
   cursor: pointer;
-  box-shadow: 3px 4px 0 rgba(17,19,26,.28);
   transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--sticker-scale));
+  transform-origin: 50% 85%;
   transition: transform 160ms ease-out;
 }
-.makeup-booth__sticker b { font-size: 11px; line-height: 1; }
+.makeup-booth__icon {
+  width: auto;
+  height: var(--icon-h, 78px);
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(3px 4px 0 rgba(17,19,26,.24));
+  transition: transform 160ms ease-out;
+}
+/* 名牌貼喺貼紙腳下面，唔係包住成粒公仔 */
+.makeup-booth__sticker b {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  padding: 2px 7px;
+  border: 1.5px solid var(--booth-ink);
+  background: var(--chip, #fff);
+  box-shadow: 2px 2px 0 rgba(17,19,26,.26);
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  transform: translateX(-50%) rotate(calc(var(--tilt) * -.5));
+  transition: color 140ms ease-out, background 140ms ease-out;
+}
 .makeup-booth__sticker small {
   position: absolute;
-  top: 5px;
-  right: 6px;
+  top: 0;
+  right: 4%;
   min-width: 20px;
   padding: 2px 4px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
+  border: 1.5px solid var(--booth-ink);
+  background: #fff;
+  box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.24);
   font-size: 8px;
   line-height: 1;
+  text-align: center;
+  transform: rotate(7deg);
 }
-.makeup-booth__icon { width: 40px; height: 40px; overflow: visible; }
-.makeup-booth__icon * { vector-effect: non-scaling-stroke; }
 
 @media (hover: hover) {
   .makeup-booth__sticker:hover {
-    transform: translateY(calc(var(--lift) - 4px)) rotate(0) scale(1.04);
+    transform: translateY(calc(var(--lift) - 5px)) rotate(0) scale(1.05);
   }
 }
 .makeup-booth__sticker:active {
@@ -7666,18 +7693,21 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   outline-offset: 3px;
   z-index: 7;   /* focus 環唔可以畀隔籬張貼紙蓋住 */
 }
-.makeup-booth__sticker:nth-child(1) { --lift: -10px; --tilt: -7deg; --sticker-scale: 1.03; height: 76px; z-index: 3; border-radius: 50% 42% 48% 45%; background: var(--booth-pink); }
-.makeup-booth__sticker:nth-child(2) { --lift: 5px;   --tilt: 5deg;  --sticker-scale: .94;  height: 66px; z-index: 1; border-radius: 44% 52% 43% 55%; background: var(--booth-lime); }
-.makeup-booth__sticker:nth-child(3) { --lift: -3px;  --tilt: -3deg; --sticker-scale: 1.06; height: 80px; z-index: 4; border-radius: 52% 42% 55% 45%; background: #fff; }
-.makeup-booth__sticker:nth-child(4) { --lift: 7px;   --tilt: 8deg;  --sticker-scale: .98;  height: 70px; z-index: 2; border-radius: 43% 55% 48% 52%; background: var(--booth-yellow); }
-.makeup-booth__sticker:nth-child(5) { --lift: -8px;  --tilt: -6deg; --sticker-scale: 1.02; height: 76px; z-index: 3; border-radius: 55% 45% 42% 52%; background: var(--booth-sky); }
+.makeup-booth__sticker:nth-child(1) { --lift: -10px; --tilt: -7deg; --sticker-scale: 1.03; --icon-h: 84px; --chip: var(--booth-pink);   height: 108px; z-index: 3; }
+.makeup-booth__sticker:nth-child(2) { --lift: 5px;   --tilt: 5deg;  --sticker-scale: .94;  --icon-h: 74px; --chip: var(--booth-lime);   height: 96px;  z-index: 1; }
+.makeup-booth__sticker:nth-child(3) { --lift: -3px;  --tilt: -3deg; --sticker-scale: 1.06; --icon-h: 88px; --chip: #fff;                height: 112px; z-index: 4; }
+.makeup-booth__sticker:nth-child(4) { --lift: 7px;   --tilt: 8deg;  --sticker-scale: .98;  --icon-h: 78px; --chip: var(--booth-yellow); height: 100px; z-index: 2; }
+.makeup-booth__sticker:nth-child(5) { --lift: -8px;  --tilt: -6deg; --sticker-scale: 1.02; --icon-h: 82px; --chip: var(--booth-sky);    height: 106px; z-index: 3; }
 
-/* 選中：黑底白字。一定要排喺上面五條 nth-child 之後 —— 兩邊 specificity
-   一樣，後寫嗰個先贏，寫喺前面就會畀貼紙自己嗰隻底色蓋過。 */
-.makeup-booth__sticker[data-active] {
+/* 選中：名牌反白，貼紙本身放大少少。一定要排喺上面五條 nth-child 之後 ——
+   兩邊 specificity 一樣，後寫嗰個先贏。 */
+.makeup-booth__sticker[data-active] { z-index: 5; }
+.makeup-booth__sticker[data-active] .makeup-booth__icon { transform: scale(1.1); }
+.makeup-booth__sticker[data-active] b {
+  border-color: #fff;
   background: var(--booth-ink);
   color: #fff;
-  border-color: #fff;
+  box-shadow: 3px 3px 0 var(--chip);
 }
 
 /* ----- 閃光。只喺第一次載入播一次；換分類唔會再閃 ----- */
@@ -7713,16 +7743,22 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .makeup-booth__strip { top: 58px; right: 17px; width: 126px; transform: rotate(3deg); }
   .makeup-booth__word, .makeup-booth__swatch, .makeup-booth__kbeauty { display: none; }
   .makeup-booth__kiss { left: 49%; top: 194px; width: 66px; }
-  .makeup-booth__flashword { left: 17px; top: 213px; padding: 5px 9px; font-size: 14px; }
+  /* 貼紙換咗做剪紙之後嗰行高咗，FLASH! 本來喺 213px 會同「底妝」個
+     件數牌撞，抬高佢。 */
+  .makeup-booth__flashword { left: 12px; top: 170px; padding: 5px 9px; font-size: 14px; }
   .makeup-booth__star { left: 45%; top: 166px; width: 32px; }
   .makeup-booth__heart { left: 56%; top: 10px; width: 28px; }
-  .makeup-booth__stickers { bottom: 8px; width: calc(100% - 18px); height: 90px; gap: 3px; }
-  .makeup-booth__sticker { padding-inline: 2px; }
-  .makeup-booth__sticker b { font-size: 10px; }
+  .makeup-booth__stickers { bottom: 10px; width: calc(100% - 14px); height: 104px; gap: 2px; }
+  .makeup-booth__sticker { padding-inline: 1px; padding-bottom: 14px; }
+  .makeup-booth__sticker b { padding: 1px 5px; font-size: 9px; }
   /* 手機收窄之後，隔籬張貼紙會壓住呢張嘅右邊角（修容 z-index 高過頰彩），
      件數要向內移少少先讀得晒。 */
-  .makeup-booth__sticker small { top: 4px; right: 10px; min-width: 18px; font-size: 7px; }
-  .makeup-booth__icon { width: 34px; height: 34px; }
+  .makeup-booth__sticker small { top: 0; right: 7%; min-width: 17px; padding: 1px 3px; font-size: 7px; }
+  .makeup-booth__sticker:nth-child(1) { --icon-h: 64px; height: 88px; }
+  .makeup-booth__sticker:nth-child(2) { --icon-h: 56px; height: 78px; }
+  .makeup-booth__sticker:nth-child(3) { --icon-h: 66px; height: 90px; }
+  .makeup-booth__sticker:nth-child(4) { --icon-h: 59px; height: 82px; }
+  .makeup-booth__sticker:nth-child(5) { --icon-h: 62px; height: 86px; }
   @keyframes booth-strip-in {
     from { opacity: 0; transform: translateY(-55px) rotate(8deg); }
     to   { opacity: 1; transform: rotate(3deg); }
@@ -7733,17 +7769,22 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 @media (max-width: 359px) {
   .makeup-booth__title h1 { font-size: 42px; }
   .makeup-booth__strip { width: 108px; }
-  .makeup-booth__stickers { width: calc(100% - 12px); gap: 2px; }
-  .makeup-booth__sticker { padding-inline: 1px; }
-  .makeup-booth__sticker b { font-size: 9px; }
-  .makeup-booth__sticker small { top: 3px; right: 13px; min-width: 16px; padding: 1px 3px; }
-  .makeup-booth__icon { width: 28px; height: 28px; }
+  .makeup-booth__stickers { width: calc(100% - 10px); gap: 1px; }
+  .makeup-booth__sticker { padding-inline: 0; }
+  .makeup-booth__sticker b { padding: 1px 4px; font-size: 8px; }
+  .makeup-booth__sticker small { right: 5%; min-width: 15px; font-size: 6px; }
+  .makeup-booth__sticker:nth-child(1) { --icon-h: 54px; }
+  .makeup-booth__sticker:nth-child(2) { --icon-h: 47px; }
+  .makeup-booth__sticker:nth-child(3) { --icon-h: 56px; }
+  .makeup-booth__sticker:nth-child(4) { --icon-h: 50px; }
+  .makeup-booth__sticker:nth-child(5) { --icon-h: 53px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .makeup-booth__flash { animation-duration: 1ms; }
   .makeup-booth__strip { animation-duration: 1ms; }
-  .makeup-booth__sticker { transition: none; }
+  .makeup-booth__sticker,
+  .makeup-booth__icon { transition: none; }
 }
 
 /* ============================================================
