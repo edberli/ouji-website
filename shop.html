@@ -337,6 +337,7 @@
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
   <script src="catalog.js"></script>
+  <script src="search.js"></script>
   <script src="script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
@@ -350,6 +351,24 @@
     const cat = params.get('cat');
     const all = await getAllProducts();
     let products = all?.edges?.map((e) => e.node) ?? [];
+
+    /* 由頁頂搜尋浮層「睇埋其餘 N 件」入嚟。同浮層用同一套配對規則
+       （大細楷、空格、標點唔計），唔係嘅話撳落嚟會少咗貨。 */
+    const q = (params.get('q') || '').trim();
+    if (q) {
+      const flat = (x) => String(x || '').toLowerCase()
+        .replace(/&/g, 'a').replace(/[^\p{L}\p{N}]/gu, '');
+      const needle = flat(q);
+      products = products.filter((p) => flat(p.title).includes(needle)
+        || flat(p.vendor).includes(needle));
+      const head = document.querySelector('.cat-head__title');
+      if (head) head.textContent = `「${q}」`;
+      const eyebrow = document.querySelector('.cat-head__eyebrow');
+      if (eyebrow) eyebrow.textContent = '搜尋結果';
+      const desc = document.querySelector('.cat-head__desc');
+      if (desc) desc.textContent = `${products.length} 件貨符合「${q}」。`;
+      document.title = `${q} — OUJI`;
+    }
     if (cat) {
       products = products.filter((p) =>
         ['skincare', 'makeup', 'body-care', 'fragrance', 'lifestyle']
