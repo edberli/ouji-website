@@ -161,14 +161,96 @@ async function initHome() {
       const shown = TABS.filter((t) => t.pick(live).length >= 3);
       if (!shown.length) return;
 
+      /* 頭位嗰件貨出一幅大相，唔再同其他貨排埋一行細卡。
+         一行十四件細卡，客要橫掃先睇到，而且每件都一樣大 —— 冇邊件係
+         「而家買咩好」嘅答案。呢度改成左邊一件、右邊六件。
+         左邊嗰句「事實」跟返個 tab 本身嘅準則，唔係形容詞：熱賣講評價數，
+         優惠講減幾多，新品就淨係講新上架。冇數就唔寫。 */
+      const heroFact = (p, t) => {
+        const r = RATINGS?.[p.handle];
+        const cp = p.compareAtPriceRange?.minVariantPrice;
+        const p0 = p.priceRange?.minVariantPrice;
+        if (t.id === 'hot') {
+          return r?.count
+            ? `Olive Young ${r.count.toLocaleString()} 則評價${r.star ? ` · ${r.star}★` : ''}`
+            : '';
+        }
+        if (t.id === 'deal') {
+          const off = cp && parseFloat(cp.amount) > parseFloat(p0.amount)
+            ? Math.round((1 - parseFloat(p0.amount) / parseFloat(cp.amount)) * 100) : 0;
+          return off ? `原價 ${formatPrice(cp.amount)} · 減 ${off}%` : '';
+        }
+        return '新上架';
+      };
+
+      const hero = (p, t) => {
+        const img = p.images?.edges?.[0]?.node;
+        const p0 = p.priceRange?.minVariantPrice;
+        const fact = heroFact(p, t);
+        return `<a class="home-feat__hero" href="/products/${p.handle}">
+          <span class="home-feat__shot">
+            ${img ? `<img src="${img.url}" alt="${(p.title || '').replace(/"/g, '&quot;')}"
+                 crossorigin="anonymous" data-feat-img>` : ''}
+            ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
+          </span>
+          <span class="home-feat__meta">
+            <span class="home-feat__brand">${p.vendor || ''}</span>
+            <span class="home-feat__name">${p.title}</span>
+            ${fact ? `<span class="home-feat__fact">${fact}</span>` : ''}
+            <span class="home-feat__price">${formatPrice(p0.amount)}</span>
+          </span>
+        </a>`;
+      };
+
+      /* 白底 packshot 撐滿一幅大相會切走支樽；有真人／情境嗰啲就要滿幅。
+         試過用長闊比分辨，行唔通 —— 呢個目錄連模特相都係正方形。
+         改為讀張相四條邊：白邊夠多就當 packshot，改成留白擺中間。
+         Shopify CDN 有開 CORS，所以 canvas 讀得到像素（實測過）；
+         萬一讀唔到就當係情境相，滿幅出 —— 錯嗰邊冇咁核突。 */
+      const isPackshot = (im) => {
+        try {
+          const c = document.createElement('canvas');
+          c.width = 32; c.height = 32;
+          const x = c.getContext('2d');
+          x.drawImage(im, 0, 0, 32, 32);
+          const d = x.getImageData(0, 0, 32, 32).data;
+          let white = 0, n = 0;
+          for (let i = 0; i < 32; i += 1) {
+            for (const [px, py] of [[i, 0], [i, 31], [0, i], [31, i]]) {
+              const k = (py * 32 + px) * 4;
+              n += 1;
+              if (d[k] > 238 && d[k + 1] > 238 && d[k + 2] > 238) white += 1;
+            }
+          }
+          return white / n >= 0.3;
+        } catch { return false; }
+      };
+
+      const fitShot = (box) => {
+        const im = box?.querySelector('[data-feat-img]');
+        const shot = box?.querySelector('.home-feat__shot');
+        if (!im || !shot) return;
+        const apply = () => {
+          if (!im.naturalWidth) return;
+          shot.classList.toggle('is-pack', isPackshot(im));
+        };
+        im.complete ? apply() : im.addEventListener('load', apply, { once: true });
+      };
+
       const paint = (id) => {
         const t = shown.find((x) => x.id === id) || shown[0];
         tabHost.querySelectorAll('.home-tabs__btn').forEach((b) =>
           b.classList.toggle('is-on', b.dataset.tab === t.id));
         const note = tabHost.querySelector('[data-tab-note]');
         if (note) note.textContent = t.note;
-        const track = tabHost.querySelector('[data-rail]');
-        if (track) track.innerHTML = t.pick(live).slice(0, 14).map(card).join('');
+        const list = t.pick(live);
+        const heroBox = tabHost.querySelector('[data-feat-hero]');
+        const grid = tabHost.querySelector('[data-feat-grid]');
+        if (heroBox) {
+          heroBox.innerHTML = list[0] ? hero(list[0], t) : '';
+          fitShot(heroBox);
+        }
+        if (grid) grid.innerHTML = list.slice(1, 7).map(card).join('');
       };
 
       tabHost.innerHTML = `
@@ -178,8 +260,11 @@ async function initHome() {
                data-tab="${t.id}">${t.label}</button>`).join('')}
           </div>
           <p class="home-tabs__note" data-tab-note></p>
-        </div>
-        <div class="home-rail__track" data-rail="tabs"></div>`;
+          <div class="home-feat">
+            <div class="home-feat__lead" data-feat-hero></div>
+            <div class="home-feat__grid" data-feat-grid></div>
+          </div>
+        </div>`;
 
       tabHost.addEventListener('click', (e) => {
         const b = e.target.closest('[data-tab]');
@@ -253,6 +338,15 @@ async function initHome() {
     { label: '身體護理', href: 'bodycare.html', has: (p) => hasTag(p, '身體護理') },
   ];
 
+  /* 分類卡張相本來由目錄自動揀第一件貨嘅第一張圖。護膚永遠揀到一支白底
+     樽仔，同隔籬「彩妝」「隱形眼鏡」嘅模特相擺埋一齊就好突兀。
+     呢張係人手開圖確認過嘅品牌官方模特相（同 booth-shots.js 一套來源，
+     揀嘅準則亦一樣：真人、乾淨、冇數據聲稱、冇特登舉住支貨）。 */
+  const CAT_SHOT = {
+    // Torriden Dive-In 低分子透明質酸爽膚水 300ml
+    '護膚': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/03_0c1305f6-66ed-4bf6-9a46-0eb58df2fd18.jpg?v=1786074858',
+  };
+
   const cats = document.querySelector('[data-home-cats]');
   if (cats) {
     // 護膚 and 精華 overlap, and both would otherwise wear the same
@@ -267,13 +361,15 @@ async function initHome() {
         && !taken.has(p.images.edges[0].node.url))
         || list.find((p) => p.images?.edges?.[0]?.node);
       const img = pick?.images?.edges?.[0]?.node;
-      if (img) taken.add(img.url);
+      const shot = CAT_SHOT[c.label] || img?.url;
+      /* 用咗指定相嗰格唔佔走自動揀嘅嗰張，等下面「精華」仲用得返 */
+      if (img && !CAT_SHOT[c.label]) taken.add(img.url);
       /* 由細圓形改做卡。圓形得 78px，張相入面睇到嘅嘢太細，
          十一個細圓排埋一齊反而似一串頭像多過似入口。
          卡有相有名有件數，撳落去嗰下亦都有反應。 */
       return `<a class="cat-card" href="${c.href}">
         <span class="cat-card__shot">
-          ${img ? `<img src="${img.url}" alt="" loading="lazy">` : ''}
+          ${shot ? `<img src="${shot}" alt="" loading="lazy">` : ''}
         </span>
         <span class="cat-card__body">
           <span class="cat-card__name">${c.label}</span>
