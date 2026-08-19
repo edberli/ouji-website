@@ -7534,11 +7534,6 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   -webkit-text-stroke: 0;
   text-shadow: none;
 }
-/* 嘴唇同星星本來喺 155/202px，貼紙帶升到 176px 高之後就撞正。而且
-   唇妝嗰張大貼紙本身就係嘴唇，再多一個嘴唇塗鴉純粹係重複 —— 收起。
-   細分類本身已經夠熱鬧，唔使再堆嘢落去。 */
-.makeup-booth__kiss,
-.makeup-booth__star { display: none; }
 .makeup-booth__kiss {
   position: absolute;
   left: 48%;
@@ -7550,8 +7545,8 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 }
 .makeup-booth__flashword {
   position: absolute;
-  left: 63%;
-  top: 92px;
+  left: 67%;
+  top: 186px;
   padding: 8px 13px;
   border: 2px solid var(--booth-ink);
   border-radius: 50% 42% 48% 45%;
@@ -7579,11 +7574,11 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   filter: drop-shadow(2px 3px 0 #fff);
   transform: rotate(14deg);
 }
-.makeup-booth__swatch { position: absolute; left: 55%; top: 96px; width: 105px; transform: rotate(-8deg); }
+.makeup-booth__swatch { position: absolute; left: 58%; top: 112px; width: 105px; transform: rotate(-8deg); }
 .makeup-booth__kbeauty {
   position: absolute;
-  left: 22%;
-  top: 104px;
+  left: 69%;
+  top: 125px;
   padding: 5px 9px;
   border: 2px solid var(--booth-ink);
   background: var(--booth-blue);
@@ -7613,101 +7608,15 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   position: absolute;
   z-index: 6;
   left: 50%;
-  /* 唔可以貼實底 —— 大貼紙有 lift／rotate／scale，個名牌會凸出條帶外面，
-     再畀 hero 嘅 overflow:hidden 剃走。 */
-  bottom: 30px;
-  /* 眼妝有四粒細分類，一行要 ~190px。撐窄過呢個數，眉筆就會跌落第二行，
-     成格高過隔籬幾格。 */
-  width: min(1060px, calc(100% - 28px));
-  height: 176px;
+  bottom: 10px;
+  width: min(820px, calc(100% - 28px));
+  height: 124px;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: end;
   gap: clamp(6px, 1.1vw, 12px);
   transform: translateX(-50%);
 }
-/* 一格 = 上面圍住嘅細分類 ＋ 下面一張大貼紙。大掣同細掣係兄弟唔係
-   父子（button 唔可以套 button），所以要多一層 cell 包住。 */
-.makeup-booth__cell {
-  position: relative;
-  min-width: 0;
-  display: grid;
-  align-content: end;
-  justify-items: center;
-}
-
-/* 細分類：細細個圍喺大貼紙上面。撳大分類得，撳細分類都得。 */
-.makeup-booth__subs {
-  order: -1;                 /* 排喺大貼紙上面 */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 2px 1px;
-  /* 一撮貼紙要窄過成格，唔係隔籬幾組會黐埋一齊，睇唔出邊粒屬邊個大分類 */
-  max-width: 92%;
-  margin-bottom: 5px;
-}
-.makeup-booth__sub {
-  position: relative;
-  /* 張圖睇落 ~34px，但粒掣連 padding 有 46px，撳得到嘅範圍大過張圖。
-     細分類要明顯細過大分類，唔係就分唔清邊個係主、邊個係次。 */
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  padding: 6px;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  transform: rotate(var(--sub-tilt, 0deg));
-  transition: transform 160ms ease-out;
-}
-.makeup-booth__sub img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(2px 2px 0 rgba(17,19,26,.22));
-  transition: transform 160ms ease-out;
-}
-.makeup-booth__sub small {
-  position: absolute;
-  right: -1px;
-  bottom: -1px;
-  min-width: 15px;
-  padding: 1px 2px;
-  border: 1px solid var(--booth-ink);
-  background: #fff;
-  color: var(--booth-ink);
-  font-family: "Noto Sans TC", sans-serif;
-  font-size: 7px;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-}
-/* 排到太整齊就唔似貼紙，逐粒歪少少 */
-.makeup-booth__sub:nth-child(1) { --sub-tilt: -8deg; }
-.makeup-booth__sub:nth-child(2) { --sub-tilt: 7deg; }
-.makeup-booth__sub:nth-child(3) { --sub-tilt: -5deg; }
-.makeup-booth__sub:nth-child(4) { --sub-tilt: 9deg; }
-@media (hover: hover) {
-  .makeup-booth__sub:hover { transform: rotate(0) translateY(-3px) scale(1.12); }
-}
-.makeup-booth__sub:focus-visible {
-  outline: 3px solid #e75d4e;
-  outline-offset: 2px;
-  z-index: 7;
-}
-.makeup-booth__sub[data-active] img {
-  transform: scale(1.14);
-  filter: drop-shadow(0 0 0 2px #11131a) drop-shadow(2px 2px 0 rgba(17,19,26,.3));
-}
-.makeup-booth__sub[data-active] small {
-  border-color: #fff;
-  background: var(--booth-ink);
-  color: #fff;
-}
-
 /* 五粒掣本來係彩色橢圓包住一個細 icon。而家換成老闆畫嘅剪紙貼紙
    （PNG 本身已經印咗白色剪紙邊），所以橢圓底、邊框、圓角全部剷走 ——
    張圖自己就係貼紙，掣淨係負責位置、角度同可撳範圍。 */
@@ -7716,7 +7625,6 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   --tilt: 0deg;
   --sticker-scale: 1;
   position: relative;
-  width: 100%;
   min-width: 0;
   height: 104px;
   display: grid;
@@ -7785,16 +7693,11 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   outline-offset: 3px;
   z-index: 7;   /* focus 環唔可以畀隔籬張貼紙蓋住 */
 }
-.makeup-booth__cell:nth-child(1) { z-index: 3; }
-.makeup-booth__cell:nth-child(2) { z-index: 1; }
-.makeup-booth__cell:nth-child(3) { z-index: 4; }
-.makeup-booth__cell:nth-child(4) { z-index: 2; }
-.makeup-booth__cell:nth-child(5) { z-index: 3; }
-.makeup-booth__cell:nth-child(1) .makeup-booth__sticker { --lift: -10px; --tilt: -7deg; --sticker-scale: 1.03; --icon-h: 84px; --chip: var(--booth-pink);   height: 108px; }
-.makeup-booth__cell:nth-child(2) .makeup-booth__sticker { --lift: 5px;   --tilt: 5deg;  --sticker-scale: .94;  --icon-h: 74px; --chip: var(--booth-lime);   height: 96px; }
-.makeup-booth__cell:nth-child(3) .makeup-booth__sticker { --lift: -3px;  --tilt: -3deg; --sticker-scale: 1.06; --icon-h: 88px; --chip: #fff;                height: 112px; }
-.makeup-booth__cell:nth-child(4) .makeup-booth__sticker { --lift: 7px;   --tilt: 8deg;  --sticker-scale: .98;  --icon-h: 78px; --chip: var(--booth-yellow); height: 100px; }
-.makeup-booth__cell:nth-child(5) .makeup-booth__sticker { --lift: -8px;  --tilt: -6deg; --sticker-scale: 1.02; --icon-h: 82px; --chip: var(--booth-sky);    height: 106px; }
+.makeup-booth__sticker:nth-child(1) { --lift: -10px; --tilt: -7deg; --sticker-scale: 1.03; --icon-h: 84px; --chip: var(--booth-pink);   height: 108px; z-index: 3; }
+.makeup-booth__sticker:nth-child(2) { --lift: 5px;   --tilt: 5deg;  --sticker-scale: .94;  --icon-h: 74px; --chip: var(--booth-lime);   height: 96px;  z-index: 1; }
+.makeup-booth__sticker:nth-child(3) { --lift: -3px;  --tilt: -3deg; --sticker-scale: 1.06; --icon-h: 88px; --chip: #fff;                height: 112px; z-index: 4; }
+.makeup-booth__sticker:nth-child(4) { --lift: 7px;   --tilt: 8deg;  --sticker-scale: .98;  --icon-h: 78px; --chip: var(--booth-yellow); height: 100px; z-index: 2; }
+.makeup-booth__sticker:nth-child(5) { --lift: -8px;  --tilt: -6deg; --sticker-scale: 1.02; --icon-h: 82px; --chip: var(--booth-sky);    height: 106px; z-index: 3; }
 
 /* 選中：名牌反白，貼紙本身放大少少。一定要排喺上面五條 nth-child 之後 ——
    兩邊 specificity 一樣，後寫嗰個先贏。 */
@@ -7845,51 +7748,17 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .makeup-booth__flashword { left: 12px; top: 170px; padding: 5px 9px; font-size: 14px; }
   .makeup-booth__star { left: 45%; top: 166px; width: 32px; }
   .makeup-booth__heart { left: 56%; top: 10px; width: 28px; }
-  /* 手機一格得 ~75px 闊，塞唔落三四粒細分類（塞得落嘅話粒粒得 18px，
-     撳唔到）。所以手機改咗個排法：五組細分類一齊排成上面一行（12 粒
-     連住一條線，但每組仍然係相鄰嘅，所以睇得出邊組屬邊個大分類），
-     五張大貼紙排下面一行。`display: contents` 令格消失，入面兩件嘢
-     直接跌返落條 flex 帶度，靠 order 分上下兩行。 */
-  .makeup-booth__stickers {
-    bottom: 12px;
-    width: calc(100% - 8px);
-    height: 132px;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-end;
-    gap: 3px 0;
-  }
-  .makeup-booth__cell { display: contents; }
-  .makeup-booth__subs {
-    order: 1;
-    flex: 0 0 auto;
-    max-width: none;
-    gap: 0;
-    margin: 0;
-  }
-  /* 逼佢哋換行：細分類佔滿第一行之後仲剩幾個 px，大貼紙 flex-basis 0
-     會硬擠入去。中間插一個 100% 闊嘅斷行位先分得開兩行。 */
-  .makeup-booth__stickers::after {
-    content: "";
-    order: 2;
-    flex: 0 0 100%;
-    height: 0;
-  }
-  .makeup-booth__sticker { order: 3; flex: 1 1 18%; min-width: 0; width: auto; }
-  .makeup-booth__sub { width: 30px; height: 42px; padding: 3px; }
-  .makeup-booth__sub img { height: auto; max-height: 100%; }
-  .makeup-booth__sub small { right: -2px; bottom: 4px; min-width: 12px; padding: 0 1px; font-size: 6px; }
+  .makeup-booth__stickers { bottom: 10px; width: calc(100% - 14px); height: 104px; gap: 2px; }
   .makeup-booth__sticker { padding-inline: 1px; padding-bottom: 14px; }
   .makeup-booth__sticker b { padding: 1px 5px; font-size: 9px; }
   /* 手機收窄之後，隔籬張貼紙會壓住呢張嘅右邊角（修容 z-index 高過頰彩），
      件數要向內移少少先讀得晒。 */
   .makeup-booth__sticker small { top: 0; right: 7%; min-width: 17px; padding: 1px 3px; font-size: 7px; }
-  .makeup-booth__cell:nth-child(1) .makeup-booth__sticker { --icon-h: 54px; height: 76px; }
-  .makeup-booth__cell:nth-child(2) .makeup-booth__sticker { --icon-h: 48px; height: 70px; }
-  .makeup-booth__cell:nth-child(3) .makeup-booth__sticker { --icon-h: 56px; height: 78px; }
-  .makeup-booth__cell:nth-child(4) .makeup-booth__sticker { --icon-h: 50px; height: 72px; }
-  .makeup-booth__cell:nth-child(5) .makeup-booth__sticker { --icon-h: 52px; height: 74px; }
-
+  .makeup-booth__sticker:nth-child(1) { --icon-h: 64px; height: 88px; }
+  .makeup-booth__sticker:nth-child(2) { --icon-h: 56px; height: 78px; }
+  .makeup-booth__sticker:nth-child(3) { --icon-h: 66px; height: 90px; }
+  .makeup-booth__sticker:nth-child(4) { --icon-h: 59px; height: 82px; }
+  .makeup-booth__sticker:nth-child(5) { --icon-h: 62px; height: 86px; }
   @keyframes booth-strip-in {
     from { opacity: 0; transform: translateY(-55px) rotate(8deg); }
     to   { opacity: 1; transform: rotate(3deg); }
@@ -7904,21 +7773,18 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .makeup-booth__sticker { padding-inline: 0; }
   .makeup-booth__sticker b { padding: 1px 4px; font-size: 8px; }
   .makeup-booth__sticker small { right: 5%; min-width: 15px; font-size: 6px; }
-  .makeup-booth__cell:nth-child(1) .makeup-booth__sticker { --icon-h: 48px; }
-  .makeup-booth__cell:nth-child(2) .makeup-booth__sticker { --icon-h: 42px; }
-  .makeup-booth__cell:nth-child(3) .makeup-booth__sticker { --icon-h: 50px; }
-  .makeup-booth__cell:nth-child(4) .makeup-booth__sticker { --icon-h: 44px; }
-  .makeup-booth__cell:nth-child(5) .makeup-booth__sticker { --icon-h: 46px; }
-  .makeup-booth__sub { width: 25px; height: 38px; padding: 2px; }
+  .makeup-booth__sticker:nth-child(1) { --icon-h: 54px; }
+  .makeup-booth__sticker:nth-child(2) { --icon-h: 47px; }
+  .makeup-booth__sticker:nth-child(3) { --icon-h: 56px; }
+  .makeup-booth__sticker:nth-child(4) { --icon-h: 50px; }
+  .makeup-booth__sticker:nth-child(5) { --icon-h: 53px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .makeup-booth__flash { animation-duration: 1ms; }
   .makeup-booth__strip { animation-duration: 1ms; }
   .makeup-booth__sticker,
-  .makeup-booth__icon,
-  .makeup-booth__sub,
-  .makeup-booth__sub img { transition: none; }
+  .makeup-booth__icon { transition: none; }
 }
 
 /* ============================================================
@@ -8362,4 +8228,73 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 
 @media (max-width: 600px) {
   .site-search__panel { width: calc(100% - 20px); margin-top: 20px; max-height: 82vh; }
+}
+
+/* ============================================================
+   細分類（撳咗大分類先出）
+
+   本來試過將 12 粒細貼紙圍喺 hero 五張大貼紙隔籬 —— 太逼：hero 得 350px
+   高，手機一格得 75px 闊，塞得落嘅話粒粒細到撳唔到。改成兩層：喺 hero
+   揀大分類，揀咗先喺呢度出返嗰個分類自己嘅細分類，一次最多四個。
+   ============================================================ */
+.cat-subs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 16px 0 4px;
+}
+.cat-subs[hidden] { display: none; }
+.cat-subs__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px 7px 8px;
+  border: 2px solid var(--booth-ink, #11131a);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--booth-ink, #11131a);
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(17,19,26,.16);
+  transition: transform 160ms ease-out, background 160ms ease-out, color 160ms ease-out;
+}
+.cat-subs__item img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+.cat-subs__item small {
+  color: var(--muted, #687578);
+  font-size: 11px;
+  font-weight: 600;
+}
+@media (hover: hover) {
+  .cat-subs__item:hover { transform: translateY(-2px); }
+}
+.cat-subs__item:active { transform: scale(.98); }
+.cat-subs__item:focus-visible { outline: 3px solid #e75d4e; outline-offset: 3px; }
+.cat-subs__item.is-on {
+  background: var(--booth-ink, #11131a);
+  color: #fff;
+  box-shadow: 3px 3px 0 rgba(17,19,26,.28);
+}
+.cat-subs__item.is-on small { color: rgba(255,255,255,.75); }
+
+@media (max-width: 720px) {
+  /* 一行擺唔晒就打橫掃，唔好逼到粒粒細過手指 */
+  .cat-subs {
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 12px 0 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cat-subs::-webkit-scrollbar { display: none; }
+  .cat-subs__item { flex: none; padding: 6px 12px 6px 7px; font-size: 12px; }
+  .cat-subs__item img { width: 32px; height: 32px; }
 }

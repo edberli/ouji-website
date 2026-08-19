@@ -397,6 +397,49 @@ const BAD_IMAGE = new Set([
   'CLIO 極緻捲翹超防水睫毛膏',
 ]);
 
+/* 彩妝細分類（粉底／氣墊／遮瑕⋯）。
+ *
+ * 本來試過將 12 粒細貼紙圍喺五張大貼紙隔籬，但 hero 得 350px 高、手機
+ * 一格得 75px 闊 —— 塞得落嘅話粒粒細到撳唔到。所以改成兩層：喺 hero
+ * 揀大分類，揀咗之後先喺下面出返嗰個分類自己嘅細分類，一次最多四個。
+ *
+ * 圖用返 assets/images/makeup-subcategory-stickers/ 嗰套。
+ * 件數唔可以問 availableSubs —— 佢特登會收埋細分類（唔係嘅話「胭脂」
+ * 同「頰彩」會出兩格），所以直接數。 */
+const MAKEUP_SUBS = {
+  base:    [['foundation', '粉底', 'foundation'], ['cushion', '氣墊', 'cushion'],
+            ['concealer', '遮瑕', 'concealer']],
+  eye:     [['eyeshadow', '眼影', 'eyeshadow'], ['eyeliner', '眼線', 'eyeliner'],
+            ['mascara', '睫毛膏', 'mascara'], ['brow', '眉筆', 'brow-pencil']],
+  lip:     [['lipstick', '唇膏', 'lipstick'], ['liptint', '唇釉', 'lip-tint'],
+            ['lipgloss', '唇彩', 'lip-gloss']],
+  cheek:   [['blush', '胭脂', 'blush']],
+  contour: [['highlight', '高光', 'highlighter']],
+};
+
+function buildMakeupSubs(section, products, active, lockCat) {
+  const host = document.querySelector('[data-cat-subs]');
+  if (!host) return;
+  const parent = [...active].find((id) => MAKEUP_SUBS[id]);
+  const rows = (MAKEUP_SUBS[parent] || [])
+    .map(([id, label, file]) => ({ id, label, file,
+      n: products.filter((p) => subMatch(section, id, p)).length }))
+    .filter((r) => r.n);          // 冇貨嘅唔好出粒死掣
+  // 一個細分類都冇（或者根本未揀大分類）就成行收埋，唔留條吉行
+  host.hidden = rows.length < 2;
+  if (host.hidden) { host.innerHTML = ''; return; }
+  const dir = 'assets/images/makeup-subcategory-stickers';
+  host.innerHTML = rows.map((r) => `
+    <button type="button" class="cat-subs__item${lockCat === r.id ? ' is-on' : ''}"
+      data-quick="${r.id}" data-booth-sub aria-pressed="${lockCat === r.id}">
+      <picture>
+        <source srcset="${dir}/${r.file}.webp" type="image/webp">
+        <img src="${dir}/${r.file}.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+      </picture>
+      <b>${r.label}</b><small>${r.n}</small>
+    </button>`).join('');
+}
+
 /* 彩妝頁頂嘅貼紙相機。靜態裝飾同五粒掣本身寫死喺 makeup.html —— 咁樣
    閃光同相紙落下嘅動畫只會喺第一次載入播一次，之後換分類唔會成塊嘢
    重新閃過。呢度淨係填會變嘅嘢：件數、選中狀態、相紙嗰四張相。 */
@@ -418,18 +461,7 @@ function buildMakeupBooth(section, products, sel, lockCat) {
     btn.toggleAttribute('data-active', on);
   });
 
-  /* 圍住大貼紙嗰啲細分類（粉底／氣墊／遮瑕⋯）。件數唔可以問
-     availableSubs —— 佢特登會收埋細分類，所以直接數。 */
-  booth.querySelectorAll('[data-booth-sub]').forEach((btn) => {
-    const id = btn.dataset.quick;
-    const n = products.filter((p) => subMatch(section, id, p)).length;
-    const on = lockCat === id;
-    btn.querySelector(`[data-booth-subn="${id}"]`).textContent = n;
-    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    btn.toggleAttribute('data-active', on);
-    // 冇貨嘅細分類唔好留粒死掣喺度
-    btn.hidden = !n;
-  });
+  buildMakeupSubs(section, products, active, lockCat);
 
   const meta = booth.querySelector('[data-booth-meta]');
   const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
