@@ -161,6 +161,18 @@ function buildHead(p) {
    換走。用 regex 由 <title> 掃到 twitter:image 會連 favicon 都食埋。 */
 const HEAD_BLOCK = /<!-- OUJI-SEO:START[\s\S]*?OUJI-SEO:END -->/;
 
+/* <h1> 喺 product.html 度係空白，靠客戶端 JS 填。但 Google 渲染 JS 排第二輪,
+   h1 又係主要排名訊號 —— 唔等客戶端,喺服務端就填好。之後客戶端
+   nameEl.textContent 會寫入一模一樣嘅值,所以冇衝突。 */
+const H1_EMPTY = /<h1 class="product-info__name"><\/h1>/;
+
+function fillH1(html, p) {
+  const t = (p && p.title) || '';
+  if (!t) return html;
+  return html.replace(H1_EMPTY,
+    `<h1 class="product-info__name">${esc(t)}</h1>`);
+}
+
 module.exports = async function handler(req, res) {
   let html;
   try {
@@ -188,9 +200,10 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const out = HEAD_BLOCK.test(html)
+  let out = HEAD_BLOCK.test(html)
     ? html.replace(HEAD_BLOCK, buildHead(product))
     : html.replace('</head>', `${buildHead(product)}\n</head>`);
+  out = fillH1(out, product);
 
   res.setHeader('Cache-Control',
     'public, s-maxage=3600, stale-while-revalidate=86400');
