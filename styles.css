@@ -8823,3 +8823,421 @@ body::before { opacity: 0.18; }
   }
   .product-description > ul { padding-left: 4px; }
 }
+
+/* ============================================================
+   全部產品頁：Y2K BOOT Header ＋ OUJI Explorer（2026-08-20）
+   來源 prototype：/Volumes/core/ouji-all-products-y2k/（commit 5443c33）
+
+   全部 selector 都收喺 .shop-boot / .shop-explorer 底下，token 亦都
+   只落喺呢兩個 scope —— 唔郁 :root 品牌色，唔會污染其他分類頁。
+   Explorer 淨係做外殼：入面嘅產品卡、篩選側欄、品牌 rail 一律唔覆蓋。
+   ============================================================ */
+.shop-boot,
+.shop-explorer {
+  --boot-ink: #11141c;
+  --boot-blue: #0752c8;
+  --boot-electric: #2c7be9;
+  --boot-pink: #ff63b4;
+  --boot-lime: #caff34;
+  --boot-yellow: #ffed59;
+  --boot-silver: #ece9d8;
+  --boot-pixel: 'Pixelify Sans', 'Noto Sans TC', sans-serif;
+  --boot-mono: 'VT323', 'Noto Sans TC', monospace;
+}
+
+/* ---------- BOOT hero ---------- */
+.shop-boot {
+  position: relative;
+  height: clamp(390px, 34vw, 440px);
+  overflow: hidden;
+  border-bottom: 3px solid var(--boot-ink);
+  background: #64c7ef;
+  isolation: isolate;
+  color: var(--boot-ink);
+}
+.shop-boot__wallpaper,
+.shop-boot__wallpaper::before,
+.shop-boot__wallpaper::after { position: absolute; inset: 0; content: ''; }
+.shop-boot__wallpaper::before {
+  z-index: -2; top: 56%; height: 54%;
+  border-top: 10px solid #aee95c; background: #3cbd36;
+  border-radius: 48% 70% 0 0 / 22% 26% 0 0;
+  transform: scaleX(1.2) rotate(-1.5deg); transform-origin: center bottom;
+}
+.shop-boot__wallpaper::after {
+  z-index: -1; top: 74%;
+  background: linear-gradient(8deg, transparent 0 19%, rgba(30,133,31,.22) 20% 22%, transparent 23%);
+}
+.shop-boot__cloud {
+  position: absolute; top: 14%; left: 8%; width: 110px; height: 20px;
+  border-radius: 99px; background: rgba(255,255,255,.74);
+  box-shadow: 40px -12px rgba(255,255,255,.62), 84px 3px rgba(255,255,255,.62);
+}
+.shop-boot__cloud--two { left: 64%; top: 18%; transform: scale(.72); }
+
+.shop-boot__title { position: absolute; z-index: 4; top: 24px; left: 4%; width: 34%; min-width: 430px; }
+.shop-boot__os,
+.shop-boot__count {
+  display: table; border: 3px solid var(--boot-ink);
+  box-shadow: 7px 7px 0 rgba(255,255,255,.72);
+  font-family: var(--boot-mono); letter-spacing: .05em;
+}
+.shop-boot__os { padding: 7px 12px 5px; background: var(--boot-yellow); font-size: 21px; }
+.shop-boot__title h1 {
+  margin: 14px 0 12px; color: #ffffff;
+  font: 700 clamp(54px, 5.2vw, 82px)/.78 var(--boot-pixel);
+  letter-spacing: -.06em;
+  -webkit-text-stroke: 3px var(--boot-ink);
+  text-shadow: 8px 8px 0 var(--boot-electric), 13px 13px 0 var(--boot-pink);
+}
+.shop-boot__count { padding: 6px 12px 4px; background: #ffffff; font-size: 20px; }
+
+.shop-boot__window,
+.shop-boot__dialog {
+  position: absolute; z-index: 3;
+  border: 4px solid #084dbb; background: var(--boot-silver);
+  box-shadow: 11px 12px 0 rgba(12,66,92,.34);
+}
+.shop-boot__window { top: 30px; left: 49%; width: 22%; min-width: 330px; transform: rotate(1.8deg); }
+.shop-boot__bar {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 38px; padding: 0 8px 0 12px; color: #ffffff;
+  background: linear-gradient(90deg, #0752c8, #3889ee);
+  font: 19px var(--boot-pixel);
+}
+.shop-boot__ctrls { display: flex; gap: 4px; }
+.shop-boot__ctrls span {
+  display: grid; width: 27px; height: 27px; place-items: center;
+  border: 2px solid #ffffff; background: #277be3; font: 18px/1 monospace;
+}
+.shop-boot__ctrls .is-close { background: #eb4f3f; }
+.shop-boot__photos {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px;
+  min-height: 134px; padding: 16px 18px 8px; background: #ffffff;
+}
+.shop-boot__photos img { width: 100%; height: 94px; object-fit: contain; background: #fff; }
+.shop-boot__status {
+  display: flex; justify-content: space-between; padding: 2px 10px 3px;
+  font: 18px var(--boot-mono);
+}
+.shop-boot__status b { color: var(--boot-blue); }
+
+.shop-boot__disk {
+  position: absolute; z-index: 4; top: 36px; right: 4.7%;
+  width: 105px; height: 126px;
+  border: 5px solid var(--boot-ink); border-radius: 5px 10px 13px 4px;
+  background: var(--boot-pink); box-shadow: 11px 12px 0 rgba(12,66,92,.36);
+  transform: rotate(7deg);
+}
+.shop-boot__shutter {
+  display: block; width: 66%; height: 39px; margin: -1px auto 5px;
+  border: 4px solid var(--boot-ink); border-top: 0; background: #c9ccd2;
+}
+.shop-boot__disklabel {
+  display: grid; height: 69px; margin: 0 17px; place-content: center;
+  border: 4px solid var(--boot-ink); background: #ffffff; color: #0645b6;
+  font: 700 17px/.88 var(--boot-pixel); text-align: center;
+}
+.shop-boot__diskcount {
+  position: absolute; right: 8px; bottom: 7px; color: #ffffff; font: 15px var(--boot-mono);
+}
+
+.shop-boot__dialog { z-index: 5; top: 205px; right: 12%; width: 325px; transform: rotate(-2deg); }
+.shop-boot__dialogbody { padding: 12px 12px 10px; font: 21px var(--boot-mono); }
+.shop-boot__dialogbody p { margin: 0 0 7px; }
+.shop-boot__progress {
+  display: flex; gap: 4px; height: 27px; padding: 3px;
+  border: 2px inset #fff; background: #ffffff;
+}
+.shop-boot__progress i { flex: 1; background: #13b545; }
+.shop-boot__hint { display: block; margin-top: 6px; color: var(--boot-blue); font-size: 16px; }
+
+/* ---------- 五個分類貼紙 ---------- */
+.shop-boot__stickers { position: absolute; z-index: 7; inset: 0 4% 46px; }
+.shop-boot__sticker {
+  position: absolute; left: var(--x); bottom: var(--y);
+  display: grid; width: 120px; padding: 0; border: 0;
+  background: transparent; color: var(--boot-ink); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif;
+  filter: drop-shadow(5px 6px 0 rgba(17,20,28,.18));
+  transform: translateX(-50%) rotate(var(--r)) scale(var(--s));
+  transition: transform 150ms ease, filter 150ms ease;
+}
+.shop-boot__sticker:hover,
+.shop-boot__sticker:focus-visible,
+.shop-boot__sticker.is-on {
+  z-index: 10;
+  filter: drop-shadow(7px 8px 0 rgba(255,99,180,.65));
+  transform: translateX(-50%) rotate(calc(var(--r) * .2)) scale(calc(var(--s) + .1));
+}
+/* 鍵盤 focus 一定要見得到，而且唔可以畀隔籬貼紙遮住 */
+.shop-boot__sticker:focus-visible {
+  outline: 3px solid #11141c;
+  outline-offset: 4px;
+}
+.shop-boot__n {
+  position: absolute; z-index: 4; top: 4px; right: 0;
+  padding: 1px 6px; border: 3px solid var(--boot-ink); background: #ffffff;
+  font: 16px var(--boot-mono); transform: rotate(4deg);
+}
+.shop-boot__label {
+  justify-self: center; margin-top: -4px; padding: 3px 12px 2px;
+  border: 3px solid var(--boot-ink); background: var(--tint);
+  box-shadow: 3px 3px 0 #ffffff;
+  font-size: 16px; font-weight: 900; white-space: nowrap;
+}
+.shop-boot__art {
+  position: relative; width: 94px; height: 91px; margin: auto;
+  border: 5px solid #ffffff; filter: drop-shadow(3px 3px 0 #175bc8);
+}
+.shop-boot__art::before,
+.shop-boot__art::after,
+.shop-boot__art > i { position: absolute; content: ''; }
+
+.shop-boot__art--skincare { border: 0; }
+.shop-boot__art--skincare::before {
+  left: 31px; top: 16px; width: 35px; height: 58px;
+  border: 5px solid var(--boot-ink); border-radius: 4px; background: #fff4cf;
+  box-shadow: 0 0 0 5px #ffffff;
+}
+.shop-boot__art--skincare::after {
+  left: 38px; top: 5px; width: 35px; height: 15px;
+  border: 5px solid var(--boot-ink); border-bottom: 0; background: #8ee6f2;
+}
+.shop-boot__art--skincare > i {
+  left: 44px; top: 38px; width: 18px; height: 25px;
+  border: 4px solid var(--boot-ink); border-radius: 60% 40% 65% 45%;
+  background: #72e2dc; transform: rotate(45deg);
+}
+
+.shop-boot__art--makeup { border-radius: 18px; background: #4d6cff; }
+.shop-boot__art--makeup::before {
+  left: 10px; top: 38px; width: 54px; height: 38px;
+  border: 4px solid var(--boot-ink); border-radius: 9px;
+  background: conic-gradient(#ff6eb6, #ffe662, #8edcff, #b77bff, #ff6eb6);
+}
+.shop-boot__art--makeup::after {
+  left: 15px; top: 6px; width: 58px; height: 35px;
+  border: 4px solid var(--boot-ink); border-radius: 9px 9px 2px 2px;
+  background: #c6f3ff; transform: rotate(-4deg);
+}
+.shop-boot__art--makeup > i {
+  right: -5px; top: 33px; width: 15px; height: 48px;
+  border: 4px solid var(--boot-ink); border-radius: 50% 50% 4px 4px;
+  background: var(--boot-pink); transform: rotate(23deg);
+}
+
+.shop-boot__art--lens { border-radius: 50%; background: #fff36c; }
+.shop-boot__art--lens::before,
+.shop-boot__art--lens::after {
+  top: 29px; width: 29px; height: 29px;
+  border: 4px solid var(--boot-ink); border-radius: 50%; background: #a9f4ff;
+}
+.shop-boot__art--lens::before { left: 10px; }
+.shop-boot__art--lens::after { right: 10px; }
+.shop-boot__art--lens > i {
+  left: 32px; top: 15px; width: 28px; height: 17px;
+  border: 4px solid var(--boot-ink); border-bottom: 0; border-radius: 30px 30px 0 0;
+}
+
+.shop-boot__art--kpop { border: 0; }
+.shop-boot__art--kpop::before {
+  left: 5px; top: 18px; width: 60px; height: 60px;
+  border: 5px solid var(--boot-ink); border-radius: 50%;
+  background: conic-gradient(#8df0ef, #fc71c1, #ffec59, #746cff, #8df0ef);
+  box-shadow: 0 0 0 5px #ffffff;
+}
+.shop-boot__art--kpop::after {
+  left: 30px; top: 43px; width: 10px; height: 10px;
+  border: 4px solid var(--boot-ink); border-radius: 50%; background: #ffffff;
+}
+.shop-boot__art--kpop > i {
+  right: 0; top: 4px; width: 41px; height: 62px;
+  border: 4px solid var(--boot-ink); background: #ff9bbb;
+  box-shadow: 0 0 0 4px #ffffff; transform: rotate(9deg);
+}
+.shop-boot__art--kpop > i::after {
+  position: absolute; inset: 9px 7px 20px; content: '★';
+  display: grid; place-items: center; color: #fff; background: #416fea; font-size: 16px;
+}
+
+.shop-boot__art--other { border: 0; }
+.shop-boot__art--other::before {
+  left: 14px; top: 26px; width: 59px; height: 50px;
+  border: 5px solid var(--boot-ink); background: #ff9ed0;
+  box-shadow: 0 0 0 5px #ffffff; transform: skew(-4deg);
+}
+.shop-boot__art--other::after {
+  left: 27px; top: 10px; width: 34px; height: 26px;
+  border: 5px solid var(--boot-ink); border-bottom: 0; border-radius: 30px 30px 0 0;
+}
+.shop-boot__art--other > i {
+  left: 36px; top: 40px; width: 18px; height: 25px;
+  border: 4px solid var(--boot-ink); background: #fff56d;
+}
+
+.shop-boot__taskbar {
+  position: absolute; z-index: 20; right: 0; bottom: 0; left: 0;
+  display: flex; align-items: center; height: 46px; color: #ffffff;
+  background: linear-gradient(#2878e8, #0754c9); font: 20px var(--boot-mono);
+}
+.shop-boot__start {
+  align-self: stretch; min-width: 92px; padding: 9px 22px;
+  border-radius: 0 22px 22px 0; background: #2bbd42;
+  font-family: var(--boot-pixel); font-style: italic; font-weight: 700;
+}
+.shop-boot__tab { margin-left: 12px; padding: 4px 18px; border: 2px inset #66a0ef; }
+.shop-boot__clock { margin-left: auto; padding-right: 20px; }
+
+/* ---------- Explorer 外殼 ---------- */
+.shop-explorer {
+  position: relative; z-index: 3;
+  max-width: 1220px; margin: -14px auto 62px;
+  border: 4px solid #0648b8; background: #d9d6c8;
+  box-shadow: 10px 12px 0 rgba(17,20,28,.18);
+}
+.shop-explorer__titlebar {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 40px; padding: 4px 6px 4px 10px; color: #fff;
+  background: linear-gradient(90deg, #0752c8, #3889ee);
+  font: 19px var(--boot-pixel);
+}
+.shop-explorer__titlebar strong { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.shop-explorer__folder {
+  position: relative; width: 22px; height: 15px;
+  border: 2px solid var(--boot-ink); background: #ffdf45; box-shadow: 2px 2px 0 #fff;
+}
+.shop-explorer__folder::before {
+  position: absolute; top: -7px; left: 1px; width: 10px; height: 6px;
+  border: 2px solid var(--boot-ink); border-bottom: 0; background: #ffdf45; content: '';
+}
+.shop-explorer__ctrls { display: flex; gap: 4px; }
+.shop-explorer__ctrls i {
+  display: grid; width: 28px; height: 27px; place-items: center;
+  border: 2px outset #fff; background: #2177df; font: 17px/1 sans-serif; font-style: normal;
+}
+.shop-explorer__ctrls i:last-child { background: #eb4f3f; }
+
+.shop-explorer__toolbar {
+  display: flex; align-items: center; gap: 7px;
+  min-height: 38px; padding: 5px 9px;
+  border-bottom: 2px solid #a5a28f; background: var(--boot-silver);
+}
+.shop-explorer__back {
+  padding: 3px 10px; border: 2px outset #fff; background: var(--boot-silver);
+  color: var(--boot-ink); font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.shop-explorer__back:active { border-style: inset; }
+.shop-explorer__back:disabled { color: #8a887f; cursor: default; }
+.shop-explorer__sep { color: #8a887f; }
+/* 篩選／排序係原本嗰套真控制，搬入嚟淨係去殼，唔另造一套假掣 */
+.shop-explorer__toolbar .filter-bar {
+  flex: 1 1 auto; display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin: 0; padding: 0; border: 0; background: transparent;
+}
+/* toolbar 係一行工具，唔可以讓佢逐個字斷行 —— 窄機寧願橫掃 */
+.shop-explorer__toolbar .filter-bar__left { display: flex; align-items: center; gap: 8px; }
+.shop-explorer__toolbar .filter-bar__count,
+.shop-explorer__toolbar .filter-btn,
+.shop-explorer__toolbar .filter-bar__sort select { white-space: nowrap; }
+.shop-explorer__toolbar .filter-btn,
+.shop-explorer__toolbar .filter-bar__left,
+.shop-explorer__toolbar .filter-bar__sort { flex: 0 0 auto; }
+.shop-explorer__address {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center; gap: 8px; padding: 5px 9px;
+  border-bottom: 2px solid #aaa793; background: var(--boot-silver); font-size: 13px;
+}
+.shop-explorer__address > b { font-weight: 400; }
+.shop-explorer__address > span {
+  min-width: 0; padding: 4px 8px; border: 2px inset #fff; background: #fff;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.shop-explorer__address i { color: #777; font-style: normal; }
+.shop-explorer__address em {
+  padding: 3px 7px; border: 2px inset #fff; background: #fff;
+  font: 16px var(--boot-mono); font-style: normal;
+}
+.shop-explorer__body { padding: 24px 0 30px; background: #f8f7f2; }
+.shop-explorer__status {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 30px; padding: 4px 10px;
+  border-top: 2px solid #aaa793; background: var(--boot-silver);
+  font: 16px var(--boot-mono);
+}
+.shop-explorer__status b { color: #0648b8; font-weight: 400; }
+
+/* ---------- 手機（老闆實機睇過之後嘅修正版）---------- */
+@media (max-width: 760px) {
+  .shop-boot { height: 510px; }
+  .shop-boot__title { top: 12px; left: 14px; width: auto; min-width: 0; }
+  .shop-boot__os { padding: 4px 8px 3px; font-size: 15px; }
+  .shop-boot__title h1 {
+    margin: 10px 0 8px; font-size: clamp(39px, 12vw, 56px);
+    -webkit-text-stroke: 2px var(--boot-ink);
+    text-shadow: 5px 5px 0 var(--boot-electric), 9px 9px 0 var(--boot-pink);
+  }
+  .shop-boot__count { padding: 4px 8px 3px; font-size: 15px; }
+  .shop-boot__window { top: 148px; left: 12px; width: 205px; min-width: 0; border-width: 3px; transform: rotate(-1deg); }
+  .shop-boot__bar { height: 24px; padding-left: 7px; font-size: 12px; }
+  .shop-boot__ctrls span { width: 17px; height: 17px; border-width: 1px; font-size: 11px; }
+  .shop-boot__photos { gap: 2px; min-height: 72px; padding: 8px 7px 3px; }
+  .shop-boot__photos img { height: 56px; }
+  .shop-boot__status { padding: 1px 6px 2px; font-size: 12px; }
+  .shop-boot__disk { top: 73px; right: 13px; width: 73px; height: 88px; border-width: 3px; box-shadow: 7px 7px 0 rgba(12,66,92,.35); }
+  .shop-boot__shutter { height: 28px; border-width: 3px; }
+  .shop-boot__disklabel { height: 45px; margin: 0 10px; border-width: 3px; font-size: 11px; }
+  .shop-boot__diskcount { right: 4px; bottom: 3px; font-size: 9px; }
+  .shop-boot__dialog { top: 194px; right: 9px; width: 169px; border-width: 3px; box-shadow: 7px 7px 0 rgba(12,66,92,.3); }
+  .shop-boot__dialog .shop-boot__bar { font-size: 11px; }
+  .shop-boot__dialogbody { padding: 7px; font-size: 14px; }
+  .shop-boot__progress { gap: 2px; height: 17px; padding: 2px; }
+  .shop-boot__hint { margin-top: 3px; font-size: 10px; }
+  .shop-boot__stickers { inset: 0 0 40px; }
+  /* 貼紙唔用 carousel，交錯兩個高度；hit box keep 住 44px 以上 */
+  .shop-boot__sticker { width: 84px; transform: translateX(-50%) rotate(var(--r)) scale(.70); }
+  .shop-boot__sticker:hover,
+  .shop-boot__sticker:focus-visible,
+  .shop-boot__sticker.is-on { transform: translateX(-50%) rotate(0) scale(.77); }
+  .shop-boot__sticker:nth-child(1) { left: 9%; bottom: 27px; }
+  .shop-boot__sticker:nth-child(2) { left: 29.5%; bottom: 67px; }
+  .shop-boot__sticker:nth-child(3) { left: 50%; bottom: 25px; }
+  .shop-boot__sticker:nth-child(4) { left: 71%; bottom: 65px; }
+  .shop-boot__sticker:nth-child(5) { left: 91.5%; bottom: 27px; }
+  .shop-boot__taskbar { height: 40px; font-size: 16px; }
+  .shop-boot__start { min-width: 72px; padding: 8px 13px; }
+  .shop-boot__tab { margin-left: 7px; padding: 3px 9px; }
+  .shop-boot__clock { padding-right: 10px; }
+
+  .shop-explorer { margin: -8px 7px 42px; border-width: 3px; box-shadow: 5px 6px 0 rgba(17,20,28,.18); }
+  .shop-explorer__titlebar { min-height: 32px; padding: 3px 4px 3px 7px; font-size: 13px; }
+  .shop-explorer__folder { width: 18px; height: 12px; box-shadow: 1px 1px 0 #fff; }
+  .shop-explorer__folder::before { top: -6px; width: 8px; height: 5px; }
+  .shop-explorer__ctrls { gap: 2px; }
+  .shop-explorer__ctrls i { width: 21px; height: 21px; border-width: 1px; font-size: 12px; }
+  /* toolbar 自己可以橫掃，但成頁唔可以 overflow */
+  .shop-explorer__toolbar { gap: 4px; min-height: 34px; padding: 4px 6px; overflow-x: auto; }
+  .shop-explorer__back { flex: 0 0 auto; padding: 3px 7px; font-size: 12px; white-space: nowrap; }
+  .shop-explorer__toolbar .filter-bar { flex: 0 0 auto; gap: 8px; }
+  .shop-explorer__toolbar .filter-bar__count { font-size: 12px; }
+  .shop-explorer__address { grid-template-columns: auto minmax(0, 1fr); gap: 5px; padding: 4px 6px; font-size: 11px; }
+  .shop-explorer__address > span { padding: 3px 6px; }
+  .shop-explorer__address em { display: none; }
+  .shop-explorer__body { padding: 20px 0 26px; }
+  .shop-explorer__status { min-height: 27px; padding: 3px 7px; font-size: 13px; }
+}
+
+@media (max-width: 350px) {
+  .shop-boot { height: 490px; }
+  .shop-boot__title h1 { font-size: 38px; }
+  .shop-boot__window { top: 143px; width: 184px; }
+  .shop-boot__dialog { top: 188px; width: 154px; }
+  .shop-boot__sticker { transform: translateX(-50%) rotate(var(--r)) scale(.63); }
+  .shop-boot__sticker:hover,
+  .shop-boot__sticker:focus-visible,
+  .shop-boot__sticker.is-on { transform: translateX(-50%) rotate(0) scale(.69); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-boot__sticker { transition: none; }
+}

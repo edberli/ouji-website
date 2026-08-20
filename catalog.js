@@ -971,7 +971,142 @@ function renderProducts(container, products, { grouped }) {
  * grid once the shopper filters or sorts, since grouping only helps
  * while you are browsing.
  */
-async function initCatalog({ section, cat, products, presetCat = null }) {
+/* ============================================================
+   全部產品頁：Y2K BOOT hero ＋ OUJI Explorer（只喺 shop.html 行）
+
+   五個頂層分類要互斥 —— 一件貨只可以入一格，五格合計等於全部產品，
+   否則客撳完五格加埋會多過 899 件，即刻穿煲。順序就係優先次序：
+   隱形眼鏡 → K-pop → 彩妝 → 護膚 → 其餘落「其他」。
+   隱形眼鏡同 K-pop 行先係因為佢哋最明確；彩妝行喺護膚之前，
+   因為好多彩妝品名都帶住護膚字眼（素顏霜、水光氣墊）。
+
+   件數、貼紙、視窗四張相全部用 live catalog 計，唔准寫死。
+   ============================================================ */
+const SHOP_GROUPS = [
+  { id: 'skincare', label: '護膚',       tint: '#70e5ff', dialog: 'Loading skin care...' },
+  { id: 'makeup',   label: '彩妝',       tint: '#ff82c9', dialog: 'Loading make-up...' },
+  { id: 'lens',     label: '隱形眼鏡',   tint: '#77c8ff', dialog: 'Loading contact lens...' },
+  { id: 'kpop',     label: 'K-pop 周邊', tint: '#fff06a', dialog: 'Loading K-pop goods...' },
+  { id: 'other',    label: '其他',       tint: '#c8a6ff', dialog: 'Loading more goods...' },
+];
+const SHOP_GROUP_ORDER = ['lens', 'kpop', 'makeup', 'skincare'];
+/* 貼紙擺位：唔係五個一樣高嘅圓掣，係順手擺落枱面嗰種高低錯落 */
+const SHOP_STICKER_POS = [
+  { x: '11%', y: '0px',  r: '-5deg', s: 1 },
+  { x: '30%', y: '20px', r: '4deg',  s: 0.95 },
+  { x: '50%', y: '-2px', r: '-2deg', s: 1.08 },
+  { x: '70%', y: '18px', r: '5deg',  s: 0.98 },
+  { x: '88%', y: '2px',  r: '-4deg', s: 0.94 },
+];
+
+function productGroup(p) {
+  for (const id of SHOP_GROUP_ORDER) {
+    if (matchesKeywords(p, categoryKeywords(id))) return id;
+  }
+  return 'other';
+}
+
+function productsForGroup(products, key) {
+  if (!key) return products;
+  return products.filter((p) => productGroup(p) === key);
+}
+
+function shopGroupCounts(products) {
+  const n = Object.fromEntries(SHOP_GROUPS.map((g) => [g.id, 0]));
+  products.forEach((p) => { n[productGroup(p)] += 1; });
+  return n;
+}
+
+/* 四格預覽：只用當前 group（或全部）真係有相嗰啲貨，唔重複同一件、
+   唔補生成圖。唔夠四張就出實際有幾多張。 */
+function bootPreview(list) {
+  const seen = new Set();
+  const out = [];
+  for (const p of list) {
+    const url = p.images?.edges?.[0]?.node?.url;
+    if (!url || seen.has(p.handle) || BAD_IMAGE.has(p.handle)) continue;
+    seen.add(p.handle);
+    out.push({ url, title: p.title });
+    if (out.length === 4) break;
+  }
+  return out;
+}
+
+function stickerArt(id) {
+  return `<span class="shop-boot__art shop-boot__art--${id}" aria-hidden="true"><i></i></span>`;
+}
+
+function buildShopBootHero(products, activeGroup) {
+  const host = document.querySelector('[data-boot-stickers]');
+  if (!host) return;
+  const counts = shopGroupCounts(products);
+  const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
+
+  host.innerHTML = SHOP_GROUPS.map((g, i) => {
+    const pos = SHOP_STICKER_POS[i];
+    const on = activeGroup === g.id;
+    return `<button type="button" class="shop-boot__sticker${on ? ' is-on' : ''}"
+      data-boot-group="${g.id}" aria-pressed="${on ? 'true' : 'false'}"
+      style="--x:${pos.x};--y:${pos.y};--r:${pos.r};--s:${pos.s};--tint:${g.tint}">
+      ${stickerArt(g.id)}
+      <b class="shop-boot__label">${g.label}</b>
+      <small class="shop-boot__n">${counts[g.id]}</small>
+    </button>`;
+  }).join('');
+
+  const count = document.querySelector('[data-boot-count]');
+  if (count) {
+    count.textContent = `${products.length} ITEMS READY · ${SHOP_GROUPS.length} FOLDERS FOUND`;
+  }
+  const disk = document.querySelector('[data-boot-disk]');
+  if (disk) disk.textContent = `${products.length} / ${brands}`;
+}
+
+function syncShopBoot(products, activeGroup, list) {
+  const g = SHOP_GROUPS.find((x) => x.id === activeGroup) || null;
+
+  document.querySelectorAll('[data-boot-group]').forEach((b) => {
+    const on = b.dataset.bootGroup === activeGroup;
+    b.classList.toggle('is-on', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+
+  const photos = document.querySelector('[data-boot-photos]');
+  if (photos) {
+    const shots = bootPreview(list);
+    photos.innerHTML = shots.map((sh) =>
+      `<img src="${sh.url}&width=220" alt="" loading="lazy" decoding="async"
+            onerror="this.remove()">`).join('');
+  }
+  const folder = document.querySelector('[data-boot-folder]');
+  if (folder) folder.textContent = g ? `${g.label} folder selected` : '5 folders ready';
+  const dialog = document.querySelector('[data-boot-dialog]');
+  if (dialog) dialog.textContent = g ? g.dialog : 'Loading all products...';
+}
+
+function syncShopExplorer(activeGroup, shown, total) {
+  const g = SHOP_GROUPS.find((x) => x.id === activeGroup) || null;
+  const name = g ? g.label : '全部產品';
+
+  const title = document.querySelector('[data-explorer-title]');
+  if (title) title.textContent = name;
+  const path = document.querySelector('[data-explorer-path]');
+  if (path) path.innerHTML = `OUJI SHOP <i>›</i> ${name}`;
+  const items = document.querySelector('[data-explorer-items]');
+  if (items) items.textContent = `${shown} ITEMS`;
+  const status = document.querySelector('[data-explorer-status]');
+  if (status) status.textContent = `${shown} 個物件`;
+  const say = document.querySelector('[data-explorer-announce]');
+  if (say) say.textContent = `${name}，顯示 ${shown} 件產品`;
+  const back = document.querySelector('[data-boot-reset]');
+  if (back) back.disabled = !activeGroup;
+  const crumb = document.querySelector('.breadcrumb span:last-child');
+  if (crumb && !crumb.classList.contains('breadcrumb__sep')) crumb.textContent = name;
+  document.title = g ? `${name} — OUJI` : '全部產品 — OUJI';
+  if (typeof total === 'number' && total !== shown) { /* 篩緊，件數以顯示為準 */ }
+}
+
+async function initCatalog({ section, cat, products, presetCat = null, group = null }) {
   const host = document.querySelector('[data-catalog]')
     || document.querySelector('.product-grid')?.parentElement;
   if (!host) return;
@@ -1017,10 +1152,19 @@ async function initCatalog({ section, cat, products, presetCat = null }) {
   const countEl = document.querySelector('.filter-bar__count');
   const sortEl = document.querySelector('.filter-bar__sort select');
 
+  /* 全部產品頁先有 BOOT hero。其他分類頁行到呢度乜都唔會做。 */
+  const bootHost = document.querySelector('[data-shop-boot]');
+  const validGroup = (k) => SHOP_GROUPS.some((g) => g.id === k) ? k : null;
+  let activeGroup = bootHost ? validGroup(group) : null;
+  if (bootHost) buildShopBootHero(products, activeGroup);
+
   function draw() {
     const sel = activeFilters();
     const sortKey = sortEl?.value || 'featured';
-    let list = applyFilters(section, products, sel);
+    /* 先套 group（頂層資料夾），再套側欄篩選同排序 —— 次序調轉嘅話
+       件數會對唔上客撳嗰張貼紙。 */
+    const scope = bootHost ? productsForGroup(products, activeGroup) : products;
+    let list = applyFilters(section, scope, sel);
     if (lockCat) list = list.filter((p) => subMatch(section, lockCat, p));
     const cmp = SORTS[sortKey];
     if (cmp) list = [...list].sort(cmp);
@@ -1036,8 +1180,8 @@ async function initCatalog({ section, cat, products, presetCat = null }) {
       && new Set(list.map((p) => p.vendor)).size > 1;
 
     buildCatGate(section, products, sel, lockCat);
-    buildQuickTabs(section, products, sel);
-    buildBrandStrip(products, sel);
+    buildQuickTabs(section, scope, sel);
+    buildBrandStrip(scope, sel);
     buildActiveChips(section, sel, lockCat);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
 
@@ -1055,6 +1199,10 @@ async function initCatalog({ section, cat, products, presetCat = null }) {
       headMeta.textContent = filtered ? ''
         : `${products.length} 件 · ${brands} 個品牌`;
     }
+    if (bootHost) {
+      syncShopBoot(products, activeGroup, list.length ? list : scope);
+      syncShopExplorer(activeGroup, list.length, products.length);
+    }
     if (!list.length) {
       host.innerHTML = `<p class="catalog-empty">冇產品符合呢個篩選。<button class="link-btn" data-filter-clear>清除篩選</button></p>`;
       return;
@@ -1071,6 +1219,38 @@ async function initCatalog({ section, cat, products, presetCat = null }) {
     [...document.querySelectorAll('.filter-sidebar input[type="checkbox"]')]
       .filter((el) => (!group || el.dataset.group === group)
                    && (value == null || el.value === value));
+
+  /* 頂層資料夾：撳貼紙、撳「返回全部」、browser 前後鍵，三條路
+     都要行同一段。URL 用 ?group=，唔重用 ?cat=（cat 已經係子分類契約）。 */
+  function setGroup(next, { push = true } = {}) {
+    const key = validGroup(next);
+    if (key === activeGroup) return;
+    activeGroup = key;
+    if (push) {
+      const url = new URL(window.location.href);
+      if (key) url.searchParams.set('group', key);
+      else url.searchParams.delete('group');
+      history.pushState({ group: key }, '', url);
+    }
+    /* 唔搶 focus 去頁頂 —— syncShopExplorer 會寫落個 live region 宣讀 */
+    draw();
+  }
+
+  if (bootHost) {
+    document.addEventListener('click', (e) => {
+      const sticker = e.target.closest('[data-boot-group]');
+      if (sticker) {
+        const id = sticker.dataset.bootGroup;
+        setGroup(id === activeGroup ? null : id);
+        return;
+      }
+      if (e.target.closest('[data-boot-reset]')) setGroup(null);
+    });
+    window.addEventListener('popstate', () => {
+      const key = new URLSearchParams(window.location.search).get('group');
+      setGroup(key, { push: false });
+    });
+  }
 
   document.addEventListener('click', (e) => {
     const clear = e.target.closest('[data-filter-clear]');

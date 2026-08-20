@@ -44,7 +44,10 @@
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <!-- 全部產品頁專用：BOOT hero 嘅 pixel 字。載唔到就跌返 Noto Sans TC，
+       唔用 Impact 頂 —— 中文會爛。 -->
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -176,61 +179,122 @@
 
   <main id="main-content" style="padding-top: 96px;">
 
-    <!-- 分類標頭。本來係一張 Unsplash 圖庫相（一支 ORIGINS —— 我哋
-         唔賣嘅美國牌子）。冇自己嘅分類相就唔好夾硬揾張相頂上，
-         改為靠排版做質感：細楷英文引子、大字標題、一條幼線、
-         右邊擺件數同當期優惠。 -->
-    <section class="cat-head cat-head--shot">
-      <!-- 張相由 catalog.js 喺呢個分類自己啲貨度抽 —— 賣緊嘅嘢，
-           唔係圖庫相。抽唔到就淨低乾淨嘅標題，唔會爛版。 -->
-      <div class="cat-head__shot" data-cat-shot aria-hidden="true"></div>
-      <div class="container">
-        <p class="cat-head__eyebrow">ALL PRODUCTS</p>
-        <div class="cat-head__row">
-          <h1 class="cat-head__title">全部產品</h1>
-          <p class="cat-head__meta"><span data-cat-count></span></p>
+    <!-- ===== Y2K BOOT HERO =====
+         全部產品頁頂由「分類標頭」換成一部開緊機嘅 OUJI SHOP OS。
+         呢度淨係外殼；件數、五個分類貼紙、視窗入面四張真產品相，
+         全部由 catalog.js 用 live Storefront 目錄填 —— 唔准寫死件數。 -->
+    <section class="shop-boot" aria-labelledby="shop-boot-title" data-shop-boot>
+      <div class="shop-boot__wallpaper" aria-hidden="true">
+        <span class="shop-boot__cloud"></span>
+        <span class="shop-boot__cloud shop-boot__cloud--two"></span>
+      </div>
+
+      <div class="shop-boot__title">
+        <span class="shop-boot__os">OUJI SHOP OS · VERSION 2001</span>
+        <h1 id="shop-boot-title">BOOT YOUR<br>SHOP</h1>
+        <p class="shop-boot__count" data-boot-count></p>
+      </div>
+
+      <!-- 四格預覽係下面產品卡嘅重複內容，讀屏唔使讀多次 -->
+      <div class="shop-boot__window" aria-hidden="true">
+        <div class="shop-boot__bar">
+          <span>ouji_shop.exe</span>
+          <span class="shop-boot__ctrls"><span>_</span><span>□</span><span class="is-close">×</span></span>
         </div>
-        <p class="cat-head__desc">護膚、彩妝、身體護理、香氛——OUJI 精選嘅韓國好物，一頁睇晒。</p>
+        <div class="shop-boot__photos" data-boot-photos></div>
+        <div class="shop-boot__status"><span data-boot-folder>5 folders ready</span><b>OUJI</b></div>
+      </div>
+
+      <div class="shop-boot__disk" aria-hidden="true">
+        <span class="shop-boot__shutter"></span>
+        <span class="shop-boot__disklabel">OUJI<br>ALL BOOT</span>
+        <small class="shop-boot__diskcount" data-boot-disk></small>
+      </div>
+
+      <div class="shop-boot__dialog" aria-hidden="true">
+        <div class="shop-boot__bar">Starting shop.exe</div>
+        <div class="shop-boot__dialogbody">
+          <p data-boot-dialog>Loading all products...</p>
+          <div class="shop-boot__progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="shop-boot__hint">DON'T TURN OFF YOUR STYLE</span>
+        </div>
+      </div>
+
+      <!-- 五個分類貼紙由 JS 出：label 同件數要係真嘅，插畫係輔助 -->
+      <div class="shop-boot__stickers" data-boot-stickers aria-label="全部產品分類"></div>
+
+      <div class="shop-boot__taskbar" aria-hidden="true">
+        <b class="shop-boot__start">start</b>
+        <span class="shop-boot__tab">OUJI all products</span>
+        <time class="shop-boot__clock">20:01</time>
       </div>
     </section>
 
-    <!-- Breadcrumb & Filter Bar -->
-    <div class="container">
-      <nav class="breadcrumb">
-        <a href="index.html">首頁</a>
-        <span class="breadcrumb__sep">/</span>
-        <span>全部產品</span>
-      </nav>
+    <!-- ===== OUJI EXPLORER =====
+         Explorer 唔係另一套 catalog，佢淨係包住原有嘅 breadcrumb、
+         quick tabs、品牌條、篩選／排序同產品格。所有 data-* hook 原封不動。 -->
+    <div class="shop-explorer" data-shop-explorer>
+      <div class="shop-explorer__titlebar">
+        <strong><i class="shop-explorer__folder" aria-hidden="true"></i><span data-explorer-title>全部產品</span> — OUJI Explorer</strong>
+        <span class="shop-explorer__ctrls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+      </div>
 
-      <div class="quick-tabs" data-quick-tabs></div>
-
-      <!-- 品牌 logo 一行，撳一下直接去嗰個牌子 -->
-      <div class="brand-strip" data-brand-strip></div>
-
-      <div class="filter-bar">
-        <div class="filter-bar__left">
-          <button class="filter-btn" data-filter-toggle>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
-            篩選
-          </button>
-          <span class="filter-bar__count"></span>
-        </div>
-        <div class="filter-bar__sort">
-          <select aria-label="排序">
-            <option value="featured">排序：推薦</option>
-            <option value="price-asc">價格：由低至高</option>
-            <option value="price-desc">價格：由高至低</option>
-            <option value="award">得獎優先</option>
-            <option value="name-asc">名稱 A–Z</option>
-          </select>
+      <div class="shop-explorer__toolbar">
+        <button type="button" class="shop-explorer__back" data-boot-reset disabled>← 返回全部</button>
+        <span class="shop-explorer__sep" aria-hidden="true">│</span>
+        <div class="filter-bar">
+          <div class="filter-bar__left">
+            <button class="filter-btn" data-filter-toggle>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
+              篩選
+            </button>
+            <span class="filter-bar__count"></span>
+          </div>
+          <div class="filter-bar__sort">
+            <select aria-label="排序">
+              <option value="featured">排序：推薦</option>
+              <option value="price-asc">價格：由低至高</option>
+              <option value="price-desc">價格：由高至低</option>
+              <option value="award">得獎優先</option>
+              <option value="name-asc">名稱 A–Z</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div class="active-filters" data-active-filters></div>
+      <div class="shop-explorer__address">
+        <b>位置</b>
+        <span data-explorer-path>OUJI SHOP <i>›</i> 全部產品</span>
+        <em data-explorer-items></em>
+      </div>
 
-      <!-- Product Grid -->
-      <div class="catalog reveal-stagger" data-catalog></div>
+      <div class="shop-explorer__body">
+        <div class="container">
+          <nav class="breadcrumb">
+            <a href="index.html">首頁</a>
+            <span class="breadcrumb__sep">/</span>
+            <span>全部產品</span>
+          </nav>
 
+          <div class="quick-tabs" data-quick-tabs></div>
+
+          <!-- 品牌 logo 一行，撳一下直接去嗰個牌子 -->
+          <div class="brand-strip" data-brand-strip></div>
+
+          <div class="active-filters" data-active-filters></div>
+
+          <!-- Product Grid -->
+          <div class="catalog reveal-stagger" data-catalog></div>
+        </div>
+      </div>
+
+      <!-- 換資料夾之後讀屏要知發生咗咩事，但唔應該搶 focus 去頁頂。
+           狀態列本身照出 Windows 嗰句「N 個物件」，宣讀就交畀呢個隱藏區。 -->
+      <p class="visually-hidden" aria-live="polite" data-explorer-announce></p>
+      <div class="shop-explorer__status">
+        <span data-explorer-status></span>
+        <b>OUJI SHOP OS · READY</b>
+      </div>
     </div>
   </main>
 
@@ -357,18 +421,26 @@
     /* 由頁頂搜尋浮層「睇埋其餘 N 件」入嚟。同浮層用同一套配對規則
        （大細楷、空格、標點唔計），唔係嘅話撳落嚟會少咗貨。 */
     const q = (params.get('q') || '').trim();
+    /* 搜尋／煩惱入嚟嗰陣，Explorer 個資料夾名要跟返佢，唔可以仲寫住
+       「全部產品」—— 個名就係客而家企緊喺邊。BOOT hero 保持原樣。 */
+    const setFolder = (name, note) => {
+      const t = document.querySelector('[data-explorer-title]');
+      if (t) t.textContent = name;
+      const path = document.querySelector('[data-explorer-path]');
+      if (path) path.innerHTML = `OUJI SHOP <i>›</i> ${name}`;
+      const tail = document.querySelector('.breadcrumb span:last-child');
+      if (tail && !tail.classList.contains('breadcrumb__sep')) tail.textContent = name;
+      const dialog = document.querySelector('[data-boot-dialog]');
+      if (dialog && note) dialog.textContent = note;
+    };
+
     if (q) {
       const flat = (x) => String(x || '').toLowerCase()
         .replace(/&/g, 'a').replace(/[^\p{L}\p{N}]/gu, '');
       const needle = flat(q);
       products = products.filter((p) => flat(p.title).includes(needle)
         || flat(p.vendor).includes(needle));
-      const head = document.querySelector('.cat-head__title');
-      if (head) head.textContent = `「${q}」`;
-      const eyebrow = document.querySelector('.cat-head__eyebrow');
-      if (eyebrow) eyebrow.textContent = '搜尋結果';
-      const desc = document.querySelector('.cat-head__desc');
-      if (desc) desc.textContent = `${products.length} 件貨符合「${q}」。`;
+      setFolder(`「${q}」`, 'Searching...');
       document.title = `${q} — OUJI`;
     }
     if (cat) {
@@ -382,14 +454,7 @@
     const concern = concernById(params.get('concern'));
     if (concern) {
       products = products.filter((p) => matchesConcern(p, concern));
-      const head = document.querySelector('.cat-head__title');
-      if (head) head.textContent = concern.label;
-      const eyebrow = document.querySelector('.cat-head__eyebrow');
-      if (eyebrow) eyebrow.textContent = '由煩惱搵起';
-      const desc = document.querySelector('.cat-head__desc');
-      if (desc) {
-        desc.textContent = `講到${concern.label.replace('・', '同')}呢方面嘅護膚品，全部喺呢度。`;
-      }
+      setFolder(concern.label, 'Loading picks...');
       document.title = `${concern.label} — OUJI`;
     }
 
@@ -402,7 +467,7 @@
     if (!products.length) {
       showCategoryEmpty('skincare', cat);
     } else {
-      initCatalog({ section: null, cat, products });
+      initCatalog({ section: null, cat, products, group: params.get('group') });
     }
   });
   </script>
