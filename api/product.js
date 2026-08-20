@@ -29,7 +29,7 @@ const SITE = 'https://oujikbeauty.com';
 const QUERY = `
 query($handle: String!) @inContext(country: HK) {
   product(handle: $handle) {
-    handle title description vendor productType
+    handle title description descriptionHtml vendor productType
     images(first: 1) { edges { node { url } } }
     variants(first: 50) { edges { node { sku availableForSale price { amount } } } }
     priceRange {
@@ -166,6 +166,42 @@ const HEAD_BLOCK = /<!-- OUJI-SEO:START[\s\S]*?OUJI-SEO:END -->/;
    nameEl.textContent 會寫入一模一樣嘅值,所以冇衝突。 */
 const H1_EMPTY = /<h1 class="product-info__name"><\/h1>/;
 
+/* 同一個道理:品牌／價錢／簡介三格喺 template 都係空白,靠客戶端 JS 填。
+   Google 第一眼見到嘅產品頁因此淨係得導覽選單 —— Search Console 有 557 版
+   停喺「已找到 - 目前尚未建立索引」,即係佢覺得啲頁冇料到,唔值得爬。
+   呢度出嘅值同客戶端嗰段 JS 一模一樣,所以客戶端覆寫落去唔會跳動。 */
+const BRAND_EMPTY = /<span class="product-info__brand"><\/span>/;
+const PRICE_EMPTY = /<div class="product-info__price"><\/div>/;
+const DESC_EMPTY = /<p class="product-info__short-desc"><\/p>/;
+
+function introText(p) {
+  const m = (p.descriptionHtml || '').match(/<p[^>]*>([\s\S]*?)<\/p>/);
+  const plain = m ? m[1].replace(/<[^>]+>/g, '').trim()
+                  : (p.description || '').trim();
+  return plain.length > 200 ? plain.slice(0, 200) + '…' : plain;
+}
+
+function fillBody(html, p) {
+  let out = html;
+  const vendor = p.vendor || '';
+  if (vendor) {
+    out = out.replace(BRAND_EMPTY,
+      `<span class="product-info__brand"><a href="shop.html?brand=${
+        encodeURIComponent(vendor)}">${esc(vendor)}</a></span>`);
+  }
+  const lo = p.priceRange?.minVariantPrice?.amount;
+  if (lo != null) {
+    out = out.replace(PRICE_EMPTY,
+      `<div class="product-info__price">HK$${Number(lo).toFixed(2)}</div>`);
+  }
+  const intro = introText(p);
+  if (intro) {
+    out = out.replace(DESC_EMPTY,
+      `<p class="product-info__short-desc">${esc(intro)}</p>`);
+  }
+  return out;
+}
+
 function fillH1(html, p) {
   const t = (p && p.title) || '';
   if (!t) return html;
@@ -204,6 +240,7 @@ module.exports = async function handler(req, res) {
     ? html.replace(HEAD_BLOCK, buildHead(product))
     : html.replace('</head>', `${buildHead(product)}\n</head>`);
   out = fillH1(out, product);
+  out = fillBody(out, product);
 
   res.setHeader('Cache-Control',
     'public, s-maxage=3600, stale-while-revalidate=86400');
