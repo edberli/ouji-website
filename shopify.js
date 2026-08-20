@@ -137,11 +137,7 @@ function cacheWrite(key, v) {
   }
 }
 
-async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
-  const key = cacheKey(`catalog:${collectionHandle || 'all'}`);
-  const cached = cacheRead(key);
-  if (cached) return { edges: cached };
-
+async function fetchAllPages({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
   const out = [];
   let after = null;
   while (out.length < max) {
@@ -151,6 +147,75 @@ async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } =
     if (!page?.pageInfo?.hasNextPage || !edges.length) break;
     after = page.pageInfo.endCursor;
   }
+  return out;
+}
+
+/* ---------- 目錄快照 ----------
+ *
+ * 目錄有 899 件，Storefront 一頁最多 250 件，而且係游標分頁 —— 四個
+ * request 一個接一個行，並行唔到。實測首頁要等到 **1.0 秒** 先攞齊，
+ * 嗰一秒 header 出咗、下面白色一片。老闆嘅講法係「入到去先見到 header，
+ * 之後先撈下面啲嘢」。
+ *
+ * `data/catalog.json` 就係嗰四個 request 嘅結果，事先抽好擺喺 Vercel 邊緣
+ * （884 KB，壓縮後 102 KB，一個 request）。攞到就即刻畫，同時喺背景行返
+ * 原本嗰四個 call 對數，對完寫返落 cache，下一版就係最新。
+ *
+ * 唔用快照嘅情況：檔唔喺度、格式唔啱、或者超過 36 鐘頭未更新 —— 寧願慢
+ * 一秒，都好過出舊價錢同舊庫存。要更新：`scripts/build_catalog_snapshot.py`。
+ */
+const SNAPSHOT_URL = 'data/catalog.json';
+const SNAPSHOT_MAX_AGE = 36 * 60 * 60 * 1000;
+let revalidating = false;
+
+async function readSnapshot() {
+  try {
+    const r = await fetch(SNAPSHOT_URL);
+    if (!r.ok) return null;
+    const { at, v } = await r.json();
+    if (!Array.isArray(v) || v.length < 100) return null;
+    if (!at || Date.now() - at > SNAPSHOT_MAX_AGE) return null;
+    return v;
+  } catch (e) {
+    return null;
+  }
+}
+
+function revalidateCatalog(key, opts) {
+  if (revalidating) return;
+  revalidating = true;
+  const run = async () => {
+    try {
+      const fresh = await fetchAllPages(opts);
+      if (fresh.length >= 100) {
+        cacheWrite(key, fresh);
+        document.dispatchEvent(new CustomEvent('ouji:catalog-refreshed',
+          { detail: { edges: fresh } }));
+      }
+    } catch (e) {
+      /* 對唔到數就算 —— 快照已經畫咗出嚟，唔好因為呢個爆咗成版 */
+    }
+  };
+  if (window.requestIdleCallback) window.requestIdleCallback(run, { timeout: 4000 });
+  else setTimeout(run, 1500);
+}
+
+async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
+  const key = cacheKey(`catalog:${collectionHandle || 'all'}`);
+  const cached = cacheRead(key);
+  if (cached) return { edges: cached };
+
+  /* 快照淨係得全店嗰份；分類 collection 照行 API */
+  if (!collectionHandle) {
+    const snap = await readSnapshot();
+    if (snap) {
+      cacheWrite(key, snap);
+      revalidateCatalog(key, { collectionHandle, pageSize, max });
+      return { edges: snap };
+    }
+  }
+
+  const out = await fetchAllPages({ collectionHandle, pageSize, max });
   cacheWrite(key, out);
   return { edges: out };
 }

@@ -8603,66 +8603,114 @@ body::before { opacity: 0.18; }
 }
 
 /* ============================================================
-   首頁 Journal：四張長方形卡（2026-08-20）
+   首頁 Journal：一疊雜誌卡（2026-08-20，impeccable / bolder）
 
-   本來兩張大卡掛住 Unsplash 圖庫相 —— 一張人哋間廳、一張競爭對手嘅
-   化妝品平鋪相，兩篇文仲要係假嘅（冇連結、冇檔）。而家換成四篇真文，
-   封面用返嗰個品牌自己嘅相。卡細咗、多咗兩張，一行掃得晒。
-   ============================================================ */
+   上一版失敗嘅原因唔係唔靚，係「認錯咗身份」—— 相鋪滿卡頂、下面一個
+   標籤一行字，同全站產品卡一模一樣，客會當四篇文章係四件貨。
+
+   文章卡同產品卡要分得出，靠三樣嘢：
+   1. 張相係「貼」喺卡上面（四邊留白），唔係鋪滿 —— 產品卡永遠鋪滿。
+   2. 標題用襯線體、大過產品名，佔卡嘅主要面積。
+   3. 卡底有日期同「讀落去」—— 產品卡嗰個位係價錢。
+
+   再加一個真效果：四張卡各自歪少少，似疊喺枱面嘅卡片；撳邊張，
+   邊張扶返正、升起、箭嘴推出去。 */
 .journal-deck {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(14px, 1.6vw, 24px);
-  margin-top: clamp(18px, 2.4vw, 32px);
+  gap: clamp(14px, 1.8vw, 26px);
+  margin-top: clamp(20px, 2.6vw, 36px);
+  padding: 10px 0 18px;
 }
 .journal-card {
+  --tilt: 0deg;
+  --drop: 0px;
+  position: relative;
   display: flex;
   flex-direction: column;
+  padding: 10px 10px 0;
   text-decoration: none;
   color: inherit;
   background: #ffffff;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg, 16px);
-  overflow: hidden;
-  box-shadow: var(--glass-shadow);
-  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  border: 1px solid rgba(43, 76, 88, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(30, 48, 56, 0.05), 0 16px 30px -22px rgba(30, 48, 56, 0.5);
+  transform: rotate(var(--tilt)) translateY(var(--drop));
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
 }
-.journal-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--glass-shadow-hover);
-}
-.journal-card__shot {
+/* 一疊卡：唔係每張都一樣角度，亦都唔係越排越斜 —— 中間兩張近乎企定，
+   兩邊嗰兩張歪多啲，先似有人順手擺落枱面。 */
+.journal-card:nth-child(1) { --tilt: -2.2deg; --drop: 6px; }
+.journal-card:nth-child(2) { --tilt: -0.7deg; --drop: 0px; }
+.journal-card:nth-child(3) { --tilt: 0.9deg;  --drop: 5px; }
+.journal-card:nth-child(4) { --tilt: 2.4deg;  --drop: 11px; }
+
+.journal-card__plate {
   display: block;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 11;
   overflow: hidden;
+  border-radius: 6px;
   background: var(--warm-100);
 }
-.journal-card__shot img {
+.journal-card__plate img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   transition: transform 0.6s var(--ease-out);
 }
-.journal-card:hover .journal-card__shot img { transform: scale(1.04); }
 .journal-card__tag {
-  margin: clamp(12px, 1.4vw, 16px) clamp(12px, 1.4vw, 16px) 0;
+  margin: 14px 6px 0;
   font-size: 0.6875rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   color: var(--primary-darker);
 }
 .journal-card__title {
-  margin: 6px clamp(12px, 1.4vw, 16px) clamp(14px, 1.6vw, 18px);
+  margin: 7px 6px 0;
   font-family: var(--font-display);
-  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  font-size: clamp(1rem, 1.15vw, 1.1875rem);
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--text-primary);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.journal-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: auto 6px 0;
+  padding: 12px 0 14px;
+  border-top: 1px solid rgba(43, 76, 88, 0.09);
+  margin-top: 14px;
+  font-size: 0.75rem;
+  color: var(--text-muted, rgba(30, 48, 56, 0.6));
+}
+.journal-card__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--primary-dark);
+  white-space: nowrap;
+}
+.journal-card__go svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.journal-card:hover,
+.journal-card:focus-visible {
+  --tilt: 0deg;
+  --drop: -8px;
+  z-index: 2;
+  box-shadow: 0 6px 12px rgba(30, 48, 56, 0.07), 0 26px 44px -24px rgba(30, 48, 56, 0.6);
+}
+.journal-card:hover .journal-card__plate img { transform: scale(1.04); }
+.journal-card:hover .journal-card__go svg { transform: translateX(4px); }
 .journal-card:focus-visible {
   outline: 2px solid var(--primary, #6da3b5);
   outline-offset: 3px;
@@ -8673,10 +8721,105 @@ body::before { opacity: 0.18; }
 }
 @media (max-width: 560px) {
   .journal-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .journal-card__title { font-size: 0.875rem; -webkit-line-clamp: 4; }
+  .journal-card { padding: 7px 7px 0; }
+  .journal-card__title { font-size: 0.9375rem; -webkit-line-clamp: 4; }
+  .journal-card__foot { font-size: 0.6875rem; padding: 10px 0 12px; }
+  .journal-card__date { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .journal-card, .journal-card__shot img { transition: none; }
-  .journal-card:hover { transform: none; }
-  .journal-card:hover .journal-card__shot img { transform: none; }
+  .journal-card { --tilt: 0deg; --drop: 0px; transition: none; }
+  .journal-card__plate img, .journal-card__go svg { transition: none; }
+  .journal-card:hover .journal-card__plate img { transform: none; }
+}
+
+/* ============================================================
+   產品詳情文案：由「一堆字」變返一版有結構嘅嘢
+   （2026-08-20，impeccable / layout）
+
+   之前係就咁 innerHTML 掉出嚟：段落、h3、ul 全部用瀏覽器預設。
+   list-style 喺全站 reset 度剷咗，所以啲點列出嚟連個點都冇 ——
+   四行字齊頭縮入去，睇落似排版爛咗，唔似一張清單。
+
+   而家：成段文案坐喺一塊淺玻璃面上面，每個小標題前面一粒實心點，
+   每條列項前面一粒細嘅空心點，key：value 嗰啲（容量／品牌）
+   靠冒號自然對齊。冇加任何內容，淨係畀返佢個結構。
+   ============================================================ */
+.product-tabs--full .product-description {
+  max-width: 860px;
+  padding: clamp(20px, 2.6vw, 34px) clamp(18px, 2.6vw, 38px);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: 0 1px 2px rgba(30, 48, 56, 0.03), 0 18px 34px -30px rgba(30, 48, 56, 0.45);
+}
+.product-tabs--full .product-description > p,
+.product-tabs--full .product-description > h3,
+.product-tabs--full .product-description > ul {
+  max-width: none;
+}
+.product-description > p {
+  line-height: 1.85;
+  color: var(--text-secondary, var(--text-primary));
+}
+.product-description > p:first-child {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+/* 小標題：前面一粒實心點，後面一條淡線拉到尾 —— 一眼睇到分幾段 */
+.product-description > h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  margin: clamp(22px, 2.4vw, 32px) 0 clamp(10px, 1.2vw, 14px);
+}
+.product-description > h3::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.product-description > h3::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(43, 76, 88, 0.16), rgba(43, 76, 88, 0));
+}
+
+/* 列項：自己畫個點，唔靠瀏覽器預設（全站 reset 已經剷咗 list-style） */
+.product-description > ul {
+  list-style: none;
+  padding-left: 16px;
+  margin: 0;
+}
+.product-description > ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 9px;
+  line-height: 1.75;
+  color: var(--text-secondary, var(--text-primary));
+}
+.product-description > ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1px solid var(--primary);
+}
+.product-description > ul li:last-child { margin-bottom: 0; }
+
+@media (max-width: 640px) {
+  .product-tabs--full .product-description {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+  .product-description > ul { padding-left: 4px; }
 }

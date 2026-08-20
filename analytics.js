@@ -171,9 +171,17 @@ function decorateCheckoutUrl(url) {
 /* ---------- 開機 ---------- */
 
 if (TRACK_ON) {
+  /* 點擊 ID 要即刻記 —— 客隨時撳走，遲一步就冇咗個 gclid。
+     但 gtag 同 fbevents 兩支外部 script 唔急：實測佢哋係首頁最慢嘅四
+     五個 request（300–590ms），同目錄嗰幾個 API call 爭連線，
+     令下面啲貨遲咗先出到。改成得閒先載，追蹤一樣照計。 */
   rememberClickIds();
-  initGoogle();
-  initMeta();
+  const bootTracking = () => { initGoogle(); initMeta(); };
+  const idle = window.requestIdleCallback
+    ? (fn) => window.requestIdleCallback(fn, { timeout: 2500 })
+    : (fn) => setTimeout(fn, 1200);
+  if (document.readyState === 'complete') idle(bootTracking);
+  else window.addEventListener('load', () => idle(bootTracking), { once: true });
 }
 
 /* ---------- 產品頁嘅 SEO meta ----------

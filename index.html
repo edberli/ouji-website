@@ -41,6 +41,10 @@
   <meta name="twitter:description" content="OUJI 是香港最齊全的 K-Beauty 專門店，匯集最受歡迎的韓國美妝護膚品牌。觀塘門市及網上商店。">
   <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
 
+  <!-- 目錄同啲相都喺 Shopify 手上，第一個 API call 之前先搭好線，
+       慳返 DNS＋TLS 嗰兩程（實測首頁要等四個 API call 先出到貨）。 -->
+  <link rel="preconnect" href="https://5rerjn-mt.myshopify.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -507,7 +511,11 @@
 
     <!-- 由煩惱搵起。分類頁按貨品類型切，呢格按客自己講得出嘅煩惱切。
          ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。 -->
+    <!-- 「想搵咩？」暫時落架（2026-08-20，老闆叫停）—— 兩版封面卡同一版
+         面部線稿都畀否決咗，色卡版仲喺另一條 session 手上未完。
+         留返個 section 喺度但唔出，改好之後解返註釋就得。
     <section class="section section--concerns section-float" data-home-concerns></section>
+    -->
 
 
     <!-- 獲獎產品 -->
@@ -555,34 +563,70 @@
              一張係 Bobbi Brown ／ Tarte 嘅化妝品平鋪相（用競爭對手嘅貨去講 hince）。
              兩篇文本身仲要係假嘅 —— 冇連結、冇文章檔，撳落去乜都冇。
              而家換成四篇真文，封面用返嗰個品牌自己嘅相。 -->
+        <!-- 文章卡唔可以同產品卡一個樣，否則客會當佢係件貨。
+             分別喺三樣嘢：張相係「貼」喺卡上面（四邊留白），唔係鋪滿成張卡；
+             標題用襯線體、大過產品名；卡底有日期同「讀落去」。
+             四張卡各自歪少少，撳邊張邊張扶返正 —— 一疊卡嘅感覺。 -->
         <div class="journal-deck reveal-stagger">
           <a class="journal-card" href="articles/sunghoon-hince-base.html">
-            <span class="journal-card__shot">
+            <span class="journal-card__plate">
               <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-banner.jpg" alt="" loading="lazy" decoding="async">
             </span>
             <span class="journal-card__tag">明星同款</span>
             <span class="journal-card__title">做出 ENHYPEN SUNGHOON 同款乾淨底妝：hince Second Skin 系列</span>
+            <span class="journal-card__foot">
+              <span class="journal-card__date">2026 年 8 月 13 日</span>
+              <span class="journal-card__go" aria-hidden="true">
+                讀落去
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+              </span>
+            </span>
           </a>
           <a class="journal-card" href="articles/wonyoung-amuse-lip.html">
-            <span class="journal-card__shot">
+            <span class="journal-card__plate">
               <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/amuse-banner.jpg" alt="" loading="lazy" decoding="async">
             </span>
             <span class="journal-card__tag">明星同款</span>
             <span class="journal-card__title">畫出張員瑛同款陶瓷肌奶油唇：AMUSE 唇釉同氣墊</span>
+            <span class="journal-card__foot">
+              <span class="journal-card__date">2026 年 8 月 14 日</span>
+              <span class="journal-card__go" aria-hidden="true">
+                讀落去
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+              </span>
+            </span>
           </a>
           <a class="journal-card" href="articles/suzy-anua-pdrn.html">
-            <span class="journal-card__shot">
+            <span class="journal-card__plate">
               <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/anua-global-ampoule-serum-pdrn-hyaluronic-acid-capsule-100-serum-1161173226.jpg?v=1786072687" alt="" loading="lazy" decoding="async">
             </span>
             <span class="journal-card__tag">明星同款</span>
             <span class="journal-card__title">養出裴秀智同款水光肌：Anua PDRN 系列點樣行</span>
+            <span class="journal-card__foot">
+              <span class="journal-card__date">2026 年 8 月 13 日</span>
+              <span class="journal-card__go" aria-hidden="true">
+                讀落去
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+              </span>
+            </span>
           </a>
           <a class="journal-card" href="articles/cortis-torriden-cica.html">
-            <span class="journal-card__shot">
+            <span class="journal-card__plate">
               <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05_300ffe09-7e38-4de7-88b7-d47e70c2fa52.jpg" alt="" loading="lazy" decoding="async">
             </span>
             <span class="journal-card__tag">明星同款</span>
             <span class="journal-card__title">養出 CORTIS 同款穩定肌：Torriden Balanceful 積雪草系列</span>
+            <span class="journal-card__foot">
+              <span class="journal-card__date">2026 年 8 月 12 日</span>
+              <span class="journal-card__go" aria-hidden="true">
+                讀落去
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+              </span>
+            </span>
           </a>
         </div>
       </div>
