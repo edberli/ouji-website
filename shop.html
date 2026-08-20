@@ -276,7 +276,11 @@
             <span>全部產品</span>
           </nav>
 
-          <div class="quick-tabs" data-quick-tabs></div>
+          <!-- 分類 pill 行剷咗：頂頭五個貼紙已經係分類入口，
+               再喺 Explorer 入面出多一行係講同一件事兩次，而且兩邊
+               嘅件數計法唔同（貼紙互斥、pill 唔互斥），數對唔上更加誤導。
+               其他分類頁照舊有 quick tabs —— buildQuickTabs 搵唔到
+               [data-quick-tabs] 就自己收工，唔使改 catalog.js。 -->
 
           <!-- 品牌 logo 一行，撳一下直接去嗰個牌子 -->
           <div class="brand-strip" data-brand-strip></div>
