@@ -33,13 +33,20 @@ function loadScript(src) {
   document.head.appendChild(s);
 }
 
+/* ⚠️ 分兩截，唔可以一齊拖延。
+   `gtag` 同 `fbq` 呢兩個 shim 本身係幾行嘢，佢哋嘅工作就係「幫你排隊」——
+   事件先入 queue，等真正嗰支 library 落到先一次過送出。
+   2026-08-20 撞過一次：為咗慳 300ms，我將成個 initGoogle 拖到 idle 先行，
+   結果 `window.gtag` 喺產品頁 fire `view_item` 嗰刻仲未存在，而 trackViewItem
+   寫嘅係 `window.gtag?.(...)` —— 冇 gtag 就靜靜哋乜都唔做，GA4 一單
+   view_item 都收唔到，仲要唔會報錯。
+   而家：shim 即刻裝（要排隊），外部 script 先至 idle 落。 */
 function initGoogle() {
   const ids = [TRACKING.ga4, TRACKING.googleAds].filter(Boolean);
   if (!ids.length) return;
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() { window.dataLayer.push(arguments); };
   gtag('js', new Date());
-  loadScript(`https://www.googletagmanager.com/gtag/js?id=${ids[0]}`);
 
   /* 結帳喺另一個網域，所以要開跨網域連結，否則 GA4 會當結帳係一個
      全新 session，每一張單都會歸功於「myshopify.com 推薦連結」而唔係
@@ -52,15 +59,26 @@ function initGoogle() {
   ids.forEach((id) => gtag('config', id, { linker }));
 }
 
+/* 真正落外部 script —— 呢兩支先係慢嗰啲（實測 1.5–2.7 秒），可以遲少少 */
+function loadTrackingScripts() {
+  const ids = [TRACKING.ga4, TRACKING.googleAds].filter(Boolean);
+  if (ids.length) loadScript(`https://www.googletagmanager.com/gtag/js?id=${ids[0]}`);
+  if (TRACKING.metaPixel && !window._fbqScriptLoaded) {
+    window._fbqScriptLoaded = true;
+    loadScript('https://connect.facebook.net/en_US/fbevents.js');
+  }
+}
+
 function initMeta() {
   if (!TRACKING.metaPixel) return;
   /* Meta 官方 snippet，照抄；佢自己會處理重複載入。 */
   /* eslint-disable */
+  /* 淨係裝 shim，唔喺度落 fbevents.js —— 嗰句搬咗去 loadTrackingScripts()。
+     shim 會將事件收喺 n.queue，library 落到自己會補送。 */
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}
+  (window,document,'script');
   /* eslint-enable */
   fbq('init', TRACKING.metaPixel);
   fbq('track', 'PageView');
@@ -176,12 +194,15 @@ if (TRACK_ON) {
      五個 request（300–590ms），同目錄嗰幾個 API call 爭連線，
      令下面啲貨遲咗先出到。改成得閒先載，追蹤一樣照計。 */
   rememberClickIds();
-  const bootTracking = () => { initGoogle(); initMeta(); };
+  /* shim ＋ config 即刻行：頁面一開波 fire 嘅 view_item／PageView 要有嘢接住 */
+  initGoogle();
+  initMeta();
+  /* 兩支外部 library 遲少少先落，唔同目錄嗰幾個 request 爭連線 */
   const idle = window.requestIdleCallback
     ? (fn) => window.requestIdleCallback(fn, { timeout: 2500 })
     : (fn) => setTimeout(fn, 1200);
-  if (document.readyState === 'complete') idle(bootTracking);
-  else window.addEventListener('load', () => idle(bootTracking), { once: true });
+  if (document.readyState === 'complete') idle(loadTrackingScripts);
+  else window.addEventListener('load', () => idle(loadTrackingScripts), { once: true });
 }
 
 /* ---------- 產品頁嘅 SEO meta ----------
