@@ -43,7 +43,7 @@ query($cursor: String, $n: Int!) @inContext(country: HK) {
       featuredImage { url }
       images(first: 10) { edges { node { url } } }
       variants(first: 50) { edges { node {
-        id title sku barcode availableForSale
+        id title sku barcode availableForSale quantityAvailable
         price { amount currencyCode }
         compareAtPrice { amount }
         image { url }
@@ -52,6 +52,13 @@ query($cursor: String, $n: Int!) @inContext(country: HK) {
     } }
   }
 }`;
+
+/* 同 catalog.js 一把尺：數量報 0 就當冇貨。quantityAvailable 係 null
+   （冇追蹤存貨嘅貨品）就照信 availableForSale。 */
+function inStock(v) {
+  if (!v.availableForSale) return false;
+  return v.quantityAvailable == null || v.quantityAvailable > 0;
+}
 
 async function fetchAll() {
   const out = [];
@@ -160,7 +167,13 @@ function itemsFor(p) {
         + (grouped ? `?variant=${String(v.id).split('/').pop()}` : ''))
       + tag('g:image_link', img)
       + extra.map((u) => tag('g:additional_image_link', u)).join('')
-      + tag('g:availability', v.availableForSale ? 'in_stock' : 'out_of_stock')
+      /* ⚠️ 唔可以淨係信 availableForSale。好多貨嘅存貨政策係「賣完照賣」，
+         賣曬之後 availableForSale 仍然係 true —— 網站本身係用「數量報 0
+         就當冇貨」（見 catalog.js）。之前呢度淨係睇 availableForSale，
+         結果 2,354 個規格入面得 3 個報 out_of_stock，但實際有 86 件貨
+         係斷曬。Google 會將人送去買唔到嘅貨：客白撳、廣告白燒，
+         Merchant Center 仲會因為「availability 唔符」扣分甚至停戶。 */
+      + tag('g:availability', inStock(v) ? 'in_stock' : 'out_of_stock')
       + tag('g:price', `${(onSale ? was : now).toFixed(2)} HKD`)
       + (onSale ? tag('g:sale_price', `${now.toFixed(2)} HKD`) : '')
       + tag('g:brand', p.vendor || 'OUJI')
