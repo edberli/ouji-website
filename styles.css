@@ -7240,96 +7240,105 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   color: var(--text-muted, rgba(30,48,56,0.6));
 }
 
-/* 八格＝desktop 四欄兩行、手機兩欄四行，永遠排得齊，唔會爛尾。
-   之前用 auto-fill 喺 1440 出五欄放八件，右下角一個窿。 */
-.concern-grid {
+/* 「想搵咩？」由八張封面卡改成一幅面部線稿。
+   兩版封面卡都失敗過：第一版白底 packshot 裁直度再壓黑漸變（貨睇唔清、
+   成格灰），第二版換淺色枱面（乾淨咗，但同上面兩格一樣都係一排卡）。
+   問題唔喺張相調得靚唔靚，係「八個煩惱」根本唔應該用八張產品相講。
+
+   呢八樣嘢全部都係「面上邊一忽」。所以畫塊面：線稿一幅，八個點釘喺
+   對應嘅位，右邊清單同啲點連住，撳邊行都會著返塊面嗰忽。
+   冇產品相，就冇「相唔靚」；而且個圖講咗一件目錄講唔到嘅嘢 ——
+   呢個煩惱通常出喺邊。 */
+.face-map {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(20px, 4vw, 64px);
+  align-items: center;
   margin-top: var(--space-xl);
 }
-
-/* 一張相由頭鋪到尾，字反白喺相上面 —— 雜誌開版就係咁。
-   舊版係三格拼貼＋白底＋灰字：淺色疊淺色疊淺色，四個位對比度唔合格。
-   字踩喺深色漸變罩上面，對比度問題連根拔起。 */
-.concern-card {
-  position: relative;
-  display: block;
-  aspect-ratio: 3 / 4;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #24424e;
-  text-decoration: none;
-  isolation: isolate;
-  box-shadow: 0 2px 6px rgba(30,48,56,0.10), 0 18px 32px -22px rgba(30,48,56,0.55);
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
-}
-.concern-card__shot {
-  position: absolute;
-  inset: 0;
+.face-map__stage { display: grid; place-items: center; }
+.face-map__art {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  transition: transform 0.6s var(--ease-out);
+  max-width: 330px;
+  height: auto;
+  color: rgba(43, 76, 88, 0.42);
+  overflow: visible;
 }
-/* 罩由 42% 先開始 —— 上面留返件貨睇得清，下面夠深托得起反白字 */
-.concern-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(180deg,
-    rgba(20,41,50,0) 40%,
-    rgba(20,41,50,0.58) 66%,
-    rgba(20,41,50,0.93) 100%);
+.face-map__hair { opacity: 0.55; }
+.face-map__iris { opacity: 0.5; }
+
+.face-map__pin { cursor: pointer; }
+.face-map__halo {
+  fill: var(--primary);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
 }
-.concern-card__label {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 34px;
-  z-index: 2;
+/* 空心圈唔係實心點 —— 實心點釘喺塊面上面會睇成粒粒 */
+.face-map__dot {
+  fill: rgba(255, 255, 255, 0.35);
+  stroke: var(--primary);
+  stroke-width: 1.5;
+  transition: fill 0.3s var(--ease-out), stroke-width 0.3s var(--ease-out);
+}
+.face-map__pin.is-on .face-map__halo { opacity: 0.18; }
+.face-map__pin.is-on .face-map__dot { fill: var(--primary); stroke-width: 2.6; }
+
+.face-map__list { display: flex; flex-direction: column; }
+.face-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: clamp(10px, 1.4vw, 22px);
+  padding: clamp(11px, 1.2vw, 15px) 12px;
+  border-bottom: 1px solid rgba(43, 76, 88, 0.1);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.28s var(--ease-out);
+}
+.face-row:first-child { border-top: 1px solid rgba(43, 76, 88, 0.1); }
+.face-row__name {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  font-size: clamp(1.0625rem, 1.35vw, 1.3rem);
   font-weight: 500;
-  line-height: 1.15;
   letter-spacing: 0.01em;
-  color: #fdf8f3;
-  text-wrap: balance;
+  color: var(--text-primary);
+  transition: color 0.28s var(--ease-out);
 }
-.concern-card__n {
-  position: absolute;
-  left: 16px;
-  bottom: 14px;
-  z-index: 2;
+.face-row__note {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-muted, rgba(30, 48, 56, 0.6));
+}
+.face-row__area {
   font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  /* 由罩嘅藍色調出嚟，唔用灰 */
-  color: rgba(190, 220, 231, 0.92);
+  letter-spacing: 0.1em;
+  color: var(--primary-darker);
+  opacity: 0.7;
+  white-space: nowrap;
 }
-.concern-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(30,48,56,0.12), 0 28px 44px -24px rgba(30,48,56,0.6);
+.face-row__n {
+  font-size: 0.9375rem;
+  color: var(--primary-dark);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-.concern-card:hover .concern-card__shot { transform: scale(1.05); }
-.concern-card:focus-visible {
+.face-row.is-on { background: rgba(255, 255, 255, 0.66); }
+.face-row.is-on .face-row__name { color: var(--primary-deep); }
+.face-row:focus-visible {
   outline: 2px solid var(--primary, #6da3b5);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
 @media (max-width: 900px) {
-  .concern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-}
-@media (max-width: 640px) {
-  .concern-card__label { font-size: 1.0625rem; left: 13px; right: 13px; bottom: 30px; }
-  .concern-card__n { left: 13px; bottom: 11px; font-size: 0.6875rem; }
+  .face-map { grid-template-columns: 1fr; gap: clamp(14px, 3vw, 24px); }
+  .face-map__art { max-width: 236px; }
+  .face-row__area { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .concern-card, .concern-card__shot { transition: none; }
-  .concern-card:hover { transform: none; }
-  .concern-card:hover .concern-card__shot { transform: none; }
+  .face-map__halo, .face-map__dot, .face-row, .face-row__name { transition: none; }
 }
 
 
@@ -8591,4 +8600,83 @@ body::before { opacity: 0.18; }
   .home-feat { grid-template-columns: 1fr; }
   .home-feat__shot { aspect-ratio: 3 / 2; }
   .home-feat__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ============================================================
+   首頁 Journal：四張長方形卡（2026-08-20）
+
+   本來兩張大卡掛住 Unsplash 圖庫相 —— 一張人哋間廳、一張競爭對手嘅
+   化妝品平鋪相，兩篇文仲要係假嘅（冇連結、冇檔）。而家換成四篇真文，
+   封面用返嗰個品牌自己嘅相。卡細咗、多咗兩張，一行掃得晒。
+   ============================================================ */
+.journal-deck {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+  margin-top: clamp(18px, 2.4vw, 32px);
+}
+.journal-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: #ffffff;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg, 16px);
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+.journal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--glass-shadow-hover);
+}
+.journal-card__shot {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--warm-100);
+}
+.journal-card__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--ease-out);
+}
+.journal-card:hover .journal-card__shot img { transform: scale(1.04); }
+.journal-card__tag {
+  margin: clamp(12px, 1.4vw, 16px) clamp(12px, 1.4vw, 16px) 0;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--primary-darker);
+}
+.journal-card__title {
+  margin: 6px clamp(12px, 1.4vw, 16px) clamp(14px, 1.6vw, 18px);
+  font-family: var(--font-display);
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.journal-card:focus-visible {
+  outline: 2px solid var(--primary, #6da3b5);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .journal-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .journal-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .journal-card__title { font-size: 0.875rem; -webkit-line-clamp: 4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journal-card, .journal-card__shot img { transition: none; }
+  .journal-card:hover { transform: none; }
+  .journal-card:hover .journal-card__shot img { transform: none; }
 }
