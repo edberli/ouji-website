@@ -1084,9 +1084,13 @@ function syncShopBoot(products, activeGroup, list) {
   if (dialog) dialog.textContent = g ? g.dialog : 'Loading all products...';
 }
 
+/* 由搜尋或者煩惱入嚟嗰陣，資料夾名已經由 shop.html 設咗做「暗沉・痘印」
+   之類。冇揀 group 就唔可以夾硬寫返「全部產品」—— 客會以為篩選冇生效。 */
+let EXPLORER_BASE_LABEL = '全部產品';
+
 function syncShopExplorer(activeGroup, shown, total) {
   const g = SHOP_GROUPS.find((x) => x.id === activeGroup) || null;
-  const name = g ? g.label : '全部產品';
+  const name = g ? g.label : EXPLORER_BASE_LABEL;
 
   const title = document.querySelector('[data-explorer-title]');
   if (title) title.textContent = name;
@@ -1102,11 +1106,11 @@ function syncShopExplorer(activeGroup, shown, total) {
   if (back) back.disabled = !activeGroup;
   const crumb = document.querySelector('.breadcrumb span:last-child');
   if (crumb && !crumb.classList.contains('breadcrumb__sep')) crumb.textContent = name;
-  document.title = g ? `${name} — OUJI` : '全部產品 — OUJI';
+  document.title = `${name} — OUJI`;
   if (typeof total === 'number' && total !== shown) { /* 篩緊，件數以顯示為準 */ }
 }
 
-async function initCatalog({ section, cat, products, presetCat = null, group = null }) {
+async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null }) {
   const host = document.querySelector('[data-catalog]')
     || document.querySelector('.product-grid')?.parentElement;
   if (!host) return;
@@ -1154,6 +1158,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
   /* 全部產品頁先有 BOOT hero。其他分類頁行到呢度乜都唔會做。 */
   const bootHost = document.querySelector('[data-shop-boot]');
+  if (folderLabel) EXPLORER_BASE_LABEL = folderLabel;
   const validGroup = (k) => SHOP_GROUPS.some((g) => g.id === k) ? k : null;
   let activeGroup = bootHost ? validGroup(group) : null;
   if (bootHost) buildShopBootHero(products, activeGroup);

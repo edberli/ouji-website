@@ -51,7 +51,7 @@
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Noto+Serif+TC:wght@200;300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -515,11 +515,24 @@
 
     <!-- 由煩惱搵起。分類頁按貨品類型切，呢格按客自己講得出嘅煩惱切。
          ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。 -->
-    <!-- 「想搵咩？」暫時落架（2026-08-20，老闆叫停）—— 兩版封面卡同一版
-         面部線稿都畀否決咗，色卡版仲喺另一條 session 手上未完。
-         留返個 section 喺度但唔出，改好之後解返註釋就得。
-    <section class="section section--concerns section-float" data-home-concerns></section>
-    -->
+    <!-- 由煩惱搵起。分類頁按貨品類型切，呢格按客自己講得出嘅煩惱切。
+         ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。
+         入面成個 XP 助手由 home.js 用 live 目錄砌（件數要真）。
+         未行到 JS 之前，下面八條連結就係 fallback：冇件數，但撳得入去。 -->
+    <section class="section home-skin-cat" data-home-concerns
+             aria-labelledby="home-skin-cat-title">
+      <h2 id="home-skin-cat-title" class="visually-hidden">想搵咩？</h2>
+      <ul class="home-skin-cat__fallback">
+        <li><a href="shop.html?concern=acne">暗瘡・粉刺・閉口</a></li>
+        <li><a href="shop.html?concern=pore">毛孔・黑頭</a></li>
+        <li><a href="shop.html?concern=sensitive">泛紅・敏感</a></li>
+        <li><a href="shop.html?concern=dry">乾燥・缺水</a></li>
+        <li><a href="shop.html?concern=dull">暗沉・痘印</a></li>
+        <li><a href="shop.html?concern=aging">細紋・鬆弛</a></li>
+        <li><a href="shop.html?concern=oily">油光・出油</a></li>
+        <li><a href="shop.html?concern=sun">每日防曬</a></li>
+      </ul>
+    </section>
 
 
     <!-- 獲獎產品 -->

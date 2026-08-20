@@ -7240,106 +7240,10 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   color: var(--text-muted, rgba(30,48,56,0.6));
 }
 
-/* 「想搵咩？」由八張封面卡改成一幅面部線稿。
-   兩版封面卡都失敗過：第一版白底 packshot 裁直度再壓黑漸變（貨睇唔清、
-   成格灰），第二版換淺色枱面（乾淨咗，但同上面兩格一樣都係一排卡）。
-   問題唔喺張相調得靚唔靚，係「八個煩惱」根本唔應該用八張產品相講。
-
-   呢八樣嘢全部都係「面上邊一忽」。所以畫塊面：線稿一幅，八個點釘喺
-   對應嘅位，右邊清單同啲點連住，撳邊行都會著返塊面嗰忽。
-   冇產品相，就冇「相唔靚」；而且個圖講咗一件目錄講唔到嘅嘢 ——
-   呢個煩惱通常出喺邊。 */
-.face-map {
-  display: grid;
-  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-  gap: clamp(20px, 4vw, 64px);
-  align-items: center;
-  margin-top: var(--space-xl);
-}
-.face-map__stage { display: grid; place-items: center; }
-.face-map__art {
-  width: 100%;
-  max-width: 330px;
-  height: auto;
-  color: rgba(43, 76, 88, 0.42);
-  overflow: visible;
-}
-.face-map__hair { opacity: 0.55; }
-.face-map__iris { opacity: 0.5; }
-
-.face-map__pin { cursor: pointer; }
-.face-map__halo {
-  fill: var(--primary);
-  opacity: 0;
-  transition: opacity 0.35s var(--ease-out);
-}
-/* 空心圈唔係實心點 —— 實心點釘喺塊面上面會睇成粒粒 */
-.face-map__dot {
-  fill: rgba(255, 255, 255, 0.35);
-  stroke: var(--primary);
-  stroke-width: 1.5;
-  transition: fill 0.3s var(--ease-out), stroke-width 0.3s var(--ease-out);
-}
-.face-map__pin.is-on .face-map__halo { opacity: 0.18; }
-.face-map__pin.is-on .face-map__dot { fill: var(--primary); stroke-width: 2.6; }
-
-.face-map__list { display: flex; flex-direction: column; }
-.face-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  align-items: baseline;
-  gap: clamp(10px, 1.4vw, 22px);
-  padding: clamp(11px, 1.2vw, 15px) 12px;
-  border-bottom: 1px solid rgba(43, 76, 88, 0.1);
-  border-radius: 8px;
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.28s var(--ease-out);
-}
-.face-row:first-child { border-top: 1px solid rgba(43, 76, 88, 0.1); }
-.face-row__name {
-  font-family: var(--font-display);
-  font-size: clamp(1.0625rem, 1.35vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--text-primary);
-  transition: color 0.28s var(--ease-out);
-}
-.face-row__note {
-  display: block;
-  margin-top: 3px;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--text-muted, rgba(30, 48, 56, 0.6));
-}
-.face-row__area {
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--primary-darker);
-  opacity: 0.7;
-  white-space: nowrap;
-}
-.face-row__n {
-  font-size: 0.9375rem;
-  color: var(--primary-dark);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.face-row.is-on { background: rgba(255, 255, 255, 0.66); }
-.face-row.is-on .face-row__name { color: var(--primary-deep); }
-.face-row:focus-visible {
-  outline: 2px solid var(--primary, #6da3b5);
-  outline-offset: 2px;
-}
-
-@media (max-width: 900px) {
-  .face-map { grid-template-columns: 1fr; gap: clamp(14px, 3vw, 24px); }
-  .face-map__art { max-width: 236px; }
-  .face-row__area { display: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .face-map__halo, .face-map__dot, .face-row, .face-row__name { transition: none; }
-}
+/* 「想搵咩？」呢格嘅 CSS 已經搬咗去下面 .home-skin-cat（Y2K 芝麻貓）。
+   之前三版（封面卡／淺色枱面卡／面部線稿）嘅 rule 全部剷咗 ——
+   確認過成個 repo 冇任何 html／js 仲用緊 .concern-card、.concern-tile、
+   .concern-grid、.face-map、.face-row。 */
 
 
 /* ============================================
@@ -9240,4 +9144,341 @@ body::before { opacity: 0.18; }
 
 @media (prefers-reduced-motion: reduce) {
   .shop-boot__sticker { transition: none; }
+}
+
+/* ============================================================
+   首頁「想搵咩？」：Y2K 芝麻貓皮膚助手（2026-08-20）
+   來源 prototype：/Volumes/core/ouji-home-section-prototypes/y2k-cat.html（第 1 款）
+
+   全部 selector 收喺 .home-skin-cat 底下，token 亦都只落喺呢個 scope ——
+   同全部產品頁嗰套 --boot-* 分開，唔會互相影響。
+   ============================================================ */
+.home-skin-cat {
+  --skin-cat-blue: #0a55d5;
+  --skin-cat-blue-deep: #073d9d;
+  --skin-cat-cream: #ece9d8;
+  --skin-cat-pink: #ff67b3;
+  --skin-cat-yellow: #fff06a;
+  --skin-cat-ink: #10131b;
+  --skin-cat-pixel: 'Pixelify Sans', 'Noto Sans TC', sans-serif;
+  --skin-cat-mono: 'VT323', 'Noto Sans TC', monospace;
+  --skin-cat-out: cubic-bezier(.22, 1, .36, 1);
+
+  position: relative;
+  min-height: 720px;
+  overflow: hidden;
+  padding: 0;
+  color: var(--skin-cat-ink);
+}
+/* JS 未行到之前嗰八條連結：唔靚但撳得入去。砌好個 hero 就唔會再喺度。 */
+.home-skin-cat__fallback {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px var(--space-lg);
+  list-style: none;
+}
+.home-skin-cat__fallback a { color: var(--primary-deep); }
+
+.home-skin-cat__wallpaper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(#62c9ff 0 62%, #aee765 62% 100%);
+}
+.home-skin-cat__wallpaper::after {
+  content: '';
+  position: absolute;
+  left: -8%; right: -8%; bottom: 25px;
+  height: 205px;
+  border-radius: 50% 46% 0 0 / 100% 90% 0 0;
+  background: linear-gradient(155deg, #78dc43, #2aa63f);
+  transform: rotate(-2deg);
+  box-shadow: inset 0 8px 0 rgba(255, 255, 255, .36);
+}
+.home-skin-cat__cloud {
+  position: absolute;
+  z-index: 1;
+  width: 95px; height: 25px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .9);
+  filter: drop-shadow(22px -9px 0 rgba(255,255,255,.9)) drop-shadow(47px 2px 0 rgba(255,255,255,.9));
+}
+.home-skin-cat__cloud--a { left: 7%; top: 54px; }
+.home-skin-cat__cloud--b { right: 18%; top: 80px; transform: scale(.62); }
+
+.home-skin-cat__grid {
+  position: relative;
+  z-index: 3;
+  min-height: 686px;
+  display: grid;
+  grid-template-columns: .82fr 1.18fr;
+  gap: 42px;
+  align-items: center;
+  padding-block: 54px 70px;
+}
+.home-skin-cat__assistant { position: relative; align-self: end; min-height: 560px; }
+.home-skin-cat__label {
+  position: absolute;
+  z-index: 6;
+  left: 5%; top: 0;
+  padding: 6px 9px;
+  border: 2px solid var(--skin-cat-ink);
+  background: #ffffff;
+  box-shadow: 4px 4px 0 var(--skin-cat-ink);
+  transform: rotate(-2deg);
+}
+.home-skin-cat__label b { display: block; font: 700 20px/.9 var(--skin-cat-pixel); }
+.home-skin-cat__label span { font: 13px/1 var(--skin-cat-mono); }
+.home-skin-cat__mascot {
+  position: absolute;
+  left: -4%; bottom: -14px;
+  width: min(108%, 510px);
+  height: 535px;
+  object-fit: contain;
+  object-position: left bottom;
+  filter: drop-shadow(9px 13px 0 rgba(16, 19, 27, .16));
+}
+
+.home-skin-cat__window {
+  align-self: center;
+  border: 3px solid var(--skin-cat-blue-deep);
+  border-radius: 7px 7px 0 0;
+  background: var(--skin-cat-cream);
+  box-shadow: 8px 9px 0 rgba(16, 19, 27, .28);
+  transform: rotate(1deg);
+}
+.home-skin-cat__titlebar {
+  min-height: 29px;
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px 4px 4px 9px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(90deg, #0754d7, #3d91f8);
+  color: #ffffff;
+  font: 600 13px/1 var(--skin-cat-pixel);
+  text-shadow: 1px 1px #073a9a;
+}
+.home-skin-cat__titlebar span:first-child { margin-right: auto; }
+.home-skin-cat__titlebar i {
+  width: 19px; height: 19px;
+  display: grid; place-items: center;
+  border: 1px solid #ffffff; border-radius: 3px;
+  background: #2381ef;
+  font-family: Arial, sans-serif; font-size: 11px; font-style: normal;
+}
+.home-skin-cat__titlebar i:last-child { background: #e85535; }
+.home-skin-cat__menubar {
+  padding: 4px 8px;
+  border-bottom: 1px solid #aaa89e;
+  background: #f7f5e9;
+  font: 13px/1 var(--skin-cat-mono);
+  word-spacing: 10px;
+}
+.home-skin-cat__body {
+  min-height: 472px;
+  padding: 18px;
+  border: 2px solid #ffffff;
+  background: #ffffff;
+}
+.home-skin-cat__head {
+  display: flex; justify-content: space-between; align-items: start; gap: 20px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #c3c2b7;
+}
+.home-skin-cat__head h3 {
+  margin: 0;
+  color: var(--skin-cat-blue-deep);
+  font: 700 clamp(26px, 3.5vw, 43px)/.9 var(--skin-cat-pixel);
+}
+.home-skin-cat__head p { margin: 7px 0 0; color: #4b5b60; font-size: 11px; }
+.home-skin-cat__head span {
+  min-width: max-content;
+  padding: 4px 7px;
+  border: 1px solid #8c8a80;
+  background: var(--skin-cat-yellow);
+  font: 13px/1 var(--skin-cat-mono);
+}
+.home-skin-cat__caption { margin: 13px 0 7px; color: #4b5b60; font: 11px/1 var(--skin-cat-mono); }
+
+.home-skin-cat__concerns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.home-skin-cat__concern {
+  min-width: 0;
+  min-height: 52px;
+  padding: 7px 8px;
+  border: 2px outset #ffffff;
+  background: #f4f1df;
+  color: var(--skin-cat-blue-deep);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 180ms var(--skin-cat-out);
+}
+.home-skin-cat__concern:hover { transform: translateY(-2px); background: #fffbd0; }
+.home-skin-cat__concern[aria-pressed="true"] {
+  border-style: inset;
+  background: var(--skin-cat-yellow);
+  box-shadow: 0 0 0 2px #f0ae00 inset;
+}
+.home-skin-cat__concern:focus-visible {
+  outline: 3px solid var(--skin-cat-pink);
+  outline-offset: 3px;
+}
+.home-skin-cat__concern:disabled { opacity: .55; cursor: default; transform: none; }
+.home-skin-cat__concern b {
+  display: block;
+  overflow: hidden;
+  font: 700 13px/1.1 var(--skin-cat-pixel);
+  text-overflow: ellipsis;
+}
+.home-skin-cat__concern small { display: block; margin-top: 4px; color: #526066; font: 11px/1 var(--skin-cat-mono); }
+
+.home-skin-cat__products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.home-skin-cat__product {
+  min-width: 0;
+  padding: 7px;
+  border: 1px solid #9c9a90;
+  background: #ffffff;
+  box-shadow: 1px 1px 0 #ffffff inset;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms var(--skin-cat-out);
+}
+.home-skin-cat__product:hover { transform: translateY(-3px); }
+.home-skin-cat__product:focus-visible { outline: 3px solid var(--skin-cat-pink); outline-offset: 2px; }
+/* 相位固定高度：慢圖唔會令成個視窗跳 */
+.home-skin-cat__product i { display: block; aspect-ratio: .9; overflow: hidden; background: #eef3f4; }
+.home-skin-cat__product img { width: 100%; height: 100%; object-fit: contain; }
+.home-skin-cat__product b { display: block; margin-top: 6px; color: #5d6d72; font: 11px/1 var(--skin-cat-mono); }
+.home-skin-cat__product span {
+  display: -webkit-box;
+  margin-top: 2px;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: var(--skin-cat-ink);
+  font-size: 10px;
+  line-height: 1.35;
+}
+.home-skin-cat__product em {
+  display: block;
+  margin-top: 3px;
+  color: var(--skin-cat-blue-deep);
+  font: 12px/1 var(--skin-cat-mono);
+  font-style: normal;
+}
+
+/* CTA 係成格嘅目的，所以視覺重量要大過上面八粒掣同三件貨 */
+.home-skin-cat__cta {
+  display: flex; justify-content: space-between; align-items: center;
+  min-height: 52px;
+  margin-top: 12px;
+  padding: 9px 10px 9px 15px;
+  border: 2px outset #b8f0ae;
+  background: linear-gradient(#68d45c, #238e33);
+  color: #ffffff;
+  font: 700 16px/1.15 var(--skin-cat-pixel);
+  text-shadow: 1px 1px #176d24;
+  text-decoration: none;
+  box-shadow: 0 3px 0 #176d24;
+  transition: transform 180ms var(--skin-cat-out);
+}
+.home-skin-cat__cta:hover { transform: translateY(-2px); }
+.home-skin-cat__cta:active { transform: translateY(1px); box-shadow: 0 1px 0 #176d24; }
+.home-skin-cat__cta:focus-visible { outline: 3px solid var(--skin-cat-pink); outline-offset: 3px; }
+.home-skin-cat__cta span:last-child {
+  width: 32px; height: 30px;
+  display: grid; place-items: center;
+  border: 2px outset #ffffff;
+  background: var(--skin-cat-yellow);
+  color: var(--skin-cat-blue-deep);
+  font-size: 21px;
+  text-shadow: none;
+}
+
+.home-skin-cat__status {
+  min-height: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 3px 7px;
+  border-top: 1px solid #aaa89e;
+  background: #f7f5e9;
+  font: 13px/1 var(--skin-cat-mono);
+}
+.home-skin-cat__taskbar {
+  position: absolute;
+  z-index: 30;
+  left: 0; right: 0; bottom: 0;
+  height: 34px;
+  display: flex; align-items: center; gap: 7px;
+  padding-right: 10px;
+  background: linear-gradient(#2f79ed, #0753ca);
+  color: #ffffff;
+  font: 14px/1 var(--skin-cat-mono);
+}
+.home-skin-cat__start {
+  align-self: stretch;
+  display: flex; align-items: center;
+  padding: 0 22px 0 13px;
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(#65d159, #208d31);
+  font: italic 600 13px/1 var(--skin-cat-pixel);
+  text-shadow: 1px 1px #176d24;
+}
+.home-skin-cat__task { padding: 5px 28px 5px 9px; border: 1px solid rgba(255,255,255,.3); background: #1d63cf; }
+.home-skin-cat__clock { margin-left: auto; }
+
+@media (max-width: 900px) {
+  .home-skin-cat__grid { grid-template-columns: 1fr; gap: 12px; padding-top: 34px; }
+  .home-skin-cat__assistant { min-height: 500px; }
+  .home-skin-cat__mascot {
+    left: 50%;
+    width: min(92%, 460px);
+    transform: translateX(-50%);
+    object-position: center bottom;
+  }
+  .home-skin-cat__window { margin-bottom: 35px; }
+}
+
+@media (max-width: 600px) {
+  .home-skin-cat { min-height: 0; }
+  .home-skin-cat__assistant { min-height: 430px; }
+  .home-skin-cat__label { left: 0; }
+  .home-skin-cat__mascot { width: min(94%, 365px); height: 410px; }
+  .home-skin-cat__body { min-height: 0; padding: 10px; }
+  .home-skin-cat__head { display: block; }
+  .home-skin-cat__head span { display: inline-block; margin-top: 8px; }
+  .home-skin-cat__concerns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* 手機掣至少 56px 高 —— 長 label（暗瘡・粉刺・閉口）准出兩行，
+     唔准縮到 12px 以下 */
+  .home-skin-cat__concern { min-height: 56px; padding: 8px 9px; }
+  .home-skin-cat__concern b { font-size: 14px; white-space: normal; }
+  .home-skin-cat__concern small { font-size: 12px; }
+  .home-skin-cat__products { gap: 6px; }
+  .home-skin-cat__product { padding: 4px; }
+  .home-skin-cat__product span { display: none; }
+  .home-skin-cat__cta { min-height: 56px; font-size: 15px; }
+  .home-skin-cat__taskbar { height: 29px; }
+  .home-skin-cat__start { padding-inline: 10px 14px; }
+  .home-skin-cat__task { padding-right: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-skin-cat__concern,
+  .home-skin-cat__product,
+  .home-skin-cat__cta { transition: none; }
+  .home-skin-cat__concern:hover,
+  .home-skin-cat__product:hover,
+  .home-skin-cat__cta:hover { transform: none; }
 }

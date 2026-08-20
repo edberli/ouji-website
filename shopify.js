@@ -1410,10 +1410,12 @@ const CONCERNS = [
   /* 「黑頭」同 bha 本來兩格都有，於是 acne 同 pore 攞到同一批貨、
      再由同一條 featured 排序揀封面 —— 兩格出同一支 COSRX toner。
      黑頭同去角質歸毛孔，暗瘡只留真係講緊暗瘡嗰啲。 */
-  { id: 'acne',      label: '暗瘡・粉刺',
+  /* 2026-08-20：「痘印」由暗瘡搬去暗沉 —— 痘印係印唔係痘，客搵痘印
+     想要嘅係提亮嗰批貨，唔係水楊酸。同時加返客自己會講嘅「閉口」。 */
+  { id: 'acne',      label: '暗瘡・粉刺・閉口',
     note: '茶樹、水楊酸、痘痘貼呢類',
-    re: /暗瘡|痘痘|痘印|粉刺|acne|blemish|spot patch|水楊酸|salicylic|茶樹|tea tree/i },
-  { id: 'pore',      label: '毛孔粗大',
+    re: /暗瘡|痘痘|閉口|粉刺|acne|blemish|spot patch|水楊酸|salicylic|茶樹|tea tree/i },
+  { id: 'pore',      label: '毛孔・黑頭',
     note: '收毛孔、去角質嗰批',
     re: /毛孔|收毛孔|pore|黑頭|blackhead|去角質|peeling|scrub|\bbha\b|\bpha\b/i },
   { id: 'sensitive', label: '泛紅・敏感',
@@ -1422,16 +1424,16 @@ const CONCERNS = [
   { id: 'dry',       label: '乾燥・缺水',
     note: '玻尿酸、神經醯胺、補水面膜',
     re: /保濕|補水|乾燥|水潤|鎖水|hydra|moist|hyaluron|玻尿酸|透明質酸|ceramide|神經醯胺|barrier|屏障/i },
-  { id: 'dull',      label: '暗沉・色斑',
+  { id: 'dull',      label: '暗沉・痘印',
     note: '維他命 C、煙酰胺、穀胱甘肽',
-    re: /美白|亮白|提亮|暗沉|色斑|斑印|透亮|煥白|bright|whitening|glow|tone.?up|glutathione|穀胱甘肽|vitamin ?c|維他命 ?c|niacinamide|煙酰胺|煙醯胺|arbutin|tranexamic|傳明酸/i },
+    re: /美白|亮白|提亮|暗沉|痘印|色斑|斑印|透亮|煥白|bright|whitening|glow|tone.?up|glutathione|穀胱甘肽|vitamin ?c|維他命 ?c|niacinamide|煙酰胺|煙醯胺|arbutin|tranexamic|傳明酸/i },
   { id: 'aging',     label: '細紋・鬆弛',
     note: '膠原、胜肽、視黃醇',
     re: /抗皺|細紋|皺紋|緊緻|提拉|彈力|抗老|逆齡|lifting|firming|wrinkle|anti.?aging|collagen|膠原|retinol|視黃醇|retinal|peptide|胜肽|多肽|pdrn/i },
   { id: 'oily',      label: '油光・出油',
     note: '控油、啞光、吸油',
     re: /控油|油光|出油|清爽|sebum|oil ?control|matte|啞光|no.?sebum|powder wash/i },
-  { id: 'sun',       label: '防曬',
+  { id: 'sun',       label: '每日防曬',
     note: '每日都要搽嗰支',
     re: /防曬|spf|sun ?(cream|stick|serum|essence|cushion|lotion|screen)|uv|선크림/i },
 ];

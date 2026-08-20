@@ -491,54 +491,145 @@ async function initHome() {
     }
   }
 
-  const concerns = document.querySelector('[data-home-concerns]');
-  if (concerns && typeof CONCERNS !== 'undefined') {
+  /* ============================================================
+     想搵咩？—— Y2K 芝麻貓皮膚助手（已批准設計）
+
+     之前三個版本都畀否決咗：白底 packshot ＋ 黑漸變（灰濛濛）、
+     淺色枱面卡（同上下兩格一樣係一排卡）、面部線稿（畫得唔靚）。
+     而家係一部擺喺 XP 草地嘅 skin_helper.exe：左邊芝麻貓指住右邊，
+     右邊係真係撳得嘅 Windows 視窗 —— 揀煩惱、睇三件真貨、撳綠掣入去。
+
+     兩個唔可以破嘅規矩：
+     1. 八個分類名同件數**未撳之前就要見到**，唔准收埋做 hover。
+     2. 撳分類**淨係換視窗入面嘅結果**，唔重畫成格、唔郁 scroll、
+        focus 留喺原本嗰粒掣。所以個 DOM 砌一次，之後淨係 patch。
+     ============================================================ */
+  const catHost = document.querySelector('[data-home-concerns]');
+  if (catHost && typeof CONCERNS !== 'undefined') {
     const live = products.filter((p) =>
       typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true);
 
-    /* 封面相要逐格唔同。上一版每格各自攞自己嘅冠軍，但幾格嘅條件本身
-       重疊（暗瘡同毛孔都收「黑頭」），排序又係同一條，結果八張封面得
-       四件貨 —— 同一支 COSRX toner 做咗兩格主角，「油光」仲喺同一張卡
-       用咗同一張相兩次。而家兩輪砌：先計晒每格有邊啲貨，再由件數最少
-       嗰格開始揀相，揀過嘅相同貨品全域記住唔再用。
-       由最少嗰格先揀，因為佢揀擇最窄；大格有幾百件貨，執到啲乜都夠。 */
-    const buckets = CONCERNS
-      .map((c) => ({ c, hits: live.filter((p) => matchesConcern(p, c)) }))
-      .filter((b) => b.hits.length >= 8);
-
-    const usedImg = new Set();
-    const usedHandle = new Set();
-    [...buckets].sort((a, b) => a.hits.length - b.hits.length).forEach((b) => {
-      b.cover = b.hits
+    /* 每類：件數同三件推薦。三件要有首圖、唔重複、跟返 production
+       嘅 featured 排序 —— 唔夠三件就出實際有幾件，唔補假貨。 */
+    const buckets = CONCERNS.map((c) => {
+      const hits = live.filter((p) => matchesConcern(p, c));
+      const seen = new Set();
+      const picks = hits
         .filter((p) => p.images?.edges?.[0]?.node?.url)
         .sort((x, y) => featured(y) - featured(x))
         .filter((p) => {
-          const u = p.images.edges[0].node.url;
-          if (usedImg.has(u) || usedHandle.has(p.handle)) return false;
-          usedImg.add(u); usedHandle.add(p.handle);
+          const url = p.images.edges[0].node.url;
+          if (seen.has(p.handle) || seen.has(url)) return false;
+          seen.add(p.handle); seen.add(url);
           return true;
         })
-        .slice(0, 1)[0] || null;
+        .slice(0, 3);
+      return { c, hits, picks };
     });
 
-    const rows = buckets.filter((b) => b.cover);
-    if (rows.length >= 4) {
-      concerns.innerHTML = `
-        <div class="container">
-          <div class="section-header reveal-blur">
-            <h2 class="heading-lg section-header__title">想搵咩？</h2>
-            <p class="section-header__note">揀個範疇，我哋將講到呢方面嘅貨排埋一齊。</p>
-          </div>
-          <div class="concern-grid">
-            ${rows.map(({ c, hits, cover }) => `
-              <a class="concern-card" href="shop.html?concern=${c.id}">
-                <img class="concern-card__shot" src="${cover.images.edges[0].node.url}&width=560"
-                     alt="" loading="lazy">
-                <span class="concern-card__label">${c.label}</span>
-                <span class="concern-card__n">${hits.length} 件</span>
-              </a>`).join('')}
-          </div>
+    /* 一件貨都冇就唔好畫個假 hero 出嚟 */
+    if (buckets.some((b) => b.hits.length)) {
+      const esc = (t) => String(t || '').replace(/"/g, '&quot;');
+      const money = (p) => formatPrice(p.priceRange?.minVariantPrice?.amount);
+
+      const productCell = (p) => {
+        const img = p.images.edges[0].node;
+        return `<a class="home-skin-cat__product" href="/products/${p.handle}">
+          <i><img src="${img.url}&width=240" alt="${esc(p.title)}"
+                  width="240" height="267" loading="lazy" decoding="async"></i>
+          <b>${p.vendor || ''}</b>
+          <span>${p.title}</span>
+          <em>${money(p)}</em>
+        </a>`;
+      };
+
+      catHost.innerHTML = `
+        <div class="home-skin-cat__wallpaper" aria-hidden="true">
+          <span class="home-skin-cat__cloud home-skin-cat__cloud--a"></span>
+          <span class="home-skin-cat__cloud home-skin-cat__cloud--b"></span>
+        </div>
+        <div class="container home-skin-cat__grid">
+          <aside class="home-skin-cat__assistant">
+            <div class="home-skin-cat__label" aria-hidden="true">
+              <b>OUJI SKIN CAT</b>
+              <span>揀右邊一個皮膚煩惱 ฅ^•ﻌ•^ฅ</span>
+            </div>
+            <img class="home-skin-cat__mascot"
+                 src="assets/images/home/ouji-shima-cat.png"
+                 alt="穿住 OUJI 牛仔圍裙、指住分類掣嘅芝麻貓"
+                 width="1200" height="1310" loading="lazy" decoding="async">
+          </aside>
+
+          <article class="home-skin-cat__window">
+            <div class="home-skin-cat__titlebar">
+              <span>skin_helper.exe</span>
+              <i aria-hidden="true">_</i><i aria-hidden="true">□</i><i aria-hidden="true">×</i>
+            </div>
+            <div class="home-skin-cat__menubar" aria-hidden="true">檔案　編輯　檢視　說明</div>
+            <div class="home-skin-cat__body">
+              <header class="home-skin-cat__head">
+                <div>
+                  <h3 data-skin-cat-title></h3>
+                  <p data-skin-cat-note></p>
+                </div>
+                <span data-skin-cat-count></span>
+              </header>
+              <p class="home-skin-cat__caption">先揀而家最困擾你嗰樣：</p>
+              <div class="home-skin-cat__concerns" data-skin-cat-buttons></div>
+              <div class="home-skin-cat__products" data-skin-cat-products></div>
+              <a class="home-skin-cat__cta" data-skin-cat-cta href="shop.html"></a>
+            </div>
+            <div class="home-skin-cat__status">
+              <span data-skin-cat-status></span><span aria-hidden="true">OUJI SKIN OS</span>
+            </div>
+            <p class="visually-hidden" aria-live="polite" data-skin-cat-say></p>
+          </article>
+        </div>
+        <div class="home-skin-cat__taskbar" aria-hidden="true">
+          <b class="home-skin-cat__start">start</b>
+          <span class="home-skin-cat__task">skin_helper.exe</span>
+          <time class="home-skin-cat__clock">20:01</time>
         </div>`;
+
+      const btnHost = catHost.querySelector('[data-skin-cat-buttons]');
+      btnHost.innerHTML = buckets.map(({ c, hits }) => `
+        <button type="button" class="home-skin-cat__concern"
+                data-concern-id="${c.id}" aria-pressed="false"
+                ${hits.length ? '' : 'disabled aria-disabled="true"'}>
+          <b>${c.label}</b>
+          <small>${hits.length} 件產品</small>
+        </button>`).join('');
+
+      /* 只 patch 結果區：標題、說明、件數、三件貨、CTA、狀態行。
+         個 section、八粒掣、貓咪一律唔重畫 —— 所以 focus 唔會跌。 */
+      const paintCat = (id) => {
+        const b = buckets.find((x) => x.c.id === id) || buckets[0];
+        btnHost.querySelectorAll('[data-concern-id]').forEach((el) => {
+          el.setAttribute('aria-pressed', el.dataset.concernId === b.c.id ? 'true' : 'false');
+        });
+        catHost.querySelector('[data-skin-cat-title]').textContent = b.c.label;
+        catHost.querySelector('[data-skin-cat-note]').textContent = b.c.note;
+        catHost.querySelector('[data-skin-cat-count]').textContent = `${b.hits.length} 件`;
+        catHost.querySelector('[data-skin-cat-products]').innerHTML =
+          b.picks.map(productCell).join('');
+        const cta = catHost.querySelector('[data-skin-cat-cta]');
+        cta.href = `shop.html?concern=${b.c.id}`;
+        cta.innerHTML = `<span>打開 ${b.hits.length} 件${b.c.label}產品</span>`
+          + `<span aria-hidden="true">→</span>`;
+        catHost.querySelector('[data-skin-cat-status]').textContent =
+          `${b.picks.length} 件顯示中 · 共 ${b.hits.length} 件`;
+        catHost.querySelector('[data-skin-cat-say]').textContent =
+          `${b.c.label}，${b.hits.length} 件產品`;
+      };
+
+      btnHost.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-concern-id]');
+        if (btn && !btn.disabled) paintCat(btn.dataset.concernId);
+      });
+
+      const first = buckets.find((b) => b.c.id === 'acne' && b.hits.length)
+        || buckets.find((b) => b.hits.length);
+      paintCat(first.c.id);
     }
   }
 

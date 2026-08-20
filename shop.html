@@ -431,7 +431,9 @@
     const q = (params.get('q') || '').trim();
     /* 搜尋／煩惱入嚟嗰陣，Explorer 個資料夾名要跟返佢，唔可以仲寫住
        「全部產品」—— 個名就係客而家企緊喺邊。BOOT hero 保持原樣。 */
+    let folderLabel = null;
     const setFolder = (name, note) => {
+      folderLabel = name;
       const t = document.querySelector('[data-explorer-title]');
       if (t) t.textContent = name;
       const path = document.querySelector('[data-explorer-path]');
@@ -475,7 +477,7 @@
     if (!products.length) {
       showCategoryEmpty('skincare', cat);
     } else {
-      initCatalog({ section: null, cat, products, group: params.get('group') });
+      initCatalog({ section: null, cat, products, group: params.get('group'), folderLabel });
     }
   });
   </script>
