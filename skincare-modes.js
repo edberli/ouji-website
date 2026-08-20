@@ -39,6 +39,18 @@ function smPickToggle(ans, q, v) {
 // 門口寫「答三條」，就只可以有三條。呢兩支加埋想改善就係嗰三條。
 const SM_FIRST = ['skin', 'tex'];
 
+/* 漸進式展開（2026-08-21，Y2K Revision 07）
+ *
+ * 一入嚟五支拉桿一次過推晒出嚟，首屏成 1500px 高，客未答第一條就要碌。
+ * 而家：入嚟淨係得「你嘅皮膚」，答完先向下展開其餘。
+ *
+ * 敏感程度由「再精準啲」抽返出嚟，擺喺膚質正下方 —— 敏感係獨立一條軸，
+ * 唔係乾／中／混合／油入面其中一格：乾性都可以係敏感肌。收埋喺進階區
+ * 等於叫客喺「油性」同「敏感」之間二揀一。
+ * 答案 key、value、同 skincare-match.js 嗰邊嘅敏感肌排除邏輯一個字都冇改。 */
+const SM_TOP = ['skin'];
+const SM_FOLLOW = ['sens', 'tex'];
+
 const SM_ROWS = [
   { key: 'skin', label: '你嘅皮膚', req: true, off: 1,
     stops: [['dry', '乾性'], ['normal', '中性'], ['combo', '混合性'], ['oily', '油性'],
@@ -179,6 +191,25 @@ function smPreview(ans) {
   });
 }
 
+/* 展開之後嘅善後：碌位 ＋ 讀屏宣告。
+   prefers-reduced-motion 之下唔用 smooth scroll。 */
+function smAfterReveal() {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const target = document.querySelector('[data-lever="sens"]')?.closest('.dl__row');
+  if (target) {
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  }
+  let live = document.getElementById('sm-live');
+  if (!live) {
+    live = document.createElement('p');
+    live.id = 'sm-live';
+    live.className = 'visually-hidden';
+    live.setAttribute('aria-live', 'polite');
+    document.body.appendChild(live);
+  }
+  live.textContent = '其他問題已展開';
+}
+
 const smModeDials = {
   id: 'dials', name: '拉桿', gesture: '拉住郁 · 即時見到套嘢',
   /* 「答三條」以前係講大話：門口寫三條，撳開係五支拉桿、十一個 chip、
@@ -209,9 +240,37 @@ const smModeDials = {
     const steps = (ans.want && ans.want !== 'set') ? ans.want : SM_STEPS;
     const vendors = smVendors(ans, steps);
 
-    return `<div class="dl">
+    const revealed = !!ans.skin;
 
-      ${SM_ROWS.filter((d) => SM_FIRST.includes(d.key)).map((d) => smLever(d, ans)).join('')}
+    return `<div class="dl">
+      <div class="dl__xp">
+        <div class="dl__bar-top">
+          <span class="dl__bar-name">OUJI Skin Control Panel — 護膚配方</span>
+          <span class="dl__bar-ctl" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+        </div>
+        <div class="dl__menu" aria-hidden="true"><span>配方(F)</span><span>設定(S)</span><span>說明(H)</span></div>
+        <div class="dl__ws">
+          <aside class="dl__cat">
+            <ol class="dl__steps" aria-hidden="true">
+              <li><b>1</b>你嘅皮膚</li><li><b>2</b>敏感程度＋質地</li><li><b>3</b>想改善</li>
+            </ol>
+            <p class="dl__bubble" aria-hidden="true">先答膚質，下面就會自動展開啦～</p>
+            <img class="dl__cat-img" src="assets/images/home/ouji-shima-cat.png"
+                 alt="" width="1200" height="1310" loading="lazy" decoding="async">
+          </aside>
+          <div class="dl__form">
+            <div class="dl__cat-strip" aria-hidden="true">
+              <img src="assets/images/home/ouji-shima-cat.png" alt=""
+                   width="1200" height="1310" loading="lazy" decoding="async">
+              <span><b>芝麻幫你揀</b>先答第一條，其他選項會喺下面展開。</span>
+            </div>
+
+      ${SM_ROWS.filter((d) => SM_TOP.includes(d.key)).map((d) => smLever(d, ans)).join('')}
+
+      ${revealed ? '' : `<p class="dl__cue"><span>揀一項，下面會展開其他問題</span><b>↓</b></p>`}
+
+      <div class="dl__follow"${revealed ? '' : ' hidden'}>
+      ${SM_ROWS.filter((d) => SM_FOLLOW.includes(d.key)).map((d) => smLever(d, ans)).join('')}
 
       <div class="dl__concerns">
         <p class="dl__label">想改善<span class="dl__req">要揀</span>
@@ -233,7 +292,7 @@ const smModeDials = {
         })()}
       </button>
       ${st.fine ? `<div class="dl__adv">
-        ${SM_ROWS.filter((d) => !SM_FIRST.includes(d.key)).map((d) => smLever(d, ans)).join('')}
+        ${SM_ROWS.filter((d) => !SM_TOP.includes(d.key) && !SM_FOLLOW.includes(d.key)).map((d) => smLever(d, ans)).join('')}
 
         <p class="dl__label" style="margin-top:1.4rem">品牌${
           ans.brands.length ? `（揀咗 ${ans.brands.length} 個）` : `（全部 ${vendors.length} 個）`}</p>
@@ -256,13 +315,13 @@ const smModeDials = {
           ${SM_WANT_ACTIVE.map((n) => `<button type="button" class="dl__tag" data-active="${smEsc(n)}"
             aria-pressed="${ans.adv.want === n}">${smEsc(n)}</button>`).join('')}
         </div>
-        <p class="dl__note">成分類要求只會揀到<b>品牌公開咗全成分表</b>嘅產品（503 件之中有 200 件）。
+        <p class="dl__note">成分類要求只會揀到<b>品牌公開咗全成分表</b>嘅產品（唔係每件貨都公開）。
           冇公開成分表唔代表含有，只係我哋唔知 —— 所以唔會當作符合。</p>
       </div>` : ''}
 
       ${(() => {
         // Say what is still missing rather than greying out and going quiet.
-        const need = SM_ROWS.filter((d) => SM_FIRST.includes(d.key) && d.req && !ans[d.key])
+        const need = SM_ROWS.filter((d) => SM_TOP.includes(d.key) && d.req && !ans[d.key])
           .map((d) => d.label)
           .concat(ans.concerns.length ? [] : ['想改善']);
         // 質地 starts on 隨便 by design, so it does not count as touched.
@@ -292,11 +351,23 @@ const smModeDials = {
           </div>
         </div>`;
       })()}
+      </div>
+          </div>
+        </div>
+      </div>
     </div>`;
   },
   click(e, st, ans) {
     const n = e.target.closest('[data-row]');
-    if (n) { ans[n.dataset.row] = n.dataset.val; return 'redraw'; }
+    if (n) {
+      const first = n.dataset.row === 'skin' && !ans.skin;
+      ans[n.dataset.row] = n.dataset.val;
+      /* 第一次答膚質先做：碌去「皮膚易唔易敏感？」附近，讀屏補一句。
+         唔搶 focus —— 客可能仲想改膚質，focus 應該留喺原本嗰粒掣。
+         redraw 係同步嘅，所以下一個 tick 個 DOM 已經砌好。 */
+      if (first) setTimeout(() => smAfterReveal(), 0);
+      return 'redraw';
+    }
     if (e.target.closest('[data-reset]')) {
       Object.assign(ans, { skin: '', sens: '', concerns: [], tol: '', tex: 'any', age: '',
         want: 'set', adv: {}, brands: [], fine: {} });

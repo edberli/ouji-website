@@ -1335,7 +1335,7 @@ async function initSkincareMatch(root) {
       <span class="sm__open-lede">
         <span class="sm__open-kicker">護膚配方</span>
         <span class="sm__open-title">唔知揀邊支好？答三條，幫你揀</span>
-        <span class="sm__open-sub">503 件護膚品，對膚質、成分同質地揀出屬於你嗰幾件</span>
+        <span class="sm__open-sub">對膚質、成分同質地，喺全店護膚品入面揀出屬於你嗰幾件</span>
       </span>
       <span class="sm__open-mark" aria-hidden="true"></span>
     </button>
@@ -1418,7 +1418,7 @@ async function initSkincareMatch(root) {
 
   const finish = async () => {
     stage.innerHTML = `<div class="sm__wait"><p>執緊你嗰套…</p>
-      <p class="sm__wait-sub">對緊 503 件貨嘅膚質、成分同存貨。</p></div>`;
+      <p class="sm__wait-sub">對緊 ${Object.keys(SM.attrs || {}).length} 件貨嘅膚質、成分同存貨。</p></div>`;
     smRemember(ans);
     try {
       const r = await smBuild(ans);

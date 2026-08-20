@@ -612,3 +612,263 @@
      tracks whatever padding the body is running at this breakpoint. */
   .rf__acts { padding-left: 2rem; padding-right: 2rem; margin-inline: -2rem; }
 }
+
+/* ============================================================
+   護膚配方 XP／Y2K — Revision 07（2026-08-21）
+   Prototype：/Volumes/core/ouji-skincare-wizard-y2k/index.html
+
+   全部規則收喺 .sm 底下，唔會漏去分類卡、產品格或者其他頁。
+   核心配對（skincare-match.js）一個字都冇改 —— 呢度淨係換皮同改展開次序。
+
+   最重要嗰條：**深色只屬於產品卡**。之前成幅結果係深底，答完問題就好似
+   跌咗入另一個網站；而家結果區保持淺藍，深藍淨係花喺每張產品卡上面。
+   ============================================================ */
+.sm {
+  --sm-xp-blue: #0757cf;
+  --sm-xp-blue-hi: #2c83ef;
+  --sm-section-1: #edf7ff;
+  --sm-section-2: #e4f1f8;
+  --sm-section-3: #dbeaf3;
+  --sm-card-1: #315b65;
+  --sm-card-2: #244852;
+  --sm-card-3: #1c3d47;
+  --sm-ink: #29465a;
+  --sm-muted: #607c91;
+  --sm-card-text: #f5f8f7;
+  --sm-card-muted: #ccdade;
+  --sm-card-cta: #cbdde1;
+  --sm-pink: #f0b7c4;
+  --sm-yellow: #fff071;
+  --sm-green: #2ba239;
+  --sm-line: #9fbdd0;
+}
+
+/* ---------- 問答：XP 控制台 ---------- */
+.sm .dl {
+  /* 原本 .dl 係 flex（拉桿逐支疊）。而家入面得一個 XP 視窗，keep 住 flex
+     嘅話個視窗會縮到跟內容闊（實測桌面得 341px）。改返 block。 */
+  display: block;
+  min-height: 0;
+  padding: clamp(14px, 2.4vw, 26px) clamp(10px, 2vw, 22px) clamp(22px, 3vw, 34px);
+  background: linear-gradient(180deg, var(--sm-section-1), var(--sm-section-2));
+  color: var(--sm-ink);
+}
+.dl__xp {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  border: 2px solid var(--sm-xp-blue);
+  border-radius: 8px 8px 4px 4px;
+  background: #ffffff;
+  box-shadow: 6px 7px 0 rgba(16, 40, 60, .16);
+  overflow: hidden;
+}
+.dl__bar-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  min-height: 30px; padding: 5px 6px 5px 11px;
+  background: linear-gradient(90deg, var(--sm-xp-blue), var(--sm-xp-blue-hi));
+  color: #fff; font-size: 13px; font-weight: 600; text-shadow: 1px 1px rgba(4, 40, 100, .8);
+}
+/* 窄機標題會摺兩行撞到右上角三粒掣 —— 一行截斷就得 */
+.dl__bar-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl__bar-ctl { display: flex; gap: 3px; flex: 0 0 auto; }
+.dl__bar-ctl i {
+  display: grid; place-items: center; width: 19px; height: 19px;
+  border: 1px solid #fff; border-radius: 3px; background: #2381ef;
+  font-size: 11px; font-style: normal; text-shadow: none;
+}
+.dl__bar-ctl i:last-child { background: #e85535; }
+/* 三個 menu 字之間喺 markup 度冇空白，所以 word-spacing 冇用，要 flex gap */
+.dl__menu {
+  display: flex; gap: 14px;
+  padding: 4px 10px; border-bottom: 1px solid #aaa89e; background: #f7f5e9;
+  font-size: 12px; color: #4b5b60;
+}
+.dl__ws { display: grid; grid-template-columns: minmax(0, .32fr) minmax(0, 1fr); }
+
+/* 芝麻：助手，唔係主角 —— 唔准遮住問題、結果同 CTA */
+.dl__cat {
+  position: relative;
+  padding: 16px 12px 0;
+  border-right: 1px solid #cfe0ea;
+  background: linear-gradient(180deg, #f2fbff, #e3f2fb);
+}
+.dl__steps { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 6px; font-size: 12px; }
+.dl__steps b {
+  display: inline-grid; place-items: center; width: 17px; height: 17px; margin-right: 6px;
+  border: 1px solid var(--sm-xp-blue); border-radius: 50%; background: #fff;
+  color: var(--sm-xp-blue); font-size: 11px;
+}
+.dl__bubble {
+  margin: 0; padding: 7px 9px; border: 1px solid var(--sm-line); border-radius: 9px;
+  background: #fff; font-size: 12px; line-height: 1.5; color: var(--sm-ink);
+}
+.dl__cat-img { display: block; width: 100%; max-width: 230px; margin: 6px auto -2px; height: auto; }
+.dl__cat-strip { display: none; }
+.dl__form { padding: 16px clamp(12px, 2vw, 22px) 20px; min-width: 0; }
+
+/* 拉桿本身：由深底反白改成淺底深字 */
+.sm .dl__label { color: var(--sm-ink); }
+.sm .dl__hint, .sm .dl__unset, .sm .dl__note, .sm .dl__tally { color: var(--sm-muted); }
+.sm .dl__req { color: #b4536b; }
+.sm .dl__rail { background: #c4dbe8; }
+.sm .dl__stop-dot { background: #b6cddb; }
+.sm .dl__knob { background: var(--sm-xp-blue); border-color: #fff; }
+.sm .dl__stop-name { color: var(--sm-muted); opacity: 1; }
+.sm .dl__stop[aria-checked="true"] .dl__stop-name { color: var(--sm-xp-blue); font-weight: 700; }
+.sm .dl__stop:focus-visible { outline: 3px solid var(--sm-yellow); outline-offset: 2px; }
+.sm .dl__off::before { background: #c4dbe8; }
+
+/* 揀咗嘅唔可以淨係換色：淡黃底＋藍粗框＋內陰影 */
+.sm .dl__tag, .sm .dl__want-b, .sm .dl__reset, .sm .dl__more {
+  background: #fbfeff; border: 1px solid var(--sm-line); color: var(--sm-ink); border-radius: 6px;
+}
+.sm .dl__tag[aria-pressed="true"], .sm .dl__want-b[aria-pressed="true"] {
+  background: var(--sm-yellow); border: 2px solid var(--sm-xp-blue); color: #123;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+.sm .dl__tag:focus-visible, .sm .dl__want-b:focus-visible,
+.sm .dl__more:focus-visible, .sm .dl__go:focus-visible {
+  outline: 3px solid var(--sm-yellow); outline-offset: 2px;
+}
+.sm .dl__more { width: 100%; text-align: left; padding: 11px 12px; margin-top: 14px; cursor: pointer; }
+.sm .dl__go {
+  background: linear-gradient(#5ed155, var(--sm-green)); color: #fff;
+  border: 2px outset #b8f0ae; box-shadow: 0 3px 0 #176d24; text-shadow: 1px 1px #176d24;
+  min-height: 48px;
+}
+.sm .dl__go[disabled] { background: #cfd8dc; color: #6b7a80; border-color: #e6ecee; box-shadow: none; }
+.sm .dl__bar {
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid #cfe0ea;
+}
+
+/* 提示 ＋ 展開動畫 */
+.dl__cue {
+  display: flex; align-items: center; gap: 8px; margin: 14px 0 0;
+  font-size: 13px; color: var(--sm-muted);
+}
+.dl__cue b { color: var(--sm-xp-blue); }
+.dl__follow { animation: dl-reveal 380ms ease both; }
+.dl__follow[hidden] { display: none; }
+@keyframes dl-reveal {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: none; }
+}
+/* 敏感係獨立一條軸，唔係膚質其中一格 —— 講明佢，唔好等客二揀一 */
+.sm [data-lever="sens"] { --sm-axis: 1; }
+.sm .dl__row:has([data-lever="sens"]) { padding: 12px; border: 1px dashed var(--sm-line);
+  border-radius: 10px; background: #f7fcff; }
+
+/* ---------- 結果：整幅淺藍，深色只留返畀產品卡 ---------- */
+.sm .ed {
+  background: linear-gradient(180deg, var(--sm-section-1) 0%, var(--sm-section-2) 46%, var(--sm-section-3) 100%);
+  color: var(--sm-ink);
+}
+.sm .ed__head { border-bottom: 1px solid #c9dfeb; }
+.sm .ed__kicker { color: var(--sm-xp-blue); }
+.sm .ed__read, .sm .ed__name, .sm .ed__price { color: var(--sm-ink); }
+.sm .ed__why, .sm .ed__fine, .sm .ed__hint { color: var(--sm-muted); opacity: 1; }
+.sm .ed__strip { background: #c9dfeb; border-bottom: 1px solid #c9dfeb; }
+.sm .ed__cell { background: #f4fbff; color: var(--sm-ink); }
+.sm .ed__cell:hover { background: #e8f5fd; }
+.sm .ed__cell-shot { background: #fff; border: 1px solid #dcebf3; }
+.sm .ed__total, .sm .ed__warn { border-bottom-color: #c9dfeb; }
+.sm .ed__row { border-bottom-color: #d3e5ee; }
+.sm .ed__shot { background: #fff; border: 1px solid #dcebf3; }
+.sm .ed__again, .sm .ed__all, .sm .ed__swap {
+  background: #fbfeff; border: 1px solid var(--sm-line); color: var(--sm-ink);
+}
+.sm .ed__add {
+  background: linear-gradient(#5ed155, var(--sm-green)); color: #fff;
+  border: 2px outset #b8f0ae; box-shadow: 0 3px 0 #176d24; min-height: 48px;
+}
+
+/* ---------- 產品卡：唯一嘅深色 ---------- */
+.sm .cw__head { color: var(--sm-ink); }
+.sm .cw__dot { background: #bcd6e4; }
+.sm .cw__dot[aria-pressed="true"] { background: var(--sm-xp-blue); }
+.sm .cw__card {
+  flex: 0 0 min(84%, 470px);
+  min-height: 365px;
+  padding: 15px;
+  border: 1px solid #8da6ad;
+  border-radius: 15px;
+  background: linear-gradient(155deg, var(--sm-card-1) 0%, var(--sm-card-2) 56%, var(--sm-card-3) 100%);
+  color: var(--sm-card-text);
+  box-shadow: 0 10px 22px -18px rgba(9, 22, 27, .8);
+}
+.sm .cw__card[aria-current="true"] {
+  border-color: var(--sm-pink);
+  background: linear-gradient(155deg, var(--sm-card-1) 0%, var(--sm-card-2) 56%, var(--sm-card-3) 100%);
+  box-shadow: 0 12px 26px -18px rgba(9, 22, 27, .9);
+}
+.sm .cw__card:hover { border-color: #b9ccd2; }
+.sm .cw__rank { color: var(--sm-pink); }
+.sm .cw__vendor, .sm .cw__why { color: var(--sm-card-muted); opacity: 1; }
+.sm .cw__why { font-size: 12px; line-height: 1.58; }
+.sm .cw__name, .sm .cw__price { color: var(--sm-card-text); }
+.sm .cw__name a { border-bottom-color: rgba(245, 248, 247, .34); }
+/* 相框：淺色底板，圖片一律 84%、contain、置中 —— 唔准逐件貨寫位移 */
+.sm .cw__main { grid-template-columns: 122px 1fr; gap: 12px; }
+/* ⚠️ isolation 一定要有。張相本身用緊 mix-blend-mode: multiply（去白邊），
+   以前張卡係淺底所以冇事；而家卡係深藍，multiply 會攞埋深色底一齊乘，
+   成張產品相變黑，睇落好似冇圖。isolate 令佢只同呢個淺色相框相乘。 */
+.sm .cw__shot {
+  width: 122px; height: 122px; aspect-ratio: 1;
+  background: #f2f7f9; border-radius: 10px;
+  display: grid; place-items: center;
+  isolation: isolate;
+}
+.sm .cw__shot img {
+  width: 84%; height: 84%;
+  object-fit: contain; object-position: 50% 50%;
+  display: block; mix-blend-mode: multiply;
+}
+.sm .cw__add {
+  width: 100%; min-height: 48px;
+  background: var(--sm-card-cta); color: #1c3d47; border: 1px solid #e6f0f2;
+  border-radius: 8px; font-weight: 700;
+}
+.sm .cw__card[aria-current="true"] .cw__add { background: #e7f2f4; color: #16323b; }
+.sm .cw__add:focus-visible { outline: 3px solid var(--sm-yellow); outline-offset: 2px; }
+/* 露卡本身就係「仲有得掃」嘅提示，唔靠文字。
+   目標：卡佔 rail 約 84–85%，右邊剩返嗰截要見到下一張完整邊框。
+   注意 flex-basis 嘅 % 係計 content box（rail 減咗左右 padding），
+   所以要 90% 先做到「佔成條 rail 85%」—— 直接寫 85% 會細一截。 */
+.sm .cw__rail { gap: 11px; padding-inline: 10px; scroll-padding-inline: 10px; }
+
+@media (min-width: 761px) {
+  .sm .cw__card { flex: 0 0 min(82%, 470px); }
+  .sm .cw__main { grid-template-columns: 150px 1fr; }
+  .sm .cw__shot { width: 150px; height: 150px; }
+}
+
+@media (max-width: 760px) {
+  .sm .cw__card { flex: 0 0 90%; }
+  .dl__ws { grid-template-columns: 1fr; }
+  .dl__cat { display: none; }
+  /* 手機：芝麻縮成頂部橫幅，唔可以遮住選項 */
+  .dl__cat-strip {
+    display: flex; align-items: center; gap: 10px;
+    height: 134px; margin: -16px -12px 12px; padding: 0 12px;
+    border-bottom: 1px solid #cfe0ea;
+    background: linear-gradient(180deg, #f2fbff, #e3f2fb);
+  }
+  .dl__cat-strip img { height: 126px; width: auto; align-self: end; }
+  .dl__cat-strip span { display: grid; gap: 3px; font-size: 12px; line-height: 1.5; color: var(--sm-ink); }
+  .dl__cat-strip b { font-size: 13px; }
+  .sm .cw__card { min-height: 365px; }
+}
+
+@media (max-width: 360px) {
+  .sm .cw__main { grid-template-columns: 108px 1fr; gap: 10px; }
+  .sm .cw__shot { width: 108px; height: 108px; }
+  .sm .cw__card { padding: 12px; }
+  .dl__cat-strip { height: 118px; }
+  .dl__cat-strip img { height: 110px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dl__follow { animation: none; }
+  .sm .cw__card, .sm .dl__tag, .sm .dl__want-b { transition: none; }
+}
