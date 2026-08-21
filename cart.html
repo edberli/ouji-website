@@ -49,7 +49,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    8 月 31 日前 全單 9 折 &nbsp;·&nbsp; 滿 HK$400 免運費
+    8 月 31 日前 全單 88 折 &nbsp;·&nbsp; 折實滿 HK$400 免運費
   </div>
 
   <!-- Header -->
@@ -221,7 +221,7 @@
               <button class="btn btn--primary btn--full">前往結帳</button>
             </div>
 
-            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 滿 HK$400 免運</p>
+            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 折實滿 HK$400 免運</p>
 
             <div style="display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-lg);">
               <span class="body-sm" style="color: var(--text-tertiary); font-size: 0.6875rem; letter-spacing: 0.06em;">VISA</span>
@@ -446,7 +446,7 @@
     const subtotal = parseFloat(cart.cost.subtotalAmount.amount);
     const total = parseFloat(cart.cost.totalAmount.amount);
     const FREE_SHIPPING_THRESHOLD = 400;
-    const SHIPPING_FEE = 40;
+    const SHIPPING_FEE = 30;   // 順豐派送上門。Shopify 運送設定檔 hong kong 區嘅實際收費，之前寫死 40 對唔上
     const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
 
     if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
