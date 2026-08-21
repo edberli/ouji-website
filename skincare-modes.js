@@ -102,6 +102,40 @@ const SM_ROWS = [
  * the last stops on the same rail, past a break where the line stops. They
  * took the same handle and the same gesture; they were never a second
  * control sitting underneath the first. */
+/* 已批准嘅 Y2K 設計係「XP 選項格」，唔係拉桿。
+   拉桿嗰個問題：一粒 stop dot 得 6px，喺手機根本撳唔中（要求最少
+   44×44px），而且揀咗同冇揀淨係差個顏色。呢度改成一格格 XP 掣：
+   夠大、有粗框、揀咗係淡黃底＋深藍粗邊，唔靠顏色都分得出。
+   答案 key／value 完全冇變 —— 換嘅係個掣，唔係個答案。 */
+const SM_CHOICE_DESC = {
+  skin: { dry: '洗完面繃緊，容易起皮', normal: '大致穩定，唔乾又唔油',
+    combo: 'T 字位油，兩頰乾', oily: '中午已經一面油光', unsure: '冇特別留意過' },
+  tex: { 1: '水感，快吸收', 2: '唔算輕又唔算厚', 3: '綿密，包得住', any: '睇你點推薦' },
+};
+
+const SM_STEP_NO = { skin: 1, tex: 2 };
+
+function smChoices(d, ans) {
+  const desc = SM_CHOICE_DESC[d.key] || {};
+  const cols = d.stops.length >= 5 ? '' : (d.stops.length === 4 ? ' dl__grid--4' : ' dl__grid--3');
+  const no = SM_STEP_NO[d.key];
+  const isSens = d.key === 'sens';
+  return `<fieldset class="dl__row dl__q${isSens ? ' dl__q--axis' : ''}" data-lever="${smEsc(d.key)}">
+    <legend class="dl__label">${no ? `<b>${no}</b>` : ''}${smEsc(d.label)}${
+      isSens ? '<span class="dl__axis">同膚質分開計</span>' : ''}${d.req && !ans[d.key]
+      ? '<span class="dl__req">要揀</span>' : ''}${d.hint
+      ? `<span class="dl__hint">${smEsc(d.hint)}</span>` : ''}</legend>
+    ${isSens ? '<p class="dl__axis-note">敏感唔係乾／油之中其中一種：乾性、油性、混合性都可以同時係敏感肌。</p>' : ''}
+    <div class="dl__grid${cols}" role="radiogroup" aria-label="${smEsc(d.label)}">
+      ${d.stops.map(([v, name]) => `<button type="button" class="dl__choice"
+        role="radio" data-row="${smEsc(d.key)}" data-val="${smEsc(v)}"
+        aria-checked="${ans[d.key] === v}" aria-pressed="${ans[d.key] === v}">
+        <b>${smEsc(name)}</b>${desc[v] ? `<small>${smEsc(desc[v])}</small>` : ''}
+      </button>`).join('')}
+    </div>
+  </fieldset>`;
+}
+
 function smLever(d, ans) {
   const i = d.stops.findIndex(([v]) => v === ans[d.key]);
   const off = d.off || 0;
@@ -251,6 +285,8 @@ const smModeDials = {
         <div class="dl__menu" aria-hidden="true"><span>配方(F)</span><span>設定(S)</span><span>說明(H)</span></div>
         <div class="dl__ws">
           <aside class="dl__cat">
+            <h3 class="dl__cat-h" aria-hidden="true">OUJI<i>SKIN CAT</i></h3>
+            <p class="dl__cat-p" aria-hidden="true">芝麻會照你嘅答案，喺全店護膚品入面揀返啱你嗰幾件。</p>
             <ol class="dl__steps" aria-hidden="true">
               <li><b>1</b>你嘅皮膚</li><li><b>2</b>敏感程度＋質地</li><li><b>3</b>想改善</li>
             </ol>
@@ -259,18 +295,25 @@ const smModeDials = {
                  alt="" width="1200" height="1310" loading="lazy" decoding="async">
           </aside>
           <div class="dl__form">
+            <header class="dl__head">
+              <p class="dl__eyebrow">護膚配方</p>
+              <h2 class="dl__h1">${revealed ? '仲有幾條，答完就砌得成套' : '先講你係咩膚質？'}</h2>
+              <p class="dl__intro">${revealed
+                ? '敏感程度、質地同想改善答完，落面粒綠掣就會砌出你嗰套。'
+                : '揀一項就得；答完之後，敏感程度、質地同想改善會喺下面展開。'}</p>
+            </header>
             <div class="dl__cat-strip" aria-hidden="true">
               <img src="assets/images/home/ouji-shima-cat.png" alt=""
                    width="1200" height="1310" loading="lazy" decoding="async">
               <span><b>芝麻幫你揀</b>先答第一條，其他選項會喺下面展開。</span>
             </div>
 
-      ${SM_ROWS.filter((d) => SM_TOP.includes(d.key)).map((d) => smLever(d, ans)).join('')}
+      ${SM_ROWS.filter((d) => SM_TOP.includes(d.key)).map((d) => smChoices(d, ans)).join('')}
 
       ${revealed ? '' : `<p class="dl__cue"><span>揀一項，下面會展開其他問題</span><b>↓</b></p>`}
 
       <div class="dl__follow"${revealed ? '' : ' hidden'}>
-      ${SM_ROWS.filter((d) => SM_FOLLOW.includes(d.key)).map((d) => smLever(d, ans)).join('')}
+      ${SM_ROWS.filter((d) => SM_FOLLOW.includes(d.key)).map((d) => smChoices(d, ans)).join('')}
 
       <div class="dl__concerns">
         <p class="dl__label">想改善<span class="dl__req">要揀</span>
@@ -292,7 +335,7 @@ const smModeDials = {
         })()}
       </button>
       ${st.fine ? `<div class="dl__adv">
-        ${SM_ROWS.filter((d) => !SM_TOP.includes(d.key) && !SM_FOLLOW.includes(d.key)).map((d) => smLever(d, ans)).join('')}
+        ${SM_ROWS.filter((d) => !SM_TOP.includes(d.key) && !SM_FOLLOW.includes(d.key)).map((d) => smChoices(d, ans)).join('')}
 
         <p class="dl__label" style="margin-top:1.4rem">品牌${
           ans.brands.length ? `（揀咗 ${ans.brands.length} 個）` : `（全部 ${vendors.length} 個）`}</p>
@@ -353,6 +396,10 @@ const smModeDials = {
       })()}
       </div>
           </div>
+        </div>
+        <div class="dl__status" aria-hidden="true">
+          <span>${revealed ? '答緊：敏感程度、質地、想改善' : '等緊你揀膚質'}</span>
+          <span>OUJI SKIN OS</span>
         </div>
       </div>
     </div>`;

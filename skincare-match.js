@@ -1330,21 +1330,19 @@ async function initSkincareMatch(root) {
    * It is also why nothing loads until she taps: attrs.json and
    * ingredients.json are a quarter of a megabyte that every visitor to the
    * category page was paying for whether or not they ever used this. */
+  /* 2026-08-21：唔再收埋喺一條「答三條，幫你揀」橫額後面。
+     已批准嘅設計係「一入嚟就係個 XP 控制台，第一條問膚質」——
+     要撳多一下先見到，等於成格睇落同以前一樣。
+
+     嗰條橫額本來嘅作用係慳資料：attrs.json ＋ ingredients.json 合共
+     250KB，唔撳就唔落。而家兩樣分開處理 —— 問題本身係靜態，唔使等資料
+     就畫得出；250KB 喺背景載，客答緊嗰三條嘅時候就落好。 */
   root.innerHTML = `<div class="sm__sheet">
-    <button type="button" class="sm__open" data-open aria-expanded="false">
-      <span class="sm__open-lede">
-        <span class="sm__open-kicker">護膚配方</span>
-        <span class="sm__open-title">唔知揀邊支好？答三條，幫你揀</span>
-        <span class="sm__open-sub">對膚質、成分同質地，喺全店護膚品入面揀出屬於你嗰幾件</span>
-      </span>
-      <span class="sm__open-mark" aria-hidden="true"></span>
-    </button>
-    <div class="sm__panel" hidden>
+    <div class="sm__panel">
       <div class="sm__stage"></div>
     </div>
   </div>`;
   const panel = root.querySelector('.sm__panel');
-  const opener = root.querySelector('[data-open]');
   const stage = root.querySelector('.sm__stage');
   let loaded = false;
 
@@ -1417,6 +1415,12 @@ async function initSkincareMatch(root) {
   };
 
   const finish = async () => {
+    stage.innerHTML = '<div class="sm__wait"><p>執緊你嗰套…</p></div>';
+    try { await ensureData(); } catch (e) {
+      stage.innerHTML = `<div class="sm__wait"><p>配方資料載入唔到</p>
+        <button type="button" class="ed__again" data-restart>再試一次</button></div>`;
+      return;
+    }
     stage.innerHTML = `<div class="sm__wait"><p>執緊你嗰套…</p>
       <p class="sm__wait-sub">對緊 ${Object.keys(SM.attrs || {}).length} 件貨嘅膚質、成分同存貨。</p></div>`;
     smRemember(ans);
@@ -1446,27 +1450,22 @@ async function initSkincareMatch(root) {
     paint();
   };
 
-  const open = async () => {
-    panel.hidden = false;
-    opener.setAttribute('aria-expanded', 'true');
-    if (loaded) return;
-    stage.innerHTML = '<div class="sm__wait"><p>攞緊配方資料…</p></div>';
-    try { await smLoad(); await smBaked(); } catch (e) {
-      stage.innerHTML = '<div class="sm__wait"><p>配方資料載入唔到</p></div>';
-      return;
+  /* 問題係靜態，即刻畫得出；250KB 屬性同成分表喺背景載。
+     客答緊嗰三條嘅時候就落好，撳「睇成套」嗰刻多數已經 ready。
+     真係未 ready 就喺 finish() 度等，唔會出錯。 */
+  let dataReady = null;
+  const ensureData = () => {
+    if (!dataReady) {
+      dataReady = (async () => {
+        await smLoad();
+        await smBaked();
+        loaded = true;
+      })();
     }
-    loaded = true;
-    start();
+    return dataReady;
   };
 
   root.addEventListener('click', async (e) => {
-    if (e.target.closest('[data-open]')) {
-      if (panel.hidden) return open();
-      panel.hidden = true;
-      opener.setAttribute('aria-expanded', 'false');
-      return;
-    }
-    if (!loaded) return;
 
     if (e.target.closest('[data-restart]')) {
       Object.assign(ans, SM_BLANK());
@@ -1626,4 +1625,9 @@ async function initSkincareMatch(root) {
     if (act === 'redraw') draw();
     else if (act === 'finish') finish();
   });
+
+  /* 開波：問題即刻出（唔使等資料），250KB 喺背景落。
+     載唔到都唔會擋住問題 —— 到「睇成套」嗰陣先報錯。 */
+  start();
+  ensureData().catch(() => {});
 }
