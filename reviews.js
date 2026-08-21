@@ -58,8 +58,11 @@ async function loadRatings() {
 function ratingChip(handle) {
   const r = RATINGS_CACHE?.[handle];
   if (!r) return '';
+  /* 一定要寫明「Olive Young」。呢啲分數唔係 OUJI 自己收返嚟嘅 ——
+     喺 OUJI 個 logo 隔籬淨係擺一串星同一個數字，客同 Google 都會
+     當係我哋自己嘅評價。首頁本來就係咁寫，卡片同產品頁之前漏咗。 */
   return `<span class="card-rating">${stars(r.star)}
-    <b>${r.star}</b><span>(${r.count.toLocaleString()})</span></span>`;
+    <b>${r.star}</b><span>Olive Young ${r.count.toLocaleString()}</span></span>`;
 }
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g,
@@ -150,7 +153,7 @@ function ratingLine(star, count, jumpTo) {
   el.hidden = false;
   el.innerHTML = `${stars(star)}
     <b class="product-info__rating-num">${star}</b>
-    <span class="product-info__rating-n">${count.toLocaleString()} 則評價</span>`;
+    <span class="product-info__rating-n">Olive Young ${count.toLocaleString()} 則評價</span>`;
   if (!jumpTo) {
     el.removeAttribute('href');
     el.classList.add('is-static');
