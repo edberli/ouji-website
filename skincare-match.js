@@ -1077,7 +1077,7 @@ function smCard(r, i, ans, on) {
   // complaint wearing a different coat.
   return `<article class="cw__card" data-i="${i}" data-h="${smEsc(r.h)}"
       aria-current="${!!on}">
-    <p class="cw__rank">${smEsc(SM_RANK_ZH[i] || '推薦')}<span class="cw__on">揀咗</span></p>
+    <p class="cw__rank">${smEsc(SM_RANK_ZH[i] || '推薦')} · ${i + 1}/${SM_PICKS}<span class="cw__on">揀咗</span></p>
     <div class="cw__main">
       <div class="cw__shot">${r.live.image
         ? `<img src="${smEsc(r.live.image)}" alt="" loading="lazy">` : ''}</div>
@@ -1110,6 +1110,7 @@ function smGroupRow(g, i, ans, sel) {
     <header class="cw__head">
       <p class="ed__step">${smEsc(zh)} · ${g.depth} 件啱你${g.fineOff
         ? '<span class="ed__off">收窄條件喺呢一步冇貨，用返原本嘅推薦</span>' : ''}</p>
+      <span class="cw__swipe" aria-hidden="true">向右掃睇第二、第三推薦</span>
       <div class="cw__dots" role="group" aria-label="${smEsc(zh)}推薦">
         ${g.picks.map((p, k) => `<button type="button" class="cw__dot"
           data-dot="${k}" aria-pressed="${k === cur}"
@@ -1161,9 +1162,16 @@ function smEdit(groups, ans, sel, pending, open) {
     </button>`;
   }).join('');
 
-  return `<div class="ed">
+  /* 結果留返喺同一個 XP 窗入面（prototype #resultView 就係咁）—— 窗頂、
+     助手欄、底下條 status 全部唔郁，淨係中間換做配方。 */
+  return smXpShell({
+    status: 'Complete · 配方已經砌好',
+    bubble: '搞掂喇！每步三個推薦，向右掃睇多兩個。',
+    formClass: 'dl__form--result',
+    form: `<div class="ed">
     <header class="ed__head">
       <p class="ed__kicker">你嘅皮膚</p>
+      <h2 class="ed__h2">你嘅護膚配方</h2>
       <p class="ed__read">${smEsc(smRead(ans))}</p>
     </header>
     ${/* The strip exists to put the whole routine side by side. Asking for
@@ -1172,7 +1180,7 @@ function smEdit(groups, ans, sel, pending, open) {
       shown.length > 1
         ? `<div class="ed__strip" style="--n:${shown.length}">${strip}</div>` : ''}
     <p class="ed__total" data-total>${shown.length} 件 · <b>${smEsc(SM_MONEY(total))}</b></p>
-    <p class="ed__hint">每一步都揀咗三件，向右掃就見到第二、第三推薦。仲係揀唔落手就拉到底收窄。</p>
+    <p class="ed__hint">每一步都有 3 個推薦；右邊會露出下一張卡，拖住產品向左掃就睇到。</p>
     ${degraded ? '<p class="ed__warn">而家接唔到即時貨存，落單前請留意有冇貨。</p>' : ''}
     ${groups.map((g, i) => smGroupRow(g, i, ans, sel)).join('')}
     ${/* Down here, not up top. Above the routine it sat where a shopper
@@ -1183,11 +1191,12 @@ function smEdit(groups, ans, sel, pending, open) {
       <p class="ed__fine">呢個配方係按產品質地、成分同你揀嘅狀況計出嚟嘅購物建議，唔係醫學意見。
         皮膚有持續狀況請先睇醫生，新產品用前喺耳後試一試。</p>
       <div class="ed__acts">
-        <button type="button" class="ed__add" data-add>全部加入購物袋</button>
         <button type="button" class="ed__again" data-back-to-q>上一步</button>
+        <button type="button" class="ed__add" data-add>全部加入購物袋</button>
       </div>
     </footer>
-  </div>`;
+  </div>`,
+  });
 }
 
 /* ── mount ──────────────────────────────────────────────────────────── */
@@ -1629,5 +1638,11 @@ async function initSkincareMatch(root) {
   /* 開波：問題即刻出（唔使等資料），250KB 喺背景落。
      載唔到都唔會擋住問題 —— 到「睇成套」嗰陣先報錯。 */
   start();
-  ensureData().catch(() => {});
+  /* 件數要等 250KB 落到先知。唔好寫死一個數 —— 上落貨之後個數會變，
+     寫死就變咗講大話。載到先補返落 eyebrow 度。 */
+  ensureData().then(() => {
+    const eb = root.querySelector('.dl__eyebrow');
+    const n = Object.keys(SM.attrs || {}).length;
+    if (eb && n && !/件產品/.test(eb.textContent)) eb.textContent = `護膚配方 · ${n} 件產品`;
+  }).catch(() => {});
 }

@@ -115,6 +115,40 @@ const SM_CHOICE_DESC = {
 
 const SM_STEP_NO = { skin: 1, tex: 2 };
 
+/* XP 窗框。問題同結果都要用返同一個窗 —— prototype 嗰度
+   #resultView 係 .workspace 入面同 #formView 對調，窗頂、助手欄、
+   底下條 status 全部留低。之前 production 一出結果就成個窗消失，
+   睇落似跳咗去第二個網站。 */
+function smXpShell({ form, formClass = '', status = '', bubble = '先答膚質，下面就會自動展開啦～' }) {
+  return `<div class="dl">
+      <div class="dl__xp">
+        <div class="dl__bar-top">
+          <span class="dl__bar-icon" aria-hidden="true">✦</span>
+          <span class="dl__bar-name">OUJI Skin Control Panel — 護膚配方</span>
+          <span class="dl__bar-ctl" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+        </div>
+        <div class="dl__menu" aria-hidden="true"><span>配方(F)</span><span>設定(S)</span><span>說明(H)</span></div>
+        <div class="dl__ws">
+          <aside class="dl__cat">
+            <h3 class="dl__cat-h" aria-hidden="true">SKIN MATCH<i>with 芝麻.</i></h3>
+            <p class="dl__cat-p" aria-hidden="true">一開始只答第一條；揀完之後，下面先會展開其餘選項。</p>
+            <ol class="dl__steps" aria-hidden="true">
+              <li><b>1</b>你嘅皮膚</li><li><b>2</b>敏感程度＋質地</li><li><b>3</b>想改善</li>
+            </ol>
+            <p class="dl__bubble" aria-hidden="true">${bubble}</p>
+            <img class="dl__cat-img" src="assets/images/home/ouji-shima-cat.png"
+                 alt="" width="1200" height="1310" loading="lazy" decoding="async">
+          </aside>
+          <div class="dl__form${formClass ? ' ' + formClass : ''}">${form}</div>
+        </div>
+        <div class="dl__status" aria-hidden="true">
+          <span>${status}</span>
+          <span>OUJI Match Engine</span>
+        </div>
+      </div>
+    </div>`;
+}
+
 function smChoices(d, ans) {
   const desc = SM_CHOICE_DESC[d.key] || {};
   const cols = d.stops.length >= 5 ? '' : (d.stops.length === 4 ? ' dl__grid--4' : ' dl__grid--3');
@@ -276,27 +310,14 @@ const smModeDials = {
 
     const revealed = !!ans.skin;
 
-    return `<div class="dl">
-      <div class="dl__xp">
-        <div class="dl__bar-top">
-          <span class="dl__bar-name">OUJI Skin Control Panel — 護膚配方</span>
-          <span class="dl__bar-ctl" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
-        </div>
-        <div class="dl__menu" aria-hidden="true"><span>配方(F)</span><span>設定(S)</span><span>說明(H)</span></div>
-        <div class="dl__ws">
-          <aside class="dl__cat">
-            <h3 class="dl__cat-h" aria-hidden="true">OUJI<i>SKIN CAT</i></h3>
-            <p class="dl__cat-p" aria-hidden="true">芝麻會照你嘅答案，喺全店護膚品入面揀返啱你嗰幾件。</p>
-            <ol class="dl__steps" aria-hidden="true">
-              <li><b>1</b>你嘅皮膚</li><li><b>2</b>敏感程度＋質地</li><li><b>3</b>想改善</li>
-            </ol>
-            <p class="dl__bubble" aria-hidden="true">先答膚質，下面就會自動展開啦～</p>
-            <img class="dl__cat-img" src="assets/images/home/ouji-shima-cat.png"
-                 alt="" width="1200" height="1310" loading="lazy" decoding="async">
-          </aside>
-          <div class="dl__form">
+    return smXpShell({
+      status: revealed ? 'Step 1 saved · 請向下繼續' : '等緊你揀膚質',
+      form: `
             <header class="dl__head">
-              <p class="dl__eyebrow">護膚配方</p>
+              <p class="dl__eyebrow">護膚配方${(() => {
+                const n = Object.keys((typeof SM !== 'undefined' && SM.attrs) || {}).length;
+                return n ? ` · ${n} 件產品` : '';
+              })()}</p>
               <h2 class="dl__h1">${revealed ? '仲有幾條，答完就砌得成套' : '先講你係咩膚質？'}</h2>
               <p class="dl__intro">${revealed
                 ? '敏感程度、質地同想改善答完，落面粒綠掣就會砌出你嗰套。'
@@ -310,14 +331,15 @@ const smModeDials = {
 
       ${SM_ROWS.filter((d) => SM_TOP.includes(d.key)).map((d) => smChoices(d, ans)).join('')}
 
-      ${revealed ? '' : `<p class="dl__cue"><span>揀一項，下面會展開其他問題</span><b>↓</b></p>`}
+      <p class="dl__cue"><span>${revealed ? '其餘問題已經喺下面展開' : '揀一項，下面會展開其他問題'}</span><b>↓</b></p>
 
       <div class="dl__follow"${revealed ? '' : ' hidden'}>
       ${SM_ROWS.filter((d) => SM_FOLLOW.includes(d.key)).map((d) => smChoices(d, ans)).join('')}
 
-      <div class="dl__concerns">
-        <p class="dl__label">想改善<span class="dl__req">要揀</span>
-          <span class="dl__hint">最多三樣，撳嘅次序＝優先</span></p>
+      <fieldset class="dl__row dl__concerns">
+        <legend class="dl__label"><b>3</b>想改善${ans.concerns.length
+          ? '' : '<span class="dl__req">要揀</span>'}
+          <span class="dl__hint">最多三樣；撳嘅次序＝優先</span></legend>
         <div class="dl__tags">
           ${c.options.map((o) => {
             const at = ans.concerns.indexOf(o.v);
@@ -325,7 +347,20 @@ const smModeDials = {
               aria-pressed="${at > -1}">${at > -1 ? `<b>${at + 1}</b>` : ''}${smEsc(o.name)}</button>`;
           }).join('')}
         </div>
-      </div>
+        <p class="dl__pickcount">${ans.concerns.length
+          ? `揀咗 ${ans.concerns.map((v, i) => `${i + 1}. ${smEsc(
+              (c.options.find((o) => o.v === v) || {}).name || v)}`).join('　')}`
+          : '未揀 · 最多三樣'}</p>
+      </fieldset>
+
+      <fieldset class="dl__row dl__want-block">
+        <legend class="dl__label">今次想要邊幾步？<span class="dl__hint">唔揀＝成套</span></legend>
+        <div class="dl__tags dl__want" role="group" aria-label="要邊幾步">
+          ${SM_WANT.map((w) => `<button type="button" class="dl__tag dl__want-b" data-want="${w.v}"
+            aria-pressed="${w.v === 'set' ? ans.want === 'set'
+              : (ans.want !== 'set' && ans.want.includes(w.v))}">${smEsc(w.name)}</button>`).join('')}
+        </div>
+      </fieldset>
 
       <button type="button" class="dl__more" data-fine aria-expanded="${st.fine}">
         再精準啲${(() => {
@@ -379,30 +414,19 @@ const smModeDials = {
            said a word about her skin, and then eight rows away from the
            button whose wording it changes. Down here 「精華」 and 「睇精華」
            are the same gesture, one after the other. */
+        const needTxt = need.map((x) => smEsc(x.replace(/[？?].*$/, ''))).join('、');
         return `<div class="dl__bar">
-          <div class="dl__want" role="group" aria-label="要邊幾步">
-            ${SM_WANT.map((w) => `<button type="button" class="dl__want-b" data-want="${w.v}"
-              aria-pressed="${w.v === 'set' ? ans.want === 'set'
-                : (ans.want !== 'set' && ans.want.includes(w.v))}">${smEsc(w.name)}</button>`).join('')}
-          </div>
+          <p class="dl__ready">${need.length ? `仲要揀：${needTxt}` : '答齊喇，撳右邊粒掣'}</p>
           <div class="dl__acts">
-            <button type="button" class="dl__go" data-finish ${need.length ? 'disabled' : ''}>
-              ${need.length ? '仲要揀：' + need.map((x) => smEsc(x.replace(/[？?].*$/, ''))).join('、')
-                : (ans.want === 'set' ? '睇成套'
-                  : '睇' + ans.want.map((k) => SM_STEP_ZH[k]).join('、'))}</button>
             ${touched ? '<button type="button" class="dl__reset" data-reset>重設</button>' : ''}
+            <button type="button" class="dl__go" data-finish ${need.length ? 'disabled' : ''}>
+              ${ans.want === 'set' ? '睇成套'
+                : '睇' + ans.want.map((k) => SM_STEP_ZH[k]).join('、')} 〉</button>
           </div>
         </div>`;
       })()}
-      </div>
-          </div>
-        </div>
-        <div class="dl__status" aria-hidden="true">
-          <span>${revealed ? '答緊：敏感程度、質地、想改善' : '等緊你揀膚質'}</span>
-          <span>OUJI SKIN OS</span>
-        </div>
-      </div>
-    </div>`;
+      </div>`,
+    });
   },
   click(e, st, ans) {
     const n = e.target.closest('[data-row]');

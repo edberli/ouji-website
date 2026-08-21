@@ -950,7 +950,7 @@
 /* 手機（prototype @media max-width:700px 嗰組）*/
 @media (max-width: 760px) {
   .sm .ed { padding-inline: 0; }
-  .sm .ed__head { padding: 18px 14px 20px; }
+  .sm .ed__head { margin: 14px 11px 13px; padding: 13px; }
   .sm .ed__strip { gap: 3px; }
   .sm .ed__cell { padding: 7px 2px 6px; }
   .sm .ed__cell-price, .sm .ed__cell-step { font-size: 9px; }
@@ -1102,3 +1102,128 @@
 }
 .sm .sm__sheet::before, .sm .sm__sheet::after { display: none; }
 .sm .sm__panel { background: transparent; }
+
+/* ---------- 方案 B：XP 天空草地貫穿護膚頁上下兩格（2026-08-21）----------
+   老闆揀咗 B，同時講明「兩個 session 之間唔要有線條」。
+   試過兩格各畫一半天空、色接得啱、仲重疊咗 1px —— 中間一樣睇到條線：
+   兩個 gradient 各自 dither，交界就會顯出一條 Mach band。
+   所以唔再畫兩幅：整幅天空 ＋ 草地係 .sm::before 一件嘢畫晒，
+   向上伸返招牌嗰 350px。一幅圖，梗係冇縫。 */
+.sm {
+  --sky-top: #8fd5ff;      /* 天空最上 */
+  --sky-bot: #daf2ff;      /* 天空落到地平線 */
+  --sky-run: 572px;        /* 天空總高＝招牌 350 ＋ 視窗 222 */
+  --booth-h: 350px;        /* 招牌高度：::before 要向上伸幾多 */
+  --grass-top: #69bd65;
+  --grass-bot: #3f9d48;
+}
+.skincare-booth {
+  margin-bottom: 0;
+  border-bottom: 0;
+  /* 天空唔喺度畫；貼紙同大字要浮喺 .sm::before 上面，所以要 z-index */
+  background: transparent;
+  z-index: 1;
+}
+.skincare-booth + * { margin-top: 0; }
+/* 配方由 container 拉返出嚟做全闊，唔係就會兩邊留白 */
+.sm, .container > .sm, .skincare-booth ~ .container > .sm {
+  position: relative;
+  z-index: 0;
+  margin: 0 calc(50% - 50vw);
+  width: 100vw;
+  max-width: none;
+  border-radius: 0;
+  background: transparent;
+}
+.sm::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0; right: 0; bottom: 0;
+  top: calc(-1 * var(--booth-h));
+  background-color: var(--sky-bot);
+  background-image:
+    radial-gradient(circle at 34px 22px, #fff 0 2px, transparent 3px),
+    radial-gradient(circle at 96px 58px, #fff 0 2px, transparent 3px),
+    linear-gradient(
+      var(--sky-top) 0,
+      var(--sky-bot) var(--sky-run),
+      var(--grass-top) var(--sky-run),
+      var(--grass-bot) 100%);
+  background-size: 90px 90px, 130px 130px, auto;
+}
+.sm .sm__sheet { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.sm .sm__panel, .sm .sm__stage { padding: 0; }
+.sm .dl { padding-top: clamp(18px, 3vw, 40px); background: transparent; }
+
+/* ---------- 補齊 prototype 嘅細節 ---------- */
+.dl__bar-icon {
+  flex: none; width: 26px; height: 26px; display: grid; place-items: center;
+  border-radius: 3px; background: #fff; color: #2869d6;
+  text-shadow: none; font-size: 14px; line-height: 1;
+}
+.dl__cat-h i { display: block; color: var(--sm-yellow); font-style: normal; }
+
+/* 底部 XP action bar：左邊講仲爭咩，右邊重設 ＋ 綠掣 */
+.sm .dl__ready { margin: 0 auto 0 0; color: #5f5d53; font-size: 11px; font-weight: 400; }
+
+/* 想改善：揀咗邊幾樣，寫返出嚟 */
+.sm .dl__concerns, .sm .dl__want-block { border: 0; padding: 0; min-width: 0; }
+.sm .dl__concerns { margin: 0 0 24px; }
+.sm .dl__pickcount { margin: 9px 0 0; color: #68758c; font-size: 10px; }
+
+/* 今次想要邊幾步：一條虛線隔開，同上面嘅問題唔同層 */
+.sm .dl__want-block {
+  margin: 22px 0 0; padding-top: 20px; border-top: 1px dashed #91a5c7;
+}
+.sm .dl__want-block .dl__label { font-size: 13px; }
+.sm .dl__want { gap: 6px; }
+.sm .dl__want .dl__tag { min-width: 70px; text-align: center; }
+.sm .dl__want .dl__tag[aria-pressed="true"] { padding-left: 12px; }
+
+/* 結果頁大標題（prototype 有，之前 production 冇） */
+.sm .ed__h2 {
+  margin: 7px 0 6px; color: #29465a;
+  font-family: 'Bodoni Moda', Georgia, 'Noto Serif TC', serif; font-weight: 500;
+  font-size: clamp(24px, 4vw, 36px); line-height: 1.15;
+}
+.sm .cw__swipe { margin-left: auto; margin-right: 10px; color: #648297; font-size: 10px; font-weight: 800; }
+
+@media (max-width: 760px) {
+  .sm .dl__ready { display: none; }
+  .sm .dl__go { flex: 1; }
+  .sm .cw__swipe { display: none; }
+  .sm .dl__want-block { margin-top: 18px; }
+}
+
+/* 結果頁：prototype 嗰塊淺藍標題板、黃色提示條、藍色行標題 */
+.sm .ed__head {
+  margin: 18px clamp(11px, 3vw, 26px) 16px;
+  padding: 17px; border: 1px solid #8fa9d4; background: #e8f1ff;
+}
+.sm .ed__kicker { font-size: 10px; font-weight: 800; letter-spacing: .12em; color: #5b6d92; }
+.sm .ed__h2 {
+  margin: 7px 0 6px; color: #173e91;
+  font: 900 clamp(24px, 4vw, 36px)/1.15 'Arial Black', Tahoma, 'Noto Sans TC', sans-serif;
+}
+.sm .ed__read { margin: 0; font-family: inherit; font-size: 12px; line-height: 1.55; color: #46546c; }
+.sm .ed__hint {
+  margin: 0 clamp(11px, 3vw, 26px) 19px; padding: 8px 10px;
+  border: 1px solid #e4bd37; background: #fff8c6; color: #5e4c12;
+  font-size: 10px; font-weight: 800; text-align: center;
+}
+.sm .cw__head {
+  padding: 9px 11px; gap: 9px; justify-content: flex-start;
+  border-bottom: 1px solid #a9b8d1; background: #e4edfb;
+}
+.sm .ed__step { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0; color: #294f66; }
+.sm .cw__swipe { font-size: 9px; color: #465d83; }
+.sm .dl__q--axis .dl__label { margin-bottom: 5px; }
+@media (min-width: 720px) {
+  .sm .ed__head { padding: 17px; }
+}
+
+/* 結果留喺窗入面：中間嗰欄由白色表格換做淺藍配方板 */
+.sm .dl__form--result { background: transparent; padding: 0; }
+/* flow-root：唔畀 .ed__head 條 margin 穿返出去，穿出去就會露返 XP 嗰浸米色底 */
+.sm .dl__form--result .ed { border-radius: 0; display: flow-root; }
