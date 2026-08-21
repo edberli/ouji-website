@@ -58,11 +58,13 @@ async function loadRatings() {
 function ratingChip(handle) {
   const r = RATINGS_CACHE?.[handle];
   if (!r) return '';
-  /* 一定要寫明「Olive Young」。呢啲分數唔係 OUJI 自己收返嚟嘅 ——
-     喺 OUJI 個 logo 隔籬淨係擺一串星同一個數字，客同 Google 都會
-     當係我哋自己嘅評價。首頁本來就係咁寫，卡片同產品頁之前漏咗。 */
+  /* 一定要標明呢啲分數唔係 OUJI 自己收返嚟嘅 —— 喺 OUJI 個 logo 隔籬
+     淨係擺一串星同一個數字，客同 Google 都會當係我哋自己嘅評價。
+     但呢度寫「韓國站」而唔係寫個店名：一版「全部產品」有六百幾個卡片，
+     寫足店名等於喺自己個舖度幫人賣咗六百次廣告。講明唔係自己嘅就夠 ——
+     真正引用評價原文嗰度（產品頁評價區）先寫足 Olive Young。 */
   return `<span class="card-rating">${stars(r.star)}
-    <b>${r.star}</b><span>Olive Young ${r.count.toLocaleString()}</span></span>`;
+    <b>${r.star}</b><span>韓國站 ${r.count.toLocaleString()} 則</span></span>`;
 }
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g,
