@@ -1227,3 +1227,129 @@
 .sm .dl__form--result { background: transparent; padding: 0; }
 /* flow-root：唔畀 .ed__head 條 margin 穿返出去，穿出去就會露返 XP 嗰浸米色底 */
 .sm .dl__form--result .ed { border-radius: 0; display: flow-root; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   2026-08-21（下晝二）—— 老闆話「而家係好大舊」：網頁版要闊啲、扁啲、
+   細粒啲，白點大幅減少。
+   做法：橫向盡量食晒屏幕（窗由 1120 放到 1560，兩邊 padding 收窄），
+   縱向逐格削 —— 窗頂、選項格、行距、底 bar、產品卡高度全部縮。
+   手機唔郁：手機本身已經係一欄，再縮就撳唔中。
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* 白點：本來兩層（90px 同 130px 一粒），密到成塊麻。改返一層、
+   一格 320×300 先一粒、細粒兼透明啲 —— 大概係原本嘅十分之一。 */
+.sm::before {
+  background-image:
+    radial-gradient(circle at 78px 58px, rgba(255, 255, 255, .72) 0 1.6px, transparent 2.6px),
+    linear-gradient(
+      var(--sky-top) 0,
+      var(--sky-bot) var(--sky-run),
+      var(--grass-top) var(--sky-run),
+      var(--grass-bot) 100%);
+  background-size: 320px 300px, auto;
+}
+
+@media (min-width: 761px) {
+  /* 招牌矮返啲，成頁少咗 50px 高 */
+  .skincare-booth { height: 300px; min-height: 300px; }
+  .sm { --booth-h: 300px; --sky-run: 500px; }
+
+  /* 窗闊啲、兩邊窄啲 */
+  .sm .dl {
+    padding: clamp(14px, 1.8vw, 26px) clamp(10px, 1.2vw, 20px) clamp(20px, 2.4vw, 34px);
+  }
+  .dl__xp { width: min(1560px, 100%); border-radius: 8px 8px 6px 6px; }
+  .dl__bar-top { height: 38px; }
+  .dl__menu { height: 26px; font-size: 11px; }
+  .dl__ws { grid-template-columns: 232px minmax(0, 1fr); }
+  .dl__cat { min-height: 0; padding: 20px 18px; }
+  .dl__cat-h { font-size: 21px; }
+  .dl__cat-p { font-size: 11.5px; }
+
+  /* 表頭：字細一級，上下收窄 */
+  .dl__head { padding: 18px clamp(16px, 1.8vw, 30px) 12px; }
+  .sm .dl__h1 { font-size: clamp(21px, 2.1vw, 29px); }
+  .dl__intro { font-size: 12px; }
+  .dl__eyebrow { margin-bottom: 7px; }
+
+  /* 每條問題：行距、標題、格仔全部縮一級 */
+  .sm .dl__form > .dl__q,
+  .sm .dl__form > .dl__follow { padding-inline: clamp(14px, 1.8vw, 30px); }
+  .sm .dl__form > .dl__q:first-of-type { padding-top: 14px; }
+  .sm .dl__follow { padding-bottom: 16px; }
+  .sm .dl__q { margin-bottom: 12px; }
+  .sm .dl__label { font-size: 14px; margin-bottom: 7px; }
+  .sm .dl__label > b { width: 22px; height: 22px; font-size: 11px; }
+  .sm .dl__grid { gap: 7px; }
+  .sm .dl__choice { min-height: 52px; padding: 8px; }
+  .sm .dl__choice b { font-size: 12.5px; }
+  .sm .dl__choice small { margin-top: 3px; font-size: 10.5px; }
+  .sm .dl__q--axis { padding: 11px 12px 1px; margin-bottom: 16px; }
+  .dl__axis-note { margin-bottom: 8px; }
+  .sm .dl__tag { min-height: 34px; padding: 6px 10px; font-size: 11.5px; }
+  .sm .dl__tag[aria-pressed="true"] { padding-left: 28px; }
+  .sm .dl__want .dl__tag[aria-pressed="true"] { padding-left: 10px; }
+  .dl__cue { margin: 0 clamp(14px, 1.8vw, 30px) 14px; padding: 7px 10px; }
+  .dl__cue b { width: 22px; height: 22px; font-size: 15px; }
+  .sm .dl__want-block { margin-top: 16px; padding-top: 14px; }
+  .sm .dl__more { min-height: 38px; padding: 7px 12px; }
+
+  /* 底 bar 同狀態列 */
+  .sm .dl__bar { min-height: 60px; padding: 9px clamp(14px, 1.8vw, 26px); gap: 10px; }
+  .sm .dl__go, .sm .dl__reset { min-height: 40px; }
+  .sm .dl__go { min-width: 176px; font-size: 14px; }
+  .dl__status { height: 26px; }
+
+  /* 結果：標題板同五步預覽都扁啲、闊啲 */
+  .sm .ed__head { margin: 14px clamp(14px, 1.8vw, 26px) 12px; padding: 14px 16px; }
+  .sm .ed__h2 { font-size: clamp(21px, 2.2vw, 30px); }
+  .sm .ed__strip { max-width: 780px; padding: 10px 0 9px; }
+  .sm .ed__total { padding-block: 8px; }
+  .sm .ed__hint { margin: 0 clamp(14px, 1.8vw, 26px) 14px; }
+  .sm .cw__head { padding: 7px 10px; }
+  .sm .cw__rail { gap: 12px; padding: 12px 48px 12px 12px; }
+  /* 卡窄咗，一屏睇到三張 —— 之前 470px 一張，成塊嘢好長 */
+  .sm .cw__card { flex: 0 0 min(46%, 400px); min-height: 300px; padding: 15px; }
+  .sm .cw__main { grid-template-columns: 128px minmax(0, 1fr); gap: 13px; }
+  .sm .cw__shot { width: 128px; height: 128px; }
+  .sm .cw__name { font-size: 15px; margin: 5px 0; }
+  .sm .cw__why { margin: 11px 0 10px; min-height: 2.8em; font-size: 11.5px; }
+  .sm .ed__row { padding-block: 14px; }
+}
+
+@media (min-width: 761px) {
+  /* 助手欄本來係度住 440px 高嚟砌（芝麻同對話泡都係 absolute 貼住底）。
+     窗矮咗之後，芝麻爬咗上去壓住三個步驟。改成由上到下排落嚟，
+     芝麻擺喺最底、對話泡喺佢上面 —— 幾矮都唔會撞。 */
+  .dl__cat {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    /* 第三行 1fr：窗高咗嗰陣多出嚟嘅位由步驟嗰行食晒，
+       芝麻同對話泡就一直貼實個底，唔會浮喺半空 */
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0; padding: 16px 14px 0;
+  }
+  .dl__cat-h { grid-row: 1; }
+  .dl__cat-p { grid-row: 2; }
+  .dl__steps { grid-row: 3; align-self: start; }
+  .dl__cat-h, .dl__cat-p, .dl__steps { grid-column: 1 / -1; }
+  .dl__cat-h { font-size: 19px; }
+  .dl__cat-p { margin-top: 8px; }
+  .dl__steps { margin-top: 12px; }
+  .dl__steps li { margin: 6px 0; font-size: 11px; }
+  .dl__steps b { width: 21px; height: 21px; font-size: 10.5px; }
+  /* 對話泡同芝麻並排擺喺最底，唔再各佔一行 */
+  .dl__bubble {
+    position: static; grid-row: 4; grid-column: 1; align-self: end; justify-self: start;
+    width: auto; max-width: 118px; margin: 12px 0 12px; padding: 7px 9px;
+    border-radius: 12px; font-size: 10.5px; transform: none;
+  }
+  .dl__bubble::after {
+    left: auto; right: -9px; bottom: 11px; width: 14px; height: 14px;
+    border-left: 0; border-bottom: 2px solid #17213c; border-right: 2px solid #17213c;
+    transform: rotate(-45deg);
+  }
+  .dl__cat-img {
+    position: static; grid-row: 4; grid-column: 2; align-self: end;
+    width: 108px; height: auto; margin: 6px -8px -4px 0;
+  }
+}
