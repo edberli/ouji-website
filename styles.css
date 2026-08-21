@@ -9482,3 +9482,27 @@ body::before { opacity: 0.18; }
   .home-skin-cat__product:hover,
   .home-skin-cat__cta:hover { transform: none; }
 }
+
+/* ── 手機貼紙帶：公仔放大、擺密啲（2026-08-21）───────────────────────
+   老闆喺 iPhone 度睇，話有幾個 icon 細到睇唔清（爽膚水 31px、乳液 32px、
+   防曬 34px）。最細嗰幾個拉上去同大嗰幾個睇齊，範圍由 31–49px 收窄到
+   46–58px；貼紙帶向上長 14px 換返啲位，招牌本身 350px 高唔郁。 */
+@media (max-width: 720px) {
+  .skincare-booth__cats { height: 140px; }
+  .skincare-booth__cat { padding: 0 2px 14px; }
+  .skincare-booth__cat b { min-width: 40px; padding: 1px 5px; font-size: 9px; }
+  .skincare-booth__cat small { min-width: 19px; font-size: 6.5px; }
+  /* 上行：抬高 8px，等大咗嘅公仔唔會壓落下行 */
+  .skincare-booth__cat:nth-child(1) { --y: 69px; --icon-w: 52px; --icon-h: 58px; }
+  .skincare-booth__cat:nth-child(2) { --y: 80px; --icon-w: 46px; --icon-h: 52px; }
+  .skincare-booth__cat:nth-child(3) { --y: 63px; --icon-w: 58px; --icon-h: 59px; }
+  .skincare-booth__cat:nth-child(4) { --y: 76px; --icon-w: 52px; --icon-h: 61px; }
+  /* 下行：位置唔郁，淨係放大公仔 */
+  .skincare-booth__cat:nth-child(5) { --icon-w: 46px; --icon-h: 50px; }
+  .skincare-booth__cat:nth-child(6) { --icon-w: 58px; --icon-h: 63px; }
+  .skincare-booth__cat:nth-child(7) { --icon-w: 55px; --icon-h: 54px; }
+  .skincare-booth__cat:nth-child(8) { --icon-w: 48px; --icon-h: 56px; }
+}
+@media (max-width: 350px) {
+  .skincare-booth__cat b { min-width: 36px; font-size: 8px; }
+}
