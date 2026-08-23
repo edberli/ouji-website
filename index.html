@@ -58,15 +58,15 @@
   <a href="#main-content" class="skip-link">跳到主要內容</a>
 
   <!-- ============================================================
-       開場：Windows XP 開機 → 桌面 → 撳一下 → 入網站
+       開場：一個 XP 窗包住 OUJI logo，滑鼠撳一下先入網站
        ------------------------------------------------------------
-       個網站成套語言已經係 XP／Y2K（護膚配方個 Skin Control Panel、
-       全部產品個 Explorer），但入口一直係普通 loader。呢度補返最前面
-       嗰一下，成件事先首尾一致。
+       第一版做咗個黑底開機畫面 —— 老闆話「背景黑色」唔要，要保留返
+       OUJI 自己嗰種藍。所以而家冇咗開機嗰幕，一開就係藍色桌面，
+       個窗入面就係 logo，滑鼠行埋去撳「進入商店」。
 
        四條底線，唔准為咗好睇而拆：
-       1. **一個 session 只出一次**（sessionStorage）。日日撳同一段動畫
-          係煩，唔係驚喜。
+       1. **一個 session 只出一次**（sessionStorage）。想再睇一次就
+          喺網址後面加 `?boot=1`。
        2. **隨時跳得走** —— 撳邊度都得、任何掣都得、右上角有「跳過」。
        3. **首頁 DOM 本身照樣喺度**，呢個純粹係浮喺上面嘅蓋。搜尋器、
           冇 JS、螢幕閱讀器都當佢唔存在（aria-hidden）。
@@ -74,40 +74,22 @@
        ============================================================ -->
   <div class="xpboot" data-xpboot aria-hidden="true">
     <div class="xpboot__screen">
-
-      <!-- 第一幕：開機 -->
-      <div class="xpboot__boot">
-        <div class="xpboot__logo">
-          <span class="xpboot__word">OUJI</span>
-          <span class="xpboot__tag">K-BEAUTY</span>
+      <div class="xpboot__win">
+        <div class="xpboot__win-bar">
+          <span class="xpboot__win-ico"></span>
+          <span class="xpboot__win-name">OUJI.exe</span>
+          <span class="xpboot__win-ctl"><i></i><i></i><i class="is-x"></i></span>
         </div>
-        <div class="xpboot__bar"><i></i><i></i><i></i></div>
-        <p class="xpboot__copyright">香港韓國美妝護膚專門店</p>
-      </div>
-
-      <!-- 第二幕：桌面 -->
-      <div class="xpboot__desk">
-        <ul class="xpboot__icons">
-          <li class="xpboot__icon" data-boot-target>
-            <span class="xpboot__ico xpboot__ico--shop"></span><b>OUJI 網上商店</b>
-          </li>
-          <li class="xpboot__icon"><span class="xpboot__ico xpboot__ico--skin"></span><b>護膚</b></li>
-          <li class="xpboot__icon"><span class="xpboot__ico xpboot__ico--makeup"></span><b>彩妝</b></li>
-          <li class="xpboot__icon"><span class="xpboot__ico xpboot__ico--lens"></span><b>隱形眼鏡</b></li>
-        </ul>
-
-        <!-- 撳完彈出嚟嗰個窗，由 icon 位置放大出嚟 -->
-        <div class="xpboot__win">
-          <div class="xpboot__win-bar"><span>OUJI 網上商店</span><i></i><i></i><i class="is-x"></i></div>
-          <div class="xpboot__win-body"><span class="xpboot__word xpboot__word--sm">OUJI</span></div>
-        </div>
-
-        <div class="xpboot__task">
-          <span class="xpboot__start">開始</span>
-          <span class="xpboot__clock" data-boot-clock></span>
+        <div class="xpboot__win-body">
+          <img class="xpboot__brand" src="logos/ouji-logo-color.png" alt="" width="220" height="220">
+          <p class="xpboot__line">香港韓國美妝護膚專門店</p>
+          <span class="xpboot__go">進入商店</span>
         </div>
       </div>
-
+      <div class="xpboot__task">
+        <span class="xpboot__start">開始</span>
+        <span class="xpboot__clock" data-boot-clock></span>
+      </div>
       <span class="xpboot__cursor" aria-hidden="true"></span>
     </div>
     <button type="button" class="xpboot__skip" data-boot-skip>跳過</button>
@@ -117,10 +99,11 @@
   (function () {
     var host = document.querySelector('[data-xpboot]');
     if (!host) return;
+    var force = /[?&]boot=1\b/.test(location.search);
     var quick = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var seen;
     try { seen = sessionStorage.getItem('ouji:booted'); } catch (e) { seen = '1'; }
-    if (seen || quick) { host.remove(); return; }
+    if ((seen || quick) && !force) { host.remove(); return; }
     try { sessionStorage.setItem('ouji:booted', '1'); } catch (e) {}
 
     document.documentElement.classList.add('is-booting');
@@ -141,12 +124,11 @@
       setTimeout(function () { host.remove(); }, 460);
     }
 
-    phase('boot');
-    at(1250, function () { phase('desk'); });    // 開機完，見桌面
-    at(2050, function () { phase('point'); });   // 滑鼠行過去
-    at(2750, function () { phase('click'); });   // 雙撳
-    at(3100, function () { phase('open'); });    // 窗彈出
-    at(3900, done);                              // 溶入首頁
+    phase('in');
+    at(620, function () { phase('point'); });   // 滑鼠行埋去
+    at(1500, function () { phase('click'); });  // 撳落去
+    at(1820, function () { phase('open'); });   // 個窗放大衝出嚟
+    at(2360, done);
 
     host.addEventListener('click', done);
     host.querySelector('[data-boot-skip]').addEventListener('click', function (e) {
