@@ -1189,3 +1189,109 @@ function initHScrollArrows() {
   // 啲行係 fetch 返嚟先砌，所以要一路望住
   new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
 }
+
+/* ============================================================
+   頂部公告條 + header：實際高度度返出嚟
+   ------------------------------------------------------------
+   本來 CSS 寫死「條 bar 高 36px」，但條 bar 嘅字係中文、長度會變，
+   窄機一摺行就變 62px；同時 .header render 出嚟係 64px 而唔係
+   --header-height 個 56px。兩重誤差夾埋，內容被個 header 遮咗 34px。
+
+   所以呢度做兩件事：
+   1. 度返兩件嘢嘅真高度，寫入 --ann-h / --hdr-h，畀 CSS 用。
+   2. 條 bar 嘅字擺唔落一行就改成輪流出，等佢永遠得一行。
+   ============================================================ */
+(() => {
+  const bar = document.querySelector('.announcement-bar');
+  const header = document.querySelector('.header');
+  const root = document.documentElement;
+  if (!bar && !header) return;
+
+  const publish = () => {
+    if (bar) root.style.setProperty('--ann-h', `${Math.round(bar.getBoundingClientRect().height)}px`);
+    if (header) root.style.setProperty('--hdr-h', `${Math.round(header.getBoundingClientRect().height)}px`);
+  };
+  publish();
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(publish);
+    if (bar) ro.observe(bar);
+    if (header) ro.observe(header);
+  }
+  window.addEventListener('resize', publish);
+  /* web font 落到之後行高會變，度多次 */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(publish);
+
+  if (!bar) return;
+
+  /* 原文係「A &nbsp;·&nbsp; B &nbsp;·&nbsp; C」，24 版 HTML 都一樣。
+     唔改 HTML —— 喺呢度拆，改咗 markup 就要改 24 個檔。 */
+  const full = bar.textContent.replace(/\s+/g, ' ').trim();
+  const offers = full.split('·').map((t) => t.trim()).filter(Boolean);
+  if (!offers.length) return;
+
+  bar.textContent = '';
+  const make = (text) => {
+    const el = document.createElement('span');
+    el.className = 'announcement-bar__offer';
+    el.textContent = text;
+    bar.appendChild(el);
+    return el;
+  };
+
+  let nodes = [];
+  let timer = null;
+  let mode = null;          // 'all' = 一行出晒；'rotate' = 輪流
+
+  const stop = () => { clearInterval(timer); timer = null; };
+
+  const build = (next) => {
+    if (next === mode) return;
+    stop();
+    mode = next;
+    bar.textContent = '';
+    nodes = next === 'all'
+      ? [make(offers.join('  ·  '))]
+      : offers.map(make);
+    nodes[0].classList.add('is-on');
+    if (next === 'rotate' && offers.length > 1) start();
+  };
+
+  const start = () => {
+    let i = 0;
+    stop();
+    timer = setInterval(() => {
+      if (document.hidden) return;              // 睇唔到就唔好轉，慳電
+      nodes[i].classList.remove('is-on');
+      i = (i + 1) % nodes.length;
+      nodes[i].classList.add('is-on');
+    }, 4200);
+  };
+
+  /* 用一個離屏量度器問「三句夾埋擺唔擺得落一行」。
+     唔可以問 nodes[0].scrollWidth —— 佢 white-space:nowrap，永遠等於內容闊度。
+     擺喺 body 唔擺喺 bar 入面：build() 會清空條 bar，擺入去會連佢一齊清走。 */
+  const ruler = document.createElement('span');
+  ruler.setAttribute('aria-hidden', 'true');
+  ruler.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;pointer-events:none;left:-9999px;top:0';
+  document.body.appendChild(ruler);
+
+  const decide = () => {
+    const cs = getComputedStyle(bar);
+    ruler.style.fontFamily = cs.fontFamily;
+    ruler.style.fontSize = cs.fontSize;
+    ruler.style.fontWeight = cs.fontWeight;
+    ruler.style.letterSpacing = cs.letterSpacing;
+    ruler.textContent = offers.join('  ·  ');
+    const room = bar.clientWidth - 32;          // 兩邊各留 16px
+    build(ruler.getBoundingClientRect().width <= room ? 'all' : 'rotate');
+    publish();
+  };
+
+  decide();
+  let t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(decide, 150); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else if (mode === 'rotate' && offers.length > 1) start();
+  });
+})();

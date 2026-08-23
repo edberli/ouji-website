@@ -518,18 +518,45 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .btn--sm { padding: 10px 24px; font-size: 0.6875rem; }
 .btn--full { width: 100%; }
 
-/* ----- Announcement Bar ----- */
+/* ----- Announcement Bar -----
+   一行到底，高度鎖死。三個優惠喺窄螢幕擺唔落一行，摺咗行條 bar 就會由 36px
+   變 62px —— 而下面 header 同 main 兩個位置本來寫死咗 36px，一摺就成版嘢
+   被遮住。所以改成：擺得落就照出，擺唔落就輪流出，條 bar 永遠得一行。 */
 .announcement-bar {
   background: linear-gradient(135deg, #2b4c58 0%, #335866 50%, #2b4c58 100%);
   color: white;
   text-align: center;
-  padding: 10px var(--space-md);
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: none;
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1001;
+  height: 36px;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* 窄機收細少少，等「折實滿 HK$400 免運費」呢句最長嘅都擺得落一行 */
+@media (max-width: 400px) {
+  .announcement-bar { font-size: 0.75rem; letter-spacing: 0.03em; }
+}
+
+/* 每個優惠一張，全部疊喺同一格 grid cell，只有 .is-on 嗰張見到。
+   用 grid 疊而唔用 position:absolute —— 條 bar 唔使做定位祖先。 */
+.announcement-bar__offer {
+  grid-area: 1 / 1;
+  padding: 0 var(--space-md);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.45em);
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+}
+.announcement-bar__offer.is-on { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-bar__offer { transition: none; transform: none; }
 }
 
 @keyframes shimmerBg {
@@ -537,8 +564,12 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   50% { background-position: 100% 50%; }
 }
 
-.announcement-bar + .header { top: 36px; }
-main { padding-top: calc(var(--header-height) + 36px); }
+/* --ann-h／--hdr-h 由 script.js 度實際高度寫入。唔准再喺呢度寫死數字：
+   之前 header 寫死 top:36px、main 寫死 +36px，但條 bar 摺行之後實際 62px，
+   而 .header 實際 render 出嚟係 64px 唔係 token 嗰 56px，兩重誤差夾埋
+   令內容被遮 34px。度返實數就永遠唔會再錯。 */
+.announcement-bar + .header { top: var(--ann-h, 36px); }
+main { padding-top: calc(var(--hdr-h, var(--header-height)) + var(--ann-h, 36px)); }
 
 /* ----- Header ----- */
 .header {
@@ -872,7 +903,7 @@ main { padding-top: calc(var(--header-height) + 36px); }
   width: 100%;
   aspect-ratio: 88 / 40;
   overflow: hidden;
-  margin-top: calc(-1 * var(--header-height));
+  margin-top: calc(-1 * var(--hdr-h, var(--header-height)));
 }
 
 .hero__bg-image {
@@ -2475,7 +2506,7 @@ button.product-card__quick-add,
   .header__menu-toggle { display: flex; }
   .header__action-btn { display: none !important; }
   .header__action-btn[aria-label="搜尋"] { display: flex !important; }
-  .hero { aspect-ratio: 56 / 75; height: auto; min-height: unset; margin-top: calc(-1 * var(--header-height)); }
+  .hero { aspect-ratio: 56 / 75; height: auto; min-height: unset; margin-top: calc(-1 * var(--hdr-h, var(--header-height))); }
   .hero__carousel-slide img { object-fit: contain; }
   .hero__floating-images { display: none; }
   .hero__content { padding: 0 var(--space-md); }
