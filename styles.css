@@ -7913,7 +7913,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   /* 桌面本來得 112px 高、960px 闊，成個中間同兩邊都吉。放大公仔，
      順手撐闊條貼紙帶，等佢哋填得滿啲。 */
   width: min(1600px, calc(100% - 36px));
-  height: 152px;
+  height: 128px;
   transform: translateX(-50%);
 }
 .skincare-booth__cat {
@@ -8000,14 +8000,17 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   box-shadow: 3px 3px 0 var(--cat-tint);
 }
 
-.skincare-booth__cat:nth-child(1) { --x: 0%;     --y: 4px;  --w: 11%; --h: 106px; --icon-w: 71px;  --icon-h: 79px;  --tilt: -10deg; }
-.skincare-booth__cat:nth-child(2) { --x: 10.5%;  --y: 32px; --w: 12%; --h: 92px;  --icon-w: 60px;  --icon-h: 68px;  --tilt: 7deg; }
-.skincare-booth__cat:nth-child(3) { --x: 22%;    --y: 0;    --w: 13%; --h: 130px; --icon-w: 100px; --icon-h: 101px; --tilt: -5deg; }
-.skincare-booth__cat:nth-child(4) { --x: 34%;    --y: 22px; --w: 14%; --h: 122px; --icon-w: 86px;  --icon-h: 100px; --tilt: 9deg; }
-.skincare-booth__cat:nth-child(5) { --x: 48%;    --y: 2px;  --w: 10%; --h: 98px;  --icon-w: 63px;  --icon-h: 67px;  --tilt: -7deg; }
-.skincare-booth__cat:nth-child(6) { --x: 57.5%;  --y: 30px; --w: 14%; --h: 130px; --icon-w: 97px;  --icon-h: 106px; --tilt: 8deg; }
-.skincare-booth__cat:nth-child(7) { --x: 71%;    --y: 0;    --w: 15%; --h: 118px; --icon-w: 89px;  --icon-h: 92px;  --tilt: -11deg; }
-.skincare-booth__cat:nth-child(8) { --x: 85%;    --y: 26px; --w: 12%; --h: 98px;  --icon-w: 65px;  --icon-h: 75px;  --tilt: 6deg; }
+/* 桌面收細一級（老闆 2026-08-23：「桌面版而家太大個，要細返啲」）。
+   全部 icon ×0.82，格仔高度跟住收，條帶由 152 → 128px。相對高低同傾側唔郁，
+   個貼紙牆嘅節奏保住，淨係冇咁霸。手機版係相反方向，見下面 720px 嗰段。 */
+.skincare-booth__cat:nth-child(1) { --x: 0%;     --y: 4px;  --w: 11%; --h: 88px;  --icon-w: 58px; --icon-h: 65px; --tilt: -10deg; }
+.skincare-booth__cat:nth-child(2) { --x: 10.5%;  --y: 28px; --w: 12%; --h: 76px;  --icon-w: 49px; --icon-h: 56px; --tilt: 7deg; }
+.skincare-booth__cat:nth-child(3) { --x: 22%;    --y: 0;    --w: 13%; --h: 108px; --icon-w: 82px; --icon-h: 83px; --tilt: -5deg; }
+.skincare-booth__cat:nth-child(4) { --x: 34%;    --y: 19px; --w: 14%; --h: 101px; --icon-w: 70px; --icon-h: 82px; --tilt: 9deg; }
+.skincare-booth__cat:nth-child(5) { --x: 48%;    --y: 2px;  --w: 10%; --h: 81px;  --icon-w: 52px; --icon-h: 55px; --tilt: -7deg; }
+.skincare-booth__cat:nth-child(6) { --x: 57.5%;  --y: 26px; --w: 14%; --h: 108px; --icon-w: 80px; --icon-h: 87px; --tilt: 8deg; }
+.skincare-booth__cat:nth-child(7) { --x: 71%;    --y: 0;    --w: 15%; --h: 98px;  --icon-w: 73px; --icon-h: 75px; --tilt: -11deg; }
+.skincare-booth__cat:nth-child(8) { --x: 85%;    --y: 22px; --w: 12%; --h: 81px;  --icon-w: 53px; --icon-h: 61px; --tilt: 6deg; }
 
 /* ----- 閃光。只喺第一次載入播一次 ----- */
 .skincare-booth__flash {
@@ -9519,20 +9522,22 @@ body::before { opacity: 0.18; }
    防曬 34px）。最細嗰幾個拉上去同大嗰幾個睇齊，範圍由 31–49px 收窄到
    46–58px；貼紙帶向上長 14px 換返啲位，招牌本身 350px 高唔郁。 */
 @media (max-width: 720px) {
-  .skincare-booth__cats { height: 140px; }
+  /* 第二次放大（老闆 2026-08-23：「手機版大間少少」）。範圍由 46–58px
+     去到 51–65px，條帶 140 → 154px 換返啲位，招牌本身 350px 高唔郁。 */
+  .skincare-booth__cats { height: 154px; }
   .skincare-booth__cat { padding: 0 2px 14px; }
-  .skincare-booth__cat b { min-width: 40px; padding: 1px 5px; font-size: 9px; }
-  .skincare-booth__cat small { min-width: 19px; font-size: 6.5px; }
-  /* 上行：抬高 8px，等大咗嘅公仔唔會壓落下行 */
-  .skincare-booth__cat:nth-child(1) { --y: 69px; --icon-w: 52px; --icon-h: 58px; }
-  .skincare-booth__cat:nth-child(2) { --y: 80px; --icon-w: 46px; --icon-h: 52px; }
-  .skincare-booth__cat:nth-child(3) { --y: 63px; --icon-w: 58px; --icon-h: 59px; }
-  .skincare-booth__cat:nth-child(4) { --y: 76px; --icon-w: 52px; --icon-h: 61px; }
+  .skincare-booth__cat b { min-width: 42px; padding: 1px 5px; font-size: 9.5px; }
+  .skincare-booth__cat small { min-width: 20px; font-size: 7px; }
+  /* 上行：再抬高 6px，等大咗嘅公仔唔會壓落下行 */
+  .skincare-booth__cat:nth-child(1) { --y: 75px; --icon-w: 58px; --icon-h: 65px; }
+  .skincare-booth__cat:nth-child(2) { --y: 86px; --icon-w: 51px; --icon-h: 58px; }
+  .skincare-booth__cat:nth-child(3) { --y: 69px; --icon-w: 65px; --icon-h: 66px; }
+  .skincare-booth__cat:nth-child(4) { --y: 82px; --icon-w: 58px; --icon-h: 68px; }
   /* 下行：位置唔郁，淨係放大公仔 */
-  .skincare-booth__cat:nth-child(5) { --icon-w: 46px; --icon-h: 50px; }
-  .skincare-booth__cat:nth-child(6) { --icon-w: 58px; --icon-h: 63px; }
-  .skincare-booth__cat:nth-child(7) { --icon-w: 55px; --icon-h: 54px; }
-  .skincare-booth__cat:nth-child(8) { --icon-w: 48px; --icon-h: 56px; }
+  .skincare-booth__cat:nth-child(5) { --icon-w: 51px; --icon-h: 56px; }
+  .skincare-booth__cat:nth-child(6) { --icon-w: 65px; --icon-h: 70px; }
+  .skincare-booth__cat:nth-child(7) { --icon-w: 61px; --icon-h: 60px; }
+  .skincare-booth__cat:nth-child(8) { --icon-w: 54px; --icon-h: 63px; }
 }
 @media (max-width: 350px) {
   .skincare-booth__cat b { min-width: 36px; font-size: 8px; }
