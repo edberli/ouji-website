@@ -196,13 +196,13 @@
               <span>小計</span>
               <span data-subtotal>HK$0</span>
             </div>
+            <div class="cart-summary__row cart-summary__row--save" data-discount-row hidden>
+              <span data-discount-label>折扣</span>
+              <span data-discount>−HK$0</span>
+            </div>
             <div class="cart-summary__row">
               <span>運費</span>
               <span data-shipping>HK$0</span>
-            </div>
-            <div class="cart-summary__row" data-free-shipping-msg style="font-size: 0.75rem; color: var(--primary); display: none;">
-              <span></span>
-              <span></span>
             </div>
 
             <div class="cart-summary__divider"></div>
@@ -210,6 +210,26 @@
             <div class="cart-summary__row cart-summary__total">
               <span>合計</span>
               <span data-total>HK$0</span>
+            </div>
+
+            <!-- 兩級門檻：折實滿 $400 免運、滿 $500 送面霜。
+                 兩個數都係「折實」—— 實測過 Shopify 條免運規則睇折後價
+                 （未折 $414／折實 $384 嗰陣照收運費）。 -->
+            <div class="reward" data-reward hidden>
+              <div class="reward__track">
+                <div class="reward__fill" data-reward-fill></div>
+                <span class="reward__tick" style="left:80%"></span>
+              </div>
+              <div class="reward__marks">
+                <span data-reward-mark-1>免運 $400</span>
+                <span data-reward-mark-2>送面霜 $500</span>
+              </div>
+              <p class="reward__line" data-reward-line></p>
+
+              <div class="gap" data-gap hidden>
+                <h3 class="gap__title" data-gap-title></h3>
+                <div class="gap__body" data-gap-body></div>
+              </div>
             </div>
 
             <div class="cart-summary__promo">
@@ -442,24 +462,176 @@
         : '';
     }
 
-    // Update totals
-    const subtotal = parseFloat(cart.cost.subtotalAmount.amount);
-    const total = parseFloat(cart.cost.totalAmount.amount);
-    const FREE_SHIPPING_THRESHOLD = 400;
-    const SHIPPING_FEE = 30;   // 順豐派送上門。Shopify 運送設定檔 hong kong 區嘅實際收費，之前寫死 40 對唔上
-    const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+    /* 折實價先係話事嗰個數。
+       實測過（cartCreate + deliveryGroups，2026-08-23）：未折 $414／折實 $384
+       嗰陣 Shopify 照收運費（$20 自取／$30 上門），折實 $486 就兩樣都 $0
+       —— 即係佢條規則睇折後價，同 banner 寫嘅「折實滿 HK$400」一致。
+
+       之前呢度攞 subtotalAmount（未折）去判斷，兩個後果：
+       (1) 未折 $400–454 嗰段會錯誤承諾免運，但結帳照收；
+       (2) 「合計」寫 subtotal + 運費，成個 88 折冇顯示過 —— 客見到嘅數
+           比實際收嘅貴成一成，仲要見唔到自己慳咗幾多。 */
+    const subtotal = parseFloat(cart.cost.subtotalAmount.amount);   // 未折
+    const netTotal = parseFloat(cart.cost.totalAmount.amount);      // 折實
+    const saved = Math.max(0, subtotal - netTotal);
+    const FREE_SHIP = 400;
+    const GIFT = 500;
+    const SHIPPING_FEE = 30;
+    const shipping = netTotal >= FREE_SHIP ? 0 : SHIPPING_FEE;
 
     if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
     if (shippingEl) shippingEl.textContent = shipping === 0 ? '免費' : formatPrice(shipping);
-    if (totalEl) totalEl.textContent = formatPrice(subtotal + shipping);
+    if (totalEl) totalEl.textContent = formatPrice(netTotal + shipping);
 
-    if (freeShipMsg) {
-      if (subtotal < FREE_SHIPPING_THRESHOLD) {
-        freeShipMsg.style.display = '';
-        freeShipMsg.querySelector('span').textContent = `再消費 HK$${FREE_SHIPPING_THRESHOLD - subtotal} 即可享免運費`;
+    const discRow = document.querySelector('[data-discount-row]');
+    if (discRow) {
+      discRow.hidden = saved < 0.01;
+      if (saved >= 0.01) {
+        discRow.querySelector('[data-discount]').textContent = `−${formatPrice(saved)}`;
       }
     }
+
+    renderReward(netTotal, subtotal, (cart.lines?.edges || [])
+      .map((e) => e.node.merchandise.product?.handle).filter(Boolean));
   });
+
+  /**
+   * 「爭少少就免運／送面霜」—— 講埋差幾多，同埋執邊件貨啱啱夠。
+   *
+   * 兩級門檻都係計折實價：$400 免運（慳 $30）、$500 送面霜。
+   * 條進度棒去到 $500 為滿，$400 嗰點畫條刻度。
+   */
+  const FREE_SHIP = 400;
+  const GIFT = 500;
+
+  function renderReward(net, gross, inCart) {
+    const host = document.querySelector('[data-reward]');
+    if (!host) return;
+    if (net <= 0) { host.hidden = true; return; }
+    host.hidden = false;
+
+    const fill = host.querySelector('[data-reward-fill]');
+    const line = host.querySelector('[data-reward-line]');
+    const m1 = host.querySelector('[data-reward-mark-1]');
+    const m2 = host.querySelector('[data-reward-mark-2]');
+    fill.style.width = `${Math.min(100, (net / GIFT) * 100)}%`;
+    m1.classList.toggle('is-hit', net >= FREE_SHIP);
+    m2.classList.toggle('is-hit', net >= GIFT);
+
+    const ceil = (n) => Math.ceil(n - 0.001);
+    if (net < FREE_SHIP) {
+      const gap = ceil(FREE_SHIP - net);
+      line.innerHTML = `再買 <strong>HK$${gap}</strong> 就免運費，慳返 HK$30`;
+      suggestGapFillers(gap, net, gross, inCart, '免運費');
+    } else if (net < GIFT) {
+      const gap = ceil(GIFT - net);
+      line.innerHTML = `已經免運費 ✓　再買 <strong>HK$${gap}</strong> 就送面霜`;
+      suggestGapFillers(gap, net, gross, inCart, '送面霜');
+    } else {
+      line.innerHTML = `免運費 ✓　送面霜 ✓　全部拎齊`;
+      const body = document.querySelector('[data-gap-body]');
+      const wrap = document.querySelector('[data-gap]');
+      if (body) body.innerHTML = '';
+      if (wrap) wrap.hidden = true;
+    }
+  }
+
+  /**
+   * 揀最平嘅幾件貨，加落去啱啱夠過門檻。
+   *
+   * 有 88 折，所以要加幾多**標價**先夠拉高折實價 gap 蚊，要除返個折扣率
+   * ——「爭 $50」唔等於「買 $50 嘢」，係要買 $57。呢度計錯就啱啱唔夠，
+   * 客加咗貨仲係差幾蚊，比唔提佢仲衰。
+   */
+  async function suggestGapFillers(gap, net, gross, inCartHandles, rewardName) {
+    const wrap = document.querySelector('[data-gap]');
+    const body = document.querySelector('[data-gap-body]');
+    const title = document.querySelector('[data-gap-title]');
+    if (!wrap || !body) return;
+
+    const rate = gross > 0 ? net / gross : 1;       // 而家實際打緊幾多折
+    const needList = gap / rate;                     // 要加幾多標價先夠
+
+    const all = await getAllProducts().catch(() => null);
+    const inCart = new Set(inCartHandles || []);
+
+    /* 目錄快照嘅 variant 得 id／availableForSale／quantityAvailable，冇價
+       —— 價要喺 product 層攞 priceRange.minVariantPrice。咁樣反而穩陣：
+       min 價都夠過門檻，即係揀邊個色號都一定夠。 */
+    const pool = (all?.edges || []).map((e) => e.node)
+      .filter((p) => !inCart.has(p.handle))
+      .filter((p) => !p.handle.startsWith('lens-'))   // 隱形眼鏡要度數，唔啱做順手加
+      .map((p) => {
+        const vs = (p.variants?.edges || []).map((e) => e.node)
+          .filter((x) => x.availableForSale && (x.quantityAvailable == null || x.quantityAvailable > 0));
+        const price = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
+        if (!vs.length || !price) return null;
+        /* 淨得一個變體先自己加落袋；有色號嘅唔幫人揀，帶佢入產品頁 */
+        const single = (p.variants?.edges || []).length === 1;
+        return { p, v: vs[0], price, single };
+      })
+      .filter(Boolean);
+
+    if (!pool.length) { wrap.hidden = true; return; }
+
+    /* 一件就夠 vs 要夾兩件。
+       目錄最貴嗰批得三百幾蚊，所以個袋淨係 $128 嗰陣，「加一件就夠免運」
+       全店只有一件貨做得到 —— 出一個孤零零嘅建議冇用。夠貨揀就講「加一件」，
+       唔夠就改口做「揀兩件夾夠」，然後專登揀落喺一半差額嗰度嘅貨。 */
+    const closers = pool.filter((x) => x.price >= needList).sort((a, b) => a.price - b.price);
+    const oneIsEnough = closers.length >= 2;
+    const half = needList / 2;
+    const ranked = oneIsEnough
+      ? closers
+      : pool.filter((x) => x.price * rate >= 40)      // 太平嘅夾極都唔夠，唔好嘥個位
+          .sort((a, b) => Math.abs(a.price - half) - Math.abs(b.price - half));
+
+    /* 一個牌子只出一件，等三個選擇唔會係同一隻嘢 */
+    const seen = new Set();
+    const picks = [];
+    for (const x of ranked) {
+      const key = x.p.vendor || x.p.handle;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      picks.push(x);
+      if (picks.length === 3) break;
+    }
+    if (!picks.length) { wrap.hidden = true; return; }
+
+    if (title) {
+      title.textContent = oneIsEnough
+        ? `加一件就夠 ${rewardName}`
+        : `揀兩件夾夠 HK$${gap}，就${rewardName}`;
+    }
+    wrap.hidden = false;
+    body.innerHTML = picks.map(({ p, v, price, single }) => {
+      const img = p.images?.edges?.[0]?.node;
+      const after = price * rate;
+      return `<div class="gap-pick">
+        <a class="gap-pick__card" href="/products/${p.handle}">
+          ${img ? `<img src="${img.url}" alt="${p.title}" loading="lazy">` : ''}
+          <span class="gap-pick__brand">${p.vendor || ''}</span>
+          <span class="gap-pick__name">${p.title}</span>
+        </a>
+        <div class="gap-pick__foot">
+          <span class="gap-pick__price">${single ? '' : '由 '}${formatPrice(price)}
+            <small>折實 ${formatPrice(after)}</small></span>
+          ${single
+            ? `<button class="btn btn--sm" data-gap-add="${v.id}">加入</button>`
+            : `<a class="btn btn--sm" href="/products/${p.handle}">揀色號</a>`}
+        </div>
+      </div>`;
+    }).join('');
+
+    body.querySelectorAll('[data-gap-add]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        btn.disabled = true;
+        btn.textContent = '加緊…';
+        await addToCart(btn.dataset.gapAdd, 1);
+        location.reload();
+      });
+    });
+  }
 
   // Global functions for cart actions
   /**
