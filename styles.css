@@ -9834,3 +9834,96 @@ body::before { opacity: 0.18; }
 
 /* 白底 logo 太淺就襯返個好淺嘅灰底，唔會消失 */
 .brands-page .brand-card img[alt="AXIS-Y"] { background: #4a5b66; border-radius: 3px; padding: 4px 6px; }
+
+/* ============================================================
+   首頁「Our Brands」：同品牌頁一樣，改做 XP Explorer 窗
+   ------------------------------------------------------------
+   之前：深藍底 ＋ 煙霧片 ＋ `filter: brightness(0) invert(1)`
+   —— 35 個牌子嘅招牌色全部被抹白，同品牌頁一模一樣嘅病。
+   走馬燈本身留住（嗰個動感係呢格嘅性格），淨係換底同解除抹白。
+   ============================================================ */
+.brand-marquees {
+  /* 淺 XP 藍，等個窗睇落似擺喺桌面上面 */
+  background:
+    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, .3), transparent 52%),
+    linear-gradient(160deg, #a9cfdd 0%, #7fb2c6 55%, #5d93a8 100%);
+}
+.brand-marquees__video { display: none; }
+.brand-marquees .section-header__title { color: #143a4a; }
+
+.bxp--marquee {
+  margin-top: clamp(18px, 2.4vw, 30px);
+  margin-bottom: 0;
+}
+.bxp--marquee .bxp__body { padding-bottom: 8px; }
+
+/* 分區標題行放入個窗，變返 Explorer 嘅群組列 */
+.brand-marquees .brand-marquees__section { padding: 0; background: none; }
+/* Explorer 嘅群組列係一條窄橫帶：左邊分類名、右邊「瀏覽全部」。
+   ⚠️ 一定要寫返 flex-direction: row —— 上面 .brand-marquees__section-header
+   本身係 column（原本嗰個置中分隔線設計），唔 reset 就會繼續上下疊，
+   喺窗入面變咗一大浸藍。 */
+.brand-marquees .brand-marquees__section-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 4px;
+  padding: 4px 12px;
+  border: 1px solid #a7c4e8;
+  border-radius: 3px;
+  background: linear-gradient(#eaf2fd, #d6e6fb);
+  text-align: left;
+}
+.brand-marquees .brand-section-title { margin: 0; }
+.brand-marquees .brand-marquee { padding: 2px 0; }
+.brand-marquees .brand-marquees__label {
+  margin: 0;
+  color: #12457f;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+.brand-marquees .brand-section-toggle {
+  flex: none;
+  margin: 0;
+  padding: 0;
+  color: #12457f;
+  font-size: .6875rem;
+  opacity: .85;
+}
+.brand-marquees .brand-section-toggle:hover { opacity: 1; }
+
+/* 走馬燈：白底，兩邊淡出用白色唔用深色 */
+.brand-marquees .brand-marquee { background: #fff; }
+.brand-marquees .brand-marquee::before,
+.brand-marquees .brand-marquee::after {
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0));
+}
+.brand-marquees .brand-marquee::after { transform: scaleX(-1); }
+
+.brand-marquees .brand-marquee__item {
+  opacity: 1;
+  color: #4a4740;
+  border-radius: 4px;
+}
+.brand-marquees .brand-marquee__item:hover,
+.brand-marquees .brand-marquee__item.is-armed {
+  background: #eaf1fd;                 /* XP 揀中嗰隻藍 */
+}
+/* 🔑 唔好再抹白 */
+.brand-marquees .brand-marquee__logo { filter: none; }
+
+/* 展開嗰個 grid 一樣要白底原色 */
+.brand-marquees .brand-grid__card {
+  border: 1px solid #d4d0c4;
+  border-radius: 4px;
+  background: #fff;
+}
+.brand-marquees .brand-grid__card:hover {
+  border-color: #316ac5;
+  background: #eaf1fd;
+}
+.brand-marquees .brand-grid__logo { filter: none; }
+.brand-marquees .brand-grid__name { color: #4a4740; }

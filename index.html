@@ -295,13 +295,10 @@
          試過拆兩條插入各自嗰行貨嘅頭頂（彩妝一條、護膚一條），
          老闆睇完話兩截冇一幅咁好睇 —— 合併返一幅。 -->
     <section class="brand-marquees">
-      <!-- Smoke video background -->
-      <div class="brand-marquees__video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/smoke-bg-short.webm" type="video/webm">
-          <source src="videos/smoke-bg-short.mp4" type="video/mp4">
-        </video>
-      </div>
+      <!-- 2026-08-23：呢格同品牌頁一樣改咗 —— 之前係深藍底＋白色 logo
+           （`filter: brightness(0) invert(1)`），35 個牌子嘅招牌色全部被
+           抹走。而家改做同一個 XP Explorer 窗：白底、原色 logo。
+           走馬燈本身留住，嗰個動感就係呢格嘅性格。煙霧片唔再畫。 -->
       <div class="container">
         <!-- 剷走咗 eyebrow「合作品牌」（標題自己講得晒，多一行細字只係
              推低咗個標題）同埋原本嗰句說明 —— 嗰句寫住「最具人氣與口碑」，
@@ -310,6 +307,15 @@
           <h2 class="heading-lg section-header__title">Our Brands</h2>
         </div>
       </div>
+
+      <div class="bxp bxp--marquee">
+        <div class="bxp__bar">
+          <span class="bxp__ico"></span>
+          <span class="bxp__name">品牌 — 我哋入嘅牌子</span>
+          <span class="bxp__ctl"><i></i><i></i><i class="is-x"></i></span>
+        </div>
+        <div class="bxp__menu"><span>檔案(F)</span><span>編輯(E)</span><span>檢視(V)</span><span>說明(H)</span></div>
+        <div class="bxp__body">
 
       <!-- ── 彩妝品牌 ── -->
       <div class="brand-marquees__section">
@@ -510,6 +516,14 @@
           </div>
         </div>
       </div>
+
+        </div><!-- /.bxp__body -->
+        <div class="bxp__status">
+          <span>41 個品牌</span>
+          <span>彩妝 19 · 護膚 22</span>
+          <span class="bxp__status-end">我的電腦</span>
+        </div>
+      </div><!-- /.bxp -->
 
     </section>
 
