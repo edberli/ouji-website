@@ -568,6 +568,44 @@
    ══════════════════════════════════════════════════════════ */
 .pE3__col { position: relative; }
 
+/* 一句就一句，唔好斬開兩橛。
+   原本寫「9 月 15 日 23:59 前，成間店冇門檻。仲有 23 日。」——
+   ① 23:59 冇人記，講日期就夠；② 太長，喺右欄會斷行斷喺「冇門
+   ／檻」中間，好核突；③ 兩句句號變咗兩件事，其實係一句。
+   而家縮短、balance 斷行、「冇門檻」三個字唔准拆。 */
+.pE3__lede { text-wrap: balance; }
+.pE3__nb { font-weight: 700; white-space: nowrap; }
+.pE3__sep { margin: 0 8px; opacity: .45; }
+
+/* 限量標示 —— 數字係即時由 Shopify 攞返嚟嘅真存貨，唔係寫死。
+   ⚠️ 唔准寫假數，亦都冇「N 人正在瀏覽」嗰類嘢：嗰啲係編出嚟嘅，
+   同我哋而家喺 Google 度處理緊嘅「錯誤陳述」係同一類。
+   攞唔到數就淨係顯示「送完即止」，唔會亂噏一個數。 */
+.pE3__left {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #c8452f;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: 2px;
+}
+.pE3__stock {
+  position: absolute;
+  left: 16px; top: 62px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(200, 69, 47, 0.94);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: 0 6px 16px rgba(120, 30, 18, 0.28);
+}
+
 /* 標題：88 折要係第一眼睇到嗰樣，所以推大兼收緊行距 */
 .pE3__title {
   font-size: clamp(2.5rem, 6.2cqw, 4.25rem);
@@ -580,8 +618,9 @@
 /* 芝麻：企喺右下角吉位。用 aspect-ratio 佔位，唔會 layout shift */
 /* 芝麻要自己一條巷 —— 唔預位就會壓住兩級門檻嗰兩行字 */
 @container (min-width: 760px) {
-  .pE3__col .pB__rows,
-  .pE3__col .pB__lede { padding-right: clamp(112px, 16cqw, 184px); }
+  /* 淨係兩級門檻嗰兩行要讓位 —— 芝麻企喺下面，副題喺最上面，
+     副題讓咗位反而會斷行斷喺「冇門／檻」中間。 */
+  .pE3__col .pB__rows { padding-right: clamp(112px, 16cqw, 184px); }
 }
 .pE3__shima {
   position: absolute;
@@ -679,14 +718,16 @@
         <div class="pB__grid">
           <div class="pB__shot rise">
             <span class="pB__ribbon">折實滿 <b>$500</b> 免費送</span>
+            <span class="pE3__stock" data-giftstock hidden></span>
             <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
                  alt="Round Lab 白樺樹保濕面霜 80ml" width="800" height="800" loading="lazy" decoding="async">
           </div>
 
           <div class="rise pE3__col">
             <h3 class="pB__title pE3__title">全單 <b>88 折</b></h3>
-            <p class="pB__lede">
-              9 月 15 日 23:59 前，成間店冇門檻。仲有 <b data-countdown>—</b> 日。
+            <p class="pB__lede pE3__lede">
+              9 月 15 日前，全店<b class="pE3__nb">冇門檻</b>
+              <span class="pE3__sep">·</span>仲有 <b data-countdown>—</b> 日
             </p>
 
             <ul class="pB__rows">
@@ -700,8 +741,10 @@
               <li class="pB__row">
                 <svg class="ico" aria-hidden="true"><use href="#i-jar"></use></svg>
                 <div>
-                  <p class="pB__k">折實滿 HK$500 送面霜</p>
-                  <p class="pB__v"><a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，價值 HK$148。</p>
+                  <p class="pB__k">折實滿 HK$500 送面霜
+                    <span class="pE3__left" data-giftleft hidden></span>
+                  </p>
+                  <p class="pB__v"><a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，價值 HK$148，送完即止。</p>
                 </div>
               </li>
             </ul>
@@ -1050,6 +1093,36 @@
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
   Array.prototype.forEach.call(rises, function (el) { io.observe(el); });
+})();
+</script>
+
+<script>
+/* 贈品面霜仲剩幾多支 —— 由 Shopify Storefront 即時攞，唔寫死。
+   老闆想要「剩返幾件」嗰種緊迫感，呢個係誠實嘅做法：數字係真嘅，
+   賣一支就少一支。攞唔到就唔顯示，寧願冇都唔好作。 */
+(function () {
+  var SHOP = '5rerjn-mt.myshopify.com';
+  var TOKEN = '795e2f7cb13da1d3776449eba5802377';
+  var HANDLE = 'round-lab-round-lab-80ml-0221';
+  var Q = '{product(handle:"' + HANDLE + '"){variants(first:1){edges{node{quantityAvailable}}}}}';
+
+  fetch('https://' + SHOP + '/api/2024-10/graphql.json', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': TOKEN },
+    body: JSON.stringify({ query: Q })
+  })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var pr = d && d.data && d.data.product;
+      var ed = pr && pr.variants && pr.variants.edges && pr.variants.edges[0];
+      var n = ed && ed.node && ed.node.quantityAvailable;
+      if (typeof n !== 'number' || n <= 0) return;
+      var a = document.querySelector('[data-giftleft]');
+      var b = document.querySelector('[data-giftstock]');
+      if (a) { a.textContent = '限量 ' + n + ' 支'; a.hidden = false; }
+      if (b) { b.textContent = '仲剩 ' + n + ' 支'; b.hidden = false; }
+    })
+    .catch(function () { /* 攞唔到就唔講，唔好作個數出嚟 */ });
 })();
 </script>
 </body>
