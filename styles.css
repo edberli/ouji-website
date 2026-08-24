@@ -6192,14 +6192,6 @@ html.is-lite .brand-rail__crest { filter: none; }
   letter-spacing: 0.16em;
   color: var(--text-tertiary, #94a8b0);
 }
-.cat-cards__count {
-  margin-left: auto;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--text-tertiary, #94a8b0);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
 
 .cat-cards {
   display: flex;
@@ -6255,11 +6247,10 @@ html.is-lite .brand-rail__crest { filter: none; }
   background: #dbe3e4;
   overflow: hidden;
   border-radius: 24px;
-  box-shadow:
-    11px 14px 26px rgba(72, 86, 90, 0.24),
-    -8px -10px 20px rgba(255, 255, 255, 0.95),
-    inset 0 2px 3px rgba(255, 255, 255, 0.85),
-    inset 0 -3px 6px rgba(104, 118, 122, 0.14);
+  /* 一道影就夠。原本仲有一道白光打對面同兩道 inset ——
+     嗰套 neumorphism 喺實色方塊上面先成立，貼住一張相就變咗
+     相邊浮出一圈白霧，似 render 錯咗多過似有質感。 */
+  box-shadow: 0 12px 24px -8px rgba(58, 74, 80, 0.28);
   transition: box-shadow 300ms var(--ease-out, ease);
 }
 .cat-card__shot img {
@@ -6270,12 +6261,9 @@ html.is-lite .brand-rail__crest { filter: none; }
   transition: transform 420ms var(--ease-out, ease);
 }
 
-/* 名同件數同一行：名左、數字右。相框已經夠圓夠柔，
-   下面再包一個白色 body 就會變返「普通卡」。 */
+/* 相框已經夠圓夠柔，下面再包一個白色 body 就會變返「普通卡」。 */
 .cat-card__body {
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
+  display: block;
   padding: 11px 4px 0;
 }
 .cat-card__name {
@@ -6285,23 +6273,12 @@ html.is-lite .brand-rail__crest { filter: none; }
   line-height: 1;
   letter-spacing: 0.01em;
 }
-.cat-card__n {
-  margin-left: auto;
-  font-size: 0.71875rem;
-  letter-spacing: 0.05em;
-  color: var(--text-tertiary, #9a9a9a);
-  font-variant-numeric: tabular-nums;
-}
 
 .cat-card:hover,
 .cat-card:focus-visible { transform: translateY(-3px); }
 .cat-card:hover .cat-card__shot,
 .cat-card:focus-visible .cat-card__shot {
-  box-shadow:
-    13px 17px 30px rgba(72, 86, 90, 0.28),
-    -9px -11px 22px rgba(255, 255, 255, 1),
-    inset 0 2px 3px rgba(255, 255, 255, 0.85),
-    inset 0 -3px 6px rgba(104, 118, 122, 0.12);
+  box-shadow: 0 18px 32px -10px rgba(58, 74, 80, 0.34);
 }
 .cat-card:hover .cat-card__shot img,
 .cat-card:focus-visible .cat-card__shot img { transform: scale(1.06); }
@@ -6319,12 +6296,10 @@ html.is-lite .cat-card__shot,
 html.is-lite .cat-card__shot img { transition: none; }
 html.is-lite .cat-card:hover { transform: none; }
 html.is-lite .cat-card:hover .cat-card__shot img { transform: none; }
-/* 慢機唔好一路掃一路重畫四層陰影 */
-html.is-lite .cat-card:hover .cat-card__shot { box-shadow:
-  11px 14px 26px rgba(72, 86, 90, 0.24),
-  -8px -10px 20px rgba(255, 255, 255, 0.95),
-  inset 0 2px 3px rgba(255, 255, 255, 0.85),
-  inset 0 -3px 6px rgba(104, 118, 122, 0.14); }
+/* 慢機唔好一路掃一路重畫陰影 */
+html.is-lite .cat-card:hover .cat-card__shot {
+  box-shadow: 0 12px 24px -8px rgba(58, 74, 80, 0.28);
+}
 
 /* One row per category, swiped sideways. */
 .home-rail { margin-bottom: var(--space-2xl, 40px); }
@@ -10271,3 +10246,143 @@ body::before { opacity: 0.18; }
 .brands-page .brand-card img[src$="wakemake.svg"],
 .brand-marquees .brand-marquee__logo[src$="wakemake.svg"],
 .brand-marquees .brand-grid__logo[src$="wakemake.svg"] { width: calc(129.5px * var(--logo-k, 1)); height: calc(32.4px * var(--logo-k, 1)); }  /* WAKEMAKE */
+
+/* ============================================================
+   試款（第二輪）：Archive 檔案室換底色
+   ------------------------------------------------------------
+   老闆睇完覺得原本嗰隻米黃「唔係好襯」，想試淺藍／白。
+   四隻底色用 token 出，換一個 data-tone 就成版跟住轉。
+
+   ⚠️ 臨時。揀完就拆走呢一段連埋 brands.html 個 .styleswap。
+   入口：/brands?preview=1
+   ============================================================ */
+.styleswap {
+  position: fixed;
+  left: 50%; bottom: 18px;
+  z-index: 900;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 5px;
+  max-width: calc(100% - 24px);
+  padding: 6px 9px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: rgba(18, 40, 52, .84);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+}
+.styleswap__label {
+  padding: 0 5px 0 3px;
+  font-size: 11px; letter-spacing: .12em;
+  color: rgba(255, 255, 255, .6);
+}
+.styleswap__sep { width: 1px; height: 18px; background: rgba(255, 255, 255, .25); margin: 0 3px; }
+.styleswap button {
+  padding: 6px 12px;
+  border: 0; border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .82);
+  font: inherit; font-size: 12.5px;
+  cursor: pointer;
+}
+.styleswap button:hover { background: rgba(255, 255, 255, .14); }
+.styleswap button.is-on { background: #fff; color: #12303f; font-weight: 600; }
+
+/* ---------- Archive：底色用 token ---------- */
+.brands-page[data-style="archive"] {
+  /* 預設＝米紙（原版） */
+  --ar-ground: #f1efe9;
+  --ar-ink: #1b1b19;
+  --ar-rule: #dcd9d0;
+  --ar-hair: #cdcabf;
+  --ar-soft: #7a776e;
+  --ar-hover: #e6e3da;
+
+  background: var(--ar-ground);
+  color: var(--ar-ink);
+}
+.brands-page[data-style="archive"][data-tone="white"] {
+  --ar-ground: #ffffff;
+  --ar-ink: #1b1b19;
+  --ar-rule: #e8e6e1;
+  --ar-hair: #ddd9d2;
+  --ar-soft: #8a8780;
+  --ar-hover: #f5f4f1;
+}
+.brands-page[data-style="archive"][data-tone="blue"] {
+  /* OUJI 淺藍 —— --primary-lightest #e7f1f4 嗰一家 */
+  --ar-ground: #e7f1f4;
+  --ar-ink: #1e3a45;
+  --ar-rule: #c5dae1;
+  --ar-hair: #b6d0d9;
+  --ar-soft: #6b8d99;
+  --ar-hover: #dbeaf0;
+}
+.brands-page[data-style="archive"][data-tone="mist"] {
+  /* 霧藍 —— 幾乎白，但帶少少 OUJI 嘅冷 */
+  --ar-ground: #f3f6f7;
+  --ar-ink: #23343b;
+  --ar-rule: #dde5e8;
+  --ar-hair: #d2dde1;
+  --ar-soft: #7c919a;
+  --ar-hover: #e9eff1;
+}
+
+/* 窗框收起，剩返一條索引標題 */
+[data-style="archive"] .bxp {
+  border: 0; border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+[data-style="archive"] .bxp__menu,
+[data-style="archive"] .bxp__crumb,
+[data-style="archive"] .bxp__ctl,
+[data-style="archive"] .bxp__ico { display: none; }
+[data-style="archive"] .bxp__bar {
+  height: auto; padding: 0 0 9px;
+  background: none; box-shadow: none;
+  border-bottom: 1px solid var(--ar-ink);
+  color: var(--ar-ink); text-shadow: none;
+}
+[data-style="archive"] .bxp__name {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: .3em; text-transform: uppercase;
+}
+[data-style="archive"] .bxp__body { background: transparent; }
+[data-style="archive"] .bxp__status {
+  padding: 9px 0 0;
+  border-top: 1px solid var(--ar-hair);
+  background: none;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px; letter-spacing: .12em; color: var(--ar-soft);
+}
+[data-style="archive"] .bxp__status span { padding: 0; border: 0; background: none; }
+
+[data-style="archive"] .bxp__group {
+  padding: 8px 0; margin: 0;
+  border: 0; border-top: 1px solid var(--ar-hair); border-radius: 0;
+  background: none;
+  color: var(--ar-soft);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px; font-weight: 500; letter-spacing: .22em;
+}
+/* 細線格：唔要卡，要一張表 */
+[data-style="archive"] .brands-grid {
+  gap: 0;
+  border-left: 1px solid var(--ar-rule);
+  border-top: 1px solid var(--ar-rule);
+}
+[data-style="archive"] .brand-card {
+  border: 0;
+  border-right: 1px solid var(--ar-rule);
+  border-bottom: 1px solid var(--ar-rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+[data-style="archive"] .brand-card:hover {
+  background: var(--ar-hover);
+  border-color: var(--ar-rule);
+  box-shadow: none;
+}
+[data-style="archive"] .section-header__title { color: var(--ar-ink); }

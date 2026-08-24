@@ -310,6 +310,58 @@
     </div><!-- /.bxp -->
 
 
+
+    <!-- ⚠️ 試款切換器（第二輪：Archive 換底色）——
+         淨係 ?preview=1 先會出，普通客見到嘅仍然係水光玻璃。
+         老闆揀完就要拆走成段連埋 styles.css 嗰段 Archive CSS。 -->
+    <div class="styleswap" data-styleswap hidden>
+      <span class="styleswap__label">款</span>
+      <button type="button" data-set="dewy" class="is-on">水光玻璃</button>
+      <button type="button" data-set="archive">Archive</button>
+      <span class="styleswap__sep" data-tonewrap hidden></span>
+      <span class="styleswap__label" data-tonewrap hidden>底色</span>
+      <button type="button" data-tone="paper" data-tonewrap hidden>米紙</button>
+      <button type="button" data-tone="white" data-tonewrap hidden>純白</button>
+      <button type="button" data-tone="blue" data-tonewrap hidden>OUJI 淺藍</button>
+      <button type="button" data-tone="mist" data-tonewrap hidden>霧藍</button>
+    </div>
+    <script>
+    (function () {
+      var page = document.querySelector('.brands-page');
+      var bar = document.querySelector('[data-styleswap]');
+      if (!page || !bar) return;
+      var q = new URLSearchParams(location.search);
+      if (q.get('style')) page.dataset.style = q.get('style');
+      page.dataset.tone = q.get('tone') || 'blue';
+      if (!q.has('preview') && !q.has('style')) return;
+      bar.hidden = false;
+
+      function sync() {
+        var isAr = page.dataset.style === 'archive';
+        bar.querySelectorAll('[data-tonewrap]').forEach(function (n) { n.hidden = !isAr; });
+        bar.querySelectorAll('[data-set]').forEach(function (b) {
+          b.classList.toggle('is-on', b.dataset.set === page.dataset.style);
+        });
+        bar.querySelectorAll('[data-tone]').forEach(function (b) {
+          b.classList.toggle('is-on', b.dataset.tone === page.dataset.tone);
+        });
+        var u = new URL(location.href);
+        u.searchParams.set('preview', '1');
+        u.searchParams.set('style', page.dataset.style);
+        if (isAr) { u.searchParams.set('tone', page.dataset.tone); } else { u.searchParams.delete('tone'); }
+        history.replaceState(null, '', u);
+      }
+
+      bar.addEventListener('click', function (e) {
+        var b = e.target.closest('button');
+        if (!b) return;
+        if (b.dataset.set) page.dataset.style = b.dataset.set;
+        if (b.dataset.tone) page.dataset.tone = b.dataset.tone;
+        sync();
+      });
+      sync();
+    })();
+    </script>
   </main>
 
   <!-- Footer -->
