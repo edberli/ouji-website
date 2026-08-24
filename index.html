@@ -1038,15 +1038,15 @@
     var d = Math.max(0, Math.ceil((end - new Date()) / 86400000));
     document.querySelectorAll('[data-countdown]').forEach(function (el) { el.textContent = d; });
 
-    /* 贈品名額由老闆定，唔係讀倉存。
-       倉入面有 61 支，但呢次 promo 只送 6 份 —— 所以寫 6 係真話，
-       唔係作。要改份數就改呢一個數。
-       ⚠️ 送夠 6 份之後要落嚟收起「送面霜」嗰行，唔好再擺喺度呃人。 */
-    var GIFT_CAP = 6;
+    /* 送量有限，但唔講實數。
+       老闆：「咁你即係話送量有限咯，咁咪得咯」。
+       倉入面 61 支、promo 名額 6 份 —— 兩個數都唔啱擺出嚟：
+       61 冇緊迫感，6 講出咗就要負責送到第 6 份先收（人手好易漏）。
+       講「送量有限 · 送完即止」係真話，又唔使綁死一個數。 */
     var a = document.querySelector('[data-giftleft]');
     var b = document.querySelector('[data-giftstock]');
-    if (a) { a.textContent = '限量 ' + GIFT_CAP + ' 份'; a.hidden = false; }
-    if (b) { b.textContent = '限量 ' + GIFT_CAP + ' 份'; b.hidden = false; }
+    if (a) { a.textContent = '送量有限'; a.hidden = false; }
+    if (b) { b.textContent = '送量有限'; b.hidden = false; }
   })();
   </script>
 </body>
