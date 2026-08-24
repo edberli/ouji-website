@@ -10742,3 +10742,34 @@ body::before { opacity: 0.18; }
 @media (prefers-reduced-motion: reduce) {
   .shima-corner img { animation: none; }
 }
+
+/* 呢幾個 hero 各有各風格（獲獎係深啡金、全部產品係 XP 開機畫面、彩妝
+   係貼紙相機），芝麻貼落角落唔可以撐大佢哋，亦都要確保個容器係
+   position:relative 先錨得住。 */
+.awards-hero, .shop-boot, .makeup-booth, .product-detail { position: relative; }
+/* 深色 hero 上面要多少少光邊，唔係隻貓會黐住個底 */
+.awards-hero .shima-corner img { filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .45)); }
+/* XP 開機畫面最底有條 46px 工具列 —— 芝麻要企喺工具列上面，唔可以
+   俾佢切一半（實測貓底部 533px、工具列由 487px 開始，蓋咗 46px）。
+   同時要避開右邊「其他」個資料夾貼紙，所以縮細少少兼貼實右邊。 */
+.shop-boot .shima-corner { bottom: 46px; right: clamp(6px, 1.5vw, 20px); }
+.shop-boot .shima-corner img { height: clamp(84px, 8vw, 108px); }
+/* 貼紙牆本身層層疊，芝麻要疊喺最面 —— 唔係會俾右邊嗰嚿粉紅爆炸形
+   （.makeup-booth__burst，實測 x 1198–1418）遮咗半隻。 */
+.makeup-booth .shima-corner { z-index: 6; right: clamp(16px, 3vw, 52px); }
+.skincare-booth { position: relative; }
+/* 品牌頁係一個 XP 視窗。⚠️ .bxp__menu 同 .bxp__crumb 喺闊機係
+   display:none（實測 0×0），錨唔住 —— 要用 .bxp__body。個視窗成
+   1883px 高，所以貼右上角，唔係右下角（右下角等於成頁最底）。 */
+.bxp__body { position: relative; }
+.bxp__body .shima-corner { top: clamp(6px, 1vw, 18px); bottom: auto; right: clamp(12px, 2vw, 32px); }
+.bxp__body .shima-corner img { height: clamp(70px, 6.5vw, 96px); }
+/* 產品頁：芝麻指住件貨，貼喺相同資訊之間嗰條界，唔好壓住加入購物袋 */
+.product-detail .shima-corner { top: 0; bottom: auto; right: 0; }
+.product-detail .shima-corner img { height: clamp(72px, 7vw, 96px); }
+/* 手機版：分類頁隻貓企喺右下角，會壓住 .cat-head__desc 最後嗰兩行
+   （實測 lens.html 手機版「現貨嘅度數一樣」俾隻貓遮咗）。讓返條巷。 */
+@media (max-width: 640px) {
+  .cat-head .shima-corner img { height: 76px; }
+  .cat-head__desc { padding-right: 82px; }
+}

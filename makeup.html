@@ -190,6 +190,10 @@
          件數、相紙四張相、選中狀態全部由 catalog.js 嘅 buildMakeupBooth()
          用 Storefront 真資料填 —— 呢度一個數都唔准寫死。 -->
     <section class="makeup-booth" data-makeup-booth>
+      <!-- 芝麻貼圖：每頁一隻，做緊同呢頁有關嘅嘢。aria-hidden —— 佢係氣氛，唔係內容，讀屏唔應該讀。 -->
+      <div class="shima-corner" aria-hidden="true">
+        <img src="assets/images/shima/shima-makeup.webp" alt="" loading="lazy" decoding="async">
+      </div>
       <div class="makeup-booth__flash" aria-hidden="true"></div>
 
       <div class="makeup-booth__title">
