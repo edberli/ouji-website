@@ -10420,7 +10420,12 @@ body::before { opacity: 0.18; }
    ⚠️ 「折實」兩個字唔准喺文案度剷走 —— Shopify 條免運規則真係睇
    折後價，寫「滿 $400」會令買 $420 嘅客以為免運。
    ============================================================ */
-.promo-wrap { container-type: inline-size; width: min(1280px, calc(100% - 28px)); margin: 0 auto; }
+/* 🔴 呢格一定要通到兩邊，唔可以做一個浮喺白底上面嘅盒。
+   第一版寫咗 width: min(1280px, ...) —— 淺藍色只鋪咗中間，
+   左右兩條白邊同上下兩格完全接唔上，老闆一睇就捉到。
+   上下兩格（產品分類、而家買咩好）都係白底通到邊，
+   所以呢格嘅底色都要通到邊，靠入面嘅內容框做對齊。 */
+.promo-wrap { container-type: inline-size; width: 100%; margin: 0; }
 /* ---------- 共用圖示（畫出嚟，唔用 emoji） ---------- */
 .ico { width: 1em; height: 1em; display: block; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 /* ============================================================
@@ -10428,11 +10433,17 @@ body::before { opacity: 0.18; }
    ============================================================ */
 .promo {
   position: relative; overflow: hidden;
+  /* 底色通到兩邊 */
   background: linear-gradient(158deg, #eef5f8 0%, #dfeef3 58%, #d3e6ed 100%);
-  padding: clamp(30px, 4.6cqw, 56px) clamp(20px, 5cqw, 60px);
+  padding: clamp(30px, 4.6cqw, 56px) 0;
   font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #23434e;
 }
-.promo__grid { display: grid; gap: clamp(24px, 3.4cqw, 46px); align-items: center; }
+/* 內容跟返全站嘅框，同上下兩格對齊 */
+.promo__grid {
+  display: grid; gap: clamp(24px, 3.4cqw, 46px); align-items: center;
+  width: min(1280px, calc(100% - 40px));
+  margin-inline: auto;
+}
 @container (min-width: 760px) { .promo__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
 @container (max-width: 759px) { .promo__shot img { aspect-ratio: 4 / 3; } }
 /* 官方相本身就係水感藍底＋白樽，同 OUJI 隻藍係一家人，

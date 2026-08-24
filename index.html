@@ -1038,26 +1038,15 @@
     var d = Math.max(0, Math.ceil((end - new Date()) / 86400000));
     document.querySelectorAll('[data-countdown]').forEach(function (el) { el.textContent = d; });
 
-    var SHOP = '5rerjn-mt.myshopify.com';
-    var TOKEN = '795e2f7cb13da1d3776449eba5802377';
-    var Q = '{product(handle:"round-lab-round-lab-80ml-0221"){variants(first:1){edges{node{quantityAvailable}}}}}';
-    fetch('https://' + SHOP + '/api/2024-10/graphql.json', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': TOKEN },
-      body: JSON.stringify({ query: Q })
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (j) {
-        var pr = j && j.data && j.data.product;
-        var ed = pr && pr.variants && pr.variants.edges && pr.variants.edges[0];
-        var n = ed && ed.node && ed.node.quantityAvailable;
-        if (typeof n !== 'number' || n <= 0) return;
-        var a = document.querySelector('[data-giftleft]');
-        var b = document.querySelector('[data-giftstock]');
-        if (a) { a.textContent = '限量 ' + n + ' 支'; a.hidden = false; }
-        if (b) { b.textContent = '仲剩 ' + n + ' 支'; b.hidden = false; }
-      })
-      .catch(function () {});
+    /* 贈品名額由老闆定，唔係讀倉存。
+       倉入面有 61 支，但呢次 promo 只送 6 份 —— 所以寫 6 係真話，
+       唔係作。要改份數就改呢一個數。
+       ⚠️ 送夠 6 份之後要落嚟收起「送面霜」嗰行，唔好再擺喺度呃人。 */
+    var GIFT_CAP = 6;
+    var a = document.querySelector('[data-giftleft]');
+    var b = document.querySelector('[data-giftstock]');
+    if (a) { a.textContent = '限量 ' + GIFT_CAP + ' 份'; a.hidden = false; }
+    if (b) { b.textContent = '限量 ' + GIFT_CAP + ' 份'; b.hidden = false; }
   })();
   </script>
 </body>
