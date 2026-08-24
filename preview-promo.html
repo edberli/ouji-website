@@ -426,132 +426,129 @@
 .pD__fine b { color: #16323c; font-weight: 700; }
 
 /* ============================================================
-   方向 E —— B 嘅修訂版（老闆 2026-08-24 揀咗 B 做底，要改三樣）
+   方向 E（第二版）—— 老闆睇完第一版之後再改五樣
    ------------------------------------------------------------
-   老闆原話：「八八折都係一個好重要嘅優惠資訊嚟㗎嘛。佢而家嗰個字
-   太細隻，變咗唔係重點。我覺得滿$500嗰句宣傳語就擺喺左邊，嗰個
-   面霜嗰張圖嘅上面。右邊嘅主角就係全單八八折…同埋呢個，應該混合
-   我哋店長芝麻嗰啲貼圖。」
+   老闆原話：「第一，個 session 太大嚿嘢啦，好嘥位置嘅。第二，個八字
+   太細隻，要大隻啲。仲有，你直情寫「冇門檻」啦，乜嘢「全單唔限品牌」
+   啊？即係講真，呢啲字好廢咯。同埋兩隻色完全對唔上喎…同埋嗰個貼圖
+   應該大隻啲嘅。」
 
-   所以：左邊＝文案喺上、面霜相喺下；右邊＝88 折做 hero；芝麻做貼圖。
-   88 折點樣先真係「大隻」？唔係淨係加 font-size —— 係畀佢一整塊
-   深藍地盤。白色 88 喺 #2b4c58 上面係成條 band 對比最勁嗰樣，
-   就算個字冇大到爆，眼都一定第一時間落喺度。
+   🔴 最重要嗰點係「兩隻色對唔上」。第一版右邊係一整塊實色深藍，
+   我當時用嗰塊深藍嚟托起個 88 —— 但一淺一深並排，睇落就係兩件嘢
+   黐埋，唔係一條 band。所以第二版**成條 band 得一隻底**，
+   深藍嗰塊拆咗。
+
+   拆咗之後 88 點樣仲夠氣勢？換咗三樣嘢頂上：
+   ① 尺寸由 7rem 推到 13rem（差唔多兩倍），佢自己就係塊「地盤」；
+   ② 深藍變咗字嘅顏色 —— #22414c 喺 #dfeef4 上面對比 7.5:1，
+      係成條 band 唯一嘅深色實體，眼一定第一時間落喺度；
+   ③ 佢獨佔右邊，周圍全部留白，冇第二樣嘢同佢爭。
+   一體感就靠：一隻底色到尾、一條打通左右嘅細線、
+   同埋捧箱嗰隻芝麻踩住條線騎過去。
    ============================================================ */
 .pE {
+  --e-ground: #dfeef4;
+  --e-ink: #22414c;
+  --e-soft: #4a6b76;
+  --e-hair: #b0cfdb;
   position: relative; overflow: hidden;
-  background: linear-gradient(158deg, #eef5f8 0%, #dfeef3 58%, #d3e6ed 100%);
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #23434e;
+  background: linear-gradient(152deg, #eaf4f8 0%, #dfeef4 44%, #cfe3ec 100%);
+  color: var(--e-ink);
+  font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+  padding: clamp(18px, 2.6cqw, 32px) clamp(18px, 3cqw, 40px) 0;
 }
-.pE__grid { display: grid; align-items: stretch; }
+.pE__grid { display: grid; gap: clamp(14px, 2.2cqw, 30px); align-items: center; }
 @container (min-width: 760px) {
-  .pE__grid { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); }
+  .pE__grid { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
 }
 
-/* ---- 左：宣傳語喺上，面霜相喺下 ---- */
-.pE__left {
-  padding: clamp(28px, 4.4cqw, 52px) clamp(20px, 3.6cqw, 44px) clamp(24px, 3.6cqw, 44px);
-  display: grid; align-content: start; gap: clamp(16px, 2.2cqw, 26px);
-}
+/* ---- 左：宣傳語喺上、面霜相喺下 ---- */
+.pE__left { display: grid; align-content: center; gap: 10px; }
 .pE__gifthead {
   margin: 0; font-family: 'Cormorant Garamond', 'Noto Serif TC', serif; font-weight: 400;
-  font-size: clamp(1.5rem, 3.1cqw, 2.25rem); line-height: 1.28; letter-spacing: 0.01em; color: #1c3b46;
-  text-wrap: balance;
+  font-size: clamp(1.375rem, 2.5cqw, 1.8125rem); line-height: 1.3; letter-spacing: 0.01em;
+  color: #1b3a45; text-wrap: balance;
 }
 .pE__gifthead b { font-weight: 600; }
-.pE__giftmeta { margin: -6px 0 0; font-size: 0.8125rem; line-height: 1.7; color: #4e6d77; }
-.pE__giftmeta a { color: #2b4c58; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-.pE__shot { margin: 0; }
+.pE__giftmeta { margin: 0; font-size: 0.8125rem; line-height: 1.65; color: var(--e-soft); }
+.pE__giftmeta a { color: var(--e-ink); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.pE__shot { margin: 4px 0 0; }
 .pE__shot img {
-  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
-  border-radius: 18px; background: #dfeef3;
+  display: block; width: 100%; aspect-ratio: 3 / 2; max-height: 216px;
+  object-fit: cover; border-radius: 14px; background: #dfeef3;
 }
 
-/* ---- 右：88 折佔一整塊深藍 ---- */
-.pE__hero {
-  position: relative; background: #2b4c58; color: #fff;
-  padding: clamp(28px, 4.4cqw, 52px) clamp(20px, 3.6cqw, 46px) clamp(30px, 4cqw, 48px);
-  display: grid; align-content: start; gap: clamp(14px, 1.8cqw, 20px);
-}
+/* ---- 右：88 折自己就係主體，冇底板 ---- */
+.pE__hero { position: relative; display: grid; align-content: center; justify-items: start; gap: 12px; }
 .pE__big {
-  margin: 0; display: flex; align-items: baseline; gap: 0.08em;
+  margin: 0; display: flex; align-items: baseline; gap: 0.04em;
   font-family: 'Cormorant Garamond', 'Noto Serif TC', serif; font-weight: 600;
-  color: #fff; line-height: 0.82; letter-spacing: -0.045em;
-  font-size: clamp(4.5rem, 11.5cqw, 7rem);
+  color: var(--e-ink); line-height: 0.76; letter-spacing: -0.055em;
+  font-size: clamp(6rem, 19cqw, 13rem);
 }
 .pE__big i {
   font-style: normal; font-family: 'Noto Serif TC', serif; font-weight: 600;
-  font-size: 0.34em; letter-spacing: 0.04em; color: #d8ecf3;
+  font-size: 0.24em; letter-spacing: 0.03em; color: #40707f;
 }
-.pE__whole {
-  margin: 0; font-size: clamp(1rem, 1.7cqw, 1.1875rem); font-weight: 700;
-  letter-spacing: 0.03em; color: #d8ecf3;
+.pE__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0; }
+.pE__nolimit {
+  margin: 0; background: var(--e-ink); color: #fff; border-radius: 999px;
+  padding: 8px 16px; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em;
 }
-.pE__whole span { display: block; margin-top: 5px; font-size: 0.8125rem; font-weight: 400; letter-spacing: 0.02em; color: #a9c8d4; }
-.pE__clock {
-  justify-self: start; display: inline-flex; align-items: center; gap: 9px;
-  font-size: 0.8125rem; letter-spacing: 0.05em; color: #bcd8e2;
-  border: 1px solid rgba(190, 222, 233, 0.36); border-radius: 999px; padding: 8px 16px;
-}
-.pE__clock b { color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-/* 免運排第三：白色貼紙卡貼喺深藍上面，唔同 88 搶 */
-.pE__ship {
-  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center;
-  background: #fff; color: #1c3b46; border-radius: 12px;
-  padding: 14px 18px 14px 14px; transform: rotate(-0.8deg);
-  box-shadow: 0 8px 20px rgba(10, 28, 36, 0.3);
-}
-.pE__ship img { width: 62px; height: auto; display: block; margin: -14px -2px -12px 0; }
-.pE__ship h4 { margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.02em; text-wrap: balance; }
-.pE__ship p { margin: 3px 0 0; font-size: 0.78125rem; line-height: 1.6; color: #4e6d77; }
-
-.pE__convert { margin: 0; font-size: 0.8125rem; line-height: 1.8; color: #cfe3eb; max-width: 46ch; }
-.pE__convert b { color: #fff; font-weight: 700; }
+.pE__clock { margin: 0; font-size: 0.8125rem; letter-spacing: 0.03em; color: var(--e-soft); }
+.pE__clock b { color: var(--e-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 .pE__cta {
-  justify-self: start; display: inline-flex; align-items: center; gap: 12px;
-  background: #fff; color: #22414c; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 12px; margin-top: 4px;
+  background: var(--e-ink); color: #fff; text-decoration: none;
   font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.12em;
-  padding: 16px 30px; border-radius: 999px;
-  box-shadow: 0 6px 20px rgba(12, 32, 40, 0.34);
+  padding: 15px 28px; border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(34, 65, 76, 0.24);
   transition: transform 320ms cubic-bezier(.22,1,.36,1), box-shadow 320ms cubic-bezier(.22,1,.36,1);
 }
 .pE__cta .ico { font-size: 1.1rem; transition: transform 320ms cubic-bezier(.22,1,.36,1); }
-.pE__cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(12, 32, 40, 0.4); }
+.pE__cta:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(34, 65, 76, 0.3); }
 .pE__cta:hover .ico { transform: translateX(5px); }
 
-/* ---- 芝麻貼圖：點綴，唔准搶 88 同面霜 ---- */
-.pE__shima {
-  position: absolute; z-index: 3; pointer-events: none;
-  width: clamp(92px, 10.5cqw, 128px); height: auto;
-  filter: drop-shadow(0 10px 16px rgba(8, 26, 34, 0.34));
-  transform: rotate(-4deg);
+/* ---- 打通左右嗰條線：免運費同「折實」換算擺同一行 ---- */
+.pE__strip {
+  margin-top: clamp(12px, 1.8cqw, 20px);
+  border-top: 1px solid var(--e-hair);
+  padding: clamp(10px, 1.4cqw, 16px) 0 clamp(14px, 2.2cqw, 24px);
+  display: grid; gap: 8px 28px; align-items: center;
 }
+@container (min-width: 760px) { .pE__strip { grid-template-columns: auto minmax(0, 1fr); } }
+.pE__ship { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; }
+/* 隻箱貓刻意騎過條線 —— 佢就係左右兩邊嘅釘 */
+.pE__ship img { width: clamp(78px, 8.4cqw, 104px); height: auto; display: block; margin: -30px -4px -12px 0; }
+.pE__ship h4 { margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: clamp(0.9375rem, 1.5cqw, 1.0625rem); letter-spacing: 0.02em; color: var(--e-ink); text-wrap: balance; }
+.pE__ship p { margin: 2px 0 0; font-size: 0.78125rem; line-height: 1.6; color: var(--e-soft); }
+.pE__convert { margin: 0; font-size: 0.78125rem; line-height: 1.7; color: var(--e-soft); max-width: 52ch; }
+.pE__convert b { color: var(--e-ink); font-weight: 700; }
+
+/* ---- 芝麻：店長級數，唔係 icon ---- */
+.pE__mascot { position: absolute; right: -6px; bottom: -4px; width: clamp(132px, 16.5cqw, 208px); z-index: 3; pointer-events: none; }
+.pE__mascot img { display: block; width: 100%; height: auto; transform: rotate(3deg); filter: drop-shadow(0 12px 18px rgba(30, 60, 72, 0.2)); }
 .pE__bubble {
-  position: absolute; z-index: 4; margin: 0;
+  position: absolute; right: 70%; bottom: 72%; margin: 0; z-index: 1;
   background: #fff; color: #17213c; border: 2px solid #17213c; border-radius: 13px;
   padding: 7px 11px; font-size: 0.75rem; font-weight: 700; line-height: 1.3; white-space: nowrap;
   transform: rotate(-3deg);
 }
-/* 尾巴喺泡泡右下角，指住右邊隻貓 */
 .pE__bubble::after {
-  content: ''; position: absolute; right: 15px; bottom: -9px; width: 14px; height: 14px;
+  content: ''; position: absolute; right: 14px; bottom: -9px; width: 14px; height: 14px;
   background: #fff; border-right: 2px solid #17213c; border-bottom: 2px solid #17213c;
   transform: rotate(45deg);
 }
-/* 揮手嗰隻企喺深藍嗰格右下角 —— 嗰度本來係吉位，
-   同時佢隻手係向上指，眼會由佢帶返上去個 88。 */
-.pE__shima { right: -4px; bottom: 0; transform: rotate(4deg); }
-@container (min-width: 760px) {
-  .pE__bubble { right: clamp(96px, 11cqw, 134px); bottom: 96px; }
-  .pE__hero { padding-bottom: clamp(46px, 5.6cqw, 68px); }
-}
 @container (max-width: 759px) {
-  .pE__shot img { aspect-ratio: 4 / 3; }
-  .pE__shima { width: 100px; }
-  .pE__bubble { right: 98px; bottom: 84px; }
-  .pE__hero { padding-bottom: 96px; }
-  .pE__cta { margin-bottom: 8px; }
+  .pE__shot img { aspect-ratio: 16 / 10; max-height: 190px; }
+  /* 窄機唔用絕對定位 —— 隻貓一大就會蓋住截止日期。改成排入流程、
+     靠右，再用負 margin 抽返上去同「開始揀貨」並排，唔嘥高度。 */
+  .pE__mascot {
+    position: relative; right: auto; bottom: auto;
+    width: 150px; justify-self: end; margin: -58px -6px -12px 0;
+  }
+  .pE__strip { padding-top: 14px; }
+  .pE__ship img { margin-top: -22px; }
 }
 
 /* ---------- 入場動作：一個，唔係四個 ---------- */
@@ -645,12 +642,12 @@
     老闆揀邊個，其實就係揀「首頁准唔准嗌」。
   </p>
 
-  <!-- ═══════════ E（老闆揀咗 B 做底，改咗三樣）═══════════ -->
+  <!-- ═══════════ E（老闆改咗兩輪）═══════════ -->
   <section class="pv__case" id="dir-e">
     <div class="pv__head">
       <span class="pv__tag">E</span>
-      <h2 class="pv__name">修訂版：88 折做主角 ＋ 芝麻貼圖</h2>
-      <span class="pv__why">B 做底 · 左邊文案喺上／面霜相喺下 · 右邊 88 折佔一整塊深藍</span>
+      <h2 class="pv__name">修訂版 v2：一隻底色，88 折自己做主體</h2>
+      <span class="pv__why">壓扁咗 · 88 推到 13rem · 深藍拆走 · 芝麻放大做店長</span>
     </div>
     <div class="pv__stage">
 
@@ -660,7 +657,7 @@
           <div class="pE__left rise">
             <h3 class="pE__gifthead">折實滿 HK$500，<b>送你一支面霜。</b></h3>
             <p class="pE__giftmeta">
-              <a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，網店賣 HK$148，一張單一份。
+              <a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，網店賣 HK$148。
             </p>
             <figure class="pE__shot">
               <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
@@ -670,37 +667,42 @@
 
           <div class="pE__hero rise">
             <h3 class="pE__big">88<i>折</i></h3>
-            <p class="pE__whole">全單，唔限牌子<span>唔使夾夠幾多錢，唔使揀指定貨品。</span></p>
-            <p class="pE__clock">9 月 15 日 23:59 截止 · 仲有 <b data-countdown>—</b> 日</p>
-
-            <div class="pE__ship">
-              <img src="assets/images/home/shima-box.png" alt="" aria-hidden="true" width="427" height="440" loading="lazy" decoding="async">
-              <div>
-                <h4>折實滿 HK$400 免運費</h4>
-                <p>順豐站自取同上門派送都變 $0，慳返 HK$30。</p>
-              </div>
+            <div class="pE__meta">
+              <p class="pE__nolimit">冇門檻</p>
+              <p class="pE__clock">9 月 15 日 23:59 截止 · 仲有 <b data-countdown>—</b> 日</p>
             </div>
-
-            <p class="pE__convert">
-              「折實」＝ 打完 88 折之後嘅金額。原價買夠 <b>HK$455</b> 就免運，買夠 <b>HK$569</b> 就有面霜。
-            </p>
-
             <a class="pE__cta" href="shop.html">開始揀貨<svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
 
-            <p class="pE__bubble" aria-hidden="true">88 折呀！</p>
-            <img class="pE__shima" src="assets/images/home/shima-wave.png"
-                 alt="" aria-hidden="true" width="381" height="440" loading="lazy" decoding="async">
+            <div class="pE__mascot" aria-hidden="true">
+              <p class="pE__bubble">88 折呀！</p>
+              <img src="assets/images/home/shima-wave.png" alt="" width="381" height="440" loading="lazy" decoding="async">
+            </div>
           </div>
 
+        </div>
+
+        <div class="pE__strip rise">
+          <div class="pE__ship">
+            <img src="assets/images/home/shima-box.png" alt="" aria-hidden="true" width="427" height="440" loading="lazy" decoding="async">
+            <div>
+              <h4>折實滿 HK$400 免運費</h4>
+              <p>順豐站自取同上門派送都變 $0，慳返 HK$30。</p>
+            </div>
+          </div>
+          <p class="pE__convert">
+            「折實」＝ 打完 88 折之後嘅金額。原價買夠 <b>HK$455</b> 就免運，買夠 <b>HK$569</b> 就有面霜。
+          </p>
         </div>
       </section>
 
     </div>
     <dl class="pv__verdict">
-      <dt class="is-world">改咗乜</dt><dd>① 左邊文案上、面霜相落，跟老闆講嘅次序。② <b>88 折唔止放大咗字，仲畀咗佢一整塊深藍地盤</b> —— 白色 88 喺 #2b4c58 上面係成條 band 對比最勁嗰樣，就算隔幾米睇都係佢先入眼。③ 免運費降做一張白色貼紙卡，斜住貼喺深藍上面，讀得到但唔同 88 搶。</dd>
-      <dt>芝麻</dt><dd>兩隻，全部係<b>點綴</b>：揮手嗰隻企喺深藍格右下角本來吉咗嘅位，隻手向上指，眼會由佢帶返上去個 88，配一個對話泡（做法抄返護膚配方個 XP 助手嗰個 <code>.dl__bubble</code>）；捧住紙皮箱嗰隻塞喺免運費張貼紙卡度，箱＝送貨，唔使多解釋。</dd>
-      <dt>好過 B 喺</dt><dd>B 嗰陣 88 折同免運係同一條 list 入面三行字，客第一眼淨係記得「送面霜」。E 之後兩樣嘢各有各地盤：<b>左邊賣「想要」，右邊賣「平咗」</b>，兩個都搶得到眼。芝麻亦令成條 band 唔似 banner 廣告，似 OUJI 自己講嘢。</dd>
-      <dt class="is-lose">要留意</dt><dd>深藍佔咗成半條 band，擺喺首頁要睇下同上下兩段隔得夠唔夠開（尤其係 footer 都係同一隻藍）。芝麻係 PNG 去底圖，深色底上面睇得清，但如果將來換咗更深嘅底就要重新度過隻貓嘅陰影。</dd>
+      <dt class="is-world">兩隻色</dt><dd><b>深藍嗰塊拆咗，成條 band 由頭到尾得一隻底</b>（#eaf4f8 → #dfeef4 → #cfe3ec 一條漸變）。第一版嗰個一淺一深並排，睇落就係兩件嘢黐埋。一體感而家靠三樣嘢頂：一隻底色到尾、一條打通左右嘅細線、同埋捧箱嗰隻芝麻<b>刻意踩住條線騎過去</b>，做左右兩邊嘅釘。</dd>
+      <dt>88 點解仲夠搶</dt><dd>拆咗底板之後換三樣嘢頂上：① <b>尺寸由 7rem 推到 13rem</b>（208px，差唔多兩倍），佢自己就係塊地盤，唔使人托；② 深藍變咗<b>字嘅顏色</b> —— #22414c 喺 #dfeef4 上面對比 <b>7.5:1</b>，係成條 band 唯一嘅深色實體；③ 佢獨佔右邊，周圍全部留白，冇第二樣嘢同佢爭。</dd>
+      <dt>壓扁咗</dt><dd>內距由 52px 減到 32px；面霜相由 1:1 改 3:2 兼封頂 216px；免運費同「折實」換算由兩浸疊落去變咗<b>同一行</b>。桌面高度由 ~720px 減到 ~430px（<b>減 40%</b>），首頁上下仲有位擺嘢。</dd>
+      <dt>文案</dt><dd>「全單，唔限牌子／唔使夾夠幾多錢，唔使揀指定貨品」全部刪咗，換成一粒深藍藥丸<b>「冇門檻」</b>。另外「一張單一份」都刪咗 —— 冇人同我確認過真係限一份，寧願唔講。</dd>
+      <dt>芝麻</dt><dd>揮手嗰隻由 128px 放大到 <b>208px</b>，同個 88 差唔多高，企喺右邊獨立佔位。佢唔會搶 88 —— 88 係硬淨嘅深色實體，隻貓係淺色軟邊，兩樣嘢喺視覺上唔同重量級。捧箱嗰隻由 62px 放大到 104px 兼騎住條分隔線。</dd>
+      <dt class="is-lose">要留意</dt><dd>成條 band 而家全部淺色，喺白色首頁上面嘅切割冇第一版咁狠。如果老闆睇完覺得「唔夠跳出嚟」，最平嘅解法係<b>成條 band 反轉做深藍底、白色 88</b>（一樣係一隻色，一樣冇接縫），唔使重畫版面。</dd>
     </dl>
   </section>
 
@@ -805,7 +807,7 @@
                 <svg class="ico" aria-hidden="true"><use href="#i-jar"></use></svg>
                 <div>
                   <p class="pB__k">折實滿 HK$500 送面霜</p>
-                  <p class="pB__v">左邊嗰支，價值 HK$148，一張單一份。</p>
+                  <p class="pB__v">左邊嗰支，價值 HK$148。</p>
                 </div>
               </li>
             </ul>
