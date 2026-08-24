@@ -10410,3 +10410,158 @@ body::before { opacity: 0.18; }
 .brands-page .brand-card img[src$="wakemake.svg"],
 .brand-marquees .brand-marquee__logo[src$="wakemake.svg"],
 .brand-marquees .brand-grid__logo[src$="wakemake.svg"] { width: calc(129.5px * var(--logo-k, 1)); height: calc(32.4px * var(--logo-k, 1)); }  /* WAKEMAKE */
+
+
+/* ============================================================
+   首頁優惠 banner（老闆 2026-08-24 由 preview-promo 揀咗 E v3）
+   ------------------------------------------------------------
+   擺喺「產品分類」下面。用 container query 排版，所以夾窄真係會
+   出手機排位，唔使靠 viewport media query。
+   ⚠️ 「折實」兩個字唔准喺文案度剷走 —— Shopify 條免運規則真係睇
+   折後價，寫「滿 $400」會令買 $420 嘅客以為免運。
+   ============================================================ */
+.promo-wrap { container-type: inline-size; width: min(1280px, calc(100% - 28px)); margin: 0 auto; }
+/* ---------- 共用圖示（畫出嚟，唔用 emoji） ---------- */
+.ico { width: 1em; height: 1em; display: block; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+/* ============================================================
+   方向 B —— 面霜做主角（獨立一套：淺藍攝影棚）
+   ============================================================ */
+.promo {
+  position: relative; overflow: hidden;
+  background: linear-gradient(158deg, #eef5f8 0%, #dfeef3 58%, #d3e6ed 100%);
+  padding: clamp(30px, 4.6cqw, 56px) clamp(20px, 5cqw, 60px);
+  font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #23434e;
+}
+.promo__grid { display: grid; gap: clamp(24px, 3.4cqw, 46px); align-items: center; }
+@container (min-width: 760px) { .promo__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
+@container (max-width: 759px) { .promo__shot img { aspect-ratio: 4 / 3; } }
+/* 官方相本身就係水感藍底＋白樽，同 OUJI 隻藍係一家人，
+   所以唔去背、唔加假陰影，就咁當一張相咁擺。 */
+.promo__shot { position: relative; }
+.promo__shot img {
+  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+  border-radius: 20px; background: #dfeef3;
+}
+.promo__ribbon {
+  position: absolute; top: 16px; left: -6px; z-index: 2;
+  background: #2b4c58; color: #fff; border-radius: 999px; padding: 11px 20px;
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em;
+  box-shadow: 0 8px 18px rgba(30, 60, 72, 0.22);
+}
+.promo__ribbon b { font-family: 'Cormorant Garamond', serif; font-size: 1.375rem; font-weight: 600; letter-spacing: 0; margin: 0 2px; }
+.promo__title {
+  margin: 0; font-family: 'Cormorant Garamond', 'Noto Serif TC', serif; font-weight: 400;
+  font-size: clamp(1.75rem, 3.8cqw, 2.875rem); line-height: 1.2; letter-spacing: 0.01em; color: #1c3b46;
+  text-wrap: balance;
+}
+.promo__title b { font-weight: 600; }
+.promo__lede { margin: 12px 0 0; font-size: 0.9375rem; line-height: 1.8; color: #45646f; max-width: 44ch; }
+.promo__lede a { color: #2b4c58; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.promo__rows { list-style: none; margin: clamp(20px, 2.6cqw, 30px) 0 0; padding: 0; display: grid; }
+.promo__row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center;
+  padding: 16px 4px; border-top: 1px solid rgba(43, 76, 88, 0.2);
+}
+.promo__row:last-child { border-bottom: 1px solid rgba(43, 76, 88, 0.2); }
+.promo__row .ico { font-size: 1.5rem; color: #3f6574; }
+.promo__k {
+  font-family: 'Cormorant Garamond', 'Noto Serif TC', serif; letter-spacing: -0.01em; color: #1c3b46; line-height: 1.2;
+  font-size: clamp(1.1875rem, 2cqw, 1.5rem);
+}
+.promo__row--lead { padding: 18px 4px; }
+.promo__row--lead .ico { font-size: 1.875rem; color: #2b4c58; }
+.promo__row--lead .promo__k { font-size: clamp(1.625rem, 3cqw, 2.25rem); font-weight: 600; }
+.promo__v { margin: 3px 0 0; font-size: 0.8125rem; line-height: 1.65; color: #4e6d77; }
+.promo__v b { color: #2b4c58; font-variant-numeric: tabular-nums; }
+.promo__actions { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 24px; align-items: center; }
+.promo__cta {
+  display: inline-flex; align-items: center; gap: 11px; background: #2b4c58; color: #fff; text-decoration: none;
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.12em; padding: 16px 30px; border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(43, 76, 88, 0.26);
+  transition: transform 320ms cubic-bezier(.22,1,.36,1), box-shadow 320ms cubic-bezier(.22,1,.36,1);
+}
+.promo__cta .ico { font-size: 1.1rem; transition: transform 320ms cubic-bezier(.22,1,.36,1); }
+.promo__cta:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(43, 76, 88, 0.32); }
+.promo__cta:hover .ico { transform: translateX(5px); }
+.promo__fine { font-size: 0.75rem; color: #4e6d77; line-height: 1.7; }
+.promo__fine b { color: #2b4c58; }
+.pE__cta .ico { font-size: 1.1rem; transition: transform 320ms cubic-bezier(.22,1,.36,1); }
+.pE__cta:hover .ico { transform: translateX(5px); }
+/* ---------- 入場動作：一個，唔係四個 ---------- */
+.rise { opacity: 0; transform: translateY(14px); }
+.rise.is-in { opacity: 1; transform: none; transition: opacity 620ms cubic-bezier(.22,1,.36,1), transform 620ms cubic-bezier(.22,1,.36,1); }
+.rise { opacity: 1; transform: none; }
+}
+/* ══════════════════════════════════════════════════════════
+   E v3 —— B 嘅排位 ＋ 88 折做標題 ＋ 芝麻
+   老闆原話：「本身你個排位係幾好嘅⋯⋯只不過你呢個標題呢就變咗做
+   全單八折，跟住左邊嗰個呢就咁寫住免費送⋯⋯右邊可能加個芝麻貼圖
+   咁就得㗎啦。」所以 v3 唔係再設計過，係喺 B 上面改三樣。
+   ══════════════════════════════════════════════════════════ */
+.promo__col { position: relative; }
+/* 一句就一句，唔好斬開兩橛。
+   原本寫「9 月 15 日 23:59 前，成間店冇門檻。仲有 23 日。」——
+   ① 23:59 冇人記，講日期就夠；② 太長，喺右欄會斷行斷喺「冇門
+   ／檻」中間，好核突；③ 兩句句號變咗兩件事，其實係一句。
+   而家縮短、balance 斷行、「冇門檻」三個字唔准拆。 */
+.promo__lede { text-wrap: balance; }
+.promo__nb { font-weight: 700; white-space: nowrap; }
+.promo__sep { margin: 0 8px; opacity: .45; }
+/* 限量標示 —— 數字係即時由 Shopify 攞返嚟嘅真存貨，唔係寫死。
+   ⚠️ 唔准寫假數，亦都冇「N 人正在瀏覽」嗰類嘢：嗰啲係編出嚟嘅，
+   同我哋而家喺 Google 度處理緊嘅「錯誤陳述」係同一類。
+   攞唔到數就淨係顯示「送完即止」，唔會亂噏一個數。 */
+.promo__left {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #c8452f;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: 2px;
+}
+.promo__stock {
+  position: absolute;
+  left: 16px; top: 62px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(200, 69, 47, 0.94);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: 0 6px 16px rgba(120, 30, 18, 0.28);
+}
+/* 標題：88 折要係第一眼睇到嗰樣，所以推大兼收緊行距 */
+.promo__title {
+  font-size: clamp(2.5rem, 6.2cqw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.promo__title b { font-weight: 600; }
+@container (min-width: 760px) {
+  /* 淨係兩級門檻嗰兩行要讓位 —— 芝麻企喺下面，副題喺最上面，
+     副題讓咗位反而會斷行斷喺「冇門／檻」中間。 */
+  .promo__col .promo__rows { padding-right: clamp(112px, 16cqw, 184px); }
+}
+.promo__shima {
+  position: absolute;
+  right: -8px;
+  bottom: -14px;
+  width: clamp(104px, 15cqw, 168px);
+  height: auto;
+  pointer-events: none;
+}
+@container (max-width: 759px) {
+  /* 窄機唔用絕對定位 —— 一放大就會蓋住 CTA */
+  .promo__shima {
+    position: static;
+    display: block;
+    width: 108px;
+    margin: -46px 0 0 auto;
+  }
+}

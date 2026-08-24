@@ -271,6 +271,85 @@
       <div class="cat-cards" data-home-cats></div>
     </section>
 
+    <!-- ═══════════ 首頁優惠 banner ═══════════
+         老闆 2026-08-24 揀咗（preview-promo 嗰個 E v3），指定擺喺產品分類下面。
+         · 標題係「全單 88 折」—— 88 折唔會喺下面條 list 再講多次
+         · 兩級門檻由上到下讀落去係一條階梯（$400 免運 → $500 送面霜）
+         · 「折實」兩個字唔准漏：實測 Shopify 條免運規則睇折後價，
+           客買 $420（折實 $369.60）係要俾運費嘅
+         · 贈品剩幾多支係即時由 Shopify 攞，攞唔到就唔顯示，唔准作數
+         ═══════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-tag" viewBox="0 0 24 24">
+    <path d="M20.4 12.6 12.6 20.4a1.9 1.9 0 0 1-2.7 0l-6-6a1.9 1.9 0 0 1-.6-1.4V4.6A1.6 1.6 0 0 1 4.9 3h8.1c.5 0 1 .2 1.4.6l6 6a1.9 1.9 0 0 1 0 2.7Z"/>
+    <circle cx="7.6" cy="7.6" r="1.25"/>
+  </symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24">
+    <path d="M2.6 6.4h10.9v9.8H2.6z"/>
+    <path d="M13.5 9.6h3.4l2.9 3v3.6h-6.3z"/>
+    <circle cx="7" cy="17.6" r="1.9"/><circle cx="16.5" cy="17.6" r="1.9"/>
+    <path d="M8.9 17.6h5.7"/>
+  </symbol>
+  <symbol id="i-jar" viewBox="0 0 24 24">
+    <path d="M5.9 9.4h12.2v7.4a2.2 2.2 0 0 1-2.2 2.2H8.1a2.2 2.2 0 0 1-2.2-2.2z"/>
+    <path d="M8.2 9.4V7.6c0-.8.6-1.4 1.4-1.4h4.8c.8 0 1.4.6 1.4 1.4v1.8"/>
+    <path d="M9.2 13.4c1.4-1 4.2-1 5.6 0"/>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M4 12h15"/><path d="M13.4 6.4 19 12l-5.6 5.6"/>
+  </symbol>
+</svg>
+
+    <div class="promo-wrap">
+      <section class="promo">
+      <div class="promo__grid">
+        <div class="promo__shot rise">
+          <span class="promo__ribbon">折實滿 <b>$500</b> 免費送</span>
+          <span class="promo__stock" data-giftstock hidden></span>
+          <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
+               alt="Round Lab 白樺樹保濕面霜 80ml" width="800" height="800" loading="lazy" decoding="async">
+        </div>
+
+        <div class="rise promo__col">
+          <h3 class="promo__title promo__title">全單 <b>88 折</b></h3>
+          <p class="promo__lede promo__lede">
+            9 月 15 日前，全店<b class="promo__nb">冇門檻</b>
+            <span class="promo__sep">·</span>仲有 <b data-countdown>—</b> 日
+          </p>
+
+          <ul class="promo__rows">
+            <li class="promo__row">
+              <svg class="ico" aria-hidden="true"><use href="#i-truck"></use></svg>
+              <div>
+                <p class="promo__k">折實滿 HK$400 免運費</p>
+                <p class="promo__v">順豐站自取同上門派送都變 $0，慳返 HK$30。</p>
+              </div>
+            </li>
+            <li class="promo__row">
+              <svg class="ico" aria-hidden="true"><use href="#i-jar"></use></svg>
+              <div>
+                <p class="promo__k">折實滿 HK$500 送面霜
+                  <span class="promo__left" data-giftleft hidden></span>
+                </p>
+                <p class="promo__v"><a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，價值 HK$148，送完即止。</p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="promo__actions">
+            <a class="promo__cta" href="shop.html">開始揀貨<svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+            <p class="promo__fine">「折實」＝ 打完 88 折之後嘅金額。<br>原價買夠 <b>HK$455</b> 免運，<b>HK$569</b> 有面霜。</p>
+          </div>
+
+          <!-- 芝麻擺喺右下角吉位，唔壓字 -->
+          <img class="promo__shima" src="assets/images/home/shima-wave.png" alt=""
+               aria-hidden="true" width="381" height="440" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </section>
+    </div>
+
+
     <!-- ===== FEATURED COLLECTION ===== -->
 
     <!-- 逐個類別一條橫向捲軸 — 由實際目錄砌出嚟 -->
@@ -947,6 +1026,39 @@
         });
       }
     });
+  </script>
+
+  <script>
+  /* 優惠 banner 兩個活數 —— 兩個都係真嘢，唔寫死。
+     ① 倒數：由 2026-09-15 23:59 +08:00 計。
+     ② 贈品剩幾多支：即時問 Shopify 攞 quantityAvailable。
+        攞唔到就乜都唔顯示 —— 寧願唔講，都唔好作一個數出嚟。 */
+  (function () {
+    var end = new Date('2026-09-15T23:59:00+08:00');
+    var d = Math.max(0, Math.ceil((end - new Date()) / 86400000));
+    document.querySelectorAll('[data-countdown]').forEach(function (el) { el.textContent = d; });
+
+    var SHOP = '5rerjn-mt.myshopify.com';
+    var TOKEN = '795e2f7cb13da1d3776449eba5802377';
+    var Q = '{product(handle:"round-lab-round-lab-80ml-0221"){variants(first:1){edges{node{quantityAvailable}}}}}';
+    fetch('https://' + SHOP + '/api/2024-10/graphql.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': TOKEN },
+      body: JSON.stringify({ query: Q })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var pr = j && j.data && j.data.product;
+        var ed = pr && pr.variants && pr.variants.edges && pr.variants.edges[0];
+        var n = ed && ed.node && ed.node.quantityAvailable;
+        if (typeof n !== 'number' || n <= 0) return;
+        var a = document.querySelector('[data-giftleft]');
+        var b = document.querySelector('[data-giftstock]');
+        if (a) { a.textContent = '限量 ' + n + ' 支'; a.hidden = false; }
+        if (b) { b.textContent = '仲剩 ' + n + ' 支'; b.hidden = false; }
+      })
+      .catch(function () {});
+  })();
   </script>
 </body>
 </html>
