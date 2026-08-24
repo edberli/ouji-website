@@ -164,7 +164,7 @@
     </div>
   </nav>
 
-  <main id="main-content" class="brands-page" style="padding-top: 100px;">
+  <main id="main-content" class="brands-page" data-style="xp" style="padding-top: 100px;">
 
     <!-- 成頁係一個 XP Explorer 窗，擺喺 Bliss 桌面上面。
          同護膚配方個 Skin Control Panel、全部產品個 Explorer 同一套語言。
@@ -309,6 +309,40 @@
       </div>
     </div><!-- /.bxp -->
 
+
+    <!-- ⚠️ 試款切換器 —— 老闆揀完方向就要拆走成段（連 CSS 同 JS）。
+         淨係 ?preview=1 先會出，普通客見唔到。 -->
+    <div class="styleswap" data-styleswap hidden>
+      <span class="styleswap__label">試款</span>
+      <button type="button" data-set="xp" class="is-on">XP</button>
+      <button type="button" data-set="archive">Archive 檔案室</button>
+      <button type="button" data-set="dewy">水光玻璃</button>
+    </div>
+    <script>
+    (function () {
+      var page = document.querySelector('.brands-page');
+      var bar = document.querySelector('[data-styleswap]');
+      if (!page || !bar) return;
+      var q = new URLSearchParams(location.search);
+      var start = q.get('style');
+      if (start) page.dataset.style = start;
+      if (!q.has('preview') && !start) return;
+      bar.hidden = false;
+      bar.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-set]');
+        if (!b) return;
+        page.dataset.style = b.dataset.set;
+        bar.querySelectorAll('button').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+        var u = new URL(location.href);
+        u.searchParams.set('style', b.dataset.set);
+        u.searchParams.set('preview', '1');
+        history.replaceState(null, '', u);
+      });
+      bar.querySelectorAll('button').forEach(function (x) {
+        x.classList.toggle('is-on', x.dataset.set === page.dataset.style);
+      });
+    })();
+    </script>
   </main>
 
   <!-- Footer -->

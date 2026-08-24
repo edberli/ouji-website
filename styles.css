@@ -9927,3 +9927,156 @@ body::before { opacity: 0.18; }
 }
 .brand-marquees .brand-grid__logo { filter: none; }
 .brand-marquees .brand-grid__name { color: #4a4740; }
+
+/* ============================================================
+   品牌頁試款：Archive 檔案室 ／ 水光玻璃
+   ------------------------------------------------------------
+   ⚠️ 呢一大段連同 brands.html 個 .styleswap 都係**臨時**嘅。
+   老闆揀完方向之後：留低揀中嗰個、拆走另外兩個同埋個切換器。
+   入口：/brands?preview=1
+   ============================================================ */
+.styleswap {
+  position: fixed;
+  left: 50%; bottom: 18px;
+  z-index: 900;
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 8px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: rgba(18, 40, 52, .82);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+}
+.styleswap__label {
+  padding: 0 6px 0 4px;
+  font-size: 11px; letter-spacing: .14em;
+  color: rgba(255, 255, 255, .62);
+}
+.styleswap button {
+  padding: 6px 13px;
+  border: 0; border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .82);
+  font: inherit; font-size: 12.5px;
+  cursor: pointer;
+}
+.styleswap button:hover { background: rgba(255, 255, 255, .14); }
+.styleswap button.is-on { background: #fff; color: #12303f; font-weight: 600; }
+
+/* ─────────────── Archive 檔案室 ─────────────── */
+.brands-page[data-style="archive"] {
+  background: #f1efe9;
+  color: #1b1b19;
+}
+[data-style="archive"] .bxp {
+  border: 0; border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+/* 窗框全部收起，剩返一條索引標題 */
+[data-style="archive"] .bxp__menu,
+[data-style="archive"] .bxp__crumb,
+[data-style="archive"] .bxp__ctl,
+[data-style="archive"] .bxp__ico { display: none; }
+[data-style="archive"] .bxp__bar {
+  height: auto; padding: 0 0 9px;
+  background: none; box-shadow: none;
+  border-bottom: 1px solid #1b1b19;
+  color: #1b1b19; text-shadow: none;
+}
+[data-style="archive"] .bxp__name {
+  font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: .3em; text-transform: uppercase;
+}
+[data-style="archive"] .bxp__body { background: transparent; }
+[data-style="archive"] .bxp__status {
+  padding: 9px 0 0;
+  border-top: 1px solid #cdcabf;
+  background: none;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px; letter-spacing: .12em; color: #7a776e;
+}
+[data-style="archive"] .bxp__status span { padding: 0; border: 0; background: none; }
+
+[data-style="archive"] .bxp__group {
+  padding: 8px 0; margin: 0;
+  border: 0; border-top: 1px solid #cdcabf; border-radius: 0;
+  background: none;
+  color: #4a4842;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px; font-weight: 500; letter-spacing: .22em;
+}
+/* 細線格：唔要卡，要一張表 */
+[data-style="archive"] .brands-grid {
+  gap: 0;
+  border-left: 1px solid #dcd9d0;
+  border-top: 1px solid #dcd9d0;
+}
+[data-style="archive"] .brand-card {
+  border: 0;
+  border-right: 1px solid #dcd9d0;
+  border-bottom: 1px solid #dcd9d0;
+  border-radius: 0;
+  background: transparent;
+}
+[data-style="archive"] .brand-card:hover { background: #e6e3da; border-color: #dcd9d0; }
+[data-style="archive"] .brands-page__hero,
+[data-style="archive"] .section-header { color: #1b1b19; }
+
+/* ─────────────── 水光玻璃 ─────────────── */
+.brands-page[data-style="dewy"] {
+  background:
+    radial-gradient(120% 88% at 10% 6%, #ffe3ef 0%, transparent 54%),
+    radial-gradient(108% 96% at 90% 18%, #d9f0ff 0%, transparent 56%),
+    linear-gradient(150deg, #eaf6fb, #f6ecff 58%, #e7f7f2);
+  background-attachment: fixed;
+  color: #3d5566;
+}
+[data-style="dewy"] .bxp {
+  border: 1px solid rgba(255, 255, 255, .85);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .42);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 50px rgba(120, 150, 175, .22), inset 0 1px 0 #fff;
+}
+[data-style="dewy"] .bxp__menu,
+[data-style="dewy"] .bxp__crumb,
+[data-style="dewy"] .bxp__ctl,
+[data-style="dewy"] .bxp__ico { display: none; }
+[data-style="dewy"] .bxp__bar {
+  height: auto; padding: 20px 22px 4px;
+  background: none; box-shadow: none;
+  color: #3d5566; text-shadow: none;
+}
+[data-style="dewy"] .bxp__name {
+  font-size: 15px; font-weight: 500; letter-spacing: .18em;
+}
+[data-style="dewy"] .bxp__body { background: transparent; padding: 0 6px; }
+[data-style="dewy"] .bxp__status {
+  padding: 12px 22px 18px;
+  border: 0; background: none;
+  font-size: 11px; letter-spacing: .1em; color: #7d97a8;
+}
+[data-style="dewy"] .bxp__status span { padding: 0; border: 0; background: none; }
+
+[data-style="dewy"] .bxp__group {
+  padding: 0; margin: 4px 0 2px;
+  border: 0; border-radius: 0;
+  background: none;
+  color: #6d8798;
+  font-size: 11.5px; font-weight: 500; letter-spacing: .18em;
+}
+[data-style="dewy"] .brands-grid { gap: 12px; }
+[data-style="dewy"] .brand-card {
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .62);
+  box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(120, 150, 175, .12);
+}
+[data-style="dewy"] .brand-card:hover {
+  border-color: rgba(255, 255, 255, 1);
+  background: #fff;
+  box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(120, 150, 175, .24);
+}
