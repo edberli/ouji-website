@@ -1172,13 +1172,14 @@ function initHScrollArrows() {
          padding，兩者可以差成三百幾 px —— 之前 right:4px 就係咁樣
          飄咗去右邊好遠嘅位。呢度度返 track 內容區相對外殼嘅邊界，
          寫入 CSS 變數，等 CSS 唔使猜邊條 rail 用緊咩闊度。 */
-      const cs = getComputedStyle(track);
       const t = track.getBoundingClientRect();
       const s = shell.getBoundingClientRect();
-      shell.style.setProperty('--hs-inset-start',
-        Math.round(t.left - s.left + parseFloat(cs.paddingLeft || 0)) + 'px');
-      shell.style.setProperty('--hs-inset-end',
-        Math.round(s.right - t.right + parseFloat(cs.paddingRight || 0)) + 'px');
+      /* 貼嘅係條 rail 嘅「可視邊界」，唔係「內容邊界」。
+         試過減埋 padding，結果一掃就穿崩 —— padding 唔會遮住內容，
+         啲卡會滑入 padding 區照樣睇到，淡出帶就變咗浮喺行中間，
+         右手邊仲露出成張卡。貼可視邊界先遮得到滑出嚟嗰啲。 */
+      shell.style.setProperty('--hs-inset-start', Math.round(t.left - s.left) + 'px');
+      shell.style.setProperty('--hs-inset-end', Math.round(s.right - t.right) + 'px');
 
       /* 垂直方向對齊「張相」嘅中心，唔係成行嘅中心。
          產品卡係相 ＋ 品牌 ＋ 名 ＋ 星 ＋ 價錢，文字佔咗成半高度；
