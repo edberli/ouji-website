@@ -303,16 +303,11 @@
     <div class="promo-wrap">
       <section class="promo">
       <div class="promo__grid">
-        <div class="promo__shot rise">
-          <span class="promo__ribbon">折實滿 <b>$500</b> 免費送</span>
-          <span class="promo__stock" data-giftstock hidden></span>
-          <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
-               alt="Round Lab 白樺樹保濕面霜 80ml" width="800" height="800" loading="lazy" decoding="async">
-        </div>
 
+        <!-- 左：優惠資訊全部喺呢邊 —— 老闆要嘅分工係「資訊左、芝麻右」 -->
         <div class="rise promo__col">
-          <h3 class="promo__title promo__title">全單 <b>88 折</b></h3>
-          <p class="promo__lede promo__lede">
+          <h3 class="promo__title">全單 <b>88 折</b></h3>
+          <p class="promo__lede">
             9 月 15 日前，全店<b class="promo__nb">冇門檻</b>
             <span class="promo__sep">·</span>仲有 <b data-countdown>—</b> 日
           </p>
@@ -340,11 +335,28 @@
             <a class="promo__cta" href="shop.html">開始揀貨<svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
             <p class="promo__fine">「折實」＝ 打完 88 折之後嘅金額。<br>原價買夠 <b>HK$455</b> 免運，<b>HK$569</b> 有面霜。</p>
           </div>
-
-          <!-- 芝麻擺喺右下角吉位，唔壓字 -->
-          <img class="promo__shima" src="assets/images/home/shima-wave.png" alt=""
-               aria-hidden="true" width="381" height="440" loading="lazy" decoding="async">
         </div>
+
+        <!-- 右：大大隻芝麻做主角，捧住支贈品面霜 -->
+        <div class="promo__stage rise">
+          <div class="promo__gift">
+            <span class="promo__ribbon">折實滿 <b>$500</b> 免費送</span>
+            <span class="promo__stock" data-giftstock hidden></span>
+            <img class="promo__jar"
+                 src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
+                 alt="Round Lab 白樺樹保濕面霜 80ml" width="800" height="800" loading="lazy" decoding="async">
+          </div>
+          <!-- 芝麻做緊動作：四格真畫換住嚟播（驚訝 → 揮手 → 拍手 → 捧箱）。
+               唔係一張相加 CSS 扭 —— 手同表情真係郁到，因為每格都係
+               獨立畫嘅。開咗「減少動態效果」就淨係企喺度捧住份禮。 -->
+          <div class="promo__shima" aria-hidden="true">
+            <img class="promo__frame is-on" src="assets/images/home/shima-box2.webp"  alt="" width="349" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame"       src="assets/images/home/shima-wave2.webp" alt="" width="312" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame"       src="assets/images/home/shima-clap.webp"  alt="" width="278" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame"       src="assets/images/home/shima-gasp.webp"  alt="" width="306" height="360" loading="lazy" decoding="async">
+          </div>
+        </div>
+
       </div>
     </section>
     </div>
@@ -1047,6 +1059,39 @@
     var b = document.querySelector('[data-giftstock]');
     if (a) { a.textContent = '送量有限'; a.hidden = false; }
     if (b) { b.textContent = '送量有限'; b.hidden = false; }
+  })();
+  </script>
+
+  <script>
+  /* 芝麻換格動畫。用真畫換格，唔用 CSS 扭一張相 —— 手同表情要真係郁。
+     · 每 2.2 秒換一格
+     · 頁面睇唔到（背景 tab／捲咗出視窗）就唔行，唔好白燒電
+     · prefers-reduced-motion 直接唔行，停喺捧住份禮嗰格 */
+  (function () {
+    var box = document.querySelector('.promo__shima');
+    if (!box) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var f = box.querySelectorAll('.promo__frame');
+    if (f.length < 2) return;
+    var i = 0, timer = null;
+    function tick() {
+      f[i].classList.remove('is-on');
+      i = (i + 1) % f.length;
+      f[i].classList.add('is-on');
+    }
+    function start() {
+      /* 一入視窗就迫四格即刻載 —— 全部 lazy 嘅話，換到第二格先開始
+         下載，客會見到一格空白。四格 webp 加埋先 132KB。 */
+      f.forEach(function (im) { im.loading = 'eager'; });
+      if (!timer) timer = setInterval(tick, 2200);
+    }
+    function stop() { clearInterval(timer); timer = null; }
+    new IntersectionObserver(function (es) {
+      es[0].isIntersecting ? start() : stop();
+    }, { threshold: 0.15 }).observe(box);
+    document.addEventListener('visibilitychange', function () {
+      document.hidden ? stop() : start();
+    });
   })();
   </script>
 </body>
