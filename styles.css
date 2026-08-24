@@ -10496,13 +10496,14 @@ body::before { opacity: 0.18; }
 }
 /* 四格疊住，一次只顯示一格 —— 換格靠 opacity，唔郁 layout */
 .promo__frame {
+  /* 同 .shima__f 一樣：六格原圖闊度唔同、高度一致，所以鎖高度貼底，
+     唔好用 max-width/max-height 各自 fit，否則每格縮放比例都唔同。 */
   position: absolute;
-  inset: 0;
-  margin: auto;
-  max-width: 100%;
-  max-height: 100%;
+  inset: auto 0 0 0;
+  margin: 0 auto;
+  height: 100%;
   width: auto;
-  height: auto;
+  max-width: none;
   opacity: 0;
   /* 連續分解圖要逐格硬切，唔可以淡入淡出 —— 260ms 一格再加 320ms 淡入，
      兩格會疊住，睇落係鬼影唔係動作。 */
@@ -10559,7 +10560,14 @@ body::before { opacity: 0.18; }
 /* ---------- 入場動作：一個，唔係四個 ---------- */
 .rise { opacity: 0; transform: translateY(14px); }
 .rise.is-in { opacity: 1; transform: none; transition: opacity 620ms cubic-bezier(.22,1,.36,1), transform 620ms cubic-bezier(.22,1,.36,1); }
-.rise { opacity: 1; transform: none; }
+/* 🔴 呢個 @media 開頭之前唔見咗，剩返一個孤兒 `}` 喺度。
+   我由 preview-promo.html 抽 CSS 過嚟嗰陣，個 regex 攞咗入面啲規則
+   但冇攞個 @media 開頭，個閂括號就孤零零留咗低。
+   兩個後果：① 一個 top-level 嘅流浪 `}`；
+   ② `.rise { opacity: 1 }` 由「淨係 reduced-motion 先用」變咗無條件，
+      永遠蓋住上面條 opacity: 0，入場動畫等於冇咗。 */
+@media (prefers-reduced-motion: reduce) {
+  .rise { opacity: 1; transform: none; }
 }
 /* ══════════════════════════════════════════════════════════
    E v3 —— B 嘅排位 ＋ 88 折做標題 ＋ 芝麻
@@ -10620,8 +10628,6 @@ body::before { opacity: 0.18; }
   margin-bottom: 10px;
 }
 .promo__title b { font-weight: 600; }
-@container (min-width: 760px) {
-
 
 /* ============================================================
    芝麻動畫（共用）
@@ -10632,8 +10638,12 @@ body::before { opacity: 0.18; }
    ============================================================ */
 .shima { position: relative; pointer-events: none; }
 .shima__f {
-  position: absolute; inset: 0; margin: auto;
-  max-width: 100%; max-height: 100%; width: auto; height: auto;
+  /* ⚠️ 六格原圖闊度唔同（247–323px），高度全部 340。
+     用 max-width/max-height 各自 fit 嘅話，每格縮放比例都唔同，
+     播起上嚟隻貓會一格大一格細。所以鎖高度、闊度自由、貼底對齊 ——
+     隻貓踩實同一條地面，得個手部動作喺度郁。 */
+  position: absolute; inset: auto 0 0 0; margin: 0 auto;
+  height: 100%; width: auto; max-width: none;
   opacity: 0;
 }
 .shima__f.is-on { opacity: 1; }
@@ -10647,4 +10657,36 @@ body::before { opacity: 0.18; }
   width: 190px;
   height: 216px;
   margin: 6px auto -4px;
+}
+
+/* ============================================================
+   滿 $500 送面霜 —— 條進度棒最右邊擺住支獎品，輕輕彈
+   支圖係由 Shopify 原相 flood-fill 去背（背景 #99d6f5 純色，
+   容差要收窄到 max-channel ≤ 22 —— 用鬆容差會連白色樽身一齊食走，
+   實測第一次就係咁蝕咗）。右邊嗰道乳霜印裁走咗，icon 細，留住變雜訊。
+   ============================================================ */
+/* 兩件獎品同下面兩個標籤上下對齊（左＝免運 $400、右＝送面霜 $500）。
+   ⚠️ 試過將紙箱擺去條棒 80% 嗰點對正 tick —— 80% 同 100% 之間得 51px，
+   兩隻 icon 加埋 92px，實測重疊 16px。標籤本身就係左右分邊，跟返標籤
+   反而睇得明啲，亦都唔會撞。 */
+.reward__goal {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  height: 62px; margin-bottom: 6px;
+}
+.reward__prize {
+  display: block;
+  transform-origin: 50% 100%;
+  animation: prize-bob 1.9s ease-in-out infinite;
+}
+.reward__prize--ship { animation-delay: -0.95s; }
+.reward__jar { display: block; width: 46px; height: auto;
+  filter: drop-shadow(0 6px 9px rgba(43, 76, 88, 0.2)); }
+.reward__box { display: block; width: 42px; height: 42px;
+  filter: drop-shadow(0 5px 7px rgba(43, 76, 88, 0.18)); }
+@keyframes prize-bob {
+  0%, 100% { transform: translateY(0) rotate(-2.5deg); }
+  50%      { transform: translateY(-8px) rotate(2.5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reward__prize { animation: none; }
 }

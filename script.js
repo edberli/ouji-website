@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSectionFloat();
   initMoodBoardReveal();
   initLookbookInView();
+  initRiseReveal();
   initDividerReveal();
   initMobileNav();
   initMegaMenu();
@@ -947,6 +948,35 @@ function initMoodBoardReveal() {
     });
   }, { threshold: 0.15 });
   observer.observe(board);
+}
+
+/* ----- .rise 進場顯現 -----
+ * ⚠️ 呢個 observer 本來淨係喺 preview-promo.html 入面，搬 CSS 落 styles.css
+ * 嗰陣冇一齊搬過嚟 —— 結果首頁個優惠 banner 兩嚿嘢永遠 opacity:0，
+ * 成格淨係見到片淺藍底（實測 .promo .rise 兩個都停喺 opacity 0）。
+ * 冇 IntersectionObserver 或者用戶收咗動畫，就直接顯示，唔可以留喺透明。
+ */
+function initRiseReveal() {
+  const rises = document.querySelectorAll('.rise');
+  if (!rises.length) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduce.matches || !('IntersectionObserver' in window)) {
+    rises.forEach(el => el.classList.add('is-in'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const group = entry.target.parentElement
+        ? entry.target.parentElement.querySelectorAll('.rise')
+        : [entry.target];
+      const idx = Array.prototype.indexOf.call(group, entry.target);
+      entry.target.style.transitionDelay = Math.max(0, idx) * 70 + 'ms';
+      entry.target.classList.add('is-in');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+  rises.forEach(el => io.observe(el));
 }
 
 /* ----- Lookbook Cards In-View Detection ----- */

@@ -216,6 +216,29 @@
                  兩個數都係「折實」—— 實測過 Shopify 條免運規則睇折後價
                  （未折 $414／折實 $384 嗰陣照收運費）。 -->
             <div class="reward" data-reward hidden>
+              <div class="reward__goal" aria-hidden="true">
+                <!-- 兩件獎品各自企喺自己嗰個門檻上面 —— 紙箱喺 $400（即係
+                     條棒 80% 嗰點，同 .reward__tick 同一個位），面霜喺盡頭
+                     $500。彈下彈下係為咗吸住眼球；兩個錯開拍子，唔好一齊跳。 -->
+                <span class="reward__prize reward__prize--ship">
+                  <svg class="reward__box" viewBox="0 0 64 64" width="42" height="42" role="img" aria-hidden="true">
+                    <g fill="none" stroke="#8a6238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                      <path d="M32 24 6 15l26-9 26 9z" fill="#d9b487"/>
+                      <path d="M6 15v27l26 10V24z" fill="#b8875a"/>
+                      <path d="M58 15v27L32 52V24z" fill="#cf9f6c"/>
+                      <path d="M24 9.4 50 18.4M32 24v28" stroke="#8a6238" stroke-width="1.4" opacity=".45"/>
+                      <path d="M22 19.6 48 10.6l10 4.4-26 9z" fill="#6da3b5" stroke="#2b4c58" stroke-width="1.6"/>
+                    </g>
+                  </svg>
+                </span>
+                <span class="reward__prize reward__prize--gift">
+                  <img class="reward__jar" src="assets/images/home/gift-cream.webp"
+                       alt="" width="208" height="260" decoding="async">
+                  <!-- ⚠️ 唔准加 loading="lazy"：.reward 一開波係 hidden，
+                       lazy 圖喺 display:none 入面永遠唔會入 viewport，
+                       解封之後都仲係唔載（實測 naturalWidth 一直 0）。 -->
+                </span>
+              </div>
               <div class="reward__track">
                 <div class="reward__fill" data-reward-fill></div>
                 <span class="reward__tick" style="left:80%"></span>
