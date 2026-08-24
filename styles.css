@@ -10690,3 +10690,55 @@ body::before { opacity: 0.18; }
 @media (prefers-reduced-motion: reduce) {
   .reward__prize { animation: none; }
 }
+
+/* ============================================================
+   每頁一隻芝麻 —— 貼圖企喺頁面標題上面
+   老闆：「儘量每一頁都有芝麻嘅圖案喺度，總之所有頁面都要整一個
+   符合嗰個頁面嘅芝麻貼圖」。所以唔係得首頁同購物袋，係全站。
+   靜態貼圖 ＋ 輕微 idle 浮動就夠，唔使每頁都做六格分解圖（嗰個貴好多，
+   而且會拖慢每一頁）。
+   ============================================================ */
+.shima-page { display: flex; justify-content: center; margin-bottom: 10px; }
+.shima-page img {
+  display: block;
+  width: clamp(104px, 12vw, 140px);
+  height: auto;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
+  animation: shima-idle 3.6s ease-in-out infinite;
+}
+@keyframes shima-idle {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50%      { transform: translateY(-6px) rotate(1.5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shima-page img { animation: none; }
+}
+
+/* 分類頁（.cat-head）唔可以用置中大貼圖 —— 呢啲頁面量過「第一件貨喺
+   幾多 px」，加一舊嘢落標題上面等於將啲貨推低。所以貼喺標題帶右下角，
+   絕對定位，唔佔垂直空間。.cat-head 本身係 position:relative ＋
+   overflow:hidden，所以要開 min-height 保證隻貓唔會俾切到頭。 */
+.cat-head { min-height: clamp(132px, 15vw, 180px); }
+.shima-corner {
+  position: absolute;
+  right: clamp(10px, 3vw, 44px);
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.shima-corner img {
+  display: block;
+  height: clamp(96px, 11vw, 138px);
+  width: auto;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
+  animation: shima-idle 3.6s ease-in-out infinite;
+}
+/* 手機淨低嘅闊度唔多，隻貓要細啲兼半透明啲，唔好壓住個標題同件數 */
+@media (max-width: 640px) {
+  .shima-corner img { height: 84px; opacity: .92; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shima-corner img { animation: none; }
+}
