@@ -6168,15 +6168,37 @@ html.is-lite .brand-rail__crest { filter: none; }
   padding-top: var(--space-lg, 20px);
   padding-bottom: var(--space-md, 16px);
 }
+/* 標題行：標題、韓文小字、件數靠右，一行搞掂。
+   本來係居中一個「產品分類」—— 一條淨係向右掃嘅 rail 上面放個居中標題，
+   同下面第一張卡永遠對唔上。左對齊之後兩者同一條垂直線起。 */
+.cat-cards__head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: var(--space-md, 16px);
+}
 .cat-cards__title {
   font-family: var(--font-display);
   /* 唔好大過下面啲卡。標題係指路牌，唔係主角。 */
-  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-align: center;
-  margin: 0 0 var(--space-md, 16px);
+  font-size: clamp(1.375rem, 2.4vw, 1.9rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  margin: 0;
   color: var(--text-primary);
+}
+.cat-cards__ko {
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--text-tertiary, #94a8b0);
+}
+.cat-cards__count {
+  margin-left: auto;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary, #94a8b0);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .cat-cards {
@@ -6208,27 +6230,35 @@ html.is-lite .brand-rail__crest { filter: none; }
   }
 }
 
+/* 陶瓷（세라믹）：張卡本身冇底冇框，質感全部落喺相框上 ——
+   大圓角、外面一道柔影、對面一道白光、入面再收一收。
+   韓國 2026 嘅質感做法，同我哋本身嘅灰藍夾得返，
+   亦都避返「白色圓角卡 ＋ 一層陰影」嗰種到處都係嘅樣。 */
 .cat-card {
   flex: 0 0 auto;
   scroll-snap-align: start;
   position: relative;
   display: block;
-  width: 148px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--surface, #fff);
+  width: 158px;
+  background: none;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 1px 2px rgba(30,48,56,0.06), 0 6px 18px rgba(109,163,181,0.10);
-  transition: transform 260ms var(--ease-out, ease), box-shadow 260ms var(--ease-out, ease);
+  transition: transform 260ms var(--ease-out, ease);
   will-change: transform;
 }
 
 .cat-card__shot {
   display: block;
   aspect-ratio: 4 / 5;
-  background: var(--surface-alt, #f2efea);
+  background: #dbe3e4;
   overflow: hidden;
+  border-radius: 24px;
+  box-shadow:
+    11px 14px 26px rgba(72, 86, 90, 0.24),
+    -8px -10px 20px rgba(255, 255, 255, 0.95),
+    inset 0 2px 3px rgba(255, 255, 255, 0.85),
+    inset 0 -3px 6px rgba(104, 118, 122, 0.14);
+  transition: box-shadow 300ms var(--ease-out, ease);
 }
 .cat-card__shot img {
   width: 100%;
@@ -6238,42 +6268,61 @@ html.is-lite .brand-rail__crest { filter: none; }
   transition: transform 420ms var(--ease-out, ease);
 }
 
+/* 名同件數同一行：名左、數字右。相框已經夠圓夠柔，
+   下面再包一個白色 body 就會變返「普通卡」。 */
 .cat-card__body {
-  display: block;
-  padding: 10px 12px 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 11px 4px 0;
 }
 .cat-card__name {
-  display: block;
-  font-size: 0.875rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
   font-weight: 500;
-  line-height: 1.25;
+  line-height: 1;
+  letter-spacing: 0.01em;
 }
 .cat-card__n {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.6875rem;
+  margin-left: auto;
+  font-size: 0.71875rem;
+  letter-spacing: 0.05em;
   color: var(--text-tertiary, #9a9a9a);
   font-variant-numeric: tabular-nums;
 }
 
 .cat-card:hover,
-.cat-card:focus-visible {
-  transform: translateY(-6px);
-  box-shadow: 0 2px 4px rgba(30,48,56,0.08), 0 16px 34px rgba(109,163,181,0.22);
+.cat-card:focus-visible { transform: translateY(-3px); }
+.cat-card:hover .cat-card__shot,
+.cat-card:focus-visible .cat-card__shot {
+  box-shadow:
+    13px 17px 30px rgba(72, 86, 90, 0.28),
+    -9px -11px 22px rgba(255, 255, 255, 1),
+    inset 0 2px 3px rgba(255, 255, 255, 0.85),
+    inset 0 -3px 6px rgba(104, 118, 122, 0.12);
 }
 .cat-card:hover .cat-card__shot img,
-.cat-card:focus-visible .cat-card__shot img { transform: scale(1.07); }
-.cat-card:active { transform: translateY(-2px); }
+.cat-card:focus-visible .cat-card__shot img { transform: scale(1.06); }
+.cat-card:active { transform: translateY(-1px); }
 
 @media (max-width: 480px) {
-  .cat-card { width: 128px; }
+  .cat-card { width: 136px; }
+  .cat-card__shot { border-radius: 19px; }
+  .cat-card__name { font-size: 1.0625rem; }
 }
 
 /* 慢機唔好逐張卡做位移同放大 —— 呢啲係一路掃一路做，最食效能 */
 html.is-lite .cat-card,
+html.is-lite .cat-card__shot,
 html.is-lite .cat-card__shot img { transition: none; }
 html.is-lite .cat-card:hover { transform: none; }
 html.is-lite .cat-card:hover .cat-card__shot img { transform: none; }
+/* 慢機唔好一路掃一路重畫四層陰影 */
+html.is-lite .cat-card:hover .cat-card__shot { box-shadow:
+  11px 14px 26px rgba(72, 86, 90, 0.24),
+  -8px -10px 20px rgba(255, 255, 255, 0.95),
+  inset 0 2px 3px rgba(255, 255, 255, 0.85),
+  inset 0 -3px 6px rgba(104, 118, 122, 0.14); }
 
 /* One row per category, swiped sideways. */
 .home-rail { margin-bottom: var(--space-2xl, 40px); }
@@ -8296,15 +8345,17 @@ body::before { opacity: 0.18; }
   border-color: rgba(43, 76, 88, 0.13);
 }
 
+/* 陶瓷分類格：底要夠實先托得起相框嗰兩道光，
+   純白同太淺嘅藍都會令個立體感消失。 */
 .section--sm:has(.cat-cards) {
-  background: linear-gradient(180deg, #edf4f6 0%, #e7f1f4 100%);
+  background: linear-gradient(180deg, #eaf1f3 0%, #dfe9ec 100%);
 }
 .section--warm { background: #ffffff; }
-.cat-card { background: #ffffff; }
 .cat-cards__title,
 .cat-card__name { color: var(--primary-deep); }
+.cat-cards__ko,
+.cat-cards__count,
 .cat-card__n { color: var(--primary-darker); }
-.cat-card__shot,
 .product-card__image-wrap { background: var(--surface-alt); }
 .product-card__brand { color: var(--primary-darker); }
 .section--concerns { background: var(--primary-lightest); }
@@ -9929,108 +9980,23 @@ body::before { opacity: 0.18; }
 .brand-marquees .brand-grid__name { color: #4a4740; }
 
 /* ============================================================
-   品牌頁試款：Archive 檔案室 ／ 水光玻璃
+   品牌頁：水光玻璃（老闆 2026-08-23 揀咗呢個）
    ------------------------------------------------------------
-   ⚠️ 呢一大段連同 brands.html 個 .styleswap 都係**臨時**嘅。
-   老闆揀完方向之後：留低揀中嗰個、拆走另外兩個同埋個切換器。
-   入口：/brands?preview=1
+   底色一定要用 OUJI 自己嗰隻淺藍 —— 同 loading 畫面（--primary-dark
+   → --primary）同一家人。第一版用咗粉紅粉紫薄荷，老闆即刻叫改。
+   XP 窗框收起（標題留返做一行細字），磚變磨砂玻璃。
+
+   ⚠️ 底下嘅 .brands-page XP 規則仲喺度做底，水光玻璃係疊上去。
+   如果首頁 Our Brands 都跟住轉水光，就可以將 XP 嗰段一併清走。
    ============================================================ */
-.styleswap {
-  position: fixed;
-  left: 50%; bottom: 18px;
-  z-index: 900;
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 8px;
-  transform: translateX(-50%);
-  border: 1px solid rgba(255, 255, 255, .5);
-  border-radius: 999px;
-  background: rgba(18, 40, 52, .82);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
-}
-.styleswap__label {
-  padding: 0 6px 0 4px;
-  font-size: 11px; letter-spacing: .14em;
-  color: rgba(255, 255, 255, .62);
-}
-.styleswap button {
-  padding: 6px 13px;
-  border: 0; border-radius: 999px;
-  background: transparent;
-  color: rgba(255, 255, 255, .82);
-  font: inherit; font-size: 12.5px;
-  cursor: pointer;
-}
-.styleswap button:hover { background: rgba(255, 255, 255, .14); }
-.styleswap button.is-on { background: #fff; color: #12303f; font-weight: 600; }
-
-/* ─────────────── Archive 檔案室 ─────────────── */
-.brands-page[data-style="archive"] {
-  background: #f1efe9;
-  color: #1b1b19;
-}
-[data-style="archive"] .bxp {
-  border: 0; border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-/* 窗框全部收起，剩返一條索引標題 */
-[data-style="archive"] .bxp__menu,
-[data-style="archive"] .bxp__crumb,
-[data-style="archive"] .bxp__ctl,
-[data-style="archive"] .bxp__ico { display: none; }
-[data-style="archive"] .bxp__bar {
-  height: auto; padding: 0 0 9px;
-  background: none; box-shadow: none;
-  border-bottom: 1px solid #1b1b19;
-  color: #1b1b19; text-shadow: none;
-}
-[data-style="archive"] .bxp__name {
-  font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  font-size: 12px; font-weight: 500;
-  letter-spacing: .3em; text-transform: uppercase;
-}
-[data-style="archive"] .bxp__body { background: transparent; }
-[data-style="archive"] .bxp__status {
-  padding: 9px 0 0;
-  border-top: 1px solid #cdcabf;
-  background: none;
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 10.5px; letter-spacing: .12em; color: #7a776e;
-}
-[data-style="archive"] .bxp__status span { padding: 0; border: 0; background: none; }
-
-[data-style="archive"] .bxp__group {
-  padding: 8px 0; margin: 0;
-  border: 0; border-top: 1px solid #cdcabf; border-radius: 0;
-  background: none;
-  color: #4a4842;
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 10.5px; font-weight: 500; letter-spacing: .22em;
-}
-/* 細線格：唔要卡，要一張表 */
-[data-style="archive"] .brands-grid {
-  gap: 0;
-  border-left: 1px solid #dcd9d0;
-  border-top: 1px solid #dcd9d0;
-}
-[data-style="archive"] .brand-card {
-  border: 0;
-  border-right: 1px solid #dcd9d0;
-  border-bottom: 1px solid #dcd9d0;
-  border-radius: 0;
-  background: transparent;
-}
-[data-style="archive"] .brand-card:hover { background: #e6e3da; border-color: #dcd9d0; }
-[data-style="archive"] .brands-page__hero,
-[data-style="archive"] .section-header { color: #1b1b19; }
-
 /* ─────────────── 水光玻璃 ─────────────── */
 .brands-page[data-style="dewy"] {
+  /* 老闆指定：漸變要用返 OUJI 自己嗰隻淺藍（loading 畫面同一家人）——
+     #6da3b5 / #4e8497 系列嘅淺色端，唔要粉紅粉紫薄荷。 */
   background:
-    radial-gradient(120% 88% at 10% 6%, #ffe3ef 0%, transparent 54%),
-    radial-gradient(108% 96% at 90% 18%, #d9f0ff 0%, transparent 56%),
-    linear-gradient(150deg, #eaf6fb, #f6ecff 58%, #e7f7f2);
+    radial-gradient(120% 88% at 10% 6%, #cfe7f0 0%, transparent 55%),
+    radial-gradient(108% 96% at 90% 18%, #b7dcea 0%, transparent 58%),
+    linear-gradient(150deg, #eef6f9, #dfeef4 55%, #cfe4ec);
   background-attachment: fixed;
   color: #3d5566;
 }
@@ -10080,3 +10046,77 @@ body::before { opacity: 0.18; }
   background: #fff;
   box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(120, 150, 175, .24);
 }
+
+/* ============================================================
+   品牌 logo 大細統一
+   ------------------------------------------------------------
+   老闆 2026-08-23：「有啲偏大、有啲偏細，要統一返適中嘅大細」。
+
+   點解會唔齊：56 個檔嘅畫布留白各有各唔同 —— 有啲 SVG 個字得畫布
+   一半高（rom&nd 51%），有啲頂晒（Torriden 100%）；PNG 更加亂。
+   淨係夾 `max-height` 係夾住個**畫布**唔係夾住個**字**，所以睇落大細不一。
+
+   做法：喺瀏覽器逐個量返真正嘅墨水框（SVG 用 getBBox，點陣圖用 canvas
+   掃 alpha ＋ 亮度），再按**墨水面積**歸一到大約 74×20，然後用
+   30px 高 / 104px 闊做上限收住極端嘅（好扁嘅 N's Collection、
+   好高嘅 HEVEBLUE）。下面每一行都係量出嚟嘅數，唔係手調估出嚟。
+
+   ⚠️ 加新牌子就要重新量一次，唔好逐個手 tune。
+   ============================================================ */
+.brands-page .brand-card img { max-width: 100%; max-height: none; }
+.brands-page .brand-card img[src$="2an.svg"] { width: 153px; height: 38.3px; }  /* 2aN */
+.brands-page .brand-card img[src$="abib.svg"] { width: 69px; height: 21.4px; }  /* Abib */
+.brands-page .brand-card img[src$="amuse.svg"] { width: 127.1px; height: 31.8px; }  /* AMUSE */
+.brands-page .brand-card img[src$="anua.png"] { width: 106.2px; height: 24.5px; }  /* ANUA */
+.brands-page .brand-card img[src$="april-skin.svg"] { width: 104px; height: 13.3px; }  /* April Skin */
+.brands-page .brand-card img[src$="arencia.png"] { width: 80.7px; height: 18.3px; }  /* Arencia */
+.brands-page .brand-card img[src$="beauty-of-joseon.svg"] { width: 135.1px; height: 33.8px; }  /* Beauty of Joseon */
+.brands-page .brand-card img[src$="beplain.png"] { width: 77.7px; height: 22.2px; }  /* beplain */
+.brands-page .brand-card img[src$="boh.png"] { width: 60.6px; height: 25.5px; }  /* BOH */
+.brands-page .brand-card img[src$="braye.svg"] { width: 147.8px; height: 36.9px; }  /* BRAYE */
+.brands-page .brand-card img[src$="bring-green.svg"] { width: 143.2px; height: 35.8px; }  /* Bring Green */
+.brands-page .brand-card img[src$="clio.svg"] { width: 117.6px; height: 29.4px; }  /* CLIO */
+.brands-page .brand-card img[src$="coralhaze.svg"] { width: 153.5px; height: 38.4px; }  /* Coralhaze */
+.brands-page .brand-card img[src$="cosrx.png"] { width: 84.7px; height: 17.7px; }  /* COSRX */
+.brands-page .brand-card img[src$="dasique.png"] { width: 80.3px; height: 26.5px; }  /* dasique */
+.brands-page .brand-card img[src$="dr-melaxin.png"] { width: 94.7px; height: 15.6px; }  /* Dr. Melaxin */
+.brands-page .brand-card img[src$="dr-jart.svg"] { width: 86.3px; height: 17.2px; }  /* Dr.Jart+ */
+.brands-page .brand-card img[src$="feliamo.svg"] { width: 70.2px; height: 21.1px; }  /* Feliamo */
+.brands-page .brand-card img[src$="flower-knows.svg"] { width: 159.5px; height: 39.9px; }  /* Flower Knows */
+.brands-page .brand-card img[src$="fwee.svg"] { width: 173px; height: 43.3px; }  /* fwee */
+.brands-page .brand-card img[src$="glint.svg"] { width: 138.1px; height: 34.5px; }  /* GLINT */
+.brands-page .brand-card img[src$="goodal.svg"] { width: 165.1px; height: 41.3px; }  /* Goodal */
+.brands-page .brand-card img[src$="haruharu-wonder.png"] { width: 104px; height: 10.4px; }  /* Haruharu Wonder */
+.brands-page .brand-card img[src$="heart-percent.svg"] { width: 148.2px; height: 37px; }  /* Heart Percent */
+.brands-page .brand-card img[src$="heveblue.png"] { width: 19.7px; height: 30px; }  /* HEVEBLUE */
+.brands-page .brand-card img[src$="hince.svg"] { width: 165.3px; height: 41.3px; }  /* hince */
+.brands-page .brand-card img[src$="ilso.svg"] { width: 55.5px; height: 26.7px; }  /* ILSO */
+.brands-page .brand-card img[src$="ksecret.png"] { width: 82.2px; height: 18px; }  /* KSECRET */
+.brands-page .brand-card img[src$="laka.svg"] { width: 150.5px; height: 37.6px; }  /* LAKA */
+.brands-page .brand-card img[src$="lilmoon.svg"] { width: 75.7px; height: 19.5px; }  /* Lilmoon */
+.brands-page .brand-card img[src$="lilybyred.svg"] { width: 181.9px; height: 45.5px; }  /* Lilybyred */
+.brands-page .brand-card img[src$="lindsay.png"] { width: 74.9px; height: 19.8px; }  /* LINDSAY */
+.brands-page .brand-card img[src$="manyo.png"] { width: 79.4px; height: 18.6px; }  /* ma:nyo */
+.brands-page .brand-card img[src$="maybelline.svg"] { width: 127.6px; height: 31.9px; }  /* Maybelline */
+.brands-page .brand-card img[src$="mixsoon.svg"] { width: 148px; height: 37px; }  /* MIXSOON */
+.brands-page .brand-card img[src$="molak.svg"] { width: 75.4px; height: 19.6px; }  /* Molak */
+.brands-page .brand-card img[src$="ns-collection.svg"] { width: 104.7px; height: 8.4px; }  /* N's Collection */
+.brands-page .brand-card img[src$="needly.svg"] { width: 140.6px; height: 35.2px; }  /* Needly */
+.brands-page .brand-card img[src$="ootd.svg"] { width: 132.3px; height: 33.1px; }  /* OOTD */
+.brands-page .brand-card img[src$="peripera.svg"] { width: 160.9px; height: 40.2px; }  /* peripera */
+.brands-page .brand-card img[src$="purito.svg"] { width: 130.9px; height: 32.7px; }  /* Purito */
+.brands-page .brand-card img[src$="romand.svg"] { width: 159.1px; height: 39.8px; }  /* rom&nd */
+.brands-page .brand-card img[src$="round-lab.svg"] { width: 147.1px; height: 36.8px; }  /* Round Lab */
+.brands-page .brand-card img[src$="skin1004.png"] { width: 104px; height: 15.9px; }  /* SKIN1004 */
+.brands-page .brand-card img[src$="skinfood.svg"] { width: 161.1px; height: 40.3px; }  /* Skinfood */
+.brands-page .brand-card img[src$="so-natural.png"] { width: 45.3px; height: 31.6px; }  /* SO Natural */
+.brands-page .brand-card img[src$="solep.png"] { width: 62.6px; height: 23.6px; }  /* SOLEP */
+.brands-page .brand-card img[src$="some-by-mi.svg"] { width: 157.3px; height: 39.3px; }  /* Some By Mi */
+.brands-page .brand-card img[src$="sungboon-editor.png"] { width: 107.1px; height: 30.6px; }  /* SUNGBOON EDITOR */
+.brands-page .brand-card img[src$="tirtir.svg"] { width: 151.6px; height: 37.9px; }  /* TIRTIR */
+.brands-page .brand-card img[src$="tocobo.svg"] { width: 90.7px; height: 16.4px; }  /* TOCOBO */
+.brands-page .brand-card img[src$="topards.svg"] { width: 79.6px; height: 18.6px; }  /* TOPARDS */
+.brands-page .brand-card img[src$="torriden.svg"] { width: 88.1px; height: 16.8px; }  /* Torriden */
+.brands-page .brand-card img[src$="unleashia.svg"] { width: 142.6px; height: 35.7px; }  /* UNLEASHIA */
+.brands-page .brand-card img[src$="vt-cosmetics.png"] { width: 96.9px; height: 15.3px; }  /* VT Cosmetics */
+.brands-page .brand-card img[src$="wakemake.svg"] { width: 129.5px; height: 32.4px; }  /* WAKEMAKE */
