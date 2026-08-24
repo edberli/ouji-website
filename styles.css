@@ -10039,15 +10039,27 @@ body::before { opacity: 0.18; }
 }
 .brand-marquees .brand-section-toggle:hover { opacity: 1; }
 
-/* 走馬燈：一個個方框，唔好飄住條線
+/* 走馬燈 = 品牌頁嗰張表，剩係得一行識郁
    ------------------------------------------------------------
-   老闆：「你而家呢個嘅線條唔好睇⋯⋯我想要返類似品牌頁面，
-   一個個正方形框框住嘅感覺」。所以每個 logo 自己一個框，
-   同 /brands 嗰啲格一樣白底細邊，唔再係無邊界咁流。 */
+   老闆：「首頁嗰度要做到好似呢一個咁（品牌頁），只不過變咗一行
+   可以移動嘅版本」。
+
+   所以唔係一格格分開嘅白盒（我上一版做錯咗，加咗 gap、圓角、白底、
+   陰影 —— 變成一串卡片）。品牌頁嗰個係**一張連住嘅表**：
+     · 格與格之間淨係一條細線，冇罅隙
+     · 底色透出嚟（淺藍），唔係白色
+     · 冇圓角冇陰影
+   一行走馬燈就係嗰張表嘅其中一行，橫住郁。
+   ============================================================ */
 .brand-marquees .brand-marquee {
   background: transparent;
-  padding: 5px 0;
+  padding: 0;
   border: 0;
+  border-bottom: 1px solid var(--ar-rule);
+}
+/* 每個分區第一行要補返上邊，先接得返個群組標題 */
+.brand-marquees .brand-marquees__rows > .brand-marquee:first-child {
+  border-top: 1px solid var(--ar-rule);
 }
 .brand-marquees .brand-marquee::before,
 .brand-marquees .brand-marquee::after {
@@ -10055,26 +10067,27 @@ body::before { opacity: 0.18; }
 }
 .brand-marquees .brand-marquee::after { transform: scaleX(-1); }
 
-/* ⚠️ 選擇器要夠力：上面 3697 行有
+/* ⚠️ 選擇器要夠力：3697 行有
    `.brand-marquees__section:nth-child(odd) .brand-marquee__item { border:none; background:transparent }`
-   （0,3,0）—— 舊嗰個無邊框設計留低嘅。用返 section 一齊寫先夠分量，
-   唔係個框畫唔出嚟（radius 出到、border 出唔到，就係呢個原因）。 */
+   （0,3,0）—— 舊嗰個無邊框設計留低嘅。淨寫 .brand-marquees .item（0,2,0）
+   打唔贏，徵狀係 radius 出到但 border 出唔到。 */
 .brand-marquees .brand-marquees__section .brand-marquee__item {
   opacity: 1;
-  width: 132px;
-  height: 84px;
-  margin: 0 5px;
-  padding: 10px;
-  border: 1px solid var(--ar-rule);
-  border-radius: 4px;
-  background: #fff;
+  width: 172px;
+  height: 104px;
+  margin: 0;
+  padding: 12px;
+  border: 0;
+  border-right: 1px solid var(--ar-rule);
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
   color: var(--ar-ink);
-  transition: background-color .12s, border-color .12s;
+  transition: background-color .12s;
 }
 .brand-marquees .brand-marquees__section .brand-marquee__item:hover,
 .brand-marquees .brand-marquees__section .brand-marquee__item.is-armed {
-  border: 1px solid #6da3b5;
+  border-right: 1px solid var(--ar-rule);
   background: var(--ar-hover);
   box-shadow: none;
   transform: none;
@@ -10083,7 +10096,7 @@ body::before { opacity: 0.18; }
 /* 🔑 唔好再抹白 */
 .brand-marquees .brand-marquee__logo { filter: none; }
 
-/* 首頁分類標題一樣要睇得到 */
+/* 分類標題 —— 同品牌頁一樣大細，唔好又變返註腳 */
 .brand-marquees .brand-marquees__label {
   margin: 0;
   color: var(--ar-ink);
@@ -10093,7 +10106,7 @@ body::before { opacity: 0.18; }
   letter-spacing: .06em;
   text-transform: none;
 }
-.brand-marquees .brand-marquees__section-header { padding: 16px 0 8px; }
+.brand-marquees .brand-marquees__section-header { padding: 22px 0 10px; border-top: 0; }
 
 /* 展開嗰個 grid 一樣係細線格 */
 .brand-marquees .brand-grid { gap: 8px; }
