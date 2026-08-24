@@ -10929,3 +10929,24 @@ body::before { opacity: 0.18; }
   .shima--bow { width: 96px; height: 116px; }
   .shima--empty { width: 128px; height: 155px; }
 }
+
+/* 手機中段嘅芝麻窄帶 —— 老闆：「冇人話一定要擺喺 header 嘅位置⋯⋯
+   下面啲位都有得擺㗎嘛」。彩妝同全部產品兩版嘅 hero 喺 375px 真係
+   逼到零吉位（實測 86×104 嘅窗掃成版，0 個位唔撞），所以喺品牌條
+   下面開返條自己嘅窄帶，隻貓有位企，撞唔到任何嘢。 */
+.shima-band { display: none; }
+@media (max-width: 640px) {
+  .shima-band {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 14px;
+    margin: -6px 0 2px;
+  }
+  .shima-band .shima {
+    width: 96px; height: 116px;
+    filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
+  }
+  /* 推車嗰套打橫，比例唔同 */
+  .shop-boot ~ * .shima-band .shima,
+  [data-shop-explorer] .shima-band .shima { width: 128px; height: 102px; }
+}
