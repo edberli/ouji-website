@@ -7140,7 +7140,8 @@ html.is-lite .home-tabs__btn::after { transition: none; }
    上面自成一嚿。而家去咗個邊，靠兩層影分遠近，同分類格嗰道影同一套。 */
 .h-scroll__arrow {
   position: absolute;
-  top: 50%;
+  /* --hs-mid 係第一張卡「張相」嘅中心（script.js 度返）。冇度到先用 50%。 */
+  top: var(--hs-mid, 50%);
   z-index: 3;
   width: 38px;
   height: 38px;
@@ -9992,12 +9993,15 @@ body::before { opacity: 0.18; }
 }
 .brand-marquees .brand-section-toggle:hover { opacity: 1; }
 
-/* 走馬燈：冇磚，剩返線同 logo */
-/* 冇咗磚就要靠留白撐開，唔係啲 logo 會黐晒埋一齊 */
+/* 走馬燈：一個個方框，唔好飄住條線
+   ------------------------------------------------------------
+   老闆：「你而家呢個嘅線條唔好睇⋯⋯我想要返類似品牌頁面，
+   一個個正方形框框住嘅感覺」。所以每個 logo 自己一個框，
+   同 /brands 嗰啲格一樣白底細邊，唔再係無邊界咁流。 */
 .brand-marquees .brand-marquee {
   background: transparent;
-  padding: 7px 0;
-  border-top: 1px solid var(--ar-rule);
+  padding: 5px 0;
+  border: 0;
 }
 .brand-marquees .brand-marquee::before,
 .brand-marquees .brand-marquee::after {
@@ -10005,39 +10009,59 @@ body::before { opacity: 0.18; }
 }
 .brand-marquees .brand-marquee::after { transform: scaleX(-1); }
 
-.brand-marquees .brand-marquee__item {
+/* ⚠️ 選擇器要夠力：上面 3697 行有
+   `.brand-marquees__section:nth-child(odd) .brand-marquee__item { border:none; background:transparent }`
+   （0,3,0）—— 舊嗰個無邊框設計留低嘅。用返 section 一齊寫先夠分量，
+   唔係個框畫唔出嚟（radius 出到、border 出唔到，就係呢個原因）。 */
+.brand-marquees .brand-marquees__section .brand-marquee__item {
   opacity: 1;
-  margin: 0;
-  border: 0;
-  border-right: 1px solid var(--ar-rule);
-  border-radius: 0;
-  background: transparent;
+  width: 132px;
+  height: 84px;
+  margin: 0 5px;
+  padding: 10px;
+  border: 1px solid var(--ar-rule);
+  border-radius: 4px;
+  background: #fff;
   box-shadow: none;
   color: var(--ar-ink);
+  transition: background-color .12s, border-color .12s;
 }
-.brand-marquees .brand-marquee__item:hover,
-.brand-marquees .brand-marquee__item.is-armed {
+.brand-marquees .brand-marquees__section .brand-marquee__item:hover,
+.brand-marquees .brand-marquees__section .brand-marquee__item.is-armed {
+  border: 1px solid #6da3b5;
   background: var(--ar-hover);
   box-shadow: none;
+  transform: none;
+  color: var(--ar-ink);
 }
 /* 🔑 唔好再抹白 */
 .brand-marquees .brand-marquee__logo { filter: none; }
 
-/* 展開嗰個 grid 一樣係細線格 */
-.brand-marquees .brand-grid {
-  border-left: 1px solid var(--ar-rule);
-  border-top: 1px solid var(--ar-rule);
-  gap: 0;
+/* 首頁分類標題一樣要睇得到 */
+.brand-marquees .brand-marquees__label {
+  margin: 0;
+  color: var(--ar-ink);
+  font-family: inherit;
+  font-size: clamp(15px, 2.1vw, 19px);
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: none;
 }
+.brand-marquees .brand-marquees__section-header { padding: 16px 0 8px; }
+
+/* 展開嗰個 grid 一樣係細線格 */
+.brand-marquees .brand-grid { gap: 8px; }
 .brand-marquees .brand-grid__card {
-  border: 0;
-  border-right: 1px solid var(--ar-rule);
-  border-bottom: 1px solid var(--ar-rule);
-  border-radius: 0;
-  background: transparent;
+  border: 1px solid var(--ar-rule);
+  border-radius: 4px;
+  background: #fff;
   box-shadow: none;
 }
-.brand-marquees .brand-grid__card:hover { background: var(--ar-hover); box-shadow: none; }
+.brand-marquees .brand-grid__card:hover {
+  border-color: #6da3b5;
+  background: var(--ar-hover);
+  box-shadow: none;
+}
 .brand-marquees .brand-grid__logo { filter: none; }
 .brand-marquees .brand-grid__name {
   color: var(--ar-soft);
@@ -10101,13 +10125,18 @@ body::before { opacity: 0.18; }
 }
 [data-style="archive"] .bxp__status span { padding: 0; border: 0; background: none; }
 
+/* 分類標題 —— 老闆：「護膚品牌同彩妝品牌嗰兩隻字應該大啲，
+   如果唔係啲人點睇？」原本 10.5px 等寬細字，掃過去根本睇唔到。
+   而家用返正常字體、15–19px、深色，係一個真標題唔係一行註腳。 */
 [data-style="archive"] .bxp__group {
-  padding: 8px 0; margin: 0;
+  padding: 20px 0 10px; margin: 0;
   border: 0; border-top: 1px solid var(--ar-hair); border-radius: 0;
   background: none;
-  color: var(--ar-soft);
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 10.5px; font-weight: 500; letter-spacing: .22em;
+  color: var(--ar-ink);
+  font-size: clamp(15px, 2.1vw, 19px);
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: none;
 }
 /* 細線格：唔要卡，要一張表 */
 [data-style="archive"] .brands-grid {
@@ -10129,3 +10158,196 @@ body::before { opacity: 0.18; }
   box-shadow: none;
 }
 [data-style="archive"] .section-header__title { color: var(--ar-ink); }
+
+
+/* ============================================================
+   品牌 logo 大細統一
+   ------------------------------------------------------------
+   老闆講過兩次：「有啲偏大、有啲偏細，要用視覺睇返」。
+
+   點解會唔齊：56 個檔嘅畫布留白各有各唔同 —— 有啲 SVG 個字得畫布
+   一半高（rom&nd 51%），有啲頂晒（Torriden 100%）；PNG 更加亂。
+   夾 `max-height` 係夾住個**畫布**唔係夾住個**字**，所以兩個都設 36px
+   出嚟都會一大一細。
+
+   做法：喺瀏覽器逐個量返真正嘅墨水框（SVG 用 getBBox，點陣圖用 canvas
+   掃 alpha ＋ 亮度），再按**墨水面積**歸一到約 74×20，然後用
+   30px 高 / 104px 闊做上限收住極端嘅。下面每一行都係量出嚟嘅數。
+
+   🔴 2026-08-24：呢段畀我喺拆試款 CSS 嗰陣連累刪咗，老闆即刻發現
+   「一大一細」。**呢段唔係裝飾，係量度結果 —— 改附近嘅 CSS 千祈唔好掃走。**
+   加新牌子要重新量，唔好逐個手 tune。
+   ============================================================ */
+.brands-page { --logo-k: 1; }
+.brand-marquees { --logo-k: .78; }
+.brands-page .brand-card img,
+.brand-marquees .brand-marquee__logo,
+.brand-marquees .brand-grid__logo { max-width: 100%; max-height: none; }
+.brands-page .brand-card img[src$="2an.svg"],
+.brand-marquees .brand-marquee__logo[src$="2an.svg"],
+.brand-marquees .brand-grid__logo[src$="2an.svg"] { width: calc(153px * var(--logo-k, 1)); height: calc(38.3px * var(--logo-k, 1)); }  /* 2aN */
+.brands-page .brand-card img[src$="abib.svg"],
+.brand-marquees .brand-marquee__logo[src$="abib.svg"],
+.brand-marquees .brand-grid__logo[src$="abib.svg"] { width: calc(69px * var(--logo-k, 1)); height: calc(21.4px * var(--logo-k, 1)); }  /* Abib */
+.brands-page .brand-card img[src$="amuse.svg"],
+.brand-marquees .brand-marquee__logo[src$="amuse.svg"],
+.brand-marquees .brand-grid__logo[src$="amuse.svg"] { width: calc(127.1px * var(--logo-k, 1)); height: calc(31.8px * var(--logo-k, 1)); }  /* AMUSE */
+.brands-page .brand-card img[src$="anua.png"],
+.brand-marquees .brand-marquee__logo[src$="anua.png"],
+.brand-marquees .brand-grid__logo[src$="anua.png"] { width: calc(106.2px * var(--logo-k, 1)); height: calc(24.5px * var(--logo-k, 1)); }  /* ANUA */
+.brands-page .brand-card img[src$="april-skin.svg"],
+.brand-marquees .brand-marquee__logo[src$="april-skin.svg"],
+.brand-marquees .brand-grid__logo[src$="april-skin.svg"] { width: calc(104px * var(--logo-k, 1)); height: calc(13.3px * var(--logo-k, 1)); }  /* April Skin */
+.brands-page .brand-card img[src$="arencia.png"],
+.brand-marquees .brand-marquee__logo[src$="arencia.png"],
+.brand-marquees .brand-grid__logo[src$="arencia.png"] { width: calc(80.7px * var(--logo-k, 1)); height: calc(18.3px * var(--logo-k, 1)); }  /* Arencia */
+.brands-page .brand-card img[src$="beauty-of-joseon.svg"],
+.brand-marquees .brand-marquee__logo[src$="beauty-of-joseon.svg"],
+.brand-marquees .brand-grid__logo[src$="beauty-of-joseon.svg"] { width: calc(135.1px * var(--logo-k, 1)); height: calc(33.8px * var(--logo-k, 1)); }  /* Beauty of Joseon */
+.brands-page .brand-card img[src$="beplain.png"],
+.brand-marquees .brand-marquee__logo[src$="beplain.png"],
+.brand-marquees .brand-grid__logo[src$="beplain.png"] { width: calc(77.7px * var(--logo-k, 1)); height: calc(22.2px * var(--logo-k, 1)); }  /* beplain */
+.brands-page .brand-card img[src$="boh.png"],
+.brand-marquees .brand-marquee__logo[src$="boh.png"],
+.brand-marquees .brand-grid__logo[src$="boh.png"] { width: calc(60.6px * var(--logo-k, 1)); height: calc(25.5px * var(--logo-k, 1)); }  /* BOH */
+.brands-page .brand-card img[src$="braye.svg"],
+.brand-marquees .brand-marquee__logo[src$="braye.svg"],
+.brand-marquees .brand-grid__logo[src$="braye.svg"] { width: calc(147.8px * var(--logo-k, 1)); height: calc(36.9px * var(--logo-k, 1)); }  /* BRAYE */
+.brands-page .brand-card img[src$="bring-green.svg"],
+.brand-marquees .brand-marquee__logo[src$="bring-green.svg"],
+.brand-marquees .brand-grid__logo[src$="bring-green.svg"] { width: calc(143.2px * var(--logo-k, 1)); height: calc(35.8px * var(--logo-k, 1)); }  /* Bring Green */
+.brands-page .brand-card img[src$="clio.svg"],
+.brand-marquees .brand-marquee__logo[src$="clio.svg"],
+.brand-marquees .brand-grid__logo[src$="clio.svg"] { width: calc(117.6px * var(--logo-k, 1)); height: calc(29.4px * var(--logo-k, 1)); }  /* CLIO */
+.brands-page .brand-card img[src$="coralhaze.svg"],
+.brand-marquees .brand-marquee__logo[src$="coralhaze.svg"],
+.brand-marquees .brand-grid__logo[src$="coralhaze.svg"] { width: calc(153.5px * var(--logo-k, 1)); height: calc(38.4px * var(--logo-k, 1)); }  /* Coralhaze */
+.brands-page .brand-card img[src$="cosrx.png"],
+.brand-marquees .brand-marquee__logo[src$="cosrx.png"],
+.brand-marquees .brand-grid__logo[src$="cosrx.png"] { width: calc(84.7px * var(--logo-k, 1)); height: calc(17.7px * var(--logo-k, 1)); }  /* COSRX */
+.brands-page .brand-card img[src$="dasique.png"],
+.brand-marquees .brand-marquee__logo[src$="dasique.png"],
+.brand-marquees .brand-grid__logo[src$="dasique.png"] { width: calc(80.3px * var(--logo-k, 1)); height: calc(26.5px * var(--logo-k, 1)); }  /* dasique */
+.brands-page .brand-card img[src$="dr-melaxin.png"],
+.brand-marquees .brand-marquee__logo[src$="dr-melaxin.png"],
+.brand-marquees .brand-grid__logo[src$="dr-melaxin.png"] { width: calc(94.7px * var(--logo-k, 1)); height: calc(15.6px * var(--logo-k, 1)); }  /* Dr. Melaxin */
+.brands-page .brand-card img[src$="dr-jart.svg"],
+.brand-marquees .brand-marquee__logo[src$="dr-jart.svg"],
+.brand-marquees .brand-grid__logo[src$="dr-jart.svg"] { width: calc(86.3px * var(--logo-k, 1)); height: calc(17.2px * var(--logo-k, 1)); }  /* Dr.Jart+ */
+.brands-page .brand-card img[src$="feliamo.svg"],
+.brand-marquees .brand-marquee__logo[src$="feliamo.svg"],
+.brand-marquees .brand-grid__logo[src$="feliamo.svg"] { width: calc(70.2px * var(--logo-k, 1)); height: calc(21.1px * var(--logo-k, 1)); }  /* Feliamo */
+.brands-page .brand-card img[src$="flower-knows.svg"],
+.brand-marquees .brand-marquee__logo[src$="flower-knows.svg"],
+.brand-marquees .brand-grid__logo[src$="flower-knows.svg"] { width: calc(159.5px * var(--logo-k, 1)); height: calc(39.9px * var(--logo-k, 1)); }  /* Flower Knows */
+.brands-page .brand-card img[src$="fwee.svg"],
+.brand-marquees .brand-marquee__logo[src$="fwee.svg"],
+.brand-marquees .brand-grid__logo[src$="fwee.svg"] { width: calc(173px * var(--logo-k, 1)); height: calc(43.3px * var(--logo-k, 1)); }  /* fwee */
+.brands-page .brand-card img[src$="glint.svg"],
+.brand-marquees .brand-marquee__logo[src$="glint.svg"],
+.brand-marquees .brand-grid__logo[src$="glint.svg"] { width: calc(138.1px * var(--logo-k, 1)); height: calc(34.5px * var(--logo-k, 1)); }  /* GLINT */
+.brands-page .brand-card img[src$="goodal.svg"],
+.brand-marquees .brand-marquee__logo[src$="goodal.svg"],
+.brand-marquees .brand-grid__logo[src$="goodal.svg"] { width: calc(165.1px * var(--logo-k, 1)); height: calc(41.3px * var(--logo-k, 1)); }  /* Goodal */
+.brands-page .brand-card img[src$="haruharu-wonder.png"],
+.brand-marquees .brand-marquee__logo[src$="haruharu-wonder.png"],
+.brand-marquees .brand-grid__logo[src$="haruharu-wonder.png"] { width: calc(104px * var(--logo-k, 1)); height: calc(10.4px * var(--logo-k, 1)); }  /* Haruharu Wonder */
+.brands-page .brand-card img[src$="heart-percent.svg"],
+.brand-marquees .brand-marquee__logo[src$="heart-percent.svg"],
+.brand-marquees .brand-grid__logo[src$="heart-percent.svg"] { width: calc(148.2px * var(--logo-k, 1)); height: calc(37px * var(--logo-k, 1)); }  /* Heart Percent */
+.brands-page .brand-card img[src$="heveblue.png"],
+.brand-marquees .brand-marquee__logo[src$="heveblue.png"],
+.brand-marquees .brand-grid__logo[src$="heveblue.png"] { width: calc(19.7px * var(--logo-k, 1)); height: calc(30px * var(--logo-k, 1)); }  /* HEVEBLUE */
+.brands-page .brand-card img[src$="hince.svg"],
+.brand-marquees .brand-marquee__logo[src$="hince.svg"],
+.brand-marquees .brand-grid__logo[src$="hince.svg"] { width: calc(165.3px * var(--logo-k, 1)); height: calc(41.3px * var(--logo-k, 1)); }  /* hince */
+.brands-page .brand-card img[src$="ilso.svg"],
+.brand-marquees .brand-marquee__logo[src$="ilso.svg"],
+.brand-marquees .brand-grid__logo[src$="ilso.svg"] { width: calc(55.5px * var(--logo-k, 1)); height: calc(26.7px * var(--logo-k, 1)); }  /* ILSO */
+.brands-page .brand-card img[src$="ksecret.png"],
+.brand-marquees .brand-marquee__logo[src$="ksecret.png"],
+.brand-marquees .brand-grid__logo[src$="ksecret.png"] { width: calc(82.2px * var(--logo-k, 1)); height: calc(18px * var(--logo-k, 1)); }  /* KSECRET */
+.brands-page .brand-card img[src$="laka.svg"],
+.brand-marquees .brand-marquee__logo[src$="laka.svg"],
+.brand-marquees .brand-grid__logo[src$="laka.svg"] { width: calc(150.5px * var(--logo-k, 1)); height: calc(37.6px * var(--logo-k, 1)); }  /* LAKA */
+.brands-page .brand-card img[src$="lilmoon.svg"],
+.brand-marquees .brand-marquee__logo[src$="lilmoon.svg"],
+.brand-marquees .brand-grid__logo[src$="lilmoon.svg"] { width: calc(75.7px * var(--logo-k, 1)); height: calc(19.5px * var(--logo-k, 1)); }  /* Lilmoon */
+.brands-page .brand-card img[src$="lilybyred.svg"],
+.brand-marquees .brand-marquee__logo[src$="lilybyred.svg"],
+.brand-marquees .brand-grid__logo[src$="lilybyred.svg"] { width: calc(181.9px * var(--logo-k, 1)); height: calc(45.5px * var(--logo-k, 1)); }  /* Lilybyred */
+.brands-page .brand-card img[src$="lindsay.png"],
+.brand-marquees .brand-marquee__logo[src$="lindsay.png"],
+.brand-marquees .brand-grid__logo[src$="lindsay.png"] { width: calc(74.9px * var(--logo-k, 1)); height: calc(19.8px * var(--logo-k, 1)); }  /* LINDSAY */
+.brands-page .brand-card img[src$="manyo.png"],
+.brand-marquees .brand-marquee__logo[src$="manyo.png"],
+.brand-marquees .brand-grid__logo[src$="manyo.png"] { width: calc(79.4px * var(--logo-k, 1)); height: calc(18.6px * var(--logo-k, 1)); }  /* ma:nyo */
+.brands-page .brand-card img[src$="maybelline.svg"],
+.brand-marquees .brand-marquee__logo[src$="maybelline.svg"],
+.brand-marquees .brand-grid__logo[src$="maybelline.svg"] { width: calc(127.6px * var(--logo-k, 1)); height: calc(31.9px * var(--logo-k, 1)); }  /* Maybelline */
+.brands-page .brand-card img[src$="mixsoon.svg"],
+.brand-marquees .brand-marquee__logo[src$="mixsoon.svg"],
+.brand-marquees .brand-grid__logo[src$="mixsoon.svg"] { width: calc(148px * var(--logo-k, 1)); height: calc(37px * var(--logo-k, 1)); }  /* MIXSOON */
+.brands-page .brand-card img[src$="molak.svg"],
+.brand-marquees .brand-marquee__logo[src$="molak.svg"],
+.brand-marquees .brand-grid__logo[src$="molak.svg"] { width: calc(75.4px * var(--logo-k, 1)); height: calc(19.6px * var(--logo-k, 1)); }  /* Molak */
+.brands-page .brand-card img[src$="ns-collection.svg"],
+.brand-marquees .brand-marquee__logo[src$="ns-collection.svg"],
+.brand-marquees .brand-grid__logo[src$="ns-collection.svg"] { width: calc(104.7px * var(--logo-k, 1)); height: calc(8.4px * var(--logo-k, 1)); }  /* N's Collection */
+.brands-page .brand-card img[src$="needly.svg"],
+.brand-marquees .brand-marquee__logo[src$="needly.svg"],
+.brand-marquees .brand-grid__logo[src$="needly.svg"] { width: calc(140.6px * var(--logo-k, 1)); height: calc(35.2px * var(--logo-k, 1)); }  /* Needly */
+.brands-page .brand-card img[src$="ootd.svg"],
+.brand-marquees .brand-marquee__logo[src$="ootd.svg"],
+.brand-marquees .brand-grid__logo[src$="ootd.svg"] { width: calc(132.3px * var(--logo-k, 1)); height: calc(33.1px * var(--logo-k, 1)); }  /* OOTD */
+.brands-page .brand-card img[src$="peripera.svg"],
+.brand-marquees .brand-marquee__logo[src$="peripera.svg"],
+.brand-marquees .brand-grid__logo[src$="peripera.svg"] { width: calc(160.9px * var(--logo-k, 1)); height: calc(40.2px * var(--logo-k, 1)); }  /* peripera */
+.brands-page .brand-card img[src$="purito.svg"],
+.brand-marquees .brand-marquee__logo[src$="purito.svg"],
+.brand-marquees .brand-grid__logo[src$="purito.svg"] { width: calc(130.9px * var(--logo-k, 1)); height: calc(32.7px * var(--logo-k, 1)); }  /* Purito */
+.brands-page .brand-card img[src$="romand.svg"],
+.brand-marquees .brand-marquee__logo[src$="romand.svg"],
+.brand-marquees .brand-grid__logo[src$="romand.svg"] { width: calc(159.1px * var(--logo-k, 1)); height: calc(39.8px * var(--logo-k, 1)); }  /* rom&nd */
+.brands-page .brand-card img[src$="round-lab.svg"],
+.brand-marquees .brand-marquee__logo[src$="round-lab.svg"],
+.brand-marquees .brand-grid__logo[src$="round-lab.svg"] { width: calc(147.1px * var(--logo-k, 1)); height: calc(36.8px * var(--logo-k, 1)); }  /* Round Lab */
+.brands-page .brand-card img[src$="skin1004.png"],
+.brand-marquees .brand-marquee__logo[src$="skin1004.png"],
+.brand-marquees .brand-grid__logo[src$="skin1004.png"] { width: calc(104px * var(--logo-k, 1)); height: calc(15.9px * var(--logo-k, 1)); }  /* SKIN1004 */
+.brands-page .brand-card img[src$="skinfood.svg"],
+.brand-marquees .brand-marquee__logo[src$="skinfood.svg"],
+.brand-marquees .brand-grid__logo[src$="skinfood.svg"] { width: calc(161.1px * var(--logo-k, 1)); height: calc(40.3px * var(--logo-k, 1)); }  /* Skinfood */
+.brands-page .brand-card img[src$="so-natural.png"],
+.brand-marquees .brand-marquee__logo[src$="so-natural.png"],
+.brand-marquees .brand-grid__logo[src$="so-natural.png"] { width: calc(45.3px * var(--logo-k, 1)); height: calc(31.6px * var(--logo-k, 1)); }  /* SO Natural */
+.brands-page .brand-card img[src$="solep.png"],
+.brand-marquees .brand-marquee__logo[src$="solep.png"],
+.brand-marquees .brand-grid__logo[src$="solep.png"] { width: calc(62.6px * var(--logo-k, 1)); height: calc(23.6px * var(--logo-k, 1)); }  /* SOLEP */
+.brands-page .brand-card img[src$="some-by-mi.svg"],
+.brand-marquees .brand-marquee__logo[src$="some-by-mi.svg"],
+.brand-marquees .brand-grid__logo[src$="some-by-mi.svg"] { width: calc(157.3px * var(--logo-k, 1)); height: calc(39.3px * var(--logo-k, 1)); }  /* Some By Mi */
+.brands-page .brand-card img[src$="sungboon-editor.png"],
+.brand-marquees .brand-marquee__logo[src$="sungboon-editor.png"],
+.brand-marquees .brand-grid__logo[src$="sungboon-editor.png"] { width: calc(107.1px * var(--logo-k, 1)); height: calc(30.6px * var(--logo-k, 1)); }  /* SUNGBOON EDITOR */
+.brands-page .brand-card img[src$="tirtir.svg"],
+.brand-marquees .brand-marquee__logo[src$="tirtir.svg"],
+.brand-marquees .brand-grid__logo[src$="tirtir.svg"] { width: calc(151.6px * var(--logo-k, 1)); height: calc(37.9px * var(--logo-k, 1)); }  /* TIRTIR */
+.brands-page .brand-card img[src$="tocobo.svg"],
+.brand-marquees .brand-marquee__logo[src$="tocobo.svg"],
+.brand-marquees .brand-grid__logo[src$="tocobo.svg"] { width: calc(90.7px * var(--logo-k, 1)); height: calc(16.4px * var(--logo-k, 1)); }  /* TOCOBO */
+.brands-page .brand-card img[src$="topards.svg"],
+.brand-marquees .brand-marquee__logo[src$="topards.svg"],
+.brand-marquees .brand-grid__logo[src$="topards.svg"] { width: calc(79.6px * var(--logo-k, 1)); height: calc(18.6px * var(--logo-k, 1)); }  /* TOPARDS */
+.brands-page .brand-card img[src$="torriden.svg"],
+.brand-marquees .brand-marquee__logo[src$="torriden.svg"],
+.brand-marquees .brand-grid__logo[src$="torriden.svg"] { width: calc(88.1px * var(--logo-k, 1)); height: calc(16.8px * var(--logo-k, 1)); }  /* Torriden */
+.brands-page .brand-card img[src$="unleashia.svg"],
+.brand-marquees .brand-marquee__logo[src$="unleashia.svg"],
+.brand-marquees .brand-grid__logo[src$="unleashia.svg"] { width: calc(142.6px * var(--logo-k, 1)); height: calc(35.7px * var(--logo-k, 1)); }  /* UNLEASHIA */
+.brands-page .brand-card img[src$="vt-cosmetics.png"],
+.brand-marquees .brand-marquee__logo[src$="vt-cosmetics.png"],
+.brand-marquees .brand-grid__logo[src$="vt-cosmetics.png"] { width: calc(96.9px * var(--logo-k, 1)); height: calc(15.3px * var(--logo-k, 1)); }  /* VT Cosmetics */
+.brands-page .brand-card img[src$="wakemake.svg"],
+.brand-marquees .brand-marquee__logo[src$="wakemake.svg"],
+.brand-marquees .brand-grid__logo[src$="wakemake.svg"] { width: calc(129.5px * var(--logo-k, 1)); height: calc(32.4px * var(--logo-k, 1)); }  /* WAKEMAKE */
