@@ -1166,6 +1166,19 @@ function initHScrollArrows() {
       const none = max <= 4;
       prev.hidden = none || track.scrollLeft <= 2;
       next.hidden = none || track.scrollLeft >= max - 2;
+
+      /* 兩個掣要企喺「第一／最後一張卡」嗰條線上面，唔係企喺螢幕邊。
+         外殼係成行闊，但入面條 track 喺闊螢幕度有 max-width ＋ 48px
+         padding，兩者可以差成三百幾 px —— 之前 right:4px 就係咁樣
+         飄咗去右邊好遠嘅位。呢度度返 track 內容區相對外殼嘅邊界，
+         寫入 CSS 變數，等 CSS 唔使猜邊條 rail 用緊咩闊度。 */
+      const cs = getComputedStyle(track);
+      const t = track.getBoundingClientRect();
+      const s = shell.getBoundingClientRect();
+      shell.style.setProperty('--hs-inset-start',
+        Math.round(t.left - s.left + parseFloat(cs.paddingLeft || 0)) + 'px');
+      shell.style.setProperty('--hs-inset-end',
+        Math.round(s.right - t.right + parseFloat(cs.paddingRight || 0)) + 'px');
     };
     sync();
     track._hsSync = sync;
