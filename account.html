@@ -166,9 +166,19 @@
     <section class="section" id="login-section">
       <div class="container" style="max-width: 440px;">
         <div class="section-header" style="text-align: center; margin-bottom: 40px;">
-        <!-- 芝麻貼圖：每頁一隻，做緊同呢頁有關嘅嘢。aria-hidden —— 佢係氣氛，唔係內容，讀屏唔應該讀。 -->
+        <!-- 芝麻六格連續動作 —— 同一個動作嘅分解，每 260ms 換一格，
+             第六格接返第一格。JS 喺 script.js 嘅 initShimaFrames()。 -->
         <div class="shima-page" aria-hidden="true">
-          <img src="assets/images/shima/shima-account.webp" alt="" loading="lazy" decoding="async">
+          <!-- 芝麻六格連續動作 —— 同一個動作嘅分解，每 260ms 換一格，
+               第六格接返第一格。JS 喺 script.js 嘅 initShimaFrames()。 -->
+          <div class="shima">
+            <img class="shima__f is-on" src="assets/images/shima/shima-acct1.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-acct2.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-acct3.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-acct4.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-acct5.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-acct6.webp" alt="" loading="lazy" decoding="async">
+          </div>
         </div>
           <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em;">會員登入</h1>
           <p style="color: var(--text-tertiary); margin-top: 8px;">登入帳戶以管理訂單及享受會員優惠</p>

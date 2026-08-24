@@ -10711,7 +10711,10 @@ body::before { opacity: 0.18; }
    而且會拖慢每一頁）。
    ============================================================ */
 .shima-page { display: flex; justify-content: center; margin-bottom: 10px; }
-.shima-page img {
+/* ⚠️ 一定要 `> img` —— 六格動畫嘅 <img> 係 .shima-page 嘅孫，
+   寫 `.shima-page img` 就會連格仔一齊食（specificity 0,1,1 贏
+   .shima__f 嘅 0,1,0），格仔會縮到 104px 塞喺個盒中間。 */
+.shima-page > img {
   display: block;
   width: clamp(104px, 12vw, 140px);
   height: auto;
@@ -10934,19 +10937,72 @@ body::before { opacity: 0.18; }
    下面啲位都有得擺㗎嘛」。彩妝同全部產品兩版嘅 hero 喺 375px 真係
    逼到零吉位（實測 86×104 嘅窗掃成版，0 個位唔撞），所以喺品牌條
    下面開返條自己嘅窄帶，隻貓有位企，撞唔到任何嘢。 */
-.shima-band { display: none; }
-@media (max-width: 640px) {
-  .shima-band {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 14px;
-    margin: -6px 0 2px;
-  }
-  .shima-band .shima {
-    width: 96px; height: 116px;
-    filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
-  }
-  /* 推車嗰套打橫，比例唔同 */
-  .shop-boot ~ * .shima-band .shima,
-  [data-shop-explorer] .shima-band .shima { width: 128px; height: 102px; }
+/* 桌面版都用呢條帶 —— 老闆指住品牌條同「篩選／排序」之間嗰忽吉位：
+   「可以擺喺呢個位置㗎嘛，你唔會遮住嗰啲嘢咯」。啱，塊 hero 逼到冇位
+   就唔好死擠，呢度先係真係有位。 */
+.shima-band {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 clamp(14px, 3vw, 40px);
+  margin: -10px 0 -6px;
+  pointer-events: none;
 }
+.shima-band .shima {
+  width: clamp(120px, 13vw, 178px);
+  aspect-ratio: 3 / 4;
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(43, 76, 88, 0.18));
+}
+/* 推車嗰套打橫（360×290），比例唔同，唔寫返會俾壓扁 */
+.shima-band--wide .shima { width: clamp(150px, 17vw, 232px); aspect-ratio: 5 / 4; }
+@media (max-width: 640px) {
+  .shima-band { padding: 0 12px; margin: -6px 0 2px; }
+  .shima-band .shima { width: 104px; }
+  .shima-band--wide .shima { width: 136px; }
+}
+
+/* 條 band 頂上咗，塊 hero 入面唔再擺貓（嗰度點擺都會壓住分類掣）。 */
+.makeup-booth .shima-corner,
+.shop-boot .shima-corner { display: none; }
+
+/* 老闆：「有部分頁面呢，太細個喇，芝麻嗰個動畫。」整大一級。
+   ⚠️ 唔可以寫 `.shima-page img` —— 六格動畫嘅 <img> 全部係
+   position:absolute，畀佢哋落 width 個盒就會塌（實測盒變 0×0）。
+   要落喺個盒（.shima）度，格仔自己會用 height:100% 填滿。 */
+.shima-page > img { width: clamp(140px, 16vw, 196px); }
+.shima-page .shima { width: clamp(140px, 16vw, 196px); height: auto; }
+.shima-corner > img, .shima-corner .shima { height: clamp(124px, 13vw, 170px); }
+.shima--bow { width: 150px; height: 182px; }
+.shima--empty { width: 186px; height: 226px; }
+@media (max-width: 640px) {
+  .shima-page > img, .shima-page .shima { width: 148px; }
+  .shima-corner > img, .shima-corner .shima { height: 104px; }
+  .shima--bow { width: 118px; height: 143px; }
+  .shima--empty { width: 150px; height: 182px; }
+}
+
+/* 每套動作嘅畫布比例唔同（打橫定打戙），唔寫返就會俾壓扁。 */
+.shima:has(img[src*="shima-about1.webp"]) { aspect-ratio: 0.806; }
+.shima:has(img[src*="shima-awards1.webp"]) { aspect-ratio: 0.836; }
+.shima:has(img[src*="shima-bodycare1.webp"]) { aspect-ratio: 1.44; }
+.shima:has(img[src*="shima-bow1.webp"]) { aspect-ratio: 0.792; }
+.shima:has(img[src*="shima-brands1.webp"]) { aspect-ratio: 1.132; }
+.shima:has(img[src*="shima-column1.webp"]) { aspect-ratio: 1.208; }
+.shima:has(img[src*="shima-contact1.webp"]) { aspect-ratio: 1.333; }
+.shima:has(img[src*="shima-faq1.webp"]) { aspect-ratio: 0.772; }
+.shima:has(img[src*="shima-fragrance1.webp"]) { aspect-ratio: 0.883; }
+.shima:has(img[src*="shima-kpop1.webp"]) { aspect-ratio: 1.043; }
+.shima:has(img[src*="shima-lens1.webp"]) { aspect-ratio: 0.844; }
+.shima:has(img[src*="shima-lifestyle1.webp"]) { aspect-ratio: 1.139; }
+.shima:has(img[src*="shima-match1.webp"]) { aspect-ratio: 0.897; }
+.shima:has(img[src*="shima-mk1.webp"]) { aspect-ratio: 0.75; }
+.shima:has(img[src*="shima-privacy1.webp"]) { aspect-ratio: 0.953; }
+.shima:has(img[src*="shima-shipping1.webp"]) { aspect-ratio: 1.118; }
+.shima:has(img[src*="shima-shop1.webp"]) { aspect-ratio: 1.237; }
+.shima:has(img[src*="shima-skin1.webp"]) { aspect-ratio: 0.739; }
+.shima:has(img[src*="shima-story1.webp"]) { aspect-ratio: 0.769; }
+.shima:has(img[src*="shima-terms1.webp"]) { aspect-ratio: 0.966; }
+.shima:has(img[src*="shima-wave1.webp"]) { aspect-ratio: 0.825; }
+.shima:has(img[src*="shima-acct1.webp"]) { aspect-ratio: 0.722; }
+.shima:has(img[src*="shima-wish1.webp"]) { aspect-ratio: 0.929; }

@@ -181,9 +181,19 @@
   <main id="main-content" class="awards-page">
 
     <section class="awards-hero">
-      <!-- 芝麻貼圖：每頁一隻，做緊同呢頁有關嘅嘢。aria-hidden —— 佢係氣氛，唔係內容，讀屏唔應該讀。 -->
+      <!-- 芝麻六格連續動作 —— 同一個動作嘅分解，每 260ms 換一格，
+           第六格接返第一格。JS 喺 script.js 嘅 initShimaFrames()。 -->
       <div class="shima-corner" aria-hidden="true">
-        <img src="assets/images/shima/shima-awards.webp" alt="" loading="lazy" decoding="async">
+        <!-- 芝麻六格連續動作 —— 同一個動作嘅分解，每 260ms 換一格，
+             第六格接返第一格。JS 喺 script.js 嘅 initShimaFrames()。 -->
+        <div class="shima">
+          <img class="shima__f is-on" src="assets/images/shima/shima-awards1.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-awards2.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-awards3.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-awards4.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-awards5.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-awards6.webp" alt="" loading="lazy" decoding="async">
+        </div>
       </div>
       <div class="awards-hero__glow" aria-hidden="true"></div>
       <div class="container awards-hero__inner">

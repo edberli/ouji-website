@@ -165,9 +165,19 @@
     <!-- Empty State -->
     <section class="section" id="wishlist-empty">
       <div class="container" style="max-width: 600px; text-align: center;">
-        <!-- 芝麻貼圖：每頁一隻，做緊同呢頁有關嘅嘢。aria-hidden —— 佢係氣氛，唔係內容，讀屏唔應該讀。 -->
+        <!-- 芝麻六格連續動作 —— 同一個動作嘅分解，每 260ms 換一格，
+             第六格接返第一格。JS 喺 script.js 嘅 initShimaFrames()。 -->
         <div class="shima-page" aria-hidden="true">
-          <img src="assets/images/shima/shima-wishlist.webp" alt="" loading="lazy" decoding="async">
+          <!-- 芝麻六格連續動作 —— 同一個動作嘅分解，每 260ms 換一格，
+               第六格接返第一格。JS 喺 script.js 嘅 initShimaFrames()。 -->
+          <div class="shima">
+            <img class="shima__f is-on" src="assets/images/shima/shima-wish1.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-wish2.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-wish3.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-wish4.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-wish5.webp" alt="" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/shima/shima-wish6.webp" alt="" loading="lazy" decoding="async">
+          </div>
         </div>
         <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em; margin-bottom: 16px;">心願單</h1>
         <p id="wishlist-empty-msg" style="color: var(--text-tertiary); margin-bottom: 32px; line-height: 1.8;">你的心願單暫時是空的。<br>瀏覽我們的產品，點擊愛心圖標即可加入心願單。</p>
