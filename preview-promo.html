@@ -613,35 +613,10 @@
 
 <div class="pv__wrap">
 
-  <p class="pv__intro">
-    <strong>2026-08-24 更新：老闆睇完揀咗 B（面霜做主角）做底，但要 88 折做主角、要加芝麻貼圖。
-    改完嘅版本係下面第一個 —— <a href="#dir-e" style="color:#2b4c58">E 修訂版</a>。</strong>
-    原本四個方向 A–D 留返喺下面畀老闆對比。
-  </p>
-
-  <p class="pv__intro">
-    而家啲優惠淨係喺頂嗰條窄 bar 輪流閃，客好易睇漏。以下係首頁 banner 嘅唔同諗法 ——
-    <strong>唔係同一個設計換色，係四種唔同嘅講法</strong>。撳右上角可以即刻切去手機闊度睇（用 container query 做，夾窄真係會出手機版排位）。
-  </p>
-
-  <p class="pv__h">三個優惠 · 數字一個字都冇改過</p>
-  <p class="pv__intro" style="margin-top:0">
-    9 月 15 日 23:59 前全單 88 折 · <strong>折實</strong>滿 HK$400 免運費（慳 HK$30） · <strong>折實</strong>滿 HK$500 送
-    Round Lab 白樺樹保濕面霜 80ml（價值 HK$148）。<br>
-    「折實」＝ 打完 88 折之後嘅金額。實測 Shopify 條免運規則就係睇折後價，所以四個方向都一定寫住「折實」。
-    客買咗 $420（折實 $369.60）先發現要俾運費，就係我哋而家喺 Google 度處理緊嗰種「錯誤陳述」。
-  </p>
-
-  <p class="pv__h">點解揀呢套視覺（老闆會問）</p>
-  <p class="pv__intro" style="margin-top:0">
-    全站而家三分天下：品牌展示係 <strong>Archive 檔案室</strong>（淺藍細線、冷靜）、功能版面係 <strong>Windows XP 控制台</strong>、優惠 banner 未定。
-    我嘅睇法係：<strong>XP 一定唔啱</strong> —— XP 係「畀你操作嘢」嘅語言，優惠唔係一件工具，套落去只會似系統通知。
-    Archive 就啱一半：佢冷靜、唔嗌，係「畀你搵嘢」用嘅，同「叫你即刻買」本身相反；但佢係現有嘅品牌語言，一致性有價。
-    所以我冇一刀切，<strong>四個方向就係四種音量，全部共用 OUJI 嘅底層 token</strong>（藍色一家、Cormorant × Noto Serif TC、實色底）：
-    C 直接用返 Archive 嗰組 <code>--ar-*</code> 顏色同等寬索引字，係「跟到足」嗰個；A、B、D 各自加一種新材質，一個比一個大聲。
-    老闆揀邊個，其實就係揀「首頁准唔准嗌」。
-  </p>
-
+  <!-- ⚠️ 樣本行先，講解行後。
+       老闆撳條連結入嚟第一句就係：「我完全睇唔到嗰個樣本係點嘅樣」——
+       因為原本開場塞咗成 600px 文字，要捲好耐先見到第一個 banner。
+       畀人揀嘢嘅頁，第一屏就要見到嘢，講解擺去後面。 -->
   <!-- ═══════════ E（老闆改咗兩輪）═══════════ -->
   <section class="pv__case" id="dir-e">
     <div class="pv__head">
@@ -952,6 +927,38 @@
     A–D 冇刪，留返做對比。<br>
     E 未接落 <code>index.html</code>。老闆一句「就係呢個」我就接落首頁，同埋順手處理埋頂嗰條窄 announcement bar
     ——banner 出咗之後，條 bar 應該收返做一行淨係講截止日，唔好三個優惠喺兩個地方各講一次。
+  </p>
+
+
+  <hr class="pv__rule">
+  <p class="pv__h">背景同判斷（睇完樣本先睇）</p>
+  <p class="pv__intro">
+    <strong>2026-08-24 更新：老闆睇完揀咗 B（面霜做主角）做底，但要 88 折做主角、要加芝麻貼圖。
+    改完嘅版本係下面第一個 —— <a href="#dir-e" style="color:#2b4c58">E 修訂版</a>。</strong>
+    原本四個方向 A–D 留返喺下面畀老闆對比。
+  </p>
+
+  <p class="pv__intro">
+    而家啲優惠淨係喺頂嗰條窄 bar 輪流閃，客好易睇漏。以下係首頁 banner 嘅唔同諗法 ——
+    <strong>唔係同一個設計換色，係四種唔同嘅講法</strong>。撳右上角可以即刻切去手機闊度睇（用 container query 做，夾窄真係會出手機版排位）。
+  </p>
+
+  <p class="pv__h">三個優惠 · 數字一個字都冇改過</p>
+  <p class="pv__intro" style="margin-top:0">
+    9 月 15 日 23:59 前全單 88 折 · <strong>折實</strong>滿 HK$400 免運費（慳 HK$30） · <strong>折實</strong>滿 HK$500 送
+    Round Lab 白樺樹保濕面霜 80ml（價值 HK$148）。<br>
+    「折實」＝ 打完 88 折之後嘅金額。實測 Shopify 條免運規則就係睇折後價，所以四個方向都一定寫住「折實」。
+    客買咗 $420（折實 $369.60）先發現要俾運費，就係我哋而家喺 Google 度處理緊嗰種「錯誤陳述」。
+  </p>
+
+  <p class="pv__h">點解揀呢套視覺（老闆會問）</p>
+  <p class="pv__intro" style="margin-top:0">
+    全站而家三分天下：品牌展示係 <strong>Archive 檔案室</strong>（淺藍細線、冷靜）、功能版面係 <strong>Windows XP 控制台</strong>、優惠 banner 未定。
+    我嘅睇法係：<strong>XP 一定唔啱</strong> —— XP 係「畀你操作嘢」嘅語言，優惠唔係一件工具，套落去只會似系統通知。
+    Archive 就啱一半：佢冷靜、唔嗌，係「畀你搵嘢」用嘅，同「叫你即刻買」本身相反；但佢係現有嘅品牌語言，一致性有價。
+    所以我冇一刀切，<strong>四個方向就係四種音量，全部共用 OUJI 嘅底層 token</strong>（藍色一家、Cormorant × Noto Serif TC、實色底）：
+    C 直接用返 Archive 嗰組 <code>--ar-*</code> 顏色同等寬索引字，係「跟到足」嗰個；A、B、D 各自加一種新材質，一個比一個大聲。
+    老闆揀邊個，其實就係揀「首頁准唔准嗌」。
   </p>
 
 </div>
