@@ -10490,7 +10490,7 @@ body::before { opacity: 0.18; }
   bottom: -8%;
   /* 佢係右邊嘅主角，唔係角落一粒 icon —— 要同支面霜差唔多高先撐得住 */
   width: clamp(190px, 24cqw, 340px);
-  aspect-ratio: 349 / 360;
+  aspect-ratio: 294 / 360;
   pointer-events: none;
   filter: drop-shadow(0 10px 22px rgba(30, 60, 72, .18));
 }
@@ -10504,7 +10504,8 @@ body::before { opacity: 0.18; }
   width: auto;
   height: auto;
   opacity: 0;
-  transition: opacity 320ms ease;
+  /* 連續分解圖要逐格硬切，唔可以淡入淡出 —— 260ms 一格再加 320ms 淡入，
+     兩格會疊住，睇落係鬼影唔係動作。 */
 }
 .promo__frame.is-on { opacity: 1; }
 @container (max-width: 759px) {

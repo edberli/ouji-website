@@ -348,11 +348,18 @@
 
           <!-- 芝麻做緊動作：真畫換格，唔係一張相加 CSS 扭。
                開咗「減少動態效果」就淨係企喺度捧住份禮。 -->
+          <!-- 芝麻喺度打包裹貼膠紙 —— 六格連續分解圖，唔係六個唔同動作。
+               分別好緊要：同一動作逐格差少少先播得順；四個唔同動作快播
+               只會似閃燈。第 6 格收返埋手，接得返第 1 格，所以 loop 得順。
+               圖：/Volumes/core/下載/ouji-20260824-芝麻打包裹動作表.png（ChatGPT 生）
+               開咗「減少動態效果」就停喺第 1 格。 -->
           <div class="promo__shima" aria-hidden="true">
-            <img class="promo__frame is-on" src="assets/images/home/shima-box2.webp"  alt="" width="349" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame"       src="assets/images/home/shima-wave2.webp" alt="" width="312" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame"       src="assets/images/home/shima-clap.webp"  alt="" width="278" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame"       src="assets/images/home/shima-gasp.webp"  alt="" width="306" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame is-on" src="assets/images/home/shima-pack1.webp" alt="" width="294" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame" src="assets/images/home/shima-pack2.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame" src="assets/images/home/shima-pack3.webp" alt="" width="293" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame" src="assets/images/home/shima-pack4.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame" src="assets/images/home/shima-pack5.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
+            <img class="promo__frame" src="assets/images/home/shima-pack6.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
           </div>
         </div>
 
@@ -1063,7 +1070,7 @@
 
   <script>
   /* 芝麻換格動畫。用真畫換格，唔用 CSS 扭一張相 —— 手同表情要真係郁。
-     · 每 0.9 秒換一格
+     · 每 0.26 秒換一格
      · 頁面睇唔到（背景 tab／捲咗出視窗）就唔行，唔好白燒電
      · prefers-reduced-motion 直接唔行，停喺捧住份禮嗰格 */
   (function () {
@@ -1082,7 +1089,7 @@
       /* 一入視窗就迫四格即刻載 —— 全部 lazy 嘅話，換到第二格先開始
          下載，客會見到一格空白。四格 webp 加埋先 132KB。 */
       f.forEach(function (im) { im.loading = 'eager'; });
-      if (!timer) timer = setInterval(tick, 900);
+      if (!timer) timer = setInterval(tick, 260);
     }
     function stop() { clearInterval(timer); timer = null; }
     new IntersectionObserver(function (es) {
