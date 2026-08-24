@@ -995,8 +995,13 @@ function initShimaFrames() {
   const groups = [['.shima', '.shima__f'], ['.promo__shima', '.promo__frame']];
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   groups.forEach(([boxSel, frameSel]) => document.querySelectorAll(boxSel).forEach(box => {
+    /* 有啲盒係後來先由 JS 砌出嚟（例如護膚頁個 Skin Control Panel），
+       下面個 MutationObserver 會再叫一次呢個 function —— 所以要記住
+       邊個盒已經接咗線，唔好接兩次（接兩次＝兩個 timer 搶住換格）。 */
+    if (box.dataset.shimaOn) return;
     const f = box.querySelectorAll(frameSel);
     if (f.length < 2) return;
+    box.dataset.shimaOn = '1';
     let i = 0, timer = null;
     const tick = () => {
       f[i].classList.remove('is-on');
@@ -1009,19 +1014,28 @@ function initShimaFrames() {
     };
     const stop = () => { clearInterval(timer); timer = null; };
 
-    /* ⚠️ 一開波就行，唔好等 IntersectionObserver 話畀你聽先開始。
-       原本寫法係「IO 講 intersecting 先 start」—— 喺任何一個
-       document.hidden 嘅環境（背景 tab、內嵌 webview、預覽窗）IO 一世
-       都唔會派 callback，隻貓就永遠唔郁。實測喺預覽窗就係咁：盒有
-       190×216、格數 6、CSS 啱晒，但 is-on 一世停喺同一格。
-       而家：預設行，IO 淨係負責「捲出視窗就熄」。IO 唔支援都照行。 */
+    /* ⚠️ 呢度以前用 IntersectionObserver 做「捲出視窗就熄、捲返入就開」。
+       剷咗，因為佢帶嚟嘅 bug 遠多過佢慳到嘅嘢：
+       ① 喺任何 document.hidden 嘅環境（背景 tab、內嵌 webview、預覽窗）
+          IO 一世唔派 callback，隻貓永遠停喺第一格；
+       ② 個盒俾 JS 重新 render／搬過位之後，IO 嘅記錄會失效，
+          停咗就唔會再開返（實測護膚頁個面板貓卡死喺第 4 格）。
+       慳到啲乜？一個 element、260ms 換一個 class。等於零。
+       真正值得慳嘅係背景 tab，嗰個 visibilitychange 已經處理。 */
     start();
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(es => { es[0].isIntersecting ? start() : stop(); },
-        { threshold: 0.15 }).observe(box);
-    }
     document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
   }));
+
+  /* 動態砌出嚟嘅盒都要接返線。只係喺有新 element 加入嗰陣再掃一次，
+     已經接咗線嘅會被上面個 dataset 擋住，唔會重複。 */
+  if (!initShimaFrames._watching && 'MutationObserver' in window) {
+    initShimaFrames._watching = true;
+    let pending = null;
+    new MutationObserver(() => {
+      clearTimeout(pending);
+      pending = setTimeout(initShimaFrames, 200);
+    }).observe(document.body, { childList: true, subtree: true });
+  }
 }
 
 /* ----- Lookbook Cards In-View Detection ----- */

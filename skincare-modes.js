@@ -324,8 +324,12 @@ const smModeDials = {
                 : '揀一項就得；答完之後，敏感程度、質地同想改善會喺下面展開。'}</p>
             </header>
             <div class="dl__cat-strip" aria-hidden="true">
-              <img src="assets/images/home/ouji-shima-cat.png" alt=""
-                   width="1200" height="1310" loading="lazy" decoding="async">
+              <div class="shima dl__cat-anim">
+                ${[1, 2, 3, 4, 5, 6].map((n) => `
+                  <img class="shima__f${n === 1 ? ' is-on' : ''}" alt=""
+                       src="assets/images/shima/shima-skin${n}.webp"
+                       loading="lazy" decoding="async">`).join('')}
+              </div>
               <span><b>芝麻幫你揀</b>先答第一條，其他選項會喺下面展開。</span>
             </div>
 

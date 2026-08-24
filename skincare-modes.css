@@ -983,7 +983,13 @@
     background: linear-gradient(135deg, #1685ed, #1555bd);
     color: #fff; border-bottom: 1px solid #7794cc;
   }
-  .dl__cat-strip img { align-self: flex-end; width: 122px; height: auto; filter: drop-shadow(4px 5px rgba(5,39,101,.24)); }
+  /* 由一張靜態相改成六格連續動作（搽面霜）。個盒要寫死高度，
+     .shima__f 係 position:absolute，冇高度個盒會塌。 */
+  .dl__cat-anim {
+    align-self: flex-end; flex: none;
+    height: 122px; aspect-ratio: 3 / 4; width: auto;
+    filter: drop-shadow(4px 5px rgba(5, 39, 101, .24));
+  }
   .dl__cat-strip span { display: block; min-width: 0; }
   .dl__cat-strip b {
     display: block; color: var(--sm-yellow);
@@ -1012,7 +1018,7 @@
   .sm .cw__card { padding: 12px; }
   .sm .ed__cell-shot img { padding: 6%; }
   .dl__cat-strip { height: 122px; }
-  .dl__cat-strip img { width: 108px; }
+  .dl__cat-anim { height: 108px; }
   .dl__head { padding-left: 11px; padding-right: 11px; }
   .sm .dl__form > .dl__q,
   .sm .dl__form > .dl__follow { padding-inline: 9px; }

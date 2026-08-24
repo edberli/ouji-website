@@ -10813,3 +10813,64 @@ body::before { opacity: 0.18; }
 /* 推車嗰套係打橫（360×~290），唔同搽面霜／拍腮紅嗰兩套打戙，
    所以要單獨寫返個比例，唔係隻貓會俾壓扁。 */
 .shop-boot .shima-corner .shima { aspect-ratio: 5 / 4; }
+
+/* ⚠️ 呢段一定要喺 .shima-corner .shima 個 clamp() 之後 —— 兩條規則
+   specificity 一樣，後寫嗰條先贏。之前手機版嗰條寫咗喺前面，
+   實測完全冇生效（護膚頁隻貓喺手機仲係 96px 高）。 */
+@media (max-width: 640px) {
+  .shima-corner .shima { height: 84px; opacity: .92; }
+  /* 護膚頁手機版：個貼紙相機底部排晒八張分類 tile，右下角冇位 ——
+     縮細都仲係壓住「防曬」個標籤（實測貓 366–446、tile 369–431）。
+     而家索性收起：手機版嗰陣 Skin Control Panel 個藍色橫幅已經有一隻
+     芝麻（.dl__cat-strip，桌面版反而係 display:none），一頁兩隻反而多餘。 */
+  .skincare-booth .shima-corner { display: none; }
+  /* 彩妝頁：貓右邊本來留咗 16px，結果左邊撞正「修容」張貼紙 8px
+     （實測貓 296–359、貼紙 224–304）。貼實右邊就讓開。 */
+  .makeup-booth .shima-corner { right: 0; }
+}
+
+/* 「騎住條界」擺法 —— 老闆：「你唔係一定擺喺某一個 session 㗎嘛，
+   你可以跨 session 㗎嘛。即係你可以擺下面嗰個位置，即係有少少立體
+   感覺都得㗎。」
+   貼紙牆／開機畫面入面已經逼滿貼紙，喺入面點擺都會撞。搬出嚟擺喺
+   下面嗰個 section 嘅頂部，用負 top 騎返上去 —— 隻貓一半喺上面一半
+   喺下面，睇落係企喺條界上面，有前後層次，而且下面條 breadcrumb 行
+   右邊本來就係吉，撞唔到嘢。 */
+.shima-corner--straddle {
+  position: absolute;
+  right: clamp(8px, 3vw, 40px);
+  bottom: auto;
+  z-index: 4;
+  pointer-events: none;
+}
+.container:has(> .shima-corner--straddle) { position: relative; }
+.shima-corner--straddle .shima {
+  height: clamp(96px, 11vw, 138px);
+  aspect-ratio: 3 / 4;
+  width: auto;
+  filter: drop-shadow(0 10px 16px rgba(43, 76, 88, 0.22));
+}
+/* ⚠️ 試過騎上去 42%，一樣撞 —— 貼紙牆最底嗰行分類貼紙去到 y=435，
+   貼紙牆自己去到 446，即係中間得 11px 吉位，點騎都會壓住「修容」。
+   所以 top:0，成隻貓企喺條界下面。層次靠 drop-shadow 做，唔靠疊。
+   下面條 breadcrumb 行嘅字全部喺左邊，右邊本來就係吉。 */
+.shima-corner--straddle { top: 0; }
+@media (max-width: 640px) {
+  .shima-corner--straddle .shima { height: 88px; }
+  .shima-corner--straddle { right: 6px; }
+}
+/* 貼紙牆本身就係層層疊，芝麻做「最面嗰張貼紙」——佢自己有白色剪裁
+   外框，疊住其他貼紙係呢個風格本身嘅樣，重點係佢一定要喺最面。
+   老闆嗰張截圖入面隻貓係俾「修容」同粉紅爆炸形壓住咗，睇唔到。 */
+.makeup-booth .shima-corner { z-index: 30; }
+.skincare-booth .shima-corner { z-index: 30; }
+.shop-boot .shima-corner { z-index: 30; }
+
+/* 手機版：貼紙牆同開機畫面喺 375px 已經逼到冇位。實測用 72×90 嘅窗
+   掃成塊貼紙牆，完全撞唔到嘅位置係 0 個 —— 即係點擺都會壓住一個
+   分類掣（試過壓住「修容」，成個標籤唔見咗）。
+   所以手機版收起，改為喺下面條導航列出芝麻（每一頁都見到，仲好）。 */
+@media (max-width: 640px) {
+  .makeup-booth .shima-corner,
+  .shop-boot .shima-corner { display: none; }
+}
