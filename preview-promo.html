@@ -559,6 +559,47 @@
   .pv *, .pv *::before, .pv *::after { transition: none !important; animation: none !important; }
   .rise { opacity: 1; transform: none; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   E v3 —— B 嘅排位 ＋ 88 折做標題 ＋ 芝麻
+   老闆原話：「本身你個排位係幾好嘅⋯⋯只不過你呢個標題呢就變咗做
+   全單八折，跟住左邊嗰個呢就咁寫住免費送⋯⋯右邊可能加個芝麻貼圖
+   咁就得㗎啦。」所以 v3 唔係再設計過，係喺 B 上面改三樣。
+   ══════════════════════════════════════════════════════════ */
+.pE3__col { position: relative; }
+
+/* 標題：88 折要係第一眼睇到嗰樣，所以推大兼收緊行距 */
+.pE3__title {
+  font-size: clamp(2.5rem, 6.2cqw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.pE3__title b { font-weight: 600; }
+
+/* 芝麻：企喺右下角吉位。用 aspect-ratio 佔位，唔會 layout shift */
+/* 芝麻要自己一條巷 —— 唔預位就會壓住兩級門檻嗰兩行字 */
+@container (min-width: 760px) {
+  .pE3__col .pB__rows,
+  .pE3__col .pB__lede { padding-right: clamp(112px, 16cqw, 184px); }
+}
+.pE3__shima {
+  position: absolute;
+  right: -8px;
+  bottom: -14px;
+  width: clamp(104px, 15cqw, 168px);
+  height: auto;
+  pointer-events: none;
+}
+@container (max-width: 759px) {
+  /* 窄機唔用絕對定位 —— 一放大就會蓋住 CTA */
+  .pE3__shima {
+    position: static;
+    display: block;
+    width: 108px;
+    margin: -46px 0 0 auto;
+  }
+}
 </style>
 </head>
 <body class="pv">
@@ -621,69 +662,70 @@
   <section class="pv__case" id="dir-e">
     <div class="pv__head">
       <span class="pv__tag">E</span>
-      <h2 class="pv__name">修訂版 v2：一隻底色，88 折自己做主體</h2>
-      <span class="pv__why">壓扁咗 · 88 推到 13rem · 深藍拆走 · 芝麻放大做店長</span>
+      <h2 class="pv__name">修訂版 v3：B 嘅排位，標題換成 88 折</h2>
+      <span class="pv__why">老闆：「本身你個排位係幾好嘅，只不過標題變咗做全單八八折，右邊加個芝麻貼圖就得㗎啦」</span>
     </div>
     <div class="pv__stage">
 
-      <section class="pE">
-        <div class="pE__grid">
+      <!-- ══════════════════════════════════════════════════════
+           v3 = B 嘅排位原封不動，改三樣：
+             ① 標題由「折實滿 $500，呢支面霜送畀你」→「全單 88 折」
+             ② 88 折唔再喺下面條 list（升咗做標題，唔好講兩次）
+             ③ 右邊加兩隻芝麻
+           v2 嗰個左右重排／深藍拆走全部撤回 —— 老闆話原本排位好，
+           係我自己過度發揮。
+           ══════════════════════════════════════════════════════ -->
+      <section class="pB pE3">
+        <div class="pB__grid">
+          <div class="pB__shot rise">
+            <span class="pB__ribbon">折實滿 <b>$500</b> 免費送</span>
+            <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
+                 alt="Round Lab 白樺樹保濕面霜 80ml" width="800" height="800" loading="lazy" decoding="async">
+          </div>
 
-          <div class="pE__left rise">
-            <h3 class="pE__gifthead">折實滿 HK$500，<b>送你一支面霜。</b></h3>
-            <p class="pE__giftmeta">
-              <a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，網店賣 HK$148。
+          <div class="rise pE3__col">
+            <h3 class="pB__title pE3__title">全單 <b>88 折</b></h3>
+            <p class="pB__lede">
+              9 月 15 日 23:59 前，成間店冇門檻。仲有 <b data-countdown>—</b> 日。
             </p>
-            <figure class="pE__shot">
-              <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
-                   alt="Round Lab 白樺樹保濕面霜 80ml" width="800" height="800" loading="lazy" decoding="async">
-            </figure>
-          </div>
 
-          <div class="pE__hero rise">
-            <h3 class="pE__big">88<i>折</i></h3>
-            <div class="pE__meta">
-              <p class="pE__nolimit">冇門檻</p>
-              <p class="pE__clock">9 月 15 日 23:59 截止 · 仲有 <b data-countdown>—</b> 日</p>
+            <ul class="pB__rows">
+              <li class="pB__row">
+                <svg class="ico" aria-hidden="true"><use href="#i-truck"></use></svg>
+                <div>
+                  <p class="pB__k">折實滿 HK$400 免運費</p>
+                  <p class="pB__v">順豐站自取同上門派送都變 $0，慳返 HK$30。</p>
+                </div>
+              </li>
+              <li class="pB__row">
+                <svg class="ico" aria-hidden="true"><use href="#i-jar"></use></svg>
+                <div>
+                  <p class="pB__k">折實滿 HK$500 送面霜</p>
+                  <p class="pB__v"><a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，價值 HK$148。</p>
+                </div>
+              </li>
+            </ul>
+
+            <div class="pB__actions">
+              <a class="pB__cta" href="shop.html">開始揀貨<svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+              <p class="pB__fine">「折實」＝ 打完 88 折之後嘅金額。<br>原價買夠 <b>HK$455</b> 免運，<b>HK$569</b> 有面霜。</p>
             </div>
-            <a class="pE__cta" href="shop.html">開始揀貨<svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
 
-            <div class="pE__mascot" aria-hidden="true">
-              <p class="pE__bubble">88 折呀！</p>
-              <img src="assets/images/home/shima-wave.png" alt="" width="381" height="440" loading="lazy" decoding="async">
-            </div>
+            <!-- 芝麻擺喺右下角吉位，唔壓字 -->
+            <img class="pE3__shima" src="assets/images/home/shima-wave.png" alt=""
+                 aria-hidden="true" width="381" height="440" loading="lazy" decoding="async">
           </div>
-
-        </div>
-
-        <div class="pE__strip rise">
-          <div class="pE__ship">
-            <img src="assets/images/home/shima-box.png" alt="" aria-hidden="true" width="427" height="440" loading="lazy" decoding="async">
-            <div>
-              <h4>折實滿 HK$400 免運費</h4>
-              <p>順豐站自取同上門派送都變 $0，慳返 HK$30。</p>
-            </div>
-          </div>
-          <p class="pE__convert">
-            「折實」＝ 打完 88 折之後嘅金額。原價買夠 <b>HK$455</b> 就免運，買夠 <b>HK$569</b> 就有面霜。
-          </p>
         </div>
       </section>
 
     </div>
-    <dl class="pv__verdict">
-      <dt class="is-world">兩隻色</dt><dd><b>深藍嗰塊拆咗，成條 band 由頭到尾得一隻底</b>（#eaf4f8 → #dfeef4 → #cfe3ec 一條漸變）。第一版嗰個一淺一深並排，睇落就係兩件嘢黐埋。一體感而家靠三樣嘢頂：一隻底色到尾、一條打通左右嘅細線、同埋捧箱嗰隻芝麻<b>刻意踩住條線騎過去</b>，做左右兩邊嘅釘。</dd>
-      <dt>88 點解仲夠搶</dt><dd>拆咗底板之後換三樣嘢頂上：① <b>尺寸由 7rem 推到 13rem</b>（208px，差唔多兩倍），佢自己就係塊地盤，唔使人托；② 深藍變咗<b>字嘅顏色</b> —— #22414c 喺 #dfeef4 上面對比 <b>7.5:1</b>，係成條 band 唯一嘅深色實體；③ 佢獨佔右邊，周圍全部留白，冇第二樣嘢同佢爭。</dd>
-      <dt>壓扁咗</dt><dd>內距由 52px 減到 32px；面霜相由 1:1 改 3:2 兼封頂 216px；免運費同「折實」換算由兩浸疊落去變咗<b>同一行</b>。桌面高度由 ~720px 減到 ~430px（<b>減 40%</b>），首頁上下仲有位擺嘢。</dd>
-      <dt>文案</dt><dd>「全單，唔限牌子／唔使夾夠幾多錢，唔使揀指定貨品」全部刪咗，換成一粒深藍藥丸<b>「冇門檻」</b>。另外「一張單一份」都刪咗 —— 冇人同我確認過真係限一份，寧願唔講。</dd>
-      <dt>芝麻</dt><dd>揮手嗰隻由 128px 放大到 <b>208px</b>，同個 88 差唔多高，企喺右邊獨立佔位。佢唔會搶 88 —— 88 係硬淨嘅深色實體，隻貓係淺色軟邊，兩樣嘢喺視覺上唔同重量級。捧箱嗰隻由 62px 放大到 104px 兼騎住條分隔線。</dd>
-      <dt class="is-lose">要留意</dt><dd>成條 band 而家全部淺色，喺白色首頁上面嘅切割冇第一版咁狠。如果老闆睇完覺得「唔夠跳出嚟」，最平嘅解法係<b>成條 band 反轉做深藍底、白色 88</b>（一樣係一隻色，一樣冇接縫），唔使重畫版面。</dd>
+    <dl class="pv__notes">
+      <div><dt>改咗乜</dt><dd>B 嘅排位一個字冇郁。標題由「折實滿 $500⋯」換成 <b>全單 88 折</b>；88 折唔再喺下面條 list 出多次；右邊加咗揮手芝麻。</dd></div>
+      <div><dt>點解得三行</dt><dd>88 折升咗做標題，下面淨返兩級門檻（$400 免運 → $500 送面霜），順住讀落去係一條階梯，唔會唔知睇邊個先。</dd></div>
+      <div><dt>撤回咗乜</dt><dd>v2 嗰個左右重排、拆深藍、88 推到 208px 全部撤回。老闆話原本排位好 —— 係我過度發揮。</dd></div>
     </dl>
   </section>
 
-  <p class="pv__h" style="margin-top:72px">以下係原本嗰四個，留返對比</p>
-
-  <!-- ═══════════ A ═══════════ -->
   <section class="pv__case" id="dir-a">
     <div class="pv__head">
       <span class="pv__tag">A</span>
