@@ -1189,6 +1189,9 @@ function initHScrollArrows() {
         const m = media.getBoundingClientRect();
         if (m.height > 8) {
           shell.style.setProperty('--hs-mid', Math.round(m.top - s.top + m.height / 2) + 'px');
+          /* 淡出條同張相一樣高 —— 咁睇落係「相片邊緣散開」，
+             唔係一嚿嘢浮咗喺卡上面 */
+          shell.style.setProperty('--hs-media-h', Math.round(m.height) + 'px');
         }
       }
     };

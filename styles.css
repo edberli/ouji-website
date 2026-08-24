@@ -7138,49 +7138,86 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 
    樣式亦都執過：本來有一圈 1px 硬邊 ＋ 一道平均嘅影，白圈壓喺淺藍底
    上面自成一嚿。而家去咗個邊，靠兩層影分遠近，同分類格嗰道影同一套。 */
+/* 唔再係一粒白色圓掣浮喺卡上面。改做一條同張相一樣高嘅直立淡出帶：
+   貼近邊界嗰邊實色，向行入面散開到全透明，箭嘴企喺中間。
+   咁樣佢唔係「一個蓋住張相嘅掣」，而係「行嘅盡頭自己散開」——
+   同時做埋兩件事：講畀人知仲有嘢喺後面，同埋畀個位撳。
+
+   --hs-mid / --hs-media-h 係第一張卡張相嘅中心同高度（script.js 度返），
+   --hs-inset-* 係內容區邊界。度唔到先用 50% / 68% 頂住。 */
 .h-scroll__arrow {
   position: absolute;
-  /* --hs-mid 係第一張卡「張相」嘅中心（script.js 度返）。冇度到先用 50%。 */
   top: var(--hs-mid, 50%);
+  transform: translateY(-50%);
   z-index: 3;
-  width: 38px;
-  height: 38px;
-  margin-top: -19px;
+  width: 58px;
+  height: var(--hs-media-h, 68%);
   display: none;
   align-items: center;
-  justify-content: center;
   padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(14px) saturate(1.4);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  box-shadow:
-    0 1px 2px rgba(43, 76, 88, 0.1),
-    0 8px 18px -6px rgba(43, 76, 88, 0.28);
+  border-radius: 2px;
   color: #2b4c58;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s ease, transform 0.22s var(--ease-out, ease),
-              box-shadow 0.22s ease, background-color 0.18s ease;
+  transition: opacity 0.22s ease, transform 0.24s var(--ease-out, ease),
+              background 0.24s ease;
 }
-/* 幼線箭嘴。原本 2.5 嘅筆劃喺 15px 度睇落好粗，似 app icon 多過似指示 */
-.h-scroll__arrow svg { width: 17px; height: 17px; stroke-width: 1.75; }
-.h-scroll__arrow--prev { left: calc(var(--hs-inset-start, 4px) - 19px); }
-.h-scroll__arrow--next { right: calc(var(--hs-inset-end, 4px) - 19px); }
+/* 幼線箭嘴。原本 2.5 嘅筆劃睇落好粗，似 app icon 多過似指示。
+   支箭嘴會壓喺產品相上面，相嘅深淺唔定 —— 加一圈同底色一樣嘅光暈
+   （淺底白、深底黑）撐住，唔使靠一嚿實色底板都讀得到。 */
+.h-scroll__arrow svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.95));
+}
+.h-scroll--dark .h-scroll__arrow svg {
+  filter: drop-shadow(0 0 3px rgba(10, 20, 26, 0.9));
+}
+
+.h-scroll__arrow--next {
+  right: var(--hs-inset-end, 4px);
+  justify-content: flex-end;
+  padding-right: 9px;
+  background: linear-gradient(to left,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(255, 255, 255, 0.82) 38%,
+    rgba(255, 255, 255, 0.34) 72%,
+    rgba(255, 255, 255, 0) 100%);
+}
+.h-scroll__arrow--prev {
+  left: var(--hs-inset-start, 4px);
+  justify-content: flex-start;
+  padding-left: 9px;
+  background: linear-gradient(to right,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(255, 255, 255, 0.82) 38%,
+    rgba(255, 255, 255, 0.34) 72%,
+    rgba(255, 255, 255, 0) 100%);
+}
 .h-scroll:hover .h-scroll__arrow:not([hidden]),
 .h-scroll:focus-within .h-scroll__arrow:not([hidden]) { opacity: 1; }
-/* hover 唔用 scale（放大會令 blur 邊糊埋），改為向住佢指嗰邊推兩格 */
-.h-scroll__arrow:hover {
-  background: #fff;
-  box-shadow:
-    0 1px 2px rgba(43, 76, 88, 0.12),
-    0 12px 24px -6px rgba(43, 76, 88, 0.34);
+
+/* hover 唔放大 —— 條帶放大會扯到成張相都糊。改為向住佢指嗰邊推兩格。 */
+.h-scroll__arrow--next:hover {
+  transform: translate(3px, -50%);
+  background: linear-gradient(to left,
+    rgba(255, 255, 255, 0.99) 0%,
+    rgba(255, 255, 255, 0.92) 42%,
+    rgba(255, 255, 255, 0.46) 76%,
+    rgba(255, 255, 255, 0) 100%);
 }
-.h-scroll__arrow--next:hover { transform: translateX(2px); }
-.h-scroll__arrow--prev:hover { transform: translateX(-2px); }
-.h-scroll__arrow:active { transform: translateX(0); }
-.h-scroll__arrow:focus-visible { opacity: 1; outline: 2px solid var(--primary, #6da3b5); outline-offset: 2px; }
+.h-scroll__arrow--prev:hover {
+  transform: translate(-3px, -50%);
+  background: linear-gradient(to right,
+    rgba(255, 255, 255, 0.99) 0%,
+    rgba(255, 255, 255, 0.92) 42%,
+    rgba(255, 255, 255, 0.46) 76%,
+    rgba(255, 255, 255, 0) 100%);
+}
+.h-scroll__arrow:active { transform: translate(0, -50%); }
+.h-scroll__arrow:focus-visible { opacity: 1; outline: 2px solid var(--primary, #6da3b5); outline-offset: -2px; }
 .h-scroll__arrow[hidden] { opacity: 0; pointer-events: none; }
 
 @media (hover: hover) and (min-width: 768px) {
@@ -7188,18 +7225,27 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 }
 
 /* 深色底（品牌牆嗰啲）嘅箭嘴 */
-.h-scroll--dark .h-scroll__arrow {
-  background: rgba(30, 52, 62, 0.78);
-  color: #fff;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.28),
-    0 8px 18px -6px rgba(0, 0, 0, 0.5);
+/* 深色底（品牌牆嗰啲）：同一條淡出帶，換成向深藍散開 */
+.h-scroll--dark .h-scroll__arrow { color: #fff; }
+.h-scroll--dark .h-scroll__arrow--next {
+  background: linear-gradient(to left,
+    rgba(26, 44, 53, 0.95) 0%, rgba(26, 44, 53, 0.8) 38%,
+    rgba(26, 44, 53, 0.32) 72%, rgba(26, 44, 53, 0) 100%);
 }
-.h-scroll--dark .h-scroll__arrow:hover {
-  background: rgba(30, 52, 62, 0.95);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.32),
-    0 12px 24px -6px rgba(0, 0, 0, 0.6);
+.h-scroll--dark .h-scroll__arrow--prev {
+  background: linear-gradient(to right,
+    rgba(26, 44, 53, 0.95) 0%, rgba(26, 44, 53, 0.8) 38%,
+    rgba(26, 44, 53, 0.32) 72%, rgba(26, 44, 53, 0) 100%);
+}
+.h-scroll--dark .h-scroll__arrow--next:hover {
+  background: linear-gradient(to left,
+    rgba(20, 36, 44, 1) 0%, rgba(20, 36, 44, 0.9) 42%,
+    rgba(20, 36, 44, 0.42) 76%, rgba(20, 36, 44, 0) 100%);
+}
+.h-scroll--dark .h-scroll__arrow--prev:hover {
+  background: linear-gradient(to right,
+    rgba(20, 36, 44, 1) 0%, rgba(20, 36, 44, 0.9) 42%,
+    rgba(20, 36, 44, 0.42) 76%, rgba(20, 36, 44, 0) 100%);
 }
 
 /* 滾動條收返埋 —— 而家靠箭嘴示意 */
