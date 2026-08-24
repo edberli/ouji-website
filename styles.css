@@ -10441,10 +10441,35 @@ body::before { opacity: 0.18; }
 /* 內容跟返全站嘅框，同上下兩格對齊 */
 .promo__grid {
   display: grid; gap: clamp(24px, 3.4cqw, 46px); align-items: center;
-  width: min(1280px, calc(100% - 40px));
+  /* 同 .container 一樣，唔好自己另開一套尺 */
+  width: 100%;
+  max-width: var(--max-width);
   margin-inline: auto;
+  padding-inline: var(--space-2xl);
 }
+@media (max-width: 720px) { .promo__grid { padding-inline: 20px; } }
 @container (min-width: 760px) { .promo__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
+
+/* 🔴 闊機唔可以將內容困喺 1280 中間。
+   上一版我淨係將底色拉到兩邊，內容照舊 1280 置中 —— 結果兩條白邊
+   變咗兩大片吉淺藍，畫面反而更空。等於換咗個顏色，冇解決到。
+
+   而家：張相由畫面左邊直接切入嚟（負 margin 食返左邊嗰段吉位），
+   右邊文字欄仍然對齊全站 1280 內容線。相有嘢睇，右邊有留白透氣，
+   兩邊都唔會吉。 */
+/* 🔴 闊機唔可以將內容困喺中間。
+   我第一版淨係將底色拉到兩邊，內容照舊置中 —— 兩條白邊變咗兩大片
+   吉淺藍，畫面反而更空。等於換咗個顏色，冇解決到。
+
+   而家：文字欄照跟全站 .container 嘅尺（max-width ＋ 左右內距），
+   同上面「產品分類」個標題對得齊；張相就向左伸出去食返嗰段吉位。
+   伸幾多用 clamp 跟畫面闊度走，唔使算死數 —— 我試過用 100vw 減
+   --max-width 去計，但個 container 實際闊度仲受父層限制（實測
+   1680 機度係 1397 唔係 1440），計出嚟差咗 22px，文字就走咗出線。 */
+@container (min-width: 1080px) {
+  .promo__shot { margin-left: calc(-1 * clamp(0px, 11vw, 190px)); }
+  .promo__shot img { border-radius: 0 22px 22px 0; }
+}
 @container (max-width: 759px) { .promo__shot img { aspect-ratio: 4 / 3; } }
 /* 官方相本身就係水感藍底＋白樽，同 OUJI 隻藍係一家人，
    所以唔去背、唔加假陰影，就咁當一張相咁擺。 */
