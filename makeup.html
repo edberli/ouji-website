@@ -190,9 +190,18 @@
          件數、相紙四張相、選中狀態全部由 catalog.js 嘅 buildMakeupBooth()
          用 Storefront 真資料填 —— 呢度一個數都唔准寫死。 -->
     <section class="makeup-booth" data-makeup-booth>
-      <!-- 芝麻貼圖：每頁一隻，做緊同呢頁有關嘅嘢。aria-hidden —— 佢係氣氛，唔係內容，讀屏唔應該讀。 -->
+      <!-- 芝麻六格連續動作 —— 唔係六張唔同貼圖排晒出嚟，係同一個動作
+           嘅分解，每 260ms 換一格，第六格接返第一格。JS 喺 script.js
+           嘅 initShimaFrames()。 -->
       <div class="shima-corner" aria-hidden="true">
-        <img src="assets/images/shima/shima-makeup.webp" alt="" loading="lazy" decoding="async">
+        <div class="shima">
+          <img class="shima__f is-on" src="assets/images/shima/shima-mk1.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-mk2.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-mk3.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-mk4.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-mk5.webp" alt="" loading="lazy" decoding="async">
+          <img class="shima__f" src="assets/images/shima/shima-mk6.webp" alt="" loading="lazy" decoding="async">
+        </div>
       </div>
       <div class="makeup-booth__flash" aria-hidden="true"></div>
 

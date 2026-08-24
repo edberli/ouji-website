@@ -10739,7 +10739,7 @@ body::before { opacity: 0.18; }
   z-index: 1;
   pointer-events: none;
 }
-.shima-corner img {
+.shima-corner > img {
   display: block;
   height: clamp(96px, 11vw, 138px);
   width: auto;
@@ -10749,10 +10749,10 @@ body::before { opacity: 0.18; }
 }
 /* 手機淨低嘅闊度唔多，隻貓要細啲兼半透明啲，唔好壓住個標題同件數 */
 @media (max-width: 640px) {
-  .shima-corner img { height: 84px; opacity: .92; }
+  .shima-corner > img, .shima-corner .shima { height: 84px; opacity: .92; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .shima-corner img { animation: none; }
+  .shima-corner > img { animation: none; }
 }
 
 /* 呢幾個 hero 各有各風格（獲獎係深啡金、全部產品係 XP 開機畫面、彩妝
@@ -10760,12 +10760,12 @@ body::before { opacity: 0.18; }
    position:relative 先錨得住。 */
 .awards-hero, .shop-boot, .makeup-booth, .product-detail { position: relative; }
 /* 深色 hero 上面要多少少光邊，唔係隻貓會黐住個底 */
-.awards-hero .shima-corner img { filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .45)); }
+.awards-hero .shima-corner > img { filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .45)); }
 /* XP 開機畫面最底有條 46px 工具列 —— 芝麻要企喺工具列上面，唔可以
    俾佢切一半（實測貓底部 533px、工具列由 487px 開始，蓋咗 46px）。
    同時要避開右邊「其他」個資料夾貼紙，所以縮細少少兼貼實右邊。 */
 .shop-boot .shima-corner { bottom: 46px; right: clamp(6px, 1.5vw, 20px); }
-.shop-boot .shima-corner img { height: clamp(84px, 8vw, 108px); }
+.shop-boot .shima-corner > img, .shop-boot .shima-corner .shima { height: clamp(84px, 8vw, 108px); }
 /* 貼紙牆本身層層疊，芝麻要疊喺最面 —— 唔係會俾右邊嗰嚿粉紅爆炸形
    （.makeup-booth__burst，實測 x 1198–1418）遮咗半隻。 */
 .makeup-booth .shima-corner { z-index: 6; right: clamp(16px, 3vw, 52px); }
@@ -10775,11 +10775,11 @@ body::before { opacity: 0.18; }
    1883px 高，所以貼右上角，唔係右下角（右下角等於成頁最底）。 */
 .bxp__body { position: relative; }
 .bxp__body .shima-corner { top: clamp(6px, 1vw, 18px); bottom: auto; right: clamp(12px, 2vw, 32px); }
-.bxp__body .shima-corner img { height: clamp(70px, 6.5vw, 96px); }
+.bxp__body .shima-corner > img { height: clamp(70px, 6.5vw, 96px); }
 /* 手機版：分類頁隻貓企喺右下角，會壓住 .cat-head__desc 最後嗰兩行
    （實測 lens.html 手機版「現貨嘅度數一樣」俾隻貓遮咗）。讓返條巷。 */
 @media (max-width: 640px) {
-  .cat-head .shima-corner img { height: 76px; }
+  .cat-head .shima-corner > img, .cat-head .shima-corner .shima { height: 76px; }
   .cat-head__desc { padding-right: 82px; }
 }
 
@@ -10795,3 +10795,21 @@ body::before { opacity: 0.18; }
   letter-spacing: 0.06em;
   color: var(--text-tertiary);
 }
+
+/* 主要瀏覽頁（護膚／彩妝／全部產品）唔用靜態貼圖，用六格連續動作。
+   老闆：「你唔需要每一個產品頁面都有嗰啲貼圖動畫，你只需要喺主畫面
+   嗰度有就得㗎啦」—— 所以淨係呢三頁 ＋ 首頁 ＋ 購物袋。
+   ⚠️ .shima 係 position:relative，.shima-corner 係 position:absolute，
+   兩個唔可以撈埋喺同一個 element 度 —— 要 .shima-corner 包住 .shima。 */
+.shima-corner .shima {
+  height: clamp(96px, 11vw, 138px);
+  aspect-ratio: 3 / 4;
+  width: auto;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
+}
+/* 水光貼紙相機一樣係層層疊：相紙 z=5、閃光罩 z=20。芝麻要企喺最面，
+   唔係右邊嗰疊相紙會遮住佢（實測貓 x 1293–1397，相紙去到 1332）。 */
+.skincare-booth .shima-corner { z-index: 21; right: clamp(8px, 1.5vw, 26px); }
+/* 推車嗰套係打橫（360×~290），唔同搽面霜／拍腮紅嗰兩套打戙，
+   所以要單獨寫返個比例，唔係隻貓會俾壓扁。 */
+.shop-boot .shima-corner .shima { aspect-ratio: 5 / 4; }
