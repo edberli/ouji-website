@@ -9986,74 +9986,6 @@ body::before { opacity: 0.18; }
 .brand-marquees .brand-grid__name { color: #5c7d90; }
 
 /* ============================================================
-   品牌頁：水光玻璃（老闆 2026-08-23 揀咗呢個）
-   ------------------------------------------------------------
-   底色一定要用 OUJI 自己嗰隻淺藍 —— 同 loading 畫面（--primary-dark
-   → --primary）同一家人。第一版用咗粉紅粉紫薄荷，老闆即刻叫改。
-   XP 窗框收起（標題留返做一行細字），磚變磨砂玻璃。
-
-   ⚠️ 底下嘅 .brands-page XP 規則仲喺度做底，水光玻璃係疊上去。
-   如果首頁 Our Brands 都跟住轉水光，就可以將 XP 嗰段一併清走。
-   ============================================================ */
-/* ─────────────── 水光玻璃 ─────────────── */
-.brands-page[data-style="dewy"] {
-  /* 老闆指定：漸變要用返 OUJI 自己嗰隻淺藍（loading 畫面同一家人）——
-     #6da3b5 / #4e8497 系列嘅淺色端，唔要粉紅粉紫薄荷。 */
-  background:
-    radial-gradient(120% 88% at 10% 6%, #cfe7f0 0%, transparent 55%),
-    radial-gradient(108% 96% at 90% 18%, #b7dcea 0%, transparent 58%),
-    linear-gradient(150deg, #eef6f9, #dfeef4 55%, #cfe4ec);
-  background-attachment: fixed;
-  color: #3d5566;
-}
-[data-style="dewy"] .bxp {
-  border: 1px solid rgba(255, 255, 255, .85);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, .42);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 20px 50px rgba(120, 150, 175, .22), inset 0 1px 0 #fff;
-}
-[data-style="dewy"] .bxp__menu,
-[data-style="dewy"] .bxp__crumb,
-[data-style="dewy"] .bxp__ctl,
-[data-style="dewy"] .bxp__ico { display: none; }
-[data-style="dewy"] .bxp__bar {
-  height: auto; padding: 20px 22px 4px;
-  background: none; box-shadow: none;
-  color: #3d5566; text-shadow: none;
-}
-[data-style="dewy"] .bxp__name {
-  font-size: 15px; font-weight: 500; letter-spacing: .18em;
-}
-[data-style="dewy"] .bxp__body { background: transparent; padding: 0 6px; }
-[data-style="dewy"] .bxp__status {
-  padding: 12px 22px 18px;
-  border: 0; background: none;
-  font-size: 11px; letter-spacing: .1em; color: #7d97a8;
-}
-[data-style="dewy"] .bxp__status span { padding: 0; border: 0; background: none; }
-
-[data-style="dewy"] .bxp__group {
-  padding: 0; margin: 4px 0 2px;
-  border: 0; border-radius: 0;
-  background: none;
-  color: #6d8798;
-  font-size: 11.5px; font-weight: 500; letter-spacing: .18em;
-}
-[data-style="dewy"] .brands-grid { gap: 12px; }
-[data-style="dewy"] .brand-card {
-  border: 1px solid rgba(255, 255, 255, .9);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, .62);
-  box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(120, 150, 175, .12);
-}
-[data-style="dewy"] .brand-card:hover {
-  border-color: rgba(255, 255, 255, 1);
-  background: #fff;
-  box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(120, 150, 175, .24);
-}
-
-/* ============================================================
    品牌 logo 大細統一
    ------------------------------------------------------------
    老闆 2026-08-23：「有啲偏大、有啲偏細，要統一返適中嘅大細」。
@@ -10246,67 +10178,17 @@ body::before { opacity: 0.18; }
 .brand-marquees .brand-grid__logo[src$="wakemake.svg"] { width: calc(129.5px * var(--logo-k, 1)); height: calc(32.4px * var(--logo-k, 1)); }  /* WAKEMAKE */
 
 /* ============================================================
-   試款（第二輪）：Archive 檔案室換底色
+   品牌頁：Archive 檔案室（OUJI 淺藍）
    ------------------------------------------------------------
-   老闆睇完覺得原本嗰隻米黃「唔係好襯」，想試淺藍／白。
-   四隻底色用 token 出，換一個 data-tone 就成版跟住轉。
+   老闆 2026-08-23 睇完四隻底色揀咗呢個。原版係米黃 #f1efe9，
+   佢話「唔係好襯」—— 換咗 OUJI 自己嗰隻淺藍 #e7f1f4
+   （--primary-lightest，同 loading 畫面一家人）之後就啱。
 
-   ⚠️ 臨時。揀完就拆走呢一段連埋 brands.html 個 .styleswap。
-   入口：/brands?preview=1
+   要點：**唔係淨係換個底色**。線條、字色、hover 全部由同一組
+   --ar-* token 出，底色改咗但線同字唔跟住改，對比就會散。
    ============================================================ */
-.styleswap {
-  position: fixed;
-  left: 50%; bottom: 18px;
-  z-index: 900;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 5px;
-  max-width: calc(100% - 24px);
-  padding: 6px 9px;
-  transform: translateX(-50%);
-  border: 1px solid rgba(255, 255, 255, .5);
-  border-radius: 999px;
-  background: rgba(18, 40, 52, .84);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
-}
-.styleswap__label {
-  padding: 0 5px 0 3px;
-  font-size: 11px; letter-spacing: .12em;
-  color: rgba(255, 255, 255, .6);
-}
-.styleswap__sep { width: 1px; height: 18px; background: rgba(255, 255, 255, .25); margin: 0 3px; }
-.styleswap button {
-  padding: 6px 12px;
-  border: 0; border-radius: 999px;
-  background: transparent;
-  color: rgba(255, 255, 255, .82);
-  font: inherit; font-size: 12.5px;
-  cursor: pointer;
-}
-.styleswap button:hover { background: rgba(255, 255, 255, .14); }
-.styleswap button.is-on { background: #fff; color: #12303f; font-weight: 600; }
-
 /* ---------- Archive：底色用 token ---------- */
 .brands-page[data-style="archive"] {
-  /* 預設＝米紙（原版） */
-  --ar-ground: #f1efe9;
-  --ar-ink: #1b1b19;
-  --ar-rule: #dcd9d0;
-  --ar-hair: #cdcabf;
-  --ar-soft: #7a776e;
-  --ar-hover: #e6e3da;
-
-  background: var(--ar-ground);
-  color: var(--ar-ink);
-}
-.brands-page[data-style="archive"][data-tone="white"] {
-  --ar-ground: #ffffff;
-  --ar-ink: #1b1b19;
-  --ar-rule: #e8e6e1;
-  --ar-hair: #ddd9d2;
-  --ar-soft: #8a8780;
-  --ar-hover: #f5f4f1;
-}
-.brands-page[data-style="archive"][data-tone="blue"] {
   /* OUJI 淺藍 —— --primary-lightest #e7f1f4 嗰一家 */
   --ar-ground: #e7f1f4;
   --ar-ink: #1e3a45;
@@ -10314,15 +10196,9 @@ body::before { opacity: 0.18; }
   --ar-hair: #b6d0d9;
   --ar-soft: #6b8d99;
   --ar-hover: #dbeaf0;
-}
-.brands-page[data-style="archive"][data-tone="mist"] {
-  /* 霧藍 —— 幾乎白，但帶少少 OUJI 嘅冷 */
-  --ar-ground: #f3f6f7;
-  --ar-ink: #23343b;
-  --ar-rule: #dde5e8;
-  --ar-hair: #d2dde1;
-  --ar-soft: #7c919a;
-  --ar-hover: #e9eff1;
+
+  background: var(--ar-ground);
+  color: var(--ar-ink);
 }
 
 /* 窗框收起，剩返一條索引標題 */
