@@ -1068,37 +1068,5 @@
   })();
   </script>
 
-  <script>
-  /* 芝麻換格動畫。用真畫換格，唔用 CSS 扭一張相 —— 手同表情要真係郁。
-     · 每 0.26 秒換一格
-     · 頁面睇唔到（背景 tab／捲咗出視窗）就唔行，唔好白燒電
-     · prefers-reduced-motion 直接唔行，停喺捧住份禮嗰格 */
-  (function () {
-    var box = document.querySelector('.promo__shima');
-    if (!box) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var f = box.querySelectorAll('.promo__frame');
-    if (f.length < 2) return;
-    var i = 0, timer = null;
-    function tick() {
-      f[i].classList.remove('is-on');
-      i = (i + 1) % f.length;
-      f[i].classList.add('is-on');
-    }
-    function start() {
-      /* 一入視窗就迫四格即刻載 —— 全部 lazy 嘅話，換到第二格先開始
-         下載，客會見到一格空白。四格 webp 加埋先 132KB。 */
-      f.forEach(function (im) { im.loading = 'eager'; });
-      if (!timer) timer = setInterval(tick, 260);
-    }
-    function stop() { clearInterval(timer); timer = null; }
-    new IntersectionObserver(function (es) {
-      es[0].isIntersecting ? start() : stop();
-    }, { threshold: 0.15 }).observe(box);
-    document.addEventListener('visibilitychange', function () {
-      document.hidden ? stop() : start();
-    });
-  })();
-  </script>
 </body>
 </html>

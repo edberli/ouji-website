@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMoodBoardReveal();
   initLookbookInView();
   initRiseReveal();
+  initShimaFrames();
   initDividerReveal();
   initMobileNav();
   initMegaMenu();
@@ -977,6 +978,50 @@ function initRiseReveal() {
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
   rises.forEach(el => io.observe(el));
+}
+
+/* ----- 芝麻換格動畫 -----
+ * 六格連續分解圖疊住，一次顯示一格，260ms 換一格。
+ * ⚠️ 唔可以加 transition —— 260ms 一格再淡入會兩格疊住，變鬼影。
+ * ⚠️ 一定要「同一動作嘅連續分解」，唔可以攞幾個唔同動作快播。
+ * 本來喺 cart.html／index.html 各抄一份 inline script，而家搬入嚟，
+ * 全站任何一頁有 .shima 都自動行。
+ * 捲出視窗停、背景 tab 停、reduced-motion 唔行。
+ */
+function initShimaFrames() {
+  /* 兩套 class 都要收：.shima/.shima__f 係後來全站共用嗰套，
+     .promo__shima/.promo__frame 係首頁 banner 原本嗰套（佢個 CSS
+     用緊 .promo__frame 做定位，唔可以就咁改名）。 */
+  const groups = [['.shima', '.shima__f'], ['.promo__shima', '.promo__frame']];
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  groups.forEach(([boxSel, frameSel]) => document.querySelectorAll(boxSel).forEach(box => {
+    const f = box.querySelectorAll(frameSel);
+    if (f.length < 2) return;
+    let i = 0, timer = null;
+    const tick = () => {
+      f[i].classList.remove('is-on');
+      i = (i + 1) % f.length;
+      f[i].classList.add('is-on');
+    };
+    const start = () => {
+      f.forEach(im => { im.loading = 'eager'; });
+      if (!timer) timer = setInterval(tick, 260);
+    };
+    const stop = () => { clearInterval(timer); timer = null; };
+
+    /* ⚠️ 一開波就行，唔好等 IntersectionObserver 話畀你聽先開始。
+       原本寫法係「IO 講 intersecting 先 start」—— 喺任何一個
+       document.hidden 嘅環境（背景 tab、內嵌 webview、預覽窗）IO 一世
+       都唔會派 callback，隻貓就永遠唔郁。實測喺預覽窗就係咁：盒有
+       190×216、格數 6、CSS 啱晒，但 is-on 一世停喺同一格。
+       而家：預設行，IO 淨係負責「捲出視窗就熄」。IO 唔支援都照行。 */
+    start();
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(es => { es[0].isIntersecting ? start() : stop(); },
+        { threshold: 0.15 }).observe(box);
+    }
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
+  }));
 }
 
 /* ----- Lookbook Cards In-View Detection ----- */

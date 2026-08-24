@@ -782,26 +782,5 @@
   };
   </script>
 
-  <script>
-  /* 芝麻換格動畫（共用寫法，同首頁一樣）。
-     捲出視窗停、背景 tab 停、reduced-motion 唔行。 */
-  (function () {
-    document.querySelectorAll('.shima').forEach(function (box) {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var f = box.querySelectorAll('.shima__f');
-      if (f.length < 2) return;
-      var i = 0, timer = null;
-      function tick() { f[i].classList.remove('is-on'); i = (i + 1) % f.length; f[i].classList.add('is-on'); }
-      function start() {
-        f.forEach(function (im) { im.loading = 'eager'; });
-        if (!timer) timer = setInterval(tick, 260);
-      }
-      function stop() { clearInterval(timer); timer = null; }
-      new IntersectionObserver(function (es) { es[0].isIntersecting ? start() : stop(); },
-        { threshold: 0.15 }).observe(box);
-      document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
-    });
-  })();
-  </script>
 </body>
 </html>

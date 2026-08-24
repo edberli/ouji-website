@@ -10509,8 +10509,20 @@ body::before { opacity: 0.18; }
      兩格會疊住，睇落係鬼影唔係動作。 */
 }
 .promo__frame.is-on { opacity: 1; }
+/* 手機版：右欄由上到下都係字（標題→兩級門檻→掣＋細字），芝麻貼喺
+   右下角一定會壓住嘢 —— 實測貓佔 y 636–798，正正蓋住「送完即止」同
+   「HK$569 有面霜」。老闆：「你睇可能擺上啲嘅位置或者擺下啲嘅位置，
+   但佢唔會遮住個位咯」。
+   而家搬去騎住上面張面霜相嘅右下角：嗰忽係淨色面霜質感，冇字冇 badge
+   （「送量有限」喺左下角、「免費送」緞帶喺左上角）。貓底部收喺標題
+   上面 5px，唔會掂到任何一行字。 */
 @container (max-width: 759px) {
-  .promo__shima { width: 132px; right: 0; bottom: 0; }
+  .promo__shima {
+    width: 114px;
+    right: 0;
+    top: -145px;
+    bottom: auto;
+  }
 }
 .promo__ribbon {
   position: absolute; top: 16px; left: -6px; z-index: 2;
@@ -10764,9 +10776,6 @@ body::before { opacity: 0.18; }
 .bxp__body { position: relative; }
 .bxp__body .shima-corner { top: clamp(6px, 1vw, 18px); bottom: auto; right: clamp(12px, 2vw, 32px); }
 .bxp__body .shima-corner img { height: clamp(70px, 6.5vw, 96px); }
-/* 產品頁：芝麻指住件貨，貼喺相同資訊之間嗰條界，唔好壓住加入購物袋 */
-.product-detail .shima-corner { top: 0; bottom: auto; right: 0; }
-.product-detail .shima-corner img { height: clamp(72px, 7vw, 96px); }
 /* 手機版：分類頁隻貓企喺右下角，會壓住 .cat-head__desc 最後嗰兩行
    （實測 lens.html 手機版「現貨嘅度數一樣」俾隻貓遮咗）。讓返條巷。 */
 @media (max-width: 640px) {
