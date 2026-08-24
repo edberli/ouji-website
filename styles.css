@@ -7132,34 +7132,54 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 .h-scroll {
   position: relative;
 }
+/* 兩個掣騎喺第一／最後一張卡條邊上面（--hs-inset-* 由 script.js 度返，
+   見 initHScrollArrows）。之前寫死 left/right:4px，喺闊螢幕度就變咗
+   貼住螢幕邊 —— 離最後一張卡成三百幾 px，撳嗰陣要飛個鼠標過去。
+
+   樣式亦都執過：本來有一圈 1px 硬邊 ＋ 一道平均嘅影，白圈壓喺淺藍底
+   上面自成一嚿。而家去咗個邊，靠兩層影分遠近，同分類格嗰道影同一套。 */
 .h-scroll__arrow {
   position: absolute;
   top: 50%;
   z-index: 3;
-  width: 34px;
-  height: 34px;
-  margin-top: -17px;
+  width: 38px;
+  height: 38px;
+  margin-top: -19px;
   display: none;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(43, 76, 88, 0.1);
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 12px rgba(43, 76, 88, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow:
+    0 1px 2px rgba(43, 76, 88, 0.1),
+    0 8px 18px -6px rgba(43, 76, 88, 0.28);
   color: #2b4c58;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
+  transition: opacity 0.2s ease, transform 0.22s var(--ease-out, ease),
+              box-shadow 0.22s ease, background-color 0.18s ease;
 }
-.h-scroll__arrow svg { width: 15px; height: 15px; }
-.h-scroll__arrow--prev { left: 4px; }
-.h-scroll__arrow--next { right: 4px; }
+/* 幼線箭嘴。原本 2.5 嘅筆劃喺 15px 度睇落好粗，似 app icon 多過似指示 */
+.h-scroll__arrow svg { width: 17px; height: 17px; stroke-width: 1.75; }
+.h-scroll__arrow--prev { left: calc(var(--hs-inset-start, 4px) - 19px); }
+.h-scroll__arrow--next { right: calc(var(--hs-inset-end, 4px) - 19px); }
 .h-scroll:hover .h-scroll__arrow:not([hidden]),
 .h-scroll:focus-within .h-scroll__arrow:not([hidden]) { opacity: 1; }
-.h-scroll__arrow:hover { background: #fff; transform: scale(1.06); }
-.h-scroll__arrow:focus-visible { opacity: 1; outline: 2px solid var(--primary, #6da3b5); }
+/* hover 唔用 scale（放大會令 blur 邊糊埋），改為向住佢指嗰邊推兩格 */
+.h-scroll__arrow:hover {
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(43, 76, 88, 0.12),
+    0 12px 24px -6px rgba(43, 76, 88, 0.34);
+}
+.h-scroll__arrow--next:hover { transform: translateX(2px); }
+.h-scroll__arrow--prev:hover { transform: translateX(-2px); }
+.h-scroll__arrow:active { transform: translateX(0); }
+.h-scroll__arrow:focus-visible { opacity: 1; outline: 2px solid var(--primary, #6da3b5); outline-offset: 2px; }
 .h-scroll__arrow[hidden] { opacity: 0; pointer-events: none; }
 
 @media (hover: hover) and (min-width: 768px) {
@@ -7168,11 +7188,18 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 
 /* 深色底（品牌牆嗰啲）嘅箭嘴 */
 .h-scroll--dark .h-scroll__arrow {
-  background: rgba(43, 76, 88, 0.72);
-  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(30, 52, 62, 0.78);
   color: #fff;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.28),
+    0 8px 18px -6px rgba(0, 0, 0, 0.5);
 }
-.h-scroll--dark .h-scroll__arrow:hover { background: rgba(43, 76, 88, 0.92); }
+.h-scroll--dark .h-scroll__arrow:hover {
+  background: rgba(30, 52, 62, 0.95);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.32),
+    0 12px 24px -6px rgba(0, 0, 0, 0.6);
+}
 
 /* 滾動條收返埋 —— 而家靠箭嘴示意 */
 .cat-cards,
@@ -9862,58 +9889,72 @@ body::before { opacity: 0.18; }
 .brands-page .brand-card img[alt="AXIS-Y"] { background: #4a5b66; border-radius: 3px; padding: 4px 6px; }
 
 /* ============================================================
-   首頁「Our Brands」：跟品牌頁轉水光玻璃
+   首頁「Our Brands」：跟品牌頁行 Archive 檔案室
    ------------------------------------------------------------
    兩格都係「我哋入嘅牌子」，用兩套樣客會覺得撳咗入去跳咗第二個網站。
-   護膚配方同全部產品就唔跟 —— 嗰啲係功能版面，XP 控制台喺嗰度幫到手。
+   token 同 /brands 一模一樣（--ar-*），改一次兩處齊。
 
-   底色同品牌頁一模一樣（OUJI 淺藍，同 loading 畫面一家人），
-   窗框收起淨返一行標題，走馬燈本身留住 —— 嗰個動感就係呢格嘅性格。
+   走馬燈本身留住 —— 嗰個橫向流動就係呢格嘅性格。但係 Archive 唔用卡：
+   磚全部拆走，剩返細線分隔，logo 就咁喺線之間流。
+
+   護膚配方同全部產品**唔跟** —— 嗰啲係功能版面，XP 控制台喺嗰度
+   反而幫到手（似真係喺度操作緊嘢）。
    ============================================================ */
 .brand-marquees {
-  background:
-    radial-gradient(120% 88% at 10% 6%, #cfe7f0 0%, transparent 55%),
-    radial-gradient(108% 96% at 90% 18%, #b7dcea 0%, transparent 58%),
-    linear-gradient(150deg, #eef6f9, #dfeef4 55%, #cfe4ec);
+  --ar-ground: #e7f1f4;
+  --ar-ink: #1e3a45;
+  --ar-rule: #c5dae1;
+  --ar-hair: #b6d0d9;
+  --ar-soft: #6b8d99;
+  --ar-hover: #dbeaf0;
+
+  background: var(--ar-ground);
+  color: var(--ar-ink);
 }
 .brand-marquees__video { display: none; }
-.brand-marquees .section-header__title { color: #3d5566; }
+.brand-marquees .section-header__title { color: var(--ar-ink); }
 
-/* 個窗變磨砂玻璃面板 */
+/* 個「窗」拆到剩返一條索引標題 */
 .bxp--marquee {
   width: min(1280px, calc(100% - 28px));
-  margin: clamp(16px, 2.2vw, 26px) auto 0;
-  border: 1px solid rgba(255, 255, 255, .85);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, .42);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 20px 50px rgba(120, 150, 175, .22), inset 0 1px 0 #fff;
-  overflow: hidden;
+  margin: clamp(14px, 2vw, 22px) auto 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 .bxp--marquee .bxp__menu,
 .bxp--marquee .bxp__ctl,
 .bxp--marquee .bxp__ico { display: none; }
 .bxp--marquee .bxp__bar {
   height: auto;
-  padding: 18px 22px 2px;
+  padding: 0 0 9px;
+  border-bottom: 1px solid var(--ar-ink);
   background: none;
   box-shadow: none;
-  color: #3d5566;
+  color: var(--ar-ink);
   text-shadow: none;
 }
-.bxp--marquee .bxp__name { font-size: 15px; font-weight: 500; letter-spacing: .18em; }
-.bxp--marquee .bxp__body { background: transparent; padding: 0 10px 4px; }
+.bxp--marquee .bxp__name {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+.bxp--marquee .bxp__body { background: transparent; padding: 0; }
 .bxp--marquee .bxp__status {
-  padding: 8px 22px 16px;
-  border: 0;
+  padding: 9px 0 0;
+  border-top: 1px solid var(--ar-hair);
   background: none;
-  font-size: 11px;
-  letter-spacing: .1em;
-  color: #7d97a8;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  color: var(--ar-soft);
 }
 .bxp--marquee .bxp__status span { padding: 0; border: 0; background: none; }
 
-/* 分區列：由 Explorer 群組條變返一行細標題 */
+/* 分區列：一行等寬細字，上面一條細線 */
 .brand-marquees .brand-marquees__section { padding: 0; background: none; }
 .brand-marquees .brand-marquees__section-header {
   display: flex;
@@ -9921,261 +9962,89 @@ body::before { opacity: 0.18; }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 12px 12px 4px;
-  padding: 0;
+  margin: 0;
+  padding: 9px 0 7px;
   border: 0;
+  border-top: 1px solid var(--ar-hair);
   background: none;
   text-align: left;
 }
+.brand-marquees .brand-marquees__section:first-child .brand-marquees__section-header { border-top: 0; }
 .brand-marquees .brand-section-title { margin: 0; }
 .brand-marquees .brand-marquees__label {
   margin: 0;
-  color: #6d8798;
-  font-size: 11.5px;
+  color: var(--ar-soft);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px;
   font-weight: 500;
-  letter-spacing: .18em;
+  letter-spacing: .22em;
+  text-transform: uppercase;
 }
 .brand-marquees .brand-section-toggle {
   flex: none;
   margin: 0;
   padding: 0;
-  color: #5c7d90;
-  font-size: .6875rem;
-  opacity: .9;
+  color: var(--ar-ink);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  opacity: .75;
 }
 .brand-marquees .brand-section-toggle:hover { opacity: 1; }
 
-/* 走馬燈：玻璃磚，兩邊淡出用底色唔用白色 */
-.brand-marquees .brand-marquee { background: transparent; padding: 3px 0; }
+/* 走馬燈：冇磚，剩返線同 logo */
+/* 冇咗磚就要靠留白撐開，唔係啲 logo 會黐晒埋一齊 */
+.brand-marquees .brand-marquee {
+  background: transparent;
+  padding: 7px 0;
+  border-top: 1px solid var(--ar-rule);
+}
 .brand-marquees .brand-marquee::before,
 .brand-marquees .brand-marquee::after {
-  background: linear-gradient(90deg, #e4f0f6, rgba(228, 240, 246, 0));
+  background: linear-gradient(90deg, var(--ar-ground), rgba(231, 241, 244, 0));
 }
 .brand-marquees .brand-marquee::after { transform: scaleX(-1); }
 
 .brand-marquees .brand-marquee__item {
   opacity: 1;
-  color: #3d5566;
-  border: 1px solid rgba(255, 255, 255, .9);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, .62);
-  box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(120, 150, 175, .12);
-  margin: 0 5px;
+  margin: 0;
+  border: 0;
+  border-right: 1px solid var(--ar-rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ar-ink);
 }
 .brand-marquees .brand-marquee__item:hover,
 .brand-marquees .brand-marquee__item.is-armed {
-  background: #fff;
-  box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(120, 150, 175, .24);
+  background: var(--ar-hover);
+  box-shadow: none;
 }
 /* 🔑 唔好再抹白 */
 .brand-marquees .brand-marquee__logo { filter: none; }
 
-/* 展開嗰個 grid 一樣 */
+/* 展開嗰個 grid 一樣係細線格 */
+.brand-marquees .brand-grid {
+  border-left: 1px solid var(--ar-rule);
+  border-top: 1px solid var(--ar-rule);
+  gap: 0;
+}
 .brand-marquees .brand-grid__card {
-  border: 1px solid rgba(255, 255, 255, .9);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, .62);
-  box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(120, 150, 175, .12);
+  border: 0;
+  border-right: 1px solid var(--ar-rule);
+  border-bottom: 1px solid var(--ar-rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
-.brand-marquees .brand-grid__card:hover {
-  border-color: #fff;
-  background: #fff;
-  box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(120, 150, 175, .24);
-}
+.brand-marquees .brand-grid__card:hover { background: var(--ar-hover); box-shadow: none; }
 .brand-marquees .brand-grid__logo { filter: none; }
-.brand-marquees .brand-grid__name { color: #5c7d90; }
-
-/* ============================================================
-   品牌 logo 大細統一
-   ------------------------------------------------------------
-   老闆 2026-08-23：「有啲偏大、有啲偏細，要統一返適中嘅大細」。
-
-   點解會唔齊：56 個檔嘅畫布留白各有各唔同 —— 有啲 SVG 個字得畫布
-   一半高（rom&nd 51%），有啲頂晒（Torriden 100%）；PNG 更加亂。
-   淨係夾 `max-height` 係夾住個**畫布**唔係夾住個**字**，所以睇落大細不一。
-
-   做法：喺瀏覽器逐個量返真正嘅墨水框（SVG 用 getBBox，點陣圖用 canvas
-   掃 alpha ＋ 亮度），再按**墨水面積**歸一到大約 74×20，然後用
-   30px 高 / 104px 闊做上限收住極端嘅（好扁嘅 N's Collection、
-   好高嘅 HEVEBLUE）。下面每一行都係量出嚟嘅數，唔係手調估出嚟。
-
-   ⚠️ 加新牌子就要重新量一次，唔好逐個手 tune。
-   ============================================================ */
-.brands-page .brand-card img,
-.brand-marquees .brand-marquee__logo,
-.brand-marquees .brand-grid__logo { max-width: 100%; max-height: none; }
-/* 品牌頁用足尺，首頁走馬燈嗰格細啲，所以收 0.78 —— 一個倍率兩處共用，
-   唔使維護兩套數。 */
-.brands-page { --logo-k: 1; }
-.brand-marquees { --logo-k: .78; }
-.brands-page .brand-card img[src$="2an.svg"],
-.brand-marquees .brand-marquee__logo[src$="2an.svg"],
-.brand-marquees .brand-grid__logo[src$="2an.svg"] { width: calc(153px * var(--logo-k, 1)); height: calc(38.3px * var(--logo-k, 1)); }  /* 2aN */
-.brands-page .brand-card img[src$="abib.svg"],
-.brand-marquees .brand-marquee__logo[src$="abib.svg"],
-.brand-marquees .brand-grid__logo[src$="abib.svg"] { width: calc(69px * var(--logo-k, 1)); height: calc(21.4px * var(--logo-k, 1)); }  /* Abib */
-.brands-page .brand-card img[src$="amuse.svg"],
-.brand-marquees .brand-marquee__logo[src$="amuse.svg"],
-.brand-marquees .brand-grid__logo[src$="amuse.svg"] { width: calc(127.1px * var(--logo-k, 1)); height: calc(31.8px * var(--logo-k, 1)); }  /* AMUSE */
-.brands-page .brand-card img[src$="anua.png"],
-.brand-marquees .brand-marquee__logo[src$="anua.png"],
-.brand-marquees .brand-grid__logo[src$="anua.png"] { width: calc(106.2px * var(--logo-k, 1)); height: calc(24.5px * var(--logo-k, 1)); }  /* ANUA */
-.brands-page .brand-card img[src$="april-skin.svg"],
-.brand-marquees .brand-marquee__logo[src$="april-skin.svg"],
-.brand-marquees .brand-grid__logo[src$="april-skin.svg"] { width: calc(104px * var(--logo-k, 1)); height: calc(13.3px * var(--logo-k, 1)); }  /* April Skin */
-.brands-page .brand-card img[src$="arencia.png"],
-.brand-marquees .brand-marquee__logo[src$="arencia.png"],
-.brand-marquees .brand-grid__logo[src$="arencia.png"] { width: calc(80.7px * var(--logo-k, 1)); height: calc(18.3px * var(--logo-k, 1)); }  /* Arencia */
-.brands-page .brand-card img[src$="beauty-of-joseon.svg"],
-.brand-marquees .brand-marquee__logo[src$="beauty-of-joseon.svg"],
-.brand-marquees .brand-grid__logo[src$="beauty-of-joseon.svg"] { width: calc(135.1px * var(--logo-k, 1)); height: calc(33.8px * var(--logo-k, 1)); }  /* Beauty of Joseon */
-.brands-page .brand-card img[src$="beplain.png"],
-.brand-marquees .brand-marquee__logo[src$="beplain.png"],
-.brand-marquees .brand-grid__logo[src$="beplain.png"] { width: calc(77.7px * var(--logo-k, 1)); height: calc(22.2px * var(--logo-k, 1)); }  /* beplain */
-.brands-page .brand-card img[src$="boh.png"],
-.brand-marquees .brand-marquee__logo[src$="boh.png"],
-.brand-marquees .brand-grid__logo[src$="boh.png"] { width: calc(60.6px * var(--logo-k, 1)); height: calc(25.5px * var(--logo-k, 1)); }  /* BOH */
-.brands-page .brand-card img[src$="braye.svg"],
-.brand-marquees .brand-marquee__logo[src$="braye.svg"],
-.brand-marquees .brand-grid__logo[src$="braye.svg"] { width: calc(147.8px * var(--logo-k, 1)); height: calc(36.9px * var(--logo-k, 1)); }  /* BRAYE */
-.brands-page .brand-card img[src$="bring-green.svg"],
-.brand-marquees .brand-marquee__logo[src$="bring-green.svg"],
-.brand-marquees .brand-grid__logo[src$="bring-green.svg"] { width: calc(143.2px * var(--logo-k, 1)); height: calc(35.8px * var(--logo-k, 1)); }  /* Bring Green */
-.brands-page .brand-card img[src$="clio.svg"],
-.brand-marquees .brand-marquee__logo[src$="clio.svg"],
-.brand-marquees .brand-grid__logo[src$="clio.svg"] { width: calc(117.6px * var(--logo-k, 1)); height: calc(29.4px * var(--logo-k, 1)); }  /* CLIO */
-.brands-page .brand-card img[src$="coralhaze.svg"],
-.brand-marquees .brand-marquee__logo[src$="coralhaze.svg"],
-.brand-marquees .brand-grid__logo[src$="coralhaze.svg"] { width: calc(153.5px * var(--logo-k, 1)); height: calc(38.4px * var(--logo-k, 1)); }  /* Coralhaze */
-.brands-page .brand-card img[src$="cosrx.png"],
-.brand-marquees .brand-marquee__logo[src$="cosrx.png"],
-.brand-marquees .brand-grid__logo[src$="cosrx.png"] { width: calc(84.7px * var(--logo-k, 1)); height: calc(17.7px * var(--logo-k, 1)); }  /* COSRX */
-.brands-page .brand-card img[src$="dasique.png"],
-.brand-marquees .brand-marquee__logo[src$="dasique.png"],
-.brand-marquees .brand-grid__logo[src$="dasique.png"] { width: calc(80.3px * var(--logo-k, 1)); height: calc(26.5px * var(--logo-k, 1)); }  /* dasique */
-.brands-page .brand-card img[src$="dr-melaxin.png"],
-.brand-marquees .brand-marquee__logo[src$="dr-melaxin.png"],
-.brand-marquees .brand-grid__logo[src$="dr-melaxin.png"] { width: calc(94.7px * var(--logo-k, 1)); height: calc(15.6px * var(--logo-k, 1)); }  /* Dr. Melaxin */
-.brands-page .brand-card img[src$="dr-jart.svg"],
-.brand-marquees .brand-marquee__logo[src$="dr-jart.svg"],
-.brand-marquees .brand-grid__logo[src$="dr-jart.svg"] { width: calc(86.3px * var(--logo-k, 1)); height: calc(17.2px * var(--logo-k, 1)); }  /* Dr.Jart+ */
-.brands-page .brand-card img[src$="feliamo.svg"],
-.brand-marquees .brand-marquee__logo[src$="feliamo.svg"],
-.brand-marquees .brand-grid__logo[src$="feliamo.svg"] { width: calc(70.2px * var(--logo-k, 1)); height: calc(21.1px * var(--logo-k, 1)); }  /* Feliamo */
-.brands-page .brand-card img[src$="flower-knows.svg"],
-.brand-marquees .brand-marquee__logo[src$="flower-knows.svg"],
-.brand-marquees .brand-grid__logo[src$="flower-knows.svg"] { width: calc(159.5px * var(--logo-k, 1)); height: calc(39.9px * var(--logo-k, 1)); }  /* Flower Knows */
-.brands-page .brand-card img[src$="fwee.svg"],
-.brand-marquees .brand-marquee__logo[src$="fwee.svg"],
-.brand-marquees .brand-grid__logo[src$="fwee.svg"] { width: calc(173px * var(--logo-k, 1)); height: calc(43.3px * var(--logo-k, 1)); }  /* fwee */
-.brands-page .brand-card img[src$="glint.svg"],
-.brand-marquees .brand-marquee__logo[src$="glint.svg"],
-.brand-marquees .brand-grid__logo[src$="glint.svg"] { width: calc(138.1px * var(--logo-k, 1)); height: calc(34.5px * var(--logo-k, 1)); }  /* GLINT */
-.brands-page .brand-card img[src$="goodal.svg"],
-.brand-marquees .brand-marquee__logo[src$="goodal.svg"],
-.brand-marquees .brand-grid__logo[src$="goodal.svg"] { width: calc(165.1px * var(--logo-k, 1)); height: calc(41.3px * var(--logo-k, 1)); }  /* Goodal */
-.brands-page .brand-card img[src$="haruharu-wonder.png"],
-.brand-marquees .brand-marquee__logo[src$="haruharu-wonder.png"],
-.brand-marquees .brand-grid__logo[src$="haruharu-wonder.png"] { width: calc(104px * var(--logo-k, 1)); height: calc(10.4px * var(--logo-k, 1)); }  /* Haruharu Wonder */
-.brands-page .brand-card img[src$="heart-percent.svg"],
-.brand-marquees .brand-marquee__logo[src$="heart-percent.svg"],
-.brand-marquees .brand-grid__logo[src$="heart-percent.svg"] { width: calc(148.2px * var(--logo-k, 1)); height: calc(37px * var(--logo-k, 1)); }  /* Heart Percent */
-.brands-page .brand-card img[src$="heveblue.png"],
-.brand-marquees .brand-marquee__logo[src$="heveblue.png"],
-.brand-marquees .brand-grid__logo[src$="heveblue.png"] { width: calc(19.7px * var(--logo-k, 1)); height: calc(30px * var(--logo-k, 1)); }  /* HEVEBLUE */
-.brands-page .brand-card img[src$="hince.svg"],
-.brand-marquees .brand-marquee__logo[src$="hince.svg"],
-.brand-marquees .brand-grid__logo[src$="hince.svg"] { width: calc(165.3px * var(--logo-k, 1)); height: calc(41.3px * var(--logo-k, 1)); }  /* hince */
-.brands-page .brand-card img[src$="ilso.svg"],
-.brand-marquees .brand-marquee__logo[src$="ilso.svg"],
-.brand-marquees .brand-grid__logo[src$="ilso.svg"] { width: calc(55.5px * var(--logo-k, 1)); height: calc(26.7px * var(--logo-k, 1)); }  /* ILSO */
-.brands-page .brand-card img[src$="ksecret.png"],
-.brand-marquees .brand-marquee__logo[src$="ksecret.png"],
-.brand-marquees .brand-grid__logo[src$="ksecret.png"] { width: calc(82.2px * var(--logo-k, 1)); height: calc(18px * var(--logo-k, 1)); }  /* KSECRET */
-.brands-page .brand-card img[src$="laka.svg"],
-.brand-marquees .brand-marquee__logo[src$="laka.svg"],
-.brand-marquees .brand-grid__logo[src$="laka.svg"] { width: calc(150.5px * var(--logo-k, 1)); height: calc(37.6px * var(--logo-k, 1)); }  /* LAKA */
-.brands-page .brand-card img[src$="lilmoon.svg"],
-.brand-marquees .brand-marquee__logo[src$="lilmoon.svg"],
-.brand-marquees .brand-grid__logo[src$="lilmoon.svg"] { width: calc(75.7px * var(--logo-k, 1)); height: calc(19.5px * var(--logo-k, 1)); }  /* Lilmoon */
-.brands-page .brand-card img[src$="lilybyred.svg"],
-.brand-marquees .brand-marquee__logo[src$="lilybyred.svg"],
-.brand-marquees .brand-grid__logo[src$="lilybyred.svg"] { width: calc(181.9px * var(--logo-k, 1)); height: calc(45.5px * var(--logo-k, 1)); }  /* Lilybyred */
-.brands-page .brand-card img[src$="lindsay.png"],
-.brand-marquees .brand-marquee__logo[src$="lindsay.png"],
-.brand-marquees .brand-grid__logo[src$="lindsay.png"] { width: calc(74.9px * var(--logo-k, 1)); height: calc(19.8px * var(--logo-k, 1)); }  /* LINDSAY */
-.brands-page .brand-card img[src$="manyo.png"],
-.brand-marquees .brand-marquee__logo[src$="manyo.png"],
-.brand-marquees .brand-grid__logo[src$="manyo.png"] { width: calc(79.4px * var(--logo-k, 1)); height: calc(18.6px * var(--logo-k, 1)); }  /* ma:nyo */
-.brands-page .brand-card img[src$="maybelline.svg"],
-.brand-marquees .brand-marquee__logo[src$="maybelline.svg"],
-.brand-marquees .brand-grid__logo[src$="maybelline.svg"] { width: calc(127.6px * var(--logo-k, 1)); height: calc(31.9px * var(--logo-k, 1)); }  /* Maybelline */
-.brands-page .brand-card img[src$="mixsoon.svg"],
-.brand-marquees .brand-marquee__logo[src$="mixsoon.svg"],
-.brand-marquees .brand-grid__logo[src$="mixsoon.svg"] { width: calc(148px * var(--logo-k, 1)); height: calc(37px * var(--logo-k, 1)); }  /* MIXSOON */
-.brands-page .brand-card img[src$="molak.svg"],
-.brand-marquees .brand-marquee__logo[src$="molak.svg"],
-.brand-marquees .brand-grid__logo[src$="molak.svg"] { width: calc(75.4px * var(--logo-k, 1)); height: calc(19.6px * var(--logo-k, 1)); }  /* Molak */
-.brands-page .brand-card img[src$="ns-collection.svg"],
-.brand-marquees .brand-marquee__logo[src$="ns-collection.svg"],
-.brand-marquees .brand-grid__logo[src$="ns-collection.svg"] { width: calc(104.7px * var(--logo-k, 1)); height: calc(8.4px * var(--logo-k, 1)); }  /* N's Collection */
-.brands-page .brand-card img[src$="needly.svg"],
-.brand-marquees .brand-marquee__logo[src$="needly.svg"],
-.brand-marquees .brand-grid__logo[src$="needly.svg"] { width: calc(140.6px * var(--logo-k, 1)); height: calc(35.2px * var(--logo-k, 1)); }  /* Needly */
-.brands-page .brand-card img[src$="ootd.svg"],
-.brand-marquees .brand-marquee__logo[src$="ootd.svg"],
-.brand-marquees .brand-grid__logo[src$="ootd.svg"] { width: calc(132.3px * var(--logo-k, 1)); height: calc(33.1px * var(--logo-k, 1)); }  /* OOTD */
-.brands-page .brand-card img[src$="peripera.svg"],
-.brand-marquees .brand-marquee__logo[src$="peripera.svg"],
-.brand-marquees .brand-grid__logo[src$="peripera.svg"] { width: calc(160.9px * var(--logo-k, 1)); height: calc(40.2px * var(--logo-k, 1)); }  /* peripera */
-.brands-page .brand-card img[src$="purito.svg"],
-.brand-marquees .brand-marquee__logo[src$="purito.svg"],
-.brand-marquees .brand-grid__logo[src$="purito.svg"] { width: calc(130.9px * var(--logo-k, 1)); height: calc(32.7px * var(--logo-k, 1)); }  /* Purito */
-.brands-page .brand-card img[src$="romand.svg"],
-.brand-marquees .brand-marquee__logo[src$="romand.svg"],
-.brand-marquees .brand-grid__logo[src$="romand.svg"] { width: calc(159.1px * var(--logo-k, 1)); height: calc(39.8px * var(--logo-k, 1)); }  /* rom&nd */
-.brands-page .brand-card img[src$="round-lab.svg"],
-.brand-marquees .brand-marquee__logo[src$="round-lab.svg"],
-.brand-marquees .brand-grid__logo[src$="round-lab.svg"] { width: calc(147.1px * var(--logo-k, 1)); height: calc(36.8px * var(--logo-k, 1)); }  /* Round Lab */
-.brands-page .brand-card img[src$="skin1004.png"],
-.brand-marquees .brand-marquee__logo[src$="skin1004.png"],
-.brand-marquees .brand-grid__logo[src$="skin1004.png"] { width: calc(104px * var(--logo-k, 1)); height: calc(15.9px * var(--logo-k, 1)); }  /* SKIN1004 */
-.brands-page .brand-card img[src$="skinfood.svg"],
-.brand-marquees .brand-marquee__logo[src$="skinfood.svg"],
-.brand-marquees .brand-grid__logo[src$="skinfood.svg"] { width: calc(161.1px * var(--logo-k, 1)); height: calc(40.3px * var(--logo-k, 1)); }  /* Skinfood */
-.brands-page .brand-card img[src$="so-natural.png"],
-.brand-marquees .brand-marquee__logo[src$="so-natural.png"],
-.brand-marquees .brand-grid__logo[src$="so-natural.png"] { width: calc(45.3px * var(--logo-k, 1)); height: calc(31.6px * var(--logo-k, 1)); }  /* SO Natural */
-.brands-page .brand-card img[src$="solep.png"],
-.brand-marquees .brand-marquee__logo[src$="solep.png"],
-.brand-marquees .brand-grid__logo[src$="solep.png"] { width: calc(62.6px * var(--logo-k, 1)); height: calc(23.6px * var(--logo-k, 1)); }  /* SOLEP */
-.brands-page .brand-card img[src$="some-by-mi.svg"],
-.brand-marquees .brand-marquee__logo[src$="some-by-mi.svg"],
-.brand-marquees .brand-grid__logo[src$="some-by-mi.svg"] { width: calc(157.3px * var(--logo-k, 1)); height: calc(39.3px * var(--logo-k, 1)); }  /* Some By Mi */
-.brands-page .brand-card img[src$="sungboon-editor.png"],
-.brand-marquees .brand-marquee__logo[src$="sungboon-editor.png"],
-.brand-marquees .brand-grid__logo[src$="sungboon-editor.png"] { width: calc(107.1px * var(--logo-k, 1)); height: calc(30.6px * var(--logo-k, 1)); }  /* SUNGBOON EDITOR */
-.brands-page .brand-card img[src$="tirtir.svg"],
-.brand-marquees .brand-marquee__logo[src$="tirtir.svg"],
-.brand-marquees .brand-grid__logo[src$="tirtir.svg"] { width: calc(151.6px * var(--logo-k, 1)); height: calc(37.9px * var(--logo-k, 1)); }  /* TIRTIR */
-.brands-page .brand-card img[src$="tocobo.svg"],
-.brand-marquees .brand-marquee__logo[src$="tocobo.svg"],
-.brand-marquees .brand-grid__logo[src$="tocobo.svg"] { width: calc(90.7px * var(--logo-k, 1)); height: calc(16.4px * var(--logo-k, 1)); }  /* TOCOBO */
-.brands-page .brand-card img[src$="topards.svg"],
-.brand-marquees .brand-marquee__logo[src$="topards.svg"],
-.brand-marquees .brand-grid__logo[src$="topards.svg"] { width: calc(79.6px * var(--logo-k, 1)); height: calc(18.6px * var(--logo-k, 1)); }  /* TOPARDS */
-.brands-page .brand-card img[src$="torriden.svg"],
-.brand-marquees .brand-marquee__logo[src$="torriden.svg"],
-.brand-marquees .brand-grid__logo[src$="torriden.svg"] { width: calc(88.1px * var(--logo-k, 1)); height: calc(16.8px * var(--logo-k, 1)); }  /* Torriden */
-.brands-page .brand-card img[src$="unleashia.svg"],
-.brand-marquees .brand-marquee__logo[src$="unleashia.svg"],
-.brand-marquees .brand-grid__logo[src$="unleashia.svg"] { width: calc(142.6px * var(--logo-k, 1)); height: calc(35.7px * var(--logo-k, 1)); }  /* UNLEASHIA */
-.brands-page .brand-card img[src$="vt-cosmetics.png"],
-.brand-marquees .brand-marquee__logo[src$="vt-cosmetics.png"],
-.brand-marquees .brand-grid__logo[src$="vt-cosmetics.png"] { width: calc(96.9px * var(--logo-k, 1)); height: calc(15.3px * var(--logo-k, 1)); }  /* VT Cosmetics */
-.brands-page .brand-card img[src$="wakemake.svg"],
-.brand-marquees .brand-marquee__logo[src$="wakemake.svg"],
-.brand-marquees .brand-grid__logo[src$="wakemake.svg"] { width: calc(129.5px * var(--logo-k, 1)); height: calc(32.4px * var(--logo-k, 1)); }  /* WAKEMAKE */
+.brand-marquees .brand-grid__name {
+  color: var(--ar-soft);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+}
 
 /* ============================================================
    品牌頁：Archive 檔案室（OUJI 淺藍）
