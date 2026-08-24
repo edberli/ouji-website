@@ -10597,9 +10597,12 @@ body::before { opacity: 0.18; }
   letter-spacing: 0.04em;
   vertical-align: 2px;
 }
+/* 🔴 兩個章唔可以疊：ribbon 喺左上，佢就要去左下。
+   原本擺 top:62px，但 ribbon 本身高過 46px，兩個實撞。
+   老闆手機同電腦都影到重疊。 */
 .promo__stock {
   position: absolute;
-  left: 16px; top: 62px;
+  left: 16px; bottom: 16px;
   padding: 5px 12px;
   border-radius: 999px;
   background: rgba(200, 69, 47, 0.94);
