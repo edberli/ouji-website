@@ -8330,9 +8330,7 @@ body::before { opacity: 0.18; }
 .section--warm { background: #ffffff; }
 .cat-cards__title,
 .cat-card__name { color: var(--primary-deep); }
-.cat-cards__ko,
-.cat-cards__count,
-.cat-card__n { color: var(--primary-darker); }
+.cat-cards__ko { color: var(--primary-darker); }
 .product-card__image-wrap { background: var(--surface-alt); }
 .product-card__brand { color: var(--primary-darker); }
 .section--concerns { background: var(--primary-lightest); }

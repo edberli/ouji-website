@@ -366,14 +366,16 @@ async function initHome() {
       if (img && !CAT_SHOT[c.label]) taken.add(img.url);
       /* 由細圓形改做卡。圓形得 78px，張相入面睇到嘅嘢太細，
          十一個細圓排埋一齊反而似一串頭像多過似入口。
-         卡有相有名有件數，撳落去嗰下亦都有反應。 */
+
+         唔再喺卡上面寫件數。「542 件」幫唔到人揀嘢 —— 冇人因為護膚有
+         542 件而揀護膚，佢係嚟搵護膚咋。個數字只係後台知識，擺喺入口
+         度反而要人多讀一行。件數喺分類頁本身仲喺度，嗰度先真係有用。 */
       return `<a class="cat-card" href="${c.href}">
         <span class="cat-card__shot">
           ${shot ? `<img src="${shot}" alt="" loading="lazy">` : ''}
         </span>
         <span class="cat-card__body">
           <span class="cat-card__name">${c.label}</span>
-          <span class="cat-card__n">${list.length} 件</span>
         </span>
       </a>`;
     }).join('');
