@@ -237,6 +237,18 @@
               <button type="button">套用</button>
             </div>
 
+            <!-- 芝麻喺收銀處等緊你。結帳係最易走人嗰一步，
+                 有個人喺度會冇咁似同一部機講嘢。
+                 六格連續分解圖，同首頁打包裹嗰隻同一套做法。 -->
+            <div class="shima shima--cash" aria-hidden="true">
+              <img class="shima__f is-on" src="assets/images/home/shima-cash1.webp" alt="" width="299" height="340" loading="lazy" decoding="async">
+              <img class="shima__f" src="assets/images/home/shima-cash2.webp" alt="" width="304" height="340" loading="lazy" decoding="async">
+              <img class="shima__f" src="assets/images/home/shima-cash3.webp" alt="" width="303" height="340" loading="lazy" decoding="async">
+              <img class="shima__f" src="assets/images/home/shima-cash4.webp" alt="" width="250" height="340" loading="lazy" decoding="async">
+              <img class="shima__f" src="assets/images/home/shima-cash5.webp" alt="" width="323" height="340" loading="lazy" decoding="async">
+              <img class="shima__f" src="assets/images/home/shima-cash6.webp" alt="" width="247" height="340" loading="lazy" decoding="async">
+            </div>
+
             <div class="cart-summary__checkout">
               <button class="btn btn--primary btn--full">前往結帳</button>
             </div>
@@ -742,6 +754,28 @@
     await removeCartLine(lineId);
     location.reload();
   };
+  </script>
+
+  <script>
+  /* 芝麻換格動畫（共用寫法，同首頁一樣）。
+     捲出視窗停、背景 tab 停、reduced-motion 唔行。 */
+  (function () {
+    document.querySelectorAll('.shima').forEach(function (box) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var f = box.querySelectorAll('.shima__f');
+      if (f.length < 2) return;
+      var i = 0, timer = null;
+      function tick() { f[i].classList.remove('is-on'); i = (i + 1) % f.length; f[i].classList.add('is-on'); }
+      function start() {
+        f.forEach(function (im) { im.loading = 'eager'; });
+        if (!timer) timer = setInterval(tick, 260);
+      }
+      function stop() { clearInterval(timer); timer = null; }
+      new IntersectionObserver(function (es) { es[0].isIntersecting ? start() : stop(); },
+        { threshold: 0.15 }).observe(box);
+      document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+    });
+  })();
   </script>
 </body>
 </html>

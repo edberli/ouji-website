@@ -10622,3 +10622,29 @@ body::before { opacity: 0.18; }
 .promo__title b { font-weight: 600; }
 @container (min-width: 760px) {
 
+
+/* ============================================================
+   芝麻動畫（共用）
+   ------------------------------------------------------------
+   六格連續分解圖疊住，一次顯示一格，260ms 換一格。
+   ⚠️ 唔可以加 transition —— 260ms 一格再淡入會兩格疊住，變鬼影。
+   ⚠️ 一定要用「同一動作嘅連續分解」，唔可以攞幾個唔同動作快播。
+   ============================================================ */
+.shima { position: relative; pointer-events: none; }
+.shima__f {
+  position: absolute; inset: 0; margin: auto;
+  max-width: 100%; max-height: 100%; width: auto; height: auto;
+  opacity: 0;
+}
+.shima__f.is-on { opacity: 1; }
+
+/* 購物袋：收銀芝麻企喺「前往結帳」上面 */
+/* ⚠️ .cart-summary 係 flex column ＋ stretch，淨靠 aspect-ratio 個盒會
+   畀拉到成欄咁高（實測 302×2015）。要寫死高度兼 flex: none。 */
+.shima--cash {
+  flex: none;
+  align-self: center;
+  width: 190px;
+  height: 216px;
+  margin: 6px auto -4px;
+}
