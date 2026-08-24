@@ -1179,6 +1179,18 @@ function initHScrollArrows() {
         Math.round(t.left - s.left + parseFloat(cs.paddingLeft || 0)) + 'px');
       shell.style.setProperty('--hs-inset-end',
         Math.round(s.right - t.right + parseFloat(cs.paddingRight || 0)) + 'px');
+
+      /* 垂直方向對齊「張相」嘅中心，唔係成行嘅中心。
+         產品卡係相 ＋ 品牌 ＋ 名 ＋ 星 ＋ 價錢，文字佔咗成半高度；
+         用 top:50% 個掣就會沉咗落去卡嘅文字度，睇落唔知佢對緊咩。 */
+      const card = track.firstElementChild;
+      const media = card && (card.querySelector('img') || card.firstElementChild);
+      if (media) {
+        const m = media.getBoundingClientRect();
+        if (m.height > 8) {
+          shell.style.setProperty('--hs-mid', Math.round(m.top - s.top + m.height / 2) + 'px');
+        }
+      }
     };
     sync();
     track._hsSync = sync;
