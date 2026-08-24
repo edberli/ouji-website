@@ -260,10 +260,14 @@
     <!-- 客一入到嚟最想做嘅係搵嘢，唔係讀我哋自我介紹。
          呢一格本來排喺第六位，要碌三個螢幕先見到 —— 搬咗上嚟。 -->
     <section class="section--sm section-float">
-      <div class="container">
+      <div class="container cat-cards__head reveal-blur">
         <!-- 一行細標題就夠。本來係「分類選購」＋一個好大嘅「探索分類」，
-             兩行字講同一件事，仲要大過下面啲卡本身。 -->
-        <h2 class="cat-cards__title reveal-blur">產品分類</h2>
+             兩行字講同一件事，仲要大過下面啲卡本身。
+             標題由居中改咗做左對齊一行：標題、韓文小字、件數靠右。
+             居中標題喺一條淨係向右掃嘅 rail 上面，同下面嘅內容對唔上。 -->
+        <h2 class="cat-cards__title">產品分類</h2>
+        <span class="cat-cards__ko" aria-hidden="true">세라믹</span>
+        <span class="cat-cards__count" data-home-cats-count></span>
       </div>
       <div class="cat-cards" data-home-cats></div>
     </section>

@@ -6208,9 +6208,11 @@ html.is-lite .brand-rail__crest { filter: none; }
   scrollbar-width: none;
   scroll-snap-type: x proximity;
   scroll-padding-inline-start: var(--space-md, 16px);
-  padding: 4px var(--space-md, 16px) var(--space-md, 16px);
-  /* 貼到螢幕邊，睇落係「仲有得掃」而唔係「一個裝滿咗嘅盒」 */
-  margin-inline: calc(var(--space-md, 16px) * -1);
+  padding: 6px var(--space-md, 16px) var(--space-md, 16px);
+  /* 本來仲有 margin-inline: -16px，令第一張卡貼實螢幕邊，
+     當時嘅理由係「貼到邊睇落仲有得掃」。陶瓷相框有 24px 圓角同
+     一道外影，貼邊就會俾螢幕切走半隻角，似崩咗多過似掃得。
+     右邊嗰張卡照樣露一截，「仲有得掃」呢個訊號一樣收到。 */
 }
 .cat-cards::-webkit-scrollbar { display: none; }
 
@@ -9887,97 +9889,128 @@ body::before { opacity: 0.18; }
 .brands-page .brand-card img[alt="AXIS-Y"] { background: #4a5b66; border-radius: 3px; padding: 4px 6px; }
 
 /* ============================================================
-   首頁「Our Brands」：同品牌頁一樣，改做 XP Explorer 窗
+   首頁「Our Brands」：跟品牌頁轉水光玻璃
    ------------------------------------------------------------
-   之前：深藍底 ＋ 煙霧片 ＋ `filter: brightness(0) invert(1)`
-   —— 35 個牌子嘅招牌色全部被抹白，同品牌頁一模一樣嘅病。
-   走馬燈本身留住（嗰個動感係呢格嘅性格），淨係換底同解除抹白。
+   兩格都係「我哋入嘅牌子」，用兩套樣客會覺得撳咗入去跳咗第二個網站。
+   護膚配方同全部產品就唔跟 —— 嗰啲係功能版面，XP 控制台喺嗰度幫到手。
+
+   底色同品牌頁一模一樣（OUJI 淺藍，同 loading 畫面一家人），
+   窗框收起淨返一行標題，走馬燈本身留住 —— 嗰個動感就係呢格嘅性格。
    ============================================================ */
 .brand-marquees {
-  /* 淺 XP 藍，等個窗睇落似擺喺桌面上面 */
   background:
-    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, .3), transparent 52%),
-    linear-gradient(160deg, #a9cfdd 0%, #7fb2c6 55%, #5d93a8 100%);
+    radial-gradient(120% 88% at 10% 6%, #cfe7f0 0%, transparent 55%),
+    radial-gradient(108% 96% at 90% 18%, #b7dcea 0%, transparent 58%),
+    linear-gradient(150deg, #eef6f9, #dfeef4 55%, #cfe4ec);
 }
 .brand-marquees__video { display: none; }
-.brand-marquees .section-header__title { color: #143a4a; }
+.brand-marquees .section-header__title { color: #3d5566; }
 
+/* 個窗變磨砂玻璃面板 */
 .bxp--marquee {
-  margin-top: clamp(18px, 2.4vw, 30px);
-  margin-bottom: 0;
+  width: min(1280px, calc(100% - 28px));
+  margin: clamp(16px, 2.2vw, 26px) auto 0;
+  border: 1px solid rgba(255, 255, 255, .85);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .42);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 50px rgba(120, 150, 175, .22), inset 0 1px 0 #fff;
+  overflow: hidden;
 }
-.bxp--marquee .bxp__body { padding-bottom: 8px; }
+.bxp--marquee .bxp__menu,
+.bxp--marquee .bxp__ctl,
+.bxp--marquee .bxp__ico { display: none; }
+.bxp--marquee .bxp__bar {
+  height: auto;
+  padding: 18px 22px 2px;
+  background: none;
+  box-shadow: none;
+  color: #3d5566;
+  text-shadow: none;
+}
+.bxp--marquee .bxp__name { font-size: 15px; font-weight: 500; letter-spacing: .18em; }
+.bxp--marquee .bxp__body { background: transparent; padding: 0 10px 4px; }
+.bxp--marquee .bxp__status {
+  padding: 8px 22px 16px;
+  border: 0;
+  background: none;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: #7d97a8;
+}
+.bxp--marquee .bxp__status span { padding: 0; border: 0; background: none; }
 
-/* 分區標題行放入個窗，變返 Explorer 嘅群組列 */
+/* 分區列：由 Explorer 群組條變返一行細標題 */
 .brand-marquees .brand-marquees__section { padding: 0; background: none; }
-/* Explorer 嘅群組列係一條窄橫帶：左邊分類名、右邊「瀏覽全部」。
-   ⚠️ 一定要寫返 flex-direction: row —— 上面 .brand-marquees__section-header
-   本身係 column（原本嗰個置中分隔線設計），唔 reset 就會繼續上下疊，
-   喺窗入面變咗一大浸藍。 */
 .brand-marquees .brand-marquees__section-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 12px 0 4px;
-  padding: 4px 12px;
-  border: 1px solid #a7c4e8;
-  border-radius: 3px;
-  background: linear-gradient(#eaf2fd, #d6e6fb);
+  margin: 12px 12px 4px;
+  padding: 0;
+  border: 0;
+  background: none;
   text-align: left;
 }
 .brand-marquees .brand-section-title { margin: 0; }
-.brand-marquees .brand-marquee { padding: 2px 0; }
 .brand-marquees .brand-marquees__label {
   margin: 0;
-  color: #12457f;
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .1em;
+  color: #6d8798;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .18em;
 }
 .brand-marquees .brand-section-toggle {
   flex: none;
   margin: 0;
   padding: 0;
-  color: #12457f;
+  color: #5c7d90;
   font-size: .6875rem;
-  opacity: .85;
+  opacity: .9;
 }
 .brand-marquees .brand-section-toggle:hover { opacity: 1; }
 
-/* 走馬燈：白底，兩邊淡出用白色唔用深色 */
-.brand-marquees .brand-marquee { background: #fff; }
+/* 走馬燈：玻璃磚，兩邊淡出用底色唔用白色 */
+.brand-marquees .brand-marquee { background: transparent; padding: 3px 0; }
 .brand-marquees .brand-marquee::before,
 .brand-marquees .brand-marquee::after {
-  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0));
+  background: linear-gradient(90deg, #e4f0f6, rgba(228, 240, 246, 0));
 }
 .brand-marquees .brand-marquee::after { transform: scaleX(-1); }
 
 .brand-marquees .brand-marquee__item {
   opacity: 1;
-  color: #4a4740;
-  border-radius: 4px;
+  color: #3d5566;
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .62);
+  box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(120, 150, 175, .12);
+  margin: 0 5px;
 }
 .brand-marquees .brand-marquee__item:hover,
 .brand-marquees .brand-marquee__item.is-armed {
-  background: #eaf1fd;                 /* XP 揀中嗰隻藍 */
+  background: #fff;
+  box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(120, 150, 175, .24);
 }
 /* 🔑 唔好再抹白 */
 .brand-marquees .brand-marquee__logo { filter: none; }
 
-/* 展開嗰個 grid 一樣要白底原色 */
+/* 展開嗰個 grid 一樣 */
 .brand-marquees .brand-grid__card {
-  border: 1px solid #d4d0c4;
-  border-radius: 4px;
-  background: #fff;
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .62);
+  box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(120, 150, 175, .12);
 }
 .brand-marquees .brand-grid__card:hover {
-  border-color: #316ac5;
-  background: #eaf1fd;
+  border-color: #fff;
+  background: #fff;
+  box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(120, 150, 175, .24);
 }
 .brand-marquees .brand-grid__logo { filter: none; }
-.brand-marquees .brand-grid__name { color: #4a4740; }
+.brand-marquees .brand-grid__name { color: #5c7d90; }
 
 /* ============================================================
    品牌頁：水光玻璃（老闆 2026-08-23 揀咗呢個）
@@ -10063,60 +10096,178 @@ body::before { opacity: 0.18; }
 
    ⚠️ 加新牌子就要重新量一次，唔好逐個手 tune。
    ============================================================ */
-.brands-page .brand-card img { max-width: 100%; max-height: none; }
-.brands-page .brand-card img[src$="2an.svg"] { width: 153px; height: 38.3px; }  /* 2aN */
-.brands-page .brand-card img[src$="abib.svg"] { width: 69px; height: 21.4px; }  /* Abib */
-.brands-page .brand-card img[src$="amuse.svg"] { width: 127.1px; height: 31.8px; }  /* AMUSE */
-.brands-page .brand-card img[src$="anua.png"] { width: 106.2px; height: 24.5px; }  /* ANUA */
-.brands-page .brand-card img[src$="april-skin.svg"] { width: 104px; height: 13.3px; }  /* April Skin */
-.brands-page .brand-card img[src$="arencia.png"] { width: 80.7px; height: 18.3px; }  /* Arencia */
-.brands-page .brand-card img[src$="beauty-of-joseon.svg"] { width: 135.1px; height: 33.8px; }  /* Beauty of Joseon */
-.brands-page .brand-card img[src$="beplain.png"] { width: 77.7px; height: 22.2px; }  /* beplain */
-.brands-page .brand-card img[src$="boh.png"] { width: 60.6px; height: 25.5px; }  /* BOH */
-.brands-page .brand-card img[src$="braye.svg"] { width: 147.8px; height: 36.9px; }  /* BRAYE */
-.brands-page .brand-card img[src$="bring-green.svg"] { width: 143.2px; height: 35.8px; }  /* Bring Green */
-.brands-page .brand-card img[src$="clio.svg"] { width: 117.6px; height: 29.4px; }  /* CLIO */
-.brands-page .brand-card img[src$="coralhaze.svg"] { width: 153.5px; height: 38.4px; }  /* Coralhaze */
-.brands-page .brand-card img[src$="cosrx.png"] { width: 84.7px; height: 17.7px; }  /* COSRX */
-.brands-page .brand-card img[src$="dasique.png"] { width: 80.3px; height: 26.5px; }  /* dasique */
-.brands-page .brand-card img[src$="dr-melaxin.png"] { width: 94.7px; height: 15.6px; }  /* Dr. Melaxin */
-.brands-page .brand-card img[src$="dr-jart.svg"] { width: 86.3px; height: 17.2px; }  /* Dr.Jart+ */
-.brands-page .brand-card img[src$="feliamo.svg"] { width: 70.2px; height: 21.1px; }  /* Feliamo */
-.brands-page .brand-card img[src$="flower-knows.svg"] { width: 159.5px; height: 39.9px; }  /* Flower Knows */
-.brands-page .brand-card img[src$="fwee.svg"] { width: 173px; height: 43.3px; }  /* fwee */
-.brands-page .brand-card img[src$="glint.svg"] { width: 138.1px; height: 34.5px; }  /* GLINT */
-.brands-page .brand-card img[src$="goodal.svg"] { width: 165.1px; height: 41.3px; }  /* Goodal */
-.brands-page .brand-card img[src$="haruharu-wonder.png"] { width: 104px; height: 10.4px; }  /* Haruharu Wonder */
-.brands-page .brand-card img[src$="heart-percent.svg"] { width: 148.2px; height: 37px; }  /* Heart Percent */
-.brands-page .brand-card img[src$="heveblue.png"] { width: 19.7px; height: 30px; }  /* HEVEBLUE */
-.brands-page .brand-card img[src$="hince.svg"] { width: 165.3px; height: 41.3px; }  /* hince */
-.brands-page .brand-card img[src$="ilso.svg"] { width: 55.5px; height: 26.7px; }  /* ILSO */
-.brands-page .brand-card img[src$="ksecret.png"] { width: 82.2px; height: 18px; }  /* KSECRET */
-.brands-page .brand-card img[src$="laka.svg"] { width: 150.5px; height: 37.6px; }  /* LAKA */
-.brands-page .brand-card img[src$="lilmoon.svg"] { width: 75.7px; height: 19.5px; }  /* Lilmoon */
-.brands-page .brand-card img[src$="lilybyred.svg"] { width: 181.9px; height: 45.5px; }  /* Lilybyred */
-.brands-page .brand-card img[src$="lindsay.png"] { width: 74.9px; height: 19.8px; }  /* LINDSAY */
-.brands-page .brand-card img[src$="manyo.png"] { width: 79.4px; height: 18.6px; }  /* ma:nyo */
-.brands-page .brand-card img[src$="maybelline.svg"] { width: 127.6px; height: 31.9px; }  /* Maybelline */
-.brands-page .brand-card img[src$="mixsoon.svg"] { width: 148px; height: 37px; }  /* MIXSOON */
-.brands-page .brand-card img[src$="molak.svg"] { width: 75.4px; height: 19.6px; }  /* Molak */
-.brands-page .brand-card img[src$="ns-collection.svg"] { width: 104.7px; height: 8.4px; }  /* N's Collection */
-.brands-page .brand-card img[src$="needly.svg"] { width: 140.6px; height: 35.2px; }  /* Needly */
-.brands-page .brand-card img[src$="ootd.svg"] { width: 132.3px; height: 33.1px; }  /* OOTD */
-.brands-page .brand-card img[src$="peripera.svg"] { width: 160.9px; height: 40.2px; }  /* peripera */
-.brands-page .brand-card img[src$="purito.svg"] { width: 130.9px; height: 32.7px; }  /* Purito */
-.brands-page .brand-card img[src$="romand.svg"] { width: 159.1px; height: 39.8px; }  /* rom&nd */
-.brands-page .brand-card img[src$="round-lab.svg"] { width: 147.1px; height: 36.8px; }  /* Round Lab */
-.brands-page .brand-card img[src$="skin1004.png"] { width: 104px; height: 15.9px; }  /* SKIN1004 */
-.brands-page .brand-card img[src$="skinfood.svg"] { width: 161.1px; height: 40.3px; }  /* Skinfood */
-.brands-page .brand-card img[src$="so-natural.png"] { width: 45.3px; height: 31.6px; }  /* SO Natural */
-.brands-page .brand-card img[src$="solep.png"] { width: 62.6px; height: 23.6px; }  /* SOLEP */
-.brands-page .brand-card img[src$="some-by-mi.svg"] { width: 157.3px; height: 39.3px; }  /* Some By Mi */
-.brands-page .brand-card img[src$="sungboon-editor.png"] { width: 107.1px; height: 30.6px; }  /* SUNGBOON EDITOR */
-.brands-page .brand-card img[src$="tirtir.svg"] { width: 151.6px; height: 37.9px; }  /* TIRTIR */
-.brands-page .brand-card img[src$="tocobo.svg"] { width: 90.7px; height: 16.4px; }  /* TOCOBO */
-.brands-page .brand-card img[src$="topards.svg"] { width: 79.6px; height: 18.6px; }  /* TOPARDS */
-.brands-page .brand-card img[src$="torriden.svg"] { width: 88.1px; height: 16.8px; }  /* Torriden */
-.brands-page .brand-card img[src$="unleashia.svg"] { width: 142.6px; height: 35.7px; }  /* UNLEASHIA */
-.brands-page .brand-card img[src$="vt-cosmetics.png"] { width: 96.9px; height: 15.3px; }  /* VT Cosmetics */
-.brands-page .brand-card img[src$="wakemake.svg"] { width: 129.5px; height: 32.4px; }  /* WAKEMAKE */
+.brands-page .brand-card img,
+.brand-marquees .brand-marquee__logo,
+.brand-marquees .brand-grid__logo { max-width: 100%; max-height: none; }
+/* 品牌頁用足尺，首頁走馬燈嗰格細啲，所以收 0.78 —— 一個倍率兩處共用，
+   唔使維護兩套數。 */
+.brands-page { --logo-k: 1; }
+.brand-marquees { --logo-k: .78; }
+.brands-page .brand-card img[src$="2an.svg"],
+.brand-marquees .brand-marquee__logo[src$="2an.svg"],
+.brand-marquees .brand-grid__logo[src$="2an.svg"] { width: calc(153px * var(--logo-k, 1)); height: calc(38.3px * var(--logo-k, 1)); }  /* 2aN */
+.brands-page .brand-card img[src$="abib.svg"],
+.brand-marquees .brand-marquee__logo[src$="abib.svg"],
+.brand-marquees .brand-grid__logo[src$="abib.svg"] { width: calc(69px * var(--logo-k, 1)); height: calc(21.4px * var(--logo-k, 1)); }  /* Abib */
+.brands-page .brand-card img[src$="amuse.svg"],
+.brand-marquees .brand-marquee__logo[src$="amuse.svg"],
+.brand-marquees .brand-grid__logo[src$="amuse.svg"] { width: calc(127.1px * var(--logo-k, 1)); height: calc(31.8px * var(--logo-k, 1)); }  /* AMUSE */
+.brands-page .brand-card img[src$="anua.png"],
+.brand-marquees .brand-marquee__logo[src$="anua.png"],
+.brand-marquees .brand-grid__logo[src$="anua.png"] { width: calc(106.2px * var(--logo-k, 1)); height: calc(24.5px * var(--logo-k, 1)); }  /* ANUA */
+.brands-page .brand-card img[src$="april-skin.svg"],
+.brand-marquees .brand-marquee__logo[src$="april-skin.svg"],
+.brand-marquees .brand-grid__logo[src$="april-skin.svg"] { width: calc(104px * var(--logo-k, 1)); height: calc(13.3px * var(--logo-k, 1)); }  /* April Skin */
+.brands-page .brand-card img[src$="arencia.png"],
+.brand-marquees .brand-marquee__logo[src$="arencia.png"],
+.brand-marquees .brand-grid__logo[src$="arencia.png"] { width: calc(80.7px * var(--logo-k, 1)); height: calc(18.3px * var(--logo-k, 1)); }  /* Arencia */
+.brands-page .brand-card img[src$="beauty-of-joseon.svg"],
+.brand-marquees .brand-marquee__logo[src$="beauty-of-joseon.svg"],
+.brand-marquees .brand-grid__logo[src$="beauty-of-joseon.svg"] { width: calc(135.1px * var(--logo-k, 1)); height: calc(33.8px * var(--logo-k, 1)); }  /* Beauty of Joseon */
+.brands-page .brand-card img[src$="beplain.png"],
+.brand-marquees .brand-marquee__logo[src$="beplain.png"],
+.brand-marquees .brand-grid__logo[src$="beplain.png"] { width: calc(77.7px * var(--logo-k, 1)); height: calc(22.2px * var(--logo-k, 1)); }  /* beplain */
+.brands-page .brand-card img[src$="boh.png"],
+.brand-marquees .brand-marquee__logo[src$="boh.png"],
+.brand-marquees .brand-grid__logo[src$="boh.png"] { width: calc(60.6px * var(--logo-k, 1)); height: calc(25.5px * var(--logo-k, 1)); }  /* BOH */
+.brands-page .brand-card img[src$="braye.svg"],
+.brand-marquees .brand-marquee__logo[src$="braye.svg"],
+.brand-marquees .brand-grid__logo[src$="braye.svg"] { width: calc(147.8px * var(--logo-k, 1)); height: calc(36.9px * var(--logo-k, 1)); }  /* BRAYE */
+.brands-page .brand-card img[src$="bring-green.svg"],
+.brand-marquees .brand-marquee__logo[src$="bring-green.svg"],
+.brand-marquees .brand-grid__logo[src$="bring-green.svg"] { width: calc(143.2px * var(--logo-k, 1)); height: calc(35.8px * var(--logo-k, 1)); }  /* Bring Green */
+.brands-page .brand-card img[src$="clio.svg"],
+.brand-marquees .brand-marquee__logo[src$="clio.svg"],
+.brand-marquees .brand-grid__logo[src$="clio.svg"] { width: calc(117.6px * var(--logo-k, 1)); height: calc(29.4px * var(--logo-k, 1)); }  /* CLIO */
+.brands-page .brand-card img[src$="coralhaze.svg"],
+.brand-marquees .brand-marquee__logo[src$="coralhaze.svg"],
+.brand-marquees .brand-grid__logo[src$="coralhaze.svg"] { width: calc(153.5px * var(--logo-k, 1)); height: calc(38.4px * var(--logo-k, 1)); }  /* Coralhaze */
+.brands-page .brand-card img[src$="cosrx.png"],
+.brand-marquees .brand-marquee__logo[src$="cosrx.png"],
+.brand-marquees .brand-grid__logo[src$="cosrx.png"] { width: calc(84.7px * var(--logo-k, 1)); height: calc(17.7px * var(--logo-k, 1)); }  /* COSRX */
+.brands-page .brand-card img[src$="dasique.png"],
+.brand-marquees .brand-marquee__logo[src$="dasique.png"],
+.brand-marquees .brand-grid__logo[src$="dasique.png"] { width: calc(80.3px * var(--logo-k, 1)); height: calc(26.5px * var(--logo-k, 1)); }  /* dasique */
+.brands-page .brand-card img[src$="dr-melaxin.png"],
+.brand-marquees .brand-marquee__logo[src$="dr-melaxin.png"],
+.brand-marquees .brand-grid__logo[src$="dr-melaxin.png"] { width: calc(94.7px * var(--logo-k, 1)); height: calc(15.6px * var(--logo-k, 1)); }  /* Dr. Melaxin */
+.brands-page .brand-card img[src$="dr-jart.svg"],
+.brand-marquees .brand-marquee__logo[src$="dr-jart.svg"],
+.brand-marquees .brand-grid__logo[src$="dr-jart.svg"] { width: calc(86.3px * var(--logo-k, 1)); height: calc(17.2px * var(--logo-k, 1)); }  /* Dr.Jart+ */
+.brands-page .brand-card img[src$="feliamo.svg"],
+.brand-marquees .brand-marquee__logo[src$="feliamo.svg"],
+.brand-marquees .brand-grid__logo[src$="feliamo.svg"] { width: calc(70.2px * var(--logo-k, 1)); height: calc(21.1px * var(--logo-k, 1)); }  /* Feliamo */
+.brands-page .brand-card img[src$="flower-knows.svg"],
+.brand-marquees .brand-marquee__logo[src$="flower-knows.svg"],
+.brand-marquees .brand-grid__logo[src$="flower-knows.svg"] { width: calc(159.5px * var(--logo-k, 1)); height: calc(39.9px * var(--logo-k, 1)); }  /* Flower Knows */
+.brands-page .brand-card img[src$="fwee.svg"],
+.brand-marquees .brand-marquee__logo[src$="fwee.svg"],
+.brand-marquees .brand-grid__logo[src$="fwee.svg"] { width: calc(173px * var(--logo-k, 1)); height: calc(43.3px * var(--logo-k, 1)); }  /* fwee */
+.brands-page .brand-card img[src$="glint.svg"],
+.brand-marquees .brand-marquee__logo[src$="glint.svg"],
+.brand-marquees .brand-grid__logo[src$="glint.svg"] { width: calc(138.1px * var(--logo-k, 1)); height: calc(34.5px * var(--logo-k, 1)); }  /* GLINT */
+.brands-page .brand-card img[src$="goodal.svg"],
+.brand-marquees .brand-marquee__logo[src$="goodal.svg"],
+.brand-marquees .brand-grid__logo[src$="goodal.svg"] { width: calc(165.1px * var(--logo-k, 1)); height: calc(41.3px * var(--logo-k, 1)); }  /* Goodal */
+.brands-page .brand-card img[src$="haruharu-wonder.png"],
+.brand-marquees .brand-marquee__logo[src$="haruharu-wonder.png"],
+.brand-marquees .brand-grid__logo[src$="haruharu-wonder.png"] { width: calc(104px * var(--logo-k, 1)); height: calc(10.4px * var(--logo-k, 1)); }  /* Haruharu Wonder */
+.brands-page .brand-card img[src$="heart-percent.svg"],
+.brand-marquees .brand-marquee__logo[src$="heart-percent.svg"],
+.brand-marquees .brand-grid__logo[src$="heart-percent.svg"] { width: calc(148.2px * var(--logo-k, 1)); height: calc(37px * var(--logo-k, 1)); }  /* Heart Percent */
+.brands-page .brand-card img[src$="heveblue.png"],
+.brand-marquees .brand-marquee__logo[src$="heveblue.png"],
+.brand-marquees .brand-grid__logo[src$="heveblue.png"] { width: calc(19.7px * var(--logo-k, 1)); height: calc(30px * var(--logo-k, 1)); }  /* HEVEBLUE */
+.brands-page .brand-card img[src$="hince.svg"],
+.brand-marquees .brand-marquee__logo[src$="hince.svg"],
+.brand-marquees .brand-grid__logo[src$="hince.svg"] { width: calc(165.3px * var(--logo-k, 1)); height: calc(41.3px * var(--logo-k, 1)); }  /* hince */
+.brands-page .brand-card img[src$="ilso.svg"],
+.brand-marquees .brand-marquee__logo[src$="ilso.svg"],
+.brand-marquees .brand-grid__logo[src$="ilso.svg"] { width: calc(55.5px * var(--logo-k, 1)); height: calc(26.7px * var(--logo-k, 1)); }  /* ILSO */
+.brands-page .brand-card img[src$="ksecret.png"],
+.brand-marquees .brand-marquee__logo[src$="ksecret.png"],
+.brand-marquees .brand-grid__logo[src$="ksecret.png"] { width: calc(82.2px * var(--logo-k, 1)); height: calc(18px * var(--logo-k, 1)); }  /* KSECRET */
+.brands-page .brand-card img[src$="laka.svg"],
+.brand-marquees .brand-marquee__logo[src$="laka.svg"],
+.brand-marquees .brand-grid__logo[src$="laka.svg"] { width: calc(150.5px * var(--logo-k, 1)); height: calc(37.6px * var(--logo-k, 1)); }  /* LAKA */
+.brands-page .brand-card img[src$="lilmoon.svg"],
+.brand-marquees .brand-marquee__logo[src$="lilmoon.svg"],
+.brand-marquees .brand-grid__logo[src$="lilmoon.svg"] { width: calc(75.7px * var(--logo-k, 1)); height: calc(19.5px * var(--logo-k, 1)); }  /* Lilmoon */
+.brands-page .brand-card img[src$="lilybyred.svg"],
+.brand-marquees .brand-marquee__logo[src$="lilybyred.svg"],
+.brand-marquees .brand-grid__logo[src$="lilybyred.svg"] { width: calc(181.9px * var(--logo-k, 1)); height: calc(45.5px * var(--logo-k, 1)); }  /* Lilybyred */
+.brands-page .brand-card img[src$="lindsay.png"],
+.brand-marquees .brand-marquee__logo[src$="lindsay.png"],
+.brand-marquees .brand-grid__logo[src$="lindsay.png"] { width: calc(74.9px * var(--logo-k, 1)); height: calc(19.8px * var(--logo-k, 1)); }  /* LINDSAY */
+.brands-page .brand-card img[src$="manyo.png"],
+.brand-marquees .brand-marquee__logo[src$="manyo.png"],
+.brand-marquees .brand-grid__logo[src$="manyo.png"] { width: calc(79.4px * var(--logo-k, 1)); height: calc(18.6px * var(--logo-k, 1)); }  /* ma:nyo */
+.brands-page .brand-card img[src$="maybelline.svg"],
+.brand-marquees .brand-marquee__logo[src$="maybelline.svg"],
+.brand-marquees .brand-grid__logo[src$="maybelline.svg"] { width: calc(127.6px * var(--logo-k, 1)); height: calc(31.9px * var(--logo-k, 1)); }  /* Maybelline */
+.brands-page .brand-card img[src$="mixsoon.svg"],
+.brand-marquees .brand-marquee__logo[src$="mixsoon.svg"],
+.brand-marquees .brand-grid__logo[src$="mixsoon.svg"] { width: calc(148px * var(--logo-k, 1)); height: calc(37px * var(--logo-k, 1)); }  /* MIXSOON */
+.brands-page .brand-card img[src$="molak.svg"],
+.brand-marquees .brand-marquee__logo[src$="molak.svg"],
+.brand-marquees .brand-grid__logo[src$="molak.svg"] { width: calc(75.4px * var(--logo-k, 1)); height: calc(19.6px * var(--logo-k, 1)); }  /* Molak */
+.brands-page .brand-card img[src$="ns-collection.svg"],
+.brand-marquees .brand-marquee__logo[src$="ns-collection.svg"],
+.brand-marquees .brand-grid__logo[src$="ns-collection.svg"] { width: calc(104.7px * var(--logo-k, 1)); height: calc(8.4px * var(--logo-k, 1)); }  /* N's Collection */
+.brands-page .brand-card img[src$="needly.svg"],
+.brand-marquees .brand-marquee__logo[src$="needly.svg"],
+.brand-marquees .brand-grid__logo[src$="needly.svg"] { width: calc(140.6px * var(--logo-k, 1)); height: calc(35.2px * var(--logo-k, 1)); }  /* Needly */
+.brands-page .brand-card img[src$="ootd.svg"],
+.brand-marquees .brand-marquee__logo[src$="ootd.svg"],
+.brand-marquees .brand-grid__logo[src$="ootd.svg"] { width: calc(132.3px * var(--logo-k, 1)); height: calc(33.1px * var(--logo-k, 1)); }  /* OOTD */
+.brands-page .brand-card img[src$="peripera.svg"],
+.brand-marquees .brand-marquee__logo[src$="peripera.svg"],
+.brand-marquees .brand-grid__logo[src$="peripera.svg"] { width: calc(160.9px * var(--logo-k, 1)); height: calc(40.2px * var(--logo-k, 1)); }  /* peripera */
+.brands-page .brand-card img[src$="purito.svg"],
+.brand-marquees .brand-marquee__logo[src$="purito.svg"],
+.brand-marquees .brand-grid__logo[src$="purito.svg"] { width: calc(130.9px * var(--logo-k, 1)); height: calc(32.7px * var(--logo-k, 1)); }  /* Purito */
+.brands-page .brand-card img[src$="romand.svg"],
+.brand-marquees .brand-marquee__logo[src$="romand.svg"],
+.brand-marquees .brand-grid__logo[src$="romand.svg"] { width: calc(159.1px * var(--logo-k, 1)); height: calc(39.8px * var(--logo-k, 1)); }  /* rom&nd */
+.brands-page .brand-card img[src$="round-lab.svg"],
+.brand-marquees .brand-marquee__logo[src$="round-lab.svg"],
+.brand-marquees .brand-grid__logo[src$="round-lab.svg"] { width: calc(147.1px * var(--logo-k, 1)); height: calc(36.8px * var(--logo-k, 1)); }  /* Round Lab */
+.brands-page .brand-card img[src$="skin1004.png"],
+.brand-marquees .brand-marquee__logo[src$="skin1004.png"],
+.brand-marquees .brand-grid__logo[src$="skin1004.png"] { width: calc(104px * var(--logo-k, 1)); height: calc(15.9px * var(--logo-k, 1)); }  /* SKIN1004 */
+.brands-page .brand-card img[src$="skinfood.svg"],
+.brand-marquees .brand-marquee__logo[src$="skinfood.svg"],
+.brand-marquees .brand-grid__logo[src$="skinfood.svg"] { width: calc(161.1px * var(--logo-k, 1)); height: calc(40.3px * var(--logo-k, 1)); }  /* Skinfood */
+.brands-page .brand-card img[src$="so-natural.png"],
+.brand-marquees .brand-marquee__logo[src$="so-natural.png"],
+.brand-marquees .brand-grid__logo[src$="so-natural.png"] { width: calc(45.3px * var(--logo-k, 1)); height: calc(31.6px * var(--logo-k, 1)); }  /* SO Natural */
+.brands-page .brand-card img[src$="solep.png"],
+.brand-marquees .brand-marquee__logo[src$="solep.png"],
+.brand-marquees .brand-grid__logo[src$="solep.png"] { width: calc(62.6px * var(--logo-k, 1)); height: calc(23.6px * var(--logo-k, 1)); }  /* SOLEP */
+.brands-page .brand-card img[src$="some-by-mi.svg"],
+.brand-marquees .brand-marquee__logo[src$="some-by-mi.svg"],
+.brand-marquees .brand-grid__logo[src$="some-by-mi.svg"] { width: calc(157.3px * var(--logo-k, 1)); height: calc(39.3px * var(--logo-k, 1)); }  /* Some By Mi */
+.brands-page .brand-card img[src$="sungboon-editor.png"],
+.brand-marquees .brand-marquee__logo[src$="sungboon-editor.png"],
+.brand-marquees .brand-grid__logo[src$="sungboon-editor.png"] { width: calc(107.1px * var(--logo-k, 1)); height: calc(30.6px * var(--logo-k, 1)); }  /* SUNGBOON EDITOR */
+.brands-page .brand-card img[src$="tirtir.svg"],
+.brand-marquees .brand-marquee__logo[src$="tirtir.svg"],
+.brand-marquees .brand-grid__logo[src$="tirtir.svg"] { width: calc(151.6px * var(--logo-k, 1)); height: calc(37.9px * var(--logo-k, 1)); }  /* TIRTIR */
+.brands-page .brand-card img[src$="tocobo.svg"],
+.brand-marquees .brand-marquee__logo[src$="tocobo.svg"],
+.brand-marquees .brand-grid__logo[src$="tocobo.svg"] { width: calc(90.7px * var(--logo-k, 1)); height: calc(16.4px * var(--logo-k, 1)); }  /* TOCOBO */
+.brands-page .brand-card img[src$="topards.svg"],
+.brand-marquees .brand-marquee__logo[src$="topards.svg"],
+.brand-marquees .brand-grid__logo[src$="topards.svg"] { width: calc(79.6px * var(--logo-k, 1)); height: calc(18.6px * var(--logo-k, 1)); }  /* TOPARDS */
+.brands-page .brand-card img[src$="torriden.svg"],
+.brand-marquees .brand-marquee__logo[src$="torriden.svg"],
+.brand-marquees .brand-grid__logo[src$="torriden.svg"] { width: calc(88.1px * var(--logo-k, 1)); height: calc(16.8px * var(--logo-k, 1)); }  /* Torriden */
+.brands-page .brand-card img[src$="unleashia.svg"],
+.brand-marquees .brand-marquee__logo[src$="unleashia.svg"],
+.brand-marquees .brand-grid__logo[src$="unleashia.svg"] { width: calc(142.6px * var(--logo-k, 1)); height: calc(35.7px * var(--logo-k, 1)); }  /* UNLEASHIA */
+.brands-page .brand-card img[src$="vt-cosmetics.png"],
+.brand-marquees .brand-marquee__logo[src$="vt-cosmetics.png"],
+.brand-marquees .brand-grid__logo[src$="vt-cosmetics.png"] { width: calc(96.9px * var(--logo-k, 1)); height: calc(15.3px * var(--logo-k, 1)); }  /* VT Cosmetics */
+.brands-page .brand-card img[src$="wakemake.svg"],
+.brand-marquees .brand-marquee__logo[src$="wakemake.svg"],
+.brand-marquees .brand-grid__logo[src$="wakemake.svg"] { width: calc(129.5px * var(--logo-k, 1)); height: calc(32.4px * var(--logo-k, 1)); }  /* WAKEMAKE */
