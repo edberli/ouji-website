@@ -2868,8 +2868,10 @@ button.product-card__quick-add,
   z-index: 10000;
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: clamp(10px, 2vw, 22px);
   animation: loaderFade 0.6s ease 1.2s forwards;
   pointer-events: none;
 }
@@ -10922,15 +10924,24 @@ body::before { opacity: 0.18; }
   margin: 0 auto 20px;
 }
 
-/* Footer 鞠躬 —— 擺喺 footer 內容上面、置中。用 in-flow 唔用絕對定位，
-   咁就唔會壓住下面幾欄連結同付款圖示。 */
+/* Footer 鞠躬。⚠️ 本來 in-flow 擺喺 footer 最上面 —— 老闆：「你搞到
+   section 大咗，你應該擺喺下面嗰啲空白位置㗎嘛」。啱：嗰個擺法將
+   footer 撐高咗 206px。
+   而家絕對定位，塞入最底嗰行本身已經吉咗嘅位：版權喺左（去到 x=263）、
+   條款連結喺右（由 x=1256 開始），中間成 993px 係吉；再落面仲有 48px
+   footer padding。隻貓企喺嗰度，footer 一 px 都冇加高。 */
 .shima--bow {
-  width: 118px; height: 143px;
-  margin: 0 auto var(--space-lg);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 116px;
+  aspect-ratio: 285 / 360;
+  margin: 0;
+  pointer-events: none;
 }
 @media (max-width: 640px) {
-  .shima--bow { width: 96px; height: 116px; }
-  .shima--empty { width: 128px; height: 155px; }
 }
 
 /* 手機中段嘅芝麻窄帶 —— 老闆：「冇人話一定要擺喺 header 嘅位置⋯⋯
@@ -10973,12 +10984,19 @@ body::before { opacity: 0.18; }
 .shima-page > img { width: clamp(140px, 16vw, 196px); }
 .shima-page .shima { width: clamp(140px, 16vw, 196px); height: auto; }
 .shima-corner > img, .shima-corner .shima { height: clamp(124px, 13vw, 170px); }
-.shima--bow { width: 150px; height: 182px; }
+.shima--bow { width: auto; height: 176px; }
 .shima--empty { width: 186px; height: 226px; }
 @media (max-width: 640px) {
   .shima-page > img, .shima-page .shima { width: 148px; }
   .shima-corner > img, .shima-corner .shima { height: 104px; }
-  .shima--bow { width: 118px; height: 143px; }
+  /* 手機版最底嗰行係上下疊，中間唔再係吉位 —— 改為貼右下角，
+     縮細到啱啱塞入 footer 嗰 48px padding 加少少，唔會撐高個 footer。 */
+  /* 手機版最底嗰行係上下疊，中間唔再係吉位 —— 改為貼右下角。
+     ⚠️ 版權嗰行去到 x=295，隻貓 92px 高嗰陣由 x=294 開始，啱啱掂到。
+     縮到 84px（由 x≈307 開始）就讓開。 */
+  /* 手機版底部有條 fixed 導航列（62px 高，由 footer 底邊上面 4px 開始
+     蓋落嚟），所以要抬高少少，唔係隻貓對腳會俾佢遮住。 */
+  .shima--bow { height: 84px; left: auto; right: 2px; bottom: 12px; transform: none; }
   .shima--empty { width: 150px; height: 182px; }
 }
 
@@ -11006,3 +11024,23 @@ body::before { opacity: 0.18; }
 .shima:has(img[src*="shima-wave1.webp"]) { aspect-ratio: 0.825; }
 .shima:has(img[src*="shima-acct1.webp"]) { aspect-ratio: 0.722; }
 .shima:has(img[src*="shima-wish1.webp"]) { aspect-ratio: 0.929; }
+
+/* Loading 畫面隻眨眼芝麻。四格疊住，一次顯示一格 —— 同 .shima 一樣
+   嘅做法，但用自己一套 class，因為佢唔應該俾 initShimaFrames() 抓去
+   不停 loop（見 index.html 嗰段 inline script）。 */
+.loader-cat {
+  position: relative;
+  width: clamp(150px, 26vw, 268px);
+  aspect-ratio: 260 / 247;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, .28));
+  animation: loaderBrand 0.7s var(--ease-out) 0.1s backwards;
+}
+.loader-cat__f {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.loader-cat__f.is-on { opacity: 1; }

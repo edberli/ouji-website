@@ -60,8 +60,34 @@
 
   <!-- Page Loader -->
   <div class="page-loader">
+    <!-- 芝麻喺 loading 畫面眨一下單眼。
+         ⚠️ 唔用 .shima —— 嗰個共用 driver 係 260ms 一格不停 loop，
+         呢度要嘅係「開住 → 好快眨一下 → 開返」，而且成個 loader 得
+         1.8 秒命。所以自己一段 inline script，播完一次就算。
+         ⚠️ 四格細圖合共 45KB，而且個 loader 係 CSS timer 淡出，
+         圖幾時到都唔會拖慢佢 —— 未載到就淨係唔出現，冇副作用。 -->
+    <div class="loader-cat" aria-hidden="true">
+      <img class="loader-cat__f is-on" src="assets/images/shima/shima-wink1.webp" alt="" decoding="async">
+      <img class="loader-cat__f" src="assets/images/shima/shima-wink2.webp" alt="" decoding="async">
+      <img class="loader-cat__f" src="assets/images/shima/shima-wink3.webp" alt="" decoding="async">
+      <img class="loader-cat__f" src="assets/images/shima/shima-wink4.webp" alt="" decoding="async">
+    </div>
     <span class="page-loader__brand">OUJI</span>
   </div>
+  <script>
+  /* 眨眼：開住 0.42 秒 → 1→2→3→4→3→2→1 每格 55ms（合共 385ms）→ 完。
+     唔 loop，唔用 setInterval 一路行 —— loader 淡出之後冇必要仲燒 CPU。 */
+  (function () {
+    var f = document.querySelectorAll('.loader-cat__f');
+    if (f.length < 4 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var seq = [0, 1, 2, 3, 2, 1, 0], i = 0;
+    setTimeout(function step() {
+      f[seq[i]].classList.add('is-on');
+      if (i > 0) f[seq[i - 1]].classList.remove('is-on');
+      if (++i < seq.length) setTimeout(step, 55);
+    }, 420);
+  })();
+  </script>
 
   <!-- Floating Particles -->
   <div class="particles"></div>
