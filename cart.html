@@ -278,12 +278,15 @@
 
             <p class="cart-summary__note">100% 正品保證 · 安全付款 · 折實滿 HK$400 免運</p>
 
-            <div style="display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-lg);">
-              <span class="body-sm" style="color: var(--text-tertiary); font-size: 0.6875rem; letter-spacing: 0.06em;">VISA</span>
-              <span class="body-sm" style="color: var(--text-tertiary); font-size: 0.6875rem; letter-spacing: 0.06em;">MASTERCARD</span>
-              <span class="body-sm" style="color: var(--text-tertiary); font-size: 0.6875rem; letter-spacing: 0.06em;">PAYME</span>
-              <span class="body-sm" style="color: var(--text-tertiary); font-size: 0.6875rem; letter-spacing: 0.06em;">FPS</span>
-            </div>
+            <!-- 四個收款方式係同級標籤，冇分主次，所以字級刻意一模一樣。
+                 本來每個 span 都用 class="body-sm" 再 inline 蓋返佢個
+                 font-size，四次重複同一堆宣告 —— 抽成一個 class。 -->
+            <ul class="pay-marks">
+              <li>VISA</li>
+              <li>MASTERCARD</li>
+              <li>PAYME</li>
+              <li>FPS</li>
+            </ul>
           </div>
         </div>
 

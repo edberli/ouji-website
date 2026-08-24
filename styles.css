@@ -10773,3 +10773,16 @@ body::before { opacity: 0.18; }
   .cat-head .shima-corner img { height: 76px; }
   .cat-head__desc { padding-right: 82px; }
 }
+
+/* 收款方式標籤 —— 四個平起平坐嘅同級標籤，唔係層級。字級刻意一致，
+   而且係成版最靜嗰一級（比 .cart-summary__note 嘅 0.75rem 再細一級）。 */
+.pay-marks {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+}
