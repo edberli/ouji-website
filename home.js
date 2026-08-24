@@ -556,10 +556,12 @@ async function initHome() {
               <b>OUJI SKIN CAT</b>
               <span>揀右邊一個皮膚煩惱 ฅ^•ﻌ•^ฅ</span>
             </div>
-            <img class="home-skin-cat__mascot"
-                 src="assets/images/home/ouji-shima-cat.png"
-                 alt="穿住 OUJI 牛仔圍裙、指住分類掣嘅芝麻貓"
-                 width="1200" height="1310" loading="lazy" decoding="async">
+            <div class="shima home-skin-cat__mascot" aria-hidden="true">
+              ${[1, 2, 3, 4, 5, 6].map((n) => `
+                <img class="shima__f${n === 1 ? ' is-on' : ''}" alt=""
+                     src="assets/images/shima/shima-wave${n}.webp"
+                     loading="lazy" decoding="async">`).join('')}
+            </div>
           </aside>
 
           <article class="home-skin-cat__window">
