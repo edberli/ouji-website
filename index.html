@@ -304,7 +304,17 @@
       <section class="promo">
       <div class="promo__grid">
 
-        <!-- 左：優惠資訊全部喺呢邊 —— 老闆要嘅分工係「資訊左、芝麻右」 -->
+        <!-- 左：贈品面霜。老闆試過擺右邊，話擺返左邊好睇啲。
+             高度同右邊嗰疊資訊睇齊（grid align stretch），唔可以細過佢。 -->
+        <div class="promo__shot rise">
+          <span class="promo__ribbon">折實滿 <b>$500</b> 免費送</span>
+          <span class="promo__stock" data-giftstock hidden></span>
+          <img class="promo__jar"
+               src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=1000"
+               alt="Round Lab 白樺樹保濕面霜 80ml" width="1000" height="1000" loading="lazy" decoding="async">
+        </div>
+
+        <!-- 右：優惠資訊 ＋ 大隻芝麻 -->
         <div class="rise promo__col">
           <h3 class="promo__title">全單 <b>88 折</b></h3>
           <p class="promo__lede">
@@ -335,20 +345,9 @@
             <a class="promo__cta" href="shop.html">開始揀貨<svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
             <p class="promo__fine">「折實」＝ 打完 88 折之後嘅金額。<br>原價買夠 <b>HK$455</b> 免運，<b>HK$569</b> 有面霜。</p>
           </div>
-        </div>
 
-        <!-- 右：大大隻芝麻做主角，捧住支贈品面霜 -->
-        <div class="promo__stage rise">
-          <div class="promo__gift">
-            <span class="promo__ribbon">折實滿 <b>$500</b> 免費送</span>
-            <span class="promo__stock" data-giftstock hidden></span>
-            <img class="promo__jar"
-                 src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=800"
-                 alt="Round Lab 白樺樹保濕面霜 80ml" width="800" height="800" loading="lazy" decoding="async">
-          </div>
-          <!-- 芝麻做緊動作：四格真畫換住嚟播（驚訝 → 揮手 → 拍手 → 捧箱）。
-               唔係一張相加 CSS 扭 —— 手同表情真係郁到，因為每格都係
-               獨立畫嘅。開咗「減少動態效果」就淨係企喺度捧住份禮。 -->
+          <!-- 芝麻做緊動作：真畫換格，唔係一張相加 CSS 扭。
+               開咗「減少動態效果」就淨係企喺度捧住份禮。 -->
           <div class="promo__shima" aria-hidden="true">
             <img class="promo__frame is-on" src="assets/images/home/shima-box2.webp"  alt="" width="349" height="360" loading="lazy" decoding="async">
             <img class="promo__frame"       src="assets/images/home/shima-wave2.webp" alt="" width="312" height="360" loading="lazy" decoding="async">
@@ -1064,7 +1063,7 @@
 
   <script>
   /* 芝麻換格動畫。用真畫換格，唔用 CSS 扭一張相 —— 手同表情要真係郁。
-     · 每 2.2 秒換一格
+     · 每 0.9 秒換一格
      · 頁面睇唔到（背景 tab／捲咗出視窗）就唔行，唔好白燒電
      · prefers-reduced-motion 直接唔行，停喺捧住份禮嗰格 */
   (function () {
@@ -1083,7 +1082,7 @@
       /* 一入視窗就迫四格即刻載 —— 全部 lazy 嘅話，換到第二格先開始
          下載，客會見到一格空白。四格 webp 加埋先 132KB。 */
       f.forEach(function (im) { im.loading = 'eager'; });
-      if (!timer) timer = setInterval(tick, 2200);
+      if (!timer) timer = setInterval(tick, 900);
     }
     function stop() { clearInterval(timer); timer = null; }
     new IntersectionObserver(function (es) {

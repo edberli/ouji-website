@@ -10448,10 +10448,12 @@ body::before { opacity: 0.18; }
   padding-inline: var(--space-2xl);
 }
 @media (max-width: 720px) { .promo__grid { padding-inline: 20px; } }
-/* 老闆定嘅分工：優惠資訊全部喺左，右邊交畀大大隻芝麻。
-   左欄畀多啲位（1.05fr）—— 果度有標題、兩級門檻同 CTA，係要讀嘅嘢；
-   右欄係一幅畫，唔使咁多字位。 */
-@container (min-width: 760px) { .promo__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); } }
+/* 左相右字，兩邊等大。老闆：「你其實個大細要同嗰啲字，即係同嗰啲
+   優惠資訊嗰個地方個大細要一樣」—— 所以係 1:1，唔係一大一細。
+   align-items: stretch 令張相高度自動跟住右邊嗰疊資訊。 */
+@container (min-width: 760px) {
+  .promo__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
+}
 
 /* 🔴 闊機唔可以將內容困喺 1280 中間。
    上一版我淨係將底色拉到兩邊，內容照舊 1280 置中 —— 結果兩條白邊
@@ -10466,17 +10468,21 @@ body::before { opacity: 0.18; }
 /* ── 右邊：芝麻 ＋ 贈品 ──
    芝麻大隻先撐得起半邊版，細細粒擺角落就會好似而家咁空。
    佢同支面霜疊住，讀落去就係「店長捧住份禮」，唔使多解釋。 */
-.promo__stage {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: end;
-  min-height: clamp(240px, 30cqw, 360px);
+.promo__col { position: relative; }
+/* 芝麻企喺右下角，所以下面兩件嘢要讓返條巷 —— 實測唔讓佢就會壓住
+   「折實」嗰段細字。上面標題同兩級門檻唔使讓（芝麻夠唔到嗰度）。 */
+@container (min-width: 760px) {
+  .promo__actions { padding-right: clamp(150px, 26cqw, 330px); }
 }
-.promo__gift { position: relative; width: min(78%, 340px); }
+.promo__shot { position: relative; display: flex; }
 .promo__jar {
-  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+  display: block; width: 100%; height: 100%;
+  min-height: clamp(300px, 34cqw, 460px);
+  object-fit: cover;
   border-radius: 20px; background: #dfeef3;
+}
+@container (max-width: 759px) {
+  .promo__jar { min-height: 0; aspect-ratio: 4 / 3; }
 }
 .promo__shima {
   position: absolute;
@@ -10502,7 +10508,6 @@ body::before { opacity: 0.18; }
 }
 .promo__frame.is-on { opacity: 1; }
 @container (max-width: 759px) {
-  .promo__gift { width: min(66%, 260px); }
   .promo__shima { width: 132px; right: 0; bottom: 0; }
 }
 .promo__ribbon {
@@ -10562,6 +10567,11 @@ body::before { opacity: 0.18; }
    咁就得㗎啦。」所以 v3 唔係再設計過，係喺 B 上面改三樣。
    ══════════════════════════════════════════════════════════ */
 .promo__col { position: relative; }
+/* 芝麻企喺右下角，所以下面兩件嘢要讓返條巷 —— 實測唔讓佢就會壓住
+   「折實」嗰段細字。上面標題同兩級門檻唔使讓（芝麻夠唔到嗰度）。 */
+@container (min-width: 760px) {
+  .promo__actions { padding-right: clamp(150px, 26cqw, 330px); }
+}
 /* 一句就一句，唔好斬開兩橛。
    原本寫「9 月 15 日 23:59 前，成間店冇門檻。仲有 23 日。」——
    ① 23:59 冇人記，講日期就夠；② 太長，喺右欄會斷行斷喺「冇門
