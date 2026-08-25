@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initRiseReveal();
   initShimaFrames();
   initPromoLive();
+  initPromoPop();
   initDividerReveal();
   initMobileNav();
   initMegaMenu();
@@ -1055,6 +1056,59 @@ function initPromoLive() {
   });
 }
 
+/* ----- 優惠彈卡 -----
+ * 老闆：「可能隔十零二十秒就彈一個 pop up 通知⋯⋯佢可以撳關閉。」
+ * 規矩（唔想變成煩人嗰種彈窗）：
+ *   · 入嚟 12 秒之後先彈，唔係一入就撲面
+ *   · 撳咗關閉／撳咗入去揀貨，**當日唔會再彈**（記喺 localStorage）
+ *   · 優惠完咗（2026-09-15）自動唔再出，唔使人手落架
+ *   · 購物袋頁唔彈 —— 人哋已經喺度埋單，冇必要再嘈
+ *   · prefers-reduced-motion 唔做滑入動畫，直接出
+ * 整段 markup 由 JS 生成，唔使 24 版 HTML 各抄一次。
+ */
+function initPromoPop() {
+  const END = new Date('2026-09-15T23:59:00+08:00');
+  if (Date.now() > END.getTime()) return;
+  if (/\/cart(\.html)?$/.test(location.pathname)) return;
+
+  const KEY = 'ouji:promoPop';
+  const today = new Date().toISOString().slice(0, 10);
+  try { if (localStorage.getItem(KEY) === today) return; } catch (e) { /* 私隱模式 */ }
+
+  const days = Math.max(0, Math.ceil((END - new Date()) / 86400000));
+  const el = document.createElement('aside');
+  el.className = 'promo-pop';
+  el.setAttribute('role', 'dialog');
+  el.setAttribute('aria-label', '現正推廣');
+  el.innerHTML = `
+    <button type="button" class="promo-pop__x" aria-label="關閉">&times;</button>
+    <img class="promo-pop__cat" src="assets/images/shima/shima-wink1.webp" alt=""
+         width="230" height="219" decoding="async">
+    <div class="promo-pop__body">
+      <b class="promo-pop__title">全單 88 折</b>
+      <ul class="promo-pop__list">
+        <li>折實滿 <b>HK$400</b> 免運費</li>
+        <li>折實滿 <b>HK$500</b> 送面霜</li>
+      </ul>
+      <p class="promo-pop__end">9 月 15 日前 · 仲有 <b>${days}</b> 日</p>
+      <a class="promo-pop__go" href="shop.html">開始揀貨 →</a>
+    </div>`;
+
+  const close = (why) => {
+    el.classList.remove('is-in');
+    try { localStorage.setItem(KEY, today); } catch (e) { /* 冇得記就算 */ }
+    setTimeout(() => el.remove(), 320);
+    if (window.trackEvent) window.trackEvent('promo_pop_close', { why });
+  };
+  el.querySelector('.promo-pop__x').addEventListener('click', () => close('x'));
+  el.querySelector('.promo-pop__go').addEventListener('click', () => close('go'));
+
+  setTimeout(() => {
+    document.body.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('is-in'));
+  }, 12000);
+}
+
 /* ----- Lookbook Cards In-View Detection ----- */
 function initLookbookInView() {
   const cards = document.querySelectorAll('.hscroll-showcase__card');
@@ -1364,6 +1418,11 @@ function initHScrollArrows() {
   const offers = full.split('·').map((t) => t.trim()).filter(Boolean);
   if (!offers.length) return;
 
+  /* 窄機版：最少嘅字，但三個優惠都要齊。
+     老闆：「咁有限嘅位置入邊⋯⋯用最少嘅字去表達。」
+     之前窄機淨係得輪流播，客一次只見到一個優惠，好易走寶。 */
+  const SHORT = ['88 折', '$400 免運', '$500 送面霜'];
+
   bar.textContent = '';
   const make = (text) => {
     const el = document.createElement('span');
@@ -1379,16 +1438,15 @@ function initHScrollArrows() {
 
   const stop = () => { clearInterval(timer); timer = null; };
 
-  const build = (next) => {
-    if (next === mode) return;
+  let shown = null;
+  const build = (next, list) => {
+    if (next === mode && list === shown) return;
     stop();
-    mode = next;
+    mode = next; shown = list;
     bar.textContent = '';
-    nodes = next === 'all'
-      ? [make(offers.join('  ·  '))]
-      : offers.map(make);
+    nodes = next === 'all' ? [make(list.join('  ·  '))] : list.map(make);
     nodes[0].classList.add('is-on');
-    if (next === 'rotate' && offers.length > 1) start();
+    if (next === 'rotate' && list.length > 1) start();
   };
 
   const start = () => {
@@ -1416,9 +1474,15 @@ function initHScrollArrows() {
     ruler.style.fontSize = cs.fontSize;
     ruler.style.fontWeight = cs.fontWeight;
     ruler.style.letterSpacing = cs.letterSpacing;
-    ruler.textContent = offers.join('  ·  ');
     const room = bar.clientWidth - 32;          // 兩邊各留 16px
-    build(ruler.getBoundingClientRect().width <= room ? 'all' : 'rotate');
+    const fits = (list) => {
+      ruler.textContent = list.join('  ·  ');
+      return ruler.getBoundingClientRect().width <= room;
+    };
+    /* 三級：講足 → 短寫（三個都齊）→ 真係擺唔落先輪流播 */
+    if (fits(offers)) build('all', offers);
+    else if (fits(SHORT)) build('all', SHORT);
+    else build('rotate', offers);
     publish();
   };
 

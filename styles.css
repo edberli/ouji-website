@@ -11158,3 +11158,72 @@ body::before { opacity: 0.18; }
   .promo-slim__cat { height: 84px; right: 6px; }
   .promo-slim__cat:has(img[src*="shima-shop1"]) { height: 74px; }
 }
+
+/* ============================================================
+   優惠彈卡 —— 入嚟 12 秒之後喺右下角滑出，撳 ✕ 或者撳咗入去揀貨
+   就當日唔再彈。整段由 script.js 生成（見 initPromoPop）。
+   窄機唔用「右下角細卡」，改成貼底橫幅：手機右下角本身已經有條
+   固定導航列，再擺張卡落去就會疊。
+   ============================================================ */
+.promo-pop {
+  position: fixed;
+  right: clamp(12px, 2.4vw, 28px);
+  bottom: clamp(12px, 2.4vw, 28px);
+  z-index: 1900;               /* 低過導航列（2000），唔會蓋住返回路 */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(340px, calc(100vw - 24px));
+  padding: 14px 16px 14px 12px;
+  border: 1px solid rgba(109, 163, 181, 0.34);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f4fafb 0%, #e7f1f4 100%);
+  box-shadow: 0 14px 40px rgba(30, 60, 72, 0.22);
+  opacity: 0;
+  transform: translateY(14px) scale(.98);
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
+}
+.promo-pop.is-in { opacity: 1; transform: none; }
+.promo-pop__cat { flex: none; width: 84px; height: auto; }
+.promo-pop__body { min-width: 0; }
+.promo-pop__title {
+  display: block;
+  font-family: var(--font-display, var(--font-body));
+  font-size: 1.35rem; font-weight: 600; line-height: 1.15;
+  color: var(--primary-deep);
+}
+.promo-pop__list {
+  margin: 6px 0 0; padding: 0; list-style: none;
+  font-size: 0.8125rem; line-height: 1.65; color: var(--text-secondary);
+}
+.promo-pop__list b { color: var(--primary-deep); font-weight: 700; }
+.promo-pop__end { margin: 4px 0 0; font-size: 0.6875rem; color: var(--text-tertiary); }
+.promo-pop__end b { color: var(--primary-deep); }
+.promo-pop__go {
+  display: inline-block; margin-top: 8px;
+  font-size: 0.8125rem; font-weight: 600; color: var(--primary-deep);
+  text-decoration: none; border-bottom: 1px solid currentColor;
+}
+.promo-pop__x {
+  position: absolute; top: 6px; right: 8px;
+  width: 30px; height: 30px; padding: 0;
+  border: 0; border-radius: 50%; background: transparent;
+  color: var(--text-tertiary); font-size: 1.35rem; line-height: 1;
+  cursor: pointer;
+}
+.promo-pop__x:hover { background: rgba(43, 76, 88, .08); color: var(--primary-deep); }
+
+@media (max-width: 560px) {
+  /* 手機底部有條 fixed 導航列（62px＋安全區），要讓開佢 */
+  .promo-pop {
+    left: 10px; right: 10px; width: auto;
+    /* 實測 72px 嗰陣張卡底邊仲係壓住條導航列 2px（導航列 62px ＋
+       安全區，加埋唔止 72）。88px 留返約 14px 罅。 */
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+  .promo-pop__cat { width: 68px; }
+  .promo-pop__title { font-size: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .promo-pop { transition: none; transform: none; }
+}
