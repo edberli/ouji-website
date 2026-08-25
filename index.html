@@ -1082,27 +1082,6 @@
     });
   </script>
 
-  <script>
-  /* 優惠 banner 兩個活數 —— 兩個都係真嘢，唔寫死。
-     ① 倒數：由 2026-09-15 23:59 +08:00 計。
-     ② 贈品剩幾多支：即時問 Shopify 攞 quantityAvailable。
-        攞唔到就乜都唔顯示 —— 寧願唔講，都唔好作一個數出嚟。 */
-  (function () {
-    var end = new Date('2026-09-15T23:59:00+08:00');
-    var d = Math.max(0, Math.ceil((end - new Date()) / 86400000));
-    document.querySelectorAll('[data-countdown]').forEach(function (el) { el.textContent = d; });
-
-    /* 送量有限，但唔講實數。
-       老闆：「咁你即係話送量有限咯，咁咪得咯」。
-       倉入面 61 支、promo 名額 6 份 —— 兩個數都唔啱擺出嚟：
-       61 冇緊迫感，6 講出咗就要負責送到第 6 份先收（人手好易漏）。
-       講「送量有限 · 送完即止」係真話，又唔使綁死一個數。 */
-    var a = document.querySelector('[data-giftleft]');
-    var b = document.querySelector('[data-giftstock]');
-    if (a) { a.textContent = '送量有限'; a.hidden = false; }
-    if (b) { b.textContent = '送量有限'; b.hidden = false; }
-  })();
-  </script>
 
 </body>
 </html>

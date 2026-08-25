@@ -8992,9 +8992,12 @@ body::before { opacity: 0.18; }
 
 /* ---------- 五個分類貼紙 ---------- */
 .shop-boot__stickers { position: absolute; z-index: 7; inset: 0 4% 46px; }
+/* 有專屬版面嗰四張貼紙而家係 <a>，唔係 <button> —— 要拆走連結底線，
+   同埋自己揸返個字色（<a> 唔會跟 button 嗰套繼承）。 */
 .shop-boot__sticker {
   position: absolute; left: var(--x); bottom: var(--y);
   display: grid; width: 120px; padding: 0; border: 0;
+  text-decoration: none;
   background: transparent; color: var(--boot-ink); cursor: pointer;
   font-family: 'Noto Sans TC', sans-serif;
   filter: drop-shadow(5px 6px 0 rgba(17,20,28,.18));
@@ -11072,3 +11075,64 @@ body::before { opacity: 0.18; }
   opacity: 0;
 }
 .loader-cat__f.is-on { opacity: 1; }
+
+/* ============================================================
+   幼優惠條 —— 首頁個大 banner 嘅縮水版，擺喺每一版產品列表
+   嘅產品格上面。老闆：「如果啲人一入嚟就剷全部產品頁面，佢未必知
+   有咩優惠。」重點係「一眼掃到三個優惠」，唔係再做多次主視覺，
+   所以高度壓到 ~92px、唔用大圖、唔用動畫。
+   ============================================================ */
+.promo-slim {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2.4vw, 28px);
+  margin: var(--space-lg) 0 var(--space-md);
+  padding: 12px clamp(14px, 2.4vw, 24px);
+  border: 1px solid rgba(109, 163, 181, 0.28);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f2f8fa 0%, #e7f1f4 100%);
+}
+.promo-slim__jar {
+  flex: none; width: auto; height: 68px;
+  filter: drop-shadow(0 4px 7px rgba(43, 76, 88, 0.18));
+}
+.promo-slim__head { margin: 0; flex: none; line-height: 1.25; }
+.promo-slim__head b {
+  display: block;
+  font-family: var(--font-display, var(--font-body));
+  font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+  font-weight: 600; color: var(--primary-deep);
+}
+.promo-slim__head span { font-size: 0.75rem; color: var(--text-tertiary); letter-spacing: .03em; }
+/* 中間兩級門檻 —— 呢度先係實質資訊，闊機一行、窄機兩行 */
+.promo-slim__list {
+  display: flex; flex-wrap: wrap; gap: 4px clamp(14px, 2.4vw, 30px);
+  margin: 0; padding: 0 0 0 clamp(12px, 2vw, 24px);
+  list-style: none; flex: 1 1 auto;
+  border-left: 1px solid rgba(43, 76, 88, 0.16);
+  font-size: 0.8125rem; color: var(--text-secondary);
+}
+.promo-slim__list b { color: var(--primary-deep); font-weight: 700; }
+.promo-slim__list em {
+  margin-left: 6px; padding: 1px 6px; border-radius: 999px;
+  background: #d9534f; color: #fff;
+  font: 600 0.625rem/1.6 var(--font-body); font-style: normal;
+}
+.promo-slim__end {
+  margin: 0; flex: none; text-align: right;
+  font-size: 0.75rem; color: var(--text-tertiary); line-height: 1.5;
+}
+.promo-slim__end span { display: block; }
+.promo-slim__end b { color: var(--primary-deep); font-weight: 700; }
+
+@media (max-width: 760px) {
+  /* 窄機：面霜 ＋ 標題一行，兩級門檻落第二行，倒數縮到標題隔籬 */
+  .promo-slim { flex-wrap: wrap; gap: 10px 14px; padding: 12px 14px; }
+  .promo-slim__jar { height: 52px; }
+  .promo-slim__head { flex: 1 1 auto; }
+  .promo-slim__list {
+    flex: 1 1 100%; order: 3; padding: 8px 0 0; border-left: 0;
+    border-top: 1px solid rgba(43, 76, 88, 0.14);
+  }
+  .promo-slim__end { text-align: right; }
+}

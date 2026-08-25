@@ -982,11 +982,15 @@ function renderProducts(container, products, { grouped }) {
 
    件數、貼紙、視窗四張相全部用 live catalog 計，唔准寫死。
    ============================================================ */
+/* `href` = 有自己專屬版面嗰啲分類，撳咗就過去嗰版，唔係喺下面個
+   Explorer 度篩。老闆：「嗰兩個分頁我做得咁靚，梗係期望啲人直接去
+   呢兩個位置，而唔係純粹去篩選嗰個位置。」
+   冇 href 嘅（其他）先至喺 Explorer 入面篩。 */
 const SHOP_GROUPS = [
-  { id: 'skincare', label: '護膚',       tint: '#70e5ff', dialog: 'Loading skin care...' },
-  { id: 'makeup',   label: '彩妝',       tint: '#ff82c9', dialog: 'Loading make-up...' },
-  { id: 'lens',     label: '隱形眼鏡',   tint: '#77c8ff', dialog: 'Loading contact lens...' },
-  { id: 'kpop',     label: 'K-pop 周邊', tint: '#fff06a', dialog: 'Loading K-pop goods...' },
+  { id: 'skincare', label: '護膚',       tint: '#70e5ff', dialog: 'Loading skin care...',   href: 'category.html' },
+  { id: 'makeup',   label: '彩妝',       tint: '#ff82c9', dialog: 'Loading make-up...',     href: 'makeup.html' },
+  { id: 'lens',     label: '隱形眼鏡',   tint: '#77c8ff', dialog: 'Loading contact lens...', href: 'lens.html' },
+  { id: 'kpop',     label: 'K-pop 周邊', tint: '#fff06a', dialog: 'Loading K-pop goods...', href: 'kpop.html' },
   { id: 'other',    label: '其他',       tint: '#c8a6ff', dialog: 'Loading more goods...' },
 ];
 const SHOP_GROUP_ORDER = ['lens', 'kpop', 'makeup', 'skincare'];
@@ -1045,13 +1049,16 @@ function buildShopBootHero(products, activeGroup) {
   host.innerHTML = SHOP_GROUPS.map((g, i) => {
     const pos = SHOP_STICKER_POS[i];
     const on = activeGroup === g.id;
-    return `<button type="button" class="shop-boot__sticker${on ? ' is-on' : ''}"
-      data-boot-group="${g.id}" aria-pressed="${on ? 'true' : 'false'}"
-      style="--x:${pos.x};--y:${pos.y};--r:${pos.r};--s:${pos.s};--tint:${g.tint}">
-      ${stickerArt(g.id)}
+    const style = `--x:${pos.x};--y:${pos.y};--r:${pos.r};--s:${pos.s};--tint:${g.tint}`;
+    const inner = `${stickerArt(g.id)}
       <b class="shop-boot__label">${g.label}</b>
-      <small class="shop-boot__n">${counts[g.id]}</small>
-    </button>`;
+      <small class="shop-boot__n">${counts[g.id]}</small>`;
+    // 有專屬版面就出 <a>（撳咗過去嗰版），冇就出 <button>（喺下面篩）
+    return g.href
+      ? `<a class="shop-boot__sticker" href="${g.href}" style="${style}">${inner}</a>`
+      : `<button type="button" class="shop-boot__sticker${on ? ' is-on' : ''}"
+          data-boot-group="${g.id}" aria-pressed="${on ? 'true' : 'false'}"
+          style="${style}">${inner}</button>`;
   }).join('');
 
   const count = document.querySelector('[data-boot-count]');

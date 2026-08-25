@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLookbookInView();
   initRiseReveal();
   initShimaFrames();
+  initPromoLive();
   initDividerReveal();
   initMobileNav();
   initMegaMenu();
@@ -1036,6 +1037,22 @@ function initShimaFrames() {
       pending = setTimeout(initShimaFrames, 200);
     }).observe(document.body, { childList: true, subtree: true });
   }
+}
+
+/* ----- 優惠條嘅活數 -----
+ * 倒數同「送量有限」本來 inline 喺 index.html，而家每一版產品頁都有條
+ * 幼優惠條，所以搬入嚟共用。
+ * ⚠️ 倒數係計出嚟，唔准寫死 —— 寫死就會有一日變咗講大話。
+ */
+function initPromoLive() {
+  const end = new Date('2026-09-15T23:59:00+08:00');
+  const d = Math.max(0, Math.ceil((end - new Date()) / 86400000));
+  document.querySelectorAll('[data-countdown]').forEach((el) => { el.textContent = d; });
+  /* 送量有限，但唔講實數 —— 講咗個數就要負責送到嗰個數（人手好易漏）。 */
+  document.querySelectorAll('[data-giftleft], [data-giftstock]').forEach((el) => {
+    el.textContent = '送量有限';
+    el.hidden = false;
+  });
 }
 
 /* ----- Lookbook Cards In-View Detection ----- */
