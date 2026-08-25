@@ -286,7 +286,12 @@
                其他分類頁照舊有 quick tabs —— buildQuickTabs 搵唔到
                [data-quick-tabs] 就自己收工，唔使改 catalog.js。 -->
 
-          <!-- 品牌 logo 一行，撳一下直接去嗰個牌子 -->
+          <!-- 全部產品頁品牌入口：第 3 款「品牌焦點」。用現成品牌圖同
+               原色 logo，左邊一個主推品牌、右邊八個熱門品牌。內容由
+               catalog.js 按 live catalogue 補返件數同連結。 -->
+          <section id="brand-spotlight" class="shop-brand-spotlight" data-shop-brand-spotlight
+                   aria-label="按品牌選購"></section>
+
           <!-- 幼優惠條。老闆：「如果啲人一入嚟就剷全部產品頁面，或者淨係睇
                產品頁面，咁佢未必知，未必夠凸顯呢個優惠。」
                首頁嗰個大 banner 縮到一條，擺喺產品格上面。用返購物袋嗰隻
@@ -316,7 +321,6 @@
                           </div>
             </div>
           </aside>
-          <div class="brand-strip" data-brand-strip></div>
 
           <div class="active-filters" data-active-filters></div>
 

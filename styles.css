@@ -6861,6 +6861,94 @@ html.is-lite .section--brand-intro::after {
 .brand-strip__item:hover img,
 .brand-strip__item.is-active img { filter: none; }
 
+/* ============================================
+   全部產品頁：品牌焦點（第 3 款 exact artwork）
+
+   正式版直接沿用獲選樣板嘅產品構圖、logo、字款同卡面質感。連結以
+   透明 hotspot 疊喺 artwork 上面，所以視覺唔會再被 catalogue 圖改寫。
+   ============================================ */
+.shop-brand-spotlight {
+  position: relative;
+  margin: var(--space-lg) 0 var(--space-md);
+  overflow: hidden;
+}
+
+.shop-brand-spotlight__board {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 2152 / 731;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.shop-brand-spotlight__visual {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.shop-brand-spotlight__feature,
+.shop-brand-spotlight__all,
+.shop-brand-spotlight__brand {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  border-radius: 12px;
+}
+
+.shop-brand-spotlight__feature {
+  inset: 3% 60% 9% 0;
+}
+
+.shop-brand-spotlight__all {
+  top: 3%;
+  right: 1.4%;
+  width: 10.5%;
+  height: 9%;
+}
+
+.shop-brand-spotlight__brand {
+  top: calc(15.7% + (var(--spotlight-row) * 39.7%));
+  left: calc(42% + (var(--spotlight-col) * 13.25%));
+  width: 12.1%;
+  height: 36.2%;
+}
+
+.shop-brand-spotlight__feature:focus-visible,
+.shop-brand-spotlight__brand:focus-visible,
+.shop-brand-spotlight__all:focus-visible {
+  outline: 3px solid var(--boot-pink, #ff63b4);
+  outline-offset: 3px;
+}
+
+.shop-brand-spotlight__feature:hover,
+.shop-brand-spotlight__brand:hover,
+.shop-brand-spotlight__all:hover {
+  box-shadow: inset 0 0 0 2px rgba(17, 111, 189, .32);
+}
+
+@media (max-width: 840px) {
+  .shop-brand-spotlight {
+    margin-inline: calc(var(--page-pad, 16px) * -1);
+    padding: 0 var(--page-pad, 16px) 8px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+  .shop-brand-spotlight__board {
+    width: 760px;
+    max-width: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .shop-brand-spotlight { margin-top: var(--space-md); }
+  .shop-brand-spotlight__board { width: 720px; }
+}
+
 @media (max-width: 768px) {
   .brand-strip__item { width: 72px; height: 36px; }
   .brand-strip__item img { max-height: 17px; }

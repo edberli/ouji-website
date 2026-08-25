@@ -618,6 +618,49 @@ function buildBrandStrip(products, sel) {
     </a>`).join('');
 }
 
+/* 全部產品頁嘅品牌焦點。呢格以老闆揀定嘅第 3 款樣板做唯一視覺基準，
+   唔再用 catalogue 圖重新演繹。透明 hotspot 保留每個品牌嘅實際篩選功能；
+   圓形箭嘴已經由正式 artwork 移除。 */
+const SHOP_SPOTLIGHT_BRANDS = [
+  'Anua', 'Abib', 'COSRX', 'Torriden',
+  'Skin1004', 'rom&nd', 'hince', 'TIRTIR',
+];
+
+function buildShopBrandSpotlight(products) {
+  const host = document.querySelector('[data-shop-brand-spotlight]');
+  if (!host) return;
+
+  const counts = new Map();
+  products.forEach((p) => {
+    if (p.vendor) counts.set(p.vendor, (counts.get(p.vendor) || 0) + 1);
+  });
+
+  const focusVendor = 'Round Lab';
+  const focusCount = counts.get(focusVendor) || 61;
+  const cards = SHOP_SPOTLIGHT_BRANDS
+    .map((vendor, index) => {
+      const col = index % 4;
+      const row = Math.floor(index / 4);
+      return `<a class="shop-brand-spotlight__brand"
+        href="shop.html?brand=${encodeURIComponent(vendor)}"
+        style="--spotlight-col:${col};--spotlight-row:${row}"
+        aria-label="瀏覽 ${vendor} 產品"></a>`;
+    }).join('');
+
+  host.innerHTML = `
+    <div class="shop-brand-spotlight__board">
+      <img class="shop-brand-spotlight__visual"
+        src="assets/brand-section-v3-exact.png?v=20260826-exact"
+        alt="Round Lab 今週焦點及 Anua、Abib、COSRX、Torriden、SKIN1004、rom&nd、hince、TIRTIR 熱門品牌"
+        width="2152" height="731" loading="eager" decoding="async">
+      <a class="shop-brand-spotlight__feature"
+        href="shop.html?brand=${encodeURIComponent(focusVendor)}"
+        aria-label="瀏覽 ${focusVendor} ${focusCount} 件產品"></a>
+      <a class="shop-brand-spotlight__all" href="brands.html" aria-label="瀏覽全部品牌"></a>
+      ${cards}
+    </div>`;
+}
+
 /** What is applied right now, each removable on its own. */
 function buildActiveChips(section, sel, lockCat) {
   const host = document.querySelector('[data-active-filters]');
@@ -1193,6 +1236,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);
+    buildShopBrandSpotlight(scope);
     buildBrandStrip(scope, sel);
     buildActiveChips(section, sel, lockCat);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
