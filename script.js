@@ -1087,8 +1087,8 @@ function initPromoPop() {
     <div class="promo-pop__body">
       <b class="promo-pop__title">全單 88 折</b>
       <ul class="promo-pop__list">
-        <li>折實滿 <b>HK$400</b> 免運費</li>
-        <li>折實滿 <b>HK$500</b> 送面霜</li>
+        <li>折實滿 <b>HK$399</b> 免運費</li>
+        <li>折實滿 <b>HK$499</b> 送面霜</li>
       </ul>
       <p class="promo-pop__end">9 月 15 日前 · 仲有 <b>${days}</b> 日</p>
       <a class="promo-pop__go" href="shop.html">開始揀貨 →</a>
@@ -1421,7 +1421,7 @@ function initHScrollArrows() {
   /* 窄機版：最少嘅字，但三個優惠都要齊。
      老闆：「咁有限嘅位置入邊⋯⋯用最少嘅字去表達。」
      之前窄機淨係得輪流播，客一次只見到一個優惠，好易走寶。 */
-  const SHORT = ['88 折', '$400 免運', '$500 送面霜'];
+  const SHORT = ['88 折', '$399 免運', '$499 送面霜'];
 
   bar.textContent = '';
   const make = (text) => {

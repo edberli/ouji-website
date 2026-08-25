@@ -49,7 +49,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    9 月 15 日前 全單 88 折 &nbsp;·&nbsp; 折實滿 HK$400 免運費 &nbsp;·&nbsp; 滿 HK$500 送面霜
+    9 月 15 日前 全單 88 折 &nbsp;·&nbsp; 折實滿 HK$399 免運費 &nbsp;·&nbsp; 滿 HK$499 送面霜
   </div>
 
   <!-- Header -->
@@ -219,14 +219,14 @@
               <span data-total>HK$0</span>
             </div>
 
-            <!-- 兩級門檻：折實滿 $400 免運、滿 $500 送面霜。
+            <!-- 兩級門檻：折實滿 $399 免運、滿 $499 送面霜。
                  兩個數都係「折實」—— 實測過 Shopify 條免運規則睇折後價
                  （未折 $414／折實 $384 嗰陣照收運費）。 -->
             <div class="reward" data-reward hidden>
               <div class="reward__goal" aria-hidden="true">
-                <!-- 兩件獎品各自企喺自己嗰個門檻上面 —— 紙箱喺 $400（即係
+                <!-- 兩件獎品各自企喺自己嗰個門檻上面 —— 紙箱喺 $399（即係
                      條棒 80% 嗰點，同 .reward__tick 同一個位），面霜喺盡頭
-                     $500。彈下彈下係為咗吸住眼球；兩個錯開拍子，唔好一齊跳。 -->
+                     $499。彈下彈下係為咗吸住眼球；兩個錯開拍子，唔好一齊跳。 -->
                 <span class="reward__prize reward__prize--ship">
                   <svg class="reward__box" viewBox="0 0 64 64" width="42" height="42" role="img" aria-hidden="true">
                     <g fill="none" stroke="#8a6238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
@@ -251,8 +251,8 @@
                 <span class="reward__tick" style="left:80%"></span>
               </div>
               <div class="reward__marks">
-                <span data-reward-mark-1>免運 $400</span>
-                <span data-reward-mark-2>送面霜 $500</span>
+                <span data-reward-mark-1>免運 $399</span>
+                <span data-reward-mark-2>送面霜 $499</span>
               </div>
               <p class="reward__line" data-reward-line></p>
 
@@ -283,7 +283,7 @@
               <button class="btn btn--primary btn--full">前往結帳</button>
             </div>
 
-            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 折實滿 HK$400 免運</p>
+            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 折實滿 HK$399 免運</p>
 
             <!-- 四個收款方式係同級標籤，冇分主次，所以字級刻意一模一樣。
                  本來每個 span 都用 class="body-sm" 再 inline 蓋返佢個
@@ -520,17 +520,17 @@
     /* 折實價先係話事嗰個數。
        實測過（cartCreate + deliveryGroups，2026-08-23）：未折 $414／折實 $384
        嗰陣 Shopify 照收運費（$20 自取／$30 上門），折實 $486 就兩樣都 $0
-       —— 即係佢條規則睇折後價，同 banner 寫嘅「折實滿 HK$400」一致。
+       —— 即係佢條規則睇折後價，同 banner 寫嘅「折實滿 HK$399」一致。
 
        之前呢度攞 subtotalAmount（未折）去判斷，兩個後果：
-       (1) 未折 $400–454 嗰段會錯誤承諾免運，但結帳照收；
+       (1) 未折 $399–454 嗰段會錯誤承諾免運，但結帳照收；
        (2) 「合計」寫 subtotal + 運費，成個 88 折冇顯示過 —— 客見到嘅數
            比實際收嘅貴成一成，仲要見唔到自己慳咗幾多。 */
     const subtotal = parseFloat(cart.cost.subtotalAmount.amount);   // 未折
     const netTotal = parseFloat(cart.cost.totalAmount.amount);      // 折實
     const saved = Math.max(0, subtotal - netTotal);
-    const FREE_SHIP = 400;
-    const GIFT = 500;
+    const FREE_SHIP = 399;
+    const GIFT = 499;
     const SHIPPING_FEE = 30;
     const shipping = netTotal >= FREE_SHIP ? 0 : SHIPPING_FEE;
 
@@ -553,11 +553,11 @@
   /**
    * 「爭少少就免運／送面霜」—— 講埋差幾多，同埋執邊件貨啱啱夠。
    *
-   * 兩級門檻都係計折實價：$400 免運（慳 $30）、$500 送面霜。
-   * 條進度棒去到 $500 為滿，$400 嗰點畫條刻度。
+   * 兩級門檻都係計折實價：$399 免運（慳 $30）、$499 送面霜。
+   * 條進度棒去到 $499 為滿，$399 嗰點畫條刻度。
    */
-  const FREE_SHIP = 400;
-  const GIFT = 500;
+  const FREE_SHIP = 399;
+  const GIFT = 499;
 
   function renderReward(net, gross, inCart) {
     const host = document.querySelector('[data-reward]');
