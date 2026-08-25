@@ -11042,9 +11042,13 @@ body::before { opacity: 0.18; }
   position: absolute;
   /* 老闆：「而家太右啦，喺電腦版嗰度啲嘢未必睇到」—— 闊機唔可以貼實
      右邊，要收返入嚟啲。用 % 唔用固定 px：闊機自然收得多。 */
-  right: clamp(12px, 14vw, 300px);
+  right: clamp(8px, 3.2vw, 44px);
   bottom: 0;
-  width: clamp(150px, 25vw, 290px);
+  /* 老闆：「放大啲啦，而家有啲細隻。」大咗約三成。
+     ⚠️ 大得滯會撞正中間個 OUJI 字 —— 佢係 clamp(4rem,12vw,8rem)，
+     喺 1280 闊嗰陣佔 x 396–884、y 308–512。所以一路要量住兩者
+     有冇疊，唔可以淨係加數字。 */
+  width: clamp(170px, 27vw, 340px);
   aspect-ratio: 260 / 247;
   /* ⚠️ 唔可以用 drop-shadow —— 隻貓有白色貼紙外框，drop-shadow 會沿住
      個框畫一圈，喺深藍底上面睇落好似起晒格（老闆：「個陰影起曬格仔，
