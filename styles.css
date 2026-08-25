@@ -2868,10 +2868,8 @@ button.product-card__quick-add,
   z-index: 10000;
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(10px, 2vw, 22px);
   animation: loaderFade 0.6s ease 1.2s forwards;
   pointer-events: none;
 }
@@ -10930,13 +10928,22 @@ body::before { opacity: 0.18; }
    而家絕對定位，塞入最底嗰行本身已經吉咗嘅位：版權喺左（去到 x=263）、
    條款連結喺右（由 x=1256 開始），中間成 993px 係吉；再落面仲有 48px
    footer padding。隻貓企喺嗰度，footer 一 px 都冇加高。 */
+/* 老闆：「我想你擺喺『聯絡我們』下面嗰啲空白位置⋯⋯即係嗰個左右平衡。」
+   footer 四欄入面「選購」最長（去到最底），「客戶服務」得三條就完，
+   右下角空咗一大忽。隻貓填返嗰度：左邊有品牌塊、右邊有隻貓，左右
+   先平衡得返。
+   ⚠️ 錨喺 .footer__grid 度，唔係 .footer —— 錨 .footer 會跌落最底
+   嗰條版權線上面，變咗騎住條線（老闆截圖就係咁）。
+   個 grid 高度由最長嗰欄決定，隻貓絕對定位塞入去，footer 唔會加高。 */
+.footer__grid { position: relative; }
 .shima--bow {
   position: absolute;
+  right: 0;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: auto;
+  transform: none;
   width: auto;
-  height: 116px;
+  height: 176px;
   aspect-ratio: 285 / 360;
   margin: 0;
   pointer-events: none;
@@ -10984,7 +10991,7 @@ body::before { opacity: 0.18; }
 .shima-page > img { width: clamp(140px, 16vw, 196px); }
 .shima-page .shima { width: clamp(140px, 16vw, 196px); height: auto; }
 .shima-corner > img, .shima-corner .shima { height: clamp(124px, 13vw, 170px); }
-.shima--bow { width: auto; height: 176px; }
+
 .shima--empty { width: 186px; height: 226px; }
 @media (max-width: 640px) {
   .shima-page > img, .shima-page .shima { width: 148px; }
@@ -10994,9 +11001,8 @@ body::before { opacity: 0.18; }
   /* 手機版最底嗰行係上下疊，中間唔再係吉位 —— 改為貼右下角。
      ⚠️ 版權嗰行去到 x=295，隻貓 92px 高嗰陣由 x=294 開始，啱啱掂到。
      縮到 84px（由 x≈307 開始）就讓開。 */
-  /* 手機版底部有條 fixed 導航列（62px 高，由 footer 底邊上面 4px 開始
-     蓋落嚟），所以要抬高少少，唔係隻貓對腳會俾佢遮住。 */
-  .shima--bow { height: 84px; left: auto; right: 2px; bottom: 12px; transform: none; }
+  /* 手機版四欄變上下疊，最後一欄就係「客戶服務」，右下角一樣係吉位。 */
+  .shima--bow { height: 108px; right: 0; bottom: 0; }
   .shima--empty { width: 150px; height: 182px; }
 }
 
@@ -11028,12 +11034,26 @@ body::before { opacity: 0.18; }
 /* Loading 畫面隻眨眼芝麻。四格疊住，一次顯示一格 —— 同 .shima 一樣
    嘅做法，但用自己一套 class，因為佢唔應該俾 initShimaFrames() 抓去
    不停 loop（見 index.html 嗰段 inline script）。 */
+/* ⚠️ 隻貓唔可以擺喺個 OUJI 字上面 —— 咁樣會將個字推離畫面正中
+   （老闆：「又令到 OUJI 嗰個標誌變咗唔係置中，你要就嗰個 logo」）。
+   個 loader 維持單純置中，隻貓絕對定位喺右下角，由畫面底邊探上嚟：
+   佢本身就係半身、對前爪搭出嚟嘅畫法，貼實底邊就啱啱好似趴喺度望你。 */
 .loader-cat {
-  position: relative;
-  width: clamp(150px, 26vw, 268px);
+  position: absolute;
+  right: clamp(10px, 6vw, 96px);
+  bottom: 0;
+  width: clamp(130px, 22vw, 230px);
   aspect-ratio: 260 / 247;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, .28));
-  animation: loaderBrand 0.7s var(--ease-out) 0.1s backwards;
+  filter: drop-shadow(0 -6px 22px rgba(0, 0, 0, .26));
+  /* ⚠️ fill-mode 要 both 唔可以淨係 backwards —— 用 backwards 實測隻貓
+     會停喺 0% 嗰個狀態（向下 46%、歪 4 度），即係成隻貓有一半跌出畫面
+     底邊。both 會鎖實 100%，彈完就企定喺底邊上面。 */
+  animation: loaderCatPeek 0.62s cubic-bezier(.18, 1.1, .36, 1) 0.15s both;
+}
+/* 由底邊彈上嚟 —— 靜靜哋淡入太悶，彈一下先似隻貓爬上嚟偷望 */
+@keyframes loaderCatPeek {
+  0%   { transform: translateY(46%) rotate(-4deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
 }
 .loader-cat__f {
   position: absolute;
