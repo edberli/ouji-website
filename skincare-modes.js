@@ -136,8 +136,12 @@ function smXpShell({ form, formClass = '', status = '', bubble = '先答膚質�
               <li><b>1</b>你嘅皮膚</li><li><b>2</b>敏感程度＋質地</li><li><b>3</b>想改善</li>
             </ol>
             <p class="dl__bubble" aria-hidden="true">${bubble}</p>
-            <img class="dl__cat-img" src="assets/images/home/ouji-shima-cat.png"
-                 alt="" width="1200" height="1310" loading="lazy" decoding="async">
+            <div class="shima dl__cat-img" aria-hidden="true">
+              ${[1, 2, 3, 4, 5, 6].map((n) => `
+                <img class="shima__f${n === 1 ? ' is-on' : ''}" alt=""
+                     src="assets/images/shima/shima-skin${n}.webp"
+                     loading="lazy" decoding="async">`).join('')}
+            </div>
           </aside>
           <div class="dl__form${formClass ? ' ' + formClass : ''}">${form}</div>
         </div>

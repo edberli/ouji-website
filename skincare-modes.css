@@ -716,9 +716,13 @@
   border: 2px solid #fff; border-radius: 50%; background: #174ca3; margin: 0;
 }
 .dl__steps li:first-child b { background: var(--sm-yellow); color: #173f8e; }
+/* 桌面版本來仲係一張靜態 ouji-shima-cat.png —— 手機版嗰個橫幅早就換咗
+   六格動畫，桌面版漏咗（老闆：「電腦版唔知點解佢冇取代到靜態貼圖」）。
+   ⚠️ 由 <img> 變成六格盒之後唔可以再 height:auto —— .shima__f 全部
+   position:absolute，個盒會塌成 0 高。要寫死高度＋比例。 */
 .dl__cat-img {
-  position: absolute; left: 6px; bottom: -17px; width: 205px; max-width: none;
-  height: auto; margin: 0; display: block;
+  position: absolute; left: 6px; bottom: -17px;
+  width: 205px; height: 224px; max-width: none; margin: 0; display: block;
   filter: drop-shadow(6px 8px rgba(5,42,110,.25));
 }
 .dl__bubble {
@@ -1356,6 +1360,6 @@
   }
   .dl__cat-img {
     position: static; grid-row: 4; grid-column: 2; align-self: end;
-    width: 108px; height: auto; margin: 6px -8px -4px 0;
+    width: 108px; height: 118px; margin: 6px -8px -4px 0;
   }
 }

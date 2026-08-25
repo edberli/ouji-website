@@ -11040,11 +11040,15 @@ body::before { opacity: 0.18; }
    佢本身就係半身、對前爪搭出嚟嘅畫法，貼實底邊就啱啱好似趴喺度望你。 */
 .loader-cat {
   position: absolute;
-  right: clamp(10px, 6vw, 96px);
+  /* 老闆：「而家太右啦，喺電腦版嗰度啲嘢未必睇到」—— 闊機唔可以貼實
+     右邊，要收返入嚟啲。用 % 唔用固定 px：闊機自然收得多。 */
+  right: clamp(12px, 14vw, 300px);
   bottom: 0;
-  width: clamp(130px, 22vw, 230px);
+  width: clamp(150px, 25vw, 290px);
   aspect-ratio: 260 / 247;
-  filter: drop-shadow(0 -6px 22px rgba(0, 0, 0, .26));
+  /* ⚠️ 唔可以用 drop-shadow —— 隻貓有白色貼紙外框，drop-shadow 會沿住
+     個框畫一圈，喺深藍底上面睇落好似起晒格（老闆：「個陰影起曬格仔，
+     就唔好要啦」）。索性唔要。 */
   /* ⚠️ fill-mode 要 both 唔可以淨係 backwards —— 用 backwards 實測隻貓
      會停喺 0% 嗰個狀態（向下 46%、歪 4 度），即係成隻貓有一半跌出畫面
      底邊。both 會鎖實 100%，彈完就企定喺底邊上面。 */
