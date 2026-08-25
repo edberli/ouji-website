@@ -10876,10 +10876,8 @@ body::before { opacity: 0.18; }
    掃成塊貼紙牆，完全撞唔到嘅位置係 0 個 —— 即係點擺都會壓住一個
    分類掣（試過壓住「修容」，成個標籤唔見咗）。
    所以手機版收起，改為喺下面條導航列出芝麻（每一頁都見到，仲好）。 */
-@media (max-width: 640px) {
-  .makeup-booth .shima-corner,
-  .shop-boot .shima-corner { display: none; }
-}
+/* 貼紙牆／開機畫面本來擺過一隻，後來連 markup 都剷咗 ——
+   兩版嘅芝麻而家統一喺幼優惠條入面（.promo-slim__cat）。 */
 
 /* 會員：唔用線稿人像，用芝麻個頭（彩色）。老闆：「唯獨是會員嗰個，
    轉做彩色嘅 logo，嗰個頭像咯」。其餘四粒維持返原本嘅線稿。
@@ -10983,9 +10981,7 @@ body::before { opacity: 0.18; }
   .shima-band--wide .shima { width: 136px; }
 }
 
-/* 條 band 頂上咗，塊 hero 入面唔再擺貓（嗰度點擺都會壓住分類掣）。 */
-.makeup-booth .shima-corner,
-.shop-boot .shima-corner { display: none; }
+
 
 /* 老闆：「有部分頁面呢，太細個喇，芝麻嗰個動畫。」整大一級。
    ⚠️ 唔可以寫 `.shima-page img` —— 六格動畫嘅 <img> 全部係
@@ -11135,4 +11131,30 @@ body::before { opacity: 0.18; }
     border-top: 1px solid rgba(43, 76, 88, 0.14);
   }
   .promo-slim__end { text-align: right; }
+}
+
+/* 芝麻塞入幼優惠條入面本來就吉咗嗰忽（右邊、倒數隔籬）。
+   老闆：「貓貓嘅貼圖動畫係應該跟嗰個畫面嘅，而唔係個畫面就佢。
+   你唔好又浪費啲咁有限嘅空間俾佢用。」
+   所以：絕對定位（唔撐高條 strip 一 px）＋ 條 strip 讓返條巷畀佢企。
+   隻貓高過條 strip，會探出上面 —— 上面係麵包屑行嘅右邊吉位，撞唔到嘢。 */
+.promo-slim { position: relative; }
+.promo-slim:has(.promo-slim__cat) { padding-right: clamp(120px, 15vw, 210px); }
+.promo-slim__cat {
+  position: absolute;
+  right: clamp(8px, 1.5vw, 20px);
+  bottom: 0;
+  height: clamp(96px, 11vw, 138px);
+  aspect-ratio: 3 / 4;
+  width: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.18));
+}
+.promo-slim__cat .shima { width: 100%; height: 100%; }
+/* 推車嗰套打橫，比例唔同，唔寫返會俾壓扁 */
+.promo-slim__cat:has(img[src*="shima-shop1"]) { aspect-ratio: 5 / 4; height: clamp(86px, 9.5vw, 120px); }
+@media (max-width: 760px) {
+  .promo-slim:has(.promo-slim__cat) { padding-right: 92px; }
+  .promo-slim__cat { height: 84px; right: 6px; }
+  .promo-slim__cat:has(img[src*="shima-shop1"]) { height: 74px; }
 }

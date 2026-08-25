@@ -1358,8 +1358,11 @@
     border-left: 0; border-bottom: 2px solid #17213c; border-right: 2px solid #17213c;
     transform: rotate(-45deg);
   }
+  /* 老闆：「左下角嗰個可以大隻少少添。」由 108 加到 148。
+     ⚠️ 呢條係 min-width:761px（桌面）嗰條，唔係手機嗰條 —— 上面
+     嗰條 205×224 先係窄機用。我一開始改錯咗上面嗰條，冇效果。 */
   .dl__cat-img {
     position: static; grid-row: 4; grid-column: 2; align-self: end;
-    width: 108px; height: 118px; margin: 6px -8px -4px 0;
+    width: 148px; height: 162px; margin: 6px -12px -6px 0;
   }
 }

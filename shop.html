@@ -188,19 +188,6 @@
          呢度淨係外殼；件數、五個分類貼紙、視窗入面四張真產品相，
          全部由 catalog.js 用 live Storefront 目錄填 —— 唔准寫死件數。 -->
     <section class="shop-boot" aria-labelledby="shop-boot-title" data-shop-boot>
-      <!-- 芝麻六格連續動作 —— 唔係六張唔同貼圖排晒出嚟，係同一個動作
-           嘅分解，每 260ms 換一格，第六格接返第一格。JS 喺 script.js
-           嘅 initShimaFrames()。 -->
-      <div class="shima-corner" aria-hidden="true">
-        <div class="shima">
-          <img class="shima__f is-on" src="assets/images/shima/shima-shop1.webp" alt="" loading="lazy" decoding="async">
-          <img class="shima__f" src="assets/images/shima/shima-shop2.webp" alt="" loading="lazy" decoding="async">
-          <img class="shima__f" src="assets/images/shima/shima-shop3.webp" alt="" loading="lazy" decoding="async">
-          <img class="shima__f" src="assets/images/shima/shima-shop4.webp" alt="" loading="lazy" decoding="async">
-          <img class="shima__f" src="assets/images/shima/shima-shop5.webp" alt="" loading="lazy" decoding="async">
-          <img class="shima__f" src="assets/images/shima/shima-shop6.webp" alt="" loading="lazy" decoding="async">
-        </div>
-      </div>
       <div class="shop-boot__wallpaper" aria-hidden="true">
         <span class="shop-boot__cloud"></span>
         <span class="shop-boot__cloud shop-boot__cloud--two"></span>
@@ -314,21 +301,22 @@
               <li>折實滿 <b>HK$500</b> 送面霜<em data-giftstock hidden></em></li>
             </ul>
             <p class="promo-slim__end">9 月 15 日前<span>仲有 <b data-countdown>—</b> 日</span></p>
+            <!-- 隻貓塞入條優惠條入面本來就吉咗嘅位，唔另外開一條帶。
+                 老闆：「貓貓嘅貼圖動畫係應該跟嗰個畫面嘅，而唔係個畫面
+                 就佢。你唔好又浪費啲咁有限嘅空間俾佢用。」
+                 絕對定位 ＋ 條 strip 讓返條巷，所以佢一 px 都冇撐高。 -->
+            <div class="promo-slim__cat" aria-hidden="true">
+              <div class="shima">
+                            <img class="shima__f is-on" src="assets/images/shima/shima-shop1.webp" alt="" loading="lazy" decoding="async">
+                            <img class="shima__f" src="assets/images/shima/shima-shop2.webp" alt="" loading="lazy" decoding="async">
+                            <img class="shima__f" src="assets/images/shima/shima-shop3.webp" alt="" loading="lazy" decoding="async">
+                            <img class="shima__f" src="assets/images/shima/shima-shop4.webp" alt="" loading="lazy" decoding="async">
+                            <img class="shima__f" src="assets/images/shima/shima-shop5.webp" alt="" loading="lazy" decoding="async">
+                            <img class="shima__f" src="assets/images/shima/shima-shop6.webp" alt="" loading="lazy" decoding="async">
+                          </div>
+            </div>
           </aside>
           <div class="brand-strip" data-brand-strip></div>
-          <!-- 手機專用：呢兩版嘅 hero 逼到冇位（實測用 86×104 嘅窗掃過
-               成版都搵唔到一個唔撞嘅位），所以喺頁面中段開返條窄帶畀芝麻企。
-               桌面版唔出，桌面版隻貓喺上面塊貼紙牆度。 -->
-          <div class="shima-band shima-band--wide" aria-hidden="true">
-            <div class="shima">
-              <img class="shima__f is-on" src="assets/images/shima/shima-shop1.webp" alt="" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/shima/shima-shop2.webp" alt="" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/shima/shima-shop3.webp" alt="" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/shima/shima-shop4.webp" alt="" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/shima/shima-shop5.webp" alt="" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/shima/shima-shop6.webp" alt="" loading="lazy" decoding="async">
-            </div>
-          </div>
 
           <div class="active-filters" data-active-filters></div>
 
