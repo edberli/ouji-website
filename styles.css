@@ -6958,10 +6958,10 @@ html.is-lite .section--brand-intro::after {
 }
 
 .shop-brand-spotlight__brand {
-  top: calc(15.7% + (var(--spotlight-row) * 39.7%));
-  left: calc(42% + (var(--spotlight-col) * 13.25%));
-  width: 12.1%;
-  height: 36.2%;
+  top: calc(16.8% + (var(--spotlight-row) * 41%));
+  left: calc(43.9% + (var(--spotlight-col) * 13.8%));
+  width: 12.6%;
+  height: 37.7%;
 }
 
 .shop-brand-spotlight__feature:focus-visible,
@@ -7121,10 +7121,10 @@ html.is-lite .section--brand-intro::after {
     border-radius: 10px;
   }
   .shop-brand-carousel__mobile-brand {
-    top: calc(15.7% + (var(--spotlight-row) * 39.7%));
-    left: calc(3.25% + (var(--spotlight-col) * 22.1%));
-    width: 20.2%;
-    height: 36.2%;
+    top: calc(15.5% + (var(--spotlight-row) * 42.7%));
+    left: calc(2.8% + (var(--spotlight-col) * 23.9%));
+    width: 21.8%;
+    height: 39.1%;
   }
   .shop-brand-carousel__mobile-feature:focus-visible,
   .shop-brand-carousel__mobile-brand:focus-visible {

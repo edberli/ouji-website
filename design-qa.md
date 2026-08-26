@@ -44,6 +44,7 @@
 3. **P2 — mobile 品牌矩陣左邊曾露出焦點圖藍色殘邊。** 修正：右側 crop 改為靠右並放大 104%，最終 Browser visual inspection 無殘邊、無右側空白。
 4. **P1 — 首頁輪播圖過重。** 修正：11 張 PNG 轉 WebP，並用 `data-src` 延遲載入未顯示 slides；三頁 fresh load 都只下載第 1 版。
 5. **P2 — 品牌 hotspot hover 出現奇怪硬藍框。** 第一輪移除後欠缺互動提示；第二輪改成類別色 liquid-glass 柔光＋2 px 浮起＋掃光。護膚 Anua Browser 驗證使用青綠 `rgba(54,151,164)`、`brightness(1.07)`、`saturate(1.12)`，冇改動卡面內容。
+6. **P1 — Hover 外框同品牌卡錯位。** 原因係 hotspot 沿用粗略比例（desktop `left:42%`、`width:12.1%`），但 artwork 第一張卡實際係 `x=945/2152`、`width=271/2152`。已按原圖像素重算 desktop 為 `43.9% / 16.8% / 12.6% / 37.7%`，mobile 再按 104% crop 換算為 `2.8% / 15.5% / 21.8% / 39.1%`；Browser DOM 實測同預期比例一致，390 px viewport 無 overflow。
 
 ## Implementation checklist
 
