@@ -44,7 +44,7 @@
 3. **P2 — mobile 品牌矩陣左邊曾露出焦點圖藍色殘邊。** 修正：右側 crop 改為靠右並放大 104%，最終 Browser visual inspection 無殘邊、無右側空白。
 4. **P1 — 首頁輪播圖過重。** 修正：11 張 PNG 轉 WebP，並用 `data-src` 延遲載入未顯示 slides；三頁 fresh load 都只下載第 1 版。
 5. **P2 — 品牌 hotspot hover 出現奇怪硬藍框。** 第一輪移除後欠缺互動提示；第二輪改成類別色 liquid-glass 柔光＋2 px 浮起＋掃光。護膚 Anua Browser 驗證使用青綠 `rgba(54,151,164)`、`brightness(1.07)`、`saturate(1.12)`，冇改動卡面內容。
-6. **P1 — Hover 外框同品牌卡錯位。** 原因係 hotspot 沿用粗略比例（desktop `left:42%`、`width:12.1%`），但 artwork 第一張卡實際係 `x=945/2152`、`width=271/2152`。已按原圖像素重算 desktop 為 `43.9% / 16.8% / 12.6% / 37.7%`，mobile 再按 104% crop 換算為 `2.8% / 15.5% / 21.8% / 39.1%`；Browser DOM 實測同預期比例一致，390 px viewport 無 overflow。
+6. **P1 — Hover 外框同品牌卡／焦點大圖錯位。** 第一輪修正只量度 `all-slide-1`，再將同一組座標硬套 11 張獨立排版 artwork；hover 本身仲有 `translateY(-2px) scale(1.012)`，令外框即使起點正確都會自行移位及放大。現時 11 張圖各自保存焦點大圖、4 欄、2 行嘅原圖像素邊界，render 時逐個 hotspot 換算百分比；mobile 亦逐格按 104% crop 公式換算。Hover 已取消位置／大小 transform，只保留玻璃柔光及掃光。三頁共 11 版 desktop、mobile 全量驗證：82 個品牌 hotspot＋11 個焦點大圖全部有尺寸、位於容器內、互不重疊；390 px 無 overflow，console 0 error。
 
 ## Implementation checklist
 
@@ -56,6 +56,7 @@
 - [x] 原色品牌字樣及高解像 artwork
 - [x] 品牌／焦點可點擊；移除全部品牌按鈕
 - [x] WebP 壓縮及逐版 lazy load
+- [x] 11 張 artwork 各自量度 hotspot；品牌卡及焦點大圖逐版對位
 - [x] Desktop、mobile、interaction、responsive、console QA
 
 final result: passed

@@ -650,16 +650,98 @@ const BRAND_SPOTLIGHTS = {
   },
 };
 
+/* 每張 artwork 都係獨立排版，卡面及焦點大圖邊界唔可以共用一組估算值。
+   座標以原圖像素記錄為 [left, top, right, bottom]，由 hotspotStyle 統一換算
+   desktop 百分比及 mobile 104% crop，避免 hover 框同實際卡面漂移。 */
+const BRAND_SPOTLIGHT_GEOMETRY = {
+  'all-slide-1.webp': {
+    width: 2152, feature: [0, 25, 900, 695],
+    columns: [[946, 1215], [1243, 1513], [1540, 1810], [1838, 2108]],
+    rows: [[122, 397], [424, 693]],
+  },
+  'all-slide-2.webp': {
+    width: 2152, feature: [0, 24, 901, 695],
+    columns: [[945, 1213], [1242, 1509], [1537, 1808], [1836, 2106]],
+    rows: [[123, 397], [425, 694]],
+  },
+  'all-slide-3.webp': {
+    width: 2152, feature: [0, 28, 880, 685],
+    columns: [[926, 1186], [1210, 1508], [1532, 1810], [1835, 2109]],
+    rows: [[124, 372], [397, 683]],
+  },
+  'all-slide-4.webp': {
+    width: 2152, feature: [2, 22, 893, 705],
+    columns: [[938, 1216], [1241, 1519], [1543, 1822], [1847, 2127]],
+    rows: [[115, 387], [412, 700]],
+  },
+  'makeup-slide-1.webp': {
+    width: 2152, feature: [7, 28, 884, 700],
+    columns: [[931, 1198], [1223, 1494], [1518, 1787], [1812, 2101]],
+    rows: [[119, 396], [417, 697]],
+  },
+  'makeup-slide-2.webp': {
+    width: 2152, feature: [21, 26, 921, 705],
+    columns: [[966, 1245], [1268, 1549], [1566, 1844], [1861, 2130]],
+    rows: [[124, 399], [426, 705]],
+  },
+  'makeup-slide-3.webp': {
+    width: 2152, feature: [0, 23, 921, 702],
+    columns: [[963, 1242], [1269, 1542], [1568, 1827], [1853, 2132]],
+    rows: [[113, 401], [428, 701]],
+  },
+  'skincare-slide-1.webp': {
+    width: 2151, feature: [7, 23, 894, 701],
+    columns: [[932, 1215], [1234, 1528], [1547, 1825], [1844, 2121]],
+    rows: [[116, 396], [417, 700]],
+  },
+  'skincare-slide-2.webp': {
+    width: 2151, feature: [9, 21, 904, 698],
+    columns: [[949, 1225], [1246, 1522], [1545, 1823], [1846, 2123]],
+    rows: [[110, 388], [410, 694]],
+  },
+  'skincare-slide-3.webp': {
+    width: 2152, feature: [0, 20, 913, 705],
+    columns: [[958, 1228], [1253, 1527], [1553, 1827], [1854, 2129]],
+    rows: [[117, 392], [420, 694]],
+  },
+  'skincare-slide-4.webp': {
+    width: 2151, feature: [5, 21, 910, 703],
+    columns: [[942, 1220], [1242, 1520], [1543, 1819], [1843, 2121]],
+    rows: [[112, 401], [422, 702]],
+  },
+};
+
+function hotspotStyle(box, artworkWidth, mobile = false) {
+  const [left, top, right, bottom] = box;
+  let x = left / artworkWidth;
+  let y = top / 731;
+  let width = (right - left) / artworkWidth;
+  let height = (bottom - top) / 731;
+  if (mobile) {
+    x = (1291 - (artworkWidth * 1.04) + (left * 1.04)) / 1291;
+    y = -.02 + (top * 1.04 / 731);
+    width = (right - left) * 1.04 / 1291;
+    height = (bottom - top) * 1.04 / 731;
+  }
+  const percent = (value) => `${(value * 100).toFixed(3)}%`;
+  return `--hotspot-left:${percent(x)};--hotspot-top:${percent(y)};` +
+    `--hotspot-width:${percent(width)};--hotspot-height:${percent(height)}`;
+}
+
 function spotlightLinks(slide, page, mobile = false) {
   const prefix = mobile ? 'shop-brand-carousel__mobile-' : 'shop-brand-spotlight__';
+  const geometry = BRAND_SPOTLIGHT_GEOMETRY[slide.art];
   const brands = slide.brands.map((vendor, index) => {
     const col = index % 4;
     const row = Math.floor(index / 4);
+    const [left, right] = geometry.columns[col];
+    const [top, bottom] = geometry.rows[row];
     return `<a class="${prefix}brand" href="${page}?brand=${encodeURIComponent(vendor)}"
-      style="--spotlight-col:${col};--spotlight-row:${row}"
+      style="${hotspotStyle([left, top, right, bottom], geometry.width, mobile)}"
       aria-label="瀏覽 ${vendor} 產品"></a>`;
   }).join('');
   const feature = mobile ? '' : `<a class="${prefix}feature" href="${page}?brand=${encodeURIComponent(slide.focus)}"
+      style="${hotspotStyle(geometry.feature, geometry.width)}"
       aria-label="瀏覽 ${slide.focus} 產品"></a>`;
   return `${feature}${brands}`;
 }
