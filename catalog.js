@@ -625,27 +625,27 @@ const BRAND_SPOTLIGHTS = {
   all: {
     label: '熱門品牌', page: 'shop.html',
     slides: [
-      { art: 'all-slide-1.png', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'rom&nd', 'hince', 'TIRTIR'] },
-      { art: 'all-slide-2.png', focus: 'Some By Mi', brands: ['Mixsoon', 'Goodal', 'TIRTIR', 'Beplain', 'Bring Green', 'AMUSE', 'LINDSAY', 'lilybyred'] },
-      { art: 'all-slide-3.png', focus: 'Skinfood', brands: ['hince', 'MAYBELLINE', 'Beauty of Joseon', 'CLIO', 'dasique', 'Needly', 'WAKEMAKE', 'April Skin'] },
-      { art: 'all-slide-4.png', focus: 'rom&nd', brands: ['Purito', 'rom&nd', 'KSECRET', 'BOH', 'Laka', 'TOCOBO', 'SO Natural', 'ma:nyo'] },
+      { art: 'all-slide-1.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'rom&nd', 'hince', 'TIRTIR'] },
+      { art: 'all-slide-2.webp', focus: 'Some By Mi', brands: ['Mixsoon', 'Goodal', 'TIRTIR', 'Beplain', 'Bring Green', 'AMUSE', 'LINDSAY', 'lilybyred'] },
+      { art: 'all-slide-3.webp', focus: 'Skinfood', brands: ['hince', 'MAYBELLINE', 'Beauty of Joseon', 'CLIO', 'dasique', 'Needly', 'WAKEMAKE', 'April Skin'] },
+      { art: 'all-slide-4.webp', focus: 'rom&nd', brands: ['Purito', 'rom&nd', 'KSECRET', 'BOH', 'Laka', 'TOCOBO', 'SO Natural', 'ma:nyo'] },
     ],
   },
   makeup: {
     label: '熱門彩妝品牌', page: 'makeup.html',
     slides: [
-      { art: 'makeup-slide-1.png', focus: 'hince', brands: ['AMUSE', 'TIRTIR', 'lilybyred', 'hince', 'CLIO', 'MAYBELLINE', 'dasique', 'WAKEMAKE'] },
-      { art: 'makeup-slide-2.png', focus: 'rom&nd', brands: ['rom&nd', 'Laka', 'UNLEASHIA', 'SO Natural', 'fwee', 'Heart Percent', 'Peripera', '2aN'] },
-      { art: 'makeup-slide-3.png', focus: 'AMUSE', brands: ['花知曉 Flower Knows', 'Coralhaze', 'BRAYE', 'Glint'] },
+      { art: 'makeup-slide-1.webp', focus: 'hince', brands: ['AMUSE', 'TIRTIR', 'lilybyred', 'hince', 'CLIO', 'MAYBELLINE', 'dasique', 'WAKEMAKE'] },
+      { art: 'makeup-slide-2.webp', focus: 'rom&nd', brands: ['rom&nd', 'Laka', 'UNLEASHIA', 'SO Natural', 'fwee', 'Heart Percent', 'Peripera', '2aN'] },
+      { art: 'makeup-slide-3.webp', focus: 'AMUSE', brands: ['花知曉 Flower Knows', 'Coralhaze', 'BRAYE', 'Glint'] },
     ],
   },
   skincare: {
     label: '熱門護膚品牌', page: 'category.html',
     slides: [
-      { art: 'skincare-slide-1.png', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
-      { art: 'skincare-slide-2.png', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
-      { art: 'skincare-slide-3.png', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
-      { art: 'skincare-slide-4.png', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
+      { art: 'skincare-slide-1.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
+      { art: 'skincare-slide-2.webp', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
+      { art: 'skincare-slide-3.webp', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
+      { art: 'skincare-slide-4.webp', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
     ],
   },
 };
@@ -661,7 +661,7 @@ function spotlightLinks(slide, page, mobile = false) {
   }).join('');
   const feature = mobile ? '' : `<a class="${prefix}feature" href="${page}?brand=${encodeURIComponent(slide.focus)}"
       aria-label="瀏覽 ${slide.focus} 產品"></a>`;
-  return `${feature}<a class="${prefix}all" href="brands.html" aria-label="瀏覽全部品牌"></a>${brands}`;
+  return `${feature}${brands}`;
 }
 
 function bindBrandSpotlight(host) {
@@ -678,6 +678,19 @@ function bindBrandSpotlight(host) {
   let active = 0;
   let raf = 0;
 
+  const loadSlide = (index) => {
+    const slide = slides[index];
+    if (!slide) return;
+    slide.querySelectorAll('img[data-src]').forEach((img) => {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
+    slide.querySelectorAll('[data-spotlight-art]').forEach((element) => {
+      element.style.setProperty('--spotlight-art', `url("${element.dataset.spotlightArt}")`);
+      element.removeAttribute('data-spotlight-art');
+    });
+  };
+
   const sync = (index, announce = false) => {
     active = Math.max(0, Math.min(slides.length - 1, index));
     dots.forEach((dot, i) => {
@@ -689,6 +702,7 @@ function bindBrandSpotlight(host) {
     if (announce && status) status.textContent = `第 ${active + 1} 版，共 ${slides.length} 版`;
   };
   const go = (index) => {
+    loadSlide(index);
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     viewport.scrollTo({ left: viewport.clientWidth * index, behavior: reduced ? 'auto' : 'smooth' });
     sync(index, true);
@@ -697,9 +711,17 @@ function bindBrandSpotlight(host) {
   prev?.addEventListener('click', () => go(active - 1), { signal: abort.signal });
   next?.addEventListener('click', () => go(active + 1), { signal: abort.signal });
   dots.forEach((dot, i) => dot.addEventListener('click', () => go(i), { signal: abort.signal }));
+  viewport.addEventListener('pointerdown', () => {
+    loadSlide(active - 1);
+    loadSlide(active + 1);
+  }, { passive: true, signal: abort.signal });
   viewport.addEventListener('scroll', () => {
     cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => sync(Math.round(viewport.scrollLeft / Math.max(1, viewport.clientWidth))));
+    raf = requestAnimationFrame(() => {
+      const index = Math.round(viewport.scrollLeft / Math.max(1, viewport.clientWidth));
+      loadSlide(index);
+      sync(index);
+    });
   }, { passive: true, signal: abort.signal });
   const ro = new ResizeObserver(() => viewport.scrollTo({ left: viewport.clientWidth * active }));
   ro.observe(viewport);
@@ -712,29 +734,36 @@ function buildShopBrandSpotlight(products, section = null) {
   if (!host) return;
   const key = host.dataset.spotlightSection || section || 'all';
   const config = BRAND_SPOTLIGHTS[key] || BRAND_SPOTLIGHTS.all;
-  const slides = config.slides.map((slide, index) => `
+  const slides = config.slides.map((slide, index) => {
+    const source = `assets/brand-carousel/${slide.art}?v=20260826-speed`;
+    const sourceAttr = index ? `data-src="${source}"` : `src="${source}"`;
+    const artAttr = index
+      ? `data-spotlight-art="${source}"`
+      : `style="--spotlight-art:url('${source}')"`;
+    return `
     <article class="shop-brand-carousel__slide" role="group"
       aria-roledescription="slide" aria-label="第 ${index + 1} 版，共 ${config.slides.length} 版">
-      <div class="shop-brand-spotlight__board">
-        <img class="shop-brand-spotlight__visual" src="assets/brand-carousel/${slide.art}?v=20260826-carousel"
+      <div class="shop-brand-spotlight__board" ${artAttr}>
+        <img class="shop-brand-spotlight__visual" ${sourceAttr}
           alt="${slide.focus} 焦點及 ${slide.brands.join('、')} ${config.label}"
-          width="2152" height="731" ${index ? 'loading="lazy"' : 'loading="eager"'} decoding="async">
+          width="2152" height="731" ${index ? 'loading="lazy"' : 'loading="eager" fetchpriority="high"'} decoding="async">
         ${spotlightLinks(slide, config.page)}
       </div>
       <div class="shop-brand-carousel__mobile-board">
         <a class="shop-brand-carousel__mobile-feature" href="${config.page}?brand=${encodeURIComponent(slide.focus)}">
           <span class="shop-brand-carousel__mobile-crop shop-brand-carousel__mobile-crop--feature">
-            <img src="assets/brand-carousel/${slide.art}?v=20260826-carousel" alt="" width="2152" height="731" loading="lazy" decoding="async">
+            <img ${sourceAttr} alt="" width="2152" height="731" loading="lazy" decoding="async">
           </span>
         </a>
-        <div class="shop-brand-carousel__mobile-grid">
+        <div class="shop-brand-carousel__mobile-grid" ${artAttr}>
           <span class="shop-brand-carousel__mobile-crop shop-brand-carousel__mobile-crop--grid">
-            <img src="assets/brand-carousel/${slide.art}?v=20260826-carousel" alt="" width="2152" height="731" loading="lazy" decoding="async">
+            <img ${sourceAttr} alt="" width="2152" height="731" loading="lazy" decoding="async">
           </span>
           ${spotlightLinks(slide, config.page, true)}
         </div>
       </div>
-    </article>`).join('');
+    </article>`;
+  }).join('');
   host.innerHTML = `
     <div class="shop-brand-carousel" aria-roledescription="carousel" aria-label="${config.label}">
       <div class="shop-brand-carousel__viewport" data-brand-carousel-viewport tabindex="0">

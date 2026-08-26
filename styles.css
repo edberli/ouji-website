@@ -6871,6 +6871,15 @@ html.is-lite .section--brand-intro::after {
 .shop-brand-spotlight {
   position: relative;
   margin: var(--space-lg) 0 var(--space-md);
+  --spotlight-hover-rgb: 39, 132, 200;
+}
+
+[data-spotlight-section="makeup"] {
+  --spotlight-hover-rgb: 205, 86, 126;
+}
+
+[data-spotlight-section="skincare"] {
+  --spotlight-hover-rgb: 54, 151, 164;
 }
 
 .shop-brand-carousel__viewport {
@@ -6912,23 +6921,40 @@ html.is-lite .section--brand-intro::after {
 }
 
 .shop-brand-spotlight__feature,
-.shop-brand-spotlight__all,
 .shop-brand-spotlight__brand {
   position: absolute;
   z-index: 1;
   display: block;
   border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background-color .24s ease,
+              box-shadow .24s ease,
+              transform .24s cubic-bezier(.2, .8, .2, 1),
+              backdrop-filter .24s ease;
+}
+
+.shop-brand-spotlight__feature::before,
+.shop-brand-spotlight__brand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-115%);
+  background: linear-gradient(112deg,
+    transparent 18%,
+    rgba(255, 255, 255, .12) 34%,
+    rgba(255, 255, 255, .72) 50%,
+    rgba(255, 255, 255, .14) 66%,
+    transparent 82%);
+  transition: transform .62s cubic-bezier(.2, .75, .2, 1), opacity .2s ease;
 }
 
 .shop-brand-spotlight__feature {
   inset: 3% 60% 9% 0;
-}
-
-.shop-brand-spotlight__all {
-  top: 3%;
-  right: 1.4%;
-  width: 10.5%;
-  height: 9%;
 }
 
 .shop-brand-spotlight__brand {
@@ -6939,16 +6965,55 @@ html.is-lite .section--brand-intro::after {
 }
 
 .shop-brand-spotlight__feature:focus-visible,
-.shop-brand-spotlight__brand:focus-visible,
-.shop-brand-spotlight__all:focus-visible {
+.shop-brand-spotlight__brand:focus-visible {
   outline: 3px solid var(--boot-pink, #ff63b4);
   outline-offset: 3px;
 }
 
-.shop-brand-spotlight__feature:hover,
-.shop-brand-spotlight__brand:hover,
-.shop-brand-spotlight__all:hover {
-  box-shadow: inset 0 0 0 2px rgba(17, 111, 189, .32);
+@media (hover: hover) and (pointer: fine) {
+  .shop-brand-spotlight__feature:hover,
+  .shop-brand-spotlight__brand:hover {
+    transform: translateY(-2px) scale(1.012);
+    background: linear-gradient(145deg,
+      rgba(255, 255, 255, .22),
+      rgba(var(--spotlight-hover-rgb), .09));
+    box-shadow:
+      0 12px 24px rgba(var(--spotlight-hover-rgb), .18),
+      inset 0 0 0 1px rgba(var(--spotlight-hover-rgb), .28),
+      inset 0 1px 0 rgba(255, 255, 255, .82);
+    -webkit-backdrop-filter: brightness(1.07) saturate(1.12);
+    backdrop-filter: brightness(1.07) saturate(1.12);
+  }
+
+  .shop-brand-spotlight__feature:hover::before,
+  .shop-brand-spotlight__brand:hover::before {
+    opacity: 1;
+    transform: translateX(115%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-brand-spotlight__feature,
+  .shop-brand-spotlight__brand,
+  .shop-brand-spotlight__feature::before,
+  .shop-brand-spotlight__brand::before {
+    transition: none;
+  }
+}
+
+.shop-brand-spotlight__board::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  width: 14%;
+  height: 14%;
+  pointer-events: none;
+  background-image: var(--spotlight-art);
+  background-size: 714.3% 714.3%;
+  background-position: 84% 0;
+  background-repeat: no-repeat;
 }
 
 .shop-brand-carousel__mobile-board { display: none; }
@@ -7049,18 +7114,11 @@ html.is-lite .section--brand-intro::after {
     height: 104%;
     width: auto;
   }
-  .shop-brand-carousel__mobile-all,
   .shop-brand-carousel__mobile-brand {
     position: absolute;
     z-index: 1;
     display: block;
     border-radius: 10px;
-  }
-  .shop-brand-carousel__mobile-all {
-    top: 3%;
-    right: 1%;
-    width: 18%;
-    height: 10%;
   }
   .shop-brand-carousel__mobile-brand {
     top: calc(15.7% + (var(--spotlight-row) * 39.7%));
@@ -7069,10 +7127,23 @@ html.is-lite .section--brand-intro::after {
     height: 36.2%;
   }
   .shop-brand-carousel__mobile-feature:focus-visible,
-  .shop-brand-carousel__mobile-all:focus-visible,
   .shop-brand-carousel__mobile-brand:focus-visible {
     outline: 3px solid var(--boot-pink, #ff63b4);
     outline-offset: 3px;
+  }
+  .shop-brand-carousel__mobile-grid::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    width: 23%;
+    height: 15%;
+    pointer-events: none;
+    background-image: var(--spotlight-art);
+    background-size: 725% 693%;
+    background-position: 84% 0;
+    background-repeat: no-repeat;
   }
   .shop-brand-carousel__controls {
     gap: 10px;
