@@ -618,47 +618,139 @@ function buildBrandStrip(products, sel) {
     </a>`).join('');
 }
 
-/* 全部產品頁嘅品牌焦點。呢格以老闆揀定嘅第 3 款樣板做唯一視覺基準，
-   唔再用 catalogue 圖重新演繹。透明 hotspot 保留每個品牌嘅實際篩選功能；
-   圓形箭嘴已經由正式 artwork 移除。 */
-const SHOP_SPOTLIGHT_BRANDS = [
-  'Anua', 'Abib', 'COSRX', 'Torriden',
-  'Skin1004', 'rom&nd', 'hince', 'TIRTIR',
-];
+/* 三個主要商品頁共用同一套 exact 品牌 carousel。每版 artwork 保留第 3 款
+   樣板嘅左焦點＋右 4×2 構圖；品牌 link 係透明 hotspot，唔會再改寫字款、
+   產品擺位同卡面材質。卡片本身冇圓形箭嘴，翻頁控制獨立放喺 board 外。 */
+const BRAND_SPOTLIGHTS = {
+  all: {
+    label: '熱門品牌', page: 'shop.html',
+    slides: [
+      { art: 'all-slide-1.png', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'rom&nd', 'hince', 'TIRTIR'] },
+      { art: 'all-slide-2.png', focus: 'Some By Mi', brands: ['Mixsoon', 'Goodal', 'TIRTIR', 'Beplain', 'Bring Green', 'AMUSE', 'LINDSAY', 'lilybyred'] },
+      { art: 'all-slide-3.png', focus: 'Skinfood', brands: ['hince', 'MAYBELLINE', 'Beauty of Joseon', 'CLIO', 'dasique', 'Needly', 'WAKEMAKE', 'April Skin'] },
+      { art: 'all-slide-4.png', focus: 'rom&nd', brands: ['Purito', 'rom&nd', 'KSECRET', 'BOH', 'Laka', 'TOCOBO', 'SO Natural', 'ma:nyo'] },
+    ],
+  },
+  makeup: {
+    label: '熱門彩妝品牌', page: 'makeup.html',
+    slides: [
+      { art: 'makeup-slide-1.png', focus: 'hince', brands: ['AMUSE', 'TIRTIR', 'lilybyred', 'hince', 'CLIO', 'MAYBELLINE', 'dasique', 'WAKEMAKE'] },
+      { art: 'makeup-slide-2.png', focus: 'rom&nd', brands: ['rom&nd', 'Laka', 'UNLEASHIA', 'SO Natural', 'fwee', 'Heart Percent', 'Peripera', '2aN'] },
+      { art: 'makeup-slide-3.png', focus: 'AMUSE', brands: ['花知曉 Flower Knows', 'Coralhaze', 'BRAYE', 'Glint'] },
+    ],
+  },
+  skincare: {
+    label: '熱門護膚品牌', page: 'category.html',
+    slides: [
+      { art: 'skincare-slide-1.png', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
+      { art: 'skincare-slide-2.png', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
+      { art: 'skincare-slide-3.png', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
+      { art: 'skincare-slide-4.png', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
+    ],
+  },
+};
 
-function buildShopBrandSpotlight(products) {
+function spotlightLinks(slide, page, mobile = false) {
+  const prefix = mobile ? 'shop-brand-carousel__mobile-' : 'shop-brand-spotlight__';
+  const brands = slide.brands.map((vendor, index) => {
+    const col = index % 4;
+    const row = Math.floor(index / 4);
+    return `<a class="${prefix}brand" href="${page}?brand=${encodeURIComponent(vendor)}"
+      style="--spotlight-col:${col};--spotlight-row:${row}"
+      aria-label="瀏覽 ${vendor} 產品"></a>`;
+  }).join('');
+  const feature = mobile ? '' : `<a class="${prefix}feature" href="${page}?brand=${encodeURIComponent(slide.focus)}"
+      aria-label="瀏覽 ${slide.focus} 產品"></a>`;
+  return `${feature}<a class="${prefix}all" href="brands.html" aria-label="瀏覽全部品牌"></a>${brands}`;
+}
+
+function bindBrandSpotlight(host) {
+  host._brandCarouselAbort?.abort();
+  host._brandCarouselResize?.disconnect();
+  const abort = new AbortController();
+  host._brandCarouselAbort = abort;
+  const viewport = host.querySelector('[data-brand-carousel-viewport]');
+  const slides = [...host.querySelectorAll('.shop-brand-carousel__slide')];
+  const dots = [...host.querySelectorAll('[data-brand-carousel-dot]')];
+  const prev = host.querySelector('[data-brand-carousel-prev]');
+  const next = host.querySelector('[data-brand-carousel-next]');
+  const status = host.querySelector('[data-brand-carousel-status]');
+  let active = 0;
+  let raf = 0;
+
+  const sync = (index, announce = false) => {
+    active = Math.max(0, Math.min(slides.length - 1, index));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === active);
+      dot.setAttribute('aria-current', i === active ? 'true' : 'false');
+    });
+    if (prev) prev.disabled = active === 0;
+    if (next) next.disabled = active === slides.length - 1;
+    if (announce && status) status.textContent = `第 ${active + 1} 版，共 ${slides.length} 版`;
+  };
+  const go = (index) => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    viewport.scrollTo({ left: viewport.clientWidth * index, behavior: reduced ? 'auto' : 'smooth' });
+    sync(index, true);
+  };
+
+  prev?.addEventListener('click', () => go(active - 1), { signal: abort.signal });
+  next?.addEventListener('click', () => go(active + 1), { signal: abort.signal });
+  dots.forEach((dot, i) => dot.addEventListener('click', () => go(i), { signal: abort.signal }));
+  viewport.addEventListener('scroll', () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => sync(Math.round(viewport.scrollLeft / Math.max(1, viewport.clientWidth))));
+  }, { passive: true, signal: abort.signal });
+  const ro = new ResizeObserver(() => viewport.scrollTo({ left: viewport.clientWidth * active }));
+  ro.observe(viewport);
+  host._brandCarouselResize = ro;
+  sync(0);
+}
+
+function buildShopBrandSpotlight(products, section = null) {
   const host = document.querySelector('[data-shop-brand-spotlight]');
   if (!host) return;
-
-  const counts = new Map();
-  products.forEach((p) => {
-    if (p.vendor) counts.set(p.vendor, (counts.get(p.vendor) || 0) + 1);
-  });
-
-  const focusVendor = 'Round Lab';
-  const focusCount = counts.get(focusVendor) || 61;
-  const cards = SHOP_SPOTLIGHT_BRANDS
-    .map((vendor, index) => {
-      const col = index % 4;
-      const row = Math.floor(index / 4);
-      return `<a class="shop-brand-spotlight__brand"
-        href="shop.html?brand=${encodeURIComponent(vendor)}"
-        style="--spotlight-col:${col};--spotlight-row:${row}"
-        aria-label="瀏覽 ${vendor} 產品"></a>`;
-    }).join('');
-
+  const key = host.dataset.spotlightSection || section || 'all';
+  const config = BRAND_SPOTLIGHTS[key] || BRAND_SPOTLIGHTS.all;
+  const slides = config.slides.map((slide, index) => `
+    <article class="shop-brand-carousel__slide" role="group"
+      aria-roledescription="slide" aria-label="第 ${index + 1} 版，共 ${config.slides.length} 版">
+      <div class="shop-brand-spotlight__board">
+        <img class="shop-brand-spotlight__visual" src="assets/brand-carousel/${slide.art}?v=20260826-carousel"
+          alt="${slide.focus} 焦點及 ${slide.brands.join('、')} ${config.label}"
+          width="2152" height="731" ${index ? 'loading="lazy"' : 'loading="eager"'} decoding="async">
+        ${spotlightLinks(slide, config.page)}
+      </div>
+      <div class="shop-brand-carousel__mobile-board">
+        <a class="shop-brand-carousel__mobile-feature" href="${config.page}?brand=${encodeURIComponent(slide.focus)}">
+          <span class="shop-brand-carousel__mobile-crop shop-brand-carousel__mobile-crop--feature">
+            <img src="assets/brand-carousel/${slide.art}?v=20260826-carousel" alt="" width="2152" height="731" loading="lazy" decoding="async">
+          </span>
+        </a>
+        <div class="shop-brand-carousel__mobile-grid">
+          <span class="shop-brand-carousel__mobile-crop shop-brand-carousel__mobile-crop--grid">
+            <img src="assets/brand-carousel/${slide.art}?v=20260826-carousel" alt="" width="2152" height="731" loading="lazy" decoding="async">
+          </span>
+          ${spotlightLinks(slide, config.page, true)}
+        </div>
+      </div>
+    </article>`).join('');
   host.innerHTML = `
-    <div class="shop-brand-spotlight__board">
-      <img class="shop-brand-spotlight__visual"
-        src="assets/brand-section-v3-exact.png?v=20260826-exact"
-        alt="Round Lab 今週焦點及 Anua、Abib、COSRX、Torriden、SKIN1004、rom&nd、hince、TIRTIR 熱門品牌"
-        width="2152" height="731" loading="eager" decoding="async">
-      <a class="shop-brand-spotlight__feature"
-        href="shop.html?brand=${encodeURIComponent(focusVendor)}"
-        aria-label="瀏覽 ${focusVendor} ${focusCount} 件產品"></a>
-      <a class="shop-brand-spotlight__all" href="brands.html" aria-label="瀏覽全部品牌"></a>
-      ${cards}
+    <div class="shop-brand-carousel" aria-roledescription="carousel" aria-label="${config.label}">
+      <div class="shop-brand-carousel__viewport" data-brand-carousel-viewport tabindex="0">
+        <div class="shop-brand-carousel__track">${slides}</div>
+      </div>
+      <div class="shop-brand-carousel__controls">
+        <button type="button" class="shop-brand-carousel__page" data-brand-carousel-prev>上一版</button>
+        <div class="shop-brand-carousel__dots" aria-label="選擇品牌頁面">
+          ${config.slides.map((_, i) => `<button type="button" data-brand-carousel-dot
+            aria-label="顯示第 ${i + 1} 版" aria-current="${i ? 'false' : 'true'}"></button>`).join('')}
+        </div>
+        <button type="button" class="shop-brand-carousel__page" data-brand-carousel-next>下一版</button>
+      </div>
+      <span class="sr-only" data-brand-carousel-status aria-live="polite"></span>
     </div>`;
+  bindBrandSpotlight(host);
 }
 
 /** What is applied right now, each removable on its own. */
@@ -1236,7 +1328,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);
-    buildShopBrandSpotlight(scope);
+    buildShopBrandSpotlight(scope, section);
     buildBrandStrip(scope, sel);
     buildActiveChips(section, sel, lockCat);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;

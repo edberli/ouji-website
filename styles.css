@@ -6862,15 +6862,36 @@ html.is-lite .section--brand-intro::after {
 .brand-strip__item.is-active img { filter: none; }
 
 /* ============================================
-   全部產品頁：品牌焦點（第 3 款 exact artwork）
+   產品列表頁：品牌焦點輪播（第 3 款 exact artwork）
 
-   正式版直接沿用獲選樣板嘅產品構圖、logo、字款同卡面質感。連結以
-   透明 hotspot 疊喺 artwork 上面，所以視覺唔會再被 catalogue 圖改寫。
+   每版直接沿用獲選樣板嘅產品構圖、logo、字款同卡面質感；桌面以
+   上一版／下一版加圓點翻頁，手機保留原生 swipe。品牌卡本身唔放
+   圓形箭嘴，成張卡都係連結。
    ============================================ */
 .shop-brand-spotlight {
   position: relative;
   margin: var(--space-lg) 0 var(--space-md);
-  overflow: hidden;
+}
+
+.shop-brand-carousel__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.shop-brand-carousel__viewport::-webkit-scrollbar { display: none; }
+
+.shop-brand-carousel__track {
+  display: flex;
+}
+
+.shop-brand-carousel__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .shop-brand-spotlight__board {
@@ -6930,23 +6951,145 @@ html.is-lite .section--brand-intro::after {
   box-shadow: inset 0 0 0 2px rgba(17, 111, 189, .32);
 }
 
+.shop-brand-carousel__mobile-board { display: none; }
+
+.shop-brand-carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.shop-brand-carousel__page {
+  min-height: 42px;
+  padding: 8px 16px;
+  border: 1px solid rgba(23, 76, 96, .16);
+  border-radius: 999px;
+  background: #fff;
+  color: #25556a;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color var(--duration-fast), color var(--duration-fast),
+              background var(--duration-fast), transform var(--duration-fast);
+}
+.shop-brand-carousel__page:hover,
+.shop-brand-carousel__page:focus-visible {
+  border-color: #2784c8;
+  color: #116fbd;
+  background: #f1f9ff;
+}
+.shop-brand-carousel__page:active { transform: translateY(1px); }
+.shop-brand-carousel__page:disabled { opacity: .38; cursor: default; }
+
+.shop-brand-carousel__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.shop-brand-carousel__dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #c8d8df;
+  cursor: pointer;
+  transition: width var(--duration-fast), background var(--duration-fast);
+}
+.shop-brand-carousel__dots button[aria-current="true"] {
+  width: 28px;
+  background: #237fbd;
+}
+.shop-brand-carousel__dots button:focus-visible {
+  outline: 3px solid var(--boot-pink, #ff63b4);
+  outline-offset: 3px;
+}
+
 @media (max-width: 840px) {
   .shop-brand-spotlight {
-    margin-inline: calc(var(--page-pad, 16px) * -1);
-    padding: 0 var(--page-pad, 16px) 8px;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scrollbar-width: thin;
+    margin-top: var(--space-md);
   }
-  .shop-brand-spotlight__board {
-    width: 760px;
+  .shop-brand-spotlight__board { display: none; }
+  .shop-brand-carousel__mobile-board {
+    display: grid;
+    gap: 12px;
+  }
+  .shop-brand-carousel__mobile-feature,
+  .shop-brand-carousel__mobile-grid {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #fff;
+  }
+  .shop-brand-carousel__mobile-crop {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+  }
+  .shop-brand-carousel__mobile-crop--feature { aspect-ratio: 861 / 731; }
+  .shop-brand-carousel__mobile-crop--grid { aspect-ratio: 1291 / 731; }
+  .shop-brand-carousel__mobile-crop img {
+    position: absolute;
+    top: 0;
+    height: 100%;
     max-width: none;
+    object-fit: contain;
+  }
+  .shop-brand-carousel__mobile-crop--feature img {
+    left: 0;
+    width: auto;
+  }
+  .shop-brand-carousel__mobile-crop--grid img {
+    left: auto;
+    right: 0;
+    top: -2%;
+    height: 104%;
+    width: auto;
+  }
+  .shop-brand-carousel__mobile-all,
+  .shop-brand-carousel__mobile-brand {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    border-radius: 10px;
+  }
+  .shop-brand-carousel__mobile-all {
+    top: 3%;
+    right: 1%;
+    width: 18%;
+    height: 10%;
+  }
+  .shop-brand-carousel__mobile-brand {
+    top: calc(15.7% + (var(--spotlight-row) * 39.7%));
+    left: calc(3.25% + (var(--spotlight-col) * 22.1%));
+    width: 20.2%;
+    height: 36.2%;
+  }
+  .shop-brand-carousel__mobile-feature:focus-visible,
+  .shop-brand-carousel__mobile-all:focus-visible,
+  .shop-brand-carousel__mobile-brand:focus-visible {
+    outline: 3px solid var(--boot-pink, #ff63b4);
+    outline-offset: 3px;
+  }
+  .shop-brand-carousel__controls {
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .shop-brand-carousel__page {
+    min-height: 40px;
+    padding-inline: 13px;
+    font-size: .8125rem;
   }
 }
 
 @media (max-width: 520px) {
-  .shop-brand-spotlight { margin-top: var(--space-md); }
-  .shop-brand-spotlight__board { width: 720px; }
+  .shop-brand-carousel__controls { gap: 8px; }
+  .shop-brand-carousel__dots { gap: 6px; }
+  .shop-brand-carousel__dots button { width: 8px; height: 8px; }
+  .shop-brand-carousel__dots button[aria-current="true"] { width: 22px; }
 }
 
 @media (max-width: 768px) {
