@@ -554,6 +554,30 @@ function brandCheckoutUrl(url) {
   }
 }
 
+/** 將自提點寫落 cart attributes，跟住張單過去 Shopify。
+
+    ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus，冇 checkout extension），
+    所以自提點揀完之後係擺喺 **cart attributes**：客喺我哋自己個購物袋
+    頁揀，個值跟住 cart 過去，鋪頭喺訂單詳情就見到「順豐自提點」同
+    「網點碼」，打單嗰陣照抄。
+*/
+async function setCartAttributes(attrs) {
+  const cart = await getCart();
+  if (!cart?.id) return null;
+  const q = `mutation($cartId:ID!,$attributes:[AttributeInput!]!){
+    cartAttributesUpdate(cartId:$cartId, attributes:$attributes){
+      cart{ id attributes{ key value } }
+      userErrors{ field message }
+    }}`;
+  const data = await shopifyFetch(q, {
+    cartId: cart.id,
+    attributes: Object.entries(attrs).map(([key, value]) => ({ key, value: String(value) })),
+  });
+  const e = data?.cartAttributesUpdate?.userErrors;
+  if (e && e.length) { console.warn('cartAttributesUpdate', e); return null; }
+  return data?.cartAttributesUpdate?.cart?.attributes || null;
+}
+
 /** 前往 Shopify 結帳 */
 async function goToCheckout() {
   const cart = await getCart();

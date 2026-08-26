@@ -11519,3 +11519,47 @@ body::before { opacity: 0.18; }
 @media (prefers-reduced-motion: reduce) {
   .promo-pop { transition: none; transform: none; }
 }
+
+/* ============================================================
+   順豐自提點揀選（購物袋頁）
+   ⚠️ 呢個唔喺 Shopify 結帳頁 —— 個結帳頁改唔到（唔係 Plus）。
+   喺自己個購物袋頁揀，揀完寫落 cart attributes 跟住張單過去。
+   ============================================================ */
+.sfp { margin: var(--space-md) 0; border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; }
+.sfp__toggle {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; padding: 12px 14px; border: 0; background: #f4f8f9;
+  font-family: var(--font-body); font-size: 0.8125rem; color: var(--text-primary);
+  text-align: left; cursor: pointer;
+}
+.sfp__toggle:hover { background: #eaf2f4; }
+.sfp__toggle-label em { font-style: normal; color: var(--text-tertiary); font-size: 0.75rem; }
+.sfp__chosen {
+  flex: none; max-width: 52%; padding: 3px 9px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--border-light);
+  font-size: 0.6875rem; color: var(--text-tertiary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sfp__chosen.is-set { background: var(--primary-deep); border-color: var(--primary-deep); color: #fff; }
+.sfp__panel { padding: 12px 14px 14px; border-top: 1px solid var(--border-light); }
+.sfp__filters { display: flex; gap: 8px; }
+.sfp__district, .sfp__q {
+  min-width: 0; padding: 8px 10px; border: 1px solid var(--border-light);
+  border-radius: 8px; font-family: var(--font-body); font-size: 0.8125rem;
+}
+.sfp__district { flex: 0 0 34%; }
+.sfp__q { flex: 1 1 auto; }
+.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: var(--text-tertiary); }
+/* 成 428 個網點，一定要限高兼自己捲，唔係成版購物袋會拉到好長 */
+.sfp__list { max-height: 320px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
+.sfp__item {
+  display: grid; gap: 2px; width: 100%; padding: 9px 10px; margin-bottom: 6px;
+  border: 1px solid var(--border-light); border-radius: 9px; background: #fff;
+  font-family: var(--font-body); text-align: left; cursor: pointer;
+}
+.sfp__item:hover { border-color: var(--primary); background: #f7fbfc; }
+.sfp__item.is-on { border-color: var(--primary-deep); background: #eaf2f4; }
+.sfp__item b { font-size: 0.6875rem; font-weight: 600; color: var(--primary-deep); }
+.sfp__item span { font-size: 0.8125rem; line-height: 1.45; color: var(--text-primary); }
+.sfp__item em { font-style: normal; font-size: 0.6875rem; color: var(--text-tertiary); }
+.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: var(--text-tertiary); text-align: center; }
