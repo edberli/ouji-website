@@ -142,8 +142,14 @@ function featuredScore(p) {
   return (PROFIT_RANK[p.handle] || 0) * 10 + awardWeight(p) * 6;
 }
 
+/* 「最新上架」用 Shopify 真實 createdAt。老闆 2026-08-28：「應該加一個
+   篩選嘅排序，就係新嘅，即係由新去到舊嘅。咁起碼可以俾人睇到有咩新貨。」
+   ⚠️ 首頁本來就有條「睇晒新貨」連結指住 shop.html?sort=new，但一直冇
+   人接 —— 冇 new 呢個 key，個 sort 參數又冇讀，撳落去同預設排序一樣。
+   而家兩樣一齊補返。 */
 const SORTS = {
   featured: (a, b) => featuredScore(b) - featuredScore(a),
+  new: (a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')),
   'price-asc': (a, b) => price(a) - price(b),
   'price-desc': (a, b) => price(b) - price(a),
   award: (a, b) => awardWeight(b) - awardWeight(a) || price(b) - price(a),
@@ -1408,6 +1414,11 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
   const countEl = document.querySelector('.filter-bar__count');
   const sortEl = document.querySelector('.filter-bar__sort select');
+
+  /* ?sort=new 由首頁「睇晒新貨」同埋新品格帶過嚟。只認 SORTS 有嘅 key，
+     亂打一個就當冇寫，唔好靜靜哋出一個空清單。 */
+  const urlSort = new URLSearchParams(location.search).get('sort');
+  if (sortEl && urlSort && SORTS[urlSort]) sortEl.value = urlSort;
 
   /* 全部產品頁先有 BOOT hero。其他分類頁行到呢度乜都唔會做。 */
   const bootHost = document.querySelector('[data-shop-boot]');
