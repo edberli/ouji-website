@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>手機導覽合併 — 預覽 | OUJI</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* 呢啲係新增嘅，落實嗰陣要搬入 styles.css */
+  .mobile-nav__section {
+    margin: 22px 0 6px; padding: 0 var(--space-lg, 24px);
+    font-family: var(--font-body); font-size: 0.6875rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.58); font-weight: 600;
+  }
+  .mobile-nav__section:first-child { margin-top: 4px; }
+  .mobile-nav__note { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-left: 8px; font-weight: 400; }
+
+  /* 預覽頁自己嘅嘢，唔會落實 */
+  .pv { padding: 96px 20px 120px; max-width: 640px; margin: 0 auto; font-family: var(--font-body); }
+  .pv h1 { font-size: 1.4rem; margin: 0 0 6px; }
+  .pv p { font-size: 0.875rem; line-height: 1.75; color: var(--text-secondary); }
+  .pv__box { border: 1px solid var(--border-light); border-radius: 14px; padding: 16px; margin: 18px 0; background: #fff; }
+  .pv__box h2 { font-size: 0.95rem; margin: 0 0 10px; }
+  .pv__seg { display: flex; gap: 8px; margin-top: 10px; }
+  .pv__seg button {
+    flex: 1; padding: 10px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--border-light); background: #fff;
+    font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; color: var(--text-secondary);
+  }
+  .pv__seg button.is-on { background: var(--primary-deep); border-color: var(--primary-deep); color: #fff; }
+  .pv__cta { display: block; width: 100%; padding: 14px; margin-top: 8px; border-radius: 12px;
+    border: 0; background: var(--primary); color: #fff; font-family: var(--font-body);
+    font-size: 0.95rem; font-weight: 600; cursor: pointer; }
+  .pv__desk { display: none; }
+  @media (min-width: 769px) { .pv__desk { display: block; color: #b8371c; font-weight: 600; } }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <div class="header__left">
+      <button class="header__menu-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+      <a href="index.html" class="header__logo">OUJI</a>
+    </div>
+    <div class="header__actions">
+      <button class="header__action-btn" aria-label="搜尋">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav-overlay"></div>
+<nav class="mobile-nav">
+  <div class="mobile-nav__header">
+    <a href="index.html" class="header__logo">OUJI</a>
+    <button class="mobile-nav__close" aria-label="關閉">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="mobile-nav__links" data-menu></div>
+</nav>
+
+<main class="pv">
+  <h1>手機導覽：兩個變一個</h1>
+  <p class="pv__desk">⚠️ 呢版要喺手機睇先啱。電腦版唔會出手機導覽。</p>
+  <p>而家底部個「全部產品」同左邊個抽屜係兩份唔同嘅清單。呢版將佢哋合併咗：
+     <b>底部個掣同頂部個漢堡掣，開嘅係同一個抽屜</b>。</p>
+
+  <div class="pv__box">
+    <h2>試一試</h2>
+    <p>撳底部中間個掣，或者左上角個漢堡掣 —— 兩個都開同一個選單。</p>
+    <button class="pv__cta" data-open-menu>開個選單睇下</button>
+  </div>
+
+  <div class="pv__box">
+    <h2>底部第三格：兩個做法</h2>
+    <p>合併之後，「心願單」呢一格未必要留 —— 佢喺選單入面已經有位。空出嚟可以放搜尋。</p>
+    <div class="pv__seg">
+      <button data-variant="wish" class="is-on">A · 保留心願單</button>
+      <button data-variant="search">B · 換做搜尋</button>
+    </div>
+  </div>
+</main>
+
+<nav class="mobile-bottom-nav" data-bar></nav>
+
+<script src="script.js"></script>
+<script>
+/* ═══════════ 一份清單，兩道門 ═══════════
+   而家實況：底部 sheet 得 8 行（SHOP_SHEET），抽屜有 11–12 行而且
+   24 版各自 copy 一份、已經走樣咗四個版本（shop.html 個抽屜甚至冇
+   「彩妝」）。所以合併之後，清單要由 JS 出，唔好再逐版寫死。 */
+const MENU = [
+  { section: '選購' },
+  { href: 'shop.html', label: '全部產品', note: '成個目錄' },
+  { label: '護膚', href: 'category.html', subs: [
+    ['全部護膚產品', 'category.html'], ['潔面', 'category.html?cat=cleanser'],
+    ['爽膚水', 'category.html?cat=toner'], ['棉片', 'category.html?cat=pad'],
+    ['精華液', 'category.html?cat=serum'], ['乳液', 'category.html?cat=moisturizer'],
+    ['面膜', 'category.html?cat=mask'], ['眼部護理', 'category.html?cat=eye'],
+    ['防曬', 'category.html?cat=sunscreen'] ] },
+  { label: '彩妝', href: 'makeup.html', subs: [
+    ['全部彩妝產品', 'makeup.html'],
+    ['底妝', 'makeup.html?cat=base', 'h'], ['粉底', 'makeup.html?cat=foundation', 'i'],
+    ['氣墊', 'makeup.html?cat=cushion', 'i'], ['遮瑕', 'makeup.html?cat=concealer', 'i'],
+    ['眼妝', 'makeup.html?cat=eye', 'h'], ['眼影', 'makeup.html?cat=eyeshadow', 'i'],
+    ['眼線', 'makeup.html?cat=eyeliner', 'i'], ['睫毛膏', 'makeup.html?cat=mascara', 'i'],
+    ['眉筆', 'makeup.html?cat=brow', 'i'],
+    ['唇妝', 'makeup.html?cat=lip', 'h'], ['唇膏', 'makeup.html?cat=lipstick', 'i'],
+    ['唇釉', 'makeup.html?cat=liptint', 'i'], ['唇彩', 'makeup.html?cat=lipgloss', 'i'],
+    ['頰彩', 'makeup.html?cat=cheek', 'h'], ['修容', 'makeup.html?cat=contour', 'h'] ] },
+  { label: '隱形眼鏡', href: 'lens.html', subs: [
+    ['全部隱形眼鏡', 'lens.html'], ['Feliamo', 'lens.html?cat=feliamo', 'i'],
+    ['Lilmoon', 'lens.html?cat=lilmoon', 'i'], ['Molak', 'lens.html?cat=molak', 'i'],
+    ["N's Collection", 'lens.html?cat=nscollection', 'i'], ['TOPARDS', 'lens.html?cat=topards', 'i'] ] },
+  { label: 'K-pop 周邊', href: 'kpop.html', subs: [
+    ['全部 K-pop 周邊', 'kpop.html'], ['專輯', 'kpop.html?cat=album', 'i'],
+    ['寫真書', 'kpop.html?cat=photobook', 'i'], ['SEVENTEEN', 'kpop.html?cat=seventeen', 'i'],
+    ['IVE', 'kpop.html?cat=ive', 'i'], ['ILLIT', 'kpop.html?cat=illit', 'i'],
+    ['Stray Kids', 'kpop.html?cat=straykids', 'i'], ['ENHYPEN', 'kpop.html?cat=enhypen', 'i'],
+    ['LE SSERAFIM', 'kpop.html?cat=lesserafim', 'i'] ] },
+  { href: 'bodycare.html', label: '身體護理' },
+  { href: 'fragrance.html', label: '香氛' },
+  { href: 'lifestyle.html', label: '生活風格' },
+  { section: '發掘' },
+  { href: 'brands.html', label: '品牌' },
+  { href: 'awards.html', label: '獲獎產品' },
+  { href: 'match.html', label: '妝感配對' },
+  { href: 'column.html', label: '專欄' },
+  { section: '我的' },
+  { href: 'wishlist.html', label: '心願單' },
+  { href: 'account.html', label: '我的帳戶' },
+];
+
+const CHEV = '<svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>';
+
+document.querySelector('[data-menu]').innerHTML = MENU.map((it) => {
+  if (it.section) return `<p class="mobile-nav__section">${it.section}</p>`;
+  if (it.subs) return `<div class="mobile-nav__group">
+      <button class="mobile-nav__group-row" aria-expanded="false"><span>${it.label}</span>${CHEV}</button>
+      <div class="mobile-nav__sublinks">${it.subs.map(([t, h, k]) =>
+        `<a href="${h}"${k === 'h' ? ' class="mobile-nav__subheading"' : k === 'i' ? ' class="mobile-nav__subitem"' : ''}>${t}</a>`).join('')}</div>
+    </div>`;
+  return `<a href="${it.href}">${it.label}${it.note ? `<span class="mobile-nav__note">${it.note}</span>` : ''}</a>`;
+}).join('');
+
+/* 底部列：兩個版本比較 */
+const ICON = {
+  home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  menu: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  wish: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
+  bag: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+};
+const svg = (k) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON[k]}</svg>`;
+
+function drawBar(variant) {
+  const third = variant === 'search'
+    ? `<button type="button" class="mobile-bottom-nav__item" data-search-btn aria-label="搜尋">${svg('search')}<span>搜尋</span></button>`
+    : `<a href="wishlist.html" class="mobile-bottom-nav__item" aria-label="心願單">${svg('wish')}<span>心願單</span></a>`;
+  document.querySelector('[data-bar]').innerHTML = `
+    <a href="index.html" class="mobile-bottom-nav__item">${svg('home')}<span>首頁</span></a>
+    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__menu-btn" aria-label="選購">${svg('menu')}<span>選購</span></button>
+    ${third}
+    <a href="cart.html" class="mobile-bottom-nav__item" aria-label="購物袋">${svg('bag')}<span>購物袋</span></a>
+    <a href="account.html" class="mobile-bottom-nav__item">
+      <img class="mobile-bottom-nav__face" src="assets/images/shima/shima-face.webp" alt="" width="128" height="128">
+      <span>會員</span></a>`;
+  // 底部個掣 → 開返同一個抽屜（script.js 本身已經識聽 .mobile-bottom-nav__menu-btn）
+  document.querySelector('.mobile-bottom-nav__menu-btn')
+    .addEventListener('click', () => document.querySelector('.header__menu-toggle').click());
+  document.querySelector('[data-search-btn]')
+    ?.addEventListener('click', () => document.querySelector('.header__action-btn[aria-label="搜尋"]').click());
+}
+drawBar('wish');
+
+document.querySelectorAll('[data-variant]').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-variant]').forEach((x) => x.classList.toggle('is-on', x === b));
+  drawBar(b.dataset.variant);
+}));
+document.querySelector('[data-open-menu]')
+  .addEventListener('click', () => document.querySelector('.header__menu-toggle').click());
+</script>
+</body>
+</html>
