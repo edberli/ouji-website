@@ -107,7 +107,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8bd8d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 78.24,
+          "margin": 59.76,
+          "marginRate": 43.3
         },
         {
           "barcode": "8801051493818",
@@ -124,7 +127,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#eee9e6",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 77.77,
+          "margin": 60.23,
+          "marginRate": 43.6
         },
         {
           "barcode": "8801051285246",
@@ -141,7 +147,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 79.98,
+          "margin": 58.02,
+          "marginRate": 42
         }
       ]
     },
@@ -219,7 +228,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8bd8d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 76.21,
+          "margin": 51.79,
+          "marginRate": 40.5
         },
         {
           "barcode": "8801051274257",
@@ -236,7 +248,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.99,
+          "margin": 54.01,
+          "marginRate": 42.2
         },
         {
           "barcode": "8801051274264",
@@ -253,7 +268,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 70.54,
+          "margin": 57.46,
+          "marginRate": 44.9
         },
         {
           "barcode": "8801051257274",
@@ -270,7 +288,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 73.99,
+          "margin": 54.01,
+          "marginRate": 42.2
         },
         {
           "barcode": "8809949520981",
@@ -287,7 +308,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.34,
+          "margin": 56.66,
+          "marginRate": 44.3
         }
       ]
     },
@@ -363,7 +387,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8bd8d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 73.99,
+          "margin": 54.01,
+          "marginRate": 42.2
         },
         {
           "barcode": "8801051285284",
@@ -380,7 +407,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.34,
+          "margin": 56.66,
+          "marginRate": 44.3
         },
         {
           "barcode": "8801051285307",
@@ -397,7 +427,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 73.99,
+          "margin": 54.01,
+          "marginRate": 42.2
         }
       ]
     },
@@ -478,7 +511,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.18,
+          "margin": 66.82,
+          "marginRate": 48.4
         },
         {
           "barcode": "8809495078615",
@@ -495,7 +531,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.93,
+          "margin": 66.07,
+          "marginRate": 47.9
         },
         {
           "barcode": "8809495078622",
@@ -512,7 +551,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.55,
+          "margin": 66.45,
+          "marginRate": 48.2
         },
         {
           "barcode": "8809495078646",
@@ -529,7 +571,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.16,
+          "margin": 66.84,
+          "marginRate": 48.4
         },
         {
           "barcode": "8809495078653",
@@ -546,7 +591,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 69.28,
+          "margin": 68.72,
+          "marginRate": 49.8
         },
         {
           "barcode": "8809495078660",
@@ -563,7 +611,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 70.05,
+          "margin": 67.95,
+          "marginRate": 49.2
         },
         {
           "barcode": "8809495078677",
@@ -580,7 +631,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 68.83,
+          "margin": 49.17,
+          "marginRate": 41.7
         },
         {
           "barcode": "8809495078691",
@@ -597,7 +651,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#eee9e6",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 69.28,
+          "margin": 68.72,
+          "marginRate": 49.8
         }
       ]
     },
@@ -678,7 +735,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.28,
+          "margin": 48.72,
+          "marginRate": 41.3
         },
         {
           "barcode": "8800261380352",
@@ -695,7 +755,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 67.83,
+          "margin": 50.17,
+          "marginRate": 42.5
         },
         {
           "barcode": "8800261380369",
@@ -712,7 +775,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.28,
+          "margin": 48.72,
+          "marginRate": 41.3
         },
         {
           "barcode": "8800261380376",
@@ -729,7 +795,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.28,
+          "margin": 48.72,
+          "marginRate": 41.3
         },
         {
           "barcode": "8800261380383",
@@ -746,7 +815,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.64,
+          "margin": 55.36,
+          "marginRate": 46.9
         },
         {
           "barcode": "8800261380390",
@@ -763,7 +835,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.4,
+          "margin": 48.6,
+          "marginRate": 41.2
         },
         {
           "barcode": "8800261380406",
@@ -780,7 +855,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.3,
+          "margin": 48.7,
+          "marginRate": 41.3
         }
       ]
     },
@@ -861,7 +939,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.85,
+          "margin": 58.15,
+          "marginRate": 53.8
         },
         {
           "barcode": "8800261380666",
@@ -878,7 +959,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.8,
+          "margin": 58.2,
+          "marginRate": 53.9
         },
         {
           "barcode": "8800261380673",
@@ -895,7 +979,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.06,
+          "margin": 63.94,
+          "marginRate": 59.2
         },
         {
           "barcode": "8800261380680",
@@ -912,7 +999,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.85,
+          "margin": 58.15,
+          "marginRate": 53.8
         },
         {
           "barcode": "8800261380697",
@@ -929,7 +1019,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.43,
+          "margin": 58.57,
+          "marginRate": 54.2
         },
         {
           "barcode": "8800261380703",
@@ -946,7 +1039,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.53,
+          "margin": 58.47,
+          "marginRate": 54.1
         },
         {
           "barcode": "8800261380710",
@@ -963,7 +1059,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.43,
+          "margin": 58.57,
+          "marginRate": 54.2
         },
         {
           "barcode": "8800261380727",
@@ -980,7 +1079,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.45,
+          "margin": 58.55,
+          "marginRate": 54.2
         },
         {
           "barcode": "8800261380734",
@@ -997,7 +1099,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.43,
+          "margin": 58.57,
+          "marginRate": 54.2
         },
         {
           "barcode": "8800261380741",
@@ -1014,7 +1119,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.6,
+          "margin": 61.4,
+          "marginRate": 56.9
         }
       ]
     },
@@ -1090,7 +1198,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 128.36,
+          "margin": 69.64,
+          "marginRate": 35.2
         },
         {
           "barcode": "8809693600342",
@@ -1107,7 +1218,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 128.36,
+          "margin": 69.64,
+          "marginRate": 35.2
         },
         {
           "barcode": "8809693601028",
@@ -1124,7 +1238,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 128.36,
+          "margin": 69.64,
+          "marginRate": 35.2
         }
       ]
     },
@@ -1203,7 +1320,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809693601530",
@@ -1220,7 +1340,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809693601547",
@@ -1237,7 +1360,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809693601554",
@@ -1254,7 +1380,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809693601561",
@@ -1271,7 +1400,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809693601684",
@@ -1288,7 +1420,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809693601691",
@@ -1305,7 +1440,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809693601790",
@@ -1322,7 +1460,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 57.25,
+          "marginRate": 48.5
         }
       ]
     },
@@ -1401,7 +1542,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 67.25,
+          "marginRate": 52.5
         },
         {
           "barcode": "8809693600519",
@@ -1418,7 +1562,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 67.25,
+          "marginRate": 52.5
         },
         {
           "barcode": "8809693600533",
@@ -1435,7 +1582,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 67.25,
+          "marginRate": 52.5
         },
         {
           "barcode": "8809693600625",
@@ -1452,7 +1602,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 67.25,
+          "marginRate": 52.5
         },
         {
           "barcode": "8809693601783",
@@ -1469,7 +1622,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.75,
+          "margin": 67.25,
+          "marginRate": 52.5
         }
       ]
     },
@@ -1540,7 +1696,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 41.75,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809693601059",
@@ -1557,7 +1716,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 41.75,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809693601998",
@@ -1574,7 +1736,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 41.75,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809693602001",
@@ -1591,7 +1756,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 41.75,
+          "marginRate": 46.9
         }
       ]
     },
@@ -1666,7 +1834,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809693600830",
@@ -1683,7 +1854,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809693600847",
@@ -1700,7 +1874,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809693600854",
@@ -1717,7 +1894,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809693600861",
@@ -1734,7 +1914,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809693601271",
@@ -1751,7 +1934,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809693601288",
@@ -1768,7 +1954,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809693601295",
@@ -1785,7 +1974,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 51.75,
+          "marginRate": 52.3
         }
       ]
     },
@@ -1858,7 +2050,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 36.83,
+          "margin": 52.17,
+          "marginRate": 58.6
         },
         {
           "barcode": "8809693600564",
@@ -1875,7 +2070,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 41.75,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809693600571",
@@ -1892,7 +2090,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 41.75,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809693600694",
@@ -1909,7 +2110,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.25,
+          "margin": 41.75,
+          "marginRate": 46.9
         }
       ]
     },
@@ -1982,7 +2186,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.5,
+          "margin": 44.5,
+          "marginRate": 52.4
         },
         {
           "barcode": "8809693600588",
@@ -1999,7 +2206,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.5,
+          "margin": 44.5,
+          "marginRate": 52.4
         },
         {
           "barcode": "8809693600595",
@@ -2016,7 +2226,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 40.5,
+          "margin": 44.5,
+          "marginRate": 52.4
         }
       ]
     },
@@ -2093,7 +2306,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337725684",
@@ -2110,7 +2326,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337725691",
@@ -2127,7 +2346,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337725707",
@@ -2144,7 +2366,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337725714",
@@ -2161,7 +2386,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337725721",
@@ -2178,7 +2406,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337726124",
@@ -2195,7 +2426,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337726131",
@@ -2212,7 +2446,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337726148",
@@ -2229,7 +2466,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         },
         {
           "barcode": "8809337726155",
@@ -2246,7 +2486,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.78,
+          "margin": 60.22,
+          "marginRate": 51
         }
       ]
     },
@@ -2331,7 +2574,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726353",
@@ -2348,7 +2594,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726377",
@@ -2365,7 +2614,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726384",
@@ -2382,7 +2634,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726391",
@@ -2399,7 +2654,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726407",
@@ -2416,7 +2674,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726414",
@@ -2433,7 +2694,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726438",
@@ -2450,7 +2714,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726445",
@@ -2467,7 +2734,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726452",
@@ -2484,7 +2754,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726537",
@@ -2501,7 +2774,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726513",
@@ -2518,7 +2794,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726506",
@@ -2535,7 +2814,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726544",
@@ -2552,7 +2834,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         },
         {
           "barcode": "8809337726551",
@@ -2569,7 +2854,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 24.89,
+          "marginRate": 28.9
         }
       ]
     },
@@ -2646,7 +2934,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 42.22,
+          "margin": 46.78,
+          "marginRate": 52.6
         },
         {
           "barcode": "8809337725165",
@@ -2663,7 +2954,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.22,
+          "margin": 46.78,
+          "marginRate": 52.6
         },
         {
           "barcode": "8809337725172",
@@ -2680,7 +2974,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 42.22,
+          "margin": 46.78,
+          "marginRate": 52.6
         },
         {
           "barcode": "8809337726032",
@@ -2697,7 +2994,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 42.22,
+          "margin": 46.78,
+          "marginRate": 52.6
         },
         {
           "barcode": "8809337726049",
@@ -2714,7 +3014,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 42.22,
+          "margin": 46.78,
+          "marginRate": 52.6
         }
       ]
     },
@@ -2790,7 +3093,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.78,
+          "margin": 31.22,
+          "marginRate": 39.5
         },
         {
           "barcode": "8809337725981",
@@ -2807,7 +3113,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.78,
+          "margin": 31.22,
+          "marginRate": 39.5
         },
         {
           "barcode": "8809337725974",
@@ -2824,7 +3133,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.78,
+          "margin": 31.22,
+          "marginRate": 39.5
         },
         {
           "barcode": "8809337725967",
@@ -2841,7 +3153,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.78,
+          "margin": 31.22,
+          "marginRate": 39.5
         },
         {
           "barcode": "8809337725950",
@@ -2858,7 +3173,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.78,
+          "margin": 31.22,
+          "marginRate": 39.5
         }
       ]
     },
@@ -2929,7 +3247,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 38.89,
+          "margin": 49.11,
+          "marginRate": 55.8
         },
         {
           "barcode": "8809337725240",
@@ -2946,7 +3267,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 38.89,
+          "margin": 49.11,
+          "marginRate": 55.8
         },
         {
           "barcode": "8809337725257",
@@ -2963,7 +3287,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 38.89,
+          "margin": 49.11,
+          "marginRate": 55.8
         }
       ]
     },
@@ -3042,7 +3369,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 77.4,
+          "margin": 60.6,
+          "marginRate": 43.9
         },
         {
           "barcode": "8809900987549",
@@ -3059,7 +3389,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 78.08,
+          "margin": 59.92,
+          "marginRate": 43.4
         },
         {
           "barcode": "8809900987556",
@@ -3076,7 +3409,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 78.4,
+          "margin": 59.6,
+          "marginRate": 43.2
         },
         {
           "barcode": "8809937593515",
@@ -3093,7 +3429,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 77.13,
+          "margin": 60.87,
+          "marginRate": 44.1
         },
         {
           "barcode": "8800255687399",
@@ -3110,7 +3449,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 79.93,
+          "margin": 58.07,
+          "marginRate": 42.1
         },
         {
           "barcode": "8800255687832",
@@ -3127,7 +3469,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 79.93,
+          "margin": 58.07,
+          "marginRate": 42.1
         },
         {
           "barcode": "8800290369519",
@@ -3144,7 +3489,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 65.08,
+          "margin": 72.92,
+          "marginRate": 52.8
         },
         {
           "barcode": "8800290369502",
@@ -3161,7 +3509,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 65.38,
+          "margin": 72.62,
+          "marginRate": 52.6
         }
       ]
     },
@@ -3235,7 +3586,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 154.09,
+          "margin": 114.91,
+          "marginRate": 42.7
         },
         {
           "barcode": "8800290368055",
@@ -3252,7 +3606,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 157.64,
+          "margin": 111.36,
+          "marginRate": 41.4
         },
         {
           "barcode": "8800290368048",
@@ -3269,7 +3626,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 161.66,
+          "margin": 107.34,
+          "marginRate": 39.9
         }
       ]
     },
@@ -3343,7 +3703,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 154.09,
+          "margin": 114.91,
+          "marginRate": 42.7
         },
         {
           "barcode": "8800290365559",
@@ -3360,7 +3723,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 159.41,
+          "margin": 109.59,
+          "marginRate": 40.7
         },
         {
           "barcode": "8800290365566",
@@ -3377,7 +3743,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 160,
+          "margin": 109,
+          "marginRate": 40.5
         }
       ]
     },
@@ -3448,7 +3817,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 160,
+          "margin": 109,
+          "marginRate": 40.5
         },
         {
           "barcode": "8800255688839",
@@ -3465,7 +3837,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 159.02,
+          "margin": 109.98,
+          "marginRate": 40.9
         },
         {
           "barcode": "8800255688822",
@@ -3482,7 +3857,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 159.7,
+          "margin": 109.3,
+          "marginRate": 40.6
         }
       ]
     },
@@ -3553,7 +3931,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 89.66,
+          "margin": 65.34,
+          "marginRate": 42.2
         },
         {
           "barcode": "8809937598411",
@@ -3570,7 +3951,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 87.75,
+          "margin": 67.25,
+          "marginRate": 43.4
         },
         {
           "barcode": "8809937598442",
@@ -3587,7 +3971,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 88.27,
+          "margin": 66.73,
+          "marginRate": 43.1
         }
       ]
     },
@@ -3656,7 +4043,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.41,
+          "margin": 55.59,
+          "marginRate": 40.3
         },
         {
           "barcode": "8800255687276",
@@ -3673,7 +4063,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 79.93,
+          "margin": 58.07,
+          "marginRate": 42.1
         }
       ]
     },
@@ -3745,7 +4138,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 77.98,
+          "margin": 60.02,
+          "marginRate": 43.5
         },
         {
           "barcode": "8809691975770",
@@ -3762,7 +4158,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 78.09,
+          "margin": 59.91,
+          "marginRate": 43.4
         }
       ]
     },
@@ -3837,7 +4236,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.8,
+          "margin": 31.2,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809937599821",
@@ -3854,7 +4256,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.79,
+          "margin": 31.21,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809937599838",
@@ -3871,7 +4276,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.79,
+          "margin": 31.21,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809937599845",
@@ -3888,7 +4296,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 53.53,
+          "margin": 31.47,
+          "marginRate": 37
         },
         {
           "barcode": "8809937599852",
@@ -3905,7 +4316,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 55.2,
+          "margin": 29.8,
+          "marginRate": 35.1
         },
         {
           "barcode": "8809937599869",
@@ -3922,7 +4336,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 53.52,
+          "margin": 31.48,
+          "marginRate": 37
         },
         {
           "barcode": "8809937599876",
@@ -3939,7 +4356,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 54.72,
+          "margin": 30.28,
+          "marginRate": 35.6
         }
       ]
     },
@@ -4011,7 +4431,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 58.59,
+          "margin": 40.41,
+          "marginRate": 40.8
         },
         {
           "barcode": "8809644496017",
@@ -4028,7 +4451,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 58.84,
+          "margin": 40.16,
+          "marginRate": 40.6
         }
       ]
     },
@@ -4105,7 +4531,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 75.12,
+          "margin": 54.88,
+          "marginRate": 42.2
         },
         {
           "barcode": "8800255688327",
@@ -4122,7 +4551,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 76.77,
+          "margin": 53.23,
+          "marginRate": 40.9
         },
         {
           "barcode": "8800255688310",
@@ -4139,7 +4571,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 77.28,
+          "margin": 52.72,
+          "marginRate": 40.6
         },
         {
           "barcode": "8800255688372",
@@ -4156,7 +4591,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 75.12,
+          "margin": 54.88,
+          "marginRate": 42.2
         },
         {
           "barcode": "8800255688365",
@@ -4173,7 +4611,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 75.12,
+          "margin": 54.88,
+          "marginRate": 42.2
         },
         {
           "barcode": "8800290360370",
@@ -4190,7 +4631,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 75.12,
+          "margin": 54.88,
+          "marginRate": 42.2
         }
       ]
     },
@@ -4259,7 +4703,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 153.33,
+          "margin": 106.67,
+          "marginRate": 41
         }
       ]
     },
@@ -4330,7 +4777,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 152.45,
+          "margin": 107.55,
+          "marginRate": 41.4
         }
       ]
     },
@@ -4404,7 +4854,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 82.39,
+          "margin": 55.61,
+          "marginRate": 40.3
         },
         {
           "barcode": "8800255687658",
@@ -4421,7 +4874,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 79.93,
+          "margin": 58.07,
+          "marginRate": 42.1
         },
         {
           "barcode": "8800255687627",
@@ -4438,7 +4894,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 82.39,
+          "margin": 55.61,
+          "marginRate": 40.3
         },
         {
           "barcode": "8800255687610",
@@ -4455,7 +4914,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 83,
+          "margin": 55,
+          "marginRate": 39.9
         }
       ]
     },
@@ -4527,7 +4989,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 67.89,
+          "margin": 47.11,
+          "marginRate": 41
         },
         {
           "barcode": "8809786590635",
@@ -4544,7 +5009,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 68.31,
+          "margin": 46.69,
+          "marginRate": 40.6
         }
       ]
     },
@@ -4618,7 +5086,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 75.17,
+          "margin": 46.83,
+          "marginRate": 38.4
         },
         {
           "barcode": "8809900981264",
@@ -4635,7 +5106,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 75.67,
+          "margin": 46.33,
+          "marginRate": 38
         }
       ]
     },
@@ -4710,7 +5184,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.06,
+          "margin": 28.94,
+          "marginRate": 37.1
         },
         {
           "barcode": "8809828411294",
@@ -4727,7 +5204,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.1,
+          "margin": 30.9,
+          "marginRate": 39.6
         },
         {
           "barcode": "8809828411300",
@@ -4744,7 +5224,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.01,
+          "margin": 30.99,
+          "marginRate": 39.7
         },
         {
           "barcode": "8809828411317",
@@ -4761,7 +5244,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.84,
+          "margin": 31.16,
+          "marginRate": 39.9
         },
         {
           "barcode": "8800290366914",
@@ -4778,7 +5264,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.75,
+          "margin": 31.25,
+          "marginRate": 40.1
         }
       ]
     },
@@ -4855,7 +5344,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 64.66,
+          "margin": 43.34,
+          "marginRate": 40.1
         },
         {
           "barcode": "8800255686835",
@@ -4872,7 +5364,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.6,
+          "margin": 45.4,
+          "marginRate": 42
         },
         {
           "barcode": "8800255686842",
@@ -4889,7 +5384,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 62.6,
+          "margin": 45.4,
+          "marginRate": 42
         },
         {
           "barcode": "8800255686859",
@@ -4906,7 +5404,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 64.4,
+          "margin": 43.6,
+          "marginRate": 40.4
         },
         {
           "barcode": "8800290361292",
@@ -4923,7 +5424,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 62.6,
+          "margin": 45.4,
+          "marginRate": 42
         },
         {
           "barcode": "8800290361285",
@@ -4940,7 +5444,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 64.66,
+          "margin": 43.34,
+          "marginRate": 40.1
         }
       ]
     },
@@ -5012,7 +5519,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 52.97,
+          "margin": 39.03,
+          "marginRate": 42.4
         }
       ]
     },
@@ -5087,7 +5597,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 33.49,
+          "margin": 28.51,
+          "marginRate": 46
         },
         {
           "barcode": "8809828413557",
@@ -5104,7 +5617,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 36.66,
+          "margin": 25.34,
+          "marginRate": 40.9
         },
         {
           "barcode": "8809828413564",
@@ -5121,7 +5637,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 33.42,
+          "margin": 28.58,
+          "marginRate": 46.1
         },
         {
           "barcode": "8800290367607",
@@ -5138,7 +5657,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.63,
+          "margin": 26.37,
+          "marginRate": 42.5
         },
         {
           "barcode": "8800290367591",
@@ -5155,7 +5677,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 36.66,
+          "margin": 25.34,
+          "marginRate": 40.9
         }
       ]
     },
@@ -5235,7 +5760,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.23,
+          "margin": 30.77,
+          "marginRate": 36.2
         },
         {
           "barcode": "8809828414240",
@@ -5252,7 +5780,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.23,
+          "margin": 30.77,
+          "marginRate": 36.2
         },
         {
           "barcode": "8809828414264",
@@ -5269,7 +5800,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.23,
+          "margin": 30.77,
+          "marginRate": 36.2
         },
         {
           "barcode": "8809937590354",
@@ -5286,7 +5820,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.12,
+          "margin": 35.88,
+          "marginRate": 42.2
         },
         {
           "barcode": "8809937596158",
@@ -5303,7 +5840,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.12,
+          "margin": 35.88,
+          "marginRate": 42.2
         },
         {
           "barcode": "8809937596172",
@@ -5320,7 +5860,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.12,
+          "margin": 35.88,
+          "marginRate": 42.2
         },
         {
           "barcode": "8809970750395",
@@ -5337,7 +5880,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.12,
+          "margin": 35.88,
+          "marginRate": 42.2
         },
         {
           "barcode": "8809970750944",
@@ -5354,7 +5900,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.12,
+          "margin": 35.88,
+          "marginRate": 42.2
         }
       ]
     },
@@ -5424,7 +5973,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.34,
+          "margin": 45.66,
+          "marginRate": 53.1
         }
       ]
     },
@@ -5492,7 +6044,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.64,
+          "margin": 51.36,
+          "marginRate": 54.1
         }
       ]
     },
@@ -5565,7 +6120,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 34.91,
+          "margin": 44.09,
+          "marginRate": 55.8
         },
         {
           "barcode": "8809393724416",
@@ -5582,7 +6140,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.41,
+          "margin": 43.59,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809393724423",
@@ -5599,7 +6160,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.06,
+          "margin": 43.94,
+          "marginRate": 55.6
         }
       ]
     },
@@ -5669,7 +6233,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.52,
+          "margin": 53.48,
+          "marginRate": 60.1
         },
         {
           "barcode": "8809393724362",
@@ -5686,7 +6253,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 42.64,
+          "margin": 46.36,
+          "marginRate": 52.1
         },
         {
           "barcode": "8809716944408",
@@ -5703,7 +6273,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 34.61,
+          "margin": 54.39,
+          "marginRate": 61.1
         }
       ]
     },
@@ -5776,7 +6349,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.31,
+          "margin": 48.69,
+          "marginRate": 54.7
         },
         {
           "barcode": "8809716944903",
@@ -5793,7 +6369,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.45,
+          "margin": 47.55,
+          "marginRate": 53.4
         }
       ]
     },
@@ -5866,7 +6445,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 88.1,
+          "margin": 109.9,
+          "marginRate": 55.5
         },
         {
           "barcode": "8809716944859",
@@ -5883,7 +6465,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 90.82,
+          "margin": 107.18,
+          "marginRate": 54.1
         },
         {
           "barcode": "8809716944866",
@@ -5900,7 +6485,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 90.43,
+          "margin": 107.57,
+          "marginRate": 54.3
         },
         {
           "barcode": "8809716945597",
@@ -5917,7 +6505,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 90.43,
+          "margin": 107.57,
+          "marginRate": 54.3
         }
       ]
     },
@@ -5991,7 +6582,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 37.88,
+          "margin": 51.12,
+          "marginRate": 57.4
         },
         {
           "barcode": "8809716941599",
@@ -6008,7 +6602,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 37.88,
+          "margin": 51.12,
+          "marginRate": 57.4
         }
       ]
     },
@@ -6080,7 +6677,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.72,
+          "margin": 45.28,
+          "marginRate": 50.9
         },
         {
           "barcode": "8809716945375",
@@ -6097,7 +6697,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.72,
+          "margin": 45.28,
+          "marginRate": 50.9
         },
         {
           "barcode": "8809716945382",
@@ -6114,7 +6717,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.72,
+          "margin": 45.28,
+          "marginRate": 50.9
         }
       ]
     },
@@ -6189,7 +6795,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.17,
+          "margin": 41.83,
+          "marginRate": 47
         },
         {
           "barcode": "8809716941827",
@@ -6206,7 +6815,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.01,
+          "margin": 44.99,
+          "marginRate": 50.6
         },
         {
           "barcode": "8809716942879",
@@ -6223,7 +6835,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.84,
+          "margin": 44.16,
+          "marginRate": 49.6
         }
       ]
     },
@@ -6302,7 +6917,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.72,
+          "margin": 45.28,
+          "marginRate": 50.9
         },
         {
           "barcode": "8809716944620",
@@ -6319,7 +6937,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.42,
+          "margin": 45.58,
+          "marginRate": 51.2
         },
         {
           "barcode": "8809716944637",
@@ -6336,7 +6957,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.86,
+          "margin": 44.14,
+          "marginRate": 49.6
         },
         {
           "barcode": "8809716944644",
@@ -6353,7 +6977,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.72,
+          "margin": 45.28,
+          "marginRate": 50.9
         },
         {
           "barcode": "8809716944651",
@@ -6370,7 +6997,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.37,
+          "margin": 42.63,
+          "marginRate": 47.9
         },
         {
           "barcode": "8809716944668",
@@ -6387,7 +7017,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.34,
+          "margin": 45.66,
+          "marginRate": 51.3
         },
         {
           "barcode": "8809716944675",
@@ -6404,7 +7037,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.76,
+          "margin": 44.24,
+          "marginRate": 49.7
         }
       ]
     },
@@ -6481,7 +7117,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 38.25,
+          "margin": 50.75,
+          "marginRate": 57
         },
         {
           "barcode": "8809716944095",
@@ -6498,7 +7137,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 36.63,
+          "margin": 52.37,
+          "marginRate": 58.8
         },
         {
           "barcode": "8809716944125",
@@ -6515,7 +7157,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 38.44,
+          "margin": 50.56,
+          "marginRate": 56.8
         },
         {
           "barcode": "8809716944132",
@@ -6532,7 +7177,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 38.28,
+          "margin": 50.72,
+          "marginRate": 57
         }
       ]
     },
@@ -6607,7 +7255,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.23,
+          "margin": 47.77,
+          "marginRate": 50.3
         },
         {
           "barcode": "8809716943876",
@@ -6624,7 +7275,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.18,
+          "margin": 47.82,
+          "marginRate": 50.3
         },
         {
           "barcode": "8809716943845",
@@ -6641,7 +7295,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.17,
+          "margin": 47.83,
+          "marginRate": 50.3
         },
         {
           "barcode": "8809716943838",
@@ -6658,7 +7315,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.96,
+          "margin": 48.04,
+          "marginRate": 50.6
         }
       ]
     },
@@ -6733,7 +7393,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 24.91,
+          "margin": 50.09,
+          "marginRate": 66.8
         },
         {
           "barcode": "8809393722696",
@@ -6750,7 +7413,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 23.31,
+          "margin": 51.69,
+          "marginRate": 68.9
         },
         {
           "barcode": "8809393722702",
@@ -6767,7 +7433,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 24.83,
+          "margin": 50.17,
+          "marginRate": 66.9
         },
         {
           "barcode": "8809393728520",
@@ -6784,7 +7453,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 22.73,
+          "margin": 52.27,
+          "marginRate": 69.7
         },
         {
           "barcode": "8809716941285",
@@ -6801,7 +7473,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 24.84,
+          "margin": 50.16,
+          "marginRate": 66.9
         }
       ]
     },
@@ -6876,7 +7551,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.53,
+          "margin": 49.47,
+          "marginRate": 58.2
         },
         {
           "barcode": "8809716941766",
@@ -6893,7 +7571,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.64,
+          "margin": 49.36,
+          "marginRate": 58.1
         },
         {
           "barcode": "8809716941773",
@@ -6910,7 +7591,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.65,
+          "margin": 49.35,
+          "marginRate": 58.1
         },
         {
           "barcode": "8809716941780",
@@ -6927,7 +7611,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.73,
+          "margin": 49.27,
+          "marginRate": 58
         },
         {
           "barcode": "8809716942893",
@@ -6944,7 +7631,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.47,
+          "margin": 49.53,
+          "marginRate": 58.3
         },
         {
           "barcode": "8809716943081",
@@ -6961,7 +7651,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.71,
+          "margin": 49.29,
+          "marginRate": 58
         }
       ]
     },
@@ -7039,7 +7732,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 32.04,
+          "margin": 32.96,
+          "marginRate": 50.7
         },
         {
           "barcode": "8809393722788",
@@ -7056,7 +7752,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.15,
+          "margin": 35.85,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809393722795",
@@ -7073,7 +7772,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.05,
+          "margin": 35.95,
+          "marginRate": 55.3
         },
         {
           "barcode": "8809393722849",
@@ -7090,7 +7792,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8bd8d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 30.84,
+          "margin": 34.16,
+          "marginRate": 52.6
         },
         {
           "barcode": "8809716941797",
@@ -7107,7 +7812,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.73,
+          "margin": 35.27,
+          "marginRate": 54.3
         },
         {
           "barcode": "8809716942435",
@@ -7124,7 +7832,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 32.04,
+          "margin": 32.96,
+          "marginRate": 50.7
         }
       ]
     },
@@ -7202,7 +7913,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 26.71,
+          "margin": 31.29,
+          "marginRate": 53.9
         },
         {
           "barcode": "8809716945979",
@@ -7219,7 +7933,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 26.71,
+          "margin": 31.29,
+          "marginRate": 53.9
         },
         {
           "barcode": "8809716945986",
@@ -7236,7 +7953,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 26.95,
+          "margin": 31.05,
+          "marginRate": 53.5
         },
         {
           "barcode": "8809716945993",
@@ -7253,7 +7973,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 27.27,
+          "margin": 30.73,
+          "marginRate": 53
         },
         {
           "barcode": "8809716946006",
@@ -7270,7 +7993,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 27.1,
+          "margin": 30.9,
+          "marginRate": 53.3
         },
         {
           "barcode": "8809716946013",
@@ -7287,7 +8013,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 27.1,
+          "margin": 30.9,
+          "marginRate": 53.3
         }
       ]
     },
@@ -7366,7 +8095,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 96.56,
+          "margin": 61.44,
+          "marginRate": 38.9
         },
         {
           "barcode": "8809647770664",
@@ -7383,7 +8115,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 96.56,
+          "margin": 61.44,
+          "marginRate": 38.9
         },
         {
           "barcode": "8809647770671",
@@ -7400,7 +8135,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 101.5,
+          "margin": 56.5,
+          "marginRate": 35.8
         },
         {
           "barcode": "8809647770763",
@@ -7417,7 +8155,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 95.64,
+          "margin": 62.36,
+          "marginRate": 39.5
         },
         {
           "barcode": "8809647770770",
@@ -7434,7 +8175,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 96.64,
+          "margin": 61.36,
+          "marginRate": 38.8
         },
         {
           "barcode": "8809647770893",
@@ -7451,7 +8195,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 88.05,
+          "margin": 69.95,
+          "marginRate": 44.3
         },
         {
           "barcode": "8809647770909",
@@ -7468,7 +8215,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 96.56,
+          "margin": 61.44,
+          "marginRate": 38.9
         }
       ]
     },
@@ -7546,7 +8296,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.06,
+          "margin": 48.94,
+          "marginRate": 49.9
         },
         {
           "barcode": "8809647772484",
@@ -7563,7 +8316,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.14,
+          "margin": 54.86,
+          "marginRate": 56
         },
         {
           "barcode": "8809647772491",
@@ -7580,7 +8336,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.91,
+          "margin": 50.09,
+          "marginRate": 51.1
         },
         {
           "barcode": "8809647772507",
@@ -7597,7 +8356,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.81,
+          "margin": 48.19,
+          "marginRate": 49.2
         },
         {
           "barcode": "8809647772514",
@@ -7614,7 +8376,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.83,
+          "margin": 47.17,
+          "marginRate": 48.1
         },
         {
           "barcode": "8809647772521",
@@ -7631,7 +8396,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.06,
+          "margin": 47.94,
+          "marginRate": 48.9
         }
       ]
     },
@@ -7706,7 +8474,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 39.09,
+          "margin": 49.91,
+          "marginRate": 56.1
         },
         {
           "barcode": "8809647771357",
@@ -7723,7 +8494,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 39.65,
+          "margin": 49.35,
+          "marginRate": 55.4
         },
         {
           "barcode": "8809647771364",
@@ -7740,7 +8514,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.21,
+          "margin": 47.79,
+          "marginRate": 53.7
         },
         {
           "barcode": "8809647771371",
@@ -7757,7 +8534,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 41.1,
+          "margin": 47.9,
+          "marginRate": 53.8
         },
         {
           "barcode": "8809647771388",
@@ -7774,7 +8554,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 39.8,
+          "margin": 49.2,
+          "marginRate": 55.3
         },
         {
           "barcode": "8809647771395",
@@ -7791,7 +8574,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 41.32,
+          "margin": 47.68,
+          "marginRate": 53.6
         }
       ]
     },
@@ -7865,7 +8651,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.46,
+          "margin": 43.54,
+          "marginRate": 55.1
         },
         {
           "barcode": "8809647772545",
@@ -7882,7 +8671,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.36,
+          "margin": 43.64,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809647772200",
@@ -7899,7 +8691,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.46,
+          "margin": 43.54,
+          "marginRate": 55.1
         },
         {
           "barcode": "8809647772217",
@@ -7916,7 +8711,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.91,
+          "margin": 43.09,
+          "marginRate": 54.5
         },
         {
           "barcode": "8809647773009",
@@ -7933,7 +8731,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.91,
+          "margin": 43.09,
+          "marginRate": 54.5
         },
         {
           "barcode": "8809647773016",
@@ -7950,7 +8751,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8bd8d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.43,
+          "margin": 43.57,
+          "marginRate": 55.2
         }
       ]
     },
@@ -8025,7 +8829,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.53,
+          "margin": 80.47,
+          "marginRate": 45.2
         },
         {
           "barcode": "8809647771487",
@@ -8042,7 +8849,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.53,
+          "margin": 80.47,
+          "marginRate": 45.2
         },
         {
           "barcode": "8809647771494",
@@ -8059,7 +8869,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.53,
+          "margin": 80.47,
+          "marginRate": 45.2
         }
       ]
     },
@@ -8135,7 +8948,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 94.52,
+          "margin": 83.48,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809647770978",
@@ -8152,7 +8968,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.54,
+          "margin": 80.46,
+          "marginRate": 45.2
         },
         {
           "barcode": "8809647770985",
@@ -8169,7 +8988,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 94.52,
+          "margin": 83.48,
+          "marginRate": 46.9
         }
       ]
     },
@@ -8241,7 +9063,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.56,
+          "margin": 61.44,
+          "marginRate": 56.9
         },
         {
           "barcode": "8809647770534",
@@ -8258,7 +9083,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.49,
+          "margin": 63.51,
+          "marginRate": 58.8
         },
         {
           "barcode": "8809647770541",
@@ -8275,7 +9103,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.29,
+          "margin": 54.71,
+          "marginRate": 50.7
         }
       ]
     },
@@ -8346,7 +9177,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 28.64,
+          "margin": 39.36,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809647773030",
@@ -8363,7 +9197,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8bd8d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 28.64,
+          "margin": 39.36,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809647773047",
@@ -8380,7 +9217,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 28.81,
+          "margin": 39.19,
+          "marginRate": 57.6
         }
       ]
     },
@@ -8453,7 +9293,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 72.2,
+          "margin": 65.8,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809647771463",
@@ -8470,7 +9313,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 70.21,
+          "margin": 67.79,
+          "marginRate": 49.1
         }
       ]
     },
@@ -8559,7 +9405,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.54,
+          "margin": 45.46,
+          "marginRate": 47.9
         },
         {
           "barcode": "8809657125645",
@@ -8576,7 +9425,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.4,
+          "margin": 48.6,
+          "marginRate": 51.2
         },
         {
           "barcode": "8809657125652",
@@ -8593,7 +9445,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.51,
+          "margin": 47.49,
+          "marginRate": 50
         },
         {
           "barcode": "8809657125669",
@@ -8610,7 +9465,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.7,
+          "margin": 45.3,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809657126925",
@@ -8627,7 +9485,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.62,
+          "margin": 45.38,
+          "marginRate": 47.8
         },
         {
           "barcode": "8809864754669",
@@ -8644,7 +9505,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50.07,
+          "margin": 44.93,
+          "marginRate": 47.3
         },
         {
           "barcode": "8809864754652",
@@ -8661,7 +9525,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.86,
+          "margin": 45.14,
+          "marginRate": 47.5
         },
         {
           "barcode": "8809864754645",
@@ -8678,7 +9545,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.54,
+          "margin": 45.46,
+          "marginRate": 47.9
         },
         {
           "barcode": "8800276310450",
@@ -8695,7 +9565,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.86,
+          "margin": 45.14,
+          "marginRate": 47.5
         },
         {
           "barcode": "8809968209188",
@@ -8712,7 +9585,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.24,
+          "margin": 48.76,
+          "marginRate": 51.3
         },
         {
           "barcode": "8809968209973",
@@ -8729,7 +9605,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.86,
+          "margin": 45.14,
+          "marginRate": 47.5
         },
         {
           "barcode": "8809968209980",
@@ -8746,7 +9625,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#df7a4d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.68,
+          "margin": 50.32,
+          "marginRate": 53
         },
         {
           "barcode": "8800276315172",
@@ -8763,7 +9645,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.86,
+          "margin": 45.14,
+          "marginRate": 47.5
         },
         {
           "barcode": "8800276315189",
@@ -8780,7 +9665,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.86,
+          "margin": 45.14,
+          "marginRate": 47.5
         },
         {
           "barcode": "8800276316025",
@@ -8797,7 +9685,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.76,
+          "margin": 45.24,
+          "marginRate": 47.6
         },
         {
           "barcode": "8800276319118",
@@ -8814,7 +9705,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 39.88,
+          "margin": 55.12,
+          "marginRate": 58
         },
         {
           "barcode": "8800276319125",
@@ -8831,7 +9725,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.16,
+          "margin": 49.84,
+          "marginRate": 52.5
         }
       ]
     },
@@ -8909,7 +9806,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35,
+          "margin": 43,
+          "marginRate": 55.1
         },
         {
           "barcode": "8809968204213",
@@ -8926,7 +9826,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#eee9e6",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 33.04,
+          "margin": 44.96,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809968209164",
@@ -8943,7 +9846,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.4,
+          "margin": 42.6,
+          "marginRate": 54.6
         },
         {
           "barcode": "8809968209805",
@@ -8960,7 +9866,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 35.33,
+          "margin": 42.67,
+          "marginRate": 54.7
         },
         {
           "barcode": "8809968209812",
@@ -8977,7 +9886,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 37.56,
+          "margin": 40.44,
+          "marginRate": 51.8
         },
         {
           "barcode": "8800276316094",
@@ -8994,7 +9906,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 37.17,
+          "margin": 40.83,
+          "marginRate": 52.3
         },
         {
           "barcode": "8809968209799",
@@ -9011,7 +9926,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 35.87,
+          "margin": 42.13,
+          "marginRate": 54
         },
         {
           "barcode": "8809968209829",
@@ -9028,7 +9946,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 34.9,
+          "margin": 43.1,
+          "marginRate": 55.3
         }
       ]
     },
@@ -9105,7 +10026,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 67.64,
+          "margin": 80.36,
+          "marginRate": 54.3
         },
         {
           "barcode": "8809968206552",
@@ -9122,7 +10046,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 67.64,
+          "margin": 80.36,
+          "marginRate": 54.3
         },
         {
           "barcode": "8809968206576",
@@ -9139,7 +10066,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 63.34,
+          "margin": 84.66,
+          "marginRate": 57.2
         },
         {
           "barcode": "8809968206583",
@@ -9156,7 +10086,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 67.64,
+          "margin": 80.36,
+          "marginRate": 54.3
         },
         {
           "barcode": "8809968206590",
@@ -9173,7 +10106,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 67.64,
+          "margin": 80.36,
+          "marginRate": 54.3
         },
         {
           "barcode": "8809968206606",
@@ -9190,7 +10126,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 67.64,
+          "margin": 80.36,
+          "marginRate": 54.3
         }
       ]
     },
@@ -9265,7 +10204,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 63.5,
+          "margin": 64.5,
+          "marginRate": 50.4
         },
         {
           "barcode": "8809968200840",
@@ -9282,7 +10224,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 63.35,
+          "margin": 64.65,
+          "marginRate": 50.5
         },
         {
           "barcode": "8809968209157",
@@ -9299,7 +10244,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.45,
+          "margin": 59.55,
+          "marginRate": 46.5
         },
         {
           "barcode": "8809968209874",
@@ -9316,7 +10264,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 63.97,
+          "margin": 64.03,
+          "marginRate": 50
         },
         {
           "barcode": "8800276316377",
@@ -9333,7 +10284,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 63.96,
+          "margin": 64.04,
+          "marginRate": 50
         }
       ]
     },
@@ -9411,7 +10365,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.17,
+          "margin": 77.83,
+          "marginRate": 66
         },
         {
           "barcode": "8809672512697",
@@ -9428,7 +10385,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.44,
+          "margin": 77.56,
+          "marginRate": 65.7
         },
         {
           "barcode": "8888888001581",
@@ -9445,7 +10405,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.89,
+          "margin": 73.11,
+          "marginRate": 62
         },
         {
           "barcode": "8809672512727",
@@ -9462,7 +10425,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 40.44,
+          "margin": 77.56,
+          "marginRate": 65.7
         },
         {
           "barcode": "8809672512734",
@@ -9479,7 +10445,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 39.21,
+          "margin": 78.79,
+          "marginRate": 66.8
         }
       ]
     },
@@ -9555,7 +10524,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.98,
+          "margin": 54.02,
+          "marginRate": 55.1
         },
         {
           "barcode": "8800276314656",
@@ -9572,7 +10544,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 41.59,
+          "margin": 56.41,
+          "marginRate": 57.6
         },
         {
           "barcode": "8800276314663",
@@ -9589,7 +10564,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.78,
+          "margin": 56.22,
+          "marginRate": 57.4
         },
         {
           "barcode": "8800276314670",
@@ -9606,7 +10584,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 42.47,
+          "margin": 55.53,
+          "marginRate": 56.7
         },
         {
           "barcode": "8800276314687",
@@ -9623,7 +10604,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.98,
+          "margin": 54.02,
+          "marginRate": 55.1
         },
         {
           "barcode": "8800276314632",
@@ -9640,7 +10624,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.98,
+          "margin": 54.02,
+          "marginRate": 55.1
         }
       ]
     },
@@ -9718,7 +10705,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 39.09,
+          "margin": 48.91,
+          "marginRate": 55.6
         },
         {
           "barcode": "8800276313505",
@@ -9735,7 +10725,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 37.5,
+          "margin": 50.5,
+          "marginRate": 57.4
         },
         {
           "barcode": "8800276313512",
@@ -9752,7 +10745,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.72,
+          "margin": 45.28,
+          "marginRate": 51.5
         },
         {
           "barcode": "8800276313536",
@@ -9769,7 +10765,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 41.51,
+          "margin": 46.49,
+          "marginRate": 52.8
         },
         {
           "barcode": "8800276315912",
@@ -9786,7 +10785,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.01,
+          "margin": 47.99,
+          "marginRate": 54.5
         },
         {
           "barcode": "8800276319132",
@@ -9803,7 +10805,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.51,
+          "margin": 46.49,
+          "marginRate": 52.8
         }
       ]
     },
@@ -9884,7 +10889,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.57,
+          "margin": 32.43,
+          "marginRate": 41.6
         },
         {
           "barcode": "8800258080074",
@@ -9901,7 +10909,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.8,
+          "margin": 33.2,
+          "marginRate": 42.6
         },
         {
           "barcode": "8800258080081",
@@ -9918,7 +10929,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46,
+          "margin": 32,
+          "marginRate": 41
         },
         {
           "barcode": "8800258080098",
@@ -9935,7 +10949,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.56,
+          "margin": 32.44,
+          "marginRate": 41.6
         },
         {
           "barcode": "8800258080111",
@@ -9952,7 +10969,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.42,
+          "margin": 33.58,
+          "marginRate": 43.1
         },
         {
           "barcode": "8800258080135",
@@ -9969,7 +10989,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 45.62,
+          "margin": 32.38,
+          "marginRate": 41.5
         },
         {
           "barcode": "8800258080197",
@@ -9986,7 +11009,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50.74,
+          "margin": 27.26,
+          "marginRate": 34.9
         },
         {
           "barcode": "8800258080159",
@@ -10003,7 +11029,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.05,
+          "margin": 31.95,
+          "marginRate": 41
         },
         {
           "barcode": "8800258080678",
@@ -10020,7 +11049,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.28,
+          "margin": 30.72,
+          "marginRate": 39.4
         },
         {
           "barcode": "8800258080692",
@@ -10037,7 +11069,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.8,
+          "margin": 33.2,
+          "marginRate": 42.6
         }
       ]
     },
@@ -10116,7 +11151,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.98,
+          "margin": 32.02,
+          "marginRate": 42.7
         },
         {
           "barcode": "8809625244477",
@@ -10133,7 +11171,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.33,
+          "margin": 30.67,
+          "marginRate": 40.9
         },
         {
           "barcode": "8809625244491",
@@ -10150,7 +11191,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.44,
+          "margin": 31.56,
+          "marginRate": 42.1
         },
         {
           "barcode": "8809625244514",
@@ -10167,7 +11211,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.09,
+          "margin": 28.91,
+          "marginRate": 38.5
         },
         {
           "barcode": "8809625245269",
@@ -10184,7 +11231,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.42,
+          "margin": 27.58,
+          "marginRate": 36.8
         },
         {
           "barcode": "8809625247218",
@@ -10201,7 +11251,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.74,
+          "margin": 32.26,
+          "marginRate": 43
         },
         {
           "barcode": "8809625247225",
@@ -10218,7 +11271,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 41.74,
+          "margin": 33.26,
+          "marginRate": 44.3
         }
       ]
     },
@@ -10294,7 +11350,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.95,
+          "margin": 31.05,
+          "marginRate": 41.4
         },
         {
           "barcode": "8809625247287",
@@ -10311,7 +11370,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.95,
+          "margin": 31.05,
+          "marginRate": 41.4
         },
         {
           "barcode": "8809625247294",
@@ -10328,7 +11390,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.74,
+          "margin": 33.26,
+          "marginRate": 44.3
         },
         {
           "barcode": "8809625247300",
@@ -10345,7 +11410,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.95,
+          "margin": 31.05,
+          "marginRate": 41.4
         },
         {
           "barcode": "8809625247317",
@@ -10362,7 +11430,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.95,
+          "margin": 31.05,
+          "marginRate": 41.4
         },
         {
           "barcode": "8809625247324",
@@ -10379,7 +11450,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 41.76,
+          "margin": 33.24,
+          "marginRate": 44.3
         }
       ]
     },
@@ -10456,7 +11530,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 27.84,
+          "margin": 27.16,
+          "marginRate": 49.4
         },
         {
           "barcode": "8800258081347",
@@ -10473,7 +11550,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 28.65,
+          "margin": 26.35,
+          "marginRate": 47.9
         },
         {
           "barcode": "8800258081491",
@@ -10490,7 +11570,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 30.74,
+          "margin": 24.26,
+          "marginRate": 44.1
         },
         {
           "barcode": "8800258081569",
@@ -10507,7 +11590,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.18,
+          "margin": 25.82,
+          "marginRate": 46.9
         },
         {
           "barcode": "8800258081613",
@@ -10524,7 +11610,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 29.85,
+          "margin": 25.15,
+          "marginRate": 45.7
         },
         {
           "barcode": "8800258081620",
@@ -10541,7 +11630,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.55,
+          "margin": 25.45,
+          "marginRate": 46.3
         }
       ]
     },
@@ -10619,7 +11711,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 32.81,
+          "margin": 22.19,
+          "marginRate": 40.3
         },
         {
           "barcode": "8800258081255",
@@ -10636,7 +11731,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 32.81,
+          "margin": 22.19,
+          "marginRate": 40.3
         },
         {
           "barcode": "8800258081330",
@@ -10653,7 +11751,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 31.53,
+          "margin": 23.47,
+          "marginRate": 42.7
         },
         {
           "barcode": "8800258081385",
@@ -10670,7 +11771,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 33.79,
+          "margin": 21.21,
+          "marginRate": 38.6
         },
         {
           "barcode": "8800258081408",
@@ -10687,7 +11791,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 33.79,
+          "margin": 21.21,
+          "marginRate": 38.6
         },
         {
           "barcode": "8800258081439",
@@ -10704,7 +11811,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 33.79,
+          "margin": 21.21,
+          "marginRate": 38.6
         }
       ]
     },
@@ -10780,7 +11890,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 99.31,
+          "margin": 59.69,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809625243340",
@@ -10797,7 +11910,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 105.71,
+          "margin": 53.29,
+          "marginRate": 33.5
         },
         {
           "barcode": "8809625244132",
@@ -10814,7 +11930,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 104.73,
+          "margin": 54.27,
+          "marginRate": 34.1
         },
         {
           "barcode": "8809625248208",
@@ -10831,7 +11950,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 102.78,
+          "margin": 56.22,
+          "marginRate": 35.4
         }
       ]
     },
@@ -10905,7 +12027,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.86,
+          "margin": 25.14,
+          "marginRate": 37
         },
         {
           "barcode": "8809625246679",
@@ -10922,7 +12047,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.86,
+          "margin": 25.14,
+          "marginRate": 37
         },
         {
           "barcode": "8809625246686",
@@ -10939,7 +12067,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.37,
+          "margin": 27.63,
+          "marginRate": 40.6
         },
         {
           "barcode": "8809625246693",
@@ -10956,7 +12087,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.86,
+          "margin": 25.14,
+          "marginRate": 37
         }
       ]
     },
@@ -11025,7 +12159,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 65.17,
+          "margin": 32.83,
+          "marginRate": 33.5
         }
       ]
     },
@@ -11097,7 +12234,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.52,
+          "margin": 31.48,
+          "marginRate": 42
         }
       ]
     },
@@ -11171,7 +12311,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 48.34,
+          "margin": 46.66,
+          "marginRate": 49.1
         },
         {
           "barcode": "8800258084089",
@@ -11188,7 +12331,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 48,
+          "margin": 47,
+          "marginRate": 49.5
         },
         {
           "barcode": "8800258084102",
@@ -11205,7 +12351,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.54,
+          "margin": 47.46,
+          "marginRate": 50
         },
         {
           "barcode": "8800258084119",
@@ -11222,7 +12371,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.37,
+          "margin": 44.63,
+          "marginRate": 47
         },
         {
           "barcode": "8800258084126",
@@ -11239,7 +12391,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 48.91,
+          "margin": 46.09,
+          "marginRate": 48.5
         }
       ]
     },
@@ -11315,7 +12470,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.24,
+          "margin": 30.76,
+          "marginRate": 39.4
         },
         {
           "barcode": "8809625246891",
@@ -11332,7 +12490,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8bd8d",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 45.8,
+          "margin": 32.2,
+          "marginRate": 41.3
         },
         {
           "barcode": "8809625246907",
@@ -11349,7 +12510,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.07,
+          "margin": 30.93,
+          "marginRate": 39.7
         },
         {
           "barcode": "8809625246914",
@@ -11366,7 +12530,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.37,
+          "margin": 32.63,
+          "marginRate": 41.8
         },
         {
           "barcode": "8809625246921",
@@ -11383,7 +12550,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.22,
+          "margin": 31.78,
+          "marginRate": 40.7
         }
       ]
     },
@@ -11460,7 +12630,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 42.48,
+          "margin": 22.52,
+          "marginRate": 34.6
         },
         {
           "barcode": "8809625245856",
@@ -11477,7 +12650,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.95,
+          "margin": 23.05,
+          "marginRate": 35.5
         },
         {
           "barcode": "8809625245863",
@@ -11494,7 +12670,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 41.54,
+          "margin": 23.46,
+          "marginRate": 36.1
         },
         {
           "barcode": "8809625245894",
@@ -11511,7 +12690,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 39.18,
+          "margin": 25.82,
+          "marginRate": 39.7
         }
       ]
     },
@@ -11598,7 +12780,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 53.89,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809611861671",
@@ -11615,7 +12800,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 53.89,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809611861688",
@@ -11632,7 +12820,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.39,
+          "margin": 52.61,
+          "marginRate": 45.7
         },
         {
           "barcode": "8809611861695",
@@ -11649,7 +12840,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.15,
+          "margin": 54.85,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809611861701",
@@ -11666,7 +12860,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.15,
+          "margin": 54.85,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809611861732",
@@ -11683,7 +12880,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.15,
+          "margin": 54.85,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809611861763",
@@ -11700,7 +12900,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 63.9,
+          "margin": 51.1,
+          "marginRate": 44.4
         },
         {
           "barcode": "8809611861787",
@@ -11717,7 +12920,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 64,
+          "margin": 51,
+          "marginRate": 44.3
         },
         {
           "barcode": "8809611861817",
@@ -11734,7 +12940,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 67,
+          "margin": 48,
+          "marginRate": 41.7
         },
         {
           "barcode": "8809611861923",
@@ -11751,7 +12960,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.15,
+          "margin": 54.85,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809611861930",
@@ -11768,7 +12980,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.15,
+          "margin": 54.85,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809611862166",
@@ -11785,7 +13000,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.15,
+          "margin": 54.85,
+          "marginRate": 47.7
         },
         {
           "barcode": "8809611862562",
@@ -11802,7 +13020,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 53.89,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809611862739",
@@ -11819,7 +13040,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 62.39,
+          "margin": 52.61,
+          "marginRate": 45.7
         }
       ]
     },
@@ -11897,7 +13121,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 63.46,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809968130499",
@@ -11914,7 +13141,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 63.46,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809968130505",
@@ -11931,7 +13161,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 63.46,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809968130529",
@@ -11948,7 +13181,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 63.46,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809968130536",
@@ -11965,7 +13201,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.82,
+          "margin": 71.18,
+          "marginRate": 61.9
         },
         {
           "barcode": "8809968130567",
@@ -11982,7 +13221,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52.62,
+          "margin": 62.38,
+          "marginRate": 54.2
         },
         {
           "barcode": "8809968130581",
@@ -11999,7 +13241,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.68,
+          "margin": 64.32,
+          "marginRate": 55.9
         }
       ]
     },
@@ -12079,7 +13324,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.56,
+          "margin": 46.44,
+          "marginRate": 47.4
         },
         {
           "barcode": "8809611862036",
@@ -12096,7 +13344,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 46.46,
+          "marginRate": 47.4
         },
         {
           "barcode": "8809611862043",
@@ -12113,7 +13364,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 46.46,
+          "marginRate": 47.4
         },
         {
           "barcode": "8809611862050",
@@ -12130,7 +13384,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 46.46,
+          "marginRate": 47.4
         },
         {
           "barcode": "8809611862371",
@@ -12147,7 +13404,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52.17,
+          "margin": 45.83,
+          "marginRate": 46.8
         },
         {
           "barcode": "8809611862746",
@@ -12164,7 +13424,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52.5,
+          "margin": 45.5,
+          "marginRate": 46.4
         },
         {
           "barcode": "8809611862753",
@@ -12181,7 +13444,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 46.46,
+          "marginRate": 47.4
         },
         {
           "barcode": "8809611862777",
@@ -12198,7 +13464,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.54,
+          "margin": 46.46,
+          "marginRate": 47.4
         }
       ]
     },
@@ -12278,7 +13547,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 30.41,
+          "margin": 24.59,
+          "marginRate": 44.7
         },
         {
           "barcode": "8809611862180",
@@ -12295,7 +13567,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 28.97,
+          "margin": 26.03,
+          "marginRate": 47.3
         },
         {
           "barcode": "8809611862340",
@@ -12312,7 +13587,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 30.94,
+          "margin": 24.06,
+          "marginRate": 43.7
         },
         {
           "barcode": "8809611862173",
@@ -12329,7 +13607,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 28.99,
+          "margin": 26.01,
+          "marginRate": 47.3
         },
         {
           "barcode": "8809611862227",
@@ -12346,7 +13627,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 28.51,
+          "margin": 26.49,
+          "marginRate": 48.2
         },
         {
           "barcode": "8809611862388",
@@ -12363,7 +13647,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 28.15,
+          "margin": 26.85,
+          "marginRate": 48.8
         },
         {
           "barcode": "8809611862418",
@@ -12380,7 +13667,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 29.34,
+          "margin": 25.66,
+          "marginRate": 46.7
         },
         {
           "barcode": "8809611862432",
@@ -12397,7 +13687,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 28.51,
+          "margin": 26.49,
+          "marginRate": 48.2
         }
       ]
     },
@@ -12472,7 +13765,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 81.71,
+          "margin": 76.29,
+          "marginRate": 48.3
         },
         {
           "barcode": "8809611862616",
@@ -12489,7 +13785,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.7,
+          "margin": 77.3,
+          "marginRate": 48.9
         },
         {
           "barcode": "8809611862814",
@@ -12506,7 +13805,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 81.71,
+          "margin": 76.29,
+          "marginRate": 48.3
         },
         {
           "barcode": "8809611862821",
@@ -12523,7 +13825,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 82.03,
+          "margin": 75.97,
+          "marginRate": 48.1
         }
       ]
     },
@@ -12600,7 +13905,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.84,
+          "margin": 47.16,
+          "marginRate": 48.1
         },
         {
           "barcode": "8809611862128",
@@ -12617,7 +13925,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.95,
+          "margin": 54.05,
+          "marginRate": 55.2
         },
         {
           "barcode": "8809611862135",
@@ -12634,7 +13945,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.7,
+          "margin": 46.3,
+          "marginRate": 47.2
         },
         {
           "barcode": "8809611862142",
@@ -12651,7 +13965,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.84,
+          "margin": 47.16,
+          "marginRate": 48.1
         }
       ]
     },
@@ -12725,7 +14042,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.97,
+          "margin": 42.03,
+          "marginRate": 47.2
         },
         {
           "barcode": "8809611863521",
@@ -12742,7 +14062,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.32,
+          "margin": 42.68,
+          "marginRate": 48
         },
         {
           "barcode": "8809611863538",
@@ -12759,7 +14082,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.7,
+          "margin": 42.3,
+          "marginRate": 47.5
         },
         {
           "barcode": "8809611863545",
@@ -12776,7 +14102,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.5,
+          "margin": 39.5,
+          "marginRate": 44.4
         }
       ]
     },
@@ -12850,7 +14179,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.92,
+          "margin": 57.08,
+          "marginRate": 49.6
         },
         {
           "barcode": "8809611862586",
@@ -12867,7 +14199,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 59,
+          "margin": 56,
+          "marginRate": 48.7
         },
         {
           "barcode": "8809611862593",
@@ -12884,7 +14219,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 57.92,
+          "margin": 57.08,
+          "marginRate": 49.6
         }
       ]
     },
@@ -12961,7 +14299,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 59.79,
+          "margin": 48.21,
+          "marginRate": 44.6
         },
         {
           "barcode": "8809611863026",
@@ -12978,7 +14319,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.46,
+          "margin": 56.54,
+          "marginRate": 52.4
         },
         {
           "barcode": "8809611863033",
@@ -12995,7 +14339,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 55.25,
+          "margin": 52.75,
+          "marginRate": 48.8
         },
         {
           "barcode": "8809611863040",
@@ -13012,7 +14359,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.31,
+          "margin": 47.69,
+          "marginRate": 44.2
         },
         {
           "barcode": "8809611863095",
@@ -13029,7 +14379,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.57,
+          "margin": 53.43,
+          "marginRate": 49.5
         }
       ]
     },
@@ -13106,7 +14459,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 53.89,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809611864221",
@@ -13123,7 +14479,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.23,
+          "margin": 52.77,
+          "marginRate": 45.9
         },
         {
           "barcode": "8809611864238",
@@ -13140,7 +14499,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 53.89,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809611864245",
@@ -13157,7 +14519,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 63.1,
+          "margin": 51.9,
+          "marginRate": 45.1
         },
         {
           "barcode": "8809611864252",
@@ -13174,7 +14539,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 53.89,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809611864290",
@@ -13191,7 +14559,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.96,
+          "margin": 63.04,
+          "marginRate": 54.8
         },
         {
           "barcode": "8809611864320",
@@ -13208,7 +14579,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.07,
+          "margin": 48.93,
+          "marginRate": 42.5
         },
         {
           "barcode": "8809611864368",
@@ -13225,7 +14599,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.11,
+          "margin": 53.89,
+          "marginRate": 46.9
         }
       ]
     },
@@ -13297,7 +14674,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.53,
+          "margin": 57.47,
+          "marginRate": 53.2
         },
         {
           "barcode": "8809611862968",
@@ -13314,7 +14694,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.53,
+          "margin": 57.47,
+          "marginRate": 53.2
         },
         {
           "barcode": "8809611862951",
@@ -13331,7 +14714,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.58,
+          "margin": 57.42,
+          "marginRate": 53.2
         },
         {
           "barcode": "8809611862845",
@@ -13348,7 +14734,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.53,
+          "margin": 57.47,
+          "marginRate": 53.2
         },
         {
           "barcode": "8809611862869",
@@ -13365,7 +14754,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.53,
+          "margin": 57.47,
+          "marginRate": 53.2
         }
       ]
     },
@@ -13443,7 +14835,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.95,
+          "margin": 74.05,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809680147287",
@@ -13460,7 +14855,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680147294",
@@ -13477,7 +14875,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.95,
+          "margin": 74.05,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809680147300",
@@ -13494,7 +14895,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 53.95,
+          "margin": 74.05,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809680147317",
@@ -13511,7 +14915,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.95,
+          "margin": 74.05,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809680147331",
@@ -13528,7 +14935,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680147348",
@@ -13545,7 +14955,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 53.95,
+          "margin": 74.05,
+          "marginRate": 57.9
         }
       ]
     },
@@ -13623,7 +15036,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 53.95,
+          "margin": 74.05,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809680143142",
@@ -13640,7 +15056,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680143166",
@@ -13657,7 +15076,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 56.42,
+          "margin": 71.58,
+          "marginRate": 55.9
         },
         {
           "barcode": "8809680143173",
@@ -13674,7 +15096,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680143180",
@@ -13691,7 +15116,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680143197",
@@ -13708,7 +15136,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         }
       ]
     },
@@ -13783,7 +15214,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680146167",
@@ -13800,7 +15234,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.95,
+          "margin": 74.05,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809680146198",
@@ -13817,7 +15254,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680146204",
@@ -13834,7 +15274,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         },
         {
           "barcode": "8809680146228",
@@ -13851,7 +15294,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.78,
+          "margin": 76.22,
+          "marginRate": 59.5
         }
       ]
     },
@@ -13931,7 +15377,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.7,
+          "margin": 76.3,
+          "marginRate": 59.6
         },
         {
           "barcode": "8809680149403",
@@ -13948,7 +15397,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.68,
+          "margin": 76.32,
+          "marginRate": 59.6
         },
         {
           "barcode": "8809680149427",
@@ -13965,7 +15417,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.7,
+          "margin": 76.3,
+          "marginRate": 59.6
         },
         {
           "barcode": "8809680149434",
@@ -13982,7 +15437,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.7,
+          "margin": 76.3,
+          "marginRate": 59.6
         },
         {
           "barcode": "8809680149441",
@@ -13999,7 +15457,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.7,
+          "margin": 76.3,
+          "marginRate": 59.6
         },
         {
           "barcode": "8809680149458",
@@ -14016,7 +15477,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.73,
+          "margin": 80.27,
+          "marginRate": 62.7
         }
       ]
     },
@@ -14093,7 +15557,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52,
+          "margin": 66,
+          "marginRate": 55.9
         },
         {
           "barcode": "8800299130042",
@@ -14110,7 +15577,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 53.06,
+          "margin": 64.94,
+          "marginRate": 55
         },
         {
           "barcode": "8800299130059",
@@ -14127,7 +15597,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 52.38,
+          "margin": 65.62,
+          "marginRate": 55.6
         },
         {
           "barcode": "8800299130066",
@@ -14144,7 +15617,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 52.9,
+          "margin": 65.1,
+          "marginRate": 55.2
         },
         {
           "barcode": "8800299130073",
@@ -14161,7 +15637,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.86,
+          "margin": 67.14,
+          "marginRate": 56.9
         },
         {
           "barcode": "8800299130103",
@@ -14178,7 +15657,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.86,
+          "margin": 67.14,
+          "marginRate": 56.9
         }
       ]
     },
@@ -14254,7 +15736,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.5,
+          "margin": 16.5,
+          "marginRate": 21.4
         },
         {
           "barcode": "8809680145528",
@@ -14271,7 +15756,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 54.14,
+          "margin": 22.86,
+          "marginRate": 29.7
         },
         {
           "barcode": "8809680145535",
@@ -14288,7 +15776,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 52.76,
+          "margin": 24.24,
+          "marginRate": 31.5
         },
         {
           "barcode": "8809680145542",
@@ -14305,7 +15796,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50.03,
+          "margin": 26.97,
+          "marginRate": 35
         },
         {
           "barcode": "8809680145559",
@@ -14322,7 +15816,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.8,
+          "margin": 27.2,
+          "marginRate": 35.3
         }
       ]
     },
@@ -14468,7 +15965,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 92.34,
+          "margin": 65.66,
+          "marginRate": 41.6
         },
         {
           "barcode": "8809680146419",
@@ -14485,7 +15985,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 105.94,
+          "margin": 52.06,
+          "marginRate": 32.9
         }
       ]
     },
@@ -14559,7 +16062,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 104.27,
+          "margin": 53.73,
+          "marginRate": 34
         },
         {
           "barcode": "8809680148239",
@@ -14576,7 +16082,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 108.62,
+          "margin": 49.38,
+          "marginRate": 31.3
         }
       ]
     },
@@ -14647,7 +16156,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 112.49,
+          "margin": 45.51,
+          "marginRate": 28.8
         },
         {
           "barcode": "8809680147041",
@@ -14664,7 +16176,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 111.79,
+          "margin": 46.21,
+          "marginRate": 29.2
         }
       ]
     },
@@ -14737,7 +16252,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 129.43,
+          "margin": 58.57,
+          "marginRate": 31.2
         },
         {
           "barcode": "8800299132121",
@@ -14754,7 +16272,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 129.43,
+          "margin": 58.57,
+          "marginRate": 31.2
         },
         {
           "barcode": "8800299132138",
@@ -14771,7 +16292,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 129.43,
+          "margin": 58.57,
+          "marginRate": 31.2
         }
       ]
     },
@@ -14844,7 +16368,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 129.43,
+          "margin": 58.57,
+          "marginRate": 31.2
         },
         {
           "barcode": "8800299132190",
@@ -14861,7 +16388,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 129.43,
+          "margin": 58.57,
+          "marginRate": 31.2
         },
         {
           "barcode": "8800299132206",
@@ -14878,7 +16408,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 129.43,
+          "margin": 58.57,
+          "marginRate": 31.2
         }
       ]
     },
@@ -14950,7 +16483,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.54,
+          "margin": 38.46,
+          "marginRate": 43.2
         },
         {
           "barcode": "8809680144774",
@@ -14967,7 +16503,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 51.12,
+          "margin": 37.88,
+          "marginRate": 42.6
         },
         {
           "barcode": "8809680144798",
@@ -14984,7 +16523,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.15,
+          "margin": 38.85,
+          "marginRate": 43.7
         },
         {
           "barcode": "8809680144897",
@@ -15001,7 +16543,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 48.91,
+          "margin": 40.09,
+          "marginRate": 45
         }
       ]
     },
@@ -15076,7 +16621,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.05,
+          "margin": 78.95,
+          "marginRate": 53.3
         },
         {
           "barcode": "8800299132558",
@@ -15093,7 +16641,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.05,
+          "margin": 78.95,
+          "marginRate": 53.3
         },
         {
           "barcode": "8800299132510",
@@ -15110,7 +16661,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.05,
+          "margin": 78.95,
+          "marginRate": 53.3
         },
         {
           "barcode": "8800299132527",
@@ -15127,7 +16681,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.05,
+          "margin": 78.95,
+          "marginRate": 53.3
         }
       ]
     },
@@ -15198,7 +16755,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 71.27,
+          "margin": 66.73,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800299132497",
@@ -15215,7 +16775,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 71.27,
+          "margin": 66.73,
+          "marginRate": 48.4
         }
       ]
     },
@@ -15285,7 +16848,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 71.11,
+          "margin": 66.89,
+          "marginRate": 48.5
         },
         {
           "barcode": "8800299132251",
@@ -15302,7 +16868,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 71.11,
+          "margin": 66.89,
+          "marginRate": 48.5
         }
       ]
     },
@@ -15375,7 +16944,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 102.04,
+          "margin": 52.96,
+          "marginRate": 34.2
         },
         {
           "barcode": "8800299132299",
@@ -15392,7 +16964,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 101.83,
+          "margin": 53.17,
+          "marginRate": 34.3
         }
       ]
     },
@@ -15483,7 +17058,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.58,
+          "margin": 62.42,
+          "marginRate": 57.8
         },
         {
           "barcode": "8809642485228",
@@ -15500,7 +17078,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 45.5,
+          "margin": 62.5,
+          "marginRate": 57.9
         },
         {
           "barcode": "8809642485235",
@@ -15517,7 +17098,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.17,
+          "margin": 62.83,
+          "marginRate": 58.2
         },
         {
           "barcode": "8809642485242",
@@ -15534,7 +17118,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485259",
@@ -15551,7 +17138,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.4,
+          "margin": 62.6,
+          "marginRate": 58
         },
         {
           "barcode": "8809642485266",
@@ -15568,7 +17158,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485273",
@@ -15585,7 +17178,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485556",
@@ -15602,7 +17198,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.54,
+          "margin": 62.46,
+          "marginRate": 57.8
         },
         {
           "barcode": "8809642485563",
@@ -15619,7 +17218,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485570",
@@ -15636,7 +17238,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485631",
@@ -15653,7 +17258,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485648",
@@ -15670,7 +17278,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485846",
@@ -15687,7 +17298,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.59,
+          "margin": 61.41,
+          "marginRate": 56.9
         },
         {
           "barcode": "8809642485891",
@@ -15704,7 +17318,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642485914",
@@ -15721,7 +17338,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642487574",
@@ -15738,7 +17358,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642487581",
@@ -15755,7 +17378,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642489004",
@@ -15772,7 +17398,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         },
         {
           "barcode": "8809642488991",
@@ -15789,7 +17418,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.96,
+          "margin": 63.04,
+          "marginRate": 58.4
         }
       ]
     },
@@ -15873,7 +17505,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486904",
@@ -15890,7 +17525,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486911",
@@ -15907,7 +17545,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486928",
@@ -15924,7 +17565,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486935",
@@ -15941,7 +17585,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486942",
@@ -15958,7 +17605,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486959",
@@ -15975,7 +17625,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486973",
@@ -15992,7 +17645,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486980",
@@ -16009,7 +17665,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642486997",
@@ -16026,7 +17685,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642487000",
@@ -16043,7 +17705,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642487017",
@@ -16060,7 +17725,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642487598",
@@ -16077,7 +17745,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         },
         {
           "barcode": "8809642487604",
@@ -16094,7 +17765,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50,
+          "margin": 68,
+          "marginRate": 57.6
         }
       ]
     },
@@ -16176,7 +17850,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.14,
+          "margin": 82.86,
+          "marginRate": 64.2
         },
         {
           "barcode": "8809642481985",
@@ -16193,7 +17870,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.55,
+          "margin": 83.45,
+          "marginRate": 64.7
         },
         {
           "barcode": "8809642482029",
@@ -16210,7 +17890,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 45.55,
+          "margin": 83.45,
+          "marginRate": 64.7
         },
         {
           "barcode": "8809642481961",
@@ -16227,7 +17910,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642481978",
@@ -16244,7 +17930,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642481992",
@@ -16261,7 +17950,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642482005",
@@ -16278,7 +17970,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642482012",
@@ -16295,7 +17990,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642482036",
@@ -16312,7 +18010,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642484276",
@@ -16329,7 +18030,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642484283",
@@ -16346,7 +18050,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         },
         {
           "barcode": "8809642484290",
@@ -16363,7 +18070,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.27,
+          "margin": 78.73,
+          "marginRate": 61
         }
       ]
     },
@@ -16442,7 +18152,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         },
         {
           "barcode": "8809642480018",
@@ -16459,7 +18172,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         },
         {
           "barcode": "8809642480032",
@@ -16476,7 +18192,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         },
         {
           "barcode": "8809642481053",
@@ -16493,7 +18212,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         },
         {
           "barcode": "8809642481060",
@@ -16510,7 +18232,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         },
         {
           "barcode": "8809642481077",
@@ -16527,7 +18252,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         },
         {
           "barcode": "8809642481084",
@@ -16544,7 +18272,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         },
         {
           "barcode": "8809642481091",
@@ -16561,7 +18292,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.2,
+          "margin": 86.8,
+          "marginRate": 62.9
         }
       ]
     },
@@ -16631,7 +18365,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 85.8,
+          "margin": 43.2,
+          "marginRate": 33.5
         },
         {
           "barcode": "8809642483477",
@@ -16648,7 +18385,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 58.57,
+          "margin": 70.43,
+          "marginRate": 54.6
         },
         {
           "barcode": "8809642483484",
@@ -16665,7 +18405,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 85.8,
+          "margin": 43.2,
+          "marginRate": 33.5
         },
         {
           "barcode": "8809642483491",
@@ -16682,7 +18425,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 58.57,
+          "margin": 70.43,
+          "marginRate": 54.6
         },
         {
           "barcode": "8809642483507",
@@ -16699,7 +18445,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 85.8,
+          "margin": 43.2,
+          "marginRate": 33.5
         }
       ]
     },
@@ -16773,7 +18522,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.28,
+          "margin": 59.72,
+          "marginRate": 46.3
         },
         {
           "barcode": "8809642484887",
@@ -16790,7 +18542,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 72.02,
+          "margin": 56.98,
+          "marginRate": 44.2
         },
         {
           "barcode": "8809642484917",
@@ -16807,7 +18562,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 59.94,
+          "margin": 69.06,
+          "marginRate": 53.5
         },
         {
           "barcode": "8809642484924",
@@ -16824,7 +18582,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 59.94,
+          "margin": 69.06,
+          "marginRate": 53.5
         },
         {
           "barcode": "8809642484900",
@@ -16841,7 +18602,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 59.94,
+          "margin": 69.06,
+          "marginRate": 53.5
         }
       ]
     },
@@ -16919,7 +18683,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.73,
+          "margin": 106.27,
+          "marginRate": 56.2
         },
         {
           "barcode": "8809642485921",
@@ -16936,7 +18703,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 79.84,
+          "margin": 109.16,
+          "marginRate": 57.8
         },
         {
           "barcode": "8809642480520",
@@ -16953,7 +18723,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#eee9e6",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 86.23,
+          "margin": 102.77,
+          "marginRate": 54.4
         },
         {
           "barcode": "8809642480537",
@@ -16970,7 +18743,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.26,
+          "margin": 106.74,
+          "marginRate": 56.5
         },
         {
           "barcode": "8809642480544",
@@ -16987,7 +18763,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 86.23,
+          "margin": 102.77,
+          "marginRate": 54.4
         },
         {
           "barcode": "8809642485938",
@@ -17004,7 +18783,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 86.23,
+          "margin": 102.77,
+          "marginRate": 54.4
         },
         {
           "barcode": "8809642485945",
@@ -17021,7 +18803,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 86.23,
+          "margin": 102.77,
+          "marginRate": 54.4
         }
       ]
     },
@@ -17098,7 +18883,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 99.96,
+          "margin": 78.04,
+          "marginRate": 43.8
         },
         {
           "barcode": "8809642484078",
@@ -17115,7 +18903,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 99.96,
+          "margin": 78.04,
+          "marginRate": 43.8
         },
         {
           "barcode": "8809642484092",
@@ -17132,7 +18923,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 99.96,
+          "margin": 78.04,
+          "marginRate": 43.8
         },
         {
           "barcode": "8809642485433",
@@ -17149,7 +18943,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 99.96,
+          "margin": 78.04,
+          "marginRate": 43.8
         },
         {
           "barcode": "8809642485440",
@@ -17166,7 +18963,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 86.74,
+          "margin": 91.26,
+          "marginRate": 51.3
         }
       ]
     },
@@ -17241,7 +19041,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.92,
+          "margin": 79.08,
+          "marginRate": 46.8
         },
         {
           "barcode": "8809642483309",
@@ -17258,7 +19061,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.92,
+          "margin": 79.08,
+          "marginRate": 46.8
         },
         {
           "barcode": "8809642483316",
@@ -17275,7 +19081,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.92,
+          "margin": 79.08,
+          "marginRate": 46.8
         },
         {
           "barcode": "8809642483323",
@@ -17292,7 +19101,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.92,
+          "margin": 79.08,
+          "marginRate": 46.8
         }
       ]
     },
@@ -17370,7 +19182,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.92,
+          "margin": 79.08,
+          "marginRate": 46.8
         },
         {
           "barcode": "8809642483736",
@@ -17387,7 +19202,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.5,
+          "margin": 79.5,
+          "marginRate": 47
         },
         {
           "barcode": "8809642483743",
@@ -17404,7 +19222,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.8,
+          "margin": 79.2,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809642483750",
@@ -17421,7 +19242,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.92,
+          "margin": 79.08,
+          "marginRate": 46.8
         }
       ]
     },
@@ -17498,7 +19322,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 94.86,
+          "margin": 163.14,
+          "marginRate": 63.2
         },
         {
           "barcode": "8809642481381",
@@ -17515,7 +19342,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 110.36,
+          "margin": 147.64,
+          "marginRate": 57.2
         },
         {
           "barcode": "8809642481398",
@@ -17532,7 +19362,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 101.72,
+          "margin": 156.28,
+          "marginRate": 60.6
         },
         {
           "barcode": "8809642481404",
@@ -17549,7 +19382,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 94.86,
+          "margin": 163.14,
+          "marginRate": 63.2
         }
       ]
     },
@@ -17624,7 +19460,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.16,
+          "margin": 68.84,
+          "marginRate": 58.3
         },
         {
           "barcode": "8809642481435",
@@ -17641,7 +19480,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.23,
+          "margin": 73.77,
+          "marginRate": 62.5
         },
         {
           "barcode": "8809642481442",
@@ -17658,7 +19500,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.28,
+          "margin": 73.72,
+          "marginRate": 62.5
         },
         {
           "barcode": "8809642481459",
@@ -17675,7 +19520,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.79,
+          "margin": 74.21,
+          "marginRate": 62.9
         }
       ]
     },
@@ -17746,7 +19594,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 66.11,
+          "margin": 128.89,
+          "marginRate": 66.1
         },
         {
           "barcode": "8809642482098",
@@ -17763,7 +19614,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.11,
+          "margin": 128.89,
+          "marginRate": 66.1
         },
         {
           "barcode": "8809642482104",
@@ -17780,7 +19634,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 66.11,
+          "margin": 128.89,
+          "marginRate": 66.1
         }
       ]
     },
@@ -17853,7 +19710,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 73.5,
+          "margin": 111.5,
+          "marginRate": 60.3
         },
         {
           "barcode": "8809642484856",
@@ -17870,7 +19730,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.32,
+          "margin": 113.68,
+          "marginRate": 61.4
         }
       ]
     },
@@ -17945,7 +19808,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.9,
+          "margin": 115.1,
+          "marginRate": 64.7
         }
       ]
     },
@@ -18022,7 +19888,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 145.6,
+          "margin": 64.4,
+          "marginRate": 30.7
         },
         {
           "barcode": "8809864769038",
@@ -18039,7 +19908,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 147.58,
+          "margin": 62.42,
+          "marginRate": 29.7
         },
         {
           "barcode": "8809864769045",
@@ -18056,7 +19928,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 142.92,
+          "margin": 67.08,
+          "marginRate": 31.9
         },
         {
           "barcode": "8809864769052",
@@ -18073,7 +19948,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 154,
+          "margin": 56,
+          "marginRate": 26.7
         },
         {
           "barcode": "8809030735348",
@@ -18090,7 +19968,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 149.33,
+          "margin": 82.67,
+          "marginRate": 35.6
         }
       ]
     },
@@ -18162,7 +20043,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 56.83,
+          "margin": 32.17,
+          "marginRate": 36.1
         },
         {
           "barcode": "8800276317084",
@@ -18179,7 +20063,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 55.52,
+          "margin": 33.48,
+          "marginRate": 37.6
         },
         {
           "barcode": "8800276317145",
@@ -18196,7 +20083,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 56.22,
+          "margin": 32.78,
+          "marginRate": 36.8
         },
         {
           "barcode": "8800276317169",
@@ -18213,7 +20103,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9d7180",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 55.52,
+          "margin": 33.48,
+          "marginRate": 37.6
         },
         {
           "barcode": "8800276317176",
@@ -18230,7 +20123,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 57.45,
+          "margin": 31.55,
+          "marginRate": 35.4
         }
       ]
     },
@@ -18302,7 +20198,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 69.33,
+          "margin": 35.67,
+          "marginRate": 34
         },
         {
           "barcode": "8809526844417",
@@ -18319,7 +20218,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.07,
+          "margin": 33.93,
+          "marginRate": 32.3
         },
         {
           "barcode": "8809526844431",
@@ -18336,7 +20238,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 73.67,
+          "margin": 31.33,
+          "marginRate": 29.8
         },
         {
           "barcode": "8809526844448",
@@ -18353,7 +20258,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 69.95,
+          "margin": 25.05,
+          "marginRate": 26.4
         }
       ]
     },
@@ -18428,7 +20336,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 40.96,
+          "margin": 38.04,
+          "marginRate": 48.2
         },
         {
           "barcode": "8800276315639",
@@ -18445,7 +20356,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40,
+          "margin": 39,
+          "marginRate": 49.4
         },
         {
           "barcode": "8800276315646",
@@ -18462,7 +20376,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.79,
+          "margin": 38.21,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800276315653",
@@ -18479,7 +20396,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.27,
+          "margin": 37.73,
+          "marginRate": 47.8
         },
         {
           "barcode": "8800276315677",
@@ -18496,7 +20416,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 41.33,
+          "margin": 37.67,
+          "marginRate": 47.7
         }
       ]
     },
@@ -18571,7 +20494,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 52.43,
+          "margin": 14.57,
+          "marginRate": 21.7
         },
         {
           "barcode": "8809435501982",
@@ -18588,7 +20514,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 46.25,
+          "margin": 20.75,
+          "marginRate": 31
         },
         {
           "barcode": "8809435501999",
@@ -18605,7 +20534,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 45.2,
+          "margin": 21.8,
+          "marginRate": 32.5
         },
         {
           "barcode": "8809435502002",
@@ -18622,7 +20554,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47.5,
+          "margin": 19.5,
+          "marginRate": 29.1
         },
         {
           "barcode": "8809435502019",
@@ -18639,7 +20574,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 47,
+          "margin": 20,
+          "marginRate": 29.9
         }
       ]
     },
@@ -18715,7 +20653,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.13,
+          "margin": 45.87,
+          "marginRate": 46.3
         },
         {
           "barcode": "8809639176894",
@@ -18732,7 +20673,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 56,
+          "margin": 43,
+          "marginRate": 43.4
         },
         {
           "barcode": "8809639176917",
@@ -18749,7 +20693,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52.5,
+          "margin": 46.5,
+          "marginRate": 47
         },
         {
           "barcode": "8809639176931",
@@ -18766,7 +20713,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52.5,
+          "margin": 46.5,
+          "marginRate": 47
         }
       ]
     },
@@ -18840,7 +20790,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 101.33,
+          "margin": 76.67,
+          "marginRate": 43.1
         },
         {
           "barcode": "8809639178638",
@@ -18857,7 +20810,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 101.33,
+          "margin": 76.67,
+          "marginRate": 43.1
         }
       ]
     },
@@ -18933,7 +20889,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 135.42,
+          "margin": 77.58,
+          "marginRate": 36.4
         },
         {
           "barcode": "8809971489454",
@@ -18950,7 +20909,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 130.42,
+          "margin": 62.58,
+          "marginRate": 32.4
         },
         {
           "barcode": "8809971489485",
@@ -18967,7 +20929,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 127.78,
+          "margin": 47.22,
+          "marginRate": 27
         }
       ]
     },
@@ -19041,7 +21006,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 115,
+          "margin": 63,
+          "marginRate": 35.4
         },
         {
           "barcode": "8809875908877",
@@ -19058,7 +21026,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 117.56,
+          "margin": 60.44,
+          "marginRate": 34
         },
         {
           "barcode": "8809875908891",
@@ -19075,7 +21046,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 116.92,
+          "margin": 61.08,
+          "marginRate": 34.3
         }
       ]
     },
@@ -19148,7 +21122,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.08,
+          "margin": 43.92,
+          "marginRate": 46.2
         },
         {
           "barcode": "8809435502934",
@@ -19165,7 +21142,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 50.42,
+          "margin": 44.58,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809435502958",
@@ -19182,7 +21162,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 53.33,
+          "margin": 41.67,
+          "marginRate": 43.9
         }
       ]
     },
@@ -19251,7 +21234,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 65.33,
+          "margin": 23.67,
+          "marginRate": 26.6
         },
         {
           "barcode": "8800276315745",
@@ -19268,7 +21254,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68,
+          "margin": 30,
+          "marginRate": 30.6
         }
       ]
     },
@@ -19341,7 +21330,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#eee9e6",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 104.58,
+          "margin": 40.42,
+          "marginRate": 27.9
         },
         {
           "barcode": "8809971488815",
@@ -19358,7 +21350,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 102.78,
+          "margin": 42.22,
+          "marginRate": 29.1
         }
       ]
     },
@@ -19431,7 +21426,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 76.25,
+          "margin": 48.75,
+          "marginRate": 39
         }
       ]
     },
@@ -19531,7 +21529,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.72,
+          "margin": 58.28,
+          "marginRate": 45.5
         },
         {
           "barcode": "8809652585666",
@@ -19548,7 +21549,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 74.29,
+          "margin": 53.71,
+          "marginRate": 42
         },
         {
           "barcode": "8809652585673",
@@ -19565,7 +21569,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 71.71,
+          "margin": 56.29,
+          "marginRate": 44
         },
         {
           "barcode": "8809652585680",
@@ -19582,7 +21589,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.57,
+          "margin": 59.43,
+          "marginRate": 46.4
         },
         {
           "barcode": "8809652585697",
@@ -19599,7 +21609,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 69.89,
+          "margin": 58.11,
+          "marginRate": 45.4
         },
         {
           "barcode": "8809652586489",
@@ -19616,7 +21629,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.47,
+          "margin": 45.53,
+          "marginRate": 35.6
         },
         {
           "barcode": "8809652582542",
@@ -19633,7 +21649,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.08,
+          "margin": 38.92,
+          "marginRate": 30.4
         },
         {
           "barcode": "8809652582559",
@@ -19650,7 +21669,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652586519",
@@ -19667,7 +21689,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 81.79,
+          "margin": 46.21,
+          "marginRate": 36.1
         },
         {
           "barcode": "8809652582573",
@@ -19684,7 +21709,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652582665",
@@ -19701,7 +21729,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652585765",
@@ -19718,7 +21749,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.35,
+          "margin": 47.65,
+          "marginRate": 37.2
         },
         {
           "barcode": "8809652582689",
@@ -19735,7 +21769,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652586601",
@@ -19752,7 +21789,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.03,
+          "margin": 45.97,
+          "marginRate": 35.9
         },
         {
           "barcode": "8809652582719",
@@ -19769,7 +21809,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652582726",
@@ -19786,7 +21829,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652586434",
@@ -19803,7 +21849,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.81,
+          "margin": 45.19,
+          "marginRate": 35.3
         },
         {
           "barcode": "8809652582498",
@@ -19820,7 +21869,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652586458",
@@ -19837,7 +21889,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 81.9,
+          "margin": 46.1,
+          "marginRate": 36
         },
         {
           "barcode": "8809652582511",
@@ -19854,7 +21909,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 91.11,
+          "margin": 36.89,
+          "marginRate": 28.8
         },
         {
           "barcode": "8809652586472",
@@ -19871,7 +21929,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 81.36,
+          "margin": 46.64,
+          "marginRate": 36.4
         },
         {
           "barcode": "8809652586540",
@@ -19888,7 +21949,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 81.75,
+          "margin": 46.25,
+          "marginRate": 36.1
         },
         {
           "barcode": "8809652582603",
@@ -19905,7 +21969,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652582610",
@@ -19922,7 +21989,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652582627",
@@ -19939,7 +22009,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652586687",
@@ -19956,7 +22029,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.2,
+          "margin": 45.8,
+          "marginRate": 35.8
         },
         {
           "barcode": "8809652582658",
@@ -19973,7 +22049,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652582672",
@@ -19990,7 +22069,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652586632",
@@ -20007,7 +22089,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 82.17,
+          "margin": 45.83,
+          "marginRate": 35.8
         },
         {
           "barcode": "8809652582764",
@@ -20024,7 +22109,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652582771",
@@ -20041,7 +22129,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.98,
+          "margin": 47.02,
+          "marginRate": 36.7
         },
         {
           "barcode": "8809652582580",
@@ -20058,7 +22149,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 83.71,
+          "margin": 44.29,
+          "marginRate": 34.6
         }
       ]
     },
@@ -20150,7 +22244,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585598",
@@ -20167,7 +22264,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585734",
@@ -20184,7 +22284,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585789",
@@ -20201,7 +22304,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.35,
+          "margin": 37.65,
+          "marginRate": 31.9
         },
         {
           "barcode": "8809652585581",
@@ -20218,7 +22324,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585642",
@@ -20235,7 +22344,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585772",
@@ -20252,7 +22364,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585567",
@@ -20269,7 +22384,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.08,
+          "margin": 44.92,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652586816",
@@ -20286,7 +22404,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 74.11,
+          "margin": 43.89,
+          "marginRate": 37.2
         },
         {
           "barcode": "8809652586878",
@@ -20303,7 +22424,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.88,
+          "margin": 44.12,
+          "marginRate": 37.4
         },
         {
           "barcode": "8809652585543",
@@ -20320,7 +22444,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585604",
@@ -20337,7 +22464,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652586854",
@@ -20354,7 +22484,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 74.11,
+          "margin": 43.89,
+          "marginRate": 37.2
         },
         {
           "barcode": "8809652585550",
@@ -20371,7 +22504,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652585611",
@@ -20388,7 +22524,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.05,
+          "margin": 44.95,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652586861",
@@ -20405,7 +22544,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 73.99,
+          "margin": 44.01,
+          "marginRate": 37.3
         },
         {
           "barcode": "8809652586724",
@@ -20422,7 +22564,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.88,
+          "margin": 44.12,
+          "marginRate": 37.4
         },
         {
           "barcode": "8809652585635",
@@ -20439,7 +22584,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 70.77,
+          "margin": 47.23,
+          "marginRate": 40
         }
       ]
     },
@@ -20530,7 +22678,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582924",
@@ -20547,7 +22698,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582931",
@@ -20564,7 +22718,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582948",
@@ -20581,7 +22738,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582917",
@@ -20598,7 +22758,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#eee9e6",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582801",
@@ -20615,7 +22778,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582818",
@@ -20632,7 +22798,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582825",
@@ -20649,7 +22818,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582832",
@@ -20666,7 +22838,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582863",
@@ -20683,7 +22858,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582870",
@@ -20700,7 +22878,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582887",
@@ -20717,7 +22898,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582894",
@@ -20734,7 +22918,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582900",
@@ -20751,7 +22938,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652588612",
@@ -20768,7 +22958,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652588629",
@@ -20785,7 +22978,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.49,
+          "margin": 39.51,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652588636",
@@ -20802,7 +22998,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652588643",
@@ -20819,7 +23018,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652588650",
@@ -20836,7 +23038,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.44,
+          "margin": 39.56,
+          "marginRate": 36.6
         },
         {
           "barcode": "8809652582955",
@@ -20853,7 +23058,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 62.64,
+          "margin": 45.36,
+          "marginRate": 42
         }
       ]
     },
@@ -20936,7 +23144,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587745",
@@ -20953,7 +23164,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587752",
@@ -20970,7 +23184,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587769",
@@ -20987,7 +23204,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587776",
@@ -21004,7 +23224,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587783",
@@ -21021,7 +23244,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587790",
@@ -21038,7 +23264,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587813",
@@ -21055,7 +23284,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587820",
@@ -21072,7 +23304,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587837",
@@ -21089,7 +23324,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587844",
@@ -21106,7 +23344,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         },
         {
           "barcode": "8809652587851",
@@ -21123,7 +23364,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 80.04,
+          "margin": 47.96,
+          "marginRate": 37.5
         }
       ]
     },
@@ -21196,7 +23440,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 91.64,
+          "margin": 56.36,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652588803",
@@ -21213,7 +23460,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 91.64,
+          "margin": 56.36,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652588810",
@@ -21230,7 +23480,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 91.64,
+          "margin": 56.36,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652588834",
@@ -21247,7 +23500,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 91.64,
+          "margin": 56.36,
+          "marginRate": 38.1
         },
         {
           "barcode": "8809652588841",
@@ -21264,7 +23520,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 91.64,
+          "margin": 56.36,
+          "marginRate": 38.1
         }
       ]
     },
@@ -21335,7 +23594,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.44,
+          "margin": 70.56,
+          "marginRate": 42
         },
         {
           "barcode": "8809652588773",
@@ -21352,7 +23614,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.44,
+          "margin": 70.56,
+          "marginRate": 42
         },
         {
           "barcode": "8809652588780",
@@ -21369,7 +23634,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.44,
+          "margin": 70.56,
+          "marginRate": 42
         },
         {
           "barcode": "8809652588797",
@@ -21386,7 +23654,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 97.44,
+          "margin": 70.56,
+          "marginRate": 42
         }
       ]
     },
@@ -21459,7 +23730,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 76.92,
+          "margin": 61.08,
+          "marginRate": 44.3
         },
         {
           "barcode": "8800312061544",
@@ -21476,7 +23750,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 77.9,
+          "margin": 60.1,
+          "marginRate": 43.6
         }
       ]
     },
@@ -21546,7 +23823,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 51.04,
+          "margin": 36.96,
+          "marginRate": 42
         }
       ]
     },
@@ -21622,7 +23902,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 100.92,
+          "margin": 77.08,
+          "marginRate": 43.3
         },
         {
           "barcode": "8809679696451",
@@ -21639,7 +23922,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 96.02,
+          "margin": 81.98,
+          "marginRate": 46.1
         },
         {
           "barcode": "8809679696468",
@@ -21656,7 +23942,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 100.5,
+          "margin": 77.5,
+          "marginRate": 43.5
         }
       ]
     },
@@ -21731,7 +24020,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 89.95,
+          "margin": 88.05,
+          "marginRate": 49.5
         },
         {
           "barcode": "8809928136493",
@@ -21748,7 +24040,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 115.16,
+          "margin": 62.84,
+          "marginRate": 35.3
         },
         {
           "barcode": "8809928136745",
@@ -21765,7 +24060,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 88.16,
+          "margin": 89.84,
+          "marginRate": 50.5
         }
       ]
     },
@@ -21839,7 +24137,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 67.78,
+          "margin": 110.22,
+          "marginRate": 61.9
         },
         {
           "barcode": "8800288640385",
@@ -21856,7 +24157,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 72.46,
+          "margin": 105.54,
+          "marginRate": 59.3
         },
         {
           "barcode": "8800288640408",
@@ -21873,7 +24177,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 78.26,
+          "margin": 99.74,
+          "marginRate": 56
         }
       ]
     },
@@ -21950,7 +24257,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 98.13,
+          "margin": 89.87,
+          "marginRate": 47.8
         },
         {
           "barcode": "8809928136561",
@@ -21967,7 +24277,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 99.73,
+          "margin": 88.27,
+          "marginRate": 47
         },
         {
           "barcode": "8809928136585",
@@ -21984,7 +24297,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 104.25,
+          "margin": 83.75,
+          "marginRate": 44.5
         }
       ]
     },
@@ -22057,7 +24373,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 119.67,
+          "margin": 68.33,
+          "marginRate": 36.3
         },
         {
           "barcode": "8809928132426",
@@ -22074,7 +24393,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 116.91,
+          "margin": 71.09,
+          "marginRate": 37.8
         },
         {
           "barcode": "8809928132433",
@@ -22091,7 +24413,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 110.84,
+          "margin": 77.16,
+          "marginRate": 41
         }
       ]
     },
@@ -22160,7 +24485,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 116.27,
+          "margin": 32.73,
+          "marginRate": 22
         }
       ]
     },
@@ -22234,7 +24562,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.14,
+          "margin": 48.86,
+          "marginRate": 44.8
         },
         {
           "barcode": "8809679697496",
@@ -22251,7 +24582,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 49.86,
+          "margin": 49.14,
+          "marginRate": 49.6
         },
         {
           "barcode": "8809679697502",
@@ -22268,7 +24602,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 59.65,
+          "margin": 49.35,
+          "marginRate": 45.3
         }
       ]
     },
@@ -22339,7 +24676,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.02,
+          "margin": 45.98,
+          "marginRate": 46.4
         },
         {
           "barcode": "8800288640538",
@@ -22356,7 +24696,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.24,
+          "margin": 45.76,
+          "marginRate": 46.2
         },
         {
           "barcode": "8800288640552",
@@ -22373,7 +24716,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.57,
+          "margin": 38.43,
+          "marginRate": 38.8
         }
       ]
     },
@@ -22448,7 +24794,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 58.03,
+          "margin": 50.97,
+          "marginRate": 46.8
         },
         {
           "barcode": "8809928136998",
@@ -22465,7 +24814,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.69,
+          "margin": 48.31,
+          "marginRate": 44.3
         },
         {
           "barcode": "8809928137018",
@@ -22482,7 +24834,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 67.79,
+          "margin": 41.21,
+          "marginRate": 37.8
         }
       ]
     },
@@ -22556,7 +24911,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.73,
+          "margin": 46.27,
+          "marginRate": 42.4
         },
         {
           "barcode": "8809928137216",
@@ -22573,7 +24931,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 70.1,
+          "margin": 38.9,
+          "marginRate": 35.7
         }
       ]
     },
@@ -22649,7 +25010,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 94.02,
+          "margin": 83.98,
+          "marginRate": 47.2
         },
         {
           "barcode": "8800288642532",
@@ -22666,7 +25030,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 93.19,
+          "margin": 84.81,
+          "marginRate": 47.6
         },
         {
           "barcode": "8800288642570",
@@ -22683,7 +25050,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 104.51,
+          "margin": 73.49,
+          "marginRate": 41.3
         }
       ]
     },
@@ -22762,7 +25132,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.1,
+          "margin": 61.9,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800288641276",
@@ -22779,7 +25152,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.1,
+          "margin": 61.9,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800288641290",
@@ -22796,7 +25172,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.1,
+          "margin": 61.9,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800288641313",
@@ -22813,7 +25192,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.18,
+          "margin": 61.82,
+          "marginRate": 48.3
         },
         {
           "barcode": "8800288641344",
@@ -22830,7 +25212,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.1,
+          "margin": 61.9,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800288641337",
@@ -22847,7 +25232,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.1,
+          "margin": 61.9,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800288641375",
@@ -22864,7 +25252,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.1,
+          "margin": 61.9,
+          "marginRate": 48.4
         },
         {
           "barcode": "8800288641412",
@@ -22881,7 +25272,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 66.1,
+          "margin": 61.9,
+          "marginRate": 48.4
         }
       ]
     },
@@ -22949,7 +25343,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.2,
+          "margin": 57.8,
+          "marginRate": 48.6
         }
       ]
     },
@@ -23019,7 +25416,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 55.87,
+          "margin": 52.13,
+          "marginRate": 48.3
         }
       ]
     },
@@ -23096,7 +25496,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 55.31,
+          "margin": 49.69,
+          "marginRate": 47.3
         },
         {
           "barcode": "8809928136073",
@@ -23113,7 +25516,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 56.39,
+          "margin": 48.61,
+          "marginRate": 46.3
         },
         {
           "barcode": "8809928136097",
@@ -23130,7 +25536,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 56.39,
+          "margin": 48.61,
+          "marginRate": 46.3
         },
         {
           "barcode": "8809928136103",
@@ -23147,7 +25556,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 56.37,
+          "margin": 48.63,
+          "marginRate": 46.3
         }
       ]
     },
@@ -23218,7 +25630,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 57.26,
+          "margin": 47.74,
+          "marginRate": 45.5
         },
         {
           "barcode": "8809928135984",
@@ -23235,7 +25650,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 55.97,
+          "margin": 49.03,
+          "marginRate": 46.7
         },
         {
           "barcode": "8809928136004",
@@ -23252,7 +25670,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 57,
+          "margin": 48,
+          "marginRate": 45.7
         },
         {
           "barcode": "8809928135991",
@@ -23269,7 +25690,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 55.37,
+          "margin": 49.63,
+          "marginRate": 47.3
         }
       ]
     },
@@ -23349,7 +25773,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 56.81,
+          "margin": 26.19,
+          "marginRate": 31.6
         },
         {
           "barcode": "6902395735496",
@@ -23366,7 +25793,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.74,
+          "margin": 27.26,
+          "marginRate": 30.6
         },
         {
           "barcode": "4935421282659",
@@ -23383,7 +25813,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.1,
+          "margin": 22.9,
+          "marginRate": 27.6
         },
         {
           "barcode": "4935421282666",
@@ -23400,7 +25833,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.52,
+          "margin": 22.48,
+          "marginRate": 27.1
         },
         {
           "barcode": "4935421282673",
@@ -23417,7 +25853,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.76,
+          "margin": 22.24,
+          "marginRate": 26.8
         },
         {
           "barcode": "4935421282680",
@@ -23434,7 +25873,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.81,
+          "margin": 22.19,
+          "marginRate": 26.7
         },
         {
           "barcode": "4935421282697",
@@ -23451,7 +25893,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.1,
+          "margin": 22.9,
+          "marginRate": 27.6
         },
         {
           "barcode": "6902395685869",
@@ -23468,7 +25913,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.34,
+          "margin": 22.66,
+          "marginRate": 27.3
         }
       ]
     },
@@ -23544,7 +25992,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.63,
+          "margin": 24.37,
+          "marginRate": 28
         },
         {
           "barcode": "6902395853503",
@@ -23561,7 +26012,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 63.49,
+          "margin": 23.51,
+          "marginRate": 27
         },
         {
           "barcode": "6902395853510",
@@ -23578,7 +26032,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.63,
+          "margin": 24.37,
+          "marginRate": 28
         },
         {
           "barcode": "6902395853527",
@@ -23595,7 +26052,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 63.49,
+          "margin": 23.51,
+          "marginRate": 27
         },
         {
           "barcode": "6902395853534",
@@ -23612,7 +26072,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 64.35,
+          "margin": 22.65,
+          "marginRate": 26
         },
         {
           "barcode": "487418",
@@ -23629,7 +26092,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.63,
+          "margin": 24.37,
+          "marginRate": 28
         },
         {
           "barcode": "487449",
@@ -23646,7 +26112,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.63,
+          "margin": 24.37,
+          "marginRate": 28
         }
       ]
     },
@@ -23722,7 +26191,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 90.35,
+          "margin": 34.65,
+          "marginRate": 27.7
         },
         {
           "barcode": "6902395774235",
@@ -23739,7 +26211,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 90.35,
+          "margin": 34.65,
+          "marginRate": 27.7
         }
       ]
     },
@@ -23819,7 +26294,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 108.68,
+          "margin": 40.32,
+          "marginRate": 27.1
         },
         {
           "barcode": "6902395856214",
@@ -23836,7 +26314,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 106.92,
+          "margin": 42.08,
+          "marginRate": 28.2
         },
         {
           "barcode": "6902395856221",
@@ -23853,7 +26334,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 108.68,
+          "margin": 40.32,
+          "marginRate": 27.1
         },
         {
           "barcode": "6902395856238",
@@ -23870,7 +26354,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 106.92,
+          "margin": 42.08,
+          "marginRate": 28.2
         },
         {
           "barcode": "6902395856245",
@@ -23887,7 +26374,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 101.06,
+          "margin": 47.94,
+          "marginRate": 32.2
         },
         {
           "barcode": "6902395856252",
@@ -23904,7 +26394,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 106.92,
+          "margin": 42.08,
+          "marginRate": 28.2
         },
         {
           "barcode": "6902395856269",
@@ -23921,7 +26414,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 108,
+          "margin": 41,
+          "marginRate": 27.5
         }
       ]
     },
@@ -23998,7 +26494,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 149.13,
+          "margin": 58.87,
+          "marginRate": 28.3
         },
         {
           "barcode": "6902395974611",
@@ -24015,7 +26514,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 153.8,
+          "margin": 54.2,
+          "marginRate": 26.1
         },
         {
           "barcode": "6902395974628",
@@ -24032,7 +26534,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 153.8,
+          "margin": 54.2,
+          "marginRate": 26.1
         },
         {
           "barcode": "6902395974635",
@@ -24049,7 +26554,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 150.69,
+          "margin": 57.31,
+          "marginRate": 27.6
         }
       ]
     },
@@ -24118,7 +26626,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 119,
+          "margin": 70,
+          "marginRate": 37
         },
         {
           "barcode": "4894858153195",
@@ -24135,7 +26646,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 106.92,
+          "margin": 48.08,
+          "marginRate": 31
         }
       ]
     },
@@ -24208,7 +26722,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 63.78,
+          "margin": 23.22,
+          "marginRate": 26.7
         },
         {
           "barcode": "6902395773092",
@@ -24225,7 +26742,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 62.63,
+          "margin": 24.37,
+          "marginRate": 28
         },
         {
           "barcode": "6902395773108",
@@ -24242,7 +26762,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 63.78,
+          "margin": 23.22,
+          "marginRate": 26.7
         },
         {
           "barcode": "6902395773115",
@@ -24259,7 +26782,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 62.63,
+          "margin": 24.37,
+          "marginRate": 28
         },
         {
           "barcode": "6902395773122",
@@ -24276,7 +26802,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 64.35,
+          "margin": 22.65,
+          "marginRate": 26
         },
         {
           "barcode": "6902395773139",
@@ -24293,7 +26822,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 62.63,
+          "margin": 24.37,
+          "marginRate": 28
         }
       ]
     },
@@ -24367,7 +26899,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.47,
+          "margin": 27.53,
+          "marginRate": 30.9
         },
         {
           "barcode": "6902395828433",
@@ -24384,7 +26919,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 62.04,
+          "margin": 26.96,
+          "marginRate": 30.3
         },
         {
           "barcode": "6902395828440",
@@ -24401,7 +26939,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 67.57,
+          "margin": 40.43,
+          "marginRate": 37.4
         }
       ]
     },
@@ -24491,7 +27032,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 81.61,
+          "margin": 37.39,
+          "marginRate": 31.4
         }
       ]
     },
@@ -24562,7 +27106,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 64.35,
+          "margin": 24.65,
+          "marginRate": 27.7
         }
       ]
     },
@@ -24633,7 +27180,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.56,
+          "margin": 63.44,
+          "marginRate": 59.3
         }
       ]
     },
@@ -24703,7 +27253,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 100.59,
+          "margin": 48.41,
+          "marginRate": 32.5
         }
       ]
     },
@@ -24782,7 +27335,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 77.35,
+          "margin": 29.65,
+          "marginRate": 27.7
         },
         {
           "barcode": "6902395834229",
@@ -24799,7 +27355,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 77.35,
+          "margin": 29.65,
+          "marginRate": 27.7
         },
         {
           "barcode": "6902395834205",
@@ -24816,7 +27375,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 69.35,
+          "margin": 19.65,
+          "marginRate": 22.1
         }
       ]
     },
@@ -24891,7 +27453,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.96,
+          "margin": 30.04,
+          "marginRate": 30.3
         },
         {
           "barcode": "6902395971856",
@@ -24908,7 +27473,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.96,
+          "margin": 30.04,
+          "marginRate": 30.3
         },
         {
           "barcode": "6902395971863",
@@ -24925,7 +27493,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.96,
+          "margin": 30.04,
+          "marginRate": 30.3
         },
         {
           "barcode": "6902395971917",
@@ -24942,7 +27513,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 68.96,
+          "margin": 30.04,
+          "marginRate": 30.3
         }
       ]
     },
@@ -25024,7 +27598,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 44.24,
+          "margin": 30.76,
+          "marginRate": 41
         },
         {
           "barcode": "6977475916225",
@@ -25041,7 +27618,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 43.96,
+          "margin": 31.04,
+          "marginRate": 41.4
         },
         {
           "barcode": "6977475916218",
@@ -25058,7 +27638,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.96,
+          "margin": 31.04,
+          "marginRate": 41.4
         },
         {
           "barcode": "6977475916249",
@@ -25075,7 +27658,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.24,
+          "margin": 30.76,
+          "marginRate": 41
         },
         {
           "barcode": "6977475916201",
@@ -25092,7 +27678,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 43.44,
+          "margin": 31.56,
+          "marginRate": 42.1
         },
         {
           "barcode": "6977475916195",
@@ -25109,7 +27698,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.36,
+          "margin": 30.64,
+          "marginRate": 40.9
         },
         {
           "barcode": "6977475916188",
@@ -25126,7 +27718,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 53.75,
+          "margin": 21.25,
+          "marginRate": 28.3
         },
         {
           "barcode": "6977475916263",
@@ -25143,7 +27738,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 44.64,
+          "margin": 30.36,
+          "marginRate": 40.5
         },
         {
           "barcode": "6977475916256",
@@ -25160,7 +27758,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.8,
+          "margin": 35.2,
+          "marginRate": 42.4
         }
       ]
     },
@@ -25235,7 +27836,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.69,
+          "margin": 41.31,
+          "marginRate": 46.4
         },
         {
           "barcode": "6977475916324",
@@ -25252,7 +27856,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.11,
+          "margin": 39.89,
+          "marginRate": 44.8
         },
         {
           "barcode": "6977475916331",
@@ -25269,7 +27876,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 47.69,
+          "margin": 41.31,
+          "marginRate": 46.4
         },
         {
           "barcode": "6977475916294",
@@ -25286,7 +27896,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 48.52,
+          "margin": 40.48,
+          "marginRate": 45.5
         },
         {
           "barcode": "6977475916317",
@@ -25303,7 +27916,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.11,
+          "margin": 39.89,
+          "marginRate": 44.8
         }
       ]
     },
@@ -25377,7 +27993,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 79.75,
+          "margin": 39.25,
+          "marginRate": 33
         },
         {
           "barcode": "6975302933469",
@@ -25394,7 +28013,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 77.31,
+          "margin": 41.69,
+          "marginRate": 35
         },
         {
           "barcode": "6975302933483",
@@ -25411,7 +28033,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 74.49,
+          "margin": 44.51,
+          "marginRate": 37.4
         }
       ]
     },
@@ -25484,7 +28109,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.11,
+          "margin": 49.89,
+          "marginRate": 63.2
         },
         {
           "barcode": "6977208197181",
@@ -25501,7 +28129,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.11,
+          "margin": 49.89,
+          "marginRate": 63.2
         },
         {
           "barcode": "6977208197198",
@@ -25518,7 +28149,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 29.98,
+          "margin": 49.02,
+          "marginRate": 62.1
         }
       ]
     },
@@ -25590,7 +28224,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 82.83,
+          "margin": 48.17,
+          "marginRate": 36.8
         },
         {
           "barcode": "6978817410098",
@@ -25607,7 +28244,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 84.69,
+          "margin": 46.31,
+          "marginRate": 35.4
         }
       ]
     },
@@ -25680,7 +28320,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 46.92,
+          "margin": 13.08,
+          "marginRate": 21.8
         },
         {
           "barcode": "6978540672565",
@@ -25697,7 +28340,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 40.47,
+          "margin": 19.53,
+          "marginRate": 32.6
         }
       ]
     },
@@ -25779,7 +28425,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 129.28,
+          "margin": 88.72,
+          "marginRate": 40.7
         },
         {
           "barcode": "8809581539464",
@@ -25796,7 +28445,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 102.33,
+          "margin": 85.67,
+          "marginRate": 45.6
         },
         {
           "barcode": "8809581532120",
@@ -25813,7 +28465,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c99b7e",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 112.71,
+          "margin": 75.29,
+          "marginRate": 40
         },
         {
           "barcode": "8809581535206",
@@ -25830,7 +28485,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 113.71,
+          "margin": 74.29,
+          "marginRate": 39.5
         },
         {
           "barcode": "8809581536166",
@@ -25847,7 +28505,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 112.71,
+          "margin": 75.29,
+          "marginRate": 40
         },
         {
           "barcode": "8809581539853",
@@ -25864,7 +28525,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 112.71,
+          "margin": 75.29,
+          "marginRate": 40
         },
         {
           "barcode": "8809581532755",
@@ -25881,7 +28545,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 111.73,
+          "margin": 76.27,
+          "marginRate": 40.6
         },
         {
           "barcode": "8809581531109",
@@ -25898,7 +28565,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 112.71,
+          "margin": 75.29,
+          "marginRate": 40
         },
         {
           "barcode": "8809581539471",
@@ -25915,7 +28585,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 106.08,
+          "margin": 81.92,
+          "marginRate": 43.6
         }
       ]
     },
@@ -25995,7 +28668,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 74.59,
+          "margin": 63.41,
+          "marginRate": 45.9
         },
         {
           "barcode": "8809581533721",
@@ -26012,7 +28688,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 77.28,
+          "margin": 60.72,
+          "marginRate": 44
         },
         {
           "barcode": "8809581539921",
@@ -26029,7 +28708,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 93.65,
+          "margin": 44.35,
+          "marginRate": 32.1
         },
         {
           "barcode": "8809581533707",
@@ -26046,7 +28728,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 74.16,
+          "margin": 63.84,
+          "marginRate": 46.3
         },
         {
           "barcode": "8809581538283",
@@ -26063,7 +28748,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 79.56,
+          "margin": 58.44,
+          "marginRate": 42.3
         },
         {
           "barcode": "8809581537606",
@@ -26080,7 +28768,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 79.56,
+          "margin": 58.44,
+          "marginRate": 42.3
         },
         {
           "barcode": "8809581539938",
@@ -26097,7 +28788,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 80.27,
+          "margin": 57.73,
+          "marginRate": 41.8
         },
         {
           "barcode": "8809581535251",
@@ -26114,7 +28808,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 75.21,
+          "margin": 62.79,
+          "marginRate": 45.5
         },
         {
           "barcode": "8809581533608",
@@ -26131,7 +28828,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 73.36,
+          "margin": 64.64,
+          "marginRate": 46.8
         }
       ]
     },
@@ -26200,7 +28900,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 79.56,
+          "margin": 58.44,
+          "marginRate": 42.3
         }
       ]
     },
@@ -26272,7 +28975,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 96.13,
+          "margin": 91.87,
+          "marginRate": 48.9
         }
       ]
     },
@@ -26353,7 +29059,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 52.31,
+          "margin": 45.69,
+          "marginRate": 46.6
         },
         {
           "barcode": "8809581532632",
@@ -26370,7 +29079,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8809581533547",
@@ -26387,7 +29099,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52.06,
+          "margin": 45.94,
+          "marginRate": 46.9
         },
         {
           "barcode": "8809581533578",
@@ -26404,7 +29119,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 57.18,
+          "margin": 40.82,
+          "marginRate": 41.7
         },
         {
           "barcode": "8809581535763",
@@ -26421,7 +29139,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 52.29,
+          "margin": 45.71,
+          "marginRate": 46.6
         },
         {
           "barcode": "8809581537910",
@@ -26438,7 +29159,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8809581537927",
@@ -26455,7 +29179,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8809581533561",
@@ -26472,7 +29199,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 55.13,
+          "margin": 42.87,
+          "marginRate": 43.7
         }
       ]
     },
@@ -26547,7 +29277,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 60.2,
+          "margin": 37.8,
+          "marginRate": 38.6
         },
         {
           "barcode": "8809581539228",
@@ -26564,7 +29297,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 58.16,
+          "margin": 39.84,
+          "marginRate": 40.7
         },
         {
           "barcode": "8809581539280",
@@ -26581,7 +29317,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 58.14,
+          "margin": 39.86,
+          "marginRate": 40.7
         },
         {
           "barcode": "8809581539211",
@@ -26598,7 +29337,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 60.24,
+          "margin": 37.76,
+          "marginRate": 38.5
         },
         {
           "barcode": "8809581539259",
@@ -26615,7 +29357,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 58.16,
+          "margin": 39.84,
+          "marginRate": 40.7
         },
         {
           "barcode": "8809581539273",
@@ -26632,7 +29377,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 58.16,
+          "margin": 39.84,
+          "marginRate": 40.7
         },
         {
           "barcode": "8809581539327",
@@ -26649,7 +29397,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 58.16,
+          "margin": 39.84,
+          "marginRate": 40.7
         }
       ]
     },
@@ -26729,7 +29480,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8800299140300",
@@ -26746,7 +29500,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8800299140386",
@@ -26763,7 +29520,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#9a79a7",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8800299140256",
@@ -26780,7 +29540,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8800299140270",
@@ -26797,7 +29560,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e97867",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8800299140317",
@@ -26814,7 +29580,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8800299140348",
@@ -26831,7 +29600,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         }
       ]
     },
@@ -26910,7 +29682,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8809581534094",
@@ -26927,7 +29702,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8809581534100",
@@ -26944,7 +29722,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#efa27f",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 56.36,
+          "margin": 41.64,
+          "marginRate": 42.5
         },
         {
           "barcode": "8809581534117",
@@ -26961,7 +29742,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         },
         {
           "barcode": "8809581534124",
@@ -26978,7 +29762,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 54.94,
+          "margin": 43.06,
+          "marginRate": 43.9
         }
       ]
     },
@@ -27050,7 +29837,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 65.89,
+          "margin": 62.11,
+          "marginRate": 48.5
         },
         {
           "barcode": "8809581538061",
@@ -27067,7 +29857,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 64.63,
+          "margin": 63.37,
+          "marginRate": 49.5
         },
         {
           "barcode": "8809581537996",
@@ -27084,7 +29877,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 64.63,
+          "margin": 63.37,
+          "marginRate": 49.5
         },
         {
           "barcode": "8809581537941",
@@ -27101,7 +29897,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 50.3,
+          "margin": 77.7,
+          "marginRate": 60.7
         },
         {
           "barcode": "8809581538009",
@@ -27118,7 +29917,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 63.12,
+          "margin": 64.88,
+          "marginRate": 50.7
         }
       ]
     },
@@ -27197,7 +29999,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 71.08,
+          "margin": 56.92,
+          "marginRate": 44.5
         },
         {
           "barcode": "8809581539594",
@@ -27214,7 +30019,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#e99aa8",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.08,
+          "margin": 56.92,
+          "marginRate": 44.5
         },
         {
           "barcode": "8809581539600",
@@ -27231,7 +30039,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 71.08,
+          "margin": 56.92,
+          "marginRate": 44.5
         },
         {
           "barcode": "8809581539716",
@@ -27248,7 +30059,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#b86c78",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.08,
+          "margin": 56.92,
+          "marginRate": 44.5
         },
         {
           "barcode": "8809581539747",
@@ -27265,7 +30079,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8a5c49",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 71.08,
+          "margin": 56.92,
+          "marginRate": 44.5
         }
       ]
     },
@@ -27338,7 +30155,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#8e405b",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 49.82,
+          "margin": 68.18,
+          "marginRate": 57.8
         },
         {
           "barcode": "8809581535817",
@@ -27355,7 +30175,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#c94d55",
             "status": "inferred_from_variant_name",
             "confidence": 0.78
-          }
+          },
+          "unitCost": 65.58,
+          "margin": 52.42,
+          "marginRate": 44.4
         },
         {
           "barcode": "8809581535800",
@@ -27372,7 +30195,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.92,
+          "margin": 56.08,
+          "marginRate": 47.5
         }
       ]
     },
@@ -27447,7 +30273,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 112.71,
+          "margin": 75.29,
+          "marginRate": 40
         },
         {
           "barcode": "8809581537835",
@@ -27464,7 +30293,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "inferred_from_variant_name",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 112.71,
+          "margin": 75.29,
+          "marginRate": 40
         }
       ]
     },
@@ -27532,7 +30364,10 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 61.38,
+          "margin": 56.62,
+          "marginRate": 48
         }
       ]
     },
@@ -27605,9 +30440,17 @@ window.OUJI_PRODUCT_DATABASE = {
             "swatchHint": "#d8d1cc",
             "status": "unknown",
             "confidence": 0.35
-          }
+          },
+          "unitCost": 55.3,
+          "margin": 39.7,
+          "marginRate": 41.8
         }
       ]
     }
-  ]
+  ],
+  "costSource": {
+    "from": "ouji-pos sku.unit_cost",
+    "matchedVariants": 946,
+    "generatedFor": "match page ranking"
+  }
 };
