@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>手機導覽 v2 — 全部落底部 | OUJI</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ── 新嘢，落實嗰陣搬入 styles.css ── */
+  .sheet2 .shop-sheet__panel { padding: 10px 6px 6px; }
+  .sheet2__search {
+    display: flex; align-items: center; gap: 9px; margin: 4px 8px 10px;
+    padding: 11px 14px; border-radius: 12px;
+    background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.82); font-family: var(--font-body); font-size: 0.875rem;
+  }
+  .sheet2__search svg { width: 17px; height: 17px; flex: 0 0 auto; }
+  .sheet2__sec {
+    margin: 14px 0 4px; padding: 0 18px;
+    font-family: var(--font-body); font-size: 0.6875rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55); font-weight: 600;
+  }
+  .sheet2__sec:first-of-type { margin-top: 2px; }
+  .sheet2__row {
+    display: flex; align-items: center; justify-content: space-between; width: 100%;
+    padding: 14px 18px; border: 0; background: none; text-align: left;
+    color: rgba(255,255,255,0.94); font-family: var(--font-body); font-size: 0.9375rem;
+    text-decoration: none; cursor: pointer;
+  }
+  .sheet2__row { border-top: 1px solid rgba(255,255,255,0.14); }
+  .sheet2__sec + .sheet2__row, .sheet2__sec + .sheet2__grp > .sheet2__row { border-top: 0; }
+  .sheet2__row em { font-style: normal; font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-left: 8px; }
+  .sheet2__row svg { width: 16px; height: 16px; opacity: 0.7; transition: transform 0.2s; }
+  .sheet2__grp.is-open > .sheet2__row svg { transform: rotate(180deg); }
+  .sheet2__subs { display: none; padding: 2px 0 8px; background: rgba(255,255,255,0.07); }
+  .sheet2__grp.is-open .sheet2__subs { display: block; }
+  .sheet2__subs a { display: block; padding: 9px 18px 9px 32px; color: rgba(255,255,255,0.8);
+    font-family: var(--font-body); font-size: 0.8125rem; text-decoration: none; }
+
+  /* 幫我揀 hub */
+  .pick { padding: 96px 18px 110px; font-family: var(--font-body); }
+  .pick__kicker { font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--primary); font-weight: 600; }
+  .pick h1 { font-size: 1.75rem; margin: 6px 0 8px; color: var(--text-primary); }
+  .pick__lead { font-size: 0.875rem; line-height: 1.8; color: var(--text-secondary); margin: 0 0 20px; }
+  .pick__card {
+    display: block; padding: 20px; margin-bottom: 14px; border-radius: 16px;
+    text-decoration: none; border: 1px solid var(--border-light); background: #fff;
+  }
+  .pick__card--on { background: linear-gradient(150deg, #2b4c58, #4b7d8f); border-color: transparent; }
+  .pick__card--on .pick__t, .pick__card--on .pick__d { color: #fff; }
+  .pick__card--on .pick__d { opacity: 0.82; }
+  .pick__t { font-size: 1.0625rem; font-weight: 600; color: var(--text-primary); margin: 0 0 6px; }
+  .pick__d { font-size: 0.8125rem; line-height: 1.7; color: var(--text-secondary); margin: 0; }
+  .pick__soon { display: inline-block; margin-top: 10px; padding: 3px 10px; border-radius: 999px;
+    background: #fff6e2; color: #8a5c12; font-size: 0.6875rem; font-weight: 600; }
+
+  .me { padding: 96px 18px 110px; font-family: var(--font-body); }
+  .me h1 { font-size: 1.6rem; margin: 0 0 16px; }
+  .me a { display: flex; justify-content: space-between; padding: 16px 4px; text-decoration: none;
+    color: var(--text-primary); font-size: 0.9375rem; border-bottom: 1px solid var(--border-light); }
+  .me b { color: var(--primary-deep); }
+
+  .home { padding: 90px 18px 110px; font-family: var(--font-body); }
+  .home__hero { border-radius: 18px; overflow: hidden; margin-bottom: 18px; }
+  .home__hero img { width: 100%; display: block; }
+  .home__note { font-size: 0.8125rem; line-height: 1.8; color: var(--text-secondary); }
+  .home__note b { color: var(--primary-deep); }
+
+  .screen { display: none; }
+  .screen.is-on { display: block; }
+  .mobile-bottom-nav { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+  .mobile-bottom-nav__item { min-width: 0 !important; padding-left: 0 !important; padding-right: 0 !important; }
+  .mobile-bottom-nav__item span { font-size: 0.625rem !important; white-space: nowrap; }
+  .mobile-bottom-nav__item.is-on { color: #fff; }
+  .mobile-bottom-nav__item.is-on svg { stroke: #fff; }
+</style>
+</head>
+<body>
+
+<header class="header is-scrolled">
+  <div class="header__inner">
+    <div class="header__left"><a href="index.html" class="header__logo">OUJI</a></div>
+    <div class="header__actions">
+      <button class="header__action-btn" aria-label="搜尋">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="screen is-on" data-screen="home">
+    <div class="home">
+      <div class="home__hero"><img src="assets/images/hero-1-mobile.webp" alt="" onerror="this.parentNode.style.display='none'"></div>
+      <p class="home__note"><b>頂部冇咗個漢堡掣</b> —— 淨返 logo 同搜尋。<br>
+        所有導覽都喺下面一條，唔使再「一陣望上一陣望落」。<br><br>
+        撳下面「選購」，個選單會由下面升上嚟 —— 樣同你鍾意嗰個抽屜一模一樣。</p>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="pick">
+    <div class="pick">
+      <p class="pick__kicker">OUJI 幫你揀</p>
+      <h1>幫我揀</h1>
+      <p class="pick__lead">唔知邊隻啱自己？答幾條問題，我哋幫你收窄到幾件真係啱你嘅貨。</p>
+      <a class="pick__card pick__card--on" href="match.html">
+        <p class="pick__t">妝感配對</p>
+        <p class="pick__d">揀底妝色號、唇色、眼影調子 —— 答完即刻出建議。</p>
+      </a>
+      <a class="pick__card" href="#">
+        <p class="pick__t">護膚配對</p>
+        <p class="pick__d">按膚質、煩惱（乾／油／敏感／暗瘡印）配一套流程。</p>
+        <span class="pick__soon">準備緊</span>
+      </a>
+      <a class="pick__card" href="awards.html">
+        <p class="pick__t">得獎榜</p>
+        <p class="pick__d">唔想答問題？直接睇韓國美妝大獎揀咗啲乜。</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="me">
+    <div class="me">
+      <h1>我</h1>
+      <a href="wishlist.html"><span>心願單</span><b>3</b></a>
+      <a href="account.html"><span>我嘅訂單</span><b>›</b></a>
+      <a href="account.html"><span>會員資料</span><b>›</b></a>
+      <a href="shipping.html"><span>送貨同退換</span><b>›</b></a>
+      <a href="contact.html"><span>聯絡我哋</span><b>›</b></a>
+    </div>
+  </section>
+</main>
+
+<div class="shop-sheet sheet2" data-sheet>
+  <div class="shop-sheet__panel">
+    <div class="sheet2__search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>搵牌子、產品名⋯</span>
+    </div>
+    <div data-sheet-body></div>
+  </div>
+</div>
+
+<nav class="mobile-bottom-nav" data-bar></nav>
+
+<script>
+const CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 9 6 6 6-6"/></svg>';
+const MENU = [
+  { sec: '選購' },
+  { href: 'shop.html', label: '全部產品', note: '成個目錄' },
+  { label: '護膚', subs: [['全部護膚產品','category.html'],['潔面','category.html?cat=cleanser'],['爽膚水','category.html?cat=toner'],['精華液','category.html?cat=serum'],['乳液','category.html?cat=moisturizer'],['面膜','category.html?cat=mask'],['眼部護理','category.html?cat=eye'],['防曬','category.html?cat=sunscreen']] },
+  { label: '彩妝', subs: [['全部彩妝產品','makeup.html'],['粉底 · 氣墊 · 遮瑕','makeup.html?cat=base'],['眼影 · 眼線 · 睫毛膏','makeup.html?cat=eye'],['唇膏 · 唇釉','makeup.html?cat=lip'],['頰彩 · 修容','makeup.html?cat=cheek']] },
+  { label: '隱形眼鏡', subs: [['全部隱形眼鏡','lens.html'],['Feliamo','lens.html?cat=feliamo'],['Lilmoon','lens.html?cat=lilmoon'],['Molak','lens.html?cat=molak'],['TOPARDS','lens.html?cat=topards']] },
+  { label: 'K-pop 周邊', subs: [['全部 K-pop 周邊','kpop.html'],['專輯','kpop.html?cat=album'],['寫真書','kpop.html?cat=photobook']] },
+  { href: 'bodycare.html', label: '身體護理' },
+  { href: 'fragrance.html', label: '香氛' },
+  { href: 'lifestyle.html', label: '生活風格' },
+  { sec: '發掘' },
+  { href: 'brands.html', label: '品牌' },
+  { href: 'awards.html', label: '獲獎產品' },
+  { href: 'column.html', label: '專欄' },
+];
+document.querySelector('[data-sheet-body]').innerHTML = MENU.map((i) => {
+  if (i.sec) return `<p class="sheet2__sec">${i.sec}</p>`;
+  if (i.subs) return `<div class="sheet2__grp"><button class="sheet2__row"><span>${i.label}</span>${CHEV}</button>
+    <div class="sheet2__subs">${i.subs.map(([t,h]) => `<a href="${h}">${t}</a>`).join('')}</div></div>`;
+  return `<a class="sheet2__row" href="${i.href}"><span>${i.label}${i.note ? `<em>${i.note}</em>` : ''}</span></a>`;
+}).join('');
+document.querySelectorAll('.sheet2__grp > .sheet2__row').forEach((b) =>
+  b.addEventListener('click', () => b.parentNode.classList.toggle('is-open')));
+
+const I = {
+  home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  shop: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  pick: '<path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9z"/>',
+  bag: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+  me: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+};
+const sv = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${I[k]}</svg>`;
+const TABS = [['home','首頁','home'],['shop','選購','sheet'],['pick','幫我揀','pick'],['bag','購物袋','cart'],['me','我','me']];
+document.querySelector('[data-bar]').innerHTML = TABS.map(([ic,lab,act],n) =>
+  `<button type="button" class="mobile-bottom-nav__item${n === 0 ? ' is-on' : ''}" data-act="${act}">${sv(ic)}<span>${lab}</span></button>`).join('');
+
+const sheet = document.querySelector('[data-sheet]');
+function show(name, btn) {
+  if (name === 'sheet') { sheet.classList.add('is-open'); return; }
+  sheet.classList.remove('is-open');
+  document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('is-on', s.dataset.screen === name));
+  document.querySelectorAll('.mobile-bottom-nav__item').forEach((b) => b.classList.toggle('is-on', b === btn));
+  scrollTo(0, 0);
+}
+document.querySelectorAll('[data-act]').forEach((b) =>
+  b.addEventListener('click', () => show(b.dataset.act === 'cart' ? 'home' : b.dataset.act, b)));
+sheet.addEventListener('click', (e) => { if (!e.target.closest('.shop-sheet__panel')) sheet.classList.remove('is-open'); });
+</script>
+</body>
+</html>
