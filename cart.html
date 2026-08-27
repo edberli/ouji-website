@@ -270,6 +270,7 @@
               <div class="gap" data-gap hidden>
                 <h3 class="gap__title" data-gap-title></h3>
                 <div class="gap__body" data-gap-body></div>
+                <div class="gap__more" data-gap-more></div>
               </div>
             </div>
 
@@ -281,7 +282,7 @@
                  資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
                  已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
             <div class="sfp" data-sfp>
-              <p class="sfp__hint"><span class="sfp__hint-mark">!</span><span class="sfp__hint-t">寄順豐自提櫃／順豐站？<b>要喺呢度揀定取件點</b></span></p>
+              <p class="sfp__hint"><span class="sfp__hint-mark">i</span><span class="sfp__hint-t">寄順豐自提櫃／順豐站？<b>要喺呢度揀定取件點</b></span></p>
               <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false">
                 <span class="sfp__toggle-label">順豐自提點<em>（$25 · 滿 $399 免費）</em></span>
                 <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
@@ -669,16 +670,23 @@
       : pool.filter((x) => x.price * rate >= 40)      // 太平嘅夾極都唔夠，唔好嘥個位
           .sort((a, b) => Math.abs(a.price - half) - Math.abs(b.price - half));
 
-    /* 一個牌子只出一件，等三個選擇唔會係同一隻嘢 */
+    /* 一個牌子只出一件，等三個選擇唔會係同一隻嘢。
+       ⚠️ 唔可以一次過出晒 —— 三件係「順手加」，出十件就變咗第二個
+       產品列表，蓋過張單。所以分批：先出三件，撳「查看更多」再出三件。 */
     const seen = new Set();
-    const picks = [];
-    for (const x of ranked) {
-      const key = x.p.vendor || x.p.handle;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      picks.push(x);
-      if (picks.length === 3) break;
+    let cursor = 0;
+    function takeNext(n) {
+      const out = [];
+      while (cursor < ranked.length && out.length < n) {
+        const x = ranked[cursor++];
+        const key = x.p.vendor || x.p.handle;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        out.push(x);
+      }
+      return out;
     }
+    const picks = takeNext(3);
     if (!picks.length) { wrap.hidden = true; return; }
 
     if (title) {
@@ -687,7 +695,7 @@
         : `揀兩件夾夠 HK$${gap}，就${rewardName}`;
     }
     wrap.hidden = false;
-    body.innerHTML = picks.map(({ p, v, price, single }) => {
+    const cardHTML = (list) => list.map(({ p, v, price, single }) => {
       const img = p.images?.edges?.[0]?.node;
       const after = price * rate;
       return `<div class="gap-pick">
@@ -706,14 +714,41 @@
       </div>`;
     }).join('');
 
-    body.querySelectorAll('[data-gap-add]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        btn.disabled = true;
-        btn.textContent = '加緊…';
-        await addToCart(btn.dataset.gapAdd, 1);
-        location.reload();
+    body.innerHTML = cardHTML(picks);
+
+    /* 「查看更多」—— 老闆：「如果啲加購嗰啲唔啱嘅話，咪俾佢可以再睇下
+       其他產品啊嘛。」出多三件係就地加，唔使離開張單；池入面出晒之後
+       個掣就變成去全部產品嘅連結，唔會撳完乜都冇反應。 */
+    const more = document.querySelector('[data-gap-more]');
+    if (more) {
+      const refreshMore = () => {
+        const 仲有 = ranked.slice(cursor).some((x) => !seen.has(x.p.vendor || x.p.handle));
+        more.innerHTML = 仲有
+          ? '<button type="button" class="gap__more-btn" data-gap-more-btn>查看更多</button>'
+          : '<a class="gap__more-btn gap__more-btn--link" href="/shop">睇晒全部產品 →</a>';
+        const btn = more.querySelector('[data-gap-more-btn]');
+        if (btn) btn.addEventListener('click', () => {
+          const next = takeNext(3);
+          if (next.length) body.insertAdjacentHTML('beforeend', cardHTML(next));
+          bindAdd();
+          refreshMore();
+        });
+      };
+      refreshMore();
+    }
+
+    function bindAdd() {
+      body.querySelectorAll('[data-gap-add]:not([data-bound])').forEach((btn) => {
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          btn.textContent = '加緊…';
+          await addToCart(btn.dataset.gapAdd, 1);
+          location.reload();
+        });
       });
-    });
+    }
+    bindAdd();
   }
 
   // Global functions for cart actions

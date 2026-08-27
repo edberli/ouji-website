@@ -10991,23 +10991,40 @@ body::before { opacity: 0.18; }
    之前一定經過）、字數砍剩一半、紅底紅字、關鍵嗰截加螢光筆底色。 */
 /* ⚠️ 段文字一定要包住一個 span。唔包嘅話，flex 會將裸文字同 <b>
    當成兩件獨立 flex item，紅字就會斷開左右兩欄，實測好核突。 */
+/* ⚠️ 第二版用過紅底紅字 ＋ 紅色驚嘆號，老闆話「太有警戒感，啲人可能
+   會驚後面有啲咩事」。改用琥珀金 —— 一樣跳出嚟（成版係冷藍灰，暖色
+   最搶眼），但語氣係「提你一句」唔係「出事喇」。個圓章由「!」改「i」。 */
 .sfp__hint {
   display: flex; align-items: flex-start; gap: 7px;
   margin: 0; padding: 9px 13px;
-  background: #fdece7; border-bottom: 1px solid #f5cec2;
-  font-size: 0.75rem; line-height: 1.45; font-weight: 600; color: #b8371c;
+  background: #fff6e2; border-bottom: 1px solid #f0dcaf;
+  font-size: 0.75rem; line-height: 1.45; font-weight: 600; color: #8a5c12;
 }
 .sfp__hint-t { min-width: 0; }
 .sfp__hint-mark {
   flex: 0 0 auto; margin-top: 1px; display: grid; place-items: center;
   width: 16px; height: 16px; border-radius: 50%;
-  background: #d0442a; color: #fff;
-  font-size: 0.625rem; font-weight: 700; line-height: 1;
+  background: #d79a25; color: #fff;
+  font-size: 0.6875rem; font-weight: 700; font-style: italic; line-height: 1;
 }
 .sfp__hint b {
-  font-weight: 700; color: #96240e;
-  box-shadow: inset 0 -0.42em 0 rgba(255, 214, 102, 0.65);
+  font-weight: 700; color: #6b4409;
+  box-shadow: inset 0 -0.42em 0 rgba(240, 190, 74, 0.45);
 }
+
+/* 加購清單底下嘅「查看更多」。做成一條淺色橫掃嘅掣，唔搶「加入」
+   同「揀色號」嗰兩個主要動作。 */
+.gap__more { margin-top: 10px; }
+.gap__more-btn {
+  display: block; width: 100%; padding: 9px 12px;
+  border: 1px dashed var(--border-light); border-radius: 10px;
+  background: transparent; color: var(--primary-deep);
+  font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600;
+  text-align: center; text-decoration: none; cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.gap__more-btn:hover { background: #fff; border-color: var(--primary); }
+.gap__more-btn--link { border-style: solid; }
 
 /* ============================================================
    滿 $500 送面霜 —— 條進度棒最右邊擺住支獎品，輕輕彈
