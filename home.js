@@ -291,27 +291,61 @@ async function initHome() {
       has: (p) => hasTag(p, 'K-pop', 'kpop') },
   ];
 
-  const rails = document.querySelector('[data-home-rails]');
-  if (rails) {
-    rails.innerHTML = RAILS.map((r) => {
+  /* ----- 分類海報 -----
+   *
+   * 本來每個分類係一行橫掃嘅產品卡（12 件）。老闆 2026-08-28：
+   * 「一個個產品擺喺度，其實對佢哋嚟講吸引力唔係咁大⋯⋯我寧願喺首頁
+   * 整一啲靚啲嘅設計。」佢畀咗個參考：左邊一幅大嘅模特兒相，右邊四件
+   * 產品，撳大相就入分類頁。
+   *
+   * 所以改成海報式：一幅真實嘅情境相 ＋ 分類名 ＋ 真件數 ＋ 入口，
+   * 右邊 2×2 四件精選。四格之後就唔再排貨 —— 客要睇晒就撳入去，
+   * 首頁唔再做「第二個目錄」。
+   *
+   * ⚠️ 啲相唔係 stock photo，係目錄入面真有嘅情境相：用腳本掃過
+   * 全目錄（白底比例、膚色比例、色彩豐富度）揀出嚟，再人手睇過。
+   * 換相就換 POSTERS 入面條 URL，唔好即場計 —— 每次載入揀唔同張相，
+   * 首頁會變成每次都唔同樣。
+   * ⚠️ 大相左右輪流擺（偶數幅喺左、單數幅喺右），四格連住落唔會
+   * 睇落似同一個 template 重複四次。 */
+  const POSTERS = [
+    { id: 'makeup', label: '彩妝', href: 'makeup.html',
+      has: (p) => hasTag(p, '彩妝', 'makeup'),
+      line: '底妝、眼妝、唇妝，二十幾個韓國彩妝牌子。',
+      img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-better-than-palette-01_bac0075f-a0d1-4679-8d95-8a9a7a7c33f9.jpg' },
+    { id: 'skincare', label: '護膚', href: 'category.html',
+      has: (p) => hasTag(p, '護膚', 'skincare'),
+      line: '潔面、爽膚水、精華、面霜、防曬 —— 一條龍。',
+      img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/c3ac64d063dcea05b5c5933024923263_a6098918-4fe7-4eda-88bf-879728200f83.jpg' },
+    { id: 'lens', label: '隱形眼鏡', href: 'lens.html',
+      has: (p) => hasTag(p, '隱形眼鏡'),
+      line: '日拋為主，全度數，朝日館現貨。',
+      img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lens_on_ad124f42-4313-41aa-9b0b-5de3f1e0a1f8.jpg' },
+    { id: 'kpop', label: 'K-pop 周邊', href: 'kpop.html',
+      has: (p) => hasTag(p, 'K-pop', 'kpop'),
+      line: '專輯、寫真書，出貨即入。',
+      img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/seventeen-spill-the-feels-12th-mini-album-984146.webp' },
+  ];
+
+  const posterHost = document.querySelector('[data-home-rails]');
+  if (posterHost) {
+    posterHost.innerHTML = POSTERS.map((r, i) => {
       const list = products.filter(r.has).sort((a, b) => featured(b) - featured(a));
-      if (list.length < 3) return '';
-      return `<div class="home-rail">
-        <div class="container home-rail__head">
-          <h3 class="home-rail__title">${r.label}<em>${list.length}</em></h3>
-          <a class="home-rail__all" href="${r.href}">睇晒
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
-        </div>
-        <div class="home-rail__track" data-rail="${r.id}">
-          ${list.slice(0, 12).map(card).join('')}
-          <a class="home-rail__more" href="${r.href}">
-            <span>睇晒<br>${r.label}</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
-                 aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-          </a>
-        </div>
-      </div>`;
+      if (list.length < 4) return '';
+      return `<section class="poster${i % 2 ? ' poster--flip' : ''}">
+        <a class="poster__visual rise" href="${r.href}">
+          <img src="${r.img}&width=900" alt="" width="900" height="1125"
+               loading="lazy" decoding="async">
+          <div class="poster__caption">
+            <h3 class="poster__title">${r.label}</h3>
+            <p class="poster__line">${r.line}</p>
+            <span class="poster__cta">睇晒 ${list.length} 件
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                   aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <div class="poster__grid">${list.slice(0, 4).map(card).join('')}</div>
+      </section>`;
     }).join('');
   }
 
