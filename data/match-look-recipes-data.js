@@ -234,9 +234,7 @@ window.OUJI_LOOK_DATABASE = {
           "finishes": [
             "自然"
           ],
-          "colours": [
-            "beige"
-          ],
+          "colours": [],
           "optional": true
         },
         {
@@ -315,7 +313,9 @@ window.OUJI_LOOK_DATABASE = {
           ],
           "colours": [
             "brown",
-            "beige"
+            "beige",
+            "peach",
+            "rose"
           ],
           "optional": true
         },
