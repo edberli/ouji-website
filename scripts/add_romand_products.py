@@ -28,7 +28,6 @@ media，係嵌入 descriptionHtml 嘅 .product-detail-images 入面** —— 呢
 """
 import argparse
 import csv
-import math
 import sys
 from pathlib import Path
 
@@ -42,7 +41,7 @@ LOCATION = "gid://shopify/Location/86449356958"
 PUBLICATIONS = ["gid://shopify/Publication/202340335774",
                 "gid://shopify/Publication/202340466846",
                 "gid://shopify/Publication/203168546974"]
-DISCOUNT, FLOOR, BUMP = 0.88, 0.15, 1.20
+DISCOUNT, FLOOR = 0.88, 0.15
 TAGS_LIP = ["K-Beauty", "lip", "makeup", "rom&nd", "唇妝", "彩妝"]
 TAGS_EYE = ["K-Beauty", "eye", "eyeshadow", "makeup", "rom&nd", "眼妝", "彩妝"]
 
@@ -167,10 +166,19 @@ def pos_map():
 
 
 def priced(price, cost):
+    """折後蝕本／冇錢賺嗰啲，加到「打完 88 折 = 原本個售價」。
+
+    老闆 2026-08-27 改咗個做法：本來係一律 ×1.2，但咁樣打完折仲貴過
+    原價（$69 → $83 → 折後 $73），會貴過香港對手。而家改成**加返個
+    折扣返去**：新標價 = 原價 ÷ 0.88，打完折就變返原價。
+      $69 → $78 → 折後 $68.64
+      $89 → $101 → 折後 $88.88
+    即係客畀嘅錢同以前一樣，我哋唔使再蝕個折扣。
+    """
     after = price * DISCOUNT
     m = (after - cost) / after if after else 0
     if m < FLOOR:
-        new = math.ceil(price * BUMP)
+        new = round(price / DISCOUNT)
         return new, True, (new * DISCOUNT - cost) / (new * DISCOUNT)
     return price, False, m
 
