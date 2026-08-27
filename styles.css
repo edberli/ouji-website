@@ -10967,26 +10967,47 @@ body::before { opacity: 0.18; }
    吉位。老闆：「唔應該佔用一個空間，而係應該融入喺其他嘅畫面入邊。」
    絕對定位 ＋ 標題行本身夠高，所以一 px 都唔會撐高個版。 */
 .cart-page { position: relative; }
+/* 老闆再要求：「大個少少，同埋擺右、擺下、擺落啲。」
+   right 出負數 = 撐出容器 padding（桌面容器兩邊各留 48px，所以 -26px
+   仍然離畫面邊 22px，唔會爆位）；top 落低咗，貓踎喺標題右手邊而唔係
+   浮喺麵包屑上面。 */
 .shima--cash {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -26px;
+  top: 34px;
   width: auto;
-  height: clamp(96px, 13vw, 150px);
+  height: clamp(120px, 16vw, 200px);
   aspect-ratio: 190 / 216;
   margin: 0;
   pointer-events: none;
 }
 @media (max-width: 640px) {
-  .shima--cash { height: 76px; top: 2px; }
+  .shima--cash { height: 104px; top: 56px; right: -8px; }
 }
 
 /* 提示句：講明「要用自提櫃就要喺呢度揀咗先」 */
+/* ⚠️ 呢句唔可以低調。第一版用灰細字擺喺個掣下面，老闆一睇就話
+   「咁唔明顯，啲人點會睇到？咁多字」。而家：搬去成張卡最頂（睇落
+   之前一定經過）、字數砍剩一半、紅底紅字、關鍵嗰截加螢光筆底色。 */
+/* ⚠️ 段文字一定要包住一個 span。唔包嘅話，flex 會將裸文字同 <b>
+   當成兩件獨立 flex item，紅字就會斷開左右兩欄，實測好核突。 */
 .sfp__hint {
-  margin: 0; padding: 9px 14px 0;
-  font-size: 0.6875rem; line-height: 1.6; color: var(--text-tertiary);
+  display: flex; align-items: flex-start; gap: 7px;
+  margin: 0; padding: 9px 13px;
+  background: #fdece7; border-bottom: 1px solid #f5cec2;
+  font-size: 0.75rem; line-height: 1.45; font-weight: 600; color: #b8371c;
 }
-.sfp__hint b { color: var(--primary-deep); font-weight: 600; }
+.sfp__hint-t { min-width: 0; }
+.sfp__hint-mark {
+  flex: 0 0 auto; margin-top: 1px; display: grid; place-items: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #d0442a; color: #fff;
+  font-size: 0.625rem; font-weight: 700; line-height: 1;
+}
+.sfp__hint b {
+  font-weight: 700; color: #96240e;
+  box-shadow: inset 0 -0.42em 0 rgba(255, 214, 102, 0.65);
+}
 
 /* ============================================================
    滿 $500 送面霜 —— 條進度棒最右邊擺住支獎品，輕輕彈
@@ -11567,6 +11588,7 @@ body::before { opacity: 0.18; }
   text-align: left; cursor: pointer;
 }
 .sfp__toggle:hover { background: #eaf2f4; }
+.sfp:has(.sfp__hint) .sfp__toggle { border-top: 0; }
 .sfp__toggle-label { min-width: 0; }
 .sfp__toggle-label em { font-style: normal; color: var(--text-tertiary); font-size: 0.75rem; }
 .sfp__chosen {
