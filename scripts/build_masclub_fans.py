@@ -87,6 +87,20 @@ mutation($in:InventorySetQuantitiesInput!){
 
 FIND = """query($q:String!){products(first:5, query:$q){nodes{id handle title status}}}"""
 
+# 🔴 productCreate 開出嚟嘅貨，一個銷售管道都唔會 publish
+#    （resourcePublicationsCount = 0）。即係話就算 status ACTIVE，
+#    個網站（ouji Headless）用 Storefront API 都攞唔到，等於冇上架。
+#    實測就係咁：三件貨 ACTIVE 咗，oujikbeauty.com 一件都見唔到。
+PUBLICATIONS = [
+    "gid://shopify/Publication/202340335774",   # Online Store
+    "gid://shopify/Publication/202340466846",   # ouji Headless ← 網站靠呢個
+    "gid://shopify/Publication/203168546974",   # Shop
+]
+
+PUBLISH = """
+mutation($id:ID!,$in:[PublicationInput!]!){
+  publishablePublish(id:$id, input:$in){userErrors{field message}}}"""
+
 
 def load_pos():
     d = {}
@@ -164,6 +178,10 @@ def main():
                             "locationId": LOCATION, "quantity": qty}],
         }})
         user_errors(d, "inventorySetQuantities")
+
+        d = gql(PUBLISH, {"id": p["id"],
+                          "in": [{"publicationId": x} for x in PUBLICATIONS]})
+        user_errors(d, "publishablePublish")
         print(f"✓ {p['handle']}  ${float(r['unit_price']):.0f}  存 {qty}  [{p['status']}]")
 
 
