@@ -138,7 +138,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48049610064030",
           "title": "#03 Rosy Moon 淡粉玫瑰月光",
           "price": 138,
-          "inventoryQuantity": 5,
+          "inventoryQuantity": 4,
           "inStock": true,
           "shadeSignals": {
             "family": "rose",
@@ -826,7 +826,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48070095339678",
           "title": "#06 Lofty 高雅",
           "price": 118,
-          "inventoryQuantity": 3,
+          "inventoryQuantity": 6,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -1030,7 +1030,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48070095765662",
           "title": "#06 Own 自我",
           "price": 108,
-          "inventoryQuantity": 3,
+          "inventoryQuantity": 6,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -1727,7 +1727,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079362621598",
           "title": "#21 Rosy Lips 玫瑰唇",
           "price": 89,
-          "inventoryQuantity": 12,
+          "inventoryQuantity": 11,
           "inStock": true,
           "shadeSignals": {
             "family": "rose",
@@ -1965,7 +1965,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079362916510",
           "title": "#20 Salmon Beige 三文魚米",
           "price": 99,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 1,
           "inStock": true,
           "shadeSignals": {
             "family": "beige",
@@ -3808,7 +3808,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079607529630",
           "title": "21C 亮膚色",
           "price": 269,
-          "inventoryQuantity": 6,
+          "inventoryQuantity": 5,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -4422,7 +4422,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079608283294",
           "title": "01 黑",
           "price": 99,
-          "inventoryQuantity": 8,
+          "inventoryQuantity": 6,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -5215,7 +5215,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079670902942",
           "title": "26 温暖裸膚色",
           "price": 78,
-          "inventoryQuantity": 7,
+          "inventoryQuantity": 6,
           "inStock": true,
           "shadeSignals": {
             "family": "beige",
@@ -5255,7 +5255,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079670968478",
           "title": "47 活力珊瑚色",
           "price": 78,
-          "inventoryQuantity": 7,
+          "inventoryQuantity": 6,
           "inStock": true,
           "shadeSignals": {
             "family": "coral",
@@ -6968,7 +6968,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079766290590",
           "title": "04 Grapefruit Topping",
           "price": 89,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 1,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -7803,7 +7803,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079785623710",
           "title": "17 Sheer Pink",
           "price": 65,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "pink",
@@ -8505,7 +8505,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079856369822",
           "title": "No.3 Strawberry Cake",
           "price": 89,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "berry",
@@ -8939,7 +8939,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079881732254",
           "title": "#18C Sea Shell",
           "price": 178,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -9284,7 +9284,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079885205662",
           "title": "No. 100 Ballerina Shower",
           "price": 138,
-          "inventoryQuantity": 3,
+          "inventoryQuantity": 2,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -9396,7 +9396,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927181470",
           "title": "#01 Cotton Candy Violet",
           "price": 95,
-          "inventoryQuantity": 3,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -9456,8 +9456,8 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927279774",
           "title": "#04 Hot Living Coral",
           "price": 95,
-          "inventoryQuantity": 0,
-          "inStock": false,
+          "inventoryQuantity": 6,
+          "inStock": true,
           "shadeSignals": {
             "family": "coral",
             "undertone": "unknown",
@@ -9476,8 +9476,8 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927312542",
           "title": "#05 Mood In Cheek",
           "price": 95,
-          "inventoryQuantity": 0,
-          "inStock": false,
+          "inventoryQuantity": 6,
+          "inStock": true,
           "shadeSignals": {
             "family": "unknown",
             "undertone": "unknown",
@@ -9496,8 +9496,8 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927345310",
           "title": "#06 Pink Petal",
           "price": 95,
-          "inventoryQuantity": 0,
-          "inStock": false,
+          "inventoryQuantity": 6,
+          "inStock": true,
           "shadeSignals": {
             "family": "pink",
             "undertone": "unknown",
@@ -9516,8 +9516,8 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927378078",
           "title": "#07 Peach Fizz",
           "price": 95,
-          "inventoryQuantity": 0,
-          "inStock": false,
+          "inventoryQuantity": 12,
+          "inStock": true,
           "shadeSignals": {
             "family": "peach",
             "undertone": "unknown",
@@ -9536,7 +9536,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927410846",
           "title": "#08 Nude Haze",
           "price": 95,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "beige",
@@ -9576,7 +9576,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927476382",
           "title": "#10 Love Potion",
           "price": 95,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -9596,7 +9596,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927509150",
           "title": "#11 Juicy Peach",
           "price": 95,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "peach",
@@ -9616,7 +9616,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927541918",
           "title": "#12 Orange Flare",
           "price": 95,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "orange",
@@ -9656,8 +9656,8 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927607454",
           "title": "#14 Love, Cupid",
           "price": 95,
-          "inventoryQuantity": 0,
-          "inStock": false,
+          "inventoryQuantity": 6,
+          "inStock": true,
           "shadeSignals": {
             "family": "unknown",
             "undertone": "unknown",
@@ -9676,7 +9676,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927640222",
           "title": "#15 Mango Berry",
           "price": 95,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "berry",
@@ -9716,8 +9716,8 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079927705758",
           "title": "#17 Bubble Heart",
           "price": 95,
-          "inventoryQuantity": 0,
-          "inStock": false,
+          "inventoryQuantity": 6,
+          "inStock": true,
           "shadeSignals": {
             "family": "unknown",
             "undertone": "unknown",
@@ -9857,7 +9857,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079929278622",
           "title": "#PK02 Pinkbell",
           "price": 78,
-          "inventoryQuantity": 6,
+          "inventoryQuantity": 5,
           "inStock": true,
           "shadeSignals": {
             "family": "pink",
@@ -10195,7 +10195,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079934521502",
           "title": "#02 Fairy",
           "price": 128,
-          "inventoryQuantity": 6,
+          "inventoryQuantity": 12,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -10416,7 +10416,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079937470622",
           "title": "#04 Rosy Candy",
           "price": 118,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -10796,8 +10796,8 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48079940911262",
           "title": "#15 Peach Bubble",
           "price": 88,
-          "inventoryQuantity": 1,
-          "inStock": true,
+          "inventoryQuantity": 0,
+          "inStock": false,
           "shadeSignals": {
             "family": "peach",
             "undertone": "unknown",
@@ -11361,7 +11361,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48082955108510",
           "title": "#02 Dovey Pink",
           "price": 75,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 1,
           "inStock": true,
           "shadeSignals": {
             "family": "pink",
@@ -12150,7 +12150,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48082962645150",
           "title": "M01 Dry Apple Blossom",
           "price": 98,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -12681,7 +12681,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48082963693726",
           "title": "N02 Vine Nude",
           "price": 65,
-          "inventoryQuantity": 7,
+          "inventoryQuantity": 6,
           "inStock": true,
           "shadeSignals": {
             "family": "beige",
@@ -12771,7 +12771,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48082979750046",
           "title": "#101 Joyful",
           "price": 115,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -12911,7 +12911,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48082979979422",
           "title": "#111 Mellow",
           "price": 115,
-          "inventoryQuantity": 5,
+          "inventoryQuantity": 4,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -13455,7 +13455,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48082981617822",
           "title": "#310 Melba Ring",
           "price": 98,
-          "inventoryQuantity": 2,
+          "inventoryQuantity": 6,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -13538,7 +13538,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48082981978270",
           "title": "#902 Earth",
           "price": 55,
-          "inventoryQuantity": 6,
+          "inventoryQuantity": 5,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -15087,7 +15087,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48083185926302",
           "title": "06 首爾街頭",
           "price": 128,
-          "inventoryQuantity": 8,
+          "inventoryQuantity": 7,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -15245,7 +15245,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48083189858462",
           "title": "05 裸感南瓜",
           "price": 128,
-          "inventoryQuantity": 5,
+          "inventoryQuantity": 4,
           "inStock": true,
           "shadeSignals": {
             "family": "beige",
@@ -15568,7 +15568,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48083194019998",
           "title": "05 洛可可",
           "price": 118,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "brown",
@@ -20189,7 +20189,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48083895812254",
           "title": "02 Rose Beige",
           "price": 105,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "rose",
@@ -20565,7 +20565,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48083897745566",
           "title": "09 灰棕",
           "price": 67,
-          "inventoryQuantity": 5,
+          "inventoryQuantity": 2,
           "inStock": true,
           "shadeSignals": {
             "family": "brown",
@@ -21341,7 +21341,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48083902922910",
           "title": "02 Light Skin (N)",
           "price": 145,
-          "inventoryQuantity": 4,
+          "inventoryQuantity": 3,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -21840,7 +21840,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48084040482974",
           "title": "ND01 Oh!",
           "price": 128,
-          "inventoryQuantity": 6,
+          "inventoryQuantity": 5,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -22949,7 +22949,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48084045398174",
           "title": "3D VOLUMING GLOSS B07 PEACH",
           "price": 108,
-          "inventoryQuantity": 3,
+          "inventoryQuantity": 2,
           "inStock": true,
           "shadeSignals": {
             "family": "peach",
@@ -24431,7 +24431,7 @@ window.OUJI_PRODUCT_DATABASE = {
       "type": "氣墊粉底",
       "priceFrom": 149,
       "image": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/coolsun_crop.jpg?v=1785903253",
-      "inStock": true,
+      "inStock": false,
       "roles": [
         "base"
       ],
@@ -24707,7 +24707,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48084474298526",
           "title": "23N Sand",
           "price": 99,
-          "inventoryQuantity": 3,
+          "inventoryQuantity": 2,
           "inStock": true,
           "shadeSignals": {
             "family": "unknown",
@@ -29713,7 +29713,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "shopifyVariantId": "gid://shopify/ProductVariant/48086956834974",
           "title": "#08 櫻桃果醬",
           "price": 98,
-          "inventoryQuantity": 9,
+          "inventoryQuantity": 8,
           "inStock": true,
           "shadeSignals": {
             "family": "peach",
@@ -30452,5 +30452,9 @@ window.OUJI_PRODUCT_DATABASE = {
     "from": "ouji-pos sku.unit_cost",
     "matchedVariants": 946,
     "generatedFor": "match page ranking"
+  },
+  "syncedFrom": {
+    "source": "shopify-storefront",
+    "variants": 2306
   }
 };

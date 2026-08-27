@@ -104,6 +104,15 @@ BRANDS = {
             "romand-better-than-eyes": 175,
             "romand-better-than-eyes-music": 299,
             "romand-glasting-color-gloss": 847,
+            # 2026-08-27 補上：POS 有貨但網店未上嘅產品線
+            # （色號同 POS 逐個對過，見 add_romand_products.py 註解）
+            "romand-glasting-melting-balm": 655,      # 01-07 原色
+            "romand-glasting-melting-balm-dusty": 835,  # 10-15
+            "romand-zero-matte-lipstick": 516,
+            "romand-nu-zero-cushion": 625,
+            "romand-bare-layer-palette": 767,
+            "romand-see-through-veillighter": 540,
+            "romand-universe-liquid-glitter": 849,
         },
     },
     # Bulky Matte Lipstick and Maxi Glayer Tint are not on laka.co.kr.
