@@ -1494,3 +1494,71 @@ function initHScrollArrows() {
     else if (mode === 'rotate' && offers.length > 1) start();
   });
 })();
+
+
+/* ============================================================
+   頂部導覽：向下滑收起、向上滑彈返出嚟
+   老闆 2026-08-27：「咁樣更加可以喺比較細嘅屏幕睇到成個畫面，唔會浪費
+   啲位置。」
+
+   幾個位要小心：
+   - **頂部 140px 之內永遠顯示。** 唔係嘅話，一入版向下掃少少個 header
+     就閃一閃，好核突。
+   - **開住抽屜／選購面板／搜尋／篩選嗰陣唔准收。** 嗰啲 overlay 嘅關閉
+     掣同 logo 就喺 header 度，收埋咗客就出唔返嚟。
+   - **iOS 回彈** scrollY 會變負數，要 clamp，否則一拉到頂就當「向上滑」
+     unstick 完又 stick，會抽搐。
+   - 只用 transform，唔郁 main 嘅 padding-top —— 郁咗成版內容會跳。
+   ============================================================ */
+function initHeaderAutoHide() {
+  const header = document.querySelector('.header');
+  if (!header) return;
+
+  const TOP_ZONE = 140;   // 呢個範圍內永遠顯示
+  const STEP = 8;         // 掃夠呢個距離先當數，免得手指震都觸發
+
+  const body = document.body;
+  const blocked = () => !!document.querySelector(
+    '.mobile-nav.is-open, .shop-sheet.is-open, .search-overlay.is-open, '
+    + '.filter-sidebar.is-open, .mobile-nav-overlay.is-visible');
+
+  let last = Math.max(window.scrollY, 0);
+
+  /* ⚠️ 唔用 requestAnimationFrame 做節流。
+     本來寫成「ticking = true → rAF 入面做嘢再 ticking = false」，但 rAF
+     喺頁面被隱藏／背景 tab 係會停跑嘅 —— 一停，ticking 就永遠卡住 true，
+     之後所有 scroll 都當冇發生，個 header 收埋咗就再彈唔返出嚟。
+     實測就係咁：向下滑收起之後，向上滑同埋滑返到頂都仲係收埋。
+     裏面做嘅嘢好平（讀 scrollY ＋ toggle 一個 class，唔會觸發 layout），
+     直接喺 scroll handler 做反而穩陣。 */
+  const update = () => {
+    const y = Math.max(window.scrollY, 0);
+    const d = y - last;
+
+    if (blocked() || y < TOP_ZONE) {
+      body.classList.remove('is-nav-tucked');
+      last = y;
+      return;
+    }
+    if (d > STEP) {
+      body.classList.add('is-nav-tucked');
+      last = y;
+    } else if (d < -STEP) {
+      body.classList.remove('is-nav-tucked');
+      last = y;
+    }
+  };
+
+  window.addEventListener('scroll', update, { passive: true });
+  /* 由背景切返出嚟、或者用返上一頁嗰陣，重新對一次 */
+  window.addEventListener('pageshow', () => { last = Math.max(window.scrollY, 0); update(); });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) { last = Math.max(window.scrollY, 0); update(); }
+  });
+
+  /* 開／關 overlay 嗰陣即刻反應，唔使等下一次滑動 */
+  const mo = new MutationObserver(() => { if (blocked()) body.classList.remove('is-nav-tucked'); });
+  mo.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+}
+
+document.addEventListener('DOMContentLoaded', initHeaderAutoHide);

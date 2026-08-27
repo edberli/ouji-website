@@ -11637,3 +11637,27 @@ body::before { opacity: 0.18; }
 .sfp__item span { font-size: 0.8125rem; line-height: 1.45; color: var(--text-primary); }
 .sfp__item em { font-style: normal; font-size: 0.6875rem; color: var(--text-tertiary); }
 .sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: var(--text-tertiary); text-align: center; }
+
+/* ============================================================
+   向下滑收起頂部，向上滑彈返出嚟
+   老闆 2026-08-27：「如果啲人向下滑嘅話，佢就會隱藏；向上滑就顯示返
+   出嚟。咁樣更加可以喺比較細嘅屏幕睇到成個畫面，唔會浪費啲位置。」
+
+   ⚠️ 條優惠 bar 同 header 要一齊收 —— 淨係收 header 嘅話，個 bar 仲
+   霸住 36px，慳唔到幾多，而且個 header 縮上去會露出下面啲內容，好核突。
+   ⚠️ header 嘅 top 係 var(--ann-h)，所以佢要多推自己嗰段距離先出得晒界。
+   ⚠️ main 嘅 padding-top 唔郁 —— 郁咗成版內容會跳，收合變成「跳嚟跳去」。
+      呢度淨係 transform，唔影響 layout。
+   ============================================================ */
+.announcement-bar,
+.header {
+  transition: transform 0.28s var(--ease-out), background 0.28s var(--ease-out),
+              backdrop-filter 0.28s var(--ease-out), border-color 0.28s var(--ease-out);
+  will-change: transform;
+}
+body.is-nav-tucked .announcement-bar { transform: translateY(-100%); }
+body.is-nav-tucked .header { transform: translateY(calc(-100% - var(--ann-h, 36px))); }
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-bar, .header { transition: none; }
+}
