@@ -11682,7 +11682,7 @@ body::before { opacity: 0.18; }
    ⚠️ 左右輪流（.poster--flip）。四格全部大相喺左，落嚟就係同一個
       template 重複四次，正正係老闆話唔好睇嗰種。
    ============================================================ */
-.home-rails { padding-block: clamp(48px, 7vw, 96px); }
+.home-rails { padding-block: clamp(30px, 4.2vw, 62px); }
 .poster {
   display: grid;
   gap: clamp(14px, 2vw, 28px);
@@ -11690,7 +11690,9 @@ body::before { opacity: 0.18; }
   margin: 0 auto;
   padding-inline: var(--space-md);
 }
-.poster + .poster { margin-top: clamp(40px, 6vw, 88px); }
+/* 老闆 2026-08-28：「太大嚿啦，啲人滾動都有排滾動」——
+   高度、間距、標題全部收細一級。 */
+.poster + .poster { margin-top: clamp(24px, 3.2vw, 48px); }
 
 @media (min-width: 861px) {
   .poster { grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr); align-items: stretch; }
@@ -11705,11 +11707,11 @@ body::before { opacity: 0.18; }
   border-radius: 20px;
   background: #e7eef1;
   text-decoration: none;
-  aspect-ratio: 4 / 5;
-  box-shadow: 0 18px 40px -22px rgba(28, 62, 76, 0.45);
+  aspect-ratio: 16 / 11;
+  box-shadow: 0 14px 32px -20px rgba(28, 62, 76, 0.45);
   isolation: isolate;
 }
-@media (min-width: 861px) { .poster__visual { aspect-ratio: auto; min-height: 460px; } }
+@media (min-width: 861px) { .poster__visual { aspect-ratio: auto; min-height: 340px; } }
 
 .poster__visual img {
   position: absolute; inset: 0;
@@ -11733,14 +11735,14 @@ body::before { opacity: 0.18; }
 .poster__caption {
   position: absolute; left: 0; right: 0; bottom: 0;
   z-index: 2;
-  padding: clamp(20px, 3.4vw, 34px);
+  padding: clamp(14px, 2.4vw, 24px);
   color: #fff;
 }
 .poster__title {
   margin: 0;
   font-family: var(--font-display, var(--font-body));
-  font-size: clamp(1.75rem, 4.6vw, 2.6rem);
-  line-height: 1.08;
+  font-size: clamp(1.375rem, 3.4vw, 1.9rem);
+  line-height: 1.1;
   letter-spacing: -0.02em;
   color: #fff;
 }
@@ -11749,14 +11751,14 @@ body::before { opacity: 0.18; }
   max-width: 26ch;
   /* 唔加呢句，「⋯彩妝牌子。」會斷到剩返一個「子」孤零零跌落第二行 */
   text-wrap: pretty;
-  font-size: 0.875rem;
-  line-height: 1.65;
+  font-size: 0.8125rem;
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.82);
 }
 .poster__cta {
   display: inline-flex; align-items: center; gap: 6px;
-  margin-top: 16px;
-  padding: 10px 18px;
+  margin-top: 12px;
+  padding: 8px 15px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.94);
   color: var(--primary-deep);
@@ -11883,4 +11885,32 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .promo-full, .promo-full__sheet, .promo-full__go { transition: none; }
   .promo-full__sheet { transform: none; }
+}
+
+/* 贈品要講得明係邊一隻、幾錢。老闆 2026-08-28：「你要講到明送邊一隻
+   面霜⋯⋯同埋你最好有埋嗰個面霜嘅樣，同埋價值幾多錢。」
+   贈品 = Round Lab 白樺樹保濕面霜 80ml，零售 HK$148（DECISIONS.md
+   2026-08-21 定咗）。整張真產品相 ＋ 真價錢，撳得入產品頁。 */
+.promo-full__gift {
+  display: flex; align-items: center; gap: 13px;
+  margin: -8px 0 20px;
+  padding: 11px 13px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 214, 122, 0.34);
+  text-align: left; text-decoration: none;
+  transition: background 0.2s var(--ease-out);
+}
+.promo-full__gift:hover { background: rgba(255, 255, 255, 0.15); }
+.promo-full__gift img {
+  flex: none; width: 54px; height: 54px;
+  object-fit: cover; border-radius: 10px; background: #fff;
+}
+.promo-full__gift-t { display: grid; gap: 3px; min-width: 0; }
+.promo-full__gift-t b {
+  font-size: 0.8125rem; font-weight: 600; line-height: 1.35; color: #fff;
+}
+.promo-full__gift-t em {
+  font-style: normal; font-size: 0.75rem; color: #ffd77a;
+  font-variant-numeric: tabular-nums;
 }

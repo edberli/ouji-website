@@ -1117,8 +1117,16 @@ function initPromoPop() {
       <h2 class="promo-full__title">全單 <em>88</em> 折</h2>
       <ul class="promo-full__list">
         <li><b>HK$399</b><span>折實滿呢個數，免運費</span></li>
-        <li><b>HK$499</b><span>折實滿呢個數，加送面霜</span></li>
+        <li><b>HK$499</b><span>折實滿呢個數，送下面呢支面霜</span></li>
       </ul>
+      <a class="promo-full__gift" href="products/round-lab-round-lab-80ml-0221">
+        <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?width=200"
+             alt="Round Lab 白樺樹保濕面霜 80ml" width="200" height="200" decoding="async">
+        <span class="promo-full__gift-t">
+          <b>Round Lab 白樺樹保濕面霜 80ml</b>
+          <em>價值 HK$148 · 滿 $499 免費送</em>
+        </span>
+      </a>
       <a class="promo-full__go" href="shop.html">開始揀貨</a>
       <button type="button" class="promo-full__later">下次先</button>
     </div>`;

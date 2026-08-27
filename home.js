@@ -311,19 +311,19 @@ async function initHome() {
   const POSTERS = [
     { id: 'makeup', label: '彩妝', href: 'makeup.html',
       has: (p) => hasTag(p, '彩妝', 'makeup'),
-      line: '底妝、眼妝、唇妝，二十幾個韓國牌子。',
+      line: '底妝、眼妝、唇妝，廿幾個牌子',
       img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-better-than-palette-01_bac0075f-a0d1-4679-8d95-8a9a7a7c33f9.jpg' },
     { id: 'skincare', label: '護膚', href: 'category.html',
       has: (p) => hasTag(p, '護膚', 'skincare'),
-      line: '潔面、精華、面霜、防曬，一條過。',
+      line: '潔面、精華、面霜、防曬，一條過',
       img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/c3ac64d063dcea05b5c5933024923263_a6098918-4fe7-4eda-88bf-879728200f83.jpg' },
     { id: 'lens', label: '隱形眼鏡', href: 'lens.html',
       has: (p) => hasTag(p, '隱形眼鏡'),
-      line: '日拋為主，全度數，朝日館現貨。',
+      line: '日拋為主，全度數，現貨',
       img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lens_on_ad124f42-4313-41aa-9b0b-5de3f1e0a1f8.jpg' },
     { id: 'kpop', label: 'K-pop 周邊', href: 'kpop.html',
       has: (p) => hasTag(p, 'K-pop', 'kpop'),
-      line: '專輯、寫真書，出貨即入。',
+      line: '專輯、寫真書，出貨即入',
       img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/seventeen-spill-the-feels-12th-mini-album-984146.webp' },
   ];
 
