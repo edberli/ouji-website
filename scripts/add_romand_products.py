@@ -33,7 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from shopify_admin import gql, user_errors  # noqa
-from upload_files import upload, upload_all  # noqa
+from upload_files import upload, upload_all, host  # noqa
 
 ROOT = Path(__file__).parent.parent
 POS = Path("/Volumes/core/ouji-pos/raw/Ouji_KT_skus_prince.csv")
@@ -254,9 +254,14 @@ def main():
             if errs:
                 print("   ✗ media", errs)
 
+        # ⚠️ 長圖一定要用 host()，唔好用 upload_all()。
+        # upload_all() 回嗰係 staged upload 的 resourceUrl（tmp/ 那個）——
+        # 它只係做 productCreateMedia 嘅 originalSource 用，過一陣就失效。
+        # 實測 2026-08-27：170 張長圖全部死掉，產品頁下半部全白。
+        # host() 會再行多一步 fileCreate，拿回永久嘅 cdn.shopify.com 鏈接。
         strips = "".join(
             f'<img src="{u}" alt="{cfg["title"]} 產品介紹" loading="lazy">'
-            for u in upload_all([str(f) for f in dt]))
+            for u in host([str(f) for f in dt], alt=cfg["title"]) if u)
         lis = "".join(f"<li>{b}</li>" for b in cfg["bullets"])
         desc = (f"<p><strong>{cfg['hook']}</strong></p><p>{cfg['body']}</p>"
                 f"<ul>{lis}</ul><p><strong>用法</strong><br>{cfg['use']}</p>"
@@ -276,4 +281,7 @@ def main():
         print("\n加 --apply 先會真係開。")
 
 
-main()
+# ⚠️ 要 guard 住 —— fix_romand_desc.py 會 import 呢個 module 攞
+# PRODUCTS 同 files()，唔 guard 嘅話一 import 就會再開多次貨。
+if __name__ == "__main__":
+    main()
