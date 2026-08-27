@@ -682,6 +682,647 @@ window.OUJI_LOOK_DATABASE = {
       ]
     },
     {
+      "id": "irene-2025",
+      "kind": "celebrity_photo",
+      "person": "Irene 裴柱現",
+      "title": "暖粉緞光蜜桃唇",
+      "subtitle": "指定相片 · 2025-03-20",
+      "image": "assets/makeup-session/celeb-irene.jpg",
+      "nationalityContext": "韓國",
+      "source": {
+        "page": "https://commons.wikimedia.org/wiki/File:250320_%EB%A0%88%EB%93%9C%EB%B2%A8%EB%B2%B3_Irene_UGG_Photo_Call.jpg",
+        "author": "티비텐",
+        "license": "CC BY 3.0",
+        "date": "2025-03-20"
+      },
+      "analysis": {
+        "summary": "自然緞光底、暖粉橘眼影、暖粉頰同蜜桃珊瑚水潤唇；整體暖調，光感集中面中。",
+        "base": "自然緞光、中等遮瑕，光位集中面中同眼下。",
+        "eyes": "暖粉橘眼影鋪滿眼摺，眼尾輕暈，睫毛纖長，臥蠶明顯。",
+        "cheeks": "暖粉紅中位橫掃，同眼妝色調連成一線。",
+        "lips": "蜜桃珊瑚水潤，唇形飽滿，中心光澤最強。"
+      },
+      "targets": {
+        "base": {
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "coverage": [
+            2,
+            3
+          ]
+        },
+        "eyes": {
+          "types": [
+            "眼影",
+            "眼線",
+            "睫毛膏"
+          ],
+          "finishes": [
+            "珠光",
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "peach",
+            "coral"
+          ]
+        },
+        "cheeks": {
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "colours": [
+            "pink",
+            "peach",
+            "coral"
+          ]
+        },
+        "lips": {
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "水光",
+            "自然"
+          ],
+          "colours": [
+            "peach",
+            "coral",
+            "pink"
+          ]
+        }
+      },
+      "technique": [
+        "底妝面中打亮，面周留自然膚感",
+        "暖粉眼影由睫毛根向上暈，唔好上到眉骨",
+        "胭脂同眼影用同一色系，中位橫掃",
+        "唇色由內向外印，唇心補多一層"
+      ],
+      "categories": [
+        "韓國",
+        "韓系",
+        "溫柔"
+      ]
+    },
+    {
+      "id": "danielle-2024",
+      "kind": "celebrity_photo",
+      "person": "Danielle 丹妮爾",
+      "title": "曬感粉頰甜心妝",
+      "subtitle": "指定相片 · 2024-04-22",
+      "image": "assets/makeup-session/celeb-danielle.jpg",
+      "nationalityContext": "韓國",
+      "source": {
+        "page": "https://commons.wikimedia.org/wiki/File:NewJeans_Danielle_April_2024.jpg",
+        "author": "티비텐",
+        "license": "CC BY 3.0",
+        "date": "2024-04-22"
+      },
+      "analysis": {
+        "summary": "白皙柔霧底、極淡裸眼、大範圍高位粉頰同冷粉光澤唇；重點喺頰，唔喺眼。",
+        "base": "白皙柔霧、低遮瑕，保留原生膚質。",
+        "eyes": "淡粉裸色薄薄一層，睫毛自然唔加密。",
+        "cheeks": "粉紅高位大範圍橫過鼻樑，做曬傷妝感。",
+        "lips": "冷調粉紅帶光澤，唇邊柔化。"
+      },
+      "targets": {
+        "base": {
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "coverage": [
+            1,
+            2
+          ]
+        },
+        "eyes": {
+          "types": [
+            "眼影",
+            "睫毛膏"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "beige"
+          ]
+        },
+        "cheeks": {
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "rose"
+          ]
+        },
+        "lips": {
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "水光",
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "rose"
+          ]
+        }
+      },
+      "technique": [
+        "底妝薄，唔好遮走原生膚質",
+        "眼妝越少越好，重點留返俾胭脂",
+        "胭脂由顴骨高位橫掃過鼻樑,兩邊要對稱",
+        "唇色薄搽一層，唔好畫唇線"
+      ],
+      "categories": [
+        "韓國",
+        "韓系",
+        "甜美"
+      ]
+    },
+    {
+      "id": "momo-2024",
+      "kind": "celebrity_photo",
+      "person": "Momo 平井桃",
+      "title": "日系水光珊瑚妝",
+      "subtitle": "指定相片 · 2024-04-05",
+      "image": "assets/makeup-session/celeb-momo.jpg",
+      "nationalityContext": "日本",
+      "source": {
+        "page": "https://commons.wikimedia.org/wiki/File:TWICE_MOMO_April_2024.jpg",
+        "author": "티비텐",
+        "license": "CC BY 3.0",
+        "date": "2024-04-05"
+      },
+      "analysis": {
+        "summary": "自然水光底、柔啡淡眼影、淡粉頰同珊瑚橙緞唇；日系乾淨感。",
+        "base": "自然水光、低至中遮瑕，面中最亮。",
+        "eyes": "柔啡淡影貼睫毛根，眼線幼而短，唔做上揚。",
+        "cheeks": "淡粉自然暈開，位置中規中矩。",
+        "lips": "珊瑚橙緞面，唇形完整但唔做實色。"
+      },
+      "targets": {
+        "base": {
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "水光",
+            "自然"
+          ],
+          "coverage": [
+            1,
+            2
+          ]
+        },
+        "eyes": {
+          "types": [
+            "眼影",
+            "眼線",
+            "睫毛膏"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "colours": [
+            "brown",
+            "beige"
+          ]
+        },
+        "cheeks": {
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "peach"
+          ]
+        },
+        "lips": {
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "colours": [
+            "coral",
+            "orange",
+            "peach"
+          ]
+        }
+      },
+      "technique": [
+        "底妝水光但唔好油,T 區輕掃蜜粉",
+        "眼影只鋪下半眼摺",
+        "胭脂淡掃,唔好搶過唇色",
+        "珊瑚橙唇由中心推開"
+      ],
+      "categories": [
+        "日本",
+        "日系",
+        "自然"
+      ]
+    },
+    {
+      "id": "yeji-2024",
+      "kind": "celebrity_photo",
+      "person": "Yeji 黃禮志",
+      "title": "冷調銳利裸粉妝",
+      "subtitle": "指定相片 · 2024-09-26",
+      "image": "assets/makeup-session/celeb-yeji.jpg",
+      "nationalityContext": "韓國",
+      "source": {
+        "page": "https://commons.wikimedia.org/wiki/File:Yeji_of_Itzy_on_Incheon_Airport,_September_26,_2024.png",
+        "author": "티비텐",
+        "license": "CC BY 3.0",
+        "date": "2024-09-26"
+      },
+      "analysis": {
+        "summary": "冷白緞光底、中性淡棕眼配幼長眼線、極淡頰同豆沙裸粉唇；靠眼型同輪廓帶氣場。",
+        "base": "冷白緞光、中等遮瑕，膚色壓得乾淨。",
+        "eyes": "中性淡棕鋪底，眼線幼而長貼睫毛根，眼型拉長唔上揚。",
+        "cheeks": "極淡冷粉,幾乎唔見色塊,只提一點血色。",
+        "lips": "豆沙裸粉，質地介乎緞面同霧面之間。"
+      },
+      "targets": {
+        "base": {
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "coverage": [
+            2,
+            3
+          ]
+        },
+        "eyes": {
+          "types": [
+            "眼影",
+            "眼線",
+            "睫毛膏"
+          ],
+          "finishes": [
+            "啞光",
+            "自然"
+          ],
+          "colours": [
+            "brown",
+            "beige",
+            "mauve"
+          ]
+        },
+        "cheeks": {
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "colours": [
+            "rose",
+            "mauve",
+            "pink"
+          ]
+        },
+        "lips": {
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "colours": [
+            "mauve",
+            "rose",
+            "beige"
+          ]
+        }
+      },
+      "technique": [
+        "底妝壓冷調,唔好用暖黃粉底",
+        "眼線由眼頭拉到眼尾,平拉唔上揚",
+        "胭脂極少量,只喺顴骨外側",
+        "唇色用指腹印,唔要高光澤"
+      ],
+      "categories": [
+        "韓國",
+        "韓系",
+        "冷豔"
+      ]
+    },
+    {
+      "id": "minji-2026",
+      "kind": "celebrity_photo",
+      "person": "Minji 金玟池",
+      "title": "通透裸妝蜜桃唇",
+      "subtitle": "指定相片 · 2026-01-07",
+      "image": "assets/makeup-session/celeb-minji.jpg",
+      "nationalityContext": "韓國",
+      "source": {
+        "page": "https://commons.wikimedia.org/wiki/File:Kim_Min-ju_DIOR,_January_7,_2026.png",
+        "author": "K-POPIT 케이팝잇",
+        "license": "CC BY 4.0",
+        "date": "2026-01-07"
+      },
+      "analysis": {
+        "summary": "通透細緻底、幾乎冇眼影、頰色極淡同蜜桃緞唇；全靠底妝質感撐起。",
+        "base": "通透細緻、低遮瑕，強調皮膚本身質地。",
+        "eyes": "裸色極淡,睫毛梳順就算,唔加眼線。",
+        "cheeks": "頰色極淡,只作面色調整。",
+        "lips": "蜜桃粉緞面,光澤自然唔誇張。"
+      },
+      "targets": {
+        "base": {
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "水光",
+            "自然"
+          ],
+          "coverage": [
+            1,
+            2
+          ]
+        },
+        "eyes": {
+          "types": [
+            "眼影",
+            "睫毛膏"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "beige",
+            "brown"
+          ]
+        },
+        "cheeks": {
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "peach",
+            "pink"
+          ]
+        },
+        "lips": {
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "colours": [
+            "peach",
+            "pink",
+            "coral"
+          ]
+        }
+      },
+      "technique": [
+        "底妝係主角,要薄同貼",
+        "眼妝可以只用睫毛膏",
+        "胭脂少到似原本面色",
+        "唇色一層就夠"
+      ],
+      "categories": [
+        "韓國",
+        "韓系",
+        "裸妝"
+      ]
+    },
+    {
+      "id": "kazuha-2024",
+      "kind": "celebrity_photo",
+      "person": "Kazuha 中村一葉",
+      "title": "白皙冷感淡棕妝",
+      "subtitle": "指定相片 · 2024-04-05",
+      "image": "assets/makeup-session/celeb-kazuha.jpg",
+      "nationalityContext": "日本",
+      "source": {
+        "page": "https://commons.wikimedia.org/wiki/File:Kazuha_of_Le_Sserafim,_April_5,_2024_(2).png",
+        "author": "티비텐",
+        "license": "CC BY 3.0",
+        "date": "2024-04-05"
+      },
+      "analysis": {
+        "summary": "白皙緞光底、乾淨淡棕眼、淡頰同裸粉緞唇；線條乾淨,唔靠重色。",
+        "base": "白皙緞光、中等遮瑕,面中提亮。",
+        "eyes": "淡棕鋪眼摺,線條乾淨,唔做暈染陰影。",
+        "cheeks": "淡粉輕掃,位置偏低。",
+        "lips": "裸粉緞光,唇形自然。"
+      },
+      "targets": {
+        "base": {
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "coverage": [
+            2,
+            3
+          ]
+        },
+        "eyes": {
+          "types": [
+            "眼影",
+            "眼線",
+            "睫毛膏"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "colours": [
+            "brown",
+            "beige"
+          ]
+        },
+        "cheeks": {
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "rose"
+          ]
+        },
+        "lips": {
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "colours": [
+            "pink",
+            "beige",
+            "rose"
+          ]
+        }
+      },
+      "technique": [
+        "底妝壓白但唔好死白",
+        "眼影一種顏色就夠",
+        "胭脂位置偏低,唔好高位",
+        "唇色貼近原本唇色再提亮少少"
+      ],
+      "categories": [
+        "日本",
+        "日系",
+        "冷感"
+      ]
+    },
+    {
+      "id": "rei-2025",
+      "kind": "celebrity_photo",
+      "person": "Rei 直井怜",
+      "title": "娃娃感柔霧粉妝",
+      "subtitle": "指定相片 · 2025-03-26",
+      "image": "assets/makeup-session/celeb-rei.jpg",
+      "nationalityContext": "日本",
+      "source": {
+        "page": "https://commons.wikimedia.org/wiki/File:Ive%27s_Rei_at_Ralph_Lauren_Hannam_store_opening,_26_March_2025_03.png",
+        "author": "K-POPIT 케이팝잇",
+        "license": "CC BY 3.0",
+        "date": "2025-03-26"
+      },
+      "analysis": {
+        "summary": "白皙柔霧底、極淡眼妝、淡粉頰同水潤粉唇；娃娃感,全部元素都輕。",
+        "base": "白皙柔霧、低至中遮瑕,唔追求高光澤。",
+        "eyes": "極淡,近乎素顏,睫毛輕輕夾起。",
+        "cheeks": "淡粉圓形位置,做娃娃感。",
+        "lips": "粉紅水潤,唇心最實。"
+      },
+      "targets": {
+        "base": {
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "coverage": [
+            1,
+            2
+          ]
+        },
+        "eyes": {
+          "types": [
+            "眼影",
+            "睫毛膏"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "beige"
+          ]
+        },
+        "cheeks": {
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "colours": [
+            "pink",
+            "rose"
+          ]
+        },
+        "lips": {
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "水光",
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "rose",
+            "peach"
+          ]
+        }
+      },
+      "technique": [
+        "底妝柔霧,唔好水光",
+        "眼妝越淡越好",
+        "胭脂畫圓形位置,唔好斜掃",
+        "唇心點色再向外印開"
+      ],
+      "categories": [
+        "日本",
+        "日系",
+        "甜美"
+      ]
+    },
+    {
       "id": "studio-glass-petal",
       "kind": "studio_look",
       "person": "OUJI 妝感圖鑑",
@@ -867,11 +1508,11 @@ window.OUJI_LOOK_DATABASE = {
         "date": "2026-08-25"
       },
       "analysis": {
-        "summary": "半霧面底、冷調眼影、拉長眼線同莓紅唇，影相輪廓清晰。",
+        "summary": "半霧面中遮瑕；粉紅暈染包上下眼，眼尾輕微上揚，帶少量閃感。；冷玫瑰斜掃；鮮桃紅水光，唇形飽滿，中心最實。。",
         "base": "半霧面中遮瑕",
-        "eyes": "冷棕拉長",
+        "eyes": "粉紅暈染包上下眼，眼尾輕微上揚，帶少量閃感。",
         "cheeks": "冷玫瑰斜掃",
-        "lips": "莓紅柔霧"
+        "lips": "鮮桃紅水光，唇形飽滿，中心最實。"
       },
       "targets": {
         "base": {
@@ -895,12 +1536,12 @@ window.OUJI_LOOK_DATABASE = {
             "睫毛膏"
           ],
           "finishes": [
-            "啞光",
-            "珠光"
+            "珠光",
+            "自然"
           ],
           "colours": [
-            "brown",
-            "purple",
+            "pink",
+            "rose",
             "mauve"
           ]
         },
@@ -921,16 +1562,16 @@ window.OUJI_LOOK_DATABASE = {
         "lips": {
           "types": [
             "唇釉",
-            "唇膏",
-            "唇線筆"
+            "唇彩",
+            "唇膏"
           ],
           "finishes": [
-            "啞光"
+            "水光"
           ],
           "colours": [
-            "berry",
-            "mauve",
-            "red"
+            "pink",
+            "red",
+            "rose"
           ]
         }
       },
@@ -1148,9 +1789,9 @@ window.OUJI_LOOK_DATABASE = {
         "date": "2026-08-26"
       },
       "analysis": {
-        "summary": "冰銀眼頭、鈷藍幼翼同冷粉水唇；用局部金屬光，而唔係全臉閃。",
+        "summary": "清透冷緞光；冰藍眼線沿下眼線拉出，上眼用香檳閃片提亮，冷調明顯。；冷粉高位；灰粉鏡面。",
         "base": "清透冷緞光",
-        "eyes": "冰銀＋鈷藍眼線",
+        "eyes": "冰藍眼線沿下眼線拉出，上眼用香檳閃片提亮，冷調明顯。",
         "cheeks": "冷粉高位",
         "lips": "灰粉鏡面"
       },
@@ -1176,13 +1817,12 @@ window.OUJI_LOOK_DATABASE = {
             "睫毛膏"
           ],
           "finishes": [
-            "珠光",
-            "自然"
+            "珠光"
           ],
           "colours": [
+            "blue",
             "champagne",
-            "purple",
-            "pink"
+            "purple"
           ]
         },
         "cheeks": {

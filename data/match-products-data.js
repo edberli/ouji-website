@@ -17192,7 +17192,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "inventoryQuantity": 10,
           "inStock": true,
           "shadeSignals": {
-            "family": "unknown",
+            "family": "rose",
             "undertone": "unknown",
             "depthCode": "unknown",
             "swatchHint": "#d8d1cc",
@@ -18937,7 +18937,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "inventoryQuantity": 12,
           "inStock": true,
           "shadeSignals": {
-            "family": "unknown",
+            "family": "blue",
             "undertone": "unknown",
             "depthCode": "unknown",
             "swatchHint": "#d8d1cc",
