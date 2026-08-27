@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
   setTimeout(function () {
+    document.querySelectorAll('.rise:not(.is-in)').forEach(function (el) { el.classList.add('is-in'); });
     document.querySelectorAll('.reveal:not(.is-visible), .reveal-blur:not(.is-visible), .reveal-stagger:not(.is-visible), .reveal-scale:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-clip:not(.is-visible), .reveal-clip--right:not(.is-visible), .reveal-clip--up:not(.is-visible), .section-float:not(.is-visible), .section-divider:not(.is-visible), .split-text:not(.is-visible), .word-reveal:not(.is-visible), .mood-board:not(.is-visible)').forEach(function (el) {
       el.classList.add('is-visible');
     });
@@ -959,8 +960,14 @@ function initMoodBoardReveal() {
  * 成格淨係見到片淺藍底（實測 .promo .rise 兩個都停喺 opacity 0）。
  * 冇 IntersectionObserver 或者用戶收咗動畫，就直接顯示，唔可以留喺透明。
  */
+/* ⚠️ 呢個要 idempotent —— 分類海報係目錄載完先由 home.js 砌出嚟嘅，
+   即係喺 DOMContentLoaded 之後。第一次行嗰陣 .rise 未存在，如果唔可以
+   再叫多次，啲海報就永遠停喺 opacity: 0 —— 成段分類區塊白晒。
+   （首頁優惠 banner 之前就係中過呢個窿。）
+   用 data-rise 標住睇過嘅，重複叫都唔會重複 observe。 */
 function initRiseReveal() {
-  const rises = document.querySelectorAll('.rise');
+  const rises = [...document.querySelectorAll('.rise')].filter((el) => !el.dataset.rise);
+  rises.forEach((el) => { el.dataset.rise = '1'; });
   if (!rises.length) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reduce.matches || !('IntersectionObserver' in window)) {
@@ -1066,6 +1073,23 @@ function initPromoLive() {
  *   · prefers-reduced-motion 唔做滑入動畫，直接出
  * 整段 markup 由 JS 生成，唔使 24 版 HTML 各抄一次。
  */
+/* ============================================================
+   優惠全屏通知
+   老闆 2026-08-28：「啲人入到嚟呢個界面，咁隔咗十零秒，就會有一個
+   覆蓋全個屏幕嘅通知彈出嚟⋯⋯好靚嘅，即係好似首頁嗰個 session 咁樣
+   彈出嚟，變咗啲人一定會睇到。」
+
+   本來係右下角一張細卡 —— 手機上面同 cookie 提示冇分別，掃走咗都唔
+   知睇過乜。而家改成全屏。
+
+   全屏通知係打斷客，所以幾個規矩要守實：
+   - **一日一次。** localStorage 記住日期，同一日唔會再彈。
+   - **購物袋頁唔彈。** 佢已經喺度結帳，打斷佢係倒自己米。
+   - **Promo 完就唔存在**（9 月 15 日之後直接 return）。
+   - **四條路都關得到**：X、背景、Esc、撳「開始揀貨」。
+   - **鎖返 body scroll**，開住嗰陣背後唔會跟住郁；關咗要還返個
+     scrollTop，否則 iOS 會跳返頂。
+   ============================================================ */
 function initPromoPop() {
   const END = new Date('2026-09-15T23:59:00+08:00');
   if (Date.now() > END.getTime()) return;
@@ -1076,37 +1100,61 @@ function initPromoPop() {
   try { if (localStorage.getItem(KEY) === today) return; } catch (e) { /* 私隱模式 */ }
 
   const days = Math.max(0, Math.ceil((END - new Date()) / 86400000));
-  const el = document.createElement('aside');
-  el.className = 'promo-pop';
+  const el = document.createElement('div');
+  el.className = 'promo-full';
   el.setAttribute('role', 'dialog');
+  el.setAttribute('aria-modal', 'true');
   el.setAttribute('aria-label', '現正推廣');
   el.innerHTML = `
-    <button type="button" class="promo-pop__x" aria-label="關閉">&times;</button>
-    <img class="promo-pop__cat" src="assets/images/shima/shima-wink1.webp" alt=""
-         width="230" height="219" decoding="async">
-    <div class="promo-pop__body">
-      <b class="promo-pop__title">全單 88 折</b>
-      <ul class="promo-pop__list">
-        <li>折實滿 <b>HK$399</b> 免運費</li>
-        <li>折實滿 <b>HK$499</b> 送面霜</li>
+    <div class="promo-full__sheet" role="document">
+      <button type="button" class="promo-full__x" aria-label="關閉">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+             aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <img class="promo-full__cat" src="assets/images/shima/shima-wink1.webp" alt=""
+           width="230" height="219" decoding="async">
+      <p class="promo-full__days">9 月 15 日前 · 仲有 <b>${days}</b> 日</p>
+      <h2 class="promo-full__title">全單 <em>88</em> 折</h2>
+      <ul class="promo-full__list">
+        <li><b>HK$399</b><span>折實滿呢個數，免運費</span></li>
+        <li><b>HK$499</b><span>折實滿呢個數，加送面霜</span></li>
       </ul>
-      <p class="promo-pop__end">9 月 15 日前 · 仲有 <b>${days}</b> 日</p>
-      <a class="promo-pop__go" href="shop.html">開始揀貨 →</a>
+      <a class="promo-full__go" href="shop.html">開始揀貨</a>
+      <button type="button" class="promo-full__later">下次先</button>
     </div>`;
 
+  let lastY = 0;
   const close = (why) => {
     el.classList.remove('is-in');
     try { localStorage.setItem(KEY, today); } catch (e) { /* 冇得記就算 */ }
-    setTimeout(() => el.remove(), 320);
+    document.body.classList.remove('is-promo-open');
+    document.body.style.top = '';
+    window.scrollTo(0, lastY);
+    document.removeEventListener('keydown', onKey);
+    setTimeout(() => el.remove(), 340);
     if (window.trackEvent) window.trackEvent('promo_pop_close', { why });
   };
-  el.querySelector('.promo-pop__x').addEventListener('click', () => close('x'));
-  el.querySelector('.promo-pop__go').addEventListener('click', () => close('go'));
+  const onKey = (e) => { if (e.key === 'Escape') close('esc'); };
+
+  el.querySelector('.promo-full__x').addEventListener('click', () => close('x'));
+  el.querySelector('.promo-full__later').addEventListener('click', () => close('later'));
+  el.querySelector('.promo-full__go').addEventListener('click', () => close('go'));
+  el.addEventListener('click', (e) => {
+    if (!e.target.closest('.promo-full__sheet')) close('backdrop');
+  });
 
   setTimeout(() => {
+    /* 客已經滑咗落去睇緊嘢就唔好打斷；下次再嚟先講。 */
+    lastY = window.scrollY;
+    document.body.style.top = `-${lastY}px`;
+    document.body.classList.add('is-promo-open');
     document.body.appendChild(el);
-    requestAnimationFrame(() => el.classList.add('is-in'));
-  }, 12000);
+    document.addEventListener('keydown', onKey);
+    requestAnimationFrame(() => {
+      el.classList.add('is-in');
+      el.querySelector('.promo-full__x').focus({ preventScroll: true });
+    });
+  }, 11000);
 }
 
 /* ----- Lookbook Cards In-View Detection ----- */

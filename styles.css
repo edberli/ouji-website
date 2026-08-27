@@ -11669,3 +11669,218 @@ body::before { opacity: 0.18; }
 @media (prefers-reduced-motion: reduce) {
   .announcement-bar, .header { transition: none; }
 }
+
+/* ============================================================
+   分類海報
+   老闆 2026-08-28：「一個個產品擺喺度，其實對佢哋嚟講吸引力唔係咁大⋯⋯
+   一係如果換一啲，好似熱點咁，即係變成可能一個海報，一個好靚嘅設計，
+   再加可能幾件產品，跟住想睇更多先再撳入去。」
+
+   構圖：一邊一幅高身情境相（分類入口），另一邊 2×2 四件精選。
+   ⚠️ 幅相本身就係連結 —— 客望住幅相諗緊「入去睇晒」，唔應該要佢
+      再搵一粒細掣。
+   ⚠️ 左右輪流（.poster--flip）。四格全部大相喺左，落嚟就係同一個
+      template 重複四次，正正係老闆話唔好睇嗰種。
+   ============================================================ */
+.home-rails { padding-block: clamp(48px, 7vw, 96px); }
+.poster {
+  display: grid;
+  gap: clamp(14px, 2vw, 28px);
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding-inline: var(--space-md);
+}
+.poster + .poster { margin-top: clamp(40px, 6vw, 88px); }
+
+@media (min-width: 861px) {
+  .poster { grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr); align-items: stretch; }
+  .poster--flip .poster__visual { order: 2; }
+}
+
+/* ---- 大相 ---- */
+.poster__visual {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #e7eef1;
+  text-decoration: none;
+  aspect-ratio: 4 / 5;
+  box-shadow: 0 18px 40px -22px rgba(28, 62, 76, 0.45);
+  isolation: isolate;
+}
+@media (min-width: 861px) { .poster__visual { aspect-ratio: auto; min-height: 460px; } }
+
+.poster__visual img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.poster__visual:hover img { transform: scale(1.035); }
+
+/* 文字踩喺相上面，一定要有夠深嘅遮罩先夠 4.5:1。
+   由下而上兩段 —— 一段實色一段透明，唔用單一條線性漸變，
+   相底部太光嗰陣單一漸變會頂唔住。 */
+.poster__visual::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(14, 34, 42, 0.82) 0%, rgba(14, 34, 42, 0.52) 26%,
+                    rgba(14, 34, 42, 0.06) 58%, transparent 78%);
+  z-index: 1;
+}
+.poster__caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  padding: clamp(20px, 3.4vw, 34px);
+  color: #fff;
+}
+.poster__title {
+  margin: 0;
+  font-family: var(--font-display, var(--font-body));
+  font-size: clamp(1.75rem, 4.6vw, 2.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.poster__line {
+  margin: 8px 0 0;
+  max-width: 26ch;
+  /* 唔加呢句，「⋯彩妝牌子。」會斷到剩返一個「子」孤零零跌落第二行 */
+  text-wrap: pretty;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+}
+.poster__cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--primary-deep);
+  font-size: 0.8125rem; font-weight: 600;
+  transition: background 0.22s var(--ease-out), gap 0.22s var(--ease-out);
+}
+.poster__cta svg { width: 15px; height: 15px; }
+.poster__visual:hover .poster__cta { background: #fff; gap: 11px; }
+.poster__visual:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+/* ---- 右邊四件 ---- */
+.poster__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* 兩行等高 —— 唔寫嘅話產品名長短唔同，四格會參差不齊 */
+  grid-auto-rows: 1fr;
+  gap: clamp(10px, 1.4vw, 18px);
+  align-content: start;
+}
+@media (min-width: 861px) { .poster__grid { align-content: stretch; } }
+.poster__grid > * { min-width: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .poster__visual img, .poster__cta { transition: none; }
+  .poster__visual:hover img { transform: none; }
+}
+
+/* ============================================================
+   優惠全屏通知
+   ⚠️ body 鎖 scroll 用 position: fixed ＋ top: -Ypx（唔用 overflow:
+      hidden）—— iOS Safari 對 overflow:hidden 唔理，背後照跟住郁。
+      關咗要 scrollTo 還返個位。
+   ============================================================ */
+body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
+
+.promo-full {
+  position: fixed; inset: 0; z-index: 4000;
+  display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  background: rgba(10, 28, 35, 0.62);
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out);
+}
+.promo-full.is-in { opacity: 1; }
+
+.promo-full__sheet {
+  position: relative;
+  width: min(440px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 30px 26px 26px;
+  border-radius: 24px;
+  text-align: center;
+  /* 同 footer、抽屜同一隻深藍 —— 唔另開一套配色 */
+  background: linear-gradient(168deg, #2b4c58 0%, #35606f 52%, #2b4c58 100%);
+  color: #fff;
+  box-shadow: 0 30px 70px -24px rgba(8, 26, 33, 0.7);
+  transform: translateY(18px) scale(0.97);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.promo-full.is-in .promo-full__sheet { transform: none; }
+
+.promo-full__x {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff; cursor: pointer;
+  transition: background 0.2s var(--ease-out);
+}
+.promo-full__x svg { width: 18px; height: 18px; }
+.promo-full__x:hover { background: rgba(255, 255, 255, 0.26); }
+.promo-full__x:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.promo-full__cat { width: 116px; height: auto; margin: 2px auto 4px; display: block; }
+.promo-full__days {
+  margin: 0; font-size: 0.75rem; letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.62);
+}
+.promo-full__days b { color: #ffd77a; font-weight: 700; }
+
+.promo-full__title {
+  margin: 6px 0 18px;
+  font-family: var(--font-display, var(--font-body));
+  font-size: clamp(2.1rem, 9vw, 2.9rem);
+  line-height: 1.05; letter-spacing: -0.02em; color: #fff;
+}
+.promo-full__title em { font-style: normal; color: #ffd77a; }
+
+.promo-full__list { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; }
+.promo-full__list li {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+.promo-full__list b {
+  flex: none; font-size: 1.0625rem; font-weight: 700; color: #ffd77a;
+  font-variant-numeric: tabular-nums;
+}
+.promo-full__list span { font-size: 0.8125rem; line-height: 1.5; color: rgba(255, 255, 255, 0.88); }
+
+.promo-full__go {
+  display: block; padding: 15px;
+  border-radius: 999px;
+  background: #fff; color: var(--primary-deep);
+  font-size: 0.9375rem; font-weight: 700; text-decoration: none;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+.promo-full__go:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -14px rgba(0,0,0,0.6); }
+.promo-full__later {
+  margin-top: 12px; padding: 6px 10px;
+  border: 0; background: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.promo-full__later:hover { color: rgba(255, 255, 255, 0.9); }
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-full, .promo-full__sheet, .promo-full__go { transition: none; }
+  .promo-full__sheet { transform: none; }
+}

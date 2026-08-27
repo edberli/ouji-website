@@ -311,11 +311,11 @@ async function initHome() {
   const POSTERS = [
     { id: 'makeup', label: '彩妝', href: 'makeup.html',
       has: (p) => hasTag(p, '彩妝', 'makeup'),
-      line: '底妝、眼妝、唇妝，二十幾個韓國彩妝牌子。',
+      line: '底妝、眼妝、唇妝，二十幾個韓國牌子。',
       img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-better-than-palette-01_bac0075f-a0d1-4679-8d95-8a9a7a7c33f9.jpg' },
     { id: 'skincare', label: '護膚', href: 'category.html',
       has: (p) => hasTag(p, '護膚', 'skincare'),
-      line: '潔面、爽膚水、精華、面霜、防曬 —— 一條龍。',
+      line: '潔面、精華、面霜、防曬，一條過。',
       img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/c3ac64d063dcea05b5c5933024923263_a6098918-4fe7-4eda-88bf-879728200f83.jpg' },
     { id: 'lens', label: '隱形眼鏡', href: 'lens.html',
       has: (p) => hasTag(p, '隱形眼鏡'),
@@ -334,7 +334,7 @@ async function initHome() {
       if (list.length < 4) return '';
       return `<section class="poster${i % 2 ? ' poster--flip' : ''}">
         <a class="poster__visual rise" href="${r.href}">
-          <img src="${r.img}&width=900" alt="" width="900" height="1125"
+          <img src="${r.img}${r.img.includes('?') ? '&' : '?'}width=900" alt="" width="900" height="1125"
                loading="lazy" decoding="async">
           <div class="poster__caption">
             <h3 class="poster__title">${r.label}</h3>
@@ -347,6 +347,9 @@ async function initHome() {
         <div class="poster__grid">${list.slice(0, 4).map(card).join('')}</div>
       </section>`;
     }).join('');
+    /* 海報係而家先砌出嚟，第一次 initRiseReveal() 跑嗰陣佢哋未存在 ——
+       唔叫多次就永遠停喺 opacity: 0。 */
+    if (typeof initRiseReveal === 'function') initRiseReveal();
   }
 
   /* ----- 分類圓圈 -----
