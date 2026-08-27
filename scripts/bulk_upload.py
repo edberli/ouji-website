@@ -99,17 +99,34 @@ ACTIVATE = """mutation($id:ID!,$d:String!){
 
 def signals(s):
     s = (s or "").lower()
-    sizes = {f"{float(a):g}{UNIT.get(b.lower(), b.lower())}" for a, b in SIZE.findall(s)}
-    nums = set(NUM.findall(s)) - {n[:-2] for n in sizes}
+    pairs = SIZE.findall(s)
+    sizes = {f"{float(a):g}{UNIT.get(b.lower(), b.lower())}" for a, b in pairs}
+    # ⚠️ 容量本身嗰個數字唔可以再當「型號數字」數多次。
+    #    之前寫 `{n[:-2] for n in sizes}` 係錯 —— "30pcs"[:-2] = "30p"，
+    #    減唔到，結果「30정」對「30條」被當成型號夾中，Vitamin village
+    #    八件貨全部夾到同一個韓國保健品度。
+    size_nums = {f"{float(a):g}" for a, _ in pairs}
+    nums = set(NUM.findall(s)) - size_nums
     lat = {w.lower() for w in LATIN.findall(s)}
     return sizes, nums, lat
 
 
 def lex_hits(pos_name, src_title):
     """POS 個中文名有幾多個詞，喺韓文名度搵得返對應嘅韓文。"""
+    return sum(1 for zh, ko in LEX.items()
+               if zh in (pos_name or "") and ko in (src_title or ""))
+
+
+def lex_clash(pos_name, src_title):
+    """韓文名有某個成分／劑型詞，但 POS 名講緊另一樣 —— 即係唔同貨。
+
+    實測：「茶樹淨化洗髮水 180毫升」夾到「로즈마리(迷迭香) 샴푸 180ML」，
+    容量啱、都係洗髮水，但一個茶樹一個迷迭香。冇呢個檢查就會落錯相。
+    """
     n = 0
     for zh, ko in LEX.items():
-        if zh in (pos_name or "") and ko in (src_title or ""):
+        if ko in (src_title or "") and zh not in (pos_name or ""):
+            # 只計「有對立面」嘅詞：POS 名入面有另一個同類詞
             n += 1
     return n
 
@@ -132,8 +149,19 @@ def score(pos_name, src_title):
     # 一定要夾到容量 —— 淨靠詞太易撞（個個都有「精華」「cream」）
     if not size_hit:
         return 0.0
-    # 而且容量之外仲要有第二個訊號，唔可以淨係「都係 100ml」就當同一件
-    if not (lx or strong_lat or num_hit):
+    # 容量之外一定要有**詞義**訊號。型號數字唔算 —— 「30 條」對「30 정」
+    # 呢種係容量重複，唔係第二個證據。
+    if not (lx or strong_lat):
+        return 0.0
+    # 韓文名講緊另一樣成分／劑型 → 唔同貨，直接否決
+    if lex_clash(pos_name, src_title) > lx:
+        return 0.0
+    # ⚠️ 一個詞義訊號唔夠。實測：
+    #   「魚膠原蛋白維他命C」夾到「비타민K 칼슘 마그네슘…」（淨係「維他命」中）
+    #   「Serene 身體乳液 薰衣草」夾到「바디워시 페퍼민트」（淨係「身體」中）
+    #   兩件都係錯貨。個中韓詞表太細，捉唔到「薰衣草 vs 薄荷」呢類對立，
+    #   所以唯有要求**至少兩個**詞義訊號夾到先肯用。
+    if lx + len(strong_lat) < 2:
         return 0.0
     return round(sc, 2)
 
@@ -234,6 +262,17 @@ def main():
             nohit.append((r, b, bs))
 
     plan.sort(key=lambda x: -x[3])
+    # ⚠️ 一個來源產品只可以配一件貨。之前冇呢句，Vitamin village 八件
+    #    全部指住同一個韓國保健品，八件貨落同一張相。
+    used, uniq = set(), []
+    for r, b, m, s2 in plan:
+        key = (b, m["no"])
+        if key in used:
+            nohit.append((r, b, s2))
+            continue
+        used.add(key)
+        uniq.append((r, b, m, s2))
+    plan = uniq
     print(f"索引：{ {k: len(v) for k, v in idx.items()} }")
     print(f"夾到 {len(plan)} 件｜夾唔到 {len(nohit)} 件｜今次最多做 {a.max} 件\n")
     for r, b, m, s in plan[:a.max]:
