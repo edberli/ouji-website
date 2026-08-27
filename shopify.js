@@ -578,6 +578,31 @@ async function setCartAttributes(attrs) {
   return data?.cartAttributesUpdate?.cart?.attributes || null;
 }
 
+/** 將自提點寫成「預填送貨地址」，令客喺結帳頁唔使再打一次地址。
+
+    ⚠️ 呢個係成件事嘅關鍵。淨係寫 cart attributes 係唔夠嘅 ——
+    客揀完自提點，入到結帳頁一樣要由頭填地址，等於做兩次嘢。
+    實測（訪客結帳）：寫咗 deliveryAddressPreferences 之後，結帳頁
+    嘅「地址 / 公寓套房 / 市 / 國家」全部已經填好，客淨係要填
+    電郵、姓名、電話。
+
+    ⚠️ 但係 **Shop Pay 用戶唔會受影響** —— 佢會照列返自己啲已存地址，
+    唔理呢個 preference（實測過，佢仲會彈「選取的地址不完整」）。
+    所以 cart attributes 嗰邊要照寫，鋪頭有得對返。
+*/
+async function setDeliveryAddressPreference(addr) {
+  const cart = await getCart();
+  if (!cart?.id) return null;
+  const q = `mutation($cartId:ID!,$b:CartBuyerIdentityInput!){
+    cartBuyerIdentityUpdate(cartId:$cartId, buyerIdentity:$b){
+      cart{ id } userErrors{ field message } } }`;
+  const d = await shopifyFetch(q, { cartId: cart.id, b: {
+    deliveryAddressPreferences: [{ deliveryAddress: addr }] } });
+  const e = d?.cartBuyerIdentityUpdate?.userErrors;
+  if (e && e.length) { console.warn('cartBuyerIdentityUpdate', e); return null; }
+  return true;
+}
+
 /** 前往 Shopify 結帳 */
 async function goToCheckout() {
   const cart = await getCart();

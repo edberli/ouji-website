@@ -900,7 +900,19 @@
       render();
       panel.setAttribute('hidden', '');
       toggle.setAttribute('aria-expanded', 'false');
-      if (typeof setCartAttributes === 'function' && chosen) {
+      if (!chosen) return;
+      /* 兩樣都要寫：
+         ① 預填送貨地址 —— 令客喺結帳頁唔使再打一次（訪客結帳實測有效）
+         ② cart attributes —— Shop Pay 用戶唔食預填，靠呢個留返記錄 */
+      if (typeof setDeliveryAddressPreference === 'function') {
+        await setDeliveryAddressPreference({
+          address1: chosen.address,
+          address2: `${chosen.kind} ${chosen.code}`,
+          city: '香港',
+          country: 'Hong Kong',
+        });
+      }
+      if (typeof setCartAttributes === 'function') {
         await setCartAttributes({
           '順豐自提點': `${chosen.kind} ${chosen.code}`,
           '自提點地址': chosen.address,
