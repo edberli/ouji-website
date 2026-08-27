@@ -11649,14 +11649,22 @@ body::before { opacity: 0.18; }
    ⚠️ main 嘅 padding-top 唔郁 —— 郁咗成版內容會跳，收合變成「跳嚟跳去」。
       呢度淨係 transform，唔影響 layout。
    ============================================================ */
-.announcement-bar,
-.header {
-  transition: transform 0.28s var(--ease-out), background 0.28s var(--ease-out),
-              backdrop-filter 0.28s var(--ease-out), border-color 0.28s var(--ease-out);
-  will-change: transform;
+/* ⚠️ 淨係手機做。老闆 2026-08-28：「電腦版根本上就唔使，桌面版淨係
+   手機版嘅啫嘛。」桌面高度夠，收個 header 慳嗰 92px 冇意義，反而
+   滑一滑就閃走條 nav，返轉頭搵嘢要再滑上去。
+   768px 係全站手機斷點（.mobile-bottom-nav、header 收圖示都係呢個數）。
+   JS 照樣 toggle 個 class —— 佢好平，而且咁樣 resize 就自動跟，
+   唔使再監聽 matchMedia。 */
+@media (max-width: 768px) {
+  .announcement-bar,
+  .header {
+    transition: transform 0.28s var(--ease-out), background 0.28s var(--ease-out),
+                backdrop-filter 0.28s var(--ease-out), border-color 0.28s var(--ease-out);
+    will-change: transform;
+  }
+  body.is-nav-tucked .announcement-bar { transform: translateY(-100%); }
+  body.is-nav-tucked .header { transform: translateY(calc(-100% - var(--ann-h, 36px))); }
 }
-body.is-nav-tucked .announcement-bar { transform: translateY(-100%); }
-body.is-nav-tucked .header { transform: translateY(calc(-100% - var(--ann-h, 36px))); }
 
 @media (prefers-reduced-motion: reduce) {
   .announcement-bar, .header { transition: none; }
