@@ -279,6 +279,29 @@
               <img class="shima__f" src="assets/images/home/shima-cash6.webp" alt="" width="247" height="340" loading="lazy" decoding="async">
             </div>
 
+            <!-- 順豐自提點揀選。
+                 ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
+                 extension），所以揀自提點要喺我哋自己個購物袋頁做，
+                 揀完寫落 cart attributes，跟住張單過去 Shopify，
+                 鋪頭喺訂單詳情就見到網點碼同地址。
+                 資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
+                 已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
+            <div class="sfp" data-sfp>
+              <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false">
+                <span class="sfp__toggle-label">順豐自提點<em>（$25 · 滿 $399 免費）</em></span>
+                <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
+              </button>
+              <div class="sfp__panel" data-sfp-panel hidden>
+                <div class="sfp__filters">
+                  <select class="sfp__district" data-sfp-district aria-label="地區">
+                    <option value="">全港</option>
+                  </select>
+                  <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋自提點">
+                </div>
+                <p class="sfp__count" data-sfp-count></p>
+                <ul class="sfp__list" data-sfp-list></ul>
+              </div>
+            </div>
 
             <div class="cart-summary__checkout">
               <button class="btn btn--primary btn--full">前往結帳</button>
@@ -801,6 +824,91 @@
   </script>
 
 
+  <script>
+  /* ───── 順豐自提點揀選 ─────────────────────────────────────────
+     428 個網點（順豐站 90 ＋ 自助櫃 338），資料由順豐官方 PDF 名單抽出。
+     ⚠️ 已經剔走「只供住戶／員工使用」嗰 206 個 —— 客揀咗都入唔到去攞貨。
+
+     點解揀嘅位置喺購物袋頁而唔係結帳頁：Shopify 個結帳頁改唔到
+     （唔係 Plus、冇 checkout extension）。所以喺呢度揀，揀完寫落
+     cart attributes，跟住張單過去，鋪頭喺訂單詳情就見到。
+
+     份 JSON 88KB —— **撳開個面板先至落**，唔好一入購物袋就白白落多 88KB。
+  */
+  (function () {
+    const root = document.querySelector('[data-sfp]');
+    if (!root) return;
+    const toggle = root.querySelector('[data-sfp-toggle]');
+    const panel = root.querySelector('[data-sfp-panel]');
+    const chosenEl = root.querySelector('[data-sfp-chosen]');
+    const districtEl = root.querySelector('[data-sfp-district]');
+    const qEl = root.querySelector('[data-sfp-q]');
+    const listEl = root.querySelector('[data-sfp-list]');
+    const countEl = root.querySelector('[data-sfp-count]');
+    const KEY = 'ouji:sfPoint';
+
+    let points = null;
+    let chosen = null;
+    try { chosen = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+    if (chosen) paintChosen();
+
+    function paintChosen() {
+      chosenEl.textContent = chosen ? `${chosen.code} · ${chosen.address.slice(0, 18)}…` : '撳呢度揀';
+      chosenEl.classList.toggle('is-set', !!chosen);
+    }
+
+    async function load() {
+      if (points) return points;
+      countEl.textContent = '載入緊…';
+      const r = await fetch('assets/data/sf-points.json');
+      points = await r.json();
+      const ds = [...new Set(points.map((p) => p.district))].sort();
+      districtEl.insertAdjacentHTML('beforeend',
+        ds.map((d) => `<option value="${d}">${d}</option>`).join(''));
+      return points;
+    }
+
+    function render() {
+      const d = districtEl.value;
+      const q = qEl.value.trim();
+      let list = points.filter((p) => (!d || p.district === d) && (!q || p.address.includes(q) || p.code.includes(q.toUpperCase())));
+      countEl.textContent = `${list.length} 個自提點`;
+      /* 一次最多畫 60 個 —— 428 個全部畫落 DOM，喺手機捲得好頓。 */
+      const shown = list.slice(0, 60);
+      listEl.innerHTML = shown.map((p) => `
+        <li><button type="button" class="sfp__item${chosen && chosen.code === p.code ? ' is-on' : ''}" data-code="${p.code}">
+          <b>${p.kind}</b><span>${p.address}</span><em>${p.code} · ${p.hours || '—'}</em>
+        </button></li>`).join('')
+        + (list.length > shown.length ? `<li class="sfp__more">仲有 ${list.length - shown.length} 個，收窄地區或者打多幾個字</li>` : '');
+    }
+
+    toggle.addEventListener('click', async () => {
+      const open = panel.hasAttribute('hidden');
+      panel.toggleAttribute('hidden', !open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) { await load(); render(); }
+    });
+    districtEl.addEventListener('change', render);
+    qEl.addEventListener('input', () => { clearTimeout(qEl._t); qEl._t = setTimeout(render, 160); });
+
+    listEl.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-code]');
+      if (!btn) return;
+      chosen = points.find((p) => p.code === btn.dataset.code) || null;
+      try { localStorage.setItem(KEY, JSON.stringify(chosen)); } catch (err) {}
+      paintChosen();
+      render();
+      panel.setAttribute('hidden', '');
+      toggle.setAttribute('aria-expanded', 'false');
+      if (typeof setCartAttributes === 'function' && chosen) {
+        await setCartAttributes({
+          '順豐自提點': `${chosen.kind} ${chosen.code}`,
+          '自提點地址': chosen.address,
+        });
+      }
+    });
+  })();
+  </script>
 
 </body>
 </html>
