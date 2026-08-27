@@ -2292,6 +2292,11 @@ button.product-card__quick-add,
 .cart-item__price { font-size: 0.9375rem; font-weight: 600; text-align: right; white-space: nowrap; color: var(--primary-dark); }
 
 .cart-summary {
+  /* ⚠️ grid item 預設 min-width:auto —— 佢會撐到夠位裝入面最闊嗰嚿嘢，
+     縮唔細。實測：自提點面板 min-content 321px ＋ 兩邊 padding，
+     令成條 grid 欄喺 375px 手機變咗 419px，成版右邊俾切走。
+     min-width:0 之後 grid 先至肯縮，入面啲嘢自己處理換行。 */
+  min-width: 0;
   background: var(--glass-bg-strong);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -10958,13 +10963,30 @@ body::before { opacity: 0.18; }
 /* 購物袋：收銀芝麻企喺「前往結帳」上面 */
 /* ⚠️ .cart-summary 係 flex column ＋ stretch，淨靠 aspect-ratio 個盒會
    畀拉到成欄咁高（實測 302×2015）。要寫死高度兼 flex: none。 */
+/* 收銀芝麻：由摘要入面自己佔一行，改為貼喺「購物袋」大標題右邊嗰忽
+   吉位。老闆：「唔應該佔用一個空間，而係應該融入喺其他嘅畫面入邊。」
+   絕對定位 ＋ 標題行本身夠高，所以一 px 都唔會撐高個版。 */
+.cart-page { position: relative; }
 .shima--cash {
-  flex: none;
-  align-self: center;
-  width: 190px;
-  height: 216px;
-  margin: 6px auto -4px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+  height: clamp(96px, 13vw, 150px);
+  aspect-ratio: 190 / 216;
+  margin: 0;
+  pointer-events: none;
 }
+@media (max-width: 640px) {
+  .shima--cash { height: 76px; top: 2px; }
+}
+
+/* 提示句：講明「要用自提櫃就要喺呢度揀咗先」 */
+.sfp__hint {
+  margin: 0; padding: 9px 14px 0;
+  font-size: 0.6875rem; line-height: 1.6; color: var(--text-tertiary);
+}
+.sfp__hint b { color: var(--primary-deep); font-weight: 600; }
 
 /* ============================================================
    滿 $500 送面霜 —— 條進度棒最右邊擺住支獎品，輕輕彈
@@ -11525,17 +11547,30 @@ body::before { opacity: 0.18; }
    ⚠️ 呢個唔喺 Shopify 結帳頁 —— 個結帳頁改唔到（唔係 Plus）。
    喺自己個購物袋頁揀，揀完寫落 cart attributes 跟住張單過去。
    ============================================================ */
-.sfp { margin: var(--space-md) 0; border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; }
+/* ⚠️ min-width: 0 唔可以少。flex item 預設 min-width:auto，個搜尋框
+   （<input>）縮唔細過佢自己嘅內建闊度（約 170px），結果成個 .sfp 嘅
+   min-content 變咗 364px，喺手機直接將 grid 欄撐到 462px —— 成版
+   購物袋啲字就會俾切走右邊（實測 375px 畫面，body scrollWidth 478）。 */
+.sfp { margin: var(--space-md) 0; border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; min-width: 0; }
+.sfp__panel, .sfp__filters, .sfp__list { min-width: 0; }
+.sfp__district, .sfp__q { min-width: 0; }
+.sfp__item span { overflow-wrap: anywhere; }
+/* ⚠️ 呢行要 flex-wrap ＋ min-width:0。唔准 wrap 嘅話，
+   「順豐自提點（$25·滿$399免費）」＋ 右邊條 nowrap 嘅已揀膠囊夾埋
+   min-content 就 362px，成個 .sfp 縮唔細，喺手機直接將 grid 欄撐到
+   462px，成版購物袋右邊俾切走（實測 375px 畫面 body scrollWidth 478）。 */
 .sfp__toggle {
-  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px 10px;
+  flex-wrap: wrap;
   width: 100%; padding: 12px 14px; border: 0; background: #f4f8f9;
   font-family: var(--font-body); font-size: 0.8125rem; color: var(--text-primary);
   text-align: left; cursor: pointer;
 }
 .sfp__toggle:hover { background: #eaf2f4; }
+.sfp__toggle-label { min-width: 0; }
 .sfp__toggle-label em { font-style: normal; color: var(--text-tertiary); font-size: 0.75rem; }
 .sfp__chosen {
-  flex: none; max-width: 52%; padding: 3px 9px; border-radius: 999px;
+  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 3px 9px; border-radius: 999px;
   background: #fff; border: 1px solid var(--border-light);
   font-size: 0.6875rem; color: var(--text-tertiary);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

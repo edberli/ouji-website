@@ -168,6 +168,17 @@
         </nav>
 
         <h1 class="cart-page__title">購物袋</h1>
+        <!-- 收銀芝麻擺喺「購物袋」標題右邊嗰忽吉位 —— 老闆：「唔應該
+             佔用一個空間，而係應該融入喺其他嘅畫面入邊⋯⋯你橫掂都係
+             空白嘅位。」所以絕對定位，一 px 都唔會撐高個標題行。 -->
+        <div class="shima shima--cash" aria-hidden="true">
+            <img class="shima__f is-on" src="assets/images/home/shima-cash1.webp" alt="" width="299" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash2.webp" alt="" width="304" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash3.webp" alt="" width="303" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash4.webp" alt="" width="250" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash5.webp" alt="" width="323" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash6.webp" alt="" width="247" height="340" loading="lazy" decoding="async">
+        </div>
 
         <!-- Empty Cart State (shown when cart is empty) -->
         <div class="cart-empty" id="cart-empty" style="text-align: center; padding: var(--space-2xl) 0;">
@@ -262,23 +273,6 @@
               </div>
             </div>
 
-            <div class="cart-summary__promo">
-              <input type="text" placeholder="優惠碼">
-              <button type="button">套用</button>
-            </div>
-
-            <!-- 芝麻喺收銀處等緊你。結帳係最易走人嗰一步，
-                 有個人喺度會冇咁似同一部機講嘢。
-                 六格連續分解圖，同首頁打包裹嗰隻同一套做法。 -->
-            <div class="shima shima--cash" aria-hidden="true">
-              <img class="shima__f is-on" src="assets/images/home/shima-cash1.webp" alt="" width="299" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash2.webp" alt="" width="304" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash3.webp" alt="" width="303" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash4.webp" alt="" width="250" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash5.webp" alt="" width="323" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash6.webp" alt="" width="247" height="340" loading="lazy" decoding="async">
-            </div>
-
             <!-- 順豐自提點揀選。
                  ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
                  extension），所以揀自提點要喺我哋自己個購物袋頁做，
@@ -291,6 +285,8 @@
                 <span class="sfp__toggle-label">順豐自提點<em>（$25 · 滿 $399 免費）</em></span>
                 <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
               </button>
+              <p class="sfp__hint">要用順豐自提櫃／順豐站？<b>先喺呢度揀好取件點</b>，
+                 揀完會自動填入結帳頁嘅送貨地址。</p>
               <div class="sfp__panel" data-sfp-panel hidden>
                 <div class="sfp__filters">
                   <select class="sfp__district" data-sfp-district aria-label="地區">
@@ -302,6 +298,15 @@
                 <ul class="sfp__list" data-sfp-list></ul>
               </div>
             </div>
+            <div class="cart-summary__promo">
+              <input type="text" placeholder="優惠碼">
+              <button type="button">套用</button>
+            </div>
+
+            <!-- 芝麻喺收銀處等緊你。結帳係最易走人嗰一步，
+                 有個人喺度會冇咁似同一部機講嘢。
+                 六格連續分解圖，同首頁打包裹嗰隻同一套做法。 -->
+
 
             <div class="cart-summary__checkout">
               <button class="btn btn--primary btn--full">前往結帳</button>
