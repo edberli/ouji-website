@@ -13,3 +13,7 @@ brands/*/*
 .impeccable/
 .playwright-cli/
 prototypes/
+
+# match prototype 備份檔
+assets/looks/*.bak
+data/*.bak*
