@@ -206,6 +206,155 @@ window.OUJI_LOOK_DATABASE = {
         "韓國",
         "韓系",
         "型格"
+      ],
+      "steps": [
+        {
+          "id": "base",
+          "note": "自然緞光、中等遮瑕，T 區乾淨但面頰仍然有柔光。",
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "coverage": [
+            2,
+            3
+          ],
+          "optional": false
+        },
+        {
+          "id": "conceal",
+          "note": "眼下同鼻翼局部遮，唔好整塊面鋪 —— 呢個妝要見到皮膚質感。",
+          "types": [
+            "遮瑕"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "beige"
+          ],
+          "optional": true
+        },
+        {
+          "id": "brows",
+          "note": "灰棕順住毛流帶，眉尾唔好拉長；貓系靠眼型唔靠眉。",
+          "types": [
+            "眉筆"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "colours": [
+            "brown",
+            "beige"
+          ],
+          "optional": true
+        },
+        {
+          "id": "eyes",
+          "note": "啡灰陰影集中眼尾，唔好鋪滿成個眼摺。",
+          "types": [
+            "眼影"
+          ],
+          "finishes": [
+            "啞光",
+            "自然"
+          ],
+          "colours": [
+            "brown",
+            "beige"
+          ],
+          "optional": false
+        },
+        {
+          "id": "liner",
+          "note": "眼線向外平拉，唔上揚；內眼線要完整填滿。",
+          "types": [
+            "眼線",
+            "眼線筆"
+          ],
+          "finishes": [
+            "啞光",
+            "自然"
+          ],
+          "colours": [
+            "brown",
+            "beige"
+          ],
+          "optional": false
+        },
+        {
+          "id": "lash",
+          "note": "睫毛密度集中外半段，內眼角保持疏。",
+          "types": [
+            "睫毛膏"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "colours": [
+            "brown"
+          ],
+          "optional": true
+        },
+        {
+          "id": "contour",
+          "note": "顴骨下方薄薄一層，同胭脂邊界完全融合。",
+          "types": [
+            "修容"
+          ],
+          "finishes": [
+            "啞光",
+            "自然"
+          ],
+          "colours": [
+            "brown",
+            "beige"
+          ],
+          "optional": true
+        },
+        {
+          "id": "cheeks",
+          "note": "裸玫瑰低位斜掃，唔做明顯粉紅色塊。",
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然",
+            "啞光"
+          ],
+          "colours": [
+            "rose",
+            "beige",
+            "brown"
+          ],
+          "optional": false
+        },
+        {
+          "id": "lips",
+          "note": "粉珊瑚帶光澤，唇線柔化但保留唇峰，中心顏色最實。",
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "colours": [
+            "pink",
+            "coral",
+            "rose"
+          ],
+          "optional": false
+        }
       ]
     },
     {
@@ -1675,6 +1824,73 @@ window.OUJI_LOOK_DATABASE = {
         "粉底只落面中同有需要位置",
         "用啡色睫毛膏梳一次",
         "唇頰色用手指薄薄拍開"
+      ],
+      "steps": [
+        {
+          "id": "base",
+          "note": "極薄一層，只調勻膚色，唔好蓋走原生質感同雀斑。",
+          "types": [
+            "氣墊粉底",
+            "底妝"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "coverage": [
+            1,
+            2
+          ],
+          "optional": false
+        },
+        {
+          "id": "eyes",
+          "note": "米啡薄薄一層貼睫毛根，唔做暈染。",
+          "types": [
+            "眼影"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "beige",
+            "brown"
+          ],
+          "optional": false
+        },
+        {
+          "id": "cheeks",
+          "note": "淡粉輕點面中，似本身面色。",
+          "types": [
+            "胭脂"
+          ],
+          "finishes": [
+            "自然"
+          ],
+          "colours": [
+            "pink",
+            "peach"
+          ],
+          "optional": false
+        },
+        {
+          "id": "lips",
+          "note": "貼近原本唇色再提亮一點，唔畫唇線。",
+          "types": [
+            "唇釉",
+            "唇彩",
+            "唇膏"
+          ],
+          "finishes": [
+            "自然",
+            "水光"
+          ],
+          "colours": [
+            "pink",
+            "beige"
+          ],
+          "optional": false
+        }
       ]
     },
     {
