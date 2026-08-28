@@ -5712,7 +5712,7 @@ html.is-lite .brand-rail__crest { filter: none; }
    遮幕喺模特兒嗰段係完全透明：張相要保持清，唔可以焗一層黑落去。 */
 .home-match.mstage {
   position: relative;
-  min-height: 568px;
+  min-height: 646px;
   display: flex;
   align-items: center;
   padding: 0;
@@ -5749,10 +5749,10 @@ html.is-lite .brand-rail__crest { filter: none; }
 }
 .mstage__inner {
   display: grid;
-  grid-template-columns: minmax(320px, 424px) minmax(0, 1fr) 300px;
-  gap: 30px;
+  grid-template-columns: minmax(340px, 452px) minmax(0, 1fr) 316px;
+  gap: 34px;
   align-items: center;
-  padding: 40px 0 14px;
+  padding: 46px 0 16px;
 }
 .mstage__copy { grid-column: 1; }
 .mstage__album { grid-column: 3; }
@@ -5763,7 +5763,7 @@ html.is-lite .brand-rail__crest { filter: none; }
 .mstage__title {
   margin: 14px 0 14px;
   font-family: "Noto Serif TC", serif; font-weight: 500;
-  font-size: clamp(1.875rem, 2.7vw, 2.625rem); line-height: 1.26; letter-spacing: .05em;
+  font-size: clamp(2.0625rem, 3vw, 2.75rem); line-height: 1.26; letter-spacing: .05em;
   color: #f1e5da;
   text-shadow: 0 2px 20px rgba(10,7,5,.8);
 }
@@ -5781,25 +5781,28 @@ html.is-lite .brand-rail__crest { filter: none; }
 .mstage__cta small { font-size: 0.8125rem; color: #b7a79c; text-shadow: 0 1px 9px rgba(10,7,5,.95); }
 /* Face chart 擺喺文字下面，四塊橫排。色板顏色係真數據（推薦產品嘅實際色號
    計出嚟）；四段描述唔擺 —— 嗰啲係入去嘅理由。 */
-.mstage__chart { margin-top: 34px; padding-top: 22px; border-top: 1px solid rgba(233,206,180,.14); }
+.mstage__chart { margin-top: 38px; padding-top: 26px; border-top: 1px solid rgba(233,206,180,.14); }
 .mstage__chart-k {
   display: block; margin-bottom: 14px;
   color: #d6aaa4; font-size: 0.75rem; letter-spacing: .1em;
 }
-.mstage__steps { display: flex; gap: 18px; }
+.mstage__steps { display: flex; gap: 20px; }
 .mstage__step { flex: 1 1 0; min-width: 0; }
 .mstage__step b {
   display: block; margin-top: 8px;
   font-size: 0.8125rem; font-weight: 500; letter-spacing: .07em; color: #e6d8cd;
   text-shadow: 0 1px 8px rgba(10,7,5,.9);
 }
+/* 塗抹圖案唔准裁：遮罩原檔係 546×395，所以個格要跟返嗰個比例，
+   再用 mask-size: contain 完整放晒。之前寫死 height:46px ＋ 116% auto，
+   等於將 77px 高嘅圖案塞入 46px 格，上下切走咗 —— 睇落好似個四方框。 */
 .mswatch {
-  display: block; height: 46px;
+  display: block; width: 100%; aspect-ratio: 546 / 395;
   background: var(--swatch, #d8d1cc);
-  -webkit-mask-size: 116% auto; mask-size: 116% auto;
+  -webkit-mask-size: contain; mask-size: contain;
   -webkit-mask-position: center; mask-position: center;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-  filter: drop-shadow(0 3px 10px rgba(10,7,5,.55));
+  filter: drop-shadow(0 4px 12px rgba(10,7,5,.5));
 }
 .mswatch--base   { -webkit-mask-image: url("assets/swatches/base.webp");   mask-image: url("assets/swatches/base.webp"); }
 .mswatch--eyes   { -webkit-mask-image: url("assets/swatches/eyes.webp");   mask-image: url("assets/swatches/eyes.webp"); }
@@ -5820,7 +5823,7 @@ html.is-lite .brand-rail__crest { filter: none; }
   color: #f1e5da; letter-spacing: .04em;
 }
 /* 相簿只露頭幾行，底部淡出 —— 首頁唔 show 晒，入去先見到全部 27 個 */
-.mstage__rows { position: relative; display: grid; gap: 8px; max-height: 286px; overflow: hidden; }
+.mstage__rows { position: relative; display: grid; gap: 8px; max-height: 410px; overflow: hidden; }
 .mstage__rows::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 48px;
   background: linear-gradient(180deg, rgba(22,18,17,0), rgba(22,18,17,.94));
@@ -5846,8 +5849,7 @@ html.is-lite .brand-rail__crest { filter: none; }
 
 @media (max-width: 1000px) {
   .won-row { grid-template-columns: repeat(3, 1fr); }
-  .mstage__inner { grid-template-columns: minmax(300px,376px) minmax(0,1fr) 268px; gap: 24px; }
-  .mswatch { height: 40px; }
+  .mstage__inner { grid-template-columns: minmax(304px,392px) minmax(0,1fr) 282px; gap: 26px; }
 }
 @media (max-width: 600px) {
   .won-row { grid-template-columns: repeat(2, 1fr); }
@@ -5858,8 +5860,8 @@ html.is-lite .brand-rail__crest { filter: none; }
      （44px 頭像喺 375px 認唔出邊個）。色板轉橫排。 */
   /* 手機：三格變海報 —— 上半留返俾張相，字壓下半，相簿卡收埋
      （46px 頭像喺 375px 認唔出邊個）。色板照樣橫排四塊。 */
-  .home-match.mstage { min-height: 624px; }
-  .mstage__inner { grid-template-columns: 1fr; padding: 210px 0 8px; }
+  .home-match.mstage { min-height: 660px; }
+  .mstage__inner { grid-template-columns: 1fr; padding: 214px 0 8px; }
   .mstage__copy { grid-column: 1; }
   .mstage__stage { position: absolute; inset: 0; z-index: 1; }
   .mstage__model { top: 0; bottom: 0; height: 100%; width: auto; object-position: 50% 4%; }
@@ -5871,9 +5873,8 @@ html.is-lite .brand-rail__crest { filter: none; }
   .mstage__album { display: none; }
   .mstage__title { font-size: 1.875rem; }
   .mstage__sub { max-width: none; font-size: 0.875rem; }
-  .mstage__chart { margin-top: 26px; padding-top: 18px; }
-  .mstage__steps { gap: 12px; }
-  .mswatch { height: 38px; }
+  .mstage__chart { margin-top: 28px; padding-top: 20px; }
+  .mstage__steps { gap: 14px; }
   .mstage__album { display: none; }
   .mstage__bg { background-position: 32% 50%; }
   .mstage__scrim {
