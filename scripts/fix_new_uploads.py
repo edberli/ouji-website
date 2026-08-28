@@ -17,12 +17,16 @@ from shopify_admin import gql, user_errors  # noqa
 
 Q = """query($c:String){products(first:100, after:$c, query:"created_at:>2026-08-28"){
   pageInfo{hasNextPage endCursor} nodes{id title vendor descriptionHtml}}}"""
-UP = """mutation($id:ID!,$v:String,$d:String){productUpdate(product:{id:$id,vendor:$v,descriptionHtml:$d}){
+UP = """mutation($id:ID!,$v:String,$t:String,$d:String){productUpdate(product:{id:$id,vendor:$v,title:$t,descriptionHtml:$d}){
   userErrors{field message}}}"""
 
 BRANDS = ["BOTO", "Treecell", "DANONGWON", "MOEV", "Furriky", "FRUDIA", "AROMATICA",
           "Pyunkang yul", "MENOKIN", "numbuzin", "NACIFIC", "SKIN1004", "STUDIO 17",
-          "Anua", "plu"]
+          "Anua", "plu", "OOTD", "BOUQUET GARNI", "Kwailnara", "Chwi", "Lovisia",
+          "JUNGWONSAM", "NE:AR", "Vitamin village", "Farmstay", "CORINGCO", "NARD"]
+
+# POS 匯出嘅編碼會食咗啲字，剩返「?」。呢啲係實測見過嘅。
+MOJIBAKE = {"胜?": "胜肽", "穀胱甘?": "穀胱甘肽", "?喱": "啫喱"}
 MIN_PX = 300
 
 
@@ -55,22 +59,27 @@ def main():
         d = gql(Q, {"c": c})["products"]
         for p in d["nodes"]:
             v = brand_of(p["title"])
+            title = p["title"]
+            for bad, good in MOJIBAKE.items():
+                title = title.replace(bad, good)
             html = p["descriptionHtml"] or ""
             new_html = html
             for m in re.finditer(r'<img src="([^"]+)"[^>]*>', html):
                 w, h = px(m.group(1))
                 if min(w, h) < MIN_PX:
                     new_html = new_html.replace(m.group(0), "")
-            changed_v = v and v != p["vendor"]
+            changed_v = bool(v) and v != p["vendor"]
             changed_d = new_html != html
-            if not (changed_v or changed_d):
+            changed_t = title != p["title"]
+            if not (changed_v or changed_d or changed_t):
                 continue
             print(f"  {p['title'][:40]:<42}"
-                  f"{'牌子→'+v if changed_v else '':<16}{'去咗細圖' if changed_d else ''}")
+                  f"{'牌子→'+v if changed_v else '':<16}"
+                  f"{'去咗細圖 ' if changed_d else ''}{'修字 ' if changed_t else ''}")
             n_v += changed_v; n_d += changed_d
             if apply:
                 user_errors(gql(UP, {"id": p["id"], "v": v or p["vendor"],
-                                     "d": new_html}), "productUpdate")
+                                     "t": title, "d": new_html}), "productUpdate")
         if not d["pageInfo"]["hasNextPage"]:
             break
         c = d["pageInfo"]["endCursor"]
