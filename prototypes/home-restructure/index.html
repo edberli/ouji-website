@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2b4c58">
+  <title>OUJI 首頁重整 Demo — 三個版本對照</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="restructure.css">
+</head>
+<body>
+
+<!-- ═══ 控制列：切版本 ＋ 即時量度 ═══════════════════════════════
+     呢個 bar 唔係設計嘅一部分，係畀老闆睇數用嘅。真係上正式站就冇。
+     ═════════════════════════════════════════════════════════ -->
+<header class="ctl">
+  <div class="ctl__row">
+    <span class="ctl__brand">OUJI 首頁重整 Demo</span>
+    <div class="ctl__tabs" role="tablist">
+      <button class="ctl__tab" data-view="a" role="tab">方案 A ·<b>一條 rail ＋ 分類導覽</b></button>
+      <button class="ctl__tab" data-view="b" role="tab">方案 B ·<b>四張海報，唔帶產品</b></button>
+      <button class="ctl__tab" data-view="br" role="tab">方案 B＋rail ·<b>海報 ＋ 一條產品</b></button>
+      <button class="ctl__tab" data-view="now" role="tab">原版對照</button>
+    </div>
+    <button class="ctl__popup" data-demo-popup>示範 88 折彈窗</button>
+  </div>
+  <div class="ctl__meter" data-meter>
+    <span class="ctl__stat"><i>全頁高度</i><b data-m-total>—</b></span>
+    <span class="ctl__stat"><i>產品格佔比</i><b data-m-grid>—</b></span>
+    <span class="ctl__stat"><i>淺色底色數</i><b data-m-tones>—</b></span>
+    <span class="ctl__stat"><i>標題字體數</i><b data-m-fonts>—</b></span>
+    <span class="ctl__note" data-m-note></span>
+  </div>
+</header>
+
+<main id="stage" class="stage"></main>
+
+<!-- ═══ 88 折彈窗（方案 A＋B）═════════════════════════════════
+     A：碌過 40% 或者停留 8 秒先出，唔鎖捲動。
+     B：撳走之後縮成右下角細掣，撳返開得 —— 唔會好似而家咁一撳走
+        成個 session 都搵唔返。
+     ═════════════════════════════════════════════════════════ -->
+<div class="pop" data-pop hidden>
+  <div class="pop__card" role="dialog" aria-label="全單 88 折">
+    <button class="pop__x" data-pop-close aria-label="收埋">×</button>
+    <img class="pop__cat" src="../../assets/images/home/ouji-shima-cat.png" alt="">
+    <p class="pop__when">9 月 15 日前 · 仲有 <b>19</b> 日</p>
+    <p class="pop__big">全單 <b>88</b> 折</p>
+    <ul class="pop__tiers">
+      <li><b>HK$399</b> 折實滿呢個數，免運費</li>
+      <li><b>HK$499</b> 折實滿呢個數，送 Round Lab 白樺樹保濕面霜</li>
+    </ul>
+    <a class="pop__go" href="../../shop.html">開始揀貨</a>
+  </div>
+</div>
+<button class="pop-tab" data-pop-open hidden>
+  <span>88 折</span>
+</button>
+
+<script src="../../shopify.js"></script>
+<script src="../../awards.js"></script>
+<script src="../homepage-redesign/data.js"></script>
+<script src="restructure.js"></script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+/* ═══════════════════════════════════════════════════════════════
+   OUJI 首頁重整 Demo
+   ───────────────────────────────────────────────────────────────
+   呢個檔淨係服務 demo，唔會 import 落正式站。正式站要改嘅時候，
+   係改返 styles.css 入面嗰啲源頭規則，唔係 copy 呢個檔落去 append。
+
+   三個顏色角色（計劃書 2.2）——
+     底   #F7F9FA   所有產品／瀏覽格，預設，唔使宣告
+     分隔 #E7F1F4   一頁最多兩次
+     重音 #2B4C58 / #17110D   一頁最多三次，唔准連續兩格
+   原版有五種分唔開嘅淺色（#EAF1F4 / #EEF4F5 / #E7F1F4 / 透明 / 白），
+   RGB 相差少過 8 點 —— 全部收埋落上面兩個。
+
+   間距只用 8 / 16 / 24 / 32 / 48 / 64 / 96。
+   標題只用一套字（Cormorant Garamond）、兩個字級（42 / 30）。
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --page:  #f7f9fa;
+  --band:  #e7f1f4;
+  --deep:  #2b4c58;
+  --dark:  #17110d;
+  --text:  #1f2a2e;
+  --muted: #5c7078;
+  --line:  rgba(43, 76, 88, .14);
+
+  --s1: 8px;  --s2: 16px; --s3: 24px;
+  --s4: 32px; --s5: 48px; --s6: 64px; --s7: 96px;
+
+  --serif: "Cormorant Garamond", "Noto Serif TC", serif;
+  --sans:  "Noto Sans TC", Manrope, -apple-system, system-ui, sans-serif;
+
+  --ctl-h: 96px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding-top: var(--ctl-h);
+  background: var(--page);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+/* ── 控制列 ─────────────────────────────────────────────────── */
+
+.ctl {
+  position: fixed; inset: 0 0 auto; z-index: 900;
+  background: var(--deep); color: #fff;
+  font-family: var(--sans);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .18), 0 8px 24px rgba(0, 0, 0, .12);
+}
+.ctl__row {
+  display: flex; align-items: center; gap: var(--s3);
+  padding: var(--s2) var(--s3) var(--s1);
+  flex-wrap: wrap;
+}
+.ctl__brand { font-weight: 700; letter-spacing: .04em; font-size: 14px; }
+.ctl__tabs { display: flex; gap: var(--s1); flex: 1; flex-wrap: wrap; }
+
+/* 唔用 .ctl__tabs button {} —— 呢條 bar 之後仲會加第二、第三個角色
+   唔同嘅掣（示範彈窗嗰個就已經係），一刀切嘅元素選擇器會全部傳染。 */
+.ctl__tab {
+  appearance: none; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: transparent; color: rgba(255, 255, 255, .78);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font: inherit; font-size: 13px;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.ctl__tab b { font-weight: 600; margin-left: 4px; }
+.ctl__tab:hover { border-color: rgba(255, 255, 255, .6); color: #fff; }
+.ctl__tab.is-on { background: #fff; color: var(--deep); border-color: #fff; }
+
+.ctl__popup {
+  appearance: none; cursor: pointer;
+  border: 1px dashed rgba(255, 255, 255, .45);
+  background: transparent; color: rgba(255, 255, 255, .8);
+  border-radius: 8px; padding: 6px 12px;
+  font: inherit; font-size: 13px;
+}
+.ctl__popup:hover { color: #fff; border-color: #fff; }
+
+.ctl__meter {
+  display: flex; align-items: center; gap: var(--s4);
+  padding: 0 var(--s3) var(--s2);
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  padding-top: var(--s1);
+}
+.ctl__stat { display: flex; align-items: baseline; gap: var(--s1); }
+.ctl__stat i {
+  font-style: normal; font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: rgba(255, 255, 255, .55);
+}
+.ctl__stat b { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ctl__stat b.is-better { color: #8fe3b0; }
+.ctl__stat b.is-worse  { color: #ffc48a; }
+.ctl__note { font-size: 12px; color: rgba(255, 255, 255, .6); }
+
+/* ── section 骨架 ───────────────────────────────────────────── */
+
+.sec { padding: var(--s7) 0; }
+.sec--tight { padding: var(--s5) 0; }
+.wrap { width: min(1240px, 100% - 48px); margin-inline: auto; }
+
+/* 三個顏色角色，冇第四個 */
+.sec--band { background: var(--band); }
+.sec--deep { background: var(--deep); color: #fff; }
+.sec--dark { background: var(--dark); color: #fff; }
+
+.sec__head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--s3); margin-bottom: var(--s5);
+}
+.sec__eyebrow {
+  display: block;
+  font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: var(--s1);
+}
+.sec--deep .sec__eyebrow, .sec--dark .sec__eyebrow { color: rgba(255, 255, 255, .6); }
+
+/* 一套字、兩個字級、一律左對齊 —— 原版係三套字、七個字級、左右交替 */
+.sec__title {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1.15;
+  letter-spacing: .01em;
+}
+.sec__title--sm { font-size: 30px; }
+
+.sec__more {
+  font-size: 13px; color: var(--muted); white-space: nowrap;
+  border-bottom: 1px solid var(--line); padding-bottom: 2px;
+}
+.sec--deep .sec__more, .sec--dark .sec__more {
+  color: rgba(255, 255, 255, .75); border-color: rgba(255, 255, 255, .3);
+}
+
+/* ── hero（唔郁：沿用正式站四張圖）──────────────────────────── */
+
+.hero { position: relative; background: var(--deep); }
+.hero__img { width: 100%; height: clamp(360px, 46vw, 655px); object-fit: cover; }
+.hero__note {
+  position: absolute; left: 16px; bottom: 16px;
+  background: rgba(0, 0, 0, .55); color: #fff;
+  font-size: 11px; letter-spacing: .06em; padding: 4px 10px; border-radius: 4px;
+}
+
+.marq {
+  /* 原版呢條係深藍底 —— 但佢正正喺「得獎產品」（深藍）上面，
+     兩格深色貼住就變成一大嚿。改成頁底色加上下髮絲線。 */
+  background: var(--page); color: var(--muted);
+  border-block: 1px solid var(--line);
+  overflow: hidden; white-space: nowrap; padding: var(--s3) 0;
+  font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+}
+.marq span { padding: 0 var(--s4); }
+
+/* ── 產品卡 ─────────────────────────────────────────────────── */
+
+.pgrid { display: grid; gap: var(--s3); grid-template-columns: repeat(4, 1fr); }
+.pgrid--3 { grid-template-columns: repeat(3, 1fr); }
+
+/* 同一行嘅卡因為標題 1／2／3 行唔同，價錢同獎項 chip 會高低跳到 40px。
+   卡身改 flex column、標題鎖兩行、最後一行 margin-top:auto 推落底。 */
+.pcard { display: flex; flex-direction: column; height: 100%; }
+.pcard__name {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pcard__price, .won__badge { margin-top: auto; }
+
+.pcard__media {
+  display: block; aspect-ratio: 1 / 1; overflow: hidden;
+  border-radius: 10px; background: #fff; border: 1px solid var(--line);
+}
+.pcard__media img { width: 100%; height: 100%; object-fit: cover; }
+.pcard__brand {
+  display: block; margin-top: var(--s2);
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.pcard__name { display: block; margin-top: 4px; font-size: 14px; line-height: 1.45; }
+/* 同 .won__badge 一樣：呢條規則喺後面，會覆蓋上面嗰個 margin-top:auto，
+   結果同一行嘅價錢高低差 20px。用 padding 代替 margin。 */
+.pcard__price { display: block; margin-top: auto; padding-top: var(--s1); font-size: 14px; font-weight: 700; }
+.pcard__rate { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: var(--s1); }
+
+/* ── 得獎產品（搬咗上第三格）─────────────────────────────────── */
+
+.won { display: grid; gap: var(--s3); grid-template-columns: repeat(5, 1fr); align-items: stretch; }
+.won__item { display: flex; }
+.won__item .pcard__media { border-color: rgba(255, 255, 255, .18); background: rgba(255, 255, 255, .06); }
+.won__item .pcard__brand { color: rgba(255, 255, 255, .6); }
+.won__badge {
+  /* margin-top:auto 唔可以俾下面覆蓋，否則標題 1 行同 2 行嘅卡
+     個獎項 chip 會差 21px 高低波浪。 */
+  display: inline-block; align-self: flex-start; margin-top: auto;
+  padding-top: var(--s2);
+  font-size: 11px; letter-spacing: .04em;
+  color: #e8c98a; border: 1px solid rgba(232, 201, 138, .45);
+  border-radius: 4px; padding: 2px 6px;
+}
+
+/* ── 方案 A：分類導覽格（六至八張細卡，一屏睇晒）──────────────── */
+
+.navcats { display: grid; gap: var(--s2); grid-template-columns: repeat(4, 1fr); }
+.navcat {
+  display: flex; align-items: center; gap: var(--s2);
+  background: #fff; border: 1px solid var(--line); border-radius: 12px;
+  padding: var(--s2); transition: border-color .15s, transform .15s;
+}
+.navcat:hover { border-color: var(--deep); transform: translateY(-2px); }
+.navcat img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex: none; }
+.navcat--all { justify-content: center; border-style: dashed; }
+.navcat__label { font-size: 15px; font-weight: 500; }
+.navcat__count { display: block; font-size: 12px; color: var(--muted); }
+
+/* ── 分類海報（方案 A 保留一條，方案 B 四張並排）───────────────── */
+
+.poster { display: grid; gap: var(--s3); grid-template-columns: 5fr 7fr; align-items: stretch; }
+.poster__visual { position: relative; border-radius: 14px; overflow: hidden; min-height: 420px; }
+.poster__visual img { width: 100%; height: 100%; object-fit: cover; }
+.poster__cap {
+  position: absolute; inset: 0; padding: var(--s4);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  /* K-pop 嗰張底圖係淺藍淺橙嘅專輯盒，本來只喺最底加 scrim，
+     白字浮喺上面睇唔清。改成由 45% 開始收落深啡，四張統一。 */
+  background: linear-gradient(transparent 45%, rgba(23, 17, 13, .72));
+  color: #fff;
+}
+.poster__cap h3 { margin: 0; font-family: var(--serif); font-size: 30px; font-weight: 500; }
+.poster__cap p { margin: 4px 0 var(--s2); font-size: 13px; color: rgba(255, 255, 255, .8); }
+.poster__cta {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  min-height: 44px; background: #fff; color: var(--text);
+  border-radius: 999px; padding: 0 20px; font-size: 13px; font-weight: 500;
+}
+
+/* 方案 B：四張海報並排，唔帶產品格 */
+.posters4 { display: grid; gap: var(--s2); grid-template-columns: repeat(4, 1fr); }
+.posters4 .poster__visual { min-height: 460px; }
+
+/* ── XP 皮膚煩惱：加入場／出場過渡帶 ─────────────────────────── */
+
+.xp { background: #4fc3f7; color: #06263a; padding: var(--s6) 0; text-align: center; }
+.xp__win {
+  width: min(720px, 100% - 48px); margin-inline: auto;
+  background: #ece9d8; border: 2px solid #0a52c4; border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .3); overflow: hidden; text-align: left;
+}
+.xp__bar {
+  background: linear-gradient(#3a7ff0, #0a52c4); color: #fff;
+  font-family: "Manrope", monospace; font-size: 13px; padding: 6px 10px;
+}
+.xp__body { padding: var(--s3); }
+.xp__chips { display: flex; flex-wrap: wrap; gap: var(--s1); }
+.xp__chip {
+  background: #fffbe6; border: 1px solid #b7a96a; border-radius: 3px;
+  padding: 6px 10px; font-size: 13px;
+}
+
+/* 過渡帶：等螢光藍唔係由 #F7F9FA 直接跳過去。
+   原版係硬切 —— 上一格白底收，下一格即刻 #4FC3F7 開。 */
+.xp-in  { height: 96px; background: linear-gradient(var(--page), #4fc3f7); }
+/* 出口本來收返做淺色，跟住硬切落 #17110D —— 藍同黑之間夾住一條白邊，
+   似 render bug 多過似設計。直接由亮藍收去下一節個底色。 */
+.xp-out { height: 96px; background: linear-gradient(#4fc3f7, var(--dark)); }
+
+/* ── tabs（熱賣／新品）──────────────────────────────────────── */
+
+.tabs { display: flex; gap: var(--s3); border-bottom: 1px solid var(--line); margin-bottom: var(--s4); }
+.tabs__btn {
+  appearance: none; background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: 16px; color: var(--muted);
+  padding: 0 0 var(--s2); border-bottom: 2px solid transparent;
+}
+.tabs__btn.is-on { color: var(--text); border-bottom-color: var(--deep); }
+
+/* ── 品牌牆 ─────────────────────────────────────────────────── */
+
+.brands { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.brands span {
+  background: #fff; border: 1px solid var(--line); border-radius: 999px;
+  padding: 8px 16px; font-size: 13px; letter-spacing: .06em;
+}
+
+/* ── 妝感配對 ───────────────────────────────────────────────── */
+
+.match { display: grid; gap: var(--s5); grid-template-columns: 7fr 5fr; align-items: center; }
+.match__swatches { display: flex; gap: var(--s3); margin: var(--s3) 0; }
+.match__sw { text-align: center; font-size: 12px; color: rgba(255, 255, 255, .7); }
+.match__sw i { display: block; width: 64px; height: 40px; border-radius: 6px; margin-bottom: 6px; }
+.match__go {
+  display: inline-block; background: #e290a2; color: #2a1015;
+  border-radius: 999px; padding: 12px 28px; font-weight: 500;
+}
+.match__rows { display: grid; gap: var(--s1); }
+.match__row {
+  display: flex; align-items: center; gap: var(--s2);
+  border: 1px solid rgba(255, 255, 255, .18); border-radius: 10px; padding: var(--s2);
+}
+.match__row b { display: block; font-size: 14px; }
+.match__row em { font-style: normal; font-size: 12px; color: rgba(255, 255, 255, .65); }
+
+/* ── journal ────────────────────────────────────────────────── */
+
+.jdeck { display: grid; gap: var(--s3); grid-template-columns: repeat(4, 1fr); }
+.jcard { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: var(--s2); }
+.jcard__tag { font-size: 11px; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+.jcard__title { font-family: var(--serif); font-size: 20px; line-height: 1.3; margin: var(--s1) 0 var(--s2); }
+.jcard__date { font-size: 12px; color: var(--muted); }
+
+/* ── 88 折 promo ────────────────────────────────────────────── */
+
+.promo { display: grid; gap: var(--s5); grid-template-columns: 1fr 1fr; align-items: center; }
+.promo__big { margin: 0 0 var(--s3); }
+.promo__big b { color: #c98b2e; font-weight: 600; }
+.promo__tiers { list-style: none; margin: 0 0 var(--s3); padding: 0; display: grid; gap: var(--s2); }
+.promo__tiers li { display: flex; gap: var(--s2); align-items: baseline; font-size: 15px; }
+.promo__tiers b { font-family: var(--serif); font-size: 22px; }
+.promo__fine { font-size: 13px; color: var(--muted); }
+
+/* ── 關於 ＋ newsletter ─────────────────────────────────────── */
+
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); margin-top: var(--s5); }
+.fact { text-align: center; border-left: 1px solid var(--line); }
+.fact:first-child { border-left: 0; }
+.fact b { display: block; font-family: var(--serif); font-size: 40px; line-height: 1; }
+.fact i { font-style: normal; font-size: 13px; color: var(--muted); }
+
+.news__form { display: flex; gap: var(--s1); max-width: 480px; margin-top: var(--s3); }
+.news__form input {
+  flex: 1; border: 0; border-radius: 999px 0 0 999px;
+  padding: 14px 20px; font: inherit;
+}
+.news__form button {
+  appearance: none; border: 0; cursor: pointer;
+  background: #fff; color: var(--deep); font: inherit; font-weight: 600;
+  border-radius: 0 999px 999px 0; padding: 14px 24px;
+}
+
+/* 本來訂閱表格同地址行之間空 170px，地址行以下淨係 58px —— 上大下細，
+   重心跌晒落底。改成 96 / 32 / 48，中間加返一條分隔線做交代。 */
+.foot { background: var(--deep); color: rgba(255, 255, 255, .8); padding: var(--s7) 0 var(--s5); }
+.foot__row {
+  display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap;
+  font-size: 13px; padding-top: var(--s4);
+  border-top: 1px solid rgba(255, 255, 255, .16);
+}
+
+/* 原版喺 footer 之後仲有約 770px 空白 —— demo 呢度冇，body 到此為止。 */
+
+/* ── 88 折彈窗（方案 A＋B）──────────────────────────────────── */
+
+.pop {
+  position: fixed; right: 24px; bottom: 24px; z-index: 950;
+  width: min(360px, calc(100vw - 48px));
+  animation: pop-in .28s ease-out both;
+}
+@keyframes pop-in { from { opacity: 0; transform: translateY(12px); } }
+.pop__card {
+  position: relative; background: var(--deep); color: #fff;
+  border-radius: 16px; padding: var(--s4) var(--s3) var(--s3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+  text-align: center;
+}
+.pop__x {
+  position: absolute; top: 8px; right: 8px;
+  appearance: none; cursor: pointer;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .35);
+  background: transparent; color: #fff; font-size: 18px; line-height: 1;
+}
+.pop__cat { width: 72px; margin: 0 auto var(--s1); }
+.pop__when { margin: 0; font-size: 12px; color: rgba(255, 255, 255, .7); }
+.pop__big { margin: 4px 0 var(--s3); font-family: var(--serif); font-size: 34px; }
+.pop__big b { color: #e8c98a; }
+.pop__tiers { list-style: none; margin: 0 0 var(--s3); padding: 0; display: grid; gap: var(--s1); text-align: left; }
+.pop__tiers li {
+  background: rgba(255, 255, 255, .08); border-radius: 8px;
+  padding: 10px 12px; font-size: 13px;
+}
+.pop__tiers b { color: #e8c98a; margin-right: var(--s1); }
+.pop__go {
+  display: block; background: #fff; color: var(--deep);
+  border-radius: 999px; padding: 12px; font-weight: 600;
+}
+
+/* B：收埋之後縮成細掣，撳返開得 */
+/* 浮標係 fixed，唔預位就會壓住頁尾最後嗰兩行字。 */
+body { padding-bottom: 96px; }
+
+.pop-tab {
+  position: fixed; right: 24px; bottom: 24px; z-index: 950;
+  appearance: none; cursor: pointer; border: 0;
+  background: var(--deep); color: #fff;
+  border-radius: 999px; padding: 12px 20px;
+  font: inherit; font-size: 14px; font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .28);
+  animation: pop-in .2s ease-out both;
+}
+
+/* ── 手機 ───────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  /* 控制列喺手機本來會斷成四行、食走成屏。改成兩條唔換行、
+     可以左右掃嘅 row —— 老闆多數用手機睇 demo，個 bar 唔可以食位。 */
+  :root { --ctl-h: 92px; }
+
+  .ctl__row, .ctl__meter {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    gap: var(--s2);
+  }
+  .ctl__row::-webkit-scrollbar, .ctl__meter::-webkit-scrollbar { display: none; }
+  .ctl__row { padding: 10px var(--s2) 6px; }
+  .ctl__meter { padding: 6px var(--s2) 10px; }
+  .ctl__brand { display: none; }
+  .ctl__tabs { flex-wrap: nowrap; }
+  .ctl__tab { white-space: nowrap; font-size: 12px; padding: 5px 12px; }
+  .ctl__tab b { display: none; }
+  .ctl__popup { white-space: nowrap; font-size: 12px; padding: 5px 10px; }
+  .ctl__stat { white-space: nowrap; }
+  .ctl__stat b { font-size: 13px; }
+  .ctl__note { display: none; }
+
+  .wrap { width: calc(100% - 32px); }
+  .sec { padding: var(--s5) 0; }
+  .sec__title { font-size: 30px; }
+  .sec__title--sm { font-size: 22px; }
+  .sec__head { flex-direction: column; align-items: flex-start; margin-bottom: var(--s4); }
+
+  .pgrid, .pgrid--3 { grid-template-columns: repeat(2, 1fr); }
+  /* 5 張卡入兩欄，最後一張變孤行。改成橫向 rail，同正式站一致。 */
+  .won {
+    display: flex; grid-template-columns: none;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    margin-inline: -16px; padding-inline: 16px;
+    scrollbar-width: none;
+  }
+  .won::-webkit-scrollbar { display: none; }
+  .won__item { flex: 0 0 62%; scroll-snap-align: start; }
+
+  /* 兩欄之下，「235 件現貨」會斷成兩行、「隱形眼鏡」會斷字，
+     每張卡高度都唔同。收窄圖、鎖住件數唔准斷行就啱返。 */
+  .navcats { grid-template-columns: repeat(2, 1fr); }
+  .navcat { padding: 12px; gap: 12px; }
+  .navcat > span { min-width: 0; }
+  .navcat img { width: 44px; height: 44px; }
+  .navcat__label { font-size: 14px; white-space: nowrap; }
+  .navcat__count { white-space: nowrap; }
+  .poster { grid-template-columns: 1fr; }
+  .poster__visual { min-height: 300px; }
+  .posters4 { grid-template-columns: repeat(2, 1fr); }
+  .posters4 .poster__visual { min-height: 260px; }
+  .match { grid-template-columns: 1fr; }
+  .promo { grid-template-columns: 1fr; }
+  /* 375px 兩欄，每張卡淨返 ~170px，Cormorant 中英混排必爆 ——
+     實測第一張標題斷成 7 行，「ENHYPEN」同「SUNGHOON」各霸一行。單欄。 */
+  .jdeck { grid-template-columns: 1fr; }
+  .jcard { display: flex; flex-direction: column; }
+  .jcard__date { margin-top: auto; }
+  .facts { grid-template-columns: repeat(2, 1fr); gap: var(--s4); }
+  .fact:nth-child(3) { border-left: 0; }
+
+  /* 手機淨係得 812px 高，張貓相加埋會食走成半個畫面 —— 收埋佢，
+     卡剩返門檻同個掣，訊息一樣講得晒。 */
+  /* chip 本來靠 flex-wrap，每行右邊收口位都唔同，面板右邊留條唔規則空隙。 */
+  .xp__chips { display: grid; grid-template-columns: 1fr 1fr; }
+
+  .pop { right: 12px; left: 12px; bottom: 12px; width: auto; }
+  .pop__card { padding: var(--s3) var(--s2) var(--s2); }
+  .pop__cat { display: none; }
+  .pop__big { font-size: 28px; margin-bottom: var(--s2); }
+  .pop-tab { right: 12px; bottom: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pop, .pop-tab { animation: none; }
+  .navcat { transition: none; }
+}
