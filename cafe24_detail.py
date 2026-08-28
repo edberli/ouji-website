@@ -16,7 +16,13 @@ def absu(host,u):
 def grab(url):
     host=re.match(r'https://([^/]+)',url).group(1)
     h=text(url)
-    gal=[absu(host,u) for u in re.findall(r'src="([^"]*/web/product/(?:big|extra/big)/[^"]+)"',h)]
+    # ⚠️ 有啲 Cafe24 店（chwi）啲圖庫係擺喺 ecimg.cafe24img.com 而唔係自己個
+    #    domain，淨係 /web/product/… 咁寫。用鋪頭 host 補前綴會 404，
+    #    攞到 0 張圖。og:image 有齊完整 URL，用佢個前綴砌返。
+    og=re.search(r'og:image" content="(https://[^"/]+/[^"]*?)/web/product/', h)
+    pre=og.group(1) if og else f'https://{host}'
+    gal=[(u if u.startswith('http') else pre+u)
+         for u in re.findall(r'["\'(]([^"\'()]*?/web/product/(?:big|extra/big)/[^"\'()]+)["\')]',h)]
     i=h.find('prdDetail')
     det=[]
     if i>0:
