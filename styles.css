@@ -5703,75 +5703,125 @@ html.is-lite .brand-rail__crest { filter: none; }
 .home-awards__cta:hover { background: rgba(203,168,106,0.14); color: #f6ead0; }
 
 /* ----- matcher entry ----- */
-.home-match__grid {
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: var(--space-2xl);
-  align-items: center;
-}
-.home-match__copy h2 { margin: 10px 0 12px; }
-.home-match__copy p {
-  color: var(--text-secondary); line-height: 2; font-size: 0.9375rem;
-  margin-bottom: var(--space-lg);
-}
-/* 妝感卡：張相就係賣點，文字得兩行。撳落去直接入到嗰個妝（?look=<id>） */
-/* min-width:0 唔可以慳：grid item 預設 min-width:auto，手機嗰個橫向捲軸
-   會將成條 grid 撐到 539px，左邊啲字就會被切走（實測）。 */
-.home-match__copy,
-.home-match__panel { min-width: 0; }
-.home-match__looks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; min-width: 0; }
-.look-card {
-  display: flex; flex-direction: column; gap: 4px;
-  text-decoration: none;
-  transition: transform var(--duration-fast);
-}
-.look-card__plate {
-  display: block;
-  aspect-ratio: 3 / 4;
-  margin-bottom: 10px;
-  border-radius: var(--radius-md, 12px);
+/* 妝感配對格 —— 直接攞 /match 個 stage 拉矮，唔另外設計一套。
+   色值全部跟返 match 頁：暖啡近黑底、象牙白襯線標題（#f1e5da）、
+   玫瑰標籤 #d6aaa4、相簿卡 rgba(22,18,17,.55)、揀中邊 #e08b98、
+   主掣 #b9606e 配 #df959f 邊。呢格係全站唯一一塊深色，係故意嘅 ——
+   一眼睇得出佢唔係貨架，係另一個功能。 */
+.mstage {
+  position: relative;
+  min-height: 376px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
   overflow: hidden;
-  background: var(--surface-alt, #f2f2f0);
+  background: #17110d;
+  isolation: isolate;
 }
-.look-card__plate img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: 50% 24%;
-  transition: transform var(--duration-normal);
+.mstage__bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: url("assets/looks/band-wonyoung.webp") 50% 18% / cover no-repeat;
 }
-.look-card:hover { transform: translateY(-3px); }
-.look-card:hover .look-card__plate img { transform: scale(1.04); }
-.look-card__name { font-size: 0.9375rem; color: var(--text-primary); }
-.look-card__desc { font-size: 0.75rem; line-height: 1.6; color: var(--text-tertiary); }
-.home-match__more {
-  display: inline-block;
-  margin-top: 16px;
-  color: var(--text-secondary);
-  font-size: 0.8125rem;
+.mstage__scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(18,13,10,.93) 0%, rgba(18,13,10,.44) 26%, rgba(18,13,10,.12) 46%, rgba(18,13,10,.72) 66%, rgba(18,13,10,.9) 100%),
+    linear-gradient(180deg, rgba(18,13,10,.5) 0%, transparent 22%, rgba(18,13,10,.74) 100%);
+}
+.mstage__inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 286px; gap: 28px;
+  padding: 28px 30px 10px;
+}
+.mstage__eyebrow {
+  display: block; color: #d6aaa4;
+  font-size: 0.625rem; letter-spacing: .19em; text-transform: uppercase;
+}
+.mstage__title {
+  margin: 10px 0 9px;
+  font-family: "Noto Serif TC", serif; font-weight: 500;
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.24; letter-spacing: .05em;
+  color: #f1e5da; text-wrap: balance;
+  text-shadow: 0 2px 18px rgba(10,7,5,.7);
+}
+.mstage__sub {
+  margin: 0; max-width: 34ch;
+  color: #cbb6ac; font-size: 0.8125rem; line-height: 1.85;
+  text-shadow: 0 1px 10px rgba(10,7,5,.8);
+}
+.mstage__tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 16px; }
+.mstage__tags span {
+  border: 1px solid rgba(255,255,255,.22); border-radius: 999px;
+  padding: 5px 13px; font-size: 0.6875rem; color: #e6d8cd;
+  background: rgba(22,18,17,.42);
+}
+.mstage__cta { display: flex; align-items: center; gap: 13px; margin-top: 20px; flex-wrap: wrap; }
+.mstage__cta .btn--primary {
+  background: #b9606e; border: 1px solid #df959f; color: #fff; border-radius: 14px;
+}
+.mstage__cta .btn--primary:hover { background: #c76d7b; }
+.mstage__cta small { font-size: 0.6875rem; color: #b7a79c; text-shadow: 0 1px 9px rgba(10,7,5,.95); }
+.mstage__album {
+  align-self: start;
+  display: flex; flex-direction: column;
+  border: 1px solid rgba(255,255,255,.18); border-radius: 16px; padding: 14px;
+  background: rgba(22,18,17,.55); backdrop-filter: blur(16px);
+}
+.mstage__album-kicker {
+  display: block; color: #d3909a;
+  font-size: 0.5625rem; letter-spacing: .14em; text-transform: uppercase;
+}
+.mstage__album-title {
+  display: block; margin: 5px 0 11px;
+  font-family: "Noto Serif TC", serif; font-weight: 500; font-size: 0.9375rem;
+  color: #f1e5da; letter-spacing: .04em;
+}
+/* 相簿只露三行，底部淡出 —— 首頁唔 show 晒，入去先見到全部 */
+.mstage__rows { position: relative; display: grid; gap: 7px; }
+.mstage__rows::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 42px;
+  background: linear-gradient(180deg, rgba(22,18,17,0), rgba(22,18,17,.9));
+  pointer-events: none;
+}
+.mrow {
+  display: grid; grid-template-columns: 44px 1fr auto; gap: 10px; align-items: center;
+  border: 1px solid rgba(255,255,255,.1); border-radius: 11px; padding: 6px;
   text-decoration: none;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 3px;
-  transition: color var(--duration-fast), border-color var(--duration-fast);
+  transition: border-color var(--duration-fast), background var(--duration-fast);
 }
-.home-match__more:hover { color: var(--primary); border-color: var(--primary); }
+.mrow:hover { border-color: #e08b98; background: rgba(190,91,110,.16); }
+.mrow img { width: 44px; height: 52px; object-fit: cover; object-position: 50% 20%; border-radius: 7px; display: block; }
+.mrow span { min-width: 0; }
+.mrow b { display: block; font-size: 0.75rem; color: #f1e5da; font-weight: 500; }
+.mrow em { display: block; font-style: normal; font-size: 0.625rem; color: #c8beba; margin-top: 2px; }
+.mrow i { font-style: normal; color: #8b7a70; font-size: 0.75rem; }
+.mrow:hover i { color: #e08b98; }
+.mstage__credit {
+  position: relative; z-index: 2;
+  margin: 0; padding: 0 30px 12px;
+  font-size: 0.59375rem; line-height: 1.7; color: rgba(230,216,205,.45);
+}
 
 @media (max-width: 1000px) {
   .won-row { grid-template-columns: repeat(3, 1fr); }
-  .home-match__grid { grid-template-columns: 1fr; }
+  .mstage__inner { grid-template-columns: 1fr 250px; gap: 20px; }
 }
 @media (max-width: 600px) {
   .won-row { grid-template-columns: repeat(2, 1fr); }
-  /* 手機三欄 = 每張卡得 108px，張面細到睇唔到妝感（實測）。
-     改成橫向滑動，一次見兩張半，相就大返。 */
-  .home-match__looks {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    padding-bottom: 2px;
+  /* 手機：相簿卡收埋 —— 44px 頭像喺 375px 闊度認唔出邊個，擺出嚟等於白佔位。
+     排版由「左字右相」轉做海報式：上半留返俾張相，字壓喺下半。
+     唔咁做嘅話啲字會蓋住成塊面，剩返一個黑盒（實測）。 */
+  .mstage { min-height: 486px; }
+  .mstage__inner { grid-template-columns: 1fr; padding: 186px 20px 8px; }
+  .mstage__album { display: none; }
+  .mstage__bg { background-position: 32% 50%; }
+  .mstage__scrim {
+    background: linear-gradient(180deg,
+      rgba(18,13,10,.24) 0%, rgba(18,13,10,.1) 22%,
+      rgba(18,13,10,.72) 44%, rgba(18,13,10,.94) 62%, rgba(18,13,10,.97) 100%);
   }
-  .home-match__looks::-webkit-scrollbar { display: none; }
-  .look-card { flex: 0 0 46vw; scroll-snap-align: start; }
+  .mstage__sub { max-width: none; }
+  .mstage__credit { padding: 0 20px 12px; }
   .home-awards { padding: var(--space-3xl, 64px) 0; }
 }
 
