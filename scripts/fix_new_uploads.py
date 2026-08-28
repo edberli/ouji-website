@@ -24,7 +24,9 @@ BRANDS = ["BOTO", "Treecell", "DANONGWON", "MOEV", "Furriky", "FRUDIA", "AROMATI
           "Pyunkang yul", "MENOKIN", "numbuzin", "NACIFIC", "SKIN1004", "STUDIO 17",
           "Anua", "plu", "OOTD", "BOUQUET GARNI", "Kwailnara", "Chwi", "Lovisia",
           "JUNGWONSAM", "NE:AR", "Vitamin village", "Farmstay", "CORINGCO", "NARD",
-          "Lovisia", "GRN", "Nutri D-DAY", "Elizavecca", "Medi-Peel", "Rom&nd", "VT"]
+          "Lovisia", "GRN", "Nutri D-DAY", "Elizavecca", "Medi-Peel", "Rom&nd", "VT",
+          "WELLIT", "innisfree", "TOCOBO", "SOME BY MI", "Pyunkang Yul", "Kwailnara",
+          "Treecell", "Furriky", "hetras", "FATION", "beplain", "LAKA", "2aN"]
 
 # POS 匯出嘅編碼會食咗啲字，剩返「?」。呢啲係實測見過嘅。
 MOJIBAKE = {"胜?": "胜肽", "穀胱甘?": "穀胱甘肽", "?喱": "啫喱"}
@@ -32,9 +34,12 @@ MIN_PX = 300
 
 
 def brand_of(title):
+    """⚠️ 唔可以用 `in` 夾。實測 "WELLIT 免疫蘆薈精華素 Plus 果凍條" 會夾中
+    "plu"，個牌子變咗 PLU。要求前後都唔係英文字母／數字先算，
+    而且長嘅牌子行先（"BOUQUET GARNI" 要贏 "GARNI"）。"""
     low = title.lower()
-    for b in BRANDS:
-        if b.lower() in low:
+    for b in sorted(BRANDS, key=len, reverse=True):
+        if re.search(r"(?<![a-z0-9])" + re.escape(b.lower()) + r"(?![a-z0-9])", low):
             return b.upper()
     if "馬達加斯加積雪草" in title:
         return "SKIN1004"
