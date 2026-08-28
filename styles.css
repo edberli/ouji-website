@@ -5858,17 +5858,23 @@ html.is-lite .brand-rail__crest { filter: none; }
      唔咁做嘅話啲字會蓋住成塊面，剩返一個黑盒（實測）。 */
   /* 手機：三欄變海報 —— 上半留返俾張相，字壓下半，相簿卡收埋
      （44px 頭像喺 375px 認唔出邊個）。色板轉橫排。 */
-  /* 手機：三格變海報 —— 上半留返俾張相，字壓下半，相簿卡收埋
-     （46px 頭像喺 375px 認唔出邊個）。色板照樣橫排四塊。 */
-  .home-match.mstage { min-height: 660px; }
-  .mstage__inner { grid-template-columns: 1fr; padding: 214px 0 8px; }
+  /* 手機：三格變海報 —— 上面擺成張相（唔准裁到剩返半塊面），字排喺下面，
+     相簿卡收埋（46px 頭像喺 375px 認唔出邊個）。色板照樣橫排四塊。
+     張相 92% 闊、高度自動 → 375px 機約 437px 高，塊面喺 87–253px，
+     文字由 340px 先開始，所以成個樣貌都見到，唔會被字斬開。 */
+  .home-match.mstage { min-height: 0; }
+  .mstage__inner { grid-template-columns: 1fr; padding: 348px 0 8px; }
   .mstage__copy { grid-column: 1; }
   .mstage__stage { position: absolute; inset: 0; z-index: 1; }
-  .mstage__model { top: 0; bottom: 0; height: 100%; width: auto; object-position: 50% 4%; }
+  .mstage__model {
+    top: 12px; bottom: auto; left: 50%; transform: translateX(-50%);
+    width: 92%; height: auto; object-position: 50% 0;
+  }
+  /* 遮幕：塊面嗰段（0–46%）唔壓，落到肩膊先開始壓黑俾字企 */
   .mstage__scrim {
     background: linear-gradient(180deg,
-      rgba(18,13,10,.18) 0%, rgba(18,13,10,.04) 22%,
-      rgba(18,13,10,.66) 40%, rgba(18,13,10,.93) 58%, rgba(18,13,10,.97) 100%);
+      rgba(18,13,10,.12) 0%, rgba(18,13,10,.02) 24%, rgba(18,13,10,.06) 42%,
+      rgba(18,13,10,.72) 54%, rgba(18,13,10,.95) 66%, rgba(18,13,10,.97) 100%);
   }
   .mstage__album { display: none; }
   .mstage__title { font-size: 1.875rem; }
