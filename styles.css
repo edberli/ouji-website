@@ -5715,7 +5715,11 @@ html.is-lite .brand-rail__crest { filter: none; }
   margin-bottom: var(--space-lg);
 }
 /* 妝感卡：張相就係賣點，文字得兩行。撳落去直接入到嗰個妝（?look=<id>） */
-.home-match__looks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+/* min-width:0 唔可以慳：grid item 預設 min-width:auto，手機嗰個橫向捲軸
+   會將成條 grid 撐到 539px，左邊啲字就會被切走（實測）。 */
+.home-match__copy,
+.home-match__panel { min-width: 0; }
+.home-match__looks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; min-width: 0; }
 .look-card {
   display: flex; flex-direction: column; gap: 4px;
   text-decoration: none;
@@ -5756,7 +5760,18 @@ html.is-lite .brand-rail__crest { filter: none; }
 }
 @media (max-width: 600px) {
   .won-row { grid-template-columns: repeat(2, 1fr); }
-  .home-match__looks { grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  /* 手機三欄 = 每張卡得 108px，張面細到睇唔到妝感（實測）。
+     改成橫向滑動，一次見兩張半，相就大返。 */
+  .home-match__looks {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .home-match__looks::-webkit-scrollbar { display: none; }
+  .look-card { flex: 0 0 46vw; scroll-snap-align: start; }
   .home-awards { padding: var(--space-3xl, 64px) 0; }
 }
 
