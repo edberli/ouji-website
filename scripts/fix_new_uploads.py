@@ -23,7 +23,8 @@ UP = """mutation($id:ID!,$v:String,$t:String,$d:String){productUpdate(product:{i
 BRANDS = ["BOTO", "Treecell", "DANONGWON", "MOEV", "Furriky", "FRUDIA", "AROMATICA",
           "Pyunkang yul", "MENOKIN", "numbuzin", "NACIFIC", "SKIN1004", "STUDIO 17",
           "Anua", "plu", "OOTD", "BOUQUET GARNI", "Kwailnara", "Chwi", "Lovisia",
-          "JUNGWONSAM", "NE:AR", "Vitamin village", "Farmstay", "CORINGCO", "NARD"]
+          "JUNGWONSAM", "NE:AR", "Vitamin village", "Farmstay", "CORINGCO", "NARD",
+          "Lovisia", "GRN", "Nutri D-DAY", "Elizavecca", "Medi-Peel", "Rom&nd", "VT"]
 
 # POS 匯出嘅編碼會食咗啲字，剩返「?」。呢啲係實測見過嘅。
 MOJIBAKE = {"胜?": "胜肽", "穀胱甘?": "穀胱甘肽", "?喱": "啫喱"}

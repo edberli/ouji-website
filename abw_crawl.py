@@ -62,24 +62,22 @@ BARCODE=re.compile(r'\b(\d{13})\b')
 #    `_g` 之間根本冇 word boundary，加咗就成個 brand 爬到 0 張圖。
 GID=re.compile(r'(g0\d{9})')
 
-def gallery(gid, n=14):
-    """ABW 真正有用嘅圖喺呢度。
+def gallery(html):
+    """由 HTML 直接攞 gallery 圖 —— 唔好自己砌 URL。
 
-    ⚠️ 頁面 inline 嗰張 `l_p……jpg` 係 320px 而且印咗「×10 / ×28」整箱貼紙，
-    零售用唔得——我第一次爬就係只捉咗嗰啲，所以誤判咗成個 ABW 冇用。
-    真正嘅係 **GalleryImage/**：860×933、冇貼紙、係品牌原廠英文長圖。
-    路徑由 gallery id 砌返出嚟：`{gid[-2:]}/{gid[-5:-2]}/L_{gid}_{NNN}.jpg`。
-    CDN 係公開嘅，唔使登入。
+    ⚠️ ABW 有兩種 gallery URL：一個 gid 配 `_000/_001/…`（FRUDIA 咁），
+    同一個 gid 對一張圖、冇後綴（Lovisia 咁）。自己砌 `_000` 嘅話，
+    第二種會全部 404 —— Lovisia 就係咁爬到 0 張。
+    兩種喺 HTML 度都係現成寫住嘅，直接抽出嚟最穩陣。
     """
-    base=f'https://d1flfk77wl2xk4.cloudfront.net/Assets/GalleryImage/{gid[-2:]}/{gid[-5:-2]}/'
-    return [f'{base}L_{gid}_{i:03d}.jpg' for i in range(n)]
+    base = 'https://d1flfk77wl2xk4.cloudfront.net/Assets/'
+    return [base + u for u in dict.fromkeys(re.findall(r'GalleryImage/[^"\']+\.jpg', html))]
+
 
 def detail(url):
     h=get(url)
     codes=[c for c in BARCODE.findall(h) if c[0] in '3489']   # EAN/JAN 前綴
-    gids=list(dict.fromkeys(GID.findall(h)))[:2]
-    imgs=[u for g in gids for u in gallery(g)]
-    return list(dict.fromkeys(codes))[:4], imgs
+    return list(dict.fromkeys(codes))[:4], gallery(h)[:28]
 
 def main():
     want=[w.strip() for w in sys.argv[1:]] or None
