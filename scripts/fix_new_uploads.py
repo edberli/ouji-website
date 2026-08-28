@@ -26,7 +26,8 @@ BRANDS = ["BOTO", "Treecell", "DANONGWON", "MOEV", "Furriky", "FRUDIA", "AROMATI
           "JUNGWONSAM", "NE:AR", "Vitamin village", "Farmstay", "CORINGCO", "NARD",
           "Lovisia", "GRN", "Nutri D-DAY", "Elizavecca", "Medi-Peel", "Rom&nd", "VT",
           "WELLIT", "innisfree", "TOCOBO", "SOME BY MI", "Pyunkang Yul", "Kwailnara",
-          "Treecell", "Furriky", "hetras", "FATION", "beplain", "LAKA", "2aN"]
+          "Treecell", "Furriky", "hetras", "FATION", "beplain", "LAKA", "2aN",
+          "Everbikini", "Chwi", "STUDIO 17", "Studio 17", "Yuja Niacin", "Nutri D-DAY"]
 
 # POS 匯出嘅編碼會食咗啲字，剩返「?」。呢啲係實測見過嘅。
 MOJIBAKE = {"胜?": "胜肽", "穀胱甘?": "穀胱甘肽", "?喱": "啫喱"}
