@@ -701,11 +701,34 @@
         <div class="home-match__grid">
           <div class="home-match__copy">
             <span class="label">妝感配對</span>
-            <h2 class="heading-lg">唔知揀邊隻？答四條問題。</h2>
-            <p>揀個妝感、講聲你嘅膚質，我哋會由二百幾件產品入面砌一套完整妝容出嚟——連點解揀佢都寫清楚。</p>
+            <h2 class="heading-lg">揀個妝感，我哋砌返成套俾你。</h2>
+            <p>27 個妝感，包括 14 個明星仿妝。揀完講聲你嘅膚質同深淺，我哋會由二百幾件現貨入面砌一套完整妝容——每一件配好實際色號，連點解揀佢、加咗會點都寫清楚。</p>
             <a href="match.html" class="btn btn--primary">開始配對</a>
           </div>
-          <div class="home-match__looks" data-home-looks></div>
+          <!-- 呢度唔擺成個配對工具：個工具要成張大相 + 步驟拆解 + 相簿先做到效果，
+               縮細擺入首頁一定爛。所以擺「成品預覽」—— 撳邊個妝感就直接入到嗰個妝，
+               慳返客入去再揀一次。用 studio 妝感相（我哋自己出嘅圖），
+               明星相留喺 match 頁，嗰度先有出處同免責聲明。 -->
+          <div class="home-match__panel">
+            <div class="home-match__looks">
+            <a class="look-card" href="match.html?look=studio-glass-petal">
+              <span class="look-card__plate"><img src="assets/looks/look-glow-korean-card.webp" alt="玻璃花瓣妝感" width="520" height="813" loading="lazy" decoding="async"></span>
+              <span class="look-card__name">玻璃花瓣</span>
+              <span class="look-card__desc">韓系 · 清透水光</span>
+            </a>
+            <a class="look-card" href="match.html?look=studio-latte-luxury">
+              <span class="look-card__plate"><img src="assets/looks/look-latte-luxury-card.webp" alt="拿鐵靜奢妝感" width="520" height="694" loading="lazy" decoding="async"></span>
+              <span class="look-card__name">拿鐵靜奢</span>
+              <span class="look-card__desc">韓系 · 焦糖低飽和</span>
+            </a>
+            <a class="look-card" href="match.html?look=studio-wasteland-ash">
+              <span class="look-card__plate"><img src="assets/looks/look-wasteland-ash-card.webp" alt="廢土灰燼妝感" width="520" height="780" loading="lazy" decoding="async"></span>
+              <span class="look-card__name">廢土灰燼</span>
+              <span class="look-card__desc">廢土 · 灰棕風化</span>
+            </a>
+          </div>
+          <a class="home-match__more" href="match.html">睇晒 27 個妝感</a>
+          </div>
         </div>
       </div>
     </section>

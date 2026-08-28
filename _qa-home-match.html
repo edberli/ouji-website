@@ -1,0 +1,86 @@
+<!doctype html><html lang="zh-HK"><head><head>
+  <meta charset="UTF-8">
+  <!-- Microsoft Clarity（工作階段錄影＋熱度圖）—— 專案 OUJI 網店 y1kuv6ust0。
+       擺喺 <head> 最頭，先過其他 script，否則早段行為（例如即刻彈走）錄唔到。
+       ⚠️ vercel.json 個 CSP 要開返 clarity.ms，唔開就會靜靜哋被瀏覽器擋住。 -->
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OUJI — 香港最齊 K-Beauty 專門店</title>
+  <meta name="description" content="OUJI 是香港的 K-Beauty 專門店，匯集韓國美妝與護膚品牌。觀塘門市及網上商店。">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#1e3038">
+  <!-- Google Search Console 擁有權驗證（asahikanlimited@gmail.com）。
+       驗證成功之後都唔可以刪 —— 刪咗 Google 會當你唔再擁有呢個網站，
+       Search Console 入面啲數據會即刻停。
+       本來想用 Google 畀嘅 .html 驗證檔，但 vercel.json 開咗 cleanUrls，
+       /xxx.html 會 308 轉去 /xxx，Google 未必認，所以改用呢個 meta 標記。 -->
+  <meta name="google-site-verification" content="E0PunCsCzII-f8rb9v6lxLsxdqauPrTqxcbQw_fAJTc">
+  <link rel="canonical" href="https://oujikbeauty.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OUJI">
+  <meta property="og:locale" content="zh_HK">
+  <meta property="og:title" content="OUJI — 香港最齊 K-Beauty 專門店">
+  <meta property="og:description" content="OUJI 是香港的 K-Beauty 專門店，匯集韓國美妝與護膚品牌。觀塘門市及網上商店。">
+  <meta property="og:url" content="https://oujikbeauty.com/">
+  <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="OUJI — 香港最齊 K-Beauty 專門店">
+  <meta name="twitter:description" content="OUJI 是香港的 K-Beauty 專門店，匯集韓國美妝與護膚品牌。觀塘門市及網上商店。">
+  <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
+
+  <!-- 目錄同啲相都喺 Shopify 手上，第一個 API call 之前先搭好線，
+       慳返 DNS＋TLS 嗰兩程（實測首頁要等四個 API call 先出到貨）。 -->
+  <link rel="preconnect" href="https://5rerjn-mt.myshopify.com" crossorigin>
+  <!-- 目錄快照要喺 head 就開始落載。之前佢要等成個 bootstrap 行到
+       先開始（實測 752ms 先出手，download 本身得 94ms）—— 白等咗
+       三百幾毫秒。呢一行令佢同 CSS／JS 一齊落。 -->
+  <link rel="preload" href="data/catalog.json" as="fetch" type="application/json" crossorigin>
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+<style>body{background:#f6f6f4;margin:0} .section{padding:60px 0}</style>
+</head><body>    <!-- 妝感配對 -->
+    <section class="section home-match">
+      <div class="container">
+        <div class="home-match__grid">
+          <div class="home-match__copy">
+            <span class="label">妝感配對</span>
+            <h2 class="heading-lg">揀個妝感，我哋砌返成套俾你。</h2>
+            <p>27 個妝感，包括 14 個明星仿妝。揀完講聲你嘅膚質同深淺，我哋會由二百幾件現貨入面砌一套完整妝容——每一件配好實際色號，連點解揀佢、加咗會點都寫清楚。</p>
+            <a href="match.html" class="btn btn--primary">開始配對</a>
+          </div>
+          <!-- 呢度唔擺成個配對工具：個工具要成張大相 + 步驟拆解 + 相簿先做到效果，
+               縮細擺入首頁一定爛。所以擺「成品預覽」—— 撳邊個妝感就直接入到嗰個妝，
+               慳返客入去再揀一次。用 studio 妝感相（我哋自己出嘅圖），
+               明星相留喺 match 頁，嗰度先有出處同免責聲明。 -->
+          <div class="home-match__panel">
+            <div class="home-match__looks">
+            <a class="look-card" href="match.html?look=studio-glass-petal">
+              <span class="look-card__plate"><img src="assets/looks/look-glow-korean-card.webp" alt="玻璃花瓣妝感" width="520" height="813" loading="lazy" decoding="async"></span>
+              <span class="look-card__name">玻璃花瓣</span>
+              <span class="look-card__desc">韓系 · 清透水光</span>
+            </a>
+            <a class="look-card" href="match.html?look=studio-latte-luxury">
+              <span class="look-card__plate"><img src="assets/looks/look-latte-luxury-card.webp" alt="拿鐵靜奢妝感" width="520" height="694" loading="lazy" decoding="async"></span>
+              <span class="look-card__name">拿鐵靜奢</span>
+              <span class="look-card__desc">韓系 · 焦糖低飽和</span>
+            </a>
+            <a class="look-card" href="match.html?look=studio-wasteland-ash">
+              <span class="look-card__plate"><img src="assets/looks/look-wasteland-ash-card.webp" alt="廢土灰燼妝感" width="520" height="780" loading="lazy" decoding="async"></span>
+              <span class="look-card__name">廢土灰燼</span>
+              <span class="look-card__desc">廢土 · 灰棕風化</span>
+            </a>
+          </div>
+          <a class="home-match__more" href="match.html">睇晒 27 個妝感</a>
+          </div>
+        </div>
+      </div>
+    </section></body></html>

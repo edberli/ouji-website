@@ -320,7 +320,18 @@ async function initHome() {
     { id: 'lens', label: '隱形眼鏡', href: 'lens.html',
       has: (p) => hasTag(p, '隱形眼鏡'),
       line: '日拋為主，全度數，現貨',
-      img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lens_on_ad124f42-4313-41aa-9b0b-5de3f1e0a1f8.jpg' },
+      /* ⚠️ 之前用咗一張隻眼特寫，放大到成幅海報咁大好核突（老闆：「你梗係
+         攞個模特兒嚟做封面啦」）。隱形眼鏡嘅產品相多數係眼部特寫，
+         要特登揀返有模特兒嗰幾張。 */
+      /* ⚠️ 隱形眼鏡呢格改過三次：
+         ① 原本用咗一張隻眼特寫 —— 放大到成幅海報咁大好核突
+           （老闆：「你梗係攞個模特兒嚟做封面啦」）。
+         ② 換咗模特兒相，但品牌喺右下角焗死咗一個眼部特寫細圖，
+           啱啱好撞正標題位。
+         ③ 而家：將嗰張相裁走下面 32%（連個細圖一齊裁走），
+           上載成獨立一張封面。 */
+      img: 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lens-poster.jpg',
+      pos: '50% 28%' },
     { id: 'kpop', label: 'K-pop 周邊', href: 'kpop.html',
       has: (p) => hasTag(p, 'K-pop', 'kpop'),
       line: '專輯、寫真書，出貨即入',
@@ -335,7 +346,7 @@ async function initHome() {
       return `<section class="poster${i % 2 ? ' poster--flip' : ''}">
         <a class="poster__visual rise" href="${r.href}">
           <img src="${r.img}${r.img.includes('?') ? '&' : '?'}width=900" alt="" width="900" height="1125"
-               loading="lazy" decoding="async">
+               loading="lazy" decoding="async"${r.pos ? ` style="object-position:${r.pos}"` : ''}>
           <div class="poster__caption">
             <h3 class="poster__title">${r.label}</h3>
             <p class="poster__line">${r.line}</p>
@@ -674,17 +685,7 @@ async function initHome() {
     }
   }
 
-  /* ----- 妝感配對 ----- */
-  const looks = document.querySelector('[data-home-looks]');
-  if (looks) {
-    const data = await fetch('match-data.json').then((r) => (r.ok ? r.json() : null))
-      .catch(() => null);
-    if (data?.looks) {
-      looks.innerHTML = Object.entries(data.looks).map(([id, l]) =>
-        `<a class="look-pill" href="match.html#${id}">
-          <span class="look-pill__name">${l.label}</span>
-          <span class="look-pill__desc">${l.desc}</span>
-        </a>`).join('');
-    }
-  }
+  /* 妝感配對嗰格改咗喺 index.html 寫死（三張妝感相 + 連結）。
+     舊版由 match-data.json 生成六個文字 pill，連結去 match.html#<id> ——
+     新版 /match 係讀 ?look=<id>，個 hash 乜都唔會做，即係啲連結全部死咗。 */
 }
