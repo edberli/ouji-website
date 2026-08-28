@@ -696,49 +696,54 @@
     </section>
 
     <!-- 妝感配對 —— 呢格唔另外設計一套：直接攞 /match 個 stage 拉矮。
-         同一個構圖（全屏相 ＋ 左上標題 ＋ 右邊相簿卡），但唔 show 晒 ——
-         face chart、色板、產品全部留返入面先出，首頁得一個掣。
-         好處係唔使維護兩套設計，個功能改樣呢格自動跟。 -->
-    <section class="section home-match">
+         成個 section 都係嗰個世界（全寬深色、暖啡相底），唔係喺米色頁上面
+         浮一張深色卡 —— 有個白邊就會變咗似廣告 banner。
+         唔 show 晒：色板同步驟名擺得，四段描述、產品、價錢留返入面先出。 -->
+    <section class="home-match mstage">
+      <div class="mstage__bg"></div>
+      <div class="mstage__scrim"></div>
       <div class="container">
-        <div class="mstage">
-          <div class="mstage__bg"></div>
-          <div class="mstage__scrim"></div>
-          <div class="mstage__inner">
-            <div class="mstage__copy">
-              <span class="mstage__eyebrow">妝感配對</span>
-              <h2 class="mstage__title">想化明星個妝，唔知由邊件入手？</h2>
-              <p class="mstage__sub">揀個妝感，我哋由二百幾件現貨配返成套 —— 每件配好實際色號，連點解揀佢都寫清楚。</p>
-              <div class="mstage__tags"><span>27 個妝感</span><span>14 個明星仿妝</span><span>實際現貨色號</span></div>
-              <div class="mstage__cta">
-                <a href="match.html" class="btn btn--primary">開始配對</a>
-                <small>入去先出完整拆解同產品</small>
-              </div>
+        <div class="mstage__inner">
+          <div class="mstage__copy">
+            <span class="mstage__eyebrow">妝感配對</span>
+            <h2 class="mstage__title">想化明星個妝，唔知由邊件入手？</h2>
+            <p class="mstage__sub">27 個妝感、14 個明星仿妝。揀完我哋由二百幾件現貨配返成套 —— 每件配好實際色號，連點解揀佢都寫清楚。</p>
+            <!-- 色板同顏色係真數據：由推薦產品嘅實際色號計出嚟，唔係裝飾。
+                 呢四隻係「清透花瓣水光」嗰個妝嘅值。 -->
+            <div class="mstage__steps">
+              <span class="mstage__step"><i class="mswatch mswatch--base" style="--swatch:#e4c1ae"></i><b>底妝</b></span>
+              <span class="mstage__step"><i class="mswatch mswatch--eyes" style="--swatch:#e3a2a7"></i><b>眼影</b></span>
+              <span class="mstage__step"><i class="mswatch mswatch--cheeks" style="--swatch:#e290a2"></i><b>胭脂</b></span>
+              <span class="mstage__step"><i class="mswatch mswatch--lips" style="--swatch:#e290a2"></i><b>唇妝</b></span>
             </div>
-            <aside class="mstage__album">
-              <span class="mstage__album-kicker">OUJI Look Album</span>
-              <b class="mstage__album-title">揀你想仿嘅明星</b>
-              <div class="mstage__rows">
-                <a class="mrow" href="match.html?look=wonyoung-innisfree-2025-04-16">
-                  <img src="assets/looks/celeb-wonyoung-thumb.webp" alt="" width="44" height="52" loading="lazy" decoding="async">
-                  <span><b>張員瑛 Wonyoung</b><em>清透花瓣水光</em></span>
-                  <i aria-hidden="true">›</i>
-                </a>
-                <a class="mrow" href="match.html?look=jennie-chanel-2024-07-03">
-                  <img src="assets/looks/celeb-jennie-thumb.webp" alt="" width="44" height="52" loading="lazy" decoding="async">
-                  <span><b>Jennie</b><em>低飽和貓系裸玫瑰</em></span>
-                  <i aria-hidden="true">›</i>
-                </a>
-                <a class="mrow" href="match.html?look=iu-palette-2024-12-17">
-                  <img src="assets/looks/celeb-iu-thumb.webp" alt="" width="44" height="52" loading="lazy" decoding="async">
-                  <span><b>IU 李知恩</b><em>暖橙珊瑚緞唇</em></span>
-                  <i aria-hidden="true">›</i>
-                </a>
-              </div>
-            </aside>
+            <div class="mstage__cta">
+              <a href="match.html" class="btn btn--primary">開始配對</a>
+              <small>入去先出逐步拆解同產品</small>
+            </div>
           </div>
-          <p class="mstage__credit">相中：張員瑛 Wonyoung · 清透花瓣水光 —— 相片 K-POPIT 케이팝잇，CC BY 3.0。妝感係針對指定相片做視覺拆解，唔代表藝人本人用過呢啲產品。</p>
+          <aside class="mstage__album">
+            <span class="mstage__album-kicker">OUJI Look Album</span>
+            <b class="mstage__album-title">揀你想仿嘅明星</b>
+            <div class="mstage__rows">
+              <a class="mrow" href="match.html?look=wonyoung-innisfree-2025-04-16">
+                <img src="assets/looks/celeb-wonyoung-thumb.webp" alt="" width="44" height="52" loading="lazy" decoding="async">
+                <span><b>張員瑛 Wonyoung</b><em>清透花瓣水光</em></span>
+                <i aria-hidden="true">›</i>
+              </a>
+              <a class="mrow" href="match.html?look=jennie-chanel-2024-07-03">
+                <img src="assets/looks/celeb-jennie-thumb.webp" alt="" width="44" height="52" loading="lazy" decoding="async">
+                <span><b>Jennie</b><em>低飽和貓系裸玫瑰</em></span>
+                <i aria-hidden="true">›</i>
+              </a>
+              <a class="mrow" href="match.html?look=iu-palette-2024-12-17">
+                <img src="assets/looks/celeb-iu-thumb.webp" alt="" width="44" height="52" loading="lazy" decoding="async">
+                <span><b>IU 李知恩</b><em>暖橙珊瑚緞唇</em></span>
+                <i aria-hidden="true">›</i>
+              </a>
+            </div>
+          </aside>
         </div>
+        <p class="mstage__credit">相中：張員瑛 Wonyoung · 清透花瓣水光 —— 相片 K-POPIT 케이팝잇，CC BY 3.0。妝感係針對指定相片做視覺拆解，唔代表藝人本人用過呢啲產品。</p>
       </div>
     </section>
 
