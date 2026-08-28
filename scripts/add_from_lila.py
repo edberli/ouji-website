@@ -11,7 +11,7 @@ import argparse, csv, json, sys, urllib.request
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from shopify_admin import gql, user_errors  # noqa
-from upload_files import upload  # noqa
+from upload_files import host, upload  # noqa
 
 POS = Path("/Volumes/core/ouji-pos/raw/Ouji_KT_skus_prince.csv")
 TMP = Path("/Volumes/core/ouji-ads/brandsrc/lila")
@@ -102,8 +102,28 @@ def main():
         urls = [upload(str(f)) for f in files]
         gql(MEDIA, {"id": p["id"], "m": [{"originalSource": u, "mediaContentType": "IMAGE",
                                           "alt": r["name"].strip()} for u in urls]})
+        # 長圖：老闆企硬要有。要用 host() 攞永久 cdn.shopify.com URL——
+        # upload() 出嚟嗰個係 staged URL，會過期，貼落 HTML 就變死圖。
+        strips = []
+        for i, u in enumerate(x.get("detail") or [], 1):
+            try:
+                data = urllib.request.urlopen(urllib.request.Request(
+                    u, headers={"User-Agent": "Mozilla/5.0"}), timeout=40).read()
+                if len(data) < 4000:
+                    continue
+                f = TMP / f"{bc}-d{i:02d}.jpg"; f.write_bytes(data); strips.append(f)
+            except Exception:
+                pass
+        strip_html = ""
+        if strips:
+            urls = [u for u in host([str(f) for f in strips], r["name"].strip()) if u]
+            if urls:
+                strip_html = ('<div class="product-detail-images">'
+                              + "".join(f'<img src="{u}" alt="{r["name"].strip()}" loading="lazy">'
+                                        for u in urls) + "</div>")
         desc = (f"<p><strong>{r['name'].strip()}</strong></p>"
-                f"<ul><li>英文名：{x['title']}</li><li>產地：韓國 Made in Korea</li></ul>")
+                f"<ul><li>英文名：{x['title']}</li><li>產地：韓國 Made in Korea</li></ul>"
+                + strip_html)
         user_errors(gql(ACTIVATE, {"id": p["id"], "d": desc}), "productUpdate")
         user_errors(gql(PUBLISH, {"id": p["id"],
                                   "in": [{"publicationId": y} for y in PUBS]}), "publishablePublish")
