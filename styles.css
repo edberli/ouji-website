@@ -11915,33 +11915,27 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
   font-variant-numeric: tabular-nums;
 }
 
-/* ⚠️ 海報「縮細」第一次改錯咗地方。
-   桌面版嘅高度**唔係**由幅相決定 —— `.poster` 係 grid、align-items:
-   stretch，右邊四張產品卡（正方形相 ＋ 牌子 ＋ 名 ＋ 評分 ＋ 價）兩行
-   夾埋就已經一千三百幾 px，幅相係跟住佢拉高。所以我改 min-height 由
-   460 → 340 完全冇作用，老闆睇落一樣咁大嚿。
-   真正嘅做法：**鎖死成行嘅高度**，入面啲卡自己縮。 */
+/* ⚠️ 縮細海報改咗兩次都錯，記低兩次都錯喺邊：
+   第一次：改幅相嘅 min-height —— 冇用。桌面版高度係由右邊四張產品卡
+     撐起（正方形相＋牌子＋名＋評分＋價，兩行 1300px），幅相跟住拉高。
+   第二次：鎖死成行高度、叫啲卡「自己縮」—— 高度係啱咗，但產品相由
+     aspect-ratio: 1 改成 flex 填剩餘空間，object-fit: cover 之下啲相
+     被壓成怪比例，防曬霜兩支迫埋、氣墊粉底切一半。老闆：「咁核突」。
+     縮高度唔可以靠壓縮產品相。
+
+   而家嘅做法：**唔壓相**。產品相固定 4:3（本來 1:1 太食高度），
+   收埋首頁預覽用唔著嘅評分行，再將幅大相嗰欄比例調闊少少 ——
+   四張卡自然變窄、行高自然變矮，比例仍然係正常嘅。 */
 @media (min-width: 861px) {
-  .poster { align-items: start; }
-  .poster__visual { height: clamp(330px, 27vw, 420px); min-height: 0; }
-  .poster__grid { height: clamp(330px, 27vw, 420px); grid-auto-rows: minmax(0, 1fr); }
-  .poster__grid .product-card { min-height: 0; overflow: hidden; }
-  .poster__grid .product-card__image-wrap {
-    aspect-ratio: auto; flex: 1 1 auto; min-height: 0; margin-bottom: 8px;
-  }
-  .poster__grid .product-card__name { font-size: 0.8125rem; line-height: 1.35; }
-  .poster__grid .product-card__brand { font-size: 0.625rem; }
-  .poster__grid .product-card__price { font-size: 0.875rem; }
+  .poster { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: stretch; }
+  .poster__visual { min-height: 0; }
 }
-/* 手機都收細：正方形相太食高度，改做 4:3，成格再封頂 */
-@media (max-width: 860px) {
-  .poster__grid { max-height: 430px; grid-auto-rows: minmax(0, 1fr); }
-  .poster__grid .product-card { min-height: 0; overflow: hidden; }
-  .poster__grid .product-card__image-wrap {
-    aspect-ratio: auto; flex: 1 1 auto; min-height: 0; margin-bottom: 7px;
-  }
-  .poster__grid .product-card__name { font-size: 0.8125rem; line-height: 1.3; }
-  .poster__grid .product-card__brand { font-size: 0.625rem; }
-  /* 評分行喺首頁預覽度可有可無，收埋慳返兩行高 */
-  .poster__grid .product-card__rating { display: none; }
+.poster__grid .product-card__image-wrap {
+  aspect-ratio: 4 / 3;
+  margin-bottom: 9px;
 }
+.poster__grid .product-card__name { font-size: 0.8125rem; line-height: 1.35; }
+.poster__grid .product-card__brand { font-size: 0.625rem; }
+.poster__grid .product-card__price { font-size: 0.875rem; }
+/* 評分行喺首頁預覽度可有可無，收埋慳返兩行高 */
+.poster__grid .card-rating { display: none; }
