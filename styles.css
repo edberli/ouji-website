@@ -5704,13 +5704,13 @@ html.is-lite .brand-rail__crest { filter: none; }
 
 /* ----- matcher entry ----- */
 /* 妝感配對格 —— 直接攞 /match 個 stage 拉矮，連排版都跟返佢：
-   左邊色板（face chart）、中間模特兒、右邊揀明星。
+   四格由左到右填滿：文字 · 色板 · 模特兒 · 揀明星 —— 冇任何空位。
    色值全部跟返 match 頁：暖啡近黑底、象牙白襯線標題（#f1e5da）、
    玫瑰標籤 #d6aaa4、相簿卡 rgba(22,18,17,.55)、揀中邊 #e08b98、
    主掣 #b9606e 配 #df959f 邊。
    成個 section 全寬、冇圓角、冇外邊 —— 喺米色頁上面浮一張深色卡會似廣告 banner。
-   模特兒係獨立一層（band-model.webp，左右已經羽化），唔係焗死喺底圖入面，
-   咁先可以精準擺喺中間嗰欄，唔會留返一橛空位。 */
+   模特兒係 grid 第三格入面嘅一張圖（band-model.webp，左右已經羽化），
+   唔係焗死喺底圖、亦都唔係浮喺成條 band —— 佢佔返自己嗰欄，所以唔會留空位。 */
 .home-match.mstage {
   position: relative;
   min-height: 516px;
@@ -5721,15 +5721,23 @@ html.is-lite .brand-rail__crest { filter: none; }
   isolation: isolate;
   overflow: hidden;
 }
-.home-match.mstage > .container { position: relative; z-index: 3; }
+/* 容器唔准設 z-index —— 一設就開咗新 stacking context，
+   模特兒（z-index 1）會爬到 scrim（2）同啲字上面。改成逐件內容自己抬高。 */
+.home-match.mstage > .container { position: relative; }
+.mstage__copy, .mstage__chart, .mstage__album, .mstage__credit { position: relative; z-index: 3; }
 .mstage__bg {
   position: absolute; inset: 0; z-index: 0;
   background: url("assets/looks/band-bg.webp") center / cover no-repeat;
 }
+/* 模特兒佔第三格，上下衝出格線（負值抵銷 .mstage__inner 嘅 padding），
+   闊過自己嗰欄係故意嘅 —— 兩邊溢出去填滿文字同相簿之間，冇空位。
+   佢喺 scrim 下面（z-index 1 vs 2），所以溢出嗰部分自然壓暗。 */
+.mstage__stage { grid-column: 3; position: relative; align-self: stretch; z-index: 1; }
+.mstage__model { z-index: 1; }
 .mstage__model {
-  position: absolute; z-index: 1;
-  top: 0; bottom: 0; left: 50%; transform: translateX(-52%);
-  height: 100%; width: auto; max-width: none;
+  position: absolute;
+  top: -34px; bottom: -32px; left: 50%; transform: translateX(-50%);
+  width: auto; height: auto; max-width: none;
   object-fit: cover; object-position: 50% 6%;
 }
 .mstage__scrim {
@@ -5739,12 +5747,15 @@ html.is-lite .brand-rail__crest { filter: none; }
     linear-gradient(180deg, rgba(18,13,10,.58) 0%, transparent 24%, rgba(18,13,10,.72) 100%);
 }
 .mstage__inner {
-  display: grid; grid-template-columns: 366px minmax(0,1fr) 300px; gap: 30px;
+  display: grid;
+  grid-template-columns: minmax(280px, 330px) 168px minmax(0, 1fr) 286px;
+  gap: 24px;
   align-items: center;
   padding: 34px 0 10px;
 }
 .mstage__copy { grid-column: 1; }
-.mstage__album { grid-column: 3; }
+.mstage__chart { grid-column: 2; }
+.mstage__album { grid-column: 4; }
 .mstage__eyebrow {
   display: block; color: #d6aaa4;
   font-size: 0.625rem; letter-spacing: .19em; text-transform: uppercase;
@@ -5752,36 +5763,35 @@ html.is-lite .brand-rail__crest { filter: none; }
 .mstage__title {
   margin: 10px 0 9px;
   font-family: "Noto Serif TC", serif; font-weight: 500;
-  font-size: clamp(1.375rem, 1.9vw, 1.75rem); line-height: 1.3; letter-spacing: .05em;
+  font-size: clamp(1.625rem, 2.3vw, 2.25rem); line-height: 1.28; letter-spacing: .05em;
   color: #f1e5da; text-wrap: balance;
   text-shadow: 0 2px 18px rgba(10,7,5,.75);
 }
 .mstage__sub {
-  margin: 0; color: #cbb6ac; font-size: 0.78125rem; line-height: 1.85;
+  margin: 0; color: #cbb6ac; font-size: 0.84375rem; line-height: 1.85;
   text-shadow: 0 1px 10px rgba(10,7,5,.85);
 }
-/* Face chart：色板 ＋ 步驟名，一行一步（同 match 頁一樣由上到下讀）。
+/* Face chart 自己佔一欄：色板大隻啲，步驟名喺下面。
    色板顏色係真數據（推薦產品嘅實際色號計出嚟）；四段描述唔擺。 */
-.mstage__chart { margin-top: 20px; }
+.mstage__chart { margin: 0; }
 .mstage__chart-k {
   display: block; color: #d6aaa4;
   font-size: 0.5625rem; letter-spacing: .17em; text-transform: uppercase;
 }
 .mstage__chart-t {
-  display: block; margin: 4px 0 10px;
-  font-family: "Noto Serif TC", serif; font-weight: 500; font-size: 0.875rem;
+  display: block; margin: 4px 0 14px;
+  font-family: "Noto Serif TC", serif; font-weight: 500; font-size: 0.9375rem;
   color: #f1e5da; letter-spacing: .04em;
 }
-.mstage__steps { display: grid; gap: 6px; }
-.mstage__step {
-  display: grid; grid-template-columns: 78px 1fr; align-items: center; gap: 12px;
-}
+.mstage__steps { display: grid; gap: 12px; }
+.mstage__step { display: block; }
 .mstage__step b {
-  font-size: 0.75rem; font-weight: 500; letter-spacing: .07em; color: #e6d8cd;
+  display: block; margin-top: 5px;
+  font-size: 0.8125rem; font-weight: 500; letter-spacing: .07em; color: #e6d8cd;
   text-shadow: 0 1px 8px rgba(10,7,5,.9);
 }
 .mswatch {
-  display: block; height: 34px;
+  display: block; height: 48px;
   background: var(--swatch, #d8d1cc);
   -webkit-mask-size: 116% auto; mask-size: 116% auto;
   -webkit-mask-position: center; mask-position: center;
@@ -5839,8 +5849,8 @@ html.is-lite .brand-rail__crest { filter: none; }
 
 @media (max-width: 1000px) {
   .won-row { grid-template-columns: repeat(3, 1fr); }
-  .mstage__inner { grid-template-columns: 320px minmax(0,1fr) 262px; gap: 22px; }
-  .mstage__model { transform: translateX(-54%); }
+  .mstage__inner { grid-template-columns: minmax(240px,290px) 148px minmax(0,1fr) 258px; gap: 20px; }
+  .mswatch { height: 42px; }
 }
 @media (max-width: 600px) {
   .won-row { grid-template-columns: repeat(2, 1fr); }
@@ -5851,7 +5861,10 @@ html.is-lite .brand-rail__crest { filter: none; }
      （44px 頭像喺 375px 認唔出邊個）。色板轉橫排。 */
   .home-match.mstage { min-height: 578px; }
   .mstage__inner { grid-template-columns: 1fr; padding: 196px 0 8px; }
-  .mstage__model { left: 50%; transform: translateX(-50%); object-position: 50% 6%; }
+  .mstage__copy, .mstage__chart { grid-column: 1; }
+  /* 模特兒喺手機返做背景層（鋪滿上半），唔再佔一格 */
+  .mstage__stage { position: absolute; inset: 0; z-index: 1; }
+  .mstage__model { top: 0; bottom: 0; height: 100%; width: auto; object-position: 50% 4%; }
   .mstage__album { display: none; }
   .mstage__chart-t { margin-bottom: 8px; }
   .mstage__steps { display: flex; gap: 12px; }
