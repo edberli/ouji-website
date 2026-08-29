@@ -1094,6 +1094,8 @@ function initPromoPop() {
   const END = new Date('2026-09-15T23:59:00+08:00');
   if (Date.now() > END.getTime()) return;
   if (/\/cart(\.html)?$/.test(location.pathname)) return;
+  // 截圖／視覺檢查用：?nopromo=1 就唔彈，方便睇返底下個版面
+  if (new URLSearchParams(location.search).has('nopromo')) return;
 
   const KEY = 'ouji:promoPop';
   const today = new Date().toISOString().slice(0, 10);
@@ -1291,9 +1293,11 @@ const SHOP_SHEET = [
   { href: 'lens.html', label: '隱形眼鏡', note: '日拋 · 全度數' },
   { href: 'kpop.html', label: 'K-pop 周邊', note: '專輯 · 寫真書' },
   // 細類別都要有位企 —— 唔喺呢度出現，手機用戶就淨係喺 footer 搵到。
-  { href: 'bodycare.html', label: '身體護理', note: '沐浴 · 護手 · 頭皮' },
-  { href: 'fragrance.html', label: '香氛', note: '香水' },
-  { href: 'lifestyle.html', label: '生活風格', note: '美容工具 · 配件' },
+  { href: 'bath.html', label: '沐浴洗護', note: '潔面 · 洗髮 · 沐浴' },
+  { href: 'health.html', label: '保健品', note: '益生菌 · 膠原蛋白' },
+  { href: 'seasonal.html', label: '季節性', note: '防曬 · 護手霜' },
+  { href: 'tools.html', label: '彩妝工具', note: '化妝掃 · 粉撲' },
+  { href: 'fragrance.html', label: '香水香氛', note: '香水 · 身體噴霧' },
 ];
 
 function initShopSheet() {

@@ -1181,6 +1181,9 @@ const CATEGORY_TAXONOMY = {
       mask:        { label: '面膜',     keywords: ['mask', 'sheet mask', 'mask pack', '面膜', '마스크', '팩'] },
       eye:         { label: '眼部護理', keywords: ['eye cream', 'eye lifter', 'eye serum', '眼霜', '眼部', '아이'] },
       sunscreen:   { label: '防曬',     keywords: ['sunscreen', 'suncare', 'sun cream', '防曬', '선크림', '선케어'] },
+      spot:        { label: '局部護理', keywords: ['局部護理', '痘痘貼', 'spot'] },
+      exfoliator:  { label: '去角質',   keywords: ['去角質', 'peeling', 'exfoliator'] },
+      kit:         { label: '套裝',     keywords: ['套裝護膚', '套裝', 'kit'] },
     },
   },
   makeup: {
@@ -1232,6 +1235,10 @@ const CATEGORY_TAXONOMY = {
                     keywords: ['contour', 'bronzer', 'highlighter', '修容', '高光', '打亮'] },
       highlight:  { label: '高光',   parent: 'contour', title: /高光|打亮|highlight/i,
                     keywords: ['highlighter', 'highlight', '高光'] },
+      setting:    { label: '定妝',   bucket: 'setting', title: /定妝|fixer|setting/i,
+                    keywords: ['定妝噴霧', '定妝', 'fixer', 'setting'] },
+      lash:       { label: '假睫毛', bucket: 'lash',    title: /假睫毛|eyelash/i,
+                    keywords: ['假睫毛', 'eyelash'] },
     },
   },
   kpop: {
@@ -1265,9 +1272,60 @@ const CATEGORY_TAXONOMY = {
       topards: { label: 'TOPARDS', keywords: ['topards'] },
     },
   },
-  'body-care': { label: '身體護理', keywords: ['body', 'body care', 'hand', 'hair', 'shampoo', '身體', '護手', '頭皮', '髮'] },
-  fragrance:   { label: '香氛',     keywords: ['fragrance', 'perfume', 'eau de', 'mist', '香水', '香氛'] },
-  lifestyle:   { label: '生活風格', keywords: ['lifestyle', 'accessory', 'tool', 'goods', '生活', '配件', '工具'] },
+  tools: {
+    label: '彩妝工具',
+    keywords: ['化妝工具', '美容工具', 'brush', 'puff', 'tool'],
+    subs: {
+      brush:  { label: '化妝掃',   keywords: ['化妝掃', '掃', 'brush'] },
+      puff:   { label: '粉撲海綿', keywords: ['粉撲', '美妝蛋', 'puff', 'sponge'] },
+      beauty: { label: '美容小工具', keywords: ['美容工具', '睫毛夾', '黑頭', 'tweezer'] },
+    },
+  },
+  bath: {
+    label: '沐浴洗護',
+    /* 老闆 2026-08-29：洗頭水、沐浴露越入越多，要有自己一格；潔面都放埋落嚟。
+       ⚠️ 潔面同時屬護膚 —— 兩邊都要有，唔可以搬走。老闆原話：
+       「你唔好因為某一個類別而犧牲另一個類別」。 */
+    keywords: ['潔面', '洗髮', '護髮', '沐浴', '身體護理'],
+    subs: {
+      cleanser: { label: '潔面', keywords: ['潔面'] },
+      shampoo:  { label: '洗髮', keywords: ['洗髮'] },
+      hair:     { label: '護髮', keywords: ['護髮'] },
+      body:     { label: '沐浴', keywords: ['沐浴'] },
+      lotion:   { label: '身體乳', keywords: ['身體護理'] },
+    },
+  },
+  health: {
+    label: '保健品',
+    keywords: ['保健品'],
+    /* 子分類靠標題 —— 保健品全部得一個 productType，成分先分得開 */
+    subs: {
+      probiotics: { label: '益生菌',  keywords: ['益生菌', '乳酸菌', '프로바이오틱스'] },
+      collagen:   { label: '膠原蛋白', keywords: ['膠原蛋白', 'collagen'] },
+      vitamin:    { label: '維他命',  keywords: ['維他命', '維生素', 'vitamin'] },
+      ginseng:    { label: '紅參人參', keywords: ['紅參', '人參', 'ginseng'] },
+      kombucha:   { label: '康普茶',  keywords: ['康普茶', 'kombucha'] },
+    },
+  },
+  seasonal: {
+    label: '季節性',
+    /* 防曬同護手霜跟季節走，所以喺呢度再出現一次；佢哋喺護膚／沐浴嗰邊
+       照樣留住。呢個 section 係「疊」出嚟嘅，唔係搬。 */
+    keywords: ['防曬', '護手霜', '涼感', '止汗'],
+    subs: {
+      sun:     { label: '防曬',   keywords: ['防曬'] },
+      hand:    { label: '護手霜', keywords: ['護手霜'] },
+      cooling: { label: '涼感止汗', keywords: ['涼感', '止汗'] },
+    },
+  },
+  fragrance: {
+    label: '香水香氛',
+    keywords: ['香水', '身體噴霧', 'perfume', 'body mist'],
+    subs: {
+      perfume: { label: '香水',     keywords: ['香水', 'perfume'] },
+      mist:    { label: '身體噴霧', keywords: ['身體噴霧', 'body mist'] },
+    },
+  },
 };
 
 // Text blob a product is matched against

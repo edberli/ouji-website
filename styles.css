@@ -9334,7 +9334,9 @@ body::before { opacity: 0.18; }
 /* ---------- BOOT hero ---------- */
 .shop-boot {
   position: relative;
-  height: clamp(390px, 34vw, 440px);
+  /* 由五格加到九格，貼紙分兩行擺。高度要夠：兩行貼紙（各 120px）
+     必須完全喺「Starting shop.exe」對話框下面，唔可以疊住佢。 */
+  height: clamp(560px, 44vw, 620px);
   overflow: hidden;
   border-bottom: 3px solid var(--boot-ink);
   background: #64c7ef;
@@ -9428,7 +9430,9 @@ body::before { opacity: 0.18; }
   position: absolute; right: 8px; bottom: 7px; color: #ffffff; font: 15px var(--boot-mono);
 }
 
-.shop-boot__dialog { z-index: 5; top: 205px; right: 12%; width: 325px; transform: rotate(-2deg); }
+/* 對話框要讓開下面兩行貼紙。實測（getBoundingClientRect）160px 仲會同
+   「季節性」疊 126×28、同「彩妝工具」疊 53×13，所以再提到 118px。 */
+.shop-boot__dialog { z-index: 5; top: 118px; right: 12%; width: 325px; transform: rotate(-2deg); }
 .shop-boot__dialogbody { padding: 12px 12px 10px; font: 21px var(--boot-mono); }
 .shop-boot__dialogbody p { margin: 0 0 7px; }
 .shop-boot__progress {
@@ -9550,6 +9554,75 @@ body::before { opacity: 0.18; }
   display: grid; place-items: center; color: #fff; background: #416fea; font-size: 16px;
 }
 
+/* 沐浴洗護：泵頭樽 ＋ 泡泡 */
+.shop-boot__art--bath { border: 0; }
+.shop-boot__art--bath::before {
+  left: 22px; top: 24px; width: 44px; height: 52px;
+  border: 5px solid var(--boot-ink); border-radius: 6px; background: #b8f2e0;
+  box-shadow: 0 0 0 5px #ffffff;
+}
+.shop-boot__art--bath::after {
+  left: 36px; top: 4px; width: 14px; height: 22px;
+  border: 5px solid var(--boot-ink); border-bottom: 0; background: #ffffff;
+}
+.shop-boot__art--bath > i {
+  right: 4px; top: 12px; width: 20px; height: 20px;
+  border: 4px solid var(--boot-ink); border-radius: 50%; background: #ffffff;
+  box-shadow: -4px 26px 0 -6px var(--boot-ink), 10px 34px 0 -7px var(--boot-ink);
+}
+
+/* 季節性：太陽 ＋ 一支管裝 */
+.shop-boot__art--seasonal { border: 0; }
+.shop-boot__art--seasonal::before {
+  left: 8px; top: 10px; width: 46px; height: 46px;
+  border: 5px solid var(--boot-ink); border-radius: 50%; background: #ffd76a;
+  box-shadow: 0 0 0 5px #ffffff;
+}
+.shop-boot__art--seasonal::after {
+  left: 2px; top: 4px; width: 58px; height: 58px;
+  border: 4px dashed var(--boot-ink); border-radius: 50%; opacity: .55;
+}
+.shop-boot__art--seasonal > i {
+  right: 2px; bottom: 6px; width: 28px; height: 46px;
+  border: 5px solid var(--boot-ink); border-radius: 4px 4px 8px 8px; background: #ff9ec4;
+  box-shadow: 0 0 0 5px #ffffff; transform: rotate(8deg);
+}
+
+/* 彩妝工具：一支化妝掃 */
+.shop-boot__art--tools { border: 0; }
+.shop-boot__art--tools::before {
+  left: 34px; bottom: 4px; width: 22px; height: 44px;
+  border: 5px solid var(--boot-ink); border-radius: 3px; background: #fff0f7;
+  box-shadow: 0 0 0 5px #ffffff;
+}
+.shop-boot__art--tools::after {
+  left: 32px; top: 30px; width: 26px; height: 12px;
+  border: 5px solid var(--boot-ink); background: #d6d9e4;
+}
+.shop-boot__art--tools > i {
+  left: 30px; top: 2px; width: 30px; height: 32px;
+  border: 5px solid var(--boot-ink); border-radius: 50% 50% 40% 40%; background: #ff7fb5;
+  box-shadow: 0 0 0 5px #ffffff;
+}
+
+/* 保健品：一支條裝 ＋ 一粒膠囊 */
+.shop-boot__art--health { border: 0; }
+.shop-boot__art--health::before {
+  left: 18px; top: 8px; width: 30px; height: 62px;
+  border: 5px solid var(--boot-ink); border-radius: 3px; background: #e2f7ae;
+  box-shadow: 0 0 0 5px #ffffff; transform: rotate(-6deg);
+}
+.shop-boot__art--health::after {
+  left: 24px; top: 26px; width: 18px; height: 5px;
+  border: 3px solid var(--boot-ink); background: #ffffff; transform: rotate(-6deg);
+  box-shadow: 0 12px 0 -1px var(--boot-ink);
+}
+.shop-boot__art--health > i {
+  right: 2px; bottom: 12px; width: 34px; height: 20px;
+  border: 5px solid var(--boot-ink); border-radius: 12px; background: #ffffff;
+  box-shadow: 0 0 0 5px #ffffff, inset 17px 0 0 0 #ff8f6b; transform: rotate(-18deg);
+}
+
 .shop-boot__art--other { border: 0; }
 .shop-boot__art--other::before {
   left: 14px; top: 26px; width: 59px; height: 50px;
@@ -9658,7 +9731,7 @@ body::before { opacity: 0.18; }
 
 /* ---------- 手機（老闆實機睇過之後嘅修正版）---------- */
 @media (max-width: 760px) {
-  .shop-boot { height: 510px; }
+  .shop-boot { height: 690px; }
   .shop-boot__title { top: 12px; left: 14px; width: auto; min-width: 0; }
   .shop-boot__os { padding: 4px 8px 3px; font-size: 15px; }
   .shop-boot__title h1 {
@@ -9688,11 +9761,19 @@ body::before { opacity: 0.18; }
   .shop-boot__sticker:hover,
   .shop-boot__sticker:focus-visible,
   .shop-boot__sticker.is-on { transform: translateX(-50%) rotate(0) scale(.77); }
-  .shop-boot__sticker:nth-child(1) { left: 9%; bottom: 27px; }
-  .shop-boot__sticker:nth-child(2) { left: 29.5%; bottom: 67px; }
-  .shop-boot__sticker:nth-child(3) { left: 50%; bottom: 25px; }
-  .shop-boot__sticker:nth-child(4) { left: 71%; bottom: 65px; }
-  .shop-boot__sticker:nth-child(5) { left: 91.5%; bottom: 27px; }
+  /* 九格：三行三個，行與行之間交錯少少，撳嘅位仍然過 44px。
+     ⚠️ `bottom` 越大越高 —— 頭三格（護膚／彩妝／沐浴洗護）要 **最大** 嘅值，
+     先會排喺最上面。寫細數字嘅話最大嗰格會沉到底，客一入嚟見到嘅係
+     「其他 5 件」。 */
+  .shop-boot__sticker:nth-child(1) { left: 17%; bottom: 208px; }
+  .shop-boot__sticker:nth-child(2) { left: 50%; bottom: 216px; }
+  .shop-boot__sticker:nth-child(3) { left: 83%; bottom: 208px; }
+  .shop-boot__sticker:nth-child(4) { left: 17%; bottom: 116px; }
+  .shop-boot__sticker:nth-child(5) { left: 50%; bottom: 124px; }
+  .shop-boot__sticker:nth-child(6) { left: 83%; bottom: 116px; }
+  .shop-boot__sticker:nth-child(7) { left: 17%; bottom: 24px; }
+  .shop-boot__sticker:nth-child(8) { left: 50%; bottom: 32px; }
+  .shop-boot__sticker:nth-child(9) { left: 83%; bottom: 24px; }
   .shop-boot__taskbar { height: 40px; font-size: 16px; }
   .shop-boot__start { min-width: 72px; padding: 8px 13px; }
   .shop-boot__tab { margin-left: 7px; padding: 3px 9px; }

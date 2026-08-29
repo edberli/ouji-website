@@ -383,7 +383,7 @@ async function initHome() {
     { label: '氣墊', href: 'makeup.html?cat=cushion', type: '氣墊粉底' },
     { label: '唇釉', href: 'makeup.html?cat=liptint', type: '唇釉' },
     { label: '眼影', href: 'makeup.html?cat=eyeshadow', type: '眼影' },
-    { label: '身體護理', href: 'bodycare.html', has: (p) => hasTag(p, '身體護理') },
+    { label: '沐浴洗護', href: 'bath.html', has: (p) => hasTag(p, '沐浴') || hasTag(p, '洗髮') || hasTag(p, '潔面') },
   ];
 
   /* 分類卡張相本來由目錄自動揀第一件貨嘅第一張圖。護膚永遠揀到一支白底

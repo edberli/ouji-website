@@ -1237,39 +1237,63 @@ function renderProducts(container, products, { grouped }) {
 /* `href` = 有自己專屬版面嗰啲分類，撳咗就過去嗰版，唔係喺下面個
    Explorer 度篩。老闆：「嗰兩個分頁我做得咁靚，梗係期望啲人直接去
    呢兩個位置，而唔係純粹去篩選嗰個位置。」
-   冇 href 嘅（其他）先至喺 Explorer 入面篩。 */
+   冇 href 嘅（其他）先至喺 Explorer 入面篩。
+
+   ⚠️ 2026-08-29 起呢啲格**唔再互斥**。老闆原話：「有啲產品係同時屬於
+   幾個類別㗎嘛，譬如防曬可以係護膚品，可以係季節性用品；洗面可以係
+   護膚品，可以係沐浴產品。你唔好因為某一個類別而犧牲另一個類別。」
+   所以防曬同時計入護膚同季節性，潔面同時計入護膚同沐浴 ——
+   八格加埋會多過總數，係預期之內，唔係 bug。「其他」係真正嘅剩餘，
+   即係唔屬上面任何一格嗰啲。 */
 const SHOP_GROUPS = [
-  { id: 'skincare', label: '護膚',       tint: '#70e5ff', dialog: 'Loading skin care...',   href: 'category.html' },
-  { id: 'makeup',   label: '彩妝',       tint: '#ff82c9', dialog: 'Loading make-up...',     href: 'makeup.html' },
+  { id: 'skincare', label: '護膚',       tint: '#70e5ff', dialog: 'Loading skin care...',    href: 'category.html' },
+  { id: 'makeup',   label: '彩妝',       tint: '#ff82c9', dialog: 'Loading make-up...',      href: 'makeup.html' },
+  { id: 'bath',     label: '沐浴洗護',   tint: '#8fe3c4', dialog: 'Loading bath & wash...',  href: 'bath.html' },
+  { id: 'seasonal', label: '季節性',     tint: '#ffc26a', dialog: 'Loading seasonal...',     href: 'seasonal.html' },
+  { id: 'tools',    label: '彩妝工具',   tint: '#ffa8d8', dialog: 'Loading makeup tools...', href: 'tools.html' },
+  { id: 'health',   label: '保健品',     tint: '#b6e86a', dialog: 'Loading supplements...',  href: 'health.html' },
   { id: 'lens',     label: '隱形眼鏡',   tint: '#77c8ff', dialog: 'Loading contact lens...', href: 'lens.html' },
-  { id: 'kpop',     label: 'K-pop 周邊', tint: '#fff06a', dialog: 'Loading K-pop goods...', href: 'kpop.html' },
+  { id: 'kpop',     label: 'K-pop 周邊', tint: '#fff06a', dialog: 'Loading K-pop goods...',  href: 'kpop.html' },
   { id: 'other',    label: '其他',       tint: '#c8a6ff', dialog: 'Loading more goods...' },
 ];
-const SHOP_GROUP_ORDER = ['lens', 'kpop', 'makeup', 'skincare'];
-/* 貼紙擺位：唔係五個一樣高嘅圓掣，係順手擺落枱面嗰種高低錯落 */
+/* 「其他」＝唔屬上面任何一格。呢個 list 就係用嚟計「剩返啲乜」。 */
+const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
+/* 貼紙擺位：唔係一行一樣高嘅圓掣，係順手擺落枱面嗰種高低錯落。
+   九格分兩行，唔好逼喺一行 —— 一行九個喺手機會細到撳唔到。 */
 const SHOP_STICKER_POS = [
-  { x: '11%', y: '0px',  r: '-5deg', s: 1 },
-  { x: '30%', y: '20px', r: '4deg',  s: 0.95 },
-  { x: '50%', y: '-2px', r: '-2deg', s: 1.08 },
-  { x: '70%', y: '18px', r: '5deg',  s: 0.98 },
-  { x: '88%', y: '2px',  r: '-4deg', s: 0.94 },
+  /* `bottom` 越大越高，所以前五格（護膚、彩妝⋯）擺上面一行，
+     後四格擺下面。下面一行唔可以低過 26px，否則個標籤會俾
+     底下條 taskbar 切走一半。 */
+  { x: '7%',  y: '150px', r: '-5deg', s: 1 },
+  { x: '30%', y: '164px', r: '4deg',  s: 0.95 },
+  { x: '51%', y: '148px', r: '-2deg', s: 1.06 },
+  { x: '72%', y: '162px', r: '5deg',  s: 0.97 },
+  { x: '92%', y: '150px', r: '-4deg', s: 0.93 },
+  { x: '20%', y: '22px',  r: '3deg',  s: 0.95 },
+  { x: '38%', y: '34px',  r: '-4deg', s: 0.98 },
+  { x: '61%', y: '22px',  r: '4deg',  s: 0.94 },
+  { x: '83%', y: '34px',  r: '-3deg', s: 0.92 },
 ];
 
-function productGroup(p) {
-  for (const id of SHOP_GROUP_ORDER) {
-    if (matchesKeywords(p, categoryKeywords(id))) return id;
-  }
-  return 'other';
+function inSection(p, id) {
+  return matchesKeywords(p, categoryKeywords(id));
 }
 
 function productsForGroup(products, key) {
   if (!key) return products;
-  return products.filter((p) => productGroup(p) === key);
+  if (key === 'other') {
+    return products.filter((p) => !SHOP_GROUP_SECTIONS.some((id) => inSection(p, id)));
+  }
+  return products.filter((p) => inSection(p, key));
 }
 
 function shopGroupCounts(products) {
   const n = Object.fromEntries(SHOP_GROUPS.map((g) => [g.id, 0]));
-  products.forEach((p) => { n[productGroup(p)] += 1; });
+  products.forEach((p) => {
+    let any = false;
+    SHOP_GROUP_SECTIONS.forEach((id) => { if (inSection(p, id)) { n[id] += 1; any = true; } });
+    if (!any) n.other += 1;
+  });
   return n;
 }
 
@@ -1338,7 +1362,7 @@ function syncShopBoot(products, activeGroup, list) {
             onerror="this.remove()">`).join('');
   }
   const folder = document.querySelector('[data-boot-folder]');
-  if (folder) folder.textContent = g ? `${g.label} folder selected` : '5 folders ready';
+  if (folder) folder.textContent = g ? `${g.label} folder selected` : `${SHOP_GROUPS.length} folders ready`;
   const dialog = document.querySelector('[data-boot-dialog]');
   if (dialog) dialog.textContent = g ? g.dialog : 'Loading all products...';
 }
