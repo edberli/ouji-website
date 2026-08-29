@@ -12173,17 +12173,51 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .poster__grid .card-rating { display: none; }
 
 
-/* 分批出貨：IntersectionObserver 見到就自動接落去，粒掣係後備
-   （有啲內置 webview 唔觸發 observer，冇粒掣客就會以為冇貨）。 */
-.catalog-more { display: flex; justify-content: center; width: 100%; padding: 28px 0 8px; }
-.catalog-more__btn {
-  padding: 12px 28px;
-  border: 1px solid var(--primary, #6da3b5);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--primary, #6da3b5);
-  font: inherit; font-size: 15px; cursor: pointer;
-  transition: background .18s ease, color .18s ease;
+/* 分頁 —— 換頁係換走舊嗰批，唔係接落去，所以 DOM 唔會愈碌愈大。
+   手機一行放唔晒廿幾個頁碼，所以頁碼區自己可以橫掃，
+   「上一頁／下一頁」兩粒就永遠固定喺兩邊，唔會捲走。 */
+.pager {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin: 34px 0 8px; padding: 0 4px;
 }
-.catalog-more__btn:hover,
-.catalog-more__btn:focus-visible { background: var(--primary, #6da3b5); color: #fff; }
+/* 頁碼要食晒中間剩低嘅位、自己橫掃；min-width:0 唔加嘅話
+   flex 子元素唔會縮，第 11 頁嗰種（頭尾＋前後各一＋兩個「…」）
+   喺 430px 闊會撐爆，「下一頁」俾切走一半。 */
+.pager__nums {
+  flex: 1 1 auto; min-width: 0;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+}
+.pager__nums::-webkit-scrollbar { display: none; }
+.pager__num,
+.pager__side {
+  flex: 0 0 auto;
+  min-width: 40px; min-height: 40px; padding: 0 12px;
+  border: 1px solid var(--border, #e3ded6); border-radius: 10px;
+  background: #fff; color: var(--text-primary, #2b2b2b);
+  font: inherit; font-size: 15px; line-height: 38px; cursor: pointer;
+  transition: border-color .16s ease, background .16s ease, color .16s ease;
+}
+.pager__side { white-space: nowrap; }
+.pager__num:hover,
+.pager__side:not([disabled]):hover { border-color: var(--primary, #6da3b5); color: var(--primary, #6da3b5); }
+.pager__num.is-on {
+  border-color: var(--primary, #6da3b5);
+  background: var(--primary, #6da3b5);
+  color: #fff; font-weight: 600;
+}
+.pager__side[disabled] { opacity: .38; cursor: default; }
+.pager__gap { flex: 0 0 auto; padding: 0 2px; color: var(--text-secondary, #8b8b8b); }
+.pager__count { display: none; }
+@media (max-width: 700px) {
+  /* 手機：唔出成排頁碼（375px 闊點縮都撐爆，「下一頁」會俾切走），
+     淨係出「11 / 21」，兩邊留返上一頁／下一頁。 */
+  .pager { gap: 10px; justify-content: space-between; }
+  .pager__nums { display: none; }
+  .pager__count {
+    display: block; flex: 1 1 auto; text-align: center;
+    font-size: 15px; font-variant-numeric: tabular-nums;
+    color: var(--text-secondary, #6b6b6b);
+  }
+  .pager__side { min-width: 88px; padding: 0 14px; font-size: 15px; }
+}

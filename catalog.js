@@ -1192,63 +1192,104 @@ function soldOutBlock(items, id) {
   </details>`;
 }
 
-/* ⚠️ 分批出貨，唔好一次過寫晒落 DOM。
+/* ⚠️ 真分頁，唔好一次過寫晒落 DOM。
 
    2026-08-30：老闆報「有時 load 唔到個網站」，客都反映過。查出唔係伺服器
-   問題（HTML 每次都 200，0.3 秒），係**手機頂唔順**：全部產品頁一次過
+   問題（HTML 每次都 200、0.3 秒），係**手機頂唔順**：全部產品頁一次過
    render 晒 1,300 張產品卡，個 body 高 214,000px。iOS Safari 撞爆記憶體
-   就會殺咗個分頁，客見到嘅就係一版白紙。件數由 883 加到 1,300 之後就開始出事。
+   就會殺咗個分頁，客見到嘅就係一版白紙。
 
-   所以：先出頭 CHUNK 件，跟住用 IntersectionObserver 見到底先接落去。
-   睇落同以前一樣，但同一時間留喺 DOM 嘅卡少好多。 */
-const RENDER_CHUNK = 60;          // 平舖網格：一次 60 張卡
-const RENDER_CHUNK_SECTION = 3;   // 品牌分區：一次 3 個牌子（一個牌子可以有幾十件）
+   第一版用「載入更多」，但老闆講得啱：撳落去 DOM 一樣會脹返上去，
+   一路碌就一路撞返同一個牆。所以改做**真分頁** —— 換頁係換走舊嗰批，
+   唔係接落去，同一時間留喺 DOM 嘅卡永遠有上限。
+   頁碼寫入 ?page=，可以貼連結、撳返上一頁都work。 */
+const PAGE_SIZE = 48;              // 平舖網格：一頁幾多件
+const PAGE_SIZE_GROUPED = 60;      // 品牌分區：一頁最多幾多件（唔會斬開一個牌子）
 
-function chunkRender(container, pieces, size) {
-  const step = size || RENDER_CHUNK;
-  let i = 0;
+/* 品牌分區唔可以中間斬開，所以逐個牌子塞落頁，塞到超過上限就開新一頁。
+   一個牌子本身超過上限（例如 90 件）就自己佔一頁 —— 好過斬開兩截。 */
+function paginateSections(order) {
+  const pages = [];
+  let cur = [], n = 0;
+  order.forEach((entry) => {
+    const size = entry[1].length;
+    if (cur.length && n + size > PAGE_SIZE_GROUPED) { pages.push(cur); cur = []; n = 0; }
+    cur.push(entry); n += size;
+  });
+  if (cur.length) pages.push(cur);
+  return pages;
+}
 
-  // 哨兵 ＋ 一粒真掣。IntersectionObserver 見到就自動接落去；
-  // 但唔可以淨靠佢 —— 有啲瀏覽器／內置 webview 唔一定觸發，
-  // 到時客就會以為冇貨。所以粒掣係實實在在撳得嘅後備。
-  const more = document.createElement('div');
-  more.className = 'catalog-more';
-  more.innerHTML = '<button type="button" class="catalog-more__btn">載入更多</button>';
-  const btn = more.querySelector('button');
+function pageParam() {
+  const n = parseInt(new URLSearchParams(location.search).get('page') || '1', 10);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+}
 
-  function next() {
-    if (i >= pieces.length) {
-      more.remove();
-      io.disconnect();
-      return;
-    }
-    const slice = pieces.slice(i, i + step).join('');
-    more.insertAdjacentHTML('beforebegin', slice);
-    i += step;
-    const left = pieces.length - i;
-    if (left <= 0) { more.remove(); io.disconnect(); return; }
-    btn.textContent = `載入更多（仲有 ${left}）`;
-  }
+function setPageParam(n) {
+  const u = new URL(location.href);
+  if (n <= 1) u.searchParams.delete('page');
+  else u.searchParams.set('page', String(n));
+  history.pushState({ page: n }, '', u);
+}
 
-  const io = new IntersectionObserver((entries) => {
-    if (entries.some((e) => e.isIntersecting)) next();
-  }, { rootMargin: '600px 0px' });
+/* 頁碼列：頭、尾、同當前頁前後各一個，中間用「…」。
+   1,300 件貨分開廿幾頁，全部列出嚟喺手機會摺行。 */
+function pagerHtml(cur, total) {
+  if (total <= 1) return '';
+  const want = new Set([1, total, cur - 1, cur, cur + 1]);
+  if (cur <= 3) [2, 3].forEach((x) => want.add(x));
+  if (cur >= total - 2) [total - 1, total - 2].forEach((x) => want.add(x));
+  const nums = [...want].filter((x) => x >= 1 && x <= total).sort((a, b) => a - b);
+  let out = '';
+  let prev = 0;
+  nums.forEach((x) => {
+    if (prev && x - prev > 1) out += '<span class="pager__gap">…</span>';
+    out += `<button type="button" class="pager__num${x === cur ? ' is-on' : ''}"
+              data-page="${x}"${x === cur ? ' aria-current="page"' : ''}>${x}</button>`;
+    prev = x;
+  });
+  // 手機淨係出「11 / 21」—— 廿幾個頁碼喺 375px 闊點縮都撐爆，
+  //「下一頁」會俾切走。電腦先出成排頁碼。
+  return `<nav class="pager" aria-label="分頁">
+    <button type="button" class="pager__side" data-page="${cur - 1}"
+            ${cur === 1 ? 'disabled' : ''}>上一頁</button>
+    <div class="pager__nums">${out}</div>
+    <span class="pager__count">${cur} / ${total}</span>
+    <button type="button" class="pager__side" data-page="${cur + 1}"
+            ${cur === total ? 'disabled' : ''}>下一頁</button>
+  </nav>`;
+}
 
-  btn.addEventListener('click', next);
-  container.innerHTML = '';
-  container.appendChild(more);
-  next();                 // 第一批即刻出
-  io.observe(more);
+/* 換頁：重畫、更新網址、捲返個列表頂 —— 唔好留喺原本個位，
+   客會以為冇嘢發生。 */
+function wirePager(container, draw) {
+  container.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-page]');
+    if (!b || b.disabled) return;
+    const n = parseInt(b.dataset.page, 10);
+    setPageParam(n);
+    draw(n);
+    const top = container.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
 }
 
 function renderProducts(container, products, { grouped }) {
   if (!grouped) {
     document.querySelector('.brand-rail')?.remove();
     const [inStock, out] = splitStock(products);
-    container.innerHTML = '<div class="product-grid"></div>';
-    chunkRender(container.querySelector('.product-grid'),
-                inStock.map(productCard));
-    if (out.length) container.insertAdjacentHTML('beforeend', soldOutBlock(out, 'all'));
+    const total = Math.max(1, Math.ceil(inStock.length / PAGE_SIZE));
+    const draw = (n) => {
+      const cur = Math.min(Math.max(1, n), total);
+      const slice = inStock.slice((cur - 1) * PAGE_SIZE, cur * PAGE_SIZE);
+      container.innerHTML =
+        `<div class="product-grid">${slice.map(productCard).join('')}</div>`
+        + pagerHtml(cur, total)
+        + (cur === total ? soldOutBlock(out, 'all') : '');
+    };
+    draw(pageParam());
+    wirePager(container, draw);
+    window.addEventListener('popstate', () => draw(pageParam()));
     return;
   }
   const byVendor = new Map();
@@ -1264,10 +1305,18 @@ function renderProducts(container, products, { grouped }) {
   const best = (items) => Math.max(...items.map(featuredScore));
   const order = [...byVendor.entries()]
     .sort((a, b) => best(b[1]) - best(a[1]) || b[1].length - a[1].length);
-  // 品牌分區一樣要分批 —— 一個牌子可以有幾十件貨
-  chunkRender(container, order.map(([v, items], i) => brandSection(v, items, i)),
-              RENDER_CHUNK_SECTION);
-  buildBrandRail(order);
+  // 品牌分區一樣要分頁 —— 一個牌子可以有幾十件貨
+  const pages = paginateSections(order);
+  const drawG = (n) => {
+    const cur = Math.min(Math.max(1, n), pages.length);
+    container.innerHTML =
+      pages[cur - 1].map(([v, items], i) => brandSection(v, items, i)).join('')
+      + pagerHtml(cur, pages.length);
+    buildBrandRail(pages[cur - 1]);
+  };
+  drawG(pageParam());
+  wirePager(container, drawG);
+  window.addEventListener('popstate', () => drawG(pageParam()));
 }
 
 /**
