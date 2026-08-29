@@ -305,9 +305,11 @@
             <li><a href="makeup.html">彩妝</a></li>
             <li><a href="lens.html">隱形眼鏡</a></li>
             <li><a href="kpop.html">K-pop 周邊</a></li>
-            <li><a href="bodycare.html">身體護理</a></li>
-            <li><a href="fragrance.html">香氛</a></li>
-            <li><a href="lifestyle.html">生活風格</a></li>
+            <li><a href="bath.html">沐浴洗護</a></li>
+            <li><a href="seasonal.html">季節性</a></li>
+            <li><a href="tools.html">彩妝工具</a></li>
+            <li><a href="health.html">保健品</a></li>
+            <li><a href="fragrance.html">香水香氛</a></li>
             <li><a href="brands.html">所有品牌</a></li>
             <li><a href="awards.html">獲獎產品</a></li>
             <li><a href="match.html">妝感配對</a></li>
@@ -527,10 +529,15 @@
       const breadcrumbSection = document.querySelector('.breadcrumb a[href^="category"], .breadcrumb a[href^="makeup"]');
       if (breadcrumbSection) {
         const sections = [
+          // 由窄行到闊：保健品／工具／季節性最明確，護膚係最後嘅預設
+          ['health.html', '保健品', ['保健品']],
+          ['tools.html', '彩妝工具', ['化妝工具', '美容工具']],
+          ['kpop.html', 'K-pop 周邊', ['專輯', '寫真書', 'k-pop', 'kpop']],
+          ['lens.html', '隱形眼鏡', ['隱形眼鏡']],
+          ['fragrance.html', '香水香氛', ['香水', '身體噴霧', 'fragrance', 'perfume']],
           ['makeup.html', '彩妝', ['彩妝', 'makeup', '唇', '眼', '胭脂', '底妝', 'lip', 'eye', 'cheek', 'blush']],
-          ['bodycare.html', '身體護理', ['身體', 'body', '護手', '沐浴']],
-          ['fragrance.html', '香氛', ['香水', '香氛', 'fragrance', 'perfume']],
-          ['lifestyle.html', '生活風格', ['生活', 'lifestyle', '工具']],
+          ['bath.html', '沐浴洗護', ['潔面', '洗髮', '護髮', '沐浴', '身體護理']],
+          ['seasonal.html', '季節性', ['護手霜', '涼感', '止汗']],
         ];
         const haystack = [product.productType, ...(product.tags || [])].join(' ').toLowerCase();
         const hit = sections.find(([, , keys]) => keys.some(k => haystack.includes(k.toLowerCase())));
