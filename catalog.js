@@ -1192,13 +1192,63 @@ function soldOutBlock(items, id) {
   </details>`;
 }
 
+/* ⚠️ 分批出貨，唔好一次過寫晒落 DOM。
+
+   2026-08-30：老闆報「有時 load 唔到個網站」，客都反映過。查出唔係伺服器
+   問題（HTML 每次都 200，0.3 秒），係**手機頂唔順**：全部產品頁一次過
+   render 晒 1,300 張產品卡，個 body 高 214,000px。iOS Safari 撞爆記憶體
+   就會殺咗個分頁，客見到嘅就係一版白紙。件數由 883 加到 1,300 之後就開始出事。
+
+   所以：先出頭 CHUNK 件，跟住用 IntersectionObserver 見到底先接落去。
+   睇落同以前一樣，但同一時間留喺 DOM 嘅卡少好多。 */
+const RENDER_CHUNK = 60;          // 平舖網格：一次 60 張卡
+const RENDER_CHUNK_SECTION = 3;   // 品牌分區：一次 3 個牌子（一個牌子可以有幾十件）
+
+function chunkRender(container, pieces, size) {
+  const step = size || RENDER_CHUNK;
+  let i = 0;
+
+  // 哨兵 ＋ 一粒真掣。IntersectionObserver 見到就自動接落去；
+  // 但唔可以淨靠佢 —— 有啲瀏覽器／內置 webview 唔一定觸發，
+  // 到時客就會以為冇貨。所以粒掣係實實在在撳得嘅後備。
+  const more = document.createElement('div');
+  more.className = 'catalog-more';
+  more.innerHTML = '<button type="button" class="catalog-more__btn">載入更多</button>';
+  const btn = more.querySelector('button');
+
+  function next() {
+    if (i >= pieces.length) {
+      more.remove();
+      io.disconnect();
+      return;
+    }
+    const slice = pieces.slice(i, i + step).join('');
+    more.insertAdjacentHTML('beforebegin', slice);
+    i += step;
+    const left = pieces.length - i;
+    if (left <= 0) { more.remove(); io.disconnect(); return; }
+    btn.textContent = `載入更多（仲有 ${left}）`;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) next();
+  }, { rootMargin: '600px 0px' });
+
+  btn.addEventListener('click', next);
+  container.innerHTML = '';
+  container.appendChild(more);
+  next();                 // 第一批即刻出
+  io.observe(more);
+}
+
 function renderProducts(container, products, { grouped }) {
   if (!grouped) {
     document.querySelector('.brand-rail')?.remove();
     const [inStock, out] = splitStock(products);
-    container.innerHTML =
-      `<div class="product-grid">${inStock.map(productCard).join('')}</div>`
-      + soldOutBlock(out, 'all');
+    container.innerHTML = '<div class="product-grid"></div>';
+    chunkRender(container.querySelector('.product-grid'),
+                inStock.map(productCard));
+    if (out.length) container.insertAdjacentHTML('beforeend', soldOutBlock(out, 'all'));
     return;
   }
   const byVendor = new Map();
@@ -1214,7 +1264,9 @@ function renderProducts(container, products, { grouped }) {
   const best = (items) => Math.max(...items.map(featuredScore));
   const order = [...byVendor.entries()]
     .sort((a, b) => best(b[1]) - best(a[1]) || b[1].length - a[1].length);
-  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
+  // 品牌分區一樣要分批 —— 一個牌子可以有幾十件貨
+  chunkRender(container, order.map(([v, items], i) => brandSection(v, items, i)),
+              RENDER_CHUNK_SECTION);
   buildBrandRail(order);
 }
 

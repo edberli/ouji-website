@@ -3,6 +3,30 @@
    Rich Animations, Parallax, Interactions
    ============================================ */
 
+/* 全部 .reveal* 元素喺 CSS 度係 opacity:0，等 JS 加 .is-visible 先現形。
+   所以**任何一個 init 拋錯，成版就會白晒** —— 客見到嘅就係一版白紙。
+   （2026-08-30 老闆報：有時 load 唔到個網站，客都反映過。）
+
+   兩重保險：
+   1. 安全網喺**最頂**就 setTimeout 排咗隊，唔會因為下面拋錯而登記唔到。
+   2. 每個 init 各自包 try/catch，一個死唔會拖冧其他。 */
+function oujiRevealAll() {
+  document.querySelectorAll('.rise:not(.is-in)').forEach(function (el) { el.classList.add('is-in'); });
+  document.querySelectorAll('.reveal:not(.is-visible), .reveal-blur:not(.is-visible), .reveal-stagger:not(.is-visible), .reveal-scale:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-clip:not(.is-visible), .reveal-clip--right:not(.is-visible), .reveal-clip--up:not(.is-visible), .section-float:not(.is-visible), .section-divider:not(.is-visible), .split-text:not(.is-visible), .word-reveal:not(.is-visible), .mood-board:not(.is-visible)').forEach(function (el) {
+    el.classList.add('is-visible');
+  });
+}
+// 唔等 DOMContentLoaded —— 越早排隊越安全
+setTimeout(oujiRevealAll, 2500);
+window.addEventListener('error', function () { oujiRevealAll(); });
+
+function oujiSafe(fn, name) {
+  try { fn(); } catch (e) {
+    if (window.console) console.error('[OUJI] ' + name + ' 出錯，跳過：', e);
+    oujiRevealAll();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const reduceMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -10,39 +34,39 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lite) document.documentElement.classList.add('is-lite');
 
   // Entrance reveals (CSS makes these instant under reduced-motion) + essential UI
-  initScrollReveal();
-  initBlurReveal();
-  initStaggerReveal();
-  initScaleReveal();
-  initSplitText();
-  initWordReveal();
-  initDirectionReveals();
-  initSectionFloat();
-  initMoodBoardReveal();
-  initLookbookInView();
-  initRiseReveal();
-  initShimaFrames();
-  initPromoLive();
-  initPromoPop();
-  initDividerReveal();
-  initMobileNav();
-  initMegaMenu();
-  initHeaderScroll();
-  initFilterSidebar();
-  initProductTabs();
-  initQuantityControls();
-  initVariantSelectors();
-  initCartActions();
-  initQuickAdd();
-  initSmoothImages();
-  initScrollProgress();
-  initRippleButtons();
-  initMarqueeHoverPause();
-  initBrandMarquee();
-  initOffscreenPause();
-  initHScrollDrag();
-  initHScrollArrows();
-  watchFrameRate();
+  oujiSafe(initScrollReveal, 'initScrollReveal');
+  oujiSafe(initBlurReveal, 'initBlurReveal');
+  oujiSafe(initStaggerReveal, 'initStaggerReveal');
+  oujiSafe(initScaleReveal, 'initScaleReveal');
+  oujiSafe(initSplitText, 'initSplitText');
+  oujiSafe(initWordReveal, 'initWordReveal');
+  oujiSafe(initDirectionReveals, 'initDirectionReveals');
+  oujiSafe(initSectionFloat, 'initSectionFloat');
+  oujiSafe(initMoodBoardReveal, 'initMoodBoardReveal');
+  oujiSafe(initLookbookInView, 'initLookbookInView');
+  oujiSafe(initRiseReveal, 'initRiseReveal');
+  oujiSafe(initShimaFrames, 'initShimaFrames');
+  oujiSafe(initPromoLive, 'initPromoLive');
+  oujiSafe(initPromoPop, 'initPromoPop');
+  oujiSafe(initDividerReveal, 'initDividerReveal');
+  oujiSafe(initMobileNav, 'initMobileNav');
+  oujiSafe(initMegaMenu, 'initMegaMenu');
+  oujiSafe(initHeaderScroll, 'initHeaderScroll');
+  oujiSafe(initFilterSidebar, 'initFilterSidebar');
+  oujiSafe(initProductTabs, 'initProductTabs');
+  oujiSafe(initQuantityControls, 'initQuantityControls');
+  oujiSafe(initVariantSelectors, 'initVariantSelectors');
+  oujiSafe(initCartActions, 'initCartActions');
+  oujiSafe(initQuickAdd, 'initQuickAdd');
+  oujiSafe(initSmoothImages, 'initSmoothImages');
+  oujiSafe(initScrollProgress, 'initScrollProgress');
+  oujiSafe(initRippleButtons, 'initRippleButtons');
+  oujiSafe(initMarqueeHoverPause, 'initMarqueeHoverPause');
+  oujiSafe(initBrandMarquee, 'initBrandMarquee');
+  oujiSafe(initOffscreenPause, 'initOffscreenPause');
+  oujiSafe(initHScrollDrag, 'initHScrollDrag');
+  oujiSafe(initHScrollArrows, 'initHScrollArrows');
+  oujiSafe(watchFrameRate, 'watchFrameRate');
 
   if (reduceMotion) {
     // Show final counter values immediately, skip the count-up animation
@@ -53,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   } else {
-    initCountUp();
+    oujiSafe(initCountUp, 'initCountUp');
     // 每一 frame 都要計數／改 transform 嘅效果。慢機行到 20fps，
     // 靚機先睇得出分別，所以低配一律唔行。
     if (!lite) {
@@ -69,12 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Safety fallback: if IntersectionObserver hasn't triggered after 2s,
   // force all reveal elements visible to prevent blank page
-  setTimeout(function () {
-    document.querySelectorAll('.rise:not(.is-in)').forEach(function (el) { el.classList.add('is-in'); });
-    document.querySelectorAll('.reveal:not(.is-visible), .reveal-blur:not(.is-visible), .reveal-stagger:not(.is-visible), .reveal-scale:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-clip:not(.is-visible), .reveal-clip--right:not(.is-visible), .reveal-clip--up:not(.is-visible), .section-float:not(.is-visible), .section-divider:not(.is-visible), .split-text:not(.is-visible), .word-reveal:not(.is-visible), .mood-board:not(.is-visible)').forEach(function (el) {
-      el.classList.add('is-visible');
-    });
-  }, 2000);
+  setTimeout(oujiRevealAll, 2000);
 });
 
 /* ----- Scroll Reveal ----- */
