@@ -372,18 +372,22 @@ async function initHome() {
    *
    * A scrolling row of circles instead: each one a real product we
    * actually stock, and the real number behind it. */
+  /* 頭七格＝而家嘅頂層分類（同 header 導覽、shop 貼紙一致），
+     之後先跟熱門細分類。客喺首頁見到嘅第一排，應該同佢喺導覽度
+     見到嗰套一樣，唔好一個講「精華／氣墊」另一個講「保健品／季節性」。 */
   const CATS = [
-    { label: '彩妝', href: 'makeup.html', has: (p) => hasTag(p, '彩妝', 'makeup') },
     { label: '護膚', href: 'category.html', has: (p) => hasTag(p, '護膚', 'skincare') },
+    { label: '彩妝', href: 'makeup.html', has: (p) => hasTag(p, '彩妝', 'makeup') },
+    { label: '沐浴洗護', href: 'bath.html', has: (p) => hasTag(p, '沐浴') || hasTag(p, '洗髮') || hasTag(p, '潔面') },
+    { label: '季節性', href: 'seasonal.html', has: (p) => hasTag(p, '防曬') || hasTag(p, '護手霜') },
+    { label: '彩妝工具', href: 'tools.html', has: (p) => hasTag(p, '化妝工具') || hasTag(p, '美容工具') },
+    { label: '保健品', href: 'health.html', has: (p) => hasTag(p, '保健品') },
     { label: '隱形眼鏡', href: 'lens.html', has: (p) => hasTag(p, '隱形眼鏡') },
     { label: 'K-pop', href: 'kpop.html', has: (p) => hasTag(p, 'K-pop', 'kpop') },
     { label: '精華', href: 'category.html?cat=serum', type: '精華' },
     { label: '面膜', href: 'category.html?cat=mask', type: '面膜' },
-    { label: '防曬', href: 'category.html?cat=sunscreen', type: '防曬' },
     { label: '氣墊', href: 'makeup.html?cat=cushion', type: '氣墊粉底' },
     { label: '唇釉', href: 'makeup.html?cat=liptint', type: '唇釉' },
-    { label: '眼影', href: 'makeup.html?cat=eyeshadow', type: '眼影' },
-    { label: '沐浴洗護', href: 'bath.html', has: (p) => hasTag(p, '沐浴') || hasTag(p, '洗髮') || hasTag(p, '潔面') },
   ];
 
   /* 分類卡張相本來由目錄自動揀第一件貨嘅第一張圖。護膚永遠揀到一支白底
