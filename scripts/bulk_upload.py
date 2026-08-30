@@ -340,4 +340,8 @@ def main():
     print(f"\n開咗 {made} 件。報告 → {REPORT}")
 
 
-main()
+# ⚠️ 一定要包住個 guard。之前係一句裸嘅 main() —— 第二個 script
+# `from bulk_upload import CREATE, ...` 攞常數嗰陣，成個上架流程會即刻
+# 跟住跑，而且會食咗人哋嘅命令列參數。
+if __name__ == "__main__":
+    main()

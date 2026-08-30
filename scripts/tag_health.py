@@ -52,12 +52,15 @@ SKIN = re.compile(
 def is_health(p):
     v = (p["vendor"] or "").upper()
     t = p["title"] or ""
+    # ⚠️ 劑型行先，牌子行後。HEVEBLUE 主打口服膠原果凍條，所以入咗
+    #    BRANDS，但佢同時有沐浴露、洗髮露、護髮素 —— 之前「牌子＝保健品」
+    #    喺劑型之前行，三支洗頭沖涼貨每次跑呢個 script 都會俾拉返入保健品格。
+    if SKIN.search(t):
+        return False
     if v in BRANDS:
         return True
     if (p["productType"] or "").strip() in TYPES:
         return True
-    if SKIN.search(t):
-        return False
     return bool(FORM.search(t) and ING.search(t))
 
 
