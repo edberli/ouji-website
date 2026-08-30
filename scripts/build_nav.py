@@ -105,33 +105,88 @@ def mega():
     return '<div class="header__mega">' + ''.join(out) + '</div>'
 
 
+# 隱形眼鏡同 K-pop 喺電腦版係頂層連結，唔入 mega menu，所以 NAV 入面
+# 冇 subs。但手機抽屜兩個都摺得開，所以子項喺呢度另外寫一份。
+MOBILE_SUBS = {
+    '隱形眼鏡': [
+        ('全部隱形眼鏡', 'lens.html', ''),
+        ('Feliamo', 'lens.html?cat=feliamo', 'item'),
+        ('Lilmoon', 'lens.html?cat=lilmoon', 'item'),
+        ('Molak', 'lens.html?cat=molak', 'item'),
+        ("N's Collection", 'lens.html?cat=nscollection', 'item'),
+        ('TOPARDS', 'lens.html?cat=topards', 'item'),
+    ],
+    'K-pop 周邊': [
+        ('全部 K-pop 周邊', 'kpop.html', ''),
+        ('專輯', 'kpop.html?cat=album', 'item'),
+        ('寫真書', 'kpop.html?cat=photobook', 'item'),
+        ('SEVENTEEN', 'kpop.html?cat=seventeen', 'item'),
+        ('IVE', 'kpop.html?cat=ive', 'item'),
+        ('ILLIT', 'kpop.html?cat=illit', 'item'),
+        ('Stray Kids', 'kpop.html?cat=straykids', 'item'),
+        ('ENHYPEN', 'kpop.html?cat=enhypen', 'item'),
+        ('LE SSERAFIM', 'kpop.html?cat=lesserafim', 'item'),
+    ],
+}
+
+# 抽屜最底嗰批唔係產品分類，所以唔跟 NAV 走。
+MOBILE_EXTRA = [
+    ('品牌', 'brands.html'),
+    ('獲獎產品', 'awards.html'),
+    ('妝感配對', 'match.html'),
+    ('專欄', 'column.html'),
+    ('帳戶', 'account.html'),
+]
+
+MCHEV = ('<svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" '
+         'stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>')
+MCLS = {'heading': ' class="mobile-nav__subheading"',
+        'item': ' class="mobile-nav__subitem"', 'solo': '', '': ''}
+
+
 def mobile():
-    """手機側欄：頂層直接出，唔再收埋喺『其他』。"""
-    rows = []
+    """手機抽屜成塊 `.mobile-nav__links` 嘅內容。
+
+    ⚠️ 一定要成塊重出，唔可以只塞新連結入去。之前就係只換走舊嗰三條
+    「其他」連結，結果原本已經寫死喺 HTML 嘅四個摺疊組（護膚／彩妝／
+    隱形眼鏡／K-pop）留咗喺上面 —— 客喺手機抽屜見到「護膚」同「彩妝」
+    各出現兩次，而且一半分類撳得開一半撳唔開。九個分類全部由 NAV 出，
+    每個一次，全部摺得開。
+    """
+    out = []
     for label, href, subs in NAV:
-        rows.append(f'      <a href="{href}">{label}</a>')
-    return '\n'.join(rows)
+        subs = subs or MOBILE_SUBS.get(label)
+        if not subs:
+            out.append(f'      <a href="{href}">{label}</a>')
+            continue
+        links = ''.join(
+            f'\n          <a href="{h}"{MCLS[k]}>{n}</a>' for n, h, k in subs)
+        out.append(
+            '      <div class="mobile-nav__group">\n'
+            '        <button class="mobile-nav__group-row" aria-expanded="false">'
+            f'<span>{label}</span>{MCHEV}</button>\n'
+            f'        <div class="mobile-nav__sublinks">{links}\n'
+            '        </div>\n'
+            '      </div>')
+    for label, href in MOBILE_EXTRA:
+        out.append(f'      <a href="{href}">{label}</a>')
+    return '\n'.join(out)
 
 
 def main():
     apply = '--apply' in sys.argv
     m = mega()
+    mob = mobile()
     n = 0
     for f in sorted(glob.glob('*.html')):
         src = open(f, encoding='utf-8').read()
         new = re.sub(r'<div class="header__mega">.*?</div></div></div>\s*(?=\n)',
                      m.replace('\\', '\\\\'), src, count=1, flags=re.S)
-        # 手機側欄：換走舊嘅三條「其他」連結
-        new = new.replace(
-            '      <a href="bodycare.html">沐浴洗護</a>\n'
-            '      <a href="fragrance.html">香氛</a>\n'
-            '      <a href="lifestyle.html">生活風格</a>\n',
-            mobile() + '\n')
-        new = new.replace(
-            '      <a href="bodycare.html">身體護理</a>\n'
-            '      <a href="fragrance.html">香氛</a>\n'
-            '      <a href="lifestyle.html">生活風格</a>\n',
-            mobile() + '\n')
+        # 手機抽屜：成塊重出（見 mobile() 個註解，唔可以只補連結）
+        new = re.sub(r'(<div class="mobile-nav__links">)(.*?)(\n    </div>\s*</nav>)',
+                     lambda mm: mm.group(1) + '\n' + mob.replace('\\', '\\\\')
+                     + mm.group(3),
+                     new, count=1, flags=re.S)
         if new != src:
             n += 1
             print('  ', f)
