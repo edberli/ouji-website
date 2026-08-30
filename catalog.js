@@ -81,7 +81,6 @@ function brandPlate(vendor) {
    首頁載 shopify.js 但唔載 catalog.js，而「新品速遞」嗰格都要
    攞品牌 logo —— 放喺共用嗰層先兩邊都用得。 */
 
-
 /* Displayed logo height per brand, so every mark reads the same size.
    Sizing on a shared max-height does not work: these marks carry wildly
    different amounts of ink inside their box — hince's hairline wordmark
@@ -104,7 +103,6 @@ function brandLogoHeight(vendor) {
 function brandArt(vendor) {
   return BRAND_ART[vendor] || null;
 }
-
 
 const PRICE_BUCKETS = [
   { id: 'u100', label: 'HK$100 以下', test: (v) => v < 100 },
@@ -947,6 +945,10 @@ function productCard(p) {
     </a>`;
 }
 
+/* 每一格牌子入面嘅貨，交返俾呢度，等 renderProducts 砌完個殼之後
+   逐格 mountGrid（窗口式渲染）。 */
+const SECTION_ITEMS = new Map();
+
 function brandSection(vendor, items, index) {
   const logo = brandLogo(vendor);
   const plate = brandPlate(vendor);
@@ -955,6 +957,7 @@ function brandSection(vendor, items, index) {
   const ordered = [...items].sort((a, b) =>
     routineStep(a) - routineStep(b) || featuredScore(b) - featuredScore(a));
   const [inStock, out] = splitStock(ordered);
+  SECTION_ITEMS.set(String(index), inStock);
   // A colour field, the brand's own logo, and its name. Photography was
   // tried twice and abandoned: nineteen brands shoot nineteen ways, half
   // of them burn their own wordmark into the frame, and nine publish
@@ -971,7 +974,7 @@ function brandSection(vendor, items, index) {
         <span class="brand-plate__name">${vendor}</span>
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
-      <div class="product-grid">${inStock.map(productCard).join('')}</div>
+      <div class="grid-host" data-section="${index}"></div>
       ${soldOutBlock(out, index)}
     </section>`;
 }
@@ -1219,120 +1222,109 @@ function soldOutBlock(items, id) {
    一路碌就一路撞返同一個牆。所以改做**真分頁** —— 換頁係換走舊嗰批，
    唔係接落去，同一時間留喺 DOM 嘅卡永遠有上限。
    頁碼寫入 ?page=，可以貼連結、撳返上一頁都work。 */
-/* 一頁幾多件 —— 睇機。手機爆記憶體先係當初出事嘅原因，電腦冇呢個問題，
-   所以電腦一頁畀多啲，少撳幾次；手機保守啲。
-   （老闆問「護膚頁用『載入更多』會唔會好啲」—— 載入更多係接落 DOM，
-     一路碌就一路脹返上去，正正係撞爆手機嗰個做法。與其換返去，
-     不如喺電腦度加大每頁件數，效果一樣係少撳幾次，但唔會爆。） */
-const WIDE = () => window.matchMedia('(min-width: 900px)').matches;
-const PAGE_SIZE = () => (WIDE() ? 96 : 48);              // 平舖網格
-const PAGE_SIZE_GROUPED = () => (WIDE() ? 120 : 60);     // 品牌分區（唔會斬開一個牌子）
 
-/* 品牌分區唔可以中間斬開，所以逐個牌子塞落頁，塞到超過上限就開新一頁。
-   一個牌子本身超過上限（例如 90 件）就自己佔一頁 —— 好過斬開兩截。 */
-function paginateSections(order) {
-  const pages = [];
-  let cur = [], n = 0;
-  order.forEach((entry) => {
-    const size = entry[1].length;
-    const cap = PAGE_SIZE_GROUPED();
-    if (cur.length && n + size > cap) { pages.push(cur); cur = []; n = 0; }
-    cur.push(entry); n += size;
+/* ============================================================
+   唔要分頁 —— 老闆 2026-08-30：「分頁成十幾頁，冇可能嘅，好影響用戶
+   體驗⋯我明言唔好做分頁。」而彩妝頁第一版仲要淨係得幾行貨（分區
+   分頁唔准斬開一個牌子，所以一版可能得三四個細牌子），更加冇得揀。
+
+   但一次過 render 千三張卡就係當初白畫面嘅元兇（body 高 214,000px，
+   iOS Safari 撞爆記憶體殺分頁）。所以改成**窗口式渲染**：
+   成條 list 斬做每 24 件一嚿，離開視窗好遠嗰啲嚿清空 innerHTML，
+   淨低量到嘅高度做佔位；捲返埋去先砌返。
+
+   客見到嘅係一條完整嘅長 list，想碌幾多就碌幾多，冇掣要撳；
+   但同一時間留喺 DOM 嘅卡永遠得百幾張。
+
+   24 呢個數係夾住欄數揀嘅 —— 電腦 4 欄、平板 3 欄、手機 2 欄，
+   24 三個都整除，所以每一嚿都啱啱好填滿，接口位睇唔出。 */
+const CHUNK = 24;
+const NEAR = 900;          // 距離視窗幾遠就預先砌返（px）
+
+/* ⚠️ 唔用 IntersectionObserver 做主力。實測過：分頁一唔喺前景，Chrome
+   就會唔派 IO callback，結果成版貨都係吉位 —— 客見到嘅又係一版白紙，
+   同當初要修嗰個病一模一樣。碌版事件係一定會行嘅，所以用返佢，
+   再用 rAF 節流。IO 慳嗰啲 CPU 唔值得換返個「有機會乜都唔出」。 */
+let GRID_ABORT = null;     // 拆走上一次 render 掛住嘅 scroll／resize
+let GRID_PANES = [];       // 而家管住緊嘅嚿
+
+function clearGridWindows() {
+  GRID_ABORT?.abort();
+  GRID_ABORT = null;
+  GRID_PANES = [];
+}
+
+function gridCols(host) {
+  if (window.matchMedia('(min-width: 1025px)').matches) return 4;
+  if (window.matchMedia('(min-width: 769px)').matches) return 3;
+  return 2;
+}
+
+function syncGridWindows() {
+  const h = window.innerHeight;
+  GRID_PANES.forEach((pane) => {
+    const r = pane.el.getBoundingClientRect();
+    const near = r.top < h + NEAR && r.bottom > -NEAR;
+    if (near) pane.fill(); else pane.drop();
   });
-  if (cur.length) pages.push(cur);
-  return pages;
 }
 
-function pageParam() {
-  const n = parseInt(new URLSearchParams(location.search).get('page') || '1', 10);
-  return Number.isFinite(n) && n > 0 ? n : 1;
+function watchGridWindows() {
+  if (GRID_ABORT) return;
+  GRID_ABORT = new AbortController();
+  let queued = false;
+  const on = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; syncGridWindows(); });
+  };
+  const o = { passive: true, signal: GRID_ABORT.signal };
+  window.addEventListener('scroll', on, o);
+  window.addEventListener('resize', on, o);
 }
 
-function setPageParam(n) {
-  const u = new URL(location.href);
-  if (n <= 1) u.searchParams.delete('page');
-  else u.searchParams.set('page', String(n));
-  history.pushState({ page: n }, '', u);
-}
+function mountGrid(host, items) {
+  if (!items.length) { host.innerHTML = ''; return; }
+  const chunks = [];
+  for (let i = 0; i < items.length; i += CHUNK) chunks.push(items.slice(i, i + CHUNK));
+  host.innerHTML = chunks
+    .map((_, i) => `<div class="product-grid" data-chunk="${i}"></div>`).join('');
 
-/* 頁碼列：頭、尾、同當前頁前後各一個，中間用「…」。
-   1,300 件貨分開廿幾頁，全部列出嚟喺手機會摺行。 */
-function pagerHtml(cur, total) {
-  if (total <= 1) return '';
-  const want = new Set([1, total, cur - 1, cur, cur + 1]);
-  if (cur <= 3) [2, 3].forEach((x) => want.add(x));
-  if (cur >= total - 2) [total - 1, total - 2].forEach((x) => want.add(x));
-  const nums = [...want].filter((x) => x >= 1 && x <= total).sort((a, b) => a - b);
-  let out = '';
-  let prev = 0;
-  nums.forEach((x) => {
-    if (prev && x - prev > 1) out += '<span class="pager__gap">…</span>';
-    out += `<button type="button" class="pager__num${x === cur ? ' is-on' : ''}"
-              data-page="${x}"${x === cur ? ' aria-current="page"' : ''}>${x}</button>`;
-    prev = x;
+  /* 未砌過嘅嚿要有個估計高度做佔位，否則成條 list 縮埋一舊，
+     全部嚿一次過落入視窗 —— 同一次過 render 冇分別。 */
+  const cols = gridCols(host);
+  const cw = (host.clientWidth || window.innerWidth) / cols;
+  const guess = Math.round(Math.ceil(chunks[0].length / cols) * cw * 1.6);
+
+  [...host.querySelectorAll('[data-chunk]')].forEach((el, i) => {
+    el.style.minHeight = guess + 'px';
+    GRID_PANES.push({
+      el,
+      fill() {
+        if (el.dataset.on === '1') return;
+        el.innerHTML = chunks[i].map(productCard).join('');
+        el.dataset.on = '1';
+      },
+      drop() {
+        if (el.dataset.on !== '1') return;
+        el.style.minHeight = Math.round(el.getBoundingClientRect().height) + 'px';
+        el.innerHTML = '';
+        el.dataset.on = '0';
+      },
+    });
   });
-  // 手機淨係出「11 / 21」—— 廿幾個頁碼喺 375px 闊點縮都撐爆，
-  //「下一頁」會俾切走。電腦先出成排頁碼。
-  return `<nav class="pager" aria-label="分頁">
-    <button type="button" class="pager__side" data-page="${cur - 1}"
-            ${cur === 1 ? 'disabled' : ''}>上一頁</button>
-    <div class="pager__nums">${out}</div>
-    <span class="pager__count">${cur} / ${total}</span>
-    <button type="button" class="pager__side" data-page="${cur + 1}"
-            ${cur === total ? 'disabled' : ''}>下一頁</button>
-  </nav>`;
-}
-
-/* 換頁：重畫、更新網址、捲返個列表頂 —— 唔好留喺原本個位，
-   客會以為冇嘢發生。
-
-   ⚠️ 一個 container 只可以掛一次。renderProducts 每篩選一次、每排序一次
-   都會再入嚟，之前每次都 addEventListener，listener 就咁一路疊上去。
-   2026-08-30 喺線上量到：客揀咗十幾次篩選之後，撳一下「下一頁」會
-   **行 21 次 draw()、叫 21 次 pushState、阻塞主線程 228ms** —— 手機
-   即刻「撳掣冇反應」，跟住爆記憶體變白畫面，而且返上一頁都壞埋
-   （一下撳出廿一個歷史紀錄）。老闆原話：「撳嗰啲按鈕都會死咗，
-   跟住個畫面又係撈唔到。」
-
-   所以 listener 掛一次就夠，之後每次入嚟只換走個 draw。 */
-const PAGER_BOUND = new WeakMap();
-
-function wirePager(container, draw) {
-  const bound = PAGER_BOUND.get(container);
-  if (bound) { bound.draw = draw; return; }   // 換新嘅 draw，唔好再掛多一個
-
-  const state = { draw };
-  PAGER_BOUND.set(container, state);
-  container.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-page]');
-    if (!b || b.disabled) return;
-    const n = parseInt(b.dataset.page, 10);
-    setPageParam(n);
-    state.draw(n);
-    const top = container.getBoundingClientRect().top + window.scrollY - 90;
-    window.scrollTo({ top, behavior: 'smooth' });
-  });
-  // popstate 都係同一個道理 —— 之前擺喺 renderProducts 度，每 draw 一次
-  // 就多一個，撳返上一頁會一次過重畫十幾廿次。
-  window.addEventListener('popstate', () => state.draw(pageParam()));
+  watchGridWindows();
 }
 
 function renderProducts(container, products, { grouped }) {
+  clearGridWindows();
   if (!grouped) {
     document.querySelector('.brand-rail')?.remove();
     const [inStock, out] = splitStock(products);
-    const per = PAGE_SIZE();
-    const total = Math.max(1, Math.ceil(inStock.length / per));
-    const draw = (n) => {
-      const cur = Math.min(Math.max(1, n), total);
-      const slice = inStock.slice((cur - 1) * per, cur * per);
-      container.innerHTML =
-        `<div class="product-grid">${slice.map(productCard).join('')}</div>`
-        + pagerHtml(cur, total)
-        + (cur === total ? soldOutBlock(out, 'all') : '');
-    };
-    draw(pageParam());
-    wirePager(container, draw);   // popstate 由 wirePager 一次過掛
+    container.innerHTML = '<div class="grid-host"></div>'
+      + soldOutBlock(out, 'all');
+    mountGrid(container.querySelector('.grid-host'), inStock);
+    syncGridWindows();
     return;
   }
   const byVendor = new Map();
@@ -1348,17 +1340,15 @@ function renderProducts(container, products, { grouped }) {
   const best = (items) => Math.max(...items.map(featuredScore));
   const order = [...byVendor.entries()]
     .sort((a, b) => best(b[1]) - best(a[1]) || b[1].length - a[1].length);
-  // 品牌分區一樣要分頁 —— 一個牌子可以有幾十件貨
-  const pages = paginateSections(order);
-  const drawG = (n) => {
-    const cur = Math.min(Math.max(1, n), pages.length);
-    container.innerHTML =
-      pages[cur - 1].map(([v, items], i) => brandSection(v, items, i)).join('')
-      + pagerHtml(cur, pages.length);
-    buildBrandRail(pages[cur - 1]);
-  };
-  drawG(pageParam());
-  wirePager(container, drawG);   // popstate 由 wirePager 一次過掛
+  // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
+  SECTION_ITEMS.clear();
+  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
+  container.querySelectorAll('.grid-host[data-section]').forEach((host) => {
+    mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
+  });
+  // 三十幾格全部掛好先至計一次 —— 每格計一次即係計三十幾次
+  syncGridWindows();
+  buildBrandRail(order);
 }
 
 /**
