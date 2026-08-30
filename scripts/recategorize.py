@@ -29,6 +29,18 @@ VAGUE = {"", "護膚", "彩妝", "美妝", "化妝", "個人護理", "個人謢�
          "套裝", "配件", "測試", "保健", "美容食品", "食品 / 飲品", "生活風格",
          "女士用品", "家品", "季節性", "美容工具"}
 
+# 化妝品劑型 —— 見到呢啲就一定唔係口服保健品。
+# ⚠️ 2026-08-30 老闆揪到：「AKARAN 維C**酵素**亮肌卸妝啫喱」同
+#    「OOTD 奇異果**維他命 C** 卸妝膏」兩隻卸妝品去咗保健品格。
+#    根因就係下面條保健品規則夾成分詞（酵素、維他命 C、膠原蛋白），
+#    而成分只係個名嘅一部分 —— **決定分類嘅係劑型**。
+COSMETIC = re.compile(
+    r"卸妝|潔面|洗面|洗顏|面膜|安瓶|爽膚|化妝水|乳液|面霜|眼霜|防曬|微針|"
+    r"沐浴|洗髮|洗頭|護髮|髮膜|髮油|護手|身體乳|磨砂|去角質|棉片|化妝棉|"
+    r"唇膏|唇釉|唇彩|眼影|眼線|睫毛|粉底|氣墊|遮瑕|胭脂|高光|修容|定妝|"
+    r"香水|噴霧|牙膏|濕紙巾|\d+\s*(ml|mL|毫升)|serum|ampoule|cleans|toner|"
+    r"cushion|lipstick|mascara|shampoo|sunscreen", re.I)
+
 # 順序 = 優先次序，由最 specific 行到最闊
 RULES = [
     ("保健品",   r"益生菌|乳酸菌|膠原蛋白粉|維他命\s*[A-Dcс]|康普茶|紅參|人參|酵素|蘋果醋|"
@@ -81,7 +93,11 @@ RULES = [
 
 
 def guess(title):
+    cosmetic = bool(COSMETIC.search(title or ""))
     for label, pat in RULES:
+        # 外用品幾多成分詞都好，都唔會變成口服保健品
+        if label == "保健品" and cosmetic:
+            continue
         if re.search(pat, title, re.I):
             return label
     return None
