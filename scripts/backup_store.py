@@ -225,13 +225,19 @@ def main():
             p = os.path.join(dirpath, n)
             files.append({"path": os.path.relpath(p, args.out),
                           "bytes": os.path.getsize(p), "sha256": sha256(p)})
+    # 用檔名夾，唔好淨係減個數 —— 店入面刪咗嘅產品，佢張相仲會留喺
+    # 備份度（呢個係好事，備份唔應該跟住刪嘢），但咁樣一減就會出現
+    # 「欠 -13 張」呢啲睇唔明嘅數。分開講：真係欠幾多、多咗幾多舊嘢。
+    have = {f["path"] for f in files}
+    want = {os.path.relpath(dst, args.out) for _, dst in jobs}
     manifest = {
         "store": "5rerjn-mt.myshopify.com",
         "products": len(products),
         "variants": len(rows),
         "expected_images": len(jobs),
         "stored_images": len(files),
-        "missing_images": len(jobs) - len(files),
+        "missing_images": len(want - have),
+        "stale_images": sorted(have - want),
         "images": files,
     }
     if args.stamp:
@@ -245,6 +251,9 @@ def main():
           f"{len(files)} 張圖 · {total / 1e9:.2f} GB")
     if manifest["missing_images"]:
         print(f"  ⚠️  有 {manifest['missing_images']} 張圖下載唔到 —— 再跑一次會補返")
+    if manifest["stale_images"]:
+        print(f"  ℹ️  {len(manifest['stale_images'])} 張相店入面已經冇 —— "
+              f"照留喺備份度，唔會刪")
 
 
 if __name__ == "__main__":

@@ -18,7 +18,10 @@ mkdir -p "$OUT"
   echo "===== $(date '+%F %T') ====="
   /usr/bin/python3 "$ROOT/scripts/backup_store.py" --out "$OUT" --stamp "$(date '+%F')"
   echo "--- 出還原用 CSV ---"
-  /usr/bin/python3 "$ROOT/scripts/restore_csv.py" --backup "$OUT" --no-images
+  # Image Src 用返 cdn.shopify.com：舊店仲喺度嗰陣（搬店、誤刪重建）import
+  # 就攞得返相。舊店真係冇咗嗰日連結會死 —— 嗰個情況用 restore_images.py，
+  # 佢直接讀返 images/ 嘅原檔掛上去，唔使搵地方放相。
+  /usr/bin/python3 "$ROOT/scripts/restore_csv.py" --backup "$OUT"
 } >> "$LOG" 2>&1
 
 # log 唔好無限咁大 —— 淨低最後 2000 行。

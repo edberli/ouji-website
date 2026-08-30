@@ -19,7 +19,12 @@ Shopify 個匯入器讀 `Image Src` 當**網址**，佢自己去攞。所以：
 > 舊店一冇咗，任何舊 export 入面嘅 `cdn.shopify.com` 連結全部死。
 > 直接 import 會開到 800 件產品，**一張相都冇**。
 
-所以次序係：**先搞掂啲圖有得公開讀，再 import。**
+兩條路，揀一條：
+
+| 情況 | 點做 |
+|---|---|
+| **舊店仲喺度**（搬店、誤刪要重建） | 乜都唔使做。`shopify-import.csv` 入面 `Image Src` 已經係 cdn.shopify.com 嘅連結，import 嗰陣 Shopify 自己去攞返 |
+| **舊店真係冇咗** | import 完個 CSV（相會吉），再跑 `restore_images.py` —— 佢直接讀 `images/` 嘅原檔，經 staged upload 掉返上新店。**唔使搵圖床、唔使公開任何嘢** |
 
 ## 還原步驟
 
@@ -38,21 +43,23 @@ print(m['products'],'件產品 ·',m['stored_images'],'張圖 · 唔見咗',len(
 `scripts/shopify_oauth.py`，寫入 `.env` 嘅 `SHOPIFY_ADMIN_TOKEN`。
 記得改 `scripts/shopify_admin.py` 個 `SHOP`。
 
-**3. 圖擺去一個攞得到嘅地方**
+**3. Shopify → Products → Import → 揀 `shopify-import.csv`**
 
-最快：Cloudflare R2 / S3 / 任何靜態 host，保持 `<handle>/<檔名>` 個結構。
+舊店仲生存嘅話，相會跟住 import 一齊入返嚟，跳到第 5 步。
 
-```bash
-rclone copy /Volumes/core/ouji-backup/images r2:ouji-images
-```
-
-**4. 出一份指住新圖床嘅 CSV**
+**4. 舊店冇咗先要做：把相掛返上去**
 
 ```bash
-python3 scripts/restore_csv.py --image-base https://你嘅圖床/ouji-images
+python3 scripts/restore_images.py --dry-run   # 睇下佢會掂邊啲
+python3 scripts/restore_images.py             # 真做
 ```
 
-**5. Shopify → Products → Import → 揀 `shopify-import.csv`**
+預設**只補冇相嗰啲產品**，所以行幾多次都唔會整出重複相。
+單件重做用 `--handle <handle>`；連有相嗰啲都要重掛就 `--force`。
+
+（如果你另外有圖床，仲可以行舊路：
+`python3 scripts/restore_csv.py --image-base https://你嘅圖床/ouji-images`
+出一份指住嗰度嘅 CSV。）
 
 **6. import 完之後仲要補嘅嘢**
 
