@@ -7,10 +7,12 @@
  * 千三張卡），但要證實仲有冇第四個，唯一辦法係等真實用戶撞到嗰刻，
  * 由佢部機講返俾我哋知。
  *
- * 呢度唔存 database：Vercel 嘅 serverless 冇地方寫。console 出一行就夠，
- * `vercel logs` 睇得到，而且唔使多開一個服務、唔使多一條 key。
+ * 存喺邊：`console.error` 出一行（Vercel 個 dashboard 睇得到），同時
+ * 寫入 Shopify 個 shop metafield `ouji.jserr` —— 因為 `vercel logs` 係
+ * 串流式，隔咗一陣就追唔返，而呢啲事故本身就係「隔一排先撞一次」。
+ * metafield 只留最近 30 條，够我睇出個 pattern 就算。
  *
- *   vercel logs --since 1d | grep OUJI-JSERR
+ *   python3 scripts/read_jserr.py
  *
  * 收咩：頁面、瀏覽器、出咩錯、當時 DOM 係咪真係吉。冇收任何個人資料。
  */
@@ -37,5 +39,41 @@ export default async function handler(req, res) {
     ua: cut(req.headers['user-agent'], 180),
   };
   console.error('OUJI-JSERR ' + JSON.stringify(line));
+
+  // 順手存落 Shopify，等 `vercel logs` 追唔返嗰陣仲有得睇。
+  // 寫唔到都唔可以令個 endpoint 出錯 —— 呢度本身就係報錯用嘅。
+  try { await keep({ ...line, t: new Date().toISOString() }); } catch (e) { /* 算 */ }
   res.status(204).end();
+}
+
+const SHOP = '5rerjn-mt.myshopify.com';
+const API = '2025-07';
+const KEEP = 30;
+
+async function admin(query, variables) {
+  const r = await fetch(`https://${SHOP}/admin/api/${API}/graphql.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_TOKEN,
+    },
+    body: JSON.stringify({ query, variables }),
+  });
+  const j = await r.json();
+  if (j.errors) throw new Error(JSON.stringify(j.errors));
+  return j.data;
+}
+
+async function keep(entry) {
+  if (!process.env.SHOPIFY_ADMIN_TOKEN) return;
+  const got = await admin(`query{ shop{ id metafield(namespace:"ouji", key:"jserr"){ value } } }`);
+  const shop = got?.shop;
+  if (!shop) return;
+  let list = [];
+  try { list = JSON.parse(shop.metafield?.value || '[]'); } catch (e) { list = []; }
+  list.unshift(entry);
+  await admin(
+    `mutation($m:[MetafieldsSetInput!]!){ metafieldsSet(metafields:$m){ userErrors{ message } } }`,
+    { m: [{ ownerId: shop.id, namespace: 'ouji', key: 'jserr',
+            type: 'json', value: JSON.stringify(list.slice(0, KEEP)) }] });
 }
