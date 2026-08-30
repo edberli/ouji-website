@@ -1203,8 +1203,14 @@ function soldOutBlock(items, id) {
    一路碌就一路撞返同一個牆。所以改做**真分頁** —— 換頁係換走舊嗰批，
    唔係接落去，同一時間留喺 DOM 嘅卡永遠有上限。
    頁碼寫入 ?page=，可以貼連結、撳返上一頁都work。 */
-const PAGE_SIZE = 48;              // 平舖網格：一頁幾多件
-const PAGE_SIZE_GROUPED = 60;      // 品牌分區：一頁最多幾多件（唔會斬開一個牌子）
+/* 一頁幾多件 —— 睇機。手機爆記憶體先係當初出事嘅原因，電腦冇呢個問題，
+   所以電腦一頁畀多啲，少撳幾次；手機保守啲。
+   （老闆問「護膚頁用『載入更多』會唔會好啲」—— 載入更多係接落 DOM，
+     一路碌就一路脹返上去，正正係撞爆手機嗰個做法。與其換返去，
+     不如喺電腦度加大每頁件數，效果一樣係少撳幾次，但唔會爆。） */
+const WIDE = () => window.matchMedia('(min-width: 900px)').matches;
+const PAGE_SIZE = () => (WIDE() ? 96 : 48);              // 平舖網格
+const PAGE_SIZE_GROUPED = () => (WIDE() ? 120 : 60);     // 品牌分區（唔會斬開一個牌子）
 
 /* 品牌分區唔可以中間斬開，所以逐個牌子塞落頁，塞到超過上限就開新一頁。
    一個牌子本身超過上限（例如 90 件）就自己佔一頁 —— 好過斬開兩截。 */
@@ -1213,7 +1219,8 @@ function paginateSections(order) {
   let cur = [], n = 0;
   order.forEach((entry) => {
     const size = entry[1].length;
-    if (cur.length && n + size > PAGE_SIZE_GROUPED) { pages.push(cur); cur = []; n = 0; }
+    const cap = PAGE_SIZE_GROUPED();
+    if (cur.length && n + size > cap) { pages.push(cur); cur = []; n = 0; }
     cur.push(entry); n += size;
   });
   if (cur.length) pages.push(cur);
@@ -1278,10 +1285,11 @@ function renderProducts(container, products, { grouped }) {
   if (!grouped) {
     document.querySelector('.brand-rail')?.remove();
     const [inStock, out] = splitStock(products);
-    const total = Math.max(1, Math.ceil(inStock.length / PAGE_SIZE));
+    const per = PAGE_SIZE();
+    const total = Math.max(1, Math.ceil(inStock.length / per));
     const draw = (n) => {
       const cur = Math.min(Math.max(1, n), total);
-      const slice = inStock.slice((cur - 1) * PAGE_SIZE, cur * PAGE_SIZE);
+      const slice = inStock.slice((cur - 1) * per, cur * per);
       container.innerHTML =
         `<div class="product-grid">${slice.map(productCard).join('')}</div>`
         + pagerHtml(cur, total)
