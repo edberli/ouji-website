@@ -3990,80 +3990,64 @@ button.product-card__quick-add,
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
   }
 
-  /* 中央係 OUJI AI 核心：神經節點、運算軌道、彩色光譜集中成一個細標誌。
-     彩色只花喺呢粒，其他 tab 保持安靜，先真係似主要智能功能。 */
+  /* Option 4 — 三張美妝色卡＋選中狀態。圖形來自 Phosphor icon family，
+     唔再用水晶、光球或另一套自製 AI 符號。 */
   .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
   .mobile-bottom-nav__assist-icon {
     position: relative;
-    isolation: isolate;
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
-    margin-top: -12px;
-    margin-bottom: -2px;
-    border: 1px solid transparent;
-    border-radius: 50%;
-    color: #fff;
-    background:
-      radial-gradient(circle at 38% 28%, rgba(255,255,255,.34), rgba(35,58,76,.92) 48%, rgba(22,38,57,.98) 100%) padding-box,
-      conic-gradient(from 218deg, #8defff, #8f85ff 46%, #ff83c9 73%, #8defff) border-box;
-    box-shadow:
-      0 7px 20px rgba(22, 38, 65, .42),
-      0 0 17px rgba(148, 139, 255, .24),
-      inset 0 1px 1px rgba(255,255,255,.32);
+    width: 24px;
+    height: 22px;
+    margin: 0;
+    overflow: visible;
+    color: rgba(255, 255, 255, .98);
     animation: assistSettle 520ms var(--ease-out) both;
   }
-  .mobile-bottom-nav__assist-icon::before {
-    content: '';
+  .ouji-shade-match-mark {
     position: absolute;
-    inset: -4px;
-    z-index: -1;
-    border-radius: 50%;
-    background: conic-gradient(from 20deg, transparent 8%, rgba(133,237,255,.46) 26%, transparent 43%, rgba(255,126,199,.38) 67%, transparent 84%);
-    filter: blur(4px);
-    opacity: .7;
-    animation: oujiAiHalo 4.8s linear infinite;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    line-height: 1;
   }
-  .mobile-bottom-nav__assist-icon::after {
-    content: '';
+  .ouji-shade-match-mark > .ph-swatches {
+    display: block;
+    font-size: 24px;
+    line-height: 22px;
+    color: rgba(255, 255, 255, .98);
+    filter: drop-shadow(0 1px 2px rgba(23, 55, 67, .28));
+  }
+  .ouji-shade-match-mark__check {
     position: absolute;
-    inset: 3px;
-    z-index: -1;
-    border: 1px solid rgba(255,255,255,.14);
+    right: -2px;
+    bottom: -2px;
+    display: grid;
+    place-items: center;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+    line-height: 1;
+    color: #dff6fa;
+    background: #517c8b;
     border-radius: 50%;
-    pointer-events: none;
-  }
-  .mobile-bottom-nav__assist-icon svg { width: 29px; height: 29px; overflow: visible; }
-  .ouji-ai-mark__orbit {
-    transform-origin: 16px 16px;
-    animation: oujiAiOrbit 8s linear infinite;
-  }
-  .ouji-ai-mark__nodes { filter: drop-shadow(0 0 2px rgba(176,245,255,.9)); }
-  .ouji-ai-mark__core {
-    transform-origin: 16px 15px;
-    filter: drop-shadow(0 0 3px rgba(190,240,255,.72)) drop-shadow(0 0 5px rgba(164,135,255,.46));
-    animation: oujiAiThink 2.8s ease-in-out infinite;
+    box-shadow: 0 0 0 1.5px rgba(114, 157, 170, .94), 0 1px 3px rgba(19, 50, 62, .34);
+    animation: oujiShadeConfirm 3.8s ease-in-out infinite;
   }
 
   .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,
   .mobile-bottom-nav__item--assist.active .mobile-bottom-nav__assist-icon {
-    box-shadow:
-      0 7px 22px rgba(22, 38, 65, .46),
-      0 0 21px rgba(141, 235, 255, .32),
-      0 0 14px rgba(255, 131, 201, .22),
-      inset 0 1px 1px rgba(255,255,255,.4);
+    transform: translateY(-1px);
+    filter: drop-shadow(0 2px 4px rgba(27, 65, 79, .34));
   }
 
   @keyframes assistSettle {
     from { opacity: 0; transform: translateY(5px) scale(.9); }
     to { opacity: 1; transform: none; }
   }
-  @keyframes oujiAiOrbit { to { transform: rotate(360deg); } }
-  @keyframes oujiAiHalo { to { transform: rotate(-360deg); } }
-  @keyframes oujiAiThink {
-    0%, 100% { opacity: .82; transform: scale(.92); }
-    50% { opacity: 1; transform: scale(1.06); }
+  @keyframes oujiShadeConfirm {
+    0%, 78%, 100% { opacity: .88; transform: scale(.94); }
+    86% { opacity: 1; transform: scale(1.08); }
   }
 
   /* Icon wrapper for badge positioning */
@@ -4244,9 +4228,7 @@ button.product-card__quick-add,
 
 @media (prefers-reduced-motion: reduce) {
   .mobile-bottom-nav__assist-icon,
-  .mobile-bottom-nav__assist-icon::before,
-  .ouji-ai-mark__orbit,
-  .ouji-ai-mark__core,
+  .ouji-shade-match-mark__check,
   .discover-sheet__panel,
   .discover-card { animation: none !important; transition: none !important; }
 }
@@ -11975,7 +11957,7 @@ body::before { opacity: 0.18; }
    圓形裁切 ＋ 一圈半透明白邊，喺半透明藍玻璃上面先分得開。 */
 @media (max-width: 768px) {
   .mobile-bottom-nav__face {
-    width: 24px; height: 24px;
+    width: 22px; height: 22px;
     border-radius: 50%;
     object-fit: cover;
     background: rgba(255, 255, 255, 0.92);

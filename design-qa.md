@@ -60,3 +60,49 @@
 - [x] Desktop、mobile、interaction、responsive、console QA
 
 final result: passed
+
+---
+
+# 手機底欄「幫我揀」色卡圖示 — Design QA（2026-08-30）
+
+## 測試基準
+
+- source visual truth: `/Users/winstonli/.codex/generated_images/01a01887-73e8-7d80-894c-16d1590c0d5e/exec-325a8eeb-904b-4e2b-986e-cb53515aa2ef.png`（最近一輪十款中第 4 個顯示結果）
+- implementation screenshot: `/Volumes/core/ouji-assist-cards/shadecards-local-v1.png`
+- full-view comparison: `/Volumes/core/ouji-assist-cards/shadecards-full-qa-v1.png`
+- focused navigation comparison: `/Volumes/core/ouji-assist-cards/shadecards-qa-v1.png`
+- viewport / CSS size: `390 × 844px`；device scale factor `1`
+- source pixels: `853 × 1844px`，比較前正規化至 `390 × 844px`
+- implementation pixels: `390 × 844px`
+- state: 首頁手機版，底欄關閉狀態；另測「幫我揀」sheet 開啟狀態
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 選中方向嘅三張扇形美妝色卡同右下選中記號已清楚落實，水晶球完全移除。
+- **指定尺寸差異屬可接受。** ImageGen 樣板把中央圖示誇張到約 32px；實作按此前已定硬性限制維持 `24 × 22px` 視覺框，購物袋為 `22 × 22px`，避免中央入口重新大一截。
+- **圖示來源。** 使用 Phosphor Duotone `swatches` 同 `check-circle`，唔係 handcrafted SVG、CSS art、emoji 或文字符號。
+- **功能。** 點擊後 dialog 正常顯示，`aria-expanded` 由 `false` 轉成 `true`；頁面水平 overflow 為 `0px`。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** 底欄中文字、字重、行高同原網站完全保留；圖示用 Phosphor-Duotone icon font，實測成功載入。
+- **Spacing and layout rhythm:** 五欄位置、label baseline、底欄高度不變；中央圖示 `24 × 22px`，check mark 約 `9.4px`，同購物袋光學重量一致。
+- **Colors and visual tokens:** 主色沿用 pearl white；check 用 OUJI 霧藍 `#517c8b` 同淡冰藍 `#dff6fa`，冇加入綠色、水晶色或霓虹科技色。
+- **Image quality and asset fidelity:** 選中目標係標準 UI icon；實作使用 Phosphor 正式 icon library，細尺寸保持銳利，冇 raster halo、拉伸或假素材。
+- **Copy and content:** 「幫我揀」文字、aria label、兩張功能卡同 deep link 全部保留。
+
+## 比較歷史
+
+1. **首輪比較：** full-view 同 focused navigation composite 均已檢視。樣板中央 icon 較大，但與此前「以購物袋為尺寸基準」決定衝突；實作維持同級尺寸，列為 intentional constraint，無需修正。
+2. **互動驗證：** sheet 可開啟，`aria-expanded=true`，browser console `0 error / 0 warning`。
+
+## Implementation checklist
+
+- [x] 水晶球及相關折射動畫完全移除
+- [x] 三張美妝色卡＋選中記號
+- [x] 使用正式 icon library
+- [x] 390 × 844 responsive、無水平 overflow
+- [x] 幫我揀 dialog 開啟及 accessibility state
+- [x] full-view 及 focused visual comparison
+
+final result: passed
