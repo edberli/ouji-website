@@ -1584,7 +1584,36 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   let activeGroup = bootHost ? validGroup(group) : null;
   if (bootHost) buildShopBootHero(products, activeGroup);
 
+  /* draw() 入面任何一句拋錯，客見到嘅就係一版有標題冇貨嘅頁。
+     唔係假設 —— 客嗰邊報返嚟一條：iPhone 開 /shop，成個 <main> 得
+     1,224px，即係產品區完全空咗，同時有一個 unhandledrejection。
+     所以包一層：出事都要有貨出（退返做「全部產品一版過」），
+     同時報返嚟等我查得到係邊句碼。 */
   function draw() {
+    try {
+      drawInner();
+    } catch (err) {
+      try {
+        clearGridWindows();
+        host.innerHTML = '<div class="grid-host"></div>';
+        mountGrid(host.querySelector('.grid-host'), splitStock(products)[0]);
+        syncGridWindows();
+      } catch (e2) { /* 連後備都砌唔到就真係冇符 */ }
+      if (window.console) console.error('[OUJI] draw 出錯，出咗全部產品做後備：', err);
+      try {
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/jserr', new Blob([JSON.stringify({
+            kind: 'draw-fail',
+            page: location.pathname + location.search,
+            msg: String((err && err.message) || err) + ' \u2016 '
+              + String((err && err.stack) || '').split('\n').slice(0, 3).join(' | '),
+          })], { type: 'application/json' }));
+        }
+      } catch (e3) { /* 報唔到就算 */ }
+    }
+  }
+
+  function drawInner() {
     const sel = activeFilters();
     const sortKey = sortEl?.value || 'featured';
     /* 先套 group（頂層資料夾），再套側欄篩選同排序 —— 次序調轉嘅話

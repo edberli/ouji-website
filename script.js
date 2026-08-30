@@ -74,11 +74,26 @@ window.addEventListener('error', function () { oujiRevealAll(); });
     return el.tagName === 'HTML' || el.tagName === 'BODY';
   }
 
+  /* 淨係一句錯誤訊息唔夠用。實測收到一條 iPhone 報「The string did not
+     match the expected pattern.」—— Safari 十幾個 API 都會出呢句，冇
+     stack 就估唔到係邊句碼。所以連 stack 頭兩行同檔案行號一齊報。 */
+  function where(err, e) {
+    var bits = [];
+    if (err && err.stack) {
+      bits.push(String(err.stack).split('\n').slice(0, 3).join(' | '));
+    }
+    if (e && e.filename) bits.push(e.filename + ':' + e.lineno + ':' + e.colno);
+    return bits.join(' @ ').slice(0, 400);
+  }
   window.addEventListener('error', function (e) {
-    report('error', (e && (e.message || (e.error && e.error.message))) || 'error');
+    var err = e && e.error;
+    report('error', ((e && e.message) || (err && err.message) || 'error')
+      + ' ‖ ' + where(err, e));
   });
   window.addEventListener('unhandledrejection', function (e) {
-    report('reject', (e && e.reason && (e.reason.message || e.reason)) || 'rejection');
+    var r = e && e.reason;
+    report('reject', ((r && r.message) || String(r) || 'rejection')
+      + ' ‖ ' + where(r, null));
   });
 
   setTimeout(function () {
@@ -686,32 +701,27 @@ function initMobileBottomNav() {
   const bar = document.querySelector('.mobile-bottom-nav');
   if (!bar) return;
 
+  /* Option 4 uses Phosphor's production icon family rather than another
+     handcrafted AI symbol. Load only the duotone weight needed here. */
+  if (!document.querySelector('link[data-ouji-phosphor]')) {
+    const phosphorStyles = document.createElement('link');
+    phosphorStyles.rel = 'stylesheet';
+    phosphorStyles.href = 'https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css';
+    phosphorStyles.dataset.oujiPhosphor = '';
+    document.head.appendChild(phosphorStyles);
+  }
+
   const icon = {
     catalogue: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-      <circle cx="4" cy="6" r=".8" fill="currentColor" stroke="none"/><path d="M7 6h13"/>
-      <circle cx="4" cy="12" r=".8" fill="currentColor" stroke="none"/><path d="M7 12h13"/>
-      <circle cx="4" cy="18" r=".8" fill="currentColor" stroke="none"/><path d="M7 18h13"/>
+      <circle cx="3" cy="6" r=".95" fill="currentColor" stroke="none"/><path d="M6 6h15.5"/>
+      <circle cx="3" cy="12" r=".95" fill="currentColor" stroke="none"/><path d="M6 12h15.5"/>
+      <circle cx="3" cy="18" r=".95" fill="currentColor" stroke="none"/><path d="M6 18h15.5"/>
     </svg>`,
-    discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2.1 4.9-4.9 2.1 2.1-4.9z"/></svg>`,
-    assist: `<svg class="ouji-ai-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="ouji-ai-spectrum" x1="5" y1="5" x2="27" y2="27" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#8DEBFF"/><stop offset=".48" stop-color="#A997FF"/><stop offset="1" stop-color="#FF8CCC"/>
-        </linearGradient>
-        <radialGradient id="ouji-ai-core" cx="0" cy="0" r="1" gradientTransform="translate(12 10) rotate(48) scale(17)">
-          <stop stop-color="#FFFFFF"/><stop offset=".34" stop-color="#BDF5FF"/><stop offset=".68" stop-color="#A28BFF"/><stop offset="1" stop-color="#FF82C6"/>
-        </radialGradient>
-      </defs>
-      <g class="ouji-ai-mark__orbit" stroke="url(#ouji-ai-spectrum)" stroke-linecap="round">
-        <circle cx="16" cy="16" r="11" stroke-width="1.15" stroke-dasharray="7 3.2" opacity=".82"/>
-        <path d="M6.2 12.5c3.7 1.7 15.9 5.5 19.6 7" stroke-width=".95" opacity=".55"/>
-      </g>
-      <g class="ouji-ai-mark__nodes" fill="#E8FCFF">
-        <circle cx="7.3" cy="11.9" r="1.25"/><circle cx="25.2" cy="20.4" r="1.1"/><circle cx="22.8" cy="7.9" r=".85"/>
-      </g>
-      <path class="ouji-ai-mark__core" d="M16 7.15c.74 4.67 3.18 7.11 7.85 7.85-4.67.74-7.11 3.18-7.85 7.85-.74-4.67-3.18-7.11-7.85-7.85 4.67-.74 7.11-3.18 7.85-7.85Z" fill="url(#ouji-ai-core)"/>
-      <circle cx="16" cy="15" r="1.7" fill="#fff" opacity=".9"/>
-    </svg>`,
+    discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m16 8-2.35 5.65L8 16l2.35-5.65z"/></svg>`,
+    assist: `<span class="ouji-shade-match-mark" aria-hidden="true">
+      <i class="ph-duotone ph-swatches"></i>
+      <i class="ph-duotone ph-check-circle ouji-shade-match-mark__check"></i>
+    </span>`,
     bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
   };
 

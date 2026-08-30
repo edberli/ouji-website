@@ -30,7 +30,7 @@ export default async function handler(req, res) {
   const line = {
     kind: cut(body.kind, 24),
     page: cut(body.page, 160),
-    msg: cut(body.msg, 300),
+    msg: cut(body.msg, 700),
     at: cut(body.at, 160),
     blank: body.blank === true,
     mainH: Number(body.mainH) || 0,
