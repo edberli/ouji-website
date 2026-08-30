@@ -990,9 +990,20 @@ function brandSection(vendor, items, index) {
  *     （五十幾次，每次迫瀏覽器重算成版排版），再逐條改闊度 —— 就係窒
  *     嘅來源。而家只改浪頭附近嗰幾條。
  */
+/* ⚠️ 呢個 function 每次換頁／換篩選都會再入嚟一次，而佢會喺 window 上面
+   掛 scroll／resize／load。之前冇解綁 —— 客篩幾次之後，每碌一下版就同時
+   行緊十幾個舊 spy()，每個仲捉住一條已經 remove 咗嘅 rail。手機就係咁樣
+   越用越窒，最後爆記憶體白畫面。用 AbortController 一次過拆走上一輪，
+   做法同 bindBrandSpotlight 一致。 */
+let RAIL_ABORT = null;
+
 function buildBrandRail(order) {
+  RAIL_ABORT?.abort();
+  RAIL_ABORT = null;
   document.querySelector('.brand-rail')?.remove();
   if (order.length < 2) return;
+  const abort = new AbortController();
+  RAIL_ABORT = abort;
 
   const names = order.map(([vendor]) => vendor);
   const rail = document.createElement('nav');
@@ -1122,28 +1133,28 @@ function buildBrandRail(order) {
     spy();
   };
 
-  rail.addEventListener('pointermove', preview);
-  rail.addEventListener('pointerleave', release);
-  rail.addEventListener('touchstart', () => { dragged = false; }, { passive: true });
+  rail.addEventListener('pointermove', preview, { signal: abort.signal });
+  rail.addEventListener('pointerleave', release, { signal: abort.signal });
+  rail.addEventListener('touchstart', () => { dragged = false; }, { passive: true, signal: abort.signal });
   rail.addEventListener('touchmove', (e) => {
     dragged = true;
     preview(e);
     if (e.cancelable) e.preventDefault();   // 拉緊條 rail 就唔好順手捲版
-  }, { passive: false });
+  }, { passive: false, signal: abort.signal });
   rail.addEventListener('touchend', () => {
     // 手指沿住條 rail 拉完鬆手 → 去嗰個位。輕㩒一下就當普通點擊。
     if (dragged) goTo(Math.round(currentIdx), true);
     dragged = false;
     release();
-  });
-  rail.addEventListener('touchcancel', () => { dragged = false; release(); });
+  }, { signal: abort.signal });
+  rail.addEventListener('touchcancel', () => { dragged = false; release(); }, { signal: abort.signal });
 
   rail.addEventListener('click', (e) => {
     const a = e.target.closest('[data-rail]');
     if (!a) return;
     e.preventDefault();
     goTo(+a.dataset.rail, true);
-  });
+  }, { signal: abort.signal });
 
   /* ── 跟住碌版行 ──────────────────────────────────────
      每段嘅位置都快取住，所以 spy() 只係加減數，唔使問排版。
@@ -1161,11 +1172,16 @@ function buildBrandRail(order) {
     mark(current);
   }
 
-  function remeasure() { measure(); measureSections(); spy(); }
+  // 拆咗之後仲有兩個 setTimeout 未到期 —— 唔守住就會喺一條已經
+  // remove 咗嘅 rail 上面度尺寸。
+  function remeasure() {
+    if (abort.signal.aborted) return;
+    measure(); measureSections(); spy();
+  }
 
-  window.addEventListener('scroll', spy, { passive: true });
-  window.addEventListener('resize', remeasure, { passive: true });
-  window.addEventListener('load', remeasure);
+  window.addEventListener('scroll', spy, { passive: true, signal: abort.signal });
+  window.addEventListener('resize', remeasure, { passive: true, signal: abort.signal });
+  window.addEventListener('load', remeasure, { signal: abort.signal });
   // 圖片載入會推低下面嘅段落，快取住嘅位置要跟住更新
   setTimeout(remeasure, 600);
   setTimeout(remeasure, 2000);
@@ -1268,17 +1284,37 @@ function pagerHtml(cur, total) {
 }
 
 /* 換頁：重畫、更新網址、捲返個列表頂 —— 唔好留喺原本個位，
-   客會以為冇嘢發生。 */
+   客會以為冇嘢發生。
+
+   ⚠️ 一個 container 只可以掛一次。renderProducts 每篩選一次、每排序一次
+   都會再入嚟，之前每次都 addEventListener，listener 就咁一路疊上去。
+   2026-08-30 喺線上量到：客揀咗十幾次篩選之後，撳一下「下一頁」會
+   **行 21 次 draw()、叫 21 次 pushState、阻塞主線程 228ms** —— 手機
+   即刻「撳掣冇反應」，跟住爆記憶體變白畫面，而且返上一頁都壞埋
+   （一下撳出廿一個歷史紀錄）。老闆原話：「撳嗰啲按鈕都會死咗，
+   跟住個畫面又係撈唔到。」
+
+   所以 listener 掛一次就夠，之後每次入嚟只換走個 draw。 */
+const PAGER_BOUND = new WeakMap();
+
 function wirePager(container, draw) {
+  const bound = PAGER_BOUND.get(container);
+  if (bound) { bound.draw = draw; return; }   // 換新嘅 draw，唔好再掛多一個
+
+  const state = { draw };
+  PAGER_BOUND.set(container, state);
   container.addEventListener('click', (e) => {
     const b = e.target.closest('[data-page]');
     if (!b || b.disabled) return;
     const n = parseInt(b.dataset.page, 10);
     setPageParam(n);
-    draw(n);
+    state.draw(n);
     const top = container.getBoundingClientRect().top + window.scrollY - 90;
     window.scrollTo({ top, behavior: 'smooth' });
   });
+  // popstate 都係同一個道理 —— 之前擺喺 renderProducts 度，每 draw 一次
+  // 就多一個，撳返上一頁會一次過重畫十幾廿次。
+  window.addEventListener('popstate', () => state.draw(pageParam()));
 }
 
 function renderProducts(container, products, { grouped }) {
@@ -1296,8 +1332,7 @@ function renderProducts(container, products, { grouped }) {
         + (cur === total ? soldOutBlock(out, 'all') : '');
     };
     draw(pageParam());
-    wirePager(container, draw);
-    window.addEventListener('popstate', () => draw(pageParam()));
+    wirePager(container, draw);   // popstate 由 wirePager 一次過掛
     return;
   }
   const byVendor = new Map();
@@ -1323,8 +1358,7 @@ function renderProducts(container, products, { grouped }) {
     buildBrandRail(pages[cur - 1]);
   };
   drawG(pageParam());
-  wirePager(container, drawG);
-  window.addEventListener('popstate', () => drawG(pageParam()));
+  wirePager(container, drawG);   // popstate 由 wirePager 一次過掛
 }
 
 /**
