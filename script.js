@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
   oujiSafe(initPromoLive, 'initPromoLive');
   oujiSafe(initPromoPop, 'initPromoPop');
   oujiSafe(initDividerReveal, 'initDividerReveal');
+  /* 先砌底欄，initMobileNav 先搵得到移到底部嗰粒選購掣。 */
+  oujiSafe(initMobileBottomNav, 'initMobileBottomNav');
   oujiSafe(initMobileNav, 'initMobileNav');
   oujiSafe(initMegaMenu, 'initMegaMenu');
   oujiSafe(initHeaderScroll, 'initHeaderScroll');
@@ -595,32 +597,287 @@ function initQuickAdd() {
   });
 }
 
+/* ----- Mobile bottom navigation -----
+ *
+ * 手機版唔再有「首頁」：頂部 OUJI logo 已經係返首頁。搜尋亦保留喺頂部。
+ * 底欄只留五種真正唔同嘅意圖：
+ *   選購 / 發現 / 幫我揀 / 購物袋 / 我的
+ *
+ * 53 個靜態頁本來各自複製一份舊底欄。喺共用 script 度統一砌，避免之後
+ * 改一粒字要逐頁追；舊 markup 仍然係無 JS 時嘅 fallback。 */
+function initMobileBottomNav() {
+  const bar = document.querySelector('.mobile-bottom-nav');
+  if (!bar) return;
+
+  const icon = {
+    catalogue: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+      <circle cx="4" cy="6" r=".8" fill="currentColor" stroke="none"/><path d="M7 6h13"/>
+      <circle cx="4" cy="12" r=".8" fill="currentColor" stroke="none"/><path d="M7 12h13"/>
+      <circle cx="4" cy="18" r=".8" fill="currentColor" stroke="none"/><path d="M7 18h13"/>
+    </svg>`,
+    discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2.1 4.9-4.9 2.1 2.1-4.9z"/></svg>`,
+    assist: `<svg class="ouji-ai-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="ouji-ai-spectrum" x1="5" y1="5" x2="27" y2="27" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#8DEBFF"/><stop offset=".48" stop-color="#A997FF"/><stop offset="1" stop-color="#FF8CCC"/>
+        </linearGradient>
+        <radialGradient id="ouji-ai-core" cx="0" cy="0" r="1" gradientTransform="translate(12 10) rotate(48) scale(17)">
+          <stop stop-color="#FFFFFF"/><stop offset=".34" stop-color="#BDF5FF"/><stop offset=".68" stop-color="#A28BFF"/><stop offset="1" stop-color="#FF82C6"/>
+        </radialGradient>
+      </defs>
+      <g class="ouji-ai-mark__orbit" stroke="url(#ouji-ai-spectrum)" stroke-linecap="round">
+        <circle cx="16" cy="16" r="11" stroke-width="1.15" stroke-dasharray="7 3.2" opacity=".82"/>
+        <path d="M6.2 12.5c3.7 1.7 15.9 5.5 19.6 7" stroke-width=".95" opacity=".55"/>
+      </g>
+      <g class="ouji-ai-mark__nodes" fill="#E8FCFF">
+        <circle cx="7.3" cy="11.9" r="1.25"/><circle cx="25.2" cy="20.4" r="1.1"/><circle cx="22.8" cy="7.9" r=".85"/>
+      </g>
+      <path class="ouji-ai-mark__core" d="M16 7.15c.74 4.67 3.18 7.11 7.85 7.85-4.67.74-7.11 3.18-7.85 7.85-.74-4.67-3.18-7.11-7.85-7.85 4.67-.74 7.11-3.18 7.85-7.85Z" fill="url(#ouji-ai-core)"/>
+      <circle cx="16" cy="15" r="1.7" fill="#fff" opacity=".9"/>
+    </svg>`,
+    bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+  };
+
+  bar.setAttribute('aria-label', '主要導覽');
+  bar.innerHTML = `
+    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__menu-btn" aria-label="選購產品" aria-haspopup="true" aria-expanded="false">
+      ${icon.catalogue}<span>選購</span>
+    </button>
+    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__discover-btn" aria-label="發現新品、得獎產品同美妝專欄" aria-haspopup="dialog" aria-expanded="false">
+      ${icon.discover}<span>發現</span>
+    </button>
+    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__item--assist" aria-label="幫我揀：妝感同護膚配對" aria-haspopup="dialog" aria-expanded="false">
+      <span class="mobile-bottom-nav__assist-icon">${icon.assist}</span><span>幫我揀</span>
+    </button>
+    <a href="/cart.html" class="mobile-bottom-nav__item" aria-label="購物袋">
+      <span class="mobile-bottom-nav__icon-wrap">${icon.bag}<span class="mobile-bottom-nav__badge" style="display:none;">0</span></span>
+      <span>購物袋</span>
+    </a>
+    <a href="/account.html" class="mobile-bottom-nav__item mobile-bottom-nav__item--me" aria-label="我的：心願清單、訂單同會員資料">
+      <img class="mobile-bottom-nav__face" src="/assets/images/shima/shima-face.webp" alt="" width="128" height="128" loading="lazy" decoding="async">
+      <span>我的</span>
+    </a>`;
+
+  /* 現在所在頁：首頁冇 tab，因為 logo 先係首頁入口。 */
+  const path = location.pathname.toLowerCase();
+  const mark = (selector) => {
+    const item = bar.querySelector(selector);
+    if (!item) return;
+    item.classList.add('active');
+    item.dataset.current = 'true';
+    if (item.tagName === 'A') item.setAttribute('aria-current', 'page');
+  };
+  if (/\/(match)\.html$/.test(path)
+      || (/\/(category)\.html$/.test(path) && location.hash === '#skincare-match')) {
+    mark('.mobile-bottom-nav__item--assist');
+  }
+  else if (/\/(cart)\.html$/.test(path)) mark('[href="/cart.html"]');
+  else if (/\/(account|wishlist)\.html$/.test(path)) mark('.mobile-bottom-nav__item--me');
+  else if (/\/articles\/|\/(awards|column)\.html$/.test(path)) mark('.mobile-bottom-nav__discover-btn');
+  else if (/\/(shop|category|makeup|lens|kpop|bath|health|seasonal|tools|fragrance|brands|product)\.html$/.test(path)) mark('.mobile-bottom-nav__menu-btn');
+
+  prepareMobileShopNav();
+  initDiscoverSheet(bar.querySelector('.mobile-bottom-nav__discover-btn'));
+  initAssistSheet(bar.querySelector('.mobile-bottom-nav__item--assist'));
+}
+
+/* 「選購」沿用原本深藍玻璃 drawer，但內容只做產品目錄。
+   發現、AI、我的已有自己底欄入口，唔再塞埋入同一張選單。 */
+function prepareMobileShopNav() {
+  const nav = document.querySelector('.mobile-nav');
+  const links = nav?.querySelector('.mobile-nav__links');
+  if (!nav || !links) return;
+  nav.setAttribute('aria-label', '選購產品');
+  nav.setAttribute('aria-hidden', 'true');
+
+  Array.from(links.children).forEach((child) => {
+    if (child.tagName !== 'A') return;
+    const href = (child.getAttribute('href') || '').toLowerCase();
+    if (/(awards|match|column|account)\.html(?:$|[?#])/.test(href)) child.remove();
+  });
+
+  if (!links.querySelector('.mobile-nav__all-products')) {
+    const all = document.createElement('a');
+    all.className = 'mobile-nav__all-products';
+    all.href = '/shop.html';
+    all.innerHTML = `<span><strong>睇全部產品</strong><small>瀏覽 OUJI 所有現貨</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
+    links.prepend(all);
+  }
+}
+
+function initDiscoverSheet(btn) {
+  if (!btn) return;
+  const old = document.querySelector('.discover-sheet');
+  if (old) old.remove();
+
+  const sheet = document.createElement('div');
+  sheet.className = 'discover-sheet';
+  sheet.innerHTML = `
+    <section class="discover-sheet__panel" role="dialog" aria-labelledby="discover-title">
+      <span class="discover-sheet__grip" aria-hidden="true"></span>
+      <header class="discover-sheet__head">
+        <div><p>OUJI EDIT</p><h2 id="discover-title">發現值得帶走嘅</h2></div>
+        <button type="button" class="discover-sheet__close" aria-label="關閉發現選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </header>
+      <div class="discover-sheet__cards">
+        <a class="discover-card discover-card--new" href="/shop.html?sort=new">
+          <span class="discover-card__no">01</span><span><strong>新品上架</strong><small>最近到店嘅韓妝同護膚</small></span><b aria-hidden="true">↗</b>
+        </a>
+        <a class="discover-card discover-card--award" href="/awards.html">
+          <span class="discover-card__no">02</span><span><strong>獲獎產品</strong><small>由韓國美妝大獎開始揀</small></span><b aria-hidden="true">↗</b>
+        </a>
+        <a class="discover-card discover-card--column" href="/column.html">
+          <span class="discover-card__no">03</span><span><strong>美妝專欄</strong><small>成分、用法同選購指南</small></span><b aria-hidden="true">↗</b>
+        </a>
+      </div>
+    </section>`;
+  document.body.appendChild(sheet);
+
+  const closeBtn = sheet.querySelector('.discover-sheet__close');
+  let returnFocus = null;
+  const close = () => {
+    sheet.classList.remove('is-open');
+    if (btn.dataset.current !== 'true') btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    returnFocus?.focus({ preventScroll: true });
+  };
+  const open = () => {
+    document.querySelector('.mobile-nav')?.classList.remove('is-open');
+    document.querySelector('.mobile-nav-overlay')?.classList.remove('is-visible');
+    document.querySelector('.mobile-bottom-nav__menu-btn')?.setAttribute('aria-expanded', 'false');
+    document.querySelector('.assist-sheet')?.classList.remove('is-open');
+    const assistBtn = document.querySelector('.mobile-bottom-nav__item--assist');
+    assistBtn?.setAttribute('aria-expanded', 'false');
+    if (assistBtn?.dataset.current !== 'true') assistBtn?.classList.remove('active');
+    returnFocus = document.activeElement;
+    sheet.classList.add('is-open');
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    closeBtn?.focus({ preventScroll: true });
+  };
+  btn.addEventListener('click', () => sheet.classList.contains('is-open') ? close() : open());
+  closeBtn?.addEventListener('click', close);
+  sheet.addEventListener('click', (e) => { if (!e.target.closest('.discover-sheet__panel')) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sheet.classList.contains('is-open')) close(); });
+}
+
+function initAssistSheet(btn) {
+  if (!btn) return;
+  document.querySelector('.assist-sheet')?.remove();
+
+  const sheet = document.createElement('div');
+  sheet.className = 'assist-sheet';
+  sheet.innerHTML = `
+    <section class="assist-sheet__panel" role="dialog" aria-labelledby="assist-title">
+      <span class="assist-sheet__grip" aria-hidden="true"></span>
+      <header class="assist-sheet__head">
+        <div><p>OUJI 幫你揀</p><h2 id="assist-title">你想由邊度開始？</h2></div>
+        <button type="button" class="assist-sheet__close" aria-label="關閉幫我揀"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </header>
+      <div class="assist-sheet__choices">
+        <a class="assist-choice assist-choice--makeup" href="/match.html">
+          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/looks/celeb-wonyoung.webp" alt="" decoding="async"></span>
+          <span class="assist-choice__glint assist-choice__glint--one" aria-hidden="true">✦</span>
+          <span class="assist-choice__glint assist-choice__glint--two" aria-hidden="true">✦</span>
+          <span class="assist-choice__content">
+            <span class="assist-choice__eyebrow">明星妝感配對</span>
+            <strong>想化到相中嗰種<br>明星妝感？</strong>
+            <small>揀一張相，我哋按你嘅膚色同膚質配返現貨色號。</small>
+            <span class="assist-choice__cta">開始配對 <b aria-hidden="true">→</b></span>
+          </span>
+        </a>
+        <a class="assist-choice assist-choice--skin" href="/category.html#skincare-match">
+          <span class="assist-choice__bubble assist-choice__bubble--one" aria-hidden="true"></span>
+          <span class="assist-choice__bubble assist-choice__bubble--two" aria-hidden="true"></span>
+          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/images/shima/shima-skincare.webp" alt="" decoding="async"></span>
+          <span class="assist-choice__content">
+            <span class="assist-choice__eyebrow">芝麻護膚配方</span>
+            <strong>唔知塊面而家<br>最需要啲乜？</strong>
+            <small>話我哋知膚質同煩惱，芝麻幫你砌一套日常流程。</small>
+            <span class="assist-choice__cta">開始配方 <b aria-hidden="true">→</b></span>
+          </span>
+        </a>
+      </div>
+      <p class="assist-sheet__fine">兩個工具都只會由 OUJI 現貨入面幫你收窄選擇。</p>
+    </section>`;
+  document.body.appendChild(sheet);
+
+  const closeBtn = sheet.querySelector('.assist-sheet__close');
+  let returnFocus = null;
+  const close = () => {
+    sheet.classList.remove('is-open');
+    if (btn.dataset.current !== 'true') btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    returnFocus?.focus({ preventScroll: true });
+  };
+  const open = () => {
+    document.querySelector('.mobile-nav')?.classList.remove('is-open');
+    document.querySelector('.mobile-nav-overlay')?.classList.remove('is-visible');
+    document.querySelector('.mobile-bottom-nav__menu-btn')?.setAttribute('aria-expanded', 'false');
+    document.querySelector('.discover-sheet')?.classList.remove('is-open');
+    const discoverBtn = document.querySelector('.mobile-bottom-nav__discover-btn');
+    discoverBtn?.setAttribute('aria-expanded', 'false');
+    if (discoverBtn?.dataset.current !== 'true') discoverBtn?.classList.remove('active');
+    returnFocus = document.activeElement;
+    sheet.classList.add('is-open');
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    closeBtn?.focus({ preventScroll: true });
+  };
+  btn.addEventListener('click', () => sheet.classList.contains('is-open') ? close() : open());
+  closeBtn?.addEventListener('click', close);
+  sheet.addEventListener('click', (e) => { if (!e.target.closest('.assist-sheet__panel')) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sheet.classList.contains('is-open')) close(); });
+}
+
 /* ----- Mobile Navigation ----- */
 function initMobileNav() {
   const toggle = document.querySelector('.header__menu-toggle');
   const nav = document.querySelector('.mobile-nav');
   const overlay = document.querySelector('.mobile-nav-overlay');
   const close = document.querySelector('.mobile-nav__close');
-  if (!toggle || !nav) return;
+  if (!nav) return;
+  const bottomMenuBtn = document.querySelector('.mobile-bottom-nav__menu-btn');
 
   function openNav() {
+    document.querySelector('.discover-sheet')?.classList.remove('is-open');
+    document.querySelector('.mobile-bottom-nav__discover-btn')?.classList.remove('active');
+    document.querySelector('.mobile-bottom-nav__discover-btn')?.setAttribute('aria-expanded', 'false');
+    document.querySelector('.assist-sheet')?.classList.remove('is-open');
+    const assistBtn = document.querySelector('.mobile-bottom-nav__item--assist');
+    if (assistBtn?.dataset.current !== 'true') assistBtn?.classList.remove('active');
+    assistBtn?.setAttribute('aria-expanded', 'false');
     nav.classList.add('is-open');
+    nav.setAttribute('aria-hidden', 'false');
     overlay?.classList.add('is-visible');
+    bottomMenuBtn?.classList.add('active');
+    bottomMenuBtn?.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   }
   function closeNav() {
     nav.classList.remove('is-open');
+    nav.setAttribute('aria-hidden', 'true');
     overlay?.classList.remove('is-visible');
+    if (bottomMenuBtn?.dataset.current !== 'true') bottomMenuBtn?.classList.remove('active');
+    bottomMenuBtn?.setAttribute('aria-expanded', 'false');
+    const discoverBtn = document.querySelector('.mobile-bottom-nav__discover-btn');
+    if (discoverBtn?.dataset.current === 'true') discoverBtn.classList.add('active');
+    const assistBtn = document.querySelector('.mobile-bottom-nav__item--assist');
+    if (assistBtn?.dataset.current === 'true') assistBtn.classList.add('active');
     document.body.style.overflow = '';
   }
 
-  toggle.addEventListener('click', openNav);
+  toggle?.addEventListener('click', openNav);
   close?.addEventListener('click', closeNav);
   overlay?.addEventListener('click', closeNav);
 
   // Bottom nav menu button also opens the same nav
-  const bottomMenuBtn = document.querySelector('.mobile-bottom-nav__menu-btn');
   bottomMenuBtn?.addEventListener('click', openNav);
+  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNav));
 
   // Accordion toggles for grouped nav items (護膚, 彩妝) — entire row is the trigger
   nav.querySelectorAll('.mobile-nav__group-row').forEach((btn) => {
@@ -1598,7 +1855,7 @@ function initHeaderAutoHide() {
 
   const body = document.body;
   const blocked = () => !!document.querySelector(
-    '.mobile-nav.is-open, .shop-sheet.is-open, .search-overlay.is-open, '
+    '.mobile-nav.is-open, .shop-sheet.is-open, .discover-sheet.is-open, .assist-sheet.is-open, .search-overlay.is-open, '
     + '.filter-sidebar.is-open, .mobile-nav-overlay.is-visible');
 
   let last = Math.max(window.scrollY, 0);
@@ -1636,7 +1893,14 @@ function initHeaderAutoHide() {
   });
 
   /* 開／關 overlay 嗰陣即刻反應，唔使等下一次滑動 */
-  const mo = new MutationObserver(() => { if (blocked()) body.classList.remove('is-nav-tucked'); });
+  /* class 冇存在就唔好再 remove。Chromium 會將冇變化嘅 class 操作都當
+     attribute mutation；之前開 drawer 會觸發 observer → remove → observer
+     無限循環，結果撳 hamburger 成個 main thread 卡住。 */
+  const mo = new MutationObserver(() => {
+    if (blocked() && body.classList.contains('is-nav-tucked')) {
+      body.classList.remove('is-nav-tucked');
+    }
+  });
   mo.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
 }
 
