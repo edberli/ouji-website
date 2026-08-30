@@ -20,6 +20,83 @@ function oujiRevealAll() {
 setTimeout(oujiRevealAll, 2500);
 window.addEventListener('error', function () { oujiRevealAll(); });
 
+/* ----- 白畫面看門狗 ＋ 報返嚟 -----
+ *
+ * 已經修好三個成因（Google Fonts 阻住 render、listener 越疊越多、
+ * 一次過畫千三張卡爆記憶體），但老闆話仲有。我哋自己撞唔到 ——
+ * 伺服器每次都 200、半秒內回，出事係喺客部機。所以：
+ *
+ *   1. 六秒之後量一次「畫面中間有冇嘢」。真係吉就先試自救
+ *      （oujiRevealAll），同時報返一行去 /api/jserr。
+ *   2. 再等三秒仲係吉，就重載一次。**一個 session 淨係做一次**，
+ *      唔會變成無限重載 —— 寧願客見到一次閃，好過對住一版白紙。
+ *
+ * 睇報告：`vercel logs --since 1d | grep OUJI-JSERR`
+ */
+(function () {
+  var sent = 0;
+  function report(kind, msg) {
+    if (sent >= 3) return;          // 一版最多報三次，唔好當 log 倉用
+    sent += 1;
+    var main = document.querySelector('main');
+    var mid = null;
+    try { mid = document.elementFromPoint(innerWidth / 2, innerHeight * 0.6); } catch (e) { /* 冇得量就當唔知 */ }
+    var payload = {
+      kind: kind,
+      page: location.pathname + location.search,
+      msg: String(msg || '').slice(0, 300),
+      at: mid ? (mid.tagName + '.' + (mid.className || '').toString().slice(0, 60)) : '',
+      blank: looksBlank(),
+      mainH: main ? Math.round(main.getBoundingClientRect().height) : 0,
+      fonts: (document.fonts && document.fonts.status) || '',
+      ready: document.readyState,
+    };
+    try {
+      var body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/jserr', new Blob([body], { type: 'application/json' }));
+      } else {
+        fetch('/api/jserr', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true });
+      }
+    } catch (e) { /* 報唔到就算，唔好因為報錯而再拋多個錯 */ }
+  }
+
+  /* 「吉」＝畫面中下方嗰點乜都撞唔到（淨係 html／body），
+     而且 <main> 幾乎冇高度。兩個條件都要中先算，唔好誤判一版
+     本身就短嘅頁（例如空購物袋）。 */
+  function looksBlank() {
+    var main = document.querySelector('main');
+    var h = main ? main.getBoundingClientRect().height : 0;
+    if (h > 200) return false;
+    var el = null;
+    try { el = document.elementFromPoint(innerWidth / 2, innerHeight * 0.6); } catch (e) { return false; }
+    if (!el) return true;
+    return el.tagName === 'HTML' || el.tagName === 'BODY';
+  }
+
+  window.addEventListener('error', function (e) {
+    report('error', (e && (e.message || (e.error && e.error.message))) || 'error');
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    report('reject', (e && e.reason && (e.reason.message || e.reason)) || 'rejection');
+  });
+
+  setTimeout(function () {
+    if (!looksBlank()) return;
+    oujiRevealAll();                 // 先自救
+    report('blank-6s', '六秒之後畫面仲係吉');
+    setTimeout(function () {
+      if (!looksBlank()) return;
+      try {
+        if (sessionStorage.getItem('ouji-blank-reload')) return;   // 一個 session 只重載一次
+        sessionStorage.setItem('ouji-blank-reload', '1');
+      } catch (e) { return; }        // 無痕模式讀唔到就唔重載，好過亂重載
+      report('blank-reload', '九秒仲係吉，重載一次');
+      location.reload();
+    }, 3000);
+  }, 6000);
+})();
+
 function oujiSafe(fn, name) {
   try { fn(); } catch (e) {
     if (window.console) console.error('[OUJI] ' + name + ' 出錯，跳過：', e);
