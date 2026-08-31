@@ -49,10 +49,11 @@ NAV = [
         ('修容', 'makeup.html?cat=contour', 'solo'),
         ('定妝', 'makeup.html?cat=setting', 'solo'),
     ]),
-    ('彩妝工具', 'tools.html', [
-        ('全部彩妝工具', 'tools.html', ''),
+    ('美妝工具', 'tools.html', [
+        ('全部美妝工具', 'tools.html', ''),
         ('化妝掃', 'tools.html?cat=brush', ''),
         ('粉撲海綿', 'tools.html?cat=puff', ''),
+        ('美髮工具', 'tools.html?cat=hair', ''),
         ('美容小工具', 'tools.html?cat=beauty', ''),
     ]),
     ('沐浴洗護', 'bath.html', [
@@ -179,6 +180,36 @@ def mobile():
     return '\n'.join(out)
 
 
+def replace_mega(html, block):
+    """換走 <div class="header__mega"> 成塊，用數 div 深度嘅方法搵佢個尾。
+
+    ⚠️ 本來係用 `<div class="header__mega">.*?</div></div></div>` 呢條
+    regex。實測（2026-08-31）**27 個頁面一個都夾唔到** —— 收尾嗰三個
+    </div> 中間有換行同縮排，唔係連住。即係桌面版嗰個 mega menu 由頭到尾
+    冇更新過：加咗「公仔」佢見唔到，「彩妝工具」改名做「美妝工具」
+    佢又唔跟。手機抽屜嗰段係另一段程式，所以一直有跟，兩邊就對唔上。
+
+    數深度就唔會再受排版影響。
+    """
+    start = html.find('<div class="header__mega">')
+    if start < 0:
+        return html
+    depth, i = 0, start
+    while i < len(html):
+        if html.startswith('<div', i):
+            depth += 1
+            i = html.find('>', i) + 1
+            continue
+        if html.startswith('</div>', i):
+            depth -= 1
+            i += 6
+            if depth == 0:
+                return html[:start] + block + html[i:]
+            continue
+        i += 1
+    return html
+
+
 def main():
     apply = '--apply' in sys.argv
     m = mega()
@@ -186,8 +217,7 @@ def main():
     n = 0
     for f in sorted(glob.glob('*.html')):
         src = open(f, encoding='utf-8').read()
-        new = re.sub(r'<div class="header__mega">.*?</div></div></div>\s*(?=\n)',
-                     m.replace('\\', '\\\\'), src, count=1, flags=re.S)
+        new = replace_mega(src, m)
         # 手機抽屜：成塊重出（見 mobile() 個註解，唔可以只補連結）
         new = re.sub(r'(<div class="mobile-nav__links">)(.*?)(\n    </div>\s*</nav>)',
                      lambda mm: mm.group(1) + '\n' + mob.replace('\\', '\\\\')

@@ -1383,7 +1383,7 @@ const SHOP_GROUPS = [
   { id: 'makeup',   label: '彩妝',       tint: '#ff82c9', dialog: 'Loading make-up...',      href: 'makeup.html' },
   { id: 'bath',     label: '沐浴洗護',   tint: '#8fe3c4', dialog: 'Loading bath & wash...',  href: 'bath.html' },
   { id: 'seasonal', label: '季節性',     tint: '#ffc26a', dialog: 'Loading seasonal...',     href: 'seasonal.html' },
-  { id: 'tools',    label: '彩妝工具',   tint: '#ffa8d8', dialog: 'Loading makeup tools...', href: 'tools.html' },
+  { id: 'tools',    label: '美妝工具',   tint: '#ffa8d8', dialog: 'Loading makeup tools...', href: 'tools.html' },
   { id: 'health',   label: '保健品',     tint: '#b6e86a', dialog: 'Loading supplements...',  href: 'health.html' },
   { id: 'lens',     label: '隱形眼鏡',   tint: '#77c8ff', dialog: 'Loading contact lens...', href: 'lens.html' },
   { id: 'kpop',     label: 'K-pop 周邊', tint: '#fff06a', dialog: 'Loading K-pop goods...',  href: 'kpop.html' },

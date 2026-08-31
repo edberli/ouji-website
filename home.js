@@ -380,7 +380,7 @@ async function initHome() {
     { label: '彩妝', href: 'makeup.html', has: (p) => hasTag(p, '彩妝', 'makeup') },
     { label: '沐浴洗護', href: 'bath.html', has: (p) => hasTag(p, '沐浴') || hasTag(p, '洗髮') || hasTag(p, '潔面') },
     { label: '季節性', href: 'seasonal.html', has: (p) => hasTag(p, '防曬') || hasTag(p, '護手霜') },
-    { label: '彩妝工具', href: 'tools.html', has: (p) => hasTag(p, '化妝工具') || hasTag(p, '美容工具') },
+    { label: '美妝工具', href: 'tools.html', has: (p) => hasTag(p, '化妝工具') || hasTag(p, '美容工具') || hasTag(p, '美髮工具') },
     { label: '保健品', href: 'health.html', has: (p) => hasTag(p, '保健品') },
     { label: '隱形眼鏡', href: 'lens.html', has: (p) => hasTag(p, '隱形眼鏡') },
     { label: 'K-pop', href: 'kpop.html', has: (p) => hasTag(p, 'K-pop', 'kpop') },

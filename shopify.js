@@ -1272,12 +1272,18 @@ const CATEGORY_TAXONOMY = {
       topards: { label: 'TOPARDS', keywords: ['topards'] },
     },
   },
+  /* 老闆 2026-08-31：「併入『彩妝工具』，個格改名做『美妝工具』。」
+     44 件髮梳、髮夾、髮圈、擦髮巾本來淨係喺「其他」度，比公仔仲多成倍。
+     而家同化妝掃、粉撲、美容小工具一齊，個格改名做「美妝工具」——
+     因為入面唔再淨係彩妝用嘅嘢。
+     ⚠️ productType 保持「美髮工具」四個字，改嘅只係呢一格嘅名。 */
   tools: {
-    label: '彩妝工具',
-    keywords: ['化妝工具', '美容工具', 'brush', 'puff', 'tool'],
+    label: '美妝工具',
+    keywords: ['化妝工具', '美容工具', '美髮工具', 'brush', 'puff', 'tool'],
     subs: {
       brush:  { label: '化妝掃',   keywords: ['化妝掃', '掃', 'brush'] },
       puff:   { label: '粉撲海綿', keywords: ['粉撲', '美妝蛋', 'puff', 'sponge'] },
+      hair:   { label: '美髮工具', keywords: ['美髮工具'] },
       beauty: { label: '美容小工具', keywords: ['美容工具', '睫毛夾', '黑頭', 'tweezer'] },
     },
   },

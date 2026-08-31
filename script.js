@@ -1659,7 +1659,7 @@ const SHOP_SHEET = [
   { href: 'bath.html', label: '沐浴洗護', note: '潔面 · 洗髮 · 沐浴' },
   { href: 'health.html', label: '保健品', note: '益生菌 · 膠原蛋白' },
   { href: 'seasonal.html', label: '季節性', note: '防曬 · 護手霜' },
-  { href: 'tools.html', label: '彩妝工具', note: '化妝掃 · 粉撲' },
+  { href: 'tools.html', label: '美妝工具', note: '化妝掃 · 粉撲 · 髮梳' },
   { href: 'fragrance.html', label: '香水香氛', note: '香水 · 身體噴霧' },
 ];
 
