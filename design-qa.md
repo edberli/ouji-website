@@ -186,3 +186,43 @@ final result: passed
 - [x] assist sheet、accessibility state、console 檢查
 
 final result: passed
+
+---
+
+# 手機底欄「幫我揀」三色莫蘭迪色卡 — Design QA（2026-08-31）
+
+## 測試基準
+
+- source visual truth: `/Users/winstonli/.codex/generated_images/01a01887-73e8-7d80-894c-16d1590c0d5e/exec-325a8eeb-904b-4e2b-986e-cb53515aa2ef.png`（原本第 4 款三張色卡構圖）
+- previous bright-color reference: `/Volumes/core/ouji-nav-multicolor-v6/icon-crop-v6.png`
+- implementation screenshot: `/Volumes/core/ouji-nav-morandi-v7/mobile-v7.png`（375 × 812px）
+- focused comparison: `/Volumes/core/ouji-nav-morandi-v7/icon-crop-v7.png`（150 × 95px）
+- state: 手機首頁底欄關閉狀態；另測 assist sheet 開啟狀態
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 三張色卡只使用霧藍灰 `#8AAEB8`、灰粉紅 `#B89AA1`、暖灰褐 `#B4AA98` 三隻主色，飽和度明顯低過上一版。
+- **品牌一致性。** 霧藍灰承接網站 `--primary` 藍色系；粉紅同灰褐只作低調美妝提示，整體同半透明藍玻璃底欄融合。
+- **功能。** tick 維持移除；assist sheet 正常開啟，`aria-expanded=true`；browser console 0 error。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** label 字體、字重、行高不變，圖示同「幫我揀」冇重疊。
+- **Spacing and layout rhythm:** 五欄位置不變；圖示維持 `24 × 26px` 渲染框，冇令底欄增高。
+- **Colors and visual tokens:** 三色均屬低飽和莫蘭迪色，冇橙、鮮粉或高亮紫；同 OUJI `#6da3b5` 主藍屬近似灰調。
+- **Image quality and asset fidelity:** 保留 Streamline Color 正式 icon asset 三張交疊色卡結構，細尺寸保持清晰。
+- **Copy and content:** 導覽名稱、aria label、sheet 內容及連結全部保留。
+
+## 比較歷史
+
+1. **P2 — 四隻糖果色過於艷麗。** 修正：收窄至三張色卡／三隻低飽和色，移除鮮橙及鮮紫，並將前後色卡統一成霧藍灰、灰粉紅、暖灰褐。
+2. **Post-fix evidence：** focused crop 顯示三色清楚但沉穩；full-view 顯示圖示融入霧藍底欄，冇搶過 OUJI 主導航。
+
+## Implementation checklist
+
+- [x] 三張色卡只用三隻主色
+- [x] 莫蘭迪低飽和處理
+- [x] 無 tick、無疊字
+- [x] full-view、focused comparison、互動及 console 檢查
+
+final result: passed
