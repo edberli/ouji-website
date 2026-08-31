@@ -226,3 +226,44 @@ final result: passed
 - [x] full-view、focused comparison、互動及 console 檢查
 
 final result: passed
+
+---
+
+# 手機底欄「幫我揀」原版構圖彩色化 — Design QA（2026-08-31）
+
+## 測試基準
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3dc9690c-455c-444b-9dbf-470e37846187.png`（116 × 100px，指定原本三張扇形色板＋右下圓晶體）
+- implementation screenshot: `/Volumes/core/ouji-nav-original-color-v8/mobile-v8-final.png`（375 × 812px）
+- focused comparison: `/Volumes/core/ouji-nav-original-color-v8/icon-crop-v8-final.png`（150 × 95px）
+- state: 手機首頁底欄關閉狀態；另測 assist sheet 開啟狀態
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 原本 Phosphor 三張扇形色板同右下圓晶體構圖已完整恢復；唔再使用上一版 Streamline 方角色卡輪廓。
+- **唯一視覺改動。** 色板由白色改成低飽和灰粉 `#D4B9C0`；圓晶體保留霧藍 `#6F929D`，角度、大小同重疊方向跟來源。
+- **疊字修正。** 圓晶體仍在右下，但收返入圖示框，`bottom: 0`，同「幫我揀」label 之間保持空位。
+- **功能。** assist sheet 正常開啟，`aria-expanded=true`；browser console 0 error。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** label 字體、字重、行高保持不變，冇重疊。
+- **Spacing and layout rhythm:** 三張扇形色板 `24px`，圓晶體 `10px`；構圖比例同來源一致，底欄高度不變。
+- **Colors and visual tokens:** 灰粉色低飽和、霧藍晶體沿用 OUJI 色系；冇重新加入五顏六色。
+- **Image quality and asset fidelity:** 使用原本 Phosphor `swatches`＋`check-circle` 正式 icon library glyph，唔係自畫近似形狀。
+- **Copy and content:** 「幫我揀」、aria label、sheet 文案及連結全部保留。
+
+## 比較歷史
+
+1. **P1 — 上一版改變咗 logo 輪廓。** 修正：完整撤回 Streamline 色卡，恢復原本 Phosphor 三張扇形色板＋右下圓晶體。
+2. **P2 — 第一輪灰粉色過暗。** 修正：由 `#C7ADB3` 提升至 `#D4B9C0`，保留莫蘭迪灰調同時改善 24px 可見度。
+3. **Post-fix evidence：** focused comparison 顯示輪廓、角度、圓晶體位置同來源一致；文字冇遮擋。
+
+## Implementation checklist
+
+- [x] 恢復原版三張扇形色板
+- [x] 恢復右下藍色圓晶體
+- [x] 唯一造型差異只係加入莫蘭迪灰粉色
+- [x] 無疊字、互動正常、console 0 error
+
+final result: passed

@@ -701,6 +701,16 @@ function initMobileBottomNav() {
   const bar = document.querySelector('.mobile-bottom-nav');
   if (!bar) return;
 
+  /* Restore the exact Phosphor swatches + round crystal composition selected
+     by the user. Only the colour treatment changes. */
+  if (!document.querySelector('link[data-ouji-phosphor]')) {
+    const phosphorStyles = document.createElement('link');
+    phosphorStyles.rel = 'stylesheet';
+    phosphorStyles.href = 'https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css';
+    phosphorStyles.dataset.oujiPhosphor = '';
+    document.head.appendChild(phosphorStyles);
+  }
+
   const icon = {
     catalogue: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
       <circle cx="3" cy="6" r=".95" fill="currentColor" stroke="none"/><path d="M6 6h15.5"/>
@@ -708,10 +718,9 @@ function initMobileBottomNav() {
       <circle cx="3" cy="18" r=".95" fill="currentColor" stroke="none"/><path d="M6 18h15.5"/>
     </svg>`,
     discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m16 8-2.35 5.65L8 16l2.35-5.65z"/></svg>`,
-    /* Streamline Color `color-swatches`, recoloured to OUJI's three-tone Morandi palette.
-       Source: https://icon-sets.iconify.design/streamline-color/color-swatches/ — CC BY 4.0. */
     assist: `<span class="ouji-shade-match-mark" aria-hidden="true">
-      <img class="ouji-shade-match-mark__asset" alt="" width="28" height="28" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNCAxNCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSIiPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgICA8cGF0aCBmaWxsPSIjQjg5QUExIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik05IDEuNDhMNS41IDV2NmEyLjUgMi41IDAgMCAxLS43MyAxLjc2NXYuMDA1bDcuNzUtNy43NmExIDEgMCAwIDAgMC0xLjQxbC0yLjExLTIuMTJhMSAxIDAgMCAwLTEuNDEgMCIgY2xpcC1ydWxlPSJldmVub2RkIi8+CiAgICA8cGF0aCBmaWxsPSIjOEFBRUI4IiBkPSJNNS41IDQuNWgtNXY0aDV6Ii8+CiAgICA8cGF0aCBmaWxsPSIjQjRBQTk4IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Im00Ljc3IDEyLjc2NWwtLjAwMi4wMDNBMi41IDIuNSAwIDAgMSAzIDEzLjVoOS41YTEgMSAwIDAgMCAxLTF2LTNhMSAxIDAgMCAwLTEtMUg5LjAzNEw0Ljc3IDEyLjc3eiIgY2xpcC1ydWxlPSJldmVub2RkIi8+CiAgICA8cGF0aCBzdHJva2U9IiNFOERFREYiIGQ9Ik01LjUgNUw5IDEuNDhhMSAxIDAgMCAxIDEuNDEgMGwyLjExIDIuMTJhMSAxIDAgMCAxIDAgMS40MWwtNy43NSA3Ljc2Ii8+CiAgICA8cGF0aCBmaWxsPSIjOEFBRUI4IiBkPSJNNC43NjggMTIuNzY4QTIuNSAyLjUgMCAwIDAgNS41IDExVjguNWgtNVYxMWEyLjUgMi41IDAgMCAwIDQuMjY4IDEuNzY4TTQuNS41aC0zYTEgMSAwIDAgMC0xIDF2M2g1di0zYTEgMSAwIDAgMC0xLTEiLz4KICAgIDxwYXRoIHN0cm9rZT0iI0UwRUFFQyIgZD0iTTEuNS41aDNhMSAxIDAgMCAxIDEgMVYxMUEyLjUgMi41IDAgMCAxIDMgMTMuNXYwQTIuNSAyLjUgMCAwIDEgLjUgMTFWMS41YTEgMSAwIDAgMSAxLTFtLTEgNGg1bS01IDRoNSIvPgogICAgPHBhdGggc3Ryb2tlPSIjRTdFM0RBIiBkPSJNOS4wNzMgOC41SDEyLjVhMSAxIDAgMCAxIDEgMXYzYTEgMSAwIDAgMS0xIDFIMyIvPgogIDwvZz4KPC9zdmc+Cg==">
+      <i class="ph-duotone ph-swatches"></i>
+      <i class="ph-duotone ph-check-circle ouji-shade-match-mark__crystal"></i>
     </span>`,
     bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
   };

@@ -4003,7 +4003,7 @@ button.product-card__quick-add,
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
   }
 
-  /* Option 4 — 三張莫蘭迪美妝色卡：霧藍灰、灰粉紅同暖灰褐。 */
+  /* Option 4 original — 原本三張扇形色板＋右下圓晶體，只改莫蘭迪色。 */
   .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
   .mobile-bottom-nav__assist-icon {
     position: relative;
@@ -4023,12 +4023,27 @@ button.product-card__quick-add,
     place-items: center;
     line-height: 1;
   }
-  .ouji-shade-match-mark__asset {
+  .ouji-shade-match-mark > .ph-swatches {
     display: block;
-    width: 26px;
-    height: 26px;
-    object-fit: contain;
+    font-size: 24px;
+    line-height: 22px;
+    color: #d4b9c0;
     filter: drop-shadow(0 1px 2px rgba(23, 55, 67, .28));
+  }
+  .ouji-shade-match-mark__crystal {
+    position: absolute;
+    right: -1px;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+    line-height: 1;
+    color: #dbecef;
+    background: #6f929d;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.25px rgba(171, 198, 204, .9), 0 1px 3px rgba(19, 50, 62, .3);
   }
 
   .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,
