@@ -720,7 +720,6 @@ function initMobileBottomNav() {
     discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m16 8-2.35 5.65L8 16l2.35-5.65z"/></svg>`,
     assist: `<span class="ouji-shade-match-mark" aria-hidden="true">
       <i class="ph-duotone ph-swatches"></i>
-      <i class="ph-duotone ph-check-circle ouji-shade-match-mark__check"></i>
     </span>`,
     bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
   };

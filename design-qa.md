@@ -63,6 +63,45 @@ final result: passed
 
 ---
 
+# 手機底欄「幫我揀」彩色色卡修正 — Design QA（2026-08-31）
+
+## 測試基準
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3dc6d096-4984-4b11-aa5d-eb221085401e.png`（116 × 122px，用戶指出剔號壓住 label）
+- implementation screenshot: `/Volumes/core/ouji-nav-color-v5/mobile-v5.png`（390 × 844px）
+- focused comparison: `/Volumes/core/ouji-nav-color-v5/icon-crop-v5.png`（150 × 95px）
+- viewport / CSS size: `390 × 844px`；手機首頁底欄關閉狀態
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 剔號已完全移除，圖示同「幫我揀」之間重新留出清楚距離，冇再疊字。
+- **圖示色彩。** 沿用 Phosphor Duotone `swatches` 正式圖示，底層用柔和珊瑚粉 `#f2a4bb`、前層用湖水藍 `#8fe3ea`；喺 OUJI 藍色底欄有辨識度但唔搶其他入口。
+- **功能。** 點擊後 assist sheet 正常開啟，`aria-expanded=true`；browser console 0 error。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** 「幫我揀」字體、字重、行高不變；剔號刪除後 label 完整可讀。
+- **Spacing and layout rhythm:** 五欄位置及底欄高度不變；中央圖示維持 `24 × 22px` 光學尺寸，同購物袋同級。
+- **Colors and visual tokens:** 珊瑚粉＋湖水藍係 OUJI 美妝語境嘅點綴色，保留原本霧藍玻璃底欄。
+- **Image quality and asset fidelity:** 使用正式 icon library 雙色 glyph，冇 handcrafted SVG、CSS art、emoji 或 raster halo。
+- **Copy and content:** 「幫我揀」及 aria label 全部保留，功能文案冇改動。
+
+## 比較歷史
+
+1. **P1 — 剔號與 label 疊在一起。** 修正：由 DOM 同 CSS 完整移除 `check-circle`，focused comparison 顯示圖示下方文字冇遮擋。
+2. **P2 — 純白圖示唔夠突出。** 修正：以 Phosphor duotone 前後 glyph 分別套用湖水藍及珊瑚粉；post-fix screenshot 顯示雙色清楚可辨。
+
+## Implementation checklist
+
+- [x] 移除 tick DOM、樣式及動畫
+- [x] 加入珊瑚粉＋湖水藍雙色
+- [x] 390 × 844 手機視覺比較
+- [x] 「幫我揀」sheet 互動及 console 檢查
+
+final result: passed
+
+---
+
 # 手機底欄「幫我揀」色卡圖示 — Design QA（2026-08-30）
 
 ## 測試基準

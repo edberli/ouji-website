@@ -3990,8 +3990,8 @@ button.product-card__quick-add,
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
   }
 
-  /* Option 4 — 三張美妝色卡＋選中狀態。圖形來自 Phosphor icon family，
-     唔再用水晶、光球或另一套自製 AI 符號。 */
+  /* Option 4 — 彩色美妝色卡。圖形來自 Phosphor icon family，
+     用珊瑚粉同湖水藍嘅雙色層次，唔再疊加剔號。 */
   .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
   .mobile-bottom-nav__assist-icon {
     position: relative;
@@ -4015,24 +4015,14 @@ button.product-card__quick-add,
     display: block;
     font-size: 24px;
     line-height: 22px;
-    color: rgba(255, 255, 255, .98);
     filter: drop-shadow(0 1px 2px rgba(23, 55, 67, .28));
   }
-  .ouji-shade-match-mark__check {
-    position: absolute;
-    right: -2px;
-    bottom: -2px;
-    display: grid;
-    place-items: center;
-    width: 10px;
-    height: 10px;
-    font-size: 10px;
-    line-height: 1;
-    color: #dff6fa;
-    background: #517c8b;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1.5px rgba(114, 157, 170, .94), 0 1px 3px rgba(19, 50, 62, .34);
-    animation: oujiShadeConfirm 3.8s ease-in-out infinite;
+  .ouji-shade-match-mark > .ph-swatches::before {
+    color: #f2a4bb;
+    opacity: 1;
+  }
+  .ouji-shade-match-mark > .ph-swatches::after {
+    color: #8fe3ea;
   }
 
   .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,
@@ -4045,11 +4035,6 @@ button.product-card__quick-add,
     from { opacity: 0; transform: translateY(5px) scale(.9); }
     to { opacity: 1; transform: none; }
   }
-  @keyframes oujiShadeConfirm {
-    0%, 78%, 100% { opacity: .88; transform: scale(.94); }
-    86% { opacity: 1; transform: scale(1.08); }
-  }
-
   /* Icon wrapper for badge positioning */
   .mobile-bottom-nav__icon-wrap {
     position: relative;
@@ -4228,7 +4213,6 @@ button.product-card__quick-add,
 
 @media (prefers-reduced-motion: reduce) {
   .mobile-bottom-nav__assist-icon,
-  .ouji-shade-match-mark__check,
   .discover-sheet__panel,
   .discover-card { animation: none !important; transition: none !important; }
 }
