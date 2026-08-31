@@ -1588,10 +1588,12 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     const cmp = SORTS[sortKey];
     if (cmp) list = [...list].sort(cmp);
 
-    // Arriving on a subcategory from the nav (底妝, 唇妝 …) is already a
-    // narrowed request — the shopper wants every base product, not a
-    // tour of the brands — so group only while browsing the whole section.
-    const filtered = cat || lockCat || sel.cat.size || sel.vendor.size
+    // Generic category pages (沐浴、香氛、保健、季節性、工具、公仔、
+    // 隱形眼鏡、K-pop) 會喺入 initCatalog 前已經用 `cat` 縮窄 products；
+    // 呢個係頁面範圍，唔係側欄篩選。老闆要求所有類別／子類別都保留
+    // Clearline 品牌導覽，所以 `cat` 唔再令個 grid 攤平。真正用戶篩選、
+    // URL brand、lockCat 同非推薦排序仍然照舊用 flat grid。
+    const filtered = lockCat || sel.cat.size || sel.vendor.size
       || sel.price.size || sel.flag.size;
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
