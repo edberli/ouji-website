@@ -712,6 +712,13 @@ function initMobileBottomNav() {
     phosphorStyles.dataset.oujiPhosphor = '';
     document.head.appendChild(phosphorStyles);
   }
+  if (!document.querySelector('link[data-ouji-phosphor-fill]')) {
+    const phosphorFillStyles = document.createElement('link');
+    phosphorFillStyles.rel = 'stylesheet';
+    phosphorFillStyles.href = 'https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css';
+    phosphorFillStyles.dataset.oujiPhosphorFill = '';
+    document.head.appendChild(phosphorFillStyles);
+  }
 
   const icon = {
     catalogue: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
@@ -722,11 +729,15 @@ function initMobileBottomNav() {
     discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m16 8-2.35 5.65L8 16l2.35-5.65z"/></svg>`,
     assist: `<span class="ouji-shade-match-mark" aria-hidden="true">
       <span class="ouji-shade-match-mark__cards">
-        <i class="ph-duotone ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--mauve"></i>
-        <i class="ph-duotone ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--blue"></i>
-        <i class="ph-duotone ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--taupe"></i>
+        <i class="ph-fill ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--mauve"></i>
+        <i class="ph-fill ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--blue"></i>
+        <i class="ph-fill ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--taupe"></i>
+        <i class="ph-duotone ph-swatches ouji-shade-match-mark__outline"></i>
       </span>
-      <i class="ph-duotone ph-circle ouji-shade-match-mark__crystal"></i>
+      <span class="ouji-shade-match-mark__crystal">
+        <i class="ph-fill ph-circle ouji-shade-match-mark__crystal-fill"></i>
+        <i class="ph-duotone ph-circle ouji-shade-match-mark__crystal-ring"></i>
+      </span>
     </span>`,
     bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
   };

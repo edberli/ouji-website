@@ -314,3 +314,44 @@ final result: passed
 - [x] 無疊字、互動正常、console 0 error
 
 final result: passed
+
+---
+
+# 手機底欄「幫我揀」晶體歸位及色板填色 — Design QA（2026-08-31）
+
+## 測試基準
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-433945db-bb78-46ce-bb59-b8b1d3627fa1.png`（指定粉色扇形色板＋右下圓晶體）
+- implementation screenshot: `/Volumes/core/ouji-icon-fill-fix/06-local-filled-crystal-v11.png`（390 × 844px）
+- focused comparison: `/Volumes/core/ouji-icon-fill-fix/08-source-vs-v11.png`（來源／修正後並排）
+- state: 手機首頁底欄關閉狀態；另測 assist sheet 開啟狀態
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 圓晶體已定位於色板 logo 右下方，晶體上下界完整落在 `24 × 22px` logo 框內，唔再落入「幫我揀」文字區。
+- **實色填滿。** 三層色板使用 Phosphor fill glyph，分別填入莫蘭迪灰粉、霧藍、暖灰褐；保留原本白色輪廓。
+- **移除 tick。** DOM 內 `ph-check-circle` 數量為 0；晶體只由 `ph-circle` fill＋duotone ring 組成。
+- **功能。** assist sheet 正常開啟，`aria-expanded=true`、`.assist-sheet.is-open=1`；browser console 0 error／warning。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** 「幫我揀」label 字體、字重及行高不變，晶體同文字之間無重疊。
+- **Spacing and layout rhythm:** 晶體以 `top: 8px` 明確錨定 logo 內，實測晶體 bottom 比 logo bottom 少 1px。
+- **Colors and visual tokens:** 使用低飽和莫蘭迪灰粉 `#B89AA1`、霧藍 `#8AAEB8`、暖灰褐 `#B4AA98`；晶體沿用 OUJI 藍灰 `#7699A3`。
+- **Image quality and asset fidelity:** 使用官方 Phosphor `swatches`／`circle` glyph；13px 晶體有填色及淺色外圈，細尺寸仍可辨識。
+- **Copy and content:** 導覽名稱、aria label、sheet 文案及連結完全保留。
+
+## 比較歷史
+
+1. **P1 — 晶體被視覺上拆落文字區。** 修正：不用會分離 pseudo-element 的單一 duotone 佈局，改為同位疊放 fill＋ring，並以 `top` 錨定於 logo。
+2. **P1 — 色板中間鏤空。** 修正：三層色板改用 `ph-fill ph-swatches`，再獨立疊加輪廓。
+3. **Post-fix evidence：** source／implementation 並排確認晶體位置同原圖一致；唯一刪除元素為文字上方多餘 tick。
+
+## Implementation checklist
+
+- [x] 晶體放在 logo 右下方，而非文字位置
+- [x] 三層色板有實色填滿
+- [x] 無 tick、無疊字
+- [x] assist sheet、DOM、console 及 mobile viewport 檢查
+
+final result: passed
