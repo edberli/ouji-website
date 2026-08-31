@@ -22,6 +22,8 @@ import sys
 import urllib.request
 from pathlib import Path
 
+from PIL import Image, ImageDraw
+
 sys.path.insert(0, str(Path(__file__).parent))
 from shopify_admin import gql, user_errors  # noqa: E402
 from upload_files import upload, host as host_files  # noqa: E402
@@ -57,9 +59,50 @@ def grab(url, dest):
     return dest
 
 
+# Shopify 收唔到超過 20 百萬像素或者 20MB 嘅圖，直接彈錯。
+MAX_MP, MAX_MB = 20_000_000, 20_000_000
+
+
+def shrink(path):
+    """太大張就縮細，順手把透明底鋪返白。
+
+    ⚠️ HETRAS 兩張官方護手霜圖係 3976×5964＝23.7 百萬像素，超過 Shopify
+    嘅 20MP 上限 —— 唔縮就上唔到，而且錯誤訊息係喺 media 那一步先出，
+    件產品已經開咗，收拾起嚟好煩。所以喺上載之前就處理好。
+    透明底一併鋪白：Shopify 出縮圖嗰陣唔保證背景，鋪咗白就唔會有意外。
+    """
+    if os.path.getsize(path) <= MAX_MB:
+        with Image.open(path) as im:
+            if im.size[0] * im.size[1] <= MAX_MP and im.mode not in ("RGBA", "LA"):
+                return path
+    with Image.open(path) as im:
+        out = flatten(im)
+        w, h = out.size
+        if w * h > MAX_MP:
+            k = (MAX_MP / (w * h)) ** 0.5
+            out = out.resize((int(w * k), int(h * k)), Image.LANCZOS)
+        dest = os.path.splitext(path)[0] + "-fit.jpg"
+        out.save(dest, "JPEG", quality=90)
+    return dest
+
+
+def flatten(im):
+    """透明 PNG 要用白底合埋，唔可以直接 convert('RGB')。
+
+    ⚠️ 之前直接 convert，透明嗰忽會變**黑色**。HETRAS 兩支護手霜嘅官方
+    圖係 RGBA，喺 contact sheet 度就變咗左下角一嚿黑，我差啲當佢係
+    爛圖剔走 —— 其實原檔乾乾淨淨。判圖之前一定要先鋪白底，否則我睇到
+    嘅根本唔係客會睇到嗰張。
+    """
+    if im.mode in ("RGBA", "LA") or (im.mode == "P" and "transparency" in im.info):
+        rgba = im.convert("RGBA")
+        bg = Image.new("RGBA", rgba.size, (255, 255, 255, 255))
+        return Image.alpha_composite(bg, rgba).convert("RGB")
+    return im.convert("RGB")
+
+
 def usable(path):
     """明顯唔係產品相嘅，喺我睇之前先隔一層。"""
-    from PIL import Image
     try:
         with Image.open(path) as im:
             w, h = im.size
@@ -91,7 +134,6 @@ def load_research(tag):
 
 
 def sheet(tag, drop):
-    from PIL import Image, ImageDraw
     pos = pos_rows()
     items = load_research(tag)
     root = WORK / tag
@@ -142,7 +184,7 @@ def sheet(tag, drop):
         d = ImageDraw.Draw(canvas)
         for i, (bc, title, f) in enumerate(chunk):
             try:
-                im = Image.open(f).convert("RGB")
+                im = flatten(Image.open(f))
             except Exception:
                 continue
             im.thumbnail((C - 8, C - 8))
@@ -195,11 +237,12 @@ def apply(tag, drop, limit):
                                                      "locationId": LOCATION,
                                                      "quantity": qty}]}}),
                     "inventorySetQuantities")
-        urls = [upload(f) for f in p["files"][:8]]
+        urls = [upload(shrink(f)) for f in p["files"][:8]]
         gql(MEDIA, {"id": prod["id"], "m": [{"originalSource": u, "mediaContentType": "IMAGE",
                                              "alt": p["title"].strip()} for u in urls]})
         strips = "".join(f'<img src="{u}" alt="" loading="lazy">'
-                         for u in host_files(p["files"][1:6], alt=p["title"].strip()) if u)
+                         for u in host_files([shrink(f) for f in p["files"][1:6]],
+                                             alt=p["title"].strip()) if u)
         desc = f"<p>{p['title'].strip()}</p>"
         if strips:
             desc += f'<div class="product-detail-images">{strips}</div>'
