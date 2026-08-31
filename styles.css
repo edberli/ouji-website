@@ -5250,6 +5250,172 @@ textarea:focus-visible,
 html.is-lite .brand-rail__crest { filter: none; }
 
 /* ============================================================
+   CLEARLINE BRAND RAIL — 2026-08-31
+   保留原有按品牌分段同 scroll spy，只將舊刻度／浪頭換成原色 Logo
+   嘅薄身水玻璃列。呢段用 variant class 精準覆蓋舊 rail，唔影響產品卡、
+   篩選、品牌焦點輪播或其他頁面組件。
+   ============================================================ */
+.brand-rail.brand-rail--clearline {
+  position: fixed;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  z-index: 900;
+  width: min(1180px, calc(100vw - 24px));
+  max-width: none;
+  height: 66px;
+  margin: 0;
+  padding: 7px 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 10px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  contain: layout paint;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 11px;
+  background:
+    radial-gradient(90% 120% at 8% -20%, rgba(255,255,255,.94), transparent 52%),
+    radial-gradient(70% 130% at 88% 140%, rgba(125,185,201,.17), transparent 64%),
+    rgba(238,248,250,.58);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 -1px 0 rgba(74,132,148,.08) inset,
+    0 7px 24px rgba(42,86,99,.08);
+  -webkit-backdrop-filter: blur(20px) saturate(1.28);
+  backdrop-filter: blur(20px) saturate(1.28);
+  transform: translate(-50%, calc(var(--ann-h, 36px) + var(--hdr-h, var(--header-height, 64px))));
+  transition: transform .28s var(--ease-out), box-shadow 180ms var(--ease-out);
+  will-change: transform;
+}
+
+.brand-rail.brand-rail--clearline::-webkit-scrollbar { display: none; }
+
+.brand-rail--clearline .brand-rail__item {
+  position: relative;
+  isolation: isolate;
+  flex: 0 0 108px;
+  width: 108px;
+  height: 50px;
+  min-height: 44px;
+  padding: 0 10px;
+  display: grid;
+  place-items: center;
+  align-items: center;
+  scroll-snap-align: center;
+  border: 0;
+  border-radius: 9px;
+  color: var(--primary-deep, #3c6b7d);
+  text-decoration: none;
+}
+
+.brand-rail--clearline .brand-rail__item::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 2px;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: 0 0 0 1px transparent inset;
+  opacity: 0;
+  transform: scale(.94);
+  transition: opacity 180ms ease-out, transform 180ms cubic-bezier(.22,1,.36,1);
+}
+
+.brand-rail--clearline .brand-rail__item.is-current::before {
+  opacity: 1;
+  transform: scale(1);
+  background: linear-gradient(135deg, rgba(255,255,255,.74), rgba(207,235,240,.28));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.85) inset,
+    0 3px 12px rgba(60,116,130,.1);
+}
+
+.brand-rail--clearline .brand-rail__logo {
+  display: block;
+  width: auto;
+  height: var(--brand-logo-h, 16px);
+  max-width: 92px;
+  object-fit: contain;
+  filter: none;
+  opacity: .76;
+  transform: scale(1);
+  transition: opacity 180ms ease-out, transform 180ms cubic-bezier(.22,1,.36,1);
+}
+
+.brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.brand-rail--clearline .brand-rail__fallback {
+  max-width: 88px;
+  overflow: hidden;
+  color: var(--primary-deep, #3c6b7d);
+  font-size: .6875rem;
+  font-weight: 600;
+  letter-spacing: .035em;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: .76;
+}
+
+.brand-rail--clearline .brand-rail__item.is-current .brand-rail__fallback { opacity: 1; }
+
+.brand-rail--clearline .brand-rail__item:focus-visible {
+  outline: 1px solid rgba(49,93,108,.62);
+  outline-offset: -3px;
+  border-radius: 9px;
+}
+
+body.has-brand-rail .brand-section {
+  scroll-margin-top: calc(var(--ann-h, 36px) + var(--hdr-h, var(--header-height, 64px)) + 78px);
+}
+
+@media (max-width: 768px) {
+  .brand-rail.brand-rail--clearline {
+    width: calc(100vw - 14px);
+    height: 56px;
+    gap: 2px;
+    padding: 5px 6px;
+    border-radius: 9px;
+  }
+  .brand-rail--clearline .brand-rail__item {
+    flex-basis: 100px;
+    width: 100px;
+    height: 44px;
+    padding-inline: 8px;
+    border-radius: 8px;
+  }
+  .brand-rail--clearline .brand-rail__item::before { border-radius: 8px; }
+  .brand-rail--clearline .brand-rail__logo { max-width: 84px; }
+  .brand-rail--clearline .brand-rail__fallback { max-width: 80px; }
+  body.is-nav-tucked .brand-rail.brand-rail--clearline {
+    transform: translate(-50%, 0);
+  }
+  body.has-brand-rail .brand-section {
+    scroll-margin-top: calc(var(--ann-h, 36px) + var(--hdr-h, var(--header-height, 56px)) + 68px);
+  }
+  body.has-brand-rail.is-nav-tucked .brand-section { scroll-margin-top: 68px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-rail.brand-rail--clearline,
+  .brand-rail--clearline .brand-rail__item::before,
+  .brand-rail--clearline .brand-rail__logo { transition: none; }
+}
+
+/* ============================================================
    COLLAPSIBLE DETAIL STRIPS
    Korean detail pages stack tens of thousands of pixels of
    imagery; capping it keeps everything below reachable.

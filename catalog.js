@@ -980,18 +980,9 @@ function brandSection(vendor, items, index) {
 }
 
 /**
- * 頁邊嘅品牌導覽：你而家喺邊個品牌，同埋點樣跳去另一個。
- *
- * 樣式係一列短線，浪頭（你所在嗰個）附近嗰幾條會伸長、變深，
- * 旁邊一個標籤講你而家掂住／身處邊個品牌。
- * （試過掂到就成排品牌名一齊彈出嚟，五十幾個太多、太亂，撤回咗。）
- *
- * 兩件事同上一版唔同，兩件都係老闆撞過先改：
- *  1. 掂到**只係預覽**。以前一掂到就即刻捲版，碌版時滑鼠掃過條 rail
- *     就會無端端彈咗去第二個品牌。而家要撳落去先真係去。
- *  2. 幾何量一次就快取住。以前滑鼠每郁一下都要逐條線問一次位置
- *     （五十幾次，每次迫瀏覽器重算成版排版），再逐條改闊度 —— 就係窒
- *     嘅來源。而家只改浪頭附近嗰幾條。
+ * Clearline 品牌導覽：原色 Logo 放喺薄身水玻璃列，左右掃揀牌子；
+ * 撳一下跳到該品牌產品段，捲頁時 active Logo 會同步同自動置中。
+ * 呢度只改導覽控制，產品分段、產品卡同資料邏輯全部照舊。
  */
 /* ⚠️ 呢個 function 每次換頁／換篩選都會再入嚟一次，而佢會喺 window 上面
    掛 scroll／resize／load。之前冇解綁 —— 客篩幾次之後，每碌一下版就同時
@@ -1000,157 +991,117 @@ function brandSection(vendor, items, index) {
    做法同 bindBrandSpotlight 一致。 */
 let RAIL_ABORT = null;
 
-function buildBrandRail(order) {
+function removeBrandRail() {
   RAIL_ABORT?.abort();
   RAIL_ABORT = null;
   document.querySelector('.brand-rail')?.remove();
+  document.body.classList.remove('has-brand-rail');
+}
+
+function buildBrandRail(order) {
+  removeBrandRail();
   if (order.length < 2) return;
   const abort = new AbortController();
   RAIL_ABORT = abort;
 
   const names = order.map(([vendor]) => vendor);
+  const attr = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[ch]);
+  /* BRAND_LOGO_H 係按每個圖檔嘅實際 ink area 校準；等比例縮細，會比
+     對所有 logo 寫同一個 max-height 更接近同一視覺重量。 */
+  const railLogoHeight = (vendor) =>
+    Math.max(14, Math.min(34, Math.round(brandLogoHeight(vendor) * 0.38)));
   const rail = document.createElement('nav');
-  rail.className = 'brand-rail';
-  rail.setAttribute('aria-label', '品牌導覽');
-  rail.innerHTML =
-    '<span class="brand-rail__label" aria-hidden="true"></span>'
-    + '<span class="brand-rail__crest" aria-hidden="true"></span>'
-    + names.map((vendor, i) => `
-      <a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
-         aria-label="${vendor}" style="--fall:0"><span class="brand-rail__tick"></span></a>`).join('');
+  rail.className = 'brand-rail brand-rail--clearline';
+  rail.setAttribute('aria-label', '品牌快速跳轉');
+  rail.innerHTML = names.map((vendor, i) => {
+    const logo = brandLogo(vendor);
+    const name = attr(vendor);
+    return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
+      aria-label="跳到 ${name}" style="--brand-logo-h:${railLogoHeight(vendor)}px">
+      ${logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
+        loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : ''}
+      <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${name}</span>
+    </a>`;
+  }).join('');
   document.body.appendChild(rail);
+  document.body.classList.add('has-brand-rail');
+
+  rail.querySelectorAll('.brand-rail__logo').forEach((img) => {
+    img.addEventListener('error', () => {
+      img.hidden = true;
+      const fallback = img.nextElementSibling;
+      if (fallback) fallback.hidden = false;
+    }, { once: true, signal: abort.signal });
+  });
 
   const items = [...rail.querySelectorAll('.brand-rail__item')];
-  const label = rail.querySelector('.brand-rail__label');
   const sections = [...document.querySelectorAll('.brand-section')];
-
-  /* 浪頭附近先算數。cos 出嚟嘅肩膊圓，線性會變成尖帳篷。 */
-  const REACH = 2.6;
-  const swell = (d) => (d >= REACH ? 0 : (Math.cos((d / REACH) * Math.PI) + 1) / 2);
-
-  /* ── 幾何：量一次就夠 ──────────────────────────────────
-     條 rail 係 fixed，唔會跟住碌版郁，所以位置只需要喺開頭同改窗
-     大細嗰陣量。 */
-  let geo = null;
-  function measure() {
-    const box = rail.getBoundingClientRect();
-    if (!box.width || !box.height) { geo = null; return; }
-    const vertical = box.height >= box.width;
-    geo = {
-      vertical,
-      left: box.left,
-      top: box.top,
-      centres: items.map((el) => {
-        const b = el.getBoundingClientRect();
-        return vertical ? b.top + b.height / 2 - box.top
-                        : b.left + b.width / 2 - box.left;
-      }),
-    };
-  }
-
-  function posOf(at) {
-    if (!geo) return 0;
-    const c = geo.centres;
-    const i = Math.max(0, Math.min(c.length - 1, at));
-    const lo = Math.floor(i);
-    const hi = Math.min(c.length - 1, lo + 1);
-    return c[lo] + (c[hi] - c[lo]) * (i - lo);
-  }
-
-  /* ── 標示 ──────────────────────────────────────────────
-     只改浪頭夠得到嗰幾條，同埋上一次改過而今次夠唔到嘅要清返 0。
-     五十幾條逐條寫係之前窒嘅主因。 */
-  let touched = [];
   let currentIdx = -1;
+  let jumpRun = 0;
 
-  function mark(at, current = Math.round(at)) {
-    const lo = Math.max(0, Math.ceil(at - REACH));
-    const hi = Math.min(items.length - 1, Math.floor(at + REACH));
-    const next = [];
-    for (let n = lo; n <= hi; n++) {
-      items[n].style.setProperty('--fall', String(swell(Math.abs(n - at))));
-      next.push(n);
-    }
-    touched.forEach((n) => {
-      if (n < lo || n > hi) items[n].style.setProperty('--fall', '0');
-    });
-    touched = next;
-
+  function mark(current) {
     if (current !== currentIdx) {
       items[currentIdx]?.classList.remove('is-current');
-      items[current]?.classList.add('is-current');
+      items[currentIdx]?.removeAttribute('aria-current');
+      const active = items[current];
+      active?.classList.add('is-current');
+      active?.setAttribute('aria-current', 'location');
       currentIdx = current;
-    }
-
-    if (!geo) return;
-    const p = posOf(at);
-    rail.style.setProperty('--crest-x', (geo.vertical ? 14 : p) + 'px');
-    rail.style.setProperty('--crest-y', (geo.vertical ? p : 20) + 'px');
-    if (label && names[current] !== undefined) {
-      label.textContent = names[current];
-      if (geo.vertical) label.style.top = posOf(current) + 'px';
-      else label.style.left = posOf(current) + 'px';
-    }
-  }
-
-  function indexAt(clientX, clientY) {
-    if (!geo) measure();
-    if (!geo) return 0;
-    const { vertical, centres, left, top } = geo;
-    const pos = vertical ? clientY - top : clientX - left;
-    const last = centres.length - 1;
-    if (pos <= centres[0]) return 0;
-    if (pos >= centres[last]) return last;
-    for (let n = 0; n < last; n++) {
-      if (pos <= centres[n + 1]) {
-        const s = centres[n + 1] - centres[n] || 1;
-        return n + (pos - centres[n]) / s;
+      if (active) {
+        const left = active.offsetLeft - (rail.clientWidth - active.offsetWidth) / 2;
+        rail.scrollTo({
+          left: Math.max(0, Math.min(rail.scrollWidth - rail.clientWidth, left)),
+          behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        });
       }
     }
-    return last;
   }
 
   function goTo(i, smooth) {
     const sec = sections[i];
     if (!sec) return;
-    const y = window.scrollY + sec.getBoundingClientRect().top
-      - (parseFloat(getComputedStyle(document.documentElement)
-        .getPropertyValue('--header-height')) || 72) - 12;
+    const run = ++jumpRun;
+    const rootStyle = getComputedStyle(document.documentElement);
+    const sectionTop = window.scrollY + sec.getBoundingClientRect().top;
+    const ann = parseFloat(rootStyle.getPropertyValue('--ann-h')) || 36;
+    const hdr = parseFloat(rootStyle.getPropertyValue('--hdr-h'))
+      || parseFloat(rootStyle.getPropertyValue('--header-height')) || 64;
+    const mobile = matchMedia('(max-width: 768px)').matches;
+    /* 向下跳時正式 header 會按既有規則收起；向上跳就會顯示返。
+       直接按目的方向預留空間，落點先唔會多一截空白或畀品牌列遮住。 */
+    const headerSpace = mobile && sectionTop > window.scrollY + 2 ? 0 : ann + hdr;
+    const y = sectionTop - headerSpace - rail.getBoundingClientRect().height - 12;
     window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+
+    /* 遠距離跳轉會令窗口式產品 grid 即場由估計高度換成真高度；第一次
+       scroll 到啱位後，上面幾個 section 可能再伸縮。分三次輕量校正，
+       直到品牌 plate 真正落喺玻璃列下面。用戶一開始自己再掃就即刻取消，
+       唔會搶佢控制。 */
+    [700, 1400, 2400].forEach((delay) => setTimeout(() => {
+      if (abort.signal.aborted || run !== jumpRun) return;
+      const liveRoot = getComputedStyle(document.documentElement);
+      const liveAnn = parseFloat(liveRoot.getPropertyValue('--ann-h')) || 36;
+      const liveHdr = parseFloat(liveRoot.getPropertyValue('--hdr-h'))
+        || parseFloat(liveRoot.getPropertyValue('--header-height')) || 64;
+      const tucked = matchMedia('(max-width: 768px)').matches
+        && document.body.classList.contains('is-nav-tucked');
+      const wantedTop = (tucked ? 0 : liveAnn + liveHdr)
+        + rail.getBoundingClientRect().height + 12;
+      const delta = sec.getBoundingClientRect().top - wantedTop;
+      if (Math.abs(delta) > 2) window.scrollBy({ top: delta, behavior: 'auto' });
+      remeasure();
+    }, delay));
   }
 
-  /* ── 掂到＝預覽，撳落去＝先至去 ──────────────────────── */
-  let previewing = false;
-  let dragged = false;
-
-  const preview = (e) => {
-    const t = e.touches ? e.touches[0] : e;
-    if (!t) return;
-    previewing = true;
-    rail.classList.add('is-live');
-    mark(indexAt(t.clientX, t.clientY));
-  };
-  const release = () => {
-    previewing = false;
-    rail.classList.remove('is-live');
-    spy();
-  };
-
-  rail.addEventListener('pointermove', preview, { signal: abort.signal });
-  rail.addEventListener('pointerleave', release, { signal: abort.signal });
-  rail.addEventListener('touchstart', () => { dragged = false; }, { passive: true, signal: abort.signal });
-  rail.addEventListener('touchmove', (e) => {
-    dragged = true;
-    preview(e);
-    if (e.cancelable) e.preventDefault();   // 拉緊條 rail 就唔好順手捲版
+  /* Clearline 用原生水平 swipe／scroll；唔再用舊波浪 rail 嘅拖動預覽。 */
+  rail.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    const before = rail.scrollLeft;
+    rail.scrollLeft += e.deltaY;
+    if (rail.scrollLeft !== before && e.cancelable) e.preventDefault();
   }, { passive: false, signal: abort.signal });
-  rail.addEventListener('touchend', () => {
-    // 手指沿住條 rail 拉完鬆手 → 去嗰個位。輕㩒一下就當普通點擊。
-    if (dragged) goTo(Math.round(currentIdx), true);
-    dragged = false;
-    release();
-  }, { signal: abort.signal });
-  rail.addEventListener('touchcancel', () => { dragged = false; release(); }, { signal: abort.signal });
 
   rail.addEventListener('click', (e) => {
     const a = e.target.closest('[data-rail]');
@@ -1158,6 +1109,11 @@ function buildBrandRail(order) {
     e.preventDefault();
     goTo(+a.dataset.rail, true);
   }, { signal: abort.signal });
+
+  const cancelPendingJump = () => { jumpRun += 1; };
+  window.addEventListener('touchstart', cancelPendingJump, { passive: true, signal: abort.signal });
+  window.addEventListener('wheel', cancelPendingJump, { passive: true, signal: abort.signal });
+  window.addEventListener('keydown', cancelPendingJump, { signal: abort.signal });
 
   /* ── 跟住碌版行 ──────────────────────────────────────
      每段嘅位置都快取住，所以 spy() 只係加減數，唔使問排版。
@@ -1168,7 +1124,7 @@ function buildBrandRail(order) {
     tops = sections.map((s) => s.getBoundingClientRect().top + window.scrollY);
   }
   function spy() {
-    if (previewing || !tops.length) return;
+    if (!tops.length) return;
     const line = window.scrollY + window.innerHeight * 0.28;
     let current = 0;
     for (let i = 0; i < tops.length; i++) if (tops[i] <= line) current = i;
@@ -1179,18 +1135,19 @@ function buildBrandRail(order) {
   // remove 咗嘅 rail 上面度尺寸。
   function remeasure() {
     if (abort.signal.aborted) return;
-    measure(); measureSections(); spy();
+    measureSections(); spy();
   }
 
   window.addEventListener('scroll', spy, { passive: true, signal: abort.signal });
   window.addEventListener('resize', remeasure, { passive: true, signal: abort.signal });
   window.addEventListener('load', remeasure, { signal: abort.signal });
+  window.addEventListener('pageshow', remeasure, { signal: abort.signal });
   // 圖片載入會推低下面嘅段落，快取住嘅位置要跟住更新
   setTimeout(remeasure, 600);
   setTimeout(remeasure, 2000);
 
   remeasure();
-  mark(0);
+  if (currentIdx < 0) mark(0);
 }
 
 /** Group into brand sections, or fall back to one grid when filtered. */
@@ -1319,7 +1276,7 @@ function mountGrid(host, items) {
 function renderProducts(container, products, { grouped }) {
   clearGridWindows();
   if (!grouped) {
-    document.querySelector('.brand-rail')?.remove();
+    removeBrandRail();
     const [inStock, out] = splitStock(products);
     container.innerHTML = '<div class="grid-host"></div>'
       + soldOutBlock(out, 'all');
@@ -1667,6 +1624,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       syncShopExplorer(activeGroup, list.length, products.length);
     }
     if (!list.length) {
+      removeBrandRail();
       host.innerHTML = `<p class="catalog-empty">冇產品符合呢個篩選。<button class="link-btn" data-filter-clear>清除篩選</button></p>`;
       return;
     }
