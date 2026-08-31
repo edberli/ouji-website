@@ -701,10 +701,8 @@ function initMobileBottomNav() {
   const bar = document.querySelector('.mobile-bottom-nav');
   if (!bar) return;
 
-  /* Keep the exact Phosphor swatches + round crystal composition selected by
-     the user. Each of the three official card faces is a separate mask so the
-     Morandi colours cannot overlap; the crystal is a plain circle — never a
-     check mark. */
+  /* The approved sample and the live nav use this same immutable SVG asset.
+     Do not rebuild its colours, crystal, or card faces with CSS/icon fonts. */
   if (!document.querySelector('link[data-ouji-phosphor]')) {
     const phosphorStyles = document.createElement('link');
     phosphorStyles.rel = 'stylesheet';
@@ -712,14 +710,6 @@ function initMobileBottomNav() {
     phosphorStyles.dataset.oujiPhosphor = '';
     document.head.appendChild(phosphorStyles);
   }
-  if (!document.querySelector('link[data-ouji-phosphor-fill]')) {
-    const phosphorFillStyles = document.createElement('link');
-    phosphorFillStyles.rel = 'stylesheet';
-    phosphorFillStyles.href = 'https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css';
-    phosphorFillStyles.dataset.oujiPhosphorFill = '';
-    document.head.appendChild(phosphorFillStyles);
-  }
-
   const icon = {
     catalogue: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
       <circle cx="3" cy="6" r=".95" fill="currentColor" stroke="none"/><path d="M6 6h15.5"/>
@@ -727,18 +717,7 @@ function initMobileBottomNav() {
       <circle cx="3" cy="18" r=".95" fill="currentColor" stroke="none"/><path d="M6 18h15.5"/>
     </svg>`,
     discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m16 8-2.35 5.65L8 16l2.35-5.65z"/></svg>`,
-    assist: `<span class="ouji-shade-match-mark" aria-hidden="true">
-      <span class="ouji-shade-match-mark__cards">
-        <i class="ouji-shade-match-mark__card ouji-shade-match-mark__card--mauve"></i>
-        <i class="ouji-shade-match-mark__card ouji-shade-match-mark__card--sage"></i>
-        <i class="ouji-shade-match-mark__card ouji-shade-match-mark__card--taupe"></i>
-        <i class="ph-duotone ph-swatches ouji-shade-match-mark__outline"></i>
-      </span>
-      <span class="ouji-shade-match-mark__crystal">
-        <i class="ph-fill ph-circle ouji-shade-match-mark__crystal-fill"></i>
-        <i class="ph-duotone ph-circle ouji-shade-match-mark__crystal-ring"></i>
-      </span>
-    </span>`,
+    assist: `<img class="ouji-shade-match-mark" src="/assets/icons/ouji-shade-option-a.svg" alt="" aria-hidden="true" width="24" height="22">`,
     bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
   };
 

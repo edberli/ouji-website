@@ -389,3 +389,29 @@ final result: passed
 - [x] 晶體清楚可見、assist sheet 正常、console 0 error
 
 final result: passed
+
+---
+
+# 手機底欄「幫我揀」Exact SVG 上架 — Design QA（2026-08-31）
+
+## 測試基準
+
+- approved exact sample: `/Volumes/core/ouji-logo-samples-v12/ouji-shade-option-a-exact.svg`
+- live candidate asset: `assets/icons/ouji-shade-option-a.svg`
+- implementation: 手機首頁 `390 × 844px`；圖示實際渲染 `24 × 22px`
+
+## Findings
+
+- **單一視覺真相。** sample 與網站資產 SHA-256 同為 `b8b54b66f202dcd0601cd2c2ca6fa83e86ee0f8789c540f46c90a415b45f4c3d`。
+- **無重組。** live markup 只載入一個 `<img src="/assets/icons/ouji-shade-option-a.svg">`；舊 card／crystal／outline 分層 DOM 數量為 0。
+- **尺寸與功能。** SVG 成功以 HTTP 200 載入並渲染為 `24 × 22px`；assist sheet `aria-expanded=true`、`.assist-sheet.is-open=1`。
+- **Console。** local console 0 error／warning。
+
+## Implementation checklist
+
+- [x] sample 與網站使用完全相同 SVG bytes
+- [x] 移除三個獨立 mask 與 icon-font 晶體重組
+- [x] 保留既有底欄尺寸、標籤與互動
+- [x] checksum、mobile viewport、resource、interaction、console 驗證
+
+final result: passed

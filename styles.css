@@ -4003,8 +4003,7 @@ button.product-card__quick-add,
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
   }
 
-  /* Option A — 原本三張扇形色板＋右下圓晶體。三張獨立色卡使用
-     莫蘭迪灰粉、鼠尾草綠同暖灰褐；圓晶體唔再有 tick。 */
+  /* Option A exact asset — 放大 sample 同 live nav 直接讀同一個 SVG。 */
   .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
   .mobile-bottom-nav__assist-icon {
     position: relative;
@@ -4018,80 +4017,11 @@ button.product-card__quick-add,
     animation: assistSettle 520ms var(--ease-out) both;
   }
   .ouji-shade-match-mark {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    line-height: 1;
-  }
-  .ouji-shade-match-mark__cards {
-    position: absolute;
-    inset: 0;
+    width: 24px;
+    height: 22px;
     display: block;
-    filter: drop-shadow(0 1px 2px rgba(23, 55, 67, .28));
+    object-fit: contain;
   }
-  .ouji-shade-match-mark__card {
-    position: absolute;
-    inset: 0;
-    display: block;
-    background: currentColor;
-    -webkit-mask-position: center;
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-    mask-repeat: no-repeat;
-  }
-  .ouji-shade-match-mark__card--mauve {
-    color: #c39da8;
-    -webkit-mask-image: url("assets/icons/ouji-shade-card-1.svg");
-    mask-image: url("assets/icons/ouji-shade-card-1.svg");
-  }
-  .ouji-shade-match-mark__card--sage {
-    color: #8f9c87;
-    -webkit-mask-image: url("assets/icons/ouji-shade-card-2.svg");
-    mask-image: url("assets/icons/ouji-shade-card-2.svg");
-  }
-  .ouji-shade-match-mark__card--taupe {
-    color: #c0b195;
-    -webkit-mask-image: url("assets/icons/ouji-shade-card-3.svg");
-    mask-image: url("assets/icons/ouji-shade-card-3.svg");
-  }
-  .ouji-shade-match-mark__outline {
-    position: absolute;
-    inset: 0;
-    display: block;
-    font-size: 24px;
-    line-height: 22px;
-    color: #ece4e4;
-    opacity: .78;
-    filter: drop-shadow(0 1px 1px rgba(23, 55, 67, .22));
-  }
-  .ouji-shade-match-mark__outline::before { opacity: 0; }
-  .ouji-shade-match-mark__crystal {
-    position: absolute;
-    right: -4px;
-    top: 8px;
-    display: block;
-    width: 11px;
-    height: 11px;
-    z-index: 3;
-    filter: drop-shadow(0 0 1px rgba(222, 237, 239, .9)) drop-shadow(0 1px 2px rgba(19, 50, 62, .3));
-  }
-  .ouji-shade-match-mark__crystal-fill,
-  .ouji-shade-match-mark__crystal-ring {
-    position: absolute;
-    inset: 0;
-    display: block;
-    font-size: 11px;
-    line-height: 1;
-  }
-  .ouji-shade-match-mark__crystal-fill {
-    color: #557f8c;
-    opacity: .88;
-  }
-  .ouji-shade-match-mark__crystal-ring { color: #e0f1f3; }
-  .ouji-shade-match-mark__crystal-ring::before { opacity: .18; }
 
   .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,
   .mobile-bottom-nav__item--assist.active .mobile-bottom-nav__assist-icon {
