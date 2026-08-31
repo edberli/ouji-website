@@ -331,7 +331,7 @@ final result: passed
 - **無剩餘 P0／P1／P2。** 圓晶體已定位於色板 logo 右下方，晶體上下界完整落在 `24 × 22px` logo 框內，唔再落入「幫我揀」文字區。
 - **實色填滿。** 三層色板使用 Phosphor fill glyph，分別填入莫蘭迪灰粉、霧藍、暖灰褐；保留原本白色輪廓。
 - **移除 tick。** DOM 內 `ph-check-circle` 數量為 0；晶體只由 `ph-circle` fill＋duotone ring 組成。
-- **功能。** assist sheet 正常開啟，`aria-expanded=true`、`.assist-sheet.is-open=1`；browser console 0 error／warning。
+- **功能。** assist sheet 正常開啟，`aria-expanded=true`、`.assist-sheet.is-open=1`；local console 0 error／warning，production 0 error（只有既有 Meta Pixel currency format warning，與本改動無關）。
 
 ## 五個 fidelity surfaces
 
