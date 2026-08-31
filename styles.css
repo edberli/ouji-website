@@ -4003,8 +4003,7 @@ button.product-card__quick-add,
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
   }
 
-  /* Option 4 — 彩色美妝色卡。圖形來自 Phosphor icon family，
-     用珊瑚粉同湖水藍嘅雙色層次，唔再疊加剔號。 */
+  /* Option 4 — 真正多色美妝色卡：湖水藍、蜜桃橙、珊瑚粉同薰衣草紫。 */
   .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
   .mobile-bottom-nav__assist-icon {
     position: relative;
@@ -4024,18 +4023,12 @@ button.product-card__quick-add,
     place-items: center;
     line-height: 1;
   }
-  .ouji-shade-match-mark > .ph-swatches {
+  .ouji-shade-match-mark__asset {
     display: block;
-    font-size: 24px;
-    line-height: 22px;
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
     filter: drop-shadow(0 1px 2px rgba(23, 55, 67, .28));
-  }
-  .ouji-shade-match-mark > .ph-swatches::before {
-    color: #f2a4bb;
-    opacity: 1;
-  }
-  .ouji-shade-match-mark > .ph-swatches::after {
-    color: #8fe3ea;
   }
 
   .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,

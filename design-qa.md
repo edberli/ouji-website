@@ -145,3 +145,44 @@ final result: passed
 - [x] full-view 及 focused visual comparison
 
 final result: passed
+
+---
+
+# 手機底欄「幫我揀」四色美妝色卡 — Design QA（2026-08-31）
+
+## 測試基準
+
+- source visual truth: `/Users/winstonli/.codex/generated_images/01a01887-73e8-7d80-894c-16d1590c0d5e/exec-325a8eeb-904b-4e2b-986e-cb53515aa2ef.png`（原本第 4 款扇形色卡構圖）
+- user correction reference: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3dc6d096-4984-4b11-aa5d-eb221085401e.png`（移除壓住 label 嘅 tick）
+- implementation screenshot: `/Volumes/core/ouji-nav-multicolor-v6/mobile-v6.png`（390 × 844px）
+- focused comparison: `/Volumes/core/ouji-nav-multicolor-v6/icon-crop-v6.png`（150 × 95px）
+- viewport / CSS size: `390 × 844px`；手機首頁底欄關閉狀態
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 新圖示清楚呈現珊瑚粉、蜜桃橙、薰衣草紫同湖水藍四種顏色，唔再係藍色加另一隻色。
+- **構圖。** 保留原本多張美妝色卡交疊／扇開嘅意念；移除 tick 後文字完整可讀。
+- **圖示來源。** 使用 Streamline Color `color-swatches` 正式 icon asset，再按 OUJI 美妝色盤調色；並保留 CC BY 4.0 來源註記。
+- **功能。** assist sheet 正常開啟，`aria-expanded=true`，browser console 0 error。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** 「幫我揀」label 字體、字重、行高不變，冇遮擋或額外換行。
+- **Spacing and layout rhythm:** 五欄底欄及 label baseline 不變；圖示渲染框 `24 × 26px`，光學重量同購物袋接近。
+- **Colors and visual tokens:** 四隻美妝色分配到唔同色卡面，喺霧藍底欄保持對比，亦呼應 OUJI 彩妝商品色盤。
+- **Image quality and asset fidelity:** 使用正式 icon library vector asset，24px 顯示仍然銳利，冇 raster halo、CSS art、emoji 或 placeholder。
+- **Copy and content:** 導覽名稱、aria label、sheet 文案及 deep links 全部保持不變。
+
+## 比較歷史
+
+1. **P2 — 雙色版本未符合「彩色」。** 修正：由 Phosphor 雙色 glyph 改成四種獨立美妝色嘅 Streamline Color 色卡 asset。
+2. **P1 — 舊 tick 疊住 label。** 維持移除狀態；post-fix focused crop 確認圖示同文字之間冇重疊。
+
+## Implementation checklist
+
+- [x] 四種顏色分佈喺不同色卡面
+- [x] 無 tick、無疊字
+- [x] 390 × 844 full-view 及 focused comparison
+- [x] assist sheet、accessibility state、console 檢查
+
+final result: passed
