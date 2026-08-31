@@ -126,10 +126,13 @@ function buildHead(p) {
   /* JSON-LD 都要喺服務端出一次。Google Merchant Center 嘅免費刊登靠佢，
      而嗰個爬蟲同社交爬蟲一樣唔一定行 JS。客戶端嗰段用同一個 id，
      行到嗰陣會整個換走，唔會出兩份。 */
+  /* ⚠️ `name` 唔可以超過 150 個字。Search Console 2026-08-31 報
+     「『name』欄位中的字串長度無效」—— 當時有一件貨個名 157 字。
+     個名本身已經改短咗，但呢度都要守住個閘。（同 analytics.js 一致。） */
   const ld = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: p.title,
+    name: (p.title || '').slice(0, 150),
     description: raw.slice(0, 500) || undefined,
     sku: v?.sku || undefined,
     image: [image],

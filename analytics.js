@@ -310,10 +310,15 @@ function injectProductSchema(product, variant) {
       seller: { '@type': 'Organization', name: 'OUJI' },
     };
 
+  /* ⚠️ `name` 唔可以超過 150 個字。Search Console 2026-08-31 報
+     「『name』欄位中的字串長度無效」—— 當時有一件貨個名 157 字。
+     個名本身已經改短咗，但呢度都要守住個閘：日後再有人打個長名，
+     唔應該再由 Google 嚟話畀我哋知。（同 api/product.js 要一致。） */
+  const NAME_MAX = 150;
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: product.title,
+    name: (product.title || '').slice(0, NAME_MAX),
     description: (product.description || '').slice(0, 500) || undefined,
     sku: v?.sku || undefined,
     image: images.length ? images : undefined,
