@@ -1318,6 +1318,19 @@ const CATEGORY_TAXONOMY = {
       cooling: { label: '涼感止汗', keywords: ['涼感', '止汗'] },
     },
   },
+  /* 老闆 2026-08-31：「嗰啲公仔，你應該有個新嘅分類叫『公仔』。」
+     之前我自作主張改咗個型號做「公仔玩具」，仲淨係靠「其他」收住佢哋 ——
+     客要行到最後一格先搵到一隻 Hello Kitty。而家佢自己一格。
+     ⚠️ 型號一律用「公仔」兩個字，唔好再自己改名。 */
+  toys: {
+    label: '公仔',
+    keywords: ['公仔', '盲盒', '毛絨', '掛件', '匙扣', '扭蛋', '玩具'],
+    subs: {
+      blindbox: { label: '盲盒',     keywords: ['盲盒', '扭蛋'] },
+      plush:    { label: '毛絨公仔', keywords: ['毛絨', '公仔'] },
+      charm:    { label: '掛件匙扣', keywords: ['掛件', '匙扣', '掛繩'] },
+    },
+  },
   fragrance: {
     label: '香水香氛',
     keywords: ['香水', '身體噴霧', 'perfume', 'body mist'],

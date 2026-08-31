@@ -16,26 +16,26 @@
        keep every relative asset resolving from the site root. -->
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>保健品 — OUJI</title>
-  <meta name="description" content="益生菌、膠原蛋白、維他命、紅參 —— 韓國熱賣嘅內服保健品。">
+  <title>公仔 — OUJI</title>
+  <meta name="description" content="盲盒、毛絨公仔、掛件匙扣 —— Sanrio、蠟筆小新等正版角色精品。">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#1e3038">
-  <link rel="canonical" href="https://oujikbeauty.com/health">
+  <link rel="canonical" href="https://oujikbeauty.com/toys">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OUJI">
   <meta property="og:locale" content="zh_HK">
-  <meta property="og:title" content="保健品 — OUJI">
-  <meta property="og:description" content="益生菌、膠原蛋白、維他命、紅參 —— 韓國熱賣嘅內服保健品。">
-  <meta property="og:url" content="https://oujikbeauty.com/health">
+  <meta property="og:title" content="公仔 — OUJI">
+  <meta property="og:description" content="盲盒、毛絨公仔、掛件匙扣 —— Sanrio、蠟筆小新等正版角色精品。">
+  <meta property="og:url" content="https://oujikbeauty.com/toys">
   <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="保健品 — OUJI">
-  <meta name="twitter:description" content="益生菌、膠原蛋白、維他命、紅參 —— 韓國熱賣嘅內服保健品。">
+  <meta name="twitter:title" content="公仔 — OUJI">
+  <meta name="twitter:description" content="盲盒、毛絨公仔、掛件匙扣 —— Sanrio、蠟筆小新等正版角色精品。">
   <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
 
   <!-- 目錄同啲相都喺 Shopify 手上，第一個 API call 之前先搭好線，
@@ -277,12 +277,12 @@
         </div>
       </div>
       <div class="container">
-        <p class="cat-head__eyebrow">SUPPLEMENTS</p>
+        <p class="cat-head__eyebrow">CHARACTER GOODS</p>
         <div class="cat-head__row">
-          <h1 class="cat-head__title">保健品</h1>
+          <h1 class="cat-head__title">公仔</h1>
           <p class="cat-head__meta"><span data-cat-count></span></p>
         </div>
-        <p class="cat-head__desc">益生菌、膠原蛋白、維他命、紅參 —— 韓國熱賣嘅內服保健品。</p>
+        <p class="cat-head__desc">盲盒、毛絨公仔、掛件匙扣 —— Sanrio、蠟筆小新等正版角色精品。</p>
       </div>
     </section>
 
@@ -291,7 +291,7 @@
       <nav class="breadcrumb">
         <a href="index.html">首頁</a>
         <span class="breadcrumb__sep">/</span>
-        <span>保健品</span>
+        <span>公仔</span>
       </nav>
 
       <div class="quick-tabs" data-quick-tabs></div>
@@ -471,7 +471,7 @@
     // keeps the path and carries no ?collection= — read either.
     const pathCollection = (location.pathname.match(/^\/collections\/([^/]+)/) || [])[1];
     const section = params.get('collection') ||
-      (pathCollection ? decodeURIComponent(pathCollection) : null) || 'health';
+      (pathCollection ? decodeURIComponent(pathCollection) : null) || 'toys';
     const cat = params.get('cat');
     const products = await getCategoryProducts({ section, cat });
     applyCategoryHeading(section, cat);

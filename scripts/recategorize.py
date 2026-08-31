@@ -66,9 +66,15 @@ RULES = [
     ("濕紙巾",   r"濕紙巾|濕巾|wipes?"),
     ("口腔護理", r"牙膏|牙粉|潔牙|口腔|牙刷|漱口"),
     ("家居香氛", r"家居用香氛|擴香|香薰片|香氛膏|除臭|纖維香氛|織物香氣|布料香氛|室內香氛|房間噴霧|衣物"),
-    ("洗髮",     r"洗髮水\b|洗頭水|shampoo"),
-    ("護髮",     r"護髮|髮膜|髮油|髮霧|護髮素|髮根|增強劑|修護?膜|conditioner|hair (oil|pack|treatment|essence|mist)|頭皮|三合一護理液"),
-    ("沐浴",     r"沐浴露|沐浴乳|沐浴|body wash|body cleanser|浴鹽|泡泡浴"),
+    # ⚠️ 唔可以淨係夾「洗髮水」。老闆 2026-08-31 揪到：「BOTANIST 植物性
+    #    **洗髮露**」個型號留咗喺「個人護理」，麵包屑就 fallback 做「護膚」，
+    #    客見到一支洗頭水掛住護膚。日文品名仲要係「シャンプー」。
+    ("洗髮",     r"洗髮露|洗髮水|洗髮乳|洗髮劑|洗頭水|洗頭露|shampoo|シャンプー"),
+    ("護髮",     r"護髮|髮膜|髮油|髮霧|護髮素|髮乳|髮根|增強劑|修護?膜|conditioner|"
+                 r"hair (oil|pack|treatment|essence|mist|balm)|頭皮|三合一護理液|"
+                 r"トリートメント|ヘアオイル|ヘアバーム|ヘアミスト"),
+    ("沐浴",     r"沐浴露|沐浴乳|沐浴|body wash|body cleanser|body soap|浴鹽|泡泡浴|"
+                 r"ボディーソープ|ボディソープ|入浴"),
     ("身體護理", r"身體乳|身體霜|身體乳液|潤膚乳|身體磨砂|body lotion|body cream|body oil|按摩油|磨砂|scrub|足部|foot"),
     ("潔面",     r"潔面|洗面|卸妝|cleansing (foam|oil|gel|balm|water)|cleanser|makeup remover"),
     ("防曬",     r"防曬|sun (cream|stick|essence|milk|serum)|sunscreen|spf"),

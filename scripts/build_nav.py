@@ -76,6 +76,12 @@ NAV = [
         ('防曬', 'seasonal.html?cat=sun', ''),
         ('護手霜', 'seasonal.html?cat=hand', ''),
     ]),
+    ('公仔', 'toys.html', [
+        ('全部公仔', 'toys.html', ''),
+        ('盲盒', 'toys.html?cat=blindbox', ''),
+        ('毛絨公仔', 'toys.html?cat=plush', ''),
+        ('掛件匙扣', 'toys.html?cat=charm', ''),
+    ]),
     ('香水香氛', 'fragrance.html', [
         ('全部香水香氛', 'fragrance.html', ''),
         ('香水', 'fragrance.html?cat=perfume', ''),

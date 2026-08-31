@@ -2100,7 +2100,20 @@ button.product-card__quick-add,
 .footer__bottom-links a:hover { color: #ffffff; }
 
 /* ----- Breadcrumb ----- */
+/* ⚠️ 麵包屑啲短連結唔准縮。老闆 2026-08-31 影咗張相：產品名一長，
+   flex 就將「首頁」「護膚」逐隻字擠成直排，變咗「首／頁」上下疊 ——
+   成條線嘅節奏散晒。短連結一律 nowrap 唔准縮，要讓位就讓最後嗰個
+   產品名（佢縮到剩返一行、超出就 …），因為個名喺下面 H1 度已經有齊。 */
 .breadcrumb { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-lg) 0; font-size: 0.75rem; color: var(--text-tertiary); }
+.breadcrumb > a,
+.breadcrumb__sep { flex: 0 0 auto; white-space: nowrap; }
+.breadcrumb > span:last-child {
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .breadcrumb a:hover { color: var(--primary); }
 .breadcrumb__sep { color: var(--gray-300); }
 
@@ -10029,6 +10042,33 @@ body::before { opacity: 0.18; }
   display: grid; place-items: center; color: #fff; background: #416fea; font-size: 16px;
 }
 
+/* 公仔：毛絨熊仔頭 ＋ 掛環 —— 同其他貼紙一樣，粗墨邊＋白暈＋平色，
+   唔加漸變同陰影，先至同成套 Y2K 貼紙夾得埋。 */
+.shop-boot__art--toys { border: 0; }
+.shop-boot__art--toys::before {          /* 個頭 */
+  left: 20px; top: 26px; width: 54px; height: 50px;
+  border: 5px solid var(--boot-ink); border-radius: 50% 50% 46% 46%;
+  background: #ffd9c2; box-shadow: 0 0 0 5px #ffffff;
+}
+.shop-boot__art--toys::after {           /* 面 —— 兩隻眼一個鼻 */
+  left: 32px; top: 44px; width: 30px; height: 18px;
+  background:
+    radial-gradient(circle at 4px 5px, var(--boot-ink) 3px, transparent 3.5px),
+    radial-gradient(circle at 26px 5px, var(--boot-ink) 3px, transparent 3.5px),
+    radial-gradient(circle at 15px 14px, #d86a4a 4px, transparent 4.5px);
+}
+.shop-boot__art--toys > i {              /* 左右耳仔 ＋ 頂上個掛環 */
+  left: 14px; top: 16px; width: 66px; height: 24px;
+}
+.shop-boot__art--toys > i::before,
+.shop-boot__art--toys > i::after {
+  position: absolute; content: ''; top: 0; width: 22px; height: 22px;
+  border: 5px solid var(--boot-ink); border-radius: 50%;
+  background: #ffc0a3; box-shadow: 0 0 0 4px #ffffff;
+}
+.shop-boot__art--toys > i::before { left: 0; }
+.shop-boot__art--toys > i::after { right: 0; }
+
 /* 沐浴洗護：泵頭樽 ＋ 泡泡 */
 .shop-boot__art--bath { border: 0; }
 .shop-boot__art--bath::before {
@@ -10246,9 +10286,14 @@ body::before { opacity: 0.18; }
   .shop-boot__sticker:nth-child(4) { left: 17%; bottom: 116px; }
   .shop-boot__sticker:nth-child(5) { left: 50%; bottom: 124px; }
   .shop-boot__sticker:nth-child(6) { left: 83%; bottom: 116px; }
-  .shop-boot__sticker:nth-child(7) { left: 17%; bottom: 24px; }
-  .shop-boot__sticker:nth-child(8) { left: 50%; bottom: 32px; }
-  .shop-boot__sticker:nth-child(9) { left: 83%; bottom: 24px; }
+  /* 加咗「公仔」之後係十格。手機三欄擺唔落十個 —— 之前第十個冇規則，
+     就跌返去桌面嗰套 --x/--y，直接疊咗喺「其他」上面（老闆影到）。
+     頭兩行維持三個，最後一行放四個：呢行嘅四格（隱形眼鏡／K-pop／
+     公仔／其他）標籤最短，收窄啲都夠位，唔使郁上面兩行嘅節奏。 */
+  .shop-boot__sticker:nth-child(7)  { left: 13%; bottom: 24px; }
+  .shop-boot__sticker:nth-child(8)  { left: 38%; bottom: 32px; }
+  .shop-boot__sticker:nth-child(9)  { left: 63%; bottom: 24px; }
+  .shop-boot__sticker:nth-child(10) { left: 88%; bottom: 32px; }
   .shop-boot__taskbar { height: 40px; font-size: 16px; }
   .shop-boot__start { min-width: 72px; padding: 8px 13px; }
   .shop-boot__tab { margin-left: 7px; padding: 3px 9px; }
