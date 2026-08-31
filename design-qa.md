@@ -63,6 +63,53 @@ final result: passed
 
 ---
 
+# 手機底欄「幫我揀」舊款三色無剔號 — Design QA（2026-08-31）
+
+## 測試基準
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-433945db-bb78-46ce-bb59-b8b1d3627fa1.png`（舊款三張扇形色板＋右下圓晶體構圖；指定移除獨立 tick）
+- colour truth: 上一版三色莫蘭迪 palette：灰粉 `#B89AA1`、霧藍 `#8AAEB8`、暖灰褐 `#B4AA98`
+- implementation full screenshot: `/Volumes/core/ouji-icon-fix/02-local-v9.png`
+- implementation focused crop: `/Volumes/core/ouji-icon-fix/04-local-icon-v9-6x.png`
+- normalized comparison: `/Volumes/core/ouji-icon-fix/05-shape-color-comparison.png`
+- interaction screenshot: `/Volumes/core/ouji-icon-fix/06-local-sheet-open-v9.png`
+- viewport: in-app browser mobile viewport requested `390 × 844px`, browser capture `375 × 812px`, device scale factor `1`
+- state: 首頁底欄關閉狀態；另測「幫我揀」sheet 開啟狀態
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 舊款 Phosphor `swatches` 輪廓、角度同右下圓晶體構圖保留；獨立 `check-circle` 已完全移除。
+- **三色正確。** 三張色卡分別使用低飽和灰粉、霧藍同暖灰褐，唔再係單一粉色，亦冇五顏六色。
+- **圓晶體無 tick。** 右下配件改用正式 Phosphor `circle` duotone glyph，保留圓形藍晶體視覺，但內部冇剔號。
+- **文字無重疊。** focused crop 顯示圓晶體留喺圖示框內，同「幫我揀」label 有清楚間距。
+- **功能正常。** 強制點擊（避免截圖環境動畫遮擋）後 `aria-expanded=true`、`.assist-sheet.is-open=1`；畫面無水平 overflow。
+- **Console。** in-app browser 為 `0 error`；有 2 個既有 Meta Pixel currency 格式 warning，與本次圖示改動無關。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** 底欄中文字、字重、行高及 baseline 完全保留；冇文字遮擋。
+- **Spacing and layout rhythm:** 五欄位置及底欄高度不變；三色卡維持 24px，圓晶體 11px，光學重量接近購物袋。
+- **Colors and visual tokens:** 精確使用上一版三個莫蘭迪色值；晶體用低飽和藍灰 `#7699A3`。
+- **Image quality and asset fidelity:** 色卡、圓晶體均來自 Phosphor 正式 icon library glyph；24px 下保持向量銳利，冇 raster halo。
+- **Copy and content:** 「幫我揀」、aria label、兩個工具卡及 deep link 全部保留。
+
+## 比較歷史
+
+1. **首輪實作：** 移除 `ph-check-circle`，改用 `ph-circle`；將三個官方 `ph-swatches` glyph 分層套入灰粉、霧藍、暖灰褐。
+2. **Post-fix evidence：** DOM 為 `checkMarks=0`、`plainCrystal=1`、`morandiCards=3`；focused comparison 顯示舊款輪廓保留、tick 消失、三色可辨。
+
+## Implementation checklist
+
+- [x] 保留舊款三張扇形色板輪廓
+- [x] 保留右下圓晶體，但完全移除 tick
+- [x] 套回灰粉、霧藍、暖灰褐三色莫蘭迪 palette
+- [x] label 無重疊、無水平 overflow
+- [x] assist sheet 互動、aria state、console 檢查
+
+final result: passed
+
+---
+
 # 手機底欄「幫我揀」彩色色卡修正 — Design QA（2026-08-31）
 
 ## 測試基準

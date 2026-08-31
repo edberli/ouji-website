@@ -4003,7 +4003,8 @@ button.product-card__quick-add,
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
   }
 
-  /* Option 4 original — 原本三張扇形色板＋右下圓晶體，只改莫蘭迪色。 */
+  /* Option 4 original — 原本三張扇形色板＋右下圓晶體。三張色板沿用
+     最新一版莫蘭迪灰粉、霧藍同暖灰褐；圓晶體唔再有 tick。 */
   .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
   .mobile-bottom-nav__assist-icon {
     position: relative;
@@ -4023,12 +4024,30 @@ button.product-card__quick-add,
     place-items: center;
     line-height: 1;
   }
-  .ouji-shade-match-mark > .ph-swatches {
+  .ouji-shade-match-mark__cards {
+    position: absolute;
+    inset: 0;
+    display: block;
+    filter: drop-shadow(0 1px 2px rgba(23, 55, 67, .28));
+  }
+  .ouji-shade-match-mark__card {
+    position: absolute;
+    inset: 0;
     display: block;
     font-size: 24px;
     line-height: 22px;
-    color: #d4b9c0;
-    filter: drop-shadow(0 1px 2px rgba(23, 55, 67, .28));
+  }
+  .ouji-shade-match-mark__card--mauve {
+    color: #b89aa1;
+    clip-path: polygon(0 0, 58% 0, 53% 100%, 0 100%);
+  }
+  .ouji-shade-match-mark__card--blue {
+    color: #8aaeb8;
+    clip-path: polygon(43% 18%, 100% 18%, 100% 78%, 37% 100%);
+  }
+  .ouji-shade-match-mark__card--taupe {
+    color: #b4aa98;
+    clip-path: polygon(30% 72%, 100% 58%, 100% 100%, 22% 100%);
   }
   .ouji-shade-match-mark__crystal {
     position: absolute;
@@ -4036,14 +4055,12 @@ button.product-card__quick-add,
     bottom: 0;
     display: grid;
     place-items: center;
-    width: 10px;
-    height: 10px;
-    font-size: 10px;
+    width: 11px;
+    height: 11px;
+    font-size: 11px;
     line-height: 1;
-    color: #dbecef;
-    background: #6f929d;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1.25px rgba(171, 198, 204, .9), 0 1px 3px rgba(19, 50, 62, .3);
+    color: #7699a3;
+    filter: drop-shadow(0 0 1px rgba(222, 237, 239, .9)) drop-shadow(0 1px 2px rgba(19, 50, 62, .3));
   }
 
   .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,
