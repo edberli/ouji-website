@@ -355,3 +355,37 @@ final result: passed
 - [x] assist sheet、DOM、console 及 mobile viewport 檢查
 
 final result: passed
+
+---
+
+# 手機底欄「幫我揀」Option A 獨立三色卡 — Design QA（2026-08-31）
+
+## 測試基準
+
+- approved sample: `http://127.0.0.1:8771/?v=3`（A：有藍色透明晶體）
+- implementation: 手機首頁 `390 × 844px`，底欄關閉狀態；另測 assist sheet 開啟狀態
+- visual target: 三個色卡面各自獨立填色，晶體保持可見但唔遮住主要色卡
+
+## Findings
+
+- **無剩餘 P0／P1／P2。** 三個色卡面已由三個獨立 SVG mask 呈現，唔再用三層完整 glyph 互相覆蓋。
+- **三色分明。** 灰粉 `#C39DA8`、鼠尾草綠 `#8F9C87`、暖灰褐 `#C0B195`；色卡唔再使用同背景相近嘅藍色。
+- **晶體可見。** 藍色透明晶體使用 `11 × 11px`、88% fill opacity、淺色外圈，完整留在 logo 垂直範圍內。
+- **功能正常。** `ph-check-circle=0`、assist sheet `aria-expanded=true`、`.assist-sheet.is-open=1`；local console 0 error／warning。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** 「幫我揀」label 字體、字重、行高及位置不變。
+- **Spacing and layout rhythm:** logo 容器維持 `24 × 22px`；晶體縮至 sample 比例並向右移，減少遮擋第三色卡。
+- **Colors and visual tokens:** 藍色只留畀底欄背景及晶體；三個色卡均為低飽和莫蘭迪色。
+- **Image quality and asset fidelity:** 三個 mask 直接取自正式 Phosphor swatches glyph 內三個官方 card face path，輪廓沿用 Phosphor duotone icon。
+- **Copy and content:** 導覽名稱、aria label、sheet 文案與連結全部保留。
+
+## Implementation checklist
+
+- [x] 採用用戶選定 Option A
+- [x] 三個色卡面獨立填色，無互相覆蓋
+- [x] 無藍色色卡、無 tick
+- [x] 晶體清楚可見、assist sheet 正常、console 0 error
+
+final result: passed

@@ -4003,8 +4003,8 @@ button.product-card__quick-add,
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
   }
 
-  /* Option 4 original — 原本三張扇形色板＋右下圓晶體。三張色板沿用
-     最新一版莫蘭迪灰粉、霧藍同暖灰褐；圓晶體唔再有 tick。 */
+  /* Option A — 原本三張扇形色板＋右下圓晶體。三張獨立色卡使用
+     莫蘭迪灰粉、鼠尾草綠同暖灰褐；圓晶體唔再有 tick。 */
   .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
   .mobile-bottom-nav__assist-icon {
     position: relative;
@@ -4034,20 +4034,28 @@ button.product-card__quick-add,
     position: absolute;
     inset: 0;
     display: block;
-    font-size: 24px;
-    line-height: 22px;
+    background: currentColor;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
   }
   .ouji-shade-match-mark__card--mauve {
-    color: #b89aa1;
-    clip-path: polygon(0 0, 58% 0, 53% 100%, 0 100%);
+    color: #c39da8;
+    -webkit-mask-image: url("assets/icons/ouji-shade-card-1.svg");
+    mask-image: url("assets/icons/ouji-shade-card-1.svg");
   }
-  .ouji-shade-match-mark__card--blue {
-    color: #8aaeb8;
-    clip-path: polygon(43% 18%, 100% 18%, 100% 78%, 37% 100%);
+  .ouji-shade-match-mark__card--sage {
+    color: #8f9c87;
+    -webkit-mask-image: url("assets/icons/ouji-shade-card-2.svg");
+    mask-image: url("assets/icons/ouji-shade-card-2.svg");
   }
   .ouji-shade-match-mark__card--taupe {
-    color: #b4aa98;
-    clip-path: polygon(30% 72%, 100% 58%, 100% 100%, 22% 100%);
+    color: #c0b195;
+    -webkit-mask-image: url("assets/icons/ouji-shade-card-3.svg");
+    mask-image: url("assets/icons/ouji-shade-card-3.svg");
   }
   .ouji-shade-match-mark__outline {
     position: absolute;
@@ -4062,11 +4070,11 @@ button.product-card__quick-add,
   .ouji-shade-match-mark__outline::before { opacity: 0; }
   .ouji-shade-match-mark__crystal {
     position: absolute;
-    right: -3px;
+    right: -4px;
     top: 8px;
     display: block;
-    width: 13px;
-    height: 13px;
+    width: 11px;
+    height: 11px;
     z-index: 3;
     filter: drop-shadow(0 0 1px rgba(222, 237, 239, .9)) drop-shadow(0 1px 2px rgba(19, 50, 62, .3));
   }
@@ -4075,14 +4083,14 @@ button.product-card__quick-add,
     position: absolute;
     inset: 0;
     display: block;
-    font-size: 13px;
+    font-size: 11px;
     line-height: 1;
   }
   .ouji-shade-match-mark__crystal-fill {
-    color: #7699a3;
+    color: #557f8c;
     opacity: .88;
   }
-  .ouji-shade-match-mark__crystal-ring { color: #c8dde0; }
+  .ouji-shade-match-mark__crystal-ring { color: #e0f1f3; }
   .ouji-shade-match-mark__crystal-ring::before { opacity: .18; }
 
   .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,

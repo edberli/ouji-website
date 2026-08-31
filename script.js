@@ -702,9 +702,9 @@ function initMobileBottomNav() {
   if (!bar) return;
 
   /* Keep the exact Phosphor swatches + round crystal composition selected by
-     the user. Three clipped copies preserve the original glyph while giving
-     each card its own muted Morandi colour; the crystal is a plain circle —
-     never a check mark. */
+     the user. Each of the three official card faces is a separate mask so the
+     Morandi colours cannot overlap; the crystal is a plain circle — never a
+     check mark. */
   if (!document.querySelector('link[data-ouji-phosphor]')) {
     const phosphorStyles = document.createElement('link');
     phosphorStyles.rel = 'stylesheet';
@@ -729,9 +729,9 @@ function initMobileBottomNav() {
     discover: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m16 8-2.35 5.65L8 16l2.35-5.65z"/></svg>`,
     assist: `<span class="ouji-shade-match-mark" aria-hidden="true">
       <span class="ouji-shade-match-mark__cards">
-        <i class="ph-fill ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--mauve"></i>
-        <i class="ph-fill ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--blue"></i>
-        <i class="ph-fill ph-swatches ouji-shade-match-mark__card ouji-shade-match-mark__card--taupe"></i>
+        <i class="ouji-shade-match-mark__card ouji-shade-match-mark__card--mauve"></i>
+        <i class="ouji-shade-match-mark__card ouji-shade-match-mark__card--sage"></i>
+        <i class="ouji-shade-match-mark__card ouji-shade-match-mark__card--taupe"></i>
         <i class="ph-duotone ph-swatches ouji-shade-match-mark__outline"></i>
       </span>
       <span class="ouji-shade-match-mark__crystal">
