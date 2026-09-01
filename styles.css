@@ -5255,14 +5255,24 @@ html.is-lite .brand-rail__crest { filter: none; }
    嘅薄身水玻璃列。呢段用 variant class 精準覆蓋舊 rail，唔影響產品卡、
    篩選、品牌焦點輪播或其他頁面組件。
    ============================================================ */
+.brand-rail-dock {
+  position: relative;
+  z-index: 900;
+  width: 100%;
+  height: 66px;
+  margin: 0 0 var(--space-sm);
+}
+
+.brand-rail-dock[hidden] { display: none; }
+
 .brand-rail.brand-rail--clearline {
-  position: fixed;
-  top: 0;
+  position: relative;
+  top: auto;
   right: auto;
   bottom: auto;
-  left: 50%;
+  left: auto;
   z-index: 900;
-  width: min(1180px, calc(100vw - 24px));
+  width: 100%;
   max-width: none;
   height: 66px;
   margin: 0;
@@ -5293,9 +5303,15 @@ html.is-lite .brand-rail__crest { filter: none; }
     0 7px 24px rgba(42,86,99,.08);
   -webkit-backdrop-filter: blur(20px) saturate(1.28);
   backdrop-filter: blur(20px) saturate(1.28);
-  transform: translate(-50%, calc(var(--ann-h, 36px) + var(--hdr-h, var(--header-height, 64px))));
-  transition: transform .28s var(--ease-out), box-shadow 180ms var(--ease-out);
-  will-change: transform;
+  transform: none;
+  transition: box-shadow 180ms var(--ease-out);
+}
+
+.brand-rail.brand-rail--clearline.is-stuck {
+  position: fixed;
+  top: calc(var(--ann-h, 36px) + var(--hdr-h, var(--header-height, 64px)));
+  left: var(--rail-fixed-left, 12px);
+  width: var(--rail-fixed-width, calc(100vw - 24px));
 }
 
 .brand-rail.brand-rail--clearline::-webkit-scrollbar { display: none; }
@@ -5383,8 +5399,9 @@ body.has-brand-rail .brand-section {
 }
 
 @media (max-width: 768px) {
+  .brand-rail-dock { height: 56px; }
   .brand-rail.brand-rail--clearline {
-    width: calc(100vw - 14px);
+    width: 100%;
     height: 56px;
     gap: 2px;
     padding: 5px 6px;
@@ -5400,8 +5417,8 @@ body.has-brand-rail .brand-section {
   .brand-rail--clearline .brand-rail__item::before { border-radius: 8px; }
   .brand-rail--clearline .brand-rail__logo { max-width: 84px; }
   .brand-rail--clearline .brand-rail__fallback { max-width: 80px; }
-  body.is-nav-tucked .brand-rail.brand-rail--clearline {
-    transform: translate(-50%, 0);
+  body.is-nav-tucked .brand-rail.brand-rail--clearline.is-stuck {
+    top: 0;
   }
   body.has-brand-rail .brand-section {
     scroll-margin-top: calc(var(--ann-h, 36px) + var(--hdr-h, var(--header-height, 56px)) + 68px);

@@ -596,30 +596,14 @@ function buildQuickTabs(section, products, sel) {
         data-quick="${s.id}">${s.label}<span class="quick-tab__count">${s.count}</span></button>`).join('');
 }
 
-/** 品牌 logo 一行，撳一下直接跳去嗰個牌子。
- *
- * 客好多時係認住個牌子先入嚟嘅 —— 「我要買 TIRTIR」。以前要行
- * 首頁品牌牆或者品牌頁先揀得到，即係喺搵緊貨嗰版反而冇入口。
- * 擺喺分類 pill 下面，同一個位置解決「揀類別」同「揀牌子」。
- *
- * 只出有 logo 檔嘅牌子 —— 得個名嘅一行 logo 入面會好突兀，
- * 佢哋照樣喺品牌頁搵得返。 */
-function buildBrandStrip(products, sel) {
+/** 舊品牌列嘅位置保留做 Clearline 落腳點，但唔再砌第二套品牌入口。
+ * Clearline 會喺 renderProducts() 完成品牌分段之後直接取代呢個節點；
+ * 未分組、篩選緊或只得一個品牌時就保持收起。 */
+function prepareBrandRailSlot() {
   const host = document.querySelector('[data-brand-strip]');
   if (!host) return;
-  const count = new Map();
-  products.forEach((p) => {
-    const v = p.vendor;
-    if (v && brandLogo(v)) count.set(v, (count.get(v) || 0) + 1);
-  });
-  const rows = [...count.entries()].sort((a, b) => b[1] - a[1]);
-  if (rows.length < 3) { host.innerHTML = ''; return; }
-  const active = (sel.brand instanceof Set) ? sel.brand : new Set();
-  host.innerHTML = rows.map(([v, n]) => `
-    <a class="brand-strip__item${active.has(v) ? ' is-active' : ''}"
-       href="shop.html?brand=${encodeURIComponent(v)}" title="${v}｜${n} 件">
-      <img src="${brandLogo(v)}" alt="${v}" loading="lazy">
-    </a>`).join('');
+  host.replaceChildren();
+  host.hidden = true;
 }
 
 /* 三個主要商品頁共用同一套 exact 品牌 carousel。每版 artwork 保留第 3 款
@@ -1025,7 +1009,28 @@ function buildBrandRail(order) {
       <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${name}</span>
     </a>`;
   }).join('');
-  document.body.appendChild(rail);
+  /* 用 dock 保留舊品牌列喺 document flow 嘅位置；去到臨界點之後先將
+     Clearline 轉 fixed。全站為咗防橫向溢出，html/body 有 overflow-x，
+     原生 position:sticky 喺 Safari/Chromium 都會被嗰個 scroll container
+     截斷，所以用同一個視覺結果但更穩定嘅 threshold toggle。 */
+  const dock = document.createElement('div');
+  dock.className = 'brand-rail-dock';
+  dock.setAttribute('data-brand-strip', '');
+  dock.appendChild(rail);
+  const oldSlot = document.querySelector('[data-brand-strip]');
+  if (oldSlot) {
+    /* 舊 .brand-strip 可能已經畀全站橫向列工具包咗一層 .h-scroll；
+       連個殼一齊換走，否則 sticky 只可以困喺 66px 高嘅殼入面。 */
+    const oldShell = oldSlot.parentElement?.classList.contains('h-scroll')
+      ? oldSlot.parentElement : oldSlot;
+    oldShell.replaceWith(dock);
+  } else {
+    const promo = document.querySelector('main .promo-slim');
+    const filterBar = document.querySelector('main .filter-bar');
+    if (promo) promo.insertAdjacentElement('afterend', dock);
+    else if (filterBar) filterBar.insertAdjacentElement('beforebegin', dock);
+    else document.querySelector('main')?.prepend(dock);
+  }
   document.body.classList.add('has-brand-rail');
 
   rail.querySelectorAll('.brand-rail__logo').forEach((img) => {
@@ -1040,6 +1045,31 @@ function buildBrandRail(order) {
   const sections = [...document.querySelectorAll('.brand-section')];
   let currentIdx = -1;
   let jumpRun = 0;
+  let dockTop = 0;
+
+  function headerOffset() {
+    const rootStyle = getComputedStyle(document.documentElement);
+    const ann = parseFloat(rootStyle.getPropertyValue('--ann-h')) || 36;
+    const hdr = parseFloat(rootStyle.getPropertyValue('--hdr-h'))
+      || parseFloat(rootStyle.getPropertyValue('--header-height')) || 64;
+    const tucked = matchMedia('(max-width: 768px)').matches
+      && document.body.classList.contains('is-nav-tucked');
+    return tucked ? 0 : ann + hdr;
+  }
+
+  function syncDock() {
+    if (abort.signal.aborted) return;
+    const rect = dock.getBoundingClientRect();
+    rail.style.setProperty('--rail-fixed-left', `${Math.round(rect.left)}px`);
+    rail.style.setProperty('--rail-fixed-width', `${Math.round(rect.width)}px`);
+    rail.classList.toggle('is-stuck', window.scrollY + headerOffset() >= dockTop);
+  }
+
+  function measureDock() {
+    if (abort.signal.aborted) return;
+    dockTop = dock.getBoundingClientRect().top + window.scrollY;
+    syncDock();
+  }
 
   function mark(current) {
     if (current !== currentIdx) {
@@ -1138,14 +1168,15 @@ function buildBrandRail(order) {
     measureSections(); spy();
   }
 
-  window.addEventListener('scroll', spy, { passive: true, signal: abort.signal });
-  window.addEventListener('resize', remeasure, { passive: true, signal: abort.signal });
+  window.addEventListener('scroll', () => { syncDock(); spy(); }, { passive: true, signal: abort.signal });
+  window.addEventListener('resize', () => { measureDock(); remeasure(); }, { passive: true, signal: abort.signal });
   window.addEventListener('load', remeasure, { signal: abort.signal });
   window.addEventListener('pageshow', remeasure, { signal: abort.signal });
   // 圖片載入會推低下面嘅段落，快取住嘅位置要跟住更新
-  setTimeout(remeasure, 600);
-  setTimeout(remeasure, 2000);
+  setTimeout(() => { measureDock(); remeasure(); }, 600);
+  setTimeout(() => { measureDock(); remeasure(); }, 2000);
 
+  measureDock();
   remeasure();
   if (currentIdx < 0) mark(0);
 }
@@ -1603,7 +1634,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);
     buildShopBrandSpotlight(scope, section);
-    buildBrandStrip(scope, sel);
+    prepareBrandRailSlot();
     buildActiveChips(section, sel, lockCat);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
 
