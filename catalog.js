@@ -131,13 +131,37 @@ fetch('featured.json')
   .then((d) => { if (d?.profitRank) PROFIT_RANK = d.profitRank; })
   .catch(() => {});
 
-/* "推薦" is the default, so it has to mean something. Margin leads —
-   that is the shop's own interest and the merchant asked for it — with
-   awards as the customer-facing counterweight so the top of the grid is
-   not simply the dearest thing we stock. Bestsellers join this term for
-   term once there are orders to count. */
+/* 人氣分：Olive Young 嘅真實評分同評論數（`data/ratings.json`，547 件有數）。
+   評論數係我哋而家手上唯一一個真正嘅「幾多人買過／試過」訊號 ——
+   網店自己得四張單，砌唔出銷量榜。
+
+   用 log 唔用直線：最高嗰件有 10,161 條評論，中位數係 117 條。
+   直線計法會令一件貨重過另一件 87 倍，成版都係嗰一件。真正嘅分別係
+   「一千幾百人試過」同「得十個人試過」，唔係「一萬」同「一千」。
+   log10(count+1)/4 → 0–1，再乘星數比例，出 0–100。中位 48、p90 68。 */
+function popScore(p) {
+  const r = typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE
+    ? RATINGS_CACHE[p.handle] : null;
+  if (!r || !r.count) return 0;
+  return (Math.log10(r.count + 1) / 4) * ((r.star || 4) / 5) * 100;
+}
+
+/* "推薦" 係預設排序，所以佢要有意思。老闆 2026-09-02：
+   「你梗係將最受歡迎、最有話題嗰啲擺最頂啦，而唔係將啲最普通、
+     最冷門嘅嗰啲擺最頂㗎嘛。」
+
+   之前係**毛利行先**（profitRank × 10），所以打開一版見到嘅係最賺錢
+   嗰啲，唔係最多人買嗰啲 —— 客唔知我哋賺幾多，佢只知邊件有人試過。
+
+   而家三個訊號夾埋，人氣佔最大比重：
+     人氣 ×3   → 0–294，Olive Young 真評論數
+     獎項 ×8   → 一個 2025 年第一位大約 72 分，係「有話題」嘅硬證據
+     毛利 ×1.5 → 0–150，舖頭自己嘅需要，留返做同分時嘅推手
+   有真銷量之後，銷量應該取代人氣做主項。 */
 function featuredScore(p) {
-  return (PROFIT_RANK[p.handle] || 0) * 10 + awardWeight(p) * 6;
+  return popScore(p) * 3
+    + awardWeight(p) * 8
+    + (PROFIT_RANK[p.handle] || 0) * 1.5;
 }
 
 /* 「最新上架」用 Shopify 真實 createdAt。老闆 2026-08-28：「應該加一個
@@ -1321,13 +1345,44 @@ function renderProducts(container, products, { grouped }) {
     if (!byVendor.has(v)) byVendor.set(v, []);
     byVendor.get(v).push(p);
   });
-  // Brands used to be ordered by how many products they had, which meant
-  // the default page opened on whoever we happened to stock most of.
-  // Order them by their best product instead, so "推薦" reaches the top of
-  // the page and not just the inside of each section.
-  const best = (items) => Math.max(...items.map(featuredScore));
-  const order = [...byVendor.entries()]
-    .sort((a, b) => best(b[1]) - best(a[1]) || b[1].length - a[1].length);
+  /* 品牌排序。以前係「邊個牌子有一件最高分嘅貨就排第一」——
+     所以一個得一件貨嘅牌子可以霸住成版最頂。老闆 2026-09-02：
+     「一打開，第一個品牌可能得一件產品，噉係好核突㗎嘛。」
+
+     而家兩件事一齊計：
+     1. **實力**：攞佢頭三件貨嘅平均分，唔係淨係攞最高嗰件 ——
+        一件爆款唔代表成個牌子行。
+     2. **深度**：8 件或以上先攞足分，得一件嘅只攞 42%。
+        客撳入一個牌子係想睇「呢個牌子有咩」，得一件貨嘅段落
+        對佢冇用，對我哋亦冇用。
+     只用有貨嗰啲計 —— 一個成段售罄嘅牌子唔應該排喺頂。 */
+  const brandPool = (items) => {
+    const live = splitStock(items)[0];
+    return live.length ? live : items;
+  };
+  const brandScore = (items) => {
+    const pool = brandPool(items);
+    const top = pool.map(featuredScore).sort((a, b) => b - a).slice(0, 3);
+    const avg = top.reduce((s, x) => s + x, 0) / top.length;
+    const depth = Math.min(pool.length, 8) / 8;
+    return avg * (0.35 + 0.65 * depth);
+  };
+  /* 硬閘：得一兩件貨嘅牌子一律排喺所有「有陣容」嘅牌子後面，
+     幾高分都好。分數再高都好，一個得一件貨嘅段落開場就係難睇，
+     而且客撳入去乜都揀唔到。有獎嘅例外 —— 攞過獎本身就係內容。
+     （呢個閘先係真正解到老闆嗰句「第一個品牌可能得一件產品」。
+       淨靠分數乘一個深度系數解決唔到：日系工具牌冇 Olive Young
+       評分，分數係 0，永遠贏唔到一件爆款單品。） */
+  const THIN = 3;
+  const tier = (items) => {
+    const pool = brandPool(items);
+    if (pool.length >= THIN) return 0;
+    return pool.some((p) => awardWeight(p) > 0) ? 1 : 2;
+  };
+  const order = [...byVendor.entries()].sort((a, b) =>
+    tier(a[1]) - tier(b[1])
+    || brandScore(b[1]) - brandScore(a[1])
+    || b[1].length - a[1].length);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
   SECTION_ITEMS.clear();
   container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
