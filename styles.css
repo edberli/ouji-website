@@ -5380,6 +5380,16 @@ html.is-lite .brand-rail__crest { filter: none; }
   transform: scale(1.04);
 }
 
+/* MOLAK 粉紅字標本身色階較柔；一般 Logo 嘅 .76 透明度會令佢喺
+   水玻璃背景上顯得過淡。保留官方粉紅原色，只提升可見度。 */
+.brand-rail--clearline .brand-rail__logo[src$="molak.svg"] {
+  opacity: .92;
+}
+
+.brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo[src$="molak.svg"] {
+  opacity: 1;
+}
+
 .brand-rail--clearline .brand-rail__fallback {
   max-width: 88px;
   overflow: hidden;
