@@ -57,7 +57,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    9 月 15 日前 全單 88 折 &nbsp;·&nbsp; 折實滿 HK$250 免運費 &nbsp;·&nbsp; 滿 HK$499 送面霜
+    9 月 15 日前 全單 88 折 &nbsp;·&nbsp; 滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$250 順豐免運 &nbsp;·&nbsp; 滿 HK$499 送面霜
   </div>
 
   <!-- Header -->
@@ -341,7 +341,7 @@
                 <span class="reward__tick" style="left:80%"></span>
               </div>
               <div class="reward__marks">
-                <span data-reward-mark-1>免運 $250</span>
+                <span data-reward-mark-1>自取免郵 $99</span>
                 <span data-reward-mark-2>送面霜 $499</span>
               </div>
               <p class="reward__line" data-reward-line></p>
@@ -353,7 +353,16 @@
               </div>
             </div>
 
-            <!-- 順豐自提點揀選。
+            <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
+                 $99 自取（EC-GET $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
+                 ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
+                 唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
+            <div class="ship-mode" data-ship>
+              <p class="ship-mode__head">點收貨？</p>
+              <div data-ship-opts></div>
+            </div>
+
+            <!-- 取件點揀選（順豐站／智郵站／郵政局共用同一個面板）。
                  ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
                  extension），所以揀自提點要喺我哋自己個購物袋頁做，
                  揀完寫落 cart attributes，跟住張單過去 Shopify，
@@ -361,9 +370,9 @@
                  資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
                  已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
             <div class="sfp" data-sfp>
-              <p class="sfp__hint"><span class="sfp__hint-mark">i</span><span class="sfp__hint-t">寄順豐自提櫃／順豐站？<b>要喺呢度揀定取件點</b></span></p>
+              <p class="sfp__hint"><span class="sfp__hint-mark">i</span><span class="sfp__hint-t"><b data-sfp-hint>要喺呢度揀定去邊個點攞貨</b></span></p>
               <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false">
-                <span class="sfp__toggle-label">順豐自提點<em>（$25 · 滿 $250 免費）</em></span>
+                <span class="sfp__toggle-label" data-sfp-label>取件點<em data-sfp-sublabel></em></span>
                 <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
               </button>
               <div class="sfp__panel" data-sfp-panel hidden>
@@ -371,7 +380,7 @@
                   <select class="sfp__district" data-sfp-district aria-label="地區">
                     <option value="">全港</option>
                   </select>
-                  <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋自提點">
+                  <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋取件點">
                 </div>
                 <p class="sfp__count" data-sfp-count></p>
                 <ul class="sfp__list" data-sfp-list></ul>
@@ -391,7 +400,7 @@
               <button class="btn btn--primary btn--full">前往結帳</button>
             </div>
 
-            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 折實滿 HK$250 免運</p>
+            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 折實滿 HK$99 自取免郵</p>
 
             <!-- 四個收款方式係同級標籤，冇分主次，所以字級刻意一模一樣。
                  本來每個 span 都用 class="body-sm" 再 inline 蓋返佢個
@@ -640,10 +649,11 @@
     const subtotal = parseFloat(cart.cost.subtotalAmount.amount);   // 未折
     const netTotal = parseFloat(cart.cost.totalAmount.amount);      // 折實
     const saved = Math.max(0, subtotal - netTotal);
-    const FREE_SHIP = 250;
     const GIFT = 499;
-    const SHIPPING_FEE = 30;
-    const shipping = netTotal >= FREE_SHIP ? 0 : SHIPPING_FEE;
+    const FREE_SHIP = window.OUJI_SHIP.post.free;   // 進度條第一級 = 自取免郵
+    const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : 'post';
+    const m = window.OUJI_SHIP[mode];
+    const shipping = netTotal >= m.free ? 0 : m.fee;
 
     if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
     if (shippingEl) shippingEl.textContent = shipping === 0 ? '免費' : formatPrice(shipping);
@@ -685,13 +695,24 @@
     m2.classList.toggle('is-hit', net >= GIFT);
 
     const ceil = (n) => Math.ceil(n - 0.001);
-    if (net < FREE_SHIP) {
-      const gap = ceil(FREE_SHIP - net);
-      line.innerHTML = `再買 <strong>HK$${gap}</strong> 就免運費，慳返 HK$30`;
-      suggestGapFillers(gap, net, gross, inCart, '免運費');
+    /* 一次只講一個目標 —— 四個階梯順住嚟，唔好一次過噴晒四個數俾客。
+       每句都寫明個獎勵係「自取」定「順豐」，唔准淨係寫「免運費」。 */
+    const S = window.OUJI_SHIP;
+    if (net < S.post.free) {
+      const gap = ceil(S.post.free - net);
+      line.innerHTML = `再買 <strong>HK$${gap}</strong> 就 <b>7-Eleven／郵局自取免郵</b>`;
+      suggestGapFillers(gap, net, gross, inCart, '自取免郵');
+    } else if (net < S.sfp.free) {
+      const gap = ceil(S.sfp.free - net);
+      line.innerHTML = `自取免郵 ✓　再買 <strong>HK$${gap}</strong> 就 <b>順豐站免運</b>`;
+      suggestGapFillers(gap, net, gross, inCart, '順豐站免運');
+    } else if (net < S.sfd.free) {
+      const gap = ceil(S.sfd.free - net);
+      line.innerHTML = `順豐站免運 ✓　再買 <strong>HK$${gap}</strong> 就 <b>順豐送上門免運</b>`;
+      suggestGapFillers(gap, net, gross, inCart, '順豐上門免運');
     } else if (net < GIFT) {
       const gap = ceil(GIFT - net);
-      line.innerHTML = `已經免運費 ✓　再買 <strong>HK$${gap}</strong> 就送面霜`;
+      line.innerHTML = `全部運送方式都免運 ✓　再買 <strong>HK$${gap}</strong> 就送面霜`;
       suggestGapFillers(gap, net, gross, inCart, '送面霜');
     } else {
       line.innerHTML = `免運費 ✓　送面霜 ✓　全部拎齊`;
@@ -946,7 +967,113 @@
 
 
   <script>
-  /* ───── 順豐自提點揀選 ─────────────────────────────────────────
+  /* ───── 運送方式選擇（2026-09-02）──────────────────────────────
+     三個運送方式各自一條免運門檻。老闆明確要求：每個選項自己寫住自己嗰條，
+     唔准用「滿 $99 免運費」呢種總述 —— 客會以為連送上門都免。
+
+     揀咗邊種，下面個取件點面板就載對應嘅名單：
+       post → data/pickup-points.json（郵局 119 ＋ 智郵站 168 ＝ 287 個，data.gov.hk 官方數據）
+       sfp  → assets/data/sf-points.json（順豐 428 個）
+       sfd / shop → 唔使揀點，面板收起
+
+     🔴 7-Eleven 嘅 EC-GET 指定分店名單仲未攞到（香港郵政個網域被擋），
+        攞到之後 append 落 pickup-points.json 就得，呢度唔使改。 */
+  /* 三級免運門檻。成本越高、門檻越高 —— 各自守住自己條線。
+     ⚠️ Shopify 嗰邊三條運費規則要對得返：
+        7-Eleven／郵局 $15 滿 $99 免｜順豐站 $25 滿 $199 免｜順豐上門 $30 滿 $250 免
+     ⚠️ 一定要喺呢度定義（同步執行），唔可以放落 DOMContentLoaded handler ——
+        下面兩個 IIFE 即刻要用，handler 要等 DOM ready 先跑，太遲。 */
+    window.OUJI_SHIP = {
+      post: { fee: 15, free: 99,  name: '7-Eleven／郵局自取', src: 'data/pickup-points.json',
+              sub: '287 個郵局／智郵站 · 2 個工作天', hint: '要揀定去邊間郵局／智郵站攞貨' },
+      sfp:  { fee: 25, free: 199, name: '順豐站／智能櫃',      src: 'assets/data/sf-points.json',
+              sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', hint: '要揀定去邊個順豐站／自助櫃攞貨' },
+      sfd:  { fee: 30, free: 250, name: '順豐派送上門',        src: null,
+              sub: '送到門口 · 1–2 個工作天' },
+      shop: { fee: 0,  free: 0,   name: '觀塘門市自取',        src: null,
+              sub: '觀塘工業中心一期 地下 B 舖 · 12:00–20:00 · 即日' },
+    };
+
+  (function () {
+    const root = document.querySelector('[data-ship]');
+    if (!root) return;
+    const box = root.querySelector('[data-ship-opts]');
+    const KEY = 'ouji:shipMode';
+    let mode = 'post';
+    try { mode = localStorage.getItem(KEY) || 'post'; } catch (e) {}
+    if (!window.OUJI_SHIP || !window.OUJI_SHIP[mode]) mode = 'post';
+    window.OUJI_getShipMode = () => mode;
+
+    /* 分兩組 —— 「自取平啲」同「送到手」係兩類服務，平排會令客覺得價錢唔公道。 */
+    const GROUPS = [
+      { label: '自取 · 平啲', keys: ['post', 'sfp', 'shop'] },
+      { label: '送到手', keys: ['sfd'] },
+    ];
+
+    function net() {
+      const el = document.querySelector('[data-total]');
+      if (!el) return 0;
+      return parseFloat((el.textContent || '').replace(/[^0-9.]/g, '')) || 0;
+    }
+
+    function paint() {
+      const S = window.OUJI_SHIP;
+      const n = net();
+      let html = '';
+      for (const g of GROUPS) {
+        html += `<p class="ship-mode__grp">${g.label}</p>`;
+        for (const k of g.keys) {
+          const o = S[k];
+          const on = mode === k;
+          let fee;
+          if (o.fee === 0) {
+            fee = '<span class="ship-mode__free">免費</span>';
+          } else if (n >= o.free) {
+            fee = `<span class="ship-mode__free">免費</span><span class="ship-mode__was">HK$${o.fee}</span>`;
+          } else {
+            const gap = Math.ceil(o.free - n - 0.001);
+            fee = `HK$${o.fee}<span class="ship-mode__gap">再買 $${gap} 就免</span>`;
+          }
+          const note = o.fee === 0 ? '' : `<br>滿 HK$${o.free} 免運費`;
+          html += `<label class="ship-mode__opt${on ? ' is-on' : ''}" data-mode="${k}">
+            <input type="radio" name="ouji-ship" value="${k}"${on ? ' checked' : ''}>
+            <span class="ship-mode__dot"></span>
+            <span><span class="ship-mode__name">${o.name}</span><span class="ship-mode__sub">${o.sub}${note}</span></span>
+            <span class="ship-mode__fee">${fee}</span>
+          </label>`;
+        }
+      }
+      box.innerHTML = html;
+    }
+
+    box.addEventListener('change', async (e) => {
+      const lab = e.target.closest('[data-mode]');
+      if (!lab) return;
+      mode = lab.dataset.mode;
+      try { localStorage.setItem(KEY, mode); } catch (err) {}
+      paint();
+      if (window.OUJI_syncPicker) window.OUJI_syncPicker(mode);
+      if (typeof setCartAttributes === 'function') {
+        await setCartAttributes({ '運送方式': window.OUJI_SHIP[mode].name });
+      }
+      /* 運費同合計要即刻跟住變 —— 唔重畫成個購物袋，只補呢兩格。 */
+      const S = window.OUJI_SHIP[mode], n = net();
+      const ship = n >= S.free ? 0 : S.fee;
+      const shipEl = document.querySelector('[data-shipping]');
+      if (shipEl) shipEl.textContent = ship === 0 ? '免費' : `HK$${ship.toFixed(2)}`;
+    });
+
+    window.OUJI_repaintShip = paint;
+    paint();
+    /* 加減數量、落優惠碼之後個合計會變 —— 盯住嗰格，一變就重畫三個運費。
+       唔用 polling，亦唔使改動購物袋本身嗰段渲染碼。 */
+    const totEl = document.querySelector('[data-total]');
+    if (totEl && window.MutationObserver) {
+      new MutationObserver(() => paint()).observe(totEl, { childList: true, characterData: true, subtree: true });
+    }
+  })();
+
+  /* ───── 取件點揀選 ─────────────────────────────────────────────
      428 個網點（順豐站 90 ＋ 自助櫃 338），資料由順豐官方 PDF 名單抽出。
      ⚠️ 已經剔走「只供住戶／員工使用」嗰 206 個 —— 客揀咗都入唔到去攞貨。
 
@@ -966,12 +1093,34 @@
     const qEl = root.querySelector('[data-sfp-q]');
     const listEl = root.querySelector('[data-sfp-list]');
     const countEl = root.querySelector('[data-sfp-count]');
+    const labelEl = root.querySelector('[data-sfp-sublabel]');
+    const hintEl = root.querySelector('[data-sfp-hint]');
     const KEY = 'ouji:sfPoint';
 
     let points = null;
     let chosen = null;
+    let src = null;        // 而家載緊邊份名單
+
+    /* 跟住運送方式換名單。順豐上門同門市自取唔使揀點 → 成個面板收埋。 */
+    window.OUJI_syncPicker = function (mode) {
+      const o = (window.OUJI_SHIP || {})[mode];
+      if (!o || !o.src) { root.hidden = true; return; }
+      root.hidden = false;
+      if (labelEl) labelEl.textContent = `（${o.name}）`;
+      if (hintEl) hintEl.textContent = o.hint || '要喺呢度揀定去邊個點攞貨';
+      if (src !== o.src) {          // 換咗名單 → 之前揀嗰個已經唔啱用
+        src = o.src; points = null; chosen = null;
+        try { localStorage.removeItem(KEY); } catch (e) {}
+        paintChosen();
+        districtEl.innerHTML = '<option value="">全港</option>';
+        listEl.innerHTML = ''; countEl.textContent = '';
+        panel.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    };
     try { chosen = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
     if (chosen) paintChosen();
+    if (window.OUJI_getShipMode) window.OUJI_syncPicker(window.OUJI_getShipMode());
 
     function paintChosen() {
       chosenEl.textContent = chosen ? `${chosen.code} · ${chosen.address.slice(0, 18)}…` : '撳呢度揀';
@@ -981,7 +1130,7 @@
     async function load() {
       if (points) return points;
       countEl.textContent = '載入緊…';
-      const r = await fetch('assets/data/sf-points.json');
+      const r = await fetch(src || 'assets/data/sf-points.json');
       points = await r.json();
       const ds = [...new Set(points.map((p) => p.district))].sort();
       districtEl.insertAdjacentHTML('beforeend',
@@ -1035,8 +1184,8 @@
       }
       if (typeof setCartAttributes === 'function') {
         await setCartAttributes({
-          '順豐自提點': `${chosen.kind} ${chosen.code}`,
-          '自提點地址': chosen.address,
+          '取件點': `${chosen.kind} ${chosen.code}`,
+          '取件點地址': chosen.address,
         });
       }
     });

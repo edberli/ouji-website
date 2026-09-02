@@ -1477,7 +1477,8 @@ function initPromoPop() {
       <p class="promo-full__days">9 月 15 日前 · 仲有 <b>${days}</b> 日</p>
       <h2 class="promo-full__title">全單 <em>88</em> 折</h2>
       <ul class="promo-full__list">
-        <li><b>HK$250</b><span>折實滿呢個數，免運費</span></li>
+        <li><b>HK$99</b><span>折實滿呢個數，<b>7-Eleven／郵局自取</b>免郵費</span></li>
+        <li><b>HK$250</b><span>折實滿呢個數，<b>順豐派送上門</b>都免運費</span></li>
         <li><b>HK$499</b><span>折實滿呢個數，送下面呢支面霜</span></li>
       </ul>
       <a class="promo-full__gift" href="products/round-lab-round-lab-80ml-0221">
@@ -1840,7 +1841,7 @@ function initHScrollArrows() {
   /* 窄機版：最少嘅字，但三個優惠都要齊。
      老闆：「咁有限嘅位置入邊⋯⋯用最少嘅字去表達。」
      之前窄機淨係得輪流播，客一次只見到一個優惠，好易走寶。 */
-  const SHORT = ['88 折', '$250 免運', '$499 送面霜'];
+  const SHORT = ['88 折', '$99 自取免郵', '$250 順豐免運', '$499 送面霜'];
 
   bar.textContent = '';
   const make = (text) => {

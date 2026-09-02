@@ -6678,20 +6678,15 @@ body.has-brand-rail .brand-section {
 }
 .brand-plate.is-dark .brand-plate__wordmark { color: #fff; }
 
-.brand-plate__name {
-  font-size: 0.6875rem;
-  letter-spacing: 0.3em;
-  text-indent: 0.3em;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.42);
-}
-.brand-plate.is-dark .brand-plate__name { color: rgba(255,255,255,0.55); }
+/* `.brand-plate__name`（logo 下面嗰行細英文字）2026-09-02 拆咗 ——
+   老闆：「有個 logo，你又有個英文名，其實唔需要咁多，全部就係得 logo。」
+   Logo 本身已經寫住個牌子名，多一行等於講兩次，而且喺矮嘅牌上面會撞埋。
+   冇 logo 嘅牌子行 `.brand-plate__wordmark`，一個名，唔會重複。 */
 
 @media (max-width: 768px) {
   .brand-plate { height: 128px; gap: 10px; margin-bottom: var(--space-lg); }
   /* Scale every mark by the same factor so they stay equal to each other. */
   .brand-plate__logo { transform: scale(0.74); }
-  .brand-plate__name { font-size: 0.625rem; letter-spacing: 0.24em; }
 }
 
 /* ============================================================
@@ -12933,3 +12928,51 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .poster__grid .product-card__price { font-size: 0.875rem; }
 /* 評分行喺首頁預覽度可有可無，收埋慳返兩行高 */
 .poster__grid .card-rating { display: none; }
+
+
+/* ───── 運送方式選擇（2026-09-02 新增）─────────────────────────────
+   三級免運門檻：$99 自取（EC-GET 成本 $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
+   成本越高、門檻越高。
+
+   老闆 2026-09-02 明確要求：**一眼要睇得出「$99 免嘅係自取」**，
+   唔可以令客以為滿 $99 連送上門都免。所以每個選項自己寫住自己嗰條門檻，
+   唔靠一句總述（「滿 $99 免運費」呢種寫法係禁止嘅）。
+
+   呢個係新 component，唔 override 任何舊規則。全部值攞 :root 個 token。 */
+.ship-mode { margin: var(--space-lg) 0 var(--space-md); }
+.ship-mode__head {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-tertiary); margin: 0 0 var(--space-sm);
+}
+.ship-mode__grp {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-tertiary); margin: var(--space-md) 0 var(--space-xs); padding-left: 2px;
+}
+.ship-mode__grp:first-of-type { margin-top: 0; }
+.ship-mode__opt {
+  display: grid; grid-template-columns: 18px 1fr auto; gap: var(--space-sm) var(--space-md);
+  align-items: start; padding: 12px var(--space-sm); border-radius: 12px;
+  border: 1px solid transparent; cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.ship-mode__opt:hover { background: var(--gray-100); }
+.ship-mode__opt.is-on { background: var(--primary-lightest); border-color: var(--border-light); }
+.ship-mode__opt input { position: absolute; opacity: 0; pointer-events: none; }
+.ship-mode__dot {
+  width: 16px; height: 16px; border-radius: 999px; border: 2px solid var(--gray-300);
+  margin-top: 3px; position: relative;
+}
+.ship-mode__opt.is-on .ship-mode__dot { border-color: var(--primary-dark); }
+.ship-mode__opt.is-on .ship-mode__dot::after {
+  content: ''; position: absolute; inset: 3px; border-radius: 999px; background: var(--primary-dark);
+}
+.ship-mode__opt:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ship-mode__name { font-size: 0.92rem; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
+.ship-mode__sub { display: block; font-size: 0.74rem; color: var(--text-tertiary); margin-top: 3px; line-height: 1.5; }
+.ship-mode__fee { font-size: 0.88rem; font-weight: 700; text-align: right; white-space: nowrap; color: var(--text-primary); }
+.ship-mode__free {
+  display: inline-block; background: rgba(47,122,92,0.12); color: #2f7a5c;
+  padding: 2px 9px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;
+}
+.ship-mode__was { display: block; font-size: 0.68rem; color: var(--text-tertiary); text-decoration: line-through; font-weight: 400; margin-top: 2px; }
+.ship-mode__gap { display: block; font-size: 0.68rem; color: var(--gold-deep, #7a5c2e); font-weight: 600; margin-top: 3px; }
