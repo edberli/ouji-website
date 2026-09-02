@@ -185,7 +185,7 @@
         <span class="sec__eyebrow">9 月 15 日前 · 全店冇門檻</span>
         <h2 class="sec__title promo__big">全單 <b>88</b> 折</h2>
         <ul class="promo__tiers">
-          <li><b>HK$399</b> 折實滿呢個數，免順豐運費</li>
+          <li><b>HK$250</b> 折實滿呢個數，免順豐運費</li>
           <li><b>HK$499</b> 折實滿呢個數，送 Round Lab 白樺樹保濕面霜（價值 HK$148）</li>
         </ul>
         <p class="promo__fine">「折實」＝ 打完 88 折之後嘅金額。原價買夠 HK$454 免運、HK$568 有面霜。</p>
