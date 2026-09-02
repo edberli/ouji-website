@@ -1002,7 +1002,21 @@ function brandSection(vendor, items, index) {
     ...dead,
   ];
   const [inStock, out] = splitStock(ordered);
-  SECTION_ITEMS.set(String(index), inStock);
+  /* 每個牌子段落只出頭三行，其餘一撳去佢自己個品牌頁。
+
+     點解：護膚有 572 件、33 個牌子。全部一次過鋪出嚟，客要碌足 52 格
+     Skin1004 先見到第二個牌子 —— 即係一版嘢實際上淨係介紹到一個牌子。
+     改成每格三行之後，同一段捲動距離入面客會見到六七個牌子。
+     成版由 572 格縮到約 240 格。
+
+     ⚠️ 呢個唔係分頁。老闆明言唔准分頁（「分頁成十幾頁，好影響用戶體驗」）——
+     分頁係將同一批貨切開幾版逼人撳「下一頁」。呢度係每個牌子出代表作，
+     想睇全部就一撳入品牌頁，而且揀「最新」或者「價錢」排序嗰陣
+     成個 grid 照樣一次過出齊，冇嘢收埋。 */
+  const rows = PREVIEW_ROWS * gridCols();
+  const shown = inStock.slice(0, rows);
+  const rest = inStock.length - shown.length;
+  SECTION_ITEMS.set(String(index), shown);
   // A colour field, the brand's own logo, and its name. Photography was
   // tried twice and abandoned: nineteen brands shoot nineteen ways, half
   // of them burn their own wordmark into the frame, and nine publish
@@ -1020,6 +1034,9 @@ function brandSection(vendor, items, index) {
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
       <div class="grid-host" data-section="${index}"></div>
+      ${rest > 0 ? `<a class="brand-section__more"
+        href="shop.html?brand=${encodeURIComponent(vendor)}">
+        睇晒 ${vendor} 全部 ${inStock.length} 件 <span aria-hidden="true">→</span></a>` : ''}
       ${soldOutBlock(out, index)}
     </section>`;
 }
@@ -1288,6 +1305,9 @@ function soldOutBlock(items, id) {
    24 呢個數係夾住欄數揀嘅 —— 電腦 4 欄、平板 3 欄、手機 2 欄，
    24 三個都整除，所以每一嚿都啱啱好填滿，接口位睇唔出。 */
 const CHUNK = 24;
+/* 每個品牌段落預設出幾多行。三行喺手機係六格、桌面係十二格 ——
+   夠睇得出個牌子係咩路數，又唔會霸住成版。 */
+const PREVIEW_ROWS = 3;
 const NEAR = 900;          // 距離視窗幾遠就預先砌返（px）
 
 /* ⚠️ 唔用 IntersectionObserver 做主力。實測過：分頁一唔喺前景，Chrome
@@ -1445,8 +1465,27 @@ function renderProducts(container, products, { grouped }) {
     || brandScore(b[1]) - brandScore(a[1])
     || b[1].length - a[1].length);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
+  /* 開場「精選」：每個牌子最強嗰件，出一打。
+     一版嘢嘅頭三屏決定客留唔留低。品牌段落再點排都好，頭幾屏永遠
+     淨係介紹到第一個牌子；呢一段就係專登用嚟喺三屏之內畀客見到
+     十二個唔同牌子嘅代表作。一個牌子最多出一件 —— 唔係咁就變返
+     「一個牌子霸晒頭」。 */
   SECTION_ITEMS.clear();
-  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
+  const picks = order
+    .map(([, items]) => splitStock(items)[0][0])
+    .filter(Boolean)
+    .slice(0, Math.min(gridCols() * 4, 12));
+  const pickHtml = picks.length >= 6 ? `
+    <section class="brand-section pick-section">
+      <header class="pick-section__head">
+        <h2 class="pick-section__title">精選</h2>
+        <p class="pick-section__note">${picks.length} 個品牌嘅代表作</p>
+      </header>
+      <div class="grid-host" data-section="pick"></div>
+    </section>` : '';
+  if (pickHtml) SECTION_ITEMS.set('pick', picks);
+  container.innerHTML = pickHtml
+    + order.map(([v, items], i) => brandSection(v, items, i)).join('');
   container.querySelectorAll('.grid-host[data-section]').forEach((host) => {
     mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
   });

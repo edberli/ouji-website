@@ -4899,6 +4899,27 @@ textarea:focus-visible,
 }
 .category-empty__text { color: var(--text-secondary, #6b7a80); margin-bottom: 26px; }
 
+/* ----- 品牌段落「睇晒全部」 ----- */
+.brand-section__more {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin: 18px auto 0; padding: 13px 22px;
+  border: 1px solid var(--line, #dbe6ea); border-radius: 999px;
+  color: var(--text-primary, #1e3038); font-size: 0.94rem;
+  background: #fff; width: fit-content; max-width: 100%;
+  text-align: center;
+}
+.brand-section__more:hover { border-color: var(--primary); color: var(--primary); }
+
+/* ----- 開場精選 ----- */
+.pick-section__head {
+  display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px;
+}
+.pick-section__title {
+  font-family: var(--font-serif, 'Noto Serif TC', serif);
+  font-size: 1.5rem; color: var(--text-primary, #1e3038); margin: 0;
+}
+.pick-section__note { color: var(--text-secondary, #6b7a80); font-size: 0.88rem; margin: 0; }
+
 /* 載入失敗（唔係「冇貨」）。同一個殼、換個語氣：圖示由購物袋轉做重試箭嘴，
    標題唔提「未有產品」，個掣係即場重載而唔係叫客行去第二版。
    ⚠️ 唔准寫 `.category-empty button { }` —— 呢個殼將來會有第二個掣
