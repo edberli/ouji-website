@@ -5256,15 +5256,6 @@ textarea:focus-visible,
   .grid-host--expanded { animation: none; }
 }
 
-/* ----- 開場精選 ----- */
-.pick-section__head {
-  display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px;
-}
-.pick-section__title {
-  font-family: var(--font-serif, 'Noto Serif TC', serif);
-  font-size: 1.5rem; color: var(--text-primary, #1e3038); margin: 0;
-}
-.pick-section__note { color: var(--text-secondary, #6b7a80); font-size: 0.88rem; margin: 0; }
 
 /* 載入失敗（唔係「冇貨」）。同一個殼、換個語氣：圖示由購物袋轉做重試箭嘴，
    標題唔提「未有產品」，個掣係即場重載而唔係叫客行去第二版。
@@ -5693,10 +5684,12 @@ html.is-lite .brand-rail__crest { filter: none; }
 .brand-rail--clearline .brand-rail__item {
   position: relative;
   isolation: isolate;
-  /* 闊度跟住招牌走（扁長嘅牌子攞多啲位），高度固定。 */
-  flex: 0 0 auto;
-  min-width: 78px;
-  max-width: 160px;
+  /* ⚠️ `width` 一定要寫死。舊嗰個浪頭 rail 留低咗幾條低優先度嘅
+     `.brand-rail__item { width: 9px }`（≤1500px）同 `width: 5px`（手機）——
+     只要呢度唔寫 width，嗰啲就會贏，格仔縮到 9px，而 logo 有 84px 闊，
+     即刻疊晒喺一齊（老闆 2026-09-03 影相捉到）。 */
+  flex: 0 0 112px;
+  width: 112px;
   height: 50px;
   min-height: 44px;
   padding: 0 14px;
@@ -5746,12 +5739,13 @@ html.is-lite .brand-rail__crest { filter: none; }
   display: block;
   width: auto;
   height: auto;
-  /* **全部一樣高**，闊度隨招牌本身嘅比例走。
-     用 `max-height` 唔得：格仔闊度固定，扁長嘅 wordmark 會被闊度卡死，
-     實測由 8px 到 27px 都有 —— 就係老闆講嗰個「大細不一」。
-     改成固定高度、格仔闊度自適應，就好似一行同一個尺寸嘅招牌。 */
+  /* 每個 logo 一個**一模一樣嘅框**（84×20），`object-fit: contain`
+     令佢自己 fit 入去。呢個就係 `/brands` 品牌頁齊人嘅原因 ——
+     唔係啲 mark 一樣大，係啲格一樣大。
+     試過「固定高度、格仔跟住招牌大細變」，結果係格仔被舊 CSS 縮細
+     而 logo 冇縮，疊晒喺一齊。框寫死就唔會有呢件事。 */
+  width: 84px;
   height: 20px;
-  max-width: 132px;
   object-fit: contain;
   filter: none;
   opacity: .9;
@@ -5806,7 +5800,7 @@ body.has-brand-rail .brand-section {
     border-radius: 8px;
   }
   .brand-rail--clearline .brand-rail__item::before { border-radius: 8px; }
-  .brand-rail--clearline .brand-rail__logo { max-width: 84px; }
+  .brand-rail--clearline .brand-rail__logo { width: 76px; height: 18px; }
   .brand-rail--clearline .brand-rail__fallback { max-width: 80px; }
   body.is-nav-tucked .brand-rail.brand-rail--clearline.is-stuck {
     top: 0;

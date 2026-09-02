@@ -1081,11 +1081,6 @@ function buildBrandRail(order) {
   RAIL_ABORT = abort;
 
   const names = order.map(([vendor]) => vendor);
-  /* 老闆 2026-09-02：「精選應該都要出現喺品牌列表嗰度。」啱 ——
-     開場嗰段係一版嘢入面最強嗰打貨，客碌落去之後冇路行返上去。
-     所以品牌列頭一格擺「精選」，跳返段落頂。冇精選段落（品牌太少）
-     就唔會出呢一格。 */
-  const hasPick = !!document.getElementById('brand-pick');
   const attr = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[ch]);
@@ -1096,15 +1091,10 @@ function buildBrandRail(order) {
   const rail = document.createElement('nav');
   rail.className = 'brand-rail brand-rail--clearline';
   rail.setAttribute('aria-label', '品牌快速跳轉');
-  const pickItem = hasPick ? `<a class="brand-rail__item brand-rail__item--pick"
-      href="#brand-pick" data-rail="0" aria-label="跳到每個品牌一件">
-      <span class="brand-rail__fallback">每牌一件</span></a>` : '';
-  rail.innerHTML = pickItem + names.map((vendor, i) => {
+  rail.innerHTML = names.map((vendor, i) => {
     const logo = brandLogo(vendor);
     const name = attr(vendor);
-    /* data-rail 係 `sections` 入面嘅位置，唔係品牌序號 ——
-       前面多咗個「精選」段落，唔加返個 offset 就會成條 rail 跳錯一格。 */
-    return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i + (hasPick ? 1 : 0)}"
+    return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
       aria-label="跳到 ${name}">
       ${logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
         loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : ''}
@@ -1543,27 +1533,8 @@ function renderProducts(container, products, { grouped }) {
     || brandScore(b[1]) - brandScore(a[1])
     || b[1].length - a[1].length);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
-  /* 開場「精選」：每個牌子最強嗰件，出一打。
-     一版嘢嘅頭三屏決定客留唔留低。品牌段落再點排都好，頭幾屏永遠
-     淨係介紹到第一個牌子；呢一段就係專登用嚟喺三屏之內畀客見到
-     十二個唔同牌子嘅代表作。一個牌子最多出一件 —— 唔係咁就變返
-     「一個牌子霸晒頭」。 */
   SECTION_ITEMS.clear();
-  const picks = order
-    .map(([, items]) => splitStock(items)[0][0])
-    .filter(Boolean)
-    .slice(0, 12);
-  const pickHtml = picks.length >= 6 ? `
-    <section class="brand-section pick-section" id="brand-pick">
-      <header class="pick-section__head">
-        <h2 class="pick-section__title">每個品牌一件</h2>
-        <p class="pick-section__note">按韓國站評價數同得獎紀錄揀</p>
-      </header>
-      <div class="grid-host" data-section="pick"></div>
-    </section>` : '';
-  if (pickHtml) SECTION_ITEMS.set('pick', picks);
-  container.innerHTML = pickHtml
-    + order.map(([v, items], i) => brandSection(v, items, i)).join('');
+  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
   container.querySelectorAll('.grid-host[data-section]').forEach((host) => {
     mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
   });
