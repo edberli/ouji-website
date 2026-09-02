@@ -1039,7 +1039,6 @@ function brandSection(vendor, items, index) {
           ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
                   style="height:${brandLogoHeight(vendor)}px" loading="lazy">`
           : `<span class="brand-plate__wordmark">${vendor}</span>`}
-        <span class="brand-plate__name">${vendor}</span>
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
       <div class="grid-host" data-section="${index}"></div>
@@ -1252,15 +1251,25 @@ function buildBrandRail(order) {
      每段嘅位置都快取住，所以 spy() 只係加減數，唔使問排版。
      inline 行（唔用 rAF）—— 背景分頁 rAF 會停，以前試過令條 rail
      一直卡喺第一個品牌。 */
-  let tops = [];
-  function measureSections() {
-    tops = sections.map((s) => s.getBoundingClientRect().top + window.scrollY);
-  }
+  /* 即場度，唔快取。
+
+     以前快取住每段嘅位置（`tops`），一有嘢令版面高度變就會過時 ——
+     客撳「展開埋其餘 N 件」之後，下面所有段落落低幾千 px，
+     條 rail 就一直指住錯嘅品牌（老闆 2026-09-02 撞到）。
+     試過用事件同 ResizeObserver 通知佢重度，但補漏永遠補唔齊：
+     圖片陸續載入、篩選、字體換咗，每一樣都會再郁一次。
+
+     所以索性唔快取。三十幾個段落連續讀 rect 係一次 layout，
+     喺 rAF 節流嘅捲動 handler 入面平過補漏邏輯，亦都永遠唔會過時。
+     （當初驚嘅係五百幾張產品卡，唔係三十幾個段落標題。） */
+  function measureSections() { /* 冇嘢好度 —— spy() 即場讀 */ }
   function spy() {
-    if (!tops.length) return;
-    const line = window.scrollY + window.innerHeight * 0.28;
+    if (!sections.length) return;
+    const line = window.innerHeight * 0.28;
     let current = 0;
-    for (let i = 0; i < tops.length; i++) if (tops[i] <= line) current = i;
+    for (let i = 0; i < sections.length; i++) {
+      if (sections[i].getBoundingClientRect().top <= line) current = i;
+    }
     mark(current);
   }
 
@@ -1274,6 +1283,26 @@ function buildBrandRail(order) {
   window.addEventListener('scroll', () => { syncDock(); spy(); }, { passive: true, signal: abort.signal });
   window.addEventListener('resize', () => { measureDock(); remeasure(); }, { passive: true, signal: abort.signal });
   window.addEventListener('load', remeasure, { signal: abort.signal });
+  /* 段落位置係快取住嘅，所以**任何**令版面高度變嘅嘢都要通知佢重新度。
+     試過淨係喺展開嗰陣度一兩次 —— 唔夠：展開嗰四十張卡啲相係陸續載入嘅，
+     每載入一張下面所有段落又落低少少，度完之後個數又過時。
+     所以直接觀察容器高度，一變就重度（rAF ＋ timeout 雙保險，
+     因為 rAF 喺背景分頁唔行）。 */
+  let pending = false;
+  const scheduleRemeasure = () => {
+    if (pending) return;
+    pending = true;
+    const run = () => { pending = false; remeasure(); };
+    requestAnimationFrame(run);
+    setTimeout(() => { if (pending) run(); }, 120);
+  };
+  document.addEventListener('ouji:layout-changed', scheduleRemeasure,
+    { signal: abort.signal });
+  if (typeof ResizeObserver === 'function' && sections.length) {
+    const ro = new ResizeObserver(scheduleRemeasure);
+    ro.observe(sections[0].parentElement || document.body);
+    abort.signal.addEventListener('abort', () => ro.disconnect());
+  }
   window.addEventListener('pageshow', remeasure, { signal: abort.signal });
   // 圖片載入會推低下面嘅段落，快取住嘅位置要跟住更新
   setTimeout(() => { measureDock(); remeasure(); }, 600);
@@ -1556,6 +1585,10 @@ function renderProducts(container, products, { grouped }) {
     mountGrid(host, rest, { all: true });
     SECTION_REST.delete(id);
     syncGridWindows();
+    /* 品牌列跟版行嗰個高亮，係靠一份快取住嘅段落位置。展開之後下面
+       所有段落都會落低幾千 px，唔通知佢重新度，成條 rail 就會一直
+       指住錯嘅品牌（老闆 2026-09-02 撞到）。 */
+    document.dispatchEvent(new CustomEvent('ouji:layout-changed'));
   });
   // 三十幾格全部掛好先至計一次 —— 每格計一次即係計三十幾次
   syncGridWindows();
