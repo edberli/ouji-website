@@ -2268,10 +2268,11 @@ button.product-card__quick-add,
 .product-info__purchase-panel {
   overflow: hidden;
   margin-bottom: var(--space-xl);
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.46);
-  box-shadow: 0 16px 32px -30px rgba(26, 69, 82, 0.42);
+  background: linear-gradient(148deg, #294b57 0%, #35616e 56%, #2b4c58 100%);
+  box-shadow: 0 18px 34px -26px rgba(13, 42, 51, 0.72);
+  color: #fff;
 }
 
 .product-info__promo-card[hidden] { display: none; }
@@ -2287,8 +2288,8 @@ button.product-card__quick-add,
   padding: 12px 12px 12px 4px;
   border: 0;
   border-radius: 0;
-  background: linear-gradient(142deg, #294b57 0%, #35616e 58%, #2b4c58 100%);
-  box-shadow: 0 15px 30px -26px rgba(13, 42, 51, 0.72);
+  background: transparent;
+  box-shadow: none;
   color: #fff;
   isolation: isolate;
 }
@@ -2321,8 +2322,8 @@ button.product-card__quick-add,
 
 .product-info__promo-deadline {
   margin: 0 0 3px;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
   line-height: 1.35;
 }
@@ -2336,8 +2337,8 @@ button.product-card__quick-add,
   margin: 0 0 5px;
   color: #fff;
   font-family: var(--font-display, var(--font-body));
-  font-size: 1.5rem;
-  line-height: 1;
+  font-size: 1.7rem;
+  line-height: 1.15;
   letter-spacing: -0.025em;
 }
 
@@ -2356,15 +2357,15 @@ button.product-card__quick-add,
 
 .product-info__promo-gift strong {
   color: #fff;
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .product-info__promo-gift span {
   min-width: 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.75rem;
   white-space: normal;
 }
 
@@ -2382,9 +2383,9 @@ button.product-card__quick-add,
   overflow: hidden;
   margin: 0;
   border: 0;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 0;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.035);
 }
 
 .product-info__promo-card[hidden] + .product-info__shipping-tiers { border-top: 0; }
@@ -2399,7 +2400,11 @@ button.product-card__quick-add,
 }
 
 .product-info__shipping-tier + .product-info__shipping-tier {
-  border-inline-start: 1px solid var(--border-light);
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.product-info__shipping-tier--featured {
+  background: linear-gradient(90deg, rgba(255, 215, 122, 0.14), rgba(255, 215, 122, 0.035));
 }
 
 .product-info__shipping-icon {
@@ -2409,18 +2414,18 @@ button.product-card__quick-add,
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  color: var(--primary-dark);
-  background: var(--primary-lightest);
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .product-info__shipping-icon--pickup {
-  color: #527766;
-  background: #edf4f0;
+  color: #ffe2a0;
+  background: rgba(255, 215, 122, 0.17);
 }
 
 .product-info__shipping-icon--locker {
-  color: #a3463d;
-  background: #f7eeec;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .product-info__shipping-icon svg {
@@ -2442,15 +2447,25 @@ button.product-card__quick-add,
 }
 
 .product-info__shipping-copy strong {
-  color: var(--primary-darker);
-  font-size: 0.75rem;
+  color: #fff;
+  font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
 }
 
 .product-info__shipping-copy span {
-  color: var(--text-secondary);
-  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.75rem;
+}
+
+.product-info__shipping-tier--featured .product-info__shipping-copy strong {
+  font-size: 0.9375rem;
+}
+
+.product-info__shipping-tier--featured .product-info__shipping-copy b {
+  color: #ffd77a;
+  font-size: 1.0625rem;
+  font-weight: 800;
 }
 
 .product-info__assurances {
@@ -2460,8 +2475,8 @@ button.product-card__quick-add,
   gap: 8px var(--space-lg);
   margin: 0;
   padding: 11px 14px;
-  border-top: 1px solid var(--border-light);
-  background: rgba(109, 163, 181, 0.055);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(9, 31, 38, 0.12);
 }
 
 .product-info__assurance {
@@ -2470,12 +2485,12 @@ button.product-card__quick-add,
   min-width: 0;
   gap: 8px;
   color: var(--text-secondary);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.45;
 }
 
 .product-info__assurance--delivery {
-  color: var(--primary-darker);
+  color: rgba(255, 255, 255, 0.92);
   font-weight: 600;
 }
 
@@ -2484,7 +2499,7 @@ button.product-card__quick-add,
   height: 17px;
   flex: 0 0 17px;
   fill: none;
-  stroke: var(--primary);
+  stroke: #9fd7e7;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.5;
@@ -2509,7 +2524,7 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 
   .product-info__promo-gift {
@@ -2519,7 +2534,11 @@ button.product-card__quick-add,
 
   .product-info__promo-gift strong,
   .product-info__promo-gift span {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
+  }
+
+  .product-info__promo-gift strong {
+    font-size: 0.75rem;
   }
 
   .product-info__promo-gift span {
@@ -2542,7 +2561,7 @@ button.product-card__quick-add,
 
   .product-info__shipping-tier + .product-info__shipping-tier {
     border-inline-start: 0;
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
   }
 
   .product-info__shipping-icon {
@@ -2559,12 +2578,20 @@ button.product-card__quick-add,
 
   .product-info__shipping-copy strong {
     flex: 0 0 auto;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
   }
 
   .product-info__shipping-copy span {
     text-align: end;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .product-info__shipping-tier--featured .product-info__shipping-copy strong {
+    font-size: 0.9375rem;
+  }
+
+  .product-info__shipping-tier--featured .product-info__shipping-copy b {
+    font-size: 1.125rem;
   }
 }
 
