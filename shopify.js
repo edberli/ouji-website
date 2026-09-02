@@ -1178,20 +1178,22 @@ function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
   </span>`;
 }
 
-/* 商品卡由首頁、分類、願望清單同相關產品各自生成。與其喺幾套 renderer
-   複製同一段優惠邏輯，呢度只處理佢哋共用嘅價錢節點；新卡插入 DOM
+/* 商品卡由首頁、分類、願望清單同相關產品各自生成；首頁精選大卡亦有
+   自己嘅價錢節點。與其喺幾套 renderer 複製同一段優惠邏輯，呢度統一
+   處理呢啲節點；新卡插入 DOM
    亦會即時補上。原有 compare-at 價喺活動期間收埋，避免同 88 折原價
    疊成三個數。 */
 function initOujiPromoPrices() {
   if (!isOujiOpeningPromoActive() || !document.body) return;
   document.documentElement.classList.add('has-ouji-opening-promo');
+  const priceSelector = '.product-card__price, .home-feat__price, .site-search__price, .product-info__price';
 
   const enhance = (root) => {
     const nodes = [];
-    if (root.nodeType === 1 && root.matches?.('.product-card__price, .site-search__price, .product-info__price')) {
+    if (root.nodeType === 1 && root.matches?.(priceSelector)) {
       nodes.push(root);
     }
-    root.querySelectorAll?.('.product-card__price, .site-search__price, .product-info__price').forEach((node) => nodes.push(node));
+    root.querySelectorAll?.(priceSelector).forEach((node) => nodes.push(node));
 
     nodes.forEach((node) => {
       if (node.dataset.oujiPromoReady === '1' || node.textContent.includes('售完')) return;

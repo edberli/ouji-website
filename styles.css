@@ -9917,6 +9917,14 @@ body::before { opacity: 0.18; }
   color: var(--primary-dark);
 }
 
+.home-feat__price .ouji-promo-price--card .ouji-promo-price__sale {
+  font-size: 1.0625rem;
+}
+
+.home-feat__price .ouji-promo-price--card .ouji-promo-price__sale small {
+  font-size: 0.6875rem;
+}
+
 /* ---------- 右邊：產品格 ---------- */
 .home-feat__grid {
   display: grid;
