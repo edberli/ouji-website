@@ -121,10 +121,11 @@ function awardWeight(p) {
   }, 0);
 }
 
-/* Unit profit, as a 0–100 rank rather than an amount. featured.json is a
-   public file, so it carries the ordering and not the money — cost prices
-   are not something to publish. Loaded once, best-effort: the sort still
-   works on awards alone if it is unavailable. */
+/* 單件毛利嘅 0–100 百分位。`featured.json` 係公開檔，所以只出排名唔出銀碼 ——
+   成本價唔可以出街。2026-09-02 由 202 件擴到 **1,520 件**（99% 目錄），
+   由 Shopify `inventoryItem.unitCost` 重建，見 `scripts/build_featured.py`。
+   用銀碼毛利唔用毛利率：一件 $148 賺 40% ＝ $59，一件 $25 賺 60% ＝ $15，
+   付租嘅係銀碼。攞唔到檔就淨靠人氣同獎項排，唔會爆。 */
 let PROFIT_RANK = {};
 fetch('featured.json')
   .then((r) => (r.ok ? r.json() : null))
@@ -158,10 +159,34 @@ function popScore(p) {
      獎項 ×8   → 一個 2025 年第一位大約 72 分，係「有話題」嘅硬證據
      毛利 ×1.5 → 0–150，舖頭自己嘅需要，留返做同分時嘅推手
    有真銷量之後，銷量應該取代人氣做主項。 */
+/* 獎項換算落 0–100，同人氣、毛利同一把尺先加得埋。
+   一個 2025 年第一位 ≈ 9 分原始分，封頂 20 分當滿分。 */
+function awardScore(p) {
+  return Math.min(awardWeight(p), 20) / 20 * 100;
+}
+
+/* 「推薦」＝ 客想要 × 舖頭賺唔賺，兩樣都要。
+
+   老闆 2026-09-02：「除咗留意人氣之外，利潤都好重要嘅，你要有個平衡，
+   唔好擺喺最上面嗰啲全部都係蝕本嘢、唔賺錢嘅嘢。」
+   同一日佢亦講：「入到一間舖頭，擺喺上面嘅全部都係你唔識、唔出名、
+   唔係熱潮嘅嘢，啲人點會留喺度？」
+
+   兩句加埋就係呢條式：頭位要**又出名又賺錢**。
+     人氣 55%  —— 客留唔留得低，睇佢認唔認得出
+     毛利 30%  —— 舖頭嘅需要，唔可以擺蝕本嘢喺頭位
+     獎項 15%  —— 「有話題」嘅硬證據，亦係新牌子唯一嘅出頭機會
+
+   三個都係 0–100，加權完一樣係 0–100，睇數字直接知邊件強。 */
 function featuredScore(p) {
-  return popScore(p) * 3
-    + awardWeight(p) * 8
-    + (PROFIT_RANK[p.handle] || 0) * 1.5;
+  const pop = popScore(p);
+  const profit = PROFIT_RANK[p.handle] ?? 40;   // 冇成本價嘅當中游，唔獎唔罰
+  const award = awardScore(p);
+  const base = pop * 0.55 + profit * 0.30 + award * 0.15;
+  /* 毛利喺最低 5% 嗰批（69 件）唔准入頭位。呢啲多數係蝕住賣嘅引流貨
+     或者贈品，人氣再高都唔應該做一版嘅門面。扣一半分就足夠推佢落去，
+     唔係隱藏 —— 客照樣揾得到，只係唔會第一眼見到。 */
+  return profit < 5 ? base * 0.5 : base;
 }
 
 /* 「最新上架」用 Shopify 真實 createdAt。老闆 2026-08-28：「應該加一個
@@ -960,10 +985,19 @@ const SECTION_ITEMS = new Map();
 function brandSection(vendor, items, index) {
   const logo = brandLogo(vendor);
   const plate = brandPlate(vendor);
-  // Within a brand, list the routine in the order you use it, then let
-  // the featured score decide inside each step.
-  const ordered = [...items].sort((a, b) =>
-    routineStep(a) - routineStep(b) || featuredScore(b) - featuredScore(a));
+  /* 每個牌子段落嘅頭一格，擺佢自己最強嗰件 —— 之後先照護膚程序排。
+     老闆 2026-09-02：「入到一間舖頭，擺喺上面嘅全部都係你唔識、唔出名、
+     唔係熱潮嘅嘢，啲人點會留喺度？」純粹按程序排嘅話，Skin1004 開場
+     係卸妝油同洗面奶，佢真正出名嗰支積雪草精華要碌好耐先見到。
+     一件做門面，其餘保留程序次序 —— 兩樣都有。 */
+  const byRoutine = (a, b) =>
+    routineStep(a) - routineStep(b) || featuredScore(b) - featuredScore(a);
+  const [live, dead] = splitStock([...items].sort(byRoutine));
+  const hero = live.reduce((best, p) =>
+    (!best || featuredScore(p) > featuredScore(best) ? p : best), null);
+  const ordered = hero
+    ? [hero, ...live.filter((p) => p !== hero), ...dead]
+    : [...items].sort(byRoutine);
   const [inStock, out] = splitStock(ordered);
   SECTION_ITEMS.set(String(index), inStock);
   // A colour field, the brand's own logo, and its name. Photography was
@@ -1360,12 +1394,23 @@ function renderProducts(container, products, { grouped }) {
     const live = splitStock(items)[0];
     return live.length ? live : items;
   };
+  /* 牌子嘅「認唔認得出」：成個牌子嘅評論總量。
+     老闆：「入到一間舖頭，擺喺上面嘅全部都係你唔識、唔出名嘅嘢，
+     啲人點會留喺度？」—— 一個牌子有二十件貨、每件幾百條評論，
+     同一個牌子得一件貨得五千條，客嘅認知係兩回事。用總量（唔係平均）
+     就係要捉呢個分別。10 萬條當滿分。 */
+  const brandFame = (pool) => {
+    const total = pool.reduce((n, p) => n
+      + ((typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE
+        ? RATINGS_CACHE[p.handle]?.count : 0) || 0), 0);
+    return Math.min(Math.log10(total + 1) / 5, 1) * 100;
+  };
   const brandScore = (items) => {
     const pool = brandPool(items);
     const top = pool.map(featuredScore).sort((a, b) => b - a).slice(0, 3);
     const avg = top.reduce((s, x) => s + x, 0) / top.length;
     const depth = Math.min(pool.length, 8) / 8;
-    return avg * (0.35 + 0.65 * depth);
+    return (avg * 0.6 + brandFame(pool) * 0.4) * (0.35 + 0.65 * depth);
   };
   /* 硬閘：得一兩件貨嘅牌子一律排喺所有「有陣容」嘅牌子後面，
      幾高分都好。分數再高都好，一個得一件貨嘅段落開場就係難睇，
