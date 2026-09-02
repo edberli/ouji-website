@@ -41,8 +41,16 @@ for t in "化妝工具 美髮工具 美容工具".split():
     SECTION[t] = "tools"
 for t in "保健品".split():
     SECTION[t] = "health"
-for t in "公仔 家品 零食 濕紙巾 口腔護理 成人用品 便攜風扇 玩具".split():
+for t in "公仔 家品 零食 濕紙巾 口腔護理 成人用品 便攜風扇 玩具 盲盒".split():
     SECTION[t] = "other"
+# 香水香氛自成一格。之前冇列，所以 19 支香水、13 支家居香氛掛住「護膚」tag，
+# 一直出現喺護膚頁 —— 老闆 2026-09-02 撞到「香水嗰度見到有面膜」就係同一類問題。
+for t in "香水 身體噴霧 家居香氛".split():
+    SECTION[t] = "fragrance"
+for t in "隱形眼鏡 隱形眼鏡配件".split():
+    SECTION[t] = "lens"
+for t in "專輯 寫真書".split():
+    SECTION[t] = "kpop"
 
 # 每格唔可以出現嘅 tag
 FORBID = {
@@ -52,6 +60,9 @@ FORBID = {
     "other":  {"護膚", "skincare", "彩妝", "makeup", "保健品"},
     "makeup": {"保健品"},
     "skin":   {"保健品"},
+    "fragrance": {"護膚", "skincare", "彩妝", "makeup", "保健品"},
+    "lens":   {"護膚", "skincare", "彩妝", "makeup", "保健品"},
+    "kpop":   {"護膚", "skincare", "彩妝", "makeup", "保健品"},
 }
 
 
