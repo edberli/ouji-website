@@ -1097,8 +1097,8 @@ function buildBrandRail(order) {
   rail.className = 'brand-rail brand-rail--clearline';
   rail.setAttribute('aria-label', '品牌快速跳轉');
   const pickItem = hasPick ? `<a class="brand-rail__item brand-rail__item--pick"
-      href="#brand-pick" data-rail="pick" aria-label="跳到精選">
-      <span class="brand-rail__fallback">精選</span></a>` : '';
+      href="#brand-pick" data-rail="0" aria-label="跳到每個品牌一件">
+      <span class="brand-rail__fallback">每牌一件</span></a>` : '';
   rail.innerHTML = pickItem + names.map((vendor, i) => {
     const logo = brandLogo(vendor);
     const name = attr(vendor);
@@ -1556,8 +1556,8 @@ function renderProducts(container, products, { grouped }) {
   const pickHtml = picks.length >= 6 ? `
     <section class="brand-section pick-section" id="brand-pick">
       <header class="pick-section__head">
-        <h2 class="pick-section__title">精選</h2>
-        <p class="pick-section__note">${picks.length} 個品牌嘅代表作</p>
+        <h2 class="pick-section__title">每個品牌一件</h2>
+        <p class="pick-section__note">按韓國站評價數同得獎紀錄揀</p>
       </header>
       <div class="grid-host" data-section="pick"></div>
     </section>` : '';
