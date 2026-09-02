@@ -7670,6 +7670,126 @@ html.is-lite .section--brand-intro::after {
   font-weight: 600;
 }
 
+/* ----- 2026 開業 88 折：產品價格層級 -----
+   暖磚紅只用喺優惠價，原價保持安靜；唔用斜線，避免睇落似停售。
+   折後價係整數約價，真正收費仍由 Shopify 結帳計算。 */
+.ouji-promo-price {
+  font-variant-numeric: tabular-nums;
+}
+
+.ouji-promo-price--detail {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ouji-promo-price__badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid rgba(151, 51, 33, 0.18);
+  border-radius: 5px;
+  background: rgba(200, 69, 47, 0.09);
+  color: #8f301f;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ouji-promo-price__badge b {
+  font-size: 0.8125rem;
+  font-weight: 750;
+}
+
+.ouji-promo-price__row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.ouji-promo-price--detail .ouji-promo-price__sale {
+  color: #c8452f;
+  font-size: clamp(1.75rem, 3vw, 2.125rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.ouji-promo-price__original {
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration-color: #9d3d2c;
+  text-decoration-thickness: 1.5px;
+}
+
+.ouji-promo-price--detail .ouji-promo-price__original {
+  font-size: 0.9375rem;
+}
+
+.ouji-promo-price__note {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.ouji-promo-price--card {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+  line-height: 1.25;
+}
+
+.ouji-promo-price--card .ouji-promo-price__sale {
+  color: #b83d29;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.ouji-promo-price--card .ouji-promo-price__sale small {
+  margin-right: 4px;
+  color: #8f301f;
+  font-size: 0.625rem;
+  font-weight: 650;
+}
+
+.has-ouji-opening-promo .product-card__compare-price {
+  display: none;
+}
+
+.ouji-promo-price--search {
+  display: inline-flex;
+  align-items: flex-end;
+  flex-direction: column;
+  color: #a83826;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ouji-promo-price--search small {
+  color: #8f301f;
+  font-size: 0.5625rem;
+  font-weight: 650;
+}
+
+@media (max-width: 480px) {
+  .ouji-promo-price--detail .ouji-promo-price__sale {
+    font-size: 1.75rem;
+  }
+
+  .ouji-promo-price--card {
+    column-gap: 5px;
+  }
+
+  .ouji-promo-price--card .ouji-promo-price__sale {
+    font-size: 0.875rem;
+  }
+}
+
 @media (max-width: 480px) {
   .product-card__brand { font-size: 0.5625rem; }
   .product-card__name { font-size: 0.8125rem; }

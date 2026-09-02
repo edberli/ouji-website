@@ -1120,6 +1120,107 @@ function formatPrice(amount, currencyCode = 'HKD') {
   return `HK$${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
+/* 2026 開業優惠：全單 88 折去到 9 月 15 日 23:59（香港時間）。
+   Shopify 喺結帳先真正套用折扣，所以產品頁顯示「約」價；個客要求唔
+   顯示毫子／仙位，視覺價用四捨五入整數，最後收費仍以結帳為準。
+   到期後 helper 自動退回正常售價，唔會留低過期優惠價。 */
+const OUJI_OPENING_PROMO = Object.freeze({
+  rate: 0.88,
+  endsAt: new Date('2026-09-15T23:59:00+08:00').getTime(),
+});
+
+function isOujiOpeningPromoActive(now = Date.now()) {
+  return now <= OUJI_OPENING_PROMO.endsAt;
+}
+
+function formatWholePrice(amount) {
+  const num = parseFloat(amount);
+  if (!Number.isFinite(num)) return '';
+  return `HK$${Math.round(num).toLocaleString('en-US')}`;
+}
+
+function oujiPromoPriceText(amount) {
+  const num = parseFloat(amount);
+  if (!Number.isFinite(num)) return '';
+  if (!isOujiOpeningPromoActive()) return formatPrice(num);
+  return `約 ${formatWholePrice(num * OUJI_OPENING_PROMO.rate)}`;
+}
+
+function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
+  const num = parseFloat(amount);
+  if (!Number.isFinite(num)) return '';
+  if (!isOujiOpeningPromoActive()) return formatPrice(num);
+
+  const discounted = formatWholePrice(num * OUJI_OPENING_PROMO.rate);
+  const original = formatWholePrice(num);
+  const aria = `全單 88 折後約 ${discounted}，原價 ${original}；實際金額以結帳為準`;
+
+  if (search) {
+    return `<span class="ouji-promo-price ouji-promo-price--search" aria-label="${aria}">
+      <small>88 折約</small>${discounted}
+    </span>`;
+  }
+
+  if (!detail) {
+    return `<span class="ouji-promo-price ouji-promo-price--card" aria-label="${aria}">
+      <span class="ouji-promo-price__sale"><small>88 折後約</small>${discounted}</span>
+      <s class="ouji-promo-price__original" aria-hidden="true">${original}</s>
+    </span>`;
+  }
+
+  return `<span class="ouji-promo-price ouji-promo-price--detail" aria-label="${aria}">
+    <span class="ouji-promo-price__badge">開業限時優惠 <b>88 折</b></span>
+    <span class="ouji-promo-price__row">
+      <strong class="ouji-promo-price__sale">${discounted}</strong>
+      <s class="ouji-promo-price__original" aria-hidden="true">${original}</s>
+    </span>
+    <small class="ouji-promo-price__note">88 折後約價・結帳自動減・實際金額以結帳為準</small>
+  </span>`;
+}
+
+/* 商品卡由首頁、分類、願望清單同相關產品各自生成。與其喺幾套 renderer
+   複製同一段優惠邏輯，呢度只處理佢哋共用嘅價錢節點；新卡插入 DOM
+   亦會即時補上。原有 compare-at 價喺活動期間收埋，避免同 88 折原價
+   疊成三個數。 */
+function initOujiPromoPrices() {
+  if (!isOujiOpeningPromoActive() || !document.body) return;
+  document.documentElement.classList.add('has-ouji-opening-promo');
+
+  const enhance = (root) => {
+    const nodes = [];
+    if (root.nodeType === 1 && root.matches?.('.product-card__price, .site-search__price, .product-info__price')) {
+      nodes.push(root);
+    }
+    root.querySelectorAll?.('.product-card__price, .site-search__price, .product-info__price').forEach((node) => nodes.push(node));
+
+    nodes.forEach((node) => {
+      if (node.dataset.oujiPromoReady === '1' || node.textContent.includes('售完')) return;
+      const match = node.textContent.replace(/,/g, '').match(/HK\$\s*([0-9]+(?:\.[0-9]+)?)/i);
+      if (!match) return;
+      const amount = parseFloat(match[1]);
+      if (!Number.isFinite(amount)) return;
+      node.dataset.oujiPromoReady = '1';
+      node.innerHTML = oujiPromoPriceHTML(amount, {
+        detail: node.classList.contains('product-info__price'),
+        search: node.classList.contains('site-search__price'),
+      });
+    });
+  };
+
+  enhance(document.body);
+  new MutationObserver((records) => {
+    records.forEach((record) => record.addedNodes.forEach((node) => {
+      if (node.nodeType === 1) enhance(node);
+    }));
+  }).observe(document.body, { childList: true, subtree: true });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initOujiPromoPrices, { once: true });
+} else {
+  initOujiPromoPrices();
+}
+
 /** 更新購物袋數字徽章 */
 function updateCartBadge(count) {
   document.querySelectorAll('.header__cart-count, .mobile-bottom-nav__badge, .cart-badge').forEach(el => {

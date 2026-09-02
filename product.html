@@ -622,6 +622,16 @@
       const priceEl = document.querySelector('.product-info__price');
       const desc = document.querySelector('.product-info__short-desc');
 
+      const productPriceMarkup = (amount, compareAt) => {
+        if (typeof oujiPromoPriceHTML === 'function' && isOujiOpeningPromoActive()) {
+          return oujiPromoPriceHTML(amount, { detail: true });
+        }
+        const onSale = compareAt && parseFloat(compareAt.amount) > parseFloat(amount);
+        return formatPrice(amount) + (onSale
+          ? ` <s style="color:var(--text-tertiary);font-size:0.85em;margin-left:8px;">${formatPrice(compareAt.amount)}</s>`
+          : '');
+      };
+
       // The brand was dead text. Somebody who likes this serum wants the
       // rest of the range, and the brand name is where they reach for it.
       if (brand) {
@@ -634,8 +644,8 @@
       if (priceEl) {
         const p = product.priceRange.minVariantPrice;
         const cp = product.compareAtPriceRange?.minVariantPrice;
-        const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p.amount);
-        priceEl.innerHTML = formatPrice(p.amount) + (isOnSale ? ` <s style="color:var(--text-tertiary);font-size:0.85em;margin-left:8px;">${formatPrice(cp.amount)}</s>` : '');
+        priceEl.innerHTML = productPriceMarkup(p.amount, cp);
+        priceEl.dataset.oujiPromoReady = isOujiOpeningPromoActive() ? '1' : '0';
       }
       if (desc) {
         // The opening paragraph, not the first 200 characters of everything.
@@ -748,7 +758,9 @@
                   data-variant-id="${v.id}" data-preorder="${ready ? '' : '1'}"
                   title="${ready ? '現貨' : '預訂 · 約 14 日到貨'}">${optionText}</button>`;
               }
-              const vPrice = formatPrice(v.price.amount);
+              const vPrice = typeof oujiPromoPriceText === 'function'
+                ? oujiPromoPriceText(v.price.amount)
+                : formatPrice(v.price.amount);
               return `<button class="variant-btn ${i === 0 ? 'is-selected' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${optionText}${optionText ? ' — ' : ''}${vPrice}</button>`;
             }).join('')}
           </div>
@@ -784,8 +796,8 @@
             showVariantImage(v);
             if (v && priceEl) {
               const cp2 = v.compareAtPrice;
-              const isOnSale2 = cp2 && parseFloat(cp2.amount) > parseFloat(v.price.amount);
-              priceEl.innerHTML = formatPrice(v.price.amount) + (isOnSale2 ? ` <s style="color:var(--text-tertiary);font-size:0.85em;margin-left:8px;">${formatPrice(cp2.amount)}</s>` : '');
+              priceEl.innerHTML = productPriceMarkup(v.price.amount, cp2);
+              priceEl.dataset.oujiPromoReady = isOujiOpeningPromoActive() ? '1' : '0';
             }
           });
         });
