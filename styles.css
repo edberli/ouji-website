@@ -2262,8 +2262,117 @@ button.product-card__quick-add,
 .qty-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
 .qty-input { width: 56px; height: 44px; text-align: center; border: 1px solid var(--border-light); border-left: none; border-right: none; font-size: 0.875rem; outline: none; background: rgba(255,255,255,0.3); }
 
-.product-info__actions { display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+.product-info__actions { display: flex; gap: var(--space-sm); margin-bottom: 12px; }
 .product-info__actions .btn { flex: 1; }
+
+.product-info__promo-card[hidden] { display: none; }
+
+.product-info__promo-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr) 58px;
+  align-items: center;
+  min-height: 106px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  padding: 12px 14px 12px 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  background: linear-gradient(142deg, #294b57 0%, #35616e 58%, #2b4c58 100%);
+  box-shadow: 0 15px 30px -26px rgba(13, 42, 51, 0.72);
+  color: #fff;
+  isolation: isolate;
+}
+
+.product-info__promo-card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -74px;
+  right: -46px;
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgba(255, 215, 122, 0.16);
+  border-radius: 50%;
+}
+
+.product-info__promo-cat {
+  align-self: end;
+  width: 88px;
+  max-width: none;
+  height: auto;
+  margin: 0 0 -18px -8px;
+  filter: drop-shadow(0 8px 9px rgba(9, 31, 38, 0.24));
+}
+
+.product-info__promo-copy {
+  min-width: 0;
+  padding: 1px 10px 1px 6px;
+}
+
+.product-info__promo-deadline {
+  margin: 0 0 3px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+}
+
+.product-info__promo-deadline b {
+  color: #ffd77a;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-info__promo-title {
+  margin: 0 0 5px;
+  color: #fff;
+  font-family: var(--font-display, var(--font-body));
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.product-info__promo-title em {
+  color: #ffd77a;
+  font-style: normal;
+}
+
+.product-info__promo-gift {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 7px;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.product-info__promo-gift strong {
+  flex: 0 0 auto;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-info__promo-gift span {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.625rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-info__promo-cream {
+  justify-self: center;
+  width: 48px;
+  height: 66px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 16px -11px rgba(7, 25, 31, 0.76);
+}
 
 .product-info__shipping-tiers {
   display: grid;
@@ -2374,6 +2483,47 @@ button.product-card__quick-add,
 }
 
 @media (max-width: 560px) {
+  .product-info__promo-card {
+    grid-template-columns: 62px minmax(0, 1fr) 46px;
+    min-height: 102px;
+    padding: 10px 10px 10px 2px;
+  }
+
+  .product-info__promo-cat {
+    width: 72px;
+    margin-right: 0;
+    margin-bottom: -14px;
+  }
+
+  .product-info__promo-copy {
+    padding-right: 7px;
+    padding-left: 5px;
+  }
+
+  .product-info__promo-title {
+    font-size: 1.25rem;
+  }
+
+  .product-info__promo-gift {
+    display: grid;
+    gap: 1px;
+  }
+
+  .product-info__promo-gift strong,
+  .product-info__promo-gift span {
+    font-size: 0.625rem;
+  }
+
+  .product-info__promo-gift span {
+    white-space: normal;
+  }
+
+  .product-info__promo-cream {
+    width: 40px;
+    height: 56px;
+    border-radius: 8px;
+  }
+
   .product-info__shipping-tiers {
     grid-template-columns: 1fr;
   }
@@ -5543,11 +5693,13 @@ html.is-lite .brand-rail__crest { filter: none; }
 .brand-rail--clearline .brand-rail__item {
   position: relative;
   isolation: isolate;
-  flex: 0 0 108px;
-  width: 108px;
+  /* 闊度跟住招牌走（扁長嘅牌子攞多啲位），高度固定。 */
+  flex: 0 0 auto;
+  min-width: 78px;
+  max-width: 160px;
   height: 50px;
   min-height: 44px;
-  padding: 0 10px;
+  padding: 0 14px;
   display: grid;
   place-items: center;
   align-items: center;
@@ -5580,11 +5732,26 @@ html.is-lite .brand-rail__crest { filter: none; }
     0 3px 12px rgba(60,116,130,.1);
 }
 
+/* 老闆 2026-09-02：「品牌條啲 logo 大細不一，應該視覺上統一返，
+   用返品牌頁面嗰個做法。」
+
+   以前每個 logo 用一個按「墨水面積」校準嘅獨立高度（14–34px），
+   原意係令每個 mark 睇落一樣重 —— 但實際效果係一行大細唔一嘅招牌，
+   客第一眼見到嘅係「亂」，唔係「平衡」。
+
+   而家跟 `/brands` 嗰套：一個統一嘅框，logo 用 max-height ＋ max-width
+   自己 fit 入去（`.brands-page .brand-card img` 係 max-height:52px）。
+   一條尺，冇例外。 */
 .brand-rail--clearline .brand-rail__logo {
   display: block;
   width: auto;
-  height: var(--brand-logo-h, 16px);
-  max-width: 92px;
+  height: auto;
+  /* **全部一樣高**，闊度隨招牌本身嘅比例走。
+     用 `max-height` 唔得：格仔闊度固定，扁長嘅 wordmark 會被闊度卡死，
+     實測由 8px 到 27px 都有 —— 就係老闆講嗰個「大細不一」。
+     改成固定高度、格仔闊度自適應，就好似一行同一個尺寸嘅招牌。 */
+  height: 20px;
+  max-width: 132px;
   object-fit: contain;
   filter: none;
   opacity: .9;

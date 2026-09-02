@@ -1089,10 +1089,10 @@ function buildBrandRail(order) {
   const attr = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[ch]);
-  /* BRAND_LOGO_H 係按每個圖檔嘅實際 ink area 校準；等比例縮細，會比
-     對所有 logo 寫同一個 max-height 更接近同一視覺重量。 */
-  const railLogoHeight = (vendor) =>
-    Math.max(14, Math.min(34, Math.round(brandLogoHeight(vendor) * 0.38)));
+  /* 2026-09-02：唔再逐個牌子計高度。以前按 ink area 校準（14–34px），
+     原意係視覺重量一致，實際係一行大細唔一嘅招牌。而家全部行同一個
+     max-height（睇 styles.css `.brand-rail--clearline .brand-rail__logo`），
+     同 `/brands` 品牌頁一致。 */
   const rail = document.createElement('nav');
   rail.className = 'brand-rail brand-rail--clearline';
   rail.setAttribute('aria-label', '品牌快速跳轉');
@@ -1105,7 +1105,7 @@ function buildBrandRail(order) {
     /* data-rail 係 `sections` 入面嘅位置，唔係品牌序號 ——
        前面多咗個「精選」段落，唔加返個 offset 就會成條 rail 跳錯一格。 */
     return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i + (hasPick ? 1 : 0)}"
-      aria-label="跳到 ${name}" style="--brand-logo-h:${railLogoHeight(vendor)}px">
+      aria-label="跳到 ${name}">
       ${logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
         loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : ''}
       <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${name}</span>

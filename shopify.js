@@ -1133,6 +1133,23 @@ function isOujiOpeningPromoActive(now = Date.now()) {
   return now <= OUJI_OPENING_PROMO.endsAt;
 }
 
+/* 優惠卡預設 hidden，確認活動仍有效先顯示，避免 9 月 15 日後殘留舊優惠。
+   倒數亦同開場傳單共用同一個截止時間。 */
+function syncOujiOpeningPromoSurfaces(now = Date.now()) {
+  if (!document.body) return false;
+  const active = isOujiOpeningPromoActive(now);
+  const remainingDays = Math.max(0, Math.ceil((OUJI_OPENING_PROMO.endsAt - now) / 86400000));
+
+  document.documentElement.classList.toggle('has-ouji-opening-promo', active);
+  document.querySelectorAll('[data-ouji-opening-promo]').forEach((surface) => {
+    surface.hidden = !active;
+    surface.querySelectorAll('[data-ouji-promo-days]').forEach((node) => {
+      node.textContent = String(remainingDays);
+    });
+  });
+  return active;
+}
+
 function formatWholePrice(amount) {
   const num = parseFloat(amount);
   if (!Number.isFinite(num)) return '';
@@ -1184,8 +1201,7 @@ function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
    亦會即時補上。原有 compare-at 價喺活動期間收埋，避免同 88 折原價
    疊成三個數。 */
 function initOujiPromoPrices() {
-  if (!isOujiOpeningPromoActive() || !document.body) return;
-  document.documentElement.classList.add('has-ouji-opening-promo');
+  if (!document.body || !syncOujiOpeningPromoSurfaces()) return;
   const priceSelector = '.product-card__price, .home-feat__price, .site-search__price, .product-info__price';
 
   const enhance = (root) => {
