@@ -12193,10 +12193,13 @@ body::before { opacity: 0.18; }
    ============================================================ */
 .promo {
   position: relative; overflow: hidden;
-  /* 底色通到兩邊 */
-  background: linear-gradient(158deg, #eef5f8 0%, #dfeef3 58%, #d3e6ed 100%);
+  /* 老闆 2026-09-03：首頁呢格改用彈窗嗰套設計語言。
+     深藍係全站同一隻（footer、抽屜、優惠彈窗都係 #2b4c58），
+     唔另開一套 —— 金色 #ffd77a 淨係用嚟標金額同折扣，
+     所以客一眼掃落去見到嘅金色，就係佢慳到嘅數。 */
+  background: linear-gradient(158deg, #2b4c58 0%, #35606f 54%, #2b4c58 100%);
   padding: clamp(30px, 4.6cqw, 56px) 0;
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #23434e;
+  font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #fff;
 }
 /* 內容跟返全站嘅框，同上下兩格對齊 */
 .promo__grid {
@@ -12240,6 +12243,8 @@ body::before { opacity: 0.18; }
   min-height: clamp(300px, 34cqw, 460px);
   object-fit: cover;
   border-radius: 20px; background: #dfeef3;
+  /* 淺色相擺喺深藍上面要有個邊，否則張相會似「揦」咗上去 */
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.14), 0 22px 48px -26px rgba(0,0,0,0.6);
 }
 @container (max-width: 759px) {
   .promo__jar { min-height: 0; aspect-ratio: 4 / 3; }
@@ -12286,47 +12291,57 @@ body::before { opacity: 0.18; }
 }
 .promo__ribbon {
   position: absolute; top: 16px; left: -6px; z-index: 2;
-  background: #2b4c58; color: #fff; border-radius: 999px; padding: 11px 20px;
+  background: #ffd77a; color: #23414c; border-radius: 999px; padding: 11px 20px;
   font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em;
-  box-shadow: 0 8px 18px rgba(30, 60, 72, 0.22);
+  box-shadow: 0 10px 22px rgba(8, 26, 33, 0.35);
 }
-.promo__ribbon b { font-family: 'Cormorant Garamond', serif; font-size: 1.375rem; font-weight: 600; letter-spacing: 0; margin: 0 2px; }
+.promo__ribbon b { font-family: 'Cormorant Garamond', serif; font-size: 1.375rem; font-weight: 700; letter-spacing: 0; margin: 0 2px; }
 .promo__title {
   margin: 0; font-family: 'Cormorant Garamond', 'Noto Serif TC', serif; font-weight: 400;
-  font-size: clamp(1.75rem, 3.8cqw, 2.875rem); line-height: 1.2; letter-spacing: 0.01em; color: #1c3b46;
+  font-size: clamp(1.75rem, 3.8cqw, 2.875rem); line-height: 1.2; letter-spacing: -0.01em; color: #fff;
   text-wrap: balance;
 }
-.promo__title b { font-weight: 600; }
-.promo__lede { margin: 12px 0 0; font-size: 0.9375rem; line-height: 1.8; color: #45646f; max-width: 44ch; }
-.promo__lede a { color: #2b4c58; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-.promo__rows { list-style: none; margin: clamp(20px, 2.6cqw, 30px) 0 0; padding: 0; display: grid; }
+/* 金色只標「88 折」同金額 —— 客掃落去見到嘅金色就係佢慳到嘅數 */
+.promo__title b { font-weight: 600; color: #ffd77a; }
+.promo__lede { margin: 12px 0 0; font-size: 0.9375rem; line-height: 1.8; color: rgba(255,255,255,0.78); max-width: 44ch; }
+.promo__lede b { color: #fff; }
+.promo__lede [data-countdown] { color: #ffd77a; font-weight: 700; }
+.promo__lede a { color: #ffd77a; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.promo__rows { list-style: none; margin: clamp(20px, 2.6cqw, 30px) 0 0; padding: 0; display: grid; gap: 10px; }
+/* 由「上下分隔線」改成同彈窗一樣嘅半透明卡 —— 深底上面畫線會太搶，
+   一格一格反而讀得快。 */
 .promo__row {
   display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center;
-  padding: 16px 4px; border-top: 1px solid rgba(43, 76, 88, 0.2);
+  padding: 14px 16px; border: 0; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
 }
-.promo__row:last-child { border-bottom: 1px solid rgba(43, 76, 88, 0.2); }
-.promo__row .ico { font-size: 1.5rem; color: #3f6574; }
+.promo__row .ico { font-size: 1.5rem; color: rgba(255,255,255,0.72); }
 .promo__k {
-  font-family: 'Cormorant Garamond', 'Noto Serif TC', serif; letter-spacing: -0.01em; color: #1c3b46; line-height: 1.2;
+  font-family: 'Cormorant Garamond', 'Noto Serif TC', serif; letter-spacing: -0.01em; color: #fff; line-height: 1.25;
   font-size: clamp(1.1875rem, 2cqw, 1.5rem);
 }
-.promo__row--lead { padding: 18px 4px; }
-.promo__row--lead .ico { font-size: 1.875rem; color: #2b4c58; }
+.promo__k b { color: #ffd77a; font-weight: 700; font-variant-numeric: tabular-nums; }
+.promo__row--lead { padding: 16px 18px; }
+.promo__row--lead .ico { font-size: 1.875rem; color: #ffd77a; }
 .promo__row--lead .promo__k { font-size: clamp(1.625rem, 3cqw, 2.25rem); font-weight: 600; }
-.promo__v { margin: 3px 0 0; font-size: 0.8125rem; line-height: 1.65; color: #4e6d77; }
-.promo__v b { color: #2b4c58; font-variant-numeric: tabular-nums; }
+.promo__v { margin: 3px 0 0; font-size: 0.8125rem; line-height: 1.65; color: rgba(255,255,255,0.82); }
+.promo__v a { color: rgba(255,255,255,0.95); text-underline-offset: 3px; }
+.promo__v b { color: #ffd77a; font-variant-numeric: tabular-nums; }
 .promo__actions { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 24px; align-items: center; }
+/* 白色掣喺深底上面 —— 同彈窗嗰粒「開始揀貨」一模一樣 */
 .promo__cta {
-  display: inline-flex; align-items: center; gap: 11px; background: #2b4c58; color: #fff; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 11px; background: #fff; color: #23414c; text-decoration: none;
   font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.12em; padding: 16px 30px; border-radius: 999px;
-  box-shadow: 0 8px 22px rgba(43, 76, 88, 0.26);
+  box-shadow: 0 12px 26px -12px rgba(0, 0, 0, 0.55);
   transition: transform 320ms cubic-bezier(.22,1,.36,1), box-shadow 320ms cubic-bezier(.22,1,.36,1);
 }
 .promo__cta .ico { font-size: 1.1rem; transition: transform 320ms cubic-bezier(.22,1,.36,1); }
-.promo__cta:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(43, 76, 88, 0.32); }
+.promo__cta:hover { transform: translateY(-2px); box-shadow: 0 18px 34px -14px rgba(0, 0, 0, 0.6); }
 .promo__cta:hover .ico { transform: translateX(5px); }
-.promo__fine { font-size: 0.75rem; color: #4e6d77; line-height: 1.7; }
-.promo__fine b { color: #2b4c58; }
+.promo__cta:focus-visible { outline: 3px solid #ffd77a; outline-offset: 3px; }
+/* 0.62 白喺 #2b4c58 上面啱啱好 4.5:1，冇餘地。校到 0.72（≈5.6:1）。 */
+.promo__fine { font-size: 0.75rem; color: rgba(255,255,255,0.72); line-height: 1.7; }
+.promo__fine b { color: #ffd77a; }
 .pE__cta .ico { font-size: 1.1rem; transition: transform 320ms cubic-bezier(.22,1,.36,1); }
 .pE__cta:hover .ico { transform: translateX(5px); }
 /* ---------- 入場動作：一個，唔係四個 ---------- */

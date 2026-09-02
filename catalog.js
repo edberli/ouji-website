@@ -1022,10 +1022,19 @@ function brandSection(vendor, items, index) {
   /* 偷望嗰一行：真貨、真相，但矇住同淡咗，掣浮喺上面。
      客一眼睇得出「下面仲有嘢」，唔使靠一粒細掣去估。 */
   const peek = inStock.slice(rows, rows + cols);
-  const rest = inStock.length - shown.length;
-  SECTION_ITEMS.set(String(index), shown);
-  if (peek.length) SECTION_ITEMS.set(`peek-${index}`, peek);
-  SECTION_REST.set(String(index), inStock.slice(rows));
+  /* ⚠️ 掣上面個數 = **撳完先至出現嘅件數**，唔可以連偷望嗰行一齊數。
+     偷望嗰行雖然矇住兼切一半，但客係見到嘅 —— 數埋佢就等於報大咗。
+     QA 掃描實測：fillimilli 得 7 件貨，掣寫「其餘 1 件」，撳完新增 0 件；
+     MAPEPE／STUDIO 17／ROSY ROSA 一律少報 2 件（手機兩欄），
+     桌面四欄就少報 4 件。 */
+  const hidden = inStock.slice(rows + cols);
+  const rest = hidden.length;
+  /* 淨返嘅唔夠一行（即係撳完一件新貨都冇），就唔好扮有嘢展開 ——
+     直接一次過鋪晒，連個掣都唔出。 */
+  const showMore = rest > 0;
+  SECTION_ITEMS.set(String(index), showMore ? shown : inStock);
+  if (showMore && peek.length) SECTION_ITEMS.set(`peek-${index}`, peek);
+  if (showMore) SECTION_REST.set(String(index), inStock.slice(rows));
   // A colour field, the brand's own logo, and its name. Photography was
   // tried twice and abandoned: nineteen brands shoot nineteen ways, half
   // of them burn their own wordmark into the frame, and nine publish
@@ -1042,7 +1051,7 @@ function brandSection(vendor, items, index) {
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
       <div class="grid-host" data-section="${index}"></div>
-      ${rest > 0 ? `<div class="brand-more" data-more="${index}">
+      ${showMore ? `<div class="brand-more" data-more="${index}">
         <div class="grid-host brand-more__peek" data-section="peek-${index}"></div>
         <button type="button" class="brand-more__btn" data-more-btn="${index}">
           展開埋其餘 ${rest} 件
@@ -1081,6 +1090,10 @@ function buildBrandRail(order) {
   RAIL_ABORT = abort;
 
   const names = order.map(([vendor]) => vendor);
+  /* 品牌條每格得 100px 闊，長名一定切。與其切到「Mighty Jaxx (Jason…」，
+     不如剪走括號入面嗰段註解 —— 括號嗰啲本身就係補充，唔係招牌。
+     品牌牌（.brand-plate）照出全名，兩處唔會矛盾：一個係導覽、一個係標題。 */
+  const railName = (v) => String(v).replace(/[（(].*$/, '').trim() || String(v);
   const attr = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[ch]);
@@ -1098,7 +1111,7 @@ function buildBrandRail(order) {
       aria-label="跳到 ${name}">
       ${logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
         loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : ''}
-      <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${name}</span>
+      <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${attr(railName(vendor))}</span>
     </a>`;
   }).join('');
   /* 用 dock 保留舊品牌列喺 document flow 嘅位置；去到臨界點之後先將
