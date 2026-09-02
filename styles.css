@@ -4899,6 +4899,13 @@ textarea:focus-visible,
 }
 .category-empty__text { color: var(--text-secondary, #6b7a80); margin-bottom: 26px; }
 
+/* 載入失敗（唔係「冇貨」）。同一個殼、換個語氣：圖示由購物袋轉做重試箭嘴，
+   標題唔提「未有產品」，個掣係即場重載而唔係叫客行去第二版。
+   ⚠️ 唔准寫 `.category-empty button { }` —— 呢個殼將來會有第二個掣
+   （「睇其他系列」），一刀切選擇器會連佢一齊改埋。 */
+.category-empty--retry .category-empty__icon { opacity: 0.62; }
+.category-empty__retry { min-width: 148px; }
+
 /* ============================================
    Long-form product detail imagery
    Taobao-style strips: full-bleed on mobile, seamless stacking, and

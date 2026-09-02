@@ -10,18 +10,69 @@ const SHOPIFY_API    = `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`;
 // ─────────────────────────────────────────────
 // 核心請求函數
 // ─────────────────────────────────────────────
-async function shopifyFetch(query, variables = {}) {
-  const res = await fetch(SHOPIFY_API, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
-    },
-    body: JSON.stringify({ query, variables }),
-  });
-  const { data, errors } = await res.json();
-  if (errors) console.error('Shopify API errors:', errors);
-  return data;
+/* 白畫面嘅真兇 —— 2026-09-02 由 `/api/jserr` 抓到 stack 先斷到症：
+     「The string did not match the expected pattern. ‖ json@[native code]
+       | shopifyFetch@https://oujikbeauty.com/sho…」（iPhone Safari）
+   同一件事 Chrome 講「Unexpected end of JSON input」，bingbot 都中過。
+   即係 Storefront API 間唔中回一個空／截斷嘅 body，`res.json()` 就拋。
+
+   舊版由頭到尾冇 try —— 個 rejection 冇人接，上面 `initPage()` 死喺第一句，
+   成版嘢就無聲無息停晒，客見到嘅就係白畫面。四條客報返嚟嘅 jserr 入面，
+   出事嗰陣 `<main>` 得 791px／1,224px，即係產品區完全空。
+
+   而家每個 request：12 秒 timeout、睇 HTTP status、parse 之前先讀 text，
+   暫時性失敗（網絡斷、429、5xx、空 body）退避重試三次。4xx 唔重試 ——
+   token 錯或者 query 錯，試幾多次都係一樣答案。 */
+const SHOPIFY_TIMEOUT = 12000;
+const SHOPIFY_TRIES = 3;
+
+function shopifyWait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function shopifyFetch(query, variables = {}, { tries = SHOPIFY_TRIES } = {}) {
+  let lastErr = null;
+  for (let attempt = 0; attempt < tries; attempt++) {
+    /* 300ms → 600ms，加少少隨機，唔好一車人同一刻重試 */
+    if (attempt) await shopifyWait(300 * (2 ** (attempt - 1)) + Math.random() * 200);
+    const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), SHOPIFY_TIMEOUT) : null;
+    try {
+      const res = await fetch(SHOPIFY_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
+        },
+        body: JSON.stringify({ query, variables }),
+        signal: ctrl ? ctrl.signal : undefined,
+      });
+      if (!res.ok && res.status < 500 && res.status !== 429) {
+        const fatal = new Error('Shopify HTTP ' + res.status);
+        fatal.shopifyFatal = true;
+        throw fatal;
+      }
+      if (!res.ok) throw new Error('Shopify HTTP ' + res.status);
+      /* 唔直接用 res.json()：body 截斷嗰陣佢拋出嚟嘅 message 睇唔出係邊個
+         request、收到幾多 bytes。自己讀 text 再 parse 就報得清楚。 */
+      const text = await res.text();
+      if (!text) throw new Error('Shopify 回咗空 body');
+      let payload;
+      try {
+        payload = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Shopify 回嘅唔係 JSON（' + text.length + ' bytes）');
+      }
+      if (payload && payload.errors) console.error('Shopify API errors:', payload.errors);
+      return payload ? payload.data : undefined;
+    } catch (err) {
+      lastErr = err;
+      if (err && err.shopifyFatal) break;
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+  throw lastErr || new Error('Shopify 請求失敗');
 }
 
 // ─────────────────────────────────────────────
@@ -170,7 +221,13 @@ let revalidating = false;
 
 async function readSnapshot() {
   try {
-    const r = await fetch(SNAPSHOT_URL);
+    /* 快照係首屏唯一嘅資料來源。冇 timeout 嘅話，一個吊住嘅 request
+       就令成版停喺度乾等 —— 表現同白畫面一模一樣。8 秒攞唔到就當佢冇，
+       退返去行 API，好過乾等。 */
+    const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
+    const r = await fetch(SNAPSHOT_URL, { signal: ctrl ? ctrl.signal : undefined })
+      .finally(() => { if (timer) clearTimeout(timer); });
     if (!r.ok) return null;
     const { at, v } = await r.json();
     if (!Array.isArray(v) || v.length < 100) return null;
@@ -215,8 +272,20 @@ async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } =
     }
   }
 
-  const out = await fetchAllPages({ collectionHandle, pageSize, max });
-  cacheWrite(key, out);
+  /* 呢個 function 係全站攞貨嘅單一入口 —— `shop.html`、`index.html`、
+     分類頁全部直接 await 佢。所以佢**唔准 throw**：一 throw 就係
+     DOMContentLoaded 死喺半路、成版白晒。攞唔到就回空清單兼標記，
+     上面 `showCategoryEmpty()` 會出「再試一次」，唔會扮冇貨。 */
+  let out = [];
+  try {
+    out = await fetchAllPages({ collectionHandle, pageSize, max });
+  } catch (e) {
+    window.OUJI_CATALOG_FAILED = true;
+    console.error('[OUJI] 攞唔到目錄：', e);
+    return { edges: [] };
+  }
+  /* 空清單唔准寫入 cache —— 否則一次失敗會鎖住成個 session 五分鐘。 */
+  if (out.length) cacheWrite(key, out);
   return { edges: out };
 }
 
@@ -1090,22 +1159,41 @@ function updateWishlistBadge() {
   });
 }
 
-/** 初始化頁面（所有頁面共用） */
+/** 初始化頁面（所有頁面共用）
+
+    ⚠️ 呢個 function **唔准 throw**。每一版嘅 DOMContentLoaded 第一句都係
+    `await initPage()` —— 佢一 reject，後面攞產品、畫 grid、行 initCatalog
+    全部都唔會行，客見到嘅就係白畫面。
+
+    以前 `getCart()` 就係咁殺人：客個 localStorage 有 cart id（即係返頭客），
+    Shopify 一抽風，`shopifyFetch` 拋錯 → initPage reject → 成版死。
+    新客冇 cart id，getCart 早早 return null，所以完全撞唔到 —— 呢個就係
+    「有時得有時唔得」嘅來源。
+
+    購物袋數字攞唔到係細事，畫唔到成版係大事。所以逐步包住，各不牽連。 */
 async function initPage() {
   // 更新購物袋數量
-  const cart = await getCart();
-  if (cart) updateCartBadge(cart.totalQuantity);
+  try {
+    const cart = await getCart();
+    if (cart) updateCartBadge(cart.totalQuantity);
+  } catch (e) {
+    console.warn('[OUJI] 攞唔到購物袋，照畫版：', e);
+  }
 
   // 更新心願單數量
-  updateWishlistBadge();
+  try { updateWishlistBadge(); } catch (e) { /* 徽章而已，唔好連累成版 */ }
 
   // 更新會員狀態
-  if (isLoggedIn()) {
-    document.querySelectorAll('[data-show-logged-in]').forEach(el => el.style.display = '');
-    document.querySelectorAll('[data-show-logged-out]').forEach(el => el.style.display = 'none');
+  try {
+    if (isLoggedIn()) {
+      document.querySelectorAll('[data-show-logged-in]').forEach(el => el.style.display = '');
+      document.querySelectorAll('[data-show-logged-out]').forEach(el => el.style.display = 'none');
 
-    // 已登入：背景同步心願清單
-    loadWishlistFromShopify().catch(() => {});
+      // 已登入：背景同步心願清單
+      loadWishlistFromShopify().catch(() => {});
+    }
+  } catch (e) {
+    console.warn('[OUJI] 會員狀態更新唔到：', e);
   }
 }
 
@@ -1451,9 +1539,19 @@ async function getCategoryProducts({ section, cat = null } = {}) {
     products = [];
   }
   if (!products.length) {
-    const all = await getAllProducts();
-    const everything = all?.edges?.map((e) => e.node) ?? [];
-    products = everything.filter((p) => matchesKeywords(p, categoryKeywords(section, null)));
+    /* 呢條後備路以前冇包 try —— collection 攞唔到、全店目錄又拋錯，
+       個 rejection 就一直冒上去 DOMContentLoaded，成版唔畫。
+       兩條路都斷 = 「攞唔到目錄」，唔係「呢個分類冇貨」，
+       要分得清，否則客見到嘅係「暫時未有產品」，佢會以為真係冇貨。 */
+    try {
+      const all = await getAllProducts();
+      const everything = all?.edges?.map((e) => e.node) ?? [];
+      products = everything.filter((p) => matchesKeywords(p, categoryKeywords(section, null)));
+    } catch (e) {
+      window.OUJI_CATALOG_FAILED = true;
+      products = [];
+      console.error('[OUJI] 攞唔到目錄：', e);
+    }
   }
   if (cat) {
     // 彩妝行產品名規則（睇 subMatch），其餘照舊行 keyword。
@@ -1510,6 +1608,22 @@ function showCategoryEmpty(section, cat) {
   if (count) count.textContent = '顯示 0 件產品';
   if (!grid) return;
   const label = categoryLabel(section, cat) || '這個分類';
+
+  /* 攞唔到目錄同「真係冇貨」係兩件事。以前兩樣都出同一句「暫時未有產品」，
+     客會以為 OUJI 冇嘢賣 —— 其實只係一次網絡失敗，撳一下就返到嚟。 */
+  if (window.OUJI_CATALOG_FAILED) {
+    grid.innerHTML =
+      '<div class="category-empty category-empty--retry">' +
+      '<div class="category-empty__icon"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></div>' +
+      '<p class="category-empty__title">一時載入唔到產品</p>' +
+      '<p class="category-empty__text">可能係網絡短暫唔穩定。撳一下再試，通常即刻返到嚟。</p>' +
+      '<button type="button" class="btn btn--primary category-empty__retry">再試一次</button>' +
+      '</div>';
+    const again = grid.querySelector('.category-empty__retry');
+    if (again) again.addEventListener('click', () => location.reload());
+    return;
+  }
+
   grid.innerHTML =
     '<div class="category-empty">' +
     '<div class="category-empty__icon"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>' +
