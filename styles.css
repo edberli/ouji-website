@@ -2262,8 +2262,43 @@ button.product-card__quick-add,
 .qty-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
 .qty-input { width: 56px; height: 44px; text-align: center; border: 1px solid var(--border-light); border-left: none; border-right: none; font-size: 0.875rem; outline: none; background: rgba(255,255,255,0.3); }
 
-.product-info__actions { display: flex; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
+.product-info__actions { display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); }
 .product-info__actions .btn { flex: 1; }
+
+.product-info__assurances {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.product-info__assurance {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.product-info__assurance--delivery {
+  flex-basis: 100%;
+  color: var(--primary-darker);
+  font-weight: 600;
+}
+
+.product-info__assurance svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  fill: none;
+  stroke: var(--primary);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
 
 .product-info__wishlist-btn { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-light); border-radius: 14px; transition: all var(--duration-fast); flex-shrink: 0; background: rgba(255,255,255,0.5); }
 .product-info__wishlist-btn:hover { border-color: var(--primary); background: rgba(109,163,181,0.06); transform: scale(1.05); }
