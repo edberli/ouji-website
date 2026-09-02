@@ -4899,16 +4899,66 @@ textarea:focus-visible,
 }
 .category-empty__text { color: var(--text-secondary, #6b7a80); margin-bottom: 26px; }
 
-/* ----- 品牌段落「睇晒全部」 ----- */
-.brand-section__more {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin: 18px auto 0; padding: 13px 22px;
-  border: 1px solid var(--line, #dbe6ea); border-radius: 999px;
-  color: var(--text-primary, #1e3038); font-size: 0.94rem;
-  background: #fff; width: fit-content; max-width: 100%;
-  text-align: center;
+/* ----- 品牌段落「展開全部」 -----
+   一粒細掣喺一版產品下面，客根本唔會留意（老闆 2026-09-02 彈過）。
+   所以：真貨繼續喺後面，矇住淡出做「下面仲有嘢」嘅訊號，
+   掣係實色深藍浮喺上面，撳一撳就地展開 —— 唔跳頁。 */
+.brand-more {
+  position: relative;
+  margin-top: var(--space-md, 16px);
+  /* 只露一行嘅上半截。露太多就唔似「仲有」，似排版爛咗。 */
+  /* 露到偷望嗰行嘅產品相中間 —— 太少就淨係見到一片灰，
+     客睇唔出「後面係貨」。 */
+  max-height: 210px;
+  overflow: hidden;
 }
-.brand-section__more:hover { border-color: var(--primary); color: var(--primary); }
+.brand-more__peek {
+  filter: blur(2px);
+  opacity: 0.8;
+  pointer-events: none;
+  /* blur 會令邊緣透明，放大少少遮返 */
+  transform: scale(1.03);
+  transform-origin: top center;
+}
+/* 由下而上收埋，令截斷位冇一條硬邊。用 --bg-primary 唔用白色 ——
+   分類頁個底本身係 #f7f9f9，用白會見到一條淺色邊。 */
+.brand-more::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(247, 249, 249, 0) 0%,
+    rgba(247, 249, 249, 0.18) 34%,
+    rgba(247, 249, 249, 0.78) 68%,
+    var(--bg-primary, #f7f9f9) 100%);
+  pointer-events: none;
+}
+.brand-more__btn {
+  position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
+  z-index: 1;
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 46px; padding: 0 24px;
+  border: 0; border-radius: 999px;
+  background: var(--dark-base, #2b4c58); color: #fff;
+  font-family: inherit; font-size: 0.95rem; font-weight: 600;
+  letter-spacing: 0.01em; white-space: nowrap; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(43, 76, 88, 0.28);
+  transition: background 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand-more__btn:hover { background: #24414c; box-shadow: 0 8px 24px rgba(43,76,88,0.34); }
+.brand-more__btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.brand-more__btn svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+/* 展開嗰下：由收埋嗰個高度長開，新一批貨淡入 —— 一個動作，唔係一堆效果。 */
+@keyframes brand-more-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.grid-host--expanded { animation: brand-more-in 340ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (min-width: 769px) { .brand-more { max-height: 250px; } }
+@media (prefers-reduced-motion: reduce) {
+  .brand-more__peek { filter: none; }
+  .grid-host--expanded { animation: none; }
+}
 
 /* ----- 開場精選 ----- */
 .pick-section__head {

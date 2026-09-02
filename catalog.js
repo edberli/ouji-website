@@ -981,6 +981,9 @@ function productCard(p) {
 /* 每一格牌子入面嘅貨，交返俾呢度，等 renderProducts 砌完個殼之後
    逐格 mountGrid（窗口式渲染）。 */
 const SECTION_ITEMS = new Map();
+/* 未展開嗰批貨。撳「仲有 N 件」先至砌落 DOM —— 唔係一開始就鋪晒，
+   否則成版又返去五百幾張卡。 */
+const SECTION_REST = new Map();
 
 function brandSection(vendor, items, index) {
   const logo = brandLogo(vendor);
@@ -1013,10 +1016,16 @@ function brandSection(vendor, items, index) {
      分頁係將同一批貨切開幾版逼人撳「下一頁」。呢度係每個牌子出代表作，
      想睇全部就一撳入品牌頁，而且揀「最新」或者「價錢」排序嗰陣
      成個 grid 照樣一次過出齊，冇嘢收埋。 */
-  const rows = PREVIEW_ROWS * gridCols();
+  const cols = gridCols();
+  const rows = PREVIEW_ROWS * cols;
   const shown = inStock.slice(0, rows);
+  /* 偷望嗰一行：真貨、真相，但矇住同淡咗，掣浮喺上面。
+     客一眼睇得出「下面仲有嘢」，唔使靠一粒細掣去估。 */
+  const peek = inStock.slice(rows, rows + cols);
   const rest = inStock.length - shown.length;
   SECTION_ITEMS.set(String(index), shown);
+  if (peek.length) SECTION_ITEMS.set(`peek-${index}`, peek);
+  SECTION_REST.set(String(index), inStock.slice(rows));
   // A colour field, the brand's own logo, and its name. Photography was
   // tried twice and abandoned: nineteen brands shoot nineteen ways, half
   // of them burn their own wordmark into the frame, and nine publish
@@ -1034,9 +1043,15 @@ function brandSection(vendor, items, index) {
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
       <div class="grid-host" data-section="${index}"></div>
-      ${rest > 0 ? `<a class="brand-section__more"
-        href="shop.html?brand=${encodeURIComponent(vendor)}">
-        睇晒 ${vendor} 全部 ${inStock.length} 件 <span aria-hidden="true">→</span></a>` : ''}
+      ${rest > 0 ? `<div class="brand-more" data-more="${index}">
+        <div class="grid-host brand-more__peek" data-section="peek-${index}"></div>
+        <button type="button" class="brand-more__btn" data-more-btn="${index}">
+          展開埋其餘 ${rest} 件
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>` : ''}
       ${soldOutBlock(out, index)}
     </section>`;
 }
@@ -1067,6 +1082,11 @@ function buildBrandRail(order) {
   RAIL_ABORT = abort;
 
   const names = order.map(([vendor]) => vendor);
+  /* 老闆 2026-09-02：「精選應該都要出現喺品牌列表嗰度。」啱 ——
+     開場嗰段係一版嘢入面最強嗰打貨，客碌落去之後冇路行返上去。
+     所以品牌列頭一格擺「精選」，跳返段落頂。冇精選段落（品牌太少）
+     就唔會出呢一格。 */
+  const hasPick = !!document.getElementById('brand-pick');
   const attr = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[ch]);
@@ -1077,10 +1097,15 @@ function buildBrandRail(order) {
   const rail = document.createElement('nav');
   rail.className = 'brand-rail brand-rail--clearline';
   rail.setAttribute('aria-label', '品牌快速跳轉');
-  rail.innerHTML = names.map((vendor, i) => {
+  const pickItem = hasPick ? `<a class="brand-rail__item brand-rail__item--pick"
+      href="#brand-pick" data-rail="pick" aria-label="跳到精選">
+      <span class="brand-rail__fallback">精選</span></a>` : '';
+  rail.innerHTML = pickItem + names.map((vendor, i) => {
     const logo = brandLogo(vendor);
     const name = attr(vendor);
-    return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
+    /* data-rail 係 `sections` 入面嘅位置，唔係品牌序號 ——
+       前面多咗個「精選」段落，唔加返個 offset 就會成條 rail 跳錯一格。 */
+    return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i + (hasPick ? 1 : 0)}"
       aria-label="跳到 ${name}" style="--brand-logo-h:${railLogoHeight(vendor)}px">
       ${logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
         loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : ''}
@@ -1364,7 +1389,7 @@ function watchGridWindows() {
   }, o);
 }
 
-function mountGrid(host, items) {
+function mountGrid(host, items, { all = false } = {}) {
   if (!items.length) { host.innerHTML = ''; return; }
   /* 一嚿以內（24 件）就直接砌出嚟，唔行窗口式渲染。
 
@@ -1377,7 +1402,8 @@ function mountGrid(host, items) {
      一個喺畫面度但未補到嘅格就係一大版白色（老闆影相捉到嗰個）。
      細格唔行窗口 ＝ 呢一整類 bug 喺品牌段落度直接冇咗。
      `/shop` 全部產品嗰個平面 grid 仲有成千件，嗰度先繼續用窗口。 */
-  if (items.length <= CHUNK) {
+  /* `all` ＝ 客自己撳「展開」——佢要嘅就係全部，即刻砌晒，唔好再叫佢碌住等。 */
+  if (all || items.length <= CHUNK) {
     host.innerHTML = `<div class="product-grid" data-chunk="0" data-on="1">${
       items.map(productCard).join('')}</div>`;
     return;
@@ -1497,9 +1523,9 @@ function renderProducts(container, products, { grouped }) {
   const picks = order
     .map(([, items]) => splitStock(items)[0][0])
     .filter(Boolean)
-    .slice(0, Math.min(gridCols() * 4, 12));
+    .slice(0, 12);
   const pickHtml = picks.length >= 6 ? `
-    <section class="brand-section pick-section">
+    <section class="brand-section pick-section" id="brand-pick">
       <header class="pick-section__head">
         <h2 class="pick-section__title">精選</h2>
         <p class="pick-section__note">${picks.length} 個品牌嘅代表作</p>
@@ -1511,6 +1537,25 @@ function renderProducts(container, products, { grouped }) {
     + order.map(([v, items], i) => brandSection(v, items, i)).join('');
   container.querySelectorAll('.grid-host[data-section]').forEach((host) => {
     mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
+  });
+
+  /* 撳「仲有 N 件」＝就地展開，唔會跳去另一版。
+     老闆 2026-09-02：「唔需要去一個新嘅頁面，而係撳咗落去之後佢會展開。」
+     偷望嗰行本身就係嗰批貨嘅頭幾件，所以展開之後唔會重複 —— 直接將
+     成個 .brand-more 換成剩返嗰批嘅 grid。 */
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-more-btn]');
+    if (!btn) return;
+    const id = btn.dataset.moreBtn;
+    const box = container.querySelector(`[data-more="${id}"]`);
+    const rest = SECTION_REST.get(id) || [];
+    if (!box || !rest.length) return;
+    const host = document.createElement('div');
+    host.className = 'grid-host grid-host--expanded';
+    box.replaceWith(host);
+    mountGrid(host, rest, { all: true });
+    SECTION_REST.delete(id);
+    syncGridWindows();
   });
   // 三十幾格全部掛好先至計一次 —— 每格計一次即係計三十幾次
   syncGridWindows();
