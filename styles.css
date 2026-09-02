@@ -5301,9 +5301,9 @@ html.is-lite .brand-rail__crest { filter: none; }
   border: 1px solid rgba(255,255,255,.72);
   border-radius: 11px;
   background:
-    radial-gradient(90% 120% at 8% -20%, rgba(255,255,255,.88), transparent 52%),
-    radial-gradient(70% 130% at 88% 140%, rgba(104,171,188,.22), transparent 64%),
-    rgba(218,234,239,.72);
+    radial-gradient(90% 120% at 8% -20%, rgba(255,255,255,.76), transparent 52%),
+    radial-gradient(70% 130% at 88% 140%, rgba(86,157,176,.28), transparent 64%),
+    rgba(190,216,224,.82);
   box-shadow:
     0 1px 0 rgba(255,255,255,.9) inset,
     0 -1px 0 rgba(74,132,148,.08) inset,
@@ -5370,7 +5370,7 @@ html.is-lite .brand-rail__crest { filter: none; }
   max-width: 92px;
   object-fit: contain;
   filter: none;
-  opacity: .76;
+  opacity: .9;
   transform: scale(1);
   transition: opacity 180ms ease-out, transform 180ms cubic-bezier(.22,1,.36,1);
 }
@@ -5390,7 +5390,7 @@ html.is-lite .brand-rail__crest { filter: none; }
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-  opacity: .76;
+  opacity: .9;
 }
 
 .brand-rail--clearline .brand-rail__item.is-current .brand-rail__fallback { opacity: 1; }
