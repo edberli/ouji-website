@@ -3,9 +3,6 @@ Allow: /
 Disallow: /cart
 Disallow: /account
 Disallow: /wishlist
-
-# 設計 prototype／decision demo，唔係畀客睇嘅頁。
-# 之前冇擋，Google 爬得到 —— 半成品頁面同真頁面撞內容。
-Disallow: /prototypes/
+Disallow: /*?variant=
 
 Sitemap: https://oujikbeauty.com/sitemap.xml
