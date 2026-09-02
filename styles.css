@@ -5301,9 +5301,9 @@ html.is-lite .brand-rail__crest { filter: none; }
   border: 1px solid rgba(255,255,255,.72);
   border-radius: 11px;
   background:
-    radial-gradient(90% 120% at 8% -20%, rgba(255,255,255,.76), transparent 52%),
-    radial-gradient(70% 130% at 88% 140%, rgba(86,157,176,.28), transparent 64%),
-    rgba(190,216,224,.82);
+    radial-gradient(90% 120% at 8% -20%, rgba(255,255,255,.7), transparent 52%),
+    radial-gradient(70% 130% at 88% 140%, rgba(109,163,181,.3), transparent 64%),
+    rgba(174,203,216,.84);
   box-shadow:
     0 1px 0 rgba(255,255,255,.9) inset,
     0 -1px 0 rgba(74,132,148,.08) inset,
