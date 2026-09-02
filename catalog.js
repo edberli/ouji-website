@@ -1309,13 +1309,18 @@ function gridCols(host) {
   return 2;
 }
 
-function syncGridWindows() {
+/* 一次 sync 唔夠。一嚿由佔位高度變成真內容，下面所有嘢就會上移或者下移 ——
+   啱啱好喺視窗邊緣嗰嚿可能因為咁先至走入視窗，但呢一輪已經行過佢。
+   結果就係「明明喺畫面度但係空白」。所以有嘢郁過就再掃一次，最多三轉。 */
+function syncGridWindows(pass = 0) {
   const h = window.innerHeight;
+  let changed = false;
   GRID_PANES.forEach((pane) => {
     const r = pane.el.getBoundingClientRect();
     const near = r.top < h + NEAR && r.bottom > -NEAR;
-    if (near) pane.fill(); else pane.drop();
+    if (near ? pane.fill() : pane.drop()) changed = true;
   });
+  if (changed && pass < 3) syncGridWindows(pass + 1);
 }
 
 function watchGridWindows() {
@@ -1343,22 +1348,30 @@ function mountGrid(host, items) {
      全部嚿一次過落入視窗 —— 同一次過 render 冇分別。 */
   const cols = gridCols(host);
   const cw = (host.clientWidth || window.innerWidth) / cols;
-  const guess = Math.round(Math.ceil(chunks[0].length / cols) * cw * 1.6);
+  /* 逐嚿計自己嘅估計高度。以前成條 list 全部用第一嚿（24 件）嘅高度，
+     所以最尾嗰嚿得兩件貨都揸住五行嘅佔位 —— 客見到兩張卡跟住一大版白色。
+     老闆 2026-09-02 影咗張相返嚟就係呢個。 */
+  const guessFor = (n) => Math.round(Math.ceil(n / cols) * cw * 1.6);
 
   [...host.querySelectorAll('[data-chunk]')].forEach((el, i) => {
-    el.style.minHeight = guess + 'px';
+    el.style.minHeight = guessFor(chunks[i].length) + 'px';
     GRID_PANES.push({
       el,
       fill() {
-        if (el.dataset.on === '1') return;
+        if (el.dataset.on === '1') return false;
         el.innerHTML = chunks[i].map(productCard).join('');
+        /* 真內容出咗就要放走個佔位高度 —— 唔放走，短過估算嗰嚿
+           就會喺卡片下面留一大版白。 */
+        el.style.minHeight = '';
         el.dataset.on = '1';
+        return true;
       },
       drop() {
-        if (el.dataset.on !== '1') return;
+        if (el.dataset.on !== '1') return false;
         el.style.minHeight = Math.round(el.getBoundingClientRect().height) + 'px';
         el.innerHTML = '';
         el.dataset.on = '0';
+        return true;
       },
     });
   });

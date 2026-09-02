@@ -32,9 +32,13 @@ DEL = """mutation($id:ID!,$t:[String!]!){tagsRemove(id:$id, tags:$t){
 SECTION = {}
 for t in "潔面 爽膚水 棉片 精華 乳液 面霜 面膜 眼霜 防曬 局部護理 去角質 套裝護膚 護膚".split():
     SECTION[t] = "skin"
+# 老闆 2026-09-02：「嗰啲潤唇膏⋯都唔算係彩妝嘅，嗰啲係四季嘅產品。」
+# 所以 `唇部護理`（潤唇膏、護唇膏、唇膜）由彩妝搬去護膚／季節性，
+# 同 `護手霜` 一樣當四季護理貨。有色嘅 `唇膏`／`唇釉` 就仍然係彩妝。
 for t in ("底妝 粉底 氣墊粉底 氣墊 遮瑕 眼影 眼線 眼線筆 睫毛膏 眉筆 唇膏 唇釉 唇彩 "
-          "唇蜜 胭脂 高光 修容 定妝噴霧 假睫毛 多用彩妝 唇部護理 唇線筆 妝前乳").split():
+          "唇蜜 胭脂 高光 修容 定妝噴霧 假睫毛 多用彩妝 唇線筆 妝前乳").split():
     SECTION[t] = "makeup"
+SECTION["唇部護理"] = "skin"
 for t in "洗髮 護髮 沐浴 身體護理 身體乳".split():
     SECTION[t] = "bath"
 for t in "化妝工具 美髮工具 美容工具".split():
@@ -55,11 +59,15 @@ for t in "專輯 寫真書".split():
 # 每格唔可以出現嘅 tag
 FORBID = {
     "bath":   {"護膚", "skincare", "彩妝", "makeup", "保健品"},
-    "tools":  {"護膚", "skincare", "保健品"},
+    "tools":  {"護膚", "skincare", "保健品", "彩妝", "makeup"},
     "health": {"護膚", "skincare", "彩妝", "makeup"},
     "other":  {"護膚", "skincare", "彩妝", "makeup", "保健品"},
     "makeup": {"保健品"},
-    "skin":   {"保健品"},
+    # 護膚唔應該掛彩妝 tag —— 假睫毛、唇釉、眼線掛住「護膚」就會
+    # 出現喺護膚頁；反過嚟潤唇膏掛住「彩妝」就會出現喺彩妝頁。
+    "skin":   {"保健品", "彩妝", "makeup"},
+    # 工具就係工具。化妝掃掛住「彩妝」tag，所以 STUDIO 17 三十幾支掃
+    # 一直出現喺彩妝頁 —— 老闆 2026-09-02 影相捉到。
     "fragrance": {"護膚", "skincare", "彩妝", "makeup", "保健品"},
     "lens":   {"護膚", "skincare", "彩妝", "makeup", "保健品"},
     "kpop":   {"護膚", "skincare", "彩妝", "makeup", "保健品"},
