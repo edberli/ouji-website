@@ -57,7 +57,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    9 月 15 日前 全單 88 折 &nbsp;·&nbsp; 滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$250 順豐免運 &nbsp;·&nbsp; 滿 HK$499 送面霜
+    9 月 15 日前 全單 88 折 &nbsp;·&nbsp; 滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$499 送面霜
   </div>
 
   <!-- Header -->
@@ -985,7 +985,7 @@
         下面兩個 IIFE 即刻要用，handler 要等 DOM ready 先跑，太遲。 */
     window.OUJI_SHIP = {
       post: { fee: 15, free: 99,  name: '7-Eleven／郵局自取', src: 'data/pickup-points.json',
-              sub: '287 個郵局／智郵站 · 2 個工作天', hint: '要揀定去邊間郵局／智郵站攞貨' },
+              sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天', hint: '要揀定去邊間 7-Eleven／郵局攞貨' },
       sfp:  { fee: 25, free: 199, name: '順豐站／智能櫃',      src: 'assets/data/sf-points.json',
               sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', hint: '要揀定去邊個順豐站／自助櫃攞貨' },
       sfd:  { fee: 30, free: 250, name: '順豐派送上門',        src: null,
@@ -1132,7 +1132,11 @@
       countEl.textContent = '載入緊…';
       const r = await fetch(src || 'assets/data/sf-points.json');
       points = await r.json();
-      const ds = [...new Set(points.map((p) => p.district))].sort();
+      /* 812 個點分佈喺 76 個細分區 —— 全部塞落 dropdown 就變成另一個災難。
+         所以 dropdown 只出四個大區（港島／九龍／新界／離島），
+         真正搵點嘅主角係下面個搜尋框（打「觀塘」「大本型」「地鐵站」都撳得中）。 */
+      const useRegion = points.some((p) => p.region);
+      const ds = [...new Set(points.map((p) => (useRegion ? p.region : p.district)).filter(Boolean))].sort();
       districtEl.insertAdjacentHTML('beforeend',
         ds.map((d) => `<option value="${d}">${d}</option>`).join(''));
       return points;
@@ -1141,15 +1145,17 @@
     function render() {
       const d = districtEl.value;
       const q = qEl.value.trim();
-      let list = points.filter((p) => (!d || p.district === d) && (!q || p.address.includes(q) || p.code.includes(q.toUpperCase())));
-      countEl.textContent = `${list.length} 個自提點`;
+      let list = points.filter((p) =>
+        (!d || p.region === d || p.district === d) &&
+        (!q || p.address.includes(q) || p.district.includes(q) || p.code.includes(q.toUpperCase())));
+      countEl.textContent = `${list.length} 個取件點`;
       /* 一次最多畫 60 個 —— 428 個全部畫落 DOM，喺手機捲得好頓。 */
-      const shown = list.slice(0, 60);
+      const shown = list.slice(0, 80);
       listEl.innerHTML = shown.map((p) => `
         <li><button type="button" class="sfp__item${chosen && chosen.code === p.code ? ' is-on' : ''}" data-code="${p.code}">
-          <b>${p.kind}</b><span>${p.address}</span><em>${p.code} · ${p.hours || '—'}</em>
+          <b>${p.kind}</b><span>${p.address}</span><em>${p.district} · ${p.hours || '—'}</em>
         </button></li>`).join('')
-        + (list.length > shown.length ? `<li class="sfp__more">仲有 ${list.length - shown.length} 個，收窄地區或者打多幾個字</li>` : '');
+        + (list.length > shown.length ? `<li class="sfp__more">仲有 ${list.length - shown.length} 個 —— 打商場名、街名或者地區收窄佢</li>` : '');
     }
 
     toggle.addEventListener('click', async () => {
