@@ -5301,9 +5301,9 @@ html.is-lite .brand-rail__crest { filter: none; }
   border: 1px solid rgba(255,255,255,.72);
   border-radius: 11px;
   background:
-    radial-gradient(90% 120% at 8% -20%, rgba(255,255,255,.94), transparent 52%),
-    radial-gradient(70% 130% at 88% 140%, rgba(125,185,201,.17), transparent 64%),
-    rgba(238,248,250,.58);
+    radial-gradient(90% 120% at 8% -20%, rgba(255,255,255,.88), transparent 52%),
+    radial-gradient(70% 130% at 88% 140%, rgba(104,171,188,.22), transparent 64%),
+    rgba(218,234,239,.72);
   box-shadow:
     0 1px 0 rgba(255,255,255,.9) inset,
     0 -1px 0 rgba(74,132,148,.08) inset,
@@ -5378,16 +5378,6 @@ html.is-lite .brand-rail__crest { filter: none; }
 .brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo {
   opacity: 1;
   transform: scale(1.04);
-}
-
-/* MOLAK 粉紅字標本身色階較柔；一般 Logo 嘅 .76 透明度會令佢喺
-   水玻璃背景上顯得過淡。保留官方粉紅原色，只提升可見度。 */
-.brand-rail--clearline .brand-rail__logo[src$="molak.svg"] {
-  opacity: .92;
-}
-
-.brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo[src$="molak.svg"] {
-  opacity: 1;
 }
 
 .brand-rail--clearline .brand-rail__fallback {
