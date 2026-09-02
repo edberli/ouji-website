@@ -985,19 +985,22 @@ const SECTION_ITEMS = new Map();
 function brandSection(vendor, items, index) {
   const logo = brandLogo(vendor);
   const plate = brandPlate(vendor);
-  /* 每個牌子段落嘅頭一格，擺佢自己最強嗰件 —— 之後先照護膚程序排。
-     老闆 2026-09-02：「入到一間舖頭，擺喺上面嘅全部都係你唔識、唔出名、
-     唔係熱潮嘅嘢，啲人點會留喺度？」純粹按程序排嘅話，Skin1004 開場
-     係卸妝油同洗面奶，佢真正出名嗰支積雪草精華要碌好耐先見到。
-     一件做門面，其餘保留程序次序 —— 兩樣都有。 */
-  const byRoutine = (a, b) =>
-    routineStep(a) - routineStep(b) || featuredScore(b) - featuredScore(a);
-  const [live, dead] = splitStock([...items].sort(byRoutine));
-  const hero = live.reduce((best, p) =>
-    (!best || featuredScore(p) > featuredScore(best) ? p : best), null);
-  const ordered = hero
-    ? [hero, ...live.filter((p) => p !== hero), ...dead]
-    : [...items].sort(byRoutine);
+  /* 牌子入面**照分數排**，唔再照護膚程序排。
+
+     程序排法（潔面→爽膚水→精華→⋯）本來係服務「已經揀咗呢個牌子、
+     想砌一套」嘅客。但實際量度出嚟：護膚頁客碌落去，**頭 12 格入面
+     有 10 格係潔面同卸妝**，因為潔面喺程序第一步而 Skin1004 有 11 支。
+     一個嚟行街嘅客，開頭兩屏見到十支洗面奶，佢唔會覺得呢間舖有嘢揀。
+
+     改成照分數排之後，同一批貨嘅頭 12 格變成 5 種型號
+     （精華 3、潔面 3、爽膚水 2、防曬 2、面霜 2）—— 睇落係「一個牌子
+     嘅代表作」而唔係「一格洗面奶」。程序次序留低做同分時嘅第二把尺。 */
+  const [live, dead] = splitStock(items);
+  const ordered = [
+    ...[...live].sort((a, b) =>
+      featuredScore(b) - featuredScore(a) || routineStep(a) - routineStep(b)),
+    ...dead,
+  ];
   const [inStock, out] = splitStock(ordered);
   SECTION_ITEMS.set(String(index), inStock);
   // A colour field, the brand's own logo, and its name. Photography was
