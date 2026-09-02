@@ -1355,10 +1355,33 @@ function watchGridWindows() {
   const o = { passive: true, signal: GRID_ABORT.signal };
   window.addEventListener('scroll', on, o);
   window.addEventListener('resize', on, o);
+  /* rAF 唔係次次準時行（背景分頁、慢機、快速拋動），所以多一條 timeout
+     做安全網，同埋畫面由背景返嚟嗰陣即刻補一次。寧願行多次
+     —— `fill()` 有 `data-on` 閘住，補過就唔會再補。 */
+  window.addEventListener('scroll', () => setTimeout(syncGridWindows, 250), o);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) syncGridWindows();
+  }, o);
 }
 
 function mountGrid(host, items) {
   if (!items.length) { host.innerHTML = ''; return; }
+  /* 一嚿以內（24 件）就直接砌出嚟，唔行窗口式渲染。
+
+     窗口式渲染當初係為咗頂住「一版 572 張卡」——iPhone 會爆記憶體。
+     但 2026-09-02 改成每個牌子只出三行之後，每格最多得十二件，
+     成版由 572 張減到 185 張，根本唔需要窗口。
+
+     而窗口本身有代價：佢靠 scroll ＋ requestAnimationFrame 補格，
+     **rAF 喺背景分頁／慢機／快速拋動嗰陣唔一定準時行**，
+     一個喺畫面度但未補到嘅格就係一大版白色（老闆影相捉到嗰個）。
+     細格唔行窗口 ＝ 呢一整類 bug 喺品牌段落度直接冇咗。
+     `/shop` 全部產品嗰個平面 grid 仲有成千件，嗰度先繼續用窗口。 */
+  if (items.length <= CHUNK) {
+    host.innerHTML = `<div class="product-grid" data-chunk="0" data-on="1">${
+      items.map(productCard).join('')}</div>`;
+    return;
+  }
   const chunks = [];
   for (let i = 0; i < items.length; i += CHUNK) chunks.push(items.slice(i, i + CHUNK));
   host.innerHTML = chunks
