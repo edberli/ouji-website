@@ -1550,10 +1550,27 @@ function renderProducts(container, products, { grouped }) {
     const box = container.querySelector(`[data-more="${id}"]`);
     const rest = SECTION_REST.get(id) || [];
     if (!box || !rest.length) return;
-    const host = document.createElement('div');
-    host.className = 'grid-host grid-host--expanded';
-    box.replaceWith(host);
-    mountGrid(host, rest, { all: true });
+    /* 接落**同一個** grid 尾，唔好另開一個。
+
+       兩個 grid 上下疊住，第二個一定由新一行開始 —— 所以第一個 grid
+       嘅尾行只要唔夠欄數，就會留一行窿：客見到「一行得一件貨，
+       右邊三格吉」（老闆 2026-09-03 影相捉到）。接落同一個 grid，
+       就只會有成段最尾嗰行有機會唔滿，嗰個係正常嘅。 */
+    const sec = box.closest('.brand-section');
+    const grid = sec && sec.querySelector('.grid-host > .product-grid');
+    box.remove();
+    if (grid) {
+      const frag = document.createElement('div');
+      frag.innerHTML = rest.map(productCard).join('');
+      const added = [...frag.children];
+      added.forEach((el) => el.classList.add('is-just-added'));
+      grid.append(...added);
+    } else {
+      const host = document.createElement('div');
+      host.className = 'grid-host';
+      sec.append(host);
+      mountGrid(host, rest, { all: true });
+    }
     SECTION_REST.delete(id);
     syncGridWindows();
     /* 品牌列跟版行嗰個高亮，係靠一份快取住嘅段落位置。展開之後下面
