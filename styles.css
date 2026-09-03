@@ -2280,12 +2280,12 @@ button.product-card__quick-add,
 .product-info__promo-card {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(174px, 0.88fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(205px, 0.92fr);
   align-items: center;
-  min-height: 164px;
+  min-height: 176px;
   overflow: hidden;
   margin: 0;
-  padding: 18px 20px 18px 112px;
+  padding: 19px 20px 19px 104px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -2298,10 +2298,10 @@ button.product-card__quick-add,
   content: '';
   position: absolute;
   z-index: -1;
-  top: -74px;
-  right: -46px;
-  width: 190px;
-  height: 190px;
+  top: -102px;
+  right: -70px;
+  width: 248px;
+  height: 248px;
   border: 1px solid rgba(255, 215, 122, 0.16);
   border-radius: 50%;
 }
@@ -2310,9 +2310,9 @@ button.product-card__quick-add,
   position: absolute;
   z-index: 1;
   right: auto;
-  bottom: -22px;
-  left: 0;
-  width: 94px;
+  bottom: -19px;
+  left: 3px;
+  width: 88px;
   max-width: none;
   height: auto;
   margin: 0;
@@ -2321,16 +2321,16 @@ button.product-card__quick-add,
 
 .product-info__promo-copy {
   position: relative;
-  align-self: stretch;
+  align-self: center;
   min-width: 0;
-  padding: 1px 12px 1px 8px;
+  padding: 0 18px 0 8px;
 }
 
 .product-info__promo-kicker {
   display: flex;
   align-items: center;
   gap: 7px;
-  margin: 0 0 5px;
+  margin: 0 0 7px;
   color: #ffd77a;
   font-size: 0.75rem;
   font-weight: 700;
@@ -2360,7 +2360,14 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-deadline {
-  margin: 0 0 3px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  margin: 8px 0 0;
+  padding: 4px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
   color: rgba(255, 255, 255, 0.78);
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
@@ -2373,56 +2380,58 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title {
-  position: static;
-  display: block;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
   margin: 0;
+  padding-block: 4px;
   color: #fff;
   font-family: var(--font-display, var(--font-body));
   line-height: 1;
 }
 
 .product-info__promo-title span {
-  position: absolute;
-  top: 57px;
-  left: 8px;
-  display: inline-flex;
-  align-items: center;
-  min-height: 22px;
-  padding: 4px 7px 3px;
-  border: 1px solid rgba(255, 215, 122, 0.72);
-  border-radius: 4px;
-  color: #ffd77a;
-  font-family: var(--font-body);
-  font-size: 0.72rem;
+  color: #fff;
+  font-family: var(--font-display, var(--font-body));
+  font-size: 1.35rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   line-height: 1;
   white-space: nowrap;
 }
 
 .product-info__promo-title em {
-  position: absolute;
-  right: 18px;
-  bottom: 12px;
-  display: block;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
   margin: 0;
   color: #ffd77a;
-  font-size: 4.65rem;
-  line-height: 0.86;
+  font-size: 1.55rem;
+  line-height: 1;
   font-style: normal;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
+}
+
+.product-info__promo-title em b {
+  display: inline-block;
+  font-size: 4.5rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.045em;
 }
 
 .product-info__promo-gift-side {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 86px minmax(0, 1fr);
   align-items: center;
-  justify-items: center;
-  gap: 4px;
+  gap: 10px;
   min-width: 0;
-  padding: 10px 0 10px 14px;
-  border-inline-start: 1px solid rgba(255, 255, 255, 0.18);
-  text-align: center;
+  min-height: 132px;
+  padding: 12px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045));
+  text-align: left;
 }
 
 .product-info__promo-gift {
@@ -2440,16 +2449,27 @@ button.product-card__quick-add,
   font-variant-numeric: tabular-nums;
 }
 
-.product-info__promo-gift span {
+.product-info__promo-gift strong b {
+  color: #ffd77a;
+  font-weight: 750;
+}
+
+.product-info__promo-gift span,
+.product-info__promo-gift small {
   min-width: 0;
   color: rgba(255, 255, 255, 0.78);
   font-size: 0.8125rem;
+  line-height: 1.35;
   white-space: normal;
+}
+
+.product-info__promo-gift small {
+  color: #ffd77a;
 }
 
 .product-info__promo-cream {
   justify-self: center;
-  width: 96px;
+  width: 84px;
   height: auto;
   object-fit: contain;
   animation: promoGiftFloat 5.2s var(--ease-in-out) infinite;
@@ -2594,19 +2614,22 @@ button.product-card__quick-add,
 
 @media (max-width: 560px) {
   .product-info__promo-card {
-    grid-template-columns: minmax(0, 1fr) 116px;
-    min-height: 164px;
-    padding: 14px 10px 14px 12px;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding: 15px 13px 13px;
   }
 
   .product-info__promo-cat {
-    bottom: -22px;
-    left: -7px;
-    width: 54px;
+    top: 49px;
+    right: 13px;
+    bottom: auto;
+    left: auto;
+    width: 68px;
   }
 
   .product-info__promo-copy {
-    padding-right: 6px;
+    min-height: 126px;
+    padding-right: 76px;
     padding-left: 0;
   }
 
@@ -2628,30 +2651,36 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title {
-    margin-top: 1px;
+    gap: 6px;
+    margin-top: 0;
   }
 
   .product-info__promo-title span {
-    top: 56px;
-    left: 0;
-    min-height: 20px;
-    padding: 3px 5px 2px;
-    font-size: 0.625rem;
+    font-size: 1.05rem;
   }
 
   .product-info__promo-title em {
-    right: 12px;
-    bottom: 10px;
     margin: 0;
-    font-size: 3.45rem;
+    font-size: 1.25rem;
+  }
+
+  .product-info__promo-title em b {
+    font-size: 3.75rem;
+  }
+
+  .product-info__promo-deadline {
+    min-height: 24px;
+    margin-top: 7px;
+    padding: 3px 7px;
+    font-size: 0.75rem;
   }
 
   .product-info__promo-gift-side {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    gap: 2px;
-    padding: 7px 0 5px 8px;
-    text-align: center;
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 10px;
+    min-height: 88px;
+    padding: 8px 10px;
+    text-align: left;
   }
 
   .product-info__promo-gift {
@@ -2659,22 +2688,18 @@ button.product-card__quick-add,
     gap: 1px;
   }
 
-  .product-info__promo-gift strong,
-  .product-info__promo-gift span {
-    font-size: 0.8125rem;
-  }
-
   .product-info__promo-gift strong {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
   }
 
-  .product-info__promo-gift span {
-    font-size: 0.6875rem;
+  .product-info__promo-gift span,
+  .product-info__promo-gift small {
+    font-size: 0.75rem;
     white-space: normal;
   }
 
   .product-info__promo-cream {
-    width: 72px;
+    width: 62px;
     height: auto;
   }
 
