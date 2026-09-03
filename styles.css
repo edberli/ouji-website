@@ -2427,11 +2427,6 @@ button.product-card__quick-add,
   width: 82px;
   height: auto;
   object-fit: contain;
-  /* The source packshot includes a pale floor shadow under the jar. Fade only
-     that last edge so the product stays intact without a white halo on blue. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 0 86%, transparent 96%);
-  mask-image: linear-gradient(to bottom, #000 0 86%, transparent 96%);
-  filter: drop-shadow(0 8px 8px rgba(7, 25, 31, 0.28));
 }
 
 .product-info__shipping-tiers {
