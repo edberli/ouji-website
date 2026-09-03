@@ -13635,7 +13635,11 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .ship-mode__free { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8125rem; font-weight: 700; background: rgba(143,224,187,0.16); color: #8fe0bb; }
 .ship-mode__was { display: block; font-size: 0.72rem; color: rgba(255,255,255,0.5); text-decoration: line-through; font-weight: 400; margin-top: 3px; }
 /* 門市自取專用提示 —— Local Pickup 預揀唔到，要客自己喺結帳頁撳「取貨」 */
-.ship-mode__tip { display: block; margin-top: 4px; font-size: 0.72rem; color: #e8cf9a; font-weight: 700; }
+/* 提示只喺揀中嗰個出 —— 四張卡各自掛住一句，成塊都係字，冇晒層次，
+   而且未揀嘅方式關客咩事。顏色用白色唔用金：金色喺呢版係「再買 $X 就免運費」
+   同已揀自提點嘅專用色，兩樣都金就邊樣都唔突出。 */
+.ship-mode__tip { display: none; margin-top: 5px; font-size: 0.72rem; line-height: 1.45; color: #fff; font-weight: 700; }
+.ship-mode__opt.is-on .ship-mode__tip { display: block; }
 /* 兩句都住喺左欄（描述下面），右欄只留金額 —— 見 cart.html 嗰段註釋。
    is-met＝仲未夠數嗰句以外嘅普通提示，唔使搶眼。 */
 .ship-mode__gap { display: block; font-size: 0.72rem; font-weight: 700; margin-top: 4px; color: #e8cf9a; }
