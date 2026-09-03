@@ -11462,51 +11462,53 @@ body::before { opacity: 0.18; }
    ============================================================ */
 .cart-summary__row--save span:last-child { color: var(--primary-deep); font-weight: 600; }
 
+/* ───── 免運進度 ＋ 運送方式 合併卡（2026-09-03 第三版）──────────────
+   老闆：「不如成個藍色，Footer 嗰隻藍色，跟住可能加啲透明嘅元素，玻璃嘅感覺。」
+   之前撞色太多（淺藍底 ＋ 綠章 ＋ 啡字 ＋ 深藍內卡 ＋ 金），核突。
+   而家只有一個底色，其餘全部靠**白色透明度**做層次：
+
+     底  footer 深藍 --dark-base #2b4c58 漸變
+     字  白 100% / 88% / 68%（68% ＝ 4.9:1，細字最低就到呢級）
+     面  rgba(255,255,255,.07–.16) ＋ blur ＝ 玻璃
+     金  #e8cf9a（6.07:1）**淨係用喺「再買 $X」同揀咗嘅取件點**
+     綠  #8fe0bb 只用喺「免費」章
+
+   🚫 唔准再用 --gold-deep #7a5c2e 呢類啡色 —— 喺深藍上面又暗又濁。 */
 .reward {
   margin-top: var(--space-lg);
   padding: var(--space-lg);
-  border-radius: 14px;
-  background: linear-gradient(180deg, #edf4f6 0%, #e7f1f4 100%);
+  border-radius: 16px;
+  background: linear-gradient(158deg, #355d6e 0%, var(--dark-base) 52%, #223d47 100%);
+  box-shadow: 0 14px 38px -20px rgba(43, 76, 88, 0.85);
+  color: #fff;
 }
 
-.reward__track {
-  position: relative;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(43, 76, 88, 0.14);
-  overflow: hidden;
-}
-.reward__fill {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #6da3b5, #2b4c58);
-  transition: width 600ms var(--ease-out);
-}
+.reward__track { position: relative; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.16); overflow: hidden; }
+.reward__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent) 0%, #a8d8e4 48%, #e8cf9a 100%); transition: width 600ms var(--ease-out); }
 /* $400 嗰點喺 $500 條棒上面即係 80% */
-.reward__tick {
-  position: absolute; top: -3px;
-  width: 2px; height: 12px;
-  background: rgba(43, 76, 88, 0.38);
-}
+.reward__tick { position: absolute; top: -3px; width: 2px; height: 14px; background: rgba(255,255,255,0.45); }
 
-.reward__marks {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 0.6875rem;
-  letter-spacing: 0.04em;
-  color: var(--text-tertiary);
-}
-.reward__marks .is-hit { color: var(--primary-deep); font-weight: 600; }
+.reward__marks { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.75rem; letter-spacing: 0.02em; color: rgba(255,255,255,0.74); }
+.reward__marks .is-hit { color: #e8cf9a; font-weight: 700; }
 .reward__marks .is-hit::before { content: '✓ '; }
 
-.reward__line {
-  margin: var(--space-md) 0 0;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
+.reward__line { margin: var(--space-md) 0 0; font-size: 0.9375rem; line-height: 1.55; color: rgba(255,255,255,0.9); }
+.reward__line strong { color: #e8cf9a; font-weight: 700; font-size: 1.12em; }
+.reward__line b { color: #fff; font-weight: 700; }
+
+/* 繼續購物掣 —— 白底深藍字（9.22:1），成張卡最亮嗰點 */
+.reward__cta {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; margin-top: var(--space-md);
+  padding: 12px 18px; border: 0; border-radius: 999px;
+  background: #fff; color: var(--dark-base);
+  font-family: var(--font-body); font-size: 0.875rem; font-weight: 700;
+  letter-spacing: 0.02em; text-decoration: none; cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
 }
-.reward__line strong { color: var(--primary-deep); font-weight: 700; }
+.reward__cta:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px rgba(0,0,0,0.55); }
+.reward__cta:focus-visible { outline: 2px solid #e8cf9a; outline-offset: 3px; }
+.reward__cta .ico { width: 15px; height: 15px; }
 
 .gap { margin-top: var(--space-lg); }
 .gap__title {
@@ -12519,11 +12521,7 @@ body::before { opacity: 0.18; }
 /* ⚠️ 第二版用過紅底紅字 ＋ 紅色驚嘆號，老闆話「太有警戒感，啲人可能
    會驚後面有啲咩事」。改用琥珀金 —— 一樣跳出嚟（成版係冷藍灰，暖色
    最搶眼），但語氣係「提你一句」唔係「出事喇」。個圓章由「!」改「i」。 */
-.sfp__err {
-  margin: 0; padding: 11px var(--space-md);
-  background: rgba(232, 122, 110, 0.22); color: #ffd9d4;
-  font-size: 0.8125rem; font-weight: 700; line-height: 1.45;
-}
+.sfp__err { margin: 0; padding: 11px var(--space-md); background: rgba(232,122,110,0.24); color: #ffd9d4; font-size: 0.8125rem; font-weight: 700; line-height: 1.45; }
 @keyframes sfpShake {
   0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
   40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
@@ -12532,18 +12530,13 @@ body::before { opacity: 0.18; }
 @media (prefers-reduced-motion: reduce) { .sfp.is-shake { animation: none; } }
 .sfp__hint {
   display: flex; align-items: center; gap: 8px;
-  margin: 0; padding: 12px var(--space-md);
-  background: rgba(232, 207, 154, 0.16);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-  font-size: 0.8125rem; font-weight: 700; color: #e8cf9a;
+  margin: 0; padding: 11px var(--space-md);
+  background: rgba(232,207,154,0.14);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  font-size: 0.8125rem; font-weight: 700; color: #fff;
 }
 .sfp__hint-t { min-width: 0; }
-.sfp__hint-mark {
-  flex: none; width: 18px; height: 18px; border-radius: 999px;
-  background: #e8cf9a; color: var(--dark-base);
-  font-size: 0.6875rem; font-weight: 700; font-style: normal;
-  display: inline-flex; align-items: center; justify-content: center;
-}
+.sfp__hint-mark { flex: none; width: 18px; height: 18px; border-radius: 999px; background: #e8cf9a; color: var(--dark-base); font-size: 0.6875rem; font-weight: 700; font-style: normal; display: inline-flex; align-items: center; justify-content: center; }
 .sfp__hint b {
   font-weight: 700; color: #6b4409;
   box-shadow: inset 0 -0.42em 0 rgba(240, 190, 74, 0.45);
@@ -13130,13 +13123,16 @@ body::before { opacity: 0.18; }
    所以**只有呢格**用 footer 深藍（--dark-base），而唔係成個運送方式列表。
    點解值得咁搶眼：呢格係整個購物袋入面最重要嘅一個決定，
    而且未揀就唔畀結帳，一定要客見到。 */
+/* 取件點 —— 成張卡最重要嗰格（未揀就唔畀結帳）。
+   唔再用實色深藍疊喺深藍上面（睇唔出層次），改用**更亮嘅玻璃 ＋ 金色左邊條**。 */
 .sfp {
   margin-top: var(--space-md);
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
-  background: linear-gradient(158deg, #33596a 0%, var(--dark-base) 55%, #24404b 100%);
-  box-shadow: 0 10px 30px -18px rgba(43, 76, 88, 0.75);
-  color: #fff;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(232,207,154,0.42);
+  box-shadow: 0 6px 20px -12px rgba(0,0,0,0.45);
 }
 .sfp__panel, .sfp__filters, .sfp__list { min-width: 0; }
 /* 深藍底要留多啲白，唔係啲控制項會貼住邊 */
@@ -13147,23 +13143,18 @@ body::before { opacity: 0.18; }
    「順豐自提點（$25·滿$399免費）」＋ 右邊條 nowrap 嘅已揀膠囊夾埋
    min-content 就 362px，成個 .sfp 縮唔細，喺手機直接將 grid 欄撐到
    462px，成版購物袋右邊俾切走（實測 375px 畫面 body scrollWidth 478）。 */
-.sfp__toggle {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px 10px;
-  flex-wrap: wrap; width: 100%; padding: 14px var(--space-md);
-  border: 0; background: transparent;
-  font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: #fff;
-  text-align: left; cursor: pointer;
-}
+.sfp__toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px 10px; flex-wrap: wrap; width: 100%; padding: 13px var(--space-md); border: 0; background: transparent; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: #fff; text-align: left; cursor: pointer; }
 .sfp__toggle:hover { background: rgba(255, 255, 255, 0.08); }
 .sfp:has(.sfp__hint) .sfp__toggle { border-top: 0; }
-.sfp__toggle-label { min-width: 0; }
+.sfp__toggle-label { min-width: 0; color: #fff; }
 .sfp__toggle-label em { font-style: normal; color: var(--text-tertiary); font-size: 0.75rem; }
 .sfp__chosen {
-  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 4px 10px; border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16); color: rgba(255, 255, 255, 0.9);
+  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 4px 11px; border-radius: 999px;
+  background: rgba(255,255,255,0.18); color: rgba(255,255,255,0.9);
   font-size: 0.75rem; font-weight: 600;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+.sfp__chosen.is-set { background: #e8cf9a; color: var(--dark-base); font-weight: 700; }
 .sfp__chosen.is-set { background: #e8cf9a; color: var(--dark-base); font-weight: 700; }
 .sfp__chosen.is-set { background: var(--primary-deep); border-color: var(--primary-deep); color: #fff; }
 .sfp__panel { padding: 12px 14px 14px; border-top: 1px solid var(--border-light); }
@@ -13194,7 +13185,7 @@ body::before { opacity: 0.18; }
   padding-right: 26px;
 }
 .sfp__q { grid-column: 1 / -1; }
-.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: rgba(255, 255, 255, 0.62); }
+.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: rgba(255,255,255,0.62); }
 /* 成 428 個網點，一定要限高兼自己捲，唔係成版購物袋會拉到好長 */
 .sfp__list { max-height: 320px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
 .sfp__item {
@@ -13207,7 +13198,7 @@ body::before { opacity: 0.18; }
 .sfp__item b { font-size: 0.6875rem; font-weight: 600; color: var(--primary-deep); }
 .sfp__item span { font-size: 0.8125rem; line-height: 1.45; color: var(--text-primary); }
 .sfp__item em { font-style: normal; font-size: 0.6875rem; color: var(--text-tertiary); }
-.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: rgba(255, 255, 255, 0.62); text-align: center; list-style: none; }
+.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: rgba(255,255,255,0.62); text-align: center; list-style: none; }
 
 /* ============================================================
    向下滑收起頂部，向上滑彈返出嚟
@@ -13521,40 +13512,33 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
    唔靠一句總述（「滿 $99 免運費」呢種寫法係禁止嘅）。
 
    呢個係新 component，唔 override 任何舊規則。全部值攞 :root 個 token。 */
-.ship-mode { margin: var(--space-lg) 0 var(--space-md); }
-.ship-mode__head {
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--text-tertiary); margin: 0 0 var(--space-sm);
-}
-.ship-mode__grp {
-  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--text-tertiary); margin: var(--space-md) 0 var(--space-xs); padding-left: 2px;
-}
+.ship-mode { margin: var(--space-lg) 0 0; }
+.ship-mode__head { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(255,255,255,0.72); margin: 0 0 var(--space-sm); }
+.ship-mode__grp { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; color: rgba(255,255,255,0.55); margin: var(--space-md) 0 var(--space-xs); padding-left: 2px; }
 .ship-mode__grp:first-of-type { margin-top: 0; }
 .ship-mode__opt {
-  display: grid; grid-template-columns: 18px 1fr auto; gap: var(--space-sm) var(--space-md);
-  align-items: start; padding: 12px var(--space-sm); border-radius: 12px;
-  border: 1px solid transparent; cursor: pointer;
+  display: grid; grid-template-columns: 18px 1fr auto;
+  gap: 6px var(--space-sm); align-items: start;
+  padding: 13px 14px; margin-bottom: 8px;
+  border-radius: 12px; cursor: pointer;
+  /* 玻璃：半透明白 ＋ blur，唔用實色，先至見到底層漸變 */
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.14);
   transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
 }
-.ship-mode__opt:hover { background: var(--gray-100); }
-.ship-mode__opt.is-on { background: var(--primary-lightest); border-color: var(--border-light); }
+.ship-mode__opt:hover { background: rgba(255,255,255,0.13); }
+.ship-mode__opt.is-on { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.55); box-shadow: 0 4px 16px -8px rgba(0,0,0,0.5); }
 .ship-mode__opt input { position: absolute; opacity: 0; pointer-events: none; }
-.ship-mode__dot {
-  width: 16px; height: 16px; border-radius: 999px; border: 2px solid var(--gray-300);
-  margin-top: 3px; position: relative;
-}
-.ship-mode__opt.is-on .ship-mode__dot { border-color: var(--primary-dark); }
+.ship-mode__dot { width: 16px; height: 16px; border-radius: 999px; border: 2px solid rgba(255,255,255,0.5); margin-top: 3px; position: relative; }
+.ship-mode__opt.is-on .ship-mode__dot { border-color: #fff; }
 .ship-mode__opt.is-on .ship-mode__dot::after {
-  content: ''; position: absolute; inset: 3px; border-radius: 999px; background: var(--primary-dark);
+  content: ''; position: absolute; inset: 3px; border-radius: 999px; background: #fff;
 }
-.ship-mode__opt:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
-.ship-mode__name { font-size: 0.92rem; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
-.ship-mode__sub { display: block; font-size: 0.74rem; color: var(--text-tertiary); margin-top: 3px; line-height: 1.5; }
-.ship-mode__fee { font-size: 0.88rem; font-weight: 700; text-align: right; white-space: nowrap; color: var(--text-primary); }
-.ship-mode__free {
-  display: inline-block; background: rgba(47,122,92,0.12); color: #2f7a5c;
-  padding: 2px 9px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;
-}
-.ship-mode__was { display: block; font-size: 0.68rem; color: var(--text-tertiary); text-decoration: line-through; font-weight: 400; margin-top: 2px; }
-.ship-mode__gap { display: block; font-size: 0.68rem; color: var(--gold-deep, #7a5c2e); font-weight: 600; margin-top: 3px; }
+.ship-mode__opt:focus-within { outline: 2px solid #e8cf9a; outline-offset: 2px; }
+.ship-mode__name { font-size: 0.9375rem; font-weight: 700; line-height: 1.35; color: #fff; }
+.ship-mode__sub { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.74); margin-top: 4px; line-height: 1.5; }
+.ship-mode__fee { font-size: 0.9375rem; font-weight: 700; text-align: right; white-space: nowrap; color: #fff; }
+.ship-mode__free { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8125rem; font-weight: 700; background: rgba(143,224,187,0.16); color: #8fe0bb; }
+.ship-mode__was { display: block; font-size: 0.72rem; color: rgba(255,255,255,0.5); text-decoration: line-through; font-weight: 400; margin-top: 3px; }
+.ship-mode__gap { display: block; font-size: 0.72rem; font-weight: 700; margin-top: 4px; color: #e8cf9a; }
