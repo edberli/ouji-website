@@ -11523,19 +11523,22 @@ body::before { opacity: 0.18; }
 .reward__line strong { color: #e8cf9a; font-weight: 700; font-size: 1.12em; }
 .reward__line b { color: #fff; font-weight: 700; }
 
-/* 繼續購物掣 —— 白底深藍字（9.22:1），成張卡最亮嗰點 */
-.reward__cta {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  width: 100%; margin-top: var(--space-md);
-  padding: 12px 18px; border: 0; border-radius: 999px;
-  background: #fff; color: var(--dark-base);
-  font-family: var(--font-body); font-size: 0.875rem; font-weight: 700;
-  letter-spacing: 0.02em; text-decoration: none; cursor: pointer;
-  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+/* 「繼續揀嘢」細連結 —— 老闆指正：原本係卡底一個白底大掣，
+   同下面「前往結帳」太似，客會撳錯。而家縮成一條跟喺「再買 $X」後面
+   嘅金色細連結，語境啱（講緊爭幾多錢 → 去揀多啲），而且細到唔會撞到結帳。 */
+.reward__go {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 8px;
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.02em;
+  color: #e8cf9a; text-decoration: none;
+  border-bottom: 1px solid rgba(232, 207, 154, 0.45);
+  padding-bottom: 1px;
 }
-.reward__cta:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px rgba(0,0,0,0.55); }
-.reward__cta:focus-visible { outline: 2px solid #e8cf9a; outline-offset: 3px; }
-.reward__cta .ico { width: 15px; height: 15px; }
+.reward__go:hover { color: #fff; border-bottom-color: rgba(255, 255, 255, 0.7); }
+.reward__go:focus-visible { outline: 2px solid #e8cf9a; outline-offset: 3px; border-radius: 3px; }
+
+
+
 
 .gap { margin-top: var(--space-lg); }
 .gap__title {
@@ -12548,7 +12551,7 @@ body::before { opacity: 0.18; }
 /* ⚠️ 第二版用過紅底紅字 ＋ 紅色驚嘆號，老闆話「太有警戒感，啲人可能
    會驚後面有啲咩事」。改用琥珀金 —— 一樣跳出嚟（成版係冷藍灰，暖色
    最搶眼），但語氣係「提你一句」唔係「出事喇」。個圓章由「!」改「i」。 */
-.sfp__err { margin: 0; padding: 11px var(--space-md); background: rgba(232,122,110,0.24); color: #ffd9d4; font-size: 0.8125rem; font-weight: 700; line-height: 1.45; }
+.sfp__err { margin: 0; padding: 11px var(--space-md); background: #fdecea; color: #a4302a; font-size: 0.8125rem; font-weight: 700; line-height: 1.45; border-bottom: 1px solid rgba(164,48,42,0.18); }
 @keyframes sfpShake {
   0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
   40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
@@ -12558,12 +12561,13 @@ body::before { opacity: 0.18; }
 .sfp__hint {
   display: flex; align-items: center; gap: 8px;
   margin: 0; padding: 11px var(--space-md);
-  background: rgba(232,207,154,0.14);
-  border-bottom: 1px solid rgba(255,255,255,0.14);
-  font-size: 0.8125rem; font-weight: 700; color: #fff;
+  /* 淺金底 ＋ 深藍字（8.4:1）—— 之前金字疊金底得 4.57:1，老闆一眼捉到撞色 */
+  background: #fbf1da;
+  border-bottom: 1px solid rgba(43,76,88,0.12);
+  font-size: 0.8125rem; font-weight: 700; color: var(--dark-base);
 }
 .sfp__hint-t { min-width: 0; }
-.sfp__hint-mark { flex: none; width: 18px; height: 18px; border-radius: 999px; background: #e8cf9a; color: var(--dark-base); font-size: 0.6875rem; font-weight: 700; font-style: normal; display: inline-flex; align-items: center; justify-content: center; }
+.sfp__hint-mark { flex: none; width: 18px; height: 18px; border-radius: 999px; background: var(--dark-base); color: #fff; font-size: 0.6875rem; font-weight: 700; font-style: normal; display: inline-flex; align-items: center; justify-content: center; }
 .sfp__hint b {
   font-weight: 700; color: #6b4409;
   box-shadow: inset 0 -0.42em 0 rgba(240, 190, 74, 0.45);
@@ -13152,14 +13156,17 @@ body::before { opacity: 0.18; }
    而且未揀就唔畀結帳，一定要客見到。 */
 /* 取件點 —— 成張卡最重要嗰格（未揀就唔畀結帳）。
    唔再用實色深藍疊喺深藍上面（睇唔出層次），改用**更亮嘅玻璃 ＋ 金色左邊條**。 */
+/* 取件點 —— 成張卡最重要嗰格（未揀就唔畀結帳）。
+   老闆 2026-09-03：「呢個位置咁重要，應該用一隻淺啲嘅顏色，
+   同佢深色嘅背景作為一個對比」。
+   所以唔用玻璃（同底色太似），改**白底** —— 喺深藍卡上面白色最跳。
+   深藍字喺白底 9.22:1，係成張卡對比最強嗰格，符合佢嘅重要性。 */
 .sfp {
   margin-top: var(--space-md);
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(232,207,154,0.42);
-  box-shadow: 0 6px 20px -12px rgba(0,0,0,0.45);
+  background: #fff;
+  box-shadow: 0 12px 28px -14px rgba(0,0,0,0.55);
 }
 .sfp__panel, .sfp__filters, .sfp__list { min-width: 0; }
 /* 深藍底要留多啲白，唔係啲控制項會貼住邊 */
@@ -13170,17 +13177,19 @@ body::before { opacity: 0.18; }
    「順豐自提點（$25·滿$399免費）」＋ 右邊條 nowrap 嘅已揀膠囊夾埋
    min-content 就 362px，成個 .sfp 縮唔細，喺手機直接將 grid 欄撐到
    462px，成版購物袋右邊俾切走（實測 375px 畫面 body scrollWidth 478）。 */
-.sfp__toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px 10px; flex-wrap: wrap; width: 100%; padding: 13px var(--space-md); border: 0; background: transparent; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: #fff; text-align: left; cursor: pointer; }
+.sfp__toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px 10px; flex-wrap: wrap; width: 100%; padding: 13px var(--space-md); border: 0; background: transparent; font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; color: var(--dark-base); text-align: left; cursor: pointer; }
 .sfp__toggle:hover { background: rgba(255, 255, 255, 0.08); }
 .sfp:has(.sfp__hint) .sfp__toggle { border-top: 0; }
-.sfp__toggle-label { min-width: 0; color: #fff; }
+.sfp__toggle-label { min-width: 0; color: var(--dark-base); }
 .sfp__toggle-label em { font-style: normal; color: var(--text-tertiary); font-size: 0.75rem; }
 .sfp__chosen {
-  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 4px 11px; border-radius: 999px;
-  background: rgba(255,255,255,0.18); color: rgba(255,255,255,0.9);
-  font-size: 0.75rem; font-weight: 600;
+  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 5px 12px; border-radius: 999px;
+  background: var(--primary-lightest); color: var(--dark-base);
+  font-size: 0.75rem; font-weight: 700;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+/* 揀咗 → 深藍實底白字，同「未揀」一眼分得開 */
+.sfp__chosen.is-set { background: var(--dark-base); color: #fff; }
 .sfp__chosen.is-set { background: #e8cf9a; color: var(--dark-base); font-weight: 700; }
 .sfp__chosen.is-set { background: #e8cf9a; color: var(--dark-base); font-weight: 700; }
 .sfp__chosen.is-set { background: var(--primary-deep); border-color: var(--primary-deep); color: #fff; }
@@ -13212,7 +13221,7 @@ body::before { opacity: 0.18; }
   padding-right: 26px;
 }
 .sfp__q { grid-column: 1 / -1; }
-.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: rgba(255,255,255,0.62); }
+.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: var(--text-secondary); }
 /* 成 428 個網點，一定要限高兼自己捲，唔係成版購物袋會拉到好長 */
 .sfp__list { max-height: 320px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
 .sfp__item {
@@ -13225,7 +13234,7 @@ body::before { opacity: 0.18; }
 .sfp__item b { font-size: 0.6875rem; font-weight: 600; color: var(--primary-deep); }
 .sfp__item span { font-size: 0.8125rem; line-height: 1.45; color: var(--text-primary); }
 .sfp__item em { font-style: normal; font-size: 0.6875rem; color: var(--text-tertiary); }
-.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: rgba(255,255,255,0.62); text-align: center; list-style: none; }
+.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: var(--text-secondary); text-align: center; list-style: none; }
 
 /* ============================================================
    向下滑收起頂部，向上滑彈返出嚟

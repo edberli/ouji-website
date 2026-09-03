@@ -346,6 +346,13 @@
                 <span data-reward-mark-2>送面霜 $499</span>
               </div>
               <p class="reward__line" data-reward-line></p>
+              <!-- 2026-09-03 老闆：「你嗰個位做『繼續購物』，啲人會唔知，
+                   以為係結賬㗎嘛，撳咗落去點知唔係。呢個應該擺最高，
+                   擺喺送嘢嗰個位嗰度，同埋應該細粒啲，甚至乎如果唔需要，
+                   可以直接唔要呢粒掣。」
+                   → 由卡底一個白底大掣（貼住「前往結帳」，好易撳錯）
+                     改成跟喺「再買 $X」後面嘅細連結；門檻全部達成就自動收起。 -->
+              <a class="reward__go" href="shop.html" data-reward-cta hidden>繼續揀嘢 →</a>
 
               <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
                    $99 自取（EC-GET $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
@@ -384,16 +391,6 @@
                 </div>
               </div>
 
-              <!-- 2026-09-03：呢度本來列三件「加一件就夠」嘅貨。老闆叫拆走 ——
-                   「成嚿嘢好長好大嚿，同埋講真啲人都未必會咁樣喺度買」。
-                   改成一個掣送客返去自己揀 —— 佢想買咩我哋估唔到，唔好幫佢揀。 -->
-              <a class="reward__cta" href="shop.html" data-reward-cta>
-                <span data-reward-cta-text>繼續購物</span>
-                <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M5 12h13M12 5l7 7-7 7"/>
-                </svg>
-              </a>
             </div>
 
 
@@ -728,6 +725,9 @@
     /* 一次只講一個目標 —— 四個階梯順住嚟，唔好一次過噴晒四個數俾客。
        每句都寫明個獎勵係「自取」定「順豐」，唔准淨係寫「免運費」。 */
     const S = window.OUJI_SHIP;
+    /* 「繼續揀嘢」只喺仲有門檻未夠嗰陣先出 —— 全部拎齊就冇嘢好催，收起佢。 */
+    const goLink = document.querySelector('[data-reward-cta]');
+    if (goLink) goLink.hidden = net >= GIFT;
     if (net < S.post.free) {
       const gap = ceil(S.post.free - net);
       line.innerHTML = `再買 <strong>HK$${gap}</strong> 就 <b>7-Eleven／郵局自取免郵</b>`;
