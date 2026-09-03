@@ -909,6 +909,10 @@
 
        ⚠️ deliveryOption 個 handle 每個 cart 都唔同（後面帶住 ?cart=…），
        唔可以寫死 —— 要每次由 deliveryGroups 撈返，用 title 對。
+       🔴 實測結果：cart 層面設得成（selectedDeliveryOption 真係轉到 $30），
+          但**新版 checkout 唔會跟** —— 佢按地址重計，永遠 default 返最平嗰個。
+          所以呢段暫時只令 cart 嘅 estimatedCost 準確，解唔到「揀兩次」。
+          留住係因為裝咗 Delivery Customization app 之後就派到用場。
        ⚠️ 觀塘門市自取係 Shopify Local Pickup，Storefront Cart API
        **唔會**喺 deliveryOptions 回 PICK_UP（實測清走地址都係得三個 SHIPPING），
        所以嗰個只能靠提示叫客喺結帳頁撳「取貨」。 */
@@ -959,10 +963,18 @@
             const gap = Math.ceil(o.free - n - 0.001);
             fee = `HK$${o.fee}<span class="ship-mode__gap">再買 $${gap} 就免</span>`;
           }
-          /* 觀塘門市自取＝Shopify Local Pickup，Storefront Cart API 預揀唔到，
-             唯有寫明叫客喺結帳頁撳「取貨」，唔好等佢喺「運送」度搵唔到又走返轉頭。 */
-          const note = k === 'shop'
-            ? '<br><span class="ship-mode__tip">結帳頁記住撳上面嘅「取貨」</span>'
+          /* 🔴 實測（2026-09-03）：Shopify 新版 checkout **唔會**跟 cart 嘅
+             selectedDeliveryOption，佢自己按地址重計，一律 default 最平嗰個
+             （＝$15 7-Eleven／郵局）。所以揀咗其他方式嘅客，唔提就會照付 $15，
+             但備註寫住順豐站自提點 —— 我哋收少 $10 兼要送去順豐站。
+             真正解法要一個 Delivery Customization app（App Store 裝完先開得），
+             未裝之前靠呢句提示堵住。 */
+          const tip = k === 'shop' ? '結帳頁記住撳上面嘅「取貨」'
+                    : k === 'sfp'  ? '結帳頁運送方式要撳「順豐站／智能櫃自取」'
+                    : k === 'sfd'  ? '結帳頁運送方式要撳「順豐派送上門」'
+                    : '';
+          const note = tip
+            ? `<br><span class="ship-mode__tip">${tip}</span>`
             : (o.fee === 0 ? '' : `<br>滿 HK$${o.free} 免運費`);
           html += `<label class="ship-mode__opt${on ? ' is-on' : ''}" data-mode="${k}">
             <input type="radio" name="ouji-ship" value="${k}"${on ? ' checked' : ''}>
