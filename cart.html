@@ -954,14 +954,18 @@
         for (const k of g.keys) {
           const o = S[k];
           const on = mode === k;
-          let fee;
+          /* 「再買 $X 就免」要擺左欄（跟住描述），唔可以擺右欄 ——
+             右欄係 grid 嘅 auto，一有長句就撐到成欄咁闊，
+             375px 手機下左欄剩返 120px，每個字都要換行，成張卡爆高。
+             右欄只准放金額（最闊「HK$30」）。 */
+          let fee, gapLine = '';
           if (o.fee === 0) {
             fee = '<span class="ship-mode__free">免費</span>';
           } else if (n >= o.free) {
             fee = `<span class="ship-mode__free">免費</span><span class="ship-mode__was">HK$${o.fee}</span>`;
           } else {
-            const gap = Math.ceil(o.free - n - 0.001);
-            fee = `HK$${o.fee}<span class="ship-mode__gap">再買 $${gap} 就免</span>`;
+            fee = `HK$${o.fee}`;
+            gapLine = `<span class="ship-mode__gap">再買 $${Math.ceil(o.free - n - 0.001)} 就免運費</span>`;
           }
           /* 🔴 實測（2026-09-03）：Shopify 新版 checkout **唔會**跟 cart 嘅
              selectedDeliveryOption，佢自己按地址重計，一律 default 最平嗰個
@@ -973,9 +977,9 @@
                     : k === 'sfp'  ? '結帳頁運送方式要撳「順豐站／智能櫃自取」'
                     : k === 'sfd'  ? '結帳頁運送方式要撳「順豐派送上門」'
                     : '';
-          const note = tip
-            ? `<br><span class="ship-mode__tip">${tip}</span>`
-            : (o.fee === 0 ? '' : `<br>滿 HK$${o.free} 免運費`);
+          /* 有 gapLine 就唔使再講一次「滿 $X 免運費」—— 同一句嘢寫兩次。 */
+          const note = (tip ? `<span class="ship-mode__tip">${tip}</span>` : '')
+            + (gapLine || (o.fee === 0 ? '' : `<span class="ship-mode__gap is-met">滿 HK$${o.free} 免運費</span>`));
           html += `<label class="ship-mode__opt${on ? ' is-on' : ''}" data-mode="${k}">
             <input type="radio" name="ouji-ship" value="${k}"${on ? ' checked' : ''}>
             <span class="ship-mode__dot"></span>

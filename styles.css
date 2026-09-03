@@ -2320,6 +2320,8 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-copy {
+  position: relative;
+  align-self: stretch;
   min-width: 0;
   padding: 1px 12px 1px 8px;
 }
@@ -2371,6 +2373,7 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title {
+  position: static;
   display: block;
   margin: 0;
   color: #fff;
@@ -2379,6 +2382,9 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title span {
+  position: absolute;
+  top: 57px;
+  left: 8px;
   display: inline-flex;
   align-items: center;
   min-height: 22px;
@@ -2395,8 +2401,11 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title em {
+  position: absolute;
+  right: 8px;
+  bottom: 0;
   display: block;
-  margin-top: 4px;
+  margin: 0;
   color: #ffd77a;
   font-size: 4.65rem;
   line-height: 0.86;
@@ -2623,13 +2632,17 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title span {
+    top: 56px;
+    left: 0;
     min-height: 20px;
     padding: 3px 5px 2px;
     font-size: 0.625rem;
   }
 
   .product-info__promo-title em {
-    margin-top: 4px;
+    right: 0;
+    bottom: 0;
+    margin: 0;
     font-size: 3.45rem;
   }
 
@@ -13591,7 +13604,7 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .ship-mode__grp { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; color: rgba(255,255,255,0.55); margin: var(--space-md) 0 var(--space-xs); padding-left: 2px; }
 .ship-mode__grp:first-of-type { margin-top: 0; }
 .ship-mode__opt {
-  display: grid; grid-template-columns: 18px 1fr auto;
+  display: grid; grid-template-columns: 18px minmax(0, 1fr) auto;
   gap: 6px var(--space-sm); align-items: start;
   padding: 13px 14px; margin-bottom: 8px;
   border-radius: 12px; cursor: pointer;
@@ -13612,9 +13625,12 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .ship-mode__opt:focus-within { outline: 2px solid #e8cf9a; outline-offset: 2px; }
 .ship-mode__name { font-size: 0.9375rem; font-weight: 700; line-height: 1.35; color: #fff; }
 .ship-mode__sub { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.74); margin-top: 4px; line-height: 1.5; }
-.ship-mode__fee { font-size: 0.9375rem; font-weight: 700; text-align: right; white-space: nowrap; color: #fff; }
+.ship-mode__fee { font-size: 0.9375rem; font-weight: 700; text-align: right; white-space: nowrap; color: #fff; max-width: 5.5em; }
 .ship-mode__free { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8125rem; font-weight: 700; background: rgba(143,224,187,0.16); color: #8fe0bb; }
 .ship-mode__was { display: block; font-size: 0.72rem; color: rgba(255,255,255,0.5); text-decoration: line-through; font-weight: 400; margin-top: 3px; }
 /* 門市自取專用提示 —— Local Pickup 預揀唔到，要客自己喺結帳頁撳「取貨」 */
-.ship-mode__tip { color: #e8cf9a; font-weight: 700; }
+.ship-mode__tip { display: block; margin-top: 4px; font-size: 0.72rem; color: #e8cf9a; font-weight: 700; }
+/* 兩句都住喺左欄（描述下面），右欄只留金額 —— 見 cart.html 嗰段註釋。
+   is-met＝仲未夠數嗰句以外嘅普通提示，唔使搶眼。 */
 .ship-mode__gap { display: block; font-size: 0.72rem; font-weight: 700; margin-top: 4px; color: #e8cf9a; }
+.ship-mode__gap.is-met { font-weight: 400; color: rgba(255,255,255,0.6); }
