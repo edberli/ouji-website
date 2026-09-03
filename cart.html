@@ -986,7 +986,14 @@
       paint();
       if (window.OUJI_syncPicker) window.OUJI_syncPicker(mode);
       if (typeof setCartAttributes === 'function') {
-        await setCartAttributes({ '運送方式': window.OUJI_SHIP[mode].name });
+        /* 「運送方式」＝鋪頭執單睇嘅中文名。
+           `ship_mode` ＝ ASCII 機讀碼（post／sfp／sfd／shop），
+           留返畀 Delivery Customization function 做條件用 ——
+           Function 嘅條件欄唔一定食得中文 key 同值。 */
+        await setCartAttributes({
+          '運送方式': window.OUJI_SHIP[mode].name,
+          ship_mode: mode,
+        });
       }
       /* 運費同合計要即刻跟住變 —— 唔重畫成個購物袋，只補呢兩格。 */
       const S = window.OUJI_SHIP[mode], n = net();

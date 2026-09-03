@@ -459,6 +459,7 @@ async function getCart() {
     query GetCart($cartId: ID!, $country: CountryCode!) @inContext(country: $country) {
       cart(id: $cartId) {
         id checkoutUrl totalQuantity
+        attributes { key value }
         cost {
           totalAmount { amount currencyCode }
           subtotalAmount { amount currencyCode }
@@ -637,9 +638,20 @@ function brandCheckoutUrl(url) {
     頁揀，個值跟住 cart 過去，鋪頭喺訂單詳情就見到「順豐自提點」同
     「網點碼」，打單嗰陣照抄。
 */
+/** 寫 cart attributes。
+
+    ⚠️ `cartAttributesUpdate` 係**整批替換**，唔係 merge ——
+    直接傳一個 key 落去，其他 attributes 會全部消失。
+    實際踩過：客揀完「運送方式」，跟住揀自提點嗰個呼叫
+    就洗走咗運送方式，鋪頭執單見唔到客要順豐站定 7-Eleven。
+    所以呢度一定要先讀返現有嘅再 merge。
+*/
 async function setCartAttributes(attrs) {
   const cart = await getCart();
   if (!cart?.id) return null;
+  const merged = {};
+  for (const a of cart.attributes || []) merged[a.key] = a.value;
+  for (const [k, v] of Object.entries(attrs)) merged[k] = String(v);
   const q = `mutation($cartId:ID!,$attributes:[AttributeInput!]!){
     cartAttributesUpdate(cartId:$cartId, attributes:$attributes){
       cart{ id attributes{ key value } }
@@ -647,7 +659,7 @@ async function setCartAttributes(attrs) {
     }}`;
   const data = await shopifyFetch(q, {
     cartId: cart.id,
-    attributes: Object.entries(attrs).map(([key, value]) => ({ key, value: String(value) })),
+    attributes: Object.entries(merged).map(([key, value]) => ({ key, value })),
   });
   const e = data?.cartAttributesUpdate?.userErrors;
   if (e && e.length) { console.warn('cartAttributesUpdate', e); return null; }
