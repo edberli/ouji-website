@@ -2320,6 +2320,39 @@ button.product-card__quick-add,
   padding: 1px 12px 1px 8px;
 }
 
+.product-info__promo-kicker {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 5px;
+  color: #ffd77a;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.product-info__promo-kicker::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.8;
+}
+
+.product-info__promo-kicker span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 2px 6px;
+  border: 1px solid rgba(255, 215, 122, 0.72);
+  border-radius: 4px;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
 .product-info__promo-deadline {
   margin: 0 0 3px;
   color: rgba(255, 255, 255, 0.78);
@@ -2337,7 +2370,7 @@ button.product-card__quick-add,
   margin: 0 0 5px;
   color: #fff;
   font-family: var(--font-display, var(--font-body));
-  font-size: 2rem;
+  font-size: 2.2rem;
   line-height: 1.15;
   letter-spacing: -0.025em;
 }
@@ -2523,8 +2556,25 @@ button.product-card__quick-add,
     padding-left: 6px;
   }
 
+  .product-info__promo-kicker {
+    gap: 5px;
+    margin-bottom: 4px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+
+  .product-info__promo-kicker::before {
+    width: 12px;
+  }
+
+  .product-info__promo-kicker span {
+    min-height: 18px;
+    padding: 2px 5px;
+    font-size: 0.5625rem;
+  }
+
   .product-info__promo-title {
-    font-size: 1.75rem;
+    font-size: 1.95rem;
   }
 
   .product-info__promo-gift {
