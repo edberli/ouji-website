@@ -377,8 +377,11 @@
               </button>
               <div class="sfp__panel" data-sfp-panel hidden>
                 <div class="sfp__filters">
-                  <select class="sfp__district" data-sfp-district aria-label="地區">
+                  <select class="sfp__region" data-sfp-region aria-label="大區">
                     <option value="">全港</option>
+                  </select>
+                  <select class="sfp__district" data-sfp-district aria-label="分區">
+                    <option value="">所有分區</option>
                   </select>
                   <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋取件點">
                 </div>
@@ -1089,6 +1092,7 @@
     const toggle = root.querySelector('[data-sfp-toggle]');
     const panel = root.querySelector('[data-sfp-panel]');
     const chosenEl = root.querySelector('[data-sfp-chosen]');
+    const regionEl = root.querySelector('[data-sfp-region]');
     const districtEl = root.querySelector('[data-sfp-district]');
     const qEl = root.querySelector('[data-sfp-q]');
     const listEl = root.querySelector('[data-sfp-list]');
@@ -1112,7 +1116,8 @@
         src = o.src; points = null; chosen = null;
         try { localStorage.removeItem(KEY); } catch (e) {}
         paintChosen();
-        districtEl.innerHTML = '<option value="">全港</option>';
+        regionEl.innerHTML = '<option value="">全港</option>';
+        districtEl.innerHTML = '<option value="">所有分區</option>';
         listEl.innerHTML = ''; countEl.textContent = '';
         panel.setAttribute('hidden', '');
         toggle.setAttribute('aria-expanded', 'false');
@@ -1121,6 +1126,23 @@
     try { chosen = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
     if (chosen) paintChosen();
     if (window.OUJI_getShipMode) window.OUJI_syncPicker(window.OUJI_getShipMode());
+
+    /* Shopify 結帳頁個「區域」係 province（香港島 HK／九龍 KL／新界 NT）。
+       2026-09-03 老闆報：喺購物袋揀咗點，去到結帳仲要自己再揀一次區域 ——
+       就係因為之前只填 address1/city/country，冇填 province。
+       郵政名單有 region；順豐名單只有 18 區名，用區名反推。 */
+    const NT_DISTRICTS = /離島|葵青|北區|西貢|沙田|大埔|荃灣|屯門|元朗/;
+    const KL_DISTRICTS = /九龍|觀塘|深水|黃大仙|油尖旺|旺角|尖沙咀|紅磡|土瓜灣|何文田|藍田|牛頭角|秀茂坪|樂富|慈雲山|荔枝角|長沙灣|美孚|鑽石山|新蒲崗|太子|大角咀|佐敦|油麻地|九龍灣|彩虹|坪石|竹園/;
+    function hkProvince(p) {
+      const r = p.region || '';
+      if (r.includes('港島')) return 'HK';
+      if (r.includes('九龍')) return 'KL';
+      if (r.includes('新界') || r.includes('離島')) return 'NT';
+      const d = (p.district || '') + ' ' + (p.address || '');
+      if (NT_DISTRICTS.test(d)) return 'NT';
+      if (KL_DISTRICTS.test(d)) return 'KL';
+      return 'HK';
+    }
 
     function paintChosen() {
       chosenEl.textContent = chosen ? `${chosen.code} · ${chosen.address.slice(0, 18)}…` : '撳呢度揀';
@@ -1132,21 +1154,31 @@
       countEl.textContent = '載入緊…';
       const r = await fetch(src || 'assets/data/sf-points.json');
       points = await r.json();
-      /* 812 個點分佈喺 76 個細分區 —— 全部塞落 dropdown 就變成另一個災難。
-         所以 dropdown 只出四個大區（港島／九龍／新界／離島），
-         真正搵點嘅主角係下面個搜尋框（打「觀塘」「大本型」「地鐵站」都撳得中）。 */
-      const useRegion = points.some((p) => p.region);
-      const ds = [...new Set(points.map((p) => (useRegion ? p.region : p.district)).filter(Boolean))].sort();
-      districtEl.insertAdjacentHTML('beforeend',
-        ds.map((d) => `<option value="${d}">${d}</option>`).join(''));
+      /* 812 個點散喺 76 個分區 —— 一個 dropdown 塞晒係災難，
+         四個大區又太粗（老闆 2026-09-03：「唔可以只細分到九龍區，要落到觀塘」）。
+         所以做兩層：大區揀完，分區只出嗰區入面嘅。搜尋框照樣行得。 */
+      const rs = [...new Set(points.map((p) => p.region).filter(Boolean))].sort();
+      regionEl.insertAdjacentHTML('beforeend',
+        rs.map((r) => `<option value="${r}">${r}</option>`).join(''));
+      fillDistricts();
       return points;
     }
 
+    /* 分區選項跟住大區走。揀「全港」就出晒 76 個（客可以直接撳「觀塘」）。 */
+    function fillDistricts() {
+      const r = regionEl.value;
+      const ds = [...new Set(points.filter((p) => !r || p.region === r).map((p) => p.district).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b, 'zh-HK'));
+      districtEl.innerHTML = '<option value="">所有分區</option>'
+        + ds.map((d) => `<option value="${d}">${d}</option>`).join('');
+    }
+
     function render() {
+      const r = regionEl.value;
       const d = districtEl.value;
       const q = qEl.value.trim();
       let list = points.filter((p) =>
-        (!d || p.region === d || p.district === d) &&
+        (!r || p.region === r) && (!d || p.district === d) &&
         (!q || p.address.includes(q) || p.district.includes(q) || p.code.includes(q.toUpperCase())));
       countEl.textContent = `${list.length} 個取件點`;
       /* 一次最多畫 60 個 —— 428 個全部畫落 DOM，喺手機捲得好頓。 */
@@ -1164,6 +1196,7 @@
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (open) { await load(); render(); }
     });
+    regionEl.addEventListener('change', () => { fillDistricts(); render(); });
     districtEl.addEventListener('change', render);
     qEl.addEventListener('input', () => { clearTimeout(qEl._t); qEl._t = setTimeout(render, 160); });
 
@@ -1184,8 +1217,9 @@
         await setDeliveryAddressPreference({
           address1: chosen.address,
           address2: `${chosen.kind} ${chosen.code}`,
-          city: '香港',
-          country: 'Hong Kong',
+          city: chosen.district || '香港',
+          provinceCode: hkProvince(chosen),
+          countryCode: 'HK',
         });
       }
       if (typeof setCartAttributes === 'function') {

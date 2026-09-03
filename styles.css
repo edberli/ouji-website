@@ -13089,13 +13089,33 @@ body::before { opacity: 0.18; }
 }
 .sfp__chosen.is-set { background: var(--primary-deep); border-color: var(--primary-deep); color: #fff; }
 .sfp__panel { padding: 12px 14px 14px; border-top: 1px solid var(--border-light); }
-.sfp__filters { display: flex; gap: 8px; }
-.sfp__district, .sfp__q {
-  min-width: 0; padding: 8px 10px; border: 1px solid var(--border-light);
-  border-radius: 8px; font-family: var(--font-body); font-size: 0.8125rem;
+/* 兩層地區（大區 → 分區）自己一行，搜尋框自己一行 ——
+   812 個點散喺 76 個分區，一行擠三個控制項喺手機會逼到睇唔到字。
+   2026-09-03：老闆指正「唔可以只細分到九龍區，要落到觀塘」。 */
+.sfp__filters { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sfp__region, .sfp__district, .sfp__q {
+  min-width: 0; padding: 9px 11px; border-radius: 8px;
+  font-family: var(--font-body); font-size: 0.8125rem;
+  /* 2026-09-03 老闆指正：原本用 --border-light 同預設灰字，喺手機睇唔清楚。
+     改用公告條同 footer 嗰隻深藍（--dark-base #2b4c58）做字色同邊框。 */
+  border: 1px solid rgba(43, 76, 88, 0.32);
+  color: var(--dark-base);
+  background: #fff;
+  font-weight: 500;
 }
-.sfp__district { flex: 0 0 34%; }
-.sfp__q { flex: 1 1 auto; }
+.sfp__region:focus, .sfp__district:focus, .sfp__q:focus {
+  outline: none; border-color: var(--dark-base);
+  box-shadow: 0 0 0 3px rgba(43, 76, 88, 0.12);
+}
+.sfp__q::placeholder { color: rgba(43, 76, 88, 0.55); }
+.sfp__region, .sfp__district {
+  /* 自畫箭嘴 —— 系統預設嗰個喺淺底上面太淡 */
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%232b4c58' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  padding-right: 26px;
+}
+.sfp__q { grid-column: 1 / -1; }
 .sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: var(--text-tertiary); }
 /* 成 428 個網點，一定要限高兼自己捲，唔係成版購物袋會拉到好長 */
 .sfp__list { max-height: 320px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
