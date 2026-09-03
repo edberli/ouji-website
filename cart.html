@@ -687,6 +687,11 @@
     const m = window.OUJI_SHIP[mode];
     const shipping = netTotal >= m.free ? 0 : m.fee;
 
+    /* 運費／免運門檻要用「折實貨價」（唔含運費）。
+       以前 net() 靠讀 [data-total] 反推，但嗰格係「貨價＋運費」——
+       $84 貨品加 $15 運費就變 $99，啱啱夠 post 嘅 $99 門檻，白送運費。
+       直接放個數出嚟，唔好再由 DOM 反推。 */
+    window.OUJI_netGoods = netTotal;
     if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
     if (shippingEl) shippingEl.textContent = shipping === 0 ? '免費' : formatPrice(shipping);
     if (totalEl) totalEl.textContent = formatPrice(netTotal + shipping);
@@ -922,10 +927,9 @@
        喺 checkout 隱藏唔啱嘅選項，剩返一個就自動選中。
        每個運費規則個 `match` 欄留住畀嗰陣用。 */
 
+    /* 折實貨價（唔含運費）。renderCart 每次算完就放喺 window.OUJI_netGoods。 */
     function net() {
-      const el = document.querySelector('[data-total]');
-      if (!el) return 0;
-      return parseFloat((el.textContent || '').replace(/[^0-9.]/g, '')) || 0;
+      return Number(window.OUJI_netGoods) || 0;
     }
 
     function paint() {
@@ -989,15 +993,20 @@
       const ship = n >= S.free ? 0 : S.fee;
       const shipEl = document.querySelector('[data-shipping]');
       if (shipEl) shipEl.textContent = ship === 0 ? '免費' : `HK$${ship.toFixed(2)}`;
+      /* 合計都要跟住郁 —— 之前淨係改運費嗰格，揀完 $30 上門合計都唔變。 */
+      const totEl2 = document.querySelector('[data-total]');
+      if (totEl2) totEl2.textContent = `HK$${(n + ship).toFixed(2)}`;
     });
 
     window.OUJI_repaintShip = paint;
     paint();
-    /* 加減數量、落優惠碼之後個合計會變 —— 盯住嗰格，一變就重畫三個運費。
-       唔用 polling，亦唔使改動購物袋本身嗰段渲染碼。 */
-    const totEl = document.querySelector('[data-total]');
-    if (totEl && window.MutationObserver) {
-      new MutationObserver(() => paint()).observe(totEl, { childList: true, characterData: true, subtree: true });
+    /* 加減數量、落優惠碼之後個小計會變 —— 盯住嗰格，一變就重畫三個運費。
+       唔用 polling，亦唔使改動購物袋本身嗰段渲染碼。
+       ⚠️ 盯小計唔盯合計：換運送方式嗰陣我哋自己會改合計，
+          盯合計就變咗自己觸發自己重畫成個列表。 */
+    const subEl = document.querySelector('[data-subtotal]');
+    if (subEl && window.MutationObserver) {
+      new MutationObserver(() => paint()).observe(subEl, { childList: true, characterData: true, subtree: true });
     }
   })();
 
