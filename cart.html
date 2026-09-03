@@ -1218,8 +1218,12 @@
           address1: chosen.address,
           address2: `${chosen.kind} ${chosen.code}`,
           city: chosen.district || '香港',
-          provinceCode: hkProvince(chosen),
-          countryCode: 'HK',
+          /* ⚠️ 一定要用 province／country，唔係 provinceCode／countryCode ——
+             MailingAddressInput 冇後面嗰兩個欄位，寫咗成個 mutation 會 GraphQL 報錯，
+             連原本行得通嘅地址預填都會一齊死（2026-09-03 實測踩過）。
+             值用 'HK'／'KL'／'NT' 都得，Shopify 自己 normalize 返 provinceCode。 */
+          province: hkProvince(chosen),
+          country: 'Hong Kong',
         });
       }
       if (typeof setCartAttributes === 'function') {
