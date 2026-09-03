@@ -283,42 +283,6 @@
             <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
             <div data-cart-notes></div>
 
-            <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
-                 $99 自取（EC-GET $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
-                 ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
-                 唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
-            <div class="ship-mode" data-ship>
-              <p class="ship-mode__head">點收貨？</p>
-              <div data-ship-opts></div>
-              <!-- 取件點揀選（順豐站／智郵站／郵政局共用同一個面板）。
-                   ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
-                   extension），所以揀自提點要喺我哋自己個購物袋頁做，
-                   揀完寫落 cart attributes，跟住張單過去 Shopify，
-                   鋪頭喺訂單詳情就見到網點碼同地址。
-                   資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
-                   已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
-              <div class="sfp" data-sfp>
-                <p class="sfp__err" data-sfp-err hidden role="alert"></p>
-                <p class="sfp__hint"><span class="sfp__hint-mark">i</span><span class="sfp__hint-t"><b data-sfp-hint>要喺呢度揀定去邊個點攞貨</b></span></p>
-                <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false">
-                  <span class="sfp__toggle-label" data-sfp-label>取件點<em data-sfp-sublabel></em></span>
-                  <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
-                </button>
-                <div class="sfp__panel" data-sfp-panel hidden>
-                  <div class="sfp__filters">
-                    <select class="sfp__region" data-sfp-region aria-label="大區">
-                      <option value="">全港</option>
-                    </select>
-                    <select class="sfp__district" data-sfp-district aria-label="分區">
-                      <option value="">所有分區</option>
-                    </select>
-                    <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋取件點">
-                  </div>
-                  <p class="sfp__count" data-sfp-count></p>
-                  <ul class="sfp__list" data-sfp-list></ul>
-                </div>
-              </div>
-            </div>
           </div>
 
           <!-- Cart Summary -->
@@ -382,6 +346,43 @@
                 <span data-reward-mark-2>送面霜 $499</span>
               </div>
               <p class="reward__line" data-reward-line></p>
+
+              <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
+                   $99 自取（EC-GET $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
+                   ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
+                   唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
+              <div class="ship-mode" data-ship>
+                <p class="ship-mode__head">點收貨？</p>
+                <div data-ship-opts></div>
+                <!-- 取件點揀選（順豐站／智郵站／郵政局共用同一個面板）。
+                     ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
+                     extension），所以揀自提點要喺我哋自己個購物袋頁做，
+                     揀完寫落 cart attributes，跟住張單過去 Shopify，
+                     鋪頭喺訂單詳情就見到網點碼同地址。
+                     資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
+                     已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
+                <div class="sfp" data-sfp>
+                  <p class="sfp__err" data-sfp-err hidden role="alert"></p>
+                  <p class="sfp__hint"><span class="sfp__hint-mark">i</span><span class="sfp__hint-t"><b data-sfp-hint>要喺呢度揀定去邊個點攞貨</b></span></p>
+                  <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false">
+                    <span class="sfp__toggle-label" data-sfp-label>取件點<em data-sfp-sublabel></em></span>
+                    <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
+                  </button>
+                  <div class="sfp__panel" data-sfp-panel hidden>
+                    <div class="sfp__filters">
+                      <select class="sfp__region" data-sfp-region aria-label="大區">
+                        <option value="">全港</option>
+                      </select>
+                      <select class="sfp__district" data-sfp-district aria-label="分區">
+                        <option value="">所有分區</option>
+                      </select>
+                      <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋取件點">
+                    </div>
+                    <p class="sfp__count" data-sfp-count></p>
+                    <ul class="sfp__list" data-sfp-list></ul>
+                  </div>
+                </div>
+              </div>
 
               <!-- 2026-09-03：呢度本來列三件「加一件就夠」嘅貨。老闆叫拆走 ——
                    「成嚿嘢好長好大嚿，同埋講真啲人都未必會咁樣喺度買」。

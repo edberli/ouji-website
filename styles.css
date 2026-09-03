@@ -2280,7 +2280,7 @@ button.product-card__quick-add,
 .product-info__promo-card {
   position: relative;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr) 88px;
+  grid-template-columns: 92px minmax(0, 1fr) 70px;
   align-items: center;
   min-height: 126px;
   overflow: hidden;
@@ -2367,32 +2367,12 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 9px;
   margin: 0 0 5px;
   color: #fff;
   font-family: var(--font-display, var(--font-body));
-  font-size: 2.35rem;
+  font-size: 2.2rem;
   line-height: 1.15;
   letter-spacing: -0.025em;
-}
-
-.product-info__promo-title span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 22px;
-  padding: 4px 7px 3px;
-  border: 1px solid rgba(255, 215, 122, 0.72);
-  border-radius: 4px;
-  color: #ffd77a;
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  white-space: nowrap;
 }
 
 .product-info__promo-title em {
@@ -2424,7 +2404,7 @@ button.product-card__quick-add,
 
 .product-info__promo-cream {
   justify-self: center;
-  width: 82px;
+  width: 62px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 8px 8px rgba(7, 25, 31, 0.28));
@@ -2560,8 +2540,8 @@ button.product-card__quick-add,
 
 @media (max-width: 560px) {
   .product-info__promo-card {
-    grid-template-columns: 72px minmax(0, 1fr) 72px;
-    min-height: 144px;
+    grid-template-columns: 72px minmax(0, 1fr) 60px;
+    min-height: 132px;
     padding: 12px 10px 12px 3px;
   }
 
@@ -2594,14 +2574,7 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title {
-    gap: 7px;
-    font-size: 2.05rem;
-  }
-
-  .product-info__promo-title span {
-    min-height: 20px;
-    padding: 3px 5px 2px;
-    font-size: 0.625rem;
+    font-size: 1.95rem;
   }
 
   .product-info__promo-gift {
@@ -2623,7 +2596,7 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-cream {
-    width: 66px;
+    width: 52px;
     height: auto;
   }
 
@@ -11489,88 +11462,51 @@ body::before { opacity: 0.18; }
    ============================================================ */
 .cart-summary__row--save span:last-child { color: var(--primary-deep); font-weight: 600; }
 
-/* ───── 免運進度卡（2026-09-03 重做）─────────────────────────────
-   老闆嘅三點：①「所有顏色都好死」②「用返 footer 嗰隻藍」
-   ③「$41 呢個位要用第二隻色去標示，咁樣會更加明顯」。
-
-   所以整張卡由「淺藍底＋灰字」翻轉成 footer 嗰隻深藍（--dark-base #2b4c58），
-   同購物袋其餘白色區塊拉開對比 —— 一眼就知呢格係講緊「你仲爭幾多」。
-
-   對比度全部量過（WCAG，底 #2b4c58）：
-     白 100% 9.22:1 ｜ 白 88% 7.61:1 ｜ 白 70% 5.47:1
-     金 #e8cf9a 6.07:1 ✅ 做強調色 ｜ --gold #cba86a 得 4.10:1 ❌ 唔用
-   白 60% 只有 4.48:1，細字唔夠，所以最淡嗰級停喺 70%。 */
 .reward {
   margin-top: var(--space-lg);
   padding: var(--space-lg);
   border-radius: 14px;
-  background: linear-gradient(158deg, #33596a 0%, var(--dark-base) 55%, #24404b 100%);
-  color: #fff;
-  box-shadow: 0 10px 30px -18px rgba(43, 76, 88, 0.75);
+  background: linear-gradient(180deg, #edf4f6 0%, #e7f1f4 100%);
 }
 
 .reward__track {
   position: relative;
-  height: 8px;
+  height: 6px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(43, 76, 88, 0.14);
   overflow: hidden;
 }
 .reward__fill {
   height: 100%;
   border-radius: 999px;
-  /* 由品牌淺藍推向金 —— 越接近獎品越暖，條棒本身就係一個訊號 */
-  background: linear-gradient(90deg, var(--accent) 0%, #a8d8e4 45%, #e8cf9a 100%);
+  background: linear-gradient(90deg, #6da3b5, #2b4c58);
   transition: width 600ms var(--ease-out);
 }
+/* $400 嗰點喺 $500 條棒上面即係 80% */
 .reward__tick {
   position: absolute; top: -3px;
-  width: 2px; height: 14px;
-  background: rgba(255, 255, 255, 0.42);
+  width: 2px; height: 12px;
+  background: rgba(43, 76, 88, 0.38);
 }
 
 .reward__marks {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  font-size: 0.75rem;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
 }
-.reward__marks .is-hit { color: #e8cf9a; font-weight: 700; }
-.reward__marks .is-hit::before { content: '\2713 '; }
+.reward__marks .is-hit { color: var(--primary-deep); font-weight: 600; }
+.reward__marks .is-hit::before { content: '✓ '; }
 
 .reward__line {
   margin: var(--space-md) 0 0;
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
 }
-/* 「再買 HK$41」嗰個數字 —— 老闆要求用第二隻色標示。
-   金 ＋ 大一級 ＋ 700，喺深藍底上面係全張卡最搶眼嗰樣。 */
-.reward__line strong {
-  color: #e8cf9a;
-  font-weight: 700;
-  font-size: 1.12em;
-  letter-spacing: 0.01em;
-}
-.reward__line b { color: #fff; font-weight: 700; }
-
-/* 取代咗原本嗰堆加購推薦（老闆：「成嚿嘢好長好大嚿，人哋未必會咁樣喺度買」）。
-   一個掣送客返去自己揀，比列三件貨叫佢即場加入誠實 —— 佢想買咩我哋估唔到。 */
-.reward__cta {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  width: 100%; margin-top: var(--space-md);
-  padding: 12px 18px; border: 0; border-radius: 999px;
-  background: #fff; color: var(--dark-base);
-  font-family: var(--font-body); font-size: 0.875rem; font-weight: 700;
-  letter-spacing: 0.02em; text-decoration: none; cursor: pointer;
-  transition: transform var(--duration-fast) var(--ease-out),
-              box-shadow var(--duration-fast) var(--ease-out);
-}
-.reward__cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5); }
-.reward__cta:focus-visible { outline: 2px solid #e8cf9a; outline-offset: 3px; }
-.reward__cta .ico { width: 15px; height: 15px; }
+.reward__line strong { color: var(--primary-deep); font-weight: 700; }
 
 .gap { margin-top: var(--space-lg); }
 .gap__title {
@@ -12583,62 +12519,652 @@ body::before { opacity: 0.18; }
 /* ⚠️ 第二版用過紅底紅字 ＋ 紅色驚嘆號，老闆話「太有警戒感，啲人可能
    會驚後面有啲咩事」。改用琥珀金 —— 一樣跳出嚟（成版係冷藍灰，暖色
    最搶眼），但語氣係「提你一句」唔係「出事喇」。個圓章由「!」改「i」。 */
-/* 取件點面板（2026-09-03）：而家係 .ship-mode 深藍卡入面嘅子元素。
-   白底內卡 ＋ 深藍字 —— 藍上面再疊藍會糊，白色反而令「要喺呢度揀」跳出嚟。 */
-.sfp {
-  margin-top: var(--space-sm);
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 6px 20px -12px rgba(0, 0, 0, 0.5);
-}
-/* 未揀點就撳結帳 —— 紅底提示 ＋ 面板震一震（老闆要求擋住佢） */
 .sfp__err {
   margin: 0; padding: 11px var(--space-md);
-  background: #fdecea; color: #a4302a;
+  background: rgba(232, 122, 110, 0.22); color: #ffd9d4;
   font-size: 0.8125rem; font-weight: 700; line-height: 1.45;
-  border-bottom: 1px solid rgba(164, 48, 42, 0.18);
 }
 @keyframes sfpShake {
-  0%,100% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(6px); }
-  60% { transform: translateX(-4px); }
-  80% { transform: translateX(4px); }
+  0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
 }
 .sfp.is-shake { animation: sfpShake 420ms var(--ease-out); }
 @media (prefers-reduced-motion: reduce) { .sfp.is-shake { animation: none; } }
-
 .sfp__hint {
   display: flex; align-items: center; gap: 8px;
-  margin: 0; padding: 11px var(--space-md);
-  background: rgba(232, 207, 154, 0.22);
-  border-bottom: 1px solid rgba(43, 76, 88, 0.1);
-  font-size: 0.8125rem; font-weight: 700; color: var(--dark-base);
+  margin: 0; padding: 12px var(--space-md);
+  background: rgba(232, 207, 154, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.8125rem; font-weight: 700; color: #e8cf9a;
 }
+.sfp__hint-t { min-width: 0; }
 .sfp__hint-mark {
   flex: none; width: 18px; height: 18px; border-radius: 999px;
-  background: var(--gold-deep, #7a5c2e); color: #fff;
+  background: #e8cf9a; color: var(--dark-base);
   font-size: 0.6875rem; font-weight: 700; font-style: normal;
   display: inline-flex; align-items: center; justify-content: center;
 }
+.sfp__hint b {
+  font-weight: 700; color: #6b4409;
+  box-shadow: inset 0 -0.42em 0 rgba(240, 190, 74, 0.45);
+}
+
+/* 加購清單底下嘅「查看更多」。做成一條淺色橫掃嘅掣，唔搶「加入」
+   同「揀色號」嗰兩個主要動作。 */
+.gap__more { margin-top: 10px; }
+.gap__more-btn {
+  display: block; width: 100%; padding: 9px 12px;
+  border: 1px dashed var(--border-light); border-radius: 10px;
+  background: transparent; color: var(--primary-deep);
+  font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600;
+  text-align: center; text-decoration: none; cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.gap__more-btn:hover { background: #fff; border-color: var(--primary); }
+.gap__more-btn--link { border-style: solid; }
+
+/* ============================================================
+   滿 $500 送面霜 —— 條進度棒最右邊擺住支獎品，輕輕彈
+   支圖係由 Shopify 原相 flood-fill 去背（背景 #99d6f5 純色，
+   容差要收窄到 max-channel ≤ 22 —— 用鬆容差會連白色樽身一齊食走，
+   實測第一次就係咁蝕咗）。右邊嗰道乳霜印裁走咗，icon 細，留住變雜訊。
+   ============================================================ */
+/* 兩件獎品同下面兩個標籤上下對齊（左＝免運 $400、右＝送面霜 $500）。
+   ⚠️ 試過將紙箱擺去條棒 80% 嗰點對正 tick —— 80% 同 100% 之間得 51px，
+   兩隻 icon 加埋 92px，實測重疊 16px。標籤本身就係左右分邊，跟返標籤
+   反而睇得明啲，亦都唔會撞。 */
+.reward__goal {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  height: 62px; margin-bottom: 6px;
+}
+.reward__prize {
+  display: block;
+  transform-origin: 50% 100%;
+  animation: prize-bob 1.9s ease-in-out infinite;
+}
+.reward__prize--ship { animation-delay: -0.95s; }
+.reward__jar { display: block; width: 46px; height: auto;
+  filter: drop-shadow(0 6px 9px rgba(43, 76, 88, 0.2)); }
+.reward__box { display: block; width: 42px; height: 42px;
+  filter: drop-shadow(0 5px 7px rgba(43, 76, 88, 0.18)); }
+@keyframes prize-bob {
+  0%, 100% { transform: translateY(0) rotate(-2.5deg); }
+  50%      { transform: translateY(-8px) rotate(2.5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reward__prize { animation: none; }
+}
+
+/* ============================================================
+   每頁一隻芝麻 —— 貼圖企喺頁面標題上面
+   老闆：「儘量每一頁都有芝麻嘅圖案喺度，總之所有頁面都要整一個
+   符合嗰個頁面嘅芝麻貼圖」。所以唔係得首頁同購物袋，係全站。
+   靜態貼圖 ＋ 輕微 idle 浮動就夠，唔使每頁都做六格分解圖（嗰個貴好多，
+   而且會拖慢每一頁）。
+   ============================================================ */
+.shima-page { display: flex; justify-content: center; margin-bottom: 10px; }
+/* ⚠️ 一定要 `> img` —— 六格動畫嘅 <img> 係 .shima-page 嘅孫，
+   寫 `.shima-page img` 就會連格仔一齊食（specificity 0,1,1 贏
+   .shima__f 嘅 0,1,0），格仔會縮到 104px 塞喺個盒中間。 */
+.shima-page > img {
+  display: block;
+  width: clamp(104px, 12vw, 140px);
+  height: auto;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
+  animation: shima-idle 3.6s ease-in-out infinite;
+}
+@keyframes shima-idle {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50%      { transform: translateY(-6px) rotate(1.5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shima-page img { animation: none; }
+}
+
+/* 分類頁（.cat-head）唔可以用置中大貼圖 —— 呢啲頁面量過「第一件貨喺
+   幾多 px」，加一舊嘢落標題上面等於將啲貨推低。所以貼喺標題帶右下角，
+   絕對定位，唔佔垂直空間。.cat-head 本身係 position:relative ＋
+   overflow:hidden，所以要開 min-height 保證隻貓唔會俾切到頭。 */
+.cat-head { min-height: clamp(132px, 15vw, 180px); }
+.shima-corner {
+  position: absolute;
+  right: clamp(10px, 3vw, 44px);
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.shima-corner > img {
+  display: block;
+  height: clamp(96px, 11vw, 138px);
+  width: auto;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
+  animation: shima-idle 3.6s ease-in-out infinite;
+}
+/* 手機淨低嘅闊度唔多，隻貓要細啲兼半透明啲，唔好壓住個標題同件數 */
+@media (max-width: 640px) {
+  .shima-corner > img, .shima-corner .shima { height: 84px; opacity: .92; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shima-corner > img { animation: none; }
+}
+
+/* 呢幾個 hero 各有各風格（獲獎係深啡金、全部產品係 XP 開機畫面、彩妝
+   係貼紙相機），芝麻貼落角落唔可以撐大佢哋，亦都要確保個容器係
+   position:relative 先錨得住。 */
+.awards-hero, .shop-boot, .makeup-booth, .product-detail { position: relative; }
+/* 深色 hero 上面要多少少光邊，唔係隻貓會黐住個底 */
+.awards-hero .shima-corner > img { filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .45)); }
+/* XP 開機畫面最底有條 46px 工具列 —— 芝麻要企喺工具列上面，唔可以
+   俾佢切一半（實測貓底部 533px、工具列由 487px 開始，蓋咗 46px）。
+   同時要避開右邊「其他」個資料夾貼紙，所以縮細少少兼貼實右邊。 */
+.shop-boot .shima-corner { bottom: 46px; right: clamp(6px, 1.5vw, 20px); }
+.shop-boot .shima-corner > img, .shop-boot .shima-corner .shima { height: clamp(84px, 8vw, 108px); }
+/* 貼紙牆本身層層疊，芝麻要疊喺最面 —— 唔係會俾右邊嗰嚿粉紅爆炸形
+   （.makeup-booth__burst，實測 x 1198–1418）遮咗半隻。 */
+.makeup-booth .shima-corner { z-index: 6; right: clamp(16px, 3vw, 52px); }
+.skincare-booth { position: relative; }
+/* 品牌頁係一個 XP 視窗。⚠️ .bxp__menu 同 .bxp__crumb 喺闊機係
+   display:none（實測 0×0），錨唔住 —— 要用 .bxp__body。個視窗成
+   1883px 高，所以貼右上角，唔係右下角（右下角等於成頁最底）。 */
+.bxp__body { position: relative; }
+.bxp__body .shima-corner { top: clamp(6px, 1vw, 18px); bottom: auto; right: clamp(12px, 2vw, 32px); }
+.bxp__body .shima-corner > img { height: clamp(70px, 6.5vw, 96px); }
+/* 手機版：分類頁隻貓企喺右下角，會壓住 .cat-head__desc 最後嗰兩行
+   （實測 lens.html 手機版「現貨嘅度數一樣」俾隻貓遮咗）。讓返條巷。 */
+@media (max-width: 640px) {
+  .cat-head .shima-corner > img, .cat-head .shima-corner .shima { height: 76px; }
+  .cat-head__desc { padding-right: 82px; }
+}
+
+/* 收款方式標籤 —— 四個平起平坐嘅同級標籤，唔係層級。字級刻意一致，
+   而且係成版最靜嗰一級（比 .cart-summary__note 嘅 0.75rem 再細一級）。 */
+.pay-marks {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+}
+
+/* 主要瀏覽頁（護膚／彩妝／全部產品）唔用靜態貼圖，用六格連續動作。
+   老闆：「你唔需要每一個產品頁面都有嗰啲貼圖動畫，你只需要喺主畫面
+   嗰度有就得㗎啦」—— 所以淨係呢三頁 ＋ 首頁 ＋ 購物袋。
+   ⚠️ .shima 係 position:relative，.shima-corner 係 position:absolute，
+   兩個唔可以撈埋喺同一個 element 度 —— 要 .shima-corner 包住 .shima。 */
+.shima-corner .shima {
+  height: clamp(96px, 11vw, 138px);
+  aspect-ratio: 3 / 4;
+  width: auto;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.16));
+}
+/* 水光貼紙相機一樣係層層疊：相紙 z=5、閃光罩 z=20。芝麻要企喺最面，
+   唔係右邊嗰疊相紙會遮住佢（實測貓 x 1293–1397，相紙去到 1332）。 */
+.skincare-booth .shima-corner { z-index: 21; right: clamp(8px, 1.5vw, 26px); }
+/* 推車嗰套係打橫（360×~290），唔同搽面霜／拍腮紅嗰兩套打戙，
+   所以要單獨寫返個比例，唔係隻貓會俾壓扁。 */
+.shop-boot .shima-corner .shima { aspect-ratio: 5 / 4; }
+
+/* ⚠️ 呢段一定要喺 .shima-corner .shima 個 clamp() 之後 —— 兩條規則
+   specificity 一樣，後寫嗰條先贏。之前手機版嗰條寫咗喺前面，
+   實測完全冇生效（護膚頁隻貓喺手機仲係 96px 高）。 */
+@media (max-width: 640px) {
+  .shima-corner .shima { height: 84px; opacity: .92; }
+  /* 護膚頁手機版：個貼紙相機底部排晒八張分類 tile，右下角冇位 ——
+     縮細都仲係壓住「防曬」個標籤（實測貓 366–446、tile 369–431）。
+     而家索性收起：手機版嗰陣 Skin Control Panel 個藍色橫幅已經有一隻
+     芝麻（.dl__cat-strip，桌面版反而係 display:none），一頁兩隻反而多餘。 */
+  .skincare-booth .shima-corner { display: none; }
+  /* 彩妝頁：貓右邊本來留咗 16px，結果左邊撞正「修容」張貼紙 8px
+     （實測貓 296–359、貼紙 224–304）。貼實右邊就讓開。 */
+  .makeup-booth .shima-corner { right: 0; }
+}
+
+/* 「騎住條界」擺法 —— 老闆：「你唔係一定擺喺某一個 session 㗎嘛，
+   你可以跨 session 㗎嘛。即係你可以擺下面嗰個位置，即係有少少立體
+   感覺都得㗎。」
+   貼紙牆／開機畫面入面已經逼滿貼紙，喺入面點擺都會撞。搬出嚟擺喺
+   下面嗰個 section 嘅頂部，用負 top 騎返上去 —— 隻貓一半喺上面一半
+   喺下面，睇落係企喺條界上面，有前後層次，而且下面條 breadcrumb 行
+   右邊本來就係吉，撞唔到嘢。 */
+.shima-corner--straddle {
+  position: absolute;
+  right: clamp(8px, 3vw, 40px);
+  bottom: auto;
+  z-index: 4;
+  pointer-events: none;
+}
+.container:has(> .shima-corner--straddle) { position: relative; }
+.shima-corner--straddle .shima {
+  height: clamp(96px, 11vw, 138px);
+  aspect-ratio: 3 / 4;
+  width: auto;
+  filter: drop-shadow(0 10px 16px rgba(43, 76, 88, 0.22));
+}
+/* ⚠️ 試過騎上去 42%，一樣撞 —— 貼紙牆最底嗰行分類貼紙去到 y=435，
+   貼紙牆自己去到 446，即係中間得 11px 吉位，點騎都會壓住「修容」。
+   所以 top:0，成隻貓企喺條界下面。層次靠 drop-shadow 做，唔靠疊。
+   下面條 breadcrumb 行嘅字全部喺左邊，右邊本來就係吉。 */
+.shima-corner--straddle { top: 0; }
+@media (max-width: 640px) {
+  .shima-corner--straddle .shima { height: 88px; }
+  .shima-corner--straddle { right: 6px; }
+}
+/* 貼紙牆本身就係層層疊，芝麻做「最面嗰張貼紙」——佢自己有白色剪裁
+   外框，疊住其他貼紙係呢個風格本身嘅樣，重點係佢一定要喺最面。
+   老闆嗰張截圖入面隻貓係俾「修容」同粉紅爆炸形壓住咗，睇唔到。 */
+.makeup-booth .shima-corner { z-index: 30; }
+.skincare-booth .shima-corner { z-index: 30; }
+.shop-boot .shima-corner { z-index: 30; }
+
+/* 手機版：貼紙牆同開機畫面喺 375px 已經逼到冇位。實測用 72×90 嘅窗
+   掃成塊貼紙牆，完全撞唔到嘅位置係 0 個 —— 即係點擺都會壓住一個
+   分類掣（試過壓住「修容」，成個標籤唔見咗）。
+   所以手機版收起，改為喺下面條導航列出芝麻（每一頁都見到，仲好）。 */
+/* 貼紙牆／開機畫面本來擺過一隻，後來連 markup 都剷咗 ——
+   兩版嘅芝麻而家統一喺幼優惠條入面（.promo-slim__cat）。 */
+
+/* 會員：唔用線稿人像，用芝麻個頭（彩色）。老闆：「唯獨是會員嗰個，
+   轉做彩色嘅 logo，嗰個頭像咯」。其餘四粒維持返原本嘅線稿。
+   圓形裁切 ＋ 一圈半透明白邊，喺半透明藍玻璃上面先分得開。 */
+@media (max-width: 768px) {
+  .mobile-bottom-nav__face {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.55);
+  }
+}
+
+/* ══════════ 芝麻動畫盒喺各處嘅擺位 ══════════ */
+
+/* 首頁「想搵咩？」隻貓：本來係一張 <img> 用 object-fit 貼左下角，
+   而家變咗個六格盒。⚠️ .shima 係 position:relative，寫喺呢個檔後面，
+   specificity 一樣就會贏咗上面 .home-skin-cat__mascot 嘅 absolute ——
+   所以要用 .shima.home-skin-cat__mascot（0,2,0）搶返。
+   六格要貼左下角，唔可以 margin:0 auto 置中（隻貓會飄去中間）。 */
+.shima.home-skin-cat__mascot { position: absolute; }
+/* 要學返原本 <img> 嗰個 object-fit:contain 嘅行為 —— 用 height:100%
+   個盒係 322×410，隻貓就變 371 闊，爆出格兼大咗一大截（實測手機版
+   隻貓大到食晒成個畫面）。呢套招手圖六格畫布一模一樣（297×360），
+   所以用 max-width/max-height 唔會出現每格縮放唔同嘅問題。 */
+.home-skin-cat__mascot .shima__f {
+  inset: auto auto 0 0;
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+/* 窄機個 mascot 係置中貼底（object-position: center bottom） */
+@media (max-width: 900px) {
+  .home-skin-cat__mascot .shima__f { inset: auto 0 0 0; margin: 0 auto; }
+}
+
+/* 空購物袋：芝麻招手叫你入去揀嘢 */
+.shima--empty {
+  width: 150px; height: 182px;
+  margin: 0 auto 20px;
+}
+
+/* Footer 鞠躬。⚠️ 本來 in-flow 擺喺 footer 最上面 —— 老闆：「你搞到
+   section 大咗，你應該擺喺下面嗰啲空白位置㗎嘛」。啱：嗰個擺法將
+   footer 撐高咗 206px。
+   而家絕對定位，塞入最底嗰行本身已經吉咗嘅位：版權喺左（去到 x=263）、
+   條款連結喺右（由 x=1256 開始），中間成 993px 係吉；再落面仲有 48px
+   footer padding。隻貓企喺嗰度，footer 一 px 都冇加高。 */
+/* 老闆：「我想你擺喺『聯絡我們』下面嗰啲空白位置⋯⋯即係嗰個左右平衡。」
+   footer 四欄入面「選購」最長（去到最底），「客戶服務」得三條就完，
+   右下角空咗一大忽。隻貓填返嗰度：左邊有品牌塊、右邊有隻貓，左右
+   先平衡得返。
+   ⚠️ 錨喺 .footer__grid 度，唔係 .footer —— 錨 .footer 會跌落最底
+   嗰條版權線上面，變咗騎住條線（老闆截圖就係咁）。
+   個 grid 高度由最長嗰欄決定，隻貓絕對定位塞入去，footer 唔會加高。 */
+.footer__grid { position: relative; }
+.shima--bow {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  transform: none;
+  width: auto;
+  height: 176px;
+  aspect-ratio: 285 / 360;
+  margin: 0;
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+}
+
+/* 手機中段嘅芝麻窄帶 —— 老闆：「冇人話一定要擺喺 header 嘅位置⋯⋯
+   下面啲位都有得擺㗎嘛」。彩妝同全部產品兩版嘅 hero 喺 375px 真係
+   逼到零吉位（實測 86×104 嘅窗掃成版，0 個位唔撞），所以喺品牌條
+   下面開返條自己嘅窄帶，隻貓有位企，撞唔到任何嘢。 */
+/* 桌面版都用呢條帶 —— 老闆指住品牌條同「篩選／排序」之間嗰忽吉位：
+   「可以擺喺呢個位置㗎嘛，你唔會遮住嗰啲嘢咯」。啱，塊 hero 逼到冇位
+   就唔好死擠，呢度先係真係有位。 */
+.shima-band {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 clamp(14px, 3vw, 40px);
+  margin: -10px 0 -6px;
+  pointer-events: none;
+}
+.shima-band .shima {
+  width: clamp(120px, 13vw, 178px);
+  aspect-ratio: 3 / 4;
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(43, 76, 88, 0.18));
+}
+/* 推車嗰套打橫（360×290），比例唔同，唔寫返會俾壓扁 */
+.shima-band--wide .shima { width: clamp(150px, 17vw, 232px); aspect-ratio: 5 / 4; }
+@media (max-width: 640px) {
+  .shima-band { padding: 0 12px; margin: -6px 0 2px; }
+  .shima-band .shima { width: 104px; }
+  .shima-band--wide .shima { width: 136px; }
+}
+
+/* 老闆：「有部分頁面呢，太細個喇，芝麻嗰個動畫。」整大一級。
+   ⚠️ 唔可以寫 `.shima-page img` —— 六格動畫嘅 <img> 全部係
+   position:absolute，畀佢哋落 width 個盒就會塌（實測盒變 0×0）。
+   要落喺個盒（.shima）度，格仔自己會用 height:100% 填滿。 */
+.shima-page > img { width: clamp(140px, 16vw, 196px); }
+.shima-page .shima { width: clamp(140px, 16vw, 196px); height: auto; }
+.shima-corner > img, .shima-corner .shima { height: clamp(124px, 13vw, 170px); }
+
+.shima--empty { width: 186px; height: 226px; }
+@media (max-width: 640px) {
+  .shima-page > img, .shima-page .shima { width: 148px; }
+  .shima-corner > img, .shima-corner .shima { height: 104px; }
+  /* 手機版最底嗰行係上下疊，中間唔再係吉位 —— 改為貼右下角，
+     縮細到啱啱塞入 footer 嗰 48px padding 加少少，唔會撐高個 footer。 */
+  /* 手機版最底嗰行係上下疊，中間唔再係吉位 —— 改為貼右下角。
+     ⚠️ 版權嗰行去到 x=295，隻貓 92px 高嗰陣由 x=294 開始，啱啱掂到。
+     縮到 84px（由 x≈307 開始）就讓開。 */
+  /* 手機版四欄變上下疊，最後一欄就係「客戶服務」，右下角一樣係吉位。 */
+  .shima--bow { height: 108px; right: 0; bottom: 0; }
+  .shima--empty { width: 150px; height: 182px; }
+}
+
+/* 每套動作嘅畫布比例唔同（打橫定打戙），唔寫返就會俾壓扁。 */
+.shima:has(img[src*="shima-about1.webp"]) { aspect-ratio: 0.806; }
+.shima:has(img[src*="shima-awards1.webp"]) { aspect-ratio: 0.836; }
+.shima:has(img[src*="shima-bodycare1.webp"]) { aspect-ratio: 1.44; }
+.shima:has(img[src*="shima-bow1.webp"]) { aspect-ratio: 0.792; }
+.shima:has(img[src*="shima-brands1.webp"]) { aspect-ratio: 1.132; }
+.shima:has(img[src*="shima-column1.webp"]) { aspect-ratio: 1.208; }
+.shima:has(img[src*="shima-contact1.webp"]) { aspect-ratio: 1.333; }
+.shima:has(img[src*="shima-faq1.webp"]) { aspect-ratio: 0.772; }
+.shima:has(img[src*="shima-fragrance1.webp"]) { aspect-ratio: 0.883; }
+.shima:has(img[src*="shima-kpop1.webp"]) { aspect-ratio: 1.043; }
+.shima:has(img[src*="shima-lens1.webp"]) { aspect-ratio: 0.844; }
+.shima:has(img[src*="shima-lifestyle1.webp"]) { aspect-ratio: 1.139; }
+.shima:has(img[src*="shima-match1.webp"]) { aspect-ratio: 0.897; }
+.shima:has(img[src*="shima-mk1.webp"]) { aspect-ratio: 0.75; }
+.shima:has(img[src*="shima-privacy1.webp"]) { aspect-ratio: 0.953; }
+.shima:has(img[src*="shima-shipping1.webp"]) { aspect-ratio: 1.118; }
+.shima:has(img[src*="shima-shop1.webp"]) { aspect-ratio: 1.237; }
+.shima:has(img[src*="shima-skin1.webp"]) { aspect-ratio: 0.739; }
+.shima:has(img[src*="shima-story1.webp"]) { aspect-ratio: 0.769; }
+.shima:has(img[src*="shima-terms1.webp"]) { aspect-ratio: 0.966; }
+.shima:has(img[src*="shima-wave1.webp"]) { aspect-ratio: 0.825; }
+.shima:has(img[src*="shima-acct1.webp"]) { aspect-ratio: 0.722; }
+.shima:has(img[src*="shima-wish1.webp"]) { aspect-ratio: 0.929; }
+
+/* Loading 畫面隻眨眼芝麻。四格疊住，一次顯示一格 —— 同 .shima 一樣
+   嘅做法，但用自己一套 class，因為佢唔應該俾 initShimaFrames() 抓去
+   不停 loop（見 index.html 嗰段 inline script）。 */
+/* ⚠️ 隻貓唔可以擺喺個 OUJI 字上面 —— 咁樣會將個字推離畫面正中
+   （老闆：「又令到 OUJI 嗰個標誌變咗唔係置中，你要就嗰個 logo」）。
+   個 loader 維持單純置中，隻貓絕對定位喺右下角，由畫面底邊探上嚟：
+   佢本身就係半身、對前爪搭出嚟嘅畫法，貼實底邊就啱啱好似趴喺度望你。 */
+.loader-cat {
+  position: absolute;
+  /* 老闆：「而家太右啦，喺電腦版嗰度啲嘢未必睇到」—— 闊機唔可以貼實
+     右邊，要收返入嚟啲。用 % 唔用固定 px：闊機自然收得多。 */
+  right: clamp(8px, 3.2vw, 44px);
+  bottom: 0;
+  /* 老闆：「放大啲啦，而家有啲細隻。」大咗約三成。
+     ⚠️ 大得滯會撞正中間個 OUJI 字 —— 佢係 clamp(4rem,12vw,8rem)，
+     喺 1280 闊嗰陣佔 x 396–884、y 308–512。所以一路要量住兩者
+     有冇疊，唔可以淨係加數字。 */
+  width: clamp(170px, 27vw, 340px);
+  aspect-ratio: 260 / 247;
+  /* ⚠️ 唔可以用 drop-shadow —— 隻貓有白色貼紙外框，drop-shadow 會沿住
+     個框畫一圈，喺深藍底上面睇落好似起晒格（老闆：「個陰影起曬格仔，
+     就唔好要啦」）。索性唔要。 */
+  /* ⚠️ fill-mode 要 both 唔可以淨係 backwards —— 用 backwards 實測隻貓
+     會停喺 0% 嗰個狀態（向下 46%、歪 4 度），即係成隻貓有一半跌出畫面
+     底邊。both 會鎖實 100%，彈完就企定喺底邊上面。 */
+  animation: loaderCatPeek 0.62s cubic-bezier(.18, 1.1, .36, 1) 0.15s both;
+}
+/* 由底邊彈上嚟 —— 靜靜哋淡入太悶，彈一下先似隻貓爬上嚟偷望 */
+@keyframes loaderCatPeek {
+  0%   { transform: translateY(46%) rotate(-4deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+.loader-cat__f {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.loader-cat__f.is-on { opacity: 1; }
+
+/* ============================================================
+   幼優惠條 —— 首頁個大 banner 嘅縮水版，擺喺每一版產品列表
+   嘅產品格上面。老闆：「如果啲人一入嚟就剷全部產品頁面，佢未必知
+   有咩優惠。」重點係「一眼掃到三個優惠」，唔係再做多次主視覺，
+   所以高度壓到 ~92px、唔用大圖、唔用動畫。
+   ============================================================ */
+.promo-slim {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2.4vw, 28px);
+  margin: var(--space-lg) 0 var(--space-md);
+  padding: 12px clamp(14px, 2.4vw, 24px);
+  border: 1px solid rgba(109, 163, 181, 0.28);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f2f8fa 0%, #e7f1f4 100%);
+}
+.promo-slim__jar {
+  flex: none; width: auto; height: 68px;
+  filter: drop-shadow(0 4px 7px rgba(43, 76, 88, 0.18));
+}
+.promo-slim__head { margin: 0; flex: none; line-height: 1.25; }
+.promo-slim__head b {
+  display: block;
+  font-family: var(--font-display, var(--font-body));
+  font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+  font-weight: 600; color: var(--primary-deep);
+}
+.promo-slim__head span { font-size: 0.75rem; color: var(--text-tertiary); letter-spacing: .03em; }
+/* 中間兩級門檻 —— 呢度先係實質資訊，闊機一行、窄機兩行 */
+.promo-slim__list {
+  display: flex; flex-wrap: wrap; gap: 4px clamp(14px, 2.4vw, 30px);
+  margin: 0; padding: 0 0 0 clamp(12px, 2vw, 24px);
+  list-style: none; flex: 1 1 auto;
+  border-left: 1px solid rgba(43, 76, 88, 0.16);
+  font-size: 0.8125rem; color: var(--text-secondary);
+}
+.promo-slim__list b { color: var(--primary-deep); font-weight: 700; }
+.promo-slim__list em {
+  margin-left: 6px; padding: 1px 6px; border-radius: 999px;
+  background: #d9534f; color: #fff;
+  font: 600 0.625rem/1.6 var(--font-body); font-style: normal;
+}
+.promo-slim__end {
+  margin: 0; flex: none; text-align: right;
+  font-size: 0.75rem; color: var(--text-tertiary); line-height: 1.5;
+}
+.promo-slim__end span { display: block; }
+.promo-slim__end b { color: var(--primary-deep); font-weight: 700; }
+
+@media (max-width: 760px) {
+  /* 窄機：面霜 ＋ 標題一行，兩級門檻落第二行，倒數縮到標題隔籬 */
+  .promo-slim { flex-wrap: wrap; gap: 10px 14px; padding: 12px 14px; }
+  .promo-slim__jar { height: 52px; }
+  .promo-slim__head { flex: 1 1 auto; }
+  .promo-slim__list {
+    flex: 1 1 100%; order: 3; padding: 8px 0 0; border-left: 0;
+    border-top: 1px solid rgba(43, 76, 88, 0.14);
+  }
+  .promo-slim__end { text-align: right; }
+}
+
+/* 芝麻塞入幼優惠條入面本來就吉咗嗰忽（右邊、倒數隔籬）。
+   老闆：「貓貓嘅貼圖動畫係應該跟嗰個畫面嘅，而唔係個畫面就佢。
+   你唔好又浪費啲咁有限嘅空間俾佢用。」
+   所以：絕對定位（唔撐高條 strip 一 px）＋ 條 strip 讓返條巷畀佢企。
+   隻貓高過條 strip，會探出上面 —— 上面係麵包屑行嘅右邊吉位，撞唔到嘢。 */
+.promo-slim { position: relative; }
+.promo-slim:has(.promo-slim__cat) { padding-right: clamp(120px, 15vw, 210px); }
+.promo-slim__cat {
+  position: absolute;
+  right: clamp(8px, 1.5vw, 20px);
+  bottom: 0;
+  height: clamp(96px, 11vw, 138px);
+  aspect-ratio: 3 / 4;
+  width: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.18));
+}
+.promo-slim__cat .shima { width: 100%; height: 100%; }
+/* 推車嗰套打橫，比例唔同，唔寫返會俾壓扁 */
+.promo-slim__cat:has(img[src*="shima-shop1"]) { aspect-ratio: 5 / 4; height: clamp(86px, 9.5vw, 120px); }
+@media (max-width: 760px) {
+  .promo-slim:has(.promo-slim__cat) { padding-right: 92px; }
+  .promo-slim__cat { height: 84px; right: 6px; }
+  .promo-slim__cat:has(img[src*="shima-shop1"]) { height: 74px; }
+}
+
+/* ============================================================
+   優惠彈卡 —— 入嚟 12 秒之後喺右下角滑出，撳 ✕ 或者撳咗入去揀貨
+   就當日唔再彈。整段由 script.js 生成（見 initPromoPop）。
+   窄機唔用「右下角細卡」，改成貼底橫幅：手機右下角本身已經有條
+   固定導航列，再擺張卡落去就會疊。
+   ============================================================ */
+.promo-pop {
+  position: fixed;
+  right: clamp(12px, 2.4vw, 28px);
+  bottom: clamp(12px, 2.4vw, 28px);
+  z-index: 1900;               /* 低過導航列（2000），唔會蓋住返回路 */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(340px, calc(100vw - 24px));
+  padding: 14px 16px 14px 12px;
+  border: 1px solid rgba(109, 163, 181, 0.34);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f4fafb 0%, #e7f1f4 100%);
+  box-shadow: 0 14px 40px rgba(30, 60, 72, 0.22);
+  opacity: 0;
+  transform: translateY(14px) scale(.98);
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
+}
+.promo-pop.is-in { opacity: 1; transform: none; }
+.promo-pop__cat { flex: none; width: 84px; height: auto; }
+.promo-pop__body { min-width: 0; }
+.promo-pop__title {
+  display: block;
+  font-family: var(--font-display, var(--font-body));
+  font-size: 1.35rem; font-weight: 600; line-height: 1.15;
+  color: var(--primary-deep);
+}
+.promo-pop__list {
+  margin: 6px 0 0; padding: 0; list-style: none;
+  font-size: 0.8125rem; line-height: 1.65; color: var(--text-secondary);
+}
+.promo-pop__list b { color: var(--primary-deep); font-weight: 700; }
+.promo-pop__end { margin: 4px 0 0; font-size: 0.6875rem; color: var(--text-tertiary); }
+.promo-pop__end b { color: var(--primary-deep); }
+.promo-pop__go {
+  display: inline-block; margin-top: 8px;
+  font-size: 0.8125rem; font-weight: 600; color: var(--primary-deep);
+  text-decoration: none; border-bottom: 1px solid currentColor;
+}
+.promo-pop__x {
+  position: absolute; top: 6px; right: 8px;
+  width: 30px; height: 30px; padding: 0;
+  border: 0; border-radius: 50%; background: transparent;
+  color: var(--text-tertiary); font-size: 1.35rem; line-height: 1;
+  cursor: pointer;
+}
+.promo-pop__x:hover { background: rgba(43, 76, 88, .08); color: var(--primary-deep); }
+
+@media (max-width: 560px) {
+  /* 手機底部有條 fixed 導航列（62px＋安全區），要讓開佢 */
+  .promo-pop {
+    left: 10px; right: 10px; width: auto;
+    /* 實測 72px 嗰陣張卡底邊仲係壓住條導航列 2px（導航列 62px ＋
+       安全區，加埋唔止 72）。88px 留返約 14px 罅。 */
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+  .promo-pop__cat { width: 68px; }
+  .promo-pop__title { font-size: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .promo-pop { transition: none; transform: none; }
+}
+
+/* ============================================================
+   順豐自提點揀選（購物袋頁）
+   ⚠️ 呢個唔喺 Shopify 結帳頁 —— 個結帳頁改唔到（唔係 Plus）。
+   喺自己個購物袋頁揀，揀完寫落 cart attributes 跟住張單過去。
+   ============================================================ */
+/* ⚠️ min-width: 0 唔可以少。flex item 預設 min-width:auto，個搜尋框
+   （<input>）縮唔細過佢自己嘅內建闊度（約 170px），結果成個 .sfp 嘅
+   min-content 變咗 364px，喺手機直接將 grid 欄撐到 462px —— 成版
+   購物袋啲字就會俾切走右邊（實測 375px 畫面，body scrollWidth 478）。 */
+/* 取件點揀選（2026-09-03 老闆指定）
+   「我話大嚿啲嗰嚿嘢，係揀『自提點 7-11』嗰嚿；我話變藍色，
+     講緊『7-11 自提點』嗰個位置」——
+   所以**只有呢格**用 footer 深藍（--dark-base），而唔係成個運送方式列表。
+   點解值得咁搶眼：呢格係整個購物袋入面最重要嘅一個決定，
+   而且未揀就唔畀結帳，一定要客見到。 */
+.sfp {
+  margin-top: var(--space-md);
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(158deg, #33596a 0%, var(--dark-base) 55%, #24404b 100%);
+  box-shadow: 0 10px 30px -18px rgba(43, 76, 88, 0.75);
+  color: #fff;
+}
+.sfp__panel, .sfp__filters, .sfp__list { min-width: 0; }
+/* 深藍底要留多啲白，唔係啲控制項會貼住邊 */
+.sfp__panel { padding: 0 var(--space-md) var(--space-md); }
+.sfp__district, .sfp__q { min-width: 0; }
+.sfp__item span { overflow-wrap: anywhere; }
+/* ⚠️ 呢行要 flex-wrap ＋ min-width:0。唔准 wrap 嘅話，
+   「順豐自提點（$25·滿$399免費）」＋ 右邊條 nowrap 嘅已揀膠囊夾埋
+   min-content 就 362px，成個 .sfp 縮唔細，喺手機直接將 grid 欄撐到
+   462px，成版購物袋右邊俾切走（實測 375px 畫面 body scrollWidth 478）。 */
 .sfp__toggle {
   display: flex; align-items: center; justify-content: space-between; gap: 8px 10px;
-  flex-wrap: wrap;
-  width: 100%; padding: 12px 14px; border: 0; background: #f4f8f9;
-  font-family: var(--font-body); font-size: 0.8125rem; color: var(--text-primary);
+  flex-wrap: wrap; width: 100%; padding: 14px var(--space-md);
+  border: 0; background: transparent;
+  font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: #fff;
   text-align: left; cursor: pointer;
 }
-.sfp__toggle:hover { background: #eaf2f4; }
+.sfp__toggle:hover { background: rgba(255, 255, 255, 0.08); }
 .sfp:has(.sfp__hint) .sfp__toggle { border-top: 0; }
 .sfp__toggle-label { min-width: 0; }
 .sfp__toggle-label em { font-style: normal; color: var(--text-tertiary); font-size: 0.75rem; }
 .sfp__chosen {
-  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 3px 9px; border-radius: 999px;
-  background: #fff; border: 1px solid var(--border-light);
-  font-size: 0.6875rem; color: var(--text-tertiary);
+  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 4px 10px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16); color: rgba(255, 255, 255, 0.9);
+  font-size: 0.75rem; font-weight: 600;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+.sfp__chosen.is-set { background: #e8cf9a; color: var(--dark-base); font-weight: 700; }
 .sfp__chosen.is-set { background: var(--primary-deep); border-color: var(--primary-deep); color: #fff; }
 .sfp__panel { padding: 12px 14px 14px; border-top: 1px solid var(--border-light); }
 /* 兩層地區（大區 → 分區）自己一行，搜尋框自己一行 ——
@@ -12668,7 +13194,7 @@ body::before { opacity: 0.18; }
   padding-right: 26px;
 }
 .sfp__q { grid-column: 1 / -1; }
-.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: var(--text-tertiary); }
+.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: rgba(255, 255, 255, 0.62); }
 /* 成 428 個網點，一定要限高兼自己捲，唔係成版購物袋會拉到好長 */
 .sfp__list { max-height: 320px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
 .sfp__item {
@@ -12681,7 +13207,7 @@ body::before { opacity: 0.18; }
 .sfp__item b { font-size: 0.6875rem; font-weight: 600; color: var(--primary-deep); }
 .sfp__item span { font-size: 0.8125rem; line-height: 1.45; color: var(--text-primary); }
 .sfp__item em { font-style: normal; font-size: 0.6875rem; color: var(--text-tertiary); }
-.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: var(--text-tertiary); text-align: center; }
+.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: rgba(255, 255, 255, 0.62); text-align: center; list-style: none; }
 
 /* ============================================================
    向下滑收起頂部，向上滑彈返出嚟
@@ -12986,81 +13512,49 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .poster__grid .card-rating { display: none; }
 
 
-/* ───── 點收貨？（2026-09-03 重做）──────────────────────────────
-   三級門檻：$99 自取（EC-GET 成本 $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
+/* ───── 運送方式選擇（2026-09-02 新增）─────────────────────────────
+   三級免運門檻：$99 自取（EC-GET 成本 $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
    成本越高、門檻越高。
 
-   老闆 2026-09-02：**一眼要睇得出「$99 免嘅係自取」**，唔可以令客以為
-   滿 $99 連送上門都免 —— 所以每個選項自己寫住自己嗰條門檻，
-   「滿 $99 免運費」呢種總述係禁止嘅。
+   老闆 2026-09-02 明確要求：**一眼要睇得出「$99 免嘅係自取」**，
+   唔可以令客以為滿 $99 連送上門都免。所以每個選項自己寫住自己嗰條門檻，
+   唔靠一句總述（「滿 $99 免運費」呢種寫法係禁止嘅）。
 
-   老闆 2026-09-03 再指正三點，呢版係回應：
-     ①「唔會咁樣左一個右一個，寧願一行過」→ 取件點面板由另一條 grid 欄
-        搬咗入嚟做子元素（根因係我之前少刪咗一個 </div>，令兩者跌咗出
-        .cart-layout 各佔一欄）。
-     ②「上面同下面兩嚿嘢有 overlap，其實係一樣嘅」→ 合併咗。
-     ③「呢嚿嘢應該做大嚿啲，用返 footer 嗰隻藍，因為呢個係好重要俾人揀嘢」
-        → 整塊做成 footer 深藍大卡；**揀中嗰個選項翻成白底**，
-        對比 9.22:1，一眼認得出「而家揀緊邊個」。 */
-.ship-mode {
-  margin: var(--space-lg) 0 var(--space-md);
-  padding: var(--space-lg);
-  border-radius: 16px;
-  background: linear-gradient(158deg, #33596a 0%, var(--dark-base) 55%, #24404b 100%);
-  box-shadow: 0 10px 30px -18px rgba(43, 76, 88, 0.75);
-  color: #fff;
-}
+   呢個係新 component，唔 override 任何舊規則。全部值攞 :root 個 token。 */
+.ship-mode { margin: var(--space-lg) 0 var(--space-md); }
 .ship-mode__head {
-  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72); margin: 0 0 var(--space-md);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-tertiary); margin: 0 0 var(--space-sm);
 }
 .ship-mode__grp {
-  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55); margin: var(--space-md) 0 var(--space-xs); padding-left: 2px;
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-tertiary); margin: var(--space-md) 0 var(--space-xs); padding-left: 2px;
 }
 .ship-mode__grp:first-of-type { margin-top: 0; }
-
-/* 兩種狀態靠一組 token 切換，唔使每個子元素寫兩次 */
 .ship-mode__opt {
-  --opt-fg: #fff;
-  --opt-dim: rgba(255, 255, 255, 0.66);
-  display: grid; grid-template-columns: 20px 1fr auto;
-  gap: var(--space-sm) var(--space-md); align-items: start;
-  padding: 14px var(--space-md); margin-bottom: 8px;
-  border-radius: 12px; cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.05);
-  transition: background var(--duration-fast) var(--ease-out),
-              border-color var(--duration-fast) var(--ease-out);
+  display: grid; grid-template-columns: 18px 1fr auto; gap: var(--space-sm) var(--space-md);
+  align-items: start; padding: 12px var(--space-sm); border-radius: 12px;
+  border: 1px solid transparent; cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
 }
-.ship-mode__opt:hover { background: rgba(255, 255, 255, 0.12); }
-.ship-mode__opt.is-on {
-  --opt-fg: var(--dark-base);
-  --opt-dim: rgba(43, 76, 88, 0.68);
-  background: #fff; border-color: #fff;
-  box-shadow: 0 6px 20px -10px rgba(0, 0, 0, 0.55);
-}
+.ship-mode__opt:hover { background: var(--gray-100); }
+.ship-mode__opt.is-on { background: var(--primary-lightest); border-color: var(--border-light); }
 .ship-mode__opt input { position: absolute; opacity: 0; pointer-events: none; }
 .ship-mode__dot {
-  width: 17px; height: 17px; border-radius: 999px; margin-top: 3px; position: relative;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  width: 16px; height: 16px; border-radius: 999px; border: 2px solid var(--gray-300);
+  margin-top: 3px; position: relative;
 }
-.ship-mode__opt.is-on .ship-mode__dot { border-color: var(--dark-base); }
+.ship-mode__opt.is-on .ship-mode__dot { border-color: var(--primary-dark); }
 .ship-mode__opt.is-on .ship-mode__dot::after {
-  content: ''; position: absolute; inset: 3px; border-radius: 999px; background: var(--dark-base);
+  content: ''; position: absolute; inset: 3px; border-radius: 999px; background: var(--primary-dark);
 }
-.ship-mode__opt:focus-within { outline: 2px solid #e8cf9a; outline-offset: 2px; }
-.ship-mode__name { font-size: 0.9375rem; font-weight: 700; line-height: 1.35; color: var(--opt-fg); }
-.ship-mode__sub { display: block; font-size: 0.75rem; color: var(--opt-dim); margin-top: 4px; line-height: 1.5; }
-.ship-mode__fee { font-size: 0.9375rem; font-weight: 700; text-align: right; white-space: nowrap; color: var(--opt-fg); }
+.ship-mode__opt:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ship-mode__name { font-size: 0.92rem; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
+.ship-mode__sub { display: block; font-size: 0.74rem; color: var(--text-tertiary); margin-top: 3px; line-height: 1.5; }
+.ship-mode__fee { font-size: 0.88rem; font-weight: 700; text-align: right; white-space: nowrap; color: var(--text-primary); }
 .ship-mode__free {
-  display: inline-block; padding: 3px 10px; border-radius: 999px;
-  font-size: 0.8125rem; font-weight: 700;
-  background: rgba(110, 201, 160, 0.18); color: #8fe0bb;
+  display: inline-block; background: rgba(47,122,92,0.12); color: #2f7a5c;
+  padding: 2px 9px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;
 }
-.ship-mode__opt.is-on .ship-mode__free { background: rgba(47, 122, 92, 0.14); color: #2f7a5c; }
-.ship-mode__was { display: block; font-size: 0.72rem; color: var(--opt-dim); text-decoration: line-through; font-weight: 400; margin-top: 3px; }
-/* 「再買 $X 就免」—— 深藍底上面用金（6.07:1），白底上面用深金（4.9:1） */
-.ship-mode__gap { display: block; font-size: 0.72rem; font-weight: 700; margin-top: 4px; color: #e8cf9a; }
-.ship-mode__opt.is-on .ship-mode__gap { color: var(--gold-deep, #7a5c2e); }
-
+.ship-mode__was { display: block; font-size: 0.68rem; color: var(--text-tertiary); text-decoration: line-through; font-weight: 400; margin-top: 2px; }
+.ship-mode__gap { display: block; font-size: 0.68rem; color: var(--gold-deep, #7a5c2e); font-weight: 600; margin-top: 3px; }
