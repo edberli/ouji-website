@@ -2280,12 +2280,12 @@ button.product-card__quick-add,
 .product-info__promo-card {
   position: relative;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr) 88px;
+  grid-template-columns: minmax(0, 1.12fr) minmax(174px, 0.88fr);
   align-items: center;
-  min-height: 126px;
+  min-height: 164px;
   overflow: hidden;
   margin: 0;
-  padding: 14px 16px 14px 4px;
+  padding: 18px 20px 18px 112px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -2307,11 +2307,15 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-cat {
-  align-self: end;
-  width: 103px;
+  position: absolute;
+  z-index: 1;
+  right: auto;
+  bottom: -22px;
+  left: 0;
+  width: 94px;
   max-width: none;
   height: auto;
-  margin: 0 0 -20px -9px;
+  margin: 0;
   filter: drop-shadow(0 8px 9px rgba(9, 31, 38, 0.24));
 }
 
@@ -2367,16 +2371,11 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin: 0 0 5px;
+  display: block;
+  margin: 0;
   color: #fff;
   font-family: var(--font-display, var(--font-body));
-  font-size: 2.35rem;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+  line-height: 1;
 }
 
 .product-info__promo-title span {
@@ -2396,8 +2395,25 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title em {
+  display: block;
+  margin-top: 4px;
   color: #ffd77a;
+  font-size: 4.65rem;
+  line-height: 0.86;
   font-style: normal;
+  letter-spacing: -0.025em;
+}
+
+.product-info__promo-gift-side {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 0 10px 14px;
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: center;
 }
 
 .product-info__promo-gift {
@@ -2424,9 +2440,19 @@ button.product-card__quick-add,
 
 .product-info__promo-cream {
   justify-self: center;
-  width: 82px;
+  width: 96px;
   height: auto;
   object-fit: contain;
+  animation: promoGiftFloat 5.2s var(--ease-in-out) infinite;
+}
+
+@keyframes promoGiftFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.025); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-info__promo-cream { animation: none; }
 }
 
 .product-info__shipping-tiers {
@@ -2559,20 +2585,20 @@ button.product-card__quick-add,
 
 @media (max-width: 560px) {
   .product-info__promo-card {
-    grid-template-columns: 72px minmax(0, 1fr) 72px;
-    min-height: 144px;
-    padding: 12px 10px 12px 3px;
+    grid-template-columns: minmax(0, 1fr) 116px;
+    min-height: 164px;
+    padding: 14px 10px 14px 12px;
   }
 
   .product-info__promo-cat {
-    width: 84px;
-    margin-right: 0;
-    margin-bottom: -16px;
+    bottom: -22px;
+    left: -7px;
+    width: 54px;
   }
 
   .product-info__promo-copy {
-    padding-right: 8px;
-    padding-left: 6px;
+    padding-right: 6px;
+    padding-left: 0;
   }
 
   .product-info__promo-kicker {
@@ -2593,14 +2619,26 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title {
-    gap: 7px;
-    font-size: 2.05rem;
+    margin-top: 1px;
   }
 
   .product-info__promo-title span {
     min-height: 20px;
     padding: 3px 5px 2px;
     font-size: 0.625rem;
+  }
+
+  .product-info__promo-title em {
+    margin-top: 4px;
+    font-size: 3.45rem;
+  }
+
+  .product-info__promo-gift-side {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 2px;
+    padding: 7px 0 5px 8px;
+    text-align: center;
   }
 
   .product-info__promo-gift {
@@ -2614,15 +2652,16 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-gift strong {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 
   .product-info__promo-gift span {
+    font-size: 0.6875rem;
     white-space: normal;
   }
 
   .product-info__promo-cream {
-    width: 66px;
+    width: 72px;
     height: auto;
   }
 
