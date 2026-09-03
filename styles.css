@@ -13577,4 +13577,6 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .ship-mode__fee { font-size: 0.9375rem; font-weight: 700; text-align: right; white-space: nowrap; color: #fff; }
 .ship-mode__free { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8125rem; font-weight: 700; background: rgba(143,224,187,0.16); color: #8fe0bb; }
 .ship-mode__was { display: block; font-size: 0.72rem; color: rgba(255,255,255,0.5); text-decoration: line-through; font-weight: 400; margin-top: 3px; }
+/* 門市自取專用提示 —— Local Pickup 預揀唔到，要客自己喺結帳頁撳「取貨」 */
+.ship-mode__tip { color: #e8cf9a; font-weight: 700; }
 .ship-mode__gap { display: block; font-size: 0.72rem; font-weight: 700; margin-top: 4px; color: #e8cf9a; }

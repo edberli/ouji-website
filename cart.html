@@ -876,11 +876,11 @@
      ⚠️ 一定要喺呢度定義（同步執行），唔可以放落 DOMContentLoaded handler ——
         下面兩個 IIFE 即刻要用，handler 要等 DOM ready 先跑，太遲。 */
     window.OUJI_SHIP = {
-      post: { fee: 15, free: 99,  name: '7-Eleven／郵局自取', src: 'data/pickup-points.json',
+      post: { fee: 15, free: 99,  name: '7-Eleven／郵局自取', src: 'data/pickup-points.json', match: '7-Eleven',
               sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天', hint: '要揀定去邊間 7-Eleven／郵局攞貨' },
-      sfp:  { fee: 25, free: 199, name: '順豐站／智能櫃',      src: 'assets/data/sf-points.json',
+      sfp:  { fee: 25, free: 199, name: '順豐站／智能櫃',      src: 'assets/data/sf-points.json', match: '順豐站',
               sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', hint: '要揀定去邊個順豐站／自助櫃攞貨' },
-      sfd:  { fee: 30, free: 250, name: '順豐派送上門',        src: null,
+      sfd:  { fee: 30, free: 250, name: '順豐派送上門',        src: null, match: '順豐派送',
               sub: '送到門口 · 1–2 個工作天' },
       shop: { fee: 0,  free: 0,   name: '觀塘門市自取',        src: null,
               sub: '觀塘工業中心一期 地下 B 舖 · 12:00–20:00 · 即日' },
@@ -901,6 +901,37 @@
       { label: '自取 · 平啲', keys: ['post', 'sfp', 'shop'] },
       { label: '送到手', keys: ['sfd'] },
     ];
+
+    /* 老闆 2026-09-03：「無論我揀嘅係門市自取定係順豐送貨，入到嚟呢一版
+       都係要揀呢個位置，咁咪變咗啲人要揀兩次？」
+       → 喺購物袋揀完，即刻用 cartSelectedDeliveryOptionsUpdate 幫佢喺
+       Shopify 嗰邊揀定同一個，結帳頁就已經著咗，唔使再揀。
+
+       ⚠️ deliveryOption 個 handle 每個 cart 都唔同（後面帶住 ?cart=…），
+       唔可以寫死 —— 要每次由 deliveryGroups 撈返，用 title 對。
+       ⚠️ 觀塘門市自取係 Shopify Local Pickup，Storefront Cart API
+       **唔會**喺 deliveryOptions 回 PICK_UP（實測清走地址都係得三個 SHIPPING），
+       所以嗰個只能靠提示叫客喺結帳頁撳「取貨」。 */
+    async function syncShopifyDeliveryOption(mode) {
+      const cfg = (window.OUJI_SHIP || {})[mode];
+      if (!cfg || !cfg.match) return;
+      try {
+        const cart = await getCart();
+        if (!cart?.id) return;
+        const gq = `query($id:ID!){ cart(id:$id){ deliveryGroups(first:5){ edges{ node{
+          id deliveryOptions{ handle title } } } } } }`;
+        const gd = await shopifyFetch(gq, { id: cart.id });
+        const g = gd?.cart?.deliveryGroups?.edges?.[0]?.node;
+        if (!g?.deliveryOptions?.length) return;
+        const opt = g.deliveryOptions.find((o) => (o.title || '').includes(cfg.match));
+        if (!opt) return;
+        const mu = `mutation($cartId:ID!,$sel:[CartSelectedDeliveryOptionInput!]!){
+          cartSelectedDeliveryOptionsUpdate(cartId:$cartId, selectedDeliveryOptions:$sel){
+            userErrors{ message } } }`;
+        await shopifyFetch(mu, { cartId: cart.id,
+          sel: [{ deliveryGroupId: g.id, deliveryOptionHandle: opt.handle }] });
+      } catch (e) { console.warn('syncShopifyDeliveryOption', e); }
+    }
 
     function net() {
       const el = document.querySelector('[data-total]');
@@ -926,7 +957,11 @@
             const gap = Math.ceil(o.free - n - 0.001);
             fee = `HK$${o.fee}<span class="ship-mode__gap">再買 $${gap} 就免</span>`;
           }
-          const note = o.fee === 0 ? '' : `<br>滿 HK$${o.free} 免運費`;
+          /* 觀塘門市自取＝Shopify Local Pickup，Storefront Cart API 預揀唔到，
+             唯有寫明叫客喺結帳頁撳「取貨」，唔好等佢喺「運送」度搵唔到又走返轉頭。 */
+          const note = k === 'shop'
+            ? '<br><span class="ship-mode__tip">結帳頁記住撳上面嘅「取貨」</span>'
+            : (o.fee === 0 ? '' : `<br>滿 HK$${o.free} 免運費`);
           html += `<label class="ship-mode__opt${on ? ' is-on' : ''}" data-mode="${k}">
             <input type="radio" name="ouji-ship" value="${k}"${on ? ' checked' : ''}>
             <span class="ship-mode__dot"></span>
@@ -948,6 +983,7 @@
       if (typeof setCartAttributes === 'function') {
         await setCartAttributes({ '運送方式': window.OUJI_SHIP[mode].name });
       }
+      syncShopifyDeliveryOption(mode);
       /* 運費同合計要即刻跟住變 —— 唔重畫成個購物袋，只補呢兩格。 */
       const S = window.OUJI_SHIP[mode], n = net();
       const ship = n >= S.free ? 0 : S.fee;
@@ -957,6 +993,7 @@
 
     window.OUJI_repaintShip = paint;
     paint();
+    syncShopifyDeliveryOption(mode);   // 一入嚟就對齊，唔使等客再撳一次
     /* 加減數量、落優惠碼之後個合計會變 —— 盯住嗰格，一變就重畫三個運費。
        唔用 polling，亦唔使改動購物袋本身嗰段渲染碼。 */
     const totEl = document.querySelector('[data-total]');
