@@ -2280,7 +2280,7 @@ button.product-card__quick-add,
 .product-info__promo-card {
   position: relative;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr) 70px;
+  grid-template-columns: 92px minmax(0, 1fr) 88px;
   align-items: center;
   min-height: 126px;
   overflow: hidden;
@@ -2367,12 +2367,32 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 9px;
   margin: 0 0 5px;
   color: #fff;
   font-family: var(--font-display, var(--font-body));
-  font-size: 2.2rem;
+  font-size: 2.35rem;
   line-height: 1.15;
   letter-spacing: -0.025em;
+}
+
+.product-info__promo-title span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 4px 7px 3px;
+  border: 1px solid rgba(255, 215, 122, 0.72);
+  border-radius: 4px;
+  color: #ffd77a;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .product-info__promo-title em {
@@ -2404,7 +2424,7 @@ button.product-card__quick-add,
 
 .product-info__promo-cream {
   justify-self: center;
-  width: 62px;
+  width: 82px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 8px 8px rgba(7, 25, 31, 0.28));
@@ -2540,8 +2560,8 @@ button.product-card__quick-add,
 
 @media (max-width: 560px) {
   .product-info__promo-card {
-    grid-template-columns: 72px minmax(0, 1fr) 60px;
-    min-height: 132px;
+    grid-template-columns: 72px minmax(0, 1fr) 72px;
+    min-height: 144px;
     padding: 12px 10px 12px 3px;
   }
 
@@ -2574,7 +2594,14 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title {
-    font-size: 1.95rem;
+    gap: 7px;
+    font-size: 2.05rem;
+  }
+
+  .product-info__promo-title span {
+    min-height: 20px;
+    padding: 3px 5px 2px;
+    font-size: 0.625rem;
   }
 
   .product-info__promo-gift {
@@ -2596,7 +2623,7 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-cream {
-    width: 52px;
+    width: 66px;
     height: auto;
   }
 
