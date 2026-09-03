@@ -282,6 +282,43 @@
             <div class="cart-items"></div>
             <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
             <div data-cart-notes></div>
+
+            <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
+                 $99 自取（EC-GET $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
+                 ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
+                 唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
+            <div class="ship-mode" data-ship>
+              <p class="ship-mode__head">點收貨？</p>
+              <div data-ship-opts></div>
+              <!-- 取件點揀選（順豐站／智郵站／郵政局共用同一個面板）。
+                   ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
+                   extension），所以揀自提點要喺我哋自己個購物袋頁做，
+                   揀完寫落 cart attributes，跟住張單過去 Shopify，
+                   鋪頭喺訂單詳情就見到網點碼同地址。
+                   資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
+                   已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
+              <div class="sfp" data-sfp>
+                <p class="sfp__err" data-sfp-err hidden role="alert"></p>
+                <p class="sfp__hint"><span class="sfp__hint-mark">i</span><span class="sfp__hint-t"><b data-sfp-hint>要喺呢度揀定去邊個點攞貨</b></span></p>
+                <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false">
+                  <span class="sfp__toggle-label" data-sfp-label>取件點<em data-sfp-sublabel></em></span>
+                  <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
+                </button>
+                <div class="sfp__panel" data-sfp-panel hidden>
+                  <div class="sfp__filters">
+                    <select class="sfp__region" data-sfp-region aria-label="大區">
+                      <option value="">全港</option>
+                    </select>
+                    <select class="sfp__district" data-sfp-district aria-label="分區">
+                      <option value="">所有分區</option>
+                    </select>
+                    <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋取件點">
+                  </div>
+                  <p class="sfp__count" data-sfp-count></p>
+                  <ul class="sfp__list" data-sfp-list></ul>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Cart Summary -->
@@ -356,45 +393,9 @@
                   <path d="M5 12h13M12 5l7 7-7 7"/>
                 </svg>
               </a>
-              </div>
             </div>
 
-            <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
-                 $99 自取（EC-GET $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
-                 ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
-                 唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
-            <div class="ship-mode" data-ship>
-              <p class="ship-mode__head">點收貨？</p>
-              <div data-ship-opts></div>
-            </div>
 
-            <!-- 取件點揀選（順豐站／智郵站／郵政局共用同一個面板）。
-                 ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
-                 extension），所以揀自提點要喺我哋自己個購物袋頁做，
-                 揀完寫落 cart attributes，跟住張單過去 Shopify，
-                 鋪頭喺訂單詳情就見到網點碼同地址。
-                 資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
-                 已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
-            <div class="sfp" data-sfp>
-              <p class="sfp__hint"><span class="sfp__hint-mark">i</span><span class="sfp__hint-t"><b data-sfp-hint>要喺呢度揀定去邊個點攞貨</b></span></p>
-              <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false">
-                <span class="sfp__toggle-label" data-sfp-label>取件點<em data-sfp-sublabel></em></span>
-                <span class="sfp__chosen" data-sfp-chosen>撳呢度揀</span>
-              </button>
-              <div class="sfp__panel" data-sfp-panel hidden>
-                <div class="sfp__filters">
-                  <select class="sfp__region" data-sfp-region aria-label="大區">
-                    <option value="">全港</option>
-                  </select>
-                  <select class="sfp__district" data-sfp-district aria-label="分區">
-                    <option value="">所有分區</option>
-                  </select>
-                  <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋取件點">
-                </div>
-                <p class="sfp__count" data-sfp-count></p>
-                <ul class="sfp__list" data-sfp-list></ul>
-              </div>
-            </div>
             <div class="cart-summary__promo">
               <input type="text" placeholder="優惠碼">
               <button type="button">套用</button>
@@ -577,6 +578,25 @@
     // Checkout button
     if (checkoutBtn) {
       checkoutBtn.addEventListener('click', async () => {
+        /* 揀咗自取但未揀去邊間攞 —— 唔好放佢入結帳頁。
+           老闆 2026-09-03：「總之自提點嘅話，就一定要揀咗先可以俾佢去結帳頁面」。 */
+        const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : null;
+        const cfg = mode ? (window.OUJI_SHIP || {})[mode] : null;
+        if (cfg && cfg.src && !(window.OUJI_getPickupPoint && window.OUJI_getPickupPoint())) {
+          const err = document.querySelector('[data-sfp-err]');
+          if (err) {
+            err.textContent = `仲未揀去邊間 ${cfg.name.replace('自取', '').trim()} 攞貨 —— 撳下面「撳呢度揀」先可以結帳。`;
+            err.hidden = false;
+          }
+          const panel = document.querySelector('[data-sfp]');
+          if (panel) {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            panel.classList.remove('is-shake');
+            void panel.offsetWidth;          // 逼 reflow，令動畫可以重播
+            panel.classList.add('is-shake');
+          }
+          return;
+        }
         checkoutBtn.textContent = '跳轉中...';
         await goToCheckout();
       });
@@ -1012,6 +1032,27 @@
       return 'HK';
     }
 
+    /* 俾「前往結帳」查：自取類運送方式一定要揀咗點先放行 */
+    window.OUJI_getPickupPoint = () => chosen;
+
+    /* 寫落 Shopify 訂單備註。
+       ⚠️ 點解三樣都要寫：預填地址（訪客結帳有效，但 Shop Pay 用戶會用自己
+       已存地址覆蓋咗佢）＋ cart attributes（後台訂單詳情見到）＋ **訂單備註**
+       （老闆 2026-09-03：「如果佢覆蓋咗個地址，我呢個自提點嘅地址都可以
+       整到過去備註嗰度」）。備註係最頂唔走嗰層 —— 客改地址都唔會沖走。 */
+    async function writePickupNote(p) {
+      try {
+        const cart = await getCart();
+        if (!cart?.id) return;
+        const q = `mutation($cartId:ID!,$note:String!){
+          cartNoteUpdate(cartId:$cartId, note:$note){ cart{ id } userErrors{ message } } }`;
+        const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : '';
+        const way = (window.OUJI_SHIP || {})[mode]?.name || '自取';
+        await shopifyFetch(q, { cartId: cart.id,
+          note: `【${way}】${p.kind} ${p.code}\n${p.address}${p.hours ? '（' + p.hours + '）' : ''}` });
+      } catch (e) { console.warn('cartNoteUpdate', e); }
+    }
+
     function paintChosen() {
       chosenEl.textContent = chosen ? `${chosen.code} · ${chosen.address.slice(0, 18)}…` : '撳呢度揀';
       chosenEl.classList.toggle('is-set', !!chosen);
@@ -1100,6 +1141,9 @@
           '取件點地址': chosen.address,
         });
       }
+      await writePickupNote(chosen);
+      const err = root.querySelector('[data-sfp-err]');
+      if (err) err.hidden = true;
     });
   })();
   </script>
