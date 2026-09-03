@@ -3017,6 +3017,12 @@ button.product-card__quick-add,
   .brand-rail { gap: 3px; padding: 9px 10px; }
   .brand-rail__item { width: 5px; }
   .cart-layout { grid-template-columns: 1fr; }
+  /* 手機下 .cart-summary 一直沿用桌面嘅 48px 左右 padding，
+     375px 螢幕淨返 343 − 96 = 247px，再入面 .reward 又食 24×2，
+     運送選項嘅文字欄剩返 62px —— 逐個字換行，成張卡爆到 245px 高。
+     窄螢幕唔負擔得起呢兩層 padding。 */
+  .cart-summary { padding: var(--space-lg); }
+  .reward { padding: var(--space-md); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__bottom { flex-direction: column; gap: var(--space-md); text-align: center; }
   .newsletter__form { flex-direction: column; border-radius: 14px; }
