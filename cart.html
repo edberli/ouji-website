@@ -346,10 +346,16 @@
               </div>
               <p class="reward__line" data-reward-line></p>
 
-              <div class="gap" data-gap hidden>
-                <h3 class="gap__title" data-gap-title></h3>
-                <div class="gap__body" data-gap-body></div>
-                <div class="gap__more" data-gap-more></div>
+              <!-- 2026-09-03：呢度本來列三件「加一件就夠」嘅貨。老闆叫拆走 ——
+                   「成嚿嘢好長好大嚿，同埋講真啲人都未必會咁樣喺度買」。
+                   改成一個掣送客返去自己揀 —— 佢想買咩我哋估唔到，唔好幫佢揀。 -->
+              <a class="reward__cta" href="shop.html" data-reward-cta>
+                <span data-reward-cta-text>繼續購物</span>
+                <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h13M12 5l7 7-7 7"/>
+                </svg>
+              </a>
               </div>
             </div>
 
@@ -704,158 +710,20 @@
     if (net < S.post.free) {
       const gap = ceil(S.post.free - net);
       line.innerHTML = `再買 <strong>HK$${gap}</strong> 就 <b>7-Eleven／郵局自取免郵</b>`;
-      suggestGapFillers(gap, net, gross, inCart, '自取免郵');
     } else if (net < S.sfp.free) {
       const gap = ceil(S.sfp.free - net);
       line.innerHTML = `自取免郵 ✓　再買 <strong>HK$${gap}</strong> 就 <b>順豐站免運</b>`;
-      suggestGapFillers(gap, net, gross, inCart, '順豐站免運');
     } else if (net < S.sfd.free) {
       const gap = ceil(S.sfd.free - net);
       line.innerHTML = `順豐站免運 ✓　再買 <strong>HK$${gap}</strong> 就 <b>順豐送上門免運</b>`;
-      suggestGapFillers(gap, net, gross, inCart, '順豐上門免運');
     } else if (net < GIFT) {
       const gap = ceil(GIFT - net);
       line.innerHTML = `全部運送方式都免運 ✓　再買 <strong>HK$${gap}</strong> 就送面霜`;
-      suggestGapFillers(gap, net, gross, inCart, '送面霜');
     } else {
-      line.innerHTML = `免運費 ✓　送面霜 ✓　全部拎齊`;
-      const body = document.querySelector('[data-gap-body]');
-      const wrap = document.querySelector('[data-gap]');
-      if (body) body.innerHTML = '';
-      if (wrap) wrap.hidden = true;
+      line.innerHTML = `免運費 ✓　送面霜 ✓　<b>全部拎齊</b>`;
     }
   }
 
-  /**
-   * 揀最平嘅幾件貨，加落去啱啱夠過門檻。
-   *
-   * 有 88 折，所以要加幾多**標價**先夠拉高折實價 gap 蚊，要除返個折扣率
-   * ——「爭 $50」唔等於「買 $50 嘢」，係要買 $57。呢度計錯就啱啱唔夠，
-   * 客加咗貨仲係差幾蚊，比唔提佢仲衰。
-   */
-  async function suggestGapFillers(gap, net, gross, inCartHandles, rewardName) {
-    const wrap = document.querySelector('[data-gap]');
-    const body = document.querySelector('[data-gap-body]');
-    const title = document.querySelector('[data-gap-title]');
-    if (!wrap || !body) return;
-
-    const rate = gross > 0 ? net / gross : 1;       // 而家實際打緊幾多折
-    const needList = gap / rate;                     // 要加幾多標價先夠
-
-    const all = await getAllProducts().catch(() => null);
-    const inCart = new Set(inCartHandles || []);
-
-    /* 目錄快照嘅 variant 得 id／availableForSale／quantityAvailable，冇價
-       —— 價要喺 product 層攞 priceRange.minVariantPrice。咁樣反而穩陣：
-       min 價都夠過門檻，即係揀邊個色號都一定夠。 */
-    const pool = (all?.edges || []).map((e) => e.node)
-      .filter((p) => !inCart.has(p.handle))
-      .filter((p) => !p.handle.startsWith('lens-'))   // 隱形眼鏡要度數，唔啱做順手加
-      .map((p) => {
-        const vs = (p.variants?.edges || []).map((e) => e.node)
-          .filter((x) => x.availableForSale && (x.quantityAvailable == null || x.quantityAvailable > 0));
-        const price = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
-        if (!vs.length || !price) return null;
-        /* 淨得一個變體先自己加落袋；有色號嘅唔幫人揀，帶佢入產品頁 */
-        const single = (p.variants?.edges || []).length === 1;
-        return { p, v: vs[0], price, single };
-      })
-      .filter(Boolean);
-
-    if (!pool.length) { wrap.hidden = true; return; }
-
-    /* 一件就夠 vs 要夾兩件。
-       目錄最貴嗰批得三百幾蚊，所以個袋淨係 $128 嗰陣，「加一件就夠免運」
-       全店只有一件貨做得到 —— 出一個孤零零嘅建議冇用。夠貨揀就講「加一件」，
-       唔夠就改口做「揀兩件夾夠」，然後專登揀落喺一半差額嗰度嘅貨。 */
-    const closers = pool.filter((x) => x.price >= needList).sort((a, b) => a.price - b.price);
-    const oneIsEnough = closers.length >= 2;
-    const half = needList / 2;
-    const ranked = oneIsEnough
-      ? closers
-      : pool.filter((x) => x.price * rate >= 40)      // 太平嘅夾極都唔夠，唔好嘥個位
-          .sort((a, b) => Math.abs(a.price - half) - Math.abs(b.price - half));
-
-    /* 一個牌子只出一件，等三個選擇唔會係同一隻嘢。
-       ⚠️ 唔可以一次過出晒 —— 三件係「順手加」，出十件就變咗第二個
-       產品列表，蓋過張單。所以分批：先出三件，撳「查看更多」再出三件。 */
-    const seen = new Set();
-    let cursor = 0;
-    function takeNext(n) {
-      const out = [];
-      while (cursor < ranked.length && out.length < n) {
-        const x = ranked[cursor++];
-        const key = x.p.vendor || x.p.handle;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        out.push(x);
-      }
-      return out;
-    }
-    const picks = takeNext(3);
-    if (!picks.length) { wrap.hidden = true; return; }
-
-    if (title) {
-      title.textContent = oneIsEnough
-        ? `加一件就夠 ${rewardName}`
-        : `揀兩件夾夠 HK$${gap}，就${rewardName}`;
-    }
-    wrap.hidden = false;
-    const cardHTML = (list) => list.map(({ p, v, price, single }) => {
-      const img = p.images?.edges?.[0]?.node;
-      const after = price * rate;
-      return `<div class="gap-pick">
-        <a class="gap-pick__card" href="/products/${p.handle}">
-          ${img ? `<img src="${img.url}" alt="${p.title}" loading="lazy">` : ''}
-          <span class="gap-pick__brand">${p.vendor || ''}</span>
-          <span class="gap-pick__name">${p.title}</span>
-        </a>
-        <div class="gap-pick__foot">
-          <span class="gap-pick__price">${single ? '' : '由 '}${formatPrice(price)}
-            <small>折實 ${formatPrice(after)}</small></span>
-          ${single
-            ? `<button class="btn btn--sm" data-gap-add="${v.id}">加入</button>`
-            : `<a class="btn btn--sm" href="/products/${p.handle}">揀色號</a>`}
-        </div>
-      </div>`;
-    }).join('');
-
-    body.innerHTML = cardHTML(picks);
-
-    /* 「查看更多」—— 老闆：「如果啲加購嗰啲唔啱嘅話，咪俾佢可以再睇下
-       其他產品啊嘛。」出多三件係就地加，唔使離開張單；池入面出晒之後
-       個掣就變成去全部產品嘅連結，唔會撳完乜都冇反應。 */
-    const more = document.querySelector('[data-gap-more]');
-    if (more) {
-      const refreshMore = () => {
-        const 仲有 = ranked.slice(cursor).some((x) => !seen.has(x.p.vendor || x.p.handle));
-        more.innerHTML = 仲有
-          ? '<button type="button" class="gap__more-btn" data-gap-more-btn>查看更多</button>'
-          : '<a class="gap__more-btn gap__more-btn--link" href="/shop">睇晒全部產品 →</a>';
-        const btn = more.querySelector('[data-gap-more-btn]');
-        if (btn) btn.addEventListener('click', () => {
-          const next = takeNext(3);
-          if (next.length) body.insertAdjacentHTML('beforeend', cardHTML(next));
-          bindAdd();
-          refreshMore();
-        });
-      };
-      refreshMore();
-    }
-
-    function bindAdd() {
-      body.querySelectorAll('[data-gap-add]:not([data-bound])').forEach((btn) => {
-        btn.dataset.bound = '1';
-        btn.addEventListener('click', async () => {
-          btn.disabled = true;
-          btn.textContent = '加緊…';
-          await addToCart(btn.dataset.gapAdd, 1);
-          location.reload();
-        });
-      });
-    }
-    bindAdd();
-  }
 
   // Global functions for cart actions
   /**

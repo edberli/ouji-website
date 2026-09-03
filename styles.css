@@ -2280,7 +2280,7 @@ button.product-card__quick-add,
 .product-info__promo-card {
   position: relative;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr) 70px;
+  grid-template-columns: 92px minmax(0, 1fr) 88px;
   align-items: center;
   min-height: 126px;
   overflow: hidden;
@@ -2367,12 +2367,32 @@ button.product-card__quick-add,
 }
 
 .product-info__promo-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 9px;
   margin: 0 0 5px;
   color: #fff;
   font-family: var(--font-display, var(--font-body));
-  font-size: 2.2rem;
+  font-size: 2.35rem;
   line-height: 1.15;
   letter-spacing: -0.025em;
+}
+
+.product-info__promo-title span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 4px 7px 3px;
+  border: 1px solid rgba(255, 215, 122, 0.72);
+  border-radius: 4px;
+  color: #ffd77a;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .product-info__promo-title em {
@@ -2404,7 +2424,7 @@ button.product-card__quick-add,
 
 .product-info__promo-cream {
   justify-self: center;
-  width: 62px;
+  width: 82px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 8px 8px rgba(7, 25, 31, 0.28));
@@ -2540,8 +2560,8 @@ button.product-card__quick-add,
 
 @media (max-width: 560px) {
   .product-info__promo-card {
-    grid-template-columns: 72px minmax(0, 1fr) 60px;
-    min-height: 132px;
+    grid-template-columns: 72px minmax(0, 1fr) 72px;
+    min-height: 144px;
     padding: 12px 10px 12px 3px;
   }
 
@@ -2574,7 +2594,14 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title {
-    font-size: 1.95rem;
+    gap: 7px;
+    font-size: 2.05rem;
+  }
+
+  .product-info__promo-title span {
+    min-height: 20px;
+    padding: 3px 5px 2px;
+    font-size: 0.625rem;
   }
 
   .product-info__promo-gift {
@@ -2596,7 +2623,7 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-cream {
-    width: 52px;
+    width: 66px;
     height: auto;
   }
 
@@ -11462,51 +11489,88 @@ body::before { opacity: 0.18; }
    ============================================================ */
 .cart-summary__row--save span:last-child { color: var(--primary-deep); font-weight: 600; }
 
+/* ───── 免運進度卡（2026-09-03 重做）─────────────────────────────
+   老闆嘅三點：①「所有顏色都好死」②「用返 footer 嗰隻藍」
+   ③「$41 呢個位要用第二隻色去標示，咁樣會更加明顯」。
+
+   所以整張卡由「淺藍底＋灰字」翻轉成 footer 嗰隻深藍（--dark-base #2b4c58），
+   同購物袋其餘白色區塊拉開對比 —— 一眼就知呢格係講緊「你仲爭幾多」。
+
+   對比度全部量過（WCAG，底 #2b4c58）：
+     白 100% 9.22:1 ｜ 白 88% 7.61:1 ｜ 白 70% 5.47:1
+     金 #e8cf9a 6.07:1 ✅ 做強調色 ｜ --gold #cba86a 得 4.10:1 ❌ 唔用
+   白 60% 只有 4.48:1，細字唔夠，所以最淡嗰級停喺 70%。 */
 .reward {
   margin-top: var(--space-lg);
   padding: var(--space-lg);
   border-radius: 14px;
-  background: linear-gradient(180deg, #edf4f6 0%, #e7f1f4 100%);
+  background: linear-gradient(158deg, #33596a 0%, var(--dark-base) 55%, #24404b 100%);
+  color: #fff;
+  box-shadow: 0 10px 30px -18px rgba(43, 76, 88, 0.75);
 }
 
 .reward__track {
   position: relative;
-  height: 6px;
+  height: 8px;
   border-radius: 999px;
-  background: rgba(43, 76, 88, 0.14);
+  background: rgba(255, 255, 255, 0.18);
   overflow: hidden;
 }
 .reward__fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #6da3b5, #2b4c58);
+  /* 由品牌淺藍推向金 —— 越接近獎品越暖，條棒本身就係一個訊號 */
+  background: linear-gradient(90deg, var(--accent) 0%, #a8d8e4 45%, #e8cf9a 100%);
   transition: width 600ms var(--ease-out);
 }
-/* $400 嗰點喺 $500 條棒上面即係 80% */
 .reward__tick {
   position: absolute; top: -3px;
-  width: 2px; height: 12px;
-  background: rgba(43, 76, 88, 0.38);
+  width: 2px; height: 14px;
+  background: rgba(255, 255, 255, 0.42);
 }
 
 .reward__marks {
   display: flex;
   justify-content: space-between;
-  margin-top: 8px;
-  font-size: 0.6875rem;
-  letter-spacing: 0.04em;
-  color: var(--text-tertiary);
+  margin-top: 10px;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.7);
 }
-.reward__marks .is-hit { color: var(--primary-deep); font-weight: 600; }
-.reward__marks .is-hit::before { content: '✓ '; }
+.reward__marks .is-hit { color: #e8cf9a; font-weight: 700; }
+.reward__marks .is-hit::before { content: '\2713 '; }
 
 .reward__line {
   margin: var(--space-md) 0 0;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.88);
 }
-.reward__line strong { color: var(--primary-deep); font-weight: 700; }
+/* 「再買 HK$41」嗰個數字 —— 老闆要求用第二隻色標示。
+   金 ＋ 大一級 ＋ 700，喺深藍底上面係全張卡最搶眼嗰樣。 */
+.reward__line strong {
+  color: #e8cf9a;
+  font-weight: 700;
+  font-size: 1.12em;
+  letter-spacing: 0.01em;
+}
+.reward__line b { color: #fff; font-weight: 700; }
+
+/* 取代咗原本嗰堆加購推薦（老闆：「成嚿嘢好長好大嚿，人哋未必會咁樣喺度買」）。
+   一個掣送客返去自己揀，比列三件貨叫佢即場加入誠實 —— 佢想買咩我哋估唔到。 */
+.reward__cta {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; margin-top: var(--space-md);
+  padding: 12px 18px; border: 0; border-radius: 999px;
+  background: #fff; color: var(--dark-base);
+  font-family: var(--font-body); font-size: 0.875rem; font-weight: 700;
+  letter-spacing: 0.02em; text-decoration: none; cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+.reward__cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5); }
+.reward__cta:focus-visible { outline: 2px solid #e8cf9a; outline-offset: 3px; }
+.reward__cta .ico { width: 15px; height: 15px; }
 
 .gap { margin-top: var(--space-lg); }
 .gap__title {
