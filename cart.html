@@ -674,7 +674,12 @@
        (2) 「合計」寫 subtotal + 運費，成個 88 折冇顯示過 —— 客見到嘅數
            比實際收嘅貴成一成，仲要見唔到自己慳咗幾多。 */
     const subtotal = parseFloat(cart.cost.subtotalAmount.amount);   // 未折
-    const netTotal = parseFloat(cart.cost.totalAmount.amount);      // 折實
+    /* cart 一有 selectedDeliveryOption，totalAmount 就連運費計埋，
+       要減返走先係「折實貨價」。冇揀過就係 0。 */
+    const inclShip = parseFloat(
+      cart.deliveryGroups?.edges?.[0]?.node?.selectedDeliveryOption?.estimatedCost?.amount || 0
+    ) || 0;
+    const netTotal = parseFloat(cart.cost.totalAmount.amount) - inclShip;   // 折實貨價
     const saved = Math.max(0, subtotal - netTotal);
     const GIFT = 499;
     const FREE_SHIP = window.OUJI_SHIP.post.free;   // 進度條第一級 = 自取免郵
@@ -902,42 +907,20 @@
       { label: '送到手', keys: ['sfd'] },
     ];
 
-    /* 老闆 2026-09-03：「無論我揀嘅係門市自取定係順豐送貨，入到嚟呢一版
-       都係要揀呢個位置，咁咪變咗啲人要揀兩次？」
-       → 喺購物袋揀完，即刻用 cartSelectedDeliveryOptionsUpdate 幫佢喺
-       Shopify 嗰邊揀定同一個，結帳頁就已經著咗，唔使再揀。
-
-       ⚠️ deliveryOption 個 handle 每個 cart 都唔同（後面帶住 ?cart=…），
-       唔可以寫死 —— 要每次由 deliveryGroups 撈返，用 title 對。
-       🔴 實測結果：cart 層面設得成（selectedDeliveryOption 真係轉到 $30），
-          但**新版 checkout 唔會跟** —— 佢按地址重計，永遠 default 返最平嗰個。
-          所以呢段暫時只令 cart 嘅 estimatedCost 準確，解唔到「揀兩次」。
-          留住係因為裝咗 Delivery Customization app 之後就派到用場。
-       ⚠️ 觀塘門市自取係 Shopify Local Pickup，Storefront Cart API
-       **唔會**喺 deliveryOptions 回 PICK_UP（實測清走地址都係得三個 SHIPPING），
-       所以嗰個只能靠提示叫客喺結帳頁撳「取貨」。 */
-    async function syncShopifyDeliveryOption(mode) {
-      const cfg = (window.OUJI_SHIP || {})[mode];
-      if (!cfg || !cfg.match) return;
-      /* 直接讀 localStorage，唔好用 getCart() —— 佢會連 50 條 line、圖、
-         庫存全部拉一次返嚟，我哋淨係要個 id。 */
-      const cartId = localStorage.getItem('shopify_cart_id');
-      if (!cartId) return;
-      try {
-        const gq = `query($id:ID!){ cart(id:$id){ deliveryGroups(first:5){ edges{ node{
-          id deliveryOptions{ handle title } } } } } }`;
-        const gd = await shopifyFetch(gq, { id: cartId });
-        const g = gd?.cart?.deliveryGroups?.edges?.[0]?.node;
-        if (!g?.deliveryOptions?.length) return;
-        const opt = g.deliveryOptions.find((o) => (o.title || '').includes(cfg.match));
-        if (!opt) return;
-        const mu = `mutation($cartId:ID!,$sel:[CartSelectedDeliveryOptionInput!]!){
-          cartSelectedDeliveryOptionsUpdate(cartId:$cartId, selectedDeliveryOptions:$sel){
-            userErrors{ message } } }`;
-        await shopifyFetch(mu, { cartId,
-          sel: [{ deliveryGroupId: g.id, deliveryOptionHandle: opt.handle }] });
-      } catch (e) { console.warn('syncShopifyDeliveryOption', e); }
-    }
+    /* ⛔ 唔好再試 cartSelectedDeliveryOptionsUpdate 去預先幫客揀運送方式。
+       2026-09-03 實測（live cart）兩件事：
+       1. cart 層面設得成（selectedDeliveryOption 真係由 $15 轉到 $30），
+          但**新版 checkout 唔會跟** —— 佢按地址重新計，永遠 default 最平嗰個。
+          連 deliveryAddressPreferences 填咗都一樣。所以解決唔到「揀兩次」。
+       2. 更差：cart 一有 selectedDeliveryOption，Shopify 嘅
+          `cost.totalAmount` 就**開始包住運費**。下面計合計嗰段本來當佢係
+          「折後、未含運費」，即刻爆三樣嘢 ——
+          折扣行消失（saved = subtotal − totalAmount 變負）、
+          合計運費計兩次、免運費門檻攞住個含運費嘅數去比（$84 貨當成 $103 → 白送運費）。
+       真正解法係 Delivery Customization app（設定 → 運送與配送 → 配送自訂，
+       要先喺 App Store 裝一個提供 function 嘅 app），用 cart attribute
+       喺 checkout 隱藏唔啱嘅選項，剩返一個就自動選中。
+       每個運費規則個 `match` 欄留住畀嗰陣用。 */
 
     function net() {
       const el = document.querySelector('[data-total]');
@@ -1001,7 +984,6 @@
       if (typeof setCartAttributes === 'function') {
         await setCartAttributes({ '運送方式': window.OUJI_SHIP[mode].name });
       }
-      syncShopifyDeliveryOption(mode);
       /* 運費同合計要即刻跟住變 —— 唔重畫成個購物袋，只補呢兩格。 */
       const S = window.OUJI_SHIP[mode], n = net();
       const ship = n >= S.free ? 0 : S.fee;
@@ -1011,7 +993,6 @@
 
     window.OUJI_repaintShip = paint;
     paint();
-    syncShopifyDeliveryOption(mode);   // 一入嚟就對齊，唔使等客再撳一次
     /* 加減數量、落優惠碼之後個合計會變 —— 盯住嗰格，一變就重畫三個運費。
        唔用 polling，亦唔使改動購物袋本身嗰段渲染碼。 */
     const totEl = document.querySelector('[data-total]');

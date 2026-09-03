@@ -463,6 +463,13 @@ async function getCart() {
           totalAmount { amount currencyCode }
           subtotalAmount { amount currencyCode }
         }
+        # cart 一有 selectedDeliveryOption（客喺 checkout 揀過運送方式再返
+        # 購物袋，就會有），totalAmount 會包住運費。購物袋計合計同免運費
+        # 門檻要減返走，否則折扣行消失、運費計兩次、門檻攞住個含運費嘅數去比。
+        # ⚠️ 呢個係 GraphQL 字串，註釋只可以用 #，而且唔准出現 backtick。
+        deliveryGroups(first: 1) {
+          edges { node { selectedDeliveryOption { estimatedCost { amount } } } }
+        }
         lines(first: 50) {
           edges {
             node {
