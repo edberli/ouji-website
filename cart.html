@@ -915,12 +915,14 @@
     async function syncShopifyDeliveryOption(mode) {
       const cfg = (window.OUJI_SHIP || {})[mode];
       if (!cfg || !cfg.match) return;
+      /* 直接讀 localStorage，唔好用 getCart() —— 佢會連 50 條 line、圖、
+         庫存全部拉一次返嚟，我哋淨係要個 id。 */
+      const cartId = localStorage.getItem('shopify_cart_id');
+      if (!cartId) return;
       try {
-        const cart = await getCart();
-        if (!cart?.id) return;
         const gq = `query($id:ID!){ cart(id:$id){ deliveryGroups(first:5){ edges{ node{
           id deliveryOptions{ handle title } } } } } }`;
-        const gd = await shopifyFetch(gq, { id: cart.id });
+        const gd = await shopifyFetch(gq, { id: cartId });
         const g = gd?.cart?.deliveryGroups?.edges?.[0]?.node;
         if (!g?.deliveryOptions?.length) return;
         const opt = g.deliveryOptions.find((o) => (o.title || '').includes(cfg.match));
@@ -928,7 +930,7 @@
         const mu = `mutation($cartId:ID!,$sel:[CartSelectedDeliveryOptionInput!]!){
           cartSelectedDeliveryOptionsUpdate(cartId:$cartId, selectedDeliveryOptions:$sel){
             userErrors{ message } } }`;
-        await shopifyFetch(mu, { cartId: cart.id,
+        await shopifyFetch(mu, { cartId,
           sel: [{ deliveryGroupId: g.id, deliveryOptionHandle: opt.handle }] });
       } catch (e) { console.warn('syncShopifyDeliveryOption', e); }
     }
