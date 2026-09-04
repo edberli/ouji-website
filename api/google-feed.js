@@ -39,7 +39,7 @@ query($cursor: String, $n: Int!) @inContext(country: HK) {
   products(first: $n, after: $cursor, query: "status:active") {
     pageInfo { hasNextPage endCursor }
     edges { node {
-      handle title description vendor productType tags
+      id handle title description vendor productType tags
       featuredImage { url }
       images(first: 10) { edges { node { url } } }
       variants(first: 50) { edges { node {
@@ -154,9 +154,17 @@ function itemsFor(p) {
        冇劃價就淨係報 g:price。原價一定要真係高過現價，
        報一個假原價會被當成虛構折扣。 */
     const onSale = was !== null && was > now;
+    /* Shopify 接去 Merchant Center 嘅 Local Feed Partnership 使用呢個
+       offer ID 格式。網店主 feed 一定要用同一個 ID，本地庫存／門市價
+       先會合併落同一件商品；用 SKU／GTIN 會變成兩套產品，一套欠
+       local inventory、另一套欠 price。`ZZ` 係 Shopify provider 實際
+       交畀 OUJI Merchant Center 嘅固定前綴，唔係銷售國家代碼。 */
+    const productId = String(p.id).split('/').pop();
+    const variantId = String(v.id).split('/').pop();
+    const merchantId = `shopify_ZZ_${productId}_${variantId}`;
 
     return '    <item>\n'
-      + tag('g:id', v.sku || `${p.handle}-${shade || 'default'}`)
+      + tag('g:id', merchantId)
       + (grouped ? tag('g:item_group_id', p.handle) : '')
       + tag('g:title', clean(title).slice(0, 150))
       + tag('g:description', desc)
@@ -164,7 +172,7 @@ function itemsFor(p) {
          Google 對唔到價就當「價格不符」。canonical 仍然係乾淨嗰條網址，
          唔會拆散收錄。 */
       + tag('g:link', `${SITE}/products/${p.handle}`
-        + (grouped ? `?variant=${String(v.id).split('/').pop()}` : ''))
+        + (grouped ? `?variant=${variantId}` : ''))
       + tag('g:image_link', img)
       + extra.map((u) => tag('g:additional_image_link', u)).join('')
       /* ⚠️ 唔可以淨係信 availableForSale。好多貨嘅存貨政策係「賣完照賣」，

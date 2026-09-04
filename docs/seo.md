@@ -122,6 +122,9 @@ logo 位得個網址，仲要顯示第一個變體嘅價而唔係最低價。我
 
 - **一個變體一筆 offer。** Google 購物係變體層面嘅。多變體用
   `item_group_id` 綁埋一組；單變體唔加，免得變成殘缺分組。
+- **offer ID 跟 Shopify 本地庫存。** 主 feed 同 Local Feed Partnership
+  統一用 `shopify_ZZ_<product_id>_<variant_id>`；否則 Merchant Center
+  會將同一件貨拆成「有網店價但冇門市庫存」同「有門市庫存但冇價」兩筆。
 - **`g:price` 係原價、`g:sale_price` 係現售價。** 只有 `compareAtPrice`
   真係高過現價先報，唔製造假折扣。
 - **產品頁支援 `?variant=`。** feed 帶住色號入去，客人撳咗 #08
