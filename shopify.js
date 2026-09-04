@@ -1507,6 +1507,7 @@ const CATEGORY_TAXONOMY = {
       sunscreen:   { label: '防曬',     keywords: ['sunscreen', 'suncare', 'sun cream', '防曬', '선크림', '선케어'] },
       spot:        { label: '局部護理', keywords: ['局部護理', '痘痘貼', 'spot'] },
       exfoliator:  { label: '去角質',   keywords: ['去角質', 'peeling', 'exfoliator'] },
+      lipcare:     { label: '唇部護理', keywords: ['唇部護理', '潤唇膏', '護唇膏', '唇部精華', '唇膜', 'lip balm', 'lip care', 'lip mask'] },
       kit:         { label: '套裝',     keywords: ['套裝護膚', '套裝', 'kit'] },
     },
   },
@@ -1647,6 +1648,7 @@ const CATEGORY_TAXONOMY = {
     subs: {
       sun:     { label: '防曬',   keywords: ['防曬'] },
       hand:    { label: '護手霜', keywords: ['護手霜'] },
+      lip:     { label: '唇部護理', keywords: ['唇部護理', '潤唇膏', '護唇膏', '唇部精華', '唇膜', 'lip balm', 'lip care', 'lip mask'] },
       cooling: { label: '涼感止汗', keywords: ['涼感', '止汗'] },
     },
   },
@@ -1728,7 +1730,12 @@ const MAKEUP_RULES = [
   ['cheek',   /胭脂|腮紅|頰彩|多用彩膏|多用膏|blush|cheek/i],
 ];
 
+// 潤唇膏／護唇膏／唇膜係護理貨；就算產品名包含「唇膏」或英文 lip，
+// 都唔可以跌返入彩妝。要喺一般唇妝規則之前截走。
+const LIP_CARE_TITLE = /潤唇膏|護唇膏|唇部精華|唇膜|lip\s*(?:balm|care|mask|serum)/i;
+
 function makeupBucket(p) {
+  if (LIP_CARE_TITLE.test(p.title || '')) return null;
   const hit = MAKEUP_RULES.find(([, re]) => re.test(p.title || ''));
   return hit ? hit[0] : null;
 }
