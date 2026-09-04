@@ -348,26 +348,21 @@ function buildFilterSidebar(section, products) {
     .filter((b) => b.count);
 
   const groups = [];
+  const groupBlock = (title, rows, open = false) => `<details class="filter-group"${open ? ' open' : ''}>
+    <summary class="filter-group__title">${title}</summary>
+    <div class="filter-group__options">${rows}</div>
+  </details>`;
   if (subs.length > 1) {
-    groups.push(`<div class="filter-group">
-      <div class="filter-group__title">分類</div>
-      <div class="filter-group__options">
-        ${subs.map((s) => optionRow('cat', s.id, s.label, s.count)).join('')}
-      </div></div>`);
+    groups.push(groupBlock('分類',
+      subs.map((s) => optionRow('cat', s.id, s.label, s.count)).join(''), true));
   }
   if (vendors.length > 1) {
-    groups.push(`<div class="filter-group">
-      <div class="filter-group__title">品牌</div>
-      <div class="filter-group__options">
-        ${vendors.map((v) => optionRow('vendor', v.vendor, v.vendor, v.count)).join('')}
-      </div></div>`);
+    groups.push(groupBlock('品牌',
+      vendors.map((v) => optionRow('vendor', v.vendor, v.vendor, v.count)).join('')));
   }
   if (buckets.length > 1) {
-    groups.push(`<div class="filter-group">
-      <div class="filter-group__title">價格</div>
-      <div class="filter-group__options">
-        ${buckets.map((b) => optionRow('price', b.id, b.label, b.count)).join('')}
-      </div></div>`);
+    groups.push(groupBlock('價格',
+      buckets.map((b) => optionRow('price', b.id, b.label, b.count)).join(''), true));
   }
 
   // Stock and awards go first: they cut the grid hardest and neither is
@@ -381,14 +376,14 @@ function buildFilterSidebar(section, products) {
   }
   if (awarded) flags.push(optionRow('flag', 'award', '得獎產品', awarded));
   if (flags.length) {
-    groups.unshift(`<div class="filter-group">
-      <div class="filter-group__title">精選</div>
-      <div class="filter-group__options">${flags.join('')}</div></div>`);
+    groups.unshift(groupBlock('精選', flags.join(''), true));
   }
 
-  sidebar.querySelectorAll('.filter-group, .filter-sidebar__actions').forEach((n) => n.remove());
-  sidebar.insertAdjacentHTML('beforeend', groups.join('') + `
+  sidebar.querySelectorAll('.filter-sidebar__body, .filter-group, .filter-sidebar__actions')
+    .forEach((n) => n.remove());
+  sidebar.insertAdjacentHTML('beforeend', `<div class="filter-sidebar__body">${groups.join('')}</div>
     <div class="filter-sidebar__actions">
+      <button class="btn btn--primary btn--full btn--sm" data-filter-done>顯示產品</button>
       <button class="btn btn--ghost btn--full btn--sm" data-filter-clear>清除篩選</button>
     </div>`);
 }
@@ -1894,6 +1889,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     prepareBrandRailSlot();
     buildActiveChips(section, sel, lockCat);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
+    const done = document.querySelector('[data-filter-done]');
+    if (done) done.textContent = `顯示 ${list.length} 件產品`;
 
     /* 分類標頭右邊嗰行細字。用成個分類嘅總數（唔跟篩選郁）——
        篩選咗之後仲話「529 件」會誤導，所以篩緊嘅時候唔出件數，

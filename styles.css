@@ -2163,20 +2163,27 @@ button.product-card__quick-add,
   -webkit-backdrop-filter: blur(30px);
   z-index: 2000;
   transition: left var(--duration-normal) var(--ease-out);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   box-shadow: 8px 0 40px rgba(109,163,181,0.1);
 }
 
 .filter-sidebar.is-open { left: 0; }
 
-.filter-sidebar__header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-lg) var(--space-xl); border-bottom: 1px solid var(--border-light); }
+.filter-sidebar__header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; padding: var(--space-lg) var(--space-xl); border-bottom: 1px solid var(--border-light); background: rgba(242,248,250,0.96); backdrop-filter: blur(24px); }
 .filter-sidebar__title { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
 .filter-sidebar__close { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
 .filter-sidebar__close svg { width: 16px; height: 16px; }
+.filter-sidebar__body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 
 .filter-group { padding: var(--space-lg) var(--space-xl); border-bottom: 1px solid var(--border-subtle); }
-.filter-group__title { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: var(--space-md); display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-.filter-group__options { display: flex; flex-direction: column; gap: var(--space-sm); }
+.filter-group__title { list-style: none; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin: 0; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.filter-group__title::-webkit-details-marker { display: none; }
+.filter-group__title::after { content: '+'; font-size: 1rem; line-height: 1; color: var(--primary-dark); transition: transform var(--duration-fast); }
+.filter-group[open] > .filter-group__title { margin-bottom: var(--space-md); }
+.filter-group[open] > .filter-group__title::after { transform: rotate(45deg); }
+.filter-group__options { display: flex; flex-direction: column; gap: var(--space-sm); max-height: 42vh; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
 .filter-option { display: flex; align-items: center; gap: var(--space-sm); font-size: 0.8125rem; color: var(--text-secondary); cursor: pointer; padding: 4px 0; }
 .filter-option input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); }
 
@@ -5704,7 +5711,41 @@ textarea:focus-visible,
 .filter-option { justify-content: space-between; }
 .filter-option span:first-of-type { flex: 1; }
 .filter-option__count { font-size: 0.6875rem; color: var(--text-tertiary); }
-.filter-sidebar__actions { padding: var(--space-xl); }
+.filter-sidebar__actions { flex: 0 0 auto; z-index: 2; display: grid; gap: 8px; padding: var(--space-md) var(--space-xl) max(var(--space-xl), env(safe-area-inset-bottom)); background: rgba(242,248,250,0.97); border-top: 1px solid var(--border-light); backdrop-filter: blur(24px); }
+
+@media (max-width: 720px) {
+  .filter-sidebar {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: min(86vh, 760px);
+    border-radius: 20px 20px 0 0;
+    transform: translateY(105%);
+    transition: transform var(--duration-normal) var(--ease-out);
+    box-shadow: 0 -16px 50px rgba(32, 69, 82, 0.18);
+    z-index: 2101;
+  }
+  .filter-overlay { z-index: 2100; }
+  .filter-sidebar.is-open { left: 0; transform: translateY(0); }
+  .filter-sidebar__header { padding: 18px 20px 14px; }
+  .filter-sidebar__header::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    width: 38px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(43,76,88,.24);
+    transform: translateX(-50%);
+  }
+  .filter-group { padding: 16px 20px; }
+  .filter-option { min-height: 40px; padding: 7px 0; font-size: .875rem; }
+  .filter-option input[type="checkbox"] { width: 20px; height: 20px; }
+  .filter-sidebar__actions { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); padding-inline: 20px; }
+}
 
 .catalog-empty {
   padding: var(--space-4xl, 96px) 0;

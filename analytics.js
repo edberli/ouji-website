@@ -200,12 +200,16 @@ function trackAddShippingInfo(cart, shippingTier) {
 }
 
 /* 列表頁係動態載貨，HTML 初次 ready 時未必已有 product card。
-   用一個輕量 observer 只送每個 handle 一次，補返 view_item_list 同
-   select_item，而唔綁死任何一個分類頁嘅 render function。 */
+   只追蹤真正進入視窗嘅卡，而且每批最多 20 件。舊版一見 DOM 有卡就將
+   全部 1,500+ 件塞入同一個 view_item_list request，Google 直接回 413，
+   即係個事件名雖然有，但實際上一件都收唔到。 */
 function initProductListTracking() {
   if (!TRACK_ON || !document.body) return;
   const seen = new Set();
-  let timer = null;
+  const observed = new WeakSet();
+  const pending = [];
+  let scanTimer = null;
+  let flushTimer = null;
   const itemFromCard = (card) => {
     const link = card.matches('a[href]') ? card : card.querySelector('a[href*="product"]');
     if (!link) return null;
@@ -222,29 +226,53 @@ function initProductListTracking() {
       quantity: 1,
     };
   };
+  const listName = () => document.querySelector('h1')?.textContent?.trim() || document.title;
+  const flush = () => {
+    flushTimer = null;
+    while (pending.length) {
+      window.gtag?.('event', 'view_item_list', {
+        item_list_name: listName(),
+        items: pending.splice(0, 20),
+      });
+    }
+  };
+  const queue = (card) => {
+    const item = itemFromCard(card);
+    if (!item || seen.has(item.item_id)) return;
+    seen.add(item.item_id);
+    pending.push(item);
+    clearTimeout(flushTimer);
+    flushTimer = setTimeout(flush, 120);
+  };
+
+  const visibility = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        visibility.unobserve(entry.target);
+        queue(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px 120px' })
+    : null;
+
   const scan = () => {
-    const fresh = [];
-    document.querySelectorAll('.product-card').forEach((card) => {
-      const item = itemFromCard(card);
-      if (!item || seen.has(item.item_id)) return;
-      seen.add(item.item_id);
-      fresh.push(item);
-    });
-    if (fresh.length) window.gtag?.('event', 'view_item_list', {
-      item_list_name: document.querySelector('h1')?.textContent?.trim() || document.title,
-      items: fresh,
+    document.querySelectorAll('.product-card').forEach((card, index) => {
+      if (observed.has(card)) return;
+      observed.add(card);
+      if (visibility) visibility.observe(card);
+      else if (index < 20) queue(card);
     });
   };
   const schedule = () => {
-    clearTimeout(timer);
-    timer = setTimeout(scan, 120);
+    clearTimeout(scanTimer);
+    scanTimer = setTimeout(scan, 120);
   };
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.product-card');
     if (!card) return;
     const item = itemFromCard(card);
     if (item) window.gtag?.('event', 'select_item', {
-      item_list_name: document.querySelector('h1')?.textContent?.trim() || document.title,
+      item_list_name: listName(),
       items: [item],
     });
   }, { capture: true });

@@ -499,6 +499,19 @@ function initBrandMarquee() {
   const tracks = section.querySelectorAll('.brand-marquee__track');
   if (!tracks.length) return;
 
+  /* 每條 track 後半係為無縫動畫複製出嚟。視覺上要留，但讀屏器同鍵盤
+     唔應該行同一批品牌兩次。 */
+  tracks.forEach((track) => {
+    const items = [...track.children];
+    if (!items.length || items.length % 2) return;
+    items.slice(items.length / 2).forEach((item) => {
+      item.setAttribute('aria-hidden', 'true');
+      if (item.matches('a, button, input, select, textarea')) item.tabIndex = -1;
+      item.querySelectorAll('a, button, input, select, textarea')
+        .forEach((control) => { control.tabIndex = -1; });
+    });
+  });
+
   /* 特登唔加品牌名。試過 hover 顯示個名，但每個 logo 本身就係嗰個
      英文名 —— 喺 logo 下面再寫多次「TIRTIR」係同一個字講兩次。 */
 
@@ -1024,20 +1037,43 @@ function initFilterSidebar() {
   const closeBtn = document.querySelector('.filter-sidebar__close');
   if (!filterBtn || !sidebar) return;
 
+  sidebar.id ||= 'filter-sidebar';
+  filterBtn.setAttribute('aria-controls', sidebar.id);
+  filterBtn.setAttribute('aria-expanded', 'false');
+  let returnFocus = filterBtn;
+
   function openFilter() {
+    returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : filterBtn;
+    sidebar.inert = false;
+    sidebar.removeAttribute('aria-hidden');
     sidebar.classList.add('is-open');
     overlay?.classList.add('is-visible');
+    filterBtn.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => closeBtn?.focus());
   }
-  function closeFilter() {
+  function closeFilter({ restoreFocus = true } = {}) {
     sidebar.classList.remove('is-open');
     overlay?.classList.remove('is-visible');
+    filterBtn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
+    sidebar.setAttribute('aria-hidden', 'true');
+    sidebar.inert = true;
+    if (restoreFocus) returnFocus?.focus();
   }
 
   filterBtn.addEventListener('click', openFilter);
   closeBtn?.addEventListener('click', closeFilter);
   overlay?.addEventListener('click', closeFilter);
+  sidebar.addEventListener('click', (e) => {
+    if (e.target.closest('[data-filter-done]')) closeFilter();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('is-open')) closeFilter();
+  });
+
+  // CSS 載入前都唔可以畀讀屏器撞入關閉咗嘅抽屜。
+  closeFilter({ restoreFocus: false });
 }
 
 /* ----- Product Tabs ----- */

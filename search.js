@@ -28,6 +28,25 @@
     .replace(/&/g, 'a')
     .replace(/[^\p{L}\p{N}]/gu, '');
 
+  /* 香港客會中英韓文混住打。只做明確同義詞，唔用模糊 AI 猜，避免
+     「眼」一個字就撈晒眼影、眼霜、隱形眼鏡。 */
+  const SYNONYM_GROUPS = [
+    ['魚腥草', 'heartleaf', '어성초'],
+    ['積雪草', 'cica', 'centella', '병풀'],
+    ['氣墊', 'cushion'],
+    ['唇釉', 'tint', 'liptint'],
+    ['定妝噴霧', 'fixer', 'settingspray'],
+    ['防曬', 'sunscreen', 'sunblock', 'spf'],
+    ['桃瑞丹', 'torriden'],
+    ['romand', 'romnd', 'rom&nd'],
+  ].map((group) => [...new Set(group.map(flat))]);
+
+  function queryForms(term) {
+    const q = flat(term);
+    const group = SYNONYM_GROUPS.find((forms) => forms.includes(q));
+    return group ? [q, ...group.filter((form) => form !== q)] : [q];
+  }
+
   function score(p, q) {
     const t = flat(p.title), v = flat(p.vendor);
     if (v.startsWith(q)) return 0;          // 牌子頭幾個字 —— 最想要嘅
@@ -38,11 +57,14 @@
   }
 
   function find(term) {
-    const q = flat(term);
-    if (!q || !cache) return [];
+    const queries = queryForms(term);
+    if (!queries[0] || !cache) return [];
     return cache
-      .map((p) => ({ p, s: score(p, q) }))
-      .filter((x) => x.s >= 0)
+      .map((p) => ({ p, s: Math.min(...queries.map((q) => {
+        const hit = score(p, q);
+        return hit < 0 ? 99 : hit;
+      })) }))
+      .filter((x) => x.s < 99)
       .sort((a, b) => a.s - b.s
         || (typeof soldOut === 'function' ? soldOut(a.p) - soldOut(b.p) : 0)
         || a.p.title.length - b.p.title.length)
