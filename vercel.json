@@ -27,6 +27,17 @@
       "permanent": true
     },
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.oujikbeauty.com"
+        }
+      ],
+      "destination": "https://oujikbeauty.com/",
+      "permanent": true
+    },
+    {
       "source": "/products/awards",
       "destination": "/awards",
       "permanent": true
