@@ -22,10 +22,8 @@
 
 `analytics.js` 頂部 ID 已填妥並生效。
 
-可選分析及廣告 script 而家全部經 `analytics.js` 嘅私隱選擇先載入；未選擇或揀
-「只用必要功能」時，Google Analytics／Ads、Meta Pixel 同 Microsoft Clarity
-都唔會落。客人可以喺 `privacy.html` 隨時改選擇；由接受改為拒絕會重載頁面，
-確保之後唔再送新事件。
+分析及廣告 script 由 `analytics.js` 自動載入；Microsoft Clarity 亦由同一入口
+載入，避免每頁重複 inline snippet。
 
 ## 一件最緊要嘅事：呢個網站係 headless
 
