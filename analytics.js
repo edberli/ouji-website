@@ -69,6 +69,15 @@ function loadTrackingScripts() {
   }
 }
 
+function loadClarity() {
+  if (window.__oujiClarityLoaded) return;
+  window.__oujiClarityLoaded = true;
+  window.clarity = window.clarity || function clarityQueue() {
+    (window.clarity.q = window.clarity.q || []).push(arguments);
+  };
+  loadScript('https://www.clarity.ms/tag/y1kuv6ust0');
+}
+
 function initMeta() {
   if (!TRACKING.metaPixel) return;
   /* Meta 官方 snippet，照抄；佢自己會處理重複載入。 */
@@ -312,9 +321,18 @@ function decorateCheckoutUrl(url) {
   }
 }
 
-/* ---------- 開機 ---------- */
+/* ---------- 私隱選擇＋開機 ---------- */
 
-if (TRACK_ON) {
+const CONSENT_KEY = 'ouji_optional_tracking_consent_v1';
+let optionalTrackingStarted = false;
+
+function readTrackingConsent() {
+  try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; }
+}
+
+function startOptionalTracking() {
+  if (!TRACK_ON || optionalTrackingStarted) return;
+  optionalTrackingStarted = true;
   /* 點擊 ID 要即刻記 —— 客隨時撳走，遲一步就冇咗個 gclid。
      但 gtag 同 fbevents 兩支外部 script 唔急：實測佢哋係首頁最慢嘅四
      五個 request（300–590ms），同目錄嗰幾個 API call 爭連線，
@@ -323,6 +341,7 @@ if (TRACK_ON) {
   /* shim ＋ config 即刻行：頁面一開波 fire 嘅 view_item／PageView 要有嘢接住 */
   initGoogle();
   initMeta();
+  loadClarity();
   /* 兩支外部 library 遲少少先落，唔同目錄嗰幾個 request 爭連線 */
   const idle = window.requestIdleCallback
     ? (fn) => window.requestIdleCallback(fn, { timeout: 2500 })
@@ -334,7 +353,59 @@ if (TRACK_ON) {
   } else {
     initProductListTracking();
   }
+  /* 首次入站可能先畫好產品、客之後先接受分析；補返嗰一下 view_item。
+     已經接受過嘅回訪者會喺產品 render 時照舊送，呢度開機時未有產品，唔會重複。 */
+  if (window.OUJI_currentProduct) trackViewItem(window.OUJI_currentProduct);
 }
+
+function saveTrackingConsent(choice) {
+  const previous = readTrackingConsent();
+  try { localStorage.setItem(CONSENT_KEY, choice); } catch (e) { /* no storage */ }
+  document.querySelector('[data-privacy-consent]')?.remove();
+  document.querySelectorAll('[data-consent-status]').forEach((el) => {
+    el.textContent = choice === 'granted' ? '分析及廣告功能：已接受' : '分析及廣告功能：已拒絕';
+  });
+  if (choice === 'granted') startOptionalTracking();
+  /* 已經載入嘅第三方 script 唔可以可靠地由 DOM 拆走；撤回同意時重載一次，
+     下一頁會由開機位直接停住，唔再送新事件。 */
+  if (choice === 'denied' && previous === 'granted') window.location.reload();
+}
+
+function showConsentChoice() {
+  if (document.querySelector('[data-privacy-consent]')) return;
+  const box = document.createElement('section');
+  box.className = 'privacy-consent';
+  box.dataset.privacyConsent = '';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-labelledby', 'privacy-consent-title');
+  box.innerHTML = `
+    <div class="privacy-consent__copy">
+      <strong id="privacy-consent-title">你話事：網站分析同廣告量度</strong>
+      <p>我哋會用 Google Analytics、Google Ads、Meta Pixel 同 Microsoft Clarity 改善網站及量度廣告。只用必要功能都可以正常購物。</p>
+      <a href="privacy.html">睇私隱安排</a>
+    </div>
+    <div class="privacy-consent__actions">
+      <button type="button" class="privacy-consent__necessary" data-consent-choice="denied">只用必要功能</button>
+      <button type="button" class="privacy-consent__accept" data-consent-choice="granted">接受分析及廣告</button>
+    </div>`;
+  document.body.appendChild(box);
+}
+
+window.OUJI_setAnalyticsConsent = saveTrackingConsent;
+document.addEventListener('click', (e) => {
+  const button = e.target.closest('[data-consent-choice]');
+  if (button) saveTrackingConsent(button.dataset.consentChoice);
+});
+
+const consent = readTrackingConsent();
+if (consent === 'granted') startOptionalTracking();
+else if (consent !== 'denied') showConsentChoice();
+
+document.querySelectorAll('[data-consent-status]').forEach((el) => {
+  el.textContent = consent === 'granted'
+    ? '分析及廣告功能：已接受'
+    : consent === 'denied' ? '分析及廣告功能：已拒絕' : '分析及廣告功能：未選擇';
+});
 
 /* ---------- 產品頁嘅 SEO meta ----------
  *

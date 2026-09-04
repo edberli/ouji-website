@@ -13860,3 +13860,56 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
    is-met＝仲未夠數嗰句以外嘅普通提示，唔使搶眼。 */
 .ship-mode__gap { display: block; font-size: 0.72rem; font-weight: 700; margin-top: 4px; color: #e8cf9a; }
 .ship-mode__gap.is-met { font-weight: 400; color: rgba(255,255,255,0.6); }
+
+/* ================================================================
+   私隱選擇：非阻塞式，手機唔遮住成版，兩個選項都係 44px 可撳範圍。
+   ================================================================ */
+.privacy-consent {
+  position: fixed;
+  z-index: 12000;
+  left: max(16px, env(safe-area-inset-left));
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: min(760px, calc(100% - 32px));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 18px;
+  padding: 18px;
+  color: #1e3038;
+  background: #fffdf8;
+  border: 2px solid #2b4c58;
+  border-radius: 14px;
+  box-shadow: 8px 8px 0 rgba(43, 76, 88, 0.22);
+}
+.privacy-consent__copy strong { display: block; font-size: 1rem; line-height: 1.35; }
+.privacy-consent__copy p { margin: 6px 0 4px; font-size: 0.8125rem; line-height: 1.55; color: #52666e; }
+.privacy-consent__copy a { font-size: 0.78rem; font-weight: 700; color: #2b4c58; text-decoration: underline; text-underline-offset: 2px; }
+.privacy-consent__actions { display: flex; gap: 8px; }
+.privacy-consent button,
+.privacy-settings__buttons button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #2b4c58;
+  border-radius: 9px;
+  font: 700 0.8125rem/1.25 var(--font-body);
+  cursor: pointer;
+}
+.privacy-consent__necessary,
+.privacy-settings__necessary { color: #2b4c58; background: #fff; }
+.privacy-consent__accept,
+.privacy-settings__accept { color: #fff; background: #2b4c58; }
+.privacy-settings { margin: 18px 0 24px; padding: 16px; border: 1px solid var(--border-light); border-radius: 12px; background: var(--primary-lightest); }
+.privacy-settings__buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+@media (max-width: 620px) {
+  .privacy-consent {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 15px;
+    box-shadow: 5px 5px 0 rgba(43, 76, 88, 0.22);
+  }
+  .privacy-consent__actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .privacy-consent button { padding-inline: 9px; }
+}
