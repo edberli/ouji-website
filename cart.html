@@ -1071,19 +1071,39 @@
     /* 關鍵字 → 權重。排名照上面 POS 籃次。
        改嘅時候記住：呢啲係「順手加」嘅類別，唔係「最好賣」嘅牌子。 */
     const ADDON_RANK = [
-      [/定妝噴霧|定妝噴霧|噴霧/, 100],
+      [/定妝噴霧|定妝噴霧|蜜粉噴霧|妝前噴霧|fix(ing)? mist|setting mist/i, 100],
       [/面膜/, 90],
       [/防曬棒/, 70],
-      [/唇釉|唇膏|唇彩|tint/i, 55],
+      [/唇釉|唇彩|唇膏|唇釉|tint/i, 55],
       [/胭脂|腮紅|遮瑕/, 50],
       [/卸妝|洗面|潔面/, 40],
       [/眼線|眉筆|睫毛/, 30],
     ];
+
+    /* ⛔ 唔准出現喺加購度。
+       第一版寫咗個 /噴霧/ 就當係定妝噴霧，結果四格推晒
+       「HETRAS 香氛生活噴霧」「John's Blend 室內香氛噴霧」
+       「Country & Stream 薄荷冰涼噴霧」—— 全部係雜貨唔係化妝品。
+       POS 數據講嘅係**定妝**噴霧，唔係「有噴霧兩個字」。
+       同樣道理：「面膜」唔可以包埋洗面膜／泥膜咁多嘢，慢慢補落嚟。 */
+    const ADDON_DENY = /香氛|室內|衣物|除臭|空氣|髮香|香水|洗手|沐浴|廁所|清潔|驅蚊|消毒/;
     const PRICE_MIN = 20, PRICE_MAX = 149;
 
     const rank = (title) => {
+      if (ADDON_DENY.test(title)) return 0;
       for (const [re, w] of ADDON_RANK) if (re.test(title)) return w;
       return 0;
+    };
+
+    /* 好多 title 本身已經帶住牌子名（「Torriden 低分子…」），
+       上面再印一次 vendor 就變咗「TORRIDEN Torriden 低分子…」。 */
+    const trimVendor = (title, vendor) => {
+      if (!vendor) return title;
+      const t = String(title).trim();
+      const v = String(vendor).trim();
+      return t.toLowerCase().startsWith(v.toLowerCase())
+        ? t.slice(v.length).replace(/^[\s|·,\-–—]+/, '') || t
+        : t;
     };
 
     let pool = null;
@@ -1174,7 +1194,7 @@
             <img src="${p.__img}" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy">
           </a>
           <p class="addon__vendor">${p.vendor || ''}</p>
-          <h3 class="addon__name"><a href="product.html?handle=${encodeURIComponent(p.handle)}">${p.title}</a></h3>
+          <h3 class="addon__name"><a href="product.html?handle=${encodeURIComponent(p.handle)}">${trimVendor(p.title, p.vendor)}</a></h3>
           <p class="addon__price">${money(p.__price)}${hit ? '<span class="addon__hit">加咗就免運</span>' : ''}</p>
           <button class="addon__add" type="button" data-vid="${p.__variantId}">加入購物袋</button>
         </article>`;
