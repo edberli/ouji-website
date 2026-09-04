@@ -17,10 +17,10 @@
 
 網站（`analytics.js`）同 Shopify 結帳嗰個自訂像素「Meta Purchase」
 兩邊都已經係呢個 ID。
-| GA4 | — | ❌ 老闆未開戶 |
-| Google Ads | — | ❌ 老闆未開戶 |
+| GA4 | **`G-54MEJHNCXQ`** | ✅ 前台及 Shopify `GA4 Purchase` 自訂像素已連結 |
+| Google Ads | **`AW-18398942973`** | ⚠️ 前台及成交像素已設定；Google & YouTube app 仍顯示未連結 Ads 帳戶 |
 
-填咗 `analytics.js` 頂嗰啲 ID 就即刻生效。
+`analytics.js` 頂部 ID 已填妥並生效。
 
 ## 一件最緊要嘅事：呢個網站係 headless
 
@@ -47,13 +47,13 @@ Google／Meta 嘅官方 app 就以為搞掂 —— 嗰啲 app 只會將程式碼
 
 `analytics.js` 已經開咗 GA4 跨網域連結做保險，但同一個母網域先係穩陣做法。
 
-## 要開嘅戶口（老闆做，我開唔到）
+## 現有帳戶同剩餘權限
 
-| 要攞嘅 | 喺邊度攞 | 填去邊 |
+| 項目 | 現況 | 下一步 |
 |---|---|---|
-| GA4 評估 ID `G-XXXXXXXXXX` | GA4 → 管理 → 資料串流 | `analytics.js` → `TRACKING.ga4` |
-| Google Ads 轉換 ID `AW-XXXXXXXXX` | Google Ads → 目標 → 轉換 | `TRACKING.googleAds` |
-| Meta pixel ID（純數字） | Meta 事件管理工具 | `TRACKING.metaPixel` |
+| GA4 | 網站使用 `G-54MEJHNCXQ`；Shopify `GA4 Purchase` 已連結 | 目前 Chrome 登入帳戶只見 `abreak`／`heywireless`，要切換到擁有呢個資源嘅 Google 帳戶先可以逐日對數 |
+| Google Ads | `AW-18398942973` 及前台／成交轉換標籤已填 | Google & YouTube app 顯示未連結 Ads 帳戶；正式投廣告前要連結正確帳戶並排除重複轉換 |
+| Meta | `344492400198411`；Shopify `Meta Purchase` 已連結 | 用事件管理工具測試真單 Purchase |
 
 **Meta pixel 唔好開新**：廣告戶 2021 年已經有一個（`topics/social-marketing.md`
 記錄咗 pixel 最後觸發係 2021-04-13）。用返舊嗰個，保住歷史同自訂受眾。
@@ -75,21 +75,12 @@ Shopping 同 Meta 動態廣告都認得。
 ## 結帳嗰邊：Shopify 顧客事件
 
 購買事件發生喺 Shopify，要另外裝。後台 → **設定 → 顧客事件 → 新增自訂像素**，
-貼以下程式碼（記得換返 ID）：
+後台 `GA4 Purchase` 現行核心邏輯如下；Meta Purchase 由另一個像素發，唔好喺呢段重複：
 
 ```js
-const GA4 = 'G-XXXXXXXXXX';
-const META = '000000000000';
-
-// Meta
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', META);
-
-// GA4
+const GA4 = 'G-54MEJHNCXQ';
+const AW = 'AW-18398942973';
+const LABEL = 't9MSCNiFruQcEP2tpsVE';
 const s = document.createElement('script');
 s.async = true;
 s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4;
@@ -98,30 +89,53 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
 gtag('js', new Date());
 gtag('config', GA4, { send_page_view: false });
+gtag('config', AW);
+
+function itemId(line) {
+  const product = line.variant?.product;
+  return product?.url?.match(/\/products\/([^/?#]+)/)?.[1]
+    || line.variant?.sku || line.variant?.id || product?.id || line.id;
+}
+
+function checkoutItems(checkout) {
+  return (checkout.lineItems || []).map((line) => {
+    const quantity = line.quantity || 1;
+    const original = Number(line.variant?.price?.amount || 0);
+    const paid = Number(line.finalLinePrice?.amount ?? original * quantity) / quantity;
+    return {
+      item_id: itemId(line),
+      item_name: line.title,
+      item_brand: line.variant?.product?.vendor,
+      item_category: line.variant?.product?.type,
+      item_variant: line.variant?.title,
+      price: paid,
+      discount: Math.max(0, original - paid),
+      quantity,
+    };
+  });
+}
 
 analytics.subscribe('checkout_completed', (event) => {
   const c = event.data.checkout;
-  const items = (c.lineItems || []).map((l) => ({
-    item_id: l.variant?.product?.id,
-    item_name: l.title,
-    price: l.variant?.price?.amount,
-    quantity: l.quantity,
-  }));
-  const value = c.totalPrice?.amount;
+  const items = checkoutItems(c);
+  const value = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const currency = c.totalPrice?.currencyCode || 'HKD';
+  const transactionId = String(c.order?.id || c.token || event.id);
   gtag('event', 'purchase', {
-    transaction_id: c.order?.id,
-    value, currency: c.totalPrice?.currencyCode || 'HKD',
+    transaction_id: transactionId,
+    value, currency,
     shipping: c.shippingLine?.price?.amount,
+    tax: c.totalTax?.amount,
     items,
   });
-  fbq('track', 'Purchase', {
-    value, currency: c.totalPrice?.currencyCode || 'HKD',
-    content_ids: items.map((i) => i.item_id), content_type: 'product',
+  gtag('event', 'conversion', {
+    send_to: AW + '/' + LABEL,
+    value, currency, transaction_id: transactionId,
   });
 });
 ```
 
-裝完之後 **「顧客私隱」→ 權限** 要set 返，否則喺某啲地區個 pixel 唔會行。
+2026-09-04 後台實測：`GA4 Purchase` 已連結，權限設為行銷＋分析，修正版已顯示「像素已儲存」。
 
 ## Google Shopping（購物廣告）
 

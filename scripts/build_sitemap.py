@@ -104,7 +104,6 @@ Allow: /
 Disallow: /cart
 Disallow: /account
 Disallow: /wishlist
-Disallow: /*?variant=
 
 Sitemap: {SITE}/sitemap.xml
 """

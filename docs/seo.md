@@ -7,7 +7,7 @@
 | 項目 | 狀態 |
 |---|---|
 | `sitemap.xml` | ✅ 807 件產品 ＋ 20 版靜態頁（`scripts/build_sitemap.py` 重新生成）|
-| `robots.txt` | ✅ 擋咗 /cart /account /wishlist，指住 sitemap |
+| `robots.txt` | ✅ 擋咗 /cart /account /wishlist，保留 `?variant=` 商品頁畀 Merchant Center 抓取，並指住 sitemap |
 | schema.org Product JSON-LD | ✅ 逐件產品（特登唔放 aggregateRating，見 `analytics.js`）|
 | 每版 canonical | ✅ 全部 25 版對晒 |
 | 產品頁 title／description／og | ✅ 逐件產品（2026-08-09 修好）|
@@ -126,7 +126,8 @@ logo 位得個網址，仲要顯示第一個變體嘅價而唔係最低價。我
   真係高過現價先報，唔製造假折扣。
 - **產品頁支援 `?variant=`。** feed 帶住色號入去，客人撳咗 #08
   磚紅（$118）就落喺 #08，唔會見到 #01（$138）。canonical 仍然係
-  乾淨嗰條網址，唔會拆散收錄。
+  乾淨嗰條網址，唔會拆散收錄。`robots.txt` 唔可以封鎖呢類網址，
+  否則 Merchant Center 無法核對變體落地頁，商品會被拒批。
 - **出唔到就回 500**，唔回空 feed —— 回空等於同 Google 講全線落架。
 
 ### 喺 Merchant Center 度做咗嘅設定（2026-08-10）
