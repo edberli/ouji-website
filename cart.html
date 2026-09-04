@@ -1167,26 +1167,43 @@
         })
         .sort((a, b) => b.s - a.s || a.p.__price - b.p.__price);
 
-      /* 同一個牌子唔好連續霸晒四格 —— 定妝噴霧單一牌子就有四個 SKU。 */
-      const picked = [], seen = {};
-      for (const { p } of scored) {
-        const v = p.vendor || '?';
-        if ((seen[v] || 0) >= 1 && picked.length < 4) continue;
-        seen[v] = (seen[v] || 0) + 1;
+      /* 分散：同一個牌子唔好霸多過一格（定妝噴霧單一牌子就有四個 SKU），
+         同一類都唔好超過兩格 —— 實測差 $26 免運嗰陣四格全部係面膜，
+         睇落好似得一款嘢揀。夠唔夠四件就放寬條件再執多次。 */
+      const picked = [], byVendor = {}, byKind = {};
+      const pass = (p, vMax, kMax) => {
+        const v = p.vendor || '?', k = rank(p.title);
+        return (byVendor[v] || 0) < vMax && (byKind[k] || 0) < kMax;
+      };
+      const take = (p) => {
+        byVendor[p.vendor || '?'] = (byVendor[p.vendor || '?'] || 0) + 1;
+        byKind[rank(p.title)] = (byKind[rank(p.title)] || 0) + 1;
         picked.push(p);
+      };
+      for (const { p } of scored) {
         if (picked.length === 4) break;
+        if (pass(p, 1, 2)) take(p);
       }
-      if (picked.length < 4) {
+      for (const [vMax, kMax] of [[1, 3], [2, 4]]) {
         for (const { p } of scored) {
-          if (picked.includes(p)) continue;
-          picked.push(p);
           if (picked.length === 4) break;
+          if (picked.includes(p)) continue;
+          if (pass(p, vMax, kMax)) take(p);
         }
       }
       if (!picked.length) { sec.hidden = true; return; }
 
+      /* 「加咗就免運」係成個 section 唯一嘅強調，所以只可以標一件 ——
+         四件都標就等於冇標。揀夠門檻之中最平嗰件（客最容易撳落去）。 */
+      let hitOne = null;
+      if (gap > 0) {
+        hitOne = picked
+          .filter((p) => p.__price >= gap)
+          .sort((a, b) => a.__price - b.__price)[0] || null;
+      }
+
       grid.innerHTML = picked.map((p) => {
-        const hit = gap > 0 && p.__price >= gap && p.__price - gap <= 40;
+        const hit = p === hitOne;
         return `<article class="addon__card">
           <a class="addon__media" href="product.html?handle=${encodeURIComponent(p.handle)}">
             <img src="${p.__img}" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy">

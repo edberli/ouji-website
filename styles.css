@@ -13803,7 +13803,13 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 .addon__media img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
 
 .addon__vendor { margin: var(--space-sm) 0 2px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
-.addon__name { margin: 0 0 var(--space-sm); font-size: 0.8125rem; font-weight: 400; line-height: 1.45; }
+/* 好多 title 拖住成串英文全名（「…5片裝 (No.4 Icy Soothing Sheet Mask, Tea…」），
+   唔截就每張卡高度都唔同，成行歪晒。兩行封頂。 */
+.addon__name {
+  margin: 0 0 var(--space-sm); font-size: 0.8125rem; font-weight: 400; line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; min-height: calc(0.8125rem * 1.45 * 2);
+}
 .addon__name a { color: var(--text-primary); text-decoration: none; }
 .addon__name a:hover { text-decoration: underline; }
 
