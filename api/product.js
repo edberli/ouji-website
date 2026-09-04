@@ -149,7 +149,11 @@ function buildHead(p) {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: (p.title || '').slice(0, 150),
-    description: raw.slice(0, 500) || undefined,
+    /* 唔准 undefined —— 2026-09-04 Google Search Console 報「description
+       欄位未填」，成因就係兩件貨 Shopify description 得返空字串，呢度
+       見到空就唔出呢個欄。而家有 fallback：貨源自己冇文案就用返
+       meta description 嗰句（品牌 + 貨名），保證呢個欄永遠有嘢。 */
+    description: raw ? raw.slice(0, 500) : desc,
     /* 多色號唔可以將第一個色號嘅 SKU／GTIN扮成全產品識別碼；
        單變體先放頂層，多變體留畀下一輪 ProductGroup。 */
     sku: variants.length === 1 ? (v?.sku || undefined) : undefined,

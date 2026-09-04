@@ -474,7 +474,14 @@ function injectProductSchema(product, variant) {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: (product.title || '').slice(0, NAME_MAX),
-    description: (product.description || '').slice(0, 500) || undefined,
+    /* 唔准 undefined —— 同 api/product.js 一致：貨源自己冇文案就用返
+       同 applyProductSeo() 一樣嘅 fallback 句式，保證呢個欄永遠有嘢
+       （2026-09-04 Search Console「description 欄位未填」嘅根治）。
+       injectProductSchema() 同 applyProductSeo() 係兩個獨立 function，
+       呢句要喺度自己計一次，唔可以當有 `desc` 呢個變數喺 scope 入面。 */
+    description: (product.description || '').trim()
+      ? product.description.slice(0, 500)
+      : `${product.vendor || 'OUJI'} ${product.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`,
     sku: variants.length === 1 ? (v?.sku || undefined) : undefined,
     ...(variants.length === 1 ? gtinField(v?.barcode) : {}),
     image: images.length ? images : undefined,
