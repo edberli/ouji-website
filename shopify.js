@@ -1434,6 +1434,18 @@ async function initPage() {
 }
 
 /** 生成商品卡片 HTML */
+function productImageAlt(image, productTitle, position = 0) {
+  const supplied = String(image?.altText || '').trim();
+  /* 供應商批量匯入常見嘅「Image」「Photo」對讀屏器完全冇意思；
+     呢類值當作冇填，用真產品名補返。第二張起加位置，避免十張圖讀到一樣。 */
+  const generic = /^(?:image|img|photo|product image|圖片|相片)(?:\s*\d+)?$/i;
+  const useful = supplied && !generic.test(supplied)
+    ? supplied
+    : `${productTitle || '產品'}${position > 0 ? ` — 圖 ${position + 1}` : ''}`;
+  return useful.replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function productCardHTML(product) {
   const image = product.images?.edges?.[0]?.node;
   const price = product.priceRange?.minVariantPrice;
@@ -1446,7 +1458,7 @@ function productCardHTML(product) {
     <article class="product-card" data-product-id="${product.id}">
       <a href="product.html?handle=${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
-          ${image ? `<img src="${image.url}" alt="${image.altText || product.title}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
+          ${image ? `<img src="${image.url}" alt="${productImageAlt(image, product.title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
           ${isOnSale && !isSoldOut ? '<span class="product-card__badge product-card__badge--sale">特價</span>' : ''}
         </div>

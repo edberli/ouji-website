@@ -1189,7 +1189,7 @@
             return `
               <a href="product.html?handle=${p.handle}" class="product-card">
                 <div class="product-card__image-wrap">
-                  ${image ? `<img class="product-card__image" src="${image.url}" alt="${image.altText || p.title}">` : ''}
+                  ${image ? `<img class="product-card__image" src="${image.url}" alt="${productImageAlt(image, p.title)}">` : ''}
                   ${isOnSale ? '<span class="product-card__badge">特價</span>' : ''}
                   <button type="button" class="product-card__wishlist${typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"
                     aria-label="加入願望清單" data-wish="${p.id}"
