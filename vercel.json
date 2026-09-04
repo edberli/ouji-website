@@ -14,6 +14,35 @@
       "maxDuration": 30
     }
   },
+  "redirects": [
+    {
+      "source": "/products/awards",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.oujikbeauty.com"
+        }
+      ],
+      "destination": "https://oujikbeauty.com/awards",
+      "permanent": true
+    },
+    {
+      "source": "/products/awards",
+      "destination": "/awards",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.oujikbeauty.com"
+        }
+      ],
+      "destination": "https://oujikbeauty.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/products/:handle",

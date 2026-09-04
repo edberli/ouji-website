@@ -200,7 +200,7 @@ def sheet(tag, drop):
           f"\n睇完 sheet 之後：--drop <條碼,條碼> --apply")
 
 
-def apply(tag, drop, limit):
+def apply(tag, drop, limit, publish_reviewed=False):
     pos = pos_rows()
     plan = json.loads((WORK / tag / "plan.json").read_text())
     made = 0
@@ -246,14 +246,16 @@ def apply(tag, drop, limit):
         desc = f"<p>{p['title'].strip()}</p>"
         if strips:
             desc += f'<div class="product-detail-images">{strips}</div>'
-        user_errors(gql(ACTIVATE, {"id": prod["id"], "d": desc}), "productUpdate")
-        user_errors(gql(PUBLISH, {"id": prod["id"],
-                                  "in": [{"publicationId": x} for x in PUBS]}),
-                    "publishablePublish")
+        if publish_reviewed:
+            user_errors(gql(ACTIVATE, {"id": prod["id"], "d": desc}), "productUpdate")
+            user_errors(gql(PUBLISH, {"id": prod["id"],
+                                      "in": [{"publicationId": x} for x in PUBS]}),
+                        "publishablePublish")
         made += 1
+        state_label = "已上架" if publish_reviewed else "Draft 待覆核"
         print(f"  ✓ {p['title'][:42]:<44} ${price:.0f}"
-              f"{'（加咗價）' if bumped else ''} 存{qty} 圖{len(urls)}")
-    print(f"\n上咗 {made} 件。")
+              f"{'（加咗價）' if bumped else ''} 存{qty} 圖{len(urls)} · {state_label}")
+    print(f"\n建立 {made} 件（{'已上架' if publish_reviewed else 'Draft 待覆核'}）。")
 
 
 def main():
@@ -261,6 +263,8 @@ def main():
     ap.add_argument("--tag", required=True, help="agent 輸出檔嘅前綴，例如 zy")
     ap.add_argument("--sheet", action="store_true")
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--publish-reviewed", action="store_true",
+                    help="只可喺商品資料人工覆核完成後使用；否則一律留喺 Draft")
     ap.add_argument("--drop", default="", help="唔要嘅條碼，逗號分隔")
     ap.add_argument("--limit", type=int, default=0)
     a = ap.parse_args()
@@ -268,7 +272,7 @@ def main():
     if a.sheet:
         sheet(a.tag, drop)
     if a.apply:
-        apply(a.tag, drop, a.limit)
+        apply(a.tag, drop, a.limit, a.publish_reviewed)
     if not (a.sheet or a.apply):
         print("要加 --sheet 或者 --apply")
 

@@ -23,7 +23,7 @@ const path = require('path');
 
 const SHOP = '5rerjn-mt.myshopify.com';
 const TOKEN = '795e2f7cb13da1d3776449eba5802377';
-const API = `https://${SHOP}/api/2024-10/graphql.json`;
+const API = `https://${SHOP}/api/2026-07/graphql.json`;
 const SITE = 'https://oujikbeauty.com';
 
 const QUERY = `
@@ -61,11 +61,14 @@ async function fetchProduct(handle) {
       body: JSON.stringify({ query: QUERY, variables: { handle } }),
       signal: ctrl.signal,
     });
-    if (!r.ok) return null;
+    if (!r.ok) return { state: 'unavailable' };
     const j = await r.json();
-    return j?.data?.product || null;
+    if (j?.errors?.length) return { state: 'unavailable' };
+    return j?.data?.product
+      ? { state: 'ok', product: j.data.product }
+      : { state: 'not_found' };
   } catch (e) {
-    return null;
+    return { state: 'unavailable' };
   } finally {
     clearTimeout(timer);
   }
@@ -230,14 +233,22 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const product = await fetchProduct(handle);
-  if (!product) {
-    /* 攞唔到就照出原本嗰版 —— 客戶端嗰段 JS 會自己處理「搵唔到產品」。
-       快取短啲，等 API 恢復之後唔使等太耐。 */
-    res.setHeader('Cache-Control', 'public, s-maxage=60');
-    res.status(200).send(html);
+  const result = await fetchProduct(handle);
+  if (result.state === 'not_found') {
+    /* 真正 404，唔再畀 Google 當成一頁內容空白但狀態 200 嘅商品。 */
+    res.setHeader('Cache-Control', 'public, s-maxage=300');
+    res.status(404).send(html);
     return;
   }
+  if (result.state !== 'ok') {
+    /* 上游暫時失效唔等於產品不存在；503 叫爬蟲稍後再試，瀏覽器內嘅
+       Storefront fetch 仍會照常嘗試載入。 */
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Retry-After', '60');
+    res.status(503).send(html);
+    return;
+  }
+  const product = result.product;
 
   let out = HEAD_BLOCK.test(html)
     ? html.replace(HEAD_BLOCK, buildHead(product))

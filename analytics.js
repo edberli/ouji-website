@@ -154,6 +154,104 @@ function trackBeginCheckout(cart) {
   });
 }
 
+function ga4CartItems(cart) {
+  return (cart?.lines?.edges || []).map((e) => e.node).map((l) => ({
+    item_id: l.merchandise?.product?.handle || l.merchandise?.id,
+    item_name: l.merchandise?.product?.title || l.merchandise?.title,
+    item_brand: l.merchandise?.product?.vendor || undefined,
+    item_variant: l.merchandise?.title || undefined,
+    price: money(l.merchandise?.price?.amount),
+    quantity: l.quantity,
+  }));
+}
+
+function trackViewCart(cart) {
+  if (!TRACK_ON || !cart) return;
+  window.gtag?.('event', 'view_cart', {
+    currency: 'HKD',
+    value: money(cart.cost?.totalAmount?.amount),
+    items: ga4CartItems(cart),
+  });
+}
+
+function trackRemoveFromCart(line) {
+  if (!TRACK_ON || !line) return;
+  const item = {
+    item_id: line.merchandise?.product?.handle || line.merchandise?.id,
+    item_name: line.merchandise?.product?.title || line.merchandise?.title,
+    item_brand: line.merchandise?.product?.vendor || undefined,
+    item_variant: line.merchandise?.title || undefined,
+    price: money(line.merchandise?.price?.amount),
+    quantity: line.quantity,
+  };
+  window.gtag?.('event', 'remove_from_cart', {
+    currency: 'HKD', value: (item.price || 0) * (item.quantity || 1), items: [item],
+  });
+}
+
+function trackAddShippingInfo(cart, shippingTier) {
+  if (!TRACK_ON || !cart) return;
+  window.gtag?.('event', 'add_shipping_info', {
+    currency: 'HKD',
+    value: money(cart.cost?.totalAmount?.amount),
+    shipping_tier: shippingTier,
+    items: ga4CartItems(cart),
+  });
+}
+
+/* 列表頁係動態載貨，HTML 初次 ready 時未必已有 product card。
+   用一個輕量 observer 只送每個 handle 一次，補返 view_item_list 同
+   select_item，而唔綁死任何一個分類頁嘅 render function。 */
+function initProductListTracking() {
+  if (!TRACK_ON || !document.body) return;
+  const seen = new Set();
+  let timer = null;
+  const itemFromCard = (card) => {
+    const link = card.matches('a[href]') ? card : card.querySelector('a[href*="product"]');
+    if (!link) return null;
+    const u = new URL(link.href, location.href);
+    const handle = u.pathname.match(/^\/products\/([^/]+)/)?.[1]
+      || u.searchParams.get('handle');
+    if (!handle) return null;
+    const rawPrice = card.querySelector('[class*="price"]')?.textContent || '';
+    return {
+      item_id: decodeURIComponent(handle),
+      item_name: card.querySelector('[class*="name"], h3')?.textContent?.trim() || decodeURIComponent(handle),
+      item_brand: card.querySelector('[class*="brand"]')?.textContent?.trim() || undefined,
+      price: money(rawPrice.replace(/[^0-9.]/g, '')),
+      quantity: 1,
+    };
+  };
+  const scan = () => {
+    const fresh = [];
+    document.querySelectorAll('.product-card').forEach((card) => {
+      const item = itemFromCard(card);
+      if (!item || seen.has(item.item_id)) return;
+      seen.add(item.item_id);
+      fresh.push(item);
+    });
+    if (fresh.length) window.gtag?.('event', 'view_item_list', {
+      item_list_name: document.querySelector('h1')?.textContent?.trim() || document.title,
+      items: fresh,
+    });
+  };
+  const schedule = () => {
+    clearTimeout(timer);
+    timer = setTimeout(scan, 120);
+  };
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.product-card');
+    if (!card) return;
+    const item = itemFromCard(card);
+    if (item) window.gtag?.('event', 'select_item', {
+      item_list_name: document.querySelector('h1')?.textContent?.trim() || document.title,
+      items: [item],
+    });
+  }, { capture: true });
+  new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
+  schedule();
+}
+
 /* ---------- 廣告點擊 ID 帶去結帳 ----------
  *
  * 客人由廣告入嚟，網址會帶住 gclid（Google）或者 fbclid（Meta）。
@@ -203,6 +301,11 @@ if (TRACK_ON) {
     : (fn) => setTimeout(fn, 1200);
   if (document.readyState === 'complete') idle(loadTrackingScripts);
   else window.addEventListener('load', () => idle(loadTrackingScripts), { once: true });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProductListTracking, { once: true });
+  } else {
+    initProductListTracking();
+  }
 }
 
 /* ---------- 產品頁嘅 SEO meta ----------

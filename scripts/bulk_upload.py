@@ -221,6 +221,8 @@ def priced(price, cost):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--publish-reviewed", action="store_true",
+                    help="只可喺商品資料人工覆核完成後使用；否則一律留喺 Draft")
     ap.add_argument("--max", type=int, default=40)
     ap.add_argument("--min-score", type=float, default=0.65)
     a = ap.parse_args()
@@ -323,21 +325,23 @@ def main():
                          for u in host_files([str(f) for f in files[:6]], alt=r["name"].strip()) if u)
         desc = (f"<p>{r['name'].strip()}</p>"
                 f'<div class="product-detail-images">{strips}</div>')
-        user_errors(gql(ACTIVATE, {"id": p["id"], "d": desc}), "productUpdate")
-        user_errors(gql(PUBLISH, {"id": p["id"],
-                                  "in": [{"publicationId": x} for x in PUBS]}), "publishablePublish")
+        if a.publish_reviewed:
+            user_errors(gql(ACTIVATE, {"id": p["id"], "d": desc}), "productUpdate")
+            user_errors(gql(PUBLISH, {"id": p["id"],
+                                      "in": [{"publicationId": x} for x in PUBS]}), "publishablePublish")
         state["done"].append(bc)
         made += 1
-        print(f"  ✓ {r['name'][:44]}  ${price:.0f}{'（加咗價）' if bumped else ''} 存{qty} 圖{len(files)}")
+        state_label = "已上架" if a.publish_reviewed else "Draft 待覆核"
+        print(f"  ✓ {r['name'][:44]}  ${price:.0f}{'（加咗價）' if bumped else ''} 存{qty} 圖{len(files)} · {state_label}")
         STATE.write_text(json.dumps(state, ensure_ascii=False))
 
     STATE.write_text(json.dumps(state, ensure_ascii=False))
     REPORT.write_text(
-        f"# 自動上架報告\n\n開咗 {made} 件｜仲有夾到未做 {max(0, len(plan)-a.max)} 件｜"
+        f"# 自動匯入報告\n\n建立 {made} 件（{'已人工覆核並上架' if a.publish_reviewed else 'Draft 待覆核'}）｜仲有夾到未做 {max(0, len(plan)-a.max)} 件｜"
         f"夾唔到 {len(nohit)} 件\n\n## 夾唔到\n"
         + "".join(f"- {x[0]['name'][:52]}（{x[1]}，最高分 {x[2]:.2f}）\n" for x in nohit[:200]),
         encoding="utf-8")
-    print(f"\n開咗 {made} 件。報告 → {REPORT}")
+    print(f"\n建立 {made} 件（{'已上架' if a.publish_reviewed else 'Draft 待覆核'}）。報告 → {REPORT}")
 
 
 # ⚠️ 一定要包住個 guard。之前係一句裸嘅 main() —— 第二個 script

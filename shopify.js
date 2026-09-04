@@ -5,7 +5,22 @@
  */
 const SHOPIFY_DOMAIN = '5rerjn-mt.myshopify.com';
 const SHOPIFY_TOKEN  = '795e2f7cb13da1d3776449eba5802377';
-const SHOPIFY_API    = `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`;
+const SHOPIFY_API    = `https://${SHOPIFY_DOMAIN}/api/2026-07/graphql.json`;
+
+/* 會影響落單嘅數，只准喺呢度定義一次。畫面文案可以有唔同排版，但
+   購物袋、贈品同步同結帳判斷全部讀同一份設定。 */
+const OUJI_COMMERCE = Object.freeze({
+  promotion: Object.freeze({
+    endsAt: '2026-09-15T23:59:59+08:00',
+    gift: Object.freeze({
+      threshold: 499,
+      handle: 'round-lab-round-lab-80ml-0221',
+      variantId: 'gid://shopify/ProductVariant/48093431529630',
+      lineAttribute: '_ouji_auto_gift',
+    }),
+  }),
+});
+window.OUJI_COMMERCE = OUJI_COMMERCE;
 
 // ─────────────────────────────────────────────
 // 核心請求函數
@@ -476,6 +491,11 @@ async function getCart() {
             node {
               id quantity
               cost { totalAmount { amount currencyCode } }
+              attributes { key value }
+              discountAllocations {
+                discountedAmount { amount currencyCode }
+                ... on CartAutomaticDiscountAllocation { title }
+              }
               merchandise {
                 ... on ProductVariant {
                   id title
@@ -496,6 +516,84 @@ async function getCart() {
      永遠都係空，而下一次加貨又會撞返同一個死 ID。 */
   if (!data?.cart) localStorage.removeItem('shopify_cart_id');
   return data?.cart;
+}
+
+/**
+ * 將「滿額送」由一句宣傳變成真實購物車行為。
+ *
+ * Shopify 原生 BXGY 唔會幫客將 Y 放入袋；呢度加一條帶私有 attribute
+ * 嘅 line，方便同客人自己買嘅同款面霜分開。跌穿門檻後，如果後台已經
+ * 唔再將呢條 line 減至 $0，就即刻移除，唔會靜靜收客 HK$148。
+ */
+async function syncAutomaticGift(cart) {
+  if (!cart?.id) return { changed: false };
+  const gift = OUJI_COMMERCE.promotion.gift;
+  const lines = (cart.lines?.edges || []).map((e) => e.node);
+  const auto = lines.find((line) => line.attributes?.some(
+    (a) => a.key === gift.lineAttribute && a.value === '1'
+  ));
+
+  if (auto) {
+    const isFree = Number(auto.cost?.totalAmount?.amount || 0) < 0.01;
+    if (!isFree) {
+      /* 後台門檻未同步嗰陣（實測曾經係 $500、前台承諾 $499），唔可以
+         add → reload → remove → reload 無限循環。記住今次「未獲折扣」嘅
+         購物金額；客再加貨、金額變咗先重試。 */
+      const delivery = Number(
+        cart.deliveryGroups?.edges?.[0]?.node?.selectedDeliveryOption?.estimatedCost?.amount || 0
+      );
+      const cartNet = Number(cart.cost?.totalAmount?.amount || 0) - delivery;
+      const subtotal = Number(cart.cost?.subtotalAmount?.amount || 0);
+      const giftGross = Number(auto.cost?.totalAmount?.amount || 0);
+      const baseNet = Math.max(0, cartNet - (subtotal ? giftGross * cartNet / subtotal : giftGross));
+      try { sessionStorage.setItem(`ouji:gift-rejected:${cart.id}`, baseNet.toFixed(2)); } catch (e) {}
+      await removeCartLine(auto.id);
+      return { changed: true, action: 'removed' };
+    }
+    try { sessionStorage.removeItem(`ouji:gift-rejected:${cart.id}`); } catch (e) {}
+    if (auto.quantity !== 1) {
+      await updateCartLine(auto.id, 1);
+      return { changed: true, action: 'trimmed' };
+    }
+    return { changed: false };
+  }
+
+  const delivery = Number(
+    cart.deliveryGroups?.edges?.[0]?.node?.selectedDeliveryOption?.estimatedCost?.amount || 0
+  );
+  const eligibleTotal = Number(cart.cost?.totalAmount?.amount || 0) - delivery;
+  if (eligibleTotal + 0.001 < gift.threshold) return { changed: false };
+  try {
+    if (sessionStorage.getItem(`ouji:gift-rejected:${cart.id}`) === eligibleTotal.toFixed(2)) {
+      return { changed: false, backendMismatch: true };
+    }
+  } catch (e) {}
+
+  const data = await shopifyFetch(`
+    mutation AddAutomaticGift($cartId: ID!, $lines: [CartLineInput!]!, $country: CountryCode!)
+    @inContext(country: $country) {
+      cartLinesAdd(cartId: $cartId, lines: $lines) {
+        cart { id totalQuantity }
+        userErrors { field message }
+        warnings { code message }
+      }
+    }
+  `, {
+    cartId: cart.id,
+    country: CART_COUNTRY,
+    lines: [{
+      merchandiseId: gift.variantId,
+      quantity: 1,
+      attributes: [{ key: gift.lineAttribute, value: '1' }],
+    }],
+  });
+  const result = data?.cartLinesAdd;
+  if (!result?.cart || result.userErrors?.length) {
+    console.error('自動贈品加入失敗：', result?.userErrors || result?.warnings || data);
+    return { changed: false, error: true };
+  }
+  updateCartBadge(result.cart.totalQuantity);
+  return { changed: true, action: 'added' };
 }
 
 /** 加入商品到購物車 */

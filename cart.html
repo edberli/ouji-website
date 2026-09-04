@@ -607,6 +607,17 @@
       return;
     }
 
+    /* Shopify BXGY 唔會自動將贈品加落袋。先同步一次；有變更就 reload
+       攞返折扣後嘅正式 cart，避免畫面短暫顯示贈品正價。 */
+    if (typeof syncAutomaticGift === 'function') {
+      const giftSync = await syncAutomaticGift(cart);
+      if (giftSync.changed) {
+        location.reload();
+        return;
+      }
+    }
+    if (typeof trackViewCart === 'function') trackViewCart(cart);
+
     // Show cart layout, hide empty state
     cartEmpty.style.display = 'none';
     cartLayout.style.display = '';
@@ -616,6 +627,7 @@
     itemsContainer.innerHTML = lines.map(line => {
       const merch = line.merchandise;
       const img = merch.image;
+      const isAutoGift = line.attributes?.some((a) => a.key === '_ouji_auto_gift' && a.value === '1');
       // Skincare has one variant per product, and Shopify names it 單一規格.
       // Printing that as the product name left rows reading "單一規格"
       // twice with the real product name pushed into the brand slot.
@@ -629,16 +641,16 @@
             ${img ? `<img src="${img.url}" alt="${merch.product.title}">` : ''}
           </div>
           <div class="cart-item__details">
-            <span class="cart-item__brand">${merch.product.vendor || ''}</span>
+            <span class="cart-item__brand">${isAutoGift ? '滿額贈品 · ' : ''}${merch.product.vendor || ''}</span>
             <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.product.title}</a></h3>
             ${options ? `<span class="cart-item__variant">${options}</span>` : ''}
-            <div class="cart-item__quantity">
+            ${isAutoGift ? '<div class="cart-item__quantity"><strong>免費贈送 · 1 件</strong></div>' : `<div class="cart-item__quantity">
               <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity - 1})" style="width:32px;height:32px;font-size:0.875rem;">−</button>
               <input type="number" class="qty-input" value="${line.quantity}" min="1" max="99" style="width:44px;height:32px;font-size:0.8125rem;" onchange="changeQty('${line.id}', this.value)">
               <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity + 1})" style="width:32px;height:32px;font-size:0.875rem;">+</button>
               <button class="cart-item__remove" onclick="removeLine('${line.id}')">移除</button>
-            </div>
-            ${stockSplit(line)}
+            </div>`}
+            ${isAutoGift ? '' : stockSplit(line)}
           </div>
           <div class="cart-item__price">${formatPrice(line.cost.totalAmount.amount)}</div>
         </div>
@@ -681,7 +693,7 @@
     ) || 0;
     const netTotal = parseFloat(cart.cost.totalAmount.amount) - inclShip;   // 折實貨價
     const saved = Math.max(0, subtotal - netTotal);
-    const GIFT = 499;
+    const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 499;
     const FREE_SHIP = window.OUJI_SHIP.post.free;   // 進度條第一級 = 自取免郵
     const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : 'post';
     const m = window.OUJI_SHIP[mode];
@@ -715,7 +727,7 @@
    * 條進度棒去到 $499 為滿，$250 嗰點畫條刻度。
    */
   const FREE_SHIP = 250;
-  const GIFT = 499;
+  const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 499;
 
   function renderReward(net, gross, inCart) {
     const host = document.querySelector('[data-reward]');
@@ -862,6 +874,8 @@
   };
 
   window.removeLine = async function(lineId) {
+    const line = lines.find((x) => x.id === lineId);
+    if (line && typeof trackRemoveFromCart === 'function') trackRemoveFromCart(line);
     await removeCartLine(lineId);
     location.reload();
   };
@@ -993,6 +1007,10 @@
           '運送方式': window.OUJI_SHIP[mode].name,
           ship_mode: mode,
         });
+      }
+      if (typeof trackAddShippingInfo === 'function') {
+        const currentCart = await getCart();
+        trackAddShippingInfo(currentCart, window.OUJI_SHIP[mode].name);
       }
       /* 運費同合計要即刻跟住變 —— 唔重畫成個購物袋，只補呢兩格。 */
       const S = window.OUJI_SHIP[mode], n = net();

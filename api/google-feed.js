@@ -27,7 +27,7 @@
  */
 const SHOP = '5rerjn-mt.myshopify.com';
 const TOKEN = '795e2f7cb13da1d3776449eba5802377';
-const API = `https://${SHOP}/api/2024-10/graphql.json`;
+const API = `https://${SHOP}/api/2026-07/graphql.json`;
 const SITE = 'https://oujikbeauty.com';
 
 /* 一版 60 件已經算保守。每件要攞 50 個變體，再大就會撞 Storefront API
