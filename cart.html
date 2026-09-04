@@ -1156,9 +1156,14 @@
       const net = Number(window.OUJI_netGoods) || 0;
       const gap = S && S.free > 0 ? Math.max(0, Math.ceil(S.free - net - 0.001)) : 0;
 
-      sub.textContent = gap > 0
-        ? `再買 ${money(gap)} 就慳返 ${money(S.fee)} 運費 —— 呢幾件啱啱夠`
-        : '好多人順手加埋呢啲';
+      /* 差額細過最平嗰件貨嗰陣（例如「再買 $1」），講「呢幾件啱啱夠」係誤導 ——
+         其實加咩都免運。文案要跟住差額轉，唔係一句用到尾。 */
+      const cheapest = items.reduce((m, p) => Math.min(m, p.__price), Infinity);
+      sub.textContent = gap <= 0
+        ? '好多人順手加埋呢啲'
+        : gap <= cheapest
+          ? `就差 ${money(gap)}！加任何一件都免運，慳返 ${money(S.fee)}`
+          : `再買 ${money(gap)} 就慳返 ${money(S.fee)} 運費 —— 呢幾件啱啱夠`;
 
       const scored = items
         .filter((p) => !inCart.has((p.title || '').trim()))
