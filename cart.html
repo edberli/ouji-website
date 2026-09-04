@@ -1020,6 +1020,10 @@
       /* 合計都要跟住郁 —— 之前淨係改運費嗰格，揀完 $30 上門合計都唔變。 */
       const totEl2 = document.querySelector('[data-total]');
       if (totEl2) totEl2.textContent = `HK$${(n + ship).toFixed(2)}`;
+      /* 加購嗰行講緊「再買 $X 就免運費」，而每個運送方式門檻都唔同
+         （$99／$199／$250／門市自取冇門檻）—— 換方式一定要重算。
+         加購自己嗰個 observer 只盯小計，換方式唔會觸發到。 */
+      if (window.OUJI_repaintAddon) window.OUJI_repaintAddon();
     });
 
     window.OUJI_repaintShip = paint;
@@ -1090,10 +1094,14 @@
     const trimVendor = (title, vendor) => {
       if (!vendor) return title;
       const t = String(title).trim();
+      /* 大小寫同空格經常對唔上（vendor「DR.JART+」／title「Dr. Jart+ 舒緩…」），
+         所以兩邊都剝走空格再比，命中就照原本長度切。 */
+      const norm = (x) => x.toLowerCase().replace(/\s+/g, '');
       const v = String(vendor).trim();
-      return t.toLowerCase().startsWith(v.toLowerCase())
-        ? t.slice(v.length).replace(/^[\s|·,\-–—]+/, '') || t
-        : t;
+      if (!norm(t).startsWith(norm(v))) return t;
+      let i = 0, need = norm(v).length, got = 0;
+      while (i < t.length && got < need) { if (!/\s/.test(t[i])) got++; i++; }
+      return t.slice(i).replace(/^[\s|·,\-–—]+/, '') || t;
     };
 
     let pool = null;
@@ -1213,6 +1221,7 @@
 
     /* 等購物袋畫完先算「差幾多免運」—— 冇數就計唔到。 */
     const kick = () => paint().catch((e) => console.warn('addon', e));
+    window.OUJI_repaintAddon = kick;
     const subEl = document.querySelector('[data-subtotal]');
     if (subEl && window.MutationObserver) {
       new MutationObserver(() => kick()).observe(subEl, { childList: true, characterData: true, subtree: true });
