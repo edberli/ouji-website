@@ -2612,6 +2612,85 @@ button.product-card__quick-add,
   stroke-width: 1.5;
 }
 
+/* Desktop: use the full left half instead of centring all promo copy in one narrow stack. */
+@media (min-width: 561px) {
+  .product-info__promo-card {
+    grid-template-columns: minmax(0, 1.18fr) minmax(205px, 0.82fr);
+    min-height: 184px;
+    padding: 18px;
+  }
+
+  .product-info__promo-cat {
+    bottom: -19px;
+    left: 18px;
+    width: 92px;
+  }
+
+  .product-info__promo-copy {
+    display: grid;
+    grid-template:
+      "kicker title" 32px
+      "deadline title" 42px
+      ". title" 1fr /
+      138px minmax(145px, 1fr);
+    align-self: stretch;
+    align-items: start;
+    column-gap: 4px;
+    min-width: 0;
+    min-height: 148px;
+    padding: 0 10px 0 0;
+  }
+
+  .product-info__promo-kicker {
+    grid-area: kicker;
+    margin: 3px 0 0;
+    white-space: nowrap;
+  }
+
+  .product-info__promo-kicker::before {
+    display: none;
+  }
+
+  .product-info__promo-deadline {
+    grid-area: deadline;
+    justify-self: start;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .product-info__promo-title {
+    grid-area: title;
+    display: grid;
+    align-self: center;
+    justify-self: center;
+    gap: 0;
+    padding: 0;
+  }
+
+  .product-info__promo-title span {
+    margin-left: 7px;
+    font-size: 1.25rem;
+  }
+
+  .product-info__promo-title em {
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .product-info__promo-title em b {
+    font-size: 5.6rem;
+  }
+
+  .product-info__promo-gift-side {
+    grid-template-columns: 88px minmax(0, 1fr);
+    min-height: 148px;
+  }
+
+  .product-info__promo-cream {
+    width: 88px;
+  }
+}
+
 @media (max-width: 560px) {
   .product-info__promo-card {
     grid-template-columns: minmax(0, 1fr);
