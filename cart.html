@@ -283,6 +283,16 @@
             <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
             <div data-cart-notes></div>
 
+            <!-- 加購：左欄本來成版空白，而右欄啱啱先講咗「再買 $X 就免運費」。
+                 順住嗰句擺一行細嘢喺度，客唔使返去逛都加得。
+                 揀咩貨嘅根據見下面 ADDON_RANK 嗰段註釋（POS 真實籃數據）。 -->
+            <section class="addon" data-addon hidden>
+              <div class="addon__head">
+                <h2 class="addon__title">加多件？</h2>
+                <p class="addon__sub" data-addon-sub></p>
+              </div>
+              <div class="addon__grid" data-addon-grid></div>
+            </section>
           </div>
 
           <!-- Cart Summary -->
@@ -1032,6 +1042,172 @@
     if (subEl && window.MutationObserver) {
       new MutationObserver(() => paint()).observe(subEl, { childList: true, characterData: true, subtree: true });
     }
+  })();
+
+  /* ───── 加購 ──────────────────────────────────────────────────
+     老闆 2026-09-04：「左邊呢個位可以做一啲加購嘅 session…你諗吓通常
+     啲人會加購啲咩？係咪潤唇膏、面膜，定係啲咩呢？」
+
+     冇靠估 —— 查咗 POS 真數據（ouji.sqlite，2026-05-07 至 08-20，
+     31,330 張單，其中 13,518 張係兩件或以上嘅「多件籃」）。
+     喺網店有貨、$20–99、有毛利嗰批入面，按多件籃出現次數排：
+
+       定妝噴霧（So Natural 四個 SKU 合共 64 次）  ← 遙遙領先
+       片裝面膜（Torriden 10 片裝 26 + 13 次）
+       防曬棒（TOCOBO 8 + 4 次）
+       唇釉／胭脂／遮瑕（rom&nd、Peripera、2aN、Maybelline 各 4–7 次）
+
+     ⚠️ 答案唔係潤唇膏。潤唇膏喺多件籃排唔到上頭。
+     ⚠️ 呢個係**實體店**行為，網店客單價係實體店 2.5–3.9 倍，唔可以照搬 ——
+        所以只攞「邊類貨會被順手加」呢個訊號，唔攞「邊隻貨最好賣」。
+        （見 memory: ouji-pos-not-demand-signal） */
+
+  (function addonSection() {
+    const sec = document.querySelector('[data-addon]');
+    const grid = document.querySelector('[data-addon-grid]');
+    const sub = document.querySelector('[data-addon-sub]');
+    if (!sec || !grid) return;
+
+    /* 關鍵字 → 權重。排名照上面 POS 籃次。
+       改嘅時候記住：呢啲係「順手加」嘅類別，唔係「最好賣」嘅牌子。 */
+    const ADDON_RANK = [
+      [/定妝噴霧|定妝噴霧|噴霧/, 100],
+      [/面膜/, 90],
+      [/防曬棒/, 70],
+      [/唇釉|唇膏|唇彩|tint/i, 55],
+      [/胭脂|腮紅|遮瑕/, 50],
+      [/卸妝|洗面|潔面/, 40],
+      [/眼線|眉筆|睫毛/, 30],
+    ];
+    const PRICE_MIN = 20, PRICE_MAX = 149;
+
+    const rank = (title) => {
+      for (const [re, w] of ADDON_RANK) if (re.test(title)) return w;
+      return 0;
+    };
+
+    let pool = null;
+    async function loadPool() {
+      if (pool) return pool;
+      const r = await fetch('data/catalog.json');
+      const list = (await r.json())?.v || [];
+      pool = list.map((e) => e.node).filter((p) => {
+        const price = parseFloat(p?.priceRange?.minVariantPrice?.amount || 0);
+        if (!(price >= PRICE_MIN && price <= PRICE_MAX)) return false;
+        if (!rank(p.title || '')) return false;
+        /* 冇貨嘅唔好推 —— 加購最激嬲人係撳咗先話冇貨。
+           totalInventory 有時係 null，所以再睇埋 variant 嘅 quantityAvailable。 */
+        const v = (p.variants?.edges || []).map((x) => x.node)
+          .find((x) => x.availableForSale && (x.quantityAvailable ?? 0) > 0);
+        if (!v) return false;
+        p.__variantId = v.id;
+        p.__price = price;
+        p.__img = p.images?.edges?.[0]?.node?.url || '';
+        return !!p.__img;
+      });
+      return pool;
+    }
+
+    const money = (n) => `HK$${Number(n).toFixed(0)}`;
+
+    async function paint() {
+      const items = await loadPool();
+      if (!items.length) { sec.hidden = true; return; }
+
+      /* 購物袋已經有嘅唔好再推 */
+      const inCart = new Set(
+        [...document.querySelectorAll('.cart-item')]
+          .map((el) => (el.querySelector('.cart-item__name')?.textContent || '').trim())
+          .filter(Boolean)
+      );
+
+      /* 差幾多先免運 —— 呢個先係加購最有力嘅理由。
+         右欄啱啱講咗「再買 $70 就免運費」，呢度就要接得上。 */
+      const S = (window.OUJI_SHIP || {})[
+        window.OUJI_getShipMode ? window.OUJI_getShipMode() : 'post'
+      ];
+      const net = Number(window.OUJI_netGoods) || 0;
+      const gap = S && S.free > 0 ? Math.max(0, Math.ceil(S.free - net - 0.001)) : 0;
+
+      sub.textContent = gap > 0
+        ? `再買 ${money(gap)} 就慳返 ${money(S.fee)} 運費 —— 呢幾件啱啱夠`
+        : '好多人順手加埋呢啲';
+
+      const scored = items
+        .filter((p) => !inCart.has((p.title || '').trim()))
+        .map((p) => {
+          let s = rank(p.title);
+          /* 啱啱夠門檻嗰批排先 —— 加一件就免運，係最容易講服人嘅一件事。
+             貴過門檻太多就唔好推咁前，客會覺得你想𠝹佢。 */
+          if (gap > 0) {
+            const over = p.__price - gap;
+            if (over >= 0 && over <= 40) s += 120;
+            else if (over > 40 && over <= 80) s += 40;
+            else if (over < 0) s -= 20;
+          }
+          return { p, s };
+        })
+        .sort((a, b) => b.s - a.s || a.p.__price - b.p.__price);
+
+      /* 同一個牌子唔好連續霸晒四格 —— 定妝噴霧單一牌子就有四個 SKU。 */
+      const picked = [], seen = {};
+      for (const { p } of scored) {
+        const v = p.vendor || '?';
+        if ((seen[v] || 0) >= 1 && picked.length < 4) continue;
+        seen[v] = (seen[v] || 0) + 1;
+        picked.push(p);
+        if (picked.length === 4) break;
+      }
+      if (picked.length < 4) {
+        for (const { p } of scored) {
+          if (picked.includes(p)) continue;
+          picked.push(p);
+          if (picked.length === 4) break;
+        }
+      }
+      if (!picked.length) { sec.hidden = true; return; }
+
+      grid.innerHTML = picked.map((p) => {
+        const hit = gap > 0 && p.__price >= gap && p.__price - gap <= 40;
+        return `<article class="addon__card">
+          <a class="addon__media" href="product.html?handle=${encodeURIComponent(p.handle)}">
+            <img src="${p.__img}" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy">
+          </a>
+          <p class="addon__vendor">${p.vendor || ''}</p>
+          <h3 class="addon__name"><a href="product.html?handle=${encodeURIComponent(p.handle)}">${p.title}</a></h3>
+          <p class="addon__price">${money(p.__price)}${hit ? '<span class="addon__hit">加咗就免運</span>' : ''}</p>
+          <button class="addon__add" type="button" data-vid="${p.__variantId}">加入購物袋</button>
+        </article>`;
+      }).join('');
+      sec.hidden = false;
+    }
+
+    grid.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.addon__add');
+      if (!btn || btn.disabled) return;
+      btn.disabled = true;
+      const was = btn.textContent;
+      btn.textContent = '加緊…';
+      try {
+        await addToCart(btn.dataset.vid, 1);
+        btn.textContent = '加咗 ✓';
+        /* 加完要成版重畫（合計、免運進度、運費都會變）。
+           renderCart 冇 export，所以行返最穩陣嗰條路。 */
+        setTimeout(() => location.reload(), 700);
+      } catch (err) {
+        console.warn('addon add', err);
+        btn.textContent = was;
+        btn.disabled = false;
+      }
+    });
+
+    /* 等購物袋畫完先算「差幾多免運」—— 冇數就計唔到。 */
+    const kick = () => paint().catch((e) => console.warn('addon', e));
+    const subEl = document.querySelector('[data-subtotal]');
+    if (subEl && window.MutationObserver) {
+      new MutationObserver(() => kick()).observe(subEl, { childList: true, characterData: true, subtree: true });
+    }
+    setTimeout(kick, 1200);
   })();
 
   /* ───── 取件點揀選 ─────────────────────────────────────────────

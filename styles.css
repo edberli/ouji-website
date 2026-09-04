@@ -3146,6 +3146,16 @@ button.product-card__quick-add,
      運送選項嘅文字欄剩返 62px —— 逐個字換行，成張卡爆到 245px 高。
      窄螢幕唔負擔得起呢兩層 padding。 */
   .cart-summary { padding: var(--space-lg); }
+  /* 加購喺手機唔可以硬塞四欄（一格得 70px，圖同名都睇唔到）——
+     改成橫掃，卡固定 148px，露一截第二張出嚟示意仲有得掃。 */
+  .addon__grid {
+    grid-auto-flow: column; grid-auto-columns: 148px;
+    grid-template-columns: none;
+    overflow-x: auto; scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .addon__card { scroll-snap-align: start; }
   .reward { padding: var(--space-md); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__bottom { flex-direction: column; gap: var(--space-md); text-align: center; }
@@ -13763,6 +13773,54 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
    唔靠一句總述（「滿 $99 免運費」呢種寫法係禁止嘅）。
 
    呢個係新 component，唔 override 任何舊規則。全部值攞 :root 個 token。 */
+/* ───── 加購 ────────────────────────────────────────────────────────
+   擺喺左欄產品清單下面。設計上刻意「唔搶」：
+   - 用返白卡 ＋ 現有品牌藍，**冇加第二套顏色語言** ——
+     金色同深藍玻璃係右欄 .reward 專用，加購搶埋就兩邊都唔突出。
+   - 層次靠 size／weight 做，唔靠色（灰階都讀得出：牌子細灰 → 名normal → 價粗藍）。
+   - 卡只用 shadow-sm 級數，唔可以浮得過 .cart-summary。
+   間距全部行返 --space-* 嗰個 scale，唔准出現 13px 呢類數字。 */
+.addon { margin-top: var(--space-2xl); }
+.addon__head { margin-bottom: var(--space-lg); }
+.addon__title { font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-primary); }
+/* 副題係說明文，一定要細過同淡過標題，唔好同佢爭 */
+.addon__sub { margin: 4px 0 0; font-size: 0.8125rem; line-height: 1.5; color: var(--text-secondary); }
+
+.addon__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-md); }
+
+.addon__card {
+  display: flex; flex-direction: column;
+  padding: var(--space-md); border-radius: 14px;
+  background: #fff; border: 1px solid var(--border-light);
+  box-shadow: 0 1px 2px rgba(43, 76, 88, 0.05);
+  transition: box-shadow var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+.addon__card:hover { box-shadow: 0 6px 16px -8px rgba(43, 76, 88, 0.28); transform: translateY(-2px); }
+
+.addon__media { display: block; border-radius: 10px; overflow: hidden; background: var(--bg-soft, #f4f6f7); }
+/* 固定比例 ＋ cover，唔准拉扯變形 */
+.addon__media img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+
+.addon__vendor { margin: var(--space-sm) 0 2px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+.addon__name { margin: 0 0 var(--space-sm); font-size: 0.8125rem; font-weight: 400; line-height: 1.45; }
+.addon__name a { color: var(--text-primary); text-decoration: none; }
+.addon__name a:hover { text-decoration: underline; }
+
+.addon__price { margin: auto 0 var(--space-sm); font-size: 0.9375rem; font-weight: 700; color: var(--primary-dark); }
+/* 「加咗就免運」係整個 section 入面唯一嘅強調 —— 只可以有一個 */
+.addon__hit { display: block; margin-top: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.02em; color: #2f7d5d; }
+
+.addon__add {
+  width: 100%; padding: 9px var(--space-sm);
+  border: 1px solid var(--primary-dark); border-radius: 999px;
+  background: transparent; color: var(--primary-dark);
+  font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.addon__add:hover { background: var(--primary-dark); color: #fff; }
+.addon__add:disabled { opacity: 0.65; cursor: default; }
+
 .ship-mode { margin: var(--space-lg) 0 0; }
 .ship-mode__head { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(255,255,255,0.72); margin: 0 0 var(--space-sm); }
 .ship-mode__grp { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; color: rgba(255,255,255,0.55); margin: var(--space-md) 0 var(--space-xs); padding-left: 2px; }
