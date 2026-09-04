@@ -1062,30 +1062,39 @@
     const sub = document.querySelector('[data-addon-sub]');
     if (!sec || !grid) return;
 
-    /* 關鍵字 → 權重。排名照上面 POS 籃次。
-       改嘅時候記住：呢啲係「順手加」嘅類別，唔係「最好賣」嘅牌子。 */
-    const ADDON_RANK = [
-      [/定妝噴霧|定妝噴霧|蜜粉噴霧|妝前噴霧|fix(ing)? mist|setting mist/i, 100],
-      [/面膜/, 90],
-      [/防曬棒/, 70],
-      [/唇釉|唇彩|唇膏|唇釉|tint/i, 55],
-      [/胭脂|腮紅|遮瑕/, 50],
-      [/卸妝|洗面|潔面/, 40],
-      [/眼線|眉筆|睫毛/, 30],
-    ];
+    /* productType → 權重。排名照上面 POS 籃次。
+       用 productType 唔用 title 關鍵字：catalog 每件貨都有分類，
+       比夾字準好多。第一版夾 /噴霧/ 就推咗四支香氛生活噴霧出嚟。
 
-    /* ⛔ 唔准出現喺加購度。
-       第一版寫咗個 /噴霧/ 就當係定妝噴霧，結果四格推晒
-       「HETRAS 香氛生活噴霧」「John's Blend 室內香氛噴霧」
-       「Country & Stream 薄荷冰涼噴霧」—— 全部係雜貨唔係化妝品。
-       POS 數據講嘅係**定妝**噴霧，唔係「有噴霧兩個字」。
-       同樣道理：「面膜」唔可以包埋洗面膜／泥膜咁多嘢，慢慢補落嚟。 */
-    const ADDON_DENY = /香氛|室內|衣物|除臭|空氣|髮香|香水|洗手|沐浴|廁所|清潔|驅蚊|消毒/;
+       ⚠️ 呢個係 allowlist —— 唔喺表入面嘅一律唔推。
+       所以「唇部護理」（Sanrio My melody 護唇膏、蜂蜜潤唇膏）、「家居香氛」、
+       「身體噴霧」、「香水」、「保健品」、「公仔」、「專輯」呢啲士多貨自動出唔到。
+       網店客單價 $206，係實體店嘅 2.5–3.9 倍 —— 士多貨係實體店擺門口
+       吸路過客嘅誘餌，唔係網店客會加嘅嘢（memory: ouji-pos-not-demand-signal）。
+       ⚠️ POS 講嘅「唇」係彩妝唇釉（rom&nd／Peripera／WAKEMAKE），
+       所以入表嘅係「唇釉／唇彩／唇膏」，唔係「唇部護理」。 */
+    const ADDON_TYPE = {
+      定妝噴霧: 100,   // POS 多件籃 64 次 —— 遙遙領先
+      面膜: 90,        // 39 次（Torriden 10 片裝）
+      防曬: 70,        // 12 次（TOCOBO 防曬棒）
+      唇釉: 55, 唇彩: 55, 唇膏: 55,
+      胭脂: 50, 底妝: 50,
+      潔面: 40,
+      眼線: 30, 眉筆: 30, 睫毛膏: 30,
+    };
+    /* catalog 有零星貨冇 productType，兜返個底 */
+    const ADDON_FALLBACK = [
+      [/定妝噴霧|蜜粉噴霧|妝前噴霧/, 100],
+      [/片裝?面膜|面膜\s*\d+片/, 90],
+      [/防曬棒/, 70],
+    ];
     const PRICE_MIN = 20, PRICE_MAX = 149;
 
-    const rank = (title) => {
-      if (ADDON_DENY.test(title)) return 0;
-      for (const [re, w] of ADDON_RANK) if (re.test(title)) return w;
+    const rank = (p) => {
+      const t = ADDON_TYPE[(p.productType || '').trim()];
+      if (t) return t;
+      if (p.productType) return 0;   // 有分類但唔喺 allowlist → 唔推
+      for (const [re, w] of ADDON_FALLBACK) if (re.test(p.title || '')) return w;
       return 0;
     };
 
@@ -1112,7 +1121,7 @@
       pool = list.map((e) => e.node).filter((p) => {
         const price = parseFloat(p?.priceRange?.minVariantPrice?.amount || 0);
         if (!(price >= PRICE_MIN && price <= PRICE_MAX)) return false;
-        if (!rank(p.title || '')) return false;
+        if (!rank(p)) return false;
         /* 冇貨嘅唔好推 —— 加購最激嬲人係撳咗先話冇貨。
            totalInventory 有時係 null，所以再睇埋 variant 嘅 quantityAvailable。 */
         const v = (p.variants?.edges || []).map((x) => x.node)
@@ -1154,7 +1163,7 @@
       const scored = items
         .filter((p) => !inCart.has((p.title || '').trim()))
         .map((p) => {
-          let s = rank(p.title);
+          let s = rank(p);
           /* 啱啱夠門檻嗰批排先 —— 加一件就免運，係最容易講服人嘅一件事。
              貴過門檻太多就唔好推咁前，客會覺得你想𠝹佢。 */
           if (gap > 0) {
@@ -1172,12 +1181,12 @@
          睇落好似得一款嘢揀。夠唔夠四件就放寬條件再執多次。 */
       const picked = [], byVendor = {}, byKind = {};
       const pass = (p, vMax, kMax) => {
-        const v = p.vendor || '?', k = rank(p.title);
+        const v = p.vendor || '?', k = rank(p);
         return (byVendor[v] || 0) < vMax && (byKind[k] || 0) < kMax;
       };
       const take = (p) => {
         byVendor[p.vendor || '?'] = (byVendor[p.vendor || '?'] || 0) + 1;
-        byKind[rank(p.title)] = (byKind[rank(p.title)] || 0) + 1;
+        byKind[rank(p)] = (byKind[rank(p)] || 0) + 1;
         picked.push(p);
       };
       for (const { p } of scored) {
