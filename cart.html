@@ -968,15 +968,15 @@
             fee = `HK$${o.fee}`;
             gapLine = `<span class="ship-mode__gap">再買 $${Math.ceil(o.free - n - 0.001)} 就免運費</span>`;
           }
-          /* 順豐同 7-Eleven 唔使再提「記住喺結帳頁撳返啱嗰個」——
+          /* 四個方式都唔使再提「記住喺結帳頁撳返啱嗰個」——
              2026-09-04 起有咗自己寫嘅 Shopify Function（ouji-delivery-fn），
              客揀咗邊個，checkout 就只會出嗰一個，冇得揀錯。
              （源碼喺 /Volumes/core/ouji-shipfn，靠 cart attribute `ship_mode` 對。）
 
-             ⚠️ 門市自取仍然要提：佢係 Local Pickup，唔喺 deliveryOptions 入面，
-                Function 隱藏唔到亦唔敢隱藏晒（隱藏晒＝客卡死喺「運送」tab）。
-                客要自己喺結帳頁撳上面嗰個「取貨」。 */
-          const tip = k === 'shop' ? '結帳頁記住撳上面嘅「取貨」' : '';
+             門市自取本來卡住咗（Shopify Local Pickup 唔喺 deliveryOptions 入面，
+             Function 郁唔到），老闆諗到轉個彎：喺後台加多一條 $0 運費規則
+             叫「觀塘門市自取」，咁佢就同其餘三個一樣係普通運送選項，管得到。 */
+          const tip = '';
           /* 有 gapLine 就唔使再講一次「滿 $X 免運費」—— 同一句嘢寫兩次。 */
           const note = (tip ? `<span class="ship-mode__tip">${tip}</span>` : '')
             + (gapLine || (o.fee === 0 ? '' : `<span class="ship-mode__gap is-met">滿 HK$${o.free} 免運費</span>`));
