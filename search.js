@@ -60,6 +60,7 @@
     const queries = queryForms(term);
     if (!queries[0] || !cache) return [];
     return cache
+      .filter((p) => !(typeof soldOut === 'function' && soldOut(p)))
       .map((p) => ({ p, s: Math.min(...queries.map((q) => {
         const hit = score(p, q);
         return hit < 0 ? 99 : hit;

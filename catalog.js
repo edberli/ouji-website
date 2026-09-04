@@ -365,15 +365,11 @@ function buildFilterSidebar(section, products) {
       buckets.map((b) => optionRow('price', b.id, b.label, b.count)).join(''), true));
   }
 
-  // Stock and awards go first: they cut the grid hardest and neither is
-  // derivable from the other three groups.
-  const inStock = products.filter((p) => !soldOut(p)).length;
+  // 上架目錄本身已經只會傳入有貨產品，所以「有貨」唔係一個有意義嘅
+  // 篩選條件。精選區只保留客人真係可以揀嘅「得獎產品」。
   const awarded = products.filter((p) => typeof awardsFor === 'function'
     && awardsFor(p.handle).length).length;
   const flags = [];
-  if (inStock && inStock < products.length) {
-    flags.push(optionRow('flag', 'instock', '有貨', inStock));
-  }
   if (awarded) flags.push(optionRow('flag', 'award', '得獎產品', awarded));
   if (flags.length) {
     groups.unshift(groupBlock('精選', flags.join(''), true));
@@ -404,7 +400,6 @@ function preselectBrand(vendor) {
 
 function applyFilters(section, products, sel) {
   return products.filter((p) => {
-    if (sel.flag.has('instock') && soldOut(p)) return false;
     if (sel.flag.has('award') && !(typeof awardsFor === 'function'
         && awardsFor(p.handle).length)) return false;
     if (sel.vendor.size && !sel.vendor.has(p.vendor || '其他')) return false;
@@ -903,7 +898,7 @@ function buildActiveChips(section, sel, lockCat) {
   const label = (group, value) => {
     if (group === 'cat') return catOptions(section).find(([id]) => id === value)?.[1]?.label || value;
     if (group === 'price') return PRICE_BUCKETS.find((b) => b.id === value)?.label || value;
-    if (group === 'flag') return value === 'instock' ? '有貨' : '得獎產品';
+    if (group === 'flag') return '得獎產品';
     return value;
   };
   const chips = ['flag', 'cat', 'vendor', 'price'].flatMap((g) =>
@@ -1778,6 +1773,11 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     || document.querySelector('.product-grid')?.parentElement;
   if (!host) return;
   host.setAttribute('data-catalog', '');
+
+  /* 老闆 2026-09-04 定義嘅上架規則：有貨先擺入產品目錄。售完產品可以
+     保留直接網址同補貨通知，但唔應該喺全部產品、分類、品牌段落或件數
+     入面出現，更加唔需要畀客再剔一次「有貨」。 */
+  products = products.filter((p) => !soldOut(p));
 
   // Unit prices and ingredient chips are drawn into the cards, so the
   // data has to be in hand before the first draw — otherwise the badges
