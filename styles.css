@@ -3146,16 +3146,7 @@ button.product-card__quick-add,
      運送選項嘅文字欄剩返 62px —— 逐個字換行，成張卡爆到 245px 高。
      窄螢幕唔負擔得起呢兩層 padding。 */
   .cart-summary { padding: var(--space-lg); }
-  /* 加購喺手機唔可以硬塞四欄（一格得 70px，圖同名都睇唔到）——
-     改成橫掃，卡固定 148px，露一截第二張出嚟示意仲有得掃。 */
-  .addon__grid {
-    grid-auto-flow: column; grid-auto-columns: 148px;
-    grid-template-columns: none;
-    overflow-x: auto; scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-  }
-  .addon__card { scroll-snap-align: start; }
+
   .reward { padding: var(--space-md); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__bottom { flex-direction: column; gap: var(--space-md); text-align: center; }
@@ -13826,6 +13817,22 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
 }
 .addon__add:hover { background: var(--primary-dark); color: #fff; }
 .addon__add:disabled { opacity: 0.65; cursor: default; }
+
+/* 手機唔可以硬塞四欄：375px 下一格得 74px，圖同名都睇唔到。
+   改成橫掃，卡固定 148px，露一截第二張出嚟示意仲有得掃。
+   ⚠️ 呢段一定要喺上面 base 之後 —— 第一次寫咗落頁面前面嗰個
+   @media 度，結果被後面嘅 base .addon__grid 蓋返，四欄照舊。 */
+@media (max-width: 768px) {
+  .addon { margin-top: var(--space-xl); }
+  .addon__grid {
+    grid-template-columns: none;
+    grid-auto-flow: column; grid-auto-columns: 148px;
+    overflow-x: auto; scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .addon__card { scroll-snap-align: start; }
+}
 
 .ship-mode { margin: var(--space-lg) 0 0; }
 .ship-mode__head { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(255,255,255,0.72); margin: 0 0 var(--space-sm); }
