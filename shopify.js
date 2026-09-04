@@ -176,7 +176,7 @@ const MEM_CACHE = new Map();
 /* 4：加咗 totalInventory。列表 query 淨係攞頭兩個規格，隱形眼鏡一件貨
    有 25 個度數，頭兩個度數斷咗貨就會成件標「售完」—— 其實仲有十幾個
    度數有貨。totalInventory 係成件貨嘅總數，一個欄位就解決。 */
-const CACHE_VERSION = 5;
+const CACHE_VERSION = 6;
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
 
 function cacheRead(key) {
@@ -322,7 +322,7 @@ async function getProduct(handle) {
         variants(first: 50) {
           edges {
             node {
-              id title
+              id title sku barcode
               price { amount currencyCode }
               compareAtPrice { amount currencyCode }
               availableForSale
@@ -332,7 +332,7 @@ async function getProduct(handle) {
             }
           }
         }
-        options { name values }
+        options { name }
       }
     }
   `, { handle });

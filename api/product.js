@@ -29,9 +29,9 @@ const SITE = 'https://oujikbeauty.com';
 const QUERY = `
 query($handle: String!) @inContext(country: HK) {
   product(handle: $handle) {
-    handle title description descriptionHtml vendor productType
+    id handle title description descriptionHtml vendor productType
     images(first: 1) { edges { node { url } } }
-    variants(first: 50) { edges { node { sku availableForSale price { amount } } } }
+    variants(first: 50) { edges { node { id title sku barcode availableForSale price { amount } } } }
     priceRange {
       minVariantPrice { amount }
       maxVariantPrice { amount }
@@ -114,6 +114,19 @@ function buildOffers(p, variants, url) {
   };
 }
 
+/** 只餵真 GTIN：長度啱但 check digit 錯一樣唔可以交畀 Google。 */
+function gtinField(raw) {
+  const digits = String(raw || '').replace(/\D/g, '');
+  if (![8, 12, 13, 14].includes(digits.length)) return {};
+  const body = digits.slice(0, -1);
+  let sum = 0;
+  for (let i = body.length - 1, n = 0; i >= 0; i -= 1, n += 1) {
+    sum += Number(body[i]) * (n % 2 === 0 ? 3 : 1);
+  }
+  if ((10 - (sum % 10)) % 10 !== Number(digits.at(-1))) return {};
+  return { [`gtin${digits.length}`]: digits };
+}
+
 /** 同 analytics.js 嘅 applyProductSeo() 保持一致，兩邊出同一組值。 */
 function buildHead(p) {
   const url = `${SITE}/products/${p.handle}`;
@@ -137,7 +150,10 @@ function buildHead(p) {
     '@type': 'Product',
     name: (p.title || '').slice(0, 150),
     description: raw.slice(0, 500) || undefined,
-    sku: v?.sku || undefined,
+    /* 多色號唔可以將第一個色號嘅 SKU／GTIN扮成全產品識別碼；
+       單變體先放頂層，多變體留畀下一輪 ProductGroup。 */
+    sku: variants.length === 1 ? (v?.sku || undefined) : undefined,
+    ...(variants.length === 1 ? gtinField(v?.barcode) : {}),
     image: [image],
     brand: p.vendor ? { '@type': 'Brand', name: p.vendor } : undefined,
     category: p.productType || undefined,

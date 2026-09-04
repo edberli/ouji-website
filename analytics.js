@@ -512,6 +512,18 @@ function injectProductSchema(product, variant) {
       seller: { '@type': 'Organization', name: 'OUJI' },
     };
 
+  function gtinField(rawGtin) {
+    const digits = String(rawGtin || '').replace(/\D/g, '');
+    if (![8, 12, 13, 14].includes(digits.length)) return {};
+    const body = digits.slice(0, -1);
+    let sum = 0;
+    for (let i = body.length - 1, n = 0; i >= 0; i -= 1, n += 1) {
+      sum += Number(body[i]) * (n % 2 === 0 ? 3 : 1);
+    }
+    if ((10 - (sum % 10)) % 10 !== Number(digits.at(-1))) return {};
+    return { [`gtin${digits.length}`]: digits };
+  }
+
   /* ⚠️ `name` 唔可以超過 150 個字。Search Console 2026-08-31 報
      「『name』欄位中的字串長度無效」—— 當時有一件貨個名 157 字。
      個名本身已經改短咗，但呢度都要守住個閘：日後再有人打個長名，
@@ -522,7 +534,8 @@ function injectProductSchema(product, variant) {
     '@type': 'Product',
     name: (product.title || '').slice(0, NAME_MAX),
     description: (product.description || '').slice(0, 500) || undefined,
-    sku: v?.sku || undefined,
+    sku: variants.length === 1 ? (v?.sku || undefined) : undefined,
+    ...(variants.length === 1 ? gtinField(v?.barcode) : {}),
     image: images.length ? images : undefined,
     brand: product.vendor ? { '@type': 'Brand', name: product.vendor } : undefined,
     category: product.productType || undefined,

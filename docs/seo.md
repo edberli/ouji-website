@@ -1,6 +1,6 @@
 # SEO：現況、已修好嘅嘢、仲欠乜
 
-**最後更新 2026-08-09。**
+**最後更新 2026-09-04。**
 
 ## 已經有嘅
 
@@ -8,7 +8,7 @@
 |---|---|
 | `sitemap.xml` | ✅ 807 件產品 ＋ 20 版靜態頁（`scripts/build_sitemap.py` 重新生成）|
 | `robots.txt` | ✅ 擋咗 /cart /account /wishlist，保留 `?variant=` 商品頁畀 Merchant Center 抓取，並指住 sitemap |
-| schema.org Product JSON-LD | ✅ 逐件產品（特登唔放 aggregateRating，見 `analytics.js`）|
+| schema.org Product JSON-LD | ✅ 逐件產品；單變體商品會驗證並輸出 SKU／GTIN（特登唔放 aggregateRating，見 `analytics.js`）|
 | 每版 canonical | ✅ 全部 25 版對晒 |
 | 產品頁 title／description／og | ✅ 逐件產品（2026-08-09 修好）|
 | HTTPS、HSTS、行動版 | ✅ |
@@ -71,6 +71,11 @@ Google 見到頁面價同結構化資料唔夾，Merchant Center 會拒收。
 **3. sessionStorage 快取加咗 `CACHE_VERSION`。** 快取住嘅係 GraphQL 物件，
 形狀由 query 決定；一改 query，舊 session 嘅快取就會少咗新欄位，
 新程式碼讀落去係 undefined，唔報錯但靜靜哋行錯分支。改 query 順手 +1。
+
+**4. GTIN 唔再亂報。** Storefront 查詢會攞 variant SKU／barcode；只有單變體
+商品先將該 SKU／GTIN 放入 Product 頂層，而且 GTIN 必須係 8／12／13／14 位
+並通過 check digit。多變體商品暫時保留 AggregateOffer，唔會將第一個色號條碼
+錯當成全產品條碼；完整 ProductGroup／hasVariant 留待下一輪處理。
 
 ## ✅ Google Search Console（2026-08-09 開好）
 
