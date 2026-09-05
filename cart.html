@@ -718,6 +718,23 @@
 
     renderReward(netTotal, subtotal, (cart.lines?.edges || [])
       .map((e) => e.node.merchandise.product?.handle).filter(Boolean));
+
+    // 2026-09-05: moved inside this callback so these close over `lines`
+    // (declared above). Defined at the outer <script> scope, calling
+    // either one threw "lines is not defined" on every click — the
+    // remove/qty-to-zero buttons looked unresponsive to customers.
+    window.changeQty = async function (lineId, qty) {
+      if (qty < 1) { await removeLine(lineId); return; }
+      await updateCartLine(lineId, parseInt(qty));
+      location.reload();
+    };
+
+    window.removeLine = async function (lineId) {
+      const line = lines.find((x) => x.id === lineId);
+      if (line && typeof trackRemoveFromCart === 'function') trackRemoveFromCart(line);
+      await removeCartLine(lineId);
+      location.reload();
+    };
   });
 
   /**
@@ -866,19 +883,6 @@
       });
     });
   }
-
-  window.changeQty = async function(lineId, qty) {
-    if (qty < 1) { await removeLine(lineId); return; }
-    await updateCartLine(lineId, parseInt(qty));
-    location.reload();
-  };
-
-  window.removeLine = async function(lineId) {
-    const line = lines.find((x) => x.id === lineId);
-    if (line && typeof trackRemoveFromCart === 'function') trackRemoveFromCart(line);
-    await removeCartLine(lineId);
-    location.reload();
-  };
   </script>
 
 
