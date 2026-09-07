@@ -1369,14 +1369,15 @@
     async function writePickupNote(p) {
       try {
         const cart = await getCart();
-        if (!cart?.id) return;
+        if (!cart?.id) throw new Error('未能儲存取件備註。');
         const q = `mutation($cartId:ID!,$note:String!){
           cartNoteUpdate(cartId:$cartId, note:$note){ cart{ id } userErrors{ message } } }`;
         const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : '';
         const way = (window.OUJI_SHIP || {})[mode]?.name || '自取';
-        await shopifyFetch(q, { cartId: cart.id,
+        const result = await shopifyFetch(q, { cartId: cart.id,
           note: `【${way}】${p.kind} ${p.code}\n${p.address}${p.hours ? '（' + p.hours + '）' : ''}` });
-      } catch (e) { console.warn('cartNoteUpdate', e); }
+        if (!result?.cartNoteUpdate?.cart?.id || result.cartNoteUpdate.userErrors?.length) throw new Error('未能儲存取件備註，請再試一次。');
+      } catch (e) { throw new Error('未能儲存取件備註，請再試一次。'); }
     }
 
     function paintChosen() {
@@ -1483,9 +1484,20 @@
       panel.setAttribute('hidden', '');
       toggle.setAttribute('aria-expanded', 'false');
       if (!chosen) return;
+      const err = root.querySelector('[data-sfp-err]');
+      if (err) err.hidden = true;
+    });
+
+    // Perform writes only at checkout, in order; local selection is not server confirmation.
+    window.OUJI_preparePickupCheckout = async function () {
+      const mode = window.OUJI_getShipMode();
+      if (!window.OUJI_SHIP[mode]?.src) return;
+      if (!chosen) throw new Error('請先選擇取件點。');
+      const point = chosen;
       /* 兩樣都要寫：
          ① 預填送貨地址 —— 令客喺結帳頁唔使再打一次（訪客結帳實測有效）
          ② cart attributes —— Shop Pay 用戶唔食預填，靠呢個留返記錄 */
+      if (typeof setDeliveryAddressPreference !== 'function') throw new Error('地址功能未載入，請重新整理。');
       if (typeof setDeliveryAddressPreference === 'function') {
         await setDeliveryAddressPreference({
           address1: chosen.address,
@@ -1500,15 +1512,17 @@
         });
       }
       if (typeof setCartAttributes === 'function') {
-        await setCartAttributes({
+        const saved = await setCartAttributes({
           '取件點': `${chosen.kind} ${chosen.code}`,
           '取件點地址': chosen.address,
         });
+        if (!saved?.some((a) => a.key === '取件點地址' && a.value === chosen.address)) throw new Error('取件資料未能儲存，請再試一次。');
       }
       await writePickupNote(chosen);
-      const err = root.querySelector('[data-sfp-err]');
-      if (err) err.hidden = true;
-    });
+      if (mode !== window.OUJI_getShipMode() || point !== chosen) {
+        throw new Error('收貨選擇已更改，請再按結賬確認。');
+      }
+    };
   })();
   </script>
 

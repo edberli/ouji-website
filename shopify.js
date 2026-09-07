@@ -786,19 +786,37 @@ async function writeCartAttributes(attrs) {
 */
 async function setDeliveryAddressPreference(addr) {
   const cart = await getCart();
-  if (!cart?.id) return null;
-  const q = `mutation($cartId:ID!,$b:CartBuyerIdentityInput!){
-    cartBuyerIdentityUpdate(cartId:$cartId, buyerIdentity:$b){
-      cart{ id } userErrors{ field message } } }`;
-  const d = await shopifyFetch(q, { cartId: cart.id, b: {
-    deliveryAddressPreferences: [{ deliveryAddress: addr }] } });
-  const e = d?.cartBuyerIdentityUpdate?.userErrors;
-  if (e && e.length) { console.warn('cartBuyerIdentityUpdate', e); return null; }
+  if (!cart?.id) throw new Error('未能載入購物袋，請再試一次。');
+  const fields = `delivery { addresses { selected address { ... on CartDeliveryAddress {
+    address1 address2 city provinceCode countryCode } } } }`;
+  const address = { address1: addr.address1, address2: addr.address2,
+    city: addr.city, provinceCode: addr.province, countryCode: 'HK' };
+  const q = `mutation($cartId:ID!,$addresses:[CartSelectableAddressInput!]!){
+    cartDeliveryAddressesReplace(cartId:$cartId, addresses:$addresses){
+      cart { id ${fields} } userErrors { field message } } }`;
+  const d = await shopifyFetch(q, { cartId: cart.id, addresses: [{
+    address: { deliveryAddress: address }, selected: true, oneTimeUse: true }] });
+  const result = d?.cartDeliveryAddressesReplace;
+  if (!result?.cart?.id || !Array.isArray(result.userErrors) || result.userErrors.length) {
+    throw new Error('未能儲存取件地址，請再試一次。');
+  }
+  const verified = await shopifyFetch(`query($id:ID!){cart(id:$id){id ${fields}}}`, { id: cart.id });
+  const saved = verified?.cart?.delivery?.addresses?.find((a) => a.selected)?.address;
+  const normalize = (v) => String(v || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
+  if (!saved || Object.keys(address).some((k) => normalize(saved[k]) !== normalize(address[k]))) {
+    throw new Error('取件地址未能核對成功，請重新選擇取件點後再試。');
+  }
   return true;
 }
 
 /** 前往 Shopify 結帳 */
 async function goToCheckout() {
+  const checkoutMode = window.OUJI_getShipMode?.();
+  const checkoutPoint = window.OUJI_getPickupPoint?.();
+  if (window.OUJI_SHIP?.[checkoutMode]?.src && !window.OUJI_preparePickupCheckout) {
+    throw new Error('取件點功能未載入完成，請重新整理後再試。');
+  }
+  if (window.OUJI_preparePickupCheckout) await window.OUJI_preparePickupCheckout();
   // Persist the visible choice even after a reload, and wait for earlier
   // pickup/method writes before opening Shopify checkout.
   const mode = window.OUJI_getShipMode?.();
@@ -811,6 +829,8 @@ async function goToCheckout() {
   }
   const cart = await getCart();
   if (!cart?.checkoutUrl) throw new Error('未能載入結賬頁，請再試一次。');
+  if (checkoutMode !== window.OUJI_getShipMode?.()) throw new Error('收貨方式已更改，請再按結賬。');
+  if (window.OUJI_SHIP?.[checkoutMode]?.src && checkoutPoint !== window.OUJI_getPickupPoint?.()) throw new Error('取件點已更改，請再按結賬。');
   // 呢個係網站呢邊最後一個追蹤得到嘅動作 —— 之後就跳咗去 Shopify。
   if (typeof trackBeginCheckout === 'function') trackBeginCheckout(cart);
   let url = brandCheckoutUrl(cart.checkoutUrl);
