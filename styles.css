@@ -13475,6 +13475,9 @@ body::before { opacity: 0.18; }
 .sfp--steps .sfp__detail { margin: 0; color: #355d6e; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
 .sfp__start { display: block; width: 100%; min-height: 46px; margin-top: 18px; padding: 10px 12px; border: 1px solid #b5ccd4; border-radius: 8px; background: #f5f9fa; color: #244551; font: inherit; font-size: 14px; }
 .sfp__start[hidden] { display: none; }
+.sfp--info :is(.sfp__steps,.sfp__start,.sfp__toggle,.sfp__status,.sfp__panel,.sfp__err) { display: none; }
+.sfp--steps .sfp__region[hidden] { display: none; }
+.sfp--steps .sfp__district { grid-column: 1 / -1; }
 .sfp--steps .sfp__toggle { margin-top: 12px; min-height: 48px; padding: 12px 16px; border-radius: 10px; background: #2b4c58; color: #fff; font-size: 14px; font-weight: 600; }
 .sfp--steps .sfp__toggle:hover { background: #223d47; }
 .sfp--steps .sfp__status { margin: 12px 0 0; color: #4e727f; font-size: 11px; line-height: 1.5; }

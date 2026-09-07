@@ -374,17 +374,17 @@
                   <p class="sfp__service" data-sfp-sublabel></p>
                   <h3 class="sfp__heading" data-sfp-heading>想喺邊度攞貨？</h3>
                   <p class="sfp__detail" data-sfp-detail>揀一個方便你嘅取件點。</p>
-                  <select class="sfp__start" data-sfp-start aria-label="先選擇分區" disabled><option value="">載入分區中…</option></select>
+                  <select class="sfp__start" data-sfp-start aria-label="第一步：選擇大區" disabled><option value="">載入大區中…</option></select>
                   <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false" aria-controls="pickup-options">
                     <span data-sfp-chosen>瀏覽取件點</span><span aria-hidden="true">↗</span>
                   </button>
                   <p class="sfp__status" data-sfp-status aria-live="polite">選好取件點，就可以繼續結賬</p>
                   <div class="sfp__panel" id="pickup-options" data-sfp-panel hidden>
                     <div class="sfp__filters">
-                      <select class="sfp__region" data-sfp-region aria-label="大區">
+                      <select class="sfp__region" data-sfp-region aria-label="大區" hidden>
                         <option value="">全港</option>
                       </select>
-                      <select class="sfp__district" data-sfp-district aria-label="分區">
+                      <select class="sfp__district" data-sfp-district aria-label="第二步：選擇分區">
                         <option value="">所有分區</option>
                       </select>
                       <input class="sfp__q" type="search" data-sfp-q placeholder="搵街名、商場、大廈…" aria-label="搜尋取件點">
@@ -1320,8 +1320,20 @@
     /* 跟住運送方式換名單。順豐上門同門市自取唔使揀點 → 成個面板收埋。 */
     window.OUJI_syncPicker = function (mode) {
       const o = (window.OUJI_SHIP || {})[mode];
-      if (!o || !o.src) { root.hidden = true; return; }
+      if (!o) { root.hidden = true; return; }
       root.hidden = false;
+      root.classList.toggle('sfp--info', !o.src);
+      if (!o.src) {
+        labelEl.textContent = mode === 'shop' ? '門市取貨' : '送到你手上';
+        root.querySelector('[data-sfp-heading]').textContent = o.name;
+        root.querySelector('[data-sfp-detail]').textContent = mode === 'shop'
+          ? '觀塘觀塘道 472–480 號，觀塘工業中心一期地下 B 舖。每日 10:00–20:00。收到可取貨通知後，帶同訂單資料到店領取。'
+          : '結賬時填寫收件地址及聯絡電話，由順豐派送上門。運費 HK$30，折實滿 HK$250 免運費。';
+        panel.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+        return;
+      }
+      paintChosen();
       if (labelEl) labelEl.textContent = o.name;
       if (hintEl) hintEl.textContent = o.hint || '要喺呢度揀定去邊個點攞貨';
       if (src !== o.src) {          // 換咗名單 → 之前揀嗰個已經唔啱用
@@ -1405,15 +1417,19 @@
       const incoming = await r.json();
       if (src !== requestedSrc) return null;
       if (!Array.isArray(incoming)) throw new Error('Invalid pickup locations');
-      points = incoming;
+      points = incoming.map((p) => ({ ...p, region: p.region || (
+        /離島/.test(p.district) ? '離島區' :
+        /中西|灣仔|東區|南區/.test(p.district) ? '港島區' :
+        /九龍城|觀塘|黃大仙|深水埗|油尖旺/.test(p.district) ? '九龍區' : '新界區'
+      ) }));
       /* 812 個點散喺 76 個分區 —— 一個 dropdown 塞晒係災難，
          四個大區又太粗（老闆 2026-09-03：「唔可以只細分到九龍區，要落到觀塘」）。
          所以做兩層：大區揀完，分區只出嗰區入面嘅。搜尋框照樣行得。 */
-      const rs = [...new Set(points.map((p) => p.region).filter(Boolean))].sort();
-      regionEl.innerHTML = '<option value="">全港</option>'
-        + rs.map((r) => `<option value="${r}">${r}</option>`).join('');
+      const rs = ['港島區', '九龍區', '新界區', '離島區'].filter((r) => points.some((p) => p.region === r));
+      regionEl.innerHTML = '<option value="">先選擇大區</option>'
+        + rs.map((r) => `<option value="${r}">${r.replace(/區$/, '')}</option>`).join('');
       fillDistricts();
-      startEl.innerHTML = '<option value="">先選擇分區</option>' + districtEl.innerHTML.replace('<option value="">所有分區</option>', '');
+      startEl.innerHTML = regionEl.innerHTML;
       startEl.disabled = false;
       return points;
     }
@@ -1421,16 +1437,22 @@
     /* 分區選項跟住大區走。揀「全港」就出晒 76 個（客可以直接撳「觀塘」）。 */
     function fillDistricts() {
       const r = regionEl.value;
-      const ds = [...new Set(points.filter((p) => !r || p.region === r).map((p) => p.district).filter(Boolean))]
+      const ds = [...new Set(points.filter((p) => r && p.region === r).map((p) => p.district).filter(Boolean))]
         .sort((a, b) => a.localeCompare(b, 'zh-HK'));
-      districtEl.innerHTML = '<option value="">所有分區</option>'
+      districtEl.innerHTML = '<option value="">再選擇分區</option>'
         + ds.map((d) => `<option value="${d}">${d}</option>`).join('');
+      districtEl.disabled = !r;
     }
 
     function render() {
       const r = regionEl.value;
       const d = districtEl.value;
       const q = qEl.value.trim();
+      if (!r || !d) {
+        listEl.innerHTML = '';
+        countEl.textContent = !r ? '請先選擇港島、九龍、新界或離島。' : '請選擇分區，查看附近取件點。';
+        return;
+      }
       let list = points.filter((p) =>
         (!r || p.region === r) && (!d || p.district === d) &&
         (!q || p.address.includes(q) || p.district.includes(q) || p.code.includes(q.toUpperCase())));
@@ -1439,7 +1461,7 @@
       const shown = list.slice(0, 80);
       listEl.innerHTML = shown.map((p) => `
         <li><button type="button" class="sfp__item${chosen && chosen.code === p.code ? ' is-on' : ''}" data-code="${p.code}">
-          <b>${p.kind}</b><span>${p.address}</span><em>${p.district} · ${p.hours || '—'}</em>
+          <b>${p.kind} · ${p.code}</b><span>${p.address}</span><em>${p.district} · ${p.hours || '—'}</em>
         </button></li>`).join('')
         + (list.length > shown.length ? `<li class="sfp__more">仲有 ${list.length - shown.length} 個 —— 打商場名、街名或者地區收窄佢</li>` : '');
     }
@@ -1448,12 +1470,12 @@
       const open = panel.hasAttribute('hidden');
       panel.toggleAttribute('hidden', !open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) startEl.hidden = false;
       if (open) { try { if (await load()) render(); } catch (e) { showLoadError(); } }
     });
     startEl.addEventListener('change', () => {
-      regionEl.value = '';
+      regionEl.value = startEl.value;
       fillDistricts();
-      districtEl.value = startEl.value;
       qEl.value = '';
       panel.removeAttribute('hidden');
       toggle.setAttribute('aria-expanded', 'true');
