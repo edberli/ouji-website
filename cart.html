@@ -321,7 +321,7 @@
                 <a class="reward__go" href="shop.html" data-reward-cta hidden>繼續選購 →</a>
                 <section class="reward-gift" data-reward-gift aria-label="購物滿額贈品">
                   <a class="reward-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
-                    <img src="assets/images/home/gift-cream.webp" alt="Round Lab 白樺樹保濕面霜 80ml" width="208" height="260" decoding="async">
+                    <img src="assets/images/home/gift-cream-cutout.png" alt="Round Lab 白樺樹保濕面霜 80ml" width="1254" height="1254" decoding="async">
                   </a>
                   <div class="reward-gift__copy">
                     <p class="reward-gift__eyebrow">滿額贈禮</p>
@@ -772,6 +772,12 @@
       ? '✓ 贈品已加入購物袋'
       : net >= GIFT ? '已達贈品門檻；請以購物袋實際贈品為準'
       : '再買 HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100) + ' 即送';
+    if (net < GIFT && !(inCart || []).includes(gift?.handle)) {
+      const amount = document.createElement('strong');
+      amount.className = 'reward-gift__amount';
+      amount.textContent = 'HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100);
+      host.querySelector('[data-gift-status]').replaceChildren(document.createTextNode('再買 '), amount, document.createTextNode(' 即送'));
+    }
   }
 
   // Global functions for cart actions
