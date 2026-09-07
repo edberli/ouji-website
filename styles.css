@@ -13486,15 +13486,15 @@ body::before { opacity: 0.18; }
 .reward--focused [hidden] { display: none !important; }
 .reward--focused .reward__fill { height: 100%; background: #b8dfe9; transition: none; }
 .reward--focused .reward__go { margin: 10px 0 0; font-size: 12px; color: #c6e8f0; }
-.reward-gift { display: grid; grid-template-columns: 100px minmax(0,1fr); gap: 18px; align-items: center; margin-top: 22px; padding: 18px; border: 1px solid #ffffff30; border-radius: 18px; background: linear-gradient(135deg,#ffffff14,#ffffff06); box-shadow: inset 0 1px #ffffff12; }
-.reward-gift__image { display: grid; place-items: center; align-self: stretch; border-radius: 12px; background: radial-gradient(ellipse at 50% 40%,#fff,#dcecf0); overflow: hidden; }
-.reward-gift__image img { width: 100%; height: 140px; object-fit: contain; transition: transform 200ms cubic-bezier(.23,1,.32,1); }
+.reward-gift { display: grid; grid-template-columns: 82px minmax(0,1fr); gap: 14px; align-items: center; margin-top: 18px; padding: 14px; border: 1px solid #e7dcc7; border-radius: 14px; background: #faf6ed; color: #244551; box-shadow: 0 4px 14px #122c3814; }
+.reward-gift__image { display: grid; place-items: center; background: none; }
+.reward-gift__image img { width: 100%; height: 105px; object-fit: contain; filter: drop-shadow(0 5px 4px #24455122); transition: transform 200ms cubic-bezier(.23,1,.32,1); }
 .reward-gift__copy p { margin: 0; }
-.reward-gift__eyebrow { color: #c6e8f0; font-size: 11px; letter-spacing: .08em; }
-.reward-gift .reward-gift__title { margin: 6px 0 8px; font-size: 18px; font-weight: 700; line-height: 1.45; color: #fff; }
-.reward-gift__name { color: #e1edf1; font-size: 13px; line-height: 1.6; }
-.reward-gift .reward-gift__status { margin-top: 10px; color: #c6e8f0; font-size: 15px; font-weight: 700; line-height: 1.5; font-variant-numeric: tabular-nums; }
-.reward-gift .reward-gift__terms { margin-top: 8px; color: #c4d8df; font-size: 11px; line-height: 1.6; }
+.reward-gift__eyebrow { color: #70542d; font-size: 10px; letter-spacing: .08em; }
+.reward-gift .reward-gift__title { margin: 3px 0 5px; font-size: 16px; font-weight: 700; line-height: 1.35; color: #244551; }
+.reward-gift__name { color: #4c6570; font-size: 11px; line-height: 1.45; }
+.reward-gift .reward-gift__status { margin-top: 6px; color: #244551; font-size: 14px; font-weight: 700; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.reward-gift .reward-gift__terms { margin-top: 5px; color: #5b6c70; font-size: 10px; line-height: 1.5; }
 .reward-gift__terms a { color: inherit; text-underline-offset: 3px; }
 .reward-gift a:focus-visible { outline: 2px solid #c6e8f0; outline-offset: 4px; }
 @media (hover:hover) and (pointer:fine) { .reward-gift__image:hover img { transform: translateY(-2px) scale(1.025); } }
@@ -13503,7 +13503,12 @@ body::before { opacity: 0.18; }
   @starting-style { .reward-gift { opacity: 0; transform: translateY(4px); } }
 }
 @media (prefers-reduced-motion:reduce) { .reward-gift__image img { transition: none; transform: none !important; } }
-@media (max-width:480px) { .reward-gift { grid-template-columns: 76px minmax(0,1fr); padding: 14px; gap: 12px; } .reward-gift .reward-gift__title { font-size: 16px; } .reward-gift__image img { height: 125px; } }
+@media (max-width:480px) { .reward-gift { grid-template-columns: 68px minmax(0,1fr); padding: 12px; gap: 10px; } .reward-gift .reward-gift__title { font-size: 15px; } .reward-gift__image img { height: 90px; } }
+.sfp--steps.sfp--inline { margin: -2px 0 14px; padding: 16px; border-radius: 0 0 14px 14px; }
+.sfp--inline .sfp__steps, .sfp--inline .sfp__service { display: none; }
+.sfp--inline .sfp__heading { font-size: 15px; margin-bottom: 5px; }
+.sfp--inline:not(.sfp--info):not(.sfp--chosen) .sfp__detail { display: none; }
+.sfp--inline .sfp__status { margin-top: 8px; }
 .sfp--steps .sfp__toggle { margin-top: 12px; min-height: 48px; padding: 12px 16px; border-radius: 10px; background: #2b4c58; color: #fff; font-size: 14px; font-weight: 600; }
 .sfp--steps .sfp__toggle:hover { background: #223d47; }
 .sfp--steps .sfp__status { margin: 12px 0 0; color: #4e727f; font-size: 11px; line-height: 1.5; }

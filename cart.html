@@ -324,9 +324,9 @@
                     <img src="assets/images/home/gift-cream.webp" alt="Round Lab 白樺樹保濕面霜 80ml" width="208" height="260" decoding="async">
                   </a>
                   <div class="reward-gift__copy">
-                    <p class="reward-gift__eyebrow">送你一份保濕心意</p>
+                    <p class="reward-gift__eyebrow">滿額贈禮</p>
                     <h3 class="reward-gift__title" data-gift-title>折實滿 HK$499，呢樽送畀你</h3>
-                    <p class="reward-gift__name">ROUND LAB<br>白樺樹保濕面霜 · 80ml</p>
+                    <p class="reward-gift__name">ROUND LAB 白樺樹保濕面霜 · 80ml</p>
                     <p class="reward-gift__status" data-gift-status></p>
                     <p class="reward-gift__terms">送完即止 · <a href="/products/round-lab-round-lab-80ml-0221">睇吓呢份禮物 ↗</a></p>
                   </div>
@@ -347,7 +347,7 @@
                      鋪頭喺訂單詳情就見到網點碼同地址。
                      資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
                      已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
-                <div class="sfp sfp--steps" data-sfp>
+                <div class="sfp sfp--steps sfp--inline" data-sfp>
                   <p class="sfp__err" data-sfp-err hidden role="alert"></p>
                   <div class="sfp__steps" aria-label="第二步：選擇取件點"><span>✓</span>收貨方式<i aria-hidden="true"></i><span>2</span>選擇取件點</div>
                   <p class="sfp__service" data-sfp-sublabel></p>
@@ -990,7 +990,11 @@
           </label>`;
         }
       }
+      // Keep the same picker node and its event listeners when radio options repaint.
+      const picker = document.querySelector('[data-sfp]');
+      if (picker) picker.remove();
       box.innerHTML = html;
+      if (picker) box.querySelector('[data-mode="' + mode + '"]').after(picker);
       const state = window.OUJI_rewardState;
       if (state) renderReward(state.net, state.gross, state.inCart);
     }
@@ -1370,9 +1374,10 @@
     }
 
     function paintChosen() {
+      root.classList.toggle('sfp--chosen', !!chosen);
       chosenEl.textContent = chosen ? '更改取件點' : '瀏覽取件點';
       chosenEl.classList.toggle('is-set', !!chosen);
-      root.querySelector('[data-sfp-heading]').textContent = chosen ? chosen.code : '想喺邊度攞貨？';
+      root.querySelector('[data-sfp-heading]').textContent = chosen ? '✓ ' + chosen.kind + ' ' + chosen.code : '選擇取件點';
       root.querySelector('[data-sfp-detail]').textContent = chosen
         ? `${chosen.address}${chosen.hours ? ' · ' + chosen.hours : ''}` : '揀一個方便你嘅取件點。';
       root.querySelector('[data-sfp-status]').textContent = chosen ? '✓ 已選取件點' : '選好取件點，就可以繼續結賬';
