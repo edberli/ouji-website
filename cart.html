@@ -319,7 +319,18 @@
                 <p class="reward__cost" data-reward-cost></p>
                 <div class="reward__track" data-reward-track role="progressbar" aria-label="所選運送方式免運進度" aria-valuemin="0" aria-valuemax="100"><div class="reward__fill" data-reward-fill></div></div>
                 <a class="reward__go" href="shop.html" data-reward-cta hidden>繼續選購 →</a>
-                <p class="reward__gift-note" data-reward-gift></p>
+                <section class="reward-gift" data-reward-gift aria-label="購物滿額贈品">
+                  <a class="reward-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
+                    <img src="assets/images/home/gift-cream.webp" alt="Round Lab 白樺樹保濕面霜 80ml" width="208" height="260" decoding="async">
+                  </a>
+                  <div class="reward-gift__copy">
+                    <p class="reward-gift__eyebrow">送你一份保濕心意</p>
+                    <h3 class="reward-gift__title" data-gift-title>折實滿 HK$499，呢樽送畀你</h3>
+                    <p class="reward-gift__name">ROUND LAB<br>白樺樹保濕面霜 · 80ml</p>
+                    <p class="reward-gift__status" data-gift-status></p>
+                    <p class="reward-gift__terms">送完即止 · <a href="/products/round-lab-round-lab-80ml-0221">睇吓呢份禮物 ↗</a></p>
+                  </div>
+                </section>
               </div>
 
               <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
@@ -755,10 +766,12 @@
     const active = Date.now() < Date.parse(window.OUJI_COMMERCE?.promotion?.endsAt || '');
     const giftLine = host.querySelector('[data-reward-gift]');
     giftLine.hidden = !active;
-    giftLine.textContent = (inCart || []).includes(gift?.handle)
+    host.querySelector('[data-gift-title]').replaceChildren(
+      document.createTextNode('折實滿 HK$' + GIFT), document.createElement('br'), document.createTextNode('呢樽免費送'));
+    host.querySelector('[data-gift-status]').textContent = (inCart || []).includes(gift?.handle)
       ? '✓ 贈品已加入購物袋'
       : net >= GIFT ? '已達贈品門檻；請以購物袋實際贈品為準'
-      : '折實滿 HK$' + GIFT + ' 送指定面霜 · 送完即止';
+      : '再買 HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100) + ' 即送';
   }
 
   // Global functions for cart actions
