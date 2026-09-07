@@ -2273,6 +2273,10 @@ button.product-card__quick-add,
 .product-info__actions .btn { flex: 1; }
 
 .product-info__purchase-panel {
+  /* The product details column, rather than the browser window, is the real
+     available width for this component.  Its container query below keeps the
+     large desktop treatment from colliding with the gift card. */
+  container: purchase-panel / inline-size;
   overflow: hidden;
   margin-bottom: var(--space-xl);
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -2629,8 +2633,12 @@ button.product-card__quick-add,
   stroke-width: 1.5;
 }
 
-/* Desktop: use the full left half instead of centring all promo copy in one narrow stack. */
-@media (min-width: 720px) {
+/*
+ * Use the expanded, editorial desktop composition only when this purchase
+ * panel itself has enough room. A wide browser can still leave the product
+ * column narrow beside the gallery; viewport queries cannot see that.
+ */
+@container purchase-panel (min-width: 600px) {
   .product-info__promo-card {
     grid-template-columns: minmax(0, 1.24fr) minmax(230px, 0.76fr);
     min-height: 196px;
@@ -2695,7 +2703,9 @@ button.product-card__quick-add,
   }
 
   .product-info__promo-title em b {
-    font-size: clamp(6.25rem, 8vw, 7.25rem);
+    /* cqw follows this card, so the 88 never grows according to an unrelated
+       wide viewport and runs into the HK$499 gift section. */
+    font-size: clamp(5.5rem, 13cqw, 7.25rem);
   }
 
   .product-info__promo-gift-side {
@@ -2708,7 +2718,10 @@ button.product-card__quick-add,
   }
 }
 
-@media (max-width: 560px) {
+/* A desktop gallery can make this panel as narrow as a phone. Switch the
+   component itself to the stacked composition before its title can collide
+   with the gift card, regardless of the browser window width. */
+@container purchase-panel (max-width: 599px) {
   .product-info__promo-card {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;
