@@ -13465,6 +13465,24 @@ body::before { opacity: 0.18; }
 .sfp__item em { font-style: normal; font-size: 0.6875rem; color: var(--text-tertiary); }
 .sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: var(--text-secondary); text-align: center; list-style: none; }
 
+/* Approved pickup prototype: step-by-step, mist blue on footer blue. */
+.sfp--steps { padding: 22px; background: #e8f0f3; color: #244551; border-radius: 16px; border-left: 4px solid #94bbc9; box-shadow: none; }
+.sfp--steps .sfp__steps { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; color: #4e727f; font-size: 11px; font-weight: 500; }
+.sfp__steps > span { display: inline-grid; place-items: center; flex: 0 0 22px; height: 22px; border-radius: 50%; background: #2b4c58; color: #fff; }
+.sfp__steps > i { flex: 1; min-width: 8px; height: 1px; background: #b0c8d0; }
+.sfp--steps .sfp__service { margin: 0 0 6px; color: #4e727f; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+.sfp--steps .sfp__heading { margin: 0 0 8px; color: #244551; font-family: var(--font-body); font-size: 20px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.sfp--steps .sfp__detail { margin: 0; color: #355d6e; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
+.sfp__start { display: block; width: 100%; min-height: 46px; margin-top: 18px; padding: 10px 12px; border: 1px solid #b5ccd4; border-radius: 8px; background: #f5f9fa; color: #244551; font: inherit; font-size: 14px; }
+.sfp__start[hidden] { display: none; }
+.sfp--steps .sfp__toggle { margin-top: 12px; min-height: 48px; padding: 12px 16px; border-radius: 10px; background: #2b4c58; color: #fff; font-size: 14px; font-weight: 600; }
+.sfp--steps .sfp__toggle:hover { background: #223d47; }
+.sfp--steps .sfp__status { margin: 12px 0 0; color: #4e727f; font-size: 11px; line-height: 1.5; }
+.sfp--steps .sfp__panel { margin-top: 18px; padding: 18px 0 0; border-top: 1px solid #bdcfd6; }
+.sfp--steps .sfp__err { margin-bottom: 14px; padding: 10px; border: 0; border-radius: 8px; }
+.sfp--steps :is(button,select,input):focus-visible { outline: 3px solid #639cad; outline-offset: 3px; }
+@media (max-width: 480px) { .sfp--steps { padding: 18px 16px; } .sfp--steps .sfp__steps { gap: 6px; font-size: 10px; } .sfp--steps .sfp__filters { grid-template-columns: minmax(0,1fr); } }
+
 /* ============================================================
    向下滑收起頂部，向上滑彈返出嚟
    老闆 2026-08-27：「如果啲人向下滑嘅話，佢就會隱藏；向上滑就顯示返
