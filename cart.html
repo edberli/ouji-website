@@ -313,46 +313,14 @@
             <!-- 兩級門檻：折實滿 $250 免運、滿 $499 送面霜。
                  兩個數都係「折實」—— 實測過 Shopify 條免運規則睇折後價
                  （未折 $414／折實 $384 嗰陣照收運費）。 -->
-            <div class="reward" data-reward hidden>
-              <div class="reward__goal" aria-hidden="true">
-                <!-- 兩件獎品各自企喺自己嗰個門檻上面 —— 紙箱喺 $250（即係
-                     條棒 80% 嗰點，同 .reward__tick 同一個位），面霜喺盡頭
-                     $499。彈下彈下係為咗吸住眼球；兩個錯開拍子，唔好一齊跳。 -->
-                <span class="reward__prize reward__prize--ship">
-                  <svg class="reward__box" viewBox="0 0 64 64" width="42" height="42" role="img" aria-hidden="true">
-                    <g fill="none" stroke="#8a6238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-                      <path d="M32 24 6 15l26-9 26 9z" fill="#d9b487"/>
-                      <path d="M6 15v27l26 10V24z" fill="#b8875a"/>
-                      <path d="M58 15v27L32 52V24z" fill="#cf9f6c"/>
-                      <path d="M24 9.4 50 18.4M32 24v28" stroke="#8a6238" stroke-width="1.4" opacity=".45"/>
-                      <path d="M22 19.6 48 10.6l10 4.4-26 9z" fill="#6da3b5" stroke="#2b4c58" stroke-width="1.6"/>
-                    </g>
-                  </svg>
-                </span>
-                <span class="reward__prize reward__prize--gift">
-                  <img class="reward__jar" src="assets/images/home/gift-cream.webp"
-                       alt="" width="208" height="260" decoding="async">
-                  <!-- ⚠️ 唔准加 loading="lazy"：.reward 一開波係 hidden，
-                       lazy 圖喺 display:none 入面永遠唔會入 viewport，
-                       解封之後都仲係唔載（實測 naturalWidth 一直 0）。 -->
-                </span>
+            <div class="reward reward--focused" data-reward hidden>
+              <div class="reward__brief" aria-live="polite">
+                <p class="reward__line" data-reward-line></p>
+                <p class="reward__cost" data-reward-cost></p>
+                <div class="reward__track" data-reward-track role="progressbar" aria-label="所選運送方式免運進度" aria-valuemin="0" aria-valuemax="100"><div class="reward__fill" data-reward-fill></div></div>
+                <a class="reward__go" href="shop.html" data-reward-cta hidden>繼續選購 →</a>
+                <p class="reward__gift-note" data-reward-gift></p>
               </div>
-              <div class="reward__track">
-                <div class="reward__fill" data-reward-fill></div>
-                <span class="reward__tick" style="left:80%"></span>
-              </div>
-              <div class="reward__marks">
-                <span data-reward-mark-1>自取免郵 $99</span>
-                <span data-reward-mark-2>送面霜 $499</span>
-              </div>
-              <p class="reward__line" data-reward-line></p>
-              <!-- 2026-09-03 老闆：「你嗰個位做『繼續購物』，啲人會唔知，
-                   以為係結賬㗎嘛，撳咗落去點知唔係。呢個應該擺最高，
-                   擺喺送嘢嗰個位嗰度，同埋應該細粒啲，甚至乎如果唔需要，
-                   可以直接唔要呢粒掣。」
-                   → 由卡底一個白底大掣（貼住「前往結帳」，好易撳錯）
-                     改成跟喺「再買 $X」後面嘅細連結；門檻全部達成就自動收起。 -->
-              <a class="reward__go" href="shop.html" data-reward-cta hidden>繼續揀嘢 →</a>
 
               <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
                    $99 自取（EC-GET $13）／$199 順豐站（$25）／$250 順豐上門（$30）。
@@ -731,6 +699,8 @@
     }
 
     renderReward(netTotal, subtotal, (cart.lines?.edges || [])
+      .filter((e) => e.node.attributes?.some((a) => a.key === '_ouji_auto_gift' && a.value === '1')
+        && e.node.cost?.totalAmount?.amount != null && Number(e.node.cost.totalAmount.amount) === 0)
       .map((e) => e.node.merchandise.product?.handle).filter(Boolean));
 
     // 2026-09-05: moved inside this callback so these close over `lines`
@@ -752,52 +722,44 @@
   });
 
   /**
-   * 「爭少少就免運／送面霜」—— 講埋差幾多，同埋執邊件貨啱啱夠。
-   *
-   * 兩級門檻都係計折實價：$250 免運（慳 $30）、$499 送面霜。
-   * 條進度棒去到 $499 為滿，$250 嗰點畫條刻度。
+   * 只顯示所選運送方式的折實免運差額；贈品獨立提示。
    */
-  const FREE_SHIP = 250;
   const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 499;
 
   function renderReward(net, gross, inCart) {
+    window.OUJI_rewardState = { net, gross, inCart };
     const host = document.querySelector('[data-reward]');
     if (!host) return;
-    if (net <= 0) { host.hidden = true; return; }
-    host.hidden = false;
-
-    const fill = host.querySelector('[data-reward-fill]');
+    host.hidden = net <= 0;
+    if (host.hidden) return;
+    const mode = window.OUJI_getShipMode?.() || 'post';
+    const method = window.OUJI_SHIP[mode];
+    const met = method.fee === 0 || net >= method.free;
+    const gap = Math.max(0, Math.ceil((method.free - net) * 100 - 0.001) / 100);
+    const money = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
     const line = host.querySelector('[data-reward-line]');
-    const m1 = host.querySelector('[data-reward-mark-1]');
-    const m2 = host.querySelector('[data-reward-mark-2]');
-    fill.style.width = `${Math.min(100, (net / GIFT) * 100)}%`;
-    m1.classList.toggle('is-hit', net >= FREE_SHIP);
-    m2.classList.toggle('is-hit', net >= GIFT);
-
-    const ceil = (n) => Math.ceil(n - 0.001);
-    /* 一次只講一個目標 —— 四個階梯順住嚟，唔好一次過噴晒四個數俾客。
-       每句都寫明個獎勵係「自取」定「順豐」，唔准淨係寫「免運費」。 */
-    const S = window.OUJI_SHIP;
-    /* 「繼續揀嘢」只喺仲有門檻未夠嗰陣先出 —— 全部拎齊就冇嘢好催，收起佢。 */
-    const goLink = document.querySelector('[data-reward-cta]');
-    if (goLink) goLink.hidden = net >= GIFT;
-    if (net < S.post.free) {
-      const gap = ceil(S.post.free - net);
-      line.innerHTML = `再買 <strong>HK$${gap}</strong> 就 <b>7-Eleven／郵局自取免郵</b>`;
-    } else if (net < S.sfp.free) {
-      const gap = ceil(S.sfp.free - net);
-      line.innerHTML = `自取免郵 ✓　再買 <strong>HK$${gap}</strong> 就 <b>順豐站免運</b>`;
-    } else if (net < S.sfd.free) {
-      const gap = ceil(S.sfd.free - net);
-      line.innerHTML = `順豐站免運 ✓　再買 <strong>HK$${gap}</strong> 就 <b>順豐送上門免運</b>`;
-    } else if (net < GIFT) {
-      const gap = ceil(GIFT - net);
-      line.innerHTML = `全部運送方式都免運 ✓　再買 <strong>HK$${gap}</strong> 就送面霜`;
-    } else {
-      line.innerHTML = `免運費 ✓　送面霜 ✓　<b>全部拎齊</b>`;
-    }
+    line.innerHTML = method.fee === 0 ? '✓ 門市免費自取，毋須湊單'
+      : met ? '✓ 已享' + method.name + '免運費'
+      : '再買 <strong>HK$' + money(gap) + '</strong>，即享' + method.name + '免運';
+    host.querySelector('[data-reward-cost]').textContent = met
+      ? '按目前折實商品金額計算'
+      : '目前運費 HK$' + method.fee + ' · 折實滿 HK$' + method.free + ' 免運';
+    const track = host.querySelector('[data-reward-track]');
+    track.hidden = met;
+    const pct = Math.min(100, Math.max(0, net / method.free * 100));
+    track.setAttribute('aria-valuenow', String(Math.round(pct)));
+    track.setAttribute('aria-valuetext', '再買 HK$' + money(gap) + ' 即享所選方式免運');
+    host.querySelector('[data-reward-fill]').style.width = pct + '%';
+    host.querySelector('[data-reward-cta]').hidden = met;
+    const gift = window.OUJI_COMMERCE?.promotion?.gift;
+    const active = Date.now() < Date.parse(window.OUJI_COMMERCE?.promotion?.endsAt || '');
+    const giftLine = host.querySelector('[data-reward-gift]');
+    giftLine.hidden = !active;
+    giftLine.textContent = (inCart || []).includes(gift?.handle)
+      ? '✓ 贈品已加入購物袋'
+      : net >= GIFT ? '已達贈品門檻；請以購物袋實際贈品為準'
+      : '折實滿 HK$' + GIFT + ' 送指定面霜 · 送完即止';
   }
-
 
   // Global functions for cart actions
   /**
@@ -1016,6 +978,8 @@
         }
       }
       box.innerHTML = html;
+      const state = window.OUJI_rewardState;
+      if (state) renderReward(state.net, state.gross, state.inCart);
     }
 
     box.addEventListener('change', async (e) => {

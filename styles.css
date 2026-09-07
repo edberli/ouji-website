@@ -13478,6 +13478,15 @@ body::before { opacity: 0.18; }
 .sfp--info :is(.sfp__steps,.sfp__start,.sfp__toggle,.sfp__status,.sfp__panel,.sfp__err) { display: none; }
 .sfp--steps .sfp__region[hidden] { display: none; }
 .sfp--steps .sfp__district { grid-column: 1 / -1; }
+.reward--focused .reward__brief { margin-bottom: 24px; }
+.reward--focused .reward__line { margin: 0; color: #f2f8fa; font-size: 16px; line-height: 1.6; }
+.reward--focused .reward__line strong { color: #c6e8f0; font-weight: 700; }
+.reward--focused .reward__cost { margin: 6px 0 0; font-size: 12px; line-height: 1.5; color: #c4d8df; }
+.reward--focused .reward__track { height: 4px; margin: 14px 0 0; background: #ffffff24; }
+.reward--focused [hidden] { display: none !important; }
+.reward--focused .reward__fill { height: 100%; background: #b8dfe9; transition: none; }
+.reward--focused .reward__go { margin: 10px 0 0; font-size: 12px; color: #c6e8f0; }
+.reward--focused .reward__gift-note { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid #ffffff26; font-size: 11px; line-height: 1.6; color: #c4d8df; }
 .sfp--steps .sfp__toggle { margin-top: 12px; min-height: 48px; padding: 12px 16px; border-radius: 10px; background: #2b4c58; color: #fff; font-size: 14px; font-weight: 600; }
 .sfp--steps .sfp__toggle:hover { background: #223d47; }
 .sfp--steps .sfp__status { margin: 12px 0 0; color: #4e727f; font-size: 11px; line-height: 1.5; }
