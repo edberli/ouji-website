@@ -744,7 +744,15 @@ function brandCheckoutUrl(url) {
     就洗走咗運送方式，鋪頭執單見唔到客要順豐站定 7-Eleven。
     所以呢度一定要先讀返現有嘅再 merge。
 */
-async function setCartAttributes(attrs) {
+let cartAttributesQueue = Promise.resolve();
+function setCartAttributes(attrs) {
+  const values = { ...attrs };
+  const pending = cartAttributesQueue.then(() => writeCartAttributes(values));
+  cartAttributesQueue = pending.catch(() => null);
+  return pending;
+}
+
+async function writeCartAttributes(attrs) {
   const cart = await getCart();
   if (!cart?.id) return null;
   const merged = {};
@@ -791,8 +799,18 @@ async function setDeliveryAddressPreference(addr) {
 
 /** 前往 Shopify 結帳 */
 async function goToCheckout() {
+  // Persist the visible choice even after a reload, and wait for earlier
+  // pickup/method writes before opening Shopify checkout.
+  const mode = window.OUJI_getShipMode?.();
+  const method = window.OUJI_SHIP?.[mode];
+  if (method) {
+    const saved = await setCartAttributes({ ship_mode: mode, '運送方式': method.name });
+    if (!saved?.some((a) => a.key === 'ship_mode' && a.value === mode)) {
+      throw new Error('未能儲存運送方式，請再試一次。');
+    }
+  }
   const cart = await getCart();
-  if (!cart?.checkoutUrl) return;
+  if (!cart?.checkoutUrl) throw new Error('未能載入結賬頁，請再試一次。');
   // 呢個係網站呢邊最後一個追蹤得到嘅動作 —— 之後就跳咗去 Shopify。
   if (typeof trackBeginCheckout === 'function') trackBeginCheckout(cart);
   let url = brandCheckoutUrl(cart.checkoutUrl);

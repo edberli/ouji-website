@@ -595,8 +595,18 @@
           }
           return;
         }
-        checkoutBtn.textContent = '跳轉中...';
-        await goToCheckout();
+        if (checkoutBtn.dataset.pending === 'true') return;
+        checkoutBtn.dataset.pending = 'true';
+        const previousText = checkoutBtn.textContent;
+        checkoutBtn.textContent = '儲存運送方式...';
+        try {
+          await goToCheckout();
+        } catch (error) {
+          alert(error.message || '未能前往結賬，請再試一次。');
+          checkoutBtn.textContent = previousText;
+        } finally {
+          delete checkoutBtn.dataset.pending;
+        }
       });
     }
 
