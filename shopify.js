@@ -809,6 +809,49 @@ async function setDeliveryAddressPreference(addr) {
   return true;
 }
 
+/** Rebuild pickup checkout to avoid previously initialized checkout address state.
+ * Keep the original cart until the replacement has passed preservation checks. */
+async function renewPickupCheckout(cart) {
+  const fields = `id checkoutUrl note totalQuantity attributes { key value }
+    discountAllocations { discountedAmount { amount currencyCode } }
+    discountCodes { code applicable } appliedGiftCards { id }
+    buyerIdentity { countryCode email phone customer { id } }
+    delivery { addresses { selected address { ... on CartDeliveryAddress {
+      address1 address2 city provinceCode countryCode } } } }
+    lines(first:250) { pageInfo { hasNextPage } nodes { quantity attributes { key value }
+      sellingPlanAllocation { sellingPlan { id } }
+      cost { totalAmount { amount currencyCode } }
+      merchandise { ... on ProductVariant { id } } } }`;
+  const old = (await shopifyFetch(`query($id:ID!){cart(id:$id){${fields}}}`, {id:cart.id}))?.cart;
+  if (!old || old.lines.pageInfo.hasNextPage || !old.lines.nodes.length) throw new Error('未能完整讀取購物袋，請再試一次。');
+  if (old.appliedGiftCards.length || old.buyerIdentity.customer) throw new Error('此購物袋有禮品卡或會員資料，暫未能安全重建結賬；請聯絡我們協助，資料已保留。');
+  const selected = old.delivery.addresses.find(a=>a.selected)?.address;
+  if (!selected) throw new Error('未能核對取件地址，請重新選擇。');
+  const input = {
+    lines: old.lines.nodes.map(n=>({merchandiseId:n.merchandise.id,quantity:n.quantity,attributes:n.attributes,
+      ...(n.sellingPlanAllocation ? {sellingPlanId:n.sellingPlanAllocation.sellingPlan.id} : {})})),
+    attributes:old.attributes, note:old.note, discountCodes:old.discountCodes.map(d=>d.code),
+    buyerIdentity:{countryCode:old.buyerIdentity.countryCode || 'HK',
+      ...(old.buyerIdentity.email ? {email:old.buyerIdentity.email} : {}),
+      ...(old.buyerIdentity.phone ? {phone:old.buyerIdentity.phone} : {})},
+    delivery:{addresses:[{selected:true,oneTimeUse:true,address:{deliveryAddress:selected}}]}
+  };
+  const result = (await shopifyFetch(`mutation($input:CartInput!){cartCreate(input:$input){cart{${fields}} userErrors{message} warnings{code}}}`, {input}))?.cartCreate;
+  const fresh = result?.cart;
+  const signature = c=>JSON.stringify(c.lines.nodes.map(n=>JSON.stringify([n.merchandise.id,n.quantity,n.sellingPlanAllocation?.sellingPlan.id||'',
+    n.attributes.map(a=>[a.key,a.value]).sort(),n.cost.totalAmount])).sort());
+  const pairs = a=>JSON.stringify(a.map(v=>[v.key,v.value]).sort());
+  if (!fresh?.checkoutUrl || result.userErrors.length || result.warnings?.length || fresh.lines.pageInfo.hasNextPage ||
+      signature(old)!==signature(fresh) || pairs(old.attributes)!==pairs(fresh.attributes) || old.note!==fresh.note ||
+      JSON.stringify(old.discountCodes)!==JSON.stringify(fresh.discountCodes) ||
+      JSON.stringify(old.discountAllocations)!==JSON.stringify(fresh.discountAllocations) ||
+      JSON.stringify(selected)!==JSON.stringify(fresh.delivery.addresses.find(a=>a.selected)?.address)) {
+    throw new Error('重建結賬後資料未能完全核對，原購物袋已保留，請再試一次。');
+  }
+  if (localStorage.getItem('shopify_cart_id')!==old.id) throw new Error('購物袋已更改，請重新整理後再試。');
+  return fresh;
+}
+
 /** 前往 Shopify 結帳 */
 async function goToCheckout() {
   const checkoutMode = window.OUJI_getShipMode?.();
@@ -827,12 +870,15 @@ async function goToCheckout() {
       throw new Error('未能儲存運送方式，請再試一次。');
     }
   }
-  const cart = await getCart();
+  let cart = await getCart();
   if (!cart?.checkoutUrl) throw new Error('未能載入結賬頁，請再試一次。');
+  const trackingCart = cart;
+  if (method?.src) cart = await renewPickupCheckout(cart);
   if (checkoutMode !== window.OUJI_getShipMode?.()) throw new Error('收貨方式已更改，請再按結賬。');
   if (window.OUJI_SHIP?.[checkoutMode]?.src && checkoutPoint !== window.OUJI_getPickupPoint?.()) throw new Error('取件點已更改，請再按結賬。');
+  if (method?.src) localStorage.setItem('shopify_cart_id', cart.id);
   // 呢個係網站呢邊最後一個追蹤得到嘅動作 —— 之後就跳咗去 Shopify。
-  if (typeof trackBeginCheckout === 'function') trackBeginCheckout(cart);
+  if (typeof trackBeginCheckout === 'function') trackBeginCheckout(trackingCart);
   let url = brandCheckoutUrl(cart.checkoutUrl);
   if (typeof decorateCheckoutUrl === 'function') url = decorateCheckoutUrl(url);
   window.location.href = url;
