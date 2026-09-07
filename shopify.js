@@ -1691,6 +1691,37 @@ const CATEGORY_TAXONOMY = {
   },
 };
 
+/* 產品係唔係「套裝」要先判斷，唔可以只睇 productType。
+   Shopify 後台有一批套裝被誤標成「潔面／爽膚水／乳液」，如果照原本
+   嘅 keyword 規則，佢哋會同單件貨一齊出現，亦會喺購物袋嘅護膚流程推薦
+   區冒充一個步驟。呢個判斷集中喺共用層，購物袋同分類頁用同一把尺。 */
+const BUNDLE_CJK = /套裝|套組|禮盒|禮品盒|組合(?:裝|套)?|[一二三四五六七八九十兩雙]\s*(?:件|支|瓶|盒|片)\s*(?:裝|套|組)?/;
+const BUNDLE_EN = /(?:^|[\s/_-])(kits?|sets?|bundles?|gift\s*(?:set|box)|box\s*set|multi[-\s]?pack|[2-9]\s*pack|pairs?)(?:$|[\s/_-])/i;
+const PREMIUM_BUNDLE_BRANDS = /Sulwhasoo|雪花秀|The\s+History\s+of\s+Whoo|Whoo|后|O\s*HUI|歐蕙|su:m?37|sum37/i;
+
+function bundleHaystack(p) {
+  return [p?.title || '', p?.productType || '', ...(p?.tags || [])].join(' ');
+}
+
+function isBundleProduct(p) {
+  const text = bundleHaystack(p);
+  return BUNDLE_CJK.test(text) || BUNDLE_EN.test(text);
+}
+
+/* 呢次要修嘅係購物袋入面嗰批中高階禮盒，唔係所有平價「精華＋乳液」
+   套裝。門檻用價格＋品牌雙重判斷：雪花秀／Whoo 呢類就算短期特價仍然
+   視為高階套裝；其他品牌只喺 HK$250 或以上先抽離單件步驟。 */
+function isPremiumBundleProduct(p) {
+  if (!isBundleProduct(p)) return false;
+  const text = bundleHaystack(p);
+  const amount = Number(p?.priceRange?.minVariantPrice?.amount || 0);
+  return PREMIUM_BUNDLE_BRANDS.test(text) || amount >= 250;
+}
+
+// 跨 script 畀購物袋／catalog.js 用；保留 function name 方便同一頁直接呼叫。
+window.OUJI_isBundleProduct = isBundleProduct;
+window.OUJI_isPremiumBundleProduct = isPremiumBundleProduct;
+
 // Text blob a product is matched against
 /* Two haystacks, deliberately. productType and tags are curated per
    product; the title is whatever the brand called the thing. Matching the
@@ -1757,6 +1788,11 @@ function makeupBucket(p) {
 function subMatch(section, id, p) {
   const sub = CATEGORY_TAXONOMY[section]?.subs?.[id];
   if (!sub) return false;
+  /* 只將中高階禮盒從潔面／爽膚水／面霜等步驟抽離；普通平價精華／潤膚
+     套裝保留原本分類，避免一次過改動成千上萬件正常貨。獨立嘅「套裝」
+     入口就收齊有明確套裝標記嘅貨，客可以需要時一次過睇晒。 */
+  if (section === 'skincare' && id === 'kit') return isBundleProduct(p);
+  if (section === 'skincare' && isPremiumBundleProduct(p)) return false;
   if (sub.bucket) return makeupBucket(p) === sub.bucket;
   if (sub.parent) return makeupBucket(p) === sub.parent && sub.title.test(p.title || '');
   if (!matchesKeywords(p, sub.keywords)) return false;
@@ -2058,4 +2094,26 @@ const BRAND_KV = {
 
 function brandKV(vendor) {
   return BRAND_KV[vendor] || null;
+}
+
+/* 「套裝」係護膚分類本身，唔應該只藏喺某一版嘅篩選 drawer。
+   頁面 header 係共用但仍然係靜態 HTML；喺共用 script 補返 desktop mega menu
+   同手機 menu，避免有啲頁有入口、有啲頁冇入口。 */
+function ensureKitCategoryLinks() {
+  document.querySelectorAll('a[href="category.html?cat=spot"]').forEach((spot) => {
+    const parent = spot.parentElement;
+    if (!parent || parent.querySelector('a[data-kit-category-link]')) return;
+    const kit = document.createElement('a');
+    kit.href = 'category.html?cat=kit';
+    kit.textContent = '套裝';
+    kit.dataset.kitCategoryLink = '1';
+    if (spot.className) kit.className = spot.className;
+    spot.insertAdjacentElement('afterend', kit);
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ensureKitCategoryLinks, { once: true });
+} else {
+  ensureKitCategoryLinks();
 }

@@ -835,15 +835,24 @@
       fetch('featured.json').then((r) => (r.ok ? r.json() : null))
         .then((d) => d?.profitRank || {}).catch(() => ({})),
     ]);
+    /* 推薦區係幫客補齊護膚步驟，唔係推雪花秀／Whoo 呢類中高階禮盒。
+       後台有呢批套裝被誤標成潔面／爽膚水／乳液，所以要用共用嘅高階套裝
+       判斷先剔走；普通平價套裝唔喺今次修正範圍。 */
+    const isPremiumBundle = typeof isPremiumBundleProduct === 'function'
+      ? isPremiumBundleProduct
+      : (window.OUJI_isPremiumBundleProduct || (() => false));
     const pool = (all?.edges || []).map((e) => e.node)
       .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale)
-      .filter((p) => !handles.includes(p.handle));
+      .filter((p) => !handles.includes(p.handle))
+      .filter((p) => !isPremiumBundle(p));
 
     const picks = gaps.missing.map((step) => {
       const of = pool.filter((p) => p.productType === step
         || (step === '面霜' && p.productType === '乳液')
         || (step === '精華' && p.productType === '安瓶'));
       if (!of.length) return null;
+      /* 只剔走中高階套裝，其他普通單件／平價套裝仍然沿用原本推薦排名，
+         唔因為今次修正而打亂成個購物袋推薦邏輯。 */
       of.sort((a, b) => (rank[b.handle] || 0) - (rank[a.handle] || 0));
       return { step, product: of[0] };
     }).filter(Boolean).slice(0, 3);
