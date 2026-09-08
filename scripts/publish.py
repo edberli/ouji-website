@@ -9,7 +9,10 @@ can be rebuilt as many times as its copy needs.
 
 Used by the per-brand build scripts (build_clio.py and friends).
 """
+import html
+import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -33,7 +36,12 @@ mutation($input: ProductSetInput!) {
 def build_input(p):
     """p: {handle,title,descriptionHtml,vendor,productType,tags,status,
            option_name,shades:[{name,barcode,qty,price,image}],images:[url]}"""
-    images = list(dict.fromkeys(p["images"]))
+    curated = _curated_for_product(p)
+    images = curated["gallery"] or list(dict.fromkeys(p["images"]))
+    description = p["descriptionHtml"]
+    if curated["detail"]:
+        description = _apply_curated_detail(
+            description, p["title"], curated["detail"])
     files = [{"originalSource": u, "contentType": "IMAGE", "alt": p["title"]} for u in images]
 
     variants = []
@@ -58,7 +66,7 @@ def build_input(p):
     base = {
         "handle": p["handle"],
         "title": p["title"],
-        "descriptionHtml": p["descriptionHtml"],
+        "descriptionHtml": description,
         "vendor": p["vendor"],
         "productType": p["productType"],
         "tags": p["tags"],
@@ -79,6 +87,93 @@ PUBLICATIONS_QUERY = "{ publications(first: 20) { edges { node { id name } } } }
 # The storefront reads through the headless channel; the other two are
 # where a shopper would otherwise find us.
 WANTED_CHANNELS = {"Online Store", "ouji Headless", "Shop"}
+
+# Optional barcode-keyed media curated by the bounded catalog audit. The
+# source builders continue to work when this file is absent; when any shade
+# barcode is present, its product-level gallery/detail set is authoritative.
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CURATED_MEDIA = os.path.join(ROOT, "data", "catalog_media_restoration.json")
+DETAIL_BLOCK = re.compile(
+    r'<div\b(?=[^>]*\bclass=["\'][^"\']*\bproduct-detail-images\b'
+    r'[^"\']*["\'])[^>]*>.*?</div>', re.I | re.S)
+
+
+def _load_curated_media():
+    """Read the optional local barcode -> gallery/detail map."""
+    if not os.path.exists(CURATED_MEDIA):
+        return {}
+    with open(CURATED_MEDIA, encoding="utf-8") as f:
+        data = json.load(f)
+    if not isinstance(data, dict):
+        raise ValueError(f"{CURATED_MEDIA}: expected a JSON object")
+    return data
+
+
+def _media_urls(record, key, barcode):
+    if not isinstance(record, dict):
+        raise ValueError(f"curated media {barcode}: expected an object")
+    raw = record.get(key) or []
+    if isinstance(raw, str):
+        raw = [raw]
+    if not isinstance(raw, (list, tuple)):
+        raise ValueError(f"curated media {barcode}.{key}: expected a URL list")
+    urls = []
+    for url in raw:
+        if not isinstance(url, str) or not url.strip():
+            continue
+        url = url.strip()
+        if not url.startswith(("http://", "https://")):
+            raise ValueError(f"curated media {barcode}.{key}: non-absolute URL")
+        if url not in urls:
+            urls.append(url)
+    return urls
+
+
+def _curated_for_product(p):
+    """Return one consistent map for any mapped shade barcode.
+
+    Shopify product media and description are product-level, so two shades in
+    one product cannot safely carry different curated sets. Failing closed
+    prevents a rebuild from assigning one shade's photographs to another.
+    """
+    media = _load_curated_media()
+    mapped = []
+    seen = set()
+    for shade in p.get("shades") or []:
+        barcode = str(shade.get("barcode") or "").strip()
+        if not barcode or barcode in seen or barcode not in media:
+            continue
+        seen.add(barcode)
+        mapped.append((barcode, {
+            "gallery": _media_urls(media[barcode], "gallery", barcode),
+            "detail": _media_urls(media[barcode], "detail", barcode),
+        }))
+    if not mapped:
+        return {"gallery": [], "detail": []}
+    first_barcode, first = mapped[0]
+    conflicts = [barcode for barcode, value in mapped[1:]
+                 if value != first]
+    if conflicts:
+        joined = ", ".join([first_barcode] + conflicts)
+        raise ValueError(
+            "curated media differs between shade barcodes: " + joined
+        )
+    return first
+
+
+def _detail_block(title, urls):
+    imgs = "".join(
+        f'<img src="{html.escape(url, quote=True)}" '
+        f'alt="{html.escape(title, quote=True)} 產品介紹" loading="lazy">'
+        for url in urls
+    )
+    return f'<div class="product-detail-images">{imgs}</div>'
+
+
+def _apply_curated_detail(description, title, urls):
+    """Replace only the old detail block and preserve every other character."""
+    body = DETAIL_BLOCK.sub("", description or "").rstrip()
+    return body + _detail_block(title, urls)
 
 PUBLISH = """
 mutation($id: ID!, $input: [PublicationInput!]!) {
