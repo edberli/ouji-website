@@ -11,6 +11,7 @@ A brand module defines VENDOR and P (slug -> copy dict) and calls
 run(__name__, VENDOR, P, brand_dir).
 """
 import argparse
+import json
 import os
 import re
 import subprocess
@@ -20,6 +21,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from publish import publish  # noqa: E402
 from upload_files import host, upload_all  # noqa: E402
 
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VARIANT_IMAGE_OVERRIDES = os.path.join(
+    PROJECT_ROOT, "data", "variant_image_overrides.json"
+)
+
 
 def paths(brand_dir, group, slug):
     """Split strips land as 01.jpg / 01s2.jpg, which sort in reading order."""
@@ -28,6 +34,44 @@ def paths(brand_dir, group, slug):
         return []
     return [os.path.join(d, n) for n in sorted(os.listdir(d))
             if re.fullmatch(re.escape(slug) + r"-\d+(s\d+)?\.jpg", n)]
+
+
+def load_variant_image_overrides(path=VARIANT_IMAGE_OVERRIDES):
+    """Load exact barcode-to-image overrides used by the affected 2aN build."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            raw = json.load(f)
+    except FileNotFoundError:
+        return {}
+    if not isinstance(raw, dict):
+        raise ValueError("variant image overrides must be a JSON object")
+    overrides = {}
+    for barcode, url in raw.items():
+        barcode = str(barcode).strip()
+        url = str(url).strip()
+        if barcode and url:
+            overrides[barcode] = url
+    return overrides
+
+
+def shade_records(shades, overrides):
+    """Add an image only when a source shade barcode has an exact override."""
+    records = []
+    for name, barcode, qty in shades:
+        record = {"name": name, "barcode": barcode, "qty": qty}
+        image = overrides.get(str(barcode).strip())
+        if image:
+            record["image"] = image
+        records.append(record)
+    return records
+
+
+def gallery_with_variant_images(gallery, shades):
+    """Keep the gallery and append variant images required by publish.build_input."""
+    return list(dict.fromkeys([
+        *gallery,
+        *(shade["image"] for shade in shades if shade.get("image")),
+    ]))
 
 
 def description(brand_dir, slug, d):
@@ -61,9 +105,12 @@ def run(name, vendor, products, brand_dir, mirror_brand=None):
                         f"brands/{brand_dir}"], check=True)
         return
 
+    overrides = load_variant_image_overrides() if brand_dir == "2an" else {}
     for slug, d in products.items():
         gp = paths(brand_dir, "gallery", slug)
         gallery = gp if args.dry_run else upload_all(gp)
+        shades = shade_records(d["shades"], overrides)
+        gallery = gallery_with_variant_images(gallery, shades)
         draft = not gp
         item = {
             "handle": slug,
@@ -76,7 +123,7 @@ def run(name, vendor, products, brand_dir, mirror_brand=None):
             "option_name": "色號",
             "price": d["price"],
             "images": gallery,
-            "shades": [{"name": n, "barcode": b, "qty": q} for n, b, q in d["shades"]],
+            "shades": shades,
         }
         flag = "  [草稿：冇圖]" if draft else ""
         print(f'{len(d["shades"]):>2} 色  {len(gp):>2} 圖  '
