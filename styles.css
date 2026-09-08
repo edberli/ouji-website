@@ -7490,7 +7490,37 @@ body.has-brand-rail .brand-section {
 .next-step .btn--sm { padding: 8px 14px; font-size: 0.75rem; }
 
 @media (max-width: 768px) {
-  .next-steps { grid-template-columns: 1fr; }
+  .next-steps {
+    display: flex;
+    gap: var(--space-md, 16px);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .next-steps::-webkit-scrollbar { display: none; }
+  .next-step {
+    flex: 0 0 80vw;
+    max-width: 330px;
+    min-width: 0;
+    padding: var(--space-md, 16px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  .next-step__tag { margin-bottom: 10px; }
+  .next-step__card img {
+    height: clamp(148px, 42vw, 180px);
+    aspect-ratio: auto;
+    margin-bottom: 8px;
+  }
+  .next-step__why {
+    margin: 8px 0 12px;
+    line-height: 1.5;
+  }
+  .next-step .btn--sm { padding: 8px 12px; }
+  section[data-next-steps] .section-header { margin-bottom: var(--space-lg, 24px) !important; }
 }
 
 /* ─────────────────────────────────────────────
