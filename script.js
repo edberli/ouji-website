@@ -799,6 +799,14 @@ function prepareMobileShopNav() {
     all.innerHTML = `<span><strong>睇全部產品</strong><small>瀏覽 OUJI 所有現貨</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
     links.prepend(all);
   }
+
+  if (!links.querySelector('.mobile-nav__home')) {
+    const home = document.createElement('a');
+    home.className = 'mobile-nav__home';
+    home.href = '/index.html';
+    home.textContent = '首頁';
+    links.querySelector('.mobile-nav__all-products')?.insertAdjacentElement('afterend', home);
+  }
 }
 
 function initDiscoverSheet(btn) {
