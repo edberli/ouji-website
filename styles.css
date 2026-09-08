@@ -11185,6 +11185,22 @@ body::before { opacity: 0.18; }
   box-shadow: 0 0 0 5px #ffffff, inset 17px 0 0 0 #ff8f6b; transform: rotate(-18deg);
 }
 
+/* 香水香氛：細樽 ＋ 蓋，保持同一套粗墨邊平色貼紙語言。 */
+.shop-boot__art--fragrance { border: 0; }
+.shop-boot__art--fragrance::before {
+  left: 25px; top: 31px; width: 42px; height: 45px;
+  border: 5px solid var(--boot-ink); border-radius: 6px 6px 12px 12px;
+  background: #e9c5ff; box-shadow: 0 0 0 5px #ffffff;
+}
+.shop-boot__art--fragrance::after {
+  left: 35px; top: 14px; width: 22px; height: 22px;
+  border: 5px solid var(--boot-ink); border-bottom: 0; background: #fff0a8;
+}
+.shop-boot__art--fragrance > i {
+  left: 42px; top: 3px; width: 15px; height: 16px;
+  border: 5px solid var(--boot-ink); border-radius: 3px 3px 0 0; background: #ffffff;
+}
+
 .shop-boot__art--other { border: 0; }
 .shop-boot__art--other::before {
   left: 14px; top: 26px; width: 59px; height: 50px;
@@ -11333,14 +11349,13 @@ body::before { opacity: 0.18; }
   .shop-boot__sticker:nth-child(4) { left: 17%; bottom: 116px; }
   .shop-boot__sticker:nth-child(5) { left: 50%; bottom: 124px; }
   .shop-boot__sticker:nth-child(6) { left: 83%; bottom: 116px; }
-  /* 加咗「公仔」之後係十格。手機三欄擺唔落十個 —— 之前第十個冇規則，
-     就跌返去桌面嗰套 --x/--y，直接疊咗喺「其他」上面（老闆影到）。
-     頭兩行維持三個，最後一行放四個：呢行嘅四格（隱形眼鏡／K-pop／
-     公仔／其他）標籤最短，收窄啲都夠位，唔使郁上面兩行嘅節奏。 */
-  .shop-boot__sticker:nth-child(7)  { left: 13%; bottom: 24px; }
-  .shop-boot__sticker:nth-child(8)  { left: 38%; bottom: 32px; }
-  .shop-boot__sticker:nth-child(9)  { left: 63%; bottom: 24px; }
-  .shop-boot__sticker:nth-child(10) { left: 88%; bottom: 32px; }
+  /* 十一格手機三欄擺唔落 —— 頭兩行維持三個，最後一行放五個。
+     最後一行嘅標籤都短，收窄啲夠位，唔使郁上面兩行嘅節奏。 */
+  .shop-boot__sticker:nth-child(7)  { left: 10%; bottom: 24px; }
+  .shop-boot__sticker:nth-child(8)  { left: 30%; bottom: 32px; }
+  .shop-boot__sticker:nth-child(9)  { left: 50%; bottom: 24px; }
+  .shop-boot__sticker:nth-child(10) { left: 70%; bottom: 32px; }
+  .shop-boot__sticker:nth-child(11) { left: 90%; bottom: 24px; }
   .shop-boot__taskbar { height: 40px; font-size: 16px; }
   .shop-boot__start { min-width: 72px; padding: 8px 13px; }
   .shop-boot__tab { margin-left: 7px; padding: 3px 9px; }

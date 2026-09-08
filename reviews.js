@@ -116,14 +116,44 @@ function sameShade(a, b) {
 
 /** 呢件產品實際賣緊嘅色號；冇色號選項（單一規格）就回 null。
  *  回 null 有兩個作用：唔篩評價，同埋唔好喺評價卡度貼個「色號」——
- *  單一規格嘅產品，OY 嗰個欄位其實係成個產品名。 */
+ *  單一規格嘅產品，OY 嗰個欄位其實係成個產品名。
+ *  ProductOption.values 已由 Shopify query 移除，色號由 variants 嘅
+ *  selectedOptions 推返出嚟，避免讀到不存在／過期嘅 options values。 */
 function sellableShades(product) {
-  const opt = (product?.options || []).find((o) => (o.values || []).length > 1);
-  if (!opt) return null;
-  const live = (product?.variants?.edges || [])
-    .filter((e) => e.node.availableForSale)
-    .map((e) => e.node.title);
-  return live.length ? live : opt.values;
+  const variants = (product?.variants?.edges || [])
+    .map((e) => e?.node)
+    .filter(Boolean);
+  const options = new Map();
+
+  variants.forEach((variant) => {
+    (variant.selectedOptions || []).forEach((option) => {
+      const name = String(option?.name || '').trim();
+      const value = String(option?.value || '').trim();
+      if (!name || !value || /^title$/i.test(name)) return;
+      const key = name.toLowerCase();
+      if (!options.has(key)) options.set(key, { key, name, values: new Set() });
+      options.get(key).values.add(value);
+    });
+  });
+
+  const shadeOption = [...options.values()].find((option) => option.values.size > 1
+    && /color|colour|shade|tone|色號|顏色|色彩|色|カラー|色番|색상|호수/i.test(option.name));
+  if (!shadeOption) return null;
+
+  const valuesFor = (list) => {
+    const values = [];
+    list.forEach((variant) => {
+      (variant.selectedOptions || []).forEach((option) => {
+        if (String(option?.name || '').trim().toLowerCase() !== shadeOption.key) return;
+        const value = String(option?.value || '').trim();
+        if (value && !values.includes(value)) values.push(value);
+      });
+    });
+    return values;
+  };
+
+  const live = valuesFor(variants.filter((variant) => variant.availableForSale));
+  return live.length ? live : [...shadeOption.values];
 }
 
 function reviewCard(r, showShade) {

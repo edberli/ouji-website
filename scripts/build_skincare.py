@@ -181,6 +181,10 @@ def main():
         m = matched.get(r["barcode"]) or {}
         src = store[m["index"]] if m.get("index") is not None else None
         imgs = (src or {}).get("imgs", [])
+        # Barcode-specific scent galleries accepted in the 2026-09-08 catalog audit.
+        # A supplier family listing can contain all three scents.
+        scent_images = {'8809563103805': ['https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Cotton-Ocean-Breeze-Nudie-Glow-Australia.jpg?v=1786081014', 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Ocean-Breeze-Nudie-Glow.jpg?v=1786081014'], '8809563103799': ['https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Midnight-Romance-Nudie-Glow-Australia_3914df90-e6e8-43f7-928d-53fc5421735c.jpg?v=1786081029', 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Midnight-Romance-Nudie-Glow_879bcd23-bb3a-4951-8938-85143c364b9c.jpg?v=1786081029']}
+        imgs = scent_images.get(r["barcode"], imgs)
         kind = kind_of(r["title"])
         tags = ("護膚, skincare, K-Beauty, " + TAGS_BY_KIND.get(kind, "")
                 + f", {args.brand}")

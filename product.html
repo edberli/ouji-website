@@ -357,7 +357,7 @@
       <section class="reviews" id="reviews" data-reviews hidden></section>
 
       <!-- Related Products -->
-      <section class="section--sm" style="border-top: 1px solid var(--border-light);">
+      <section class="section--sm" data-related-products hidden style="border-top: 1px solid var(--border-light);">
         <div class="section-header section-header--split reveal" style="margin-bottom: var(--space-2xl);">
           <div>
             <span class="label section-header__label">你可能也喜歡</span>
@@ -585,6 +585,8 @@
     const productDetail = document.querySelector('.product-detail');
 
     const galleryMain = document.querySelector('.product-gallery__main');
+    const relatedEsc = (value) => String(value ?? '').replace(/[&<>\"]/g,
+      (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     // Friendly empty / not-found / error state (mirrors the cart empty state)
     function showProductState(title, text) {
@@ -625,22 +627,14 @@
       if (breadcrumbLast) breadcrumbLast.textContent = product.title;
       const breadcrumbSection = document.querySelector('.breadcrumb a[href^="category"], .breadcrumb a[href^="makeup"]');
       if (breadcrumbSection) {
-        const sections = [
-          // 由窄行到闊：保健品／工具／季節性最明確，護膚係最後嘅預設
-          ['health.html', '保健品', ['保健品']],
-          ['tools.html', '美妝工具', ['化妝工具', '美容工具', '美髮工具']],
-          ['kpop.html', 'K-pop 周邊', ['專輯', '寫真書', 'k-pop', 'kpop']],
-          ['lens.html', '隱形眼鏡', ['隱形眼鏡']],
-          ['fragrance.html', '香水香氛', ['香水', '身體噴霧', 'fragrance', 'perfume']],
-          ['makeup.html', '彩妝', ['彩妝', 'makeup', '唇', '眼', '胭脂', '底妝', 'lip', 'eye', 'cheek', 'blush']],
-          ['bath.html', '沐浴洗護', ['潔面', '洗髮', '護髮', '沐浴', '身體護理']],
-          ['seasonal.html', '季節性', ['護手霜', '涼感', '止汗']],
-        ];
-        const haystack = [product.productType, ...(product.tags || [])].join(' ').toLowerCase();
-        const hit = sections.find(([, , keys]) => keys.some(k => haystack.includes(k.toLowerCase())));
-        const [href, label] = hit || ['category.html', '護膚'];
-        breadcrumbSection.href = href;
-        breadcrumbSection.textContent = label;
+        const getBreadcrumb = window.OUJI_getProductBreadcrumb;
+        const hit = typeof getBreadcrumb === 'function'
+          ? getBreadcrumb(product)
+          : null;
+        if (hit) {
+          breadcrumbSection.href = hit.href;
+          breadcrumbSection.textContent = hit.label;
+        }
       }
 
       // Update product info
@@ -681,7 +675,7 @@
         // 令暗…" — which reads as one broken sentence at the top of the page.
         const intro = (product.descriptionHtml || '').match(/<p[^>]*>([\s\S]*?)<\/p>/);
         const plain = intro
-          ? intro[1].replace(/<[^>]+>/g, '').trim()
+          ? new DOMParser().parseFromString(intro[1], 'text/html').body.textContent.trim()
           : (product.description || '');
         desc.textContent = plain.length > 200 ? plain.substring(0, 200) + '…' : plain;
       }
@@ -760,6 +754,7 @@
         ? variants.find((v) => String(v.id).endsWith(`/${wantedVariant}`))
         : null;
       let selectedVariantId = (preselected || variants[0])?.id;
+      showVariantImage(preselected || variants[0]);
 
       if (variants.length > 1 && optionsContainer) {
         const optionName = product.options?.[0]?.name || 'TYPE';
@@ -923,24 +918,27 @@
       if (typeof applyProductSeo === 'function') applyProductSeo(product);
       if (typeof injectProductSchema === 'function') injectProductSchema(product);
 
-      // Load related products in background
+      // Load same-product-type recommendations in background.
       try {
-        const relatedData = await getProducts({ first: 5 });
-        const related = relatedData?.edges?.map(e => e.node).filter(p => p.handle !== handle) ?? [];
-        const relatedGrid = document.querySelector('.product-grid');
+        const related = typeof getProductRecommendations === 'function'
+          ? await getProductRecommendations(product, 4)
+          : [];
+        const relatedSection = document.querySelector('[data-related-products]');
+        const relatedGrid = relatedSection?.querySelector('.product-grid');
         if (relatedGrid && related.length > 0) {
-          relatedGrid.innerHTML = related.slice(0, 4).map(p => {
+          relatedSection.hidden = false;
+          relatedGrid.innerHTML = related.map(p => {
             const img = p.images?.edges?.[0]?.node;
             const pr = p.priceRange?.minVariantPrice;
             return `
-              <a href="product.html?handle=${p.handle}" class="product-card">
+              <a href="product.html?handle=${encodeURIComponent(p.handle)}" class="product-card">
                 <div class="product-card__image-wrap">
                   ${img ? `<img class="product-card__image" src="${img.url}" alt="${productImageAlt(img, p.title)}">` : ''}
                   <div class="product-card__quick-add product-card__quick-add--pick">入去睇</div>
                 </div>
-                <span class="product-card__brand">${p.vendor || ''}</span>
-                <span class="product-card__name">${p.title}</span>
-                <span class="product-card__price">${formatPrice(pr.amount)}</span>
+                <span class="product-card__brand">${relatedEsc(p.vendor)}</span>
+                <span class="product-card__name">${relatedEsc(p.title)}</span>
+                <span class="product-card__price">${pr ? formatPrice(pr.amount) : ''}</span>
               </a>
             `;
           }).join('');

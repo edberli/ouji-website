@@ -176,7 +176,10 @@ const MEM_CACHE = new Map();
 /* 4：加咗 totalInventory。列表 query 淨係攞頭兩個規格，隱形眼鏡一件貨
    有 25 個度數，頭兩個度數斷咗貨就會成件標「售完」—— 其實仲有十幾個
    度數有貨。totalInventory 係成件貨嘅總數，一個欄位就解決。 */
-const CACHE_VERSION = 6;
+/* 7：product detail cache 改用 { at, v } envelope，同一個 tab 內都只信
+   五分鐘；舊嘅 raw product format 會 miss，唔會將過期嘅完整商品資料
+   當成最新 variant／圖片。 */
+const CACHE_VERSION = 7;
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
 
 function cacheRead(key) {
@@ -343,15 +346,27 @@ async function getProduct(handle) {
 function cacheProduct(product) {
   if (!product?.handle) return;
   try {
-    sessionStorage.setItem(cacheKey('product:' + product.handle), JSON.stringify(product));
+    sessionStorage.setItem(cacheKey('product:' + product.handle), JSON.stringify({
+      at: Date.now(),
+      v: product,
+    }));
   } catch (e) {}
 }
 
 /** 從 sessionStorage 讀取已快取的商品 */
 function getCachedProduct(handle) {
   try {
-    const data = sessionStorage.getItem(cacheKey('product:' + handle));
-    return data ? JSON.parse(data) : null;
+    const raw = sessionStorage.getItem(cacheKey('product:' + handle));
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== 'object' || !Number.isFinite(data.at)
+      || !data.v || typeof data.v !== 'object') return null;
+    const age = Date.now() - data.at;
+    if (age < 0 || age >= CATALOG_TTL) {
+      sessionStorage.removeItem(cacheKey('product:' + handle));
+      return null;
+    }
+    return data.v.handle === handle ? data.v : null;
   } catch (e) { return null; }
 }
 
@@ -399,6 +414,29 @@ async function searchProducts(query, first = 10) {
   `, { query, first });
   return data?.products?.edges?.map(e => e.node) ?? [];
 }
+
+/* Shopify search syntax 仍然要將 product type 放入一對引號；先 escape
+   反斜線／引號，再交畀 GraphQL variable，避免 product type 影響 query
+   結構。結果再用 exact productType 比對一次，免得 search parser 做
+   部分字串匹配時混入相似類型。 */
+function escapeShopifySearchPhrase(value) {
+  return String(value).replace(/[\\"]/g, '\\$&').replace(/[\r\n]+/g, ' ');
+}
+
+async function getProductRecommendations(product, limit = 4) {
+  const productType = String(product?.productType || '').trim();
+  const count = Math.min(20, Math.max(1, Math.floor(Number(limit) || 4)));
+  if (!productType) return [];
+
+  const query = `product_type:"${escapeShopifySearchPhrase(productType)}"`;
+  const candidates = await searchProducts(query, Math.min(250, count + 1));
+  return candidates
+    .filter((p) => p && p.handle !== product.handle
+      && String(p.productType || '').trim() === productType)
+    .slice(0, count);
+}
+
+window.OUJI_getProductRecommendations = getProductRecommendations;
 
 // ─────────────────────────────────────────────
 // 品牌（Collections）API
@@ -1901,6 +1939,35 @@ function categoryLabel(section, cat) {
   if (cat && sec.subs && sec.subs[cat]) return sec.subs[cat].label;
   return sec.label || '';
 }
+
+/* 商品頁 breadcrumb 用同一份 taxonomy，唔再另起一套包含「眼／唇」呢啲
+   闊字眼嘅規則。分類可以重疊（例如潔面同時係護膚／沐浴），所以只喺
+   入口相同時定一個穩定優先次序；護膚 care 先於彩妝，香水先於其他。 */
+const PRODUCT_BREADCRUMB_ROUTES = [
+  ['fragrance', 'fragrance.html'],
+  ['health',    'health.html'],
+  ['tools',     'tools.html'],
+  ['kpop',      'kpop.html'],
+  ['lens',      'lens.html'],
+  ['toys',      'toys.html'],
+  ['skincare',  'category.html'],
+  ['bath',      'bath.html'],
+  ['seasonal',  'seasonal.html'],
+  ['makeup',    'makeup.html'],
+];
+
+function productBreadcrumb(product) {
+  const p = product || {};
+  const care = ['eye', 'lipcare'].some((id) => subMatch('skincare', id, p));
+  const hit = care
+    ? ['skincare', 'category.html']
+    : PRODUCT_BREADCRUMB_ROUTES.find(([section]) =>
+        matchesKeywords(p, categoryKeywords(section)));
+  const [section, href] = hit || ['skincare', 'category.html'];
+  return { href, label: categoryLabel(section) };
+}
+
+window.OUJI_getProductBreadcrumb = productBreadcrumb;
 
 /**
  * Products for a section/subcategory. Tries the matching Shopify

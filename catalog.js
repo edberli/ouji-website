@@ -1625,17 +1625,17 @@ const SHOP_GROUPS = [
   /* 老闆 2026-08-31：「嗰啲公仔，你應該有個新嘅分類叫『公仔』。」
      之前佢哋淨係由「其他」收住，客要行到最後一格先搵到一隻 Hello Kitty。 */
   { id: 'toys',     label: '公仔',       tint: '#ff9d7a', dialog: 'Loading character goods...', href: 'toys.html' },
+  { id: 'fragrance', label: '香水香氛',  tint: '#e7b8ff', dialog: 'Loading fragrance...',     href: 'fragrance.html' },
   { id: 'other',    label: '其他',       tint: '#c8a6ff', dialog: 'Loading more goods...' },
 ];
 /* 「其他」＝唔屬上面任何一格。呢個 list 就係用嚟計「剩返啲乜」。 */
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
 /* 貼紙擺位：唔係一行一樣高嘅圓掣，係順手擺落枱面嗰種高低錯落。
-   九格分兩行，唔好逼喺一行 —— 一行九個喺手機會細到撳唔到。 */
+   十一格分兩行，唔好逼喺一行 —— 一行十一個喺手機會細到撳唔到。 */
 const SHOP_STICKER_POS = [
   /* `bottom` 越大越高，所以前五格（護膚、彩妝⋯）擺上面一行，
-     後五格擺下面。下面一行唔可以低過 26px，否則個標籤會俾
+     後六格擺下面。下面一行唔可以低過 26px，否則個標籤會俾
      底下條 taskbar 切走一半。
-     加咗「公仔」之後啱啱好五加五 —— 兩行等長，比之前五加四企理。
      x 位仍然唔係等距，角度同大細亦各有唔同：呢個係「順手擺落枱面」
      嗰種散置，唔係一個格仔陣。 */
   { x: '7%',  y: '150px', r: '-5deg', s: 1 },
@@ -1643,11 +1643,12 @@ const SHOP_STICKER_POS = [
   { x: '51%', y: '148px', r: '-2deg', s: 1.06 },
   { x: '72%', y: '162px', r: '5deg',  s: 0.97 },
   { x: '92%', y: '150px', r: '-4deg', s: 0.93 },
-  { x: '9%',  y: '24px',  r: '3deg',  s: 0.95 },
-  { x: '30%', y: '36px',  r: '-4deg', s: 0.98 },
-  { x: '51%', y: '22px',  r: '4deg',  s: 0.93 },
-  { x: '72%', y: '36px',  r: '-3deg', s: 0.97 },
-  { x: '93%', y: '24px',  r: '5deg',  s: 0.92 },
+  { x: '8%',  y: '24px',  r: '3deg',  s: 0.92 },
+  { x: '25%', y: '36px',  r: '-4deg', s: 0.94 },
+  { x: '42%', y: '22px',  r: '4deg',  s: 0.91 },
+  { x: '58%', y: '36px',  r: '-3deg', s: 0.94 },
+  { x: '75%', y: '24px',  r: '5deg',  s: 0.90 },
+  { x: '92%', y: '34px',  r: '-5deg', s: 0.88 },
 ];
 
 function inSection(p, id) {
@@ -1679,7 +1680,7 @@ function bootPreview(list) {
   const out = [];
   for (const p of list) {
     const url = p.images?.edges?.[0]?.node?.url;
-    if (!url || seen.has(p.handle) || BAD_IMAGE.has(p.handle)) continue;
+    if (!url || seen.has(p.handle) || BAD_IMAGE.has(p.title)) continue;
     seen.add(p.handle);
     out.push({ url, title: p.title });
     if (out.length === 4) break;
