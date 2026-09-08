@@ -7511,8 +7511,9 @@ body.has-brand-rail .brand-section {
   }
   .next-step__tag { margin-bottom: 10px; }
   .next-step__card img {
-    height: clamp(148px, 42vw, 180px);
-    aspect-ratio: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
     margin-bottom: 8px;
   }
   .next-step__why {
