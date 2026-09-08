@@ -1963,7 +1963,8 @@ function productBreadcrumb(product) {
     ? ['skincare', 'category.html']
     : PRODUCT_BREADCRUMB_ROUTES.find(([section]) =>
         matchesKeywords(p, categoryKeywords(section)));
-  const [section, href] = hit || ['skincare', 'category.html'];
+  if (!hit) return { href: 'shop.html', label: '全部產品' };
+  const [section, href] = hit;
   return { href, label: categoryLabel(section) };
 }
 
