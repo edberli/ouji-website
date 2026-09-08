@@ -13,6 +13,10 @@ What each product gets:
   * imagery from the brand's own store, matched line by line
   * copy written from what the product actually is, not adjectives
 
+Curated barcode-keyed gallery and long-description media can be supplied in
+the optional `data/catalog_media_restoration.json` map. Products without an
+entry continue to use the matched-store path above.
+
 Cost goes in as `InventoryItem.cost` at publish time, so the store has
 margin data from the first day rather than being backfilled later the way
 the makeup range had to be.
@@ -21,6 +25,7 @@ the makeup range had to be.
     python3 scripts/build_skincare.py COSRX
 """
 import argparse
+import html
 import json
 import os
 import re
@@ -33,6 +38,9 @@ from skincare_data import by_vendor, load  # noqa: E402
 
 MATCHED = "/tmp/skin/matched.json"
 STORES = "/tmp/skin/stores.json"
+DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                    "data")
+CATALOG_MEDIA = os.path.join(DATA, "catalog_media_restoration.json")
 
 SET_COST = """
 mutation($id: ID!, $input: InventoryItemInput!) {
@@ -129,6 +137,37 @@ def body(title, kind, size, vendor):
             + f'<p><strong>品牌</strong><br>{vendor}</p>')
 
 
+DETAIL_BLOCK = '<div class="product-detail-images">{}</div>'
+
+
+def media_urls(media, barcode, key):
+    """Read one URL list from the optional barcode-keyed restoration map."""
+    if not isinstance(media, dict):
+        return []
+    record = media.get(str(barcode)) or {}
+    if not isinstance(record, dict):
+        return []
+    urls = record.get(key) or []
+    if isinstance(urls, str):
+        urls = [urls]
+    if not isinstance(urls, (list, tuple)):
+        return []
+    return list(dict.fromkeys(u.strip() for u in urls
+                              if isinstance(u, str) and u.strip()))
+
+
+def append_detail_images(description, title, urls):
+    """Append permanent CDN detail images to generated product copy."""
+    if not urls:
+        return description
+    imgs = "".join(
+        f'<img src="{html.escape(url, quote=True)}" '
+        f'alt="{html.escape(title, quote=True)} 產品介紹" loading="lazy">'
+        for url in urls
+    )
+    return description + DETAIL_BLOCK.format(imgs)
+
+
 def set_costs(handle, rows):
     """Cost belongs on the inventory item, not the variant, and only exists
     once the product has been created."""
@@ -168,6 +207,8 @@ def main():
     matched = {str(m["barcode"]): m for m in
                json.load(open(MATCHED)).get(source, [])}
     store = json.load(open(STORES)).get(source, [])
+    media = (json.load(open(CATALOG_MEDIA))
+             if os.path.exists(CATALOG_MEDIA) else {})
 
     live = drafted = skipped = 0
     for r in sorted(rows, key=lambda x: -x["qty"]):
@@ -184,18 +225,23 @@ def main():
         # Barcode-specific scent galleries accepted in the 2026-09-08 catalog audit.
         # A supplier family listing can contain all three scents.
         scent_images = {'8809563103805': ['https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Cotton-Ocean-Breeze-Nudie-Glow-Australia.jpg?v=1786081014', 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Ocean-Breeze-Nudie-Glow.jpg?v=1786081014'], '8809563103799': ['https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Midnight-Romance-Nudie-Glow-Australia_3914df90-e6e8-43f7-928d-53fc5421735c.jpg?v=1786081029', 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Purito-Luminous-Moisture-Shea-Butter-Body-Lotion-Midnight-Romance-Nudie-Glow_879bcd23-bb3a-4951-8938-85143c364b9c.jpg?v=1786081029']}
-        imgs = scent_images.get(r["barcode"], imgs)
+        restored_gallery = media_urls(media, r["barcode"], "gallery")
+        imgs = restored_gallery or scent_images.get(r["barcode"], imgs)
+        details = media_urls(media, r["barcode"], "detail")
         kind = kind_of(r["title"])
         tags = ("護膚, skincare, K-Beauty, " + TAGS_BY_KIND.get(kind, "")
                 + f", {args.brand}")
+        description = append_detail_images(
+            body(r["title"], kind, r["size"], args.brand),
+            r["title"], details)
         item = {
             "handle": handle_of(args.brand, r["title"], r["barcode"]),
             "title": r["title"], "vendor": args.brand, "productType": kind,
-            "descriptionHtml": body(r["title"], kind, r["size"], args.brand),
+            "descriptionHtml": description,
             "tags": [t.strip() for t in tags.split(",") if t.strip()],
             "status": "ACTIVE" if imgs else "DRAFT",
             "option_name": "規格", "price": r["price"],
-            "images": imgs[:20],
+            "images": imgs if restored_gallery else imgs[:20],
             "shades": [{"name": r["size"] or "單一規格",
                         "barcode": r["barcode"], "qty": r["qty"]}],
         }

@@ -26,6 +26,11 @@ said something real. When it did not, the fallback says only what is
 verifiable — what kind of product it is, its size, its brand — rather
 than inventing a paragraph.
 
+Long detail images can be supplied by the optional barcode-keyed
+`data/catalog_media_restoration.json` map. If a rebuild has no new detail
+URLs for a product, its existing `.product-detail-images` block is carried
+forward instead of being erased.
+
     python3 scripts/build_brands14.py SOLEP --dry-run
     python3 scripts/build_brands14.py SOLEP
     python3 scripts/build_brands14.py --all
@@ -49,6 +54,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
 IMAGES = os.path.join(DATA, "brands14_images.json")
 COPY = os.path.join(DATA, "brands14_copy.json")
+# Optional barcode-keyed permanent CDN URLs for long product descriptions.
+# This file is deliberately separate from brands14_detail.json: the latter
+# contains source-store URLs, which are not stable URLs to publish into a
+# description.
+DETAIL_MEDIA = os.path.join(DATA, "catalog_media_restoration.json")
 
 # The brief names exactly two channels. publish.py's own list also carries
 # "Shop", which is right for the makeup range but is not what was asked
@@ -152,6 +162,73 @@ def esc(s):
     return html.escape(str(s), quote=False)
 
 
+DETAIL_BLOCK = re.compile(
+    r'<div\b(?=[^>]*\bclass=["\'][^"\']*\bproduct-detail-images\b'
+    r'[^"\']*["\'])[^>]*>.*?</div>', re.I | re.S)
+
+
+def detail_urls_for(detail_media, barcode):
+    """Return configured permanent detail URLs for one barcode.
+
+    The normal shape is ``{barcode: [url, ...]}``. Accepting a ``detail``
+    member as well keeps the map easy to extend with gallery metadata later,
+    without making that metadata part of this builder's input contract.
+    """
+    if not isinstance(detail_media, dict):
+        return []
+    raw = detail_media.get(str(barcode), [])
+    if isinstance(raw, dict):
+        raw = raw.get("detail") or raw.get("detailImages") or []
+    if isinstance(raw, str):
+        raw = [raw]
+    if not isinstance(raw, (list, tuple)):
+        return []
+    return list(dict.fromkeys(u.strip() for u in raw
+                              if isinstance(u, str) and u.strip()))
+
+
+def detail_block(title, urls):
+    """Build the full-width long-description image block."""
+    imgs = "".join(
+        f'<img src="{html.escape(u, quote=True)}" '
+        f'alt="{html.escape(title, quote=True)} 產品介紹" loading="lazy">'
+        for u in urls
+    )
+    return f'<div class="product-detail-images">{imgs}</div>'
+
+
+def description_with_details(base, configured_urls, existing_html="", title=""):
+    """Keep or replace long details while rebuilding the regular copy.
+
+    A configured URL list is authoritative and replaces any old block. With
+    no configured URLs, an existing block is carried forward verbatim so a
+    catalogue rebuild cannot silently erase long product descriptions.
+    """
+    if configured_urls:
+        block = detail_block(title, configured_urls)
+    else:
+        match = DETAIL_BLOCK.search(existing_html or "")
+        block = match.group(0) if match else ""
+    body = DETAIL_BLOCK.sub("", base or "").rstrip()
+    return body + block if block else body
+
+
+EXISTING_DESCRIPTION = """
+query($handle: String!) {
+  productByIdentifier(identifier: {handle: $handle}) {
+    descriptionHtml
+  }
+}
+"""
+
+
+def existing_description(handle):
+    """Read the current long description for a handle before productSet."""
+    found = gql(EXISTING_DESCRIPTION, {"handle": handle}).get(
+        "productByIdentifier")
+    return (found or {}).get("descriptionHtml") or ""
+
+
 def body(row, kind, copy):
     """Description HTML in the store's existing shape: a lead paragraph,
     then 優點 / 用法 / 主要成分 only where the source actually said so."""
@@ -208,7 +285,7 @@ def load_json(path):
         return json.load(f)
 
 
-def run(brand, rows, images, copies, dry_run):
+def run(brand, rows, images, copies, detail_media, dry_run):
     made, noimg, skipped = [], [], []
     for r in sorted(rows, key=lambda x: x["title"]):
         if not r["price"]:
@@ -216,14 +293,19 @@ def run(brand, rows, images, copies, dry_run):
             continue
         kind = kind_of(r)
         copy = copies.get(r["barcode"])
-        desc = body(r, kind, copy)
+        handle = handle_of(brand, r["title"], r["barcode"])
+        configured_details = detail_urls_for(detail_media, r["barcode"])
+        current_desc = (existing_description(handle)
+                        if not dry_run and not configured_details else "")
+        desc = description_with_details(
+            body(r, kind, copy), configured_details, current_desc,
+            r["title"])
         check_no_claims(r["barcode"], desc + r["title"])
         # Cost must never leave the admin side. Belt and braces: the copy is
         # generated from the row, so assert the number is not in it.
         if r["cost"] and str(int(r["cost"])) in re.sub(r"<[^>]+>", "", desc):
             raise SystemExit(f'{r["barcode"]}: 成本價數字漏咗入描述')
         srcs = [u for u in dict.fromkeys(images.get(r["barcode"]) or []) if u][:12]
-        handle = handle_of(brand, r["title"], r["barcode"])
         # Shopify is never asked to fetch these — see mirror_media.py. On a
         # dry run nothing is downloaded, so the count shown is of sources.
         imgs = srcs if dry_run else mirror(srcs, handle)
@@ -262,7 +344,9 @@ def main():
     groups = by_vendor(load())
     wanted = sorted(groups, key=lambda b: len(groups[b])) if args.all \
         else [args.brand]
-    images, copies = load_json(IMAGES), load_json(COPY)
+    images = load_json(IMAGES)
+    copies = load_json(COPY)
+    detail_media = load_json(DETAIL_MEDIA)
 
     total_img = total_noimg = 0
     all_noimg = []
@@ -271,7 +355,8 @@ def main():
         if not rows:
             raise SystemExit(f"{brand}: 個 sheet 入面搵唔到")
         print(f"\n=== {brand} ({len(rows)} 件) ===")
-        made, noimg, skipped = run(brand, rows, images, copies, args.dry_run)
+        made, noimg, skipped = run(
+            brand, rows, images, copies, detail_media, args.dry_run)
         total_img += len(made)
         total_noimg += len(noimg)
         all_noimg += [(brand, r) for r in noimg]
