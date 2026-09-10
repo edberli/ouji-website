@@ -27,8 +27,8 @@ import urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from upload_files import upload  # noqa: E402
 
-WORK = "/Volumes/core/ouji-brands14/media"
-CACHE = "/Volumes/core/ouji-brands14/staged.json"
+WORK = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-brands14/media"
+CACHE = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-brands14/staged.json"
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                      "AppleWebKit/537.36 Chrome/120 Safari/537.36")}
 

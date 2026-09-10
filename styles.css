@@ -10847,7 +10847,7 @@ body::before { opacity: 0.18; }
 
 /* ============================================================
    全部產品頁：Y2K BOOT Header ＋ OUJI Explorer（2026-08-20）
-   來源 prototype：/Volumes/core/ouji-all-products-y2k/（commit 5443c33）
+   來源 prototype：/Volumes/core/Projects/OUJI/Website-and-Design/ouji-all-products-y2k/（commit 5443c33）
 
    全部 selector 都收喺 .shop-boot / .shop-explorer 底下，token 亦都
    只落喺呢兩個 scope —— 唔郁 :root 品牌色，唔會污染其他分類頁。
@@ -11396,7 +11396,7 @@ body::before { opacity: 0.18; }
 
 /* ============================================================
    首頁「想搵咩？」：Y2K 芝麻貓皮膚助手（2026-08-20）
-   來源 prototype：/Volumes/core/ouji-home-section-prototypes/y2k-cat.html（第 1 款）
+   來源 prototype：/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-home-section-prototypes/y2k-cat.html（第 1 款）
 
    全部 selector 收喺 .home-skin-cat 底下，token 亦都只落喺呢個 scope ——
    同全部產品頁嗰套 --boot-* 分開，唔會互相影響。

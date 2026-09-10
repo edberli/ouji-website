@@ -6,7 +6,7 @@
 import json, re, sys, time, urllib.request
 from pathlib import Path
 UA={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36'}
-OUT=Path('/Volumes/core/ouji-ads/abw'); OUT.mkdir(parents=True, exist_ok=True)
+OUT=Path('/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/abw'); OUT.mkdir(parents=True, exist_ok=True)
 
 def get(u,t=40,tries=4):
     """⚠️ 慢慢嚟。第一次爬 0.25 秒一版，爬到一半就 429 Too Many Requests。

@@ -19,7 +19,7 @@
 - 冇圖唔開（開咗都係白格）
 - 已經有同條碼嘅唔開
 - 每件都記低夾咗邊個來源 URL 落 tag，日後對得返
-- 狀態寫 `/Volumes/core/ouji-ads/brandsrc/state.json`，斷咗續得返
+- 狀態寫 `/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc/state.json`，斷咗續得返
 
   python3 bulk_upload.py                # 睇計劃
   python3 bulk_upload.py --apply        # 真係開
@@ -35,7 +35,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from shopify_admin import gql, user_errors  # noqa
 from upload_files import upload, host as host_files  # noqa
 
-SRC = Path("/Volumes/core/ouji-ads/brandsrc")
+SRC = Path("/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc")
 STATE = SRC / "state.json"
 REPORT = SRC / "report.md"
 POS = Path("/Volumes/core/ouji-pos/raw/Ouji_KT_skus_prince.csv")
@@ -45,7 +45,7 @@ PUBS = ["gid://shopify/Publication/202340335774",
         "gid://shopify/Publication/202340466846",
         "gid://shopify/Publication/203168546974"]
 DISCOUNT, FLOOR = 0.88, 0.15
-TMP = Path("/Volumes/core/ouji-ads/brandsrc/img")
+TMP = Path("/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc/img")
 
 # POS 名開頭 → 索引檔名
 BRAND_KEYS = {

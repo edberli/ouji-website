@@ -10,7 +10,7 @@
              再入 detail 頁攞 og:title、圖庫、長圖。
   shopify —— /products.json，有 barcode 就用條碼夾（最準）。
 
-索引寫落 /Volumes/core/ouji-ads/brandsrc/<brand>.json，行過就唔使再爬。
+索引寫落 /Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc/<brand>.json，行過就唔使再爬。
 
   python3 bulk_sources.py            # 爬全部未爬過嘅
   python3 bulk_sources.py numbuzin   # 淨係爬一個
@@ -23,7 +23,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-OUT = Path("/Volumes/core/ouji-ads/brandsrc")
+OUT = Path("/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc")
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                      "AppleWebKit/537.36 Chrome/120 Safari/537.36")}
 

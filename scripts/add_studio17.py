@@ -24,7 +24,7 @@ from shopify_admin import gql, user_errors  # noqa
 from upload_files import upload  # noqa
 
 POS = Path("/Volumes/core/ouji-pos/raw/Ouji_KT_skus_prince.csv")
-TMP = Path("/Volumes/core/ouji-ads/brandsrc/s17")
+TMP = Path("/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc/s17")
 SRC = "https://lilabeauty.com.au/collections/studio17/products.json?limit=250"
 LOCATION = "gid://shopify/Location/86449356958"
 PUBS = ["gid://shopify/Publication/202340335774",

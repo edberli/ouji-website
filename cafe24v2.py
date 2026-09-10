@@ -7,7 +7,7 @@
 import json, re, sys, time, urllib.request
 from pathlib import Path
 UA={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36'}
-OUT=Path('/Volumes/core/ouji-ads/brandsrc'); OUT.mkdir(parents=True,exist_ok=True)
+OUT=Path('/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc'); OUT.mkdir(parents=True,exist_ok=True)
 BAD=('logo','icon','banner','payment','favicon','placeholder','btn_','common/','shipping','sns')
 
 def text(u,t=25):

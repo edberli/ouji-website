@@ -2,8 +2,8 @@
 
 ## 測試基準
 
-- source visual truth: `/Volumes/core/ouji-brand-section-exact/source-exact-user.png`
-- production assets: repo `assets/brand-carousel/`（11 張、2151/2152 × 731 WebP）；原始 PNG 保留於 `/Volumes/core/ouji-brand-carousel/assets/`
+- source visual truth: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-brand-section-exact/source-exact-user.png`
+- production assets: repo `assets/brand-carousel/`（11 張、2151/2152 × 731 WebP）；原始 PNG 保留於 `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-brand-carousel/assets/`
 - 全部產品 desktop screenshot: `/Volumes/core/claude-work/ouji-brand-carousel-qa/shop-desktop.png`
 - 彩妝 desktop screenshot: `/Volumes/core/claude-work/ouji-brand-carousel-qa/makeup-desktop.png`
 - 護膚 desktop screenshot: `/Volumes/core/claude-work/ouji-brand-carousel-qa/skincare-desktop.png`
@@ -69,10 +69,10 @@ final result: passed
 
 - source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-433945db-bb78-46ce-bb59-b8b1d3627fa1.png`（舊款三張扇形色板＋右下圓晶體構圖；指定移除獨立 tick）
 - colour truth: 上一版三色莫蘭迪 palette：灰粉 `#B89AA1`、霧藍 `#8AAEB8`、暖灰褐 `#B4AA98`
-- implementation full screenshot: `/Volumes/core/ouji-icon-fix/02-local-v9.png`
-- implementation focused crop: `/Volumes/core/ouji-icon-fix/04-local-icon-v9-6x.png`
-- normalized comparison: `/Volumes/core/ouji-icon-fix/05-shape-color-comparison.png`
-- interaction screenshot: `/Volumes/core/ouji-icon-fix/06-local-sheet-open-v9.png`
+- implementation full screenshot: `/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-icon-fix/02-local-v9.png`
+- implementation focused crop: `/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-icon-fix/04-local-icon-v9-6x.png`
+- normalized comparison: `/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-icon-fix/05-shape-color-comparison.png`
+- interaction screenshot: `/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-icon-fix/06-local-sheet-open-v9.png`
 - viewport: in-app browser mobile viewport requested `390 × 844px`, browser capture `375 × 812px`, device scale factor `1`
 - state: 首頁底欄關閉狀態；另測「幫我揀」sheet 開啟狀態
 
@@ -115,8 +115,8 @@ final result: passed
 ## 測試基準
 
 - source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3dc6d096-4984-4b11-aa5d-eb221085401e.png`（116 × 122px，用戶指出剔號壓住 label）
-- implementation screenshot: `/Volumes/core/ouji-nav-color-v5/mobile-v5.png`（390 × 844px）
-- focused comparison: `/Volumes/core/ouji-nav-color-v5/icon-crop-v5.png`（150 × 95px）
+- implementation screenshot: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-color-v5/mobile-v5.png`（390 × 844px）
+- focused comparison: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-color-v5/icon-crop-v5.png`（150 × 95px）
 - viewport / CSS size: `390 × 844px`；手機首頁底欄關閉狀態
 
 ## Findings
@@ -154,9 +154,9 @@ final result: passed
 ## 測試基準
 
 - source visual truth: `/Users/winstonli/.codex/generated_images/01a01887-73e8-7d80-894c-16d1590c0d5e/exec-325a8eeb-904b-4e2b-986e-cb53515aa2ef.png`（最近一輪十款中第 4 個顯示結果）
-- implementation screenshot: `/Volumes/core/ouji-assist-cards/shadecards-local-v1.png`
-- full-view comparison: `/Volumes/core/ouji-assist-cards/shadecards-full-qa-v1.png`
-- focused navigation comparison: `/Volumes/core/ouji-assist-cards/shadecards-qa-v1.png`
+- implementation screenshot: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-assist-cards/shadecards-local-v1.png`
+- full-view comparison: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-assist-cards/shadecards-full-qa-v1.png`
+- focused navigation comparison: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-assist-cards/shadecards-qa-v1.png`
 - viewport / CSS size: `390 × 844px`；device scale factor `1`
 - source pixels: `853 × 1844px`，比較前正規化至 `390 × 844px`
 - implementation pixels: `390 × 844px`
@@ -201,8 +201,8 @@ final result: passed
 
 - source visual truth: `/Users/winstonli/.codex/generated_images/01a01887-73e8-7d80-894c-16d1590c0d5e/exec-325a8eeb-904b-4e2b-986e-cb53515aa2ef.png`（原本第 4 款扇形色卡構圖）
 - user correction reference: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3dc6d096-4984-4b11-aa5d-eb221085401e.png`（移除壓住 label 嘅 tick）
-- implementation screenshot: `/Volumes/core/ouji-nav-multicolor-v6/mobile-v6.png`（390 × 844px）
-- focused comparison: `/Volumes/core/ouji-nav-multicolor-v6/icon-crop-v6.png`（150 × 95px）
+- implementation screenshot: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-multicolor-v6/mobile-v6.png`（390 × 844px）
+- focused comparison: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-multicolor-v6/icon-crop-v6.png`（150 × 95px）
 - viewport / CSS size: `390 × 844px`；手機首頁底欄關閉狀態
 
 ## Findings
@@ -241,9 +241,9 @@ final result: passed
 ## 測試基準
 
 - source visual truth: `/Users/winstonli/.codex/generated_images/01a01887-73e8-7d80-894c-16d1590c0d5e/exec-325a8eeb-904b-4e2b-986e-cb53515aa2ef.png`（原本第 4 款三張色卡構圖）
-- previous bright-color reference: `/Volumes/core/ouji-nav-multicolor-v6/icon-crop-v6.png`
-- implementation screenshot: `/Volumes/core/ouji-nav-morandi-v7/mobile-v7.png`（375 × 812px）
-- focused comparison: `/Volumes/core/ouji-nav-morandi-v7/icon-crop-v7.png`（150 × 95px）
+- previous bright-color reference: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-multicolor-v6/icon-crop-v6.png`
+- implementation screenshot: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-morandi-v7/mobile-v7.png`（375 × 812px）
+- focused comparison: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-morandi-v7/icon-crop-v7.png`（150 × 95px）
 - state: 手機首頁底欄關閉狀態；另測 assist sheet 開啟狀態
 
 ## Findings
@@ -281,8 +281,8 @@ final result: passed
 ## 測試基準
 
 - source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3dc9690c-455c-444b-9dbf-470e37846187.png`（116 × 100px，指定原本三張扇形色板＋右下圓晶體）
-- implementation screenshot: `/Volumes/core/ouji-nav-original-color-v8/mobile-v8-final.png`（375 × 812px）
-- focused comparison: `/Volumes/core/ouji-nav-original-color-v8/icon-crop-v8-final.png`（150 × 95px）
+- implementation screenshot: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-original-color-v8/mobile-v8-final.png`（375 × 812px）
+- focused comparison: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-nav-original-color-v8/icon-crop-v8-final.png`（150 × 95px）
 - state: 手機首頁底欄關閉狀態；另測 assist sheet 開啟狀態
 
 ## Findings
@@ -322,8 +322,8 @@ final result: passed
 ## 測試基準
 
 - source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-433945db-bb78-46ce-bb59-b8b1d3627fa1.png`（指定粉色扇形色板＋右下圓晶體）
-- implementation screenshot: `/Volumes/core/ouji-icon-fill-fix/06-local-filled-crystal-v11.png`（390 × 844px）
-- focused comparison: `/Volumes/core/ouji-icon-fill-fix/08-source-vs-v11.png`（來源／修正後並排）
+- implementation screenshot: `/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-icon-fill-fix/06-local-filled-crystal-v11.png`（390 × 844px）
+- focused comparison: `/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-icon-fill-fix/08-source-vs-v11.png`（來源／修正後並排）
 - state: 手機首頁底欄關閉狀態；另測 assist sheet 開啟狀態
 
 ## Findings
@@ -396,7 +396,7 @@ final result: passed
 
 ## 測試基準
 
-- approved exact sample: `/Volumes/core/ouji-logo-samples-v12/ouji-shade-option-a-exact.svg`
+- approved exact sample: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-logo-samples-v12/ouji-shade-option-a-exact.svg`
 - live candidate asset: `assets/icons/ouji-shade-option-a.svg`
 - implementation: 手機首頁 `390 × 844px`；圖示實際渲染 `24 × 22px`
 

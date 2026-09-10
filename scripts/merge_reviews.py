@@ -23,7 +23,7 @@ import os
 import re
 import shutil
 
-SRC = "/Volumes/core/ouji-oy"
+SRC = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-oy"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "data", "reviews")
 INDEX = os.path.join(ROOT, "data", "ratings.json")

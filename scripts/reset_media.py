@@ -17,7 +17,7 @@ DEL = """mutation($id:ID!,$m:[ID!]!){productDeleteMedia(productId:$id, mediaIds:
   deletedMediaIds userErrors{field message}}}"""
 ADD = """mutation($id:ID!,$m:[CreateMediaInput!]!){productCreateMedia(productId:$id, media:$m){
   mediaUserErrors{field message}}}"""
-TMP = Path("/Volumes/core/ouji-ads/brandsrc/reset")
+TMP = Path("/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/brandsrc/reset")
 
 
 def main():

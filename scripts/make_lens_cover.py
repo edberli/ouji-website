@@ -34,7 +34,7 @@ from shopify_admin import gql, user_errors  # noqa: E402
 from upload_files import upload  # noqa: E402
 
 IMAGES = "/tmp/lens_images.json"
-WORK = "/Volumes/core/ouji-lens-covers"
+WORK = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-lens-covers"
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                      "AppleWebKit/537.36 Chrome/120 Safari/537.36")}
 

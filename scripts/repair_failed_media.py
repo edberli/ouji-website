@@ -27,7 +27,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from shopify_admin import gql, user_errors  # noqa: E402
 from upload_files import upload  # noqa: E402
 
-WORK = "/Volumes/core/ouji-media-repair"
+WORK = "/Volumes/core/AI-Workspace/Inbox/Legacy-Unattributed-20260909/ouji-media-repair"
 STORES = "/tmp/skin/stores.json"
 MATCHED = "/tmp/skin/matched.json"
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "

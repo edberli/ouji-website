@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from shopify_admin import gql, user_errors  # noqa: E402
 from upload_files import upload  # noqa: E402
 
-WORK = "/Volumes/core/ouji-twin-pack"
+WORK = "/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-twin-pack"
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                     "AppleWebKit/537.36 Chrome/120 Safari/537.36"}
 

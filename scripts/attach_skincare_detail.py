@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from shopify_admin import gql, update_product  # noqa: E402
 from upload_files import host as cdn_host  # noqa: E402
 
-WORK = "/Volumes/core/ouji-skincare-strips"
+WORK = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-skincare-strips"
 STORES = "/tmp/skin/stores.json"
 MATCHED = "/tmp/skin/matched.json"
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "

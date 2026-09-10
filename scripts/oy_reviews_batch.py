@@ -21,7 +21,7 @@ import re
 import sys
 from difflib import SequenceMatcher
 
-SRC = "/Volumes/core/ouji-oy"
+SRC = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-oy"
 PER_PRODUCT = 8
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

@@ -17,7 +17,7 @@ import json
 import os
 import re
 
-SRC = "/Volumes/core/ouji-oy"
+SRC = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-oy"
 OUT = os.path.join(SRC, "match-in")
 
 ALIAS = {"purito": "puritoseoul", "花知曉flowerknows": "flowerknows"}

@@ -23,7 +23,7 @@ import json
 import os
 import re
 
-SRC = "/Volumes/core/ouji-oy"
+SRC = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-oy"
 OUT = os.path.join(SRC, "ratings.json")
 
 # 類型閘。第一版純粹「類型唔同就剷」，結果剷錯咗大半 ——「人參保濕防曬

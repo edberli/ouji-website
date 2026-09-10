@@ -13,7 +13,7 @@ from pathlib import Path
 UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                      "AppleWebKit/537.36 Chrome/120 Safari/537.36"),
       "Referer": "https://www.asianbeautywholesale.com/"}
-OUT = Path("/Volumes/core/ouji-ads/abw")
+OUT = Path("/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/abw")
 BASE = "https://d1flfk77wl2xk4.cloudfront.net/Assets/"
 
 

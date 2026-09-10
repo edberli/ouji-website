@@ -32,7 +32,7 @@ from bulk_upload import (FIND, CREATE, VUP, QTY, MEDIA, PUBLISH, ACTIVATE,  # no
 
 SCRATCH = Path("/private/tmp/claude-501/-Users-winstonli-Documents/"
                "b509ca2a-6150-4200-819f-038b13b6c9d8/scratchpad")
-WORK = Path("/Volumes/core/ouji-ads/research")
+WORK = Path("/Volumes/core/Projects/OUJI/Commerce-and-Operations/ouji-ads/research")
 POS = Path("/Volumes/core/ouji-pos/raw/Ouji_KT_skus_prince.csv")
 
 # 圖太窄／太扁多數係詳情長條或者橫額，唔係產品相。
