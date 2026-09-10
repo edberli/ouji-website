@@ -22,7 +22,14 @@ const TRACKING = {
   metaPixel: '344492400198411',
 };
 
-const TRACK_ON = Object.values(TRACKING).some((v) => typeof v === 'string' && v);
+/* 本機開發唔好污染 live pixel／GA4 —— 2026-09-10 實測 7 日內有 54 個事件
+   來自 127.0.0.1 同 localhost，會扯歪 Meta 嘅 ViewContent／AddToCart 基數。 */
+const IS_LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
+  || location.hostname.endsWith('.local')
+  || location.protocol === 'file:';
+
+const TRACK_ON = !IS_LOCAL
+  && Object.values(TRACKING).some((v) => typeof v === 'string' && v);
 
 /* ---------- 載入 ---------- */
 
