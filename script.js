@@ -1525,7 +1525,9 @@ function initMetaLanding() {
   };
   const ready = () => catalog.querySelector('a[href*="product"]');
   const go = () => {
-    requestAnimationFrame(() => requestAnimationFrame(jump));
+    /* 直接跳：getBoundingClientRect 本身會逼瀏覽器排版，唔使等 rAF；
+       rAF 喺背景分頁唔會行，客喺 IG 內置瀏覽器切出切入就會跳唔到。 */
+    jump();
     /* 上面品牌輪播遲少少先砌好，版面會再落；客未郁過就再對一次。 */
     setTimeout(jump, 1200);
   };
