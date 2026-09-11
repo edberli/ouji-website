@@ -217,6 +217,7 @@
           <a href="kpop.html?cat=lesserafim" class="mobile-nav__subitem">LE SSERAFIM</a>
         </div>
       </div>
+      <a href="short-dated.html">短效期特價</a>
       <a href="brands.html">品牌</a>
       <a href="awards.html">獲獎產品</a>
       <a href="match.html">妝感配對</a>
@@ -282,6 +283,17 @@
                 <p class="addon__sub" data-addon-sub></p>
               </div>
               <div class="addon__grid" data-addon-grid></div>
+            </section>
+
+            <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
+                 只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。 -->
+            <section class="addon addon--sd" data-sd-addon hidden>
+              <div class="addon__head">
+                <h2 class="addon__title">搭埋呢啲短效期特價</h2>
+                <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
+              </div>
+              <div class="addon__grid" data-sd-addon-grid></div>
+              <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
             </section>
           </div>
 
@@ -461,6 +473,7 @@
             <li><a href="health.html">保健品</a></li>
             <li><a href="toys.html">公仔</a></li>
             <li><a href="fragrance.html">香水香氛</a></li>
+            <li><a href="short-dated.html">短效期特價</a></li>
             <li><a href="brands.html">所有品牌</a></li>
             <li><a href="awards.html">獲獎產品</a></li>
             <li><a href="match.html">妝感配對</a></li>
@@ -678,7 +691,16 @@
        (1) 未折 $250–454 嗰段會錯誤承諾免運，但結帳照收；
        (2) 「合計」寫 subtotal + 運費，成個 88 折冇顯示過 —— 客見到嘅數
            比實際收嘅貴成一成，仲要見唔到自己慳咗幾多。 */
-    const subtotal = parseFloat(cart.cost.subtotalAmount.amount);   // 未折
+    /* 2026-09-12：88 折由「訂單折扣」改做「商品折扣」（等短效期特價唔食到 88 折）。
+       商品折扣係逐行扣，Shopify 個 subtotalAmount 已經係扣完嗰個數，
+       照舊用佢做「小計」就會見唔返 88 折。所以逐行加返個折扣先係未折價。
+       贈品嗰行（成行 $0）唔計 —— 以前訂單折扣年代佢都唔入小計。 */
+    const lineDisc = lines.reduce((n, l) => {
+      if (!(parseFloat(l.cost?.totalAmount?.amount) > 0)) return n;
+      return n + (l.discountAllocations || [])
+        .reduce((m, a) => m + (parseFloat(a.discountedAmount?.amount) || 0), 0);
+    }, 0);
+    const subtotal = parseFloat(cart.cost.subtotalAmount.amount) + lineDisc;   // 未折
     /* cart 一有 selectedDeliveryOption，totalAmount 就連運費計埋，
        要減返走先係「折實貨價」。冇揀過就係 0。 */
     const inclShip = parseFloat(
@@ -1070,6 +1092,81 @@
         所以只攞「邊類貨會被順手加」呢個訊號，唔攞「邊隻貨最好賣」。
         （見 memory: ouji-pos-not-demand-signal） */
 
+  /* 短效期特價加購列。貨源行 Storefront「short-dated」系列（唔用 catalog.json 快照
+     —— 件數得幾件，快照一日先更新一次，會推埋已經賣晒嘅）。
+     揀法：有貨、未喺購物袋、少過 1 個月到期嘅唔推（網店唔賣），平嘅排先。 */
+  (function shortDatedAddon() {
+    const sec = document.querySelector('[data-sd-addon]');
+    const grid = document.querySelector('[data-sd-addon-grid]');
+    if (!sec || !grid || typeof isShortDated !== 'function') return;
+    const MONTH = 30.4 * 86400000;
+    const esc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    let pool = null;
+
+    async function loadPool() {
+      if (pool) return pool;
+      const res = await getAllProducts({ collectionHandle: 'short-dated' });
+      const now = Date.now();
+      pool = (res?.edges || []).map((e) => e.node).filter(isShortDated).map((p) => {
+        const expiry = shortDatedExpiry(p);
+        const v = (p.variants?.edges || []).map((x) => x.node)
+          .find((x) => x.availableForSale && (x.quantityAvailable ?? 1) > 0);
+        return {
+          p, expiry, vid: v?.id,
+          months: expiry ? (new Date(`${expiry}T23:59:59+08:00`) - now) / MONTH : 99,
+          price: parseFloat(p.priceRange?.minVariantPrice?.amount || 0),
+          was: parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0),
+          img: p.images?.edges?.[0]?.node?.url || '',
+        };
+      }).filter((x) => x.vid && x.months >= 1 && x.img);
+      return pool;
+    }
+
+    async function paint() {
+      const items = await loadPool();
+      const inCart = new Set([...document.querySelectorAll('.cart-item__name a')]
+        .map((a) => new URLSearchParams(a.search).get('handle')).filter(Boolean));
+      const picked = items.filter((x) => !inCart.has(x.p.handle))
+        .sort((a, b) => a.price - b.price).slice(0, 4);
+      if (!picked.length) { sec.hidden = true; return; }
+      grid.innerHTML = picked.map((x) => {
+        const href = `product.html?handle=${encodeURIComponent(x.p.handle)}`;
+        const name = shortDatedDisplayTitle(x.p.title);
+        return `<article class="addon__card">
+          <a class="addon__media" href="${href}"><img src="${esc(x.img)}" alt="${esc(name)}" loading="lazy"></a>
+          <p class="addon__vendor">${esc(x.p.vendor)}</p>
+          <span class="addon__expiry">到期 ${x.expiry.replace(/-0?/g, '.')}</span>
+          <h3 class="addon__name"><a href="${href}">${esc(name)}</a></h3>
+          <p class="addon__price">HK$${x.price.toFixed(0)}${x.was > x.price ? `<s class="addon__was">HK$${x.was.toFixed(0)}</s>` : ''}</p>
+          <button class="addon__add" type="button" data-vid="${esc(x.vid)}">加入購物袋</button>
+        </article>`;
+      }).join('');
+      sec.hidden = false;
+    }
+
+    grid.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.addon__add');
+      if (!btn || btn.disabled) return;
+      btn.disabled = true;
+      const was = btn.textContent;
+      btn.textContent = '加緊…';
+      const ok = await addToCart(btn.dataset.vid, 1);
+      if (ok) {
+        btn.textContent = '加咗 ✓';
+        setTimeout(() => location.reload(), 700);
+      } else {
+        btn.textContent = was;
+        btn.disabled = false;
+      }
+    });
+
+    window.OUJI_repaintShortDated = () => paint().catch((e) => {
+      console.warn('short-dated addon', e);
+      sec.hidden = true;
+    });
+  })();
+
   (function addonSection() {
     const sec = document.querySelector('[data-addon]');
     const grid = document.querySelector('[data-addon-grid]');
@@ -1266,12 +1363,15 @@
 
     /* 等購物袋畫完先算「差幾多免運」—— 冇數就計唔到。 */
     const kick = () => paint().catch((e) => console.warn('addon', e));
-    window.OUJI_repaintAddon = kick;
+    window.OUJI_repaintAddon = () => {
+      kick();
+      if (window.OUJI_repaintShortDated) window.OUJI_repaintShortDated();
+    };
     const subEl = document.querySelector('[data-subtotal]');
     if (subEl && window.MutationObserver) {
-      new MutationObserver(() => kick()).observe(subEl, { childList: true, characterData: true, subtree: true });
+      new MutationObserver(() => window.OUJI_repaintAddon()).observe(subEl, { childList: true, characterData: true, subtree: true });
     }
-    setTimeout(kick, 1200);
+    setTimeout(() => window.OUJI_repaintAddon(), 1200);
   })();
 
   /* ───── 取件點揀選 ─────────────────────────────────────────────

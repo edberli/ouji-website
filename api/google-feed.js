@@ -127,6 +127,9 @@ function itemsFor(p) {
   /* `__test` 係畀付款測試商品用嘅。一件平價、寫明「唔係真貨」嘅嘢
      流去 Google 購物，輕則被拒、重則拖低成個帳戶嘅信任度。 */
   if ((p.tags || []).includes('__test')) return '';
+  /* 短效期特價係同一件貨嘅清貨副本（冇條碼、件數得幾件），推去 Google
+     會同正價嗰件撞 GTIN 之外又撞圖，仲會被當成重複商品。只喺網站專區賣。 */
+  if ((p.tags || []).includes('短效期')) return '';
   const variants = (p.variants?.edges || []).map((e) => e.node);
   if (!variants.length) return '';
   const desc = clean(p.description).slice(0, 4900)

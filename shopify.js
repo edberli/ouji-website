@@ -1432,6 +1432,36 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
   return active;
 }
 
+/* 短效期特價（2026-09-12 老闆批）：快到期門市實貨，1–3 個月 5 折、3–6 個月 7 折。
+   Shopify 上面每件都係獨立產品：productType「短效期特價」、tag「短效期」同
+   「到期-YYYY-MM-DD」。價錢已經係最終價，**唔疊 88 折** —— 後台 88 折已改做
+   只套用「promo-eligible」系列（productType ≠ 短效期特價），所以前台都唔可以
+   再幫佢哋顯示「88 折後約」，否則客見到嘅價同結帳對唔上。 */
+const SHORT_DATED_TAG = '短效期';
+
+function isShortDated(product) {
+  if (!product) return false;
+  if ((product.tags || []).includes(SHORT_DATED_TAG)) return true;
+  return product.productType === '短效期特價' || /^【短效期/.test(product.title || '');
+}
+
+function shortDatedExpiry(product) {
+  const tag = (product?.tags || []).find((t) => /^到期-\d{4}-\d{2}-\d{2}$/.test(t));
+  const hit = tag ? tag.slice(3) : ((product?.title || '').match(/到期\s*(\d{4}-\d{2}-\d{2})/) || [])[1];
+  return hit || '';
+}
+
+/* 標題喺 Shopify 帶住「【短效期・到期 YYYY-MM-DD】」（訂單、執貨單都見到到期日），
+   但卡片上面到期日已經有自己嘅標籤，唔使再讀一次。 */
+function shortDatedDisplayTitle(title) {
+  return String(title || '').replace(/^【短效期[^】]*】\s*/, '');
+}
+
+function formatShortDatedExpiry(iso) {
+  const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m ? `${m[1]}年${Number(m[2])}月${Number(m[3])}日` : '';
+}
+
 function formatWholePrice(amount) {
   const num = parseFloat(amount);
   if (!Number.isFinite(num)) return '';
@@ -1495,6 +1525,10 @@ function initOujiPromoPrices() {
 
     nodes.forEach((node) => {
       if (node.dataset.oujiPromoReady === '1' || node.textContent.includes('售完')) return;
+      /* 短效期特價唔疊 88 折（見 isShortDated）。卡片有 data-short-dated；
+         搜尋結果冇，就睇埋條連結／卡片入面個標題。 */
+      const holder = node.closest('[data-short-dated], a, article, li');
+      if (holder && (holder.hasAttribute('data-short-dated') || holder.textContent.includes('【短效期'))) return;
       const match = node.textContent.replace(/,/g, '').match(/HK\$\s*([0-9]+(?:\.[0-9]+)?)/i);
       if (!match) return;
       const amount = parseFloat(match[1]);
@@ -1618,18 +1652,22 @@ function productCardHTML(product) {
   const variant = product.variants?.edges?.[0]?.node;
   const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
   const isSoldOut = !variant?.availableForSale;
+  const shortDated = isShortDated(product);
+  const expiry = shortDated ? shortDatedExpiry(product) : '';
+  const title = shortDated ? shortDatedDisplayTitle(product.title) : product.title;
 
   return `
-    <article class="product-card" data-product-id="${product.id}">
+    <article class="product-card" data-product-id="${product.id}"${shortDated ? ' data-short-dated' : ''}>
       <a href="product.html?handle=${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
-          ${image ? `<img src="${image.url}" alt="${productImageAlt(image, product.title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
+          ${image ? `<img src="${image.url}" alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-          ${isOnSale && !isSoldOut ? '<span class="product-card__badge product-card__badge--sale">特價</span>' : ''}
+          ${isOnSale && !isSoldOut && !shortDated ? '<span class="product-card__badge product-card__badge--sale">特價</span>' : ''}
+          ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
       </a>
       <div class="product-card__info">
-        <a href="product.html?handle=${product.handle}" class="product-card__title">${product.title}</a>
+        <a href="product.html?handle=${product.handle}" class="product-card__title">${title}</a>
         <div class="product-card__prices">
           <span class="product-card__price">${formatPrice(price.amount)}</span>
           ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(comparePrice.amount)}</span>` : ''}
@@ -2045,6 +2083,9 @@ async function getCategoryProducts({ section, cat = null } = {}) {
       console.error('[OUJI] 攞唔到目錄：', e);
     }
   }
+  /* 短效期特價有自己一版（short-dated.html），唔好喺分類頁同正價貨並排，
+     客會見到同一件貨兩個價。 */
+  if (section !== 'short-dated') products = products.filter((p) => !isShortDated(p));
   if (cat) {
     // 彩妝行產品名規則（睇 subMatch），其餘照舊行 keyword。
     products = products.filter((p) => (CATEGORY_TAXONOMY[section]?.subs?.[cat]

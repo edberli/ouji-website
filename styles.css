@@ -8435,7 +8435,8 @@ html.is-lite .section--brand-intro::after {
   font-weight: 650;
 }
 
-.has-ouji-opening-promo .product-card__compare-price {
+/* 短效期特價唔疊 88 折，佢個原價刪除線係唯一講得出「平幾多」嘅嘢，要留低 */
+.has-ouji-opening-promo .product-card:not([data-short-dated]) .product-card__compare-price {
   display: none;
 }
 
@@ -13944,6 +13945,182 @@ body.is-promo-open { position: fixed; left: 0; right: 0; width: 100%; }
     padding-bottom: 4px;
   }
   .addon__card { scroll-snap-align: start; }
+}
+
+/* ============================================
+   短效期特價（2026-09-12）
+   快到期門市實貨：1–3 個月 5 折、3–6 個月 7 折，唔設退換，唔疊 88 折。
+   視覺上只做一件事：到期日要一眼睇到，而且睇落似包裝上面蓋嘅日期印
+   （虛線框 + 等寬數字），唔係另一粒「特價」貼紙。顏色沿用全站特價磚紅。
+   ============================================ */
+.sd-stamp,
+.product-card__badge--expiry,
+.addon__expiry {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.product-card__badge--expiry {
+  background: rgba(255, 255, 255, 0.94);
+  color: #8f301f;
+  border: 1px dashed rgba(143, 48, 31, 0.55);
+  box-shadow: none;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* 產品頁價錢 */
+.sd-price { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 7px; }
+.sd-price__tier {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  padding: 5px 9px; border-radius: 5px;
+  border: 1px solid rgba(151, 51, 33, 0.18);
+  background: rgba(200, 69, 47, 0.09);
+  color: #8f301f; font-size: 0.75rem; font-weight: 600; line-height: 1;
+}
+.sd-price__tier b { font-size: 0.8125rem; font-weight: 750; }
+.sd-price__row { display: inline-flex; align-items: baseline; gap: 12px; }
+.sd-price__now {
+  color: #c8452f; font-size: clamp(1.75rem, 3vw, 2.125rem);
+  font-weight: 700; letter-spacing: -0.025em; line-height: 1.05;
+}
+.sd-price__was {
+  color: var(--text-secondary); font-size: 0.9375rem; font-weight: 500;
+  text-decoration-color: #9d3d2c; text-decoration-thickness: 1.5px;
+}
+
+/* 產品頁須知：到期日做主角，條款跟尾 */
+.sd-notice {
+  margin: var(--space-md) 0 0;
+  padding: 14px 16px;
+  border: 1px dashed rgba(143, 48, 31, 0.45);
+  border-radius: 12px;
+  background: rgba(200, 69, 47, 0.05);
+}
+.sd-notice__date {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+  margin: 0; color: #8f301f; font-variant-numeric: tabular-nums;
+}
+.sd-notice__date span { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; }
+.sd-notice__date strong { font-size: 1.125rem; font-weight: 700; }
+.sd-notice__date em { font-style: normal; font-size: 0.8125rem; color: var(--text-secondary); }
+.sd-notice__terms {
+  margin: 10px 0 0; padding: 0 0 0 1.1em; list-style: disc;
+  color: var(--text-primary); font-size: 0.8125rem; line-height: 1.7;
+}
+.sd-notice__terms strong { color: #8f301f; }
+.sd-notice__more {
+  display: inline-block; margin-top: 8px;
+  font-size: 0.8125rem; font-weight: 600; color: var(--primary-dark);
+}
+
+/* 購物袋加購列：同上面「加多件？」同一套卡，只係多一行到期日 */
+.addon--sd { padding-top: var(--space-lg); border-top: 1px solid var(--glass-border); }
+.addon__expiry {
+  display: inline-block; margin: 0 0 6px;
+  padding: 2px 6px; border-radius: 5px;
+  border: 1px dashed rgba(143, 48, 31, 0.5);
+  color: #8f301f; font-size: 0.6875rem; font-weight: 650;
+  white-space: nowrap;   /* 手機卡得 148px 闊，「年月日」會斷成兩行，所以呢度用 2026.11.14 */
+}
+.addon__was {
+  margin-left: 6px; color: var(--text-tertiary);
+  font-size: 0.75rem; font-weight: 500;
+}
+.addon--sd .addon__price { color: #c8452f; }
+.addon__all {
+  display: inline-block; margin-top: var(--space-md);
+  font-size: 0.8125rem; font-weight: 600; color: var(--primary-dark);
+}
+
+/* 專區頁 */
+.sd-hero { padding: var(--space-2xl) 0 var(--space-xl); }
+.sd-hero__kicker {
+  margin: 0 0 10px; color: #8f301f;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em;
+}
+.sd-hero__title {
+  margin: 0; font-family: var(--font-brand); font-weight: 700;
+  font-size: clamp(1.75rem, 5vw, 2.75rem); letter-spacing: 0.04em;
+  color: var(--primary-deep); line-height: 1.15;
+}
+.sd-hero__lede {
+  max-width: 34em; margin: 12px 0 0;
+  color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.75;
+}
+.sd-rules {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
+  margin: var(--space-lg) 0 0; padding: 0; list-style: none;
+}
+.sd-rules li {
+  padding: 12px 14px; border-radius: 12px;
+  background: var(--glass-bg-strong); border: 1px solid var(--glass-border);
+  font-size: 0.8125rem; line-height: 1.5; color: var(--text-secondary);
+}
+.sd-rules b { display: block; margin-bottom: 2px; font-size: 1rem; color: var(--primary-deep); }
+.sd-rules .sd-rules__warn b { color: #8f301f; }
+
+.sd-tier { padding: var(--space-lg) 0 var(--space-2xl); }
+.sd-tier__head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  margin: 0 0 var(--space-lg); padding-bottom: 10px;
+  border-bottom: 1px solid var(--glass-border-strong);
+}
+.sd-tier__title { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--primary-deep); }
+.sd-tier__title em { font-style: normal; color: #c8452f; margin-right: 6px; }
+.sd-tier__count { font-size: 0.8125rem; color: var(--text-tertiary); }
+
+.sd-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xl) var(--space-lg); }
+.sd-card { display: flex; flex-direction: column; min-width: 0; }
+.sd-card__media {
+  position: relative; display: block; border-radius: 12px; overflow: hidden;
+  background: var(--gray-50);
+}
+.sd-card__media img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.sd-card__stamp {
+  position: absolute; left: 10px; bottom: 10px;
+  padding: 4px 8px; border-radius: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px dashed rgba(143, 48, 31, 0.55);
+  color: #8f301f; font-size: 0.75rem; font-weight: 650;
+}
+.sd-card__vendor {
+  margin: 12px 0 2px; color: var(--text-tertiary);
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.sd-card__name {
+  margin: 0; font-size: 0.875rem; font-weight: 500; line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.sd-card__name a { color: var(--text-primary); text-decoration: none; }
+.sd-card__prices { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; margin: 8px 0 2px; }
+.sd-card__now { color: #c8452f; font-size: 1.0625rem; font-weight: 700; }
+.sd-card__was { color: var(--text-tertiary); font-size: 0.8125rem; }
+.sd-card__left { margin: 0 0 10px; font-size: 0.75rem; color: var(--text-secondary); }
+.sd-card__add {
+  margin-top: auto; min-height: 40px; width: 100%;
+  border-radius: 999px; border: 1px solid var(--primary-dark);
+  background: transparent; color: var(--primary-dark);
+  font-size: 0.8125rem; font-weight: 600; cursor: pointer;
+  transition: background var(--duration-normal, .2s) ease, color var(--duration-normal, .2s) ease;
+}
+.sd-card__add:hover { background: var(--primary-dark); color: #fff; }
+.sd-card__add:disabled { opacity: 0.6; cursor: default; }
+.sd-card__add:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 2px; }
+.sd-empty { padding: var(--space-2xl) 0; text-align: center; color: var(--text-secondary); }
+
+@media (max-width: 1024px) {
+  .sd-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 768px) {
+  .sd-hero { padding: var(--space-xl) 0 var(--space-md); }
+  .sd-rules { grid-template-columns: 1fr; gap: 8px; }
+  .sd-rules li { display: flex; align-items: baseline; gap: 10px; padding: 10px 12px; }
+  .sd-rules b { display: inline; margin: 0; white-space: nowrap; font-size: 0.9375rem; }
+  .sd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) 12px; }
 }
 
 .ship-mode { margin: var(--space-lg) 0 0; }

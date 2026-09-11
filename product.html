@@ -228,6 +228,7 @@
           <a href="kpop.html?cat=lesserafim" class="mobile-nav__subitem">LE SSERAFIM</a>
         </div>
       </div>
+      <a href="short-dated.html">短效期特價</a>
       <a href="brands.html">品牌</a>
       <a href="awards.html">獲獎產品</a>
       <a href="match.html">妝感配對</a>
@@ -407,6 +408,7 @@
             <li><a href="health.html">保健品</a></li>
             <li><a href="toys.html">公仔</a></li>
             <li><a href="fragrance.html">香水香氛</a></li>
+            <li><a href="short-dated.html">短效期特價</a></li>
             <li><a href="brands.html">所有品牌</a></li>
             <li><a href="awards.html">獲獎產品</a></li>
             <li><a href="match.html">妝感配對</a></li>
@@ -643,7 +645,22 @@
       const priceEl = document.querySelector('.product-info__price');
       const desc = document.querySelector('.product-info__short-desc');
 
+      /* 短效期特價：價錢已經係最終價，唔疊 88 折（後台 88 折只套用正價貨）。
+         所以唔可以行下面個「88 折後約」，要照實出特價同原價。 */
+      const shortDated = typeof isShortDated === 'function' && isShortDated(product);
       const productPriceMarkup = (amount, compareAt) => {
+        if (shortDated) {
+          const now = parseFloat(amount);
+          const was = compareAt ? parseFloat(compareAt.amount) : 0;
+          const off = was > now ? Math.round((now / was) * 10) : 0;
+          return `<span class="sd-price">
+            ${off ? `<span class="sd-price__tier">短效期特價 <b>${off} 折</b></span>` : ''}
+            <span class="sd-price__row">
+              <strong class="sd-price__now">${formatPrice(now)}</strong>
+              ${was > now ? `<s class="sd-price__was">${formatPrice(was)}</s>` : ''}
+            </span>
+          </span>`;
+        }
         if (typeof oujiPromoPriceHTML === 'function' && isOujiOpeningPromoActive()) {
           return oujiPromoPriceHTML(amount, { detail: true });
         }
@@ -661,19 +678,49 @@
           brand.innerHTML = `<a href="shop.html?brand=${encodeURIComponent(product.vendor)}">${brand.textContent}</a>`;
         }
       }
-      if (nameEl) nameEl.textContent = product.title;
+      if (nameEl) nameEl.textContent = shortDated ? shortDatedDisplayTitle(product.title) : product.title;
       if (priceEl) {
         const p = product.priceRange.minVariantPrice;
         const cp = product.compareAtPriceRange?.minVariantPrice;
         priceEl.innerHTML = productPriceMarkup(p.amount, cp);
-        priceEl.dataset.oujiPromoReady = isOujiOpeningPromoActive() ? '1' : '0';
+        priceEl.dataset.oujiPromoReady = (shortDated || isOujiOpeningPromoActive()) ? '1' : '0';
+      }
+      /* Shopify 描述頭嗰段 .short-dated-notice 係畀訂單／後台睇嘅；網站喺價錢
+         下面有自己一塊，所以描述入面嗰份剝走，唔好講兩次。 */
+      const descHtml = shortDated
+        ? (product.descriptionHtml || '').replace(/<div class="short-dated-notice">[\s\S]*?<\/div>/, '')
+        : (product.descriptionHtml || '');
+      if (shortDated && priceEl) {
+        const expiry = shortDatedExpiry(product);
+        const left = expiry
+          ? Math.max(0, Math.round((new Date(`${expiry}T23:59:59+08:00`) - Date.now()) / (30.4 * 86400000) * 10) / 10)
+          : null;
+        const qtyLeft = (product.variants?.edges || [])
+          .reduce((n, e) => n + Math.max(0, e.node.quantityAvailable || 0), 0);
+        priceEl.insertAdjacentHTML('afterend', `
+          <section class="sd-notice" aria-label="短效期特價須知">
+            <p class="sd-notice__date"><span>到期日</span><strong>${formatShortDatedExpiry(expiry)}</strong>${left !== null ? `<em>剩約 ${left} 個月</em>` : ''}</p>
+            <ul class="sd-notice__terms">
+              <li>快到期門市實貨，請喺到期日前用完</li>
+              <li><strong>唔設退換</strong>・唔再疊加全單 88 折</li>
+              ${qtyLeft ? `<li>得返 ${qtyLeft} 件，售完即止</li>` : ''}
+            </ul>
+            <a class="sd-notice__more" href="short-dated.html">睇其他短效期特價 →</a>
+          </section>`);
+        /* 開業 88 折卡喺呢件貨唔適用，唔好出 */
+        document.querySelectorAll('.product-info__promo-card').forEach((el) => {
+          el.removeAttribute('data-ouji-opening-promo');
+          el.hidden = true;
+        });
+        const qtyInput = document.querySelector('.qty-input');
+        if (qtyInput && qtyLeft) qtyInput.max = String(qtyLeft);
       }
       if (desc) {
         // The opening paragraph, not the first 200 characters of everything.
         // Once the descriptions gained 優點 / 用法 / 主要成分 headings, the
         // flattened text ran them together — "…做好準備。優點 改善膚質同膚色
         // 令暗…" — which reads as one broken sentence at the top of the page.
-        const intro = (product.descriptionHtml || '').match(/<p[^>]*>([\s\S]*?)<\/p>/);
+        const intro = descHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/);
         const plain = intro
           ? new DOMParser().parseFromString(intro[1], 'text/html').body.textContent.trim()
           : (product.description || '');
@@ -704,8 +751,8 @@
 
       // Fill detailed description tab with full description
       const fullDesc = document.querySelector('.product-description');
-      if (fullDesc && product.descriptionHtml) {
-        fullDesc.innerHTML = product.descriptionHtml;
+      if (fullDesc && descHtml) {
+        fullDesc.innerHTML = descHtml;
       } else if (fullDesc && product.description) {
         fullDesc.innerHTML = `<p>${product.description}</p>`;
       }
