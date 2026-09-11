@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
   oujiSafe(initShimaFrames, 'initShimaFrames');
   oujiSafe(initPromoLive, 'initPromoLive');
   oujiSafe(initPromoPop, 'initPromoPop');
+  oujiSafe(initMetaLanding, 'initMetaLanding');
   oujiSafe(initDividerReveal, 'initDividerReveal');
   /* 先砌底欄，initMobileNav 先搵得到移到底部嗰粒選購掣。 */
   oujiSafe(initMobileBottomNav, 'initMobileBottomNav');
@@ -1493,6 +1494,46 @@ function initPromoLive() {
    - **鎖返 body scroll**，開住嗰陣背後唔會跟住郁；關咗要還返個
      scrollTop，否則 iOS 會跳返頂。
    ============================================================ */
+/* 由 Meta 廣告撳入嚟：廣告嘅 url_tags 會帶 utm_source=meta（2026-09-11 起）。 */
+function isMetaAdVisit() {
+  return new URLSearchParams(location.search).get('utm_source') === 'meta';
+}
+
+/* Meta 廣告客落 shop 頁：手機要捲 2.5 個畫面先見到第一件貨，
+   2026-09-11 實測 146 個落地只有 51 個打開過產品。直接帶佢去產品格。
+   只做第一次載入；撳返上一頁唔好搶走佢原本嘅位置；客自己郁咗就唔再搶。 */
+function initMetaLanding() {
+  if (!isMetaAdVisit()) return;
+  if (!/\/shop(\.html)?$/.test(location.pathname) || location.hash) return;
+  const nav = performance.getEntriesByType?.('navigation')?.[0];
+  if (nav && nav.type !== 'navigate') return;
+  const catalog = document.querySelector('[data-catalog]');
+  if (!catalog) return;
+
+  let touched = false;
+  ['touchstart', 'wheel', 'keydown'].forEach((t) =>
+    window.addEventListener(t, () => { touched = true; }, { once: true, passive: true }));
+
+  const jump = () => {
+    if (touched) return;
+    const bars = [...document.querySelectorAll('header, .announcement-bar')]
+      .filter((el) => ['fixed', 'sticky'].includes(getComputedStyle(el).position));
+    const offset = bars.reduce((m, el) => Math.max(m, el.getBoundingClientRect().bottom), 0);
+    const y = catalog.getBoundingClientRect().top + window.scrollY - offset - 12;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+  };
+  const ready = () => catalog.querySelector('a[href*="product"]');
+  const go = () => {
+    requestAnimationFrame(() => requestAnimationFrame(jump));
+    /* 上面品牌輪播遲少少先砌好，版面會再落；客未郁過就再對一次。 */
+    setTimeout(jump, 1200);
+  };
+  if (ready()) { go(); return; }
+  const mo = new MutationObserver(() => { if (ready()) { mo.disconnect(); go(); } });
+  mo.observe(catalog, { childList: true, subtree: true });
+  setTimeout(() => mo.disconnect(), 10000);
+}
+
 function initPromoPop() {
   const END = new Date('2026-09-15T23:59:00+08:00');
   if (Date.now() > END.getTime()) return;
@@ -1503,6 +1544,13 @@ function initPromoPop() {
   const KEY = 'ouji:promoPop';
   const today = new Date().toISOString().slice(0, 10);
   try { if (localStorage.getItem(KEY) === today) return; } catch (e) { /* 私隱模式 */ }
+
+  /* Meta 廣告帶嚟嘅客：條片已經講咗優惠，唔再彈窗擋住佢揀貨。
+     記低當日，轉去其他頁都唔會再彈。 */
+  if (isMetaAdVisit()) {
+    try { localStorage.setItem(KEY, today); } catch (e) { /* 私隱模式 */ }
+    return;
+  }
 
   const days = Math.max(0, Math.ceil((END - new Date()) / 86400000));
   const el = document.createElement('div');
