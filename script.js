@@ -1520,7 +1520,8 @@ function initMetaLanding() {
       .filter((el) => ['fixed', 'sticky'].includes(getComputedStyle(el).position));
     const offset = bars.reduce((m, el) => Math.max(m, el.getBoundingClientRect().bottom), 0);
     const y = catalog.getBoundingClientRect().top + window.scrollY - offset - 12;
-    window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+    /* 網站設咗 scroll-behavior: smooth，auto 會由頁頂慢慢捲 2000px；落地要即時到位。 */
+    window.scrollTo({ top: Math.max(0, y), behavior: 'instant' });
   };
   const ready = () => catalog.querySelector('a[href*="product"]');
   const go = () => {
