@@ -795,7 +795,11 @@ async function writeCartAttributes(attrs) {
   if (!cart?.id) return null;
   const merged = {};
   for (const a of cart.attributes || []) merged[a.key] = a.value;
-  for (const [k, v] of Object.entries(attrs)) merged[k] = String(v);
+  // null ＝ 刪走呢個 key（例如轉咗派送上門，要清走舊取件點）
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null) delete merged[k];
+    else merged[k] = String(v);
+  }
   const q = `mutation($cartId:ID!,$attributes:[AttributeInput!]!){
     cartAttributesUpdate(cartId:$cartId, attributes:$attributes){
       cart{ id attributes{ key value } }
@@ -847,9 +851,43 @@ async function setDeliveryAddressPreference(addr) {
   return true;
 }
 
+/** 客之前揀過自取、後尾轉咗派送上門／門市自取 —— 清走舊取件資料。
+    唔清就會：訂單備註仲寫住「【7-Eleven…】取件點」，同事執貨睇錯；
+    預填送貨地址仲係嗰個取件點，上門件會預填咗 7-Eleven 地址。
+    只清我哋自己寫落去嘅嘢（備註開頭【…】＋取件點種類、address2 係取件點編號）。
+    有清過就回傳 true，等 goToCheckout 重建結帳。 */
+const PICKUP_KIND_RE = /^(7-Eleven|郵政局|智郵站|順豐站|自助櫃) /;
+async function clearStalePickup(cart) {
+  const c = (await shopifyFetch(`query($id:ID!){cart(id:$id){ note attributes { key value }
+    delivery { addresses { id address { ... on CartDeliveryAddress { address2 } } } } }}`, { id: cart.id }))?.cart;
+  if (!c) throw new Error('未能載入購物袋，請再試一次。');
+  const note = c.note || '';
+  const staleNote = note.startsWith('【') && PICKUP_KIND_RE.test(note.replace(/^【[^】]*】/, ''));
+  const staleKeys = c.attributes.filter((a) => a.key === '取件點' || a.key === '取件點地址').map((a) => a.key);
+  const staleIds = c.delivery.addresses.filter((a) => PICKUP_KIND_RE.test(a.address?.address2 || '')).map((a) => a.id);
+  if (!staleNote && !staleKeys.length && !staleIds.length) return false;
+  const fail = () => { throw new Error('未能清走舊取件點，請再試一次。'); };
+  if (staleNote) {
+    const r = (await shopifyFetch(`mutation($cartId:ID!){cartNoteUpdate(cartId:$cartId, note:""){
+      cart{ id } userErrors{ message } }}`, { cartId: cart.id }))?.cartNoteUpdate;
+    if (!r?.cart?.id || r.userErrors.length) fail();
+  }
+  if (staleKeys.length) {
+    const saved = await setCartAttributes(Object.fromEntries(staleKeys.map((k) => [k, null])));
+    if (!saved || saved.some((a) => staleKeys.includes(a.key))) fail();
+  }
+  if (staleIds.length) {
+    const r = (await shopifyFetch(`mutation($cartId:ID!,$ids:[ID!]!){cartDeliveryAddressesRemove(cartId:$cartId, addressIds:$ids){
+      cart{ id } userErrors{ message } }}`, { cartId: cart.id, ids: staleIds }))?.cartDeliveryAddressesRemove;
+    if (!r?.cart?.id || r.userErrors.length) fail();
+  }
+  return true;
+}
+
 /** Rebuild pickup checkout to avoid previously initialized checkout address state.
- * Keep the original cart until the replacement has passed preservation checks. */
-async function renewPickupCheckout(cart) {
+ * Keep the original cart until the replacement has passed preservation checks.
+ * requireAddress=false：清走舊取件點之後重建（冇預填地址都得）。 */
+async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
   const fields = `id checkoutUrl note totalQuantity attributes { key value }
     discountAllocations { discountedAmount { amount currencyCode } }
     discountCodes { code applicable } appliedGiftCards { id }
@@ -864,15 +902,15 @@ async function renewPickupCheckout(cart) {
   if (!old || old.lines.pageInfo.hasNextPage || !old.lines.nodes.length) throw new Error('未能完整讀取購物袋，請再試一次。');
   if (old.appliedGiftCards.length || old.buyerIdentity.customer) throw new Error('此購物袋有禮品卡或會員資料，暫未能安全重建結賬；請聯絡我們協助，資料已保留。');
   const selected = old.delivery.addresses.find(a=>a.selected)?.address;
-  if (!selected) throw new Error('未能核對取件地址，請重新選擇。');
+  if (!selected && requireAddress) throw new Error('未能核對取件地址，請重新選擇。');
   const input = {
     lines: old.lines.nodes.map(n=>({merchandiseId:n.merchandise.id,quantity:n.quantity,attributes:n.attributes,
       ...(n.sellingPlanAllocation ? {sellingPlanId:n.sellingPlanAllocation.sellingPlan.id} : {})})),
-    attributes:old.attributes, note:old.note, discountCodes:old.discountCodes.map(d=>d.code),
+    attributes:old.attributes, note:old.note || '', discountCodes:old.discountCodes.map(d=>d.code),
     buyerIdentity:{countryCode:old.buyerIdentity.countryCode || 'HK',
       ...(old.buyerIdentity.email ? {email:old.buyerIdentity.email} : {}),
       ...(old.buyerIdentity.phone ? {phone:old.buyerIdentity.phone} : {})},
-    delivery:{addresses:[{selected:true,oneTimeUse:true,address:{deliveryAddress:selected}}]}
+    ...(selected ? {delivery:{addresses:[{selected:true,oneTimeUse:true,address:{deliveryAddress:selected}}]}} : {})
   };
   const result = (await shopifyFetch(`mutation($input:CartInput!){cartCreate(input:$input){cart{${fields}} userErrors{message} warnings{code}}}`, {input}))?.cartCreate;
   const fresh = result?.cart;
@@ -880,7 +918,7 @@ async function renewPickupCheckout(cart) {
     n.attributes.map(a=>[a.key,a.value]).sort(),n.cost.totalAmount])).sort());
   const pairs = a=>JSON.stringify(a.map(v=>[v.key,v.value]).sort());
   if (!fresh?.checkoutUrl || result.userErrors.length || result.warnings?.length || fresh.lines.pageInfo.hasNextPage ||
-      signature(old)!==signature(fresh) || pairs(old.attributes)!==pairs(fresh.attributes) || old.note!==fresh.note ||
+      signature(old)!==signature(fresh) || pairs(old.attributes)!==pairs(fresh.attributes) || (old.note||'')!==(fresh.note||'') ||
       JSON.stringify(old.discountCodes)!==JSON.stringify(fresh.discountCodes) ||
       JSON.stringify(old.discountAllocations)!==JSON.stringify(fresh.discountAllocations) ||
       JSON.stringify(selected)!==JSON.stringify(fresh.delivery.addresses.find(a=>a.selected)?.address)) {
@@ -912,9 +950,14 @@ async function goToCheckout() {
   if (!cart?.checkoutUrl) throw new Error('未能載入結賬頁，請再試一次。');
   const trackingCart = cart;
   if (method?.src) cart = await renewPickupCheckout(cart);
+  /* 轉咗派送上門／門市自取：清走舊取件點，再重建結帳（checkout 會記住舊地址）。
+     重建唔到（例如會員購物袋）就用返已經清咗嘅原購物袋。 */
+  else if (method && await clearStalePickup(cart)) {
+    cart = await renewPickupCheckout(cart, { requireAddress: false }).catch(() => cart);
+  }
   if (checkoutMode !== window.OUJI_getShipMode?.()) throw new Error('收貨方式已更改，請再按結賬。');
   if (window.OUJI_SHIP?.[checkoutMode]?.src && checkoutPoint !== window.OUJI_getPickupPoint?.()) throw new Error('取件點已更改，請再按結賬。');
-  if (method?.src) localStorage.setItem('shopify_cart_id', cart.id);
+  if (cart.id !== trackingCart.id) localStorage.setItem('shopify_cart_id', cart.id);
   // 呢個係網站呢邊最後一個追蹤得到嘅動作 —— 之後就跳咗去 Shopify。
   if (typeof trackBeginCheckout === 'function') trackBeginCheckout(trackingCart);
   let url = brandCheckoutUrl(cart.checkoutUrl);
