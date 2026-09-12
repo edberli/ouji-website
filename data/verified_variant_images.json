@@ -345,19 +345,19 @@
     "evidence": "fwee official US per-shade swatch visually reviewed"
   },
   "gid://shopify/ProductVariant/48084878393502": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybelline-fitme-concealer-01-salmon-6902395975809-e.jpg",
-    "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybelline-fitme-concealer-01-salmon-6902395975809-e_76c37203-3a48-4bd7-af4c-c46cc48b0f83.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "exact local barcode and dedicated per-shade Maybelline concealer image; product colour visually reviewed"
   },
   "gid://shopify/ProductVariant/48084878590110": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/deep_1.png",
-    "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/deep_1_285c0de4-6a08-4ed2-a1d9-755aa3acb09c.png",
+    "presentation": "complexion-swatch",
+    "evidence": "exact local barcode and dedicated per-shade Maybelline concealer image; product colour visually reviewed"
   },
   "gid://shopify/ProductVariant/48084878622878": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ivory_1.png",
-    "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ivory_1_42e6e82a-702f-40b7-864b-87261e9740e6.png",
+    "presentation": "complexion-swatch",
+    "evidence": "exact local barcode and dedicated per-shade Maybelline concealer image; product colour visually reviewed"
   },
   "gid://shopify/ProductVariant/48084880720030": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybellinefaceinstantagerewinderaserconcealerreno100primary11.png",
@@ -793,5 +793,40 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2aN_Glaze_Bouncing_Tint_4.5g_10_colors-12.jpg",
     "presentation": "lip-swatch",
     "evidence": "DODO SKIN exact option mapping for 12 Cherry Juice; dedicated image visibly labels the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48084878524574": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/primary20-7601130.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline Japan exact local barcode and shade 20 image; filled concealer colour visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084878557342": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/primary25-7601130.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline Japan exact local barcode and shade 25 image; filled concealer colour visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079934521502": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9226871_0_3.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact option 02 Fairy; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
+  },
+  "gid://shopify/ProductVariant/48079934554270": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9865815_0_2.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact option 05 Dear Me; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
+  },
+  "gid://shopify/ProductVariant/48079934587038": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/c0b979fb374d643bdbcc59af-1732868330.webp",
+    "presentation": "eye-swatch",
+    "evidence": "exact option 09 Dreamcatcher; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
+  },
+  "gid://shopify/ProductVariant/48079934619806": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-03-22-d90ed6a3da96afcb7db9a57d.webp",
+    "presentation": "eye-swatch",
+    "evidence": "exact option 12 Bubble Gum; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
+  },
+  "gid://shopify/ProductVariant/48079934652574": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-05-28-8f4dc719343106b3b2e81b3e.webp",
+    "presentation": "eye-swatch",
+    "evidence": "exact option 13 Sand Pink; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
   }
 }
