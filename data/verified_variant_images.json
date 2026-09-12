@@ -1968,5 +1968,45 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-06-cac71504221de2cc93143a81.webp",
     "presentation": "complexion-swatch",
     "evidence": "Exact Kuromi 1.5 review image with compact and before/after complexion result"
+  },
+  "gid://shopify/ProductVariant/48079929180318": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0095568886.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled ND01 SHELL with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48079929213086": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0095568887.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled ND02 CLEAR with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48079929245854": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0101990909.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled WH01 FROSTY with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48079929278622": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0103166427.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled PK02 PINKBELL with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48079929311390": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0103166426.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled OR01 PEACH BEAM with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48079929344158": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0105951279.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled OR02 SUNNY BEAM with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48079929376926": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0103166424.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled GN01 LIME BOMB with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48079929409694": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0103166425.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled YL01 LEMONGRASS with exact cheekbone glow result"
   }
 }
