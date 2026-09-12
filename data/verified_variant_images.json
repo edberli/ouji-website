@@ -1813,5 +1813,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_21.jpg",
     "presentation": "cheek-swatch",
     "evidence": "Official 2aN Japan detail image independently labels 08 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079449096350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/556f2a07-563b-4a63-a9af-66172646bcc5_4311306.webp",
+    "presentation": "eye-swatch",
+    "evidence": "Beauty STAGE exact Coralhaze Idol Aegyosal Maker 01 image; consistent independent product, pigment and contour swatch"
+  },
+  "gid://shopify/ProductVariant/48079449161886": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/e9499479-2262-48ab-be2f-64e25a602e3b_4311286.webp",
+    "presentation": "eye-swatch",
+    "evidence": "Beauty STAGE exact Coralhaze Idol Aegyosal Maker 03 image; consistent independent product, pigment and contour swatch"
+  },
+  "gid://shopify/ProductVariant/48079449194654": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8da4f617-165d-40ec-bf1a-fd33532db1e2_4311276.webp",
+    "presentation": "eye-swatch",
+    "evidence": "Beauty STAGE exact Coralhaze Idol Aegyosal Maker 04 image; consistent independent product, pigment and contour swatch"
+  },
+  "gid://shopify/ProductVariant/48079449227422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/572d3ccc-4633-4116-84f3-6c348dbefc34_4311266.webp",
+    "presentation": "eye-swatch",
+    "evidence": "Beauty STAGE exact Coralhaze Idol Aegyosal Maker 05 image; consistent independent product, pigment and contour swatch"
   }
 }
