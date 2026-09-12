@@ -1508,5 +1508,35 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-moonlight-liquid-glitter-4_1g-3-colors-3.png",
     "presentation": "eye-swatch",
     "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Moonlight Glitter 03; labelled independent pigment smear"
+  },
+  "gid://shopify/ProductVariant/48073605513374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-06-14-f22c239a1cb109bfe68dd9e7.webp",
+    "presentation": "palette-shade",
+    "evidence": "LIPS exact Heart Percent Dote On Mood Palette 01 page; independent opened palette, SOL consistency reviewed"
+  },
+  "gid://shopify/ProductVariant/48073605546142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-01-29-f1e2e10dfa713ed1d0eafbe4.webp",
+    "presentation": "palette-shade",
+    "evidence": "LIPS exact Heart Percent Dote On Mood Palette 04 page; independent opened palette, SOL consistency reviewed"
+  },
+  "gid://shopify/ProductVariant/48073605578910": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-12-13-d52fc1cb743b9404cf41fde2.webp",
+    "presentation": "palette-shade",
+    "evidence": "LIPS exact Heart Percent Dote On Mood Palette 07 page; independent opened palette collage, SOL consistency reviewed"
+  },
+  "gid://shopify/ProductVariant/48083211550878": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2407260635287063ee.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "PoPoB exact AMUSE Lip Liner 00 image; exact barcode crosswalk and lip close-up"
+  },
+  "gid://shopify/ProductVariant/48083211583646": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Amuse-LipSmudger02ROSE1.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Korendy exact AMUSE Lip Liner 02 variant image; independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48083211616414": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Amuse-LipSmudger04HIPPIEGIRL1.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Korendy exact AMUSE Lip Liner 04 variant image; independent lip close-up"
   }
 }
