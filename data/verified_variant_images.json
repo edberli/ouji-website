@@ -1538,5 +1538,40 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Amuse-LipSmudger04HIPPIEGIRL1.jpg",
     "presentation": "lip-swatch",
     "evidence": "Korendy exact AMUSE Lip Liner 04 variant image; independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079852241054": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-glitterpedia-eye-palette-8-colors-6.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact UNLEASHIA Glitterpedia N6 barcode and variant image; independent 9-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079852273822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-glitterpedia-eye-palette-8-colors-7.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact UNLEASHIA Glitterpedia N7 barcode and variant image; independent 9-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079856468126": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-oh-happy-day-lip-pencil-0_8g-7-colors-6.png",
+    "presentation": "lip-swatch",
+    "evidence": "Luxiface exact UNLEASHIA Lip Pencil No.6 barcode and variant image; independent pigment smear"
+  },
+  "gid://shopify/ProductVariant/48079885205662": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-mood-shower-face-palette-ballerinaballerino.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact UNLEASHIA Mood Shower 100 barcode and variant image; independent 5-pan palette and swatches"
+  },
+  "gid://shopify/ProductVariant/48079885238430": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-mood-shower-face-palette-ballerinaballerino-2.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact UNLEASHIA Mood Shower 101 barcode and variant image; independent 5-pan palette and swatches"
+  },
+  "gid://shopify/ProductVariant/48083211649182": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05_4c995223-0c1d-49a3-a83b-9bbf0825f252.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "AMUSE Seoul exact Lip Smudger 05 image; labelled lip close-up and skin swatch"
+  },
+  "gid://shopify/ProductVariant/48083185860766": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/son-amuse-jel-fit-tint_6.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Kallos exact AMUSE Jel-Fit Tint 03 Nupink barcode and variant image; labelled independent lip close-up"
   }
 }
