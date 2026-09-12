@@ -1573,5 +1573,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/son-amuse-jel-fit-tint_6.jpg",
     "presentation": "lip-swatch",
     "evidence": "Kallos exact AMUSE Jel-Fit Tint 03 Nupink barcode and variant image; labelled independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079858106526": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors.png",
+    "presentation": "palette-shade",
+    "evidence": "Exact GTIN/product/option mapping for UNLEASHIA Cotton Candy 01 Peach Crush; independent two-pan palette, SOL reviewed naming discrepancy"
+  },
+  "gid://shopify/ProductVariant/48079363080350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/43740066cc2a094f807c093f-1713681888.webp",
+    "presentation": "eye-swatch",
+    "evidence": "LIPS exact Heart Percent Gel Eyeliner 04 Gray Beige page; applied eye and hand pigment swatch, SOL reviewed"
   }
 }
