@@ -1433,5 +1433,50 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-satin-wear-healthy-green-cushion-21-colors-11.png",
     "presentation": "complexion-swatch",
     "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Satin Wear Cushion 23W; independent cushion and foundation swipe"
+  },
+  "gid://shopify/ProductVariant/48079362556062": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9c5e25246263c68c196aa51f-1729056812.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact Heart Percent Lip Pencil 13 Bare Lips page; independent arm swatch"
+  },
+  "gid://shopify/ProductVariant/48079362588830": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/815a25b7cf6fa48e53314929-1711361499.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact Heart Percent Lip Pencil 18 Fig Rose page; independent lip and arm result"
+  },
+  "gid://shopify/ProductVariant/48079362621598": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-06-06-f79bd0377e79da5eecc3ea2e.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact Heart Percent Lip Pencil 21 Rosy Lips page; labelled lip and arm result"
+  },
+  "gid://shopify/ProductVariant/48079362654366": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-08-16-5a02a62396a13a8521e86596.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact Heart Percent Lip Pencil 22 Salon Peach page; labelled independent lip result"
+  },
+  "gid://shopify/ProductVariant/48083195265182": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1_6cd5ce83-1868-4b4b-82ab-1ae12e48dd65.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact AMUSE Healthy Balm 01 variant image; labelled product and lip result"
+  },
+  "gid://shopify/ProductVariant/48083195297950": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2_f947d8b1-56d6-4e94-8269-78f3d4389e73.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact AMUSE Healthy Balm 02 variant image; labelled product and lip result"
+  },
+  "gid://shopify/ProductVariant/48083195330718": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/3_82aaa151-acc2-4886-a722-0ef869b75a31.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact AMUSE Healthy Balm 03 variant image; labelled product and lip result"
+  },
+  "gid://shopify/ProductVariant/48083195363486": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4_00e93ba9-5b6b-4208-93f0-b7b592935434.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact AMUSE Healthy Balm 04 variant image; labelled product and lip result"
+  },
+  "gid://shopify/ProductVariant/48083195396254": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/55.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact AMUSE Healthy Balm 05 variant image; labelled product and lip result"
   }
 }
