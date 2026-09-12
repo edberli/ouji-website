@@ -2388,5 +2388,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/7d08d5afc938ea1569129c9e-1717069818.webp",
     "presentation": "eye-swatch",
     "evidence": "Exact Laka Mono Eyeshadow 926 Liberty composite with two same-shade human eye results plus product and hand swatch; barcode and LIPS product pattern cross-checked"
+  },
+  "gid://shopify/ProductVariant/48082963234974": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/GLASTING_COLOR_GLOSS_04_GRAPE_WAY_3.png",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd Glasting Color Gloss 04 Grapy Way labelled same-layout multi-angle human lip result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48203348050078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/GLASTING_COLOR_GLOSS_01_PEONY_BALLET_3.png",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd Glasting Color Gloss 01 Peony Ballet labelled same-layout multi-angle human lip result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48203348082846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/GLASTING_COLOR_GLOSS_02_NUTTY_VAGUE_3.png",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd Glasting Color Gloss 02 Nutty Vague labelled same-layout multi-angle human lip result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48203348115614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/GLASTING_COLOR_GLOSS_05_DIM_MAUVE_3.png",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd Glasting Color Gloss 05 Dim Mauve labelled same-layout multi-angle human lip result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48203348148382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/GLASTING_COLOR_GLOSS_06_DEEPEN_MOOR_3.png",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd Glasting Color Gloss 06 Deepen Moor labelled same-layout multi-angle human lip result; exact barcode cross-checked"
   }
 }
