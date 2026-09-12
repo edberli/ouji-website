@@ -2803,5 +2803,40 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8462-1.jpg",
     "presentation": "eye-swatch",
     "evidence": "Exact CLIO Pro Single Shadow G301 Twinkle Ocean human eye result; barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48079362130078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01_Bare_Nude.webp",
+    "presentation": "lip-swatch",
+    "evidence": "Exact Heart Percent #01 Bare Nude human lip result; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079362162846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02_Pale_Mauve.webp",
+    "presentation": "lip-swatch",
+    "evidence": "Exact Heart Percent #02 Pale Mauve human lip result; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079362195614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/03_Fancy_Apricot.webp",
+    "presentation": "lip-swatch",
+    "evidence": "Exact Heart Percent #03 Fancy Apricot human lip result; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079362228382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04_Pink_Babe.webp",
+    "presentation": "lip-swatch",
+    "evidence": "Exact Heart Percent #04 Pink Babe human lip result; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079362261150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05_Rosy_Bomb.webp",
+    "presentation": "lip-swatch",
+    "evidence": "Exact Heart Percent #05 Rosy Bomb human lip result; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079362326686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/10_Fig_Jam.webp",
+    "presentation": "lip-swatch",
+    "evidence": "Exact Heart Percent #10 Fig Jam human lip close-up; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079362359454": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/13_Pink_Fairy.webp",
+    "presentation": "lip-swatch",
+    "evidence": "Exact Heart Percent #13 Pink Fairy human lip result; title and barcode cross-checked; SOL low review passed"
   }
 }
