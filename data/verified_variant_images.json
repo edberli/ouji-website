@@ -728,5 +728,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4n_31b436c8-266e-497a-8a25-38831ffdae42.png",
     "presentation": "complexion-swatch",
     "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475052190": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/MASK_FIT_RED_FOUNDATION_17C.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR Japan variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475740318": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6.5n_45ccbd56-ab76-4d49-b59e-584944cc4041.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475773086": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8w_e801ff78-fc2a-4da7-8530-ba7d15800569.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084479246494": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_TINT_01.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "official TIRTIR Japan variant ID exact mapping; product and lip swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084479344798": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_TINT_05.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "official TIRTIR Japan variant ID exact mapping; product and lip swatch visually reviewed"
   }
 }
