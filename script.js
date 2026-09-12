@@ -139,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
   oujiSafe(initRiseReveal, 'initRiseReveal');
   oujiSafe(initShimaFrames, 'initShimaFrames');
   oujiSafe(initPromoLive, 'initPromoLive');
-  oujiSafe(initPromoPop, 'initPromoPop');
   oujiSafe(initMetaLanding, 'initMetaLanding');
   oujiSafe(initDividerReveal, 'initDividerReveal');
   /* 先砌底欄，initMobileNav 先搵得到移到底部嗰粒選購掣。 */
@@ -1477,23 +1476,6 @@ function initPromoLive() {
  *   · prefers-reduced-motion 唔做滑入動畫，直接出
  * 整段 markup 由 JS 生成，唔使 24 版 HTML 各抄一次。
  */
-/* ============================================================
-   優惠全屏通知
-   老闆 2026-08-28：「啲人入到嚟呢個界面，咁隔咗十零秒，就會有一個
-   覆蓋全個屏幕嘅通知彈出嚟⋯⋯好靚嘅，即係好似首頁嗰個 session 咁樣
-   彈出嚟，變咗啲人一定會睇到。」
-
-   本來係右下角一張細卡 —— 手機上面同 cookie 提示冇分別，掃走咗都唔
-   知睇過乜。而家改成全屏。
-
-   全屏通知係打斷客，所以幾個規矩要守實：
-   - **一日一次。** localStorage 記住日期，同一日唔會再彈。
-   - **購物袋頁唔彈。** 佢已經喺度結帳，打斷佢係倒自己米。
-   - **Promo 完就唔存在**（9 月 15 日之後直接 return）。
-   - **四條路都關得到**：X、背景、Esc、撳「開始揀貨」。
-   - **鎖返 body scroll**，開住嗰陣背後唔會跟住郁；關咗要還返個
-     scrollTop，否則 iOS 會跳返頂。
-   ============================================================ */
 /* 由 Meta 廣告撳入嚟：廣告嘅 url_tags 會帶 utm_source=meta（2026-09-11 起）。 */
 function isMetaAdVisit() {
   return new URLSearchParams(location.search).get('utm_source') === 'meta';
@@ -1537,91 +1519,6 @@ function initMetaLanding() {
   setTimeout(() => mo.disconnect(), 10000);
 }
 
-function initPromoPop() {
-  const END = new Date('2026-09-15T23:59:00+08:00');
-  if (Date.now() > END.getTime()) return;
-  if (/\/cart(\.html)?$/.test(location.pathname)) return;
-  // 截圖／視覺檢查用：?nopromo=1 就唔彈，方便睇返底下個版面
-  if (new URLSearchParams(location.search).has('nopromo')) return;
-
-  const KEY = 'ouji:promoPop';
-  const today = new Date().toISOString().slice(0, 10);
-  try { if (localStorage.getItem(KEY) === today) return; } catch (e) { /* 私隱模式 */ }
-
-  /* Meta 廣告帶嚟嘅客：條片已經講咗優惠，唔再彈窗擋住佢揀貨。
-     記低當日，轉去其他頁都唔會再彈。 */
-  if (isMetaAdVisit()) {
-    try { localStorage.setItem(KEY, today); } catch (e) { /* 私隱模式 */ }
-    return;
-  }
-
-  const days = Math.max(0, Math.ceil((END - new Date()) / 86400000));
-  const el = document.createElement('div');
-  el.className = 'promo-full';
-  el.setAttribute('role', 'dialog');
-  el.setAttribute('aria-modal', 'true');
-  el.setAttribute('aria-label', '現正推廣');
-  el.innerHTML = `
-    <div class="promo-full__sheet" role="document">
-      <button type="button" class="promo-full__x" aria-label="關閉">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-             aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-      <img class="promo-full__cat" src="assets/images/shima/shima-wink1.webp" alt=""
-           width="230" height="219" decoding="async">
-      <p class="promo-full__days">9 月 15 日前 · 仲有 <b>${days}</b> 日</p>
-      <h2 class="promo-full__title">全單 <em>88</em> 折</h2>
-      <ul class="promo-full__list">
-        <li><b>HK$99</b><span>折實滿呢個數，<b>7-Eleven／郵局自取</b>免郵費</span></li>
-        <li><b>HK$199</b><span>折實滿呢個數，<b>順豐站／智能櫃</b>免運費</span></li>
-        <li><b>HK$250</b><span>折實滿呢個數，<b>順豐派送上門</b>都免運費</span></li>
-        <li><b>HK$499</b><span>折實滿呢個數，送下面呢支面霜</span></li>
-      </ul>
-      <a class="promo-full__gift" href="products/round-lab-round-lab-80ml-0221">
-        <img src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?width=200"
-             alt="Round Lab 白樺樹保濕面霜 80ml" width="200" height="200" decoding="async">
-        <span class="promo-full__gift-t">
-          <b>Round Lab 白樺樹保濕面霜 80ml</b>
-          <em>價值 HK$148 · 滿 $499 免費送</em>
-        </span>
-      </a>
-      <a class="promo-full__go" href="shop.html">開始揀貨</a>
-      <button type="button" class="promo-full__later">下次先</button>
-    </div>`;
-
-  let lastY = 0;
-  const close = (why) => {
-    el.classList.remove('is-in');
-    try { localStorage.setItem(KEY, today); } catch (e) { /* 冇得記就算 */ }
-    document.body.classList.remove('is-promo-open');
-    document.body.style.top = '';
-    window.scrollTo(0, lastY);
-    document.removeEventListener('keydown', onKey);
-    setTimeout(() => el.remove(), 340);
-    if (window.trackEvent) window.trackEvent('promo_pop_close', { why });
-  };
-  const onKey = (e) => { if (e.key === 'Escape') close('esc'); };
-
-  el.querySelector('.promo-full__x').addEventListener('click', () => close('x'));
-  el.querySelector('.promo-full__later').addEventListener('click', () => close('later'));
-  el.querySelector('.promo-full__go').addEventListener('click', () => close('go'));
-  el.addEventListener('click', (e) => {
-    if (!e.target.closest('.promo-full__sheet')) close('backdrop');
-  });
-
-  setTimeout(() => {
-    /* 客已經滑咗落去睇緊嘢就唔好打斷；下次再嚟先講。 */
-    lastY = window.scrollY;
-    document.body.style.top = `-${lastY}px`;
-    document.body.classList.add('is-promo-open');
-    document.body.appendChild(el);
-    document.addEventListener('keydown', onKey);
-    requestAnimationFrame(() => {
-      el.classList.add('is-in');
-      el.querySelector('.promo-full__x').focus({ preventScroll: true });
-    });
-  }, 11000);
-}
 
 /* ----- Lookbook Cards In-View Detection ----- */
 function initLookbookInView() {
