@@ -581,10 +581,10 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   align-items: center;
   min-height: 20px;
   padding: 2px 7px;
-  border: 1px solid rgba(255, 215, 122, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 999px;
-  background: rgba(255, 215, 122, 0.09);
-  color: #ffe2a0;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1260,7 +1260,7 @@ main { padding-top: calc(var(--hdr-h, var(--header-height)) + var(--ann-h, 36px)
   position: absolute;
   bottom: 0; left: 0; right: 0;
   padding: 14px;
-  background: rgba(109,163,181,0.9);
+  background: #397f93;
   backdrop-filter: blur(8px);
   color: white;
   font-size: 0.6875rem;
@@ -1269,7 +1269,7 @@ main { padding-top: calc(var(--hdr-h, var(--header-height)) + var(--ann-h, 36px)
   text-transform: uppercase;
   text-align: center;
   transform: translateY(100%);
-  transition: transform var(--duration-normal) var(--ease-out);
+  transition: transform var(--duration-normal) var(--ease-out), background var(--duration-fast);
   border-radius: 0 0 16px 16px;
 }
 
@@ -1287,8 +1287,9 @@ button.product-card__quick-add,
 .product-card:hover .product-card__quick-add,
 .product-card:focus-within .product-card__quick-add { transform: translateY(0); }
 
-/* 多規格嘅產品：唔扮做掣，寫明入去揀 */
-.product-card__quick-add--pick { background: rgba(43, 76, 88, 0.86); }
+/* 快速加入同揀規格係同一層級嘅商品卡 CTA；用文字交代行為，唔再用兩隻色。 */
+.product-card__quick-add:hover,
+.product-card__quick-add:focus-visible { background: #356f83; }
 
 /* 缺貨：唔畀買，改為問佢想唔想我哋補返貨。
    一張灰晒又冇得撳嘅卡係一個死胡同；呢粒掣起碼收到需求。 */
