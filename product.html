@@ -775,9 +775,31 @@
         }
       }
 
-      // Show a shade's own swatch when it has one attached
+      // A variant association is not automatically proof that the picture is
+      // shade-specific.  Old imports attached gallery/model/line-up images to
+      // variants.  Only expose an image when it is unique within this product
+      // and its filename carries the shade code (M101, R003, 21N, etc.).
+      // Unverified variants stay text-only instead of presenting a fake swatch.
+      const variantImageCounts = new Map();
+      const variantImageUrl = (variant) => variant?.image?.url || '';
+      const variantsForImageAudit = product.variants?.edges?.map(e => e.node) ?? [];
+      variantsForImageAudit.forEach((variant) => {
+        const url = variantImageUrl(variant);
+        if (url) variantImageCounts.set(url, (variantImageCounts.get(url) || 0) + 1);
+      });
+      function verifiedVariantImageUrl(variant) {
+        const url = variantImageUrl(variant);
+        if (!url || variantImageCounts.get(url) !== 1) return '';
+        const shadeCode = String(variant?.title || '').match(/\b(?=[A-Z0-9-]*\d)[A-Z0-9-]{2,}\b/i)?.[0];
+        if (!shadeCode) return '';
+        const normalise = (value) => String(value).toLowerCase().replace(/[^a-z0-9]/g, '');
+        const filename = decodeURIComponent(new URL(url).pathname.split('/').pop() || '');
+        return normalise(filename).includes(normalise(shadeCode)) ? url : '';
+      }
+
+      // Show a verified shade image only after the shopper picks that shade.
       function showVariantImage(variant) {
-        const url = variant?.image?.url;
+        const url = verifiedVariantImageUrl(variant);
         if (!url) return;
         const mainImg = document.querySelector('.product-gallery__main img');
         if (mainImg) mainImg.src = url;
@@ -801,7 +823,6 @@
         ? variants.find((v) => String(v.id).endsWith(`/${wantedVariant}`))
         : null;
       let selectedVariantId = (preselected || variants[0])?.id;
-      showVariantImage(preselected || variants[0]);
 
       if (variants.length > 1 && optionsContainer) {
         const optionName = product.options?.[0]?.name || 'TYPE';
@@ -830,10 +851,11 @@
               const vPrice = typeof oujiPromoPriceText === 'function'
                 ? oujiPromoPriceText(v.price.amount)
                 : formatPrice(v.price.amount);
-              const shadeThumb = v.image?.url
-                ? `<img class="variant-btn__image" src="${v.image.url}" alt="" loading="lazy">`
+              const verifiedImage = verifiedVariantImageUrl(v);
+              const shadeThumb = verifiedImage
+                ? `<img class="variant-btn__image" src="${verifiedImage}" alt="${optionText} 色號效果" loading="lazy">`
                 : '';
-              return `<button class="variant-btn ${shadeThumb ? 'variant-btn--image' : ''} ${i === 0 ? 'is-selected' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${shadeThumb}<span>${optionText}${optionText ? ' — ' : ''}${vPrice}</span></button>`;
+              return `<button class="variant-btn ${shadeThumb ? 'variant-btn--image' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${shadeThumb}<span>${optionText}${optionText ? ' — ' : ''}${vPrice}</span></button>`;
             }).join('')}
           </div>
           ${isPower ? `<div class="power-legend">

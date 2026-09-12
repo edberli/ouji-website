@@ -15,6 +15,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -45,6 +46,16 @@ def clean_url(value):
     """Shopify changes only the cache-busting query when it rehosts a file."""
     parts = urlsplit((value or "").strip())
     return f"{parts.scheme}://{parts.netloc}{parts.path}" if parts.netloc else ""
+
+
+def image_carries_shade_code(image_url, variant_title):
+    """Protect an existing exact shade asset from a weaker gallery-row match."""
+    match = re.search(r"\b(?=[A-Z0-9-]*\d)[A-Z0-9-]{2,}\b", variant_title or "", re.I)
+    if not match or not image_url:
+        return False
+    normalise = lambda value: re.sub(r"[^a-z0-9]", "", value.lower())
+    filename = Path(urlsplit(image_url).path).name
+    return normalise(match.group(0)) in normalise(filename)
 
 
 def source_rows(path):
@@ -97,6 +108,9 @@ def discover(products, csv_rows):
             current_url = clean_url((variant.get("image") or {}).get("url"))
             if current_url == candidate["imageUrl"]:
                 rejected["already-correct"] += 1
+                continue
+            if image_carries_shade_code(current_url, variant.get("title", "")):
+                rejected["protected-exact-shade-code-image"] += 1
                 continue
             found.append({
                 "productId": product["id"],
