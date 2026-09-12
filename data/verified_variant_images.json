@@ -1048,5 +1048,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8809937593515.webp",
     "presentation": "lip-swatch",
     "evidence": "CLUB CLIO shade roster plus multiple independent barcode sources confirm 8809937593515 as 11 Mellow Fig; Cocolux exact page provides a unique product, smear and lip-result image"
+  },
+  "gid://shopify/ProductVariant/48049610129566": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-12-02-a3052ef9e46959e555246587.webp",
+    "presentation": "product-shade",
+    "evidence": "LIPS exact Glint Highlighter 01 Dewy Moon page; unique labelled product and arm swatch"
+  },
+  "gid://shopify/ProductVariant/48049610162334": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-07-03-91aa44210987fdea81e6f5c3.webp",
+    "presentation": "product-shade",
+    "evidence": "LIPS exact Glint Highlighter 02 Diamond Veil page; unique arm swatch for the exact option"
+  },
+  "gid://shopify/ProductVariant/48049610195102": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/13953f220212996a41ae3834-1712306459.webp",
+    "presentation": "product-shade",
+    "evidence": "LIPS exact Glint Highlighter 03 Chrome Baby page; unique product, arm swatch and applied result"
+  },
+  "gid://shopify/ProductVariant/48049610227870": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-04-04-857e9b94db37ac63638fb2e9.webp",
+    "presentation": "product-shade",
+    "evidence": "LIPS exact Glint Highlighter 05 Pitch Moon page; unique arm swatches and product edge"
+  },
+  "gid://shopify/ProductVariant/48049610260638": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-04-11-0415ad50be49403452b08db1.webp",
+    "presentation": "product-shade",
+    "evidence": "LIPS exact Glint Highlighter 11 Rose Peach page; unique shade label and arm swatch"
   }
 }
