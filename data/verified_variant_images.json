@@ -768,5 +768,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/230509_uf-rino-br8_760x1130_cdd23875-8d60-4e54-a880-d7fbf558ca06.jpg",
     "presentation": "product-shade",
     "evidence": "official Maybelline Japan exact EAN and variant image; brow pencil shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079940747422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2aN_Glaze_Bouncing_Tint_4.5g_10_colors-03.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "DODO SKIN exact option mapping for 03 Lazy; dedicated image visibly labels the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079940780190": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2aN_Glaze_Bouncing_Tint_4.5g_10_colors-06.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "DODO SKIN exact option mapping for 06 Berry Shower; dedicated image visibly labels the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079940812958": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2aN_Glaze_Bouncing_Tint_4.5g_10_colors-07.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "DODO SKIN exact option mapping for 07 Chewy; dedicated image visibly labels the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079940845726": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2aN_Glaze_Bouncing_Tint_4.5g_10_colors-09.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "DODO SKIN exact option mapping for 09 Candy Chew; dedicated image visibly labels the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079940878494": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2aN_Glaze_Bouncing_Tint_4.5g_10_colors-12.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "DODO SKIN exact option mapping for 12 Cherry Juice; dedicated image visibly labels the shade and shows its lip result"
   }
 }
