@@ -653,5 +653,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/19_summer_scent_2.jpg",
     "presentation": "lip-swatch",
     "evidence": "official rom&nd exact shade-title close-up lip swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079777726622": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/86b123b2495cf5815f679b7128737693.webp",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact option label; eye result and matching single palette visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079777759390": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/251a45be5109265fa7eb4b53638a866e.webp",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact option label; eye result and matching single palette visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079777792158": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/420cb762aaf190e70cfdcc933ac9f22d.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact option label; eye result and matching single palette visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083212402846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/f401adc8e4ffbf470258ba164d9f3190.jpg",
+    "presentation": "product-shade",
+    "evidence": "official AMUSE offer exact option mapping; single Kuromi palette visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083212435614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/aa97bd71b84d2617ce9ed66525a2d771.jpg",
+    "presentation": "product-shade",
+    "evidence": "official AMUSE offer exact option mapping; single My Melody palette visually reviewed"
   }
 }
