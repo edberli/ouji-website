@@ -3368,5 +3368,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/333c5f3591bb8dfcf1772219ce020d3e.jpg",
     "presentation": "eye-swatch",
     "evidence": "LILYBYRED official exact 17 Sheer Pink image with visible shade label, independent eye application and matching eyeliner; variant title, barcode and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48082958680222": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ROM001304_SLIDE-IN-SINGLE_S04-BARE-TARO_0002.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "Exact rom&nd Slide In Single S04 Bare Taro image with visible shade code and name, independent eye result and matching pan; variant title, barcode and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48082958778526": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/44_be667040-41c3-4050-b307-9c2da366bd28.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "Exact rom&nd Slide In Single S11 Mashed Grapefruit image with visible shade code and name, independent eye result and matching pan; variant title, barcode and SOL visual review passed"
   }
 }
