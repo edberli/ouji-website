@@ -853,5 +853,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/MASK_FIT_RED_FOUNDATION_23N.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official TIRTIR Japan variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084883013790": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/230509_uf-rino-br1_760x1130_053fe8b1-ed45-4770-bf6a-8a7fef9f584e.jpg",
+    "presentation": "product-shade",
+    "evidence": "official Maybelline Japan exact EAN and variant image; brow pencil shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084883079326": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/230509_uf-rino-br3_760x1130_b139c1f6-cf18-49f5-b106-34869b06a597.jpg",
+    "presentation": "product-shade",
+    "evidence": "official Maybelline Japan exact EAN and variant image; brow pencil shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084883112094": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/230509_uf-rino-br4_760x1130_385eb76a-5dd0-4340-9e20-02ba2e7df4e9.jpg",
+    "presentation": "product-shade",
+    "evidence": "official Maybelline Japan exact EAN and variant image; brow pencil shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084883144862": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/230509_uf-rino-br7_760x1130_bf9950e0-6243-4dfc-988b-06e94ac96cfb.jpg",
+    "presentation": "product-shade",
+    "evidence": "official Maybelline Japan exact EAN and variant image; brow pencil shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084883177630": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/230509_uf-rino-br8_760x1130_cdd23875-8d60-4e54-a880-d7fbf558ca06.jpg",
+    "presentation": "product-shade",
+    "evidence": "official Maybelline Japan exact EAN and variant image; brow pencil shade visually reviewed"
   }
 }
