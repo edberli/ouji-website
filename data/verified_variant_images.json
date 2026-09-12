@@ -909,31 +909,6 @@
     "presentation": "palette-shade",
     "evidence": "exact title and barcode 8809625243128; unique image shows the opened rom&nd 04 Dusty Fog Garden 10-pan palette"
   },
-  "gid://shopify/ProductVariant/48079362130078": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fb6aa4562bd6fb715fce96bf-1740950756.webp",
-    "presentation": "lip-swatch",
-    "evidence": "exact Heart Percent 01 Bare Nude variant page; unique image visibly identifies the shade and shows its lip result"
-  },
-  "gid://shopify/ProductVariant/48079362162846": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-10-29-3e65dcddfb8ceafb0c0038fa.webp",
-    "presentation": "lip-swatch",
-    "evidence": "exact Heart Percent 02 Pale Mauve variant page; unique image visibly identifies the shade and shows its lip result"
-  },
-  "gid://shopify/ProductVariant/48079362195614": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/f2c6b088d5abde631d90cfac-1725976689.webp",
-    "presentation": "lip-swatch",
-    "evidence": "exact Heart Percent 03 Fancy Apricot variant page; unique image visibly identifies the shade and shows its lip result"
-  },
-  "gid://shopify/ProductVariant/48079362228382": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-12-30-36033c5a8a772acec7e648e1.webp",
-    "presentation": "lip-swatch",
-    "evidence": "exact Heart Percent 04 Pink Babe variant page; unique image visibly identifies the shade and shows its lip result"
-  },
-  "gid://shopify/ProductVariant/48079362261150": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-02-10-7e09375b97e12aae2e7dda92.webp",
-    "presentation": "lip-swatch",
-    "evidence": "exact Heart Percent 05 Rosy Bomb variant page; unique image visibly identifies the shade and shows its lip result"
-  },
   "gid://shopify/ProductVariant/48084044939422": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_2508_3D____1_11__30.jpg",
     "presentation": "lip-swatch",
@@ -978,21 +953,6 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/laka-fruity-glam-tint-swatch-120.jpg",
     "presentation": "lip-swatch",
     "evidence": "Laka authorised Hong Kong distributor exact 120 Caffeine Rose page; unique labelled product and lip-swatch image"
-  },
-  "gid://shopify/ProductVariant/48079362293918": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-07-12-73dae8c2521e45bb0937bde5.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent One Way Glowy Tint 09 Peachy Milk page; unique glossy lip result and hand swatch"
-  },
-  "gid://shopify/ProductVariant/48079362326686": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-06-30-dc6acbd1d97dcb7b53a882c2.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent One Way Glowy Tint 10 Fig Jam page; unique labelled arm swatch with product"
-  },
-  "gid://shopify/ProductVariant/48079362359454": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-04-20-840082ec367379093cffc870.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent One Way Glowy Tint 13 Pink Fairy page; unique applied lip result with product"
   },
   "gid://shopify/ProductVariant/48079362392222": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5ca6f78c36074ddab1b94566-1668244360.webp",
