@@ -2008,5 +2008,45 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0103166425.jpg",
     "presentation": "complexion-swatch",
     "evidence": "Official 2aN Rakuten asset labelled YL01 LEMONGRASS with exact cheekbone glow result"
+  },
+  "gid://shopify/ProductVariant/48082954518686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02_ROSIENTAL_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 02 ROSIENTAL with exact lip result"
+  },
+  "gid://shopify/ProductVariant/48082954551454": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/03_MUSKY_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 03 MUSKY with exact lip result"
+  },
+  "gid://shopify/ProductVariant/48082954584222": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05_BIBI_CANDY_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 05 BIBI CANDY with exact lip result"
+  },
+  "gid://shopify/ProductVariant/48082954616990": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/07_COOL_ROSE_UP_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 07 COOL ROSE UP with exact lip result"
+  },
+  "gid://shopify/ProductVariant/48082954649758": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/11_FUCHSIA_VIBE_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 11 FUSCHIA VIBE with exact lip result; local catalogue spells Fuchsia"
+  },
+  "gid://shopify/ProductVariant/48082954682526": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/12_WARMING_UP_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 12 WARMING UP with exact lip result"
+  },
+  "gid://shopify/ProductVariant/48082954715294": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/13_COOLING_UP_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 13 COOLING UP with exact lip result"
+  },
+  "gid://shopify/ProductVariant/48203348213918": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01_pomeloco_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 01 POMELOCO with exact lip result"
   }
 }
