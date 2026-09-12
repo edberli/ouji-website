@@ -1,4 +1,24 @@
 {
+  "gid://shopify/ProductVariant/48070094880926": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04895b9ff221a16e4cd3982c-1736041561.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #01 Ardor; independent single-shade arm/lip result"
+  },
+  "gid://shopify/ProductVariant/48070094979230": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-04-08-74f482768ed44dfff09c7a11.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #05 Ease; independent single-shade arm/lip result"
+  },
+  "gid://shopify/ProductVariant/48070095011998": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-05-09-63bd6f012e80dcd88921de82.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #06 Plucky; independent single-shade arm/lip result"
+  },
+  "gid://shopify/ProductVariant/48070095077534": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-07-2f59f5e9519f12958f7db827.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #08 Roughly; independent single-shade arm/lip result"
+  },
   "gid://shopify/ProductVariant/48079608774814": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIO_Essential_Blush_Tap_8_Colors-m101.jpg",
     "presentation": "product-shade",
