@@ -1378,5 +1378,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-08-ca1b4de7ae97ae8886fa77d5.webp",
     "presentation": "lip-swatch",
     "evidence": "LIPS exact BRAYE Lipsleek Blur 07 Lowkey page; independent product and arm result"
+  },
+  "gid://shopify/ProductVariant/48079858139294": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors-2.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Cotton Candy Face Palette 02; independent two-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079858172062": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors-3.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Cotton Candy Face Palette 03; independent two-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079858204830": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors-4.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Cotton Candy Face Palette 04; independent two-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079858237598": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors-5.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Cotton Candy Face Palette 05; independent two-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079858270366": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors-6.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Cotton Candy Face Palette 06; independent two-pan palette"
   }
 }
