@@ -105,7 +105,10 @@ def run(name, vendor, products, brand_dir, mirror_brand=None):
                         f"brands/{brand_dir}"], check=True)
         return
 
-    overrides = load_variant_image_overrides() if brand_dir == "2an" else {}
+    # Overrides are keyed by barcode, so they are safe across every brand.
+    # Restricting this to 2aN silently discarded verified shade images when
+    # any other brand was rebuilt.
+    overrides = load_variant_image_overrides()
     for slug, d in products.items():
         gp = paths(brand_dir, "gallery", slug)
         gallery = gp if args.dry_run else upload_all(gp)

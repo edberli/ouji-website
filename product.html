@@ -830,7 +830,10 @@
               const vPrice = typeof oujiPromoPriceText === 'function'
                 ? oujiPromoPriceText(v.price.amount)
                 : formatPrice(v.price.amount);
-              return `<button class="variant-btn ${i === 0 ? 'is-selected' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${optionText}${optionText ? ' — ' : ''}${vPrice}</button>`;
+              const shadeThumb = v.image?.url
+                ? `<img class="variant-btn__image" src="${v.image.url}" alt="" loading="lazy">`
+                : '';
+              return `<button class="variant-btn ${shadeThumb ? 'variant-btn--image' : ''} ${i === 0 ? 'is-selected' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${shadeThumb}<span>${optionText}${optionText ? ' — ' : ''}${vPrice}</span></button>`;
             }).join('')}
           </div>
           ${isPower ? `<div class="power-legend">

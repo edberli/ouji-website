@@ -243,6 +243,9 @@ def shade_of(title, keyword):
 
 def shade_no(shade):
     """The leading number, which is the only thing both sides share."""
+    # Supplier labels occasionally put the size first ("1.5g 05 ...").
+    # That 1 is not a shade number.
+    shade = re.sub(r"^\s*\d+(?:\.\d+)?\s*(?:g|ml)\s*", "", shade, flags=re.I)
     m = re.match(r"#?\s*(\d{1,2})", shade)
     return int(m.group(1)) if m else None
 
@@ -264,6 +267,20 @@ def images_for(store, line_titles, no):
     multi = sorted([p for p in hits if len(p["variants"]) > 1],
                    key=lambda p: -len(p["images"]))
     return [i["src"] for i in multi[0]["images"]] if multi else []
+
+
+def variant_image_for(store, line_titles, no):
+    """Return a shade image only when the official store has exactly one
+    single-variant product whose title contains that shade number."""
+    if not line_titles or no is None:
+        return None
+    hits = [p for p in store if any(t.lower() in p["title"].lower()
+                                    for t in line_titles)]
+    exact = [p for p in hits
+             if re.search(rf"(?<!\d){no:02d}(?!\d)", p["title"])
+             or re.search(rf"(?<!\d){no}(?!\d)", p["title"])]
+    exact = [p for p in exact if len(p["variants"]) == 1 and p.get("images")]
+    return exact[0]["images"][0]["src"] if len(exact) == 1 else None
 
 
 def main():
@@ -295,6 +312,10 @@ def main():
 
         per_shade = {s["name"]: images_for(store, line_titles,
                                            shade_no(s["name"])) for s in shades}
+        for shade in shades:
+            image = variant_image_for(store, line_titles, shade_no(shade["name"]))
+            if image:
+                shade["image"] = image
         imgs = list(dict.fromkeys([u for s in shades for u in per_shade[s["name"]]]))
 
         body = (f'<p><strong>{copy["hook"]}</strong></p><p>{copy["lede"]}</p>'

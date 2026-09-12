@@ -1,0 +1,74 @@
+{
+  "mode": "apply",
+  "backup": "/Volumes/core/ouji-backup/products.json",
+  "proposed": 6,
+  "applied": 6,
+  "rows": [
+    {
+      "productId": "gid://shopify/Product/8818814156958",
+      "handle": "amuse-lip-liner",
+      "variantId": "gid://shopify/ProductVariant/48083211583646",
+      "variantTitle": "02 ROSE",
+      "barcode": "8809680144774",
+      "shadeCode": null,
+      "mediaId": "gid://shopify/MediaImage/36009333653662",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/rose.webp?v=1785914296",
+      "method": "exact-distinctive-shade-name-in-existing-media-filename"
+    },
+    {
+      "productId": "gid://shopify/Product/8818923503774",
+      "handle": "hince-mood-enhancer-matte",
+      "variantId": "gid://shopify/ProductVariant/48083459473566",
+      "variantTitle": "M001 ALLURE",
+      "barcode": "8809642480001",
+      "shadeCode": "m001",
+      "mediaId": "gid://shopify/MediaImage/36009262678174",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince_mood_enhancer_matte_3.5g_9colors-_01_allure.jpg?v=1785913542",
+      "method": "exact-distinctive-shade-name-in-existing-media-filename"
+    },
+    {
+      "productId": "gid://shopify/Product/8818923503774",
+      "handle": "hince-mood-enhancer-matte",
+      "variantId": "gid://shopify/ProductVariant/48083459506334",
+      "variantTitle": "M002 TIMELESS",
+      "barcode": "8809642480018",
+      "shadeCode": "m002",
+      "mediaId": "gid://shopify/MediaImage/36009262710942",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince_mood_enhancer_matte_3.5g_9colors-_02_timeless.jpg?v=1785913542",
+      "method": "exact-distinctive-shade-name-in-existing-media-filename"
+    },
+    {
+      "productId": "gid://shopify/Product/8818923503774",
+      "handle": "hince-mood-enhancer-matte",
+      "variantId": "gid://shopify/ProductVariant/48083459539102",
+      "variantTitle": "M004 SOFT DEMAND",
+      "barcode": "8809642480032",
+      "shadeCode": "m004",
+      "mediaId": "gid://shopify/MediaImage/36009262743710",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince_mood_enhancer_matte_3.5g_9colors-_04_soft_demand.jpg?v=1785913542",
+      "method": "exact-distinctive-shade-name-in-existing-media-filename"
+    },
+    {
+      "productId": "gid://shopify/Product/8818923503774",
+      "handle": "hince-mood-enhancer-matte",
+      "variantId": "gid://shopify/ProductVariant/48083459571870",
+      "variantTitle": "M011 SIGNATURE ME",
+      "barcode": "8809642481053",
+      "shadeCode": "m011",
+      "mediaId": "gid://shopify/MediaImage/36009262809246",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince_mood_enhancer_matte_3.5g_9colors-_11_signature_me.jpg?v=1785913542",
+      "method": "exact-distinctive-shade-name-in-existing-media-filename"
+    },
+    {
+      "productId": "gid://shopify/Product/8818923503774",
+      "handle": "hince-mood-enhancer-matte",
+      "variantId": "gid://shopify/ProductVariant/48083459604638",
+      "variantTitle": "M012 INDICATE",
+      "barcode": "8809642481060",
+      "shadeCode": "m012",
+      "mediaId": "gid://shopify/MediaImage/36009262842014",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince_mood_enhancer_matte_3.5g_9colors-_12_indicate.jpg?v=1785913542",
+      "method": "exact-distinctive-shade-name-in-existing-media-filename"
+    }
+  ]
+}
