@@ -868,5 +868,35 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8809625243128_1_20241220180700.jpg",
     "presentation": "palette-shade",
     "evidence": "exact title and barcode 8809625243128; unique image shows the opened rom&nd 04 Dusty Fog Garden 10-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079362130078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fb6aa4562bd6fb715fce96bf-1740950756.webp",
+    "presentation": "lip-swatch",
+    "evidence": "exact Heart Percent 01 Bare Nude variant page; unique image visibly identifies the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079362162846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-10-29-3e65dcddfb8ceafb0c0038fa.webp",
+    "presentation": "lip-swatch",
+    "evidence": "exact Heart Percent 02 Pale Mauve variant page; unique image visibly identifies the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079362195614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/f2c6b088d5abde631d90cfac-1725976689.webp",
+    "presentation": "lip-swatch",
+    "evidence": "exact Heart Percent 03 Fancy Apricot variant page; unique image visibly identifies the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079362228382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-12-30-36033c5a8a772acec7e648e1.webp",
+    "presentation": "lip-swatch",
+    "evidence": "exact Heart Percent 04 Pink Babe variant page; unique image visibly identifies the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48079362261150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-02-10-7e09375b97e12aae2e7dda92.webp",
+    "presentation": "lip-swatch",
+    "evidence": "exact Heart Percent 05 Rosy Bomb variant page; unique image visibly identifies the shade and shows its lip result"
+  },
+  "gid://shopify/ProductVariant/48084044939422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_2508_3D____1_11__30.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "official fwee US exact Scotch 30% image for local 06 Rose Scotch; dedicated labelled lip swatch visually reviewed"
   }
 }
