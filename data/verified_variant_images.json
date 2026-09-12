@@ -1143,5 +1143,40 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-05-02-c38d0206592de30295caddea.webp",
     "presentation": "product-shade",
     "evidence": "LIPS exact Glint Stick Highlighter 03 Rosy Moon page; unique labelled product and applied shade result"
+  },
+  "gid://shopify/ProductVariant/48083184517278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6d25d3a0a5ab7345f5f27043-1642414188.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact AMUSE Dew Tint 02 Breeze review; image is labelled 02 BREEZE and shows independent lip results"
+  },
+  "gid://shopify/ProductVariant/48083189792926": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/bebe_tint_IVE_Jang_Won-young_PICK_1.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact variant image for AMUSE Bebe Tint 01 Peach Love; labelled single-shade lip result"
+  },
+  "gid://shopify/ProductVariant/48083192971422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Amuse-PowderVelvetTintKorendy1_929675aa-c5ea-4d50-9e40-f609407d8227.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Korendy exact barcode and variant mapping for AMUSE Powder Velvet Tint 01 Rare Peach; labelled image with lip-result inset"
+  },
+  "gid://shopify/ProductVariant/48083185893534": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/son-amuse-jel-fit-tint_8.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Kallos exact variant mapping for AMUSE Jel-Fit Tint 05 Oat Fig; labelled independent lip result"
+  },
+  "gid://shopify/ProductVariant/48083185926302": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/son-amuse-jel-fit-tint_9.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Kallos exact variant mapping for AMUSE Jel-Fit Tint 06 Seoul Girl; labelled independent lip result"
+  },
+  "gid://shopify/ProductVariant/48083185959070": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/son-amuse-jel-fit-tint_10.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Kallos exact variant mapping for AMUSE Jel-Fit Tint 07 Caramel; labelled independent lip result"
+  },
+  "gid://shopify/ProductVariant/48083185991838": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/son-amuse-jel-fit-tint_11.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Kallos exact variant mapping for AMUSE Jel-Fit Tint 08 Gorgeous Mauve; labelled independent lip result"
   }
 }
