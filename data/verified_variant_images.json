@@ -1278,5 +1278,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-07-30-c6efefa0c51a3ee34537676e.webp",
     "presentation": "lip-swatch",
     "evidence": "LIPS exact BRAYE Thin Glow Tint 10 Hurtle page; labelled independent arm result"
+  },
+  "gid://shopify/ProductVariant/48070095863966": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-06-12-acd07e83acd024825fa6d2de.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact BRAYE Thin Glow Tint 09 Festive page; independent single-shade lip result"
+  },
+  "gid://shopify/ProductVariant/48083189825694": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/bebe_tint_IVE_Jang_Won-young_PICK.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact variant mapping for AMUSE Bebe Tint 02 Papaya Coral; labelled independent lip result"
+  },
+  "gid://shopify/ProductVariant/48083189858462": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/AMUSE_TINT_ive_1.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact variant mapping for AMUSE Bebe Tint 05 Nude Pumpkin; labelled lip close-up"
+  },
+  "gid://shopify/ProductVariant/48083189891230": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/bebe_tint_IVE_Jang_Won-young_PICK_5.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact variant mapping for AMUSE Bebe Tint 06 Pink Fig; labelled independent lip result"
+  },
+  "gid://shopify/ProductVariant/48083189923998": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/AMUSE_TINT_ive_2.png",
+    "presentation": "lip-swatch",
+    "evidence": "Seoul Terrace exact variant mapping for AMUSE Bebe Tint 08 Grape Bebe; labelled lip close-up"
   }
 }
