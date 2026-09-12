@@ -1,0 +1,22 @@
+{
+  "gid://shopify/ProductVariant/48079608774814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIO_Essential_Blush_Tap_8_Colors-m101.jpg",
+    "presentation": "product-shade",
+    "evidence": "existing official per-shade asset; filename and variant code M101 match"
+  },
+  "gid://shopify/ProductVariant/48079608807582": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIO_Essential_Blush_Tap_8_Colors-m102.jpg",
+    "presentation": "product-shade",
+    "evidence": "existing official per-shade asset; filename and variant code M102 match"
+  },
+  "gid://shopify/ProductVariant/48079608840350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIO_Essential_Blush_Tap_8_Colors-s201.jpg",
+    "presentation": "product-shade",
+    "evidence": "existing official per-shade asset; filename and variant code S201 match"
+  },
+  "gid://shopify/ProductVariant/48079608873118": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIO_Essential_Blush_Tap_8_Colors-s202.jpg",
+    "presentation": "product-shade",
+    "evidence": "existing official per-shade asset; filename and variant code S202 match"
+  }
+}
