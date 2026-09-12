@@ -18,6 +18,10 @@
   --primary-darker: #3f6574;
   --primary-deep: #2b4c58;
 
+  /* Action colors — all standard solid commerce CTAs share this mid brand blue. */
+  --action-primary: #397f93;
+  --action-primary-hover: #356f83;
+
   /* Extended palette */
   --accent: #89c4d4;
   --accent-light: #a8d8e4;
@@ -467,15 +471,16 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .btn:hover::before { opacity: 1; }
 
 .btn--primary {
-  background: linear-gradient(135deg, #335866 0%, #335866 100%);
+  background: var(--action-primary);
   color: white;
   border: none;
-  box-shadow: 0 4px 16px rgba(30,48,56,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: 0 4px 16px rgba(57,127,147,0.24), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 
 .btn--primary:hover {
+  background: var(--action-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(30,48,56,0.35);
+  box-shadow: 0 8px 28px rgba(53,111,131,0.3);
 }
 
 .btn--secondary {
@@ -486,7 +491,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 
 .btn--secondary:hover {
-  background: var(--primary);
+  background: var(--action-primary);
   color: white;
   border-color: var(--primary);
   transform: translateY(-2px);
@@ -1260,7 +1265,7 @@ main { padding-top: calc(var(--hdr-h, var(--header-height)) + var(--ann-h, 36px)
   position: absolute;
   bottom: 0; left: 0; right: 0;
   padding: 14px;
-  background: #397f93;
+  background: var(--action-primary);
   backdrop-filter: blur(8px);
   color: white;
   font-size: 0.6875rem;
@@ -1289,7 +1294,7 @@ button.product-card__quick-add,
 
 /* 快速加入同揀規格係同一層級嘅商品卡 CTA；用文字交代行為，唔再用兩隻色。 */
 .product-card__quick-add:hover,
-.product-card__quick-add:focus-visible { background: #356f83; }
+.product-card__quick-add:focus-visible { background: var(--action-primary-hover); }
 
 /* 缺貨：唔畀買，改為問佢想唔想我哋補返貨。
    一張灰晒又冇得撳嘅卡係一個死胡同；呢粒掣起碼收到需求。 */
@@ -3002,7 +3007,7 @@ button.product-card__quick-add,
 
 .cart-summary__promo { margin-top: var(--space-lg); display: flex; border-radius: 12px; overflow: hidden; }
 .cart-summary__promo input { flex: 1; padding: 12px 16px; border: 1px solid var(--border-light); border-right: none; font-size: 0.8125rem; outline: none; background: rgba(255,255,255,0.5); border-radius: 12px 0 0 12px; }
-.cart-summary__promo button { padding: 12px 20px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: var(--primary); color: white; border: none; border-radius: 0 12px 12px 0; }
+.cart-summary__promo button { padding: 12px 20px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: var(--action-primary); color: white; border: none; border-radius: 0 12px 12px 0; }
 .cart-summary__checkout { margin-top: var(--space-xl); }
 .cart-summary__note { margin-top: var(--space-md); font-size: 0.75rem; color: var(--text-tertiary); text-align: center; }
 
