@@ -2903,5 +2903,35 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4935421282666.webp",
     "presentation": "complexion-swatch",
     "evidence": "Exact Maybelline Fit Me shade 15 thick human-skin swatch visibly marked 15; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079671001246": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800255686828.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Peripera 01 Light Peach human cheek result; local title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079671034014": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800255686835.png",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Peripera 02 Milky Lavender human cheek result; local title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079671066782": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800255686842.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Peripera 03 Friendship Mauve human cheek result; local title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079671099550": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800255686859.png",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Peripera 04 Sunshine Fig human cheek result; local title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079671132318": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800290361292.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Peripera 06 Nutty Milktea human cheek result; local title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079671165086": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800290361285.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Peripera 07 Fluffy Pink human cheek result; local title and barcode cross-checked; SOL low review passed"
   }
 }
