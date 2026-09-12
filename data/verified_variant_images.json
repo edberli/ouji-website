@@ -828,5 +828,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-05-28-8f4dc719343106b3b2e81b3e.webp",
     "presentation": "eye-swatch",
     "evidence": "exact option 13 Sand Pink; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
+  },
+  "gid://shopify/ProductVariant/48086954672286": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1.jpg",
+    "presentation": "palette-shade",
+    "evidence": "SOL-reviewed exact local barcode 8809581535794; retailer page and image identify 03 SPRING CORAL and show the opened 20-colour palette"
+  },
+  "gid://shopify/ProductVariant/48086954705054": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/362cc110-f19e-49f2-9898-c558a762454f_mkp_image.webp",
+    "presentation": "palette-shade",
+    "evidence": "SOL-reviewed exact local barcode 8809581537521; retailer page and image identify 06 Sweet Heart and show the opened 20-colour palette"
+  },
+  "gid://shopify/ProductVariant/48086954737822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1_f82043b6-43fc-4b1b-acdc-d7d6042d668c.jpg",
+    "presentation": "palette-shade",
+    "evidence": "SOL-reviewed exact local barcode 8809581535756; retailer page and image identify 02 COOL BASIC and show the opened 20-colour palette"
   }
 }
