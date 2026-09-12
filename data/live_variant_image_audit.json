@@ -1,0 +1,841 @@
+{
+  "summary": {
+    "availableShadeVariants": 897,
+    "missingImage": 0,
+    "variantsSharingImageWithinProduct": 311,
+    "affectedProducts": 65
+  },
+  "issues": [
+    {
+      "vendor": "Glint",
+      "handle": "glint-highlighter",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "#01 Dewy Moon 香檳水光",
+        "#11 Rose Peach 玫瑰蜜桃光"
+      ]
+    },
+    {
+      "vendor": "BRAYE",
+      "handle": "braye-lipsleek",
+      "available": 8,
+      "bad": 4,
+      "badTitles": [
+        "#01 Ardor 招牌紅",
+        "#07 Boldness 低飽和啡紅棕",
+        "#08 Roughly 暖調磚紅",
+        "#10 Clear 無色透明"
+      ]
+    },
+    {
+      "vendor": "BRAYE",
+      "handle": "braye-lipsleek-blur",
+      "available": 7,
+      "bad": 3,
+      "badTitles": [
+        "#01 Keen 銳意",
+        "#06 Lofty 高雅",
+        "#07 Lowkey 低調"
+      ]
+    },
+    {
+      "vendor": "BRAYE",
+      "handle": "braye-thin-glow-tint",
+      "available": 9,
+      "bad": 4,
+      "badTitles": [
+        "#01 Poetic 詩意",
+        "#07 Maudlin 感性",
+        "#08 Wizz 靈動",
+        "#09 Festive 節慶"
+      ]
+    },
+    {
+      "vendor": "Heart Percent",
+      "handle": "heart-percent-dote-on-mood-eye-palette",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "#01 Rose Facets 玫瑰",
+        "#07 Cool Muse Facets 冷調"
+      ]
+    },
+    {
+      "vendor": "Heart Percent",
+      "handle": "heart-percent-one-way-glowy-tint",
+      "available": 8,
+      "bad": 7,
+      "badTitles": [
+        "#01 Bare Nude 裸色",
+        "#03 Fancy Apricot 杏橘",
+        "#04 Pink Babe 粉紅",
+        "#05 Rosy Bomb 玫瑰",
+        "#09 Peachy Milk 蜜桃奶",
+        "#10 Fig Jam 無花果",
+        "#13 Pink Fairy 粉精靈"
+      ]
+    },
+    {
+      "vendor": "Heart Percent",
+      "handle": "heart-percent-over-melting-gloss",
+      "available": 5,
+      "bad": 4,
+      "badTitles": [
+        "#01 Peach Coral 蜜桃珊瑚",
+        "#04 Mauve 豆沙紫",
+        "#06 Mood Beige 裸米",
+        "#17 Flash Pink 亮粉"
+      ]
+    },
+    {
+      "vendor": "Heart Percent",
+      "handle": "heart-percent-lip-pencil",
+      "available": 4,
+      "bad": 3,
+      "badTitles": [
+        "#13 Bare Lips 裸唇",
+        "#21 Rosy Lips 玫瑰唇",
+        "#22 Salon Peach 沙龍蜜桃"
+      ]
+    },
+    {
+      "vendor": "Heart Percent",
+      "handle": "heart-percent-lip-pencil-slim",
+      "available": 7,
+      "bad": 6,
+      "badTitles": [
+        "#01 Peach Beige 蜜桃米",
+        "#03 Oat Beige 燕麥米",
+        "#08 Cloudy Mauve 霧紫",
+        "#14 Calm Pink 靜謐粉",
+        "#18 Fig Rose 無花果玫瑰",
+        "#20 Salmon Beige 三文魚米"
+      ]
+    },
+    {
+      "vendor": "Heart Percent",
+      "handle": "heart-percent-lineproof-lip-pencil",
+      "available": 4,
+      "bad": 3,
+      "badTitles": [
+        "#01 Peach Beige 蜜桃米",
+        "#03 Oat Beige 燕麥米",
+        "#06 Rose Beige 玫瑰米"
+      ]
+    },
+    {
+      "vendor": "Heart Percent",
+      "handle": "heart-percent-gel-eyeliner-pencil",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "#04 Gray Beige 灰米",
+        "#07 Skin Grey 煙灰"
+      ]
+    },
+    {
+      "vendor": "Coralhaze",
+      "handle": "coralhaze-glow-lock-jelly-tint",
+      "available": 15,
+      "bad": 5,
+      "badTitles": [
+        "#101 Chou",
+        "#112 Nutty",
+        "#113 Peony",
+        "#114 Sure",
+        "#115 Wish"
+      ]
+    },
+    {
+      "vendor": "Coralhaze",
+      "handle": "coralhaze-idol-aegyosal-maker",
+      "available": 5,
+      "bad": 3,
+      "badTitles": [
+        "#01 Champagne Beige",
+        "#04 Ice Berry",
+        "#05 Dreamy Rose"
+      ]
+    },
+    {
+      "vendor": "CLIO",
+      "handle": "clio-crystal-glam-tint",
+      "available": 8,
+      "bad": 8,
+      "badTitles": [
+        "01 Vintage Apple",
+        "05 Fresh Cherry",
+        "06 Daily Mauve",
+        "11 Mellow Fig",
+        "19 Baby Apple",
+        "20 Vanilla Apple",
+        "27 Honey Cherry",
+        "28 Dry Cherry"
+      ]
+    },
+    {
+      "vendor": "CLIO",
+      "handle": "clio-kill-cover-founwear-cushion",
+      "available": 3,
+      "bad": 3,
+      "badTitles": [
+        "21C 亮膚色",
+        "21N 象牙色",
+        "23N 自然色"
+      ]
+    },
+    {
+      "vendor": "CLIO",
+      "handle": "clio-kill-cover-skin-fixer-cushion",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "21C 亮膚色",
+        "23N 自然色"
+      ]
+    },
+    {
+      "vendor": "CLIO",
+      "handle": "clio-kill-cover-high-glow-cushion",
+      "available": 3,
+      "bad": 3,
+      "badTitles": [
+        "21C 亮膚色",
+        "21N 象牙色",
+        "23N 自然色"
+      ]
+    },
+    {
+      "vendor": "CLIO",
+      "handle": "clio-kill-brow-auto-hard-pencil",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "01 Natural Brown 自然棕",
+        "05 Gray Brown 灰棕"
+      ]
+    },
+    {
+      "vendor": "CLIO",
+      "handle": "clio-sharp-so-simple-pencil-liner",
+      "available": 7,
+      "bad": 6,
+      "badTitles": [
+        "01 黑色",
+        "003",
+        "04 深棕色",
+        "005",
+        "06 香草米色",
+        "007"
+      ]
+    },
+    {
+      "vendor": "CLIO",
+      "handle": "clio-pro-single-shadow",
+      "available": 6,
+      "bad": 5,
+      "badTitles": [
+        "M201 柔和紫色",
+        "M301 拿鐵棕色",
+        "S101 牡丹粉色",
+        "S102 粉蜜桃色",
+        "G301 閃耀海洋色"
+      ]
+    },
+    {
+      "vendor": "lilybyred",
+      "handle": "lilybyred-survival-penliner",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "01 Matt Black",
+        "04 Cherry Brown"
+      ]
+    },
+    {
+      "vendor": "lilybyred",
+      "handle": "lilybyred-dewy-fit-palette",
+      "available": 4,
+      "bad": 4,
+      "badTitles": [
+        "01 Peach Cream",
+        "02 Pink Milk Tea",
+        "03 Oatmeal",
+        "05 Almond Milk"
+      ]
+    },
+    {
+      "vendor": "lilybyred",
+      "handle": "lilybyred-luv-beam-sherbet-cheek",
+      "available": 7,
+      "bad": 6,
+      "badTitles": [
+        "01 Apricot Topping",
+        "03 Peach Topping",
+        "04 Grapefruit Topping",
+        "05 Strawberry Milk Topping",
+        "06 Raspberry Topping",
+        "07 Grape Topping"
+      ]
+    },
+    {
+      "vendor": "lilybyred",
+      "handle": "lilybyred-sugar-wrapping-tint-gloss",
+      "available": 6,
+      "bad": 6,
+      "badTitles": [
+        "01 Peach Syrup",
+        "02 Fig Caramel",
+        "03 Grape Sweets",
+        "04 Honey Tomato",
+        "05 Cherry Candy",
+        "06 Pomegranate Black Sugar"
+      ]
+    },
+    {
+      "vendor": "2aN",
+      "handle": "2an-pure-glash-highlighter",
+      "available": 8,
+      "bad": 4,
+      "badTitles": [
+        "#ND01 Shell",
+        "#OR02 Sunny Beam",
+        "#GN01 Lime Bomb",
+        "#YL01 Lemongrass"
+      ]
+    },
+    {
+      "vendor": "2aN",
+      "handle": "2an-gleaming-tension-pact",
+      "available": 5,
+      "bad": 5,
+      "badTitles": [
+        "#17 Pure Ivory",
+        "#23 Natural Beige",
+        "#25 Sand Beige",
+        "#27 Soft Amber",
+        "#29 Caramel Beige"
+      ]
+    },
+    {
+      "vendor": "2aN",
+      "handle": "2an-color-play-dual-liner",
+      "available": 5,
+      "bad": 3,
+      "badTitles": [
+        "#01 Honey Peach",
+        "#04 Rosy Candy",
+        "#05 Popping Berry"
+      ]
+    },
+    {
+      "vendor": "2aN",
+      "handle": "2an-glaze-bouncing-tint",
+      "available": 5,
+      "bad": 3,
+      "badTitles": [
+        "#03 Lazy",
+        "#09 Candy Chew",
+        "#12 Cherry Juice"
+      ]
+    },
+    {
+      "vendor": "rom&nd",
+      "handle": "romand-juicy-lasting-tint",
+      "available": 12,
+      "bad": 4,
+      "badTitles": [
+        "#01 Pomelo Skin",
+        "#23 Peach Peach Me",
+        "#09 Mulled Peach",
+        "#19 Summer Scent"
+      ]
+    },
+    {
+      "vendor": "rom&nd",
+      "handle": "romand-better-than-palette",
+      "available": 4,
+      "bad": 3,
+      "badTitles": [
+        "#04 Dusty Fog Garden",
+        "#06 Peony Nude Garden",
+        "#01 Pampas Garden"
+      ]
+    },
+    {
+      "vendor": "Laka",
+      "handle": "laka-fruity-glam-tint",
+      "available": 14,
+      "bad": 11,
+      "badTitles": [
+        "#101 Joyful",
+        "#105 Cold",
+        "#108 Salty",
+        "#109 Fresh",
+        "#111 Mellow",
+        "#114 Harmony",
+        "#115 Envy",
+        "#116 Candid",
+        "#120 Caffeine Rose",
+        "#121 Ash Nut",
+        "#122 Rosy Rose"
+      ]
+    },
+    {
+      "vendor": "Laka",
+      "handle": "laka-popping-balloon-tint",
+      "available": 7,
+      "bad": 4,
+      "badTitles": [
+        "#502 Spunky",
+        "#507 Playful",
+        "#510 Breezy",
+        "#512 Sizzling"
+      ]
+    },
+    {
+      "vendor": "Laka",
+      "handle": "laka-jelling-nude-gloss",
+      "available": 8,
+      "bad": 5,
+      "badTitles": [
+        "#301 Fig Ring",
+        "#306 Angel Ring",
+        "#307 Coco Ring",
+        "#308 Rosa Ring",
+        "#310 Melba Ring"
+      ]
+    },
+    {
+      "vendor": "Laka",
+      "handle": "laka-mono-eyeshadow",
+      "available": 8,
+      "bad": 5,
+      "badTitles": [
+        "#902 Earth",
+        "#914 Cocoa",
+        "#921 Allure",
+        "#924 Cliff",
+        "#926 Liberty"
+      ]
+    },
+    {
+      "vendor": "Laka",
+      "handle": "laka-fruity-glam-tint-mini-duo",
+      "available": 4,
+      "bad": 2,
+      "badTitles": [
+        "Autumn Tone Edition",
+        "Winter Tone Edition"
+      ]
+    },
+    {
+      "vendor": "hince",
+      "handle": "hince-raw-glow-gel-tint",
+      "available": 19,
+      "bad": 9,
+      "badTitles": [
+        "R001 BARE",
+        "R012 RAW FIG",
+        "R013 PINK PEPPER",
+        "R014 RAW COCO",
+        "R015 BITE",
+        "R016 RAW BERRY",
+        "R017 RAW PEACH",
+        "R026 ROSE PRESSO",
+        "R027 ALLURE ROSE"
+      ]
+    },
+    {
+      "vendor": "hince",
+      "handle": "hince-raw-glow-dewy-ball",
+      "available": 14,
+      "bad": 10,
+      "badTitles": [
+        "01 RAW ROSE DEW",
+        "06 GINGER PEACH",
+        "07 CARROT JAM",
+        "09 RAW GRAPE DEW",
+        "10 COOL ROSE DEW",
+        "11 BERRY COKE",
+        "12 PLUMMY",
+        "13 SODA DEW",
+        "14 BERRY DEW",
+        "15 PEACH DEW"
+      ]
+    },
+    {
+      "vendor": "hince",
+      "handle": "hince-mood-enhancer-water-liquid-glow",
+      "available": 12,
+      "bad": 8,
+      "badTitles": [
+        "(W001 NEW ALLURE)",
+        "W005 INFLUENCE",
+        "W006 REFINED",
+        "W007 GIFTED",
+        "W009 RARE MOMENT",
+        "W011 BLUSHED",
+        "W012 CHERISHED",
+        "W013 ADDICTED"
+      ]
+    },
+    {
+      "vendor": "hince",
+      "handle": "hince-true-dimension-radiance-balm",
+      "available": 7,
+      "bad": 3,
+      "badTitles": [
+        "LT001 LIGHT",
+        "TP005 SHELLY PINK",
+        "TP006 LIL MAUVE"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-soft-blurring-eye-palette",
+      "available": 5,
+      "bad": 4,
+      "badTitles": [
+        "02 Lively Blurring",
+        "04 Lavender Blurring",
+        "05 Muted Coral Blurring",
+        "14 Caramel Blurring"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-healthy-glow-balm-stick",
+      "available": 5,
+      "bad": 4,
+      "badTitles": [
+        "01 Peach Shower",
+        "07 Berry Flush",
+        "09 Mauve Breath",
+        "10 Fig Red"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-over-blurring-pot",
+      "available": 4,
+      "bad": 3,
+      "badTitles": [
+        "02 Rose Beige",
+        "05 India Rose",
+        "06 Raw Pink"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-real-defining-pencil-liner",
+      "available": 5,
+      "bad": 4,
+      "badTitles": [
+        "01 Natural Black",
+        "03 Gray Brown",
+        "04 Soft Brown",
+        "06 Rosy Brown"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-soft-drawing-slim-brow",
+      "available": 5,
+      "bad": 4,
+      "badTitles": [
+        "05 深啡",
+        "07 自然棕",
+        "08 柔霧棕",
+        "09 灰棕"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-defining-cover-concealer",
+      "available": 4,
+      "bad": 3,
+      "badTitles": [
+        "15 白皙色",
+        "21 暖象牙",
+        "23 自然色"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-seamless-wear-foundation",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "19 Porcelain",
+        "23 Beige"
+      ]
+    },
+    {
+      "vendor": "WAKEMAKE",
+      "handle": "wakemake-real-defining-brush-liner",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "01 True Black",
+        "04 Gray Brown"
+      ]
+    },
+    {
+      "vendor": "fwee",
+      "handle": "fwee-lip-cheek-blurry-pudding-pot",
+      "available": 29,
+      "bad": 25,
+      "badTitles": [
+        "BS01 Cool",
+        "CR01 Dear",
+        "CR02 Without",
+        "CR03 BFF",
+        "CR04 Seventeen",
+        "CR05 Girls",
+        "Fav",
+        "JS03 Couverture",
+        "MV01 Chill'N",
+        "MV03 Baddie",
+        "MV04 Slayyy",
+        "MV05",
+        "ND01 Oh!",
+        "ND02 Like",
+        "ND04 Without",
+        "PK02 Skirt",
+        "PK03 Cherry",
+        "PK04 Crush",
+        "PK05 Sth",
+        "RD02 Mule",
+        "RD03 Ambitious",
+        "RD05 Greedy",
+        "RS02 Lyrics",
+        "RS04 Memories",
+        "RS05 Film"
+      ]
+    },
+    {
+      "vendor": "fwee",
+      "handle": "fwee-lip-cheek-glowy-jelly-pot",
+      "available": 18,
+      "bad": 13,
+      "badTitles": [
+        "JC01 Honey Peach",
+        "JM03",
+        "JN01",
+        "JN02 Milky",
+        "JN03 Custard",
+        "JP01",
+        "JP02",
+        "JP03 Sweets",
+        "JR01",
+        "JR02",
+        "JR03 Cherry Ppo",
+        "JS01 Rosy Glaze",
+        "JS02"
+      ]
+    },
+    {
+      "vendor": "fwee",
+      "handle": "fwee-3d-volumizing-glass-tint",
+      "available": 19,
+      "bad": 18,
+      "badTitles": [
+        "06 （Rose Scotch）",
+        "3D CHANGING GLOSS 02 SCENE",
+        "3D CHANGING GLOSS 03 SCENE",
+        "3D Changing gloss - 00 Clear",
+        "3D VOLUMING GLOSS A02 SORBET",
+        "3D VOLUMING GLOSS A03 CANDY",
+        "3D VOLUMING GLOSS A04 AENGDU",
+        "3D VOLUMING GLOSS A05 CURRANT",
+        "3D VOLUMING GLOSS B02 SORBET",
+        "3D VOLUMING GLOSS B03 CANDY",
+        "3D VOLUMING GLOSS B04 AENGDU",
+        "3D VOLUMING GLOSS B05 CURRANT",
+        "3D VOLUMING GLOSS B06 SCOTCH",
+        "3D VOLUMING GLOSS B08 ROZY 70%",
+        "3D VOLUMING GLOSS B09 LYCHEE",
+        "3D VOLUMING GLOSS B10 YOGURT",
+        "3D VOLUMING GLOSS B11 TARO 70%",
+        "4D VOLUMING PLUMPER"
+      ]
+    },
+    {
+      "vendor": "fwee",
+      "handle": "fwee-glitz-stone-highlighter",
+      "available": 12,
+      "bad": 8,
+      "badTitles": [
+        "HL01",
+        "HL06",
+        "HL07",
+        "HL08",
+        "HL09",
+        "HL10",
+        "HL11",
+        "HL12"
+      ]
+    },
+    {
+      "vendor": "fwee",
+      "handle": "fwee-pocket-eye-palette",
+      "available": 5,
+      "bad": 2,
+      "badTitles": [
+        "(5色) - EP03 Strawberry Whip",
+        "EP05 GRAPE"
+      ]
+    },
+    {
+      "vendor": "fwee",
+      "handle": "fwee-pocket-cheek-palette",
+      "available": 4,
+      "bad": 3,
+      "badTitles": [
+        "CP01",
+        "CP03",
+        "CP04"
+      ]
+    },
+    {
+      "vendor": "TIRTIR",
+      "handle": "tirtir-mask-fit-ai-filter-cushion",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "17C Porcelain",
+        "23N Sand"
+      ]
+    },
+    {
+      "vendor": "TIRTIR",
+      "handle": "tirtir-mask-fit-crystal-mesh-cushion",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "17C Procelain",
+        "23N Sand"
+      ]
+    },
+    {
+      "vendor": "TIRTIR",
+      "handle": "tirtir-mask-fit-red-foundation",
+      "available": 3,
+      "bad": 2,
+      "badTitles": [
+        "17C Porcelain",
+        "23N Sand"
+      ]
+    },
+    {
+      "vendor": "TIRTIR",
+      "handle": "tirtir-glide-hide-blurring-concealer",
+      "available": 8,
+      "bad": 7,
+      "badTitles": [
+        "0.5N",
+        "2C",
+        "3W",
+        "4.5N",
+        "4N",
+        "6.5N",
+        "8W"
+      ]
+    },
+    {
+      "vendor": "TIRTIR",
+      "handle": "tirtir-waterism-glow-tint",
+      "available": 4,
+      "bad": 2,
+      "badTitles": [
+        "01 Mauve Rose",
+        "05 Scotch Shot"
+      ]
+    },
+    {
+      "vendor": "MAYBELLINE",
+      "handle": "maybelline-fit-me-concealer",
+      "available": 7,
+      "bad": 5,
+      "badTitles": [
+        "Fit Me 柔滑遮瑕遮瑕膏01",
+        "Fit Me 柔滑遮瑕遮瑕膏20",
+        "Fit Me 柔滑遮瑕遮瑕膏25",
+        "Fit Me 柔滑遮瑕遮瑕膏35",
+        "Fit Me 柔滑遮瑕遮瑕膏IVORY"
+      ]
+    },
+    {
+      "vendor": "MAYBELLINE",
+      "handle": "maybelline-instant-age-rewind-concealer",
+      "available": 7,
+      "bad": 5,
+      "badTitles": [
+        "Cushion遮瑕筆 - 100 小麥色",
+        "Cushion遮瑕筆 - 122",
+        "Cushion遮瑕筆 - 130 自然色",
+        "Cushion遮瑕筆 - 140 小麥色",
+        "Cushion遮瑕筆 - 150 白皙色"
+      ]
+    },
+    {
+      "vendor": "MAYBELLINE",
+      "handle": "maybelline-superstay-lumi-matte-foundation",
+      "available": 6,
+      "bad": 5,
+      "badTitles": [
+        "C20",
+        "N20",
+        "N30",
+        "W10",
+        "w30"
+      ]
+    },
+    {
+      "vendor": "MAYBELLINE",
+      "handle": "maybelline-superstay-creampact-foundation",
+      "available": 4,
+      "bad": 2,
+      "badTitles": [
+        "C20",
+        "N30"
+      ]
+    },
+    {
+      "vendor": "MAYBELLINE",
+      "handle": "maybelline-define-blend-brow-pencil",
+      "available": 6,
+      "bad": 5,
+      "badTitles": [
+        "BR1 深濃啡",
+        "BR3 深棗啡",
+        "BR4",
+        "BR7",
+        "BR8 粉紅啡"
+      ]
+    },
+    {
+      "vendor": "MAYBELLINE",
+      "handle": "maybelline-lifter-plump",
+      "available": 4,
+      "bad": 2,
+      "badTitles": [
+        "002",
+        "014"
+      ]
+    },
+    {
+      "vendor": "dasique",
+      "handle": "dasique-20-color-eyeshadow-palette",
+      "available": 3,
+      "bad": 3,
+      "badTitles": [
+        "#03 春日珊瑚",
+        "盤 #06 怦然心動",
+        "盤 #02 冷粉盤"
+      ]
+    }
+  ]
+}

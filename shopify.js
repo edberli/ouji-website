@@ -179,7 +179,10 @@ const MEM_CACHE = new Map();
 /* 7：product detail cache 改用 { at, v } envelope，同一個 tab 內都只信
    五分鐘；舊嘅 raw product format 會 miss，唔會將過期嘅完整商品資料
    當成最新 variant／圖片。 */
-const CACHE_VERSION = 7;
+/* 8：2026-09-12 大批補回逐色 variant media。舊 session 快取入面仍然係
+   「每個色號同一張圖」，如果唔升版本，手機重新開產品頁都可以繼續讀舊圖
+   五分鐘，令人以為修復冇生效。 */
+const CACHE_VERSION = 8;
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
 
 function cacheRead(key) {
