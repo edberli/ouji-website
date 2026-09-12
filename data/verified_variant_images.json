@@ -633,5 +633,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/10_1.png",
     "presentation": "product-shade",
     "evidence": "official fwee US exact variant code; opened highlighter shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48082953175198": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01_pomelo_skin_2_c2a7a74c-f411-47d2-b32d-23f89b5c4cb1.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "official rom&nd exact shade-title close-up lip swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48082953470110": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23_peach_peach_me_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "official rom&nd exact shade-title close-up lip swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48203347689630": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/09_mulled_peach_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "official rom&nd exact shade-title close-up lip swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48203347722398": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/19_summer_scent_2.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "official rom&nd exact shade-title close-up lip swatch visually reviewed"
   }
 }
