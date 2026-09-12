@@ -2219,7 +2219,10 @@ button.product-card__quick-add,
 .category-banner__desc { font-size: 0.9375rem; color: rgba(255,255,255,0.85); max-width: 500px; }
 
 /* ----- Product Detail ----- */
-.product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4xl); padding: var(--space-3xl) 0; }
+/* 下邊 padding 特登細過上邊：下面接住係 .product-tabs--full，佢本身有
+   margin-top ＋ padding-top ＋ 一條分隔線，三樣加埋已經夠分隔。
+   （2026-09-12 老闆：優惠面板同「詳細資料」之間空一大橛。） */
+.product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4xl); padding: var(--space-3xl) 0 var(--space-xl); }
 
 .product-gallery { position: sticky; top: calc(var(--header-height) + 40px + var(--space-xl)); align-self: start; }
 /* Square: brand product photography is shot 1:1, so a 3/4 frame cropped
@@ -3150,7 +3153,7 @@ button.product-card__quick-add,
      the fold — you scrolled past a full screen of photo to find out what
      the thing was called or what it cost. */
   .product-detail { grid-template-columns: 1fr; gap: var(--space-lg);
-                    padding: var(--space-lg) 0 var(--space-2xl); }
+                    padding: var(--space-lg) 0 var(--space-lg); }
   .product-gallery { position: static; }
   .product-gallery__thumb { width: 60px; height: 60px; }
   .brand-rail { gap: 3px; padding: 9px 10px; }
@@ -5614,8 +5617,10 @@ textarea:focus-visible,
    authored ~1200px wide and belong under both columns, centred.
    ============================================ */
 .product-tabs--full {
-  margin-top: var(--space-4xl, 80px);
-  padding-top: var(--space-2xl, 40px);
+  /* 分隔靠嗰條 border-top，唔靠堆高度 —— 原本 96+48 加埋上面 64，
+     優惠面板同「詳細資料」之間隔咗成 208px 吉位。 */
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
   border-top: 1px solid var(--border-light);
 }
 .product-tabs--full .product-tabs__nav {

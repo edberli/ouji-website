@@ -18,5 +18,60 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIO_Essential_Blush_Tap_8_Colors-s202.jpg",
     "presentation": "product-shade",
     "evidence": "existing official per-shade asset; filename and variant code S202 match"
+  },
+  "gid://shopify/ProductVariant/48083894796446": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_fdc98e8a-1f47-4ce9-989d-119c0e399ada.png",
+    "presentation": "palette-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083894861982": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_3897a1ec-c4be-4ce0-a7bd-9d4e9d9bc1e8.png",
+    "presentation": "palette-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083894894750": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_08a63472-791d-4539-9f61-9025a4715d92.png",
+    "presentation": "palette-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083894927518": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original.png",
+    "presentation": "palette-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083895320734": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_6c7a9717-7e55-40c1-8e08-858cb4015850.jpg",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083895386270": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_885e43cd-9e96-41c2-845d-78c2e9118b1b.jpg",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083895419038": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_0401d05e-c83d-428f-90de-494e9a5d0b5d.jpg",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083895451806": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original.jpg",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083895812254": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_8d30fade-2685-4083-8f39-3cbdae64bd15.png",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083895877790": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_ac3a863a-658e-4381-b64e-2fb69eb343af.png",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48083895910558": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_ea4f7f2c-13bc-492c-8d99-ee1a9938a2a7.png",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE HK official variant media visually reviewed"
   }
 }

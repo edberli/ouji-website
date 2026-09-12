@@ -793,7 +793,7 @@
         const url = variantImageUrl(variant);
         const approved = verifiedVariantImages[variant?.id];
         if (!url || !approved?.imageUrl || approved.imageUrl !== url.split('?')[0]) return '';
-        return ['lip-swatch', 'product-shade', 'eye-swatch', 'complexion-swatch']
+        return ['lip-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'complexion-swatch']
           .includes(approved.presentation) ? url : '';
       }
 
