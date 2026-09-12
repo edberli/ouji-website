@@ -1708,5 +1708,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/COR_2_C_15.jpg",
     "presentation": "lip-swatch",
     "evidence": "7HADA exact Coralhaze Glow Lock 115 barcode mapping; labelled independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079449260190": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/coralhaze_opt_500003_01-650x650.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "Belieef exact Coralhaze Stardust Glitter 01 image with independent pigment swatch; Dotrade exact barcode mapping"
+  },
+  "gid://shopify/ProductVariant/48079449292958": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/coralhaze_opt_500003_02-650x650.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "Belieef exact Coralhaze Stardust Glitter 02 image with independent pigment swatch; Dotrade exact barcode mapping"
+  },
+  "gid://shopify/ProductVariant/48079449325726": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/coralhaze_opt_500003_03-650x650.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "Belieef exact Coralhaze Stardust Glitter 03 image with independent pigment swatch; Dotrade exact barcode mapping"
   }
 }
