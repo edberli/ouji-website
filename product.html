@@ -800,11 +800,14 @@
       // Show a verified shade image only after the shopper picks that shade.
       function showVariantImage(variant) {
         const url = verifiedVariantImageUrl(variant);
-        if (!url) return;
         const mainImg = document.querySelector('.product-gallery__main img');
-        if (mainImg) mainImg.src = url;
+        // If the newly selected shade has no verified image, return to the
+        // product cover. Keeping the previous shade image here would make it
+        // look as if that old shade belonged to the new text-only option.
+        const displayUrl = url || images[0]?.url || '';
+        if (mainImg && displayUrl) mainImg.src = displayUrl;
         document.querySelectorAll('.product-gallery__thumb').forEach(t => {
-          t.classList.toggle('is-active', t.querySelector('img')?.src === url);
+          t.classList.toggle('is-active', t.querySelector('img')?.src === displayUrl);
         });
       }
 
