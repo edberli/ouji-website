@@ -1653,5 +1653,60 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Coralhaze-Glow_Lock_Jelly_Tint-110_Chilling-Makeup-Moona-Store-NZ.jpg",
     "presentation": "lip-swatch",
     "evidence": "Moona exact Coralhaze Glow Lock 110 variant SKU and image; labelled independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079362949278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5460a7bcc19da7a2b0735ae4-1717582393.webp",
+    "presentation": "arm-swatch",
+    "evidence": "LIPS exact Heart Percent 01 Peach Beige product-pattern page; independent arm swatch"
+  },
+  "gid://shopify/ProductVariant/48079362982046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-07-04-85015a4ccd2df80411d34cac.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact Heart Percent 02 Creamy Pink product-pattern page; independent lip result"
+  },
+  "gid://shopify/ProductVariant/48079363014814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/760b01c4782466b4f59749b7-1695373715.webp",
+    "presentation": "arm-swatch",
+    "evidence": "LIPS exact Heart Percent 03 Oat Beige product-pattern page; independent arm swatch"
+  },
+  "gid://shopify/ProductVariant/48079363047582": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-07-03-0db803e2c10e3635cbf1cb2e.webp",
+    "presentation": "arm-swatch",
+    "evidence": "LIPS exact Heart Percent 06 Rose Beige product-pattern page; independent arm swatch"
+  },
+  "gid://shopify/ProductVariant/48083208241310": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/amusedewpowervegancushionn1_66.webp",
+    "presentation": "complexion-swatch",
+    "evidence": "BeautyBooth exact AMUSE Dew Power Cushion 01 Pure page; labelled independent complexion swatch"
+  },
+  "gid://shopify/ProductVariant/48083208274078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/amusedewpowervegancushionn2_93.webp",
+    "presentation": "complexion-swatch",
+    "evidence": "BeautyBooth exact AMUSE Dew Power Cushion 1.5 Natural page; labelled independent complexion swatch"
+  },
+  "gid://shopify/ProductVariant/48079448768670": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/COR_2_C_11.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "7HADA exact Coralhaze Glow Lock 111 barcode mapping; labelled independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079448801438": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/COR_2_C_12.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "7HADA exact Coralhaze Glow Lock 112 barcode mapping; labelled independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079448834206": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/COR_2_C_13.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "7HADA exact Coralhaze Glow Lock 113 barcode mapping; labelled independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079448866974": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/COR_2_C_14.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "7HADA exact Coralhaze Glow Lock 114 barcode mapping; labelled independent lip close-up"
+  },
+  "gid://shopify/ProductVariant/48079448899742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/COR_2_C_15.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "7HADA exact Coralhaze Glow Lock 115 barcode mapping; labelled independent lip close-up"
   }
 }
