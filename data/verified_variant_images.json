@@ -618,5 +618,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_2508_3D____1_17__70.jpg",
     "presentation": "lip-swatch",
     "evidence": "official fwee Korea shade-name and 70% series crosswalk; official lip swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084047200414": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/06_1.png",
+    "presentation": "product-shade",
+    "evidence": "official fwee US exact variant code; opened highlighter shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084047233182": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/07_1.png",
+    "presentation": "product-shade",
+    "evidence": "official fwee US exact variant code; opened highlighter shade visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084047331486": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/10_1.png",
+    "presentation": "product-shade",
+    "evidence": "official fwee US exact variant code; opened highlighter shade visually reviewed"
   }
 }
