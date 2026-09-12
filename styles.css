@@ -13265,48 +13265,59 @@ body::before { opacity: 0.18; }
    有咩優惠。」重點係「一眼掃到三個優惠」，唔係再做多次主視覺，
    所以高度壓到 ~92px、唔用大圖、唔用動畫。
    ============================================================ */
+/* 2026-09-12 老闆：「風格變成首頁彈窗嗰個款，但要保持個大細。」
+   所以只換視覺語言，尺寸一律唔郁 —— 桌面 94px、手機 192px 同改之前一樣。
+   語言跟返 .promo／優惠彈窗：深藍 #2b4c58 漸變底、金色 #ffd77a 淨係用嚟標
+   金額同倒數（客一眼掃到嘅金色＝佢慳到嘅數）、標題用 Cormorant 襯線。 */
 .promo-slim {
   display: flex;
   align-items: center;
   gap: clamp(12px, 2.4vw, 28px);
   margin: var(--space-lg) 0 var(--space-md);
   padding: 12px clamp(14px, 2.4vw, 24px);
-  border: 1px solid rgba(109, 163, 181, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 14px;
-  background: linear-gradient(180deg, #f2f8fa 0%, #e7f1f4 100%);
+  background: linear-gradient(158deg, #2b4c58 0%, #35606f 54%, #2b4c58 100%);
+  box-shadow: 0 14px 30px -22px rgba(8, 26, 33, 0.75);
+  color: #fff;
 }
 .promo-slim__jar {
   flex: none; width: auto; height: 68px;
-  filter: drop-shadow(0 4px 7px rgba(43, 76, 88, 0.18));
+  /* 淺色面霜相擺喺深底上面，要一圈暖光托住，唔係就似「揦」咗上去 */
+  filter: drop-shadow(0 6px 14px rgba(4, 18, 24, 0.55));
 }
 .promo-slim__head { margin: 0; flex: none; line-height: 1.25; }
 .promo-slim__head b {
   display: block;
   font-family: var(--font-display, var(--font-body));
   font-size: clamp(1.15rem, 2.2vw, 1.55rem);
-  font-weight: 600; color: var(--primary-deep);
+  font-weight: 600; color: #fff;
 }
-.promo-slim__head span { font-size: 0.75rem; color: var(--text-tertiary); letter-spacing: .03em; }
+/* 同彈窗一樣：金色淨係落喺個折扣數字同金額度，其餘白色。 */
+.promo-slim__head b i { color: #ffd77a; font-style: normal; font-weight: 700; }
+/* 0.62 喺漸變最淺嗰段（#35606f）只有 3.78:1，12px 細字唔夠 AA —— 升到
+   0.75（4.69:1），深底嗰段 6.01:1。倒數細字同樣處理。 */
+.promo-slim__head span { font-size: 0.75rem; color: rgba(255, 255, 255, 0.75); letter-spacing: .03em; }
 /* 中間兩級門檻 —— 呢度先係實質資訊，闊機一行、窄機兩行 */
 .promo-slim__list {
   display: flex; flex-wrap: wrap; gap: 4px clamp(14px, 2.4vw, 30px);
   margin: 0; padding: 0 0 0 clamp(12px, 2vw, 24px);
   list-style: none; flex: 1 1 auto;
-  border-left: 1px solid rgba(43, 76, 88, 0.16);
-  font-size: 0.8125rem; color: var(--text-secondary);
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.8125rem; color: rgba(255, 255, 255, 0.82);
 }
-.promo-slim__list b { color: var(--primary-deep); font-weight: 700; }
+.promo-slim__list b { color: #ffd77a; font-weight: 700; font-variant-numeric: tabular-nums; }
 .promo-slim__list em {
   margin-left: 6px; padding: 1px 6px; border-radius: 999px;
-  background: #d9534f; color: #fff;
+  background: #e2574f; color: #fff;
   font: 600 0.625rem/1.6 var(--font-body); font-style: normal;
 }
 .promo-slim__end {
   margin: 0; flex: none; text-align: right;
-  font-size: 0.75rem; color: var(--text-tertiary); line-height: 1.5;
+  font-size: 0.75rem; color: rgba(255, 255, 255, 0.75); line-height: 1.5;
 }
 .promo-slim__end span { display: block; }
-.promo-slim__end b { color: var(--primary-deep); font-weight: 700; }
+.promo-slim__end b { color: #ffd77a; font-weight: 700; font-variant-numeric: tabular-nums; }
 
 @media (max-width: 760px) {
   /* 窄機：面霜 ＋ 標題一行，兩級門檻落第二行，倒數縮到標題隔籬 */
@@ -13315,7 +13326,7 @@ body::before { opacity: 0.18; }
   .promo-slim__head { flex: 1 1 auto; }
   .promo-slim__list {
     flex: 1 1 100%; order: 3; padding: 8px 0 0; border-left: 0;
-    border-top: 1px solid rgba(43, 76, 88, 0.14);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
   }
   .promo-slim__end { text-align: right; }
 }
@@ -13335,7 +13346,8 @@ body::before { opacity: 0.18; }
   aspect-ratio: 3 / 4;
   width: auto;
   pointer-events: none;
-  filter: drop-shadow(0 8px 14px rgba(43, 76, 88, 0.18));
+  /* 條 strip 轉咗深藍底，原本嗰隻淺藍陰影喺度等於冇 —— 要深啲先托得起隻貓 */
+  filter: drop-shadow(0 8px 16px rgba(4, 18, 24, 0.55));
 }
 .promo-slim__cat .shima { width: 100%; height: 100%; }
 /* 推車嗰套打橫，比例唔同，唔寫返會俾壓扁 */
