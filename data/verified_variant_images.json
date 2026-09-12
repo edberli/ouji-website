@@ -843,5 +843,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1_f82043b6-43fc-4b1b-acdc-d7d6042d668c.jpg",
     "presentation": "palette-shade",
     "evidence": "SOL-reviewed exact local barcode 8809581535756; retailer page and image identify 02 COOL BASIC and show the opened 20-colour palette"
+  },
+  "gid://shopify/ProductVariant/48079607070878": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/IUGFDIYcGe20250825154049_1200.png",
+    "presentation": "lip-swatch",
+    "evidence": "CLIO Hong Kong Flagship Store exact single-shade page for 19 Baby Apple; dedicated product and lip-colour image"
+  },
+  "gid://shopify/ProductVariant/48079607103646": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/tYSWaDvutD20250825154058_1200.png",
+    "presentation": "lip-swatch",
+    "evidence": "CLIO Hong Kong Flagship Store exact single-shade page for 20 Vanilla Apple; dedicated product and lip-colour image"
+  },
+  "gid://shopify/ProductVariant/48079607136414": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ixrgebDDAf20251211093637_1200.png",
+    "presentation": "lip-swatch",
+    "evidence": "CLIO Hong Kong Flagship Store exact single-shade page for 27 Honey Cherry; dedicated product and lip-colour image"
+  },
+  "gid://shopify/ProductVariant/48079607169182": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ksOjCZXDTF20251211093110_1200.png",
+    "presentation": "lip-swatch",
+    "evidence": "CLIO Hong Kong Flagship Store exact single-shade page for 28 Dry Cherry; dedicated product and lip-colour image"
+  },
+  "gid://shopify/ProductVariant/48082959171742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8809625243128_1_20241220180700.jpg",
+    "presentation": "palette-shade",
+    "evidence": "exact title and barcode 8809625243128; unique image shows the opened rom&nd 04 Dusty Fog Garden 10-pan palette"
   }
 }
