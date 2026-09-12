@@ -303,5 +303,55 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_e27c695d-a844-4b6a-b88c-2b17bfab84d1.png",
     "presentation": "eye-swatch",
     "evidence": "WAKEMAKE HK official variant media visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084040122526": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/BS01_Cool.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084040286366": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CR01_Dear.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084040319134": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CR02_Boy.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084151107742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CR03_BFF.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084040351902": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CR04_Seventeen.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084325499038": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CR05_Girls.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084151140510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/RD04Fav.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084325531806": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/MV01_Chill_n.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084040417438": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/MV03_Baddie.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084151173278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/MV04_Slayyy.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "fwee official US per-shade swatch visually reviewed"
   }
 }
