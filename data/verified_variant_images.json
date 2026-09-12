@@ -678,5 +678,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/aa97bd71b84d2617ce9ed66525a2d771.jpg",
     "presentation": "product-shade",
     "evidence": "official AMUSE offer exact option mapping; single My Melody palette visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079777824926": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/b308c1e95f74a4fa8ee6cdb236091d3a.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact option label; eye result and matching single palette visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079778152606": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23bc3deba4680d33c88c743c76cfbf22.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact brow label; eyebrow result and matching product visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079778185374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8fb10768426295f902fb6655ae9a4069.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact brow label; eyebrow result and matching product visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079778218142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/66c657404d4093c5c72932c80970bcc5.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact brow label; eyebrow result and matching product visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079778250910": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/10bc8ebc6df663a506cb1c9fc8c9402b.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "official lilybyred exact brow label; eyebrow result and matching product visually reviewed"
   }
 }
