@@ -1253,5 +1253,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/AmuseDewTintN09_c6631c1a-721d-4a3c-97b7-0502244075f4.jpg",
     "presentation": "lip-swatch",
     "evidence": "Kallos exact variant mapping for AMUSE Dew Tint 09 Mauve Grape; labelled independent lip result"
+  },
+  "gid://shopify/ProductVariant/48070095601822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-01-16-907a04207bbb68f327799de6.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact BRAYE Thin Glow Tint 01 Poetic page; independent product and arm result"
+  },
+  "gid://shopify/ProductVariant/48070095732894": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-03-15-a82e03ed10835146215b3bfa.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact BRAYE Thin Glow Tint 05 Renown page; independent arm application and removal result"
+  },
+  "gid://shopify/ProductVariant/48070095798430": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-03-05-d2297910f45c681cb0fe6695.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact BRAYE Thin Glow Tint 07 Maudlin page; independent arm application and removal result"
+  },
+  "gid://shopify/ProductVariant/48070095831198": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-06-02-808412cf8c3a18d7d917455f.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact BRAYE Thin Glow Tint 08 Wizz page; independent single-shade arm result"
+  },
+  "gid://shopify/ProductVariant/48070095896734": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-07-30-c6efefa0c51a3ee34537676e.webp",
+    "presentation": "lip-swatch",
+    "evidence": "LIPS exact BRAYE Thin Glow Tint 10 Hurtle page; labelled independent arm result"
   }
 }
