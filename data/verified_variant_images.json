@@ -1833,5 +1833,140 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/572d3ccc-4633-4116-84f3-6c348dbefc34_4311266.webp",
     "presentation": "eye-swatch",
     "evidence": "Beauty STAGE exact Coralhaze Idol Aegyosal Maker 05 image; consistent independent product, pigment and contour swatch"
+  },
+  "gid://shopify/ProductVariant/48079448113310": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_06.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 001 Naive with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448146078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_08.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 002 Lenient with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448178846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_11.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 003 Comfy with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448211614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_13.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 004 Lavish with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448244382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_15.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 005 Distinct with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448277150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_17.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 006 Essential with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448309918": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_21.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 007 Humble with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448342686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_23.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 008 Polite with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448375454": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_25.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 009 Outrun with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079448408222": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LipFondue_27.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official Coralhaze asset labelled 010 Savage with a clear on-lip result"
+  },
+  "gid://shopify/ProductVariant/48079449129118": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/00aeddd7-adab-4d95-a596-0d53bdc971de_4311296.webp",
+    "presentation": "eye-swatch",
+    "evidence": "Beauty STAGE exact #02 Sparkling Pink product, pigment and contour swatch"
+  },
+  "gid://shopify/ProductVariant/48203452711070": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-glasting-melting-balm-dusty-07_553c4f21-bd0c-4121-adb1-5cb087e84add.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 10 NU BEIGE with dedicated lip result"
+  },
+  "gid://shopify/ProductVariant/48203452743838": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-glasting-melting-balm-dusty-08_6e2dbe76-84f6-4cbc-b9d2-e9f71161bfc9.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 11 BUFFY CORAL with dedicated lip result"
+  },
+  "gid://shopify/ProductVariant/48203452776606": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-glasting-melting-balm-dusty-10_1dbd4bc0-1ee7-4c5b-a6b1-909bc9b76a39.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 13 SCOTCH NUDE with dedicated lip result"
+  },
+  "gid://shopify/ProductVariant/48203452809374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-glasting-melting-balm-dusty-11_239ea1af-e031-4103-a06b-2a0352a409eb.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 14 DEAR APPLE with dedicated lip result"
+  },
+  "gid://shopify/ProductVariant/48203452842142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romand-glasting-melting-balm-dusty-12_a8411104-1bbb-4225-8bde-0d0e02a81edc.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official rom&nd asset labelled 15 PECAN BREW with dedicated lip result"
+  },
+  "gid://shopify/ProductVariant/48079927443614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0101990901.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 09 HEART BALLON with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927476382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0101990899.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 10 LOVE POTION with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927509150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0103166430.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 11 JUICY PEACH with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927541918": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0103166423.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 12 ORANGE FLARE with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927574686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0104574602.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 13 BERRY CUPID with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927607454": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0104574601.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 14 LOVE, CUPID with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927640222": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0105951276.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 15 MANGO BERRY with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927672990": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0108051211.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 16 PINK TENSION with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48079927705758": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0108051212.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Rakuten asset labelled 17 BUBBLE HEART with exact cheek result"
+  },
+  "gid://shopify/ProductVariant/48083202474142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/amuse-ceramic-skin-perfector-cushion-with-refill-3-colors-spf-40-pa-15g15g-578048.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Exact AMUSE 1.5 Natural image labelled with a dedicated complexion smear"
+  },
+  "gid://shopify/ProductVariant/48083211518110": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-06-cac71504221de2cc93143a81.webp",
+    "presentation": "complexion-swatch",
+    "evidence": "Exact Kuromi 1.5 review image with compact and before/after complexion result"
   }
 }
