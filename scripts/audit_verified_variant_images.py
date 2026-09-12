@@ -51,6 +51,38 @@ def canonical_url(url):
     return parsed.netloc.lower() + urllib.parse.unquote(parsed.path)
 
 
+def evidence_contradiction(presentation, evidence):
+    """Reject explicit evidence that describes a different visual semantic.
+
+    This is intentionally conservative.  It does not try to prove an image from
+    prose, but it prevents a known arm-only result from being labelled as a lip,
+    eye, cheek or product-only image merely to make a product look consistent.
+    """
+    text = (evidence or "").lower()
+    has_arm = bool(re.search(r"\barm\b|手臂|手背", text))
+    has_lip = any(term in text for term in (
+        "lip result", "lip-result", "human lip", "real-person lip",
+        "lip close-up", "lip application", "lip and arm", "arm/lip",
+        "applied lip", "lip-colour", "唇妝",
+    ))
+    has_eye = any(term in text for term in (
+        "eye result", "eye application", "single eye", "human eye", "眼妝",
+    ))
+    has_cheek = any(term in text for term in (
+        "cheek result", "cheek application", "human cheek", "real-cheek", "胭脂效果",
+    ))
+
+    if presentation == "lip-swatch" and has_arm and not has_lip:
+        return "arm-only evidence labelled lip-swatch"
+    if presentation == "eye-swatch" and has_arm and not has_eye:
+        return "arm-only evidence labelled eye-swatch"
+    if presentation == "cheek-swatch" and has_arm and not has_cheek:
+        return "arm-only evidence labelled cheek-swatch"
+    if presentation == "product-shade" and (has_arm or has_lip or has_eye or has_cheek):
+        return "applied-result evidence labelled product-shade"
+    return None
+
+
 def audit(path):
     raw = path.read_text(encoding="utf-8")
     manifest = json.loads(raw)
@@ -71,11 +103,15 @@ def audit(path):
     urls = defaultdict(list)
     product_presentations = defaultdict(set)
     invalid_presentations = {}
+    semantic_contradictions = {}
 
     for variant_id, approved in manifest.items():
         presentation = approved.get("presentation")
         if presentation not in VALID_PRESENTATIONS:
             invalid_presentations[variant_id] = presentation
+        contradiction = evidence_contradiction(presentation, approved.get("evidence"))
+        if contradiction:
+            semantic_contradictions[variant_id] = contradiction
 
         target_url = canonical_url(approved.get("imageUrl"))
         urls[target_url].append(variant_id)
@@ -114,6 +150,7 @@ def audit(path):
             if len(presentations) > 1
         },
         "invalidPresentations": invalid_presentations,
+        "semanticContradictions": semantic_contradictions,
     }
     return report
 

@@ -696,12 +696,12 @@
   },
   "gid://shopify/ProductVariant/48079753412766": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/d03dc7d5a5c22965efc998302cdea059.jpg",
-    "presentation": "product-shade",
+    "presentation": "cheek-swatch",
     "evidence": "official lilybyred exact cheek label; single product and applied cheek result visually reviewed"
   },
   "gid://shopify/ProductVariant/48079753445534": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/f2e4c92973c4ead99e82a72ccb0cf28f.jpg",
-    "presentation": "product-shade",
+    "presentation": "cheek-swatch",
     "evidence": "official lilybyred exact cheek label; single product and applied cheek result visually reviewed"
   },
   "gid://shopify/ProductVariant/48079760359582": {
@@ -856,27 +856,27 @@
   },
   "gid://shopify/ProductVariant/48079934521502": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9226871_0_3.jpg",
-    "presentation": "eye-swatch",
+    "presentation": "arm-swatch",
     "evidence": "exact option 02 Fairy; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
   },
   "gid://shopify/ProductVariant/48079934554270": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9865815_0_2.jpg",
-    "presentation": "eye-swatch",
+    "presentation": "arm-swatch",
     "evidence": "exact option 05 Dear Me; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
   },
   "gid://shopify/ProductVariant/48079934587038": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/c0b979fb374d643bdbcc59af-1732868330.webp",
-    "presentation": "eye-swatch",
+    "presentation": "arm-swatch",
     "evidence": "exact option 09 Dreamcatcher; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
   },
   "gid://shopify/ProductVariant/48079934619806": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-03-22-d90ed6a3da96afcb7db9a57d.webp",
-    "presentation": "eye-swatch",
+    "presentation": "arm-swatch",
     "evidence": "exact option 12 Bubble Gum; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
   },
   "gid://shopify/ProductVariant/48079934652574": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-05-28-8f4dc719343106b3b2e81b3e.webp",
-    "presentation": "eye-swatch",
+    "presentation": "arm-swatch",
     "evidence": "exact option 13 Sand Pink; unique image visibly identifies the shade and shows its palette with eye or arm swatches"
   },
   "gid://shopify/ProductVariant/48086954672286": {
@@ -1051,42 +1051,42 @@
   },
   "gid://shopify/ProductVariant/48049610129566": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-12-02-a3052ef9e46959e555246587.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Highlighter 01 Dewy Moon page; unique labelled product and arm swatch"
   },
   "gid://shopify/ProductVariant/48049610162334": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-07-03-91aa44210987fdea81e6f5c3.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Highlighter 02 Diamond Veil page; unique arm swatch for the exact option"
   },
   "gid://shopify/ProductVariant/48049610195102": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/13953f220212996a41ae3834-1712306459.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Highlighter 03 Chrome Baby page; unique product, arm swatch and applied result"
   },
   "gid://shopify/ProductVariant/48049610227870": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-04-04-857e9b94db37ac63638fb2e9.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Highlighter 05 Pitch Moon page; unique arm swatches and product edge"
   },
   "gid://shopify/ProductVariant/48049610260638": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-04-11-0415ad50be49403452b08db1.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Highlighter 11 Rose Peach page; unique shade label and arm swatch"
   },
   "gid://shopify/ProductVariant/48049610293406": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-08-10-77b767ec1a8c641229f500ad.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Baked Blush 04 Tulip On page; unique blush and arm swatch"
   },
   "gid://shopify/ProductVariant/48049610326174": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-10-30-aad8085a61acdbc9e4ded433.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Baked Blush 05 Strawberry Smoke page; unique blush and applied shade result"
   },
   "gid://shopify/ProductVariant/48049610358942": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-02-05-03ebed56d17bb42f051e77b8.webp",
-    "presentation": "product-shade",
+    "presentation": "arm-swatch",
     "evidence": "LIPS exact Glint Baked Blush 07 Pale Lilac page; unique blush and arm swatch"
   },
   "gid://shopify/ProductVariant/48049609998494": {
