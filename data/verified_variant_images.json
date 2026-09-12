@@ -2303,5 +2303,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_2508_3D____1_13__70_51384e84-3ba7-420f-8dae-7b30d2a572ea.jpg",
     "presentation": "lip-swatch",
     "evidence": "Exact fwee 3D Voluming Gloss B07 Peach 70% official multi-skin-tone human lip result; barcode and product line cross-checked"
+  },
+  "gid://shopify/ProductVariant/48086955327646": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-03.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Dasique Blending Mood Cheek 03 Peach Blending before-and-after cheek result; barcode and shade source cross-checked"
+  },
+  "gid://shopify/ProductVariant/48086955393182": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-18.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Dasique Blending Mood Cheek 18 Milky Apricot human cheek result with matching palette; barcode and shade label cross-checked"
+  },
+  "gid://shopify/ProductVariant/48086955524254": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-19.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Dasique Blending Mood Cheek 19 Milky Berry four-colour human cheek result; barcode and visible shade label cross-checked"
   }
 }
