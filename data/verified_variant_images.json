@@ -828,5 +828,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/743a4143c27483ce49a02eaa72c17180.jpg",
     "presentation": "lip-swatch",
     "evidence": "official lilybyred exact lip shade label; close-up lip result visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084472463518": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/17c_ac102035-f8d0-44b1-842a-8d726c226ab8.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; cushion and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084472529054": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23n_8fc9a450-a0b9-435c-b0f0-e2a8cb9bceb7.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; cushion and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084473020574": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/17C_0882ac24-1032-4811-a141-8878229c9461.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR Japan variant ID exact mapping; cushion and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084473086110": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23N_43c22111-9d01-4168-9ff9-a4baf716279d.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR Japan variant ID exact mapping; cushion and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475117726": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/MASK_FIT_RED_FOUNDATION_23N.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR Japan variant ID exact mapping; product and complexion swatch visually reviewed"
   }
 }
