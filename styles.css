@@ -532,15 +532,76 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1001;
-  height: 36px;
+  height: 42px;
   display: grid;
   align-items: center;
   overflow: hidden;
 }
 
+.announcement-bar__offers {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 3.4vw, 52px);
+  padding: 0 24px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.45em);
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+}
+
+.announcement-bar__offers.is-on { opacity: 1; transform: none; }
+
+.announcement-bar__offers .announcement-bar__offer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  opacity: 1;
+  transform: none;
+}
+
+.announcement-bar__offers .announcement-bar__offer + .announcement-bar__offer::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: calc(100% + clamp(12px, 1.7vw, 26px));
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-50%);
+}
+
+.announcement-bar__label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 2px 7px;
+  border: 1px solid rgba(255, 215, 122, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 215, 122, 0.09);
+  color: #ffe2a0;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
 /* 窄機收細少少，等「折實滿 HK$400 免運費」呢句最長嘅都擺得落一行 */
 @media (max-width: 400px) {
-  .announcement-bar { font-size: 0.75rem; letter-spacing: 0.03em; }
+  .announcement-bar { height: 36px; font-size: 0.75rem; letter-spacing: 0.03em; }
+}
+
+@media (max-width: 480px) {
+  .announcement-bar__offers { gap: 12px; padding: 0 12px; }
+  .announcement-bar__offers .announcement-bar__offer { gap: 0; }
+  .announcement-bar__offers .announcement-bar__offer + .announcement-bar__offer::before {
+    right: calc(100% + 6px);
+    height: 12px;
+  }
+  .announcement-bar__label { display: none; }
 }
 
 /* 每個優惠一張，全部疊喺同一格 grid cell，只有 .is-on 嗰張見到。
@@ -556,7 +617,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .announcement-bar__offer.is-on { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .announcement-bar__offer { transition: none; transform: none; }
+  .announcement-bar__offer,
+  .announcement-bar__offers { transition: none; transform: none; }
 }
 
 @keyframes shimmerBg {

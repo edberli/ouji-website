@@ -1418,12 +1418,16 @@ function isOujiOpeningPromoActive(now = Date.now()) {
   return now <= OUJI_OPENING_PROMO.endsAt;
 }
 
+function oujiOpeningPromoRemainingDays(now = Date.now()) {
+  return Math.max(0, Math.ceil((OUJI_OPENING_PROMO.endsAt - now) / 86400000));
+}
+
 /* 優惠卡預設 hidden，確認活動仍有效先顯示，避免 9 月 15 日後殘留舊優惠。
    倒數亦同開場傳單共用同一個截止時間。 */
 function syncOujiOpeningPromoSurfaces(now = Date.now()) {
   if (!document.body) return false;
   const active = isOujiOpeningPromoActive(now);
-  const remainingDays = Math.max(0, Math.ceil((OUJI_OPENING_PROMO.endsAt - now) / 86400000));
+  const remainingDays = oujiOpeningPromoRemainingDays(now);
 
   document.documentElement.classList.toggle('has-ouji-opening-promo', active);
   document.querySelectorAll('[data-ouji-opening-promo]').forEach((surface) => {
@@ -1485,6 +1489,7 @@ function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
 
   const discounted = formatWholePrice(num * OUJI_OPENING_PROMO.rate);
   const original = formatWholePrice(num);
+  const remainingDays = oujiOpeningPromoRemainingDays();
   const aria = `全單 88 折後約 ${discounted}，原價 ${original}；實際金額以結帳為準`;
 
   if (search) {
@@ -1500,8 +1505,9 @@ function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
     </span>`;
   }
 
-  return `<span class="ouji-promo-price ouji-promo-price--detail" aria-label="${aria}">
-    <span class="ouji-promo-price__badge">開業限時優惠 <b>88 折</b></span>
+  const detailAria = `開業限時優惠 88 折，最後 ${remainingDays} 日；${aria}`;
+  return `<span class="ouji-promo-price ouji-promo-price--detail" aria-label="${detailAria}">
+    <span class="ouji-promo-price__badge">開業限時優惠 <b>88 折</b><span aria-hidden="true">· 最後 ${remainingDays} 日</span></span>
     <span class="ouji-promo-price__row">
       <strong class="ouji-promo-price__sale">${discounted}</strong>
       <s class="ouji-promo-price__original" aria-hidden="true">${original}</s>

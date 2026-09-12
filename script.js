@@ -1834,14 +1834,19 @@ function initHScrollArrows() {
   /* 窄機版：最少嘅字，但三個優惠都要齊。
      老闆：「咁有限嘅位置入邊⋯⋯用最少嘅字去表達。」
      之前窄機淨係得輪流播，客一次只見到一個優惠，好易走寶。 */
-  const SHORT = ['88 折', '$99 自取免郵', '$499 送面霜'];
+  const SHORT = ['88 折', '$99 免郵', '$499 送面霜'];
+  const LABELS = ['限時', '自取', '贈品'];
 
   bar.textContent = '';
-  const make = (text) => {
+  const make = (text, index, parent = bar) => {
     const el = document.createElement('span');
     el.className = 'announcement-bar__offer';
-    el.textContent = text;
-    bar.appendChild(el);
+    const label = document.createElement('span');
+    label.className = 'announcement-bar__label';
+    label.setAttribute('aria-hidden', 'true');
+    label.textContent = LABELS[index] || '';
+    el.append(label, document.createTextNode(text));
+    parent.appendChild(el);
     return el;
   };
 
@@ -1857,7 +1862,15 @@ function initHScrollArrows() {
     stop();
     mode = next; shown = list;
     bar.textContent = '';
-    nodes = next === 'all' ? [make(list.join('  ·  '))] : list.map(make);
+    if (next === 'all') {
+      const group = document.createElement('span');
+      group.className = 'announcement-bar__offers';
+      list.forEach((text, index) => make(text, index, group));
+      bar.appendChild(group);
+      nodes = [group];
+    } else {
+      nodes = list.map((text, index) => make(text, index));
+    }
     nodes[0].classList.add('is-on');
     if (next === 'rotate' && list.length > 1) start();
   };
@@ -1889,7 +1902,11 @@ function initHScrollArrows() {
     ruler.style.letterSpacing = cs.letterSpacing;
     const room = bar.clientWidth - 32;          // 兩邊各留 16px
     const fits = (list) => {
-      ruler.textContent = list.join('  ·  ');
+      /* 桌面版會加上「限時／自取／贈品」小標籤同寬鬆間距，
+         量度時要一併預留，否則中等寬度會錯以為長版擺得落。 */
+      ruler.textContent = window.innerWidth > 480
+        ? list.map((text, index) => `${LABELS[index]}  ${text}`).join('      ')
+        : list.join('  ·  ');
       return ruler.getBoundingClientRect().width <= room;
     };
     /* 三級：講足 → 短寫（三個都齊）→ 真係擺唔落先輪流播 */
