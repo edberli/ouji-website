@@ -1050,9 +1050,9 @@
     "evidence": "CLIO Hong Kong Flagship Store exact Kill Brow Auto Hard Pencil 01 Natural Brown page; unique brow pencil and brown stroke swatches"
   },
   "gid://shopify/ProductVariant/48079938912414": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-01-25-4f3c910e7904168409f927e1.webp",
-    "presentation": "product-shade",
-    "evidence": "LIPS exact 2aN Pocket Cotton Blurring Stick 01 Baby Peach page; unique arm swatch with the corresponding stick product"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-pocket-cotton-blurring-stick-01_6195cad9-88e0-4cdc-9aa1-0ccb6c3fe002.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Exact 2aN Pocket Cotton Blurring Stick 01 Baby Peach real-person lip result with matching product; filename, variant title, barcode and SOL visual review passed"
   },
   "gid://shopify/ProductVariant/48079627583646": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ELtLBjlByu20250825142103_1200.png",
@@ -3383,5 +3383,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/13_fb9f693b-6f54-45b9-b190-00aaaecbe7a0.jpg",
     "presentation": "product-shade",
     "evidence": "Exact Dasique Soufflé Color Pot 13 product and matching paste; filename, barcode, Shopify media and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48079938945182": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-pocket-cotton-blurring-stick-02_d7d27589-24f0-44c8-ae90-723c4c56ad42.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Exact 2aN Pocket Cotton Blurring Stick 02 Cotton Fizz real-person lip result with matching product; filename, variant title, barcode and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48079938977950": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-pocket-cotton-blurring-stick-03_3d29d599-b3b4-49c5-8172-af16122a7f44.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Exact 2aN Pocket Cotton Blurring Stick 03 Berry Milk real-person lip result with matching product; filename, variant title, barcode and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48079939010718": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-pocket-cotton-blurring-stick-04_56f41a0f-a140-4911-84fa-fc6bb11e6e72.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Exact 2aN Pocket Cotton Blurring Stick 04 Hug Pink real-person lip result with matching product; filename, variant title, barcode and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48079939043486": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-pocket-cotton-blurring-stick-05_784c7dd7-e285-49d4-926c-8b81d0eb22fc.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Exact 2aN Pocket Cotton Blurring Stick 05 Ruddy Cherry real-person lip result with matching product; filename, variant title, barcode and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48079939076254": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-pocket-cotton-blurring-stick-06_304015e8-64c2-4fcf-b7f9-53ee98763e98.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Exact 2aN Pocket Cotton Blurring Stick 06 Cream Mauve real-person lip result with matching product; filename, variant title, barcode and SOL visual review passed"
   }
 }
