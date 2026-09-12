@@ -822,10 +822,12 @@
       const preselected = wantedVariant
         ? variants.find((v) => String(v.id).endsWith(`/${wantedVariant}`))
         : null;
-      let selectedVariantId = (preselected || variants[0])?.id;
+      const primaryOptionName = product.options?.[0]?.name || 'TYPE';
+      const requiresExplicitShade = variants.length > 1 && primaryOptionName !== '度數';
+      let selectedVariantId = (preselected || (!requiresExplicitShade ? variants[0] : null))?.id || null;
 
       if (variants.length > 1 && optionsContainer) {
-        const optionName = product.options?.[0]?.name || 'TYPE';
+        const optionName = primaryOptionName;
         // Lenses are chosen by a number, not browsed. Twenty-five buttons
         // each carrying the same price is a wall of noise; what a shopper
         // needs is to find their own power and know whether it ships today
@@ -885,6 +887,11 @@
             optionsContainer.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('is-selected'));
             btn.classList.add('is-selected');
             selectedVariantId = btn.dataset.variantId;
+            const cartButton = document.getElementById('add-to-cart-btn');
+            if (cartButton && !cartButton.classList.contains('btn--sold-out')) {
+              cartButton.disabled = false;
+              cartButton.textContent = '加入購物袋';
+            }
             if (btn.classList.contains('power-btn')) sayStock(btn);
             const v = variants.find(v => v.id === selectedVariantId);
             showVariantImage(v);
@@ -933,6 +940,11 @@
         ask.dataset.restock = product.handle;
         ask.dataset.restockTitle = product.title || '';
         addBtn.insertAdjacentElement('afterend', ask);
+      }
+
+      if (addBtn && anyStock && requiresExplicitShade && !preselected) {
+        addBtn.textContent = '請先揀色號';
+        addBtn.disabled = true;
       }
 
       if (addBtn && anyStock) {
