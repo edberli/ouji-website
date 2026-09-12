@@ -50,7 +50,8 @@ def media_nodes(product):
         node = edge["node"]
         image = node.get("image") or {}
         if image.get("url"):
-            out.append((node["id"], urllib.parse.unquote(image["url"]).lower()))
+            url = urllib.parse.unquote(image["url"])
+            out.append((node["id"], url, url.lower()))
     return out
 
 
@@ -89,7 +90,11 @@ def proposals(products):
             method = None
             if code:
                 pattern = re.compile(rf"(?<![a-z0-9]){re.escape(code)}(?![a-z0-9])")
-                matches = [(media_id, url) for media_id, url in media if pattern.search(url)]
+                matches = [
+                    (media_id, url)
+                    for media_id, url, searchable_url in media
+                    if pattern.search(searchable_url)
+                ]
                 method = "exact-shade-code-in-existing-media-filename"
             if len(matches) != 1:
                 # Some official files carry the shade name but not its code.
@@ -98,8 +103,8 @@ def proposals(products):
                 words = distinctive_words(title)
                 if words:
                     matches = []
-                    for media_id, url in media:
-                        tokens = re.sub(r"[^a-z0-9]+", " ", url)
+                    for media_id, url, searchable_url in media:
+                        tokens = re.sub(r"[^a-z0-9]+", " ", searchable_url)
                         if all(re.search(rf"\b{re.escape(word)}\b", tokens) for word in words):
                             matches.append((media_id, url))
                     method = "exact-distinctive-shade-name-in-existing-media-filename"

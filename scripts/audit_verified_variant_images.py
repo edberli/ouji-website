@@ -47,7 +47,8 @@ query VariantShadeMedia($ids: [ID!]!) {
 
 def canonical_url(url):
     parsed = urllib.parse.urlsplit(url or "")
-    return (parsed.netloc + parsed.path).lower()
+    # Hostnames are case-insensitive; Shopify CDN object paths are not.
+    return parsed.netloc.lower() + urllib.parse.unquote(parsed.path)
 
 
 def audit(path):
