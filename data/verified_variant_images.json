@@ -2318,5 +2318,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-19.jpg",
     "presentation": "cheek-swatch",
     "evidence": "Exact Dasique Blending Mood Cheek 19 Milky Berry four-colour human cheek result; barcode and visible shade label cross-checked"
+  },
+  "gid://shopify/ProductVariant/48083472941214": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HC192_01_Warm_Frecle.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official hince Dewy Liquid Cheek LC001 Warm Freckle same-layout human cheek and texture result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48083472973982": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HC192_02_Sunlit_Peach.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official hince Dewy Liquid Cheek LC002 Sunlit Peach same-layout human cheek and texture result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48083473006750": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HC192_03_Cool_Flutter.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official hince Dewy Liquid Cheek LC003 Cool Flutter same-layout human cheek and texture result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48083473039518": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HC192_04_Husky_Mauve.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official hince Dewy Liquid Cheek LC004 Husky Mauve same-layout human cheek and texture result; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/48083473072286": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HC192_05_Strut_Red.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official hince Dewy Liquid Cheek LC005 Strut Red same-layout human cheek and texture result; exact barcode cross-checked"
   }
 }
