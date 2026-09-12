@@ -3113,5 +3113,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/95ab3580-7028-4911-8e78-ecfc2c387076-2048x2048.webp",
     "presentation": "lip-swatch",
     "evidence": "Exact hince 15 PEACH DEW labelled lip and cheek result; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48083193987230": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/amuse-04-honey-me.png",
+    "presentation": "lip-swatch",
+    "evidence": "Exact AMUSE 04 Honey Me human lip result from exact Watsons product page; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48083194019998": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/amuse-05-rococo.png",
+    "presentation": "lip-swatch",
+    "evidence": "Exact AMUSE 05 Rococo labelled human lip result from exact Watsons product page; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48083194118302": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/amuse-08-girlfriend.png",
+    "presentation": "lip-swatch",
+    "evidence": "Exact AMUSE 08 Girlfriend human lip result from exact Watsons product page; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48086955458718": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-15-rose-milk-tea.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Exact Dasique #15 Rose Milk Tea official real-cheek result for internal shade 4; local title and barcode cross-checked; SOL and main visual review passed"
   }
 }
