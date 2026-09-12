@@ -3178,5 +3178,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/peripera-cheek-30-soft-pink.jpg",
     "presentation": "cheek-swatch",
     "evidence": "Exact Peripera 30 Soft Pink real-person cheek result with matching labelled product; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48084472037534": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/21N_cb868977-e430-4176-b8c1-d1a2b85452d5.jpg",
+    "presentation": "product-shade",
+    "evidence": "Exact TIRTIR Mask Fit All Cover 21N Ivory product and foundation shade; barcode-confirmed title corrected from Sand; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48084472070302": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23N_15f06c75-c0d2-421a-8152-bf98ff651355.jpg",
+    "presentation": "product-shade",
+    "evidence": "Exact TIRTIR Mask Fit All Cover 23N Sand product and foundation shade; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48084472561822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/17C_ebf4d842-e28d-4a11-87fc-06a51f5e5796.jpg",
+    "presentation": "product-shade",
+    "evidence": "Exact TIRTIR Mask Fit Aura 17C Porcelain product and foundation shade; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48084472594590": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/21N_1bd9b584-f5be-4680-8de3-55529756c1d9.jpg",
+    "presentation": "product-shade",
+    "evidence": "Exact TIRTIR Mask Fit Aura 21N Ivory product and foundation shade; local title and barcode cross-checked; SOL and main visual review passed"
+  },
+  "gid://shopify/ProductVariant/48084472627358": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23N_c0e323e9-7a5c-4b6e-90d7-42cdddc5e7c1.jpg",
+    "presentation": "product-shade",
+    "evidence": "Exact TIRTIR Mask Fit Aura 23N Sand product and foundation shade; local title and barcode cross-checked; SOL and main visual review passed"
   }
 }
