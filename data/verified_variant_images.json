@@ -1403,5 +1403,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors-6.png",
     "presentation": "palette-shade",
     "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Cotton Candy Face Palette 06; independent two-pan palette"
+  },
+  "gid://shopify/ProductVariant/48079863906462": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-babe-skin-baby-blue-cushion-15g-6-colors.png",
+    "presentation": "complexion-swatch",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Babe Skin Cushion 17C; independent cushion and foundation swipe"
+  },
+  "gid://shopify/ProductVariant/48079863939230": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-babe-skin-baby-blue-cushion-15g-6-colors-4.png",
+    "presentation": "complexion-swatch",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Babe Skin Cushion 21N; independent cushion and foundation swipe"
+  },
+  "gid://shopify/ProductVariant/48079863971998": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-babe-skin-baby-blue-cushion-15g-6-colors-5.png",
+    "presentation": "complexion-swatch",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Babe Skin Cushion 23W; independent cushion and foundation swipe"
   }
 }
