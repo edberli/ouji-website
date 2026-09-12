@@ -1768,5 +1768,50 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800299132251-2.jpg",
     "presentation": "lip-swatch",
     "evidence": "Barcode-named Fancylife AMUSE Sanrio Powder Lip and Cheek My Melody 01 image; independently labelled lip result"
+  },
+  "gid://shopify/ProductVariant/48079362982046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/b41836a1c59e62c58cc55a0f-1704771853.webp",
+    "presentation": "arm-swatch",
+    "evidence": "LIPS exact Heart Percent 02 Creamy Pink pattern and review; independent single-shade arm swatch"
+  },
+  "gid://shopify/ProductVariant/48079927181470": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_07.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 01 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079927214238": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_09.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 02 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079927247006": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_11.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 03 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079927279774": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_13.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 04 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079927312542": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_15.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 05 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079927345310": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_17.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 06 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079927378078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_19.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 07 and shows matching palette plus cheek result; exact SKU barcode"
+  },
+  "gid://shopify/ProductVariant/48079927410846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dual_cheek_jp_21.jpg",
+    "presentation": "cheek-swatch",
+    "evidence": "Official 2aN Japan detail image independently labels 08 and shows matching palette plus cheek result; exact SKU barcode"
   }
 }
