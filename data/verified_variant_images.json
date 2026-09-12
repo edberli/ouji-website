@@ -908,5 +908,35 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Laka-jelling-nude-gloss-cover-306.jpg",
     "presentation": "lip-swatch",
     "evidence": "Laka authorised Hong Kong distributor exact 306 Angel Ring page; unique product and labelled lip-swatch image"
+  },
+  "gid://shopify/ProductVariant/48079606939806": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/sYTzpfBKUk20250825152629_1200.png",
+    "presentation": "lip-swatch",
+    "evidence": "CLIO Hong Kong Flagship Store exact single-shade page for 01 Vintage Apple; unique product and lip-colour image"
+  },
+  "gid://shopify/ProductVariant/48079606972574": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hfqHVjajRj20250825152705_1200.png",
+    "presentation": "lip-swatch",
+    "evidence": "CLIO Hong Kong Flagship Store exact single-shade page for 05 Fresh Cherry; unique product and lip-colour image"
+  },
+  "gid://shopify/ProductVariant/48079607005342": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/NFvFPubmYb20250825152716_1200.png",
+    "presentation": "lip-swatch",
+    "evidence": "CLIO Hong Kong Flagship Store exact single-shade page for 06 Daily Mauve; unique product and lip-colour image"
+  },
+  "gid://shopify/ProductVariant/48079607300254": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/KGKhVppQFL20250908155609_1200.png",
+    "presentation": "product-shade",
+    "evidence": "CLIO Hong Kong Flagship Store exact 23N Natural page; unique cushion image includes the complexion-colour swipe"
+  },
+  "gid://shopify/ProductVariant/48082959237278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8809625244132_1_20241220180300.jpg",
+    "presentation": "palette-shade",
+    "evidence": "exact title and barcode 8809625244132; unique image shows the opened rom&nd 06 Peony Nude Garden 10-pan palette"
+  },
+  "gid://shopify/ProductVariant/48082980110494": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/laka-fruity-glam-tint-swatch-120.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Laka authorised Hong Kong distributor exact 120 Caffeine Rose page; unique labelled product and lip-swatch image"
   }
 }
