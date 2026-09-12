@@ -2893,5 +2893,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8800258080678.jpg",
     "presentation": "lip-swatch",
     "evidence": "Official rom&nd exact #21 Grape Bomb four-panel human lip result; local title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48084878459038": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ouji-maybelline-fitme-10-new.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "Exact Maybelline Fit Me shade 10 thick human-skin swatch with tube marked 010; title and barcode cross-checked; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48084878491806": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4935421282666.webp",
+    "presentation": "complexion-swatch",
+    "evidence": "Exact Maybelline Fit Me shade 15 thick human-skin swatch visibly marked 15; title and barcode cross-checked; SOL low review passed"
   }
 }
