@@ -753,5 +753,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_TINT_05.jpg",
     "presentation": "lip-swatch",
     "evidence": "official TIRTIR Japan variant ID exact mapping; product and lip swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079753412766": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/d03dc7d5a5c22965efc998302cdea059.jpg",
+    "presentation": "product-shade",
+    "evidence": "official lilybyred exact cheek label; single product and applied cheek result visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079753445534": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/f2e4c92973c4ead99e82a72ccb0cf28f.jpg",
+    "presentation": "product-shade",
+    "evidence": "official lilybyred exact cheek label; single product and applied cheek result visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079760359582": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/844a868a93d3a49d313a11459e383b52.jpg",
+    "presentation": "product-shade",
+    "evidence": "official lilybyred exact highlighter label; single product and applied result visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079760392350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/0aba57f29df11c06a79748d6bccb3e11.jpg",
+    "presentation": "product-shade",
+    "evidence": "official lilybyred exact highlighter label; single product and applied result visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48079760425118": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/7b8095179d1e31cfd5f60863a2ce3532.jpg",
+    "presentation": "product-shade",
+    "evidence": "official lilybyred exact highlighter label; single product and applied result visually reviewed"
   }
 }
