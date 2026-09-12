@@ -703,5 +703,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/10bc8ebc6df663a506cb1c9fc8c9402b.jpg",
     "presentation": "eye-swatch",
     "evidence": "official lilybyred exact brow label; eyebrow result and matching product visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475543710": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/0.5n_2bbdc0ac-482b-459a-9c6b-ef78fb0b96fd.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475609246": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2c_f6f6ac4c-88cf-4f23-9e15-41abea8752e8.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475642014": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/3w_67231d4e-5c91-4f1f-a701-c63383e2244e.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475674782": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4.5n_b9f48a01-a153-4dbd-a4db-80e2ba2fa416.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475707550": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4n_31b436c8-266e-497a-8a25-38831ffdae42.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
   }
 }
