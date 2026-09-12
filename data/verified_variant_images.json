@@ -1478,5 +1478,35 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/55.png",
     "presentation": "lip-swatch",
     "evidence": "Seoul Terrace exact AMUSE Healthy Balm 05 variant image; labelled product and lip result"
+  },
+  "gid://shopify/ProductVariant/48079883141278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-tap-me-palette-duo-8_4g-3-colors.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Tap Me Palette N1; independent two-colour palette"
+  },
+  "gid://shopify/ProductVariant/48079883174046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-tap-me-palette-duo-8_4g-3-colors-2.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Tap Me Palette N2; independent two-colour palette"
+  },
+  "gid://shopify/ProductVariant/48079883206814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-tap-me-palette-duo-8_4g-3-colors-3.png",
+    "presentation": "palette-shade",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Tap Me Palette N3; independent two-colour palette"
+  },
+  "gid://shopify/ProductVariant/48079883993246": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-moonlight-liquid-glitter-4_1g-3-colors.png",
+    "presentation": "eye-swatch",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Moonlight Glitter 01; labelled independent pigment smear"
+  },
+  "gid://shopify/ProductVariant/48079884026014": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-moonlight-liquid-glitter-4_1g-3-colors-2.png",
+    "presentation": "eye-swatch",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Moonlight Glitter 02; labelled independent pigment smear"
+  },
+  "gid://shopify/ProductVariant/48079884058782": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-moonlight-liquid-glitter-4_1g-3-colors-3.png",
+    "presentation": "eye-swatch",
+    "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Moonlight Glitter 03; labelled independent pigment smear"
   }
 }
