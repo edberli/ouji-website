@@ -4443,5 +4443,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/19-misty-fig.jpg?v=1789333169",
     "presentation": "eye-swatch",
     "evidence": "Kurly official-brand colour note explicitly labels 19 Misty Fig beside its exact eye application and pigment stroke; OUJI barcode 8809716942435 and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082961760414": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01_brow_cara_grace_taupe_0.jpg?v=1789333777",
+    "presentation": "product-shade",
+    "evidence": "rom&nd official global store exact Grace Taupe featured variant image; same-format tube, brush and visible product pigment across the four OUJI shades; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082961793182": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02_brow_cara_mild_woody_0.jpg?v=1789333777",
+    "presentation": "product-shade",
+    "evidence": "rom&nd official global store exact Mild Woody featured variant image; same-format tube, brush and visible product pigment across the four OUJI shades; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082961825950": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/03_brow_cara_modern_beige_0.jpg?v=1789333777",
+    "presentation": "product-shade",
+    "evidence": "rom&nd official global store exact Modern Beige featured variant image; same-format tube, brush and visible product pigment across the four OUJI shades; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082961858718": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04_brow_cara_merry_blondy_0.jpg?v=1789333777",
+    "presentation": "product-shade",
+    "evidence": "rom&nd official global store exact Merry Blondy featured variant image; same-format tube, brush and visible product pigment across the four OUJI shades; Shopify binding verified"
   }
 }
