@@ -81,6 +81,7 @@
         </nav>
       </div>
       <div class="header__actions">
+        <button class="header__lang" type="button" data-lang-toggle aria-label="Switch language">EN</button>
         <button class="header__action-btn" aria-label="搜尋">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
@@ -789,10 +790,19 @@
       // shade-specific. Old imports attached gallery/model/line-up images to
       // variants. Unverified variants stay text-only instead of lying.
       const variantImageUrl = (variant) => variant?.image?.url || '';
+      const canonicalVariantAssetUrl = (url) => {
+        try {
+          const parsed = new URL(url, location.origin);
+          return `${parsed.host.toLowerCase()}${decodeURIComponent(parsed.pathname)}`;
+        } catch (_) {
+          return String(url || '').split('?')[0];
+        }
+      };
       function verifiedVariantImageUrl(variant) {
         const url = variantImageUrl(variant);
         const approved = verifiedVariantImages[variant?.id];
-        if (!url || !approved?.imageUrl || approved.imageUrl !== url.split('?')[0]) return '';
+        if (!url || !approved?.imageUrl
+          || canonicalVariantAssetUrl(approved.imageUrl) !== canonicalVariantAssetUrl(url)) return '';
         return ['lip-swatch', 'arm-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'cheek-swatch', 'complexion-swatch']
           .includes(approved.presentation) ? url : '';
       }
