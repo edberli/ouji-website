@@ -4553,5 +4553,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/new-texture-60.jpg?v=1789339067",
     "presentation": "product-shade",
     "evidence": "Maybelline Japan official selector maps EAN 6902395834205 to 60; exact shade-only lip texture image selected; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084883996830": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/760x1130_texture_skyhigh_av12_8d54decc-1c83-4218-af49-f0be50f18757.jpg?v=1789339524",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Japan official selector maps EAN 6902395833307 to FM-黑色; exact same-format mascara texture image selected; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084883964062": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/760x1130_texture_skyhigh_2_2eef71a0-a34f-4ade-8a26-323e19f14344.jpg?v=1789339525",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Japan official selector maps EAN 6902395839453 to 02-暮光棕; exact same-format mascara texture image selected; Shopify binding verified"
   }
 }
