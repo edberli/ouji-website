@@ -425,19 +425,19 @@
     "evidence": "exact local barcode and dedicated per-shade Maybelline concealer image; product colour visually reviewed"
   },
   "gid://shopify/ProductVariant/48084880720030": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybellinefaceinstantagerewinderaserconcealerreno100primary11.png",
-    "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar-100-texture-7601130.jpg?v=1789270864",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline Japan exact 100 variant texture image; same-format concealer texture visually reviewed; OUJI barcode 6902395853497 matches official Maybelline Japan 100; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48084880818334": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybellinefaceinstantagerewinderaserconcealerreno122primary11.png",
-    "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar-122-texture-7601130.jpg?v=1789270864",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline Japan exact 122 variant texture image; same-format concealer texture visually reviewed; OUJI barcode 6902395853527 matches official Maybelline Japan 122; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48084880851102": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybelline-face-instant-age-rewind-eraser-concealer-reno-130-primary-new.png",
-    "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar-130-texture-7601130.jpg?v=1789270864",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline Japan exact 130 variant texture image; same-format concealer texture visually reviewed; OUJI barcode 6902395853534 matches official Maybelline Japan 130; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48084881342622": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybelline-superstay-lumi-matte-c20-sslm-nasia-av12.png",
@@ -4008,5 +4008,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_MELTING_BALM_04.jpg?v=1789270526",
     "presentation": "product-shade",
     "evidence": "official TIRTIR Japan product JSON exact mapping for 04 Fig Peach; same-format product, exposed balm and pigment smear visually reviewed; OUJI barcode 8809928136004; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084880752798": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar_texture_632x950_110.jpg?v=1789270771",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline US exact 110 variant texture image; same-format concealer texture visually reviewed; OUJI barcode 6902395853503 matches official Maybelline Japan 110; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084880785566": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar_texture_632x950_120.jpg?v=1789270771",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline US exact 120 variant texture image; same-format concealer texture visually reviewed; OUJI barcode 6902395853510 matches official Maybelline Japan 120; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084880883870": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar_texture_632x950_140.jpg?v=1789270771",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline US exact 140 Honey variant texture image; same-format concealer texture visually reviewed; OUJI variant title is 140; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084880916638": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar-150-texture-7601130.jpg?v=1789270775",
+    "presentation": "complexion-swatch",
+    "evidence": "official Maybelline Japan exact 150 variant texture image; same-format concealer texture visually reviewed; OUJI variant title is 150; Shopify binding verified"
   }
 }
