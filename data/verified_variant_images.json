@@ -3833,5 +3833,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/11__03__01_1500x2040_e52424ff-fc73-42d3-96d4-6d2c2c8b4fdd.webp",
     "presentation": "palette-shade",
     "evidence": "exact LILYBYRED Dewy Fit Palette 03 Oatmeal variant image from Korean retailer product data; same-angle palette visibly shows its oatmeal neutral colour story; barcode 8809716944866; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083894796446": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02_LivelyBlurring_1500x2040_19a8689b-6f40-4bdf-ba29-bdaa89898f18.webp",
+    "presentation": "palette-shade",
+    "evidence": "exact WAKEMAKE Soft Blurring Eye Palette 02 Lively Blurring variant image from Korean retailer data; palette colour story visibly reviewed; barcode 8809864769021; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083894829214": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/03_SunsetBlurring_1500x2040_42e0e2d3-afbe-4fde-86d5-18e22ea5efd6.webp",
+    "presentation": "palette-shade",
+    "evidence": "exact WAKEMAKE Soft Blurring Eye Palette 03 Sunset Blurring variant image from Korean retailer data; palette colour story visibly reviewed; barcode 8809864769038; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083894861982": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04_LavenderBlurring_1500x2040_36ef6431-e952-4697-9a4f-933524805076.webp",
+    "presentation": "palette-shade",
+    "evidence": "exact WAKEMAKE Soft Blurring Eye Palette 04 Lavender Blurring variant image from Korean retailer data; palette colour story visibly reviewed; barcode 8809864769045; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083894894750": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05_MuteCoralBlurring_1500x2040_02cdbf2b-b523-4ca9-94b0-6daa388f57be.webp",
+    "presentation": "palette-shade",
+    "evidence": "exact WAKEMAKE Soft Blurring Eye Palette 05 Muted Coral Blurring variant image from Korean retailer data; palette colour story visibly reviewed; barcode 8809864769052; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083894927518": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemakesoftblurringeyepalette14g_14caramelblurring.png",
+    "presentation": "palette-shade",
+    "evidence": "exact WAKEMAKE Soft Blurring Eye Palette 14 Caramel Blurring variant image from retailer product data; front palette visibly shows its caramel colour story; barcode 8809030735348; Shopify featured-image binding verified"
   }
 }
