@@ -4293,5 +4293,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/000000000221-04.jpg?v=1789320710",
     "presentation": "complexion-swatch",
     "evidence": "Official hince Japan product JSON-LD maps AP002 BEIGE and exact GTIN 8809642484856 to this exclusive 1200x1440 beige powder texture; OUJI carries the same GTIN; AP001 and AP002 use the identical isolated powder-texture format, have distinct hashes, passed visual checks, and Shopify binding was verified"
+  },
+  "gid://shopify/ProductVariant/48079745843358": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thu_ebebcc04cf18483fa7f49e6c437c48e7.webp?v=1789321482",
+    "presentation": "palette-shade",
+    "evidence": "SkinSeoul exact 05 Almond Milk product page maps this exclusive front-open palette image to shade 05; OUJI carries 05 Almond Milk and EAN 8809716945597; the image visibly shows the complete muted almond colour story in the same palette-shade semantic format as the other verified Dewy Fit variants; visually checked and Shopify binding verified"
   }
 }
