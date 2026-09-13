@@ -4238,5 +4238,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/29c18bfc-a08b-47f9-b3cd-450360eb68b8.jpg?v=1789318252",
     "presentation": "product-shade",
     "evidence": "Lila Beauty exact Shopify variant JSON maps Winter-Tone Edition and EAN 8809611862869 to this exclusive two-bottle-and-box image; OUJI carries the same EAN; all four in-stock edition images were visually reviewed as one consistent product presentation and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083895812254": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WAKEMAKE_Over_Blurring_Pot_02_Rose_Beige.jpg?v=1789318735",
+    "presentation": "product-shade",
+    "evidence": "Pharmacoo exact Shopify variant JSON maps 02 Rose Beige and EAN 8809526844400 to this exclusive numbered texture image; OUJI carries the same EAN; the four-image set uses one consistent 1080x1080 texture presentation and passed visual and unique-hash checks; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083895845022": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WAKEMAKE_Over_Blurring_Pot_03_Blessing_Coral.jpg?v=1789318735",
+    "presentation": "product-shade",
+    "evidence": "Pharmacoo exact Shopify variant JSON maps 03 Blessing Coral and EAN 8809526844417 to this exclusive numbered texture image; OUJI carries the same EAN; the four-image set uses one consistent 1080x1080 texture presentation and passed visual and unique-hash checks; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083895877790": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WAKEMAKE_Over_Blurring_Pot_05_India_Rose.jpg?v=1789318735",
+    "presentation": "product-shade",
+    "evidence": "Pharmacoo exact Shopify variant JSON maps 05 India Rose and EAN 8809526844431 to this exclusive numbered texture image; OUJI carries the same EAN; the four-image set uses one consistent 1080x1080 texture presentation and passed visual and unique-hash checks; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083895910558": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WAKEMAKE_Over_Blurring_Pot_06_Raw_Pink.jpg?v=1789318735",
+    "presentation": "product-shade",
+    "evidence": "Pharmacoo exact Shopify variant JSON maps 06 Raw Pink and EAN 8809526844448 to this exclusive numbered texture image; OUJI carries the same EAN; the four-image set uses one consistent 1080x1080 texture presentation and passed visual and unique-hash checks; Shopify binding verified"
   }
 }
