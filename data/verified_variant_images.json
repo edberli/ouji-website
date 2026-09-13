@@ -1,33 +1,43 @@
 {
   "gid://shopify/ProductVariant/48070094880926": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04895b9ff221a16e4cd3982c-1736041561.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #01 Ardor; independent single-shade arm/lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-01_ARDOR.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 01 ARDOR with exact single-shade hand and wrist result"
+  },
+  "gid://shopify/ProductVariant/48070094913694": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-02.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 02 RORTY / CORAL PEACH with exact single-shade hand and wrist result"
   },
   "gid://shopify/ProductVariant/48070094946462": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-05-30-eec65313c1a5ba64105c919b.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #03 Posh; independent single-shade lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-03_POSH.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 03 POSH with exact single-shade hand and wrist result"
   },
   "gid://shopify/ProductVariant/48070094979230": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-04-08-74f482768ed44dfff09c7a11.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #05 Ease; independent single-shade arm/lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-05_EASE.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 05 EASE with exact single-shade hand and wrist result"
   },
   "gid://shopify/ProductVariant/48070095011998": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-05-09-63bd6f012e80dcd88921de82.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #06 Plucky; independent single-shade arm/lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-06_PLUCKY.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 06 PLUCKY with exact single-shade hand and wrist result"
   },
   "gid://shopify/ProductVariant/48070095044766": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-01-26-6f7d8c55543b7a822e6a041f.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #07 Boldness; independent single-shade arm/lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-07_BOLDNESS.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 07 BOLDNESS with exact single-shade hand and wrist result"
   },
   "gid://shopify/ProductVariant/48070095077534": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-07-2f59f5e9519f12958f7db827.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact product-pattern page for BRAYE LIPSLEEK #08 Roughly; independent single-shade arm/lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-08_ROUGHLY.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 08 ROUGHLY with exact single-shade hand and wrist result"
+  },
+  "gid://shopify/ProductVariant/48070095110302": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-10.jpg",
+    "presentation": "arm-swatch",
+    "evidence": "Official BRAYE asset labelled 10 CLEAR / TRANSPARENT with exact single-shade transparent hand and wrist result"
   },
   "gid://shopify/ProductVariant/48079608774814": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/CLIO_Essential_Blush_Tap_8_Colors-m101.jpg",
