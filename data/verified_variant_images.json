@@ -3670,24 +3670,24 @@
     "evidence": "official hince Japan product page maps pale-lavender.jpg to PALE LAVENDER; exact lavender tone-up base swatch visually reviewed; barcode 8809642482104, Shopify binding and SOL low review passed"
   },
   "gid://shopify/ProductVariant/48083500236958": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-rosy.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-variant-03.jpg",
     "presentation": "complexion-swatch",
-    "evidence": "official hince Japan Glow Cushion page maps rosy.jpg to 15 ROSY; exact glossy complexion swatch visually reviewed; barcode 8809642483293, Shopify binding and SOL low review passed"
+    "evidence": "official hince Japan Glow Cushion variant thumbnail maps product image 03 to 15 ROSY; exact rounded glossy formula swatch visually reviewed; barcode 8809642483293 and Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48083500269726": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-porcelain.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-variant-04.jpg",
     "presentation": "complexion-swatch",
-    "evidence": "official hince Japan Glow Cushion page maps porcelain.jpg to 17 PORCELAIN; exact glossy complexion swatch visually reviewed; barcode 8809642483309, Shopify binding and SOL low review passed"
+    "evidence": "official hince Japan Glow Cushion variant thumbnail maps product image 04 to 17 PORCELAIN; exact rounded glossy formula swatch visually reviewed; barcode 8809642483309 and Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48083500302494": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-ivory.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-variant-05.jpg",
     "presentation": "complexion-swatch",
-    "evidence": "official hince Japan Glow Cushion page maps ivory.jpg to 21 IVORY; exact glossy complexion swatch visually reviewed; barcode 8809642483316, Shopify binding and SOL low review passed"
+    "evidence": "official hince Japan Glow Cushion variant thumbnail maps product image 05 to 21 IVORY; exact rounded glossy formula swatch visually reviewed; barcode 8809642483316 and Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48083500335262": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-sand.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-variant-06.jpg",
     "presentation": "complexion-swatch",
-    "evidence": "official hince Japan Glow Cushion page maps sand.jpg to 23 SAND; exact glossy complexion swatch visually reviewed; barcode 8809642483323, Shopify binding and SOL low review passed"
+    "evidence": "official hince Japan Glow Cushion variant thumbnail maps product image 06 to 23 SAND; exact rounded glossy formula swatch visually reviewed; barcode 8809642483323 and Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48083491782814": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-allround-03.jpg",
@@ -3713,5 +3713,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-allround-07.jpg",
     "presentation": "palette-shade",
     "evidence": "official hince Japan All-Round Eye Palette variant image maps to 05 ROSE FUZZ; exact open five-pan palette visually reviewed; barcode 8809642485440, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083507380382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-mesh-03.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Mesh Matte Cushion variant thumbnail maps product image 03 to 15 ROSY; exact elongated matte formula swatch visually reviewed; barcode 8809642483729 and Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083507413150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-mesh-04.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Mesh Matte Cushion variant thumbnail maps product image 04 to 17 PORCELAIN; exact elongated matte formula swatch visually reviewed; barcode 8809642483736 and Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083507445918": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-mesh-05.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Mesh Matte Cushion variant thumbnail maps product image 05 to 21 IVORY; exact elongated matte formula swatch visually reviewed; barcode 8809642483743 and Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083507478686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-mesh-06.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Mesh Matte Cushion variant thumbnail maps product image 06 to 23 SAND; exact elongated matte formula swatch visually reviewed; barcode 8809642483750 and Shopify featured-image binding verified"
   }
 }
