@@ -1025,19 +1025,19 @@
     "evidence": "Laka authorised Hong Kong distributor exact 120 Caffeine Rose page; unique labelled product and lip-swatch image"
   },
   "gid://shopify/ProductVariant/48079362392222": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5ca6f78c36074ddab1b94566-1668244360.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent Dote On Mood Pure Glow Tint 01 Peach Coral page and barcode match; unique glossy lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01_89089bb1-7430-4240-ade8-59fb536d3438.png",
+    "presentation": "product-shade",
+    "evidence": "official Heart Percent US Shopify Pure Glow Tint variant 01 Peach Coral directly supplies this bottle-applicator-and-product-colour image; Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48079362424990": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/005a7f891e87c61637d4efdf-1725011659.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent Dote On Mood Pure Glow Tint 02 Pink Rose page and barcode match; unique glossy lip result and hand swatch"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02.png",
+    "presentation": "product-shade",
+    "evidence": "official Heart Percent US Shopify Pure Glow Tint variant 02 Pink Rose directly supplies this bottle-applicator-and-product-colour image; Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48079362490526": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9fffe11f694953018fcef3f7-1739688656.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent Dote On Mood Pure Glow Tint 06 Mood Beige page and barcode match; unique hand swatch and lip-result inset"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/06.png",
+    "presentation": "product-shade",
+    "evidence": "official Heart Percent US Shopify Pure Glow Tint variant 06 Mood Beige directly supplies this bottle-applicator-and-product-colour image; Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48079785492638": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6357d0d62fba1f7a9620188cdc2e9cbc.jpg",
@@ -3758,5 +3758,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fruity-lip-jam-326700_d8c3fcf3-ee69-452d-b68c-9c40c703c293.jpg",
     "presentation": "product-shade",
     "evidence": "official dasique global Fruity Lip Jam product image sequence maps shade 10 Fig Jam to the tenth consistent pot-and-product-colour image; OUJI variant title #10 無花果醬 and barcode 8809581534124; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48079362457758": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04.png",
+    "presentation": "product-shade",
+    "evidence": "official Heart Percent US Shopify Pure Glow Tint variant 04 Mauve directly supplies this bottle-applicator-and-product-colour image; OUJI variant #04 Mauve 豆沙紫 and barcode 8809693600533; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48079362523294": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/17_e445bb5d-ebcf-4159-af69-cb9c0e9cc865.jpg",
+    "presentation": "product-shade",
+    "evidence": "official Heart Percent US Shopify Pure Glow Tint variant 17 Flash Pink directly supplies this bottle-applicator-and-product-colour image; OUJI variant #17 Flash Pink 亮粉 and barcode 8809693601783; Shopify featured-image binding verified"
   }
 }
