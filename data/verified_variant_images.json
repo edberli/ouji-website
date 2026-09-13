@@ -4298,5 +4298,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thu_ebebcc04cf18483fa7f49e6c437c48e7.webp?v=1789321482",
     "presentation": "palette-shade",
     "evidence": "SkinSeoul exact 05 Almond Milk product page maps this exclusive front-open palette image to shade 05; OUJI carries 05 Almond Milk and EAN 8809716945597; the image visibly shows the complete muted almond colour story in the same palette-shade semantic format as the other verified Dewy Fit variants; visually checked and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079766388894": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thu_2f9e492e16614719b5ec62ffc1bc91e4.webp?v=1789321835",
+    "presentation": "product-shade",
+    "evidence": "SkinSeoul shade-specific page maps this image exclusively to 07 Grape Topping; OUJI carries exact shade and EAN 8809716944675; image uses the same front-facing heart compact plus product smear format as verified shades 01 to 06, has a distinct hash, passed visual comparison, and Shopify binding was verified"
   }
 }
