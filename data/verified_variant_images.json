@@ -4313,5 +4313,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05____1500x2040_6b66b0a2-7502-4aeb-9908-f5593bcdc62b.webp?v=1789322191",
     "presentation": "product-shade",
     "evidence": "Baerry exact Shopify variant data maps 05 Black Brown exclusively to this 1500x2040 mascara and pigment-stroke image; OUJI carries exact shade and EAN 8809393724423; all in-stock variants use the identical product-shade format with distinct hashes; visually checked and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48203492360350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Product-page-sizes-Apricot.jpg?v=1789322700",
+    "presentation": "palette-shade",
+    "evidence": "Korean Skincare Germany exact Shopify variant data maps 01 Apricot Mood exclusively to this 800x800 open-palette image; exact EAN 8809625246938 is independently confirmed by rom&nd distributor data; both variants use the identical front-open palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48203492393118": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Product-page-sizes-Strawberry.jpg?v=1789322700",
+    "presentation": "palette-shade",
+    "evidence": "Korean Skincare Germany exact Shopify variant data maps 02 Strawberry Mood exclusively to this 800x800 open-palette image; exact EAN 8809625246945 is independently confirmed by rom&nd distributor data; both variants use the identical front-open palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
   }
 }
