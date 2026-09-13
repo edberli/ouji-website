@@ -4323,5 +4323,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Product-page-sizes-Strawberry.jpg?v=1789322700",
     "presentation": "palette-shade",
     "evidence": "Korean Skincare Germany exact Shopify variant data maps 02 Strawberry Mood exclusively to this 800x800 open-palette image; exact EAN 8809625246945 is independently confirmed by rom&nd distributor data; both variants use the identical front-open palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079670771870": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/002-DEEP-BROWN-_2_5e1e5b7e-b18a-43e2-a640-395c2bd39f05.jpg?v=1789322969",
+    "presentation": "palette-shade",
+    "evidence": "Baerry exact Shopify variant data maps 002 Deep Brown exclusively to this 1000x1360 front-open contour palette image; OUJI carries exact EAN 8809900981257; both in-stock variants use the identical product-only palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079670804638": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/003-GRAYISH-COOL-_2_5d5cb205-fbfd-46e1-b80c-e052e52cf69b.jpg?v=1789322969",
+    "presentation": "palette-shade",
+    "evidence": "Baerry exact Shopify variant data maps 003 Grayish Cool exclusively to this 1000x1360 front-open contour palette image; OUJI carries exact EAN 8809900981264; both in-stock variants use the identical product-only palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
   }
 }
