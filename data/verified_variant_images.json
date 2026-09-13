@@ -3858,5 +3858,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemakesoftblurringeyepalette14g_14caramelblurring.png",
     "presentation": "palette-shade",
     "evidence": "exact WAKEMAKE Soft Blurring Eye Palette 14 Caramel Blurring variant image from retailer product data; front palette visibly shows its caramel colour story; barcode 8809030735348; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48079608479902": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-soft-blending-shadow-stick-14g004floz-5926762.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact CLIO Soft Blending Shadow Stick M203 Mellow Woody eye-result image from a shade-specific retailer page; visually shows the warm woody shade on eyelid; OUJI barcode 8800255688310; Shopify featured-image binding verified"
   }
 }
