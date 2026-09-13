@@ -4168,5 +4168,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/150643-10-cdfe08499333e378ae1116713a0a8023-2000x2000.jpg?v=1789308319",
     "presentation": "product-shade",
     "evidence": "Laka Japan official distributor PR TIMES release places this same-format 2000x2000 product, texture and brow-result image under #06 Rose Burgundy; OUJI barcode 8809611863545 identifies the variant; unique-hash and visual review passed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079930556574": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____17.png?v=1789312976",
+    "presentation": "product-shade",
+    "evidence": "Horanghee exact Shopify variant JSON maps #17 Pure Ivory to this exclusive open-cushion and liquid-texture image; iHerb product code twa20654 and EAN 8809968206545 cross-check the exact shade; same-format set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079930622110": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____23.png?v=1789312976",
+    "presentation": "product-shade",
+    "evidence": "Horanghee exact Shopify variant JSON maps #23 Natural Beige to this exclusive open-cushion and liquid-texture image; iHerb product code twa20657 and EAN 8809968206576 cross-check the exact shade; same-format set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079930654878": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____25.png?v=1789312976",
+    "presentation": "product-shade",
+    "evidence": "Horanghee exact Shopify variant JSON maps #25 Sand Beige to this exclusive open-cushion and liquid-texture image; iHerb product code twa20658 and EAN 8809968206583 cross-check the exact shade; same-format set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079930687646": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____27_1.png?v=1789312975",
+    "presentation": "product-shade",
+    "evidence": "Horanghee exact Shopify variant JSON maps #27 Soft Ember to this exclusive open-cushion and liquid-texture image; OUJI names the same EAN 8809968206590 variant Soft Amber; iHerb product code twa20659 cross-checks the exact shade; same-format set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079930720414": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____29.png?v=1789312975",
+    "presentation": "product-shade",
+    "evidence": "Horanghee exact Shopify variant JSON maps #29 Caramel Beige to this exclusive open-cushion and liquid-texture image; iHerb product code twa20660 and EAN 8809968206606 cross-check the exact shade; same-format set visually reviewed; Shopify binding verified"
   }
 }
