@@ -4608,5 +4608,50 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_f83bfd32-8fe5-49da-847b-54621c6c18e9.png?v=1789340923",
     "presentation": "complexion-swatch",
     "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 23 NATURAL BEIGE / 23 自然色 to media 65b0cbaeeadac6000e105b9c; exact same-format 1200x1200 complexion smear; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083900629150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_a6742c1d-12e0-4bcd-9221-4e1abcf48538.png?v=1789341135",
+    "presentation": "complexion-swatch",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 19 Porcelaine / 19 瑭瓷白 to media 65e553815492100020c7f4c4; exact same-format 1200x1200 complexion smear; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083900661918": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_3e73b8d2-fa74-43ea-aa61-e1e0f373c789.png?v=1789341135",
+    "presentation": "complexion-swatch",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 21 Vanilla / 21 暖米色 to media 65e553890f3f1a001d5fdee4; exact same-format 1200x1200 complexion smear; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083900694686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_a7a48827-aa37-490a-8cdf-dca5626f6c18.png?v=1789341135",
+    "presentation": "complexion-swatch",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 23 Beige / 23 自然色 to media 65e5538fcede8b00146bca57; exact same-format 1200x1200 complexion smear; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083902890142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_c9ef2562-84a9-4fb3-b7ac-48611cb06249.png?v=1789341366",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 01 Pale Clear / 01 白皙色 to media 6825a53d642f9a00111781b6; exact product and loose-powder colour image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083902922910": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_51c530d6-3deb-497a-985c-2d3fdbeac907.jpg?v=1789341365",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 02 Light Skin / 02 自然粉嫩 to media 6a829dcd95560e77d100dd6d; exact product and loose-powder colour image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083898761374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_3cc0ae30-a101-40a0-bb81-323c164f4a66.png?v=1789341376",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 01 Light / 01 亮色 to media 6683ab5f0adc8f0013aa108c; exact palette and six-smear comparison image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083898794142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_7836500f-df7d-4213-9587-67b3924d2e4d.png?v=1789341376",
+    "presentation": "product-shade",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 02 Medium / 02 自然色 to media 6683ab680adc8f001caa1318; exact palette and six-smear comparison image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083901251742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_bce89eb8-71ee-4f89-be63-1d96d9bbbc39.png?v=1789341384",
+    "presentation": "eye-swatch",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 01 Define Fixing / 01 持久捲翹 to media 69367765b373683187818e0f; exact same-format eye result, wand and formula image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083901284510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/original_c51eba80-3642-42e1-89dd-c92868a13d71.png?v=1789341384",
+    "presentation": "eye-swatch",
+    "evidence": "WAKEMAKE Hong Kong official SHOPLINE variant data maps 02 Define Tension / 02 輕盈纖長 to media 6936776f8f4db2001285e82e; exact same-format eye result, wand and formula image; Shopify binding verified"
   }
 }
