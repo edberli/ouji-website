@@ -1060,14 +1060,14 @@
     "evidence": "official Heart Percent US Shopify Pure Glow Tint variant 06 Mood Beige directly supplies this bottle-applicator-and-product-colour image; Shopify featured-image binding verified"
   },
   "gid://shopify/ProductVariant/48079785492638": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6357d0d62fba1f7a9620188cdc2e9cbc.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02-glam-mocha.jpg?v=1789333168",
     "presentation": "eye-swatch",
-    "evidence": "Lilybyred official exact 02 Glam Mocha image; single eye application, eyeliner and clear shade label"
+    "evidence": "Kurly official-brand colour note explicitly labels 02 Glam Mocha beside its exact eye application and pigment stroke; replaces the incorrectly numbered current Lilybyred image that visibly said 02 Matte Brown"
   },
   "gid://shopify/ProductVariant/48079785525406": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/86529a619104ae3cd7ed8127e228f2df.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04-golden-pink.jpg?v=1789333169",
     "presentation": "eye-swatch",
-    "evidence": "Lilybyred official exact 04 Gold Pink image; single eye application, eyeliner and clear shade label"
+    "evidence": "Kurly official-brand colour note explicitly labels 04 Golden Pink beside its exact eye application and pigment stroke; replaces the incorrectly named current Lilybyred image that visibly said 04 Glam Mocha"
   },
   "gid://shopify/ProductVariant/48079785558174": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/041a705349e6bb1efe799347ad87df9d.jpg",
@@ -4438,5 +4438,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6902395735496.jpg?v=1789332319",
     "presentation": "complexion-swatch",
     "evidence": "Make Up Solution exact JAN 6902395735496 product page for Maybelline Fit Me Concealer 07; dedicated tube and filled concealer smear visibly show the shade; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079785656478": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/19-misty-fig.jpg?v=1789333169",
+    "presentation": "eye-swatch",
+    "evidence": "Kurly official-brand colour note explicitly labels 19 Misty Fig beside its exact eye application and pigment stroke; OUJI barcode 8809716942435 and Shopify binding verified"
   }
 }
