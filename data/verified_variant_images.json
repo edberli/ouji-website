@@ -234,6 +234,21 @@
     "presentation": "product-shade",
     "evidence": "official variant image visually reviewed for consistent shade presentation"
   },
+  "gid://shopify/ProductVariant/48084048052382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1_c76cfb10-a864-4f87-9877-c6098200c471.jpg?v=1789307975",
+    "presentation": "product-shade",
+    "evidence": "Official fwee US EP01 Candy Floss featured variant image; exact 1500x1500 open-palette presentation and EAN 8809652588803 cross-checked"
+  },
+  "gid://shopify/ProductVariant/48084048085150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2_fdcb20f4-7de4-409e-bfab-7d6927d0607d.jpg?v=1789307975",
+    "presentation": "product-shade",
+    "evidence": "Official fwee US EP02 Yogurt Peach featured variant image; exact 1500x1500 open-palette presentation and EAN 8809652588810 cross-checked"
+  },
+  "gid://shopify/ProductVariant/48084048117918": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4_0f526bdb-94fc-465a-a87a-8f242e368de3.jpg?v=1789307975",
+    "presentation": "product-shade",
+    "evidence": "Official fwee US EP04 Salty Caramel featured variant image; exact 1500x1500 open-palette presentation and EAN 8809652588834 cross-checked"
+  },
   "gid://shopify/ProductVariant/48084048150686": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5_674029d6-4e35-4d0e-9e35-6ecbdf19bb11.jpg",
     "presentation": "product-shade",
