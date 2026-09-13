@@ -4538,5 +4538,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/14-3.jpg?v=1789337923",
     "presentation": "product-shade",
     "evidence": "Maybelline Taiwan official Lifter Shine selector maps EAN 6902395971917 to 14 Berry; exact shade-only gloss texture image uses the same official third-image format across all four OUJI variants; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084885373086": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6902395850601_packshot2.jpg?v=1789339065",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Taiwan official selector maps EAN 6902395850601 to 105; exact shade-only lip texture image selected; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084885405854": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/new-texture-53.jpg?v=1789339066",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Japan official selector maps EAN 6902395834229 to 53; exact shade-only lip texture image selected; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084885438622": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/new-texture-60.jpg?v=1789339067",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Japan official selector maps EAN 6902395834205 to 60; exact shade-only lip texture image selected; Shopify binding verified"
   }
 }
