@@ -3410,14 +3410,29 @@
     "evidence": "Exact Flower Knows Sweetie Bear 05 Bear Biscuit human cheek result cropped from official labelled five-shade chart; barcode, Shopify media and SOL visual review passed"
   },
   "gid://shopify/ProductVariant/48082963267742": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01_RARE_APPLE_7.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01_RARE_APPLE_1_c002c351-55a3-475e-a3f1-b9b6ec384cd3.jpg?v=1789336776",
     "presentation": "product-shade",
-    "evidence": "Exact rom&nd Juicy Roll Cheek 01 Rare Apple product and matching balm shade; filename, barcode, Shopify media and SOL visual review passed"
+    "evidence": "Exact official rom&nd Juicy Roll Cheek 01 Rare Apple open product and matching balm shade; consistent _1 format across all five shades, distinct-image hash check and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082963300510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02_DRAGON_BERRY_1_800978f6-cfa0-4cea-abf9-b90abf9449e2.jpg?v=1789336776",
+    "presentation": "product-shade",
+    "evidence": "Exact official rom&nd Juicy Roll Cheek 02 Dragon Berry open product and matching balm shade; consistent _1 format across all five shades, distinct-image hash check and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082963333278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04_APRICOT_BEIGE_1_9e967d4c-e055-4b14-b9c6-391307c81b7f.jpg?v=1789336776",
+    "presentation": "product-shade",
+    "evidence": "Exact official rom&nd Juicy Roll Cheek 04 Apricot Beige open product and matching balm shade; consistent _1 format across all five shades, distinct-image hash check and Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48082963366046": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05_be8d8e19-884c-47ca-b52b-9b88e0703d0f.jpg?v=1789258766",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05_NOUGAT_COCO_1.jpg?v=1789336776",
     "presentation": "product-shade",
-    "evidence": "Exact rom&nd Juicy Roll Cheek 05 Nougat Coco warm brown product and matching balm smear from DODOSKIN shade-specific source; barcode, Shopify binding and SOL visual review passed"
+    "evidence": "Exact official rom&nd Juicy Roll Cheek 05 Nougat Coco open product and matching balm shade; consistent _1 format across all five shades, distinct-image hash check and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082963398814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/06_BARE_GRAPE_1.jpg?v=1789336776",
+    "presentation": "product-shade",
+    "evidence": "Exact official rom&nd Juicy Roll Cheek 06 Bare Grape open product and matching balm shade; consistent _1 format across all five shades, distinct-image hash check and Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48079607922846": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Clio-Superproof_Brush_Liner-Eye_Makeup-Moona-Store-NZ-2.jpg?v=1789258968",
