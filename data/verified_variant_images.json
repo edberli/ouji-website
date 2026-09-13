@@ -1230,29 +1230,29 @@
     "evidence": "Luxiface exact variant title and barcode mapping for UNLEASHIA Glitterpedia N5; independent 9-pan palette image"
   },
   "gid://shopify/ProductVariant/48070095634590": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-07-30-1c2732f3551b846763e5d957.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact BRAYE Thin Glow Tint 02 Mingle page; labelled independent lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-2Mingle.jpg?v=1789271439",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 02 Mingle; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380666 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48070095667358": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-04-20-caa22f3b4237e3586bf9a3aa.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact BRAYE Thin Glow Tint 03 Healthy page; labelled product and lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-3Healthy.jpg?v=1789271440",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 03 Healthy; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380673 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48070095700126": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-15-997b647b1d9fa5575101d0ca.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact BRAYE Thin Glow Tint 04 Career page; independent single-shade lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-4Career.jpg?v=1789271440",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 04 Career; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380680 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48070095765662": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-01-04-cc06c67f9922695e181ddea5.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact BRAYE Thin Glow Tint 06 Own page; labelled independent arm and lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-6Own.jpg?v=1789271440",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 06 Own; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380703 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48070095831198": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-thin-08.jpg",
-    "presentation": "lip-swatch",
-    "evidence": "Official BRAYE 08 WIZZ card with exact labelled independent glossy lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-8Wizz.jpg?v=1789271440",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 08 Wizz; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380727 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48083184550046": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/AmuseDewTintN03.jpg",
@@ -1285,9 +1285,9 @@
     "evidence": "Kallos exact variant mapping for AMUSE Dew Tint 09 Mauve Grape; labelled independent lip result"
   },
   "gid://shopify/ProductVariant/48070095863966": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-06-12-acd07e83acd024825fa6d2de.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact BRAYE Thin Glow Tint 09 Festive page; independent single-shade lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-9Festive.jpg?v=1789271439",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 09 Festive; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380734 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48083189825694": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/bebe_tint_IVE_Jang_Won-young_PICK.png",
@@ -4038,5 +4038,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Lilybyred-Am9_to_Pm9_Survival_Penliner-02_Matt_Brown-Makeup-Moona-Store-NZ.jpg?v=1789271086",
     "presentation": "product-shade",
     "evidence": "Moona exact shade page image for 02 Matt Brown; same-format pen product and pigment strokes visually reviewed; OUJI barcode 8809393724362 matches retailer SKU; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48070095601822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-1Poetic.jpg?v=1789271281",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 01 Poetic; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380659 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48070095732894": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-5Renown.jpg?v=1789271281",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 05 Renown; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380697 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48070095798430": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-7Maudlin.jpg?v=1789271281",
+    "presentation": "product-shade",
+    "evidence": "official BRAYE exact image for 07 Maudlin; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380710 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
   }
 }
