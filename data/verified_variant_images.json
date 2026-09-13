@@ -4518,5 +4518,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/15-natural.jpg?v=1789334085",
     "presentation": "complexion-swatch",
     "evidence": "AMUSE Korea official Dew Jelly Master Cushion colour-shades panel explicitly labels 1.5 Natural beside its exact foundation sample and 21 neutral-tone description; cropped without colour alteration; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084885831838": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2-3.jpg?v=1789337923",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Taiwan official Lifter Shine selector maps EAN 6902395971849 to 02 White Peach; exact shade-only gloss texture image uses the same official third-image format across all four OUJI variants; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084885864606": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/3-3.jpg?v=1789337923",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Taiwan official Lifter Shine selector maps EAN 6902395971856 to 03 Peach; exact shade-only gloss texture image uses the same official third-image format across all four OUJI variants; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084885897374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4-3.jpg?v=1789337923",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Taiwan official Lifter Shine selector maps EAN 6902395971863 to 04 Strawberry; exact shade-only gloss texture image uses the same official third-image format across all four OUJI variants; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084885930142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/14-3.jpg?v=1789337923",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Taiwan official Lifter Shine selector maps EAN 6902395971917 to 14 Berry; exact shade-only gloss texture image uses the same official third-image format across all four OUJI variants; Shopify binding verified"
   }
 }
