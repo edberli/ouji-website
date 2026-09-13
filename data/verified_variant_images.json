@@ -3583,5 +3583,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/12-earl-grey.webp?v=1789259996",
     "presentation": "lip-swatch",
     "evidence": "Exact AMUSE My Melody and Kuromi limited Bebe Tint 12 Earl Gray Cherry Blossoms independent lip result; full shade name is printed in the image and corroborated by Hwahae and the source listing; exact barcode, Shopify binding and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48083899023518": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemake-19.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official WAKEMAKE Hong Kong variant mapping for 19 Porcelain; product and complexion smear visually reviewed; barcode corroborated; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083899056286": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemake-21n.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official WAKEMAKE Hong Kong variant mapping for 21N Vanilla; product and complexion smear visually reviewed; barcode corroborated; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083899089054": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemake-23.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official WAKEMAKE Hong Kong variant mapping for 23 Beige; product and complexion smear visually reviewed; barcode corroborated; SOL low review passed"
   }
 }
