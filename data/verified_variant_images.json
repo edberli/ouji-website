@@ -3688,5 +3688,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-sand.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official hince Japan Glow Cushion page maps sand.jpg to 23 SAND; exact glossy complexion swatch visually reviewed; barcode 8809642483323, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083491782814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-allround-03.jpg",
+    "presentation": "palette-shade",
+    "evidence": "official hince Japan All-Round Eye Palette variant image maps to 01 SEPTEMBER; exact open five-pan palette visually reviewed; barcode 8809642484085, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083491815582": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-allround-04.jpg",
+    "presentation": "palette-shade",
+    "evidence": "official hince Japan All-Round Eye Palette variant image maps to 02 LATE AUTUMN; exact open five-pan palette visually reviewed; barcode 8809642484078, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083491848350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-allround-05.jpg",
+    "presentation": "palette-shade",
+    "evidence": "official hince Japan All-Round Eye Palette variant image maps to 03 FALL IN ROSE; exact open five-pan palette visually reviewed; barcode 8809642484092, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083491881118": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-allround-06.jpg",
+    "presentation": "palette-shade",
+    "evidence": "official hince Japan All-Round Eye Palette variant image maps to 04 HEATHER BLUE; exact open five-pan palette visually reviewed; barcode 8809642485433, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083491913886": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-allround-07.jpg",
+    "presentation": "palette-shade",
+    "evidence": "official hince Japan All-Round Eye Palette variant image maps to 05 ROSE FUZZ; exact open five-pan palette visually reviewed; barcode 8809642485440, Shopify binding and SOL low review passed"
   }
 }
