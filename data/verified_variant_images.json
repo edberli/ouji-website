@@ -4378,5 +4378,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ouji-hyper-br2-normalized.png?v=1789327083",
     "presentation": "eye-swatch",
     "evidence": "Maybelline Hong Kong official product page maps this exact shade to an exclusive line-swatch image; all variants use the same eye-swatch format, and the three distinct black/brown/tea-brown images were visually checked"
+  },
+  "gid://shopify/ProductVariant/48084881506462": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybelline-superstay-lumi-matte-w20-sslm-nasia-av12.png?v=1789327415",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Hong Kong official W20 variant endpoint returns this dedicated bottle image; exact W20 name and local barcode were cross-checked, and the image matches the product-shade format used by every verified variant on this product"
   }
 }
