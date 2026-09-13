@@ -4413,5 +4413,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23N_c0564ae2-cc93-4ef6-a200-5812ff3ac5a9.jpg?v=1789328742",
     "presentation": "product-shade",
     "evidence": "TIRTIR Japan official Mask Fit Red Cushion variant image for 23N 自然白; all three OUJI shades use the same official product-and-foundation-smear composition and were visually checked for distinct shade tone"
+  },
+  "gid://shopify/ProductVariant/48084474396830": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23N_mini_de994e7d-7349-44d3-9bde-fd92d764d2b7.jpg?v=1789329275",
+    "presentation": "product-shade",
+    "evidence": "TIRTIR Global official Mask Fit All Cover Pink Cushion Mini variant endpoint assigns this exact product-and-foundation-smear image to 23N Sand; it matches the verified 17C and 21N presentation on the same OUJI product"
   }
 }
