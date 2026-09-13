@@ -3733,5 +3733,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-mesh-06.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official hince Japan Mesh Matte Cushion variant thumbnail maps product image 06 to 23 SAND; exact elongated matte formula swatch visually reviewed; barcode 8809642483750 and Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48086956769438": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fruity-lip-jam-891681_1aea2b73-9a25-4945-a3f9-c8f9f42bb515.jpg",
+    "presentation": "product-shade",
+    "evidence": "official dasique global Fruity Lip Jam product image sequence maps shade 06 Strawberry Jam to the sixth consistent pot-and-product-colour image; OUJI variant title #06 草莓果醬 and barcode 8809581534087; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48086956802206": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fruity-lip-jam-485045_2dccc40b-dda5-4df0-aa49-f93bfb4e82d4.jpg",
+    "presentation": "product-shade",
+    "evidence": "official dasique global Fruity Lip Jam product image sequence maps shade 07 Plum Jam to the seventh consistent pot-and-product-colour image; OUJI variant title #07 梅子果醬 and barcode 8809581534094; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48086956834974": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fruity-lip-jam-371019_9030e992-9c7a-4b04-833c-ca7d62eae067.jpg",
+    "presentation": "product-shade",
+    "evidence": "official dasique global Fruity Lip Jam product image sequence maps shade 08 Cherry Jam to the eighth consistent pot-and-product-colour image; OUJI variant title #08 櫻桃果醬 and barcode 8809581534100; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48086956867742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fruity-lip-jam-223753_7fa0fdcf-d751-403c-9efc-e6839fb97a77.jpg",
+    "presentation": "product-shade",
+    "evidence": "official dasique global Fruity Lip Jam product image sequence maps shade 09 Lychee Jam to the ninth consistent pot-and-product-colour image; OUJI variant title #09 荔枝果醬 and barcode 8809581534117; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48086956900510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/fruity-lip-jam-326700_d8c3fcf3-ee69-452d-b68c-9c40c703c293.jpg",
+    "presentation": "product-shade",
+    "evidence": "official dasique global Fruity Lip Jam product image sequence maps shade 10 Fig Jam to the tenth consistent pot-and-product-colour image; OUJI variant title #10 無花果醬 and barcode 8809581534124; Shopify featured-image binding verified"
   }
 }
