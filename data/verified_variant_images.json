@@ -3653,5 +3653,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-concealer-natural.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official hince Japan product page maps natural.jpg to 23 NATURAL; exact single-shade concealer swatch visually reviewed; barcode 8809642481459, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083541098654": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-toneup-light-peach.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps light-peach.jpg to LIGHT PEACH; exact peach tone-up base swatch visually reviewed; barcode 8809642482081, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083541131422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-toneup-muted-green.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps muted-green.jpg to MUTED GREEN; exact green tone-up base swatch visually reviewed; barcode 8809642482098, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083541164190": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-toneup-pale-lavender.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps pale-lavender.jpg to PALE LAVENDER; exact lavender tone-up base swatch visually reviewed; barcode 8809642482104, Shopify binding and SOL low review passed"
   }
 }
