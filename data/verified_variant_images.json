@@ -3458,5 +3458,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01-kallos.jpg?v=1789259849",
     "presentation": "lip-swatch",
     "evidence": "Kallos variant JSON maps 1 Peach Jelly directly to this independent image; visible 01 Boksoonga Jelly label and exact peach-pink glossy lip result; exact barcode, Shopify binding and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48083212239006": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/12-earl-grey.webp?v=1789259996",
+    "presentation": "lip-swatch",
+    "evidence": "Exact AMUSE My Melody and Kuromi limited Bebe Tint 12 Earl Gray Cherry Blossoms independent lip result; full shade name is printed in the image and corroborated by Hwahae and the source listing; exact barcode, Shopify binding and SOL visual review passed"
   }
 }
