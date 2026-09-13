@@ -674,6 +674,11 @@
     "presentation": "complexion-swatch",
     "evidence": "official TIRTIR global variant ID exact mapping; product and complexion swatch visually reviewed"
   },
+  "gid://shopify/ProductVariant/48084475576478": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/tirtir-concealer-1n.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant JSON exact mapping for 1 N; product and complexion swatch visually reviewed; SOL low review passed"
+  },
   "gid://shopify/ProductVariant/48084475609246": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2c_f6f6ac4c-88cf-4f23-9e15-41abea8752e8.png",
     "presentation": "complexion-swatch",
@@ -698,6 +703,11 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/MASK_FIT_RED_FOUNDATION_17C.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official TIRTIR Japan variant ID exact mapping; product and complexion swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/48084475084958": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/tirtir-foundation-21c.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant JSON exact mapping for 21C Cool Ivory; product and complexion swatch visually reviewed; SOL low review passed"
   },
   "gid://shopify/ProductVariant/48084475740318": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6.5n_45ccbd56-ab76-4d49-b59e-584944cc4041.png",
