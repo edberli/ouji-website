@@ -3928,5 +3928,35 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_b27011c7-3511-4e4a-93f6-7ad049ad60b8.jpg?v=1789269624",
     "presentation": "palette-shade",
     "evidence": "official dasique 10 Muted Nuts featured image; exact front-facing four-pan palette; OUJI barcode 8809581535251; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079766192286": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hov_8704594942_26756565009_8.webp?v=1789270034",
+    "presentation": "product-shade",
+    "evidence": "SkinSeoul shade-specific page for 01 Apricot Topping; exact front-facing heart compact plus product smear; OUJI barcode 8809716944613; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079766225054": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hov_8704594942_26756565012_16.webp?v=1789270034",
+    "presentation": "product-shade",
+    "evidence": "SkinSeoul shade-specific page for 02 Sweet Chestnut Topping; exact front-facing heart compact plus product smear; OUJI barcode 8809716944620; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079766257822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hov_8704594942_26756565014_24.webp?v=1789270034",
+    "presentation": "product-shade",
+    "evidence": "SkinSeoul shade-specific page for 03 Peach Topping; exact front-facing heart compact plus product smear; OUJI barcode 8809716944637; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079766290590": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hov_8704594942_26756565016_32.webp?v=1789270034",
+    "presentation": "product-shade",
+    "evidence": "SkinSeoul shade-specific page for 04 Grapefruit Topping; exact front-facing heart compact plus product smear; OUJI barcode 8809716944644; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079766323358": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hov_8704594942_26756565019_40.webp?v=1789270034",
+    "presentation": "product-shade",
+    "evidence": "SkinSeoul shade-specific page for 05 Strawberry Milk Topping; exact front-facing heart compact plus product smear; OUJI barcode 8809716944651; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079766356126": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hov_8704594942_26756565021_48.webp?v=1789270034",
+    "presentation": "product-shade",
+    "evidence": "SkinSeoul shade-specific page for 06 Raspberry Topping; exact front-facing heart compact plus product smear; OUJI barcode 8809716944668; Shopify binding verified"
   }
 }
