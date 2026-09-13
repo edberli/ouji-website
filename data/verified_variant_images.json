@@ -3613,5 +3613,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-skin-23n.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official CLIO Japan option mapping P00000JD000H for 23N Ginger; exact single-shade complexion swatch visually reviewed; barcode 8800290365566, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083516883102": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-foundation-17.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps porcelain.jpg to 17 PORCELAIN; exact single-shade foundation swatch visually reviewed; barcode 8809642481374, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083516915870": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-foundation-21.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps ivory.jpg to 21 IVORY; exact single-shade foundation swatch visually reviewed; barcode 8809642481381, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083516948638": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-foundation-22.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps beige.jpg to 22 BEIGE; exact single-shade foundation swatch visually reviewed; barcode 8809642481398, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083516981406": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-foundation-23.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps sand.jpg to 23 SAND; exact single-shade foundation swatch visually reviewed; barcode 8809642481404, Shopify binding and SOL low review passed"
   }
 }
