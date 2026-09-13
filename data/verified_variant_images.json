@@ -799,6 +799,11 @@
     "presentation": "complexion-swatch",
     "evidence": "official TIRTIR global variant ID exact mapping; cushion and complexion swatch visually reviewed"
   },
+  "gid://shopify/ProductVariant/48084472496286": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/tirtir-ai-21n.png",
+    "presentation": "complexion-swatch",
+    "evidence": "official TIRTIR global variant JSON exact mapping for 21N Ivory; cushion and complexion swatch visually reviewed"
+  },
   "gid://shopify/ProductVariant/48084472529054": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23n_8fc9a450-a0b9-435c-b0f0-e2a8cb9bceb7.png",
     "presentation": "complexion-swatch",
