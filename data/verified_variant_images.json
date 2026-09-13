@@ -4083,5 +4083,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8809611862173_20250127180400.jpg?v=1789273781",
     "presentation": "product-shade",
     "evidence": "Matas exact EAN image maps 911 Terrapeach to OUJI barcode 8809611862173; same-format independent front-facing compact visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082982764702": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5beginning.jpg?v=1789275883",
+    "presentation": "palette-shade",
+    "evidence": "DodoSkin exact Shopify variant JSON maps #01 Beginning and EAN 8809611862609 to an exclusive 1500x1500 featured image; same-format white-background open palette visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082982797470": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5attention.jpg?v=1789275883",
+    "presentation": "palette-shade",
+    "evidence": "DodoSkin exact Shopify variant JSON maps #02 Attention to an exclusive 1500x1500 featured image; exact EAN 8809611862616 externally cross-checked; same-format white-background open palette visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082982830238": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5primrose.jpg?v=1789275883",
+    "presentation": "palette-shade",
+    "evidence": "DodoSkin exact Shopify variant JSON maps #03 Prim Rose and EAN 8809611862814 to an exclusive 1500x1500 featured image; same-format white-background open palette visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082982863006": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5tan.jpg?v=1789275883",
+    "presentation": "palette-shade",
+    "evidence": "DodoSkin exact Shopify variant JSON maps #04 Tan Peach to an exclusive 1500x1500 featured image; exact EAN 8809611862821 externally cross-checked; same-format white-background open palette visually reviewed; Shopify binding verified"
   }
 }
