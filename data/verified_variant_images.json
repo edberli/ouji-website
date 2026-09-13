@@ -1029,6 +1029,11 @@
     "presentation": "product-shade",
     "evidence": "CLIO Hong Kong Flagship Store exact Kill Brow Auto Hard Pencil 01 Natural Brown page; unique brow pencil and brown stroke swatches"
   },
+  "gid://shopify/ProductVariant/48079627550878": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-brow-02.jpg",
+    "presentation": "product-shade",
+    "evidence": "Aestha variant JSON maps this image directly to CLIO Kill Brow Auto Hard Pencil 02 Light Brown; visible exact shade label, pencil and light-brown strokes; barcode cross-check, Shopify binding and SOL low review passed"
+  },
   "gid://shopify/ProductVariant/48079938912414": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-pocket-cotton-blurring-stick-01_6195cad9-88e0-4cdc-9aa1-0ccb6c3fe002.jpg",
     "presentation": "lip-swatch",
