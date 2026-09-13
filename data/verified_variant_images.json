@@ -3863,5 +3863,50 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-soft-blending-shadow-stick-14g004floz-5926762.jpg",
     "presentation": "eye-swatch",
     "evidence": "exact CLIO Soft Blending Shadow Stick M203 Mellow Woody eye-result image from a shade-specific retailer page; visually shows the warm woody shade on eyelid; OUJI barcode 8800255688310; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339747998": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1_1bb12b69-91a0-4cfa-a83f-0f5d44097a6c.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE01 Fluffy Toast variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916188; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339715230": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2_74a331a4-7396-437c-846d-a6c6f2cd6a5d.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE02 Puff Bear variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916195; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339682462": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/3_aa6dad34-4aad-40ec-a258-a0c9037fce6c.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE03 Peach Tea variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916201; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339616926": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/4_f2f56c1d-c347-4756-9110-29c855b49fb0.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE04 Ribbon Pink variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916218; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339584158": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5_517b95b9-aee2-4225-9249-14df845afb16.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE05 Tiered Dress variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916225; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339551390": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/6_47cb4ef7-c816-40ba-9a02-2b6c812548dd.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE06 Strawpop variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916232; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339649694": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/7_e6af69ff-aafb-467d-97f9-a297ac1a8b99.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE07 Canele variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916249; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339813534": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8_8ab0893b-3628-4302-b80e-1040b0261915.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE08 Croissant variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916256; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086339780766": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9_77bc1f97-1841-48cd-827c-3955e0594302.jpg?v=1789269461",
+    "presentation": "product-shade",
+    "evidence": "official Flower Knows JE09 Toffee variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916263; Shopify binding verified"
   }
 }
