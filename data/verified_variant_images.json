@@ -999,6 +999,11 @@
     "presentation": "palette-shade",
     "evidence": "exact title and barcode 8809625243128; unique image shows the opened rom&nd 04 Dusty Fog Garden 10-pan palette"
   },
+  "gid://shopify/ProductVariant/48082959270046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/romnd-better-than-palette-11-cheeky-cheeky-garden_25.webp?v=1789343709",
+    "presentation": "palette-shade",
+    "evidence": "Exact rom&nd Better Than Palette 11 Cheeky Cheeky Garden opened palette; source SKU 8809625248208 matches OUJI, Shopify binding and visual review passed"
+  },
   "gid://shopify/ProductVariant/48084044939422": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_2508_3D____1_11__30.jpg",
     "presentation": "lip-swatch",
