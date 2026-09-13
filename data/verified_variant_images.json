@@ -4333,5 +4333,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/003-GRAYISH-COOL-_2_5d5cb205-fbfd-46e1-b80c-e052e52cf69b.jpg?v=1789322969",
     "presentation": "palette-shade",
     "evidence": "Baerry exact Shopify variant data maps 003 Grayish Cool exclusively to this 1000x1360 front-open contour palette image; OUJI carries exact EAN 8809900981264; both in-stock variants use the identical product-only palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082962645150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/m01_480x480_46546454-693f-438b-8d9d-779d155dcd71.jpg?v=1789323573",
+    "presentation": "eye-swatch",
+    "evidence": "rom&nd official global product page maps this image directly to the exact shade; OUJI carries the exact matching EAN; both in-stock variants use the identical vertical eye-result plus palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48203348508830": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/m02_480x480_72045cc4-7368-48ec-a06d-a150247361c1.jpg?v=1789323573",
+    "presentation": "eye-swatch",
+    "evidence": "rom&nd official global product page maps this image directly to the exact shade; OUJI carries the exact matching EAN; both in-stock variants use the identical vertical eye-result plus palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
   }
 }
