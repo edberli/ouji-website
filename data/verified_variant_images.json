@@ -4363,5 +4363,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ss-morphing-creampact_open-lid_packshot_n20.png?v=1789325017",
     "presentation": "product-shade",
     "evidence": "Maybelline Hong Kong official product page exposes the exact variant EAN and shade; the official per-shade media path returns this 380x565 open-lid packshot; all four variants use the identical product-shade format, have distinct hashes, and were visually checked"
+  },
+  "gid://shopify/ProductVariant/48084883538078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybellinehypersharplinernabk1ultrablackav12r1-1-1-1.webp?v=1789327034",
+    "presentation": "eye-swatch",
+    "evidence": "Maybelline Hong Kong official product page maps this exact shade to an exclusive line-swatch image; all variants use the same eye-swatch format, and the three distinct black/brown/tea-brown images were visually checked"
+  },
+  "gid://shopify/ProductVariant/48084883570846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybellinehypersharplinernabr1naturalbrownav12r2-1-1-1.png?v=1789327036",
+    "presentation": "eye-swatch",
+    "evidence": "Maybelline Hong Kong official product page maps this exact shade to an exclusive line-swatch image; all variants use the same eye-swatch format, and the three distinct black/brown/tea-brown images were visually checked"
+  },
+  "gid://shopify/ProductVariant/48084883603614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ouji-hyper-br2-normalized.png?v=1789327083",
+    "presentation": "eye-swatch",
+    "evidence": "Maybelline Hong Kong official product page maps this exact shade to an exclusive line-swatch image; all variants use the same eye-swatch format, and the three distinct black/brown/tea-brown images were visually checked"
   }
 }
