@@ -3818,5 +3818,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-pencil-liner-9601040.jpg",
     "presentation": "eye-swatch",
     "evidence": "exact WAKEMAKE Real Defining Pencil Liner 06 Rosy Brown variant eye-result image from retailer product data; visually checked against the same-format five-shade set; barcode 8800276315677; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48079745745054": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/11__01__01_1500x2040_4aa4a648-df76-452a-9849-a34ace79fd48.webp",
+    "presentation": "palette-shade",
+    "evidence": "exact LILYBYRED Dewy Fit Palette 01 Peach Cream variant image from Korean retailer product data; same-angle palette visibly shows its peach colour story; barcode 8809716944842; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48079745777822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/11__02__01_1500x2040_c1032286-ed61-406b-a8dc-ee89f7f61cbf.webp",
+    "presentation": "palette-shade",
+    "evidence": "exact LILYBYRED Dewy Fit Palette 02 Pink Milk Tea variant image from Korean retailer product data; same-angle palette visibly shows its pink colour story; barcode 8809716944859; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48079745810590": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/11__03__01_1500x2040_e52424ff-fc73-42d3-96d4-6d2c2c8b4fdd.webp",
+    "presentation": "palette-shade",
+    "evidence": "exact LILYBYRED Dewy Fit Palette 03 Oatmeal variant image from Korean retailer product data; same-angle palette visibly shows its oatmeal neutral colour story; barcode 8809716944866; Shopify featured-image binding verified"
   }
 }
