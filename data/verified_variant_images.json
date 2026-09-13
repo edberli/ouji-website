@@ -1305,29 +1305,39 @@
     "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Lip Pencil No.5; independent pigment smear, SOL reviewed"
   },
   "gid://shopify/ProductVariant/48070095175838": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/8f3b37441e045d76216c4f0d-1731409627.webp",
-    "presentation": "arm-swatch",
-    "evidence": "LIPS exact BRAYE Lipsleek Blur 01 Keen page; independent arm result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-blur-01_KEEN.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official BRAYE 01 KEEN card with exact labelled gradation and full-lip results"
+  },
+  "gid://shopify/ProductVariant/48070095208606": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/3_02_BUBBLY.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official BRAYE 02 BUBBLY card with exact labelled gradation and full-lip results"
+  },
+  "gid://shopify/ProductVariant/48070095241374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/3_03_WORTHY.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official BRAYE 03 WORTHY card with exact labelled gradation and full-lip results"
   },
   "gid://shopify/ProductVariant/48070095274142": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/10a649b10d4956cb62b8ccb2-1731134507.webp",
-    "presentation": "arm-swatch",
-    "evidence": "LIPS exact BRAYE Lipsleek Blur 04 Freeness page; labelled product and arm result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-blur-04_FREENESS.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official BRAYE 04 FREENESS card with exact labelled gradation and full-lip results"
   },
   "gid://shopify/ProductVariant/48070095306910": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-03-20-2caee00b240c8be3d59de1a2.webp",
-    "presentation": "arm-swatch",
-    "evidence": "LIPS exact BRAYE Lipsleek Blur 05 Hardy page; independent arm result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-blur-05_HARDY.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official BRAYE 05 HARDY card with exact labelled gradation and full-lip results"
   },
   "gid://shopify/ProductVariant/48070095339678": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-21-739ddc74ed9790cdb1b481f6.webp",
-    "presentation": "arm-swatch",
-    "evidence": "LIPS exact BRAYE Lipsleek Blur 06 Lofty page; labelled product and arm result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-blur-06_LOFTY.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official BRAYE 06 LOFTY card with exact labelled gradation and full-lip results"
   },
   "gid://shopify/ProductVariant/48070095372446": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-08-ca1b4de7ae97ae8886fa77d5.webp",
-    "presentation": "arm-swatch",
-    "evidence": "LIPS exact BRAYE Lipsleek Blur 07 Lowkey page; independent product and arm result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/braye-blur-07_LOWKEY.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official BRAYE 07 LOWKEY card with exact labelled gradation and full-lip results"
   },
   "gid://shopify/ProductVariant/48079858139294": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/unleashia-a-by-unleashia-cotton-candy-face-palette-1_3g-6-colors-2.png",
