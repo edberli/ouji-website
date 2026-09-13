@@ -4463,5 +4463,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04_brow_cara_merry_blondy_0.jpg?v=1789333777",
     "presentation": "product-shade",
     "evidence": "rom&nd official global store exact Merry Blondy featured variant image; same-format tube, brush and visible product pigment across the four OUJI shades; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083204604062": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01-clean.jpg?v=1789334084",
+    "presentation": "complexion-swatch",
+    "evidence": "AMUSE Korea official Dew Jelly Master Cushion colour-shades panel explicitly labels 01 Clean beside its exact foundation sample and 19-21 pink-tone description; cropped without colour alteration; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083204636830": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/15-natural.jpg?v=1789334085",
+    "presentation": "complexion-swatch",
+    "evidence": "AMUSE Korea official Dew Jelly Master Cushion colour-shades panel explicitly labels 1.5 Natural beside its exact foundation sample and 21 neutral-tone description; cropped without colour alteration; Shopify binding verified"
   }
 }
