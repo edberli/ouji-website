@@ -819,6 +819,11 @@
     "presentation": "product-shade",
     "evidence": "official Maybelline Japan exact EAN and variant image; brow pencil shade visually reviewed"
   },
+  "gid://shopify/ProductVariant/48084883046558": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybrow-br2.jpg",
+    "presentation": "product-shade",
+    "evidence": "Exact Maybelline Fashion Brow Powder in Pencil N BR-2 official Japan per-shade image; official HTML associates BR-2 with barcode 6902395773092; SOL low review passed"
+  },
   "gid://shopify/ProductVariant/48084883079326": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/230509_uf-rino-br3_760x1130_b139c1f6-cf18-49f5-b106-34869b06a597.jpg",
     "presentation": "product-shade",
