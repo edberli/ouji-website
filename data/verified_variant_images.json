@@ -4343,5 +4343,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/m02_480x480_72045cc4-7368-48ec-a06d-a150247361c1.jpg?v=1789323573",
     "presentation": "eye-swatch",
     "evidence": "rom&nd official global product page maps this image directly to the exact shade; OUJI carries the exact matching EAN; both in-stock variants use the identical vertical eye-result plus palette format, have distinct hashes, passed visual comparison, and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086955753630": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/DasiqueJuicyDewyTintN6_1800x1800_0a0cfeae-6343-4501-8e8a-27ca354adaee.jpg?v=1789324135",
+    "presentation": "lip-swatch",
+    "evidence": "Kallos exact Shopify variant data maps this human lip-result image exclusively to the named shade; OUJI shade and EAN were independently cross-checked against exact retail product data; both newly completed variants and all already verified variants on this product use lip-swatch presentation; distinct hashes and visual labels were checked"
+  },
+  "gid://shopify/ProductVariant/48086955819166": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/DasiqueJuicyDewyTintN12.3.jpg?v=1789324135",
+    "presentation": "lip-swatch",
+    "evidence": "Kallos exact Shopify variant data maps this human lip-result image exclusively to the named shade; OUJI shade and EAN were independently cross-checked against exact retail product data; both newly completed variants and all already verified variants on this product use lip-swatch presentation; distinct hashes and visual labels were checked"
   }
 }
