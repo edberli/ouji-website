@@ -4383,5 +4383,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/maybelline-superstay-lumi-matte-w20-sslm-nasia-av12.png?v=1789327415",
     "presentation": "product-shade",
     "evidence": "Maybelline Hong Kong official W20 variant endpoint returns this dedicated bottle image; exact W20 name and local barcode were cross-checked, and the image matches the product-shade format used by every verified variant on this product"
+  },
+  "gid://shopify/ProductVariant/48079756132510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/mousse-final-1.jpg?v=1789328328",
+    "presentation": "cheek-swatch",
+    "evidence": "LILYBYRED Korea official product detail image identifies this exact numbered shade and shows its applied cheek result beside the matching mousse texture; all three OUJI variants use identically sized crops from the same official lineup and were visually checked"
+  },
+  "gid://shopify/ProductVariant/48079756165278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/mousse-final-2.jpg?v=1789328328",
+    "presentation": "cheek-swatch",
+    "evidence": "LILYBYRED Korea official product detail image identifies this exact numbered shade and shows its applied cheek result beside the matching mousse texture; all three OUJI variants use identically sized crops from the same official lineup and were visually checked"
+  },
+  "gid://shopify/ProductVariant/48079756198046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/mousse-final-3.jpg?v=1789328328",
+    "presentation": "cheek-swatch",
+    "evidence": "LILYBYRED Korea official product detail image identifies this exact numbered shade and shows its applied cheek result beside the matching mousse texture; all three OUJI variants use identically sized crops from the same official lineup and were visually checked"
   }
 }
