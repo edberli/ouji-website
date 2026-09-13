@@ -4103,5 +4103,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5tan.jpg?v=1789275883",
     "presentation": "palette-shade",
     "evidence": "DodoSkin exact Shopify variant JSON maps #04 Tan Peach to an exclusive 1500x1500 featured image; exact EAN 8809611862821 externally cross-checked; same-format white-background open palette visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983288990": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LAKA-Love-Silk-Blush-705-Angel5.2g-8809611862111a.jpg?v=1789277279",
+    "presentation": "cheek-swatch",
+    "evidence": "GlowStation exact product page and Shopify JSON map #705 Angel and EAN 8809611862111 to this exclusive 1000x1000 powder swatch; same-format swatch visually reviewed and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983321758": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LAKA-Love-Silk-Blush-706-Lover5.2g-8809611862128a.jpg?v=1789277279",
+    "presentation": "cheek-swatch",
+    "evidence": "GlowStation exact product page and Shopify JSON map #706 Lover and EAN 8809611862128 to this exclusive 1000x1000 powder swatch; same-format swatch visually reviewed and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983354526": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LAKA-Love-Silk-Blush-707-Sweet-5.2g-8809611862135a.jpg?v=1789277279",
+    "presentation": "cheek-swatch",
+    "evidence": "GlowStation exact product page and Shopify JSON map #707 Sweet and EAN 8809611862135 to this exclusive 1000x1000 powder swatch; same-format swatch visually reviewed and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983387294": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LAKA-Love-Silk-Blush-708-Poem5.2g8809611862142a.jpg?v=1789277279",
+    "presentation": "cheek-swatch",
+    "evidence": "GlowStation exact product page and Shopify JSON map #708 Poem and EAN 8809611862142 to this exclusive 1000x1000 powder swatch; same-format swatch visually reviewed and unique-hash checked; Shopify binding verified"
   }
 }
