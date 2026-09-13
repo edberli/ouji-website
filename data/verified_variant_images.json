@@ -4053,5 +4053,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-7Maudlin.jpg?v=1789271281",
     "presentation": "product-shade",
     "evidence": "official BRAYE exact image for 07 Maudlin; same-format tube, applicator and single glossy pigment swatch visually reviewed; OUJI barcode 8800261380710 corroborated by Ainz Tulpe variant mapping; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082984468638": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Product-page-sizes-1_bef45fc0-dddb-42ab-a5b9-a482cec611b5.jpg?v=1789271723",
+    "presentation": "product-shade",
+    "evidence": "Korean Skincare exact retailer variant JSON maps 01 Natural Beam to OUJI barcode 8809611862579; same-format independent champagne compact visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082984501406": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Product-page-sizes-2_b1b14763-d413-4e89-94a2-9234a5170965.jpg?v=1789271723",
+    "presentation": "product-shade",
+    "evidence": "Korean Skincare exact retailer variant JSON maps 02 Pink Beam to OUJI barcode 8809611862586; same-format independent pink compact visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082984534174": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Product-page-sizes-3_f9754e85-73f5-4393-9765-83f8f6559e99.jpg?v=1789271723",
+    "presentation": "product-shade",
+    "evidence": "Korean Skincare exact retailer variant JSON maps 03 Water Beam to OUJI barcode 8809611862593; same-format independent cool blue-lilac compact visually reviewed; Shopify binding verified"
   }
 }
