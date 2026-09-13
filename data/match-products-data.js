@@ -4560,7 +4560,7 @@ window.OUJI_PRODUCT_DATABASE = {
           "barcode": "8800255688310",
           "sku": "8800255688310",
           "shopifyVariantId": "gid://shopify/ProductVariant/48079608479902",
-          "title": "M301 拿鐵棕色",
+          "title": "M203 Mellow Woody 柔木棕",
           "price": 130,
           "inventoryQuantity": 8,
           "inStock": true,
