@@ -3668,5 +3668,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-toneup-pale-lavender.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official hince Japan product page maps pale-lavender.jpg to PALE LAVENDER; exact lavender tone-up base swatch visually reviewed; barcode 8809642482104, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083500236958": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-rosy.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Glow Cushion page maps rosy.jpg to 15 ROSY; exact glossy complexion swatch visually reviewed; barcode 8809642483293, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083500269726": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-porcelain.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Glow Cushion page maps porcelain.jpg to 17 PORCELAIN; exact glossy complexion swatch visually reviewed; barcode 8809642483309, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083500302494": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-ivory.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Glow Cushion page maps ivory.jpg to 21 IVORY; exact glossy complexion swatch visually reviewed; barcode 8809642483316, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083500335262": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-glow-sand.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan Glow Cushion page maps sand.jpg to 23 SAND; exact glossy complexion swatch visually reviewed; barcode 8809642483323, Shopify binding and SOL low review passed"
   }
 }
