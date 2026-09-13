@@ -4273,5 +4273,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-brush-liner-7012831.jpg?v=1789319377",
     "presentation": "product-shade",
     "evidence": "La Cosmetique exact Shopify variant JSON maps 04 Gray Brown and EAN 8809435502958 to this exclusive 1200x1200 single-pen image; OUJI carries the same EAN; all three in-stock images use the identical product-only format and passed visual and unique-hash checks; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083212271774": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/445041600742655283.jpg?v=1785914061",
+    "presentation": "lip-swatch",
+    "evidence": "Numi Korea exact Shopify variant JSON maps [KUROMI] 02 GRAPE SODA exclusively to this 1000x1000 lip-result image; OUJI carries matching shade Kuromi 02 and EAN 8800299132503; both shade images use the same lip close-up format, have distinct hashes, passed visual checks, and were already present in the OUJI product media library; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083212304542": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/5120037059949309813_c7d637b5-2b1b-4664-a7d9-12b1e8eb482a.jpg?v=1785914061",
+    "presentation": "lip-swatch",
+    "evidence": "Numi Korea exact Shopify variant JSON maps [MY MELODY] 01 PLUM SODA exclusively to this 1000x1000 lip-result image; OUJI carries matching shade My Melody 01 and EAN 8800299132497; both shade images use the same lip close-up format, have distinct hashes, passed visual checks, and were already present in the OUJI product media library; Shopify binding verified"
   }
 }
