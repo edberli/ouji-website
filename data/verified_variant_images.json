@@ -3598,5 +3598,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/wakemake-23.png",
     "presentation": "complexion-swatch",
     "evidence": "official WAKEMAKE Hong Kong variant mapping for 23 Beige; product and complexion smear visually reviewed; barcode corroborated; SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079607398558": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-skin-21c.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official CLIO Japan option mapping P00000JD000F for 21C Lingerie; exact single-shade complexion swatch visually reviewed; barcode 8800290365542, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079607431326": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-skin-21n.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official CLIO Japan option mapping P00000JD000G for 21N Linen; exact single-shade complexion swatch visually reviewed; barcode 8800290365559, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48079607464094": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-skin-23n.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official CLIO Japan option mapping P00000JD000H for 23N Ginger; exact single-shade complexion swatch visually reviewed; barcode 8800290365566, Shopify binding and SOL low review passed"
   }
 }
