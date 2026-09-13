@@ -4148,5 +4148,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/LAKA-Love-Silk-Blush-708-Poem5.2g8809611862142a.jpg?v=1789277279",
     "presentation": "cheek-swatch",
     "evidence": "GlowStation exact product page and Shopify JSON map #708 Poem and EAN 8809611862142 to this exclusive 1000x1000 powder swatch; same-format swatch visually reviewed and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983485598": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/150643-10-9647a2ae6744d1924c5dfe7ffffae1d9-2000x2000.jpg?v=1789308314",
+    "presentation": "product-shade",
+    "evidence": "Laka Japan official distributor PR TIMES release places this same-format 2000x2000 product, texture and brow-result image under #01 Peanut Brown; OUJI barcode 8809611863491 identifies the variant; unique-hash and visual review passed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983518366": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/150643-10-bf405edf082e8c9dde0e908a302f71fa-2000x2000.jpg?v=1789308316",
+    "presentation": "product-shade",
+    "evidence": "Laka Japan official distributor PR TIMES release places this same-format 2000x2000 product, texture and brow-result image under #04 Smoky Pink; OUJI barcode 8809611863521 identifies the variant; unique-hash and visual review passed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983551134": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/150643-10-af1ac4db04d5fa3879796e4d1dc3d7ad-2000x2000.jpg?v=1789308318",
+    "presentation": "product-shade",
+    "evidence": "Laka Japan official distributor PR TIMES release places this same-format 2000x2000 product, texture and brow-result image under #05 Ash Brown; OUJI barcode 8809611863538 identifies the variant; unique-hash and visual review passed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082983583902": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/150643-10-cdfe08499333e378ae1116713a0a8023-2000x2000.jpg?v=1789308319",
+    "presentation": "product-shade",
+    "evidence": "Laka Japan official distributor PR TIMES release places this same-format 2000x2000 product, texture and brow-result image under #06 Rose Burgundy; OUJI barcode 8809611863545 identifies the variant; unique-hash and visual review passed; Shopify binding verified"
   }
 }
