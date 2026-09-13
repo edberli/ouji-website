@@ -4028,5 +4028,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/iar-150-texture-7601130.jpg?v=1789270775",
     "presentation": "complexion-swatch",
     "evidence": "official Maybelline Japan exact 150 variant texture image; same-format concealer texture visually reviewed; OUJI variant title is 150; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079734177950": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Lilybyred-Am9_to_Pm9_Survival_Penliner-01_Matt_Black-Makeup-Moona-Store-NZ.jpg?v=1789271086",
+    "presentation": "product-shade",
+    "evidence": "Moona exact shade page image for 01 Matt Black; same-format pen product and pigment strokes visually reviewed; OUJI barcode 8809393724355 matches retailer SKU; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079734210718": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Lilybyred-Am9_to_Pm9_Survival_Penliner-02_Matt_Brown-Makeup-Moona-Store-NZ.jpg?v=1789271086",
+    "presentation": "product-shade",
+    "evidence": "Moona exact shade page image for 02 Matt Brown; same-format pen product and pigment strokes visually reviewed; OUJI barcode 8809393724362 matches retailer SKU; Shopify binding verified"
   }
 }
