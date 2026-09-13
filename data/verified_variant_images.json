@@ -1470,19 +1470,19 @@
     "evidence": "Luxiface exact barcode and variant image for UNLEASHIA Satin Wear Cushion 23W; independent cushion and foundation swipe"
   },
   "gid://shopify/ProductVariant/48079362588830": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/815a25b7cf6fa48e53314929-1711361499.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent Lip Pencil 18 Fig Rose page; independent lip and arm result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/18_43e5b85a-200f-49b2-8141-0dd0d81c25f1.jpg?v=1789331393",
+    "presentation": "product-shade",
+    "evidence": "Heart Percent Thailand official store exact #18 Fig Rose image; same-format lip pencil, exposed product colour and pigment stroke; official option-to-image mapping and OUJI barcode verified"
   },
   "gid://shopify/ProductVariant/48079362621598": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2026-06-06-f79bd0377e79da5eecc3ea2e.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent Lip Pencil 21 Rosy Lips page; labelled lip and arm result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/21.jpg?v=1789331387",
+    "presentation": "product-shade",
+    "evidence": "Heart Percent Thailand official store exact #21 Rosy Lips image; same-format lip pencil, exposed product colour and pigment stroke; official option-to-image mapping and OUJI barcode verified"
   },
   "gid://shopify/ProductVariant/48079362654366": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-08-16-5a02a62396a13a8521e86596.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Heart Percent Lip Pencil 22 Salon Peach page; labelled independent lip result"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/22.jpg?v=1789331384",
+    "presentation": "product-shade",
+    "evidence": "Heart Percent Thailand official store exact #22 Salmon Peach image; same-format lip pencil, exposed product colour and pigment stroke; official option-to-image mapping and OUJI barcode verified"
   },
   "gid://shopify/ProductVariant/48083195265182": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1_6cd5ce83-1868-4b4b-82ab-1ae12e48dd65.png",
@@ -4423,5 +4423,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2an-15-peach-bubble.jpg?v=1789330309",
     "presentation": "lip-swatch",
     "evidence": "2aN Korea official Glaze Bouncing Tint 14-shade chart visibly labels 15 Peach Bubble beside its exact lip result; cropped without altering colour into the same lip-swatch format used by every verified OUJI variant on this product"
+  },
+  "gid://shopify/ProductVariant/48079362556062": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/13_0f1ca182-b4b4-4d20-8700-89ae3811b981.jpg?v=1789331387",
+    "presentation": "product-shade",
+    "evidence": "Heart Percent Thailand official store exact #13 Bare Lips image; same-format lip pencil, exposed product colour and pigment stroke; official option-to-image mapping and OUJI barcode verified"
   }
 }
