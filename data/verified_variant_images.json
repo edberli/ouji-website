@@ -3793,5 +3793,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/10_FIGRED_1500x2040_4d62f1ec-8e52-4a21-a880-d4aa5da57867.webp",
     "presentation": "product-shade",
     "evidence": "exact WAKEMAKE Healthy Glow Balm Stick 10 Fig Red variant image from Korean retailer product data; consistent lipstick, bullet colour and product smear; barcode 8800276317176; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083896565918": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-pencil-liner-4013497.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact WAKEMAKE Real Defining Pencil Liner 01 Natural Black variant eye-result image from retailer product data; visually checked against the same-format five-shade set; barcode 8800276315622; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083896598686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-pencil-liner-5558201.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact WAKEMAKE Real Defining Pencil Liner 02 Deep Brown variant eye-result image from retailer product data; visually checked against the same-format five-shade set; barcode 8800276315639; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083896631454": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-pencil-liner-8543297.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact WAKEMAKE Real Defining Pencil Liner 03 Gray Brown variant eye-result image from retailer product data; visually checked against the same-format five-shade set; barcode 8800276315646; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083896664222": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-pencil-liner-1333355.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact WAKEMAKE Real Defining Pencil Liner 04 Soft Brown variant eye-result image from retailer product data; visually checked against the same-format five-shade set; barcode 8800276315653; Shopify featured-image binding verified"
+  },
+  "gid://shopify/ProductVariant/48083896696990": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-pencil-liner-9601040.jpg",
+    "presentation": "eye-swatch",
+    "evidence": "exact WAKEMAKE Real Defining Pencil Liner 06 Rosy Brown variant eye-result image from retailer product data; visually checked against the same-format five-shade set; barcode 8800276315677; Shopify featured-image binding verified"
   }
 }
