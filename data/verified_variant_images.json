@@ -4213,5 +4213,10 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/405SoPeachLakaBulkyMatteLipstick4g_10colorstochoose.jpg?v=1789314540",
     "presentation": "lip-swatch",
     "evidence": "DodoSkin exact variant JSON maps 405 So Peach to this exclusive 1000x1000 lip-result image; OUJI EAN 8809611863040 identifies the exact shade; same-format set visually reviewed and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082984698014": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/410BoldBerryLakaBulkyMatteLipstick4g_10colorstochoose_78bfc95a-ad3a-42f2-8091-0f9d8c5e6121.jpg?v=1789314540",
+    "presentation": "lip-swatch",
+    "evidence": "DodoSkin exact variant JSON maps 410 Bold Berry to this exclusive 1000x1000 lip-result image; OUJI EAN 8809611863095 cross-checked by official Japanese retail; same-format set visually reviewed and unique-hash checked; Shopify binding verified"
   }
 }
