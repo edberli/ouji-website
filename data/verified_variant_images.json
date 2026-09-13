@@ -485,14 +485,14 @@
     "evidence": "official per-shade image visually reviewed"
   },
   "gid://shopify/ProductVariant/48084882325662": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ss-morphing-creampact_open-lid_packshot_c20.png",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ss-morphing-creampact_open-lid_packshot_c20_39a2b573-f8fb-4066-8ba2-668b9ac2cebb.png?v=1789325018",
     "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "evidence": "Maybelline Hong Kong official product page exposes the exact variant EAN and shade; the official per-shade media path returns this 380x565 open-lid packshot; all four variants use the identical product-shade format, have distinct hashes, and were visually checked"
   },
   "gid://shopify/ProductVariant/48084882423966": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ss-morphing-creampact_open-lid_packshot_n30.png",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ss-morphing-creampact_open-lid_packshot_n30_afb4508e-938d-4493-ba51-3086bccfda39.png?v=1789325017",
     "presentation": "product-shade",
-    "evidence": "official per-shade image visually reviewed"
+    "evidence": "Maybelline Hong Kong official product page exposes the exact variant EAN and shade; the official per-shade media path returns this 380x565 open-lid packshot; all four variants use the identical product-shade format, have distinct hashes, and were visually checked"
   },
   "gid://shopify/ProductVariant/48084042940574": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/JellyPotJP02Lolly.jpg",
@@ -4353,5 +4353,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/DasiqueJuicyDewyTintN12.3.jpg?v=1789324135",
     "presentation": "lip-swatch",
     "evidence": "Kallos exact Shopify variant data maps this human lip-result image exclusively to the named shade; OUJI shade and EAN were independently cross-checked against exact retail product data; both newly completed variants and all already verified variants on this product use lip-swatch presentation; distinct hashes and visual labels were checked"
+  },
+  "gid://shopify/ProductVariant/48084882358430": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ss-morphing-creampact_open-lid_packshot_n10.png?v=1789325017",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Hong Kong official product page exposes the exact variant EAN and shade; the official per-shade media path returns this 380x565 open-lid packshot; all four variants use the identical product-shade format, have distinct hashes, and were visually checked"
+  },
+  "gid://shopify/ProductVariant/48084882391198": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ss-morphing-creampact_open-lid_packshot_n20.png?v=1789325017",
+    "presentation": "product-shade",
+    "evidence": "Maybelline Hong Kong official product page exposes the exact variant EAN and shade; the official per-shade media path returns this 380x565 open-lid packshot; all four variants use the identical product-shade format, have distinct hashes, and were visually checked"
   }
 }
