@@ -4010,9 +4010,9 @@
     "evidence": "Plaza Japan barcode page for 05 Popping Berry; exact dual-ended product with both colour strokes; OUJI barcode 8809672512734; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48079730245790": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ddb260a8d0d9a39d577f95385d3d3d73.jpg?v=1789270240",
-    "presentation": "eye-swatch",
-    "evidence": "Lamcy Korea exact image visibly labelled 01 Choco Brown; shows the applied eyelash result, matching brush and colour smear; OUJI barcode 8809393724386; Shopify binding verified"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____1500x2040_1d183ecc-f45f-4e2e-82f9-5caee29f127a.webp?v=1789322191",
+    "presentation": "product-shade",
+    "evidence": "Baerry exact Shopify variant data maps 01 Choco Brown exclusively to this 1500x2040 mascara and pigment-stroke image; OUJI carries exact shade and EAN 8809393724386; all in-stock variants now use the identical product-shade format with distinct hashes; visually checked and Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48084480557214": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_MELTING_BALM_01.jpg?v=1789270526",
@@ -4303,5 +4303,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thu_2f9e492e16614719b5ec62ffc1bc91e4.webp?v=1789321835",
     "presentation": "product-shade",
     "evidence": "SkinSeoul shade-specific page maps this image exclusively to 07 Grape Topping; OUJI carries exact shade and EAN 8809716944675; image uses the same front-facing heart compact plus product smear format as verified shades 01 to 06, has a distinct hash, passed visual comparison, and Shopify binding was verified"
+  },
+  "gid://shopify/ProductVariant/48079730278558": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/04____1500x2040_38b009da-35fb-45d6-8676-a32499ae6e49.webp?v=1789322191",
+    "presentation": "product-shade",
+    "evidence": "Baerry exact Shopify variant data maps 04 Mocha Brown exclusively to this 1500x2040 mascara and pigment-stroke image; OUJI carries exact shade and EAN 8809393724416; all in-stock variants use the identical product-shade format with distinct hashes; visually checked and Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079730311326": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05____1500x2040_6b66b0a2-7502-4aeb-9908-f5593bcdc62b.webp?v=1789322191",
+    "presentation": "product-shade",
+    "evidence": "Baerry exact Shopify variant data maps 05 Black Brown exclusively to this 1500x2040 mascara and pigment-stroke image; OUJI carries exact shade and EAN 8809393724423; all in-stock variants use the identical product-shade format with distinct hashes; visually checked and Shopify binding verified"
   }
 }
