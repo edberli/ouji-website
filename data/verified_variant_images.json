@@ -3988,5 +3988,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ddb260a8d0d9a39d577f95385d3d3d73.jpg?v=1789270240",
     "presentation": "eye-swatch",
     "evidence": "Lamcy Korea exact image visibly labelled 01 Choco Brown; shows the applied eyelash result, matching brush and colour smear; OUJI barcode 8809393724386; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084480557214": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_MELTING_BALM_01.jpg?v=1789270526",
+    "presentation": "product-shade",
+    "evidence": "official TIRTIR Japan product JSON exact mapping for 01 Mauve Rose; same-format product, exposed balm and pigment smear visually reviewed; OUJI barcode 8809928135977; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084480589982": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_MELTING_BALM_02.jpg?v=1789270526",
+    "presentation": "product-shade",
+    "evidence": "official TIRTIR Japan product JSON exact mapping for 02 Merry Coral; same-format product, exposed balm and pigment smear visually reviewed; OUJI barcode 8809928135984; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084480655518": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_MELTING_BALM_03.jpg?v=1789270526",
+    "presentation": "product-shade",
+    "evidence": "official TIRTIR Japan product JSON exact mapping for 03 Sand Mond; same-format product, exposed balm and pigment smear visually reviewed; OUJI barcode 8809928135991 resolves the misleading Shopify title Single specification; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084480622750": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WATERISM_GLOW_MELTING_BALM_04.jpg?v=1789270526",
+    "presentation": "product-shade",
+    "evidence": "official TIRTIR Japan product JSON exact mapping for 04 Fig Peach; same-format product, exposed balm and pigment smear visually reviewed; OUJI barcode 8809928136004; Shopify binding verified"
   }
 }
