@@ -4218,5 +4218,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/410BoldBerryLakaBulkyMatteLipstick4g_10colorstochoose_78bfc95a-ad3a-42f2-8091-0f9d8c5e6121.jpg?v=1789314540",
     "presentation": "lip-swatch",
     "evidence": "DodoSkin exact variant JSON maps 410 Bold Berry to this exclusive 1000x1000 lip-result image; OUJI EAN 8809611863095 cross-checked by official Japanese retail; same-format set visually reviewed and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082985746590": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9d8f2f66-2a4a-413e-be16-31e96803ac8f.jpg?v=1789318252",
+    "presentation": "product-shade",
+    "evidence": "Lila Beauty exact Shopify variant JSON maps Autumn-Tone Edition and EAN 8809611862852 to this exclusive two-bottle-and-box image; OUJI carries the same EAN; all four in-stock edition images were visually reviewed as one consistent product presentation and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082985779358": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ba409439-cb31-4b67-a3a4-e879a2512221.jpg?v=1789318252",
+    "presentation": "product-shade",
+    "evidence": "Lila Beauty exact Shopify variant JSON maps Nutty Edition and EAN 8809611862968 to this exclusive two-bottle-and-box image; OUJI carries the same EAN; all four in-stock edition images were visually reviewed as one consistent product presentation and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082985812126": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/0e876d93-a4f3-4c70-9d60-e27d99df2e81.jpg?v=1789318252",
+    "presentation": "product-shade",
+    "evidence": "Lila Beauty exact Shopify variant JSON maps Rosy Edition and EAN 8809611862951 to this exclusive two-bottle-and-box image; OUJI carries the same EAN; all four in-stock edition images were visually reviewed as one consistent product presentation and unique-hash checked; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48082985877662": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/29c18bfc-a08b-47f9-b3cd-450360eb68b8.jpg?v=1789318252",
+    "presentation": "product-shade",
+    "evidence": "Lila Beauty exact Shopify variant JSON maps Winter-Tone Edition and EAN 8809611862869 to this exclusive two-bottle-and-box image; OUJI carries the same EAN; all four in-stock edition images were visually reviewed as one consistent product presentation and unique-hash checked; Shopify binding verified"
   }
 }
