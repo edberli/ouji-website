@@ -2029,11 +2029,6 @@
     "presentation": "complexion-swatch",
     "evidence": "Exact AMUSE 1.5 Natural image labelled with a dedicated complexion smear"
   },
-  "gid://shopify/ProductVariant/48083211518110": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-09-06-cac71504221de2cc93143a81.webp",
-    "presentation": "complexion-swatch",
-    "evidence": "Exact Kuromi 1.5 review image with compact and before/after complexion result"
-  },
   "gid://shopify/ProductVariant/48079929180318": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0095568886.jpg",
     "presentation": "complexion-swatch",
@@ -4578,5 +4573,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/b0e367f8f62ec92061279a631730f327.jpg?v=1789340246",
     "presentation": "product-shade",
     "evidence": "AMUSE Korea official Ceramic Skin Perfector Cushion structured offer maps item P0000BGF000B to 1.5 Natural and its exact product-shade image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083211452574": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/ffc4da6a2c79eb113df716f13567925f.jpg?v=1789340485",
+    "presentation": "product-shade",
+    "evidence": "AMUSE Korea official Dew Jelly Master Cushion structured offer maps item P0000BGD000E to 0.5 Fair and its exact product-shade image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083211485342": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/d6ca584979b543a7c97998e236f61cf1.jpg?v=1789340485",
+    "presentation": "product-shade",
+    "evidence": "AMUSE Korea official Dew Jelly Master Cushion structured offer maps item P0000BGD000A to 01 Clean and its exact product-shade image; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083211518110": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2e1b7823a6a01b253667549793a17165.jpg?v=1789340485",
+    "presentation": "product-shade",
+    "evidence": "AMUSE Korea official Dew Jelly Master Cushion structured offer maps item P0000BGD000B to 1.5 Natural and its exact product-shade image; Shopify binding verified"
   }
 }
