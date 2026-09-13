@@ -2345,19 +2345,19 @@
     "evidence": "Exact fwee 3D Voluming Gloss B07 Peach 70% official multi-skin-tone human lip result; barcode and product line cross-checked"
   },
   "gid://shopify/ProductVariant/48086955327646": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-03.jpg",
-    "presentation": "cheek-swatch",
-    "evidence": "Exact Dasique Blending Mood Cheek 03 Peach Blending before-and-after cheek result; barcode and shade source cross-checked"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_e5e2ccbf-f92b-4c4a-a57e-188323af91e4.jpg?v=1789269707",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 03 Peach Blending featured image; exact front-facing four-pan palette; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48086955393182": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-18.jpg",
-    "presentation": "cheek-swatch",
-    "evidence": "Exact Dasique Blending Mood Cheek 18 Milky Apricot human cheek result with matching palette; barcode and shade label cross-checked"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_393deaa2-fba5-463e-b538-71091115bd7e.jpg?v=1789269707",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 18 Milky Apricot featured image; exact front-facing four-pan palette; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48086955524254": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-19.jpg",
-    "presentation": "cheek-swatch",
-    "evidence": "Exact Dasique Blending Mood Cheek 19 Milky Berry four-colour human cheek result; barcode and visible shade label cross-checked"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_960005b5-ba12-4dc0-ae98-c233a869aaed.jpg?v=1789269707",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 19 Milky Berry featured image; exact front-facing four-pan palette; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48083472941214": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/HC192_01_Warm_Frecle.jpg",
@@ -3210,9 +3210,9 @@
     "evidence": "Exact AMUSE Powder Lip & Cheek 11 product and matching colour paste; filename, barcode, Shopify media and SOL consistency review passed"
   },
   "gid://shopify/ProductVariant/48086955458718": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/dasique-15-rose-milk-tea.jpg",
-    "presentation": "cheek-swatch",
-    "evidence": "Exact Dasique #15 Rose Milk Tea official real-cheek result for internal shade 4; local title and barcode cross-checked; SOL and main visual review passed"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_78013969-817f-4862-872b-ba2875afa92f.jpg?v=1789269781",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 15 Rose Milk Tea featured image; exact front-facing four-pan palette; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48079670837406": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/peripera-24-milky-nude.webp",
@@ -3908,5 +3908,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/9_77bc1f97-1841-48cd-827c-3955e0594302.jpg?v=1789269461",
     "presentation": "product-shade",
     "evidence": "official Flower Knows JE09 Toffee variant image; exact product, applicator and colour smear in the shared nine-shade composition; OUJI barcode 6977475916263; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086955589790": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_bd6be68f-1624-40ce-9af4-95a6a3a17f9c.jpg?v=1789269624",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 06 Berry Smoothie featured image; exact front-facing four-pan palette; OUJI barcode 8809581533608; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086955425950": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_968e45c0-7c5c-47be-94d1-8fd3df230184.jpg?v=1789269624",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 07 Candy Berry featured image; exact front-facing four-pan palette; OUJI barcode 8809581533707; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086955360414": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_03af040f-e5b5-4215-bab6-624890788346.jpg?v=1789269625",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 09 Almond Vanilla featured image; exact front-facing four-pan palette; OUJI barcode 8809581533721; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48086955557022": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_b27011c7-3511-4e4a-93f6-7ad049ad60b8.jpg?v=1789269624",
+    "presentation": "palette-shade",
+    "evidence": "official dasique 10 Muted Nuts featured image; exact front-facing four-pan palette; OUJI barcode 8809581535251; Shopify binding verified"
   }
 }
