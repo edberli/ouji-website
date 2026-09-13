@@ -3438,5 +3438,15 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/imgrc0154027448.jpg?v=1789258032",
     "presentation": "eye-swatch",
     "evidence": "Exact rom&nd Twinkle Pen Liner 05 Sunset Hazel image with visible shade number and name, independent eye result and matching swatch; variant title, barcode, Shopify binding and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48079608938654": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01-black-applied.jpg?v=1789259437",
+    "presentation": "eye-swatch",
+    "evidence": "Exact CLIO Superproof Pen Liner 01 Black image from the same upgraded red-cap product page; visible 01 Black label, black pen and stroke, independent eye result; barcode mapping, Shopify binding and SOL visual review passed"
+  },
+  "gid://shopify/ProductVariant/48079608971422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/02-brown-applied.jpg?v=1789259437",
+    "presentation": "eye-swatch",
+    "evidence": "Exact CLIO Superproof Pen Liner 02 Brown image from the same upgraded red-cap product page; visible 02 Brown label, brown pen and stroke, independent eye result; barcode mapping, Shopify binding and SOL visual review passed"
   }
 }
