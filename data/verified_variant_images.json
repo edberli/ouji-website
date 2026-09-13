@@ -4258,5 +4258,20 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/WAKEMAKE_Over_Blurring_Pot_06_Raw_Pink.jpg?v=1789318735",
     "presentation": "product-shade",
     "evidence": "Pharmacoo exact Shopify variant JSON maps 06 Raw Pink and EAN 8809526844448 to this exclusive numbered texture image; OUJI carries the same EAN; the four-image set uses one consistent 1080x1080 texture presentation and passed visual and unique-hash checks; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083900825758": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-brush-liner-6868226.jpg?v=1789319376",
+    "presentation": "product-shade",
+    "evidence": "La Cosmetique exact Shopify variant JSON maps 01 True Black and EAN 8809435502927 to this exclusive 1200x1200 single-pen image; OUJI carries the same EAN; all three in-stock images use the identical product-only format and passed visual and unique-hash checks; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083900858526": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-brush-liner-8159147.jpg?v=1789319376",
+    "presentation": "product-shade",
+    "evidence": "La Cosmetique exact Shopify variant JSON maps 02 Deep Brown and EAN 8809435502934 to this exclusive 1200x1200 single-pen image; OUJI carries the same EAN; all three in-stock images use the identical product-only format and passed visual and unique-hash checks; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083900891294": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/real-defining-brush-liner-7012831.jpg?v=1789319377",
+    "presentation": "product-shade",
+    "evidence": "La Cosmetique exact Shopify variant JSON maps 04 Gray Brown and EAN 8809435502958 to this exclusive 1200x1200 single-pen image; OUJI carries the same EAN; all three in-stock images use the identical product-only format and passed visual and unique-hash checks; Shopify binding verified"
   }
 }
