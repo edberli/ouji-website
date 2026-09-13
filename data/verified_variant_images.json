@@ -3633,5 +3633,25 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-foundation-23.jpg",
     "presentation": "complexion-swatch",
     "evidence": "official hince Japan product page maps sand.jpg to 23 SAND; exact single-shade foundation swatch visually reviewed; barcode 8809642481404, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083529269406": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-concealer-fair.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps fair.jpg to 17 FAIR; exact single-shade concealer swatch visually reviewed; barcode 8809642481428, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083529302174": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-concealer-light.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps light.jpg to 21 LIGHT; exact single-shade concealer swatch visually reviewed; barcode 8809642481435, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083529334942": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-concealer-medium.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps medium.jpg to 22 MEDIUM; exact single-shade concealer swatch visually reviewed; barcode 8809642481442, Shopify binding and SOL low review passed"
+  },
+  "gid://shopify/ProductVariant/48083529367710": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hince-concealer-natural.jpg",
+    "presentation": "complexion-swatch",
+    "evidence": "official hince Japan product page maps natural.jpg to 23 NATURAL; exact single-shade concealer swatch visually reviewed; barcode 8809642481459, Shopify binding and SOL low review passed"
   }
 }
