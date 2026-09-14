@@ -581,8 +581,54 @@
   <script src="search.js"></script>
   <script src="script.js"></script>
   <script>
+  /* Cart copy is rendered after the shared UI dictionary starts loading.  Keep
+     stateful strings in this page on the same language switch so interpolated
+     amounts and checkout errors never flash the Chinese fallback in English. */
+  window.OUJI_cartEnglish = () => typeof getLang === 'function'
+    ? getLang() === 'en' : window.OUJI_cartIsEnglish?.() === true;
+  window.OUJI_cartCopy = (zh, en) => window.OUJI_cartEnglish() ? en : zh;
+  const OUJI_CART_SHIP_EN = {
+    post: '7-Eleven / Post Office pickup',
+    sfp: 'SF Station / Smart Locker',
+    sfd: 'SF home delivery',
+    shop: 'Kwun Tong store pickup',
+  };
+  window.OUJI_cartShipDisplay = (mode, fallback) => window.OUJI_cartEnglish()
+    ? (OUJI_CART_SHIP_EN[mode] || fallback) : fallback;
+  window.OUJI_cartError = (error, fallbackZh, fallbackEn) => {
+    const raw = String(error?.message || '');
+    if (!window.OUJI_cartEnglish()) return raw || fallbackZh;
+    if (!raw || /[\u3400-\u9fff]/.test(raw)) return fallbackEn;
+    return raw;
+  };
+
+  function initCartEnglishStaticCopy() {
+    if (!window.OUJI_cartEnglish()) return;
+    const setText = (selector, value) => {
+      const el = document.querySelector(selector);
+      if (el) el.textContent = value;
+    };
+    setText('#payment-security-title', 'Payment information protected');
+    setText('.payment-security__heading span', 'Secure encrypted checkout');
+    setText('.payment-security__badges small:first-of-type', 'Level 1 payment standard');
+    setText('.payment-security__badges small:last-of-type', 'Encrypted data transfer');
+    setText('.payment-methods > span', 'Payment methods');
+    const security = document.querySelector('.payment-security');
+    if (security) security.querySelector('.payment-security__badges')?.setAttribute('aria-label', 'Payment security standards');
+    const methods = document.querySelector('.payment-methods');
+    if (methods) methods.setAttribute('aria-label', 'Available payment methods');
+    const securityLink = security?.querySelector('a');
+    if (securityLink) {
+      const textNode = [...securityLink.childNodes].find((node) => node.nodeType === 3 && node.nodeValue.trim());
+      if (textNode) textNode.nodeValue = 'View payment security standards ';
+    }
+    const unionpay = document.querySelector('.pay-mark--unionpay b');
+    if (unionpay) unionpay.textContent = 'UnionPay';
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
+    initCartEnglishStaticCopy();
 
     const cart = await getCart();
     const cartEmpty = document.getElementById('cart-empty');
@@ -604,7 +650,11 @@
         if (cfg && cfg.src && !(window.OUJI_getPickupPoint && window.OUJI_getPickupPoint())) {
           const err = document.querySelector('[data-sfp-err]');
           if (err) {
-            err.textContent = `仲未揀去邊間 ${cfg.name.replace('自取', '').trim()} 攞貨 —— 先選擇分區，或撳「瀏覽取件點」先可以結帳。`;
+            const shipName = window.OUJI_cartShipDisplay(mode, cfg.name);
+            err.textContent = window.OUJI_cartCopy(
+              `仲未揀去邊間 ${cfg.name.replace('自取', '').trim()} 攞貨 —— 先選擇分區，或撳「瀏覽取件點」先可以結帳。`,
+              `Please choose a ${shipName} pickup point first — select a district or tap “Browse pickup points” to continue to checkout.`
+            );
             err.hidden = false;
           }
           const panel = document.querySelector('[data-sfp]');
@@ -622,7 +672,7 @@
         /* checkoutUrl 可以預先準備，但 Shopify 仍會用約 3 秒做 checkout redirect。
            所以撳落去即刻回應，唔再等 120ms；文字亦講清楚係開緊安全結帳，
            唔好令人以為網站仲喺度重做購物袋。 */
-        checkoutBtn.textContent = '正在開啟安全結帳…';
+        checkoutBtn.textContent = window.OUJI_cartCopy('正在開啟安全結帳…', 'Opening secure checkout…');
         const spinner = document.createElement('span');
         spinner.className = 'btn__spinner';
         spinner.setAttribute('aria-hidden', 'true');
@@ -638,7 +688,7 @@
           await goToCheckout();
         } catch (error) {
           restore();
-          alert(error.message || '未能前往結賬，請再試一次。');
+          alert(window.OUJI_cartError(error, '未能前往結賬，請再試一次。', 'Couldn’t proceed to checkout. Please try again.'));
         } finally {
           delete checkoutBtn.dataset.pending;
         }
@@ -663,7 +713,7 @@
         if (!e.persisted) return;
         checkoutBtn.classList.remove('is-busy');
         checkoutBtn.removeAttribute('aria-busy');
-        checkoutBtn.textContent = '前往結帳';
+        checkoutBtn.textContent = window.OUJI_cartCopy('前往結帳', 'Go to checkout');
         delete checkoutBtn.dataset.pending;
         location.reload();
       });
@@ -710,10 +760,10 @@
             ${img ? `<img src="${img.url}" alt="${merch.product.title}">` : ''}
           </div>
           <div class="cart-item__details">
-            <span class="cart-item__brand">${isAutoGift ? '滿額贈品 · ' : ''}${merch.product.vendor || ''}</span>
+            <span class="cart-item__brand">${isAutoGift ? window.OUJI_cartCopy('滿額贈品 · ', 'Spend & get gift · ') : ''}${merch.product.vendor || ''}</span>
             <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.product.title}</a></h3>
             ${options ? `<span class="cart-item__variant">${options}</span>` : ''}
-            ${isAutoGift ? '<div class="cart-item__quantity"><strong>免費贈送 · 1 件</strong></div>' : `<div class="cart-item__quantity">
+            ${isAutoGift ? `<div class="cart-item__quantity"><strong>${window.OUJI_cartCopy('免費贈送 · 1 件', 'Free gift · 1 item')}</strong></div>` : `<div class="cart-item__quantity">
               <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity - 1})" style="width:32px;height:32px;font-size:0.875rem;">−</button>
               <input type="number" class="qty-input" value="${line.quantity}" min="1" max="99" style="width:44px;height:32px;font-size:0.8125rem;" onchange="changeQty('${line.id}', this.value)">
               <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity + 1})" style="width:32px;height:32px;font-size:0.875rem;">+</button>
@@ -741,7 +791,10 @@
         return n + (have == null ? 0 : Math.max(0, l.quantity - Math.max(0, have)));
       }, 0);
       split.innerHTML = wait
-        ? `<p class="cart-summary__split">訂單入面有 <strong>${wait} 件</strong>要預訂，約 ${LEAD_DAYS} 日到貨。現貨嗰部分我哋會先出，唔使等齊。</p>`
+        ? `<p class="cart-summary__split">${window.OUJI_cartCopy(
+          `訂單入面有 <strong>${wait} 件</strong>要預訂，約 ${LEAD_DAYS} 日到貨。現貨嗰部分我哋會先出，唔使等齊。`,
+          `Your order includes <strong>${wait} item${wait === 1 ? '' : 's'}</strong> on preorder, arriving in about ${LEAD_DAYS} days. We’ll ship the in-stock items first — no need to wait for everything.`
+        )}</p>`
         : '';
     }
 
@@ -783,7 +836,8 @@
        直接放個數出嚟，唔好再由 DOM 反推。 */
     window.OUJI_netGoods = netTotal;
     if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-    if (shippingEl) shippingEl.textContent = shipping === 0 ? '免費' : formatPrice(shipping);
+    if (shippingEl) shippingEl.textContent = shipping === 0
+      ? window.OUJI_cartCopy('免費', 'Free') : formatPrice(shipping);
     if (totalEl) totalEl.textContent = formatPrice(netTotal + shipping);
 
     const discRow = document.querySelector('[data-discount-row]');
@@ -837,18 +891,30 @@
     const met = method.fee === 0 || net >= method.free;
     const gap = Math.max(0, Math.ceil((method.free - net) * 100 - 0.001) / 100);
     const money = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
+    const methodName = window.OUJI_cartShipDisplay(mode, method.name);
     const line = host.querySelector('[data-reward-line]');
-    line.innerHTML = method.fee === 0 ? '✓ 門市免費自取，毋須湊單'
-      : met ? '✓ 已享' + method.name + '免運費'
-      : '再買 <strong>HK$' + money(gap) + '</strong>，即享' + method.name + '免運';
+    line.innerHTML = window.OUJI_cartCopy(
+      method.fee === 0 ? '✓ 門市免費自取，毋須湊單'
+        : met ? '✓ 已享' + method.name + '免運費'
+        : '再買 <strong>HK$' + money(gap) + '</strong>，即享' + method.name + '免運',
+      method.fee === 0 ? '✓ Free store pickup, no minimum spend'
+        : met ? '✓ ' + methodName + ' free shipping applied'
+        : 'Add <strong>HK$' + money(gap) + '</strong> more for free shipping with ' + methodName
+    );
     host.querySelector('[data-reward-cost]').textContent = met
-      ? '按目前折實商品金額計算'
-      : '目前運費 HK$' + method.fee + ' · 折實滿 HK$' + method.free + ' 免運';
+      ? window.OUJI_cartCopy('按目前折實商品金額計算', 'Based on your current discounted item total')
+      : window.OUJI_cartCopy(
+        '目前運費 HK$' + method.fee + ' · 折實滿 HK$' + method.free + ' 免運',
+        'Current shipping HK$' + method.fee + ' · Free over HK$' + method.free + ' after discount'
+      );
     const track = host.querySelector('[data-reward-track]');
     track.hidden = met;
     const pct = Math.min(100, Math.max(0, net / method.free * 100));
     track.setAttribute('aria-valuenow', String(Math.round(pct)));
-    track.setAttribute('aria-valuetext', '再買 HK$' + money(gap) + ' 即享所選方式免運');
+    track.setAttribute('aria-valuetext', window.OUJI_cartCopy(
+      '再買 HK$' + money(gap) + ' 即享所選方式免運',
+      'Add HK$' + money(gap) + ' more for free shipping with the selected method'
+    ));
     host.querySelector('[data-reward-fill]').style.width = pct + '%';
     host.querySelector('[data-reward-cta]').hidden = met;
     const gift = window.OUJI_COMMERCE?.promotion?.gift;
@@ -856,16 +922,24 @@
     const giftLine = host.querySelector('[data-reward-gift]');
     giftLine.hidden = !active;
     host.querySelector('[data-gift-title]').replaceChildren(
-      document.createTextNode('折實滿 HK$' + GIFT), document.createElement('br'), document.createTextNode('呢樽免費送'));
+      document.createTextNode(window.OUJI_cartCopy('折實滿 HK$' + GIFT, 'Spend HK$' + GIFT + ' after discount')),
+      document.createElement('br'),
+      document.createTextNode(window.OUJI_cartCopy('呢樽免費送', 'This gift is free')));
     host.querySelector('[data-gift-status]').textContent = (inCart || []).includes(gift?.handle)
-      ? '✓ 贈品已加入購物袋'
-      : net >= GIFT ? '已達贈品門檻；請以購物袋實際贈品為準'
-      : '再買 HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100) + ' 即送';
+      ? window.OUJI_cartCopy('✓ 贈品已加入購物袋', '✓ Gift added to bag')
+      : net >= GIFT ? window.OUJI_cartCopy('已達贈品門檻；請以購物袋實際贈品為準', 'Gift threshold reached; actual gifts in bag apply')
+      : window.OUJI_cartCopy(
+        '再買 HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100) + ' 即送',
+        'Add HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100) + ' more to get this gift'
+      );
     if (net < GIFT && !(inCart || []).includes(gift?.handle)) {
       const amount = document.createElement('strong');
       amount.className = 'reward-gift__amount';
       amount.textContent = 'HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100);
-      host.querySelector('[data-gift-status]').replaceChildren(document.createTextNode('再買 '), amount, document.createTextNode(' 即送'));
+      host.querySelector('[data-gift-status]').replaceChildren(
+        document.createTextNode(window.OUJI_cartCopy('再買 ', 'Add ')), amount,
+        document.createTextNode(window.OUJI_cartCopy(' 即送', ' more to get this gift'))
+      );
     }
   }
 
@@ -888,9 +962,13 @@
     if (want <= have) return '';
     const ready = Math.max(0, have);
     const wait = want - ready;
-    return `<p class="cart-item__split">${
+    const zh = `<p class="cart-item__split">${
       ready ? `<strong>${ready} 件現貨</strong>，其餘 ` : ''
     }<strong>${wait} 件預訂</strong>，約 ${LEAD_DAYS} 日到貨</p>`;
+    const en = `<p class="cart-item__split">${
+      ready ? `<strong>${ready} in stock</strong>, ` : ''
+    }<strong>${wait} on preorder</strong>, arriving in about ${LEAD_DAYS} days</p>`;
+    return window.OUJI_cartCopy(zh, en);
   }
 
   /**
@@ -945,23 +1023,37 @@
       host.hidden = true;
       return;
     }
-    if (title) title.textContent = `仲差 ${picks.map((p) => p.step).join('、')}`;
+    const STEP_EN = {
+      潔面: 'Cleanser', 爽膚水: 'Toner', 精華: 'Serum', 面霜: 'Moisturizer', 防曬: 'Sunscreen',
+    };
+    const PITCH_EN = {
+      潔面: 'Cleanses without leaving skin tight, so the next steps can sink in',
+      爽膚水: 'Apply serum while skin is damp for faster absorption',
+      精華: 'The step in your routine that does the real work',
+      面霜: 'Without moisturizer, the serum you applied can evaporate away',
+      防曬: 'Without sunscreen in the daytime, your evening routine works for less',
+    };
+    const stepLabel = (step) => window.OUJI_cartCopy(step, STEP_EN[step] || step);
+    if (title) title.textContent = window.OUJI_cartCopy(
+      `仲差 ${picks.map((p) => p.step).join('、')}`,
+      `Just a few steps left: ${picks.map((p) => stepLabel(p.step)).join(', ')}`
+    );
     host.hidden = false;
     body.innerHTML = picks.map(({ step, product }) => {
       const img = product.images?.edges?.[0]?.node;
       const v = product.variants?.edges?.[0]?.node;
       const money = formatPrice(product.priceRange.minVariantPrice.amount);
       return `<div class="next-step">
-        <span class="next-step__tag">${step}</span>
+        <span class="next-step__tag">${stepLabel(step)}</span>
         <a class="next-step__card" href="/products/${product.handle}">
           ${img ? `<img src="${img.url}" alt="${product.title}" loading="lazy">` : ''}
           <span class="next-step__brand">${product.vendor || ''}</span>
           <span class="next-step__name">${product.title}</span>
         </a>
-        <p class="next-step__why">${STEP_PITCH[step] || ''}</p>
+        <p class="next-step__why">${window.OUJI_cartCopy(STEP_PITCH[step] || '', PITCH_EN[step] || '')}</p>
         <div class="next-step__foot">
           <span class="next-step__price">${money}</span>
-          <button class="btn btn--sm" data-add="${v?.id || ''}">加入購物袋</button>
+          <button class="btn btn--sm" data-add="${v?.id || ''}">${window.OUJI_cartCopy('加入購物袋', 'Add to bag')}</button>
         </div>
       </div>`;
     }).join('');
@@ -970,7 +1062,7 @@
       btn.addEventListener('click', async () => {
         if (!btn.dataset.add) return;
         btn.disabled = true;
-        btn.textContent = '加緊…';
+        btn.textContent = window.OUJI_cartCopy('加緊…', 'Adding…');
         await addToCart(btn.dataset.add, 1);
         location.reload();
       });
@@ -1295,7 +1387,7 @@
     let pool = null;
     async function loadPool() {
       if (pool) return pool;
-      const r = await fetch('data/catalog.json');
+      const r = await fetch(window.OUJI_cartEnglish() ? 'data/catalog-en.json' : 'data/catalog.json');
       const list = (await r.json())?.v || [];
       pool = list.map((e) => e.node).filter((p) => {
         const price = parseFloat(p?.priceRange?.minVariantPrice?.amount || 0);
@@ -1338,11 +1430,18 @@
       /* 差額細過最平嗰件貨嗰陣（例如「再買 $1」），講「呢幾件啱啱夠」係誤導 ——
          其實加咩都免運。文案要跟住差額轉，唔係一句用到尾。 */
       const cheapest = items.reduce((m, p) => Math.min(m, p.__price), Infinity);
-      sub.textContent = gap <= 0
-        ? '好多人順手加埋呢啲'
-        : gap <= cheapest
-          ? `就差 ${money(gap)}！加任何一件都免運，慳返 ${money(S.fee)}`
-          : `再買 ${money(gap)} 就慳返 ${money(S.fee)} 運費 —— 呢幾件啱啱夠`;
+      sub.textContent = window.OUJI_cartCopy(
+        gap <= 0
+          ? '好多人順手加埋呢啲'
+          : gap <= cheapest
+            ? `就差 ${money(gap)}！加任何一件都免運，慳返 ${money(S.fee)}`
+            : `再買 ${money(gap)} 就慳返 ${money(S.fee)} 運費 —— 呢幾件啱啱夠`,
+        gap <= 0
+          ? 'Popular add-ons for your bag'
+          : gap <= cheapest
+            ? `Only ${money(gap)} away — add any item to save ${money(S.fee)} on shipping`
+            : `Add ${money(gap)} to save ${money(S.fee)} on shipping — these picks get you there`
+      );
 
       const scored = items
         .filter((p) => !inCart.has((p.title || '').trim()))
@@ -1403,8 +1502,8 @@
           </a>
           <p class="addon__vendor">${p.vendor || ''}</p>
           <h3 class="addon__name"><a href="product.html?handle=${encodeURIComponent(p.handle)}">${trimVendor(p.title, p.vendor)}</a></h3>
-          <p class="addon__price">${money(p.__price)}${hit ? '<span class="addon__hit">加咗就免運</span>' : ''}</p>
-          <button class="addon__add" type="button" data-vid="${p.__variantId}">加入購物袋</button>
+          <p class="addon__price">${money(p.__price)}${hit ? `<span class="addon__hit">${window.OUJI_cartCopy('加咗就免運', 'Add for free shipping')}</span>` : ''}</p>
+          <button class="addon__add" type="button" data-vid="${p.__variantId}">${window.OUJI_cartCopy('加入購物袋', 'Add to bag')}</button>
         </article>`;
       }).join('');
       sec.hidden = false;
@@ -1415,10 +1514,10 @@
       if (!btn || btn.disabled) return;
       btn.disabled = true;
       const was = btn.textContent;
-      btn.textContent = '加緊…';
+      btn.textContent = window.OUJI_cartCopy('加緊…', 'Adding…');
       try {
         await addToCart(btn.dataset.vid, 1);
-        btn.textContent = '加咗 ✓';
+        btn.textContent = window.OUJI_cartCopy('加咗 ✓', 'Added ✓');
         /* 加完要成版重畫（合計、免運進度、運費都會變）。
            renderCart 冇 export，所以行返最穩陣嗰條路。 */
         setTimeout(() => location.reload(), 700);

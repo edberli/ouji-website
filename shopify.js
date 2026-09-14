@@ -94,6 +94,10 @@ function withLanguage(query) {
 function initLangToggle() {
   const en = getLang() === 'en';
   document.documentElement.lang = en ? 'en' : 'zh-Hant';
+  /* document.title 喺 body 外面，通用 text-node 翻譯器處理唔到。 */
+  if (en && document.querySelector('.cart-page')) {
+    document.title = 'Shopping bag — OUJI';
+  }
   document.querySelectorAll('[data-lang-toggle]').forEach((btn) => {
     btn.textContent = en ? '中文' : 'EN';
     btn.setAttribute('aria-label', en ? '切換至繁體中文' : 'Switch to English');
@@ -2249,11 +2253,11 @@ const CATEGORY_TAXONOMY = {
    嘅 keyword 規則，佢哋會同單件貨一齊出現，亦會喺購物袋嘅護膚流程推薦
    區冒充一個步驟。呢個判斷集中喺共用層，購物袋同分類頁用同一把尺。 */
 const BUNDLE_CJK = /套裝|套組|禮盒|禮品盒|組合(?:裝|套)?|[一二三四五六七八九十兩雙]\s*(?:件|支|瓶|盒|片)\s*(?:裝|套|組)?/;
-const BUNDLE_EN = /(?:^|[\s/_-])(kits?|sets?|bundles?|gift\s*(?:set|box)|box\s*set|multi[-\s]?pack|[2-9]\s*pack|pairs?)(?:$|[\s/_-])/i;
+const BUNDLE_EN = /(?:^|[\s/_-])(?:kits?|sets?|bundles?|gift\s*(?:set|box)|box\s*set|multi[-\s]?pack|(?:twin|double)\s*pack|[2-9]\s*pack|pairs?)(?=$|[\s/_+-])|(?:\+\s*(?:an?\s+)?gift\b)/i;
 const PREMIUM_BUNDLE_BRANDS = /Sulwhasoo|雪花秀|The\s+History\s+of\s+Whoo|Whoo|后|O\s*HUI|歐蕙|su:m?37|sum37/i;
 
 function bundleHaystack(p) {
-  return [p?.title || '', p?.productType || '', ...(p?.tags || [])].join(' ');
+  return [p?.handle || '', p?.title || '', p?.productType || '', ...(p?.tags || [])].join(' ');
 }
 
 function isBundleProduct(p) {
