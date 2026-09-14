@@ -963,21 +963,36 @@ async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
 }
 
 /** 前往 Shopify 結帳 */
-async function goToCheckout() {
+/* 由撳掣到跳走，之前要行四個 Shopify 來回、三秒 —— 老闆 2026-09-14：
+   「三秒都係耐，正常係要一撳落去即刻去」。
+   做法：唔喺撳嗰刻先做，喺客**揀完取件點／運送方式**嗰陣就喺背景做定，
+   結果（checkoutUrl）連住一條 key 擺低。撳嘅時候 key 對得上就即刻跳走，零來回。
+   key ＝ 運送方式＋取件點＋cart id：呢三樣冇變，預先攞嘅 checkoutUrl 就仲啱用
+   （之後加減數量係改緊同一個 cart，同一條 URL 照樣反映到）。 */
+let checkoutReady = null;          // { key, url, trackingCart }
+let checkoutBuilding = null;       // 進行緊嘅預備，唔好同時做兩個
+let checkoutPrewarmTimer = null;
+
+function checkoutKey() {
+  const mode = window.OUJI_getShipMode?.() || '';
+  const point = window.OUJI_getPickupPoint?.()?.code || '';
+  return `${mode}|${point}|${localStorage.getItem('shopify_cart_id') || ''}`;
+}
+
+/** 做齊所有寫入同重建，回一條可以即刻用嘅 checkoutUrl（唔會自己跳） */
+async function buildCheckout({ commit = true } = {}) {
   const checkoutMode = window.OUJI_getShipMode?.();
   const checkoutPoint = window.OUJI_getPickupPoint?.();
   if (window.OUJI_SHIP?.[checkoutMode]?.src && !window.OUJI_preparePickupCheckout) {
     throw new Error('取件點功能未載入完成，請重新整理後再試。');
   }
   /* 自取單：地址、attributes（連 ship_mode）、備註三樣嘢喺呢度一個來回寫晒，
-     所以下面唔使再寫多次運送方式。 */
-  /* 讀購物袋同寫取件資料互不相干（讀返嚟只係攞 id／checkoutUrl／追蹤數），
+     所以下面唔使再寫多次運送方式。
+     讀購物袋同呢啲寫入互不相干（讀返嚟只係攞 id／checkoutUrl／追蹤數），
      所以一齊行，唔好排隊等。 */
   const cartPromise = getCart();
   cartPromise.catch(() => null);          // 唔好留低未接住嘅 rejection
   const prep = window.OUJI_preparePickupCheckout ? await window.OUJI_preparePickupCheckout() : null;
-  // Persist the visible choice even after a reload, and wait for earlier
-  // pickup/method writes before opening Shopify checkout.
   const mode = window.OUJI_getShipMode?.();
   const method = window.OUJI_SHIP?.[mode];
   if (method && !prep?.wroteShipMode) {
@@ -997,12 +1012,62 @@ async function goToCheckout() {
   }
   if (checkoutMode !== window.OUJI_getShipMode?.()) throw new Error('收貨方式已更改，請再按結賬。');
   if (window.OUJI_SHIP?.[checkoutMode]?.src && checkoutPoint !== window.OUJI_getPickupPoint?.()) throw new Error('取件點已更改，請再按結賬。');
-  if (cart.id !== trackingCart.id) localStorage.setItem('shopify_cart_id', cart.id);
-  // 呢個係網站呢邊最後一個追蹤得到嘅動作 —— 之後就跳咗去 Shopify。
-  if (typeof trackBeginCheckout === 'function') trackBeginCheckout(trackingCart);
+  /* 重建咗就有個新 cart id。預備階段**唔准**即刻換走 —— 畫面上嗰幾行
+     用緊舊 cart 嘅 line id，換咗客就加減唔到數量。留到真係去結帳嗰刻先換。 */
+  const newCartId = cart.id !== trackingCart.id ? cart.id : null;
+  if (commit && newCartId) localStorage.setItem('shopify_cart_id', newCartId);
   let url = brandCheckoutUrl(cart.checkoutUrl);
   if (typeof decorateCheckoutUrl === 'function') url = decorateCheckoutUrl(url);
-  window.location.href = url;
+  return { url, trackingCart, newCartId };
+}
+
+/** 喺背景預先準備結帳。失敗唔出聲 —— 撳掣嗰陣照行正路，客見到嘅只係慢返啲。 */
+function prewarmCheckout({ delay = 400 } = {}) {
+  clearTimeout(checkoutPrewarmTimer);
+  checkoutPrewarmTimer = setTimeout(() => {
+    if (checkoutBuilding) return;                       // 已經做緊
+    const mode = window.OUJI_getShipMode?.();
+    const method = window.OUJI_SHIP?.[mode];
+    if (!method) return;
+    if (method.src && !window.OUJI_getPickupPoint?.()) return;   // 未揀取件點，冇得預備
+    if (checkoutReady?.key === checkoutKey()) return;   // 手上嗰個仲啱用
+    checkoutReady = null;
+    const key = checkoutKey();
+    checkoutBuilding = buildCheckout({ commit: false }).then((built) => {
+      // 中途客改咗運送方式／取件點就唔算數
+      if (key !== checkoutKey()) return;
+      checkoutReady = { key, ...built };
+    }).catch(() => null).finally(() => { checkoutBuilding = null; });
+  }, delay);
+}
+
+/* 加減數量、落優惠碼、重建購物袋都會換內容 —— 預備好嗰條就要即刻作廢。 */
+function invalidateCheckout() {
+  checkoutReady = null;
+}
+
+/** 前往 Shopify 結帳 */
+async function goToCheckout() {
+  if (checkoutReady?.key === checkoutKey()) {
+    const ready = checkoutReady;
+    if (ready.newCartId) localStorage.setItem('shopify_cart_id', ready.newCartId);
+    // 呢個係網站呢邊最後一個追蹤得到嘅動作 —— 之後就跳咗去 Shopify。
+    if (typeof trackBeginCheckout === 'function') trackBeginCheckout(ready.trackingCart);
+    window.location.href = ready.url;
+    return;
+  }
+  /* 未預備好（啱啱改完嘢、或者背景嗰次失敗）—— 等佢做完，或者自己做一次。 */
+  if (checkoutBuilding) await checkoutBuilding;
+  if (checkoutReady?.key === checkoutKey()) {
+    const ready = checkoutReady;
+    if (ready.newCartId) localStorage.setItem('shopify_cart_id', ready.newCartId);
+    if (typeof trackBeginCheckout === 'function') trackBeginCheckout(ready.trackingCart);
+    window.location.href = ready.url;
+    return;
+  }
+  const built = await buildCheckout();
+  if (typeof trackBeginCheckout === 'function') trackBeginCheckout(built.trackingCart);
+  window.location.href = built.url;
 }
 
 // ─────────────────────────────────────────────

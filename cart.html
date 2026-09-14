@@ -594,12 +594,26 @@
         if (checkoutBtn.dataset.pending === 'true') return;
         checkoutBtn.dataset.pending = 'true';
         const previousText = checkoutBtn.textContent;
-        checkoutBtn.textContent = '準備結帳中…';
+        /* 預備好嘅情況一撳就跳走，所以唔好即刻換樣 —— 閃一閃反而似壞咗。
+           過咗 120ms 仲未走先出轉圈，等客知道係喺度做緊嘢。 */
+        const showBusy = setTimeout(() => {
+          checkoutBtn.textContent = '準備結帳中…';
+          const spinner = document.createElement('span');
+          spinner.className = 'btn__spinner';
+          spinner.setAttribute('aria-hidden', 'true');
+          checkoutBtn.prepend(spinner);
+          checkoutBtn.classList.add('is-busy');
+        }, 120);
+        const restore = () => {
+          clearTimeout(showBusy);
+          checkoutBtn.classList.remove('is-busy');
+          checkoutBtn.textContent = previousText;
+        };
         try {
           await goToCheckout();
         } catch (error) {
+          restore();
           alert(error.message || '未能前往結賬，請再試一次。');
-          checkoutBtn.textContent = previousText;
         } finally {
           delete checkoutBtn.dataset.pending;
         }
@@ -611,8 +625,18 @@
          所以一定要喺 pageshow 度收拾。
          順手 reload：去過結帳嗰陣購物袋可能已經換咗新 cart，
          舊畫面嘅數量同金額未必啱。 */
+      /* 一開頁就喺背景預備。等一陣先開始，唔好同購物袋本身嘅載入搶頻寬。 */
+      if (typeof prewarmCheckout === 'function') prewarmCheckout({ delay: 1500 });
+      /* 返到呢個分頁：可能喺第二個分頁改過購物袋，手上嗰條預備好嘅作廢重做。 */
+      window.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible') return;
+        if (typeof invalidateCheckout === 'function') invalidateCheckout();
+        if (typeof prewarmCheckout === 'function') prewarmCheckout({ delay: 600 });
+      });
+
       window.addEventListener('pageshow', (e) => {
         if (!e.persisted) return;
+        checkoutBtn.classList.remove('is-busy');
         checkoutBtn.textContent = '前往結帳';
         delete checkoutBtn.dataset.pending;
         location.reload();
@@ -753,13 +777,17 @@
     // (declared above). Defined at the outer <script> scope, calling
     // either one threw "lines is not defined" on every click — the
     // remove/qty-to-zero buttons looked unresponsive to customers.
+    /* ⚠️ 改完內容一定要作廢預備好嗰個結帳 —— 佢係改之前嗰份購物袋嘅副本，
+       照用落去客會帶住舊數量去付錢。（下面會 reload，但唔好靠 reload 兜底。） */
     window.changeQty = async function (lineId, qty) {
+      if (typeof invalidateCheckout === 'function') invalidateCheckout();
       if (qty < 1) { await removeLine(lineId); return; }
       await updateCartLine(lineId, parseInt(qty));
       location.reload();
     };
 
     window.removeLine = async function (lineId) {
+      if (typeof invalidateCheckout === 'function') invalidateCheckout();
       const line = lines.find((x) => x.id === lineId);
       if (line && typeof trackRemoveFromCart === 'function') trackRemoveFromCart(line);
       await removeCartLine(lineId);
@@ -1073,6 +1101,7 @@
          （$99／$199／$250／門市自取冇門檻）—— 換方式一定要重算。
          加購自己嗰個 observer 只盯小計，換方式唔會觸發到。 */
       if (window.OUJI_repaintAddon) window.OUJI_repaintAddon();
+      if (typeof prewarmCheckout === 'function') prewarmCheckout();
     });
 
     window.OUJI_repaintShip = paint;
@@ -1592,6 +1621,8 @@
       if (!chosen) return;
       const err = root.querySelector('[data-sfp-err]');
       if (err) err.hidden = true;
+      // 揀好咗點 ＝ 可以喺背景預備結帳，等客撳落去嗰下即刻跳得走
+      if (typeof prewarmCheckout === 'function') prewarmCheckout();
     });
 
     // Perform writes only at checkout, in order; local selection is not server confirmation.
