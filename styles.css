@@ -13457,7 +13457,7 @@ body::before { opacity: 0.18; }
 /* 購物袋結帳前：用付款標準建立信心，但唔將第三方平台品牌當主角。 */
 .payment-security {
   margin-top: 14px;
-  padding: 16px 17px 13px;
+  padding: 14px 16px 12px;
   border: 1px solid #d6e3e7;
   border-radius: 11px;
   background: #f7fafb;
@@ -13471,23 +13471,10 @@ body::before { opacity: 0.18; }
 .payment-security__heading > div { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .payment-security__heading strong { font-size: 0.875rem; font-weight: 650; color: var(--text-primary); }
 .payment-security__heading span { font-size: 0.6875rem; color: var(--text-secondary); }
-.payment-security__badges { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.payment-security__badges > span {
-  display: flex; align-items: center; gap: 7px; min-height: 44px;
-  padding: 8px 10px; border: 1px solid #cddde2; border-radius: 8px; background: #fff;
-}
-.payment-security__badges b { font-size: 0.75rem; letter-spacing: .035em; color: var(--text-primary); }
-.payment-security__badges small { font-size: 0.625rem; line-height: 1.35; color: var(--text-secondary); }
-.payment-security > a {
-  display: inline-flex; align-items: center; gap: 6px; min-height: 38px; margin-top: 5px;
-  font-size: 0.6875rem; color: var(--primary-dark); text-decoration: underline;
-  text-underline-offset: 3px;
-}
 .payment-methods {
-  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px;
-  padding: 17px 0 2px; border-bottom: 1px solid var(--border-light);
+  display: block;
+  padding: 12px 0 0;
 }
-.payment-methods > span { font-size: 0.6875rem; color: var(--text-secondary); white-space: nowrap; }
 .pay-marks {
   display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px;
   margin: 0; padding: 0; list-style: none;
@@ -13516,15 +13503,18 @@ body::before { opacity: 0.18; }
   background: linear-gradient(90deg,#d9272e 0 33%,#1677a8 33% 66%,#129b72 66%);
 }
 .pay-mark--unionpay b { font-size: 0.5625rem; color: #1d4f5f; }
+.merchant-trust {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 5px 8px; margin-top: 11px; padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.625rem; line-height: 1.5; color: var(--text-secondary);
+}
+.merchant-trust i { font-style: normal; color: var(--text-tertiary); }
+.merchant-trust a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 480px) {
-  .payment-security { padding: 14px 13px 11px; }
+  .payment-security { padding: 13px 12px 11px; }
   .payment-security__heading > div { display: block; }
   .payment-security__heading span { display: block; margin-top: 3px; }
-  .payment-security__badges > span { display: block; padding: 8px; }
-  .payment-security__badges b, .payment-security__badges small { display: block; }
-  .payment-security__badges small { margin-top: 3px; }
-  .payment-methods { display: block; }
-  .payment-methods > span { display: block; margin-bottom: 9px; text-align: center; }
   .pay-marks { grid-template-columns: repeat(3, 1fr); }
   .pay-mark { height: 40px; }
 }

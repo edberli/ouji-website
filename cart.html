@@ -416,29 +416,27 @@
                   <path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v2"></path>
                 </svg>
                 <div>
-                  <strong id="payment-security-title">付款資料受保護</strong>
-                  <span>正式結帳採用加密付款流程</span>
+                  <strong id="payment-security-title">安全加密付款</strong>
+                  <span>付款資料經安全支付系統處理</span>
                 </div>
               </div>
-              <div class="payment-security__badges" aria-label="付款安全標準">
-                <span><b>PCI DSS</b><small>Level 1 支付標準</small></span>
-                <span><b>HTTPS</b><small>加密資料傳輸</small></span>
-              </div>
-              <a href="https://www.shopify.com/security/pci-compliant?utm_medium=shop&amp;utm_source=secure"
-                 target="_blank" rel="noopener noreferrer nofollow">查看付款系統安全標準 <span aria-hidden="true">↗</span></a>
-            </section>
-
-            <div class="payment-methods" aria-label="可用付款方式">
-              <span>付款方式</span>
-              <ul class="pay-marks">
+              <div class="payment-methods" aria-label="可用付款方式">
+                <ul class="pay-marks">
                 <li class="pay-mark pay-mark--apple" aria-label="Apple Pay"><b aria-hidden="true"> Pay</b></li>
                 <li class="pay-mark pay-mark--google" aria-label="Google Pay"><b aria-hidden="true"><i>G</i> Pay</b></li>
                 <li class="pay-mark pay-mark--visa" aria-label="Visa"><b aria-hidden="true">VISA</b></li>
                 <li class="pay-mark pay-mark--mastercard" aria-label="Mastercard"><i aria-hidden="true"></i></li>
                 <li class="pay-mark pay-mark--amex" aria-label="American Express"><b aria-hidden="true">AMERICAN<br>EXPRESS</b></li>
                 <li class="pay-mark pay-mark--unionpay" aria-label="銀聯 UnionPay"><i aria-hidden="true"></i><b aria-hidden="true">銀聯</b></li>
-              </ul>
-            </div>
+                </ul>
+              </div>
+              <div class="merchant-trust" aria-label="商戶服務保障">
+                <span>香港實體門市</span><i aria-hidden="true">·</i>
+                <span>訂單可追蹤</span><i aria-hidden="true">·</i>
+                <span>門市自取</span><i aria-hidden="true">·</i>
+                <a href="shipping.html">退換貨政策</a>
+              </div>
+            </section>
           </div>
         </div>
 
@@ -608,20 +606,19 @@
       const el = document.querySelector(selector);
       if (el) el.textContent = value;
     };
-    setText('#payment-security-title', 'Payment information protected');
-    setText('.payment-security__heading span', 'Secure encrypted checkout');
-    const badgeNotes = document.querySelectorAll('.payment-security__badges small');
-    if (badgeNotes[0]) badgeNotes[0].textContent = 'Level 1 payment standard';
-    if (badgeNotes[1]) badgeNotes[1].textContent = 'Encrypted data transfer';
-    setText('.payment-methods > span', 'Payment methods');
+    setText('#payment-security-title', 'Secure encrypted payment');
+    setText('.payment-security__heading span', 'Payment details are processed by a secure payment system');
     const security = document.querySelector('.payment-security');
-    if (security) security.querySelector('.payment-security__badges')?.setAttribute('aria-label', 'Payment security standards');
     const methods = document.querySelector('.payment-methods');
     if (methods) methods.setAttribute('aria-label', 'Available payment methods');
-    const securityLink = security?.querySelector('a');
-    if (securityLink) {
-      const textNode = [...securityLink.childNodes].find((node) => node.nodeType === 3 && node.nodeValue.trim());
-      if (textNode) textNode.nodeValue = 'View payment security standards ';
+    const trust = security?.querySelector('.merchant-trust');
+    if (trust) {
+      trust.setAttribute('aria-label', 'Store service assurances');
+      const items = trust.querySelectorAll('span');
+      const labels = ['Hong Kong retail store', 'Order tracking', 'Store pickup'];
+      items.forEach((item, index) => { if (labels[index]) item.textContent = labels[index]; });
+      const policyLink = trust.querySelector('a');
+      if (policyLink) policyLink.textContent = 'Returns policy';
     }
     const unionpay = document.querySelector('.pay-mark--unionpay b');
     if (unionpay) {
