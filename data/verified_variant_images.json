@@ -4683,5 +4683,30 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/571550587565_93882092528257018366.jpg?v=1789345218",
     "presentation": "lip-swatch",
     "evidence": "Exact labelled dasique Juicy Dewy Tint 20 Bare Nude human lip result; OUJI barcode 8809581535763 matches official Color Atelier catalogue and exact retailer listing; incorrect Ice Oolong option name corrected, Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083897614494": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/05DarkBrown.jpg?v=1789347293",
+    "presentation": "product-shade",
+    "evidence": "Exact WAKEMAKE Powder Jet Dual Brow 05 Dark Brown texture swatch; barcode 8809435501975 cross-checked against exact retailer listing; same-format five-shade source set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083897647262": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/06DeepBrown.jpg?v=1789347293",
+    "presentation": "product-shade",
+    "evidence": "Exact WAKEMAKE Powder Jet Dual Brow 06 Deep Brown texture swatch; barcode 8809435501982 cross-checked against exact retailer listing; same-format five-shade source set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083897680030": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/07NeutralBrown.jpg?v=1789347293",
+    "presentation": "product-shade",
+    "evidence": "Exact WAKEMAKE Powder Jet Dual Brow 07 Neutral Brown texture swatch; barcode 8809435501999 cross-checked against exact retailer listing; same-format five-shade source set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083897712798": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/08AshBrown.jpg?v=1789347293",
+    "presentation": "product-shade",
+    "evidence": "Exact WAKEMAKE Powder Jet Dual Brow 08 Ash Brown texture swatch; barcode 8809435502002 cross-checked against exact retailer listing; same-format five-shade source set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48083897745566": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/09GrayBrown.jpg?v=1789347293",
+    "presentation": "product-shade",
+    "evidence": "Exact WAKEMAKE Powder Jet Dual Brow 09 Gray Brown texture swatch; barcode 8809435502019 cross-checked against exact retailer listing; same-format five-shade source set visually reviewed; Shopify binding verified"
   }
 }
