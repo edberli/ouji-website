@@ -1303,8 +1303,46 @@ async function getCustomer() {
             node {
               id name processedAt
               totalPrice { amount currencyCode }
-              fulfillments(first: 1) { nodes { status } }
+              fulfillments(first: 10) {
+                nodes {
+                  status
+                  latestShipmentStatus
+                  trackingInformation { company number url }
+                }
+              }
               financialStatus
+              subtotal { amount currencyCode }
+              totalShipping { amount currencyCode }
+              totalTax { amount currencyCode }
+              totalRefunded { amount currencyCode }
+              paymentInformation {
+                paymentStatus
+                totalPaidAmount { amount currencyCode }
+                totalOutstandingAmount { amount currencyCode }
+              }
+              transactions {
+                id kind status processedAt
+                paymentDetails { ... on CardPaymentDetails { cardBrand } }
+                typeDetails { name message }
+              }
+              shippingAddress { formatted(withName: true, withCompany: true) phoneNumber }
+              billingAddress { formatted(withName: true, withCompany: true) phoneNumber }
+              lineItems(first: 50) {
+                nodes {
+                  id
+                  name
+                  variantTitle
+                  quantity
+                  price { amount currencyCode }
+                  totalPrice { amount currencyCode }
+                  image {
+                    url
+                    altText
+                    width
+                    height
+                  }
+                }
+              }
             }
           }
         }

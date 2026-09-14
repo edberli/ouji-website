@@ -281,8 +281,83 @@
           <b aria-hidden="true">›</b>
         </a>
 
+        <section class="member-points" id="member-points" aria-labelledby="member-points-title">
+          <div class="member-points__heading">
+            <div>
+              <span class="member-points__member-tag">OUJI MEMBER</span>
+              <p class="member-points__eyebrow">買嘢・儲分・換獎賞</p>
+              <h2 id="member-points-title">你嘅 OUJI Points</h2>
+            </div>
+            <span class="member-points__rate">HK$1 = 1 Point</span>
+          </div>
+
+          <div class="member-points__balances">
+            <div class="member-points__balance member-points__balance--available">
+              <span>Available Points</span>
+              <strong id="available-points">—</strong>
+              <small>而家可以使用</small>
+            </div>
+            <div class="member-points__balance">
+              <span>Pending Points</span>
+              <strong id="pending-points">—</strong>
+              <small>訂單完成後 14 日確認</small>
+            </div>
+          </div>
+
+          <div class="member-points__reward">
+            <div class="member-points__reward-copy">
+              <span class="member-points__section-label">距離下一個獎賞</span>
+              <p class="member-points__message" id="points-message">正在載入你嘅積分…</p>
+              <div class="member-points__progress" role="progressbar" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0" id="points-progress">
+                <span id="points-progress-bar"></span>
+              </div>
+              <div class="member-points__progress-labels"><span id="points-progress-current">— Points</span><span id="points-progress-target">1,000 Points</span></div>
+            </div>
+            <div class="member-points__shima" aria-hidden="true">
+              <div class="shima">
+                <img class="shima__f" src="assets/images/shima/shima-acct1.webp" alt="">
+                <img class="shima__f" src="assets/images/shima/shima-acct2.webp" alt="">
+                <img class="shima__f" src="assets/images/shima/shima-acct3.webp" alt="">
+                <img class="shima__f" src="assets/images/shima/shima-acct4.webp" alt="">
+                <img class="shima__f" src="assets/images/shima/shima-acct5.webp" alt="">
+                <img class="shima__f" src="assets/images/shima/shima-acct6.webp" alt="">
+              </div>
+            </div>
+          </div>
+
+          <div class="member-points__unlock">
+            <p class="member-points__section-label">使用積分前要完成</p>
+            <div class="member-points__checks">
+              <span id="points-check-balance"><i aria-hidden="true">✓</i>有 1,000 Points</span>
+              <span id="points-check-orders"><i aria-hidden="true">✓</i>完成 2 張有效訂單 <small id="points-order-count"></small></span>
+              <span><i aria-hidden="true">✓</i>今張訂單商品滿 HK$199</span>
+            </div>
+          </div>
+
+          <div class="member-points__howto">
+            <strong>達標後點用？</strong>
+            <span>購物袋會顯示可用獎賞；每張單最多抵商品金額 20%，唔會扣運費。</span>
+            <em>兌換功能即將開放</em>
+          </div>
+          <p class="member-points__expiry" id="points-expiry" hidden></p>
+
+          <div class="member-points__details">
+            <details class="member-points__rules">
+              <summary>積分規則</summary>
+              <ul>
+                <li><strong>點樣儲：</strong>折扣後實付商品每 HK$1 = 1 Point；運費不計。</li>
+                <li><strong>幾時可用：</strong>新會員送 200 Points；購物 Points 先列為 Pending，訂單完成 14 日後轉為 Available。</li>
+                <li><strong>點樣兌換：</strong>1,000 Points = HK$20，其後每 500 Points 多 HK$10。</li>
+                <li><strong>使用限制：</strong>首次使用前須完成 2 張有效訂單；每單商品滿 HK$199，最多抵商品金額 20%。</li>
+                <li><strong>有效期：</strong>普通積分 12 個月到期；取消、退款或部分退款會相應調整積分。</li>
+              </ul>
+            </details>
+            <details class="member-points__history"><summary>積分紀錄</summary><div id="points-history"></div></details>
+          </div>
+        </section>
+
         <!-- 會員資料 -->
-        <div style="background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 32px; margin-bottom: 32px;">
+        <div class="account-orders-card">
           <h2 style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 16px;">帳戶資料</h2>
           <div id="customer-info" style="line-height: 1.8; color: var(--text-secondary);">
             載入中...
@@ -444,6 +519,140 @@
       document.title = '我的帳戶 — OUJI';
     }
 
+    function escapeAccountText(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[char]);
+    }
+
+    function orderStatusLabel(status) {
+      const labels = {
+        SUCCESS: '已寄出', OPEN: '處理中', PENDING: '處理中',
+        PAID: '已付款', PARTIALLY_PAID: '部分付款', REFUNDED: '已退款',
+        PARTIALLY_REFUNDED: '部分退款', VOIDED: '已取消', AUTHORIZED: '已授權'
+      };
+      return labels[status] || status || '處理中';
+    }
+
+    function renderOrderItems(order) {
+      const items = order.lineItems?.nodes || [];
+      if (!items.length) {
+        return '<p class="account-order__empty">商品明細暫時未能載入。</p>';
+      }
+
+      return `<div class="account-order__items">${items.map((item) => {
+        const title = escapeAccountText(item.name || '商品');
+        const variant = item.variantTitle && item.variantTitle !== 'Default Title'
+          ? `<span class="account-order-item__variant">${escapeAccountText(item.variantTitle)}</span>`
+          : '';
+        const imageUrl = item.image?.url ? escapeAccountText(item.image.url) : '';
+        const imageAlt = escapeAccountText(item.image?.altText || item.name || '商品圖片');
+        const itemTotal = item.totalPrice?.amount ?? item.price?.amount;
+        const price = itemTotal != null ? formatPrice(itemTotal) : '';
+
+        return `
+          <div class="account-order-item">
+            <div class="account-order-item__image">
+              ${imageUrl
+                ? `<img src="${imageUrl}" alt="${imageAlt}" loading="lazy" decoding="async">`
+                : '<span aria-hidden="true">OUJI</span>'}
+            </div>
+            <div class="account-order-item__info">
+              <span class="account-order-item__name">${title}</span>
+              ${variant}
+              <span class="account-order-item__quantity">數量：${Number(item.quantity) || 0}</span>
+            </div>
+            <span class="account-order-item__price">${price}</span>
+          </div>`;
+      }).join('')}</div>`;
+    }
+
+    function moneyRow(label, money, className = '') {
+      if (money?.amount == null) return '';
+      return `<div class="account-order-total ${className}"><span>${escapeAccountText(label)}</span><strong>${formatPrice(money.amount)}</strong></div>`;
+    }
+
+    function renderOrderTotals(order) {
+      const refunded = Number(order.totalRefunded?.amount || 0);
+      const outstanding = Number(order.paymentInformation?.totalOutstandingAmount?.amount || 0);
+      return `<div class="account-order__totals">
+        ${moneyRow('商品小計', order.subtotal)}${moneyRow('運費', order.totalShipping)}
+        ${Number(order.totalTax?.amount || 0) ? moneyRow('稅項', order.totalTax) : ''}
+        ${refunded ? moneyRow('已退款', order.totalRefunded, 'account-order-total--refund') : ''}
+        ${moneyRow('訂單總額', order.totalPrice, 'account-order-total--grand')}
+        ${outstanding ? moneyRow('尚欠金額', order.paymentInformation.totalOutstandingAmount, 'account-order-total--due') : ''}
+      </div>`;
+    }
+
+    function transactionLabel(transaction) {
+      const card = transaction.paymentDetails;
+      if (card?.cardBrand) return card.cardBrand;
+      return transaction.typeDetails?.name || '其他付款方式';
+    }
+
+    function renderPayment(order) {
+      const transactions = (order.transactions || []).filter((transaction) => transaction.status === 'SUCCESS' && ['SALE', 'CAPTURE', 'PURCHASE'].includes(transaction.kind));
+      const methods = [...new Set(transactions.map(transactionLabel).filter(Boolean))];
+      const paid = order.paymentInformation?.totalPaidAmount;
+      return `<section class="account-order__detail-block"><h3>付款資料</h3>
+        <p><span>付款方式</span><strong>${escapeAccountText(methods.join('、') || 'Shopify 結帳')}</strong></p>
+        ${paid?.amount != null ? `<p><span>已付款</span><strong>${formatPrice(paid.amount)}</strong></p>` : ''}
+      </section>`;
+    }
+
+    function renderAddress(title, address) {
+      if (!address) return '';
+      const lines = (address.formatted || []).filter(Boolean).map(escapeAccountText);
+      if (address.phoneNumber) lines.push(`電話：${escapeAccountText(address.phoneNumber)}`);
+      return `<section class="account-order__detail-block"><h3>${escapeAccountText(title)}</h3><address>${lines.join('<br>') || '未有地址資料'}</address></section>`;
+    }
+
+    function renderDelivery(order) {
+      const tracking = (order.fulfillments?.nodes || []).flatMap((fulfillment) => fulfillment.trackingInformation || []);
+      if (!tracking.length) return '';
+      return `<section class="account-order__detail-block account-order__detail-block--wide"><h3>物流追蹤</h3>${tracking.map((item) => {
+        const label = [item.company, item.number].filter(Boolean).join(' · ') || '查看物流進度';
+        return item.url ? `<a class="account-order__tracking" href="${escapeAccountText(item.url)}" target="_blank" rel="noopener">${escapeAccountText(label)} <span aria-hidden="true">↗</span></a>` : `<p class="account-order__tracking">${escapeAccountText(label)}</p>`;
+      }).join('')}</section>`;
+    }
+
+    function renderOrderDetails(order) {
+      const billingFormatted = JSON.stringify(order.billingAddress?.formatted || []);
+      const shippingFormatted = JSON.stringify(order.shippingAddress?.formatted || []);
+      const showBilling = order.billingAddress && billingFormatted !== shippingFormatted;
+      return `<div class="account-order__details">${renderOrderTotals(order)}<div class="account-order__detail-grid">
+        ${renderPayment(order)}${renderAddress('收貨地址', order.shippingAddress)}${showBilling ? renderAddress('帳單地址', order.billingAddress) : ''}${renderDelivery(order)}
+      </div></div>`;
+    }
+
+    function renderOrders(orders) {
+      if (!orders.length) {
+        return '<p style="color: var(--text-tertiary);">暫時沒有訂單記錄。</p>';
+      }
+
+      return orders.map((order, index) => {
+        const date = new Date(order.processedAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' });
+        const status = order.fulfillments?.nodes?.[0]?.status || order.financialStatus || '';
+        const itemCount = (order.lineItems?.nodes || []).reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+        return `
+          <details class="account-order" ${index === 0 ? 'open' : ''}>
+            <summary class="account-order__summary">
+              <span>
+                <strong>${escapeAccountText(order.name)}</strong>
+                <small>${escapeAccountText(date)} · ${itemCount} 件商品</small>
+              </span>
+              <span class="account-order__summary-right">
+                <strong>${formatPrice(order.totalPrice.amount)}</strong>
+                <small>${escapeAccountText(orderStatusLabel(status))}</small>
+              </span>
+              <span class="account-order__chevron" aria-hidden="true">⌄</span>
+            </summary>
+            ${renderOrderItems(order)}
+            ${renderOrderDetails(order)}
+          </details>`;
+      }).join('');
+    }
+
     // 檢查是否從 Shopify 登入頁面返回（URL 有 code 參數）
     const params = new URLSearchParams(window.location.search);
     if (params.has('code')) {
@@ -476,26 +685,8 @@
         `;
 
         const orders = customer.orders?.edges?.map(e => e.node) || [];
-        if (orders.length > 0) {
-          orderEl.innerHTML = orders.map(order => {
-            const date = new Date(order.processedAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' });
-            const status = order.fulfillments?.nodes?.[0]?.status || order.financialStatus || '';
-            return `
-              <div style="padding: 16px 0; border-bottom: 1px solid var(--border-light);">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-weight: 500;">${order.name}</span>
-                  <span>${formatPrice(order.totalPrice.amount)}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 0.8rem; color: var(--text-tertiary);">
-                  <span>${date}</span>
-                  <span>${status}</span>
-                </div>
-              </div>
-            `;
-          }).join('');
-        } else {
-          orderEl.innerHTML = '<p style="color: var(--text-tertiary);">暫時沒有訂單記錄。</p>';
-        }
+        orderEl.innerHTML = renderOrders(orders);
+        loadMemberPoints();
       } else {
         // Token 無效，清除並顯示登入
         localStorage.removeItem('customer_access_token');
@@ -503,6 +694,43 @@
         localStorage.removeItem('customer_refresh_token');
         localStorage.removeItem('customer_token_expires');
         showLoginView();
+      }
+    }
+
+    async function loadMemberPoints() {
+      const card = document.getElementById('member-points');
+      const token = localStorage.getItem('customer_access_token');
+      if (!card || !token) return;
+      try {
+        const response = await fetch('https://ouji-loyalty.ouji-app.workers.dev/v1/me', { headers: { Authorization: token } });
+        if (!response.ok) throw new Error('points unavailable');
+        const points = await response.json();
+        document.getElementById('available-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
+        document.getElementById('pending-points').textContent = Number(points.pendingPoints || 0).toLocaleString('zh-HK');
+        const progress = points.progress || {}, target = Number(progress.target || 1000), current = Number(progress.current || 0), start = target > 1000 ? target - 500 : 0;
+        const ratio = Math.max(0, Math.min(1, (current - start) / (target - start || 1)));
+        const progressEl = document.getElementById('points-progress');
+        progressEl.setAttribute('aria-valuemax', String(target)); progressEl.setAttribute('aria-valuenow', String(current));
+        document.getElementById('points-progress-bar').style.width = `${ratio * 100}%`;
+        document.getElementById('points-progress-current').textContent = `${current.toLocaleString('zh-HK')} Points`;
+        document.getElementById('points-progress-target').textContent = `${target.toLocaleString('zh-HK')} Points`;
+        const reward = Number(points.unlockedRewardCents || 0) / 100;
+        document.getElementById('points-message').textContent = reward > 0
+          ? `已解鎖 HK$${reward} Reward；再儲 ${Number(progress.remaining || 0).toLocaleString('zh-HK')} Points 可解鎖下一個獎賞`
+          : `${current.toLocaleString('zh-HK')} / ${target.toLocaleString('zh-HK')} Points・再儲 ${Number(progress.remaining || 0).toLocaleString('zh-HK')} Points，即可解鎖 HK$20 Reward`;
+        document.getElementById('points-check-balance').classList.toggle('is-complete', Number(points.availablePoints || 0) >= 1000);
+        const completedOrders = Number(points.completedOrders || 0);
+        document.getElementById('points-check-orders').classList.toggle('is-complete', completedOrders >= 2);
+        document.getElementById('points-order-count').textContent = `(${Math.min(completedOrders, 2)}/2)`;
+        const expiry = document.getElementById('points-expiry');
+        if (points.expiring?.points) { const date = new Date(points.expiring.expiresAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' }); expiry.textContent = `${Number(points.expiring.points).toLocaleString('zh-HK')} Points 將於 ${date} 到期`; expiry.hidden = false; }
+        const labels = { pending: '待確認', available: '可使用', cancelled: '已取消', held: '已保留', committed: '已使用', released: '已釋放' };
+        document.getElementById('points-history').innerHTML = (points.history || []).map(item => `<div class="member-points__history-row"><span><strong>${escapeAccountText(item.label)}</strong><small>${item.status ? escapeAccountText(labels[item.status] || item.status) : ''}${item.date ? `・${new Date(item.date).toLocaleDateString('zh-HK')}` : ''}</small></span><b class="${Number(item.points) < 0 ? 'is-negative' : ''}">${Number(item.points) > 0 ? '+' : ''}${Number(item.points).toLocaleString('zh-HK')}</b></div>`).join('') || '<p class="account-order__empty">暫時未有積分紀錄。</p>';
+      } catch {
+        document.getElementById('available-points').textContent = '—';
+        document.getElementById('pending-points').textContent = '—';
+        document.getElementById('points-message').innerHTML = '積分暫時未能載入。<button type="button" class="member-points__retry">重新載入</button>';
+        document.querySelector('.member-points__retry')?.addEventListener('click', loadMemberPoints, { once: true });
       }
     }
 
