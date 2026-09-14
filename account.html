@@ -267,19 +267,35 @@
     </section>
 
     <!-- 會員資料頁面（已登入時顯示） -->
-    <section class="section" id="account-section" style="display: none;">
-      <div class="container" style="max-width: 640px;">
-        <div class="section-header" style="text-align: center; margin-bottom: 40px;">
-          <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em;">我的帳戶</h1>
-        </div>
+    <section class="section account-dashboard" id="account-section" style="display: none;">
+      <div class="container account-dashboard__container">
+        <header class="account-dashboard__hero">
+          <div class="account-dashboard__avatar" id="account-avatar" aria-hidden="true">O</div>
+          <div class="account-dashboard__welcome">
+            <p class="account-dashboard__eyebrow">MY OUJI</p>
+            <h1>你好，<span id="account-greeting-name">OUJI Member</span></h1>
+            <p>喺呢度查看積分、訂單同帳戶資料。</p>
+          </div>
+          <button type="button" class="account-dashboard__logout" id="logout-btn">登出</button>
+        </header>
 
-        <a class="account-wishlist-link" href="wishlist.html">
-          <span class="account-wishlist-link__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </span>
-          <span><strong>心願清單</strong><small>查看你收藏咗嘅產品</small></span>
-          <b aria-hidden="true">›</b>
-        </a>
+        <nav class="account-quicklinks" aria-label="會員帳戶快捷連結">
+          <a href="wishlist.html">
+            <span class="account-quicklinks__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+            <span><strong>心願清單</strong><small>你收藏嘅產品</small></span><b aria-hidden="true">›</b>
+          </a>
+          <a href="#account-orders">
+            <span class="account-quicklinks__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h12l2 4v16H4V6l2-4Z"/><path d="M4 7h16M9 11h6"/></svg></span>
+            <span><strong>訂單記錄</strong><small>商品、付款及物流</small></span><b aria-hidden="true">↓</b>
+          </a>
+          <a href="#account-profile">
+            <span class="account-quicklinks__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span>
+            <span><strong>帳戶資料</strong><small>核對會員資料</small></span><b aria-hidden="true">↓</b>
+          </a>
+        </nav>
+
+        <div class="account-dashboard__grid">
+          <div class="account-dashboard__main">
 
         <section class="member-points" id="member-points" aria-labelledby="member-points-title">
           <div class="member-points__heading">
@@ -356,24 +372,26 @@
           </div>
         </section>
 
-        <!-- 會員資料 -->
-        <div class="account-orders-card">
-          <h2 style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 16px;">帳戶資料</h2>
-          <div id="customer-info" style="line-height: 1.8; color: var(--text-secondary);">
-            載入中...
+            <section class="account-panel account-panel--orders" id="account-orders" aria-labelledby="account-orders-title">
+              <div class="account-panel__heading">
+                <div><p>ORDER HISTORY</p><h2 id="account-orders-title">訂單記錄</h2></div>
+                <span>點擊訂單可查看完整資料</span>
+              </div>
+              <div id="order-list" class="account-panel__content">載入中...</div>
+            </section>
           </div>
-        </div>
 
-        <!-- 訂單記錄 -->
-        <div style="background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 32px; margin-bottom: 32px;">
-          <h2 style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 16px;">訂單記錄</h2>
-          <div id="order-list" style="color: var(--text-secondary);">
-            載入中...
-          </div>
-        </div>
-
-        <div style="text-align: center;">
-          <button type="button" class="btn btn--secondary" id="logout-btn" style="justify-content: center;">登出</button>
+          <aside class="account-dashboard__side">
+            <section class="account-panel account-panel--profile" id="account-profile" aria-labelledby="account-profile-title">
+              <div class="account-panel__heading"><div><p>PROFILE</p><h2 id="account-profile-title">帳戶資料</h2></div></div>
+              <div id="customer-info" class="account-profile">載入中...</div>
+            </section>
+            <section class="account-help" aria-labelledby="account-help-title">
+              <span class="account-help__icon" aria-hidden="true">?</span>
+              <div><h2 id="account-help-title">需要幫手？</h2><p>訂單或者會員資料有問題，可以直接聯絡我哋。</p><a href="contact.html">聯絡 OUJI <span aria-hidden="true">→</span></a></div>
+            </section>
+            <p class="account-dashboard__privacy">付款資料只顯示付款方式，唔會顯示信用卡尾號。</p>
+          </aside>
         </div>
       </div>
     </section>
@@ -627,7 +645,12 @@
 
     function renderOrders(orders) {
       if (!orders.length) {
-        return '<p style="color: var(--text-tertiary);">暫時沒有訂單記錄。</p>';
+        return `<div class="account-empty">
+          <span class="account-empty__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2h12l2 4v16H4V6l2-4Z"/><path d="M4 7h16M9 11h6"/></svg></span>
+          <h3>未有訂單記錄</h3>
+          <p>完成第一張訂單後，商品、付款、地址同物流資料會喺呢度出現。</p>
+          <a class="btn btn--primary" href="shop.html">開始選購</a>
+        </div>`;
       }
 
       return orders.map((order, index) => {
@@ -678,10 +701,19 @@
       if (customer) {
         const email = customer.emailAddress?.emailAddress || '';
         const name = [customer.firstName, customer.lastName].filter(Boolean).join(' ');
+        const displayName = customer.firstName || customer.lastName || 'OUJI Member';
+        const initials = [customer.firstName, customer.lastName]
+          .filter(Boolean)
+          .map((part) => String(part).trim().charAt(0))
+          .join('')
+          .slice(0, 2)
+          .toUpperCase() || 'O';
+        document.getElementById('account-greeting-name').textContent = displayName;
+        document.getElementById('account-avatar').textContent = initials;
         infoEl.innerHTML = `
-          ${name ? `<p><strong>姓名：</strong>${name}</p>` : ''}
-          ${email ? `<p><strong>電郵：</strong>${email}</p>` : ''}
-          ${customer.phoneNumber?.phoneNumber ? `<p><strong>電話：</strong>${customer.phoneNumber.phoneNumber}</p>` : ''}
+          ${name ? `<div class="account-profile__row"><span>姓名</span><strong>${escapeAccountText(name)}</strong></div>` : ''}
+          ${email ? `<div class="account-profile__row"><span>電郵</span><strong>${escapeAccountText(email)}</strong></div>` : ''}
+          ${customer.phoneNumber?.phoneNumber ? `<div class="account-profile__row"><span>電話</span><strong>${escapeAccountText(customer.phoneNumber.phoneNumber)}</strong></div>` : ''}
         `;
 
         const orders = customer.orders?.edges?.map(e => e.node) || [];
