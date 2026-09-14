@@ -270,29 +270,24 @@
     <section class="section account-dashboard" id="account-section" style="display: none;">
       <div class="container account-dashboard__container">
         <header class="account-dashboard__hero">
-          <div class="account-dashboard__avatar" id="account-avatar" aria-hidden="true">O</div>
-          <div class="account-dashboard__welcome">
-            <p class="account-dashboard__eyebrow">MY OUJI</p>
-            <h1>你好，<span id="account-greeting-name">OUJI Member</span></h1>
-            <p>喺呢度查看積分、訂單同帳戶資料。</p>
+          <span class="account-dashboard__sparkle account-dashboard__sparkle--one" aria-hidden="true">✦</span>
+          <span class="account-dashboard__sparkle account-dashboard__sparkle--two" aria-hidden="true">✧</span>
+          <div class="account-dashboard__avatar" aria-hidden="true">
+            <img src="assets/images/shima/shima-face.webp" alt="">
+            <span></span>
           </div>
-          <button type="button" class="account-dashboard__logout" id="logout-btn">登出</button>
+          <div class="account-dashboard__welcome">
+            <p class="account-dashboard__eyebrow">WELCOME TO MY OUJI</p>
+            <h1>你好，<span id="account-greeting-name">OUJI Member</span></h1>
+            <p>今日都同芝麻一齊，慢慢儲起你嘅下一份獎賞。</p>
+          </div>
+          <div class="account-dashboard__hero-actions">
+            <span class="account-dashboard__member-badge"><i aria-hidden="true">✦</i> OUJI MEMBER</span>
+            <span class="account-dashboard__hero-points"><strong id="hero-points">—</strong> Points</span>
+            <a class="account-dashboard__wishlist" href="wishlist.html">查看心願清單 <span aria-hidden="true">→</span></a>
+            <button type="button" class="account-dashboard__logout" id="logout-btn">登出</button>
+          </div>
         </header>
-
-        <nav class="account-quicklinks" aria-label="會員帳戶快捷連結">
-          <a href="wishlist.html">
-            <span class="account-quicklinks__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
-            <span><strong>心願清單</strong><small>你收藏嘅產品</small></span><b aria-hidden="true">›</b>
-          </a>
-          <a href="#account-orders">
-            <span class="account-quicklinks__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h12l2 4v16H4V6l2-4Z"/><path d="M4 7h16M9 11h6"/></svg></span>
-            <span><strong>訂單記錄</strong><small>商品、付款及物流</small></span><b aria-hidden="true">↓</b>
-          </a>
-          <a href="#account-profile">
-            <span class="account-quicklinks__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span>
-            <span><strong>帳戶資料</strong><small>核對會員資料</small></span><b aria-hidden="true">↓</b>
-          </a>
-        </nav>
 
         <div class="account-dashboard__grid">
           <div class="account-dashboard__main">
@@ -709,7 +704,7 @@
           .slice(0, 2)
           .toUpperCase() || 'O';
         document.getElementById('account-greeting-name').textContent = displayName;
-        document.getElementById('account-avatar').textContent = initials;
+        document.getElementById('hero-points').setAttribute('aria-label', `${initials} 嘅積分`);
         infoEl.innerHTML = `
           ${name ? `<div class="account-profile__row"><span>姓名</span><strong>${escapeAccountText(name)}</strong></div>` : ''}
           ${email ? `<div class="account-profile__row"><span>電郵</span><strong>${escapeAccountText(email)}</strong></div>` : ''}
@@ -738,6 +733,7 @@
         if (!response.ok) throw new Error('points unavailable');
         const points = await response.json();
         document.getElementById('available-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
+        document.getElementById('hero-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
         document.getElementById('pending-points').textContent = Number(points.pendingPoints || 0).toLocaleString('zh-HK');
         const progress = points.progress || {}, target = Number(progress.target || 1000), current = Number(progress.current || 0), start = target > 1000 ? target - 500 : 0;
         const ratio = Math.max(0, Math.min(1, (current - start) / (target - start || 1)));
