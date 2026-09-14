@@ -4124,6 +4124,11 @@
     "presentation": "product-shade",
     "evidence": "Moona exact shade page image for 02 Matt Brown; same-format pen product and pigment strokes visually reviewed; OUJI barcode 8809393724362 matches retailer SKU; Shopify binding verified"
   },
+  "gid://shopify/ProductVariant/48079734243486": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Lilybyred-am9_to_pm9_Survival_Penliner_Natural-04_Cherry_Bell-Makeup-Moona-Store-NZ-1.jpg?v=1789349170",
+    "presentation": "product-shade",
+    "evidence": "Moona exact 04 Cherry Bell/Cherry Brown Natural shade image; same-format pen product and pigment stroke visually reviewed; official AtCosme confirms shade 04 Cherry Brown and JAN 8809716944316. OUJI title matches but stored barcode 8809716944408 differs and is logged as catalog data discrepancy; Shopify binding verified"
+  },
   "gid://shopify/ProductVariant/48070095601822": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/1-1Poetic.jpg?v=1789271281",
     "presentation": "product-shade",
