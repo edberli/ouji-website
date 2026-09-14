@@ -1007,7 +1007,11 @@ function brandSection(vendor, items, index) {
      想睇全部就一撳入品牌頁，而且揀「最新」或者「價錢」排序嗰陣
      成個 grid 照樣一次過出齊，冇嘢收埋。 */
   const cols = gridCols();
-  const rows = PREVIEW_ROWS * cols;
+  /* 手機先出兩行代表作，桌面維持三行。手機原本每個牌子同步砌
+     6+2 張卡，三十幾個牌子會一次過建立二百幾張卡；減一行仍可
+     原位展開全部貨，但首輪 DOM 工作細好多。 */
+  const previewRows = window.matchMedia('(max-width: 768px)').matches ? 2 : PREVIEW_ROWS;
+  const rows = previewRows * cols;
   const shown = inStock.slice(0, rows);
   /* 偷望嗰一行：真貨、真相，但矇住同淡咗，掣浮喺上面。
      客一眼睇得出「下面仲有嘢」，唔使靠一粒細掣去估。 */
@@ -1356,6 +1360,7 @@ const CHUNK = 24;
    夠睇得出個牌子係咩路數，又唔會霸住成版。 */
 const PREVIEW_ROWS = 3;
 const NEAR = 900;          // 距離視窗幾遠就預先砌返（px）
+let RENDER_TOKEN = 0;      // 新一次 draw 會令舊嘅分批 render 自動失效
 
 /* ⚠️ 唔用 IntersectionObserver 做主力。實測過：分頁一唔喺前景，Chrome
    就會唔派 IO callback，結果成版貨都係吉位 —— 客見到嘅又係一版白紙，
@@ -1476,6 +1481,7 @@ function mountGrid(host, items, { all = false } = {}) {
 
 function renderProducts(container, products, { grouped }) {
   clearGridWindows();
+  const token = ++RENDER_TOKEN;
   if (!grouped) {
     removeBrandRail();
     const [inStock, out] = splitStock(products);
@@ -1543,9 +1549,20 @@ function renderProducts(container, products, { grouped }) {
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
   SECTION_ITEMS.clear();
   container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
-  container.querySelectorAll('.grid-host[data-section]').forEach((host) => {
-    mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
-  });
+  const grids = [...container.querySelectorAll('.grid-host[data-section]')];
+  const mountOne = (host) => mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
+  /* 頭四格即刻出，足夠覆蓋首屏；其餘逐 frame 小批補齊，避免 catalog.js
+     一口氣霸住 main thread。新篩選開始就由 token 取消舊批次。 */
+  grids.slice(0, 4).forEach(mountOne);
+  let cursor = 4;
+  const mountBatch = () => {
+    if (token !== RENDER_TOKEN || !container.isConnected) return;
+    grids.slice(cursor, cursor + 3).forEach(mountOne);
+    cursor += 3;
+    if (cursor < grids.length) requestAnimationFrame(mountBatch);
+    else syncGridWindows();
+  };
+  if (cursor < grids.length) requestAnimationFrame(mountBatch);
 
   /* 撳「仲有 N 件」＝就地展開，唔會跳去另一版。
      老闆 2026-09-02：「唔需要去一個新嘅頁面，而係撳咗落去之後佢會展開。」
