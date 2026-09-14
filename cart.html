@@ -409,17 +409,36 @@
               <button class="btn btn--primary btn--full">前往結帳</button>
             </div>
 
-            <p class="cart-summary__note">100% 正品保證 · 安全付款 · 折實滿 HK$99 自取免郵</p>
+            <section class="payment-security" aria-labelledby="payment-security-title">
+              <div class="payment-security__heading">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <rect x="5" y="10" width="14" height="11" rx="2"></rect>
+                  <path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v2"></path>
+                </svg>
+                <div>
+                  <strong id="payment-security-title">付款資料受保護</strong>
+                  <span>正式結帳採用加密付款流程</span>
+                </div>
+              </div>
+              <div class="payment-security__badges" aria-label="付款安全標準">
+                <span><b>PCI DSS</b><small>Level 1 支付標準</small></span>
+                <span><b>HTTPS</b><small>加密資料傳輸</small></span>
+              </div>
+              <a href="https://www.shopify.com/security/pci-compliant?utm_medium=shop&amp;utm_source=secure"
+                 target="_blank" rel="noopener noreferrer nofollow">查看付款系統安全標準 <span aria-hidden="true">↗</span></a>
+            </section>
 
-            <!-- 四個收款方式係同級標籤，冇分主次，所以字級刻意一模一樣。
-                 本來每個 span 都用 class="body-sm" 再 inline 蓋返佢個
-                 font-size，四次重複同一堆宣告 —— 抽成一個 class。 -->
-            <ul class="pay-marks">
-              <li>VISA</li>
-              <li>MASTERCARD</li>
-              <li>PAYME</li>
-              <li>FPS</li>
-            </ul>
+            <div class="payment-methods" aria-label="可用付款方式">
+              <span>付款方式</span>
+              <ul class="pay-marks">
+                <li class="pay-mark pay-mark--apple" aria-label="Apple Pay"><b aria-hidden="true"> Pay</b></li>
+                <li class="pay-mark pay-mark--google" aria-label="Google Pay"><b aria-hidden="true"><i>G</i> Pay</b></li>
+                <li class="pay-mark pay-mark--visa" aria-label="Visa"><b aria-hidden="true">VISA</b></li>
+                <li class="pay-mark pay-mark--mastercard" aria-label="Mastercard"><i aria-hidden="true"></i></li>
+                <li class="pay-mark pay-mark--amex" aria-label="American Express"><b aria-hidden="true">AMERICAN<br>EXPRESS</b></li>
+                <li class="pay-mark pay-mark--unionpay" aria-label="銀聯 UnionPay"><i aria-hidden="true"></i><b aria-hidden="true">銀聯</b></li>
+              </ul>
+            </div>
           </div>
         </div>
 

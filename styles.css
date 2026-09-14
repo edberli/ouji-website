@@ -13454,17 +13454,79 @@ body::before { opacity: 0.18; }
   .cat-head__desc { padding-right: 82px; }
 }
 
-/* 收款方式標籤 —— 四個平起平坐嘅同級標籤，唔係層級。字級刻意一致，
-   而且係成版最靜嗰一級（比 .cart-summary__note 嘅 0.75rem 再細一級）。 */
+/* 購物袋結帳前：用付款標準建立信心，但唔將第三方平台品牌當主角。 */
+.payment-security {
+  margin-top: 14px;
+  padding: 16px 17px 13px;
+  border: 1px solid #d6e3e7;
+  border-radius: 11px;
+  background: #f7fafb;
+}
+.payment-security__heading { display: flex; align-items: center; gap: 10px; }
+.payment-security__heading svg {
+  width: 19px; height: 19px; flex: none; fill: none;
+  stroke: var(--primary-dark); stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.payment-security__heading > div { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.payment-security__heading strong { font-size: 0.875rem; font-weight: 650; color: var(--text-primary); }
+.payment-security__heading span { font-size: 0.6875rem; color: var(--text-secondary); }
+.payment-security__badges { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.payment-security__badges > span {
+  display: flex; align-items: center; gap: 7px; min-height: 44px;
+  padding: 8px 10px; border: 1px solid #cddde2; border-radius: 8px; background: #fff;
+}
+.payment-security__badges b { font-size: 0.75rem; letter-spacing: .035em; color: var(--text-primary); }
+.payment-security__badges small { font-size: 0.625rem; line-height: 1.35; color: var(--text-secondary); }
+.payment-security > a {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 38px; margin-top: 5px;
+  font-size: 0.6875rem; color: var(--primary-dark); text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.payment-methods {
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px;
+  padding: 17px 0 2px; border-bottom: 1px solid var(--border-light);
+}
+.payment-methods > span { font-size: 0.6875rem; color: var(--text-secondary); white-space: nowrap; }
 .pay-marks {
-  display: flex; justify-content: center; flex-wrap: wrap;
-  gap: var(--space-md);
-  margin: var(--space-lg) 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px;
+  margin: 0; padding: 0; list-style: none;
+}
+.pay-mark {
+  height: 38px; min-width: 0; padding: 0 5px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #d8e1e4; border-radius: 6px; background: #fff;
+  box-shadow: 0 1px 2px rgba(43,76,88,.03);
+}
+.pay-mark b { line-height: 1; white-space: nowrap; }
+.pay-mark--apple b { font-size: 0.75rem; color: #111; }
+.pay-mark--google b { font-size: 0.6875rem; color: #5f6368; }
+.pay-mark--google b i { font-style: normal; color: #4285f4; }
+.pay-mark--visa b { font-size: 0.875rem; font-style: italic; letter-spacing: -.05em; color: #172b85; }
+.pay-mark--mastercard > i { position: relative; width: 28px; height: 18px; }
+.pay-mark--mastercard > i::before,
+.pay-mark--mastercard > i::after { content: ''; position: absolute; top: 0; width: 18px; height: 18px; border-radius: 50%; }
+.pay-mark--mastercard > i::before { left: 0; background: #eb001b; }
+.pay-mark--mastercard > i::after { right: 0; background: #f79e1b; opacity: .9; }
+.pay-mark--amex { background: #1677a8; border-color: #1677a8; }
+.pay-mark--amex b { font-size: 0.4rem; line-height: .92; letter-spacing: .04em; color: #fff; text-align: center; }
+.pay-mark--unionpay { gap: 4px; }
+.pay-mark--unionpay > i {
+  width: 17px; height: 13px; border-radius: 3px; transform: skew(-10deg);
+  background: linear-gradient(90deg,#d9272e 0 33%,#1677a8 33% 66%,#129b72 66%);
+}
+.pay-mark--unionpay b { font-size: 0.5625rem; color: #1d4f5f; }
+@media (max-width: 480px) {
+  .payment-security { padding: 14px 13px 11px; }
+  .payment-security__heading > div { display: block; }
+  .payment-security__heading span { display: block; margin-top: 3px; }
+  .payment-security__badges > span { display: block; padding: 8px; }
+  .payment-security__badges b, .payment-security__badges small { display: block; }
+  .payment-security__badges small { margin-top: 3px; }
+  .payment-methods { display: block; }
+  .payment-methods > span { display: block; margin-bottom: 9px; text-align: center; }
+  .pay-marks { grid-template-columns: repeat(3, 1fr); }
+  .pay-mark { height: 40px; }
 }
 
 /* 主要瀏覽頁（護膚／彩妝／全部產品）唔用靜態貼圖，用六格連續動作。
