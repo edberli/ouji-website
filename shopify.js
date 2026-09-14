@@ -863,8 +863,10 @@ async function savePickupCheckout({ address, attributes, note }) {
       throw new Error(`未能儲存${label}，請再試一次。`);
     }
   }
-  // 讀返一次先當寫成功 —— mutation 回自己寫咗乜，唔等於 cart 真係留住。
-  const after = (await shopifyFetch(`query($id:ID!){cart(id:$id){ id note attributes { key value } ${addrFields} }}`, { id: cartId }))?.cart;
+  /* 核對用三個 mutation 自己回返嘅 cart —— 佢哋回嘅係寫完之後嘅 cart 狀態，
+     唔使再多一個來回去讀。真係冇寫入嘅話，下面 `renewPickupCheckout` 會再讀一次
+     成份購物袋（連地址、備註、attributes）並且逐項比對，攔得住。 */
+  const after = { ...d.memo.cart, attributes: d.attrs.cart.attributes, delivery: d.addr.cart.delivery };
   const saved = after?.delivery?.addresses?.find((a) => a.selected)?.address;
   const normalize = (v) => String(v || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
   if (!saved || Object.keys(address).some((k) => normalize(saved[k]) !== normalize(address[k]))) {
@@ -969,6 +971,10 @@ async function goToCheckout() {
   }
   /* 自取單：地址、attributes（連 ship_mode）、備註三樣嘢喺呢度一個來回寫晒，
      所以下面唔使再寫多次運送方式。 */
+  /* 讀購物袋同寫取件資料互不相干（讀返嚟只係攞 id／checkoutUrl／追蹤數），
+     所以一齊行，唔好排隊等。 */
+  const cartPromise = getCart();
+  cartPromise.catch(() => null);          // 唔好留低未接住嘅 rejection
   const prep = window.OUJI_preparePickupCheckout ? await window.OUJI_preparePickupCheckout() : null;
   // Persist the visible choice even after a reload, and wait for earlier
   // pickup/method writes before opening Shopify checkout.
@@ -980,7 +986,7 @@ async function goToCheckout() {
       throw new Error('未能儲存運送方式，請再試一次。');
     }
   }
-  let cart = await getCart();
+  let cart = await cartPromise;
   if (!cart?.checkoutUrl) throw new Error('未能載入結賬頁，請再試一次。');
   const trackingCart = cart;
   if (method?.src) cart = await renewPickupCheckout(cart);

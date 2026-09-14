@@ -604,6 +604,19 @@
           delete checkoutBtn.dataset.pending;
         }
       });
+
+      /* 客撳完結帳、去到 Shopify 再撳「返回」—— Safari／Chrome 會由 bfcache
+         原封不動搬返個頁出嚟，個掣仲卡喺「準備結帳中…」兼 pending=true，
+         即係點極都冇反應（老闆 2026-09-14 報）。bfcache 復原唔會行 DOMContentLoaded，
+         所以一定要喺 pageshow 度收拾。
+         順手 reload：去過結帳嗰陣購物袋可能已經換咗新 cart，
+         舊畫面嘅數量同金額未必啱。 */
+      window.addEventListener('pageshow', (e) => {
+        if (!e.persisted) return;
+        checkoutBtn.textContent = '前往結帳';
+        delete checkoutBtn.dataset.pending;
+        location.reload();
+      });
     }
 
     if (!cart || !cart.lines?.edges?.length) {
