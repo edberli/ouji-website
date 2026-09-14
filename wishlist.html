@@ -385,7 +385,7 @@
       document.getElementById('wishlist-content').style.display = 'none';
       document.getElementById('wishlist-empty-msg').innerHTML = '登入帳戶即可使用心願單功能，<br>儲存你喜愛的產品，跨裝置同步。';
       const actionBtn = document.getElementById('wishlist-empty-action');
-      actionBtn.textContent = '登入 / 註冊';
+      actionBtn.textContent = window.OUJI_copy('登入 / 註冊', 'Log in / Sign up');
       // customerLogin() builds a PKCE URL at click time, so the href is
       // only the fallback — but '#' made 開新分頁 land back on this page.
       actionBtn.href = 'account.html';

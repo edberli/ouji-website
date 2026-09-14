@@ -1252,7 +1252,10 @@ function initFloatingParticles() {
 function initSplitText() {
   const els = document.querySelectorAll('[data-split-text]');
   els.forEach(el => {
-    const text = el.textContent;
+    const sourceText = el.textContent.trim();
+    const text = typeof window.OUJI_copy === 'function' && sourceText === '精選，源於講究'
+      ? window.OUJI_copy(sourceText, 'Curated with care')
+      : el.textContent;
     el.innerHTML = '';
     el.classList.add('split-text');
     let charIndex = 0;

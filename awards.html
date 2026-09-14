@@ -418,6 +418,7 @@
      times is one entry with five lines, not five entries. Sorted by how
      many firsts it holds, then by how many awards in total. */
   document.addEventListener('DOMContentLoaded', async () => {
+    if (window.OUJI_i18nReady) await window.OUJI_i18nReady;
     await initPage();
 
     const all = await getAllProducts();
@@ -510,7 +511,7 @@
         <span class="award-line__year">${a.year}</span>
         <span class="award-line__text">
           <b>${AWARD_BODIES[a.body].name}</b>
-          <span>${a.category}${rankLabel(a.rank)}${a.note ? ` · ${a.note}` : ''}</span>
+          <span>${window.OUJI_translate(a.category)}${getLang() === 'en' ? (a.rank === 0 ? ' Winner' : ` No. ${a.rank}`) : rankLabel(a.rank)}${a.note ? ` · ${window.OUJI_translate(a.note)}` : ''}</span>
         </span>
       </li>`;
 
@@ -551,8 +552,10 @@
       if (onlyCategory) filters.push(onlyCategory === 'skincare' ? '護膚' : '彩妝');
       if (onlyBody) filters.push(AWARD_BODIES[onlyBody]?.name || onlyBody);
       return filters.length
-        ? `暫時未有符合「${filters.join('／')}」嘅得獎產品。`
-        : '暫時未有得獎產品。';
+        ? (getLang() === 'en'
+          ? `There are no award winners matching “${filters.map(window.OUJI_translate).join(' / ')}”.`
+          : `暫時未有符合「${filters.join('／')}」嘅得獎產品。`)
+        : window.OUJI_translate('暫時未有得獎產品。');
     };
 
     function render() {

@@ -394,8 +394,8 @@
       root.innerHTML = window.OUJI_CATALOG_FAILED
         ? '<p class="sd-empty">攞唔到貨品資料，請重新整理再試。</p>'
         : now < LAUNCH
-          ? '<p class="sd-empty">短效期特價 9 月 16 日開賣，到時再嚟睇下。</p>'
-          : '<p class="sd-empty">而家暫時冇短效期特價貨，遲啲再嚟睇下。</p>';
+          ? `<p class="sd-empty">${window.OUJI_copy('短效期特價 9 月 16 日開賣，到時再嚟睇下。', 'Short-expiry offers launch on 16 September. Please check back then.')}</p>`
+          : `<p class="sd-empty">${window.OUJI_copy('而家暫時冇短效期特價貨，遲啲再嚟睇下。', 'There are no short-expiry offers at the moment. Please check back later.')}</p>`;
       return;
     }
 

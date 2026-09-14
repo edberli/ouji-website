@@ -105,6 +105,15 @@ function initLangToggle() {
   });
 }
 
+/* Dynamic page code can use the same language decision without doing a
+   partial string replacement.  Keep the Chinese source as the fallback so
+   the zh mode remains byte-for-byte unchanged. */
+function oujiCopy(zh, en) {
+  return getLang() === 'en' ? en : zh;
+}
+
+window.OUJI_copy = oujiCopy;
+
 /* ---------- 介面文字（第二期）----------
    產品內容行 Shopify 原生翻譯，但導航、掣、購物袋呢啲介面字係寫死喺 HTML，
    Shopify 唔識翻。呢度用一本字典喺前台換。
@@ -143,6 +152,19 @@ async function loadUiDict() {
    所以用型態換。只揀客真正見到嗰批 —— JS 入面有 84 條帶變數字串，
    但多數夾住 HTML 同表達式，機械處理反而會爆，唔掂。 */
 const I18N_PATTERNS = [
+  [/^Olive Young ([\d,]+) 則評價(?: · ([\d.]+)★)?$/, (_, count, star) => `Olive Young ${count} reviews${star ? ` · ${star}★` : ''}`],
+  [/^([\d,]+) 件$/, '$1 products'],
+  [/^([\d,]+) 件產品$/, '$1 products'],
+  [/^([\d,]+) 個品牌$/, '$1 brands'],
+  [/^全部產品 — showing ([\d,]+) products$/i, 'All products — showing $1 products'],
+  [/^打開 ([\d,]+) 件(.+)產品$/, (_, count, category) => `Open ${count} ${translateUiText(category.trim())} products`],
+  [/^([\d,]+) 件顯示中 · 共 ([\d,]+) 件$/, 'Showing $1 of $2 products'],
+  [/^(.+) — ([\d,]+) products$/, (_, category, count) => `${translateUiText(category)} — ${count} products`],
+  [/^(.+) · ([\d,]+) 件 · ([\d,]+) 品牌$/, (_, category, count, brands) => `${translateUiText(category)} · ${count} products · ${brands} brands`],
+  [/^(\d{4}) (.+?) (.+?)(?:第([123])位|第一位|第二位|第三位|得獎) · 共 ([\d,]+) 項獎$/, (_, year, body, category, rank, total) => {
+    const rankText = rank ? `No. ${rank}` : 'Winner';
+    return `${year} ${body} ${translateUiText(category)} ${rankText} · ${total} awards`;
+  }],
   [/^顯示 ([\d,]+) 件產品$/, 'Showing $1 products'],
   [/^顯示 ([\d,]+) 件$/, 'Showing $1'],
   [/^· ([\d,]+) 件產品$/, '· $1 products'],
@@ -176,6 +198,17 @@ function translatePattern(s) {
   }
   return null;
 }
+
+/* Pages that assemble one sentence from several data fields (for example an
+   award category + ranking + note) can translate each field before joining
+   it.  This stays presentation-only and leaves the source catalogue intact. */
+function translateUiText(value) {
+  const text = String(value == null ? '' : value);
+  if (getLang() !== 'en') return text;
+  return (OUJI_I18N && OUJI_I18N[text]) || translatePattern(text) || text;
+}
+
+window.OUJI_translate = translateUiText;
 
 function translateTree(root, dict) {
   if (!root || !dict) return;
@@ -224,18 +257,36 @@ function translateTree(root, dict) {
 async function initUiI18n() {
   const dict = await loadUiDict();
   if (!dict || !Object.keys(dict).length) return;
+  /* <title> lives outside document.body, so translate it explicitly once the
+     dictionary has loaded.  This also covers the static info-page titles. */
+  const title = document.title.trim();
+  const translatedTitle = dict[title] || translatePattern(title);
+  if (translatedTitle) document.title = translatedTitle;
   translateTree(document.body, dict);
   /* 產品格、購物袋、搜尋結果都係 JS 後補插入嘅，所以要跟住新節點譯 */
   new MutationObserver((recs) => {
-    recs.forEach((r) => r.addedNodes.forEach((node) => {
-      if (node.nodeType === 1 || node.nodeType === 3) translateTree(node, dict);
-    }));
-  }).observe(document.body, { childList: true, subtree: true });
+    recs.forEach((r) => {
+      if (r.type === 'characterData') translateTree(r.target, dict);
+      r.addedNodes.forEach((node) => {
+        if (node.nodeType === 1 || node.nodeType === 3) translateTree(node, dict);
+      });
+    });
+  }).observe(document.body, { childList: true, characterData: true, subtree: true });
+
+  /* Some catalogue pages set their title after their async render finishes. */
+  const titleEl = document.querySelector('title');
+  if (titleEl) {
+    new MutationObserver(() => {
+      const current = document.title.trim();
+      const translated = dict[current] || translatePattern(current);
+      if (translated && translated !== current) document.title = translated;
+    }).observe(titleEl, { childList: true, characterData: true, subtree: true });
+  }
 }
 
 function initLangSurfaces() {
   initLangToggle();
-  initUiI18n().catch(() => { /* 介面字譯唔到係細事，唔好連累成版 */ });
+  window.OUJI_i18nReady = initUiI18n().catch(() => null); /* 翻譯失敗唔連累成版 */
 }
 
 if (document.readyState === 'loading') {
