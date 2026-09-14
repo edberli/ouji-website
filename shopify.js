@@ -101,10 +101,143 @@ function initLangToggle() {
   });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initLangToggle, { once: true });
-} else {
+/* ---------- 介面文字（第二期）----------
+   產品內容行 Shopify 原生翻譯，但導航、掣、購物袋呢啲介面字係寫死喺 HTML，
+   Shopify 唔識翻。呢度用一本字典喺前台換。
+
+   點解唔逐個元素加 data-i18n：分類名（潔面／防曬…）喺 header、抽屜、footer
+   重複出現 56–73 次，加標記要改 670 幾個位，散到將來冇人維護得到。
+
+   ⚠️ 安全線：**只換完全匹配嘅 text node**，唔做部分字串取代 ——
+   唔係嘅話「潔面」會喺產品名「Anua 魚腥草潔面泡沫」中間被斬開。
+   再加一層 SKIP，產品名／描述呢啲由 Shopify 出英文嘅位一律唔掂。 */
+let OUJI_I18N = null;
+
+const I18N_SKIP = [
+  '.product-card__name', '.product-info__name', '.product-description',
+  '.product-info__short-desc', '.addon__name', '.sd-card__name',
+  '.cart-item__name', '.home-feat__name', '.site-search__name',
+  '[data-lang-toggle]', '[data-no-i18n]',
+  /* inline <script> 嘅內容喺 DOM 入面係 text node，唔擋就會連 JS 源碼
+     一齊掃（實測掃到成段 DOMContentLoaded handler）。style／noscript 同理。 */
+  'script', 'style', 'noscript',
+].join(', ');
+
+async function loadUiDict() {
+  if (getLang() !== 'en') return null;
+  if (OUJI_I18N) return OUJI_I18N;
+  try {
+    const r = await fetch('data/ui-en.json');
+    OUJI_I18N = r.ok ? await r.json() : {};
+  } catch (e) {
+    OUJI_I18N = {};        // 攞唔到字典就維持中文，唔好爆版
+  }
+  return OUJI_I18N;
+}
+
+/* 帶數字嘅句子字典夾唔到（「顯示 1507 件產品」每次個數都唔同），
+   所以用型態換。只揀客真正見到嗰批 —— JS 入面有 84 條帶變數字串，
+   但多數夾住 HTML 同表達式，機械處理反而會爆，唔掂。 */
+const I18N_PATTERNS = [
+  [/^顯示 ([\d,]+) 件產品$/, 'Showing $1 products'],
+  [/^顯示 ([\d,]+) 件$/, 'Showing $1'],
+  [/^· ([\d,]+) 件產品$/, '· $1 products'],
+  [/^([\d,]+) 件 · ([\d,]+) 個品牌$/, '$1 products · $2 brands'],
+  [/^第 (\d+) 版，共 (\d+) 版$/, 'Page $1 of $2'],
+  [/^顯示第 (\d+) 版$/, 'Show page $1'],
+  [/^查看購物車（(\d+)）$/, 'View bag ($1)'],
+  [/^([\d,]+) 件產品已加入購物車$/, '$1 products added to bag'],
+  [/^已加入 ([\d,]+) 件$/, '$1 added'],
+  [/^([\d,]+) 個取件點$/, '$1 pickup points'],
+  [/^得返 (\d+) 件，售完即止$/, 'Only $1 left'],
+  [/^剩約 ([\d.]+) 個月$/, 'about $1 months left'],
+  [/^共 (\d+) 項獎$/, '$1 awards'],
+  [/^第(\d+)位$/, 'No. $1'],
+  [/^([\d,]+) 個物件$/, '$1 items'],
+  [/^韓國站 ([\d,]+) 則$/, '$1 reviews (KR)'],
+  [/^展開埋其餘 ([\d,]+) 件$/, 'Show $1 more'],
+  [/^睇埋其餘 ([\d,]+) 件$/, 'See $1 more'],
+  [/^再買 \$([\d,]+) 就免運費$/, 'Add HK$$$1 for free shipping'],
+  [/^([\d,]+) 件現貨$/, '$1 in stock'],
+  [/^約 HK\$([\d,]+)$/, 'about HK$$$1'],
+  [/^共 ([\d,]+) 項$/, '$1 total'],
+  /* 螢幕閱讀器用嘅隱藏句（.visually-hidden）—— 客睇唔到但讀屏會讀，一樣要譯 */
+  [/^(.+)，顯示 ([\d,]+) 件產品$/, '$1 — showing $2 products'],
+  [/^(.+)，([\d,]+) 件產品$/, '$1 — $2 products'],
+];
+
+function translatePattern(s) {
+  for (const [re, to] of I18N_PATTERNS) {
+    if (re.test(s)) return s.replace(re, to);
+  }
+  return null;
+}
+
+function translateTree(root, dict) {
+  if (!root || !dict) return;
+  const jobs = [];
+
+  /* ⚠️ TreeWalker 唔會 return root 自己，淨係 return 後代。
+     JS 用 `el.textContent = …` 更新（例如篩選嗰句「顯示 1507 件產品」）
+     會插入一個**純 text node**，MutationObserver 嗰陣 root 就係嗰個 text node
+     本身 —— 唔特別處理就會永遠譯唔到。實測 2026-09-14 就係咁。 */
+  const consider = (node) => {
+    const key = node.nodeValue.trim();
+    if (!key) return;
+    const val = dict[key] || translatePattern(key);
+    if (!val) return;
+    if (node.parentElement && node.parentElement.closest(I18N_SKIP)) return;
+    jobs.push([node, val, key]);
+  };
+  if (root.nodeType === 3) consider(root);
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+  let n;
+  while ((n = walker.nextNode())) {
+    const key = n.nodeValue.trim();
+    if (!key) continue;
+    const val = dict[key] || translatePattern(key);
+    if (!val) continue;
+    if (n.parentElement && n.parentElement.closest(I18N_SKIP)) continue;
+    jobs.push([n, val, key]);
+  }
+  /* 行完 walker 先改 —— 一邊行一邊改 DOM 會令 walker 跳格 */
+  jobs.forEach(([node, val, key]) => { node.nodeValue = node.nodeValue.replace(key, val); });
+
+  const scope = root.nodeType === 1 ? root : document.body;
+  const attrs = ['aria-label', 'placeholder', 'title', 'alt'];
+  const els = scope.querySelectorAll ? [...scope.querySelectorAll('[aria-label],[placeholder],[title],[alt]')] : [];
+  if (scope.matches && scope.matches('[aria-label],[placeholder],[title],[alt]')) els.push(scope);
+  els.forEach((el) => {
+    if (el.closest(I18N_SKIP)) return;
+    attrs.forEach((a) => {
+      const v = el.getAttribute(a);
+      if (v && dict[v.trim()]) el.setAttribute(a, dict[v.trim()]);
+    });
+  });
+}
+
+async function initUiI18n() {
+  const dict = await loadUiDict();
+  if (!dict || !Object.keys(dict).length) return;
+  translateTree(document.body, dict);
+  /* 產品格、購物袋、搜尋結果都係 JS 後補插入嘅，所以要跟住新節點譯 */
+  new MutationObserver((recs) => {
+    recs.forEach((r) => r.addedNodes.forEach((node) => {
+      if (node.nodeType === 1 || node.nodeType === 3) translateTree(node, dict);
+    }));
+  }).observe(document.body, { childList: true, subtree: true });
+}
+
+function initLangSurfaces() {
   initLangToggle();
+  initUiI18n().catch(() => { /* 介面字譯唔到係細事，唔好連累成版 */ });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLangSurfaces, { once: true });
+} else {
+  initLangSurfaces();
 }
 
 async function shopifyFetch(query, variables = {}, { tries = SHOPIFY_TRIES } = {}) {
