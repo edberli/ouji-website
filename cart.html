@@ -28,6 +28,11 @@
   <!-- 目錄同啲相都喺 Shopify 手上，第一個 API call 之前先搭好線，
        慳返 DNS＋TLS 嗰兩程（實測首頁要等四個 API call 先出到貨）。 -->
   <link rel="preconnect" href="https://5rerjn-mt.myshopify.com" crossorigin>
+  <!-- 撳完結帳就跳去呢個 host。喺購物袋頁就開定條線（DNS＋TCP＋TLS，
+       本機實測 0.4–0.5 秒），等跳過去嗰下唔使由零開始握手。
+       ⚠️ 唔加 crossorigin —— 跳頁用嘅係帶 cookie 嗰條連線池，
+       加咗 crossorigin 會開錯另一條，白做。 -->
+  <link rel="preconnect" href="https://shop.oujikbeauty.com">
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
