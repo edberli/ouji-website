@@ -1399,10 +1399,15 @@
     const hintEl = root.querySelector('[data-sfp-hint]');
     const startEl = root.querySelector('[data-sfp-start]');
     const KEY = 'ouji:sfPoint';
+    const SRC_KEY = 'ouji:sfPointSrc';
 
     let points = null;
     let chosen = null;
     let src = null;        // 而家載緊邊份名單
+    /* 記住「上次揀嗰個點係邊份名單嚟」—— 冇呢個，第一次 syncPicker（src 仲係 null）
+       就會當成「換咗名單」而清走客啱啱揀好嘅取件點，令佢每次入購物袋都要重揀。 */
+    let savedSrc = null;
+    try { savedSrc = localStorage.getItem(SRC_KEY); } catch (e) {}
 
     /* 跟住運送方式換名單。順豐上門同門市自取唔使揀點 → 成個面板收埋。 */
     window.OUJI_syncPicker = function (mode) {
@@ -1424,8 +1429,14 @@
       if (labelEl) labelEl.textContent = o.name;
       if (hintEl) hintEl.textContent = o.hint || '要喺呢度揀定去邊個點攞貨';
       if (src !== o.src) {          // 換咗名單 → 之前揀嗰個已經唔啱用
-        src = o.src; points = null; chosen = null;
-        try { localStorage.removeItem(KEY); } catch (e) {}
+        /* 例外：一開頁第一次行到呢度（src 仲係 null），而 localStorage 嗰個點
+           本身就係屬於呢份名單 —— 嗰個唔係「換名單」，唔准清。 */
+        const keep = src === null && savedSrc === o.src && chosen;
+        src = o.src; points = null;
+        if (!keep) {
+          chosen = null;
+          try { localStorage.removeItem(KEY); localStorage.removeItem(SRC_KEY); } catch (e) {}
+        }
         paintChosen();
         regionEl.innerHTML = '<option value="">全港</option>';
         districtEl.innerHTML = '<option value="">所有分區</option>';
@@ -1578,7 +1589,8 @@
       const btn = e.target.closest('[data-code]');
       if (!btn) return;
       chosen = points.find((p) => p.code === btn.dataset.code) || null;
-      try { localStorage.setItem(KEY, JSON.stringify(chosen)); } catch (err) {}
+      savedSrc = src;
+      try { localStorage.setItem(KEY, JSON.stringify(chosen)); localStorage.setItem(SRC_KEY, src || ''); } catch (err) {}
       paintChosen();
       render();
       panel.setAttribute('hidden', '');

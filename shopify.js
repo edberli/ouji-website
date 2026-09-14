@@ -920,10 +920,15 @@ async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
   const signature = c=>JSON.stringify(c.lines.nodes.map(n=>JSON.stringify([n.merchandise.id,n.quantity,n.sellingPlanAllocation?.sellingPlan.id||'',
     n.attributes.map(a=>[a.key,a.value]).sort(),n.cost.totalAmount])).sort());
   const pairs = a=>JSON.stringify(a.map(v=>[v.key,v.value]).sort());
+  /* ⚠️ Shopify 唔保證 discountAllocations／discountCodes 嘅次序 —— 同一批折扣，
+     原 cart 同新 cart 回返嚟嘅排列可以唔同（實測 10.08/3.36 對 3.36/10.08）。
+     照 JSON.stringify 直接比就會間歇性「核對唔到」，客要撳兩次結賬先入到去。
+     所以一律排序之後先比。 */
+  const allocs = c=>JSON.stringify(c.discountAllocations.map(d=>[d.discountedAmount.amount,d.discountedAmount.currencyCode]).sort());
+  const codes = c=>JSON.stringify(c.discountCodes.map(d=>[d.code,d.applicable]).sort());
   if (!fresh?.checkoutUrl || result.userErrors.length || result.warnings?.length || fresh.lines.pageInfo.hasNextPage ||
       signature(old)!==signature(fresh) || pairs(old.attributes)!==pairs(fresh.attributes) || (old.note||'')!==(fresh.note||'') ||
-      JSON.stringify(old.discountCodes)!==JSON.stringify(fresh.discountCodes) ||
-      JSON.stringify(old.discountAllocations)!==JSON.stringify(fresh.discountAllocations) ||
+      codes(old)!==codes(fresh) || allocs(old)!==allocs(fresh) ||
       JSON.stringify(selected)!==JSON.stringify(fresh.delivery.addresses.find(a=>a.selected)?.address)) {
     throw new Error('重建結賬後資料未能完全核對，原購物袋已保留，請再試一次。');
   }
