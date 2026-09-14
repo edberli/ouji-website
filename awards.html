@@ -77,6 +77,7 @@
         </nav>
       </div>
       <div class="header__actions">
+        <button class="header__lang" type="button" data-lang-toggle aria-label="Switch language">EN</button>
         <button class="header__action-btn" aria-label="搜尋">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
@@ -422,25 +423,31 @@
     const all = await getAllProducts();
     const byHandle = new Map((all?.edges || []).map((e) => [e.node.handle, e.node]));
 
+    /* 分類只讀 catalog 已有欄位：productType 命中護膚類別，或者 tags
+       明確標記 skincare／護膚，先歸護膚；其餘得獎產品歸彩妝。 */
+    const SKINCARE_TYPES = new Set([
+      '潔面', '爽膚水', '精華', '面霜', '乳液', '眼霜', '防曬',
+      '面膜', '棉片', '局部護理', '套裝護膚',
+    ]);
+    const productCategory = (p) => {
+      const type = String(p?.productType || '').trim();
+      const tags = Array.isArray(p?.tags) ? p.tags : [];
+      const taggedSkincare = tags.some((tag) => {
+        const value = String(tag).trim().toLowerCase();
+        return value === 'skincare' || value === '護膚';
+      });
+      return SKINCARE_TYPES.has(type) || taggedSkincare ? 'skincare' : 'makeup';
+    };
+
     const entries = awardedProducts()
       .map((e) => ({ ...e, product: byHandle.get(e.handle) }))
-      .filter((e) => e.product);          // not stocked — drop it entirely
+      .filter((e) => e.product)          // not stocked — drop it entirely
+      .map((e) => ({ ...e, category: productCategory(e.product) }));
 
     const bodies = [...new Set(entries.flatMap((e) => e.awards.map((a) => a.body)))];
-    const years = [...new Set(entries.flatMap((e) => e.awards.map((a) => a.year)))]
-      .sort((a, b) => b - a);
     const total = entries.reduce((n, e) => n + e.count, 0);
 
     const stats = document.querySelector('[data-awards-stats]');
-    if (stats) {
-      stats.innerHTML = [
-        [total, '項獎'], [entries.length, '件產品'],
-        [bodies.length, '個評審機構'], [`${years[years.length - 1]}–${years[0]}`, '年'],
-      ].map(([n, label]) => `<div class="awards-stat">
-          <span class="awards-stat__n">${n}</span>
-          <span class="awards-stat__label">${label}</span>
-        </div>`).join('');
-    }
 
     const crests = document.querySelector('[data-awards-crests]');
     if (crests) {
@@ -451,22 +458,48 @@
       </div>`).join('');
     }
 
-    let only = null;
+    let onlyBody = null;
+    let onlyCategory = null;
     const legend = document.querySelector('[data-awards-legend]');
     if (legend) {
-      legend.innerHTML = `<button class="awards-filter is-active" data-body="">全部 ${total}</button>`
+      const categoryOptions = [
+        ['', '全部'], ['skincare', '護膚'], ['makeup', '彩妝'],
+      ];
+      const categoryButtons = categoryOptions.map(([id, label]) => {
+        const n = id
+          ? entries.filter((e) => e.category === id).length
+          : entries.length;
+        return `<button type="button" class="awards-filter${!id ? ' is-active' : ''}"
+            data-category="${id}" aria-pressed="${!id}">
+            ${label}<span>${n}</span></button>`;
+      }).join('');
+      const bodyButtons = `<button type="button" class="awards-filter is-active"
+            data-body="" aria-pressed="true">全部<span>${total}</span></button>`
         + bodies.map((b) => {
           const n = entries.reduce((c, e) =>
             c + e.awards.filter((a) => a.body === b).length, 0);
-          return `<button class="awards-filter" data-body="${b}">
-            ${AWARD_BODIES[b].name}<span>${n}</span></button>`;
+          return `<button type="button" class="awards-filter" data-body="${b}"
+              aria-pressed="false">${AWARD_BODIES[b].name}<span>${n}</span></button>`;
         }).join('');
+      legend.innerHTML = `<div class="awards-filter-group" role="group" aria-label="產品類別">
+          <span class="awards-filter-group__label">產品類別</span>
+          <div class="awards-filter-group__options">${categoryButtons}</div>
+        </div>
+        <div class="awards-filter-group" role="group" aria-label="評審機構">
+          <span class="awards-filter-group__label">評審機構</span>
+          <div class="awards-filter-group__options">${bodyButtons}</div>
+        </div>`;
       legend.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-body]');
+        const btn = e.target.closest('.awards-filter');
         if (!btn) return;
-        only = btn.dataset.body || null;
-        legend.querySelectorAll('.awards-filter').forEach((el) =>
-          el.classList.toggle('is-active', el === btn));
+        const group = btn.dataset.category !== undefined ? 'category' : 'body';
+        if (group === 'category') onlyCategory = btn.dataset.category || null;
+        else onlyBody = btn.dataset.body || null;
+        legend.querySelectorAll(`.awards-filter[data-${group}]`).forEach((el) => {
+          const active = el === btn;
+          el.classList.toggle('is-active', active);
+          el.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
         render();
       });
     }
@@ -481,11 +514,15 @@
         </span>
       </li>`;
 
+    const shownAwards = (e) => e.awards.filter((a) =>
+      (!onlyBody || a.body === onlyBody)
+      && (!onlyCategory || e.category === onlyCategory));
+
     const card = (e, featured) => {
       const p = e.product;
       const img = p.images?.edges?.[0]?.node;
       const price = p.priceRange?.minVariantPrice;
-      const shown = e.awards.filter((a) => !only || a.body === only);
+      const shown = shownAwards(e);
       const top = shown[0];
       return `<a class="award-card${featured ? ' award-card--featured' : ''}"
                  href="/products/${p.handle}">
@@ -509,9 +546,18 @@
     const podium = document.querySelector('[data-awards-podium]');
     const grid = document.querySelector('[data-awards]');
 
+    const emptyMessage = () => {
+      const filters = [];
+      if (onlyCategory) filters.push(onlyCategory === 'skincare' ? '護膚' : '彩妝');
+      if (onlyBody) filters.push(AWARD_BODIES[onlyBody]?.name || onlyBody);
+      return filters.length
+        ? `暫時未有符合「${filters.join('／')}」嘅得獎產品。`
+        : '暫時未有得獎產品。';
+    };
+
     function render() {
       const list = entries
-        .map((e) => ({ ...e, shown: e.awards.filter((a) => !only || a.body === only) }))
+        .map((e) => ({ ...e, shown: shownAwards(e) }))
         .filter((e) => e.shown.length)
         .sort((a, b) => b.shown.filter((x) => x.rank === 1).length
                       - a.shown.filter((x) => x.rank === 1).length
@@ -525,7 +571,23 @@
         ? `<h2 class="awards-section-title"><span>其餘得獎產品</span></h2>
            <div class="awards-grid__row">${list.slice(3).map((e) => card(e, false)).join('')}</div>`
         : '';
-      if (!list.length) grid.innerHTML = '<p class="catalog-empty">暫時未有得獎產品。</p>';
+      if (!list.length) grid.innerHTML = `<p class="catalog-empty">${emptyMessage()}</p>`;
+
+      if (stats) {
+        const shownCount = list.reduce((n, e) => n + e.shown.length, 0);
+        const shownBodies = new Set(list.flatMap((e) => e.shown.map((a) => a.body)));
+        const shownYears = list.flatMap((e) => e.shown.map((a) => a.year)).sort((a, b) => a - b);
+        const yearRange = shownYears.length
+          ? `${shownYears[0]}–${shownYears[shownYears.length - 1]}`
+          : '—';
+        stats.innerHTML = [
+          [shownCount, '項獎'], [list.length, '件產品'],
+          [shownBodies.size, '個評審機構'], [yearRange, '年'],
+        ].map(([n, label]) => `<div class="awards-stat">
+            <span class="awards-stat__n">${n}</span>
+            <span class="awards-stat__label">${label}</span>
+          </div>`).join('');
+      }
     }
     render();
   });

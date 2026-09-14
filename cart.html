@@ -75,6 +75,7 @@
         </nav>
       </div>
       <div class="header__actions">
+        <button class="header__lang" type="button" data-lang-toggle aria-label="Switch language">EN</button>
         <button class="header__action-btn" aria-label="搜尋">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
@@ -599,19 +600,19 @@
         if (checkoutBtn.dataset.pending === 'true') return;
         checkoutBtn.dataset.pending = 'true';
         const previousText = checkoutBtn.textContent;
-        /* 預備好嘅情況一撳就跳走，所以唔好即刻換樣 —— 閃一閃反而似壞咗。
-           過咗 120ms 仲未走先出轉圈，等客知道係喺度做緊嘢。 */
-        const showBusy = setTimeout(() => {
-          checkoutBtn.textContent = '準備結帳中…';
-          const spinner = document.createElement('span');
-          spinner.className = 'btn__spinner';
-          spinner.setAttribute('aria-hidden', 'true');
-          checkoutBtn.prepend(spinner);
-          checkoutBtn.classList.add('is-busy');
-        }, 120);
+        /* checkoutUrl 可以預先準備，但 Shopify 仍會用約 3 秒做 checkout redirect。
+           所以撳落去即刻回應，唔再等 120ms；文字亦講清楚係開緊安全結帳，
+           唔好令人以為網站仲喺度重做購物袋。 */
+        checkoutBtn.textContent = '正在開啟安全結帳…';
+        const spinner = document.createElement('span');
+        spinner.className = 'btn__spinner';
+        spinner.setAttribute('aria-hidden', 'true');
+        checkoutBtn.prepend(spinner);
+        checkoutBtn.classList.add('is-busy');
+        checkoutBtn.setAttribute('aria-busy', 'true');
         const restore = () => {
-          clearTimeout(showBusy);
           checkoutBtn.classList.remove('is-busy');
+          checkoutBtn.removeAttribute('aria-busy');
           checkoutBtn.textContent = previousText;
         };
         try {
@@ -642,6 +643,7 @@
       window.addEventListener('pageshow', (e) => {
         if (!e.persisted) return;
         checkoutBtn.classList.remove('is-busy');
+        checkoutBtn.removeAttribute('aria-busy');
         checkoutBtn.textContent = '前往結帳';
         delete checkoutBtn.dataset.pending;
         location.reload();

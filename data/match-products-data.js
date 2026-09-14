@@ -4473,7 +4473,7 @@ window.OUJI_PRODUCT_DATABASE = {
       "vendor": "CLIO",
       "type": "眼影",
       "priceFrom": 130,
-      "image": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/clio-pro-single-shadow-01.jpg?v=1785764657",
+      "image": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Soft_Blending_Shadow_Stick_T_1_dca7b596-73dd-4cfa-9ad6-0709b5f45588.jpg?v=1789359446",
       "inStock": true,
       "roles": [
         "eyes"

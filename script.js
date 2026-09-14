@@ -1998,4 +1998,87 @@ function initHeaderAutoHide() {
   mo.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
 }
 
+function initNewsletterSignup() {
+  const form = document.getElementById('newsletter-form');
+  if (!form || form.dataset.newsletterReady === 'true') return;
+
+  const emailInput = document.getElementById('newsletter-email');
+  const honeypotInput = document.getElementById('newsletter-honeypot');
+  const submitButton = form.querySelector('.newsletter__submit');
+  const status = document.getElementById('newsletter-status');
+  if (!emailInput || !honeypotInput || !submitButton || !status) return;
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let submitting = false;
+  form.dataset.newsletterReady = 'true';
+
+  const setStatus = (message, state) => {
+    status.textContent = message;
+    status.setAttribute('aria-live', state === 'error' ? 'assertive' : 'polite');
+    if (state) status.dataset.state = state;
+    else delete status.dataset.state;
+  };
+
+  const trackSignup = () => {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'newsletter_signup', { method: 'OUJI LIST' });
+      }
+    } catch (error) { /* analytics should never interrupt signup */ }
+    try {
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead', { content_name: 'OUJI LIST' });
+      }
+    } catch (error) { /* analytics should never interrupt signup */ }
+  };
+
+  emailInput.addEventListener('input', () => {
+    emailInput.removeAttribute('aria-invalid');
+    if (status.textContent) setStatus('', '');
+  });
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (submitting) return;
+
+    const email = emailInput.value.trim();
+    emailInput.value = email;
+    if (!email || email.length > 254 || !emailPattern.test(email) || !emailInput.checkValidity()) {
+      emailInput.setAttribute('aria-invalid', 'true');
+      setStatus('請輸入有效嘅電郵地址。', 'error');
+      emailInput.focus();
+      return;
+    }
+
+    submitting = true;
+    submitButton.disabled = true;
+    submitButton.textContent = '處理緊…';
+    form.setAttribute('aria-busy', 'true');
+    setStatus('登記緊，請稍等…', 'loading');
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, honeypot: honeypotInput.value.trim() }),
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || payload.ok !== true) throw new Error('newsletter_signup_failed');
+
+      form.reset();
+      emailInput.removeAttribute('aria-invalid');
+      setStatus('收到喇！之後有新品到港、熱門補貨同會員限定優惠，我哋會第一時間話你知。', 'success');
+      trackSignup();
+    } catch (error) {
+      setStatus('而家未能完成登記，請再試一次。', 'error');
+    } finally {
+      submitting = false;
+      submitButton.disabled = false;
+      submitButton.textContent = '加入 OUJI LIST →';
+      form.setAttribute('aria-busy', 'false');
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', initHeaderAutoHide);
+document.addEventListener('DOMContentLoaded', () => oujiSafe(initNewsletterSignup, 'initNewsletterSignup'));

@@ -201,6 +201,45 @@ const AWARDS = {
     { body: 'ALLURE_BOB', year: 2025, category: '定妝噴霧', rank: 0 },
   ],
 
+  /* ---------- 護膚 ---------- */
+  'ma-nyo-ma-nyo-200ml-2292': [
+    { body: 'OLIVE_YOUNG', year: 2023, category: '潔面', rank: 1 },
+    { body: 'OLIVE_YOUNG', year: 2024, category: '潔面', rank: 1 },
+    { body: 'ALLURE_BOB', year: 2025, category: '油潔面', rank: 0 },
+  ],
+  'round-lab-round-lab-1025-200ml-4731': [
+    { body: 'OLIVE_YOUNG', year: 2023, category: '爽膚水', rank: 1 },
+    { body: 'OLIVE_YOUNG', year: 2024, category: '爽膚水', rank: 1 },
+    { body: 'OLIVE_YOUNG', year: 2025, category: '爽膚水', rank: 1 },
+  ],
+  'torriden-torriden-50ml-1647': [
+    { body: 'OLIVE_YOUNG', year: 2023, category: '精華', rank: 3 },
+    { body: 'GLOWPICK', year: 2024, category: '潔淨美妝護膚', rank: 2 },
+    { body: 'OLIVE_YOUNG', year: 2025, category: '精華', rank: 1 },
+  ],
+  'round-lab-round-lab-spf50-pa-50ml-1814': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '防曬', rank: 1 },
+  ],
+  'goodal-goodal-50ml-5088': [
+    { body: 'GLOWPICK', year: 2024, category: '潔淨美妝防曬', rank: 1,
+      note: '無機防曬 SPF50+/PA++++' },
+  ],
+  'anua-anua-pdrn-11-100-60ml-8135': [
+    { body: 'HWAHAE', year: 2025, category: '最佳新產品・面霜', rank: 1 },
+  ],
+  'skinfood-skinfood-50ml-6728': [
+    { body: 'GLOWPICK', year: 2025, category: '保濕精華', rank: 2 },
+  ],
+  'skin1004-skin1004-100ml-0663': [
+    { body: 'GLOWPICK', year: 2025, category: '舒緩精華', rank: 3 },
+  ],
+  'skin1004-skin1004-95ml-0146': [
+    { body: 'GLOWPICK', year: 2025, category: '抗老精華', rank: 2 },
+  ],
+  'skinfood-skinfood-60-2201': [
+    { body: 'OLIVE_YOUNG', year: 2023, category: '棉片', rank: 1 },
+  ],
+
   /* ---------- 工具 ---------- */
   'braye-pocket-lip-brush': [
     { body: 'GLOWPICK', year: 2024, category: '唇刷', rank: 1 },

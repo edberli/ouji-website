@@ -33,7 +33,7 @@ RULES = [
     ("頰彩", r"胭脂|腮紅|頰彩|多用彩膏|多用膏|blush|cheek"),
 ]
 ORDER = ["底妝", "眼妝", "唇妝", "頰彩", "修容"]
-LIP_CARE = re.compile(r"潤唇膏|護唇膏|唇部精華|唇膜|lip\s*(?:balm|care|mask|serum)", re.I)
+LIP_CARE = re.compile(r"潤唇膏|護唇膏|唇部護理|唇部精華|唇膜|lip\s*(?:balm|care|cream|mask|serum)", re.I)
 
 QUERY = """query($c:String){products(first:250,after:$c){
   pageInfo{hasNextPage endCursor}

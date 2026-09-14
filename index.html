@@ -118,6 +118,7 @@
         </nav>
       </div>
       <div class="header__actions">
+        <button class="header__lang" type="button" data-lang-toggle aria-label="Switch language">EN</button>
         <button class="header__action-btn" aria-label="搜尋">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
@@ -970,13 +971,36 @@
           <source src="videos/smoke-bg-short.mp4" type="video/mp4">
         </video>
       </div>
-      <h2 class="newsletter__title">OUJI 美妝通訊（準備中）</h2>
-      <p class="newsletter__desc">上線後會用嚟通知新品、限定優惠及 K-Beauty 潮流資訊。</p>
-      <form class="newsletter__form" onsubmit="return false;">
-        <input type="email" class="newsletter__input" placeholder="訂閱功能準備中" aria-label="電郵地址" disabled>
-        <button type="submit" class="newsletter__submit" disabled>準備中</button>
-      </form>
-      <p class="newsletter__note">訂閱功能準備中，暫時唔會收集你輸入嘅電郵。想第一時間收消息，可以先追蹤 <a href="https://www.instagram.com/ouji_kbeauty/" target="_blank" rel="noopener">Instagram</a>。</p>
+      <div class="newsletter__content">
+        <p class="newsletter__eyebrow">唔想錯過韓國新品？</p>
+        <h2 id="newsletter-title" class="newsletter__title">加入 OUJI LIST</h2>
+        <p class="newsletter__desc">新品到港、熱門補貨、會員限定優惠，第一時間話你知。</p>
+        <ul class="newsletter__benefits" aria-label="加入 OUJI LIST 嘅好處">
+          <li class="newsletter__benefit">
+            <strong class="newsletter__benefit-label">新品早知</strong>
+            <span class="newsletter__benefit-copy">新貨到港，搶先睇</span>
+          </li>
+          <li class="newsletter__benefit">
+            <strong class="newsletter__benefit-label">熱門補貨</strong>
+            <span class="newsletter__benefit-copy">心頭好返貨即通知</span>
+          </li>
+          <li class="newsletter__benefit">
+            <strong class="newsletter__benefit-label">會員限定</strong>
+            <span class="newsletter__benefit-copy">專屬優惠，唔使周圍搵</span>
+          </li>
+        </ul>
+        <form class="newsletter__form" id="newsletter-form" method="post" action="/api/subscribe" aria-labelledby="newsletter-title" aria-describedby="newsletter-note newsletter-status">
+          <label class="newsletter__label" for="newsletter-email">電郵地址</label>
+          <input id="newsletter-email" name="email" type="email" class="newsletter__input" placeholder="輸入你嘅電郵地址" autocomplete="email" required>
+          <button type="submit" class="newsletter__submit">加入 OUJI LIST →</button>
+          <div class="newsletter__honeypot" aria-hidden="true">
+            <label for="newsletter-honeypot">網站</label>
+            <input id="newsletter-honeypot" name="honeypot" type="text" tabindex="-1" autocomplete="off">
+          </div>
+        </form>
+        <p id="newsletter-status" class="newsletter__status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <p id="newsletter-note" class="newsletter__note">我哋唔會日日洗版，只會分享值得留意嘅消息；你嘅電郵只用於 OUJI LIST，亦可以隨時取消訂閱。</p>
+      </div>
     </section>
 
   </main>

@@ -32,10 +32,17 @@ import urllib.request
 
 API = "https://5rerjn-mt.myshopify.com/api/2025-07/graphql.json"
 TOKEN = "795e2f7cb13da1d3776449eba5802377"  # 公開 storefront token，本來就喺前端
-OUT = os.path.join(os.path.dirname(__file__), "..", "data", "catalog.json")
+# 2026-09-14：英文版要自己一份快照 —— 快照唔經前端個 shopifyFetch，
+# 所以 @inContext 注入幫唔到佢，英文客讀中文快照就會見到全中文目錄。
+# 跑法：python3 build_catalog_snapshot.py        → data/catalog.json（繁中）
+#       python3 build_catalog_snapshot.py en     → data/catalog-en.json
+LANG = (sys.argv[1].lower() if len(sys.argv) > 1 else "zh")
+SUFFIX = "-en" if LANG == "en" else ""
+IN_CONTEXT = " @inContext(language: EN)" if LANG == "en" else ""
+OUT = os.path.join(os.path.dirname(__file__), "..", "data", f"catalog{SUFFIX}.json")
 
 QUERY = """
-query GetProducts($first: Int!, $after: String) {
+query GetProducts($first: Int!, $after: String)""" + IN_CONTEXT + """ {
   products(first: $first, after: $after) {
     pageInfo { hasNextPage endCursor }
     edges {

@@ -523,9 +523,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .btn--sm { padding: 10px 24px; font-size: 0.6875rem; }
 .btn--full { width: 100%; }
 
-/* 要等伺服器嘅掣（結帳）。冇任何反應嘅話客會以為撳唔到就再撳
-   （老闆 2026-09-14 報）。轉得快啲＝感覺快啲，所以 600ms 一圈。
-   ⚠️ 唔喺撳落去嗰刻即刻着 —— 預備好嗰下 100ms 內就跳走咗，閃一閃似壞咗多過似 loading。
+/* 要等 Shopify checkout redirect 嘅掣。正式站實測 redirect 約 3 秒，
+   所以一撳即刻顯示；轉得快啲＝感覺快啲，600ms 一圈。
    加咗之後唔好再用 hover 嘅位移，郁嚟郁去會搞亂緊要等嘅感覺。 */
 .btn.is-busy { cursor: progress; transform: none; }
 .btn.is-busy::before { opacity: 0; }
@@ -5408,14 +5407,54 @@ button.product-card__quick-add,
 }
 
 /* Member account visual redesign v2 */
-.account-dashboard { padding-top:clamp(30px,4vw,56px); background:radial-gradient(circle at 92% 3%,rgba(249,213,220,.42),transparent 25%),radial-gradient(circle at 4% 32%,rgba(196,225,229,.46),transparent 24%),linear-gradient(180deg,#fbfdfd 0,#f7fbfb 430px,#fff 100%); }
+.account-dashboard {
+  padding-top: clamp(30px,4vw,56px);
+  background:
+    radial-gradient(circle at 92% 3%,rgba(249,213,220,.42),transparent 25%),
+    radial-gradient(circle at 4% 32%,rgba(196,225,229,.46),transparent 24%),
+    linear-gradient(180deg,#fbfdfd 0,#f7fbfb 430px,#fff 100%);
+}
 .account-dashboard__container { max-width:1160px; }
-.account-dashboard__hero { position:relative; grid-template-columns:auto minmax(0,1fr) auto; gap:26px; min-height:182px; margin-bottom:24px; padding:28px 32px; overflow:hidden; border:1px solid rgba(255,255,255,.72); border-radius:30px; color:#fff; background:radial-gradient(circle at 82% 16%,rgba(255,255,255,.18),transparent 25%),linear-gradient(125deg,#244d59 0%,#3e7380 58%,#78a9b2 100%); box-shadow:0 22px 55px rgba(37,80,91,.2); }
-.account-dashboard__hero::after { content:''; position:absolute; right:-72px; bottom:-150px; width:220px; height:220px; border:34px solid rgba(255,255,255,.1); border-radius:50%; }
+.account-dashboard__hero {
+  position:relative;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:26px;
+  min-height:182px;
+  margin-bottom:24px;
+  padding:28px 32px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:30px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 82% 16%,rgba(255,255,255,.18),transparent 25%),
+    linear-gradient(125deg,#244d59 0%,#3e7380 58%,#78a9b2 100%);
+  box-shadow:0 22px 55px rgba(37,80,91,.2);
+}
+.account-dashboard__hero::after {
+  content:'';
+  position:absolute;
+  right:-72px;
+  bottom:-150px;
+  width:220px;
+  height:220px;
+  border:34px solid rgba(255,255,255,.1);
+  border-radius:50%;
+}
 .account-dashboard__sparkle { position:absolute; z-index:0; color:rgba(255,239,194,.78); line-height:1; }
 .account-dashboard__sparkle--one { top:22px; right:32%; font-size:1rem; transform:rotate(14deg); }
 .account-dashboard__sparkle--two { right:25%; bottom:21px; font-size:1.4rem; transform:rotate(-9deg); }
-.account-dashboard__avatar { position:relative; z-index:1; width:114px; height:114px; border:6px solid rgba(255,255,255,.9); border-radius:36px; background:linear-gradient(145deg,#fffaf0,#f3dfb4); box-shadow:0 14px 31px rgba(20,57,66,.26),inset 0 0 0 1px rgba(89,116,122,.08); transform:rotate(-2deg); }
+.account-dashboard__avatar {
+  position:relative;
+  z-index:1;
+  width:114px;
+  height:114px;
+  border:6px solid rgba(255,255,255,.9);
+  border-radius:36px;
+  background:linear-gradient(145deg,#fffaf0,#f3dfb4);
+  box-shadow:0 14px 31px rgba(20,57,66,.26),inset 0 0 0 1px rgba(89,116,122,.08);
+  transform:rotate(-2deg);
+}
 .account-dashboard__avatar img { width:93%; height:93%; object-fit:contain; transform:rotate(2deg); }
 .account-dashboard__avatar span { position:absolute; right:-4px; bottom:-4px; width:25px; height:25px; border:4px solid #fff; border-radius:50%; background:#f1c46f; }
 .account-dashboard__welcome { position:relative; z-index:1; }
@@ -5433,7 +5472,15 @@ button.product-card__quick-add,
 .account-dashboard__logout:hover { border-color:#fff; color:#fff; background:transparent; }
 .account-dashboard__grid { grid-template-columns:minmax(0,1.68fr) minmax(270px,.72fr); gap:22px; }
 .account-dashboard__main,.account-dashboard__side { gap:22px; }
-.account-dashboard .member-points { position:relative; border-color:rgba(255,255,255,.18); border-radius:28px; background:radial-gradient(circle at 94% 7%,rgba(242,217,165,.15),transparent 24%),linear-gradient(145deg,#244b57 0%,#315f6c 58%,#3f7480 100%); box-shadow:0 20px 48px rgba(33,72,82,.2); }
+.account-dashboard .member-points {
+  position:relative;
+  border-color:rgba(255,255,255,.18);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 94% 7%,rgba(242,217,165,.15),transparent 24%),
+    linear-gradient(145deg,#244b57 0%,#315f6c 58%,#3f7480 100%);
+  box-shadow:0 20px 48px rgba(33,72,82,.2);
+}
 .member-points__balance { border-color:rgba(255,255,255,.17); border-radius:18px; background:rgba(255,255,255,.08); }
 .member-points__balance--available { background:linear-gradient(135deg,rgba(255,255,255,.17),rgba(255,255,255,.1)); }
 .member-points__reward { border:1px solid rgba(255,255,255,.66); border-radius:20px; box-shadow:0 11px 26px rgba(23,57,65,.16); }
@@ -6953,9 +7000,30 @@ body.has-brand-rail .brand-section {
 /* ----- filters ----- */
 .awards-filters {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 8px;
   margin: var(--space-lg) 0 var(--space-2xl);
+}
+.awards-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px 14px;
+  width: 100%;
+  max-width: 100%;
+}
+.awards-filter-group__label {
+  flex: 0 0 4.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+}
+.awards-filter-group__options {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
 }
 .awards-filter {
   display: inline-flex;
@@ -6968,6 +7036,7 @@ body.has-brand-rail .brand-section {
   color: var(--text-secondary);
   font: inherit;
   font-size: 0.8125rem;
+  max-width: 100%;
   cursor: pointer;
   transition: background var(--duration-fast), border-color var(--duration-fast),
               color var(--duration-fast);
@@ -7140,6 +7209,9 @@ body.has-brand-rail .brand-section {
   .awards-crest { width: 84px; }
   .awards-crest .crest { width: 44px; height: 44px; }
   .awards-grid__row { grid-template-columns: 1fr; }
+  .awards-filter-group { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .awards-filter-group__label { flex-basis: auto; }
+  .awards-filter-group__options { width: 100%; }
 }
 
 /* ============================================================
