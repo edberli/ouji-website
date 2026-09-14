@@ -1995,7 +1995,9 @@ function initHeaderAutoHide() {
       body.classList.remove('is-nav-tucked');
     }
   });
-  mo.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  /* blocked() 只睇 body 上嘅 overlay 狀態。以前連成棵 subtree 都監察，
+     產品格 render／動畫每改一張卡嘅 class 都會觸發 callback，手機尤其易拉高 INP。 */
+  mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
 function initNewsletterSignup() {

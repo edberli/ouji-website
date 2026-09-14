@@ -102,6 +102,10 @@ function initMeta() {
 
 /* ---------- 事件 ---------- */
 
+/* Microsoft Clarity custom events：保持名稱穩定，而且只傳事件名，唔傳
+   產品資料、金額、訂單資料或任何 PII：product_view、add_to_cart、
+   cart_view、begin_checkout。 */
+
 const money = (v) => (v == null ? undefined : Number(v));
 
 /** 一件產品 → GA4 items 格式。 */
@@ -126,6 +130,7 @@ function trackViewItem(p) {
     content_ids: [p.handle], content_type: 'product',
     content_name: p.title, value: item.price, currency: 'HKD',
   });
+  window.clarity?.('event', 'product_view');
 }
 
 function trackAddToCart(p, qty = 1, price) {
@@ -143,6 +148,7 @@ function trackAddToCart(p, qty = 1, price) {
     content_ids: [p.handle], content_type: 'product',
     content_name: p.title, value, currency: 'HKD',
   });
+  window.clarity?.('event', 'add_to_cart');
 }
 
 function trackBeginCheckout(cart) {
@@ -168,6 +174,7 @@ function trackBeginCheckout(cart) {
     num_items: lines.reduce((n, l) => n + (l.quantity || 0), 0),
     value, currency: 'HKD',
   });
+  window.clarity?.('event', 'begin_checkout');
 }
 
 function ga4CartItems(cart) {
@@ -188,6 +195,7 @@ function trackViewCart(cart) {
     value: money(cart.cost?.totalAmount?.amount),
     items: ga4CartItems(cart),
   });
+  window.clarity?.('event', 'cart_view');
 }
 
 function trackRemoveFromCart(line) {

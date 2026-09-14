@@ -1394,10 +1394,15 @@ function watchGridWindows() {
   if (GRID_ABORT) return;
   GRID_ABORT = new AbortController();
   let queued = false;
+  let fallbackTimer = 0;
   const on = () => {
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => { queued = false; syncGridWindows(); });
+    /* 快速掃頁時唔好每個 scroll event 都建立一個 250ms timer。
+       只保留最後一個安全網，避免 timer 群喺手指放開後一齊搶 main thread。 */
+    clearTimeout(fallbackTimer);
+    fallbackTimer = setTimeout(syncGridWindows, 250);
   };
   const o = { passive: true, signal: GRID_ABORT.signal };
   window.addEventListener('scroll', on, o);
@@ -1405,10 +1410,10 @@ function watchGridWindows() {
   /* rAF 唔係次次準時行（背景分頁、慢機、快速拋動），所以多一條 timeout
      做安全網，同埋畫面由背景返嚟嗰陣即刻補一次。寧願行多次
      —— `fill()` 有 `data-on` 閘住，補過就唔會再補。 */
-  window.addEventListener('scroll', () => setTimeout(syncGridWindows, 250), o);
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) syncGridWindows();
   }, o);
+  GRID_ABORT.signal.addEventListener('abort', () => clearTimeout(fallbackTimer), { once: true });
 }
 
 function mountGrid(host, items, { all = false } = {}) {
