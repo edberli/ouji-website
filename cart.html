@@ -610,8 +610,9 @@
     };
     setText('#payment-security-title', 'Payment information protected');
     setText('.payment-security__heading span', 'Secure encrypted checkout');
-    setText('.payment-security__badges small:first-of-type', 'Level 1 payment standard');
-    setText('.payment-security__badges small:last-of-type', 'Encrypted data transfer');
+    const badgeNotes = document.querySelectorAll('.payment-security__badges small');
+    if (badgeNotes[0]) badgeNotes[0].textContent = 'Level 1 payment standard';
+    if (badgeNotes[1]) badgeNotes[1].textContent = 'Encrypted data transfer';
     setText('.payment-methods > span', 'Payment methods');
     const security = document.querySelector('.payment-security');
     if (security) security.querySelector('.payment-security__badges')?.setAttribute('aria-label', 'Payment security standards');
@@ -623,7 +624,10 @@
       if (textNode) textNode.nodeValue = 'View payment security standards ';
     }
     const unionpay = document.querySelector('.pay-mark--unionpay b');
-    if (unionpay) unionpay.textContent = 'UnionPay';
+    if (unionpay) {
+      unionpay.textContent = 'UnionPay';
+      unionpay.closest('.pay-mark--unionpay')?.setAttribute('aria-label', 'UnionPay');
+    }
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
