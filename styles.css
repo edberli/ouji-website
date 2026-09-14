@@ -523,8 +523,9 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .btn--sm { padding: 10px 24px; font-size: 0.6875rem; }
 .btn--full { width: 100%; }
 
-/* 要等 Shopify checkout redirect 嘅掣。正式站實測 redirect 約 3 秒，
-   所以一撳即刻顯示；轉得快啲＝感覺快啲，600ms 一圈。
+/* 要等伺服器嘅掣（結帳）。冇任何反應嘅話客會以為撳唔到就再撳
+   （老闆 2026-09-14 報）。轉得快啲＝感覺快啲，所以 600ms 一圈。
+   ⚠️ 唔喺撳落去嗰刻即刻着 —— 預備好嗰下 100ms 內就跳走咗，閃一閃似壞咗多過似 loading。
    加咗之後唔好再用 hover 嘅位移，郁嚟郁去會搞亂緊要等嘅感覺。 */
 .btn.is-busy { cursor: progress; transform: none; }
 .btn.is-busy::before { opacity: 0; }
@@ -1343,6 +1344,22 @@ button.product-card__quick-add,
 
 /* 售完嘅卡調淡張相，但字同價錢照舊睇得清 */
 .product-card:has(.product-card__restock) .product-card__image { opacity: 0.55; }
+
+/* 語言切換（2026-09-14）：擺喺搜尋掣左邊。
+   刻意做得細同靜 —— 佢係一個「有需要先撳」嘅功能，唔應該同購物袋爭注意力。
+   ⚠️ 呢段同 shopify.js 嘅 initLangToggle 一齊被另一個 session 覆寫過一次，
+   結果 HTML 有個掣但冇樣式又冇邏輯。改動前後都要 grep `header__lang` 對數。 */
+.header__lang {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 34px; height: 34px; padding: 0 9px;
+  border: 1px solid var(--glass-border-strong); border-radius: 999px;
+  background: transparent; color: var(--text-secondary);
+  font-family: var(--font-body); font-size: 0.6875rem; font-weight: 700;
+  letter-spacing: 0.08em; cursor: pointer;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+.header__lang:hover { color: var(--primary-dark); border-color: var(--primary); }
+.header__lang:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 2px; }
 
 .product-card__badge {
   position: absolute;

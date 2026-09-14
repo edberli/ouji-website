@@ -45,6 +45,68 @@ function shopifyWait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/* ---------- 語言（2026-09-14）----------
+   英文版行 Shopify 原生翻譯：同一條 query 加 `@inContext(language: EN)`
+   就攞返英文標題／描述，結帳頁同訂單電郵都會跟住變英文。
+   1,518 件產品嘅英文翻譯已經寫入 Shopify，兩個 web presence 都加咗
+   `alternateLocales:["en"]`（唔加嘅話 Storefront 會靜靜哋降級返中文）。
+
+   ⚠️ 呢段曾經被另一個 session 覆寫過一次（2026-09-14）——
+   語言掣喺 HTML 度但邏輯冇咗，個掣變咗撳唔撳都冇反應。
+   改動呢個檔之前，先 grep `data-lang-toggle` 確認前後對得上。 */
+const OUJI_LANG_KEY = 'ouji:lang';
+
+function getLang() {
+  try {
+    return localStorage.getItem(OUJI_LANG_KEY) === 'en' ? 'en' : 'zh';
+  } catch (e) {
+    return 'zh';           // 私隱模式讀唔到 → 當中文，唔好爆
+  }
+}
+
+function setLang(lang) {
+  const next = lang === 'en' ? 'en' : 'zh';
+  try { localStorage.setItem(OUJI_LANG_KEY, next); } catch (e) { /* 記唔到就今次算 */ }
+  /* 目錄快取同快照都按語言分開（見 cacheKey／snapshotUrl），
+     所以 reload 就換得晒，唔使逐個 render function 重畫。 */
+  location.reload();
+}
+
+/* 將 @inContext(language: EN) 塞入 query 定義嗰行。
+   購物車嗰幾條本身已經有 @inContext(country:)，就補多個 language 落去；
+   其餘冇嘅就喺 operation 名後面加一個。
+   只喺 shopifyFetch 一個位做 —— 全站十幾條 query 都經佢，逐條改一定會漏。 */
+function withLanguage(query) {
+  if (getLang() !== 'en') return query;
+  if (/@inContext\(/.test(query)) {
+    return query.replace(/@inContext\(([^)]*)\)/, (m, inner) => (
+      /language\s*:/.test(inner) ? m : `@inContext(${inner.trim()}, language: EN)`
+    ));
+  }
+  return query.replace(
+    /^(\s*(?:query|mutation)\s+\w+(?:\s*\([\s\S]*?\))?)/m,
+    '$1 @inContext(language: EN)'
+  );
+}
+
+/* 個掣寫住「而家撳落去會轉去邊個語言」，唔係「而家係咩語言」——
+   實測兩種寫法都有人誤會，但前者撳錯一次就明，後者會一直以為撳唔到。 */
+function initLangToggle() {
+  const en = getLang() === 'en';
+  document.documentElement.lang = en ? 'en' : 'zh-Hant';
+  document.querySelectorAll('[data-lang-toggle]').forEach((btn) => {
+    btn.textContent = en ? '中文' : 'EN';
+    btn.setAttribute('aria-label', en ? '切換至繁體中文' : 'Switch to English');
+    btn.addEventListener('click', () => setLang(en ? 'zh' : 'en'), { once: true });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLangToggle, { once: true });
+} else {
+  initLangToggle();
+}
+
 async function shopifyFetch(query, variables = {}, { tries = SHOPIFY_TRIES } = {}) {
   let lastErr = null;
   for (let attempt = 0; attempt < tries; attempt++) {
@@ -59,7 +121,7 @@ async function shopifyFetch(query, variables = {}, { tries = SHOPIFY_TRIES } = {
           'Content-Type': 'application/json',
           'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
         },
-        body: JSON.stringify({ query, variables }),
+        body: JSON.stringify({ query: withLanguage(query), variables }),
         signal: ctrl ? ctrl.signal : undefined,
       });
       if (!res.ok && res.status < 500 && res.status !== 429) {
@@ -183,7 +245,9 @@ const MEM_CACHE = new Map();
    「每個色號同一張圖」，如果唔升版本，手機重新開產品頁都可以繼續讀舊圖
    五分鐘，令人以為修復冇生效。 */
 const CACHE_VERSION = 8;
-const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${name}`;
+/* 語言要入 key —— 唔係嘅話切換語言之後會攞到上一個語言嘅快取，
+   客會見到中英夾雜嘅目錄。 */
+const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${getLang()}:${name}`;
 
 function cacheRead(key) {
   const hit = MEM_CACHE.get(key);
@@ -236,7 +300,11 @@ async function fetchAllPages({ collectionHandle, pageSize = 250, max = 2000 } = 
  * 唔用快照嘅情況：檔唔喺度、格式唔啱、或者超過 36 鐘頭未更新 —— 寧願慢
  * 一秒，都好過出舊價錢同舊庫存。要更新：`scripts/build_catalog_snapshot.py`。
  */
-const SNAPSHOT_URL = 'data/catalog.json';
+/* 快照要按語言分檔 —— 快照唔經 shopifyFetch，所以 @inContext 注入
+   幫唔到佢。英文客讀中文快照嘅話，目錄頁會全中文（實測 2026-09-14 就係咁）。
+   英文快照攞唔到 → readSnapshot 回 null → 自動退返去行 API，唔會爆。
+   英文快照由 `scripts/build_catalog_snapshot.py en` 出，每日排程同時出兩份。 */
+const snapshotUrl = () => (getLang() === 'en' ? 'data/catalog-en.json' : 'data/catalog.json');
 const SNAPSHOT_MAX_AGE = 36 * 60 * 60 * 1000;
 let revalidating = false;
 
@@ -247,7 +315,7 @@ async function readSnapshot() {
        退返去行 API，好過乾等。 */
     const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
     const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
-    const r = await fetch(SNAPSHOT_URL, { signal: ctrl ? ctrl.signal : undefined })
+    const r = await fetch(snapshotUrl(), { signal: ctrl ? ctrl.signal : undefined })
       .finally(() => { if (timer) clearTimeout(timer); });
     if (!r.ok) return null;
     const { at, v } = await r.json();
