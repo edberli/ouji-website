@@ -13495,8 +13495,8 @@ body::before { opacity: 0.18; }
 .pay-mark--mastercard > i::after { content: ''; position: absolute; top: 0; width: 18px; height: 18px; border-radius: 50%; }
 .pay-mark--mastercard > i::before { left: 0; background: #eb001b; }
 .pay-mark--mastercard > i::after { right: 0; background: #f79e1b; opacity: .9; }
-.pay-mark--amex { background: #1677a8; border-color: #1677a8; }
-.pay-mark--amex b { font-size: 0.4rem; line-height: .92; letter-spacing: .04em; color: #fff; text-align: center; }
+.pay-mark--amex { background: #fff; border-color: #d8e1e4; }
+.pay-mark--amex b { font-size: 0.4rem; line-height: .92; letter-spacing: .04em; color: #1677a8; text-align: center; }
 .pay-mark--unionpay { gap: 4px; }
 .pay-mark--unionpay > i {
   width: 17px; height: 13px; border-radius: 3px; transform: skew(-10deg);
