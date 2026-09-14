@@ -1104,10 +1104,15 @@
     "presentation": "complexion-swatch",
     "evidence": "CLIO Hong Kong Flagship Store exact Mesh Glow Essential Cushion 23N page and barcode match; unique single complexion swipe"
   },
+  "gid://shopify/ProductVariant/48079737225374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hikoco_Lilybyred_BloodyLiarCoatingTint19_01.jpg?v=1789351823",
+    "presentation": "product-shade",
+    "evidence": "HIKOCO exact dedicated #19 Calm Cherry Shopify product page supplies this shade-specific product, applicator and liquid-texture image; barcode and shade title cross-checked against OUJI; paired same-format image visually reviewed; Shopify binding verified"
+  },
   "gid://shopify/ProductVariant/48079737258142": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/2025-03-08-a07414d1a5f0ca2475fbecbd.webp",
-    "presentation": "lip-swatch",
-    "evidence": "LIPS exact Lilybyred Bloody Liar Coating Tint 20 Something Cherry page; unique applied lip result for the exact option"
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/hikoco_Lilybyred_BloodyLiarCoatingTint20_01.jpg?v=1789351823",
+    "presentation": "product-shade",
+    "evidence": "HIKOCO exact dedicated #20 Something Cherry Shopify product page supplies this shade-specific product, applicator and liquid-texture image; barcode and shade title cross-checked against OUJI; paired same-format image visually reviewed; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48079627518110": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/GmZJGeNUNJ20250825142040_1200.png",
@@ -4243,6 +4248,11 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____17.png?v=1789312976",
     "presentation": "product-shade",
     "evidence": "Horanghee exact Shopify variant JSON maps #17 Pure Ivory to this exclusive open-cushion and liquid-texture image; iHerb product code twa20654 and EAN 8809968206545 cross-check the exact shade; same-format set visually reviewed; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48079930589342": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____21.png?v=1789351590",
+    "presentation": "product-shade",
+    "evidence": "Horanghee exact Shopify variant JSON maps #21 Light Beige to this exclusive open-cushion and liquid-texture image; iHerb and Trendyol independently cross-check EAN 8809968206552 as the exact shade; same-format set visually reviewed; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48079930622110": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/01____23.png?v=1789312976",
