@@ -3310,9 +3310,14 @@
     "evidence": "Exact TIRTIR Mask Fit All Cover 21N Ivory product and foundation shade; barcode-confirmed title corrected from Sand; SOL and main visual review passed"
   },
   "gid://shopify/ProductVariant/48084472070302": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23N_15f06c75-c0d2-421a-8152-bf98ff651355.jpg",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/23n_cf90b306-5740-4ccf-aee5-82cf6f87f267.jpg?v=1789350694",
     "presentation": "product-shade",
-    "evidence": "Exact TIRTIR Mask Fit All Cover 23N Sand product and foundation shade; local title and barcode cross-checked; SOL and main visual review passed"
+    "evidence": "Shibuyala exact TIRTIR Mask Fit All Cover 23N Sand variant image; product, open cushion and visibly deeper neutral-beige foundation smear visually reviewed; OUJI barcode 8809928136493 matches exact retailer variant; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48084472103070": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/17c_5cfc797e-800c-4b87-9e1d-1816f45d696a.jpg?v=1789350694",
+    "presentation": "product-shade",
+    "evidence": "Shibuyala exact TIRTIR Mask Fit All Cover 17C Porcelain variant image; product, open cushion and visibly lighter cool-porcelain foundation smear visually reviewed; OUJI barcode 8809928136745 proves previous 單一規格 title was wrong, corrected to 17C PORCELAIN; Shopify binding verified"
   },
   "gid://shopify/ProductVariant/48084472561822": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/17C_ebf4d842-e28d-4a11-87fc-06a51f5e5796.jpg",
