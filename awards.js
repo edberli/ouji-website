@@ -239,6 +239,94 @@ const AWARDS = {
   'skinfood-skinfood-60-2201': [
     { body: 'OLIVE_YOUNG', year: 2023, category: '棉片', rank: 1 },
   ],
+  'torriden-torriden-10-2865': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '面膜', rank: 1,
+      note: '同系列・10片裝' },
+  ],
+  'torriden-torriden-dive-in-300ml-1654': [
+    { body: 'GLOWPICK', year: 2025, category: '爽膚水', rank: 3,
+      note: '同系列・300ml' },
+  ],
+  'beplain-beplain-80ml-0050': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '潔面', rank: 2,
+      note: '同系列・80ml' },
+  ],
+  'beplain-beplain-30-2917': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: 'Clean Beauty', rank: 0,
+      note: '官方 Clean Beauty 入選・同系列 30ml' },
+  ],
+  '韓國-s-nature-艾絲內鎮-水潤角鯊烷保濕面霜-60ml-에스네이처-아쿠아-스쿠알란-수분크림-60ml': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '面霜', rank: 3,
+      note: '同系列・60ml' },
+  ],
+  'round-lab-round-lab-30ml-5667': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: 'Clean Beauty', rank: 0,
+      note: '官方 Clean Beauty 入選・同系列 30ml' },
+  ],
+  'bring-green-bring-green-100g-1069': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: 'Rising Star', rank: 0,
+      note: '官方 Rising Star 入選・清單第6項・同系列 100g' },
+  ],
+  'mediheal-茶樹精華面膜-舒緩保濕-teatree-essential-mask-calming-moisture': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: '面膜', rank: 2,
+      note: '同系列・Calming Moisture 版本' },
+  ],
+  'dalba-uv-essence-waterfull-水潤調色防曬霜-粉紅修飾-pink-correcting-spf50-pa-50ml-워터풀-톤업-선크림': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: '防曬', rank: 2,
+      note: '得獎款同系列・Pink Correcting 版本 50ml' },
+  ],
+  'dalba-意大利白松露黃金精華噴霧-first-spray-serum-100ml': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: 'Slow Aging', rank: 0,
+      note: '官方 Slow Aging 入選・清單第1項・同系列 100ml' },
+  ],
+  'boh-boh-probioderm-3d-50ml-0925': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: 'Slow Aging', rank: 0,
+      note: '官方 Slow Aging 入選・清單第3項・同系列 50ml' },
+  ],
+  'boh-boh-probioderm-30ml-3186': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: 'Slow Aging', rank: 0,
+      note: '官方 Slow Aging 入選・清單第3項・同系列 30ml' },
+  ],
+  'anua-anua-pdrn-11-100-30ml-6667': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '精華', rank: 0,
+      note: 'MD’s Pick・同系列 PDRN 11層膠囊版 30ml' },
+  ],
+  'goodal-goodal-c-e-6402': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '精華', rank: 2,
+      note: '得獎款新版・同核心青橘 Vita C 淡斑精華 C+E 版' },
+  ],
+  'goodal-goodal-1125': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '防曬', rank: 3,
+      note: '同系列・魚腥草保濕鎮靜版' },
+  ],
+  'skinfood-skinfood-5-60-6304': [
+    { body: 'GLOWPICK', year: 2025, category: '棉片', rank: 1,
+      note: '同系列・60片裝' },
+  ],
+  'skinfood-skinfood-6014': [
+    { body: 'GLOWPICK', year: 2025, category: '棉片', rank: 3,
+      note: '同系列・薯仔積雪草版本' },
+  ],
+  'mediheal-積雪草修護精華面膜-10片-madecassoside-essential-mask-blemish-repair': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: '面膜', rank: 3,
+      note: '同系列・10片裝' },
+  ],
+  'numbuzin-no-5-穀胱甘肽維他命濃縮精華-no-5-glutathione-vitamin-concentrated-serum': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: 'Slow Aging', rank: 0,
+      note: '官方 Slow Aging 入選・清單第2項・同系列' },
+  ],
+  'anua-anua-200ml-5028': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: '潔面', rank: 0,
+      note: 'MD’s Pick・同系列 200ml' },
+  ],
+  'anua-anua-77-70-0559': [
+    { body: 'OLIVE_YOUNG', year: 2024, category: '棉片', rank: 3,
+      note: '同系列・70片裝' },
+  ],
+  'boh-boh-probioderm-3d-25ml-2-3957': [
+    { body: 'OLIVE_YOUNG', year: 2025, category: 'Slow Aging', rank: 0,
+      note: '套裝包含得獎面霜・25ml×2' },
+  ],
 
   /* ---------- 工具 ---------- */
   'braye-pocket-lip-brush': [
