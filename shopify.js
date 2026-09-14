@@ -817,40 +817,64 @@ async function writeCartAttributes(attrs) {
   return data?.cartAttributesUpdate?.cart?.attributes || null;
 }
 
-/** 將自提點寫成「預填送貨地址」，令客喺結帳頁唔使再打一次地址。
+/** 一次過寫晒自取結帳要嘅三樣嘢：預填地址、cart attributes、訂單備註。
 
-    ⚠️ 呢個係成件事嘅關鍵。淨係寫 cart attributes 係唔夠嘅 ——
-    客揀完自提點，入到結帳頁一樣要由頭填地址，等於做兩次嘢。
-    實測（訪客結帳）：寫咗 deliveryAddressPreferences 之後，結帳頁
-    嘅「地址 / 公寓套房 / 市 / 國家」全部已經填好，客淨係要填
-    電郵、姓名、電話。
+    ⚠️ 點解要合埋：本來三樣嘢係三個 helper 各自做 ——
+    每個都先 `getCart()`（成份購物袋，~300ms）再行自己個 mutation，
+    加埋 goToCheckout 嗰個 ship_mode attribute，撳一次「前往結帳」
+    要行足 9 個來回、成 8 秒。客見個掣八秒都冇反應，以為撳唔到，
+    再撳多次（老闆 2026-09-14 報：「要撳兩下先入到去」）。
+    GraphQL 一個 document 入面嘅 root mutation 係**順序執行**嘅，
+    所以三個寫入嘅先後次序同分開叫一模一樣，但係得一個來回。
 
-    ⚠️ 但係 **Shop Pay 用戶唔會受影響** —— 佢會照列返自己啲已存地址，
-    唔理呢個 preference（實測過，佢仲會彈「選取的地址不完整」）。
-    所以 cart attributes 嗰邊要照寫，鋪頭有得對返。
-*/
-async function setDeliveryAddressPreference(addr) {
-  const cart = await getCart();
-  if (!cart?.id) throw new Error('未能載入購物袋，請再試一次。');
-  const fields = `delivery { addresses { selected address { ... on CartDeliveryAddress {
+    次序仍然係：地址 → attributes → 備註。
+    寫完再讀返一次核對三樣嘢（唔可以淨係信 mutation 自己回嘅嘢）。 */
+async function savePickupCheckout({ address, attributes, note }) {
+  const cartId = localStorage.getItem('shopify_cart_id');
+  if (!cartId) throw new Error('未能載入購物袋，請再試一次。');
+  const addrFields = `delivery { addresses { selected address { ... on CartDeliveryAddress {
     address1 address2 city provinceCode countryCode } } } }`;
-  const address = { address1: addr.address1, address2: addr.address2,
-    city: addr.city, provinceCode: addr.province, countryCode: 'HK' };
-  const q = `mutation($cartId:ID!,$addresses:[CartSelectableAddressInput!]!){
-    cartDeliveryAddressesReplace(cartId:$cartId, addresses:$addresses){
-      cart { id ${fields} } userErrors { field message } } }`;
-  const d = await shopifyFetch(q, { cartId: cart.id, addresses: [{
-    address: { deliveryAddress: address }, selected: true, oneTimeUse: true }] });
-  const result = d?.cartDeliveryAddressesReplace;
-  if (!result?.cart?.id || !Array.isArray(result.userErrors) || result.userErrors.length) {
-    throw new Error('未能儲存取件地址，請再試一次。');
+  /* cartAttributesUpdate 係整批替換 —— 要先讀返現有嘅嚟 merge，
+     唔係揀運送方式嗰陣寫落去嘅嘢會俾呢個呼叫洗走。 */
+  const before = (await shopifyFetch(`query($id:ID!){cart(id:$id){ id attributes { key value } }}`, { id: cartId }))?.cart;
+  if (!before?.id) throw new Error('未能載入購物袋，請再試一次。');
+  const merged = {};
+  for (const a of before.attributes || []) merged[a.key] = a.value;
+  for (const [k, v] of Object.entries(attributes)) {
+    if (v === null) delete merged[k];
+    else merged[k] = String(v);
   }
-  const verified = await shopifyFetch(`query($id:ID!){cart(id:$id){id ${fields}}}`, { id: cart.id });
-  const saved = verified?.cart?.delivery?.addresses?.find((a) => a.selected)?.address;
+  const q = `mutation($cartId:ID!,$addresses:[CartSelectableAddressInput!]!,$attributes:[AttributeInput!]!,$note:String!){
+    addr: cartDeliveryAddressesReplace(cartId:$cartId, addresses:$addresses){
+      cart { id ${addrFields} } userErrors { field message } }
+    attrs: cartAttributesUpdate(cartId:$cartId, attributes:$attributes){
+      cart { id attributes { key value } } userErrors { field message } }
+    memo: cartNoteUpdate(cartId:$cartId, note:$note){
+      cart { id note } userErrors { message } } }`;
+  const d = await shopifyFetch(q, {
+    cartId,
+    addresses: [{ address: { deliveryAddress: address }, selected: true, oneTimeUse: true }],
+    attributes: Object.entries(merged).map(([key, value]) => ({ key, value })),
+    note,
+  });
+  for (const [k, label] of [['addr', '取件地址'], ['attrs', '取件資料'], ['memo', '取件備註']]) {
+    const r = d?.[k];
+    if (!r?.cart?.id || !Array.isArray(r.userErrors) || r.userErrors.length) {
+      throw new Error(`未能儲存${label}，請再試一次。`);
+    }
+  }
+  // 讀返一次先當寫成功 —— mutation 回自己寫咗乜，唔等於 cart 真係留住。
+  const after = (await shopifyFetch(`query($id:ID!){cart(id:$id){ id note attributes { key value } ${addrFields} }}`, { id: cartId }))?.cart;
+  const saved = after?.delivery?.addresses?.find((a) => a.selected)?.address;
   const normalize = (v) => String(v || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
   if (!saved || Object.keys(address).some((k) => normalize(saved[k]) !== normalize(address[k]))) {
     throw new Error('取件地址未能核對成功，請重新選擇取件點後再試。');
   }
+  const savedAttrs = Object.fromEntries((after.attributes || []).map((a) => [a.key, a.value]));
+  for (const [k, v] of Object.entries(merged)) {
+    if (savedAttrs[k] !== v) throw new Error('取件資料未能儲存，請再試一次。');
+  }
+  if ((after.note || '') !== note) throw new Error('未能儲存取件備註，請再試一次。');
   return true;
 }
 
@@ -943,12 +967,14 @@ async function goToCheckout() {
   if (window.OUJI_SHIP?.[checkoutMode]?.src && !window.OUJI_preparePickupCheckout) {
     throw new Error('取件點功能未載入完成，請重新整理後再試。');
   }
-  if (window.OUJI_preparePickupCheckout) await window.OUJI_preparePickupCheckout();
+  /* 自取單：地址、attributes（連 ship_mode）、備註三樣嘢喺呢度一個來回寫晒，
+     所以下面唔使再寫多次運送方式。 */
+  const prep = window.OUJI_preparePickupCheckout ? await window.OUJI_preparePickupCheckout() : null;
   // Persist the visible choice even after a reload, and wait for earlier
   // pickup/method writes before opening Shopify checkout.
   const mode = window.OUJI_getShipMode?.();
   const method = window.OUJI_SHIP?.[mode];
-  if (method) {
+  if (method && !prep?.wroteShipMode) {
     const saved = await setCartAttributes({ ship_mode: mode, '運送方式': method.name });
     if (!saved?.some((a) => a.key === 'ship_mode' && a.value === mode)) {
       throw new Error('未能儲存運送方式，請再試一次。');

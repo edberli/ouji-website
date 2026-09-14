@@ -594,7 +594,7 @@
         if (checkoutBtn.dataset.pending === 'true') return;
         checkoutBtn.dataset.pending = 'true';
         const previousText = checkoutBtn.textContent;
-        checkoutBtn.textContent = '儲存運送方式...';
+        checkoutBtn.textContent = '準備結帳中…';
         try {
           await goToCheckout();
         } catch (error) {
@@ -1472,25 +1472,6 @@
     /* 俾「前往結帳」查：自取類運送方式一定要揀咗點先放行 */
     window.OUJI_getPickupPoint = () => chosen;
 
-    /* 寫落 Shopify 訂單備註。
-       ⚠️ 點解三樣都要寫：預填地址（訪客結帳有效，但 Shop Pay 用戶會用自己
-       已存地址覆蓋咗佢）＋ cart attributes（後台訂單詳情見到）＋ **訂單備註**
-       （老闆 2026-09-03：「如果佢覆蓋咗個地址，我呢個自提點嘅地址都可以
-       整到過去備註嗰度」）。備註係最頂唔走嗰層 —— 客改地址都唔會沖走。 */
-    async function writePickupNote(p) {
-      try {
-        const cart = await getCart();
-        if (!cart?.id) throw new Error('未能儲存取件備註。');
-        const q = `mutation($cartId:ID!,$note:String!){
-          cartNoteUpdate(cartId:$cartId, note:$note){ cart{ id } userErrors{ message } } }`;
-        const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : '';
-        const way = (window.OUJI_SHIP || {})[mode]?.name || '自取';
-        const result = await shopifyFetch(q, { cartId: cart.id,
-          note: `【${way}】${p.kind} ${p.code}\n${p.address}${p.hours ? '（' + p.hours + '）' : ''}` });
-        if (!result?.cartNoteUpdate?.cart?.id || result.cartNoteUpdate.userErrors?.length) throw new Error('未能儲存取件備註，請再試一次。');
-      } catch (e) { throw new Error('未能儲存取件備註，請再試一次。'); }
-    }
-
     function paintChosen() {
       root.classList.toggle('sfp--chosen', !!chosen);
       chosenEl.textContent = chosen ? '更改取件點' : '瀏覽取件點';
@@ -1603,37 +1584,37 @@
     // Perform writes only at checkout, in order; local selection is not server confirmation.
     window.OUJI_preparePickupCheckout = async function () {
       const mode = window.OUJI_getShipMode();
-      if (!window.OUJI_SHIP[mode]?.src) return;
+      const method = window.OUJI_SHIP[mode];
+      if (!method?.src) return null;
       if (!chosen) throw new Error('請先選擇取件點。');
       const point = chosen;
-      /* 兩樣都要寫：
+      /* 三樣都要寫，一個來回寫晒（見 shopify.js `savePickupCheckout`）：
          ① 預填送貨地址 —— 令客喺結帳頁唔使再打一次（訪客結帳實測有效）
-         ② cart attributes —— Shop Pay 用戶唔食預填，靠呢個留返記錄 */
-      if (typeof setDeliveryAddressPreference !== 'function') throw new Error('地址功能未載入，請重新整理。');
-      if (typeof setDeliveryAddressPreference === 'function') {
-        await setDeliveryAddressPreference({
-          address1: chosen.address,
-          address2: `${chosen.kind} ${chosen.code}`,
-          city: chosen.district || '香港',
-          /* ⚠️ 一定要用 province／country，唔係 provinceCode／countryCode ——
-             MailingAddressInput 冇後面嗰兩個欄位，寫咗成個 mutation 會 GraphQL 報錯，
-             連原本行得通嘅地址預填都會一齊死（2026-09-03 實測踩過）。
-             值用 'HK'／'KL'／'NT' 都得，Shopify 自己 normalize 返 provinceCode。 */
-          province: hkProvince(chosen),
-          country: 'Hong Kong',
-        });
-      }
-      if (typeof setCartAttributes === 'function') {
-        const saved = await setCartAttributes({
-          '取件點': `${chosen.kind} ${chosen.code}`,
-          '取件點地址': chosen.address,
-        });
-        if (!saved?.some((a) => a.key === '取件點地址' && a.value === chosen.address)) throw new Error('取件資料未能儲存，請再試一次。');
-      }
-      await writePickupNote(chosen);
+         ② cart attributes —— Shop Pay 用戶唔食預填，靠呢個留返記錄
+         ③ 訂單備註 —— 最頂唔走嗰層，客改地址都唔會沖走 */
+      if (typeof savePickupCheckout !== 'function') throw new Error('取件功能未載入，請重新整理。');
+      await savePickupCheckout({
+        address: {
+          address1: point.address,
+          address2: `${point.kind} ${point.code}`,
+          city: point.district || '香港',
+          /* ⚠️ 一定要用 provinceCode／countryCode（CartDeliveryAddress 嘅欄位）。
+             值用 'HK'／'KL'／'NT'，Shopify 自己 normalize。 */
+          provinceCode: hkProvince(point),
+          countryCode: 'HK',
+        },
+        attributes: {
+          '取件點': `${point.kind} ${point.code}`,
+          '取件點地址': point.address,
+          '運送方式': method.name,
+          ship_mode: mode,
+        },
+        note: `【${method.name}】${point.kind} ${point.code}\n${point.address}${point.hours ? '（' + point.hours + '）' : ''}`,
+      });
       if (mode !== window.OUJI_getShipMode() || point !== chosen) {
         throw new Error('收貨選擇已更改，請再按結賬確認。');
       }
+      return { wroteShipMode: true };
     };
   })();
   </script>
