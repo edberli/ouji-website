@@ -1035,12 +1035,13 @@ function brandSection(vendor, items, index) {
   // nothing wider than a square — no crop makes that set look like one
   // thing. A plate cannot crop, cannot clash, and never misrepresents.
   return `
-    <section class="brand-section" id="brand-${index}">
+    <section class="brand-section" id="brand-${index}"
+             style="content-visibility:auto;contain-intrinsic-size:auto 760px">
       <header class="brand-plate${plate.dark ? ' is-dark' : ''}"
               style="--plate:${plate.tint}">
         ${logo
           ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
-                  style="height:${brandLogoHeight(vendor)}px" loading="lazy">`
+                  style="height:${brandLogoHeight(vendor)}px" loading="lazy" decoding="async">`
           : `<span class="brand-plate__wordmark">${vendor}</span>`}
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
