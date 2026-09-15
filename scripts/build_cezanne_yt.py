@@ -257,7 +257,18 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int)
+    ap.add_argument(
+        "--allow-product-set",
+        action="store_true",
+        help="explicitly allow the destructive Shopify productSet rebuild path",
+    )
     args = ap.parse_args()
+    if not args.dry_run and not args.allow_product_set:
+        raise SystemExit(
+            "Safety stop: productSet can reset CEZANNE status/inventory. "
+            "Use restore_cezanne_live.py for availability repair; only pass "
+            "--allow-product-set for a deliberate full rebuild."
+        )
     products, skipped = load_products()
     mapped = sum(bool(s.get("image")) for p in products for s in p["shades"])
     print(f"verified products={len(products)} variants={sum(len(p['shades']) for p in products)}")
