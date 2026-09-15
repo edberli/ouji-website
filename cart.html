@@ -352,7 +352,7 @@
               </div>
 
               <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
-                   $99 自取（EC-GET $13）／$199 順豐站（$25）／$290 順豐上門（$30）。
+                   $99 自取（EC-GET $13）／$250 順豐站（$16）／$290 順豐上門（$31）。
                    ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
                    唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
               <div class="ship-mode" data-ship>
@@ -1086,15 +1086,15 @@
         攞到之後 append 落 pickup-points.json 就得，呢度唔使改。 */
   /* 三級免運門檻。成本越高、門檻越高 —— 各自守住自己條線。
      ⚠️ Shopify 嗰邊三條運費規則要對得返：
-        7-Eleven／郵局 $15 滿 $99 免｜順豐站 $25 滿 $199 免｜順豐上門 $30 滿 $290 免
+        7-Eleven／郵局 $15 滿 $99 免｜順豐站 $16 滿 $250 免｜順豐上門 $31 滿 $290 免
      ⚠️ 一定要喺呢度定義（同步執行），唔可以放落 DOMContentLoaded handler ——
         下面兩個 IIFE 即刻要用，handler 要等 DOM ready 先跑，太遲。 */
     window.OUJI_SHIP = {
       post: { fee: 15, free: 99,  name: '7-Eleven／郵局', src: 'data/pickup-points.json', match: '7-Eleven',
               sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天', hint: '要揀定去邊間 7-Eleven／郵局攞貨' },
-      sfp:  { fee: 25, free: 199, name: '順豐站／智能櫃',      src: 'assets/data/sf-points.json', match: '順豐站',
+      sfp:  { fee: 16, free: 250, name: '順豐站／智能櫃',      src: 'assets/data/sf-points.json', match: '順豐站',
               sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', hint: '要揀定去邊個順豐站／自助櫃攞貨' },
-      sfd:  { fee: 30, free: 290, name: '順豐派送上門',        src: null, match: '順豐派送',
+      sfd:  { fee: 31, free: 290, name: '順豐派送上門',        src: null, match: '順豐派送',
               sub: '送到門口 · 1–2 個工作天' },
       shop: { fee: 0,  free: 0,   name: '觀塘門市自取',        src: null,
               sub: '觀塘工業中心一期 地下 B 舖 · 10:00–20:00 · 即日' },
@@ -1148,7 +1148,7 @@
           /* 「再買 $X 就免」要擺左欄（跟住描述），唔可以擺右欄 ——
              右欄係 grid 嘅 auto，一有長句就撐到成欄咁闊，
              375px 手機下左欄剩返 120px，每個字都要換行，成張卡爆高。
-             右欄只准放金額（最闊「HK$30」）。 */
+             右欄只准放金額（最闊「HK$31」）。 */
           let fee, gapLine = '';
           if (o.fee === 0) {
             fee = '<span class="ship-mode__free">免費</span>';
@@ -1588,7 +1588,7 @@
         root.querySelector('[data-sfp-heading]').textContent = o.name;
         root.querySelector('[data-sfp-detail]').textContent = mode === 'shop'
           ? '觀塘觀塘道 472–480 號，觀塘工業中心一期地下 B 舖。每日 10:00–20:00。收到可取貨通知後，帶同訂單資料到店領取。'
-          : '結賬時填寫收件地址及聯絡電話，由順豐派送上門。運費 HK$30，折實滿 HK$290 免運費。';
+          : '結賬時填寫收件地址及聯絡電話，由順豐派送上門。運費 HK$31，折實滿 HK$290 免運費。';
         panel.hidden = true;
         toggle.setAttribute('aria-expanded', 'false');
         return;
