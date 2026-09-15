@@ -4793,5 +4793,635 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Jelly_Pot_JS03_Couverture.jpg?v=1789351098",
     "presentation": "lip-swatch",
     "evidence": "Official fwee exact JS03 Couverture human lip and cheek results, matching the Glowy Jelly Pot product's existing per-shade presentation; barcode 8809652585765 cross-checked against official fwee and retailers. Variant was recreated under the correct Glowy Jelly Pot product with price, cost and stock preserved, then removed from the incorrect Blurry Pudding Pot product; Shopify binding verified"
+  },
+  "gid://shopify/ProductVariant/48272530407582": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum.png?v=1789453356",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042976"
+  },
+  "gid://shopify/ProductVariant/48272531521694": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_dafc7c9a-1ba9-45d5-8f11-cf7225ca8a5a.png?v=1789453358",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041306"
+  },
+  "gid://shopify/ProductVariant/48272533487774": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10.png?v=1789453362",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042075"
+  },
+  "gid://shopify/ProductVariant/48272533520542": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_20.png?v=1789453362",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042273"
+  },
+  "gid://shopify/ProductVariant/48272533553310": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_102.png?v=1789453365",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553001966"
+  },
+  "gid://shopify/ProductVariant/48272533586078": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_6f132bee-97fe-453e-9d35-99789635fae9.png?v=1789453367",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553003595"
+  },
+  "gid://shopify/ProductVariant/48272533618846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_9b974e3f-6a31-4e91-a21e-19b4fe8dcf4b.png?v=1789453371",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553010173"
+  },
+  "gid://shopify/ProductVariant/48272533651614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_972d79c8-fafc-4f21-b868-2aa8040609d3.png?v=1789453369",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553010180"
+  },
+  "gid://shopify/ProductVariant/48272533684382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03_c5404ca6-c659-433e-ac83-2f736b9d7b2c.png?v=1789453370",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553013204"
+  },
+  "gid://shopify/ProductVariant/48272533717150": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_2c129909-5804-4624-9824-28797e8454bc.png?v=1789453372",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553011262"
+  },
+  "gid://shopify/ProductVariant/48272533782686": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_p2.png?v=1789453375",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553013730"
+  },
+  "gid://shopify/ProductVariant/48272534044830": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_13fdfb2f-7a1a-4603-94ac-a934b4559f14.png?v=1789453377",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042464"
+  },
+  "gid://shopify/ProductVariant/48272534077598": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_94695b97-0da2-46a5-8b74-a6844686530b.png?v=1789453377",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041047"
+  },
+  "gid://shopify/ProductVariant/48272534110366": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_2c2bc193-f8a9-47fe-b419-f147e7f11921.png?v=1789453380",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040057"
+  },
+  "gid://shopify/ProductVariant/48272534339742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_fa7cb4bd-05c9-411a-be9a-2a113125e027.png?v=1789453383",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040149"
+  },
+  "gid://shopify/ProductVariant/48272534372510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_06.png?v=1789453383",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040927"
+  },
+  "gid://shopify/ProductVariant/48272534405278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_07.png?v=1789453383",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041382"
+  },
+  "gid://shopify/ProductVariant/48272534438046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_08.png?v=1789453383",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041719"
+  },
+  "gid://shopify/ProductVariant/48272534470814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_521e3f95-0ac8-4187-8455-2bb8318a3218.png?v=1789453386",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040309"
+  },
+  "gid://shopify/ProductVariant/48272534503582": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_b4885896-685d-40d7-a86e-889ee7bbe429.png?v=1789453386",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040316"
+  },
+  "gid://shopify/ProductVariant/48272534536350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_fb3e47e3-e0d9-4ede-aaf3-a6118ef2af60.png?v=1789453385",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040965"
+  },
+  "gid://shopify/ProductVariant/48272660463774": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_944254df-3821-457b-9dcc-5d918b9d1390.png?v=1789453391",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040330"
+  },
+  "gid://shopify/ProductVariant/48272660496542": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03_fd52c418-9855-4f89-9886-2ee29842ef08.png?v=1789453391",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040736"
+  },
+  "gid://shopify/ProductVariant/48272660594846": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_be261216-d519-44d1-9ecf-67424cd484d0.png?v=1789453395",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040453"
+  },
+  "gid://shopify/ProductVariant/48272660627614": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_30.png?v=1789453394",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040705"
+  },
+  "gid://shopify/ProductVariant/48272660660382": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_50.png?v=1789453394",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041399"
+  },
+  "gid://shopify/ProductVariant/48272662757534": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_d4171fce-4460-4d62-838a-3f8050eb5b61.png?v=1789453398",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040552"
+  },
+  "gid://shopify/ProductVariant/48272662790302": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03_82798742-06f9-40e9-828e-cf83469e73c4.png?v=1789453398",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040569"
+  },
+  "gid://shopify/ProductVariant/48272662823070": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_e83064c2-79e0-4a32-adc6-26a3084685f8.png?v=1789453399",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040743"
+  },
+  "gid://shopify/ProductVariant/48272662855838": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_04_b95ddc90-2a06-4753-a0e4-4a3aca94e62a.png?v=1789453399",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040750"
+  },
+  "gid://shopify/ProductVariant/48272534995102": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_3055e064-c63e-4536-818f-08d872865198.png?v=1789453401",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040637"
+  },
+  "gid://shopify/ProductVariant/48272535027870": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_7a63b227-bef2-4d9f-8348-04e53604b886.png?v=1789453405",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040644"
+  },
+  "gid://shopify/ProductVariant/48272535060638": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_6d94bbf7-9447-45c8-9274-0871f44becee.png?v=1789453408",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040774"
+  },
+  "gid://shopify/ProductVariant/48272535093406": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_20_ee8abe42-a85e-4c3a-9e8a-2d45a58bf313.png?v=1789453406",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042099"
+  },
+  "gid://shopify/ProductVariant/48272535158942": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_3a49a3e2-6dfd-4db5-ba97-2a80d8786e63.png?v=1789453410",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040811"
+  },
+  "gid://shopify/ProductVariant/48272535191710": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03_11d63e84-f852-476e-958d-177bde9008bb.png?v=1789453410",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042167"
+  },
+  "gid://shopify/ProductVariant/48272658956446": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02.png?v=1789453414",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040903"
+  },
+  "gid://shopify/ProductVariant/48272658989214": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03.png?v=1789453414",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553040910"
+  },
+  "gid://shopify/ProductVariant/48272659021982": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_04.png?v=1789453414",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041221"
+  },
+  "gid://shopify/ProductVariant/48272659054750": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01.png?v=1789453414",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042105"
+  },
+  "gid://shopify/ProductVariant/48272535355550": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_2d93c1a2-dfd6-4e0b-bed8-16abaa5a2436.png?v=1789453418",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041122"
+  },
+  "gid://shopify/ProductVariant/48272535388318": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_be1b2408-520a-45f4-a771-ec5225eecc63.png?v=1789453418",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041436"
+  },
+  "gid://shopify/ProductVariant/48272535421086": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_84dd0277-526e-4507-bad2-49e0fb916bb5.png?v=1789453420",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041153"
+  },
+  "gid://shopify/ProductVariant/48272663052446": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_00.png?v=1789453423",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041177"
+  },
+  "gid://shopify/ProductVariant/48272663085214": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_3a22e53b-eb83-4412-8a38-4a9e3a057baf.png?v=1789453424",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041184"
+  },
+  "gid://shopify/ProductVariant/48272663117982": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_5ee9701b-c5e0-4d4b-8856-b03b26a7561f.png?v=1789453423",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041191"
+  },
+  "gid://shopify/ProductVariant/48272535552158": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_47d087ca-9011-40c4-b256-f6b86b322b11.png?v=1789453426",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041238"
+  },
+  "gid://shopify/ProductVariant/48272535584926": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_04_4c147c55-4591-407e-8348-3dba65972cb6.png?v=1789453426",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041269"
+  },
+  "gid://shopify/ProductVariant/48272535617694": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_06_955b6b46-5370-4190-9cc1-ae46de9aaf1f.png?v=1789453426",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041511"
+  },
+  "gid://shopify/ProductVariant/48272535650462": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_09.png?v=1789453426",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041689"
+  },
+  "gid://shopify/ProductVariant/48272663150750": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_c653ec42-b8e7-4b14-a770-ef36f569cd85.png?v=1789453429",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041344"
+  },
+  "gid://shopify/ProductVariant/48272663183518": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_ef875930-ec7c-4617-b64a-96e717bec6b7.png?v=1789453431",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041986"
+  },
+  "gid://shopify/ProductVariant/48272535781534": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_2.png?v=1789453432",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041467"
+  },
+  "gid://shopify/ProductVariant/48272535814302": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_3.png?v=1789453432",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041474"
+  },
+  "gid://shopify/ProductVariant/48272535879838": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_6c7dfb62-6b11-4d99-b318-c0cddc71872c.png?v=1789453434",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041542"
+  },
+  "gid://shopify/ProductVariant/48272535912606": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03_d95488b5-31d4-4104-a3bd-e8cc87e60721.png?v=1789453437",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041573"
+  },
+  "gid://shopify/ProductVariant/48272535945374": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_0ab5ed07-8137-4614-b53c-978118014cf4.png?v=1789453439",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041597"
+  },
+  "gid://shopify/ProductVariant/48272536010910": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_45164f48-96ed-4580-aefb-9ee4142fde40.png?v=1789453442",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041603"
+  },
+  "gid://shopify/ProductVariant/48272536043678": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_00_10721de7-c2e8-4c75-af1d-96acbd85e332.png?v=1789453445",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041726"
+  },
+  "gid://shopify/ProductVariant/48272536076446": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_60c81469-e7aa-4a34-9cba-b7f1d09b5a95.png?v=1789453445",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041733"
+  },
+  "gid://shopify/ProductVariant/48272536109214": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_20_9c15ce54-111e-4650-9537-63e792c4ff90.png?v=1789453444",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041740"
+  },
+  "gid://shopify/ProductVariant/48272665378974": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_52f8ac6d-468b-4868-ac68-f9855679771d.png?v=1789453448",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041856"
+  },
+  "gid://shopify/ProductVariant/48272665411742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_cc7f72eb-edff-4ea2-a0de-5a3d302c3f04.png?v=1789453448",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041863"
+  },
+  "gid://shopify/ProductVariant/48272665444510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03_c4152899-a014-4b9b-b226-8d05769133e0.png?v=1789453448",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041887"
+  },
+  "gid://shopify/ProductVariant/48272665477278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_04_9ffe4a76-f048-40b1-9408-895efdcfbb28.png?v=1789453448",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042204"
+  },
+  "gid://shopify/ProductVariant/48272536273054": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_P1.png?v=1789453451",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041948"
+  },
+  "gid://shopify/ProductVariant/48272536305822": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_P2_7b9e8319-0ce6-4ff5-b269-97455f862f7c.png?v=1789453451",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041955"
+  },
+  "gid://shopify/ProductVariant/48272536338590": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_6940c940-0758-4aef-b913-ee03e36f11ce.png?v=1789453453",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042006"
+  },
+  "gid://shopify/ProductVariant/48272536404126": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_92ef75c7-5fdf-4afd-8a0d-45221873e725.png?v=1789453455",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042013"
+  },
+  "gid://shopify/ProductVariant/48272536436894": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_f91b2f7c-d682-464d-9b3f-8676fc746cab.png?v=1789453455",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042020"
+  },
+  "gid://shopify/ProductVariant/48272536469662": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_03_d34bc51d-c985-4949-8eb7-88d695d44f35.png?v=1789453455",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042037"
+  },
+  "gid://shopify/ProductVariant/48272536502430": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_04_28d6f1a5-b574-4349-8e6c-b6077c1e5518.png?v=1789453455",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042051"
+  },
+  "gid://shopify/ProductVariant/48272536535198": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_05.png?v=1789453456",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042068"
+  },
+  "gid://shopify/ProductVariant/48272536567966": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_06_77f73efc-65f6-461e-b50f-364225a47704.png?v=1789453455",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042235"
+  },
+  "gid://shopify/ProductVariant/48272536600734": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_07_aab3ad03-5c18-45cf-880f-a29483b8c487.png?v=1789453456",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042242"
+  },
+  "gid://shopify/ProductVariant/48272536633502": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_1.png?v=1789453459",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042150"
+  },
+  "gid://shopify/ProductVariant/48272536666270": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_9ea3ded8-b44b-414f-ae25-20514e19e884.png?v=1789453459",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042211"
+  },
+  "gid://shopify/ProductVariant/48272536699038": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_232048c6-843f-4f7f-b07c-db1a2b2450fe.png?v=1789453461",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042228"
+  },
+  "gid://shopify/ProductVariant/48272536731806": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_00_997f0ba2-f940-4974-8887-d55660ce519a.png?v=1789453461",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042402"
+  },
+  "gid://shopify/ProductVariant/48272665510046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_79f590fa-4707-49c7-ac09-bf7326ddfe67.png?v=1789453465",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042327"
+  },
+  "gid://shopify/ProductVariant/48272665542814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_6a27c465-fef1-439d-8213-e0f7a70cdf35.png?v=1789453466",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042334"
+  },
+  "gid://shopify/ProductVariant/48272536830110": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_271c2873-6b1a-4789-b2a3-0f37540260b0.png?v=1789453468",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042358"
+  },
+  "gid://shopify/ProductVariant/48272665641118": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_765e415a-6e4c-4eb8-9fd8-f1b6b279777c.png?v=1789453470",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042389"
+  },
+  "gid://shopify/ProductVariant/48272537518238": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_adc7d03b-044e-4eb9-85b3-f550bca4198d.png?v=1789453473",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042419"
+  },
+  "gid://shopify/ProductVariant/48272665673886": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_4face93a-5c85-44d0-ae17-166d1e02c8f9.png?v=1789453477",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042426"
+  },
+  "gid://shopify/ProductVariant/48272537976990": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_543a168b-57ac-4166-a779-de93a3e1c19a.png?v=1789453480",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042457"
+  },
+  "gid://shopify/ProductVariant/48272538009758": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_6f7a5a9a-4dbf-4179-8b6c-1dd98783cd95.png?v=1789453480",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042860"
+  },
+  "gid://shopify/ProductVariant/48272538239134": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_C1.png?v=1789453482",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042471"
+  },
+  "gid://shopify/ProductVariant/48272538271902": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_C2.png?v=1789453482",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042488"
+  },
+  "gid://shopify/ProductVariant/48272538304670": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_C3.png?v=1789453482",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042761"
+  },
+  "gid://shopify/ProductVariant/48272538337438": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_b8e3e401-dac3-4b6f-935f-9ea70f854e54.png?v=1789453484",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042518"
+  },
+  "gid://shopify/ProductVariant/48272538370206": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_00_082be767-c0ca-4e2c-947a-c81b0afa66a9.png?v=1789453487",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042624"
+  },
+  "gid://shopify/ProductVariant/48272538402974": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_44c18d82-080d-45d6-81d4-88cd6f726cb6.png?v=1789453488",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042631"
+  },
+  "gid://shopify/ProductVariant/48272538435742": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_20_1e43beb5-721d-49e0-873b-ff39458f9289.png?v=1789453488",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042648"
+  },
+  "gid://shopify/ProductVariant/48272538468510": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_00_082be767-c0ca-4e2c-947a-c81b0afa66a9.png?v=1789453487",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042808"
+  },
+  "gid://shopify/ProductVariant/48272538501278": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_44c18d82-080d-45d6-81d4-88cd6f726cb6.png?v=1789453488",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042815"
+  },
+  "gid://shopify/ProductVariant/48272538534046": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_20_1e43beb5-721d-49e0-873b-ff39458f9289.png?v=1789453488",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042822"
+  },
+  "gid://shopify/ProductVariant/48272538566814": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_N1.png?v=1789453490",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042686"
+  },
+  "gid://shopify/ProductVariant/48272538599582": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_N2.png?v=1789453490",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042693"
+  },
+  "gid://shopify/ProductVariant/48272538632350": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_f52caa0f-dbdc-4502-916d-19837eeddf1d.png?v=1789453492",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042723"
+  },
+  "gid://shopify/ProductVariant/48272538697886": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_88757f99-b739-494b-92b3-828e4fd7ce02.png?v=1789453495",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042839"
+  },
+  "gid://shopify/ProductVariant/48272538730654": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_a64d6ae7-a0bc-4f94-9eb3-1c9f7b601f25.png?v=1789453497",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042877"
+  },
+  "gid://shopify/ProductVariant/48272538763422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_cb81398e-1b6b-49c7-9bba-e0fdeb5c367e.png?v=1789453498",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042884"
+  },
+  "gid://shopify/ProductVariant/48272538796190": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_86a1d69e-5e0a-4ad2-9b2d-38b58cc1ba29.png?v=1789453500",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042891"
+  },
+  "gid://shopify/ProductVariant/48272538861726": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_c428ee55-d3ab-430e-962f-202ed403a38d.png?v=1789453503",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042945"
+  },
+  "gid://shopify/ProductVariant/48272538894494": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_392d70b9-0cd9-4702-9c63-21ac7fd914c5.png?v=1789453503",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042952"
+  },
+  "gid://shopify/ProductVariant/48272538927262": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_14e553ed-5f77-420f-8907-3a5c48b47a59.png?v=1789453505",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042969"
+  },
+  "gid://shopify/ProductVariant/48272538992798": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_80c1a4c0-55fd-4fb3-8343-00b06f64bfae.png?v=1789453508",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553042990"
+  },
+  "gid://shopify/ProductVariant/48272665739422": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_20_de0d3a80-533b-4e1a-97c8-9c62cfa84344.png?v=1789453511",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043362"
+  },
+  "gid://shopify/ProductVariant/48272665772190": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_10_a374666a-65fd-48f1-a09b-aaacc000bb48.png?v=1789453511",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043355"
+  },
+  "gid://shopify/ProductVariant/48272539222174": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_3fa9a3ff-c663-4c3d-9b97-c57b6c32f56c.png?v=1789453516",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043287"
+  },
+  "gid://shopify/ProductVariant/48272539254942": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_828f86ab-8ab6-413a-adc2-16eec04ccde3.png?v=1789453516",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043270"
+  },
+  "gid://shopify/ProductVariant/48272665837726": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_20_bc5daaa7-3675-420c-9984-9a6f13a87518.png?v=1789453519",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043218"
+  },
+  "gid://shopify/ProductVariant/48272539320478": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_00_ffd315ae-b892-48d8-b1fd-0d1e10edbd7b.png?v=1789453519",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043195"
+  },
+  "gid://shopify/ProductVariant/48272665870494": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_31afe758-77b7-4167-a910-7b33d8935746.png?v=1789453522",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043089"
+  },
+  "gid://shopify/ProductVariant/48272665903262": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_25be3392-ea9e-4419-bef4-09e8ae7d513b.png?v=1789453526",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043331"
+  },
+  "gid://shopify/ProductVariant/48272539418782": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_161e4e79-1779-4a95-a648-ede9b30ba93e.png?v=1789453526",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043348"
+  },
+  "gid://shopify/ProductVariant/48272539451550": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_69b01872-5a6b-4f13-b168-76d90029ee8b.png?v=1789453528",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043157"
+  },
+  "gid://shopify/ProductVariant/48272539484318": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_508abce0-35bc-4d0e-8bc9-0a6cb4c2dab7.png?v=1789453531",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043096"
+  },
+  "gid://shopify/ProductVariant/48272665968798": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_3cf47875-2727-424f-bf5d-cb3335b10c40.png?v=1789453534",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043034"
+  },
+  "gid://shopify/ProductVariant/48272666001566": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_e3672ab1-09a7-4b33-9cd9-6a8d804d1ad0.png?v=1789453534",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043041"
+  },
+  "gid://shopify/ProductVariant/48272539648158": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_d8fc3aab-4758-4a3b-a13e-f933c12e125c.png?v=1789453538",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553041580"
+  },
+  "gid://shopify/ProductVariant/48272540008606": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_02_2156e1cf-3b4b-4942-ba69-bc93fbfca7ab.png?v=1789453541",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043324"
+  },
+  "gid://shopify/ProductVariant/48272666034334": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_cdeaaf45-8795-4ef1-82bb-e12fc0f230f1.png?v=1789453541",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043317"
+  },
+  "gid://shopify/ProductVariant/48272540074142": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/thum_871c1328-8988-4b83-93b2-306179bbf647.png?v=1789453543",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043171"
+  },
+  "gid://shopify/ProductVariant/48272666067102": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/img1_01_79572ca3-85f3-4a7d-955d-cbc6721bb554.png?v=1789453546",
+    "presentation": "product-shade",
+    "evidence": "Official CEZANNE shade asset matched to the exact POS colour code and barcode 4939553043423"
   }
 }

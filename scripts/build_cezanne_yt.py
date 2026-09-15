@@ -14,6 +14,7 @@ import html
 import re
 import sys
 import urllib.request
+from urllib.parse import urljoin
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -23,6 +24,16 @@ from publish import publish  # noqa: E402
 
 POS = Path("/Volumes/core/ouji-pos/raw/Ouji_YT_cezanne_ouji_yt.csv")
 OFFICIAL_MEDIA = "https://www.cezanne.co.jp/uploads/lineup/{barcode}/thum.png"
+OFFICIAL_PAGE = "https://www.cezanne.co.jp/lineup/{barcode}/"
+
+# Online-only prices: keep enough room for the launch 12% discount and the
+# shipping subsidy.  The source POS remains untouched.
+WEB_PRICE_OVERRIDES = {
+    "4939553042860": 98,   # Face Glow Color 02
+    "4939553041573": 65,   # Multiproof Eyebrow 03
+    "4939553042433": 75,   # Watery Tint Lip M2; align with M1
+    "4939553041467": 148,  # foundation shade 2; crosses free-pickup threshold
+}
 
 
 def family_key(name):
@@ -49,6 +60,40 @@ def official_image(barcode):
     return None
 
 
+def official_shade_images(barcode):
+    """Return official colour-code -> product image without guessing colours."""
+    try:
+        req = urllib.request.Request(
+            OFFICIAL_PAGE.format(barcode=barcode),
+            headers={"User-Agent": "Mozilla/5.0 OUJI catalogue updater"},
+        )
+        body = urllib.request.urlopen(req, timeout=20).read().decode("utf-8", "replace")
+    except Exception:
+        return {}
+
+    found = {}
+    for tag in re.findall(r"<img\b[^>]*>", body, flags=re.I):
+        src_match = re.search(r'\bsrc=["\']([^"\']*?/img1_([^/"\']+)\.png)["\']', tag, flags=re.I)
+        alt_match = re.search(r'\balt=["\']([^"\']*)["\']', tag, flags=re.I)
+        if not src_match or not alt_match:
+            continue
+        alt = html.unescape(alt_match.group(1)).replace("　", " ")
+        # Official shade alts consistently contain a standalone code such as
+        # 01, 10, P1, PK1, M2 or EX2.  Match only that code, never colour names.
+        codes = re.findall(r"(?<![A-Za-z0-9])((?:PK|EX|P|W|N|C|M)?\d+[A-Za-z]?)(?![A-Za-z0-9])", alt, flags=re.I)
+        if not codes:
+            continue
+        code = codes[-1].upper()
+        found.setdefault(code, urljoin(OFFICIAL_PAGE.format(barcode=barcode), src_match.group(1)))
+    return found
+
+
+def shade_code(value):
+    value = value.translate(str.maketrans("０１２３４５６７８９", "0123456789"))
+    match = re.search(r"(?<![A-Za-z0-9])((?:PK|EX|P|W|N|C|M)?\d+[A-Za-z]?)(?![A-Za-z0-9])", value, flags=re.I)
+    return match.group(1).upper() if match else None
+
+
 def clean_title(name):
     value = name.replace("（", "(").replace("）", ")")
     value = re.sub(r"^\s*\(c\)\s*", "", value, flags=re.I)
@@ -71,9 +116,24 @@ def shade_name(name, barcode):
         if m:
             shade = m.group(1).strip()
         else:
-            m = re.search(r"(?:\s|-)((?:P|PK|EX|W|N|C)?\d+[A-Za-z]?(?:\s+[^-]+)?)\s*$", value, re.I)
+            m = re.search(r"(?:\s|-)?((?:PK|EX|P|W|N|C|M)?\d+[A-Za-z]?(?:\s+[^-]+)?)\s*$", value, re.I)
             shade = m.group(1).strip() if m else "標準裝"
     return shade or barcode
+
+
+def official_variant_image(barcode, code):
+    """Check the official predictable shade asset even when an old page is gone."""
+    if not code:
+        return None
+    url = f"https://www.cezanne.co.jp/uploads/lineup/{barcode}/img1_{code.upper()}.png"
+    try:
+        req = urllib.request.Request(url, method="HEAD")
+        res = urllib.request.urlopen(req, timeout=15)
+        if res.geturl() == url and res.headers.get_content_type() == "image/png":
+            return url
+    except Exception:
+        pass
+    return None
 
 
 def classify(title):
@@ -121,6 +181,13 @@ def load_products():
         urls = pool.map(official_image, [r["barcode"] for r in rows])
         image_by_barcode = {r["barcode"]: url for r, url in zip(rows, urls)}
 
+    page_barcodes = sorted({
+        next((r["barcode"] for r in shades if image_by_barcode.get(r["barcode"])), "")
+        for shades in groups.values()
+    } - {""})
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        shade_images_by_barcode = dict(zip(page_barcodes, pool.map(official_shade_images, page_barcodes)))
+
     products = []
     skipped = []
     for key, shades in groups.items():
@@ -138,19 +205,35 @@ def load_products():
         title = clean_title(representative["name"])
         ptype, extra_tags = classify(title)
         variants = []
+        product_images = [image]
+        official_shades = shade_images_by_barcode.get(image_barcode, {})
         seen_names = set()
         for row in shades:
             shade = shade_name(row["name"], row["barcode"])
             if shade in seen_names:
                 shade = f"{shade} · {row['barcode'][-4:]}"
             seen_names.add(shade)
-            variants.append({
+            variant = {
                 "name": shade,
                 "barcode": row["barcode"],
                 "qty": int(float(row["stock_qty"])),
-                "price": str(int(round(float(row["unit_price"])))),
+                "price": str(WEB_PRICE_OVERRIDES.get(
+                    row["barcode"], int(round(float(row["unit_price"]))))),
                 "cost": f"{float(row['unit_cost']):.2f}",
-            })
+            }
+            code = shade_code(shade)
+            shade_image = (
+                official_shades.get(code)
+                or official_variant_image(image_barcode, code)
+                # Some discontinued official pages retain one thumbnail per
+                # barcode but no longer expose the shade gallery HTML.
+                or image_by_barcode.get(row["barcode"])
+            )
+            if shade_image:
+                variant["image"] = shade_image
+                if shade_image not in product_images:
+                    product_images.append(shade_image)
+            variants.append(variant)
         description = (
             f"<p>{html.escape(title)}，日本人氣開架彩妝品牌 CEZANNE。</p>"
             "<ul><li>日本品牌</li><li>油塘店現貨；網店訂單由 OUJI 統一安排出貨</li></ul>"
@@ -164,7 +247,7 @@ def load_products():
             "tags": ["CEZANNE", "日本美妝", "J-Beauty"] + [x.strip() for x in extra_tags.split(",")],
             "status": "ACTIVE",
             "option_name": "色號" if len(variants) > 1 else "款式",
-            "images": [image],
+            "images": product_images,
             "shades": variants,
         })
     return products, skipped
@@ -176,7 +259,9 @@ def main():
     ap.add_argument("--limit", type=int)
     args = ap.parse_args()
     products, skipped = load_products()
+    mapped = sum(bool(s.get("image")) for p in products for s in p["shades"])
     print(f"verified products={len(products)} variants={sum(len(p['shades']) for p in products)}")
+    print(f"official shade images mapped={mapped}")
     print(f"held for image review={len(skipped)}")
     selected = products[:args.limit] if args.limit else products
     for product in selected:
