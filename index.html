@@ -963,43 +963,40 @@
       </div>
     </section>
 
-    <!-- ===== NEWSLETTER ===== -->
-    <section class="newsletter section-float">
+    <!-- ===== OUJI MEMBER SIGN-UP ===== -->
+    <section class="newsletter newsletter--member section-float" aria-labelledby="newsletter-title">
       <div class="newsletter__video">
         <video autoplay muted loop playsinline>
           <source src="videos/smoke-bg-short.webm" type="video/webm">
           <source src="videos/smoke-bg-short.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="newsletter__content">
-        <p class="newsletter__eyebrow">唔想錯過韓國新品？</p>
-        <h2 id="newsletter-title" class="newsletter__title">加入 OUJI LIST</h2>
-        <p class="newsletter__desc">新品到港、熱門補貨、會員限定優惠，第一時間話你知。</p>
-        <ul class="newsletter__benefits" aria-label="加入 OUJI LIST 嘅好處">
-          <li class="newsletter__benefit">
-            <strong class="newsletter__benefit-label">新品早知</strong>
-            <span class="newsletter__benefit-copy">新貨到港，搶先睇</span>
-          </li>
-          <li class="newsletter__benefit">
-            <strong class="newsletter__benefit-label">熱門補貨</strong>
-            <span class="newsletter__benefit-copy">心頭好返貨即通知</span>
-          </li>
-          <li class="newsletter__benefit">
-            <strong class="newsletter__benefit-label">會員限定</strong>
-            <span class="newsletter__benefit-copy">專屬優惠，唔使周圍搵</span>
-          </li>
-        </ul>
-        <form class="newsletter__form" id="newsletter-form" method="post" action="/api/subscribe" aria-labelledby="newsletter-title" aria-describedby="newsletter-note newsletter-status">
-          <label class="newsletter__label" for="newsletter-email">電郵地址</label>
-          <input id="newsletter-email" name="email" type="email" class="newsletter__input" placeholder="輸入你嘅電郵地址" autocomplete="email" required>
-          <button type="submit" class="newsletter__submit">加入 OUJI LIST →</button>
-          <div class="newsletter__honeypot" aria-hidden="true">
-            <label for="newsletter-honeypot">網站</label>
-            <input id="newsletter-honeypot" name="honeypot" type="text" tabindex="-1" autocomplete="off">
+      <div class="newsletter__shell">
+        <div class="newsletter__content">
+          <p class="newsletter__eyebrow">OUJI MEMBER</p>
+          <h2 id="newsletter-title" class="newsletter__title">加入 OUJI Member<br><span>即送 200 Points</span></h2>
+          <p class="newsletter__desc">買嘢儲分換獎賞，仲可以第一時間收到新品、補貨同會員優惠。</p>
+
+          <ul class="newsletter__benefits" aria-label="加入 OUJI Member 嘅好處">
+            <li class="newsletter__benefit"><span aria-hidden="true">✦</span><strong>HK$1 = 1 Point</strong></li>
+            <li class="newsletter__benefit"><span aria-hidden="true">✦</span><strong>1,000 Points = HK$20</strong></li>
+            <li class="newsletter__benefit"><span aria-hidden="true">✦</span><strong>新品・補貨・會員優惠</strong></li>
+          </ul>
+
+          <div class="newsletter__actions">
+            <a id="newsletter-member-cta" class="newsletter__member-cta" href="account.html">
+              <span><small>免費加入 OUJI MEMBER</small> 建立會員帳戶</span>
+              <b>立即加入&nbsp; →</b>
+              <em>200 Welcome Points 已經為你準備好</em>
+              <span class="newsletter__member-art" aria-hidden="true">
+                <span class="newsletter__points-badge"><strong>Hello!</strong></span>
+                <img src="assets/images/home/shima-wave2.webp" alt="" loading="lazy" width="312" height="360">
+              </span>
+            </a>
           </div>
-        </form>
-        <p id="newsletter-status" class="newsletter__status" role="status" aria-live="polite" aria-atomic="true"></p>
-        <p id="newsletter-note" class="newsletter__note">我哋唔會日日洗版，只會分享值得留意嘅消息；你嘅電郵只用於 OUJI LIST，亦可以隨時取消訂閱。</p>
+
+          <p id="newsletter-note" class="newsletter__note">200 Welcome Points 於成功建立新會員帳戶後獲得，每位會員只限一次。<a href="account.html#member-rules">查看積分規則</a></p>
+        </div>
       </div>
     </section>
 
