@@ -13,7 +13,7 @@ const OUJI_COMMERCE = Object.freeze({
   promotion: Object.freeze({
     endsAt: '2026-09-15T23:59:59+08:00',
     gift: Object.freeze({
-      threshold: 499,
+      threshold: 599,
       handle: 'round-lab-round-lab-80ml-0221',
       variantId: 'gid://shopify/ProductVariant/48093431529630',
       lineAttribute: '_ouji_auto_gift',
@@ -961,7 +961,7 @@ async function syncAutomaticGift(cart) {
   if (auto) {
     const isFree = Number(auto.cost?.totalAmount?.amount || 0) < 0.01;
     if (!isFree) {
-      /* 後台門檻未同步嗰陣（實測曾經係 $500、前台承諾 $499），唔可以
+      /* 後台門檻未同步嗰陣，唔可以
          add → reload → remove → reload 無限循環。記住今次「未獲折扣」嘅
          購物金額；客再加貨、金額變咗先重試。 */
       const delivery = Number(
@@ -1963,13 +1963,8 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
       node.textContent = String(remainingDays);
     });
   });
-  /* 舊首頁同分類頁喺活動推出時未有 data attribute。優惠完結後一併收起，
-     避免 Shopify 已停止折扣，但舊 banner 仍然向客人承諾 88 折。 */
-  if (!active) {
-    document.querySelectorAll('.promo-wrap, .promo-slim').forEach((surface) => {
-      surface.hidden = true;
-    });
-  }
+  /* 只控制有活動標記嘅 88 折內容。首頁 `.promo-wrap` 已改成長期購物禮遇卡，
+     88 折完結後仍要顯示免運門檻同滿額贈品，唔可以再一刀切收起。 */
   return active;
 }
 

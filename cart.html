@@ -52,7 +52,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$199 順豐站免運 &nbsp;·&nbsp; 滿 HK$290 送上門免運
+    滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$250 順豐站免運 &nbsp;·&nbsp; 滿 HK$290 送上門免運 &nbsp;·&nbsp; 滿 HK$599 送面霜
   </div>
 
   <!-- Header -->
@@ -328,9 +328,7 @@
               <span data-total>HK$0</span>
             </div>
 
-            <!-- 兩級門檻：折實滿 $290 免運、滿 $499 送面霜。
-                 兩個數都係「折實」—— 實測過 Shopify 條免運規則睇折後價
-                 （未折 $414／折實 $384 嗰陣照收運費）。 -->
+            <!-- 免運門檻最高 $290；商品合計滿 $599 送面霜。 -->
             <div class="reward reward--focused" data-reward hidden>
               <div class="reward__brief" aria-live="polite">
                 <p class="reward__line" data-reward-line></p>
@@ -343,7 +341,7 @@
                   </a>
                   <div class="reward-gift__copy">
                     <p class="reward-gift__eyebrow">滿額贈禮</p>
-                    <h3 class="reward-gift__title" data-gift-title>折實滿 HK$499，呢樽送畀你</h3>
+                    <h3 class="reward-gift__title" data-gift-title>滿 HK$599，呢樽送畀你</h3>
                     <p class="reward-gift__name">ROUND LAB 白樺樹保濕面霜 · 80ml</p>
                     <p class="reward-gift__status" data-gift-status></p>
                     <p class="reward-gift__terms">送完即止 · <a href="/products/round-lab-round-lab-80ml-0221">睇吓呢份禮物 ↗</a></p>
@@ -825,7 +823,7 @@
     ) || 0;
     const netTotal = parseFloat(cart.cost.totalAmount.amount) - inclShip;   // 折實貨價
     const saved = Math.max(0, subtotal - netTotal);
-    const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 499;
+    const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 599;
     const FREE_SHIP = window.OUJI_SHIP.post.free;   // 進度條第一級 = 自取免郵
     const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : 'post';
     const m = window.OUJI_SHIP[mode];
@@ -879,7 +877,7 @@
   /**
    * 只顯示所選運送方式的折實免運差額；贈品獨立提示。
    */
-  const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 499;
+  const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 599;
 
   function renderReward(net, gross, inCart) {
     window.OUJI_rewardState = { net, gross, inCart };
