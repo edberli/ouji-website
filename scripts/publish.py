@@ -51,7 +51,10 @@ def build_input(p):
             "price": str(s.get("price", p.get("price"))),
             "barcode": s["barcode"],
             "sku": s["barcode"],
-            "inventoryItem": {"tracked": True},
+            "inventoryItem": {
+                "tracked": True,
+                **({"cost": str(s["cost"])} if s.get("cost") is not None else {}),
+            },
             "inventoryQuantities": [{
                 "locationId": LOCATION,
                 "name": "available",
