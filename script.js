@@ -1837,8 +1837,8 @@ function initHScrollArrows() {
   /* 窄機版：最少嘅字，但三個優惠都要齊。
      老闆：「咁有限嘅位置入邊⋯⋯用最少嘅字去表達。」
      之前窄機淨係得輪流播，客一次只見到一個優惠，好易走寶。 */
-  const SHORT = ['88 折', '$99 免郵', '$499 送面霜'];
-  const LABELS = ['限時', '自取', '贈品'];
+  const SHORT = ['$99 自取免郵', '$199 順豐站免運', '$290 上門免運'];
+  const LABELS = ['自取', '順豐', '上門'];
 
   bar.textContent = '';
   const make = (text, index, parent = bar) => {

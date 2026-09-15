@@ -14725,3 +14725,9 @@ body::before { opacity: 0.18; }
    is-met＝仲未夠數嗰句以外嘅普通提示，唔使搶眼。 */
 .ship-mode__gap { display: block; font-size: 0.72rem; font-weight: 700; margin-top: 4px; color: #e8cf9a; }
 .ship-mode__gap.is-met { font-weight: 400; color: rgba(255,255,255,0.6); }
+
+/* 已完結嘅全單 88 折宣傳不可再被原有 display 規則重新顯示。 */
+.promo-wrap[hidden],
+.promo-slim[hidden] {
+  display: none !important;
+}

@@ -1963,6 +1963,13 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
       node.textContent = String(remainingDays);
     });
   });
+  /* 舊首頁同分類頁喺活動推出時未有 data attribute。優惠完結後一併收起，
+     避免 Shopify 已停止折扣，但舊 banner 仍然向客人承諾 88 折。 */
+  if (!active) {
+    document.querySelectorAll('.promo-wrap, .promo-slim').forEach((surface) => {
+      surface.hidden = true;
+    });
+  }
   return active;
 }
 
