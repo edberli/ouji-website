@@ -738,16 +738,142 @@ async function getCollections(first = 30) {
  */
 const CART_COUNTRY = 'HK';
 
+/* ==========================================================================
+   訂單來源標記（2026-09-15）
+   --------------------------------------------------------------------------
+   點解要有呢段：老闆問「呢幾日邊啲單係 Google、邊啲係 Meta」——答唔到。
+   33 張單入面得 3 張知道來源，因為：
+
+   ① Shopify 自己嘅 customer journey 只讀 UTM。Google Ads 用 gclid 自動標記，
+      唔帶 UTM，所以 Google 帶嚟嘅單一律變「不明」。
+   ② 我哋係 headless（自己個前端 + Shopify 結帳），Shopify 睇到嘅 referrer
+      永遠係 oujikbeauty.com 自己，等於冇講。實測 31/33 張單都係咁。
+   ③ Pixel／CAPI 只係講俾廣告平台聽，唔會寫落張單度。平台各自報大數
+      （同期 Google 認 10 單、Meta 認 3 單，但真單得 33 張、對得上只有 3 張）。
+
+   解決：落單嗰刻就將來源**寫死落 cart attributes**，跟住張單一世。
+   之後用 Admin API 一 query 就分到類，唔使靠任何平台自報。
+
+   點解擺喺 shopify.js 唔擺 analytics.js：analytics.js 會被 ad blocker 擋，
+   而用 ad blocker 嗰批人正正就係 pixel 捉唔到嗰批。shopify.js 擋咗就冇得
+   買嘢，所以一定行到。亦唔受 TRACK_ON／同意狀態影響。
+
+   key 一律用 `_` 開頭 —— Shopify 會當佢哋係隱藏屬性，唔會喺結帳頁同
+   客戶電郵度出現，但 Admin 訂單詳情同 API 照睇到。
+   ========================================================================== */
+
+const ATTR_CLICK_KEYS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid'];
+const ATTR_UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+function readAttributionFromUrl() {
+  let q;
+  try { q = new URLSearchParams(location.search); } catch (e) { return null; }
+  const out = {};
+  [...ATTR_CLICK_KEYS, ...ATTR_UTM_KEYS].forEach((k) => {
+    const v = q.get(k);
+    if (v) out[k] = v.slice(0, 200);
+  });
+  /* 冇廣告參數就靠 referrer 分自然流量／社交／直接入 */
+  let ref = '';
+  try { ref = document.referrer || ''; } catch (e) { /* 私隱模式 */ }
+  if (ref && !ref.includes('oujikbeauty.com')) out.referrer = ref.slice(0, 200);
+  if (!Object.keys(out).length) return null;
+  out.landing = (location.pathname + location.search).slice(0, 200);
+  out.at = new Date().toISOString();
+  return out;
+}
+
+/** 由一組參數判斷個渠道叫咩名 —— 報表就唔使逐次再解讀。 */
+function classifyAttribution(a) {
+  if (!a) return 'direct';
+  if (a.gclid || a.gbraid || a.wbraid) return 'google_ads';
+  if (a.fbclid) return 'meta_ads';
+  const src = (a.utm_source || '').toLowerCase();
+  const med = (a.utm_medium || '').toLowerCase();
+  if (med.includes('paid') || med === 'cpc' || med === 'ppc') {
+    if (src.includes('meta') || src.includes('fb') || src.includes('ig')) return 'meta_ads';
+    if (src.includes('google')) return 'google_ads';
+    return `paid_${src || 'other'}`;
+  }
+  if (src) return `${src}_organic`;
+  const ref = (a.referrer || '').toLowerCase();
+  if (!ref) return 'direct';
+  if (ref.includes('google.')) return 'google_organic';
+  if (ref.includes('facebook.') || ref.includes('instagram.')) return 'social_organic';
+  if (ref.includes('bing.') || ref.includes('yahoo.')) return 'search_organic';
+  return 'referral';
+}
+
+/** 一到站就記低。第一次嗰個永遠唔覆蓋（first-touch），
+    最近一次每次有新廣告參數／外部 referrer 就更新（last-touch）。 */
+function rememberAttribution() {
+  const hit = readAttributionFromUrl();
+  if (!hit) return;
+  try {
+    if (!localStorage.getItem('ouji_attr_first')) {
+      localStorage.setItem('ouji_attr_first', JSON.stringify(hit));
+    }
+    localStorage.setItem('ouji_attr_last', JSON.stringify(hit));
+  } catch (e) { /* 私隱模式：唯有靠今次 session */ }
+}
+
+function loadAttr(key) {
+  try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (e) { return null; }
+}
+
+/** 砌成 cart attributes。值全部收窄過，唔好塞爆張單。 */
+function attributionAttributes() {
+  const first = loadAttr('ouji_attr_first');
+  const last = loadAttr('ouji_attr_last') || first;
+  const out = {};
+  if (first) {
+    out._src_first = classifyAttribution(first);
+    out._src_first_detail = [first.utm_source, first.utm_medium, first.utm_campaign, first.utm_content]
+      .filter(Boolean).join(' / ').slice(0, 250) || (first.referrer || '').slice(0, 250);
+    out._src_first_at = first.at || '';
+  }
+  if (last) {
+    out._src_last = classifyAttribution(last);
+    out._src_last_detail = [last.utm_source, last.utm_medium, last.utm_campaign, last.utm_content]
+      .filter(Boolean).join(' / ').slice(0, 250) || (last.referrer || '').slice(0, 250);
+    out._src_landing = last.landing || '';
+    const cid = ATTR_CLICK_KEYS.map((k) => (last[k] ? `${k}=${last[k]}` : '')).filter(Boolean).join(' ');
+    if (cid) out._src_clickid = cid.slice(0, 250);
+  }
+  if (!Object.keys(out).length) {
+    out._src_first = 'direct';
+    out._src_last = 'direct';
+  }
+  return out;
+}
+
+/** 購物袋已經存在但未有來源標記（舊 cart，或者開 cart 嗰陣仲未有呢段 code）
+    就補寫。fire-and-forget —— 唔准 await，唔好阻住個掣。 */
+function backfillCartAttribution() {
+  getCart().then((cart) => {
+    if (!cart?.id) return;
+    const has = (cart.attributes || []).some((a) => a.key === '_src_first');
+    if (has) return;
+    setCartAttributes(attributionAttributes());
+  }).catch(() => null);
+}
+
+rememberAttribution();
+
 /** 建立購物車 */
 async function createCart() {
+  /* 來源標記喺開 cart 嗰一刻就寫入 —— 零額外來回，而且由第一秒起
+     就跟實張 cart，之後點樣都冲唔走。 */
+  const attributes = Object.entries(attributionAttributes())
+    .map(([key, value]) => ({ key, value: String(value) }));
   const data = await shopifyFetch(`
-    mutation CreateCart($country: CountryCode!) @inContext(country: $country) {
-      cartCreate(input: { buyerIdentity: { countryCode: $country } }) {
+    mutation CreateCart($country: CountryCode!, $attributes: [AttributeInput!]) @inContext(country: $country) {
+      cartCreate(input: { buyerIdentity: { countryCode: $country }, attributes: $attributes }) {
         cart { id checkoutUrl }
         userErrors { field message }
       }
     }
-  `, { country: CART_COUNTRY });
+  `, { country: CART_COUNTRY, attributes });
   const cart = data?.cartCreate?.cart;
   if (cart) localStorage.setItem('shopify_cart_id', cart.id);
   return cart;
@@ -960,6 +1086,9 @@ async function addToCart(variantId, quantity = 1, retried = false) {
     console.error('加入購物車失敗：', result?.userErrors || data);
     return null;
   }
+  /* 舊 cart（喺來源標記上線之前開嘅）補寫返。fire-and-forget，
+     唔 await，唔會令「加入購物袋」慢半拍。 */
+  backfillCartAttribution();
   return result;
 }
 
