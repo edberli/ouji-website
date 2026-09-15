@@ -2554,6 +2554,57 @@ button.product-card__quick-add,
 
 .product-info__promo-card[hidden] { display: none; }
 
+.product-info__gift-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 15px;
+  min-height: 104px;
+  margin: 0;
+  padding: 12px 18px;
+  border: 0;
+  background:
+    radial-gradient(circle at 7% 50%, rgba(255, 215, 122, 0.16), transparent 24%),
+    rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.product-info__gift-card-cream {
+  width: 68px;
+  height: 78px;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 8px rgba(9, 31, 38, 0.28));
+}
+
+.product-info__gift-card-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.product-info__gift-card-label {
+  color: #ffd77a;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.product-info__gift-card-copy strong {
+  color: #fff;
+  font-size: 1.125rem;
+  line-height: 1.3;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-info__gift-card-copy strong b { color: #ffd77a; font-weight: 800; }
+
+.product-info__gift-card-copy small {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
 .product-info__promo-card {
   position: relative;
   display: grid;
@@ -2772,7 +2823,7 @@ button.product-card__quick-add,
   background: rgba(255, 255, 255, 0.035);
 }
 
-.product-info__promo-card[hidden] + .product-info__shipping-tiers { border-top: 0; }
+.product-info__promo-card[hidden] + .product-info__gift-card { border-top: 0; }
 
 .product-info__shipping-tier {
   display: grid;
@@ -2988,6 +3039,17 @@ button.product-card__quick-add,
    component itself to the stacked composition before its title can collide
    with the gift card, regardless of the browser window width. */
 @container purchase-panel (max-width: 599px) {
+  .product-info__gift-card {
+    grid-template-columns: 60px minmax(0, 1fr);
+    gap: 12px;
+    min-height: 92px;
+    padding: 10px 14px;
+  }
+
+  .product-info__gift-card-cream { width: 58px; height: 70px; }
+  .product-info__gift-card-copy strong { font-size: 1rem; }
+  .product-info__gift-card-copy small { font-size: 0.75rem; }
+
   .product-info__promo-card {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;

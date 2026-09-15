@@ -917,11 +917,10 @@
     host.querySelector('[data-reward-fill]').style.width = pct + '%';
     host.querySelector('[data-reward-cta]').hidden = met;
     const gift = window.OUJI_COMMERCE?.promotion?.gift;
-    const active = Date.now() < Date.parse(window.OUJI_COMMERCE?.promotion?.endsAt || '');
     const giftLine = host.querySelector('[data-reward-gift]');
-    giftLine.hidden = !active;
+    giftLine.hidden = false;
     host.querySelector('[data-gift-title]').replaceChildren(
-      document.createTextNode(window.OUJI_cartCopy('折實滿 HK$' + GIFT, 'Spend HK$' + GIFT + ' after discount')),
+      document.createTextNode(window.OUJI_cartCopy('滿 HK$' + GIFT, 'Spend HK$' + GIFT)),
       document.createElement('br'),
       document.createTextNode(window.OUJI_cartCopy('呢樽免費送', 'This gift is free')));
     host.querySelector('[data-gift-status]').textContent = (inCart || []).includes(gift?.handle)
