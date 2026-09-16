@@ -14778,6 +14778,23 @@ body::before { opacity: 0.18; }
 }
 .ship-mode__opt:hover { background: rgba(255,255,255,0.13); }
 .ship-mode__opt.is-on { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.55); box-shadow: 0 4px 16px -8px rgba(0,0,0,0.5); }
+.ship-mode__opt--recommended {
+  overflow: hidden;
+  background:
+    linear-gradient(105deg, rgba(245, 132, 31, 0.16), rgba(20, 129, 71, 0.08) 64%, rgba(255,255,255,0.07));
+  border-color: rgba(255, 206, 118, 0.48);
+  box-shadow: inset 3px 0 0 #f6b84a;
+}
+.ship-mode__opt--recommended:hover {
+  background:
+    linear-gradient(105deg, rgba(245, 132, 31, 0.23), rgba(20, 129, 71, 0.12) 64%, rgba(255,255,255,0.11));
+  border-color: rgba(255, 214, 139, 0.68);
+}
+.ship-mode__opt--recommended.is-on {
+  background:
+    linear-gradient(105deg, rgba(245, 132, 31, 0.25), rgba(20, 129, 71, 0.14) 64%, rgba(255,255,255,0.14));
+  border-color: rgba(255, 224, 168, 0.88);
+}
 .ship-mode__opt input { position: absolute; opacity: 0; pointer-events: none; }
 .ship-mode__dot { width: 16px; height: 16px; border-radius: 999px; border: 2px solid rgba(255,255,255,0.5); margin-top: 3px; position: relative; }
 .ship-mode__opt.is-on .ship-mode__dot { border-color: #fff; }
@@ -14785,6 +14802,33 @@ body::before { opacity: 0.18; }
   content: ''; position: absolute; inset: 3px; border-radius: 999px; background: #fff;
 }
 .ship-mode__opt:focus-within { outline: 2px solid #e8cf9a; outline-offset: 2px; }
+.ship-mode__body { min-width: 0; }
+.ship-mode__post-lead {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 5px 7px;
+  margin: -2px 0 7px;
+}
+.ship-mode__seven-logo {
+  display: inline-flex; align-items: stretch; height: 22px; overflow: hidden;
+  border-radius: 5px; background: #fff; border: 1px solid rgba(255,255,255,0.72);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.16);
+}
+.ship-mode__seven-logo b {
+  display: grid; place-items: center; min-width: 22px; padding: 0 4px 0 3px;
+  color: #f47b20; font: 900 1.05rem/1 Arial, sans-serif;
+  border-right: 3px solid #e5252a;
+}
+.ship-mode__seven-logo span {
+  display: grid; place-items: center; padding: 0 6px;
+  color: #168447; font: 800 0.54rem/1 Arial, sans-serif; letter-spacing: 0.035em;
+}
+.ship-mode__recommended,
+.ship-mode__locations {
+  display: inline-flex; align-items: center; min-height: 22px; padding: 3px 7px;
+  border-radius: 999px; font-size: 0.665rem; font-weight: 800; line-height: 1;
+}
+.ship-mode__recommended { display: flex; width: max-content; margin: 0 0 6px auto; color: #263f48; background: #ffd77f; }
+.ship-mode__locations { color: rgba(255,255,255,0.86); background: rgba(255,255,255,0.1); }
+.ship-mode__opt--recommended .ship-mode__name { font-size: 1rem; }
 .ship-mode__name { font-size: 0.9375rem; font-weight: 700; line-height: 1.35; color: #fff; }
 .ship-mode__sub { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.74); margin-top: 4px; line-height: 1.5; }
 .ship-mode__fee { font-size: 0.9375rem; font-weight: 700; text-align: right; white-space: nowrap; color: #fff; max-width: 5.5em; }

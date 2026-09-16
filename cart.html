@@ -1167,11 +1167,16 @@
           /* 有 gapLine 就唔使再講一次「滿 $X 免運費」—— 同一句嘢寫兩次。 */
           const note = (tip ? `<span class="ship-mode__tip">${tip}</span>` : '')
             + (gapLine || (o.fee === 0 ? '' : `<span class="ship-mode__gap is-met">滿 HK$${o.free} 免運費</span>`));
-          html += `<label class="ship-mode__opt${on ? ' is-on' : ''}" data-mode="${k}">
+          const isPost = k === 'post';
+          const postLead = isPost ? `<span class="ship-mode__post-lead">
+            <span class="ship-mode__seven-logo" aria-hidden="true"><b>7</b><span>ELEVEN</span></span>
+            <span class="ship-mode__locations">812 個取件點</span>
+          </span>` : '';
+          html += `<label class="ship-mode__opt${on ? ' is-on' : ''}${isPost ? ' ship-mode__opt--recommended' : ''}" data-mode="${k}">
             <input type="radio" name="ouji-ship" value="${k}"${on ? ' checked' : ''}>
             <span class="ship-mode__dot"></span>
-            <span><span class="ship-mode__name">${o.name}</span><span class="ship-mode__sub">${o.sub}${note}</span></span>
-            <span class="ship-mode__fee">${fee}</span>
+            <span class="ship-mode__body">${postLead}<span class="ship-mode__name">${o.name}</span><span class="ship-mode__sub">${o.sub}${note}</span></span>
+            <span class="ship-mode__fee">${isPost ? '<span class="ship-mode__recommended">推薦自取</span>' : ''}${fee}</span>
           </label>`;
         }
       }
