@@ -18,6 +18,10 @@ const OUJI_COMMERCE = Object.freeze({
       variantId: 'gid://shopify/ProductVariant/48093431529630',
       lineAttribute: '_ouji_auto_gift',
     }),
+    /* 滿 HK$149 送精選美妝護膚體驗裝（2026-09-16 老闆定）。
+       呢份係執貨時隨機放入包裹嘅門市贈品，冇指定 SKU，所以購物袋唔會
+       加 line item —— 只喺 reward 區報解鎖進度，客同執貨同事睇同一句。 */
+    sample: Object.freeze({ threshold: 149 }),
   }),
 });
 window.OUJI_COMMERCE = OUJI_COMMERCE;

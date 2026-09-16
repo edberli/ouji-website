@@ -386,6 +386,7 @@
             <!-- 免運門檻最高 $290；商品合計滿 $599 送面霜。 -->
             <div class="reward reward--focused" data-reward hidden>
               <div class="reward__brief" aria-live="polite">
+                <p class="reward__sample" data-reward-sample hidden></p>
                 <p class="reward__line" data-reward-line></p>
                 <p class="reward__cost" data-reward-cost></p>
                 <div class="reward__track" data-reward-track role="progressbar" aria-label="所選運送方式免運進度" aria-valuemin="0" aria-valuemax="100"><div class="reward__fill" data-reward-fill></div></div>
@@ -1117,6 +1118,22 @@
     const gap = Math.max(0, Math.ceil((method.free - net) * 100 - 0.001) / 100);
     const money = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
     const methodName = window.OUJI_cartShipDisplay(mode, method.name);
+    /* 滿 HK$149 送精選美妝護膚體驗裝 —— 成套購物禮遇入面最低一級，
+       亦係客最容易達到嘅一級，所以擺喺運費進度上面第一句講。 */
+    const SAMPLE = window.OUJI_COMMERCE?.promotion?.sample?.threshold || 149;
+    const sampleEl = host.querySelector('[data-reward-sample]');
+    if (sampleEl) {
+      const sampleGap = Math.max(0, Math.ceil((SAMPLE - net) * 100 - 0.001) / 100);
+      sampleEl.hidden = false;
+      sampleEl.classList.toggle('is-unlocked', sampleGap <= 0);
+      sampleEl.innerHTML = sampleGap > 0
+        ? window.OUJI_cartCopy(
+          '再買 <strong>HK$' + money(sampleGap) + '</strong> — 送你精選美妝護膚體驗裝',
+          'Add <strong>HK$' + money(sampleGap) + '</strong> — free beauty sample set with your order')
+        : window.OUJI_cartCopy(
+          '🎁 精選美妝護膚體驗裝已解鎖，隨單附上',
+          '🎁 Beauty sample set unlocked — included with your order');
+    }
     const line = host.querySelector('[data-reward-line]');
     line.innerHTML = window.OUJI_cartCopy(
       method.fee === 0 ? '✓ 門市免費自取，毋須湊單'
