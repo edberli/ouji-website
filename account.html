@@ -319,10 +319,10 @@
             <div class="member-points__reward-copy">
               <span class="member-points__section-label">距離下一個獎賞</span>
               <p class="member-points__message" id="points-message">正在載入你嘅積分…</p>
-              <div class="member-points__progress" role="progressbar" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0" id="points-progress">
+              <div class="member-points__progress" role="progressbar" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="points-progress">
                 <span id="points-progress-bar"></span>
               </div>
-              <div class="member-points__progress-labels"><span id="points-progress-current">— Points</span><span id="points-progress-target">1,000 Points</span></div>
+              <div class="member-points__progress-labels"><span id="points-progress-current">— Points</span><span id="points-progress-target">500 Points</span></div>
             </div>
             <div class="member-points__shima" aria-hidden="true">
               <div class="shima">
@@ -339,8 +339,7 @@
           <div class="member-points__unlock">
             <p class="member-points__section-label">使用積分前要完成</p>
             <div class="member-points__checks">
-              <span id="points-check-balance"><i aria-hidden="true">✓</i>有 1,000 Points</span>
-              <span id="points-check-orders"><i aria-hidden="true">✓</i>完成 2 張有效訂單 <small id="points-order-count"></small></span>
+              <span id="points-check-balance"><i aria-hidden="true">✓</i>有 500 Points</span>
               <span><i aria-hidden="true">✓</i>今張訂單商品滿 HK$199</span>
             </div>
           </div>
@@ -358,8 +357,8 @@
               <ul>
                 <li><strong>點樣儲：</strong>折扣後實付商品每 HK$1 = 1 Point；運費不計。</li>
                 <li><strong>幾時可用：</strong>新會員送 200 Points；購物 Points 先列為 Pending，付款成功後，落單翌日上午 10 點轉為 Available。</li>
-                <li><strong>點樣兌換：</strong>1,000 Points = HK$20，其後每 500 Points 多 HK$10。</li>
-                <li><strong>使用限制：</strong>首次使用前須完成 2 張有效訂單；每單商品滿 HK$199，最多抵商品金額 20%。</li>
+                <li><strong>點樣兌換：</strong>500 Points = HK$10，其後每 500 Points 多 HK$10。</li>
+                <li><strong>使用限制：</strong>不設完成訂單數量要求；每單商品滿 HK$199，最多抵商品金額 20%。</li>
                 <li><strong>有效期：</strong>Welcome Points 由發放日起計 12 個月到期；購物積分由可用日起計 12 個月到期。取消、退款或部分退款會相應調整積分。</li>
               </ul>
             </details>
@@ -516,6 +515,8 @@
       document.querySelector('.member-points__howto em').textContent = 'Choose a reward in your shopping bag';
       const rules = document.querySelectorAll('.member-points__rules li');
       if (rules[1]) rules[1].innerHTML = '<strong>When available:</strong> New members get 200 Points. Purchase points start as Pending and become Available at 10am Hong Kong time the next day, once payment succeeds.';
+      if (rules[2]) rules[2].innerHTML = '<strong>How to redeem:</strong> 500 Points = HK$10, then every additional 500 Points adds HK$10.';
+      if (rules[3]) rules[3].innerHTML = '<strong>Limits:</strong> No completed-order requirement. Spend at least HK$199 on merchandise; points can cover up to 20% of the merchandise amount.';
       if (rules[4]) rules[4].innerHTML = '<strong>Expiry:</strong> Welcome Points expire 12 months after they are awarded; purchase points expire 12 months after they become Available. Cancellations and full or partial refunds adjust your balance.';
     }
 
@@ -743,7 +744,7 @@
         document.getElementById('available-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
         document.getElementById('hero-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
         document.getElementById('pending-points').textContent = Number(points.pendingPoints || 0).toLocaleString('zh-HK');
-        const progress = points.progress || {}, target = Number(progress.target || 1000), current = Number(progress.current || 0), start = target > 1000 ? target - 500 : 0;
+        const progress = points.progress || {}, target = Number(progress.target || 500), current = Number(progress.current || 0), start = target > 500 ? target - 500 : 0;
         const ratio = Math.max(0, Math.min(1, (current - start) / (target - start || 1)));
         const progressEl = document.getElementById('points-progress');
         progressEl.setAttribute('aria-valuemax', String(target)); progressEl.setAttribute('aria-valuenow', String(current));
@@ -753,11 +754,8 @@
         const reward = Number(points.unlockedRewardCents || 0) / 100;
         document.getElementById('points-message').textContent = reward > 0
           ? `已解鎖 HK$${reward} Reward；再儲 ${Number(progress.remaining || 0).toLocaleString('zh-HK')} Points 可解鎖下一個獎賞`
-          : `${current.toLocaleString('zh-HK')} / ${target.toLocaleString('zh-HK')} Points・再儲 ${Number(progress.remaining || 0).toLocaleString('zh-HK')} Points，即可解鎖 HK$20 Reward`;
-        document.getElementById('points-check-balance').classList.toggle('is-complete', Number(points.availablePoints || 0) >= 1000);
-        const completedOrders = Number(points.completedOrders || 0);
-        document.getElementById('points-check-orders').classList.toggle('is-complete', completedOrders >= 2);
-        document.getElementById('points-order-count').textContent = `(${Math.min(completedOrders, 2)}/2)`;
+          : `${current.toLocaleString('zh-HK')} / ${target.toLocaleString('zh-HK')} Points・再儲 ${Number(progress.remaining || 0).toLocaleString('zh-HK')} Points，即可解鎖 HK$10 Reward`;
+        document.getElementById('points-check-balance').classList.toggle('is-complete', Number(points.availablePoints || 0) >= 500);
         const expiry = document.getElementById('points-expiry');
         if (points.expiring?.points) { const date = new Date(points.expiring.expiresAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' }); expiry.textContent = `${Number(points.expiring.points).toLocaleString('zh-HK')} Points 將於 ${date} 到期`; expiry.hidden = false; }
         const labels = { pending: '待確認', available: '可使用', expired: '已過期', cancelled: '已取消', held: '已保留', committed: '已使用', released: '已釋放' };

@@ -957,9 +957,8 @@
         balance.textContent = window.OUJI_cartCopy(`你有 ${Number(quote.availablePoints || 0).toLocaleString('zh-HK')} Available Points`, `You have ${Number(quote.availablePoints || 0).toLocaleString('en-HK')} Available Points`);
         if (!quote.eligible) {
           const messages = {
-            two_completed_orders_required: ['完成 2 張有效訂單後可使用積分。', 'Complete 2 eligible orders before using points.'],
             minimum_order_not_met: ['今張單商品滿 HK$199 後可使用積分。', 'Spend HK$199 on merchandise to use points.'],
-            minimum_points_not_met: ['儲夠 1,000 Points 就可以換 HK$20。', 'Collect 1,000 Points to redeem HK$20.'],
+            minimum_points_not_met: ['儲夠 500 Points 就可以換 HK$10。', 'Collect 500 Points to redeem HK$10.'],
             twenty_percent_cap_below_minimum_reward: ['受每單最多抵 20% 限制，今張單暫時用唔到積分。', 'The 20% cap is below the minimum reward for this cart.'],
           };
           const message = messages[quote.reason] || ['今張單暫時未符合使用積分條件。', 'This cart is not eligible for points yet.'];
@@ -968,7 +967,7 @@
           return;
         }
         select.replaceChildren();
-        for (let points = 1000; points <= quote.maximumPoints; points += 500) {
+        for (let points = 500; points <= quote.maximumPoints; points += 500) {
           const option = new Option(window.OUJI_cartCopy(`${points.toLocaleString('zh-HK')} Points = 減 HK$${points / 50}`, `${points.toLocaleString('en-HK')} Points = HK$${points / 50} off`), String(points));
           select.add(option);
         }
