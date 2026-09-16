@@ -738,9 +738,10 @@
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
+    /* 積分唔應該等 initPage() 嘅網絡工作：有快取就即刻畫。 */
+    paintCartMemberPoints();
     await initPage();
     initCartEnglishStaticCopy();
-    paintCartMemberPoints();
 
     const cart = await getCart();
     const cartEmpty = document.getElementById('cart-empty');
