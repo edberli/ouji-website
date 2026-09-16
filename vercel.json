@@ -12,6 +12,9 @@
     },
     "api/restock-report.js": {
       "maxDuration": 30
+    },
+    "api/order.js": {
+      "maxDuration": 10
     }
   },
   "redirects": [
@@ -95,6 +98,15 @@
   "headers": [
     {
       "source": "/prototypes/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/order",
       "headers": [
         {
           "key": "X-Robots-Tag",
