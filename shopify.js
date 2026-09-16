@@ -899,6 +899,8 @@ async function getCart() {
     query GetCart($cartId: ID!, $country: CountryCode!) @inContext(country: $country) {
       cart(id: $cartId) {
         id checkoutUrl totalQuantity
+        discountCodes { code applicable }
+        buyerIdentity { countryCode email phone customer { id } }
         attributes { key value }
         cost {
           totalAmount { amount currencyCode }
@@ -1316,7 +1318,8 @@ async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
       merchandise { ... on ProductVariant { id } } } }`;
   const old = (await shopifyFetch(`query($id:ID!){cart(id:$id){${fields}}}`, {id:cart.id}))?.cart;
   if (!old || old.lines.pageInfo.hasNextPage || !old.lines.nodes.length) throw new Error('未能完整讀取購物袋，請再試一次。');
-  if (old.appliedGiftCards.length || old.buyerIdentity.customer) throw new Error('此購物袋有禮品卡或會員資料，暫未能安全重建結賬；請聯絡我們協助，資料已保留。');
+  const memberToken = old.buyerIdentity.customer && localStorage.getItem('customer_access_token');
+  if (old.appliedGiftCards.length || (old.buyerIdentity.customer && !memberToken)) throw new Error('此購物袋有禮品卡或會員資料，暫未能安全重建結賬；請聯絡我們協助，資料已保留。');
   const selected = old.delivery.addresses.find(a=>a.selected)?.address;
   if (!selected && requireAddress) throw new Error('未能核對取件地址，請重新選擇。');
   const input = {
@@ -1325,7 +1328,8 @@ async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
     attributes:old.attributes, note:old.note || '', discountCodes:old.discountCodes.map(d=>d.code),
     buyerIdentity:{countryCode:old.buyerIdentity.countryCode || 'HK',
       ...(old.buyerIdentity.email ? {email:old.buyerIdentity.email} : {}),
-      ...(old.buyerIdentity.phone ? {phone:old.buyerIdentity.phone} : {})},
+      ...(old.buyerIdentity.phone ? {phone:old.buyerIdentity.phone} : {}),
+      ...(memberToken ? {customerAccessToken:memberToken} : {})},
     ...(selected ? {delivery:{addresses:[{selected:true,oneTimeUse:true,address:{deliveryAddress:selected}}]}} : {})
   };
   const result = (await shopifyFetch(`mutation($input:CartInput!){cartCreate(input:$input){cart{${fields}} userErrors{message} warnings{code}}}`, {input}))?.cartCreate;
@@ -1342,6 +1346,7 @@ async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
   if (!fresh?.checkoutUrl || result.userErrors.length || result.warnings?.length || fresh.lines.pageInfo.hasNextPage ||
       signature(old)!==signature(fresh) || pairs(old.attributes)!==pairs(fresh.attributes) || (old.note||'')!==(fresh.note||'') ||
       codes(old)!==codes(fresh) || allocs(old)!==allocs(fresh) ||
+      old.buyerIdentity.customer?.id !== fresh.buyerIdentity.customer?.id ||
       JSON.stringify(selected)!==JSON.stringify(fresh.delivery.addresses.find(a=>a.selected)?.address)) {
     throw new Error('重建結賬後資料未能完全核對，原購物袋已保留，請再試一次。');
   }
@@ -1359,11 +1364,12 @@ async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
 let checkoutReady = null;          // { key, url, trackingCart }
 let checkoutBuilding = null;       // 進行緊嘅預備，唔好同時做兩個
 let checkoutPrewarmTimer = null;
+let checkoutRevision = 0;
 
 function checkoutKey() {
   const mode = window.OUJI_getShipMode?.() || '';
   const point = window.OUJI_getPickupPoint?.()?.code || '';
-  return `${mode}|${point}|${localStorage.getItem('shopify_cart_id') || ''}`;
+  return `${mode}|${point}|${localStorage.getItem('shopify_cart_id') || ''}|${checkoutRevision}`;
 }
 
 /** 做齊所有寫入同重建，回一條可以即刻用嘅 checkoutUrl（唔會自己跳） */
@@ -1430,6 +1436,7 @@ function prewarmCheckout({ delay = 400 } = {}) {
 
 /* 加減數量、落優惠碼、重建購物袋都會換內容 —— 預備好嗰條就要即刻作廢。 */
 function invalidateCheckout() {
+  checkoutRevision += 1;
   checkoutReady = null;
 }
 

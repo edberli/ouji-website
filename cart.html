@@ -46,6 +46,17 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .cart-member-points { margin-top: 20px; padding: 18px 20px; border: 1px solid #c8d9dc; border-radius: 14px; background: #f2f8f8; color: #244650; }
+    .cart-member-points strong { display: block; font-size: 1rem; line-height: 1.45; }
+    .cart-member-points p { margin: 7px 0 0; font-size: .875rem; line-height: 1.55; }
+    .cart-member-points a { color: #244650; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+    .cart-member-redeem { margin-top: 16px; padding-top: 16px; border-top: 1px solid #c8d9dc; }
+    .cart-member-redeem label { display: block; margin-top: 10px; font-size: .875rem; font-weight: 700; }
+    .cart-member-redeem select { width: 100%; min-height: 46px; margin-top: 7px; padding: 8px 12px; border: 1px solid #9bb8bf; border-radius: 8px; background: #fff; color: #244650; font: inherit; }
+    .cart-member-redeem button { min-height: 46px; margin-top: 10px; padding: 9px 20px; border: 0; border-radius: 8px; background: #2f6270; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+    .cart-member-redeem button:disabled { opacity: .6; cursor: wait; }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -327,6 +338,18 @@
               <span>合計</span>
               <span data-total>HK$0</span>
             </div>
+            <div class="cart-member-points" aria-live="polite">
+              <strong data-cart-member-heading>今張訂單預計賺取 <span data-cart-member-points>0</span> OUJI Points</strong>
+              <p data-cart-member-description>按折扣後商品金額估算，不計運費；付款成功後，落單翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入／免費加入會員</a>即可累積。</span></p>
+              <div class="cart-member-redeem" data-member-redeem hidden>
+                <strong data-member-redeem-heading>使用 OUJI Points</strong>
+                <p data-member-balance>正在核對可用積分…</p>
+                <label for="member-reward-points" data-member-reward-label>今張單使用幾多分？</label>
+                <select id="member-reward-points" data-member-reward-points></select>
+                <button type="button" data-member-redeem-button>使用積分</button>
+                <p data-member-redeem-status role="status"></p>
+              </div>
+            </div>
 
             <!-- 免運門檻最高 $290；商品合計滿 $599 送面霜。 -->
             <div class="reward reward--focused" data-reward hidden>
@@ -604,6 +627,17 @@
       const el = document.querySelector(selector);
       if (el) el.textContent = value;
     };
+    const pointsHeading = document.querySelector('[data-cart-member-heading]');
+    if (pointsHeading) {
+      pointsHeading.firstChild.textContent = 'This order may earn ';
+      pointsHeading.lastChild.textContent = ' OUJI Points';
+    }
+    const pointsDescription = document.querySelector('[data-cart-member-description]');
+    if (pointsDescription) pointsDescription.firstChild.textContent = 'Estimated from discounted merchandise, excluding shipping. Available at 10am Hong Kong time the day after ordering, once payment succeeds. ';
+    setText('[data-cart-member-auth] a', 'Sign in / join free');
+    setText('[data-member-redeem-heading]', 'Use OUJI Points');
+    setText('[data-member-reward-label]', 'How many points would you like to use?');
+    setText('[data-member-redeem-button]', 'Apply points');
     setText('#payment-security-title', 'Secure encrypted payment');
     setText('.payment-security__heading span', 'Payment details are processed by a secure payment system');
     const security = document.querySelector('.payment-security');
@@ -834,6 +868,10 @@
        $84 貨品加 $15 運費就變 $99，啱啱夠 post 嘅 $99 門檻，白送運費。
        直接放個數出嚟，唔好再由 DOM 反推。 */
     window.OUJI_netGoods = netTotal;
+    const estimatedPoints = document.querySelector('[data-cart-member-points]');
+    if (estimatedPoints) estimatedPoints.textContent = Math.max(0, Math.floor(netTotal)).toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK');
+    const memberAuth = document.querySelector('[data-cart-member-auth]');
+    if (memberAuth && typeof isLoggedIn === 'function' && isLoggedIn()) memberAuth.textContent = window.OUJI_cartCopy('請以同一會員身份結帳，積分會記入帳戶。', 'Check out with the same member account to earn points.');
     if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
     if (shippingEl) shippingEl.textContent = shipping === 0
       ? window.OUJI_cartCopy('免費', 'Free') : formatPrice(shipping);
@@ -851,6 +889,114 @@
       .filter((e) => e.node.attributes?.some((a) => a.key === '_ouji_auto_gift' && a.value === '1')
         && e.node.cost?.totalAmount?.amount != null && Number(e.node.cost.totalAmount.amount) === 0)
       .map((e) => e.node.merchandise.product?.handle).filter(Boolean));
+
+    async function memberApi(path, body) {
+      const token = localStorage.getItem('customer_access_token');
+      const response = await fetch(`https://ouji-loyalty.ouji-app.workers.dev${path}`, {
+        method: 'POST', headers: { Authorization: token, 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || window.OUJI_cartCopy('積分服務暫時未能使用', 'Points are temporarily unavailable'));
+      return data;
+    }
+
+    async function updateMemberDiscount(codes) {
+      const result = (await shopifyFetch(`mutation MemberDiscount($cartId:ID!,$codes:[String!]!){
+        cartDiscountCodesUpdate(cartId:$cartId,discountCodes:$codes){
+          cart{id discountCodes{code applicable}} userErrors{message}
+        }}`, { cartId: cart.id, codes }))?.cartDiscountCodesUpdate;
+      if (!result?.cart || result.userErrors?.length) throw new Error(window.OUJI_cartCopy('未能更新購物袋優惠，請再試一次。', 'Could not update your cart discount. Please try again.'));
+      if (typeof invalidateCheckout === 'function') invalidateCheckout();
+      return result.cart;
+    }
+
+    async function setupMemberRedemption() {
+      const panel = document.querySelector('[data-member-redeem]');
+      const balance = document.querySelector('[data-member-balance]');
+      const select = document.querySelector('[data-member-reward-points]');
+      const button = document.querySelector('[data-member-redeem-button]');
+      const status = document.querySelector('[data-member-redeem-status]');
+      if (!panel || !select || !button || typeof ensureLoggedIn !== 'function' || !await ensureLoggedIn()) return;
+      panel.hidden = false;
+      const applied = (cart.discountCodes || []).find((item) => /^OUJI-[A-F0-9]{32}$/.test(item.code));
+      if (applied && !applied.applicable) {
+        try {
+          await updateMemberDiscount((cart.discountCodes || []).filter(item => item.code !== applied.code).map(item => item.code));
+          await memberApi('/v1/redeem/release', { code: applied.code }).catch(() => null);
+          location.reload();
+        } catch (error) { status.textContent = window.OUJI_cartError(error, '未能移除失效獎賞，請重新整理。', 'Could not remove the expired reward. Please refresh.'); }
+        return;
+      }
+      if (applied?.applicable) {
+        balance.textContent = window.OUJI_cartCopy('今張單已套用積分獎賞；結帳頁會再顯示實際扣減。', 'Your points reward is applied. The final discount will appear at checkout.');
+        select.hidden = true;
+        select.previousElementSibling.hidden = true;
+        button.textContent = window.OUJI_cartCopy('取消使用積分', 'Remove points reward');
+        button.addEventListener('click', async () => {
+          button.disabled = true;
+          try {
+            await updateMemberDiscount((cart.discountCodes || []).filter(item => item.code !== applied.code).map(item => item.code));
+            await memberApi('/v1/redeem/release', { code: applied.code });
+            location.reload();
+          } catch (error) { status.textContent = window.OUJI_cartError(error, '取消獎賞失敗，請再試一次。', 'Could not remove the reward. Please try again.'); button.disabled = false; }
+        });
+        return;
+      }
+      try {
+        const token = localStorage.getItem('customer_access_token');
+        const identity = cart.buyerIdentity || {};
+        const result = (await shopifyFetch(`mutation MemberCartIdentity($cartId:ID!,$identity:CartBuyerIdentityInput!){
+          cartBuyerIdentityUpdate(cartId:$cartId,buyerIdentity:$identity){
+            cart{id buyerIdentity{customer{id}}} userErrors{message}
+          }}`, { cartId: cart.id, identity: { countryCode: identity.countryCode || 'HK',
+            ...(identity.email ? { email: identity.email } : {}),
+            ...(identity.phone ? { phone: identity.phone } : {}), customerAccessToken: token } }))?.cartBuyerIdentityUpdate;
+        if (!result?.cart?.buyerIdentity?.customer?.id || result.userErrors?.length) throw new Error(window.OUJI_cartCopy('未能確認會員購物袋，請重新登入後再試。', 'Could not verify your member cart. Please sign in again.'));
+        if (typeof invalidateCheckout === 'function') invalidateCheckout();
+        const quote = await memberApi('/v1/quote', { cartId: cart.id });
+        balance.textContent = window.OUJI_cartCopy(`你有 ${Number(quote.availablePoints || 0).toLocaleString('zh-HK')} Available Points`, `You have ${Number(quote.availablePoints || 0).toLocaleString('en-HK')} Available Points`);
+        if (!quote.eligible) {
+          const messages = {
+            two_completed_orders_required: ['完成 2 張有效訂單後可使用積分。', 'Complete 2 eligible orders before using points.'],
+            minimum_order_not_met: ['今張單商品滿 HK$199 後可使用積分。', 'Spend HK$199 on merchandise to use points.'],
+            minimum_points_not_met: ['儲夠 1,000 Points 就可以換 HK$20。', 'Collect 1,000 Points to redeem HK$20.'],
+            twenty_percent_cap_below_minimum_reward: ['受每單最多抵 20% 限制，今張單暫時用唔到積分。', 'The 20% cap is below the minimum reward for this cart.'],
+          };
+          const message = messages[quote.reason] || ['今張單暫時未符合使用積分條件。', 'This cart is not eligible for points yet.'];
+          status.textContent = window.OUJI_cartCopy(...message);
+          select.hidden = true; select.previousElementSibling.hidden = true; button.hidden = true;
+          return;
+        }
+        select.replaceChildren();
+        for (let points = 1000; points <= quote.maximumPoints; points += 500) {
+          const option = new Option(window.OUJI_cartCopy(`${points.toLocaleString('zh-HK')} Points = 減 HK$${points / 50}`, `${points.toLocaleString('en-HK')} Points = HK$${points / 50} off`), String(points));
+          select.add(option);
+        }
+        status.textContent = window.OUJI_cartCopy('每張單最多抵商品金額 20%；不能與其他優惠碼同用。', 'Up to 20% off merchandise per order. Cannot be combined with another discount code.');
+        button.addEventListener('click', async () => {
+          button.disabled = true;
+          let reward = null;
+          try {
+            reward = await memberApi('/v1/redeem', { cartId: cart.id, points: Number(select.value) });
+            const updated = await updateMemberDiscount([reward.code]);
+            if (!updated.discountCodes?.some((item) => item.code.toUpperCase() === reward.code && item.applicable)) throw new Error(window.OUJI_cartCopy('Shopify 未能套用獎賞，積分不會被扣除。', 'Shopify could not apply the reward. Your points will not be used.'));
+            location.reload();
+          } catch (error) {
+            if (reward?.code) {
+              await updateMemberDiscount([]).catch(() => null);
+              await memberApi('/v1/redeem/release', { code: reward.code }).catch(() => null);
+            }
+            status.textContent = window.OUJI_cartError(error, '未能使用積分，請再試一次。', 'Could not apply points. Please try again.');
+            button.disabled = false;
+          }
+        });
+      } catch (error) {
+        balance.textContent = window.OUJI_cartCopy('積分兌換暫時未能使用。', 'Points redemption is temporarily unavailable.');
+        status.textContent = window.OUJI_cartError(error, '請重新整理或登入再試。', 'Please refresh or sign in again.');
+        select.hidden = true; select.previousElementSibling.hidden = true; button.hidden = true;
+      }
+    }
+    setupMemberRedemption();
 
     // 2026-09-05: moved inside this callback so these close over `lines`
     // (declared above). Defined at the outer <script> scope, calling

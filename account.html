@@ -306,12 +306,12 @@
             <div class="member-points__balance member-points__balance--available">
               <span>Available Points</span>
               <strong id="available-points">—</strong>
-              <small>而家可以使用</small>
+              <small>可喺購物袋使用</small>
             </div>
             <div class="member-points__balance">
               <span>Pending Points</span>
               <strong id="pending-points">—</strong>
-              <small>訂單完成後 14 日確認</small>
+              <small>付款成功後，落單翌日上午 10 點可用</small>
             </div>
           </div>
 
@@ -348,7 +348,7 @@
           <div class="member-points__howto">
             <strong>達標後點用？</strong>
             <span>購物袋會顯示可用獎賞；每張單最多抵商品金額 20%，唔會扣運費。</span>
-            <em>兌換功能即將開放</em>
+            <em>到購物袋選擇使用積分</em>
           </div>
           <p class="member-points__expiry" id="points-expiry" hidden></p>
 
@@ -357,10 +357,10 @@
               <summary>積分規則</summary>
               <ul>
                 <li><strong>點樣儲：</strong>折扣後實付商品每 HK$1 = 1 Point；運費不計。</li>
-                <li><strong>幾時可用：</strong>新會員送 200 Points；購物 Points 先列為 Pending，訂單完成 14 日後轉為 Available。</li>
+                <li><strong>幾時可用：</strong>新會員送 200 Points；購物 Points 先列為 Pending，付款成功後，落單翌日上午 10 點轉為 Available。</li>
                 <li><strong>點樣兌換：</strong>1,000 Points = HK$20，其後每 500 Points 多 HK$10。</li>
                 <li><strong>使用限制：</strong>首次使用前須完成 2 張有效訂單；每單商品滿 HK$199，最多抵商品金額 20%。</li>
-                <li><strong>有效期：</strong>普通積分 12 個月到期；取消、退款或部分退款會相應調整積分。</li>
+                <li><strong>有效期：</strong>Welcome Points 由發放日起計 12 個月到期；購物積分由可用日起計 12 個月到期。取消、退款或部分退款會相應調整積分。</li>
               </ul>
             </details>
             <details class="member-points__history"><summary>積分紀錄</summary><div id="points-history"></div></details>
@@ -510,6 +510,14 @@
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
+    if (typeof getLang === 'function' && getLang() === 'en') {
+      document.querySelector('.member-points__balance--available small').textContent = 'Use in your shopping bag';
+      document.querySelector('.member-points__balance:not(.member-points__balance--available) small').textContent = 'Available at 10am Hong Kong time the next day, once paid';
+      document.querySelector('.member-points__howto em').textContent = 'Choose a reward in your shopping bag';
+      const rules = document.querySelectorAll('.member-points__rules li');
+      if (rules[1]) rules[1].innerHTML = '<strong>When available:</strong> New members get 200 Points. Purchase points start as Pending and become Available at 10am Hong Kong time the next day, once payment succeeds.';
+      if (rules[4]) rules[4].innerHTML = '<strong>Expiry:</strong> Welcome Points expire 12 months after they are awarded; purchase points expire 12 months after they become Available. Cancellations and full or partial refunds adjust your balance.';
+    }
 
     const loginSection = document.getElementById('login-section');
     const accountSection = document.getElementById('account-section');
@@ -752,7 +760,7 @@
         document.getElementById('points-order-count').textContent = `(${Math.min(completedOrders, 2)}/2)`;
         const expiry = document.getElementById('points-expiry');
         if (points.expiring?.points) { const date = new Date(points.expiring.expiresAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' }); expiry.textContent = `${Number(points.expiring.points).toLocaleString('zh-HK')} Points 將於 ${date} 到期`; expiry.hidden = false; }
-        const labels = { pending: '待確認', available: '可使用', cancelled: '已取消', held: '已保留', committed: '已使用', released: '已釋放' };
+        const labels = { pending: '待確認', available: '可使用', expired: '已過期', cancelled: '已取消', held: '已保留', committed: '已使用', released: '已釋放' };
         document.getElementById('points-history').innerHTML = (points.history || []).map(item => `<div class="member-points__history-row"><span><strong>${escapeAccountText(item.label)}</strong><small>${item.status ? escapeAccountText(labels[item.status] || item.status) : ''}${item.date ? `・${new Date(item.date).toLocaleDateString('zh-HK')}` : ''}</small></span><b class="${Number(item.points) < 0 ? 'is-negative' : ''}">${Number(item.points) > 0 ? '+' : ''}${Number(item.points).toLocaleString('zh-HK')}</b></div>`).join('') || '<p class="account-order__empty">暫時未有積分紀錄。</p>';
       } catch {
         document.getElementById('available-points').textContent = '—';
