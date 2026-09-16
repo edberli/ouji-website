@@ -47,15 +47,31 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css">
   <style>
-    .cart-member-points { margin-top: 20px; padding: 18px 20px; border: 1px solid #c8d9dc; border-radius: 14px; background: #f2f8f8; color: #244650; }
-    .cart-member-points strong { display: block; font-size: 1rem; line-height: 1.45; }
-    .cart-member-points p { margin: 7px 0 0; font-size: .875rem; line-height: 1.55; }
-    .cart-member-points a { color: #244650; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
-    .cart-member-redeem { margin-top: 16px; padding-top: 16px; border-top: 1px solid #c8d9dc; }
+    .cart-member-points { margin-top: 20px; padding: 17px 18px 16px; border: 1px solid #d8e4e5; border-radius: 16px; background: #f7faf9; color: #244650; }
+    .cart-member-points__top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
+    .cart-member-points__brand { font-size: .74rem; font-weight: 800; letter-spacing: .12em; color: #52717a; }
+    .cart-member-points__link { color: #315d68; font-size: .8rem; font-weight: 700; text-decoration: none; }
+    .cart-member-points__link:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .cart-member-points__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .cart-member-points__stat { min-width: 0; padding: 12px; border-radius: 11px; background: #fff; box-shadow: inset 0 0 0 1px rgba(47,98,112,.09); }
+    .cart-member-points__stat span { display: block; margin-bottom: 5px; color: #71878d; font-size: .72rem; line-height: 1.3; }
+    .cart-member-points__stat strong { display: block; color: #234650; font-size: 1.08rem; line-height: 1.2; white-space: nowrap; }
+    .cart-member-points__stat small { margin-left: 2px; font-size: .68rem; font-weight: 600; color: #71878d; }
+    .cart-member-points__foot { margin: 11px 1px 0; color: #71878d; font-size: .72rem; line-height: 1.4; }
+    .cart-member-points__foot a { color: #315d68; font-weight: 700; }
+    .cart-member-redeem { margin-top: 14px; padding-top: 14px; border-top: 1px solid #d8e4e5; }
+    .cart-member-redeem > strong { display: block; font-size: .9rem; }
+    .cart-member-redeem p { margin: 7px 0 0; font-size: .78rem; line-height: 1.45; }
     .cart-member-redeem label { display: block; margin-top: 10px; font-size: .875rem; font-weight: 700; }
     .cart-member-redeem select { width: 100%; min-height: 46px; margin-top: 7px; padding: 8px 12px; border: 1px solid #9bb8bf; border-radius: 8px; background: #fff; color: #244650; font: inherit; }
     .cart-member-redeem button { min-height: 46px; margin-top: 10px; padding: 9px 20px; border: 0; border-radius: 8px; background: #2f6270; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
     .cart-member-redeem button:disabled { opacity: .6; cursor: wait; }
+    @media (max-width: 440px) {
+      .cart-member-points { padding: 15px 14px; }
+      .cart-member-points__stats { gap: 6px; }
+      .cart-member-points__stat { padding: 10px 8px; }
+      .cart-member-points__stat strong { font-size: .98rem; }
+    }
   </style>
 </head>
 <body>
@@ -339,11 +355,27 @@
               <span data-total>HK$0</span>
             </div>
             <div class="cart-member-points" aria-live="polite">
-              <strong data-cart-member-heading>今張訂單預計賺取 <span data-cart-member-points>0</span> OUJI Points</strong>
-              <p data-cart-member-description>按折扣後商品金額估算，不計運費；付款成功後，落單翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入／免費加入會員</a>即可累積。</span></p>
+              <div class="cart-member-points__top">
+                <span class="cart-member-points__brand">OUJI MEMBER</span>
+                <a class="cart-member-points__link" href="account.html" data-member-detail-link>積分詳情 →</a>
+              </div>
+              <div class="cart-member-points__stats">
+                <div class="cart-member-points__stat">
+                  <span data-points-earned-label>今單賺取</span>
+                  <strong>+<b data-cart-member-points>0</b><small>Points</small></strong>
+                </div>
+                <div class="cart-member-points__stat">
+                  <span data-points-balance-label>現有積分</span>
+                  <strong data-member-balance>登入查看</strong>
+                </div>
+                <div class="cart-member-points__stat">
+                  <span data-points-remaining-label>距離獎賞</span>
+                  <strong data-member-remaining>—</strong>
+                </div>
+              </div>
+              <p class="cart-member-points__foot" data-cart-member-description>今單積分將於付款後翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入／免費加入</a></span></p>
               <div class="cart-member-redeem" data-member-redeem hidden>
                 <strong data-member-redeem-heading>使用 OUJI Points</strong>
-                <p data-member-balance>正在核對可用積分…</p>
                 <label for="member-reward-points" data-member-reward-label>今張單使用幾多分？</label>
                 <select id="member-reward-points" data-member-reward-points></select>
                 <button type="button" data-member-redeem-button>使用積分</button>
@@ -627,13 +659,12 @@
       const el = document.querySelector(selector);
       if (el) el.textContent = value;
     };
-    const pointsHeading = document.querySelector('[data-cart-member-heading]');
-    if (pointsHeading) {
-      pointsHeading.firstChild.textContent = 'This order may earn ';
-      pointsHeading.lastChild.textContent = ' OUJI Points';
-    }
+    setText('[data-points-earned-label]', 'Earn this order');
+    setText('[data-points-balance-label]', 'Your points');
+    setText('[data-points-remaining-label]', 'To next reward');
+    setText('[data-member-detail-link]', 'Points details →');
     const pointsDescription = document.querySelector('[data-cart-member-description]');
-    if (pointsDescription) pointsDescription.firstChild.textContent = 'Estimated from discounted merchandise, excluding shipping. Available at 10am Hong Kong time the day after ordering, once payment succeeds. ';
+    if (pointsDescription) pointsDescription.firstChild.textContent = 'Available at 10am Hong Kong time the next day, once paid. ';
     setText('[data-cart-member-auth] a', 'Sign in / join free');
     setText('[data-member-redeem-heading]', 'Use OUJI Points');
     setText('[data-member-reward-label]', 'How many points would you like to use?');
@@ -871,7 +902,7 @@
     const estimatedPoints = document.querySelector('[data-cart-member-points]');
     if (estimatedPoints) estimatedPoints.textContent = Math.max(0, Math.floor(netTotal)).toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK');
     const memberAuth = document.querySelector('[data-cart-member-auth]');
-    if (memberAuth && typeof isLoggedIn === 'function' && isLoggedIn()) memberAuth.textContent = window.OUJI_cartCopy('請以同一會員身份結帳，積分會記入帳戶。', 'Check out with the same member account to earn points.');
+    if (memberAuth && typeof isLoggedIn === 'function' && isLoggedIn()) memberAuth.hidden = true;
     if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
     if (shippingEl) shippingEl.textContent = shipping === 0
       ? window.OUJI_cartCopy('免費', 'Free') : formatPrice(shipping);
@@ -913,11 +944,11 @@
     async function setupMemberRedemption() {
       const panel = document.querySelector('[data-member-redeem]');
       const balance = document.querySelector('[data-member-balance]');
+      const remaining = document.querySelector('[data-member-remaining]');
       const select = document.querySelector('[data-member-reward-points]');
       const button = document.querySelector('[data-member-redeem-button]');
       const status = document.querySelector('[data-member-redeem-status]');
       if (!panel || !select || !button || typeof ensureLoggedIn !== 'function' || !await ensureLoggedIn()) return;
-      panel.hidden = false;
       const applied = (cart.discountCodes || []).find((item) => /^OUJI-[A-F0-9]{32}$/.test(item.code));
       if (applied && !applied.applicable) {
         try {
@@ -928,7 +959,9 @@
         return;
       }
       if (applied?.applicable) {
+        panel.hidden = false;
         balance.textContent = window.OUJI_cartCopy('今張單已套用積分獎賞；結帳頁會再顯示實際扣減。', 'Your points reward is applied. The final discount will appear at checkout.');
+        remaining.textContent = window.OUJI_cartCopy('已套用', 'Applied');
         select.hidden = true;
         select.previousElementSibling.hidden = true;
         button.textContent = window.OUJI_cartCopy('取消使用積分', 'Remove points reward');
@@ -954,18 +987,16 @@
         if (!result?.cart?.buyerIdentity?.customer?.id || result.userErrors?.length) throw new Error(window.OUJI_cartCopy('未能確認會員購物袋，請重新登入後再試。', 'Could not verify your member cart. Please sign in again.'));
         if (typeof invalidateCheckout === 'function') invalidateCheckout();
         const quote = await memberApi('/v1/quote', { cartId: cart.id });
-        balance.textContent = window.OUJI_cartCopy(`你有 ${Number(quote.availablePoints || 0).toLocaleString('zh-HK')} Available Points`, `You have ${Number(quote.availablePoints || 0).toLocaleString('en-HK')} Available Points`);
+        const available = Number(quote.availablePoints || 0);
+        const gap = Math.max(0, 500 - available);
+        balance.innerHTML = `${available.toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK')}<small>Points</small>`;
+        remaining.innerHTML = gap
+          ? `${gap.toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK')}<small>Points</small>`
+          : window.OUJI_cartCopy('已解鎖', 'Unlocked');
         if (!quote.eligible) {
-          const messages = {
-            minimum_order_not_met: ['今張單商品滿 HK$199 後可使用積分。', 'Spend HK$199 on merchandise to use points.'],
-            minimum_points_not_met: ['儲夠 500 Points 就可以換 HK$10。', 'Collect 500 Points to redeem HK$10.'],
-            twenty_percent_cap_below_minimum_reward: ['受每單最多抵 20% 限制，今張單暫時用唔到積分。', 'The 20% cap is below the minimum reward for this cart.'],
-          };
-          const message = messages[quote.reason] || ['今張單暫時未符合使用積分條件。', 'This cart is not eligible for points yet.'];
-          status.textContent = window.OUJI_cartCopy(...message);
-          select.hidden = true; select.previousElementSibling.hidden = true; button.hidden = true;
           return;
         }
+        panel.hidden = false;
         select.replaceChildren();
         for (let points = 500; points <= quote.maximumPoints; points += 500) {
           const option = new Option(window.OUJI_cartCopy(`${points.toLocaleString('zh-HK')} Points = 減 HK$${points / 50}`, `${points.toLocaleString('en-HK')} Points = HK$${points / 50} off`), String(points));
