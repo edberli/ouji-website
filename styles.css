@@ -3481,7 +3481,11 @@ button.product-card__quick-add,
   .product-gallery__thumb { width: 60px; height: 60px; }
   .brand-rail { gap: 3px; padding: 9px 10px; }
   .brand-rail__item { width: 5px; }
-  .cart-layout { grid-template-columns: 1fr; }
+  /* ⚠️ 一定要 minmax(0, 1fr)，唔可以淨寫 1fr。
+     1fr ＝ minmax(auto, 1fr)，條 track 嘅最小闊度會跟 grid item 嘅
+     min-content 走 —— 加購卡橫掃（148px × N）一撐，條 track 就變 1952px，
+     成頁向右爆出畫面（2026-09-17 實測 390px 中招）。 */
+  .cart-layout { grid-template-columns: minmax(0, 1fr); }
   /* 手機版排序：商品 → 加多件 → 訂單摘要 → 短效期特價。
      原本短效期卡夾喺摘要前面，加埋「加多件」要掃成個手機畫面先撳到「前往結帳」；
      加多件留喺摘要前（順手幫客湊免運），短效期搬去最後。
@@ -3494,6 +3498,13 @@ button.product-card__quick-add,
   .addon:not(.addon--sd) { order: 3; }
   .cart-summary { order: 4; }
   .addon--sd { order: 5; }
+  /* display:contents 之後，以上幾個係 .cart-layout 嘅直接 grid item，
+     grid item 預設 min-width:auto：內容（尤其係橫掃嘅加購卡）會反過來
+     撐闊條 track。鎖死 min-width:0，闊度只跟 viewport。 */
+  .cart-items,
+  [data-cart-notes],
+  .addon,
+  .cart-summary { min-width: 0; }
   /* 手機下 .cart-summary 一直沿用桌面嘅 48px 左右 padding，
      375px 螢幕淨返 343 − 96 = 247px，再入面 .reward 又食 24×2，
      運送選項嘅文字欄剩返 62px —— 逐個字換行，成張卡爆到 245px 高。
