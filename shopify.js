@@ -884,7 +884,14 @@ async function createCart() {
 /** 取得或建立購物車 ID */
 async function getOrCreateCartId() {
   const stored = localStorage.getItem('shopify_cart_id');
-  if (stored) return stored;
+  /* Checkout 完成後 Shopify 會令舊 cart 失效，但瀏覽器仲會留住個 ID。
+     直接對住舊 ID 做 cartLinesAdd，某些情況會回一個似成功嘅 cart，
+     之後 cart(id:) 卻攞唔返，結果畫面話加咗、購物袋仍然係空。
+     加貨前先做一次真實 cart query；getCart 會清走失效 ID，跟住開新車。 */
+  if (stored) {
+    const existing = await getCart();
+    if (existing?.id) return existing.id;
+  }
   const cart = await createCart();
   return cart?.id;
 }
