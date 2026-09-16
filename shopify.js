@@ -768,7 +768,8 @@ const CART_COUNTRY = 'HK';
    客戶電郵度出現，但 Admin 訂單詳情同 API 照睇到。
    ========================================================================== */
 
-const ATTR_CLICK_KEYS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid'];
+const ATTR_CLICK_KEYS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid',
+                         'gad_campaignid'];  // gad_campaignid：認得返係邊個 Google 廣告活動
 const ATTR_UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
 
 function readAttributionFromUrl() {
@@ -792,8 +793,13 @@ function readAttributionFromUrl() {
 /** 由一組參數判斷個渠道叫咩名 —— 報表就唔使逐次再解讀。 */
 function classifyAttribution(a) {
   if (!a) return 'direct';
+  /* gclid 只有付費點擊先有（Google 自動標記），見到就肯定係廣告。
+     ⚠️ fbclid 唔同 —— Meta 喺**任何**由 FB／IG 撳出去嘅連結都會加，
+     bio 連結同普通帖文一樣有。實例：訂單 #1039 有 fbclid 但同時帶住
+     utm_content=link_in_bio，其實係自然流量，第一版誤判咗做廣告。
+     所以 fbclid 只證明「由 Meta 平台嚟」，要靠 UTM 先分到係咪付費。
+     我哋自己啲 Meta 廣告由 2026-09-11 起會帶 utm_source=meta。 */
   if (a.gclid || a.gbraid || a.wbraid) return 'google_ads';
-  if (a.fbclid) return 'meta_ads';
   const src = (a.utm_source || '').toLowerCase();
   const med = (a.utm_medium || '').toLowerCase();
   if (med.includes('paid') || med === 'cpc' || med === 'ppc') {
@@ -802,6 +808,7 @@ function classifyAttribution(a) {
     return `paid_${src || 'other'}`;
   }
   if (src) return `${src}_organic`;
+  if (a.fbclid) return 'social_organic';   // 由 Meta 平台嚟但冇付費標記
   const ref = (a.referrer || '').toLowerCase();
   if (!ref) return 'direct';
   if (ref.includes('google.')) return 'google_organic';
