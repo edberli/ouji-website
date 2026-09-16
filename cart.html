@@ -59,8 +59,13 @@
     .cart-member-points__stat small { margin-left: 2px; font-size: .68rem; font-weight: 600; color: #71878d; }
     .cart-member-points__foot { margin: 11px 1px 0; color: #71878d; font-size: .72rem; line-height: 1.4; }
     .cart-member-points__foot a { color: #315d68; font-weight: 700; }
-    .cart-member-redeem { margin-top: 14px; padding-top: 14px; border-top: 1px solid #d8e4e5; }
-    .cart-member-redeem > strong { display: block; font-size: .9rem; }
+    .cart-member-coupon { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 11px 13px; border-radius: 12px; background: linear-gradient(135deg,#f7f2e6,#edf4f2); box-shadow: inset 0 0 0 1px rgba(47,98,112,.13); }
+    .cart-member-coupon__amount { flex: none; padding: 6px 11px; border-radius: 9px; color: #7a5523; background: #f2d9a5; font-size: .88rem; font-weight: 800; letter-spacing: -.01em; }
+    .cart-member-coupon__copy { color: #3c5a63; font-size: .76rem; line-height: 1.45; }
+    .cart-member-coupon__copy b { color: #234650; }
+    .cart-member-coupon[data-state="locked"] .cart-member-coupon__amount { color: #5d7780; background: #dde7e5; }
+    .cart-member-redeem { margin-top: 12px; padding: 14px; border-radius: 14px; background: linear-gradient(135deg,#fffaf0,#f3e6c8); box-shadow: inset 0 0 0 1px rgba(200,149,47,.42); }
+    .cart-member-redeem > strong { display: block; color: #2b4a55; font-size: .92rem; }
     .cart-member-redeem p { margin: 7px 0 0; font-size: .78rem; line-height: 1.45; }
     .cart-member-redeem label { display: block; margin-top: 10px; font-size: .875rem; font-weight: 700; }
     .cart-member-redeem select { width: 100%; min-height: 46px; margin-top: 7px; padding: 8px 12px; border: 1px solid #9bb8bf; border-radius: 8px; background: #fff; color: #244650; font: inherit; }
@@ -374,8 +379,12 @@
                 </div>
               </div>
               <p class="cart-member-points__foot" data-cart-member-description>今單積分將於付款後翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入／免費加入</a></span></p>
+              <div class="cart-member-coupon" data-member-coupon data-state="locked" hidden>
+                <span class="cart-member-coupon__amount" data-coupon-amount>HK$10</span>
+                <span class="cart-member-coupon__copy" data-coupon-copy></span>
+              </div>
               <div class="cart-member-redeem" data-member-redeem hidden>
-                <strong data-member-redeem-heading>使用 OUJI Points</strong>
+                <strong data-member-redeem-heading>使用 OUJI 獎賞</strong>
                 <label for="member-reward-points" data-member-reward-label>今張單使用幾多分？</label>
                 <select id="member-reward-points" data-member-reward-points></select>
                 <button type="button" data-member-redeem-button>使用積分</button>
@@ -736,6 +745,18 @@
     const gap = Number(cached.progress?.remaining ?? Math.max(0, 500 - available));
     balance.innerHTML = memberPointsMarkup(available);
     remaining.innerHTML = gap > 0 ? memberPointsMarkup(gap) : window.OUJI_cartCopy('已解鎖', 'Unlocked');
+    const coupon = document.querySelector('[data-member-coupon]');
+    const couponAmount = document.querySelector('[data-coupon-amount]');
+    const couponCopy = document.querySelector('[data-coupon-copy]');
+    if (coupon && couponAmount && couponCopy) {
+      const unlockedSteps = Math.floor(available / 500);
+      coupon.hidden = false;
+      coupon.dataset.state = unlockedSteps >= 1 ? 'ready' : 'locked';
+      couponAmount.textContent = `HK$${unlockedSteps >= 1 ? unlockedSteps * 10 : 10}`;
+      couponCopy.innerHTML = unlockedSteps >= 1
+        ? window.OUJI_cartCopy('已解鎖！購物袋商品滿 HK$199 可以即時使用', 'Unlocked! Use it on orders with HK$199+ merchandise')
+        : window.OUJI_cartCopy(`再儲 <b>${gap.toLocaleString('zh-HK')}</b> Points 解鎖 HK$10 獎賞`, `Earn <b>${gap.toLocaleString('en-HK')}</b> more Points to unlock HK$10`);
+    }
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
@@ -998,7 +1019,34 @@
       const select = document.querySelector('[data-member-reward-points]');
       const button = document.querySelector('[data-member-redeem-button]');
       const status = document.querySelector('[data-member-redeem-status]');
+      const coupon = document.querySelector('[data-member-coupon]');
+      const couponAmount = document.querySelector('[data-coupon-amount]');
+      const couponCopy = document.querySelector('[data-coupon-copy]');
+      const heading = document.querySelector('[data-member-redeem-heading]');
       if (!panel || !select || !button || typeof ensureLoggedIn !== 'function' || !await ensureLoggedIn()) return;
+
+      /* 獎賞券狀態：500 分為一級（HK$10）。未夠分要講清楚係「未解鎖」，
+         夠分就要講清楚「即刻可以用」。 */
+      function paintCoupon(couponState) {
+        if (!coupon) return;
+        coupon.hidden = false;
+        const goods = Number(window.OUJI_netGoods || 0);
+        const goodsGap = Math.max(0, 199 - goods);
+        if (!couponState.unlocked) {
+          coupon.dataset.state = 'locked';
+          couponAmount.textContent = 'HK$10';
+          couponCopy.innerHTML = window.OUJI_cartCopy(`再儲 <b>${couponState.gap.toLocaleString('zh-HK')}</b> Points 解鎖 HK$10 獎賞`, `Earn <b>${couponState.gap.toLocaleString('en-HK')}</b> more Points to unlock HK$10`);
+        } else if (goodsGap > 0) {
+          coupon.dataset.state = 'ready';
+          couponAmount.textContent = `HK$${couponState.value}`;
+          couponCopy.innerHTML = window.OUJI_cartCopy(`已解鎖！今單商品再買 <b>HK$${Math.ceil(goodsGap)}</b> 即可即時使用`, `Unlocked! Add <b>HK$${Math.ceil(goodsGap)}</b> of merchandise to use it on this order`);
+        } else {
+          coupon.dataset.state = 'ready';
+          couponAmount.textContent = `HK$${couponState.value}`;
+          couponCopy.innerHTML = window.OUJI_cartCopy(`已解鎖！今單商品滿 HK$199，可以即時使用`, `Unlocked! This order qualifies — use it right away`);
+        }
+      }
+
       const applied = (cart.discountCodes || []).find((item) => /^OUJI-[A-F0-9]{32}$/.test(item.code));
       if (applied && !applied.applicable) {
         try {
@@ -1010,6 +1058,12 @@
       }
       if (applied?.applicable) {
         panel.hidden = false;
+        if (coupon) {
+          coupon.hidden = false;
+          coupon.dataset.state = 'ready';
+          couponAmount.textContent = window.OUJI_cartCopy('已套用', 'Applied');
+          couponCopy.innerHTML = window.OUJI_cartCopy('今張單已使用 OUJI 獎賞，結帳頁會顯示實際扣減。', 'Your OUJI reward is applied — the discount shows at checkout.');
+        }
         balance.textContent = window.OUJI_cartCopy('已套用獎賞', 'Reward applied');
         remaining.textContent = window.OUJI_cartCopy('已套用', 'Applied');
         select.hidden = true;
@@ -1041,13 +1095,16 @@
         /* 距離獎賞用返後端 progress（有 650 分嗰陣下一個獎賞係 1,000，
            唔係再減 500），冇 progress 先退回舊寫法。 */
         const gap = Number(quote.progress?.remaining ?? Math.max(0, 500 - available));
+        const unlockedSteps = Math.floor(available / 500);
         balance.innerHTML = memberPointsMarkup(available);
         remaining.innerHTML = gap > 0 ? memberPointsMarkup(gap) : window.OUJI_cartCopy('已解鎖', 'Unlocked');
         writeCartPointsCache(quote);
+        paintCoupon({ unlocked: unlockedSteps >= 1, value: unlockedSteps * 10, gap });
         if (!quote.eligible) {
           return;
         }
         panel.hidden = false;
+        if (heading) heading.textContent = window.OUJI_cartCopy(`你有 HK$${unlockedSteps * 10} 獎賞可以用`, `You have HK$${unlockedSteps * 10} to use`);
         select.replaceChildren();
         for (let points = 500; points <= quote.maximumPoints; points += 500) {
           const option = new Option(window.OUJI_cartCopy(`${points.toLocaleString('zh-HK')} Points = 減 HK$${points / 50}`, `${points.toLocaleString('en-HK')} Points = HK$${points / 50} off`), String(points));

@@ -315,39 +315,41 @@
             </div>
           </div>
 
-          <div class="member-points__reward">
-            <div class="member-points__reward-copy">
-              <span class="member-points__section-label">距離下一個獎賞</span>
-              <p class="member-points__message" id="points-message">正在載入你嘅積分…</p>
+          <div class="member-reward" id="member-reward" data-reward-state="locked">
+            <div class="member-reward__ticket">
+              <div class="member-reward__stub">
+                <span class="member-reward__amount" data-reward-amount>HK$10</span>
+                <span class="member-reward__status" data-reward-status>未解鎖</span>
+              </div>
+              <div class="member-reward__copy">
+                <span class="member-points__section-label">OUJI 獎賞</span>
+                <strong data-reward-title>正在載入你嘅積分…</strong>
+                <span class="member-reward__note" data-reward-note>購物袋商品滿 HK$199 即可即時使用，每單最多扣商品金額 20%</span>
+                <a class="member-reward__cta" href="cart.html" data-reward-cta hidden>去購物袋使用 →</a>
+              </div>
+              <div class="member-points__shima" aria-hidden="true">
+                <div class="shima">
+                  <img class="shima__f" src="assets/images/shima/shima-acct1.webp" alt="">
+                  <img class="shima__f" src="assets/images/shima/shima-acct2.webp" alt="">
+                  <img class="shima__f" src="assets/images/shima/shima-acct3.webp" alt="">
+                  <img class="shima__f" src="assets/images/shima/shima-acct4.webp" alt="">
+                  <img class="shima__f" src="assets/images/shima/shima-acct5.webp" alt="">
+                  <img class="shima__f" src="assets/images/shima/shima-acct6.webp" alt="">
+                </div>
+              </div>
+            </div>
+
+            <div class="member-reward__next">
+              <div class="member-reward__next-head">
+                <span data-reward-next-label>距離 HK$10 獎賞</span>
+                <strong data-reward-next-remaining>再儲 — Points</strong>
+              </div>
               <div class="member-points__progress" role="progressbar" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="points-progress">
                 <span id="points-progress-bar"></span>
               </div>
               <div class="member-points__progress-labels"><span id="points-progress-current">— Points</span><span id="points-progress-target">500 Points</span></div>
             </div>
-            <div class="member-points__shima" aria-hidden="true">
-              <div class="shima">
-                <img class="shima__f" src="assets/images/shima/shima-acct1.webp" alt="">
-                <img class="shima__f" src="assets/images/shima/shima-acct2.webp" alt="">
-                <img class="shima__f" src="assets/images/shima/shima-acct3.webp" alt="">
-                <img class="shima__f" src="assets/images/shima/shima-acct4.webp" alt="">
-                <img class="shima__f" src="assets/images/shima/shima-acct5.webp" alt="">
-                <img class="shima__f" src="assets/images/shima/shima-acct6.webp" alt="">
-              </div>
-            </div>
-          </div>
-
-          <div class="member-points__unlock">
-            <p class="member-points__section-label">使用積分前要完成</p>
-            <div class="member-points__checks">
-              <span id="points-check-balance"><i aria-hidden="true">✓</i>有 500 Points</span>
-              <span><i aria-hidden="true">✓</i>今張訂單商品滿 HK$199</span>
-            </div>
-          </div>
-
-          <div class="member-points__howto">
-            <strong>達標後點用？</strong>
-            <span>購物袋會顯示可用獎賞；每張單最多抵商品金額 20%，唔會扣運費。</span>
-            <em>到購物袋選擇使用積分</em>
+            <p class="member-reward__error" id="points-message" role="status" hidden></p>
           </div>
           <p class="member-points__expiry" id="points-expiry" hidden></p>
 
@@ -518,7 +520,6 @@
     if (typeof getLang === 'function' && getLang() === 'en') {
       document.querySelector('.member-points__balance--available small').textContent = 'Use in your shopping bag';
       document.querySelector('.member-points__balance:not(.member-points__balance--available) small').textContent = 'Available at 10am Hong Kong time the next day, once paid';
-      document.querySelector('.member-points__howto em').textContent = 'Choose a reward in your shopping bag';
       const rules = document.querySelectorAll('.member-points__rules li');
       if (rules[1]) rules[1].innerHTML = '<strong>When available:</strong> New members get 200 Points. Purchase points start as Pending and become Available at 10am Hong Kong time the next day, once payment succeeds.';
       if (rules[2]) rules[2].innerHTML = '<strong>How to redeem:</strong> 500 Points = HK$10, then every additional 500 Points adds HK$10.';
@@ -771,18 +772,47 @@
         document.getElementById('available-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
         document.getElementById('hero-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
         document.getElementById('pending-points').textContent = Number(points.pendingPoints || 0).toLocaleString('zh-HK');
-        const progress = points.progress || {}, target = Number(progress.target || 500), current = Number(progress.current || 0), start = target > 500 ? target - 500 : 0;
-        const ratio = Math.max(0, Math.min(1, (current - start) / (target - start || 1)));
+        /* 獎賞券：500 分為一級（HK$10），之後每 500 分多 HK$10。
+           之前顯示「500 / 1,000 Points」令客人以為要 1,000 分先有
+           $10；而家明確分開「已解鎖嘅券」同「下一個目標」。 */
+        const en = typeof getLang === 'function' && getLang() === 'en';
+        const zh = (value) => Number(value).toLocaleString(en ? 'en-HK' : 'zh-HK');
+        const available = Number(points.availablePoints || 0);
+        const stepPoints = 500, stepValue = 10;
+        const unlockedSteps = Math.floor(available / stepPoints);
+        const unlocked = unlockedSteps >= 1;
+        const startPoint = unlockedSteps * stepPoints;
+        const nextTarget = startPoint + stepPoints;
+        const remaining = nextTarget - available;
+        const rewardValue = unlockedSteps * stepValue;
+        const card = document.getElementById('member-reward');
+        if (card) {
+          card.dataset.rewardState = unlocked ? 'unlocked' : 'locked';
+          document.querySelector('[data-reward-amount]').textContent = unlocked ? `HK$${rewardValue}` : 'HK$10';
+          document.querySelector('[data-reward-status]').textContent = unlocked
+            ? (en ? 'Unlocked' : '已解鎖')
+            : (en ? `Locked ${zh(available)}/${stepPoints}` : `未解鎖 ${zh(available)}/${stepPoints}`);
+          document.querySelector('[data-reward-title]').textContent = unlocked
+            ? (en ? `You have a HK$${rewardValue} reward to use` : `你有 HK$${rewardValue} 獎賞可以用`)
+            : (en ? `Earn ${zh(remaining)} more Points to unlock HK$10` : `再儲 ${zh(remaining)} Points 解鎖 HK$10 獎賞`);
+          document.querySelector('[data-reward-note]').textContent = unlocked
+            ? (en ? 'Use it on any order with HK$199+ merchandise — up to 20% of the merchandise amount.' : '購物袋商品滿 HK$199 即可即時使用，每單最多扣商品金額 20%')
+            : (en ? 'From 500 Points, use it on any order with HK$199+ merchandise.' : '儲夠 500 Points，購物袋商品滿 HK$199 即可即時使用');
+          document.querySelector('[data-reward-cta]').hidden = !unlocked;
+          document.querySelector('[data-reward-next-label]').textContent = unlocked
+            ? (en ? `Next reward: HK$${rewardValue + stepValue}` : `下一個獎賞：HK$${rewardValue + stepValue}`)
+            : (en ? 'To your HK$10 reward' : '距離 HK$10 獎賞');
+          document.querySelector('[data-reward-next-remaining]').textContent = en
+            ? `${zh(remaining)} Points to go` : `再儲 ${zh(remaining)} Points`;
+        }
+        const ratio = Math.max(0, Math.min(1, (available - startPoint) / (nextTarget - startPoint || 1)));
         const progressEl = document.getElementById('points-progress');
-        progressEl.setAttribute('aria-valuemax', String(target)); progressEl.setAttribute('aria-valuenow', String(current));
+        progressEl.setAttribute('aria-valuemax', String(nextTarget)); progressEl.setAttribute('aria-valuenow', String(available));
         document.getElementById('points-progress-bar').style.width = `${ratio * 100}%`;
-        document.getElementById('points-progress-current').textContent = `${current.toLocaleString('zh-HK')} Points`;
-        document.getElementById('points-progress-target').textContent = `${target.toLocaleString('zh-HK')} Points`;
-        const reward = Number(points.unlockedRewardCents || 0) / 100;
-        document.getElementById('points-message').textContent = reward > 0
-          ? `已解鎖 HK$${reward} Reward；再儲 ${Number(progress.remaining || 0).toLocaleString('zh-HK')} Points 可解鎖下一個獎賞`
-          : `${current.toLocaleString('zh-HK')} / ${target.toLocaleString('zh-HK')} Points・再儲 ${Number(progress.remaining || 0).toLocaleString('zh-HK')} Points，即可解鎖 HK$10 Reward`;
-        document.getElementById('points-check-balance').classList.toggle('is-complete', Number(points.availablePoints || 0) >= 500);
+        document.getElementById('points-progress-current').textContent = `${zh(available)} Points`;
+        document.getElementById('points-progress-target').textContent = `${zh(nextTarget)} Points`;
+        const errorEl = document.getElementById('points-message');
+        if (errorEl) { errorEl.hidden = true; errorEl.textContent = ''; }
         const expiry = document.getElementById('points-expiry');
         if (points.expiring?.points) { const date = new Date(points.expiring.expiresAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' }); expiry.textContent = `${Number(points.expiring.points).toLocaleString('zh-HK')} Points 將於 ${date} 到期`; expiry.hidden = false; }
         const labels = { pending: '待確認', available: '可使用', expired: '已過期', cancelled: '已取消', held: '已保留', committed: '已使用', released: '已釋放' };
@@ -806,8 +836,12 @@
           document.getElementById('available-points').textContent = '—';
           document.getElementById('pending-points').textContent = '—';
         }
-        document.getElementById('points-message').innerHTML = '積分暫時未能載入。<button type="button" class="member-points__retry">重新載入</button>';
-        document.querySelector('.member-points__retry')?.addEventListener('click', loadMemberPoints, { once: true });
+        const errorEl = document.getElementById('points-message');
+        if (errorEl) {
+          errorEl.hidden = false;
+          errorEl.innerHTML = '積分暫時未能載入。<button type="button" class="member-points__retry">重新載入</button>';
+          errorEl.querySelector('.member-points__retry')?.addEventListener('click', loadMemberPoints, { once: true });
+        }
       }
     }
 
