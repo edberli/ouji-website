@@ -1828,8 +1828,8 @@ function initHScrollArrows() {
 
   if (!bar) return;
 
-  /* 原文係「A &nbsp;·&nbsp; B &nbsp;·&nbsp; C」，24 版 HTML 都一樣。
-     唔改 HTML —— 喺呢度拆，改咗 markup 就要改 24 個檔。 */
+  /* 原文係「A &nbsp;·&nbsp; B &nbsp;·&nbsp; C」，全部 28 版 HTML 都一樣。
+     唔改 HTML —— 喺呢度拆，改咗 markup 就要改 28 個檔。 */
   const full = bar.textContent.replace(/\s+/g, ' ').trim();
   const offers = full.split('·').map((t) => t.trim()).filter(Boolean);
   if (!offers.length) return;
@@ -1837,8 +1837,10 @@ function initHScrollArrows() {
   /* 窄機版：最少嘅字，但三個優惠都要齊。
      老闆：「咁有限嘅位置入邊⋯⋯用最少嘅字去表達。」
      之前窄機淨係得輪流播，客一次只見到一個優惠，好易走寶。 */
-  const SHORT = ['$99 自取免郵', '$250 順豐站免運', '$290 上門免運'];
-  const LABELS = ['自取', '順豐', '上門'];
+  /* 條 bar 只賣三個 marketing 禮遇（2026-09-16 老闆定）。
+     順豐 $250／$290 免運係 delivery rule，留返喺購物袋揀運送方式度講。 */
+  const SHORT = ['$99 自取免郵', '$399 減 $20', '$599 送面霜'];
+  const LABELS = ['自取', '折扣', '贈品'];
 
   bar.textContent = '';
   const make = (text, index, parent = bar) => {
