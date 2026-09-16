@@ -323,16 +323,6 @@
               <div class="addon__grid" data-addon-grid></div>
             </section>
 
-            <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
-                 只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。 -->
-            <section class="addon addon--sd" data-sd-addon hidden>
-              <div class="addon__head">
-                <h2 class="addon__title">搭埋呢啲短效期特價</h2>
-                <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
-              </div>
-              <div class="addon__grid" data-sd-addon-grid></div>
-              <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
-            </section>
           </div>
 
           <!-- Cart Summary -->
@@ -501,6 +491,20 @@
               </div>
             </section>
           </div>
+
+          <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
+               只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。
+               2026-09-17 老闆指正：由 .cart-column 搬出嚟，做 .cart-layout 最後一個 item。
+               grid 自動放佢去第 2 行第 1 欄（＝桌面左欄下面，同以前一樣位置）；
+               手機單欄時就自然跌到最底，唔使再靠 display:contents + order 硬砌。 -->
+          <section class="addon addon--sd" data-sd-addon hidden>
+            <div class="addon__head">
+              <h2 class="addon__title">搭埋呢啲短效期特價</h2>
+              <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
+            </div>
+            <div class="addon__grid" data-sd-addon-grid></div>
+            <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
+          </section>
         </div>
 
         <div style="margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid var(--border-light);">
