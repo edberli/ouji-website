@@ -690,9 +690,57 @@
     }
   }
 
+  /* 積分要即刻見到，唔可以等網絡。上次攞到嘅數字會用當時嘅 access
+     token 做 key 存在部機，開購物袋即畫，之後先更新即時資料。
+     Token 一轉（重新登入）就自然讀唔返舊快取。 */
+  function cartPointsCacheKey() {
+    const token = localStorage.getItem('customer_access_token') || '';
+    return token ? `ouji_points_cache_v1:${token.slice(-12)}` : null;
+  }
+
+  function readCartPointsCache() {
+    const key = cartPointsCacheKey();
+    if (!key) return null;
+    try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; }
+  }
+
+  function writeCartPointsCache(payload) {
+    const key = cartPointsCacheKey();
+    if (!key) return;
+    try {
+      localStorage.setItem(key, JSON.stringify({
+        availablePoints: Number(payload.availablePoints || 0),
+        pendingPoints: Number(payload.pendingPoints || 0),
+        progress: payload.progress || null,
+      }));
+    } catch { /* 私隱模式寫唔到就唔快取 */ }
+  }
+
+  function memberPointsMarkup(points) {
+    return `${Number(points).toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK')}<small>Points</small>`;
+  }
+
+  function paintCartMemberPoints() {
+    const balance = document.querySelector('[data-member-balance]');
+    const remaining = document.querySelector('[data-member-remaining]');
+    if (!balance || !remaining) return;
+    if (typeof isLoggedIn !== 'function' || !isLoggedIn()) {
+      balance.textContent = window.OUJI_cartCopy('登入查看', 'Sign in');
+      remaining.textContent = '—';
+      return;
+    }
+    const cached = readCartPointsCache();
+    if (!cached) return;
+    const available = Number(cached.availablePoints || 0);
+    const gap = Number(cached.progress?.remaining ?? Math.max(0, 500 - available));
+    balance.innerHTML = memberPointsMarkup(available);
+    remaining.innerHTML = gap > 0 ? memberPointsMarkup(gap) : window.OUJI_cartCopy('已解鎖', 'Unlocked');
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
     initCartEnglishStaticCopy();
+    paintCartMemberPoints();
 
     const cart = await getCart();
     const cartEmpty = document.getElementById('cart-empty');
@@ -960,7 +1008,7 @@
       }
       if (applied?.applicable) {
         panel.hidden = false;
-        balance.textContent = window.OUJI_cartCopy('今張單已套用積分獎賞；結帳頁會再顯示實際扣減。', 'Your points reward is applied. The final discount will appear at checkout.');
+        balance.textContent = window.OUJI_cartCopy('已套用獎賞', 'Reward applied');
         remaining.textContent = window.OUJI_cartCopy('已套用', 'Applied');
         select.hidden = true;
         select.previousElementSibling.hidden = true;
@@ -988,11 +1036,12 @@
         if (typeof invalidateCheckout === 'function') invalidateCheckout();
         const quote = await memberApi('/v1/quote', { cartId: cart.id });
         const available = Number(quote.availablePoints || 0);
-        const gap = Math.max(0, 500 - available);
-        balance.innerHTML = `${available.toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK')}<small>Points</small>`;
-        remaining.innerHTML = gap
-          ? `${gap.toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK')}<small>Points</small>`
-          : window.OUJI_cartCopy('已解鎖', 'Unlocked');
+        /* 距離獎賞用返後端 progress（有 650 分嗰陣下一個獎賞係 1,000，
+           唔係再減 500），冇 progress 先退回舊寫法。 */
+        const gap = Number(quote.progress?.remaining ?? Math.max(0, 500 - available));
+        balance.innerHTML = memberPointsMarkup(available);
+        remaining.innerHTML = gap > 0 ? memberPointsMarkup(gap) : window.OUJI_cartCopy('已解鎖', 'Unlocked');
+        writeCartPointsCache(quote);
         if (!quote.eligible) {
           return;
         }

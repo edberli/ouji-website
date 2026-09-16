@@ -508,6 +508,12 @@
   <script src="script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
+    /* 積分唔等網絡：有快取就即刻畫，initPage 同帳戶查詢照跑，
+       之後 loadMemberPoints() 再覆蓋成最新數字。 */
+    if (localStorage.getItem('customer_access_token')) {
+      const cachedPoints = readPointsCache();
+      if (cachedPoints) { try { renderMemberPoints(cachedPoints); } catch { /* 等即時資料 */ } }
+    }
     await initPage();
     if (typeof getLang === 'function' && getLang() === 'en') {
       document.querySelector('.member-points__balance--available small').textContent = 'Use in your shopping bag';
@@ -733,14 +739,35 @@
       }
     }
 
-    async function loadMemberPoints() {
-      const card = document.getElementById('member-points');
-      const token = localStorage.getItem('customer_access_token');
-      if (!card || !token) return;
+    /* 積分要即刻見到，唔可以等網絡。上次成功攞到嘅 /v1/me 結果會用
+       當時嘅 access token 做 key 存在部機，開頁即畫，跟住先更新。
+       Token 一轉（重新登入）就自然讀唔返舊快取。 */
+    function pointsCacheKey() {
+      const token = localStorage.getItem('customer_access_token') || '';
+      return token ? `ouji_points_cache_v1:${token.slice(-12)}` : null;
+    }
+
+    function readPointsCache() {
+      const key = pointsCacheKey();
+      if (!key) return null;
+      try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; }
+    }
+
+    function writePointsCache(points) {
+      const key = pointsCacheKey();
+      if (!key) return;
+      try { localStorage.setItem(key, JSON.stringify(points)); } catch { /* 私隱模式寫唔到就唔快取 */ }
+    }
+
+    function clearPointsCache() {
       try {
-        const response = await fetch('https://ouji-loyalty.ouji-app.workers.dev/v1/me', { headers: { Authorization: token } });
-        if (!response.ok) throw new Error('points unavailable');
-        const points = await response.json();
+        Object.keys(localStorage)
+          .filter((key) => key.startsWith('ouji_points_cache_v1:'))
+          .forEach((key) => localStorage.removeItem(key));
+      } catch { /* 清唔到都唔阻登出 */ }
+    }
+
+    function renderMemberPoints(points) {
         document.getElementById('available-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
         document.getElementById('hero-points').textContent = Number(points.availablePoints || 0).toLocaleString('zh-HK');
         document.getElementById('pending-points').textContent = Number(points.pendingPoints || 0).toLocaleString('zh-HK');
@@ -760,9 +787,25 @@
         if (points.expiring?.points) { const date = new Date(points.expiring.expiresAt).toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' }); expiry.textContent = `${Number(points.expiring.points).toLocaleString('zh-HK')} Points 將於 ${date} 到期`; expiry.hidden = false; }
         const labels = { pending: '待確認', available: '可使用', expired: '已過期', cancelled: '已取消', held: '已保留', committed: '已使用', released: '已釋放' };
         document.getElementById('points-history').innerHTML = (points.history || []).map(item => `<div class="member-points__history-row"><span><strong>${escapeAccountText(item.label)}</strong><small>${item.status ? escapeAccountText(labels[item.status] || item.status) : ''}${item.date ? `・${new Date(item.date).toLocaleDateString('zh-HK')}` : ''}</small></span><b class="${Number(item.points) < 0 ? 'is-negative' : ''}">${Number(item.points) > 0 ? '+' : ''}${Number(item.points).toLocaleString('zh-HK')}</b></div>`).join('') || '<p class="account-order__empty">暫時未有積分紀錄。</p>';
+    }
+
+    async function loadMemberPoints() {
+      const card = document.getElementById('member-points');
+      const token = localStorage.getItem('customer_access_token');
+      if (!card || !token) return;
+      const cached = readPointsCache();
+      if (cached) { try { renderMemberPoints(cached); } catch { /* 快取壞就等即時資料 */ } }
+      try {
+        const response = await fetch('https://ouji-loyalty.ouji-app.workers.dev/v1/me', { headers: { Authorization: token } });
+        if (!response.ok) throw new Error('points unavailable');
+        const points = await response.json();
+        renderMemberPoints(points);
+        writePointsCache(points);
       } catch {
-        document.getElementById('available-points').textContent = '—';
-        document.getElementById('pending-points').textContent = '—';
+        if (!cached) {
+          document.getElementById('available-points').textContent = '—';
+          document.getElementById('pending-points').textContent = '—';
+        }
         document.getElementById('points-message').innerHTML = '積分暫時未能載入。<button type="button" class="member-points__retry">重新載入</button>';
         document.querySelector('.member-points__retry')?.addEventListener('click', loadMemberPoints, { once: true });
       }
@@ -779,6 +822,7 @@
     logoutBtn.addEventListener('click', async () => {
       logoutBtn.textContent = '登出中...';
       logoutBtn.disabled = true;
+      clearPointsCache();
       await customerLogout();
       // customerLogout() 會 redirect 去 Shopify 清 session 再回嚟
       // 如果冇 id_token（fallback），手動切換 UI
