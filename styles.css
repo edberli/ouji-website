@@ -14564,6 +14564,7 @@ body::before { opacity: 0.18; }
   border: 1px solid var(--primary-dark); border-radius: 999px;
   background: transparent; color: var(--primary-dark);
   font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  white-space: nowrap;   /* 「加入購物袋」5 個字唔准斷開兩行 */
   transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
 }
 .addon__add:hover { background: var(--primary-dark); color: #fff; }
@@ -14583,6 +14584,23 @@ body::before { opacity: 0.18; }
     padding-bottom: 4px;
   }
   .addon__card { scroll-snap-align: start; }
+}
+
+/* 平板／窄桌面（769–1300px）：購物袋仍然左右兩欄，但左欄得返 220–650px。
+   呢個時候仲硬分 4 欄，每張卡得 ~100px——牌子斷兩行、產品名截到無嘢好讀、
+   粒「加入購物袋」仲會逼成圓形。跟返左欄實際闊度分三檔：橫掃 → 兩欄 → 四欄。 */
+@media (min-width: 769px) and (max-width: 950px) {
+  .addon__grid {
+    grid-template-columns: none;
+    grid-auto-flow: column; grid-auto-columns: 148px;
+    overflow-x: auto; scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .addon__card { scroll-snap-align: start; }
+}
+@media (min-width: 951px) and (max-width: 1300px) {
+  .addon__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* ============================================
