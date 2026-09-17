@@ -2568,12 +2568,13 @@ const CATEGORY_TAXONOMY = {
        照樣留住。呢個 section 係「疊」出嚟嘅，唔係搬。 */
     /* 老闆 2026-09-02：「嗰啲潤唇膏⋯係四季嘅產品」——
        同護手霜一樣，天氣一凍就要，唔係彩妝。 */
-    keywords: ['防曬', '護手霜', '唇部護理', '涼感', '止汗'],
+    keywords: ['季節性', '防曬', '護手霜', '唇部護理', '涼感', '止汗', '便攜風扇', '風扇'],
     subs: {
       sun:     { label: '防曬',   keywords: ['防曬'] },
       hand:    { label: '護手霜', keywords: ['護手霜'] },
       lip:     { label: '唇部護理', keywords: ['唇部護理', '潤唇膏', '護唇膏', '唇部精華', '唇膜', 'lip balm', 'lip care', 'lip mask'] },
       cooling: { label: '涼感止汗', keywords: ['涼感', '止汗'] },
+      fan:     { label: '便攜風扇', keywords: ['便攜風扇', '風扇'] },
     },
   },
   /* 老闆 2026-08-31：「嗰啲公仔，你應該有個新嘅分類叫『公仔』。」
@@ -2595,10 +2596,11 @@ const CATEGORY_TAXONOMY = {
   },
   fragrance: {
     label: '香水香氛',
-    keywords: ['香水', '身體噴霧', 'perfume', 'body mist'],
+    keywords: ['香水', '身體噴霧', '家居香氛', 'perfume', 'body mist', 'home fragrance'],
     subs: {
       perfume: { label: '香水',     keywords: ['香水', 'perfume'] },
       mist:    { label: '身體噴霧', keywords: ['身體噴霧', 'body mist'] },
+      home:    { label: '家居香氛', keywords: ['家居香氛', 'home fragrance'] },
     },
   },
 };
