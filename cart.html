@@ -312,20 +312,6 @@
             <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
             <div data-cart-notes></div>
 
-            <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
-                 只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。
-                 2026-09-17 老闆指正：桌面版要擺返上嚟（左欄商品下面），
-                 唔好跌到成頁最底 —— 左欄本身好空，擺上嚟先見到。
-                 手機單欄時再用 CSS order 推返去訂單摘要之後（見 styles.css）。 -->
-            <section class="addon addon--sd" data-sd-addon hidden>
-              <div class="addon__head">
-                <h2 class="addon__title">搭埋呢啲短效期特價</h2>
-                <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
-              </div>
-              <div class="addon__grid" data-sd-addon-grid></div>
-              <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
-            </section>
-
             <!-- 加購：左欄本來成版空白，而右欄啱啱先講咗「再買 $X 就免運費」。
                  順住嗰句擺一行細嘢喺度，客唔使返去逛都加得。
                  揀咩貨嘅根據見下面 ADDON_RANK 嗰段註釋（POS 真實籃數據）。 -->
@@ -335,6 +321,20 @@
                 <p class="addon__sub" data-addon-sub></p>
               </div>
               <div class="addon__grid" data-addon-grid></div>
+            </section>
+
+            <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
+                 只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。
+                 2026-09-17 老闆指正：桌面版次序＝加多件 → 短效期（唔係調轉），
+                 兩個都留喺左欄，唔好跌到成頁最底。
+                 手機單欄時再用 CSS order 推去訂單摘要之後（見 styles.css）。 -->
+            <section class="addon addon--sd" data-sd-addon hidden>
+              <div class="addon__head">
+                <h2 class="addon__title">搭埋呢啲短效期特價</h2>
+                <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
+              </div>
+              <div class="addon__grid" data-sd-addon-grid></div>
+              <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
             </section>
 
           </div>

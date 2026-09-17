@@ -14584,15 +14584,16 @@ body::before { opacity: 0.18; }
 .addon__title { font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-primary); }
 /* 副題係說明文，一定要細過同淡過標題，唔好同佢爭 */
 .addon__sub { margin: 4px 0 0; font-size: 0.8125rem; line-height: 1.5; color: var(--text-secondary); }
-/* 「差幾多錢」係成段文案嘅主角：用特價磚紅 ＋ 淡底，一眼就睇到「就差咁多」。
-   2026-09-17 老闆要求：唔可以同其他字一樣色，否則睇唔到就快到手。 */
+/* 「差幾多錢」係成段文案嘅主角：要一眼睇到，但唔可以搶到似警告。
+   2026-09-17 老闆指正：紅色太 aggressive（似警告／清倉），金色又太似提示，
+   所以用返品牌深藍 ＋ 8% 淡底 —— 同全站色系一致，又夠突出。 */
 .addon__gap {
   display: inline-block;
   margin: 0 1px;
   padding: 0 5px;
   border-radius: 6px;
-  background: rgba(200, 69, 47, 0.1);
-  color: #b03a26;
+  background: rgba(43, 76, 88, 0.08);
+  color: var(--primary-deep);
   font-weight: 700;
   font-size: 1.06em;
   font-variant-numeric: tabular-nums;

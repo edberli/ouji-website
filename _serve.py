@@ -53,6 +53,12 @@ def rewrite(path, query):
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        # 本機 preview 唔可以食 cache：改完 CSS／JS 一定要即刻見到，
+        # 唔係就好似「明明改咗但畫面冇變」（2026-09-17 老闆撞過）。
+        self.send_header("Cache-Control", "no-store, must-revalidate")
+        super().end_headers()
+
     def do_GET(self):
         self.path = self.resolve(self.path)
         super().do_GET()
