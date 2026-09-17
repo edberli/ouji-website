@@ -908,7 +908,119 @@ async function getOrCreateCartId() {
 }
 
 /** 取得購物車內容 */
+/* ───── 本機 preview 示範購物袋（2026-09-17）────────────────────────
+   老闆要喺本機睇購物袋 preview，但示範機冇 Shopify cart id，
+   一入購物袋就係吉袋 —— 加購、訂單摘要、免運進度全部冇數睇。
+
+   ?demo=… 只喺 localhost／127.0.0.1 生效：正式網站就算有人手動加
+   ?demo=1 都唔會中，真客完全唔受影響。
+   ?demo=240 → 砌一個折實約 HK$240 嘅袋（唔填就用 240）。
+   件貨全部嚟自真實 catalog（真價、真相、真 handle），
+   只係唔會落單；加減數量寫 sessionStorage，方便試唔同門檻。 */
+const DEMO_CART = (() => {
+  if (!/^(localhost|127\.0\.0\.1|\[::1\])$/i.test(location.hostname)) return null;
+  const q = new URLSearchParams(location.search);
+  if (!q.has('demo')) return null;
+  const n = Number(q.get('demo'));
+  return { target: n > 1 ? n : 240, key: 'ouji_demo_cart_v1' };
+})();
+
+async function demoCatalog() {
+  const r = await fetch('data/catalog.json');
+  const list = (await r.json())?.v || [];
+  return list.map((e) => e.node).map((p) => {
+    const price = parseFloat(p?.priceRange?.minVariantPrice?.amount || 0);
+    const v = (p.variants?.edges || []).map((x) => x.node)
+      .find((x) => x.availableForSale && (x.quantityAvailable ?? 0) > 0);
+    return {
+      handle: p.handle, title: p.title, vendor: p.vendor,
+      vid: v?.id, variantTitle: v?.title, price,
+      img: p.images?.edges?.[0]?.node?.url || '',
+      type: (p.productType || '').trim(),
+    };
+  }).filter((x) => x.vid && x.img && x.price > 0);
+}
+
+function demoRead() {
+  try { return JSON.parse(sessionStorage.getItem(DEMO_CART.key) || 'null'); } catch (e) { return null; }
+}
+function demoWrite(rows) {
+  try { sessionStorage.setItem(DEMO_CART.key, JSON.stringify(rows)); } catch (e) {}
+}
+
+/* 未有人手動改過：揀兩件加埋最接近目標金額嘅真貨。
+   （一件貴嘢睇唔到「砌單」嘅感覺，所以固定分兩件。） */
+async function demoSeed() {
+  const pool = await demoCatalog();
+  /* 示範袋盡量砌護膚／消耗品：擺支唇釉入去，睇 preview 嗰陣
+     會以為我哋推有色號嘅彩妝（2026-09-17 老闆指示：唔推）。 */
+  const COLOUR = new Set(['唇釉', '唇彩', '唇膏', '眼影', '胭脂', '氣墊粉底', '底妝',
+    '粉底', '睫毛膏', '眼線', '眉筆', '修容', '高光', '唇線筆', '多用彩妝', '遮瑕']);
+  const skincare = pool.filter((x) => !COLOUR.has(x.type));
+  const use = skincare.length >= 4 ? skincare : pool;
+  const rows = [];
+  let left = DEMO_CART.target;
+  for (let i = 0; i < 2 && left > 12; i++) {
+    const want = i === 0 ? left * 0.55 : left;
+    const cand = use
+      .filter((x) => x.price <= want + 25 && !rows.some((r) => r.handle === x.handle))
+      .sort((a, b) => Math.abs(a.price - want) - Math.abs(b.price - want));
+    if (!cand.length) break;
+    rows.push({ handle: cand[0].handle, qty: 1 });
+    left -= cand[0].price;
+  }
+  return rows;
+}
+
+async function demoCart() {
+  const pool = await demoCatalog();
+  const byHandle = new Map(pool.map((x) => [x.handle, x]));
+  let rows = demoRead();
+  if (!Array.isArray(rows) || !rows.length) rows = await demoSeed();
+  const lines = [];
+  let subtotal = 0;
+  rows.forEach((row, i) => {
+    const p = byHandle.get(row.handle);
+    if (!p) return;
+    const qty = Math.max(1, Math.min(99, Number(row.qty) || 1));
+    const amount = p.price * qty;
+    subtotal += amount;
+    lines.push({
+      id: 'demo-line-' + (i + 1),
+      quantity: qty,
+      cost: { totalAmount: { amount: amount.toFixed(2), currencyCode: 'HKD' } },
+      attributes: [],
+      discountAllocations: [],
+      merchandise: {
+        id: p.vid,
+        title: p.variantTitle || 'Default Title',
+        price: { amount: p.price.toFixed(2), currencyCode: 'HKD' },
+        image: { url: p.img, altText: p.title },
+        product: { title: p.title, handle: p.handle, vendor: p.vendor },
+        selectedOptions: [],
+        quantityAvailable: 99,
+      },
+    });
+  });
+  const total = subtotal.toFixed(2);
+  return {
+    id: 'gid://demo/Cart/preview',
+    checkoutUrl: '#demo-preview',
+    totalQuantity: lines.reduce((n, l) => n + l.quantity, 0),
+    discountCodes: [],
+    buyerIdentity: { countryCode: CART_COUNTRY },
+    attributes: [],
+    cost: {
+      totalAmount: { amount: total, currencyCode: 'HKD' },
+      subtotalAmount: { amount: total, currencyCode: 'HKD' },
+    },
+    deliveryGroups: { edges: [] },
+    lines: { edges: lines.map((node) => ({ node })) },
+  };
+}
+
 async function getCart() {
+  if (DEMO_CART) return demoCart();
   const cartId = localStorage.getItem('shopify_cart_id');
   if (!cartId) return null;
   // 下面攞唔到就會清走個 ID（見尾）
@@ -971,6 +1083,8 @@ async function getCart() {
  * 唔再將呢條 line 減至 $0，就即刻移除，唔會靜靜收客 HK$148。
  */
 async function syncAutomaticGift(cart) {
+  /* 示範模式唔同步贈品：真 mutation 會加一件真貨落真購物袋。 */
+  if (DEMO_CART) return { changed: false };
   if (!cart?.id) return { changed: false };
   const gift = OUJI_COMMERCE.promotion.gift;
   const lines = (cart.lines?.edges || []).map((e) => e.node);
@@ -1043,6 +1157,20 @@ async function syncAutomaticGift(cart) {
 
 /** 加入商品到購物車 */
 async function addToCart(variantId, quantity = 1, retried = false) {
+  /* 示範模式：唔會真係寫入 Shopify，只係記落 sessionStorage，
+     等 preview 睇得到「加完之後差額點變」。 */
+  if (DEMO_CART) {
+    const pool = await demoCatalog();
+    const hit = pool.find((x) => x.vid === variantId);
+    const rows = demoRead() || await demoSeed();
+    const row = hit ? rows.find((r) => r.handle === hit.handle) : null;
+    if (row) row.qty = Math.min(99, (Number(row.qty) || 1) + quantity);
+    else if (hit) rows.push({ handle: hit.handle, qty: quantity });
+    demoWrite(rows);
+    const n = rows.reduce((t, r) => t + (Number(r.qty) || 0), 0);
+    updateCartBadge(n);
+    return { cart: { id: 'gid://demo/Cart/preview', totalQuantity: n } };
+  }
   const cartId = await getOrCreateCartId();
   const data = await shopifyFetch(`
     mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!, $country: CountryCode!)
@@ -1116,6 +1244,15 @@ async function addToCart(variantId, quantity = 1, retried = false) {
 
 /** 更新購物車商品數量 */
 async function updateCartLine(lineId, quantity) {
+  if (DEMO_CART) {
+    const idx = Number(String(lineId).replace('demo-line-', '')) - 1;
+    const rows = demoRead() || await demoSeed();
+    if (rows[idx]) rows[idx].qty = quantity;
+    demoWrite(rows);
+    const n = rows.reduce((t, r) => t + (Number(r.qty) || 0), 0);
+    updateCartBadge(n);
+    return { cart: { id: 'gid://demo/Cart/preview', totalQuantity: n } };
+  }
   const cartId = localStorage.getItem('shopify_cart_id');
   const data = await shopifyFetch(`
     mutation UpdateCart($cartId: ID!, $lines: [CartLineUpdateInput!]!, $country: CountryCode!)
@@ -1137,6 +1274,15 @@ async function updateCartLine(lineId, quantity) {
 
 /** 移除購物車商品 */
 async function removeCartLine(lineId) {
+  if (DEMO_CART) {
+    const idx = Number(String(lineId).replace('demo-line-', '')) - 1;
+    const rows = demoRead() || await demoSeed();
+    rows.splice(idx, 1);
+    demoWrite(rows);
+    const n = rows.reduce((t, r) => t + (Number(r.qty) || 0), 0);
+    updateCartBadge(n);
+    return { cart: { id: 'gid://demo/Cart/preview', totalQuantity: n } };
+  }
   const cartId = localStorage.getItem('shopify_cart_id');
   const data = await shopifyFetch(`
     mutation RemoveCartLine($cartId: ID!, $lineIds: [ID!]!, $country: CountryCode!)
