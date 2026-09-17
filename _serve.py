@@ -84,4 +84,7 @@ if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
     print(f"OUJI dev server → http://localhost:{port}  "
           f"({len(RULES)} rewrite 規則, cleanUrls={CLEAN_URLS})")
-    http.server.HTTPServer(("", port), Handler).serve_forever()
+    # ⚠️ 一定要 ThreadingHTTPServer。單線程 HTTPServer 只要有一個 client
+    # （例如老闆開住嗰個 preview tab）keep-alive 佔住條 connection，
+    # 之後所有請求都會 timeout —— 2026-09-17 實測就係咁「開唔到 preview」。
+    http.server.ThreadingHTTPServer(("", port), Handler).serve_forever()
