@@ -3209,12 +3209,6 @@ button.product-card__quick-add,
    1440 下左欄本來就有 880px 淨係擺一列產品，好空。所以右欄攞返啲位。 */
 .cart-layout { display: grid; grid-template-columns: minmax(0, 1fr) 520px; column-gap: var(--space-3xl); row-gap: var(--space-2xl); align-items: start; }
 .cart-column { min-width: 0; }
-/* 短效期特價（.addon--sd）2026-09-17 由 .cart-column 搬出嚟，做 .cart-layout 第三個 item：
-   grid 自動放佢去第 2 行第 1 欄（＝桌面左欄下面，同以前一樣位置）；
-   手機單欄時就自然排到最底，唔使再靠 display:contents + order 硬砌次序。
-   min-width:0 —— 佢入面係橫掃 rail，唔鎖就會反過來撐闊條 grid track；
-   margin-top:0 —— 行距改由 .cart-layout 嘅 row-gap 出，數值同以前 .addon 嘅 margin-top 一樣。 */
-.cart-layout > .addon--sd { min-width: 0; margin-top: 0; }
 .cart-items { border-top: 1px solid var(--border-light); }
 
 .cart-item {
@@ -3488,13 +3482,34 @@ button.product-card__quick-add,
   .brand-rail { gap: 3px; padding: 9px 10px; }
   .brand-rail__item { width: 5px; }
   /* 手機單欄次序：商品 → 加多件 → 訂單摘要 → 短效期特價。
-     次序完全靠 DOM（短效期 section 已經搬去 .cart-summary 之後），
-     唔再用 display:contents + order —— 嗰招會令 grid row-gap 喺每一段之間都撐開，
-     手機版段與段之間出現大空白（2026-09-17 老闆指正）。 */
+     桌面版次序係跟 DOM（商品 → 短效期 → 加多件，全部喺左欄），
+     但手機要「先幫客湊免運、後推短效期」，所以呢度用 display:contents
+     拆開 .cart-column 再用 order 重排。 */
   /* ⚠️ 一定要 minmax(0, 1fr)，唔可以淨寫 1fr。
      1fr ＝ minmax(auto, 1fr)，條 track 嘅最小闊度會跟 grid item 嘅
      min-content 走 —— 加購卡橫掃（148px × N）一撐，成頁就向右爆出畫面。 */
   .cart-layout { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-3xl); }
+  .cart-column { display: contents; }
+  .cart-items { order: 1; }
+  [data-cart-notes] { order: 2; }
+  .addon:not(.addon--sd) { order: 3; }
+  .cart-summary { order: 4; }
+  .addon--sd { order: 5; }
+  /* ⚠️ display:contents 之後，上面幾個變成 grid item，但 DOM parent 仍然係
+     .cart-column —— 所以（1）要用普通選擇器，唔可以用 .cart-layout > …；
+     （2）要用 .cart-layout 後代選擇器提高 specificity，否則會俾下面
+     @media (max-width:768px) 嗰句 .addon { margin-top: var(--space-xl) } 蓋返。
+     三件事要處理：
+       1) grid item 預設 min-width:auto —— 橫掃 rail 會反過來撐闊條 track，鎖 0；
+       2) 自己嘅 margin-top 同 row-gap 疊加（實測 48＋64＝112px 大白位）→ 歸零；
+       3) 空嘅 [data-cart-notes] 係 0 高 grid item，前後各食一次 gap → 隱藏。 */
+  .cart-layout .cart-items,
+  .cart-layout [data-cart-notes],
+  .cart-layout .addon,
+  .cart-layout .cart-summary { min-width: 0; }
+  .cart-layout [data-cart-notes],
+  .cart-layout .addon { margin-top: 0; }
+  .cart-layout [data-cart-notes]:empty { display: none; }
   /* 手機下 .cart-summary 一直沿用桌面嘅 48px 左右 padding，
      375px 螢幕淨返 343 − 96 = 247px，再入面 .reward 又食 24×2，
      運送選項嘅文字欄剩返 62px —— 逐個字換行，成張卡爆到 245px 高。
@@ -14569,6 +14584,19 @@ body::before { opacity: 0.18; }
 .addon__title { font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-primary); }
 /* 副題係說明文，一定要細過同淡過標題，唔好同佢爭 */
 .addon__sub { margin: 4px 0 0; font-size: 0.8125rem; line-height: 1.5; color: var(--text-secondary); }
+/* 「差幾多錢」係成段文案嘅主角：用特價磚紅 ＋ 淡底，一眼就睇到「就差咁多」。
+   2026-09-17 老闆要求：唔可以同其他字一樣色，否則睇唔到就快到手。 */
+.addon__gap {
+  display: inline-block;
+  margin: 0 1px;
+  padding: 0 5px;
+  border-radius: 6px;
+  background: rgba(200, 69, 47, 0.1);
+  color: #b03a26;
+  font-weight: 700;
+  font-size: 1.06em;
+  font-variant-numeric: tabular-nums;
+}
 
 .addon__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-md); }
 

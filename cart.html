@@ -312,6 +312,20 @@
             <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
             <div data-cart-notes></div>
 
+            <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
+                 只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。
+                 2026-09-17 老闆指正：桌面版要擺返上嚟（左欄商品下面），
+                 唔好跌到成頁最底 —— 左欄本身好空，擺上嚟先見到。
+                 手機單欄時再用 CSS order 推返去訂單摘要之後（見 styles.css）。 -->
+            <section class="addon addon--sd" data-sd-addon hidden>
+              <div class="addon__head">
+                <h2 class="addon__title">搭埋呢啲短效期特價</h2>
+                <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
+              </div>
+              <div class="addon__grid" data-sd-addon-grid></div>
+              <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
+            </section>
+
             <!-- 加購：左欄本來成版空白，而右欄啱啱先講咗「再買 $X 就免運費」。
                  順住嗰句擺一行細嘢喺度，客唔使返去逛都加得。
                  揀咩貨嘅根據見下面 ADDON_RANK 嗰段註釋（POS 真實籃數據）。 -->
@@ -492,19 +506,6 @@
             </section>
           </div>
 
-          <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
-               只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。
-               2026-09-17 老闆指正：由 .cart-column 搬出嚟，做 .cart-layout 最後一個 item。
-               grid 自動放佢去第 2 行第 1 欄（＝桌面左欄下面，同以前一樣位置）；
-               手機單欄時就自然跌到最底，唔使再靠 display:contents + order 硬砌。 -->
-          <section class="addon addon--sd" data-sd-addon hidden>
-            <div class="addon__head">
-              <h2 class="addon__title">搭埋呢啲短效期特價</h2>
-              <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
-            </div>
-            <div class="addon__grid" data-sd-addon-grid></div>
-            <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
-          </section>
         </div>
 
         <div style="margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid var(--border-light);">
@@ -1742,10 +1743,13 @@
       const S = window.OUJI_SHIP || {};
       const PROMO = window.OUJI_COMMERCE?.promotion || {};
       const LEVELS = [
-        { at: S.post?.free, label: '自取免運費', en: 'free pickup', fee: S.post?.fee, badge: '加咗自取免運', badgeEn: 'Add for free pickup' },
+        { at: S.post?.free, label: '免運費（7-Eleven／郵局自取）', en: 'free 7-Eleven / post office pickup', badge: '加咗自取免運', badgeEn: 'Add for free pickup' },
         { at: PROMO.sample?.threshold, label: '送精選美妝護膚體驗裝', en: 'a free sample set', badge: '加咗送體驗裝', badgeEn: 'Add for a free sample set' },
-        { at: S.sfp?.free, label: '順豐站／智能櫃免運費', en: 'free SF station delivery', fee: S.sfp?.fee, badge: '加咗順豐站免運', badgeEn: 'Add for free SF station' },
-        { at: S.sfd?.free, label: '順豐送上門免運費', en: 'free home delivery', fee: S.sfd?.fee, badge: '加咗送上門免運', badgeEn: 'Add for free home delivery' },
+        /* ⚠️ 呢兩級唔可以寫「慳返 $16 運費」：本身買滿 $99 已經免運，
+           再講「慳運費」會令客以為本來要俾錢（2026-09-17 老闆指正）。
+           一律講「升級到⋯」——由自取升級做順豐站／送上門，係升級唔係慳錢。 */
+        { at: S.sfp?.free, label: '升級到順豐站／智能櫃免運費', en: 'free SF station / locker delivery', up: 1, badge: '加咗順豐站免運', badgeEn: 'Add for free SF station' },
+        { at: S.sfd?.free, label: '升級到順豐送上門免運費', en: 'free home delivery', up: 1, badge: '加咗送上門免運', badgeEn: 'Add for free home delivery' },
         /* $399 減 $20 係 Shopify 折扣規則，冇寫入 OUJI_COMMERCE，所以照抄喺度 */
         { at: 399, label: '減 $20', en: '$20 off', badge: '加咗減 $20', badgeEn: 'Add for $20 off' },
         { at: PROMO.gift?.threshold || 599, label: '送 Round Lab 白樺樹面霜', en: 'a free Round Lab cream', badge: '加咗送面霜', badgeEn: 'Add for a free cream' },
@@ -1760,19 +1764,24 @@
 
       /* 文案跟住差額轉：差額細過最平嗰件 → 加咩都夠；大過兩件最貴 →
          唔可以講「啱啱夠」，呃完客下次唔信。 */
-      sub.textContent = window.OUJI_cartCopy(
+      /* 「差幾多錢」要一眼睇到：個金額用 .addon__gap 上磚紅色 ＋ 淡底，
+         唔係同其他字一樣灰濛濛（2026-09-17 老闆要求）。 */
+      const goalZh = next ? next.label : '';
+      const goalEn = next ? `${next.up ? 'to upgrade to ' : 'for '}${next.en}` : '';
+      const gapHtml = `<b class="addon__gap">${money(gap)}</b>`;
+      sub.innerHTML = window.OUJI_cartCopy(
         !next
           ? '好多人順手加埋呢啲'
           : gap <= cheapest
-            ? `就差 ${money(gap)}！加任何一件就${next.label}${next.fee ? `，慳返 ${money(next.fee)} 運費` : ''}`
+            ? `就差 ${gapHtml}！加任何一件就${goalZh}`
             : gap <= dearest * 2
-              ? `再買 ${money(gap)} 就${next.label} —— 下面呢幾件啱啱夠`
-              : `再買 ${money(gap)} 就${next.label}`,
+              ? `再買 ${gapHtml} 就${goalZh} —— 下面呢幾件啱啱夠`
+              : `再買 ${gapHtml} 就${goalZh}`,
         !next
           ? 'Popular add-ons for your bag'
           : gap <= cheapest
-            ? `Only ${money(gap)} away — add any item for ${next.en}${next.fee ? `, saving ${money(next.fee)} on shipping` : ''}`
-            : `Add ${money(gap)} for ${next.en} — these picks get you there`
+            ? `Only ${gapHtml} away — add any item ${goalEn}`
+            : `Add ${gapHtml} ${goalEn} — these picks get you there`
       );
 
       /* 夾唔夾得住個差額：一件最準，兩件夾埋都算數（差 $60 嗰陣 $30×2 係好答案）。
