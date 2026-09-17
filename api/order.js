@@ -178,6 +178,11 @@ function shape(order) {
     .map((entry) => ({ key: String(entry.key), value: String(entry.value || '') }))
     .slice(0, 12);
 
+  /* 積分：折扣後實付商品每 HK$1 = 1 Point，運費不計
+     （同購物袋／會員頁同一條規則；currentSubtotalPriceSet 已經係折後商品金額）。 */
+  const subtotal = money(order.currentSubtotalPriceSet);
+  const pointsEarned = subtotal ? Math.max(0, Math.floor(subtotal.amount)) : 0;
+
   return {
     name: order.name,
     createdAt: order.createdAt,
@@ -195,6 +200,7 @@ function shape(order) {
       total: money(order.currentTotalPriceSet),
     },
     shippingMethod: order.shippingLine?.title || '',
+    points: { earned: pointsEarned },
     items,
     tracking,
     address,

@@ -91,6 +91,13 @@
       'Shopify’s “Send test” uses a sample order (#9999) that does not exist in the store, so there is nothing to show here.',
     '真嘅客人訂單電郵會正常顯示佢自己張單。': 'Real customer order emails show their own order as normal.',
     '返去店舖': 'Back to the shop',
+    '呢張單賺到嘅 Points': 'Points earned on this order',
+    '今單積分將於付款後翌日上午 10 點可用。': 'Points become available at 10am Hong Kong time the day after payment.',
+    '會員限定優惠': 'Members-only offers',
+    '新品優先購買': 'Early access to new arrivals',
+    '最新消息第一時間通知': 'Be first to hear our news',
+    '登入／免費加入': 'Sign in / join free',
+    'HK$1 = 1 Point（折扣後實付商品金額，運費不計）': 'HK$1 = 1 Point (after-discount product amount, shipping excluded)',
   };
 
   /* 只換完全匹配嘅 text node —— 同全站翻譯層同一個規矩，
@@ -251,13 +258,39 @@
     const discount = totals.discount && totals.discount.amount > 0 ? totals.discount : null;
     const refunded = totals.refunded && totals.refunded.amount > 0 ? totals.refunded : null;
     const tax = totals.tax && totals.tax.amount > 0 ? totals.tax : null;
+    /* Shopify 嘅 subtotal 已經扣咗折扣，所以「商品小計」要加返折扣先等於
+       上面商品行加起上嚟嘅數——客人自己加都加得通。 */
+    const listSubtotal = totals.subtotal ? {
+      amount: totals.subtotal.amount + (discount ? discount.amount : 0),
+      currency: totals.subtotal.currency,
+    } : null;
     return `<div class="account-order__totals">
-      ${moneyRow('商品小計', totals.subtotal)}
+      ${moneyRow('商品小計', listSubtotal)}
       ${moneyRow('運費', totals.shipping)}
       ${tax ? moneyRow('稅項', tax) : ''}
       ${discount ? moneyRow('折扣', discount, '', true) : ''}
       ${refunded ? moneyRow('已退款', refunded, 'account-order-total--refund', true) : ''}
       ${moneyRow('訂單總額', totals.total, 'account-order-total--grand')}
+    </div>`;
+  }
+
+  /* 客人睇緊自己張單嗰刻，係最願意登記做會員嘅時候——
+     同購物袋一樣講清楚今單賺幾多 Points、幾時可用，之後畀佢一個掣。 */
+  function renderMember(order) {
+    const points = order.points && Number(order.points.earned) > 0 ? Number(order.points.earned) : 0;
+    if (!points) return '';
+    return `<div class="order-card order-card--member">
+      <p class="order-member__eyebrow">OUJI MEMBER</p>
+      <h2 class="order-member__title">呢張單賺到嘅 Points</h2>
+      <p class="order-member__points">+<strong>${points.toLocaleString('en-US')}</strong> <span>Points</span></p>
+      <p class="order-card__note">今單積分將於付款後翌日上午 10 點可用。</p>
+      <ul class="order-member__perks">
+        <li>會員限定優惠</li>
+        <li>新品優先購買</li>
+        <li>最新消息第一時間通知</li>
+      </ul>
+      <div class="order-actions">${button(ACCOUNT_PAGE, '登入／免費加入', 'btn--primary')}</div>
+      <p class="order-card__note order-card__note--foot">HK$1 = 1 Point（折扣後實付商品金額，運費不計）</p>
     </div>`;
   }
 
@@ -354,6 +387,7 @@
         ${renderItems(order, titles)}
         ${renderTotals(order)}
       </div>
+      ${renderMember(order)}
       ${renderDelivery(order)}
       <div class="order-card">
         <h2 class="order-card__title">需要幫手？</h2>

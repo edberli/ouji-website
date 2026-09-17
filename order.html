@@ -54,6 +54,16 @@
     .order-card .account-order__totals { margin-top: 20px; }
     .order-actions { display: flex; flex-wrap: wrap; gap: 10px; }
     .order-tracking-hint { margin: 10px 0 0; color: var(--text-tertiary); font-size: .72rem; }
+
+    /* 會員賺分區塊 —— 客人睇緊自己張單嗰刻就係最想登記嘅時候 */
+    .order-card--member { background: linear-gradient(180deg, rgba(231,241,244,.6), #fff 68%); }
+    .order-member__eyebrow { margin: 0 0 8px; color: var(--primary-dark); font-family: var(--font-brand); font-size: .66rem; letter-spacing: .22em; }
+    .order-member__title { margin: 0 0 10px; color: var(--text-primary); font-size: 1rem; font-weight: 600; }
+    .order-member__points { margin: 0 0 6px; color: var(--primary-deep); font-family: var(--font-brand); font-weight: 700; font-size: 1.7rem; }
+    .order-member__points span { font-size: .8rem; font-weight: 600; letter-spacing: .14em; }
+    .order-member__perks { display: grid; gap: 9px; margin: 18px 0 20px; padding: 0; list-style: none; }
+    .order-member__perks li { position: relative; padding-left: 22px; color: var(--text-secondary); font-size: .85rem; }
+    .order-member__perks li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--primary); font-size: .8rem; }
     @media (max-width: 640px) {
       .order-card { padding: 20px 16px 16px; }
       .order-hero h1 { font-size: 1.5rem; }
