@@ -18,7 +18,7 @@ import urllib.error
 import urllib.request
 
 SHOP = "5rerjn-mt.myshopify.com"
-API = "2025-07"
+API = "2026-07"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 

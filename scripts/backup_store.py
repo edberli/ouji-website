@@ -54,16 +54,16 @@ query($cursor: String) {
       seo { title description }
       options { id name position values }
       featuredMedia { ... on MediaImage { id } }
-      media(first: 20) { edges { node {
+      media(first: 100) { pageInfo { hasNextPage } edges { node {
         ... on MediaImage { id alt image { url width height } }
       } } }
-      metafields(first: 20) { edges { node {
+      metafields(first: 50) { pageInfo { hasNextPage } edges { node {
         namespace key type value
       } } }
-      resourcePublicationsV2(first: 5) { edges { node {
+      resourcePublicationsV2(first: 25) { pageInfo { hasNextPage } edges { node {
         publication { id name } isPublished
       } } }
-      variants(first: 60) { edges { node {
+      variants(first: 100) { pageInfo { hasNextPage } edges { node {
         id title sku barcode position
         price compareAtPrice
         selectedOptions { name value }
@@ -74,7 +74,7 @@ query($cursor: String) {
           id tracked
           unitCost { amount currencyCode }
           measurement { weight { value unit } }
-          inventoryLevels(first: 5) { edges { node {
+          inventoryLevels(first: 10) { pageInfo { hasNextPage } edges { node {
             location { id name }
             quantities(names: ["available", "on_hand", "committed"]) { name quantity }
           } } }
@@ -90,7 +90,19 @@ def fetch_all():
     out, cursor = [], None
     while True:
         d = gql(QUERY, {"cursor": cursor})["products"]
-        out += [e["node"] for e in d["edges"]]
+        page = [e["node"] for e in d["edges"]]
+        # Nested connections cannot be silently truncated: fail the run instead of
+        # publishing a partial backup. Limits keep requested query cost under 1000.
+        for p in page:
+            for key in ("media", "metafields", "resourcePublicationsV2", "variants"):
+                if p[key]["pageInfo"]["hasNextPage"]:
+                    raise RuntimeError(f'{p["handle"]}: {key} 超出上限，備份會截斷，請調高該連線 first 值')
+            for edge in p["variants"]["edges"]:
+                levels = ((edge["node"].get("inventoryItem") or {})
+                          .get("inventoryLevels") or {})
+                if levels.get("pageInfo", {}).get("hasNextPage"):
+                    raise RuntimeError(f'{p["handle"]}: inventoryLevels 超出上限')
+        out += page
         print(f"\r  攞咗 {len(out)} 件…", end="", flush=True)
         if not d["pageInfo"]["hasNextPage"]:
             break

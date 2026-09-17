@@ -1,7 +1,29 @@
 # Shopify 冇咗，點重開
 
-備份喺 `/Volumes/core/ouji-backup/`，每晚 03:30 自動跑
+最新備份喺 `/Volumes/core/ouji-backup/`，每晚 03:30 自動跑
 （`~/Library/LaunchAgents/com.ouji.backup.plist`）。
+
+版本保留：
+
+- `/Volumes/core/ouji-backup-snapshots/`：最近 7 個每日版本（APFS clone，冇變嘅資料共用區塊）
+- `/Volumes/Ultra Touch/ouji-backups/`：第 8 日起嘅舊版本
+- 舊版本只會喺 HDD 副本完成並通過全圖片 SHA-256 驗證後，先由 SSD 移除
+- Ultra Touch 未掛載、圖片欠缺或 checksum 錯誤時，工作會失敗並保留原檔
+
+驗證目前備份：
+
+```bash
+python3 scripts/backup_snapshots.py --validate-only
+```
+
+## 覆蓋範圍（重要）
+
+目前自動備份完整針對**產品目錄**：產品文字、網址 handle、價錢、成本、變體、
+SKU／barcode、庫存、SEO、metafield、publication metadata 及本地實體圖片。
+
+目前 custom app 權限未涵蓋訂單、顧客、主題、頁面／網誌、選單、政策、折扣、
+運送／市場及完整 Shopify Files。因此本備份未可以被視為整間 Shopify 帳戶嘅完整映像；
+要做到全面災難重建，必須先為 custom app 批准相應只讀權限，再逐類加入匯出及還原驗證。
 
 | 檔案 | 係咩 |
 |---|---|
