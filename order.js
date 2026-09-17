@@ -437,7 +437,9 @@
       .join(' ');
     let text = raw;
     try { text = decodeURIComponent(raw); } catch (error) { /* 用原本字串 */ }
-    return /splitcart|shcct_/i.test(text);
+    /* 只認 Shopify 示範單嗰條 splitcart token —— 真單嘅 key 都係
+       shcct_ 開頭，用 shcct_ 做判斷會誤認真單，所以唔可以加。 */
+    return /splitcart/i.test(text);
   }
 
   function showTestEmail() {
