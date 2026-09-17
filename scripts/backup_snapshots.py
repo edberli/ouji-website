@@ -42,14 +42,17 @@ def validate(root, full=True):
             raise RuntimeError(f"圖片欠缺或大小不符：{item['path']}")
         if full and digest(p) != item["sha256"]:
             raise RuntimeError(f"圖片 checksum 錯誤：{item['path']}")
+    coverage_path = root / "full" / "coverage.json"
+    if coverage_path.is_file():
+        coverage = json.loads(coverage_path.read_text())
+        failed = coverage.get("failed") or []
+        if failed:
+            raise RuntimeError(f"全店匯出有失敗項目：{', '.join(failed)}")
     return manifest
 
 
 def clone(src, dst):
     src, dst = Path(src), Path(dst)
-    if dst.exists():
-        validate(dst, full=False)
-        return
     tmp = dst.with_name("." + dst.name + ".tmp")
     if tmp.exists():
         shutil.rmtree(tmp)
@@ -61,7 +64,15 @@ def clone(src, dst):
         if p.exists():
             p.unlink()
     validate(tmp, full=True)
-    os.replace(tmp, dst)
+    if dst.exists():
+        old = dst.with_name("." + dst.name + ".old")
+        if old.exists():
+            shutil.rmtree(old)
+        os.replace(dst, old)
+        os.replace(tmp, dst)
+        shutil.rmtree(old)
+    else:
+        os.replace(tmp, dst)
 
 
 def archive_old(ssd, hdd, keep):
