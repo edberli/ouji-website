@@ -1649,24 +1649,34 @@
        「身體噴霧」、「香水」、「保健品」、「公仔」、「專輯」呢啲士多貨自動出唔到。
        網店客單價 $206，係實體店嘅 2.5–3.9 倍 —— 士多貨係實體店擺門口
        吸路過客嘅誘餌，唔係網店客會加嘅嘢（memory: ouji-pos-not-demand-signal）。
-       ⚠️ POS 講嘅「唇」係彩妝唇釉（rom&nd／Peripera／WAKEMAKE），
-       所以入表嘅係「唇釉／唇彩／唇膏」，唔係「唇部護理」。 */
+       ⚠️ 2026-09-17 之後連彩妝都唔入表（見下面老闆指示），
+       所以 POS 嗰批「唇釉／唇彩／唇膏」都已經剔走，唔好再加返。 */
+    /* ⚠️ 2026-09-17 老闆指示：有色號嘅彩妝唔推。
+       客買緊護膚品，彈一支唇釉出嚟佢仲要揀色 —— 加購當場變咗另一個決策。
+       所以唇釉／唇彩／唇膏／胭脂／底妝／眼線／眉筆／睫毛膏全部剔走，
+       主力放面膜（消耗品、$15 起有 40 款現貨）同冇色號問題嘅護膚貨。 */
     const ADDON_TYPE = {
-      定妝噴霧: 100,   // POS 多件籃 64 次 —— 遙遙領先
-      面膜: 90,        // 39 次（Torriden 10 片裝）
-      防曬: 70,        // 12 次（TOCOBO 防曬棒）
-      唇釉: 55, 唇彩: 55, 唇膏: 55,
-      胭脂: 50, 底妝: 50,
-      潔面: 40,
-      眼線: 30, 眉筆: 30, 睫毛膏: 30,
+      面膜: 100,       // 消耗品，最易加；單片 $15 起到 10 片裝都有
+      定妝噴霧: 95,    // POS 多件籃 64 次 —— 冇色號問題
+      潔面: 65,
+      防曬: 60,
+      護手霜: 55,
+      棉片: 45,
+      局部護理: 40,
+      濕紙巾: 40,
+      化妝工具: 35,
+      精華: 30,
     };
     /* catalog 有零星貨冇 productType，兜返個底 */
     const ADDON_FALLBACK = [
-      [/定妝噴霧|蜜粉噴霧|妝前噴霧/, 100],
-      [/片裝?面膜|面膜\s*\d+片/, 90],
-      [/防曬棒/, 70],
+      [/定妝噴霧|蜜粉噴霧|妝前噴霧/, 95],
+      [/片裝?面膜|面膜\s*\d+片/, 100],
+      [/防曬棒/, 60],
+      [/護手霜/, 55],
     ];
-    const PRICE_MIN = 20, PRICE_MAX = 149;
+    /* 下限 $10：最平嘅面膜 $15、潔面有 $10。
+       下限擺 $20 就填唔到「差 $10」呢種最常見嘅細差額。 */
+    const PRICE_MIN = 10, PRICE_MAX = 169;
 
     const rank = (p) => {
       const t = ADDON_TYPE[(p.productType || '').trim()];
@@ -1719,97 +1729,123 @@
       const items = await loadPool();
       if (!items.length) { sec.hidden = true; return; }
 
-      /* 購物袋已經有嘅唔好再推 */
-      const inCart = new Set(
-        [...document.querySelectorAll('.cart-item')]
-          .map((el) => (el.querySelector('.cart-item__name')?.textContent || '').trim())
-          .filter(Boolean)
-      );
+      /* 購物袋已經有嘅唔好再推。用 handle 而唔係 title ——
+         同名唔同色號／唔同 size 會撞，會推返客啱啱加咗嗰件。 */
+      const inCart = new Set([...document.querySelectorAll('.cart-item__name a')]
+        .map((a) => new URLSearchParams(a.search).get('handle')).filter(Boolean));
 
-      /* 差幾多先免運 —— 呢個先係加購最有力嘅理由。
-         右欄啱啱講咗「再買 $70 就免運費」，呢度就要接得上。 */
-      const S = (window.OUJI_SHIP || {})[
-        window.OUJI_getShipMode ? window.OUJI_getShipMode() : 'post'
-      ];
+      /* ── 下一個 level 係邊個？ ─────────────────────────────────────
+         加購最有力嘅理由唔係「順手買多件」，而係「爭幾多就去到下一個 level」。
+         六個 level：$99 自取免運／$149 體驗裝／$250 順豐站／$290 送上門／
+         $399 減 $20／$599 送面霜 —— 取最近嗰個。
+         爭 $10 同爭 $120 唔應該推同一批貨，所以下面揀貨會跟住個差額走。 */
+      const S = window.OUJI_SHIP || {};
+      const PROMO = window.OUJI_COMMERCE?.promotion || {};
+      const LEVELS = [
+        { at: S.post?.free, label: '自取免運費', en: 'free pickup', fee: S.post?.fee, badge: '加咗自取免運', badgeEn: 'Add for free pickup' },
+        { at: PROMO.sample?.threshold, label: '送精選美妝護膚體驗裝', en: 'a free sample set', badge: '加咗送體驗裝', badgeEn: 'Add for a free sample set' },
+        { at: S.sfp?.free, label: '順豐站／智能櫃免運費', en: 'free SF station delivery', fee: S.sfp?.fee, badge: '加咗順豐站免運', badgeEn: 'Add for free SF station' },
+        { at: S.sfd?.free, label: '順豐送上門免運費', en: 'free home delivery', fee: S.sfd?.fee, badge: '加咗送上門免運', badgeEn: 'Add for free home delivery' },
+        /* $399 減 $20 係 Shopify 折扣規則，冇寫入 OUJI_COMMERCE，所以照抄喺度 */
+        { at: 399, label: '減 $20', en: '$20 off', badge: '加咗減 $20', badgeEn: 'Add for $20 off' },
+        { at: PROMO.gift?.threshold || 599, label: '送 Round Lab 白樺樹面霜', en: 'a free Round Lab cream', badge: '加咗送面霜', badgeEn: 'Add for a free cream' },
+      ].filter((l) => Number(l.at) > 0);
+
       const net = Number(window.OUJI_netGoods) || 0;
-      const gap = S && S.free > 0 ? Math.max(0, Math.ceil(S.free - net - 0.001)) : 0;
+      const next = LEVELS.filter((l) => l.at > net).sort((a, b) => a.at - b.at)[0] || null;
+      const gap = next ? Math.ceil(next.at - net - 0.001) : 0;
 
-      /* 差額細過最平嗰件貨嗰陣（例如「再買 $1」），講「呢幾件啱啱夠」係誤導 ——
-         其實加咩都免運。文案要跟住差額轉，唔係一句用到尾。 */
-      const cheapest = items.reduce((m, p) => Math.min(m, p.__price), Infinity);
+      const prices = items.map((p) => p.__price);
+      const cheapest = Math.min(...prices), dearest = Math.max(...prices);
+
+      /* 文案跟住差額轉：差額細過最平嗰件 → 加咩都夠；大過兩件最貴 →
+         唔可以講「啱啱夠」，呃完客下次唔信。 */
       sub.textContent = window.OUJI_cartCopy(
-        gap <= 0
+        !next
           ? '好多人順手加埋呢啲'
           : gap <= cheapest
-            ? `就差 ${money(gap)}！加任何一件都免運，慳返 ${money(S.fee)}`
-            : `再買 ${money(gap)} 就慳返 ${money(S.fee)} 運費 —— 呢幾件啱啱夠`,
-        gap <= 0
+            ? `就差 ${money(gap)}！加任何一件就${next.label}${next.fee ? `，慳返 ${money(next.fee)} 運費` : ''}`
+            : gap <= dearest * 2
+              ? `再買 ${money(gap)} 就${next.label} —— 下面呢幾件啱啱夠`
+              : `再買 ${money(gap)} 就${next.label}`,
+        !next
           ? 'Popular add-ons for your bag'
           : gap <= cheapest
-            ? `Only ${money(gap)} away — add any item to save ${money(S.fee)} on shipping`
-            : `Add ${money(gap)} to save ${money(S.fee)} on shipping — these picks get you there`
+            ? `Only ${money(gap)} away — add any item for ${next.en}${next.fee ? `, saving ${money(next.fee)} on shipping` : ''}`
+            : `Add ${money(gap)} for ${next.en} — these picks get you there`
       );
 
+      /* 夾唔夾得住個差額：一件最準，兩件夾埋都算數（差 $60 嗰陣 $30×2 係好答案）。
+         貴過差額太多唔加分反而扣分 —— 爭 $20 推 $148，客會覺得你想𠝹佢。 */
+      const fillScore = (price) => {
+        if (gap <= 0) return 0;
+        const opts = [];
+        if (price >= gap) opts.push({ n: 1, over: price - gap });
+        else if (price * 2 >= gap) opts.push({ n: 2, over: price * 2 - gap });
+        if (!opts.length) return -20;      /* 兩件都唔夠：淨係墊底 */
+        const best = opts[0];
+        let s = best.over <= 15 ? 150 : best.over <= 40 ? 110 : best.over <= 80 ? 50 : 10;
+        if (best.n === 1) s += 10;         /* 一件搞掂最爽 */
+        return s;
+      };
+
+      const kindOf = (p) => (p.productType || '').trim() || 'other';
+
       const scored = items
-        .filter((p) => !inCart.has((p.title || '').trim()))
-        .map((p) => {
-          let s = rank(p);
-          /* 啱啱夠門檻嗰批排先 —— 加一件就免運，係最容易講服人嘅一件事。
-             貴過門檻太多就唔好推咁前，客會覺得你想𠝹佢。 */
-          if (gap > 0) {
-            const over = p.__price - gap;
-            if (over >= 0 && over <= 40) s += 120;
-            else if (over > 40 && over <= 80) s += 40;
-            else if (over < 0) s -= 20;
-          }
-          return { p, s };
-        })
+        .filter((p) => !inCart.has(p.handle))
+        .map((p) => ({ p, s: rank(p) + fillScore(p.__price) }))
         .sort((a, b) => b.s - a.s || a.p.__price - b.p.__price);
 
-      /* 分散：同一個牌子唔好霸多過一格（定妝噴霧單一牌子就有四個 SKU），
-         同一類都唔好超過兩格 —— 實測差 $26 免運嗰陣四格全部係面膜，
-         睇落好似得一款嘢揀。夠唔夠四件就放寬條件再執多次。 */
+      /* 分散：同一個牌子最多一格（單一牌子自己有好多 SKU）。
+         面膜係指定主力，可以佔三格；其他類型最多兩格 ——
+         四格都係面膜，客會以為得一款嘢揀。唔夠四件就放寬條件再執。 */
       const picked = [], byVendor = {}, byKind = {};
-      const pass = (p, vMax, kMax) => {
-        const v = p.vendor || '?', k = rank(p);
-        return (byVendor[v] || 0) < vMax && (byKind[k] || 0) < kMax;
-      };
+      const capOf = (p) => (kindOf(p) === '面膜' ? 3 : 2);
+      const room = (p, vMax, kMax) =>
+        (byVendor[p.vendor || '?'] || 0) < vMax && (byKind[kindOf(p)] || 0) < kMax;
       const take = (p) => {
         byVendor[p.vendor || '?'] = (byVendor[p.vendor || '?'] || 0) + 1;
-        byKind[rank(p)] = (byKind[rank(p)] || 0) + 1;
+        byKind[kindOf(p)] = (byKind[kindOf(p)] || 0) + 1;
         picked.push(p);
       };
       for (const { p } of scored) {
         if (picked.length === 4) break;
-        if (pass(p, 1, 2)) take(p);
+        if (room(p, 1, capOf(p))) take(p);
       }
-      for (const [vMax, kMax] of [[1, 3], [2, 4]]) {
+      for (const [vMax, kMax] of [[1, 4], [2, 4]]) {
         for (const { p } of scored) {
           if (picked.length === 4) break;
           if (picked.includes(p)) continue;
-          if (pass(p, vMax, kMax)) take(p);
+          if (room(p, vMax, Math.max(kMax, capOf(p)))) take(p);
         }
       }
       if (!picked.length) { sec.hidden = true; return; }
 
-      /* 「加咗就免運」係成個 section 唯一嘅強調，所以只可以標一件 ——
-         四件都標就等於冇標。揀夠門檻之中最平嗰件（客最容易撳落去）。 */
-      let hitOne = null;
-      if (gap > 0) {
-        hitOne = picked
-          .filter((p) => p.__price >= gap)
-          .sort((a, b) => a.__price - b.__price)[0] || null;
-      }
+      /* 成個 section 只可以有一個強調：一件就夠數嗰批入面，揀最平嗰件標。
+         冇一件夠數（差額大）就退而求其次，標一對「兩件啱啱夠」。 */
+      const hitOne = gap > 0
+        ? picked.filter((p) => p.__price >= gap).sort((a, b) => a.__price - b.__price)[0] || null
+        : null;
+      const pairOne = (!hitOne && gap > 0)
+        ? picked.filter((p) => p.__price < gap && p.__price * 2 >= gap)
+            .sort((a, b) => Math.abs(a.__price * 2 - gap) - Math.abs(b.__price * 2 - gap))[0] || null
+        : null;
+
+      const noteOf = (p) => p === hitOne
+        ? window.OUJI_cartCopy(next ? next.badge : '加咗就免運', next ? next.badgeEn : 'Add for free shipping')
+        : p === pairOne
+          ? window.OUJI_cartCopy('加 2 件啱啱夠', '2 of these cover it')
+          : '';
 
       grid.innerHTML = picked.map((p) => {
-        const hit = p === hitOne;
+        const note = noteOf(p);
         return `<article class="addon__card">
           <a class="addon__media" href="product.html?handle=${encodeURIComponent(p.handle)}">
             <img src="${p.__img}" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy">
           </a>
           <p class="addon__vendor">${p.vendor || ''}</p>
           <h3 class="addon__name"><a href="product.html?handle=${encodeURIComponent(p.handle)}">${trimVendor(p.title, p.vendor)}</a></h3>
-          <p class="addon__price">${money(p.__price)}${hit ? `<span class="addon__hit">${window.OUJI_cartCopy('加咗就免運', 'Add for free shipping')}</span>` : ''}</p>
+          <p class="addon__price">${money(p.__price)}${note ? `<span class="addon__hit">${note}</span>` : ''}</p>
           <button class="addon__add" type="button" data-vid="${p.__variantId}">${window.OUJI_cartCopy('加入購物袋', 'Add to bag')}</button>
         </article>`;
       }).join('');
