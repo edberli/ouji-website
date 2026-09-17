@@ -86,6 +86,11 @@
     '運送方式': 'Shipping method',
     '取件點': 'Pickup point',
     '需要幫手？': 'Need help?',
+    '呢封係 Shopify 測試電郵': 'This is a Shopify test email',
+    'Shopify 後台撳「傳送測試」嗰陣，用嘅係示範訂單（#9999），店入面冇呢張單，所以呢度顯示唔到內容。':
+      'Shopify’s “Send test” uses a sample order (#9999) that does not exist in the store, so there is nothing to show here.',
+    '真嘅客人訂單電郵會正常顯示佢自己張單。': 'Real customer order emails show their own order as normal.',
+    '返去店舖': 'Back to the shop',
   };
 
   /* 只換完全匹配嘅 text node —— 同全站翻譯層同一個規矩，
@@ -388,6 +393,28 @@
     ]));
   }
 
+  /* Shopify 後台撳「傳送測試」嗰陣，封信帶住嘅係示範訂單
+     （#9999、orders/splitcart123、key 以 shcct_ 開頭）——店入面冇呢張單，
+     所以永遠都查唔到。呢個情況同「真係搵唔到」分開講清楚，
+     免得下次測試又以為壞咗。客人嘅真訂單永遠唔會撞到呢串字。 */
+  function isShopifyTestEmail() {
+    const raw = ['u', 'url', 't', 'k', 'key', 'token']
+      .map((name) => params.get(name) || '')
+      .join(' ');
+    let text = raw;
+    try { text = decodeURIComponent(raw); } catch (error) { /* 用原本字串 */ }
+    return /splitcart|shcct_/i.test(text);
+  }
+
+  function showTestEmail() {
+    paint(stateBlock('呢封係 Shopify 測試電郵', [
+      'Shopify 後台撳「傳送測試」嗰陣，用嘅係示範訂單（#9999），店入面冇呢張單，所以呢度顯示唔到內容。',
+      '真嘅客人訂單電郵會正常顯示佢自己張單。',
+    ], [
+      button(SHOP_PAGE, '返去店舖', 'btn--ghost'),
+    ]));
+  }
+
   function showError() {
     paint(stateBlock('暫時載入唔到', [
       '可能係網絡問題，請再試一次。',
@@ -416,7 +443,8 @@
         return;
       }
       if (response.status === 404) {
-        showNotFound();
+        if (isShopifyTestEmail()) showTestEmail();
+        else showNotFound();
         return;
       }
       if (!response.ok || !payload || !payload.ok) {
