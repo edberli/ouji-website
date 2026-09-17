@@ -18,12 +18,15 @@ python3 scripts/backup_snapshots.py --validate-only
 
 ## 覆蓋範圍（重要）
 
-目前自動備份完整針對**產品目錄**：產品文字、網址 handle、價錢、成本、變體、
-SKU／barcode、庫存、SEO、metafield、publication metadata 及本地實體圖片。
+每晚備份覆蓋兩層：
 
-目前 custom app 權限未涵蓋訂單、顧客、主題、頁面／網誌、選單、政策、折扣、
-運送／市場及完整 Shopify Files。因此本備份未可以被視為整間 Shopify 帳戶嘅完整映像；
-要做到全面災難重建，必須先為 custom app 批准相應只讀權限，再逐類加入匯出及還原驗證。
+1. **產品目錄（完整）**：產品文字、handle、價錢、成本、變體、SKU／barcode、庫存、
+   SEO、metafield、publication metadata，加本地實體原圖（`images/`，逐張 SHA-256）。
+2. **全店資源（`full/`）**：訂單（含全部歷史）、顧客、頁面、網誌、選單、折扣、
+   送貨設定、市場、商店資料、政策、metaobjects、全部主題檔案、Shopify Files 清單。
+
+仲未包含：Shopify Files 二進位檔（只存清單同 URL）、禮品卡（店內現時 0 張）、
+Shopify Payments 財務記錄，以及第三方 app 自己嘅資料（API 唔提供）。完整還原演習未做。
 
 | 檔案 | 係咩 |
 |---|---|
@@ -33,6 +36,30 @@ SKU／barcode、庫存、SEO、metafield、publication metadata 及本地實體�
 | `images/<handle>/` | 原圖 |
 | `manifest.json` | 逐個檔 sha256 |
 | `backup.log` | 每晚跑咗啲乜 |
+
+### 全店資源（`full/`）
+
+每晚除咗產品，仲會匯出以下資源（`scripts/backup_full.py`）：
+
+| 檔案 | 內容 | 敏感度 |
+|---|---|---|
+| `full/orders.json` | 全部訂單（含 line items、fulfillment、退款、交易、地址） | 含顧客資料，權限 600 |
+| `full/customers.json` | 全部顧客（含地址、營銷同意、消費統計） | 含個人資料，權限 600 |
+| `full/pages.json` | 網店頁面（含 HTML 內容） | |
+| `full/blogs.json` | 網誌及文章 | |
+| `full/menus.json` | 導覽選單（最多三層） | |
+| `full/discounts.json` | 折扣代碼及自動折扣 | |
+| `full/shipping.json` | 送貨設定檔、區域、運費定義 | |
+| `full/markets.json` | 市場設定 | |
+| `full/shop.json` | 商店資料、語言設定 | |
+| `full/policies.json` | 政策頁（REST policies） | |
+| `full/metaobjects.json` | Metaobject 定義及全部條目 | |
+| `full/themes/<theme>/` | 全部主題檔案（Liquid／JSON／資產） | |
+| `full/files.json` | Shopify Files 清單（15,000+ 條記錄；**只存 metadata，未下載二進位檔**） | |
+| `full/coverage.json` | 每一類嘅匯出狀態同數量；有失敗會 exit 1 | |
+
+注意：`files.json` 只有檔案清單同 URL，未包含檔案本身；禮品卡（店內現時 0 張）同
+Shopify Payments 財務記錄亦唔喺呢個備份範圍。
 
 ## 唔係「import 個 CSV 就搞掂」——圖係另一件事
 

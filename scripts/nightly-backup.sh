@@ -26,6 +26,8 @@ mkdir -p "$OUT"
   # 就攞得返相。舊店真係冇咗嗰日連結會死 —— 嗰個情況用 restore_images.py，
   # 佢直接讀返 images/ 嘅原檔掛上去，唔使搵地方放相。
   /usr/bin/python3 "$ROOT/scripts/restore_csv.py" --backup "$OUT"
+  echo "--- 匯出訂單／顧客／主題／內容等資源 ---"
+  /usr/bin/python3 "$ROOT/scripts/backup_full.py" --out "$OUT/full"
   /usr/bin/python3 "$ROOT/scripts/backup_snapshots.py" --current "$OUT"
 } >> "$LOG" 2>&1
 
