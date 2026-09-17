@@ -14762,6 +14762,14 @@ body::before { opacity: 0.18; }
   display: inline-block; margin-top: var(--space-md);
   font-size: 0.8125rem; font-weight: 600; color: var(--primary-dark);
 }
+/* 「睇多啲」用返上面個樣，但佢係 button 唔係 link ——
+   撳落去唔會跳頁，只喺同一格展開多幾件（2026-09-17 老闆要求）。 */
+.addon__more {
+  border: 0; background: none; padding: 0;
+  font-family: inherit; cursor: pointer;
+}
+.addon__more:hover { color: var(--primary-deep); text-decoration: underline; }
+.addon__more:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 3px; border-radius: 4px; }
 
 /* 專區頁 */
 .sd-hero { padding: var(--space-2xl) 0 var(--space-xl); }

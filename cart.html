@@ -321,6 +321,9 @@
                 <p class="addon__sub" data-addon-sub></p>
               </div>
               <div class="addon__grid" data-addon-grid></div>
+              <!-- 「睇多啲」：唔夠啱用唔使跳去 shop 頁，喺度展開同一個價位嘅貨。
+                   折疊 4 件、展開 12 件，排序同一套（見 addonSection()）。 -->
+              <button class="addon__all addon__more" type="button" data-addon-more hidden></button>
             </section>
 
             <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
@@ -1640,6 +1643,11 @@
     const grid = document.querySelector('[data-addon-grid]');
     const sub = document.querySelector('[data-addon-sub]');
     if (!sec || !grid) return;
+    /* 「睇多啲」狀態：折疊＝4 件、展開＝12 件。
+       展開只係將同一套計分之後面嗰批顯示出嚟，唔會偷偷推貴貨 ——
+       2026-09-17 老闆要求：爭 $100 就畀佢睇多啲 $100 左右嘅，爭 $40 就睇 $40 左右。 */
+    const more = document.querySelector('[data-addon-more]');
+    let expanded = false;
 
     /* productType → 權重。排名照上面 POS 籃次。
        用 productType 唔用 title 關鍵字：catalog 每件貨都有分類，
@@ -1805,6 +1813,8 @@
         .map((p) => ({ p, s: rank(p) + fillScore(p.__price) }))
         .sort((a, b) => b.s - a.s || a.p.__price - b.p.__price);
 
+      const want = expanded ? 12 : 4;
+
       /* 分散：同一個牌子最多一格（單一牌子自己有好多 SKU）。
          面膜係指定主力，可以佔三格；其他類型最多兩格 ——
          四格都係面膜，客會以為得一款嘢揀。唔夠四件就放寬條件再執。 */
@@ -1818,12 +1828,12 @@
         picked.push(p);
       };
       for (const { p } of scored) {
-        if (picked.length === 4) break;
+        if (picked.length === want) break;
         if (room(p, 1, capOf(p))) take(p);
       }
       for (const [vMax, kMax] of [[1, 4], [2, 4]]) {
         for (const { p } of scored) {
-          if (picked.length === 4) break;
+          if (picked.length === want) break;
           if (picked.includes(p)) continue;
           if (room(p, vMax, Math.max(kMax, capOf(p)))) take(p);
         }
@@ -1858,8 +1868,19 @@
           <button class="addon__add" type="button" data-vid="${p.__variantId}">${window.OUJI_cartCopy('加入購物袋', 'Add to bag')}</button>
         </article>`;
       }).join('');
+      if (more) {
+        more.hidden = scored.length <= 4;
+        more.textContent = expanded
+          ? window.OUJI_cartCopy('收埋 ↑', 'Show fewer ↑')
+          : window.OUJI_cartCopy('睇多啲同價位嘅貨 →', 'See more in this price range →');
+      }
       sec.hidden = false;
     }
+
+    if (more) more.addEventListener('click', () => {
+      expanded = !expanded;
+      paint().catch((e) => console.warn('addon more', e));
+    });
 
     grid.addEventListener('click', async (e) => {
       const btn = e.target.closest('.addon__add');
