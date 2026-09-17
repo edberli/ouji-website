@@ -2761,37 +2761,43 @@ function productBreadcrumb(product) {
 window.OUJI_getProductBreadcrumb = productBreadcrumb;
 
 /**
- * Products for a section/subcategory. Tries the matching Shopify
- * collection first; if that collection doesn't exist (or is empty),
- * falls back to scanning the catalogue and filtering by taxonomy.
+ * Products for a section/subcategory. Merges the matching Shopify
+ * collection with catalogue products matched by taxonomy. Collections are
+ * curated but can lag behind newly imported products; treating a non-empty
+ * collection as complete used to hide every omitted product.
  * Always applies the subcategory filter when `cat` is given.
  */
 async function getCategoryProducts({ section, cat = null } = {}) {
-  let products = [];
+  let collectionProducts = [];
+  let taxonomyProducts = [];
   try {
+    /* Run both reads together. The full catalogue normally comes from the
+       edge snapshot, while the collection request preserves deliberately
+       curated products whose tags/type do not match the taxonomy. */
+    const [viaCollection, all] = await Promise.all([
+      getAllProducts({ collectionHandle: section }),
+      getAllProducts(),
+    ]);
     // Paged, not `first: 48`. The old cap silently decided which brands the
     // 護膚 page showed — whichever four happened to land in the first 48 of
     // the collection — and there was nothing on screen to say so.
-    const viaCollection = await getAllProducts({ collectionHandle: section });
-    products = viaCollection?.edges?.map((e) => e.node) ?? [];
+    collectionProducts = viaCollection?.edges?.map((e) => e.node) ?? [];
+    const everything = all?.edges?.map((e) => e.node) ?? [];
+    taxonomyProducts = everything.filter((p) =>
+      matchesKeywords(p, categoryKeywords(section, null)));
   } catch (e) {
-    products = [];
+    collectionProducts = [];
+    taxonomyProducts = [];
   }
-  if (!products.length) {
-    /* 呢條後備路以前冇包 try —— collection 攞唔到、全店目錄又拋錯，
-       個 rejection 就一直冒上去 DOMContentLoaded，成版唔畫。
-       兩條路都斷 = 「攞唔到目錄」，唔係「呢個分類冇貨」，
-       要分得清，否則客見到嘅係「暫時未有產品」，佢會以為真係冇貨。 */
-    try {
-      const all = await getAllProducts();
-      const everything = all?.edges?.map((e) => e.node) ?? [];
-      products = everything.filter((p) => matchesKeywords(p, categoryKeywords(section, null)));
-    } catch (e) {
-      window.OUJI_CATALOG_FAILED = true;
-      products = [];
-      console.error('[OUJI] 攞唔到目錄：', e);
-    }
-  }
+  /* Keep collection order, append taxonomy-only products, and collapse any
+     overlap. Product id is stable; handle is a safe fallback for snapshots. */
+  const seen = new Set();
+  let products = [...collectionProducts, ...taxonomyProducts].filter((p) => {
+    const key = p?.id || p?.handle;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
   /* 短效期特價有自己一版（short-dated.html），唔好喺分類頁同正價貨並排，
      客會見到同一件貨兩個價。 */
   if (section !== 'short-dated') products = products.filter((p) => !isShortDated(p));
