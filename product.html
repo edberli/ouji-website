@@ -708,8 +708,14 @@
       if (nameEl) nameEl.textContent = shortDated ? shortDatedDisplayTitle(product.title) : product.title;
       if (priceEl) {
         const p = product.priceRange.minVariantPrice;
-        const cp = product.compareAtPriceRange?.minVariantPrice;
-        priceEl.innerHTML = productPriceMarkup(p.amount, cp);
+        /* ⚠️ 2026-09-18：唔可以用 compareAtPriceRange.minVariantPrice ——
+           佢同 priceRange.minVariantPrice 嚟自**唔同變體**。單片 $18 冇折、
+           5片裝 $78 劃線 $90 嘅話，初次載入就會出「$90 劃線 ＋ $18」。
+           要搵返「價錢＝最平嗰個」嗰件變體，用佢自己嘅劃線價同名。 */
+        const vlist = product.variants?.edges?.map((e) => e.node) ?? [];
+        const cheapV = vlist.find((v) => parseFloat(v.price?.amount) === parseFloat(p.amount));
+        const cp = cheapV ? cheapV.compareAtPrice : product.compareAtPriceRange?.minVariantPrice;
+        priceEl.innerHTML = productPriceMarkup(p.amount, cp, cheapV?.title);
         priceEl.dataset.oujiPromoReady = (shortDated || isOujiOpeningPromoActive()) ? '1' : '0';
       }
       /* Shopify 描述頭嗰段 .short-dated-notice 係畀訂單／後台睇嘅；網站喺價錢
