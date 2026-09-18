@@ -496,9 +496,16 @@ async function fetchAllPages({ collectionHandle, pageSize = 250, max = 2000 } = 
    幫唔到佢。英文客讀中文快照嘅話，目錄頁會全中文（實測 2026-09-14 就係咁）。
    英文快照攞唔到 → readSnapshot 回 null → 自動退返去行 API，唔會爆。
    英文快照由 `scripts/build_catalog_snapshot.py en` 出，每日排程同時出兩份。 */
-const snapshotUrl = () => (getLang() === 'en'
-  ? 'data/catalog-en.json?v=20260915a'
-  : 'data/catalog.json?v=20260915a');
+/* 快照 URL 一定要「會過期」。2026-09-18 實測：固定 ?v=20260915a 加埋
+   /data 嘅 1 個鐘 cache，CDN 一路 serve 住舊快照，所以「最新上架」
+   永遠冇最新產品。而家版本每個鐘轉一次，fetch 再配 cache:'no-cache'
+   做 ETag 對數 —— 最多一個鐘一定換到新快照。 */
+const SNAPSHOT_VERSION = '20260918a';
+const snapshotUrl = () => {
+  const file = getLang() === 'en' ? 'data/catalog-en.json' : 'data/catalog.json';
+  const bucket = Math.floor(Date.now() / 3600000);
+  return `${file}?v=${SNAPSHOT_VERSION}-${bucket}`;
+};
 const SNAPSHOT_MAX_AGE = 36 * 60 * 60 * 1000;
 let revalidating = false;
 
@@ -509,7 +516,7 @@ async function readSnapshot() {
        退返去行 API，好過乾等。 */
     const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
     const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
-    const r = await fetch(snapshotUrl(), { signal: ctrl ? ctrl.signal : undefined })
+    const r = await fetch(snapshotUrl(), { cache: 'no-cache', signal: ctrl ? ctrl.signal : undefined })
       .finally(() => { if (timer) clearTimeout(timer); });
     if (!r.ok) return null;
     const { at, v } = await r.json();

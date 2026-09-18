@@ -1478,6 +1478,14 @@ function mountGrid(host, items, { all = false } = {}) {
     });
   });
   watchGridWindows();
+  /* 砌完即刻補一次。切換排序／篩選嗰刻，客就係望住呢一版 ——
+     等到 scroll 先出貨，睇落就係「按咗最新上架但冇反應」。
+     rAF 之後再 sync 一次，因為佔位高度要等 layout 先量得準；
+     最尾嗰句保底砌第一嚿，咁就算 grid 喺 hero 下面（視窗 900px
+     以外）都一定睇到貨。 */
+  requestAnimationFrame(() => syncGridWindows());
+  setTimeout(() => syncGridWindows(), 150);
+  if (GRID_PANES.length) GRID_PANES[0].fill();
 }
 
 function renderProducts(container, products, { grouped }) {
@@ -1802,6 +1810,24 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
      保留直接網址同補貨通知，但唔應該喺全部產品、分類、品牌段落或件數
      入面出現，更加唔需要畀客再剔一次「有貨」。 */
   products = products.filter((p) => !soldOut(p));
+
+  /* 首屏用嘅 catalog 快照可能係舊 cache 版本。背景對數攞到新目錄之後
+     會派 ouji:catalog-refreshed，但之前**冇人聽** —— 結果老闆見到
+     「最新上架」冇最新產品，要 reload 先出。收到事件就換走 products
+     再重畫，排序（包括最新上架）會即刻用新資料重排。 */
+  document.addEventListener('ouji:catalog-refreshed', (e) => {
+    const fresh = (e.detail && e.detail.edges) || [];
+    if (fresh.length < 100) return;
+    const next = fresh.map((x) => (x && x.node) || x)
+      .filter((p) => p && p.handle)
+      .filter((p) => !soldOut(p));
+    if (!next.length) return;
+    const same = next.length === products.length
+      && next.every((p, i) => p.id && products[i] && p.id === products[i].id);
+    if (same) return;
+    products = next;
+    draw();
+  });
 
   // Unit prices and ingredient chips are drawn into the cards, so the
   // data has to be in hand before the first draw — otherwise the badges

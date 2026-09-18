@@ -690,6 +690,15 @@ async function initHome() {
   }
 
   /* 妝感配對嗰格改咗喺 index.html 寫死（三張妝感相 + 連結）。
-     舊版由 match-data.json 生成六個文字 pill，連結去 match.html#<id> ——
-     新版 /match 係讀 ?look=<id>，個 hash 乜都唔會做，即係啲連結全部死咗。 */
+    舊版由 match-data.json 生成六個文字 pill，連結去 match.html#<id> ——
+    新版 /match 係讀 ?look=<id>，個 hash 乜都唔會做，即係啲連結全部死咗。 */
 }
+
+/* 背景對數攞到新目錄之後，首頁嘅貨架都要即刻換新 —— 唔好等客人
+   reload。只做一次，免得事件重覆時重覆 render。 */
+document.addEventListener('ouji:catalog-refreshed', () => {
+  if (window.__oujiHomeRefreshed) return;
+  if (!document.querySelector('[data-home-new], [data-home-tabs]')) return;
+  window.__oujiHomeRefreshed = true;
+  if (typeof initHome === 'function') initHome();
+});
