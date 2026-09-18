@@ -2376,9 +2376,14 @@ function productCardHTML(product) {
   if (!vnodes.some((v) => v.price)) {
     /* 舊快照冇變體價錢：只有「成件貨每個變體都同價」先夠膽用範圍嘅劃線價，
        否則寧願唔出特價牌，都好過標錯價。 */
+    /* ⚠️ 連 maxVariantPrice 都冇（更舊嘅快照）＝「證實唔到」，
+       嗰陣一定要當冇折。唔好 default 做 lo —— 咁會被當成「全部變體同價」，
+       單片 $18 又會配返 5片裝嘅 $90 劃線價（2026-09-18 落線實測踩過）。 */
     const lo = parseFloat(product.priceRange?.minVariantPrice?.amount || 0);
-    const hi = parseFloat(product.priceRange?.maxVariantPrice?.amount || lo);
-    comparePrice = (lo === hi) ? (product.compareAtPriceRange?.minVariantPrice || null) : null;
+    const hiRaw = product.priceRange?.maxVariantPrice?.amount;
+    comparePrice = (hiRaw != null && parseFloat(hiRaw) === lo)
+      ? (product.compareAtPriceRange?.minVariantPrice || null)
+      : null;
   }
   const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
   const isSoldOut = !variant?.availableForSale;
