@@ -3,6 +3,5 @@ Allow: /
 Disallow: /cart
 Disallow: /account
 Disallow: /wishlist
-Disallow: /order
 
 Sitemap: https://oujikbeauty.com/sitemap.xml
