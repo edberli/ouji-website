@@ -365,7 +365,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
                 compareAtPriceRange { minVariantPrice { amount currencyCode } }
                 images(first: 2) { edges { node { url altText } } }
                 totalInventory
-                variants(first: 2) { edges { node { id availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+                variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
               }
             }
           }
@@ -386,7 +386,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
             images(first: 2) { edges { node { url altText } } }
             totalInventory
-            variants(first: 2) { edges { node { id availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+            variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
           }
         }
       }
@@ -2363,6 +2363,26 @@ function productImageAlt(image, productTitle, position = 0) {
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+/* 卡片上面嘅「每件價」範圍（老闆 2026-09-18：「可能寫 15 至 18 蚊咁樣，
+   啲人咪覺得『15 蚊咋喎』」）。
+   套裝變體（例：5片裝 $78）真正可比嘅係每片 $15.6，唔係總額 $78。
+   所以卡片出「HK$15.60 – HK$18」，客一眼見到最平入手點。
+   ⚠️ 只有兩個條件都成立先出範圍：① 攞到變體名同價錢 ② 每件價真係唔同。 */
+function unitPriceRange(product) {
+  const vs = (product.variants?.edges || []).map((e) => e.node)
+    .filter((v) => v && v.price && v.title);
+  if (vs.length < 2) return null;
+  const units = vs.map((v) => {
+    const m = String(v.title).match(/(\d{1,3})\s*(?:片裝|片|支裝|入)/);
+    const n = m ? parseInt(m[1], 10) : 1;
+    return parseFloat(v.price.amount) / (n > 0 ? n : 1);
+  }).filter((x) => x > 0);
+  if (units.length < 2) return null;
+  const lo = Math.min(...units); const hi = Math.max(...units);
+  if (!(hi - lo > 0.01)) return null;
+  return { lo, hi };
+}
+
 function productCardHTML(product) {
   const image = product.images?.edges?.[0]?.node;
   const price = product.priceRange?.minVariantPrice;
@@ -2406,7 +2426,9 @@ function productCardHTML(product) {
       <div class="product-card__info">
         <a href="product.html?handle=${product.handle}" class="product-card__title">${title}</a>
         <div class="product-card__prices">
-          <span class="product-card__price">${formatPrice(price.amount)}</span>
+          ${(() => { const u = unitPriceRange(product);
+             return u ? `<span class="product-card__price">${formatPrice(u.lo)} – ${formatPrice(u.hi)}</span>`
+                      : `<span class="product-card__price">${formatPrice(price.amount)}</span>`; })()}
           ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(comparePrice.amount)}</span>` : ''}
         </div>
         <button class="product-card__wishlist-btn ${isInWishlist(product.id) ? 'is-active' : ''}"

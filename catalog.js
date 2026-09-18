@@ -933,6 +933,23 @@ function quickAddControl(p, { isSoldOut, oneVariant, variantId }) {
     data-quick-add="${variantId}">快速加入</button>`;
 }
 
+function unitPriceRange(product) {
+  /* 每件價範圍：套裝變體（5片裝 $78）真正可比嘅係每片 $15.6。
+     只有攞到變體名同價、而且每件價真係唔同，先出範圍。 */
+  const vs = (product.variants?.edges || []).map((e) => e.node)
+    .filter((v) => v && v.price && v.title);
+  if (vs.length < 2) return null;
+  const units = vs.map((v) => {
+    const m = String(v.title).match(/(\d{1,3})\s*(?:片裝|片|支裝|入)/);
+    const n = m ? parseInt(m[1], 10) : 1;
+    return parseFloat(v.price.amount) / (n > 0 ? n : 1);
+  }).filter((x) => x > 0);
+  if (units.length < 2) return null;
+  const lo = Math.min(...units); const hi = Math.max(...units);
+  if (!(hi - lo > 0.01)) return null;
+  return { lo, hi };
+}
+
 function productCard(p) {
   const image = p.images?.edges?.[0]?.node;
   const p0 = p.priceRange?.minVariantPrice;
@@ -974,7 +991,7 @@ function productCard(p) {
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${p.title}</span>
       ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
-      <span class="product-card__price">${formatPrice(p0.amount)}</span>
+      ${(() => { const u = unitPriceRange(p); return u ? `<span class="product-card__price">${formatPrice(u.lo)} – ${formatPrice(u.hi)}</span>` : `<span class="product-card__price">${formatPrice(p0.amount)}</span>`; })()}
       ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(cp.amount)}</span>` : ''}
     </a>`;
 }

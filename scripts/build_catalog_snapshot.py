@@ -52,7 +52,7 @@ query GetProducts($first: Int!, $after: String)""" + IN_CONTEXT + """ {
         compareAtPriceRange { minVariantPrice { amount currencyCode } }
         images(first: 2) { edges { node { url altText } } }
         totalInventory
-        variants(first: 2) { edges { node { id availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+        variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
       }
     }
   }
