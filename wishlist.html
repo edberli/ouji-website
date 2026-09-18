@@ -413,7 +413,18 @@
     gridEl.innerHTML = items.map(product => {
       const image = product.images?.edges?.[0]?.node;
       const price = product.priceRange?.minVariantPrice;
-      const comparePrice = product.compareAtPriceRange?.minVariantPrice;
+      /* 劃線價一定要嚟自「同一件變體」。單用 compareAtPriceRange.minVariantPrice
+         配 priceRange.minVariantPrice 係比緊兩件唔同變體 —— 單片 $18 冇折、
+         5片裝 $78 劃線 $90，就會標成「$18 ／ $90」。冇變體價錢就當冇折。 */
+            const _vn = (product.variants?.edges || []).map((e) => e.node).filter(Boolean);
+            const _cheap = _vn.find((v) => parseFloat(v.price?.amount) === parseFloat(price?.amount));
+            let comparePrice = _cheap ? _cheap.compareAtPrice : null;
+            if (!_vn.some((v) => v.price)) {
+              const _lo = parseFloat(price?.amount || 0);
+              const _hi = product.priceRange?.maxVariantPrice?.amount;
+              comparePrice = (_hi != null && parseFloat(_hi) === _lo)
+                ? (product.compareAtPriceRange?.minVariantPrice || null) : null;
+            }
       const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
 
       return `

@@ -936,7 +936,18 @@ function quickAddControl(p, { isSoldOut, oneVariant, variantId }) {
 function productCard(p) {
   const image = p.images?.edges?.[0]?.node;
   const p0 = p.priceRange?.minVariantPrice;
-  const cp = p.compareAtPriceRange?.minVariantPrice;
+  /* 劃線價一定要嚟自「同一件變體」。單用 compareAtPriceRange.minVariantPrice
+     配 priceRange.minVariantPrice 係比緊兩件唔同變體 —— 單片 $18 冇折、
+     5片裝 $78 劃線 $90，就會標成「$18 ／ $90」。冇變體價錢就當冇折。 */
+  const _vn = (p.variants?.edges || []).map((e) => e.node).filter(Boolean);
+  const _cheap = _vn.find((v) => parseFloat(v.price?.amount) === parseFloat(p0?.amount));
+  let cp = _cheap ? _cheap.compareAtPrice : null;
+  if (!_vn.some((v) => v.price)) {
+    const _lo = parseFloat(p0?.amount || 0);
+    const _hi = p.priceRange?.maxVariantPrice?.amount;
+    cp = (_hi != null && parseFloat(_hi) === _lo)
+      ? (p.compareAtPriceRange?.minVariantPrice || null) : null;
+  }
   const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount);
   const variants = p.variants?.edges || [];
   const variant = variants[0]?.node;
