@@ -436,7 +436,9 @@ const MEM_CACHE = new Map();
 /* 8：2026-09-12 大批補回逐色 variant media。舊 session 快取入面仍然係
    「每個色號同一張圖」，如果唔升版本，手機重新開產品頁都可以繼續讀舊圖
    五分鐘，令人以為修復冇生效。 */
-const CACHE_VERSION = 9;
+/* v10：2026-09-18 大批產品換咗真封面。舊 cache 仲留住 OUJI 佔位圖，
+   所以升版本迫所有客即刻掉走舊快照，唔使等 TTL。 */
+const CACHE_VERSION = 10;
 /* 語言要入 key —— 唔係嘅話切換語言之後會攞到上一個語言嘅快取，
    客會見到中英夾雜嘅目錄。 */
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${getLang()}:${name}`;

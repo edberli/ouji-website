@@ -1072,6 +1072,16 @@
       const cached = getCachedProduct(handle);
       if (cached) {
         await renderProduct(cached);
+        /* 快取版本可能係換封面之前嘅（客會先見到舊 OUJI 佔位圖）。
+           背景對一次最新資料，封面一唔同就即刻換走，唔使等 TTL 過期。 */
+        try {
+          const coverOf = (p) => p?.images?.edges?.[0]?.node?.url || '';
+          const fresh = await getProduct(handle);
+          if (fresh && coverOf(fresh) !== coverOf(cached)) {
+            cacheProduct(fresh);
+            await renderProduct(fresh);
+          }
+        } catch (e) { /* 對唔到數就算，唔阻住已經顯示嘅內容 */ }
       } else {
         const product = await getProduct(handle);
         if (product) {
