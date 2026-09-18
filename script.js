@@ -706,7 +706,7 @@ function initQuickAdd() {
  *
  * 手機版唔再有「首頁」：頂部 OUJI logo 已經係返首頁。搜尋亦保留喺頂部。
  * 底欄只留五種真正唔同嘅意圖：
- *   選購 / 發現 / 幫我揀 / 購物袋 / 我的
+ *   分類 / 精選 / 幫我揀 / 購物袋 / 我的
  *
  * 53 個靜態頁本來各自複製一份舊底欄。喺共用 script 度統一砌，避免之後
  * 改一粒字要逐頁追；舊 markup 仍然係無 JS 時嘅 fallback。 */
@@ -736,11 +736,11 @@ function initMobileBottomNav() {
 
   bar.setAttribute('aria-label', '主要導覽');
   bar.innerHTML = `
-    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__menu-btn" aria-label="選購產品" aria-haspopup="true" aria-expanded="false">
-      ${icon.catalogue}<span>選購</span>
+    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__menu-btn" aria-label="產品分類" aria-haspopup="true" aria-expanded="false">
+      ${icon.catalogue}<span>分類</span>
     </button>
-    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__discover-btn" aria-label="發現新品、得獎產品同美妝專欄" aria-haspopup="dialog" aria-expanded="false">
-      ${icon.discover}<span>發現</span>
+    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__discover-btn" aria-label="精選品牌、新品、得獎產品同美妝專欄" aria-haspopup="dialog" aria-expanded="false">
+      ${icon.discover}<span>精選</span>
     </button>
     <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__item--assist" aria-label="幫我揀：妝感同護膚配對" aria-haspopup="dialog" aria-expanded="false">
       <span class="mobile-bottom-nav__assist-icon">${icon.assist}</span><span>幫我揀</span>
@@ -769,27 +769,27 @@ function initMobileBottomNav() {
   }
   else if (/\/(cart)\.html$/.test(path)) mark('[href="/cart.html"]');
   else if (/\/(account|wishlist)\.html$/.test(path)) mark('.mobile-bottom-nav__item--me');
-  else if (/\/articles\/|\/(awards|column)\.html$/.test(path)) mark('.mobile-bottom-nav__discover-btn');
-  else if (/\/(shop|category|makeup|lens|kpop|bath|health|seasonal|tools|fragrance|brands|product)\.html$/.test(path)) mark('.mobile-bottom-nav__menu-btn');
+  else if (/\/articles\/|\/(awards|column|brands)\.html$/.test(path)) mark('.mobile-bottom-nav__discover-btn');
+  else if (/\/(shop|category|makeup|lens|kpop|bath|health|seasonal|tools|fragrance|product)\.html$/.test(path)) mark('.mobile-bottom-nav__menu-btn');
 
   prepareMobileShopNav();
   initDiscoverSheet(bar.querySelector('.mobile-bottom-nav__discover-btn'));
   initAssistSheet(bar.querySelector('.mobile-bottom-nav__item--assist'));
 }
 
-/* 「選購」沿用原本深藍玻璃 drawer，但內容只做產品目錄。
-   發現、AI、我的已有自己底欄入口，唔再塞埋入同一張選單。 */
+/* 「分類」沿用原本深藍玻璃 drawer，但內容只做產品目錄。
+   精選、AI、我的已有自己底欄入口，唔再塞埋入同一張選單。 */
 function prepareMobileShopNav() {
   const nav = document.querySelector('.mobile-nav');
   const links = nav?.querySelector('.mobile-nav__links');
   if (!nav || !links) return;
-  nav.setAttribute('aria-label', '選購產品');
+  nav.setAttribute('aria-label', '產品分類');
   nav.setAttribute('aria-hidden', 'true');
 
   Array.from(links.children).forEach((child) => {
     if (child.tagName !== 'A') return;
     const href = (child.getAttribute('href') || '').toLowerCase();
-    if (/(awards|match|column|account)\.html(?:$|[?#])/.test(href)) child.remove();
+    if (/(awards|match|column|brands|account)\.html(?:$|[?#])/.test(href)) child.remove();
   });
 
   if (!links.querySelector('.mobile-nav__all-products')) {
@@ -807,6 +807,23 @@ function prepareMobileShopNav() {
     home.textContent = '首頁';
     links.querySelector('.mobile-nav__all-products')?.insertAdjacentElement('afterend', home);
   }
+
+  /* 最多人搵嘅美妝三類用一個柔和焦點區包住，保留原本 accordion 行為。 */
+  if (!links.querySelector('.mobile-nav__beauty-focus')) {
+    const focus = document.createElement('section');
+    focus.className = 'mobile-nav__beauty-focus';
+    focus.setAttribute('aria-label', '護膚彩妝精選分類');
+    const wanted = ['護膚', '彩妝', '美妝工具'];
+    const groups = Array.from(links.querySelectorAll(':scope > .mobile-nav__group'));
+    wanted.forEach((label) => {
+      const group = groups.find((item) => item.querySelector('.mobile-nav__group-row span')?.textContent.trim() === label);
+      if (group) focus.appendChild(group);
+    });
+    if (focus.children.length) {
+      const home = links.querySelector('.mobile-nav__home');
+      home?.insertAdjacentElement('afterend', focus);
+    }
+  }
 }
 
 function initDiscoverSheet(btn) {
@@ -820,8 +837,8 @@ function initDiscoverSheet(btn) {
     <section class="discover-sheet__panel" role="dialog" aria-labelledby="discover-title">
       <span class="discover-sheet__grip" aria-hidden="true"></span>
       <header class="discover-sheet__head">
-        <div><p>OUJI EDIT</p><h2 id="discover-title">發現值得帶走嘅</h2></div>
-        <button type="button" class="discover-sheet__close" aria-label="關閉發現選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+        <div><p>OUJI EDIT</p><h2 id="discover-title">OUJI 精選</h2></div>
+        <button type="button" class="discover-sheet__close" aria-label="關閉精選選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
       </header>
       <div class="discover-sheet__cards">
         <a class="discover-card discover-card--new" href="/shop.html?sort=new">
@@ -832,6 +849,9 @@ function initDiscoverSheet(btn) {
         </a>
         <a class="discover-card discover-card--column" href="/column.html">
           <span class="discover-card__no">03</span><span><strong>美妝專欄</strong><small>成分、用法同選購指南</small></span><b aria-hidden="true">↗</b>
+        </a>
+        <a class="discover-card discover-card--brands" href="/brands.html">
+          <span class="discover-card__no">04</span><span><strong>品牌</strong><small>按品牌探索 OUJI 精選產品</small></span><b aria-hidden="true">↗</b>
         </a>
       </div>
     </section>`;
