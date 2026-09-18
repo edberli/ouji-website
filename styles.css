@@ -5062,6 +5062,15 @@ button.product-card__quick-add,
 /* 護膚、彩妝、美妝工具係手機分類頁嘅主入口。粉紅水彩邊框只做一個
    輕柔視覺分組，底色仍然係原本深藍玻璃，唔會變成另一套 UI。 */
 @media (max-width: 768px) {
+  .mobile-nav {
+    /* 100vh 喺手機 Chrome 可能包括網址列後面嗰段；dvh 跟實際可見高度。
+       額外底距俾固定網站導覽同系統 safe area，令最後一項可以捲上嚟。 */
+    height: 100dvh;
+    padding-bottom: calc(var(--space-xl) + 88px + env(safe-area-inset-bottom, 0px));
+    scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    overscroll-behavior: contain;
+  }
+
   .mobile-nav__beauty-focus {
     position: relative;
     isolation: isolate;
