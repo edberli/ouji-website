@@ -5065,18 +5065,11 @@ button.product-card__quick-add,
   .mobile-nav__beauty-focus {
     position: relative;
     isolation: isolate;
-    margin: 12px -5px 15px;
-    padding: 7px 8px;
-    border: 1px solid rgba(255, 180, 205, .62);
-    border-radius: 19px 16px 21px 17px;
-    background:
-      radial-gradient(ellipse at 5% 4%, rgba(255, 170, 204, .18), transparent 43%),
-      radial-gradient(ellipse at 96% 90%, rgba(255, 205, 222, .14), transparent 46%),
-      rgba(255, 190, 211, .045);
-    box-shadow:
-      0 0 0 3px rgba(255, 170, 204, .055),
-      inset 0 1px 0 rgba(255, 232, 240, .13),
-      0 10px 28px rgba(23, 52, 64, .12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
   }
   .mobile-nav__beauty-focus::before,
   .mobile-nav__beauty-focus::after {
@@ -5084,27 +5077,27 @@ button.product-card__quick-add,
     position: absolute;
     z-index: -1;
     pointer-events: none;
-    border-radius: 999px;
-    filter: blur(7px);
   }
   .mobile-nav__beauty-focus::before {
-    width: 42%;
-    height: 7px;
-    left: 11%;
-    top: -3px;
-    background: rgba(255, 154, 193, .34);
-    transform: rotate(-1.5deg);
+    inset: -11px -10px;
+    border: 1px solid rgba(255, 180, 205, .58);
+    border-radius: 21px 17px 22px 18px;
+    background:
+      radial-gradient(ellipse at 7% 7%, rgba(255, 170, 204, .15), transparent 42%),
+      radial-gradient(ellipse at 94% 91%, rgba(255, 205, 222, .12), transparent 45%),
+      rgba(255, 190, 211, .035);
+    box-shadow:
+      0 0 0 3px rgba(255, 170, 204, .045),
+      inset 0 1px 0 rgba(255, 232, 240, .1),
+      0 10px 28px rgba(23, 52, 64, .1);
   }
   .mobile-nav__beauty-focus::after {
-    width: 30%;
-    height: 8px;
-    right: 8%;
-    bottom: -3px;
-    background: rgba(255, 196, 216, .25);
-    transform: rotate(1.5deg);
-  }
-  .mobile-nav__beauty-focus > .mobile-nav__group + .mobile-nav__group {
-    border-top-color: rgba(255, 218, 230, .18);
+    inset: -7px -6px;
+    border-radius: 18px 15px 20px 16px;
+    background:
+      linear-gradient(96deg, rgba(255, 151, 191, .16), transparent 27%) top left / 56% 3px no-repeat,
+      linear-gradient(276deg, rgba(255, 194, 216, .13), transparent 32%) bottom right / 48% 3px no-repeat;
+    filter: blur(2px);
   }
 }
 
