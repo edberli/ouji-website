@@ -1843,12 +1843,38 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
      會派 ouji:catalog-refreshed，但之前**冇人聽** —— 結果老闆見到
      「最新上架」冇最新產品，要 reload 先出。收到事件就換走 products
      再重畫，排序（包括最新上架）會即刻用新資料重排。 */
+  /* ⚠️ 2026-09-18：呢個 listener 之前直接用成份全店目錄換走 `products`，
+     冇再篩返分類 —— 結果每一版分類頁（隱形眼鏡、K-pop、彩妝……）一等到
+     背景對數完，就由 30 件變成成間鋪 1869 件，客喺「隱形眼鏡」頁面見到
+     CLIO 睫毛膏行先，Molak／TOPARDS 反而沉喺最底。
+     換走之前一定要用返同一套分類規則篩，仲要保留本身 collection 入面
+     人手揀嘅貨（佢哋唔一定中 keyword）—— 所以舊清單嘅 id 一律留低。 */
+  const keepIds = new Set(products.map((p) => p && (p.id || p.handle)).filter(Boolean));
+  const inSection = (p) => {
+    if (!section) return true;
+    if (keepIds.has(p.id || p.handle)) return true;
+    if (typeof matchesKeywords !== 'function' || typeof categoryKeywords !== 'function') return true;
+    if (!matchesKeywords(p, categoryKeywords(section, null))) return false;
+    /* ?cat= 喺攞資料嗰陣已經篩過一次，refresh 都要跟返同一條規則，
+       否則新貨會漏返晒入嚟（例如 lens.html?cat=molak 會出埋 TOPARDS）。 */
+    if (cat) {
+      const sub = CATEGORY_TAXONOMY[section] && CATEGORY_TAXONOMY[section].subs
+        && CATEGORY_TAXONOMY[section].subs[cat];
+      const ok = sub && typeof subMatch === 'function'
+        ? subMatch(section, cat, p)
+        : matchesKeywords(p, categoryKeywords(section, cat));
+      if (!ok) return false;
+    }
+    if (typeof isShortDated === 'function' && section !== 'short-dated' && isShortDated(p)) return false;
+    return true;
+  };
   document.addEventListener('ouji:catalog-refreshed', (e) => {
     const fresh = (e.detail && e.detail.edges) || [];
     if (fresh.length < 100) return;
     const next = fresh.map((x) => (x && x.node) || x)
       .filter((p) => p && p.handle)
-      .filter((p) => !soldOut(p));
+      .filter((p) => !soldOut(p))
+      .filter(inSection);
     if (!next.length) return;
     const same = next.length === products.length
       && next.every((p, i) => p.id && products[i] && p.id === products[i].id);
