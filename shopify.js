@@ -361,11 +361,11 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
             edges {
               node {
                 id handle title vendor productType tags createdAt
-                priceRange { minVariantPrice { amount currencyCode } }
+                priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
                 compareAtPriceRange { minVariantPrice { amount currencyCode } }
                 images(first: 2) { edges { node { url altText } } }
                 totalInventory
-                variants(first: 2) { edges { node { id availableForSale quantityAvailable } } }
+                variants(first: 2) { edges { node { id availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
               }
             }
           }
@@ -382,11 +382,11 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
         edges {
           node {
             id handle title vendor productType tags createdAt
-            priceRange { minVariantPrice { amount currencyCode } }
+            priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
             images(first: 2) { edges { node { url altText } } }
             totalInventory
-            variants(first: 2) { edges { node { id availableForSale quantityAvailable } } }
+            variants(first: 2) { edges { node { id availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
           }
         }
       }
@@ -2364,8 +2364,22 @@ function productImageAlt(image, productTitle, position = 0) {
 function productCardHTML(product) {
   const image = product.images?.edges?.[0]?.node;
   const price = product.priceRange?.minVariantPrice;
-  const comparePrice = product.compareAtPriceRange?.minVariantPrice;
   const variant = product.variants?.edges?.[0]?.node;
+  /* ⚠️ 2026-09-18 修：以前用 compareAtPriceRange.minVariantPrice 同
+     priceRange.minVariantPrice 比較 —— 兩個數嚟自**唔同變體**。
+     一件貨如果得套裝變體有劃線價（例：單片 $18 冇折、5片裝 $78 劃 $90），
+     卡片就會變成「$18 ／ $90 ＋特價牌」，客會以為件貨賣 $90。
+     而家改成：搵返「價錢＝最平嗰個」嗰個變體，只用**佢自己**嘅劃線價。 */
+  const vnodes = (product.variants?.edges || []).map((e) => e.node).filter(Boolean);
+  const cheapest = vnodes.find((v) => parseFloat(v.price?.amount) === parseFloat(price?.amount));
+  let comparePrice = cheapest?.compareAtPrice || null;
+  if (!vnodes.some((v) => v.price)) {
+    /* 舊快照冇變體價錢：只有「成件貨每個變體都同價」先夠膽用範圍嘅劃線價，
+       否則寧願唔出特價牌，都好過標錯價。 */
+    const lo = parseFloat(product.priceRange?.minVariantPrice?.amount || 0);
+    const hi = parseFloat(product.priceRange?.maxVariantPrice?.amount || lo);
+    comparePrice = (lo === hi) ? (product.compareAtPriceRange?.minVariantPrice || null) : null;
+  }
   const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
   const isSoldOut = !variant?.availableForSale;
   const shortDated = isShortDated(product);

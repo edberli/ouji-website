@@ -48,11 +48,11 @@ query GetProducts($first: Int!, $after: String)""" + IN_CONTEXT + """ {
     edges {
       node {
         id handle title vendor productType tags createdAt
-        priceRange { minVariantPrice { amount currencyCode } }
+        priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
         compareAtPriceRange { minVariantPrice { amount currencyCode } }
         images(first: 2) { edges { node { url altText } } }
         totalInventory
-        variants(first: 2) { edges { node { id availableForSale quantityAvailable } } }
+        variants(first: 2) { edges { node { id availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
       }
     }
   }

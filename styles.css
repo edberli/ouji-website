@@ -2515,6 +2515,15 @@ button.product-card__quick-add,
 .product-info__brand a:hover { border-bottom-color: currentColor; }
 .product-info__name { font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 400; line-height: 1.25; margin-bottom: var(--space-md); }
 .product-info__price { font-size: 1.25rem; font-weight: 600; color: var(--primary-dark); margin-bottom: var(--space-lg); }
+
+/* 特價排版（2026-09-18 老闆指示）：
+   「啲人睇價錢由左至右睇，左邊細粒原價，右邊大粒特價」——
+   所以原價喺左、細、劃線、灰；特價喺右、大、紅。
+   再喺下面補一行「平均每片」，因為客真正比較嘅係每片幾錢，唔係總額。 */
+.pp { display: inline-flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.pp__was { font-size: 0.8em; font-weight: 500; color: var(--text-tertiary); text-decoration: line-through; }
+.pp__now { font-size: 1.15em; font-weight: 700; color: var(--sale, #d43f3a); }
+.pp__unit { display: block; margin-top: 4px; font-size: 0.75em; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.01em; }
 .product-info__divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-light), transparent); margin: var(--space-lg) 0; }
 .product-info__short-desc { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: var(--space-lg); }
 .product-info__options { margin-bottom: var(--space-xl); }

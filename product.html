@@ -668,7 +668,7 @@
       /* 短效期特價：價錢已經係最終價，唔疊 88 折（後台 88 折只套用正價貨）。
          所以唔可以行下面個「88 折後約」，要照實出特價同原價。 */
       const shortDated = typeof isShortDated === 'function' && isShortDated(product);
-      const productPriceMarkup = (amount, compareAt) => {
+      const productPriceMarkup = (amount, compareAt, variantTitle) => {
         if (shortDated) {
           const now = parseFloat(amount);
           const was = compareAt ? parseFloat(compareAt.amount) : 0;
@@ -685,9 +685,16 @@
           return oujiPromoPriceHTML(amount, { detail: true });
         }
         const onSale = compareAt && parseFloat(compareAt.amount) > parseFloat(amount);
-        return formatPrice(amount) + (onSale
-          ? ` <s style="color:var(--text-tertiary);font-size:0.85em;margin-left:8px;">${formatPrice(compareAt.amount)}</s>`
-          : '');
+        /* 套裝變體（例：「5片裝」）客真正比較嘅係每片幾錢 —— 佢隔離就係
+           單片價。所以喺價錢下面補返「平均每片」，總額反而唔係重點。 */
+        const packN = (variantTitle || '').match(/(\d{1,2})\s*片裝/);
+        const unit = packN && parseInt(packN[1], 10) > 1
+          ? `<span class="pp__unit">平均每片 ${formatPrice(parseFloat(amount) / parseInt(packN[1], 10))}</span>`
+          : '';
+        if (!onSale) return formatPrice(amount) + unit;
+        /* 原價細粒喺左、特價大粒紅色喺右 —— 由左至右讀落去先感覺到減幅。 */
+        return `<span class="pp"><s class="pp__was">${formatPrice(compareAt.amount)}</s>`
+          + `<strong class="pp__now">${formatPrice(amount)}</strong></span>${unit}`;
       };
 
       // The brand was dead text. Somebody who likes this serum wants the
@@ -919,7 +926,7 @@
             showVariantImage(v);
             if (v && priceEl) {
               const cp2 = v.compareAtPrice;
-              priceEl.innerHTML = productPriceMarkup(v.price.amount, cp2);
+              priceEl.innerHTML = productPriceMarkup(v.price.amount, cp2, v.title);
               priceEl.dataset.oujiPromoReady = isOujiOpeningPromoActive() ? '1' : '0';
             }
           });
