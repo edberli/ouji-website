@@ -1516,6 +1516,9 @@ function mountGrid(host, items, { all = false } = {}) {
   if (GRID_PANES.length) GRID_PANES[0].fill();
 }
 
+/* 而家渲染緊邊一版分類（'toys'／'makeup'／…）。由 initCatalog 寫入。 */
+let CURRENT_SECTION = null;
+
 function renderProducts(container, products, { grouped }) {
   clearGridWindows();
   const token = ++RENDER_TOKEN;
@@ -1581,10 +1584,20 @@ function renderProducts(container, products, { grouped }) {
   };
   /* 老闆 2026-09-19：「吉伊卡哇同埋 Sanrio 一定係擺最高嘅，唔使諗嘅，
      吉伊卡哇一定係最高。」客入公仔版就係搵呢兩個 IP，佢哋唔跟分數排。
-     其餘牌子照原本嘅 tier → 分數 → 件數。 */
-  const PINNED_VENDORS = ['Chiikawa', 'Sanrio'];
+     其餘牌子照原本嘅 tier → 分數 → 件數。
+
+     ⚠️ 2026-09-19 老闆再更正：「我唔係話所有產品類別都係擺最高。冇理由
+     我彩妝嗰度最高係呢一啲咁嘅產品。」——呢句係喺**公仔版**度講嘅，
+     之前寫成全域，結果彩妝版第一個牌子變咗 Sanrio 潤唇膏。只准喺公仔版生效。
+
+     ⚠️ vendor 實際係「吉伊卡哇 Chiikawa」，唔係淨係「Chiikawa」——
+     舊版用 indexOf 全等比對，所以 Chiikawa 其實一直冇置頂到。改用包含比對。 */
+  const PIN_SECTIONS = new Set(['toys']);
+  const PINNED_VENDORS = PIN_SECTIONS.has(CURRENT_SECTION)
+    ? ['Chiikawa', 'Sanrio'] : [];
   const pinRank = (v) => {
-    const i = PINNED_VENDORS.indexOf(String(v || '').trim());
+    const name = String(v || '').trim().toLowerCase();
+    const i = PINNED_VENDORS.findIndex((k) => name.includes(k.toLowerCase()));
     return i < 0 ? PINNED_VENDORS.length : i;
   };
   const order = [...byVendor.entries()].sort((a, b) =>
@@ -1720,7 +1733,7 @@ const SHOP_STICKER_POS = [
 ];
 
 function inSection(p, id) {
-  return matchesKeywords(p, categoryKeywords(id));
+  return sectionMatch(p, id);
 }
 
 function productsForGroup(products, key) {
@@ -1838,6 +1851,9 @@ function syncShopExplorer(activeGroup, shown, total) {
 }
 
 async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null }) {
+  /* 品牌置頂（見 renderProducts）要知而家喺邊一版。渲染嗰陣攞唔到
+     section，所以喺入口記低一次。 */
+  CURRENT_SECTION = section || null;
   const host = document.querySelector('[data-catalog]')
     || document.querySelector('.product-grid')?.parentElement;
   if (!host) return;
@@ -1862,8 +1878,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   const inSection = (p) => {
     if (!section) return true;
     if (keepIds.has(p.id || p.handle)) return true;
-    if (typeof matchesKeywords !== 'function' || typeof categoryKeywords !== 'function') return true;
-    if (!matchesKeywords(p, categoryKeywords(section, null))) return false;
+    if (typeof sectionMatch !== 'function') return true;
+    if (!sectionMatch(p, section)) return false;
     /* ?cat= 喺攞資料嗰陣已經篩過一次，refresh 都要跟返同一條規則，
        否則新貨會漏返晒入嚟（例如 lens.html?cat=molak 會出埋 TOPARDS）。 */
     if (cat) {

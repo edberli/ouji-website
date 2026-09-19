@@ -2745,8 +2745,18 @@ const MAKEUP_RULES = [
 // 都唔可以跌返入彩妝。要喺一般唇妝規則之前截走。
 const LIP_CARE_TITLE = /潤唇膏|護唇膏|唇部精華|唇膜|lip\s*(?:balm|care|mask|serum)/i;
 
+/* 型號（productType）行先，冇型號先至退返去睇產品名。
+   ⚠️ 唔可以淨係靠名：「WAKEMAKE 柔亮水潤唇膏」係真唇膏，個名一樣
+   含住「潤唇膏」三個字，淨靠正則會連真唇膏一齊踢走。 */
+const LIP_CARE_TYPES = new Set(['唇部護理', '潤唇膏', '護唇膏', '唇膜', '唇部精華']);
+function isLipCare(p) {
+  const t = String(p.productType || '').trim();
+  if (t) return LIP_CARE_TYPES.has(t);
+  return LIP_CARE_TITLE.test(p.title || '');
+}
+
 function makeupBucket(p) {
-  if (LIP_CARE_TITLE.test(p.title || '')) return null;
+  if (isLipCare(p)) return null;
   const hit = MAKEUP_RULES.find(([, re]) => re.test(p.title || ''));
   return hit ? hit[0] : null;
 }
@@ -2779,6 +2789,21 @@ function categoryKeywords(section, cat) {
   return [...own, ...fromSubs];
 }
 
+/* 一個 section 收唔收呢件貨。以前全部地方直接 matchesKeywords(所有子分類
+   keyword 合埋)，所以彩妝嗰個 `唇`／`lip balm` 會連潤唇膏一齊收晒入去。
+   老闆 2026-09-19：「呢啲係潤唇膏嚟嘅，唔應該出現喺彩妝，應該出現喺
+   季節性用品嗰度。」潤唇膏本身已經同時計入護膚（唇部護理）同季節性
+   （唇部護理），所以呢度係淨係由彩妝剔走，唔係搬走。
+   ⚠️ 所有判斷「呢件貨屬唔屬呢個 section」嘅地方一律叫呢個，唔好再直接
+   叫 matchesKeywords，否則又會有一半入口漏咗呢條規則。 */
+const SECTION_EXCLUDE = { makeup: (p) => isLipCare(p) };
+
+function sectionMatch(p, section) {
+  if (!matchesKeywords(p, categoryKeywords(section, null))) return false;
+  const drop = SECTION_EXCLUDE[section];
+  return !(drop && drop(p));
+}
+
 function categoryLabel(section, cat) {
   const sec = CATEGORY_TAXONOMY[section];
   if (!sec) return '';
@@ -2808,7 +2833,7 @@ function productBreadcrumb(product) {
   const hit = care
     ? ['skincare', 'category.html']
     : PRODUCT_BREADCRUMB_ROUTES.find(([section]) =>
-        matchesKeywords(p, categoryKeywords(section)));
+        sectionMatch(p, section));
   if (!hit) return { href: 'shop.html', label: '全部產品' };
   const [section, href] = hit;
   return { href, label: categoryLabel(section) };
@@ -2839,8 +2864,7 @@ async function getCategoryProducts({ section, cat = null } = {}) {
     // the collection — and there was nothing on screen to say so.
     collectionProducts = viaCollection?.edges?.map((e) => e.node) ?? [];
     const everything = all?.edges?.map((e) => e.node) ?? [];
-    taxonomyProducts = everything.filter((p) =>
-      matchesKeywords(p, categoryKeywords(section, null)));
+    taxonomyProducts = everything.filter((p) => sectionMatch(p, section));
   } catch (e) {
     collectionProducts = [];
     taxonomyProducts = [];
