@@ -10709,6 +10709,21 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .makeup-booth__sticker { padding: 0; }
 }
 
+@media (min-width: 960px) {
+  .makeup-booth {
+    width: min(1672px, 100%);
+    margin: 0 auto 24px;
+    aspect-ratio: 1672 / 941;
+  }
+  .makeup-booth__stickers {
+    left: 50%;
+    bottom: 0;
+    width: 60%;
+    height: 25.5%;
+    transform: translateX(-50%);
+  }
+}
+
 /* ============================================================
    護膚頁頂：水光房貼紙相機（category.html 專用）
 

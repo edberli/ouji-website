@@ -251,9 +251,12 @@
          插畫係完整主視覺；五個透明 hotspot 保留原有 catalog 篩選、鍵盤操作
          同 aria-pressed 狀態，DOM 次序固定底妝 → 眼妝 → 唇妝 → 頰彩 → 修容。 -->
     <section class="makeup-booth" data-makeup-booth>
-      <img class="makeup-booth__art" src="assets/images/makeup-watercolor-hero.webp"
-           alt="OUJI Sticker Club 水彩彩妝主題插畫" width="949" height="986"
-           loading="eager" decoding="async" fetchpriority="high">
+      <picture>
+        <source media="(min-width: 960px)" srcset="assets/images/makeup-watercolor-hero-desktop.webp">
+        <img class="makeup-booth__art" src="assets/images/makeup-watercolor-hero.webp"
+             alt="OUJI Sticker Club 水彩彩妝主題插畫" width="949" height="986"
+             loading="eager" decoding="async" fetchpriority="high">
+      </picture>
 
       <div class="makeup-booth__stickers" data-cat-gate>
         <button type="button" class="makeup-booth__sticker" data-quick="base" data-booth-sticker aria-pressed="false">
