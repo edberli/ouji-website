@@ -2591,13 +2591,19 @@ const CATEGORY_TAXONOMY = {
     /* 老闆 2026-08-29：洗頭水、沐浴露越入越多，要有自己一格；潔面都放埋落嚟。
        ⚠️ 潔面同時屬護膚 —— 兩邊都要有，唔可以搬走。老闆原話：
        「你唔好因為某一個類別而犧牲另一個類別」。 */
-    keywords: ['潔面', '洗髮', '護髮', '沐浴', '身體護理'],
+    /* 2026-09-19：口腔護理（9 件）、濕紙巾（11 件）、頭髮護理（1 件）本來
+       喺任何一格都落唔到，客淨係喺「其他」見到。老闆「分類要擺清楚」，
+       所以收埋落日常洗護呢格。 */
+    keywords: ['潔面', '洗髮', '護髮', '頭髮護理', '沐浴', '身體護理',
+               '口腔護理', '濕紙巾'],
     subs: {
-      cleanser: { label: '潔面', keywords: ['潔面'] },
-      shampoo:  { label: '洗髮', keywords: ['洗髮'] },
-      hair:     { label: '護髮', keywords: ['護髮'] },
-      body:     { label: '沐浴', keywords: ['沐浴'] },
-      lotion:   { label: '身體乳', keywords: ['身體護理'] },
+      cleanser: { label: '潔面',     keywords: ['潔面'] },
+      shampoo:  { label: '洗髮',     keywords: ['洗髮'] },
+      hair:     { label: '護髮',     keywords: ['護髮', '頭髮護理'] },
+      body:     { label: '沐浴',     keywords: ['沐浴'] },
+      lotion:   { label: '身體乳',   keywords: ['身體護理'] },
+      oral:     { label: '口腔護理', keywords: ['口腔護理'] },
+      wipes:    { label: '濕紙巾',   keywords: ['濕紙巾'] },
     },
   },
   health: {

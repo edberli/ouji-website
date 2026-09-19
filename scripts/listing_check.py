@@ -91,9 +91,10 @@ def specs(text):
     script 寧願靜，都唔好出一堆假警報搞到冇人再睇。
     """
     t = (text or "").replace("，", ",")
-    # 千分位：「1,013ml」同「1 013ml」要讀成 1013，唔係 13。
-    # （2026-09-19 實測：hetras 兩支 1,013ml 沐浴露就係咁報假警報。）
-    t = re.sub(r"(?<=\d)[,\u00a0 ](?=\d{3}(?!\d))", "", t)
+    # 千分位：「1,013ml」要讀成 1013，唔係 13（hetras 兩支沐浴露）。
+    # ⚠️ 只可以食逗號同 NBSP，**唔可以食普通空格** ——
+    # 「輔酶Q10 210g」會變成 10210g（2026-09-19 實測，優之源補充裝）。
+    t = re.sub(r"(?<=\d)[,\u00a0](?=\d{3}(?!\d))", "", t)
     out = {}
 
     def add(k, v):
@@ -296,9 +297,16 @@ def fetch(handles=None):
         c = d["pageInfo"]["endCursor"]
 
 
+# 有自己一版、唔會出喺分類頁嘅 productType。唔算「落唔到分類」。
+OWN_PAGE_TYPES = {"短效期特價"}
+
+
 def check(products, pos, tax, ocr_text, ocr_on):
     report = []
     for p in products:
+        # DRAFT／ARCHIVED 唔會見客，唔使嘈（例如付款測試商品）。
+        if (p.get("status") or "ACTIVE") != "ACTIVE":
+            continue
         bad = []
         h, title = p["handle"], p["title"] or ""
         media = p["media"]["nodes"]
@@ -342,7 +350,7 @@ def check(products, pos, tax, ocr_text, ocr_on):
             bad.append(("🔴", "分類", "冇 productType"))
         else:
             secs = sections_of(p, tax)
-            if not secs:
+            if not secs and p["productType"].strip() not in OWN_PAGE_TYPES:
                 bad.append(("🟡", "分類", f"productType「{p['productType']}」落唔到任何分類，客只會喺「其他」見到"))
 
         if bad:
@@ -391,7 +399,7 @@ def gate_record(rec, ocr=True):
         bad.append(("🔴", "分類", "冇 productType"))
     else:
         fake = {"productType": rec.get("productType"), "tags": rec.get("tags") or []}
-        if not sections_of(fake, tax):
+        if not sections_of(fake, tax) and rec["productType"].strip() not in OWN_PAGE_TYPES:
             bad.append(("🟡", "分類",
                         f"productType「{rec['productType']}」落唔到任何分類，客只會喺「其他」見到"))
 
