@@ -17,3 +17,4 @@ prototypes/
 # match prototype 備份檔
 assets/looks/*.bak
 data/*.bak*
+__pycache__/
