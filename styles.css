@@ -10711,8 +10711,9 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 
 @media (min-width: 960px) {
   .makeup-booth {
-    width: min(1672px, 100%);
-    margin: 0 auto 24px;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 24px;
     aspect-ratio: 1672 / 941;
   }
   .makeup-booth__stickers {
@@ -11132,7 +11133,8 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 
 @media (min-width: 960px) {
   .skincare-booth {
-    width: min(1448px, 100%);
+    width: 100%;
+    max-width: none;
     margin-bottom: 24px;
     aspect-ratio: 1448 / 730;
   }
