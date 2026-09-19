@@ -397,6 +397,11 @@ def gate_record(rec, ocr=True):
 
     # 3 + 4 封面
     imgs = rec.get("images") or []
+    # 大批重建（幾百件）嗰陣，逐件download＋OCR 會拖多十幾分鐘。
+    # `OUJI_LISTING_CHECK_NO_OCR=1` 可以淨係跳過封面兩項，
+    # 條碼／名／分類照查 —— 跳咗會喺報告標「未驗」，唔等於通過。
+    if os.environ.get("OUJI_LISTING_CHECK_NO_OCR") == "1":
+        ocr = False
     if not imgs:
         bad.append(("🔴", "圖", "冇圖"))
     elif not ocr or not ocr_available():

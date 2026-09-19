@@ -49,6 +49,9 @@ python3 scripts/listing_check.py --all         # 全店掃，有 🔴 就 exit 1
 真係要硬上（例如 POS 未入碼嘅新貨）先 `OUJI_SKIP_LISTING_CHECK=1`，
 而且要喺 commit message 寫明點解。
 
+大批重建（幾百件）可以 `OUJI_LISTING_CHECK_NO_OCR=1` 跳過封面兩項，
+條碼／名／分類照查；跳咗會標「未驗」，事後要補跑 `--all`。
+
 封面 OCR 靠本機 Apple Vision（零 API 成本），venv 喺
 `/Volumes/core/AI-Workspace/Claude/ouji-image-audit/venv`。
 venv 唔喺度個閘會講明「未驗」—— **未驗唔等於通過**。
