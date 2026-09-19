@@ -91,14 +91,23 @@ def specs(text):
     script 寧願靜，都唔好出一堆假警報搞到冇人再睇。
     """
     t = (text or "").replace("，", ",")
+    # 千分位：「1,013ml」同「1 013ml」要讀成 1013，唔係 13。
+    # （2026-09-19 實測：hetras 兩支 1,013ml 沐浴露就係咁報假警報。）
+    t = re.sub(r"(?<=\d)[,\u00a0 ](?=\d{3}(?!\d))", "", t)
     out = {}
 
     def add(k, v):
         out.setdefault(k, set()).add(v)
 
-    for m in re.finditer(r"(\d+(?:\.\d+)?)\s*(ml|mL|ML|毫升)\b", t):
+    # 單位後面唔可以用 \b —— 中文字本身係 word char，「18克x20包」嗰個
+    # 「克」後面跟住 x 就唔算 boundary，會靜靜哋漏咗。用「後面唔係數字」。
+    for m in re.finditer(r"(\d+(?:\.\d+)?)\s*(?:ml|mL|ML|毫升)(?![0-9a-z])", t, re.I):
         add("ml", float(m.group(1)))
-    for m in re.finditer(r"(\d+(?:\.\d+)?)\s*(g|G|克|공)\b", t):
+    for m in re.finditer(r"(\d+(?:\.\d+)?)\s*(?:g|G)(?![0-9a-z])", t):
+        add("g", float(m.group(1)))
+    # 中文／韓文單位：後面淨係唔可以係數字。「18克x20包」個 18 要收得到，
+    # 否則 POS 只讀到總重 360 克，就會同標題嘅 18g 報假衝突。
+    for m in re.finditer(r"(\d+(?:\.\d+)?)\s*(?:克|공)(?!\d)", t):
         add("g", float(m.group(1)))
     # 件數：10 條裝／20 片／30매／2 支／x2／2 入
     for m in re.finditer(r"(\d+)\s*(?:條|片|支|入|個|件|매|개|pcs|ea)\s*裝?", t, re.I):
@@ -120,6 +129,31 @@ def spec_conflict(a, b):
         if not (a[k] & b[k]):
             bad.append((k, sorted(a[k]), sorted(b[k])))
     return bad
+
+
+def name_issues(title, ts, barcode, pos):
+    """標題規格 vs 呢個條碼喺 POS 嘅名。
+
+    一個條碼可以有幾個 POS 名（老闆自己改過名、兩間鋪各自入過）。
+    **只要對得上其中一個就當過** —— 否則 POS 自己新舊名並存就會日日報假警報。
+    全部都對唔上先係真問題。POS 幾個名之間自己打交，另外用 🟡 講出嚟，
+    因為嗰個係 POS 要執，唔係網站要執。
+    """
+    names = sorted(pos.get(barcode, ()))
+    if not names:
+        return []
+    confl = [(n, spec_conflict(ts, specs(n))) for n in names]
+    out = []
+    if all(c for _, c in confl):
+        n, c = confl[0]
+        d = "；".join(f"{k} 標題{a} vs POS{bb}" for k, a, bb in c)
+        out.append(("🔴", "名", f"標題同條碼名唔夾（{barcode}）：{d}｜POS：{n[:60]}"))
+    elif len(names) > 1 and any(c for _, c in confl):
+        bad_names = [n[:40] for n, c in confl if c]
+        out.append(("🟡", "名",
+                    f"同一條碼 {barcode} 喺 POS 有幾個唔同規格嘅名，"
+                    f"網站對得上其中一個：{' ／ '.join(bad_names)} —— POS 要執"))
+    return out
 
 
 # ── POS 條碼表 ──────────────────────────────────────────────────────────
@@ -274,7 +308,10 @@ def check(products, pos, tax, ocr_text, ocr_on):
         # 1 條碼 —— 身份證
         nobc = [v["title"] for v in variants if not (v.get("barcode") or "").strip()]
         if nobc:
-            bad.append(("🔴", "條碼", f"{len(nobc)} 個規格冇條碼：{', '.join(nobc[:4])}"))
+            # 全部規格都冇碼 ＝ 呢件貨根本冇身份證，🔴。
+            # 只係部分冇（隱形眼鏡某幾隻度數 POS 冇逐度數出碼）＝ 補得返，🟡。
+            lvl = "🔴" if len(nobc) == len(variants) else "🟡"
+            bad.append((lvl, "條碼", f"{len(nobc)}/{len(variants)} 個規格冇條碼：{', '.join(nobc[:4])}"))
         codes = [(v.get("barcode") or "").strip() for v in variants]
         unknown = [b for b in codes if b and b not in pos]
         if unknown and len(unknown) == len([b for b in codes if b]):
@@ -283,12 +320,7 @@ def check(products, pos, tax, ocr_text, ocr_on):
         # 2 名 vs POS 名
         ts = specs(title)
         for b in codes:
-            for pname in pos.get(b, ()):
-                cf = spec_conflict(ts, specs(pname))
-                if cf:
-                    detail = "；".join(f"{k} 標題{a} vs POS{bb}" for k, a, bb in cf)
-                    bad.append(("🔴", "名", f"標題同條碼名唔夾（{b}）：{detail}｜POS：{pname[:50]}"))
-                    break
+            bad += name_issues(title, ts, b, pos)
 
         # 3 + 4 封面
         if not cover:
@@ -352,12 +384,7 @@ def gate_record(rec, ocr=True):
 
     # 2 名：標題規格要同條碼名一致
     for b in codes:
-        for pname in pos.get(b, ()):
-            cf = spec_conflict(ts, specs(pname))
-            if cf:
-                d = "；".join(f"{k} 標題{a} vs POS{bb}" for k, a, bb in cf)
-                bad.append(("🔴", "名", f"標題同條碼名唔夾（{b}）：{d}｜POS：{pname[:50]}"))
-                break
+        bad += name_issues(title, ts, b, pos)
 
     # 5 分類
     if not (rec.get("productType") or "").strip():
