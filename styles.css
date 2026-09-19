@@ -3870,14 +3870,20 @@ button.product-card__quick-add,
   display: flex;
   align-items: center;
   justify-content: center;
+  --loader-hold: 0.5s;   /* 圖到齊之後留幾久先開始淡 */
   pointer-events: none;
 }
 
 /* 2026-09-20：唔再用死 timer 淡出。圖一 load 到，inline script 就會加
    .is-ready，跟住先開始淡。慢網絡就個幕等多陣，寧願睇住幅畫都好過見藍底。
-   最快情況（圖即刻到）同以前一樣係 1.8 秒前後走。 */
+
+   老闆同日跟手：「張圖可以留多一陣……現在係一閃即逝」，跟住補一句
+   「都唔應該留咁耐……總共 0.5 秒咁樣囉」——所以 .is-ready 之後 hold
+   0.5 秒（--loader-hold）先開始淡，成個「企定睇得到」嘅時間就係 0.5 秒。
+   ⚠️ 要改「留幾久」淨係改 --loader-hold 一個數就得；hold 係由 .is-ready
+   開始計（即係圖到齊先計），唔係由頁面開始載入計。 */
 .page-loader.is-ready {
-  animation: loaderFade 0.6s ease 0.1s forwards;
+  animation: loaderFade 0.5s ease var(--loader-hold, 0.5s) forwards;
 }
 
 @keyframes loaderFade {
