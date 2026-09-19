@@ -11066,7 +11066,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   height: auto;
   min-height: 0;
   margin: 0 auto 8px;
-  aspect-ratio: 941 / 814;
+  aspect-ratio: 941 / 1032;
   background: #f6f1e8;
 }
 .skincare-booth > picture {
@@ -11090,24 +11090,30 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   left: 50%;
   bottom: 0;
   width: 100%;
-  height: 22%;
+  height: 100%;
   transform: translateX(-50%);
 }
 .skincare-booth__cat,
 .skincare-booth__cat:nth-child(n) {
   --tilt: 0deg;
   --scale: 1;
-  position: relative;
-  left: auto;
+  position: absolute;
   bottom: auto;
-  float: left;
-  width: 12.5%;
-  height: 100%;
+  width: 19%;
+  height: 17%;
   min-width: 0;
   min-height: 44px;
   padding: 0;
   transform: none;
 }
+.skincare-booth__cat:nth-child(1) { left: 3%;  top: 67%; }
+.skincare-booth__cat:nth-child(2) { left: 21%; top: 67%; }
+.skincare-booth__cat:nth-child(3) { left: 40%; top: 67%; }
+.skincare-booth__cat:nth-child(4) { left: 58%; top: 67%; }
+.skincare-booth__cat:nth-child(5) { left: 77%; top: 67%; }
+.skincare-booth__cat:nth-child(6) { left: 17%; top: 83%; width: 22%; }
+.skincare-booth__cat:nth-child(7) { left: 39%; top: 83%; width: 24%; }
+.skincare-booth__cat:nth-child(8) { left: 65%; top: 83%; width: 24%; }
 .skincare-booth__icon,
 .skincare-booth__cat b,
 .skincare-booth__cat small {
@@ -11126,14 +11132,29 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 
 @media (min-width: 960px) {
   .skincare-booth {
-    width: min(1672px, 100%);
+    width: min(1448px, 100%);
     margin-bottom: 24px;
-    aspect-ratio: 1672 / 941;
+    aspect-ratio: 1448 / 730;
   }
   .skincare-booth__cats {
     left: 50%;
-    width: 92%;
+    width: 100%;
+    height: 100%;
+  }
+  .skincare-booth__cat,
+  .skincare-booth__cat:nth-child(n) {
+    top: 76%;
+    width: 12.5%;
     height: 24%;
+  }
+  .skincare-booth__cat:nth-child(1) { left: 0; }
+  .skincare-booth__cat:nth-child(2) { left: 12.5%; }
+  .skincare-booth__cat:nth-child(3) { left: 25%; }
+  .skincare-booth__cat:nth-child(4) { left: 37.5%; }
+  .skincare-booth__cat:nth-child(5) { left: 50%; }
+  .skincare-booth__cat:nth-child(6) { left: 62.5%; }
+  .skincare-booth__cat:nth-child(7) { left: 75%; }
+  .skincare-booth__cat:nth-child(8) { left: 87.5%; }
   }
 }
 
@@ -15196,7 +15217,7 @@ body::before { opacity: 0.18; }
   height: auto !important;
   min-height: 0 !important;
 }
-.skincare-booth__cats { height: 22% !important; }
+.skincare-booth__cats { height: 100% !important; }
 @media (min-width: 960px) {
-  .skincare-booth__cats { height: 24% !important; }
+  .skincare-booth__cats { height: 100% !important; }
 }
