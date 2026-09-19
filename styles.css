@@ -10622,6 +10622,93 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .makeup-booth__icon { transition: none; }
 }
 
+/* 2026-09 watercolor direction: the selected visual is one authored illustration.
+   Keep it intact and layer the five real category controls over its painted labels. */
+.makeup-booth {
+  min-height: 0;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background: #f8f5ee;
+  aspect-ratio: 949 / 986;
+}
+.makeup-booth__art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.makeup-booth__stickers {
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 25.7%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  transform: none;
+}
+.makeup-booth__sticker,
+.makeup-booth__sticker:nth-child(n) {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: transparent;
+  transform: none;
+  cursor: pointer;
+}
+.makeup-booth__sticker span,
+.makeup-booth__sticker small {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (hover: hover) {
+  .makeup-booth__sticker:hover { transform: none; }
+}
+.makeup-booth__sticker:active { transform: none; }
+.makeup-booth__sticker:focus-visible {
+  outline: 3px solid #176fa8;
+  outline-offset: -6px;
+  border-radius: 18px;
+}
+.makeup-booth__sticker[data-active] {
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 -5px 0 rgba(23,111,168,.72);
+}
+
+@media (max-width: 720px) {
+  .makeup-booth__stickers {
+    bottom: 0;
+    width: 100%;
+    height: 25.7%;
+    gap: 0;
+  }
+  .makeup-booth__sticker,
+  .makeup-booth__sticker:nth-child(n) { height: 100%; padding: 0; }
+}
+
+@media (max-width: 359px) {
+  .makeup-booth__stickers { width: 100%; gap: 0; }
+  .makeup-booth__sticker { padding: 0; }
+}
+
 /* ============================================================
    護膚頁頂：水光房貼紙相機（category.html 專用）
 
