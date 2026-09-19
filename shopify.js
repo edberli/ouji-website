@@ -2639,7 +2639,11 @@ const CATEGORY_TAXONOMY = {
        卡通美妝留返喺佢自己嘅型號格（護手霜、唇部護理⋯），唔好再搬入嚟。 */
     keywords: ['公仔', '盲盒', '毛絨', '掛件', '匙扣', '扭蛋', '玩具'],
     subs: {
-      blindbox:  { label: '盲盒',     keywords: ['盲盒', '扭蛋'] },
+      /* 老闆 2026-09-19：「公仔入邊嘅『扭蛋』⋯好多都係扭蛋嚟嘅。」
+         扭蛋由盲盒度分返出嚟自己一格 —— 兩樣都係隨機款，但客搵嘅
+         係唔同嘢：扭蛋係機出、單件細價；盲盒係盒裝。 */
+      gacha:     { label: '扭蛋',     keywords: ['扭蛋'] },
+      blindbox:  { label: '盲盒',     keywords: ['盲盒'], exclude: ['gacha'] },
       plush:     { label: '毛絨公仔', keywords: ['毛絨', '公仔'] },
       charm:     { label: '掛件匙扣', keywords: ['掛件', '匙扣', '掛繩'] },
     },

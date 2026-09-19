@@ -1579,8 +1579,17 @@ function renderProducts(container, products, { grouped }) {
     if (pool.length >= THIN) return 0;
     return pool.some((p) => awardWeight(p) > 0) ? 1 : 2;
   };
+  /* 老闆 2026-09-19：「吉伊卡哇同埋 Sanrio 一定係擺最高嘅，唔使諗嘅，
+     吉伊卡哇一定係最高。」客入公仔版就係搵呢兩個 IP，佢哋唔跟分數排。
+     其餘牌子照原本嘅 tier → 分數 → 件數。 */
+  const PINNED_VENDORS = ['Chiikawa', 'Sanrio'];
+  const pinRank = (v) => {
+    const i = PINNED_VENDORS.indexOf(String(v || '').trim());
+    return i < 0 ? PINNED_VENDORS.length : i;
+  };
   const order = [...byVendor.entries()].sort((a, b) =>
-    tier(a[1]) - tier(b[1])
+    pinRank(a[0]) - pinRank(b[0])
+    || tier(a[1]) - tier(b[1])
     || brandScore(b[1]) - brandScore(a[1])
     || b[1].length - a[1].length);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
