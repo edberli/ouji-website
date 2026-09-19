@@ -2091,10 +2091,23 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       /* 細分類（粉底、氣墊⋯）喺篩選側欄係冇對應嗰粒剔嘅 —— availableSubs
          特登收埋咗佢哋。所以細分類要行 lockCat 呢條路，大分類就照舊剔側欄。 */
       const isSub = tab.hasAttribute('data-booth-sub');
+      // 頰彩同修容各自只有一個實際分類，下面唔會再出細分類掣。
+      // 篩完直接帶客去產品結果，否則畫面仍然停喺 hero，睇落會似冇反應。
+      const goesStraightToProducts = tab.hasAttribute('data-booth-sticker')
+        && (tab.dataset.quick === 'cheek' || tab.dataset.quick === 'contour');
       lockCat = (!off && isSub) ? tab.dataset.quick : null;
       const id = (off || isSub) ? '' : tab.dataset.quick;
       boxes('cat').forEach((el) => { el.checked = !!id && el.value === id; });
-      return draw();
+      draw();
+      if (goesStraightToProducts) {
+        requestAnimationFrame(() => {
+          document.querySelector('[data-catalog]')?.scrollIntoView({
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+            block: 'start',
+          });
+        });
+      }
+      return;
     }
     if (e.target.closest('[data-unset-lock]')) { lockCat = null; return draw(); }
     const chip = e.target.closest('[data-unset-group]');
