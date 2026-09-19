@@ -212,6 +212,21 @@ def existing_id(handle):
 
 
 def publish(p):
+    """上架前一定會行 `listing_check.gate_record` —— 老闆 2026-09-19 定死：
+    「條碼就係個身份證……呢啲嘢真係唔應該錯。」有 🔴 就唔准上，
+    唔係出個警告就算。真係要硬上（例如 POS 未入碼嘅新貨）先
+    `OUJI_SKIP_LISTING_CHECK=1`，而且要喺 commit message 講明點解。"""
+    if os.environ.get("OUJI_SKIP_LISTING_CHECK") != "1":
+        from listing_check import gate_record
+        issues = gate_record(p)
+        for lvl, kind, msg in issues:
+            print(f"   {lvl} [{kind}] {msg}")
+        red = [i for i in issues if i[0] == "🔴"]
+        if red:
+            raise SystemExit(
+                f"⛔ {p['handle']}：上架閘擋住（{len(red)} 項 🔴）。"
+                "見 CLAUDE.md〈產品上架四條硬規矩〉。")
+
     p = {**p, "id": p.get("id") or existing_id(p["handle"])}
     data = gql(PRODUCT_SET, {"input": build_input(p)})
     user_errors(data, "productSet")
