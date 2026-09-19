@@ -2110,7 +2110,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       // 頰彩同修容各自只有一個實際分類，下面唔會再出細分類掣。
       // 篩完直接帶客去產品結果，否則畫面仍然停喺 hero，睇落會似冇反應。
       const goesStraightToProducts = tab.hasAttribute('data-booth-sticker')
-        && (tab.dataset.quick === 'cheek' || tab.dataset.quick === 'contour');
+        && ((tab.dataset.quick === 'cheek' || tab.dataset.quick === 'contour')
+          || !!tab.closest('[data-skincare-booth]'));
       lockCat = (!off && isSub) ? tab.dataset.quick : null;
       const id = (off || isSub) ? '' : tab.dataset.quick;
       boxes('cat').forEach((el) => { el.checked = !!id && el.value === id; });

@@ -11058,6 +11058,85 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   .skincare-booth__icon { transition: none; }
 }
 
+/* 2026-09-19 水彩護膚店主視覺。手機用原本直向構圖；桌面載入獨立
+   16:9 延伸圖。舊貼紙相機 DOM 保留畀真實件數與無障礙狀態使用，視覺
+   改成覆蓋喺插畫分類上面嘅透明 hotspot。 */
+.skincare-booth {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0 auto 8px;
+  aspect-ratio: 941 / 814;
+  background: #f6f1e8;
+}
+.skincare-booth > picture {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.skincare-booth__watercolor {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.skincare-booth__title,
+.skincare-booth__strip,
+.skincare-booth__art,
+.skincare-booth__flash {
+  display: none;
+}
+.skincare-booth__cats {
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  height: 22%;
+  transform: translateX(-50%);
+}
+.skincare-booth__cat,
+.skincare-booth__cat:nth-child(n) {
+  --tilt: 0deg;
+  --scale: 1;
+  position: relative;
+  left: auto;
+  bottom: auto;
+  float: left;
+  width: 12.5%;
+  height: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0;
+  transform: none;
+}
+.skincare-booth__icon,
+.skincare-booth__cat b,
+.skincare-booth__cat small {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .skincare-booth__cat:hover { transform: none; }
+}
+.skincare-booth__cat:active { transform: none; }
+.skincare-booth__cat:focus-visible {
+  outline: 3px solid #176fc1;
+  outline-offset: -5px;
+  border-radius: 12px;
+}
+
+@media (min-width: 960px) {
+  .skincare-booth {
+    width: min(1672px, 100%);
+    margin-bottom: 24px;
+    aspect-ratio: 1672 / 941;
+  }
+  .skincare-booth__cats {
+    left: 50%;
+    width: 92%;
+    height: 24%;
+  }
+}
+
 /* ============================================================
    頁頂搜尋浮層（search.js 砌 DOM，呢度只負責樣）
    ============================================================ */
@@ -15109,4 +15188,15 @@ body::before { opacity: 0.18; }
 .promo-wrap[hidden],
 .promo-slim[hidden] {
   display: none !important;
+}
+
+/* 水彩護膚 hero 最終響應式鎖定。放喺檔尾，蓋過舊貼紙相機後段嘅
+   300px／154px 歷史尺寸規則。 */
+.skincare-booth {
+  height: auto !important;
+  min-height: 0 !important;
+}
+.skincare-booth__cats { height: 22% !important; }
+@media (min-width: 960px) {
+  .skincare-booth__cats { height: 24% !important; }
 }

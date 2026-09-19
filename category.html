@@ -57,7 +57,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260919-skincare-watercolor">
   <!-- 護膚配方（玻璃版）。skincare-match.css 睇落似殘留，但入面
        仲有幾條 .sm 基礎 rule 生效，唔可以剩係要 modes 嗰張。 -->
   <link rel="stylesheet" href="skincare-match.css">
@@ -280,6 +280,12 @@
          件數、相紙四張相、選中狀態全部由 catalog.js 嘅
          buildSkincareBooth() 用 Storefront 真資料填 —— 呢度一個數都唔准寫死。 -->
     <section class="skincare-booth" data-skincare-booth aria-labelledby="skincare-booth-title">
+      <picture>
+        <source media="(min-width: 960px)" srcset="assets/images/skincare-watercolor-hero-desktop.webp">
+        <img class="skincare-booth__watercolor" src="assets/images/skincare-watercolor-hero.webp"
+             alt="OUJI Dew Club 水彩護膚店與八個護膚分類"
+             width="941" height="814" loading="eager" decoding="async" fetchpriority="high">
+      </picture>
       <div class="skincare-booth__flash" aria-hidden="true"></div>
 
       <div class="skincare-booth__title">
@@ -547,7 +553,7 @@
   <script src="awards.js"></script>
   <!-- 相紙揀相嘅名單（人手開圖驗過），一定要喺 catalog.js 之前。 -->
   <script src="booth-shots.js"></script>
-  <script src="catalog.js"></script>
+  <script src="catalog.js?v=20260919-skincare-watercolor"></script>
   <!-- modes 一定要喺 match 之前：match 會即刻叫 modes 入面啲 render。 -->
   <script src="skincare-modes.js"></script>
   <script src="skincare-match.js"></script>
