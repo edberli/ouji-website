@@ -3865,34 +3865,48 @@ button.product-card__quick-add,
   position: fixed;
   inset: 0;
   z-index: 10000;
+  /* 呢個漸變係最後後備：LQIP 都未 paint 到嗰一刻係深藍，唔會白閃一下 */
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: loaderFade 0.6s ease 1.2s forwards;
   pointer-events: none;
 }
 
-.page-loader__brand {
-  font-family: var(--font-brand);
-  font-size: clamp(4rem, 12vw, 8rem);
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-indent: 0.35em;
-  text-transform: uppercase;
-  color: white;
-  opacity: 0;
-  animation: loaderBrand 0.8s var(--ease-out) 0.2s forwards;
-}
-
-@keyframes loaderBrand {
-  0% { opacity: 0; transform: scale(0.92); }
-  100% { opacity: 1; transform: scale(1); }
+/* 2026-09-20：唔再用死 timer 淡出。圖一 load 到，inline script 就會加
+   .is-ready，跟住先開始淡。慢網絡就個幕等多陣，寧願睇住幅畫都好過見藍底。
+   最快情況（圖即刻到）同以前一樣係 1.8 秒前後走。 */
+.page-loader.is-ready {
+  animation: loaderFade 0.6s ease 0.1s forwards;
 }
 
 @keyframes loaderFade {
   0% { opacity: 1; }
   100% { opacity: 0; visibility: hidden; }
+}
+
+/* 2026-09-20 老闆：「進入 ouji 手機頁面果個 loading page 轉做呢個」——
+   由眨眼芝麻＋OUJI 字，換成成幅首爾水彩插畫（南山塔＋挽住 OUJI 籃嘅貓）。
+   幅圖本身已經有 OUJI 字同招牌，所以唔再加字。
+
+   ⚠️ 幅圖係直度 941×1672。手機（直屏）照 cover 就啱；闊機（橫屏）cover
+   會由兩邊裁入中間，主體（貓＋OUJI 字）仍然喺中間所以唔會走位。
+   唔切兩套圖，係因為呢塊幕只係頭 1.8 秒。
+   ⚠️ background 嗰條 base64 係同一幅圖縮到 16px 闊嘅 WebP（LQIP），
+   成條 data URI 得 ~250 字元，喺最早期 paint 就已經有雛形。
+   換圖／換色調嗰陣要一齊重生：PIL 縮到 16px → WebP q35 → base64。 */
+.page-loader__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background-image: url("data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACwAwCdASoQABwAPwFurk+rJqQiMAgBYCAJQBdgDMLPg4eHIRzAAAD+8gppiStyndxCNYdZIhrehJE7gLn2dRiov+6zqnrfP2JqYGAnG8LC6EBz/1Lov/DLLbR0h0sWDVlzmjq/TfdeI6NtUc1WVReAJVv1hxTAAAA=");
+  background-size: cover;
+  background-position: center;
+  /* ⚠️ 唔好喺呢度加 opacity 淡入 —— 幅圖換上去嗰刻會閃一閃（LQIP 先出現
+     一次，再淡入）。留返個 LQIP 喺後面，圖一到就直接覆蓋，最順。 */
 }
 
 /* ----- Hero Text Clip Reveal ----- */
@@ -14289,48 +14303,6 @@ body::before { opacity: 0.18; }
 .shima:has(img[src*="shima-wave1.webp"]) { aspect-ratio: 0.825; }
 .shima:has(img[src*="shima-acct1.webp"]) { aspect-ratio: 0.722; }
 .shima:has(img[src*="shima-wish1.webp"]) { aspect-ratio: 0.929; }
-
-/* Loading 畫面隻眨眼芝麻。四格疊住，一次顯示一格 —— 同 .shima 一樣
-   嘅做法，但用自己一套 class，因為佢唔應該俾 initShimaFrames() 抓去
-   不停 loop（見 index.html 嗰段 inline script）。 */
-/* ⚠️ 隻貓唔可以擺喺個 OUJI 字上面 —— 咁樣會將個字推離畫面正中
-   （老闆：「又令到 OUJI 嗰個標誌變咗唔係置中，你要就嗰個 logo」）。
-   個 loader 維持單純置中，隻貓絕對定位喺右下角，由畫面底邊探上嚟：
-   佢本身就係半身、對前爪搭出嚟嘅畫法，貼實底邊就啱啱好似趴喺度望你。 */
-.loader-cat {
-  position: absolute;
-  /* 老闆：「而家太右啦，喺電腦版嗰度啲嘢未必睇到」—— 闊機唔可以貼實
-     右邊，要收返入嚟啲。用 % 唔用固定 px：闊機自然收得多。 */
-  right: clamp(8px, 3.2vw, 44px);
-  bottom: 0;
-  /* 老闆：「放大啲啦，而家有啲細隻。」大咗約三成。
-     ⚠️ 大得滯會撞正中間個 OUJI 字 —— 佢係 clamp(4rem,12vw,8rem)，
-     喺 1280 闊嗰陣佔 x 396–884、y 308–512。所以一路要量住兩者
-     有冇疊，唔可以淨係加數字。 */
-  width: clamp(170px, 27vw, 340px);
-  aspect-ratio: 260 / 247;
-  /* ⚠️ 唔可以用 drop-shadow —— 隻貓有白色貼紙外框，drop-shadow 會沿住
-     個框畫一圈，喺深藍底上面睇落好似起晒格（老闆：「個陰影起曬格仔，
-     就唔好要啦」）。索性唔要。 */
-  /* ⚠️ fill-mode 要 both 唔可以淨係 backwards —— 用 backwards 實測隻貓
-     會停喺 0% 嗰個狀態（向下 46%、歪 4 度），即係成隻貓有一半跌出畫面
-     底邊。both 會鎖實 100%，彈完就企定喺底邊上面。 */
-  animation: loaderCatPeek 0.62s cubic-bezier(.18, 1.1, .36, 1) 0.15s both;
-}
-/* 由底邊彈上嚟 —— 靜靜哋淡入太悶，彈一下先似隻貓爬上嚟偷望 */
-@keyframes loaderCatPeek {
-  0%   { transform: translateY(46%) rotate(-4deg); opacity: 0; }
-  100% { transform: translateY(0) rotate(0); opacity: 1; }
-}
-.loader-cat__f {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 0;
-}
-.loader-cat__f.is-on { opacity: 1; }
 
 /* ============================================================
    幼優惠條 —— 首頁個大 banner 嘅縮水版，擺喺每一版產品列表

@@ -50,7 +50,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260831-shadecards-exact-a-13">
+  <link rel="stylesheet" href="styles.css?v=20260920-loader-art-a-4">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -58,32 +58,45 @@
 
   <!-- Page Loader -->
   <div class="page-loader">
-    <!-- 芝麻喺 loading 畫面眨一下單眼。
-         ⚠️ 唔用 .shima —— 嗰個共用 driver 係 260ms 一格不停 loop，
-         呢度要嘅係「開住 → 好快眨一下 → 開返」，而且成個 loader 得
-         1.8 秒命。所以自己一段 inline script，播完一次就算。
-         ⚠️ 四格細圖合共 45KB，而且個 loader 係 CSS timer 淡出，
-         圖幾時到都唔會拖慢佢 —— 未載到就淨係唔出現，冇副作用。 -->
-    <div class="loader-cat" aria-hidden="true">
-      <img class="loader-cat__f is-on" src="assets/images/shima/shima-wink1.webp" alt="" decoding="async">
-      <img class="loader-cat__f" src="assets/images/shima/shima-wink2.webp" alt="" decoding="async">
-      <img class="loader-cat__f" src="assets/images/shima/shima-wink3.webp" alt="" decoding="async">
-      <img class="loader-cat__f" src="assets/images/shima/shima-wink4.webp" alt="" decoding="async">
-    </div>
-    <span class="page-loader__brand">OUJI</span>
+    <!-- 載入畫面係成幅首爾水彩插畫（2026-09-20 老闆指定換走舊嘅眨眼芝麻）。
+         ⚠️ 四種闊度：720（細機）／941（@2x 手機）／1200／1410（iPhone @3x
+         全屏用嘅最大一張）。用 sizes=min(100vw,57vh) 係因為 object-fit:cover
+         裁走兩邊之後，真正要嘅只係「高 × 0.5629」咁闊；唔咁寫嘅話桌面會
+         白載 1410。
+         ⚠️ 唔好再加 <link rel=preload> —— 2026-09-20 實測：preload 同
+         <img> 各自揀候選圖，會變成一次過載 720 同 1200 兩張（同一幅圖
+         載兩次）。<img> 本身就係 parser 早期就見到，加 fetchpriority
+         已經夠快，而且保證只載一張。
+         ⚠️ 個淡出唔再用死 timer：圖一到就開始淡；最耐都係 2.5 秒（下面有
+         onerror 同 timeout 兩條後路），保證唔會見到「藍底閃一下」。
+         未載完之前有 LQIP 頂住（見 styles.css 嘅 .page-loader）。 -->
+    <img class="page-loader__art"
+         src="assets/images/home/ouji-seoul-walk-1200.webp"
+         srcset="assets/images/home/ouji-seoul-walk-720.webp 720w,
+                 assets/images/home/ouji-seoul-walk-941.webp 941w,
+                 assets/images/home/ouji-seoul-walk-1200.webp 1200w,
+                 assets/images/home/ouji-seoul-walk.webp 1410w"
+         sizes="min(100vw, 57vh)"
+         alt="" width="1410" height="2505"
+         fetchpriority="high" decoding="sync"
+         onerror="document.querySelector('.page-loader').classList.add('is-ready')">
   </div>
   <script>
-  /* 眨眼：開住 0.42 秒 → 1→2→3→4→3→2→1 每格 55ms（合共 385ms）→ 完。
-     唔 loop，唔用 setInterval 一路行 —— loader 淡出之後冇必要仲燒 CPU。 */
+  /* 圖到齊先開始淡出。2.5 秒硬上限係保險：就算幅圖死咗或者網絡極慢，
+     個幕都一定會走，唔會鎖死首頁。 */
   (function () {
-    var f = document.querySelectorAll('.loader-cat__f');
-    if (f.length < 4 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var seq = [0, 1, 2, 3, 2, 1, 0], i = 0;
-    setTimeout(function step() {
-      f[seq[i]].classList.add('is-on');
-      if (i > 0) f[seq[i - 1]].classList.remove('is-on');
-      if (++i < seq.length) setTimeout(step, 55);
-    }, 420);
+    var loader = document.querySelector('.page-loader');
+    if (!loader) return;
+    var art = loader.querySelector('.page-loader__art');
+    var done = false;
+    function ready() {
+      if (done) return;
+      done = true;
+      loader.classList.add('is-ready');
+    }
+    if (art && art.complete && art.naturalWidth) ready();
+    else if (art) art.addEventListener('load', ready, { once: true });
+    setTimeout(ready, 2500);
   })();
   </script>
 
