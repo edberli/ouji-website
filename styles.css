@@ -3865,12 +3865,12 @@ button.product-card__quick-add,
   position: fixed;
   inset: 0;
   z-index: 10000;
-  /* 呢個漸變係最後後備：LQIP 都未 paint 到嗰一刻係深藍，唔會白閃一下 */
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  /* 新藍色水彩圖未 paint 到之前，用接近原圖嘅底色避免白閃。 */
+  background: rgb(118, 166, 198);
   display: flex;
   align-items: center;
   justify-content: center;
-  --loader-hold: 0.6s;   /* 圖到齊後展示／播 logo 0.6 秒，再用 0.4 秒淡走 */
+  --loader-hold: 0.6s;   /* 圖到齊後展示／播腳步 0.6 秒，再用 0.4 秒淡走 */
   pointer-events: none;
 }
 
@@ -3891,16 +3891,7 @@ button.product-card__quick-add,
   100% { opacity: 0; visibility: hidden; }
 }
 
-/* 2026-09-20 老闆：「進入 ouji 手機頁面果個 loading page 轉做呢個」——
-   由舊首爾街景插畫，換成乾淨天空＋挽住 OUJI 籃嘅芝麻。
-   大 OUJI 字由透明圖層疊上，先可以獨立做輕微動效。
-
-   ⚠️ 幅圖係直度 941×1672。手機（直屏）用 cover 並向右取景，保留完整芝麻同購物籃；闊機（橫屏）
-   再按 viewport 比例調整 logo 位置。
-   唔切兩套圖，係因為呢塊幕只係頭 1.8 秒。
-   ⚠️ background 嗰條 base64 係同一幅圖縮到 16px 闊嘅 WebP（LQIP），
-   成條 data URI 得 ~250 字元，喺最早期 paint 就已經有雛形。
-   換圖／換色調嗰陣要一齊重生：PIL 縮到 16px → WebP q35 → base64。 */
+/* 藍色水彩底圖本身包含置中 OUJI 白字；芝麻從底圖抽出做獨立動畫層。 */
 .page-loader__art {
   position: absolute;
   inset: 0;
@@ -3908,55 +3899,73 @@ button.product-card__quick-add,
   height: 100%;
   object-fit: cover;
   object-position: right center;
-  background-image: url("data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACwAwCdASoQABwAPwFurk+rJqQiMAgBYCAJQBdgDMLPg4eHIRzAAAD+8gppiStyndxCNYdZIhrehJE7gLn2dRiov+6zqnrfP2JqYGAnG8LC6EBz/1Lov/DLLbR0h0sWDVlzmjq/TfdeI6NtUc1WVReAJVv1hxTAAAA=");
-  background-size: cover;
-  background-position: right center;
-  /* ⚠️ 唔好喺呢度加 opacity 淡入 —— 幅圖換上去嗰刻會閃一閃（LQIP 先出現
-     一次，再淡入）。留返個 LQIP 喺後面，圖一到就直接覆蓋，最順。 */
 }
 
-/* 大 OUJI 係原畫抽出嚟嘅透明 WebP，疊返原位後用 transform／opacity
-   輕輕浮現。完整 logo 只請求一次，亦避免切字造成字形變形。 */
-.page-loader__logo {
+/* 原圖座標：芝麻 crop = x416–903 / y1109–1521（原畫 941×1672）。
+   手機 cover 向右取景，所以用 vh 跟返原畫實際縮放，抵達原本位置時無接縫。 */
+.page-loader__cat {
   position: absolute;
-  left: 50%;
-  top: 35%;
-  width: 70vw;
-  max-width: 330px;
-  height: auto;
-  opacity: 0;
-  transform: translate(-50%, 16%) scale(0.96);
-  will-change: transform, opacity;
+  left: calc(100% - 31.4vh);
+  top: 66.328vh;
+  width: 29.127vh;
+  aspect-ratio: 487 / 412;
+  will-change: transform;
 }
 
-/* 資源真正載好、loader 加上 is-ready 先播，避免動畫喺圖片下載期間完咗。 */
-.page-loader.is-ready .page-loader__logo {
-  animation: loaderLogoIn 0.42s var(--ease-out) forwards;
+.page-loader__cat-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-@keyframes loaderLogoIn {
-  0% { opacity: 0; transform: translate(-50%, 16%) scale(0.96); }
-  70% { opacity: 1; transform: translate(-50%, -3%) scale(1.02); }
-  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.page-loader__cat-frame--two { opacity: 0; }
+
+/* 圖片到齊先起步：兩隻腳每 140ms 交替，身體同時向右行返原圖位置。 */
+.page-loader.is-ready .page-loader__cat {
+  animation: loaderCatWalkRight 0.6s var(--ease-out) forwards;
+}
+
+.page-loader.is-ready .page-loader__cat-frame--one {
+  animation: loaderCatStepOne 0.28s steps(1, end) 2;
+}
+
+.page-loader.is-ready .page-loader__cat-frame--two {
+  animation: loaderCatStepTwo 0.28s steps(1, end) 2;
+}
+
+@keyframes loaderCatWalkRight {
+  0% { transform: translateX(-12vw) translateY(0); }
+  25% { transform: translateX(-9vw) translateY(-2%); }
+  50% { transform: translateX(-6vw) translateY(0); }
+  75% { transform: translateX(-3vw) translateY(-2%); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+@keyframes loaderCatStepOne {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes loaderCatStepTwo {
+  0%, 49% { opacity: 0; }
+  50%, 100% { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-loader.is-ready .page-loader__logo {
-    animation: loaderLogoFade 0.2s var(--ease-out) forwards;
-  }
-  @keyframes loaderLogoFade {
-    0% { opacity: 0; transform: translate(-50%, 0); }
-    100% { opacity: 1; transform: translate(-50%, 0); }
-  }
+  .page-loader.is-ready .page-loader__cat,
+  .page-loader.is-ready .page-loader__cat-frame { animation: none; }
+  .page-loader__cat-frame--one { opacity: 1; }
+  .page-loader__cat-frame--two { opacity: 0; }
 }
 
-/* 橫屏／闊桌面 object-fit: cover 會由左右裁入；logo 需要跟返「實際畫面高度」
-   定位，否則用 viewport 百分比會向左走。手機係主要場景，呢段只保桌面合理。 */
+/* 闊屏 cover 由上下裁入，改用原畫 vw 座標維持芝麻同底圖對位。 */
 @media (min-width: 769px) and (min-aspect-ratio: 941 / 1672) {
-  .page-loader__logo {
-    left: 50%;
-    top: 37.141vw;
-    width: 53.135vw;
+  .page-loader__cat {
+    left: 44.208vw;
+    top: 66.328vw;
+    width: 51.753vw;
   }
 }
 

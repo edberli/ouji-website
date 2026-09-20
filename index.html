@@ -50,7 +50,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260920-loader-motion-b-6">
+  <link rel="stylesheet" href="styles.css?v=20260920-loader-walk-c-1">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -58,7 +58,7 @@
 
   <!-- Page Loader -->
   <div class="page-loader">
-    <!-- 載入畫面係成幅首爾水彩插畫（2026-09-20 老闆指定換走舊嘅眨眼芝麻）。
+    <!-- 載入畫面係老闆指定嘅藍色水彩 OUJI 圖。
          ⚠️ 四種闊度：720（細機）／941（@2x 手機）／1200／1410（iPhone @3x
          全屏用嘅最大一張）。用 sizes=min(100vw,57vh) 係因為 object-fit:cover
          裁走兩邊之後，真正要嘅只係「高 × 0.5629」咁闊；唔咁寫嘅話桌面會
@@ -67,26 +67,30 @@
          <img> 各自揀候選圖，會變成一次過載 720 同 1200 兩張（同一幅圖
          載兩次）。<img> 本身就係 parser 早期就見到，加 fetchpriority
          已經夠快，而且保證只載一張。
-         ⚠️ 個淡出唔再用死 timer：圖一到先「留 0.5 秒」再淡走（.is-ready
-         + --loader-hold）。圖載好後展示／播 logo 0.6 秒、淡出 0.4 秒；等圖最耐 2.5 秒（下面有 onerror 同 timeout
+         ⚠️ 個淡出唔再用死 timer：圖片全部到齊先加 .is-ready；芝麻會用
+         兩格腳步向右行 0.6 秒，再用 0.4 秒淡出。等圖最耐 2.5 秒（下面有 timeout
          兩條後路），保證唔會見到「藍底閃一下」，亦唔會鎖死首頁。
          2026-09-20 老闆：「一閃即逝」→ 加留圖時間 → 跟住定案「總共
          0.5 秒咁樣囉」，所以總展示時間改為約 1 秒。
-         2026-09-20 新版：改用乾淨天空＋芝麻底圖，大 OUJI 用一張透明 WebP 疊返原位，整體輕輕浮現。只多下載一張
-         20KB WebP；所有 motion 只用 transform／opacity。 -->
+         2026-09-20 新版：藍色底圖保留 OUJI 白字，芝麻拆成兩格透明 WebP；
+         上半身、籃同產品不變，只讓左右腳交替，整體向右行。 -->
     <img class="page-loader__art"
-         src="assets/images/home/ouji-cloud-cat-1200.webp"
-         srcset="assets/images/home/ouji-cloud-cat-720.webp 720w,
-                 assets/images/home/ouji-cloud-cat-941.webp 941w,
-                 assets/images/home/ouji-cloud-cat-1200.webp 1200w,
-                 assets/images/home/ouji-cloud-cat.webp 1410w"
+         src="assets/images/home/ouji-blue-loader-1200.webp"
+         srcset="assets/images/home/ouji-blue-loader-720.webp 720w,
+                 assets/images/home/ouji-blue-loader-941.webp 941w,
+                 assets/images/home/ouji-blue-loader-1200.webp 1200w,
+                 assets/images/home/ouji-blue-loader.webp 1410w"
          sizes="min(100vw, 57vh)"
          alt="" width="1410" height="2505"
          fetchpriority="high" decoding="sync">
-    <img class="page-loader__logo"
-         src="assets/images/home/ouji-loader-logo.webp"
-         alt="" width="500" height="137"
-         decoding="sync">
+    <div class="page-loader__cat" aria-hidden="true">
+      <img class="page-loader__cat-frame page-loader__cat-frame--one"
+           src="assets/images/home/ouji-blue-cat-step1.webp"
+           alt="" width="487" height="412" decoding="sync">
+      <img class="page-loader__cat-frame page-loader__cat-frame--two"
+           src="assets/images/home/ouji-blue-cat-step2.webp"
+           alt="" width="487" height="412" decoding="sync">
+    </div>
   </div>
   <script>
   /* 圖到齊先開始淡出。2.5 秒硬上限係保險：就算幅圖死咗或者網絡極慢，
@@ -94,7 +98,7 @@
   (function () {
     var loader = document.querySelector('.page-loader');
     if (!loader) return;
-    var assets = loader.querySelectorAll('.page-loader__art, .page-loader__logo');
+    var assets = loader.querySelectorAll('.page-loader__art, .page-loader__cat-frame');
     var remaining = assets.length;
     var done = false;
     function ready() {
