@@ -3898,133 +3898,39 @@ button.product-card__quick-add,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: right center;
+  object-position: center;
 }
 
-/* Desktop video is progressive enhancement: the 22KB centred still is already
-   painted underneath, so decoding or autoplay failure never blocks the page. */
-.page-loader__desktop-video {
-  display: none;
-}
-
-/* 原圖座標：芝麻 crop = x416–903 / y1109–1521（原畫 941×1672）。
-   手機 cover 向右取景，所以用 vh 跟返原畫實際縮放，抵達原本位置時無接縫。 */
-.page-loader__cat {
+/* Responsive video is progressive enhancement: each viewport first paints a
+   matching static frame, so decoding or autoplay failure never blocks the page. */
+.page-loader__motion-video {
   position: absolute;
-  left: calc(100% - 31.4vh);
-  top: 66.328vh;
-  width: 29.127vh;
-  aspect-ratio: 487 / 412;
-  will-change: transform;
-}
-
-.page-loader__cat::after {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  left: 18%;
-  bottom: 2%;
-  width: 68%;
-  height: 4.5%;
-  border-radius: 50%;
-  background: rgba(48, 105, 139, 0.28);
-  transform: scaleX(1);
-}
-
-.page-loader__cat-part {
-  position: absolute;
-  z-index: 1;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
 }
 
-.page-loader__cat-part-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.page-loader__motion-video.is-playing {
+  opacity: 1;
 }
 
-.page-loader__cat-body { z-index: 2; }
-
-.page-loader__cat-leg--left {
-  transform: rotate(-11deg);
-  transform-origin: 42.1% 69.4%;
-}
-
-.page-loader__cat-leg--right {
-  transform: rotate(11deg);
-  transform-origin: 61.6% 70.4%;
-}
-
-/* 圖片到齊先起步：兩隻腳每 140ms 交替，身體同時向右行返原圖位置。 */
-.page-loader.is-ready .page-loader__cat {
-  animation: loaderCatWalkRight 0.6s var(--ease-out) forwards;
-}
-
-.page-loader.is-ready .page-loader__cat-leg--left {
-  animation: loaderCatLeftLeg 0.28s var(--ease-in-out) 2 alternate;
-}
-
-.page-loader.is-ready .page-loader__cat-leg--right {
-  animation: loaderCatRightLeg 0.28s var(--ease-in-out) 2 alternate;
-}
-
-@keyframes loaderCatWalkRight {
-  0% { transform: translateX(-12vw) translateY(0); }
-  25% { transform: translateX(-9vw) translateY(-2%); }
-  50% { transform: translateX(-6vw) translateY(0); }
-  75% { transform: translateX(-3vw) translateY(-2%); }
-  100% { transform: translateX(0) translateY(0); }
-}
-
-@keyframes loaderCatLeftLeg {
-  from { transform: rotate(-11deg); }
-  to { transform: rotate(11deg); }
-}
-
-@keyframes loaderCatRightLeg {
-  from { transform: rotate(11deg); }
-  to { transform: rotate(-11deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-loader.is-ready .page-loader__cat,
-  .page-loader.is-ready .page-loader__cat-leg { animation: none; }
-  .page-loader__cat-leg { transform: none; }
-}
-
-/* 桌面版用獨立 16:9 水彩底圖，避免直版 cover 將 logo 放大或裁走。
-   芝麻保持適中比例並停在右下安全區，繼續用相同左右腳交替步姿。 */
+/* 桌面版保留完整 16:9 構圖；手機版則用 9:16 影片 cover 全屏。 */
 @media (min-width: 769px) {
   .page-loader__art {
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .page-loader__desktop-video {
-    display: block;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
     object-fit: contain;
     object-position: center;
-    opacity: 0;
   }
 
-  .page-loader__desktop-video.is-playing {
-    opacity: 1;
-  }
-
-  .page-loader__cat {
-    display: none;
+  .page-loader__motion-video {
+    object-fit: contain;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-loader__desktop-video { display: none; }
+  .page-loader__motion-video { display: none; }
 }
 
 /* ----- Hero Text Clip Reveal ----- */
