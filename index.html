@@ -68,8 +68,9 @@
          2.5 秒（下面有 timeout 後路），保證唔會白閃，亦唔會鎖死首頁。
          2026-09-20 老闆：「一閃即逝」→ 加留圖時間 → 跟住定案「總共
          0.5 秒咁樣囉」，所以總展示時間改為約 1 秒。
-         2026-09-21：桌面同手機各用對應比例嘅靜態首幀先顯示，再非阻塞載入
-         1 秒 H.264 動畫；影片失敗或 reduced-motion 都唔會延遲離場。 -->
+         2026-09-21：桌面同手機各用對應比例嘅靜態首幀先顯示。手機 48KB 動畫
+         會同首幀並行預載，桌面片則等首幀後載；兩者失敗或 reduced-motion
+         都唔會延遲離場。 -->
     <picture>
       <source media="(min-width: 769px)"
               srcset="assets/images/home/ouji-blue-loader-desktop-centered.webp">
@@ -86,9 +87,12 @@
            fetchpriority="high" decoding="sync">
     </picture>
     <video class="page-loader__motion-video"
-           muted playsinline preload="none" aria-hidden="true"
-           data-desktop-src="assets/images/home/ouji-blue-loader-desktop-1s.mp4"
-           data-mobile-src="assets/images/home/ouji-blue-loader-mobile-1s.mp4"></video>
+           muted playsinline preload="auto" aria-hidden="true"
+           data-desktop-src="assets/images/home/ouji-blue-loader-desktop-1s.mp4">
+      <source media="(max-width: 768px) and (prefers-reduced-motion: no-preference)"
+              src="assets/images/home/ouji-blue-loader-mobile-1s.mp4"
+              type="video/mp4">
+    </video>
   </div>
   <script>
   /* 圖到齊先開始淡出。2.5 秒硬上限係保險：就算幅圖死咗或者網絡極慢，
@@ -110,10 +114,12 @@
         motionVideo.addEventListener('playing', function () {
           motionVideo.classList.add('is-playing');
         }, { once: true });
-        motionVideo.src = isDesktop
-          ? motionVideo.dataset.desktopSrc
-          : motionVideo.dataset.mobileSrc;
-        motionVideo.load();
+        if (isDesktop) {
+          motionVideo.src = motionVideo.dataset.desktopSrc;
+          motionVideo.load();
+        } else {
+          motionVideo.currentTime = 0;
+        }
         var playback = motionVideo.play();
         if (playback && playback.catch) playback.catch(function () {});
       }
