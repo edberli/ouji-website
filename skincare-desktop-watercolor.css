@@ -28,16 +28,18 @@
     position: relative;
     inset: auto;
     display: block;
-    width: 100%;
-    height: clamp(360px, 30vw, 420px);
+    width: min(100%, 640px);
+    height: auto;
+    aspect-ratio: 1672 / 941;
+    margin: 0 auto;
     overflow: hidden;
   }
 
   .skincare-booth--mobile .skincare-booth__watercolor {
     display: block;
     width: 100%;
-    height: 100%;
-    object-fit: fill;
+    height: auto;
+    object-fit: contain;
     object-position: center;
     background: #f7f9f9;
   }
@@ -135,6 +137,9 @@
   }
 
   .skincare-booth--mobile .skincare-booth__cat b {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible;
     position: relative;
     inset: auto;
     min-width: 0;
