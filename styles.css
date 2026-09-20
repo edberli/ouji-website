@@ -3870,7 +3870,7 @@ button.product-card__quick-add,
   display: flex;
   align-items: center;
   justify-content: center;
-  --loader-hold: 0.5s;   /* 圖到齊後停 0.5 秒，再用 0.5 秒淡走；合共約 1 秒 */
+  --loader-hold: 0.6s;   /* 圖到齊後展示／播 logo 0.6 秒，再用 0.4 秒淡走 */
   pointer-events: none;
 }
 
@@ -3879,11 +3879,11 @@ button.product-card__quick-add,
 
    老闆同日跟手：「張圖可以留多一陣……現在係一閃即逝」，跟住補一句
    「都唔應該留咁耐……總共 0.5 秒咁樣囉」——所以 .is-ready 之後 hold
-   0.5 秒（--loader-hold），再用 0.5 秒淡走，合共約 1 秒。
+   0.6 秒（--loader-hold），再用 0.4 秒淡走，合共約 1 秒。
    ⚠️ 要改「留幾久」淨係改 --loader-hold 一個數就得；hold 係由 .is-ready
    開始計（即係圖到齊先計），唔係由頁面開始載入計。 */
 .page-loader.is-ready {
-  animation: loaderFade 0.5s var(--ease-out) var(--loader-hold, 0.5s) forwards;
+  animation: loaderFade 0.4s var(--ease-out) var(--loader-hold, 0.6s) forwards;
 }
 
 @keyframes loaderFade {
@@ -3919,33 +3919,33 @@ button.product-card__quick-add,
    輕輕浮現。完整 logo 只請求一次，亦避免切字造成字形變形。 */
 .page-loader__logo {
   position: absolute;
-  right: 13.457vh;
+  left: 50%;
   top: 37.141vh;
   width: 29.904vh;
   height: auto;
   opacity: 0;
+  transform: translate(-50%, 16%) scale(0.96);
   will-change: transform, opacity;
-  animation: loaderLogoIn 0.22s var(--ease-out) 0.02s forwards,
-             loaderLogoFloat 1.4s var(--ease-in-out) 0.3s infinite alternate;
+}
+
+/* 資源真正載好、loader 加上 is-ready 先播，避免動畫喺圖片下載期間完咗。 */
+.page-loader.is-ready .page-loader__logo {
+  animation: loaderLogoIn 0.42s var(--ease-out) forwards;
 }
 
 @keyframes loaderLogoIn {
-  0% { opacity: 0; transform: translateY(16%) scale(0.96); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes loaderLogoFloat {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-3%); }
+  0% { opacity: 0; transform: translate(-50%, 16%) scale(0.96); }
+  70% { opacity: 1; transform: translate(-50%, -3%) scale(1.02); }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-loader__logo {
+  .page-loader.is-ready .page-loader__logo {
     animation: loaderLogoFade 0.2s var(--ease-out) forwards;
   }
   @keyframes loaderLogoFade {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% { opacity: 0; transform: translate(-50%, 0); }
+    100% { opacity: 1; transform: translate(-50%, 0); }
   }
 }
 
@@ -3953,8 +3953,7 @@ button.product-card__quick-add,
    定位，否則用 viewport 百分比會向左走。手機係主要場景，呢段只保桌面合理。 */
 @media (min-aspect-ratio: 941 / 1672) {
   .page-loader__logo {
-    right: auto;
-    left: 22.954vw;
+    left: 50%;
     top: 37.141vw;
     width: 53.135vw;
   }

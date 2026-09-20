@@ -50,7 +50,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260920-loader-motion-b-4">
+  <link rel="stylesheet" href="styles.css?v=20260920-loader-motion-b-5">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -68,7 +68,7 @@
          載兩次）。<img> 本身就係 parser 早期就見到，加 fetchpriority
          已經夠快，而且保證只載一張。
          ⚠️ 個淡出唔再用死 timer：圖一到先「留 0.5 秒」再淡走（.is-ready
-         + --loader-hold）。圖載好後停 0.5 秒、淡出 0.5 秒；等圖最耐 2.5 秒（下面有 onerror 同 timeout
+         + --loader-hold）。圖載好後展示／播 logo 0.6 秒、淡出 0.4 秒；等圖最耐 2.5 秒（下面有 onerror 同 timeout
          兩條後路），保證唔會見到「藍底閃一下」，亦唔會鎖死首頁。
          2026-09-20 老闆：「一閃即逝」→ 加留圖時間 → 跟住定案「總共
          0.5 秒咁樣囉」，所以總展示時間改為約 1 秒。
