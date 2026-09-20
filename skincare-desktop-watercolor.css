@@ -119,6 +119,16 @@
   .skincare-booth--mobile .skincare-booth__cat::after {
     content: none;
   }
+  .skincare-booth--mobile .skincare-booth__cat:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    bottom: 8px;
+    right: 0;
+    width: 1px;
+    background: #cbd8e7;
+    pointer-events: none;
+  }
 
   .skincare-booth--mobile .skincare-booth__cat > * {
     position: relative;

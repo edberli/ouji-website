@@ -6,6 +6,24 @@
 */
 
 @media (max-width: 959px) {
+  .skincare-booth--mobile .skincare-booth__cats {
+    height: 92px !important;
+    margin-top: 0;
+    padding: 8px 4px;
+  }
+  .skincare-booth--mobile .skincare-booth__cat {
+    height: 76px;
+  }
+  .skincare-booth--mobile .skincare-booth__cat:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 6px;
+    right: 0;
+    width: 1px;
+    background: #cbd8e7;
+    pointer-events: none;
+  }
   /* Temporary launch switch: hide the skincare questionnaire on mobile. */
   #skincare-match {
     display: none !important;
