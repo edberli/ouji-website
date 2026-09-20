@@ -10731,11 +10731,33 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   box-shadow: inset 0 -5px 0 rgba(23,111,168,.72);
 }
 
+/* 手機跟 2026-09-21 選定稿。主圖保留原設計、比例、分類圖及名稱，
+   圖片素材只移除輪播點、分類件數、箭嘴及其多餘分隔線。
+   分類帶移除舊箭嘴留白後拉滿全寬；五粒透明按鈕按分類帶實際比例對位。 */
+@media (max-width: 959px) {
+  .makeup-booth {
+    aspect-ratio: 941 / 625;
+    margin-bottom: 8px;
+    background: #f8f5ee;
+  }
+  .makeup-booth__art {
+    object-fit: contain;
+  }
+  .makeup-booth__stickers {
+    width: 100%;
+    height: 18.4%;
+    grid-template-columns: 179fr 173fr 158fr 182fr 187fr;
+  }
+  .makeup-booth__sticker:focus-visible {
+    border-radius: 8px;
+  }
+}
+
 @media (max-width: 720px) {
   .makeup-booth__stickers {
     bottom: 0;
     width: 100%;
-    height: 25.7%;
+    height: 18.4%;
     gap: 0;
   }
   .makeup-booth__sticker,
@@ -11348,9 +11370,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   object-fit: contain;
 }
 .cat-subs__item small {
-  color: var(--muted, #687578);
-  font-size: 11px;
-  font-weight: 600;
+  display: none;
 }
 @media (hover: hover) {
   .cat-subs__item:hover { transform: translateY(-2px); }
@@ -11376,7 +11396,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   }
   .cat-subs::-webkit-scrollbar { display: none; }
   .cat-subs__item { flex: none; padding: 6px 12px 6px 7px; font-size: 12px; }
-  .cat-subs__item img { width: 32px; height: 32px; }
+  .cat-subs__item img { width: 40px; height: 40px; }
 }
 
 /* 得一個細分類嘅大分類（頰彩、修容）—— 冇咗下面嗰行，個標題就唔應該
