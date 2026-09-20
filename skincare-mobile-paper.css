@@ -33,8 +33,8 @@
 
   /* Keep the watercolor mask, changing only its footprint and opacity. */
   .skincare-booth__cat::before {
-    width: 72%;
-    height: 26px;
+    width: 82%;
+    height: 30px;
     opacity: .42;
   }
 
