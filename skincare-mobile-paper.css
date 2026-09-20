@@ -6,6 +6,11 @@
 */
 
 @media (max-width: 959px) {
+  /* Temporary launch switch: hide the skincare questionnaire on mobile. */
+  #skincare-match {
+    display: none !important;
+  }
+
   .skincare-booth,
   #skincare-match {
     --skincare-paper: #f7f4ec;
