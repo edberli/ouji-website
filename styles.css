@@ -3983,12 +3983,18 @@ button.product-card__quick-add,
   .page-loader__cat-leg { transform: none; }
 }
 
-/* 闊屏 cover 由上下裁入，改用原畫 vw 座標維持芝麻同底圖對位。 */
-@media (min-width: 769px) and (min-aspect-ratio: 941 / 1672) {
+/* 桌面版用獨立 16:9 水彩底圖，避免直版 cover 將 logo 放大或裁走。
+   芝麻保持適中比例並停在右下安全區，繼續用相同左右腳交替步姿。 */
+@media (min-width: 769px) {
+  .page-loader__art {
+    object-fit: cover;
+    object-position: center;
+  }
+
   .page-loader__cat {
-    left: 44.208vw;
-    top: 66.328vw;
-    width: 51.753vw;
+    left: 69.01vw;
+    top: 62.96vh;
+    width: clamp(300px, 19.79vw, 420px);
   }
 }
 

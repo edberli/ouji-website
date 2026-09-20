@@ -50,7 +50,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260920-loader-walk-c-2">
+  <link rel="stylesheet" href="styles.css?v=20260920-loader-desktop-1">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -74,15 +74,19 @@
          0.5 秒咁樣囉」，所以總展示時間改為約 1 秒。
          2026-09-20 新版：藍色底圖保留 OUJI 白字；芝麻拆成身體、左腳、右腳。
          上半身、籃同產品不變，兩隻腳以前後相反角度交替擺動，整體向右行。 -->
-    <img class="page-loader__art"
-         src="assets/images/home/ouji-blue-loader-1200.webp"
-         srcset="assets/images/home/ouji-blue-loader-720.webp 720w,
-                 assets/images/home/ouji-blue-loader-941.webp 941w,
-                 assets/images/home/ouji-blue-loader-1200.webp 1200w,
-                 assets/images/home/ouji-blue-loader.webp 1410w"
-         sizes="min(100vw, 57vh)"
-         alt="" width="1410" height="2505"
-         fetchpriority="high" decoding="sync">
+    <picture>
+      <source media="(min-width: 769px)"
+              srcset="assets/images/home/ouji-blue-loader-desktop.webp">
+      <img class="page-loader__art"
+           src="assets/images/home/ouji-blue-loader-1200.webp"
+           srcset="assets/images/home/ouji-blue-loader-720.webp 720w,
+                   assets/images/home/ouji-blue-loader-941.webp 941w,
+                   assets/images/home/ouji-blue-loader-1200.webp 1200w,
+                   assets/images/home/ouji-blue-loader.webp 1410w"
+           sizes="(min-width: 769px) 100vw, min(100vw, 57vh)"
+           alt="" width="1920" height="1080"
+           fetchpriority="high" decoding="sync">
+    </picture>
     <div class="page-loader__cat" aria-hidden="true">
       <img class="page-loader__cat-part page-loader__cat-leg page-loader__cat-leg--left"
            src="assets/images/home/ouji-blue-cat-leg-left.webp"
