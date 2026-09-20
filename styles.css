@@ -3870,7 +3870,7 @@ button.product-card__quick-add,
   display: flex;
   align-items: center;
   justify-content: center;
-  --loader-hold: 0.5s;   /* 圖到齊之後留幾久先開始淡 */
+  --loader-hold: 0.3s;   /* 圖到齊後停 0.3 秒，再用 0.2 秒淡走；合共約 0.5 秒 */
   pointer-events: none;
 }
 
@@ -3879,11 +3879,11 @@ button.product-card__quick-add,
 
    老闆同日跟手：「張圖可以留多一陣……現在係一閃即逝」，跟住補一句
    「都唔應該留咁耐……總共 0.5 秒咁樣囉」——所以 .is-ready 之後 hold
-   0.5 秒（--loader-hold）先開始淡，成個「企定睇得到」嘅時間就係 0.5 秒。
+   0.3 秒（--loader-hold），再用 0.2 秒淡走，合共約 0.5 秒。
    ⚠️ 要改「留幾久」淨係改 --loader-hold 一個數就得；hold 係由 .is-ready
    開始計（即係圖到齊先計），唔係由頁面開始載入計。 */
 .page-loader.is-ready {
-  animation: loaderFade 0.5s ease var(--loader-hold, 0.5s) forwards;
+  animation: loaderFade 0.2s var(--ease-out) var(--loader-hold, 0.3s) forwards;
 }
 
 @keyframes loaderFade {
@@ -3892,11 +3892,11 @@ button.product-card__quick-add,
 }
 
 /* 2026-09-20 老闆：「進入 ouji 手機頁面果個 loading page 轉做呢個」——
-   由眨眼芝麻＋OUJI 字，換成成幅首爾水彩插畫（南山塔＋挽住 OUJI 籃嘅貓）。
-   幅圖本身已經有 OUJI 字同招牌，所以唔再加字。
+   由舊首爾街景插畫，換成乾淨天空＋挽住 OUJI 籃嘅芝麻。
+   大 OUJI 字由透明圖層疊上，先可以獨立做輕微動效。
 
-   ⚠️ 幅圖係直度 941×1672。手機（直屏）照 cover 就啱；闊機（橫屏）cover
-   會由兩邊裁入中間，主體（貓＋OUJI 字）仍然喺中間所以唔會走位。
+   ⚠️ 幅圖係直度 941×1672。手機（直屏）用 cover 並向右取景，保留完整芝麻同購物籃；闊機（橫屏）
+   再按 viewport 比例調整 logo 位置。
    唔切兩套圖，係因為呢塊幕只係頭 1.8 秒。
    ⚠️ background 嗰條 base64 係同一幅圖縮到 16px 闊嘅 WebP（LQIP），
    成條 data URI 得 ~250 字元，喺最早期 paint 就已經有雛形。
@@ -3907,12 +3907,57 @@ button.product-card__quick-add,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: right center;
   background-image: url("data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACwAwCdASoQABwAPwFurk+rJqQiMAgBYCAJQBdgDMLPg4eHIRzAAAD+8gppiStyndxCNYdZIhrehJE7gLn2dRiov+6zqnrfP2JqYGAnG8LC6EBz/1Lov/DLLbR0h0sWDVlzmjq/TfdeI6NtUc1WVReAJVv1hxTAAAA=");
   background-size: cover;
-  background-position: center;
+  background-position: right center;
   /* ⚠️ 唔好喺呢度加 opacity 淡入 —— 幅圖換上去嗰刻會閃一閃（LQIP 先出現
      一次，再淡入）。留返個 LQIP 喺後面，圖一到就直接覆蓋，最順。 */
+}
+
+/* 大 OUJI 係原畫抽出嚟嘅透明 WebP，疊返原位後用 transform／opacity
+   輕輕浮現。完整 logo 只請求一次，亦避免切字造成字形變形。 */
+.page-loader__logo {
+  position: absolute;
+  right: 13.457vh;
+  top: 37.141vh;
+  width: 29.904vh;
+  height: auto;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: loaderLogoIn 0.22s var(--ease-out) 0.02s forwards,
+             loaderLogoFloat 1.4s var(--ease-in-out) 0.3s infinite alternate;
+}
+
+@keyframes loaderLogoIn {
+  0% { opacity: 0; transform: translateY(16%) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes loaderLogoFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader__logo {
+    animation: loaderLogoFade 0.2s var(--ease-out) forwards;
+  }
+  @keyframes loaderLogoFade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+/* 橫屏／闊桌面 object-fit: cover 會由左右裁入；logo 需要跟返「實際畫面高度」
+   定位，否則用 viewport 百分比會向左走。手機係主要場景，呢段只保桌面合理。 */
+@media (min-aspect-ratio: 941 / 1672) {
+  .page-loader__logo {
+    right: auto;
+    left: 22.954vw;
+    top: 37.141vw;
+    width: 53.135vw;
+  }
 }
 
 /* ----- Hero Text Clip Reveal ----- */
