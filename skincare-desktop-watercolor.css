@@ -1,0 +1,183 @@
+/* OUJI skincare desktop watercolor layout — desktop-only override. */
+
+@media (min-width: 960px) {
+  .skincare-booth--legacy-desktop {
+    display: none !important;
+  }
+
+  .skincare-booth--mobile {
+    display: block !important;
+    width: min(100%, 1200px);
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    margin: 0 auto;
+    overflow: visible;
+    background: #fff;
+  }
+
+  .skincare-booth--mobile::after,
+  .skincare-booth--mobile .skincare-booth__flash,
+  .skincare-booth--mobile .skincare-booth__title,
+  .skincare-booth--mobile .skincare-booth__strip,
+  .skincare-booth--mobile .skincare-booth__art {
+    display: none !important;
+  }
+
+  .skincare-booth--mobile > picture {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: clamp(360px, 30vw, 420px);
+    overflow: hidden;
+  }
+
+  .skincare-booth--mobile .skincare-booth__watercolor {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    object-position: center;
+    background: #fff;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cats {
+    position: relative;
+    inset: auto;
+    z-index: 3;
+    width: 100%;
+    height: 118px !important;
+    display: grid !important;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 4px 18px 8px;
+    transform: none;
+    overflow: visible;
+    border: 0;
+    box-shadow: none;
+    background: #fff;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cats::before,
+  .skincare-booth--mobile .skincare-booth__cats::after {
+    content: none;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat,
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(n) {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: 106px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(1) { --cat-wash: #67BDE4; }
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(2) { --cat-wash: #9BCB72; }
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(3) { --cat-wash: #EFB177; }
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(4) { --cat-wash: #B892D2; }
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(5) { --cat-wash: #E989A8; }
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(6) { --cat-wash: #EC8F83; }
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(7) { --cat-wash: #78AADD; }
+  .skincare-booth--mobile .skincare-booth__cat:nth-child(8) { --cat-wash: #E8C557; }
+
+  .skincare-booth--mobile .skincare-booth__cat::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 38px;
+    z-index: 0;
+    width: 82%;
+    height: 38px;
+    background: var(--cat-wash);
+    opacity: .42;
+    transform: translateX(-50%) rotate(-4deg);
+    -webkit-mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
+    mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
+    pointer-events: none;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat::after {
+    content: none;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .skincare-booth--mobile .skincare-booth__icon {
+    display: block;
+    width: 108%;
+    height: 88px;
+    margin: 0;
+    object-fit: contain;
+    opacity: 1;
+    transform: scale(1.14);
+    transition: transform .18s ease, filter .18s ease;
+    pointer-events: none;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat b {
+    position: relative;
+    inset: auto;
+    min-width: 0;
+    max-width: 100%;
+    padding: 2px 3px;
+    border: 0;
+    background: transparent;
+    color: #315c7c;
+    box-shadow: none;
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    white-space: nowrap;
+    transform: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.78);
+    pointer-events: none;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat small {
+    display: none;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat:hover,
+  .skincare-booth--mobile .skincare-booth__cat:active,
+  .skincare-booth--mobile .skincare-booth__cat[data-active] {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat:hover .skincare-booth__icon,
+  .skincare-booth--mobile .skincare-booth__cat[data-active] .skincare-booth__icon {
+    transform: translateY(-2px) scale(1.2);
+    filter: saturate(.98) brightness(1.03);
+  }
+
+  .skincare-booth--mobile .skincare-booth__cat:focus-visible {
+    outline: 2px solid rgba(49, 92, 124, .5);
+    outline-offset: -4px;
+  }
+
+  /* This questionnaire is temporarily hidden on both mobile and desktop. */
+  #skincare-match {
+    display: none !important;
+  }
+}
