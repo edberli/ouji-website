@@ -3920,8 +3920,9 @@ button.product-card__quick-add,
 .page-loader__logo {
   position: absolute;
   left: 50%;
-  top: 37.141vh;
-  width: 29.904vh;
+  top: 35%;
+  width: 70vw;
+  max-width: 330px;
   height: auto;
   opacity: 0;
   transform: translate(-50%, 16%) scale(0.96);
@@ -3951,7 +3952,7 @@ button.product-card__quick-add,
 
 /* 橫屏／闊桌面 object-fit: cover 會由左右裁入；logo 需要跟返「實際畫面高度」
    定位，否則用 viewport 百分比會向左走。手機係主要場景，呢段只保桌面合理。 */
-@media (min-aspect-ratio: 941 / 1672) {
+@media (min-width: 769px) and (min-aspect-ratio: 941 / 1672) {
   .page-loader__logo {
     left: 50%;
     top: 37.141vw;
