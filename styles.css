@@ -3870,7 +3870,7 @@ button.product-card__quick-add,
   display: flex;
   align-items: center;
   justify-content: center;
-  --loader-hold: 0.3s;   /* 圖到齊後停 0.3 秒，再用 0.2 秒淡走；合共約 0.5 秒 */
+  --loader-hold: 0.5s;   /* 圖到齊後停 0.5 秒，再用 0.5 秒淡走；合共約 1 秒 */
   pointer-events: none;
 }
 
@@ -3879,11 +3879,11 @@ button.product-card__quick-add,
 
    老闆同日跟手：「張圖可以留多一陣……現在係一閃即逝」，跟住補一句
    「都唔應該留咁耐……總共 0.5 秒咁樣囉」——所以 .is-ready 之後 hold
-   0.3 秒（--loader-hold），再用 0.2 秒淡走，合共約 0.5 秒。
+   0.5 秒（--loader-hold），再用 0.5 秒淡走，合共約 1 秒。
    ⚠️ 要改「留幾久」淨係改 --loader-hold 一個數就得；hold 係由 .is-ready
    開始計（即係圖到齊先計），唔係由頁面開始載入計。 */
 .page-loader.is-ready {
-  animation: loaderFade 0.2s var(--ease-out) var(--loader-hold, 0.3s) forwards;
+  animation: loaderFade 0.5s var(--ease-out) var(--loader-hold, 0.5s) forwards;
 }
 
 @keyframes loaderFade {
