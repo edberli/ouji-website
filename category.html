@@ -57,11 +57,13 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260919-full-bleed">
+  <link rel="stylesheet" href="styles.css?v=20260920-live">
   <!-- 護膚配方（玻璃版）。skincare-match.css 睇落似殘留，但入面
        仲有幾條 .sm 基礎 rule 生效，唔可以剩係要 modes 嗰張。 -->
   <link rel="stylesheet" href="skincare-match.css">
   <link rel="stylesheet" href="skincare-modes.css">
+  <link rel="stylesheet" href="desktop-category-legacy.css?v=20260920-live" media="(min-width: 960px)">
+  <link rel="stylesheet" href="skincare-mobile-paper.css?v=20260920-live" media="(max-width: 959px)">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -279,13 +281,7 @@
 
          件數、相紙四張相、選中狀態全部由 catalog.js 嘅
          buildSkincareBooth() 用 Storefront 真資料填 —— 呢度一個數都唔准寫死。 -->
-    <section class="skincare-booth" data-skincare-booth aria-labelledby="skincare-booth-title">
-      <picture>
-        <source media="(min-width: 960px)" srcset="assets/images/skincare-seaside-hero-desktop.webp?v=20260919-seaside">
-        <img class="skincare-booth__watercolor" src="assets/images/skincare-seaside-hero-mobile.webp?v=20260919-no-dots"
-             alt="OUJI Dew Club 水彩護膚店與八個護膚分類"
-             width="941" height="1032" loading="eager" decoding="async" fetchpriority="high">
-      </picture>
+    <section class="skincare-booth skincare-booth--legacy-desktop" data-skincare-booth-legacy aria-labelledby="skincare-booth-title">
       <div class="skincare-booth__flash" aria-hidden="true"></div>
 
       <div class="skincare-booth__title">
@@ -355,6 +351,86 @@
         <button type="button" class="skincare-booth__cat" data-quick="sunscreen" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#ffce4f">
           <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="m20 12 34 6-9 45-34-6Z" fill="var(--cat-tint)"/><path d="m14 55 31 6-2 9-31-6Z" fill="#fff"/><path d="M24 28h22l-4 22H20Z" fill="#fff"/></g><circle cx="34" cy="38" r="6" fill="#fff06a" stroke="currentColor" stroke-width="2"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M34 27v4M34 45v4M23 38h4M41 38h4M26 30l3 3M39 43l3 3M42 30l-3 3M29 43l-3 3"/></g><path d="m57 7 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#ff82c9" stroke="currentColor" stroke-width="2"/></svg>
+          <b>防曬</b><small data-skincare-booth-n="sunscreen"></small>
+        </button>
+      </div>
+    </section>
+
+    <section class="skincare-booth skincare-booth--mobile" data-skincare-booth aria-labelledby="skincare-booth-title">
+      <picture>
+        <img class="skincare-booth__watercolor" src="assets/images/skincare-muted-mobile-landscape-title-v2.webp?v=20260920-live"
+             alt="低飽和水彩海邊 OUJI 護膚店與芝麻貓"
+             width="1672" height="941" loading="eager" decoding="async" fetchpriority="high">
+      </picture>
+      <div class="skincare-booth__flash" aria-hidden="true"></div>
+
+      <div class="skincare-booth__title">
+        <h1 id="skincare-booth-title">OUJI<br><span>DEW CLUB</span></h1>
+        <p class="skincare-booth__meta" data-skincare-booth-meta>護膚</p>
+      </div>
+
+      <!-- 相紙。四個 <img> 一開始就喺度（淨係冇 src），等 aspect-ratio
+           撐住格位，圖遲到都唔會跳版。 -->
+      <div class="skincare-booth__strip" aria-hidden="true">
+        <div class="skincare-booth__frames">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+          <img alt="" loading="lazy" decoding="async">
+        </div>
+        <span data-skincare-booth-caption></span>
+      </div>
+
+      <div class="skincare-booth__art" aria-hidden="true">
+        <div class="skincare-booth__orb"><span>DROP<br>YOUR<br>ROUTINE!</span></div>
+        <span class="skincare-booth__gel skincare-booth__gel--a"></span>
+        <span class="skincare-booth__gel skincare-booth__gel--b"></span>
+        <span class="skincare-booth__gel skincare-booth__gel--c"></span>
+        <span class="skincare-booth__bubble skincare-booth__bubble--a"></span>
+        <span class="skincare-booth__bubble skincare-booth__bubble--b"></span>
+        <span class="skincare-booth__splash">SPLASH!</span>
+        <span class="skincare-booth__glow">GLOW MODE</span>
+      </div>
+
+      <div class="skincare-booth__cats" data-cat-gate aria-label="護膚分類">
+        <button type="button" class="skincare-booth__cat" data-quick="cleanser" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#70e5ff">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/cleanser.webp" alt="" width="1361" height="1156">
+          <b>潔面</b><small data-skincare-booth-n="cleanser"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="toner" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#b8ff62">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/toner.webp" alt="" width="1369" height="1149">
+          <b>爽膚水</b><small data-skincare-booth-n="toner"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="pad" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#fff06a">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/pad.webp" alt="" width="1536" height="1024">
+          <b>棉片</b><small data-skincare-booth-n="pad"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="serum" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#ff82c9">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/serum.webp" alt="" width="1240" height="1268">
+          <b>精華液</b><small data-skincare-booth-n="serum"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="moisturizer" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#c8a6ff">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/moisturizer.webp" alt="" width="1374" height="1145">
+          <b>乳液</b><small data-skincare-booth-n="moisturizer"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="mask" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#ff987c">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/mask.webp" alt="" width="1289" height="1220">
+          <b>面膜</b><small data-skincare-booth-n="mask"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="eye" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#77c8ff">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/eye.webp" alt="" width="1536" height="1024">
+          <b>眼部護理</b><small data-skincare-booth-n="eye"></small>
+        </button>
+        <button type="button" class="skincare-booth__cat" data-quick="sunscreen" data-booth-sticker
+          aria-pressed="false" style="--cat-tint:#ffce4f">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/sunscreen.webp" alt="" width="1233" height="1275">
           <b>防曬</b><small data-skincare-booth-n="sunscreen"></small>
         </button>
       </div>
@@ -553,7 +629,7 @@
   <script src="awards.js"></script>
   <!-- 相紙揀相嘅名單（人手開圖驗過），一定要喺 catalog.js 之前。 -->
   <script src="booth-shots.js"></script>
-  <script src="catalog.js?v=20260919-skincare-watercolor"></script>
+  <script src="catalog.js?v=20260920-live"></script>
   <!-- modes 一定要喺 match 之前：match 會即刻叫 modes 入面啲 render。 -->
   <script src="skincare-modes.js"></script>
   <script src="skincare-match.js"></script>

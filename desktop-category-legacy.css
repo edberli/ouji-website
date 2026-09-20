@@ -1,0 +1,957 @@
+/* ============================================================
+   彩妝頁頂：貼紙相機（makeup.html 專用）
+
+   護膚頁用嘅入口 tile 喺彩妝版換成一幅由首爾貼紙相機吐出嚟嘅貼紙牆。
+   全部 selector 都收喺 .makeup-booth 下面，唔會影響其他分類頁。
+   Hero 硬上限 350px —— 呢版嘅重點係啲貨快啲出現，唔係頁頂夠唔夠大。
+   ============================================================ */
+.makeup-booth {
+  --booth-pink: #ff70bd;
+  --booth-blue: #5d73ff;
+  --booth-lime: #cbff48;
+  --booth-yellow: #ffd64d;
+  --booth-sky: #98e4ff;
+  --booth-ink: #11131a;
+  position: relative;
+  min-height: 350px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  color: var(--booth-ink);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.32) 0 1px, transparent 1px 6px),
+    linear-gradient(135deg, #cdd0dc, #f2f2f7 46%, #bfc2d1);
+}
+
+/* ----- 主標 ----- */
+.makeup-booth__title {
+  position: absolute;
+  left: clamp(18px, 5vw, 76px);
+  top: 24px;
+  z-index: 4;
+  transform: rotate(-3deg);
+}
+.makeup-booth__title h1 {
+  margin: 0;
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-size: clamp(50px, 6vw, 76px);
+  font-weight: 400;
+  line-height: .82;
+  letter-spacing: 0;
+  color: var(--booth-blue);
+  -webkit-text-stroke: 2px var(--booth-ink);
+  text-shadow: 4px 6px 0 var(--booth-lime);
+}
+.makeup-booth__meta {
+  display: inline-block;
+  margin: 10px 0 0 8px;
+  padding: 6px 10px;
+  background: var(--booth-ink);
+  color: #fff;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .06em;
+}
+
+/* ----- 四格相紙 ----- */
+.makeup-booth__strip {
+  position: absolute;
+  top: 20px;
+  right: clamp(28px, 12vw, 180px);
+  z-index: 2;
+  width: clamp(154px, 16vw, 205px);
+  padding: 8px;
+  background: #fff;
+  box-shadow: 0 24px 55px rgba(25,28,50,.28);
+  transform: rotate(4deg);
+  animation: booth-strip-in 480ms cubic-bezier(.23, 1, .32, 1) both;
+}
+.makeup-booth__frames { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.makeup-booth__frames img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #eceef1;   /* 圖未到都撐住格位，唔會跳版 */
+}
+.makeup-booth__caption {
+  display: block;
+  padding: 9px 2px 2px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-align: center;
+}
+
+/* ----- 中間啲塗鴉。純裝飾，唔可以擋住啲掣 ----- */
+.makeup-booth__collage { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.makeup-booth__word {
+  position: absolute;
+  left: 32%;
+  top: 43px;
+  transform: rotate(2deg);
+  color: var(--booth-pink);
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-size: clamp(30px, 4vw, 55px);
+  line-height: .78;
+  -webkit-text-stroke: 1.5px var(--booth-ink);
+  text-shadow: 3px 4px 0 #fff;
+}
+.makeup-booth__word span { display: block; margin-left: 24px; color: var(--booth-blue); }
+.makeup-booth__word small {
+  display: block;
+  width: max-content;
+  margin: 11px 0 0 42px;
+  padding: 5px 8px;
+  background: var(--booth-ink);
+  color: #fff;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 9px;
+  letter-spacing: .08em;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+}
+.makeup-booth__kiss {
+  position: absolute;
+  left: 48%;
+  top: 155px;
+  width: 98px;
+  color: var(--booth-pink);
+  filter: drop-shadow(3px 4px 0 #fff);
+  transform: rotate(-11deg);
+}
+.makeup-booth__flashword {
+  position: absolute;
+  left: 67%;
+  top: 186px;
+  padding: 8px 13px;
+  border: 2px solid var(--booth-ink);
+  border-radius: 50% 42% 48% 45%;
+  background: var(--booth-yellow);
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-size: 20px;
+  transform: rotate(9deg);
+  box-shadow: 3px 4px 0 rgba(17,19,26,.24);
+}
+.makeup-booth__star {
+  position: absolute;
+  left: 27%;
+  top: 202px;
+  width: 47px;
+  color: var(--booth-lime);
+  filter: drop-shadow(2px 3px 0 var(--booth-ink));
+  transform: rotate(-13deg);
+}
+.makeup-booth__heart {
+  position: absolute;
+  left: 61%;
+  top: 34px;
+  width: 42px;
+  color: var(--booth-pink);
+  filter: drop-shadow(2px 3px 0 #fff);
+  transform: rotate(14deg);
+}
+.makeup-booth__swatch { position: absolute; left: 58%; top: 112px; width: 105px; transform: rotate(-8deg); }
+.makeup-booth__kbeauty {
+  position: absolute;
+  left: 69%;
+  top: 125px;
+  padding: 5px 9px;
+  border: 2px solid var(--booth-ink);
+  background: var(--booth-blue);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .07em;
+  box-shadow: 2px 3px 0 #fff;
+  transform: rotate(7deg);
+}
+.makeup-booth__burst {
+  position: absolute;
+  right: -35px;
+  bottom: -50px;
+  z-index: 1;
+  width: 180px;
+  height: 180px;
+  background: var(--booth-pink);
+  transform: rotate(15deg);
+  pointer-events: none;
+  clip-path: polygon(50% 0, 61% 34%, 90% 10%, 70% 40%, 100% 50%, 67% 59%, 91% 88%, 60% 69%, 50% 100%, 40% 68%, 10% 90%, 33% 59%, 0 50%, 32% 40%, 10% 11%, 40% 33%);
+}
+
+/* ----- 五張分類貼紙。歪嘅係外形，唔係次序 —— DOM 同 tab 次序照舊
+   底妝 → 眼妝 → 唇妝 → 頰彩 → 修容 ----- */
+.makeup-booth__stickers {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: 10px;
+  width: min(820px, calc(100% - 28px));
+  height: 124px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: end;
+  gap: clamp(6px, 1.1vw, 12px);
+  transform: translateX(-50%);
+}
+/* 五粒掣本來係彩色橢圓包住一個細 icon。而家換成老闆畫嘅剪紙貼紙
+   （PNG 本身已經印咗白色剪紙邊），所以橢圓底、邊框、圓角全部剷走 ——
+   張圖自己就係貼紙，掣淨係負責位置、角度同可撳範圍。 */
+.makeup-booth__sticker {
+  --lift: 0px;
+  --tilt: 0deg;
+  --sticker-scale: 1;
+  position: relative;
+  min-width: 0;
+  height: 104px;
+  display: grid;
+  place-items: end center;
+  align-content: end;
+  gap: 2px;
+  padding: 0 2px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--booth-ink);
+  font-family: "Noto Sans TC", sans-serif;
+  font-weight: 900;
+  cursor: pointer;
+  transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--sticker-scale));
+  transform-origin: 50% 85%;
+  transition: transform 160ms ease-out;
+}
+.makeup-booth__icon {
+  width: auto;
+  height: var(--icon-h, 78px);
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(3px 4px 0 rgba(17,19,26,.24));
+  transition: transform 160ms ease-out;
+}
+/* 名牌貼喺貼紙腳下面，唔係包住成粒公仔 */
+.makeup-booth__sticker b {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  padding: 2px 7px;
+  border: 1.5px solid var(--booth-ink);
+  background: var(--chip, #fff);
+  box-shadow: 2px 2px 0 rgba(17,19,26,.26);
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  transform: translateX(-50%) rotate(calc(var(--tilt) * -.5));
+  transition: color 140ms ease-out, background 140ms ease-out;
+}
+.makeup-booth__sticker small {
+  position: absolute;
+  top: 0;
+  right: 4%;
+  min-width: 20px;
+  padding: 2px 4px;
+  border: 1.5px solid var(--booth-ink);
+  background: #fff;
+  box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.24);
+  font-size: 8px;
+  line-height: 1;
+  text-align: center;
+  transform: rotate(7deg);
+}
+
+@media (hover: hover) {
+  .makeup-booth__sticker:hover {
+    transform: translateY(calc(var(--lift) - 5px)) rotate(0) scale(1.05);
+  }
+}
+.makeup-booth__sticker:active {
+  transform: translateY(var(--lift)) rotate(var(--tilt)) scale(.98);
+}
+.makeup-booth__sticker:focus-visible {
+  outline: 3px solid #e75d4e;
+  outline-offset: 3px;
+  z-index: 7;   /* focus 環唔可以畀隔籬張貼紙蓋住 */
+}
+.makeup-booth__sticker:nth-child(1) { --lift: -10px; --tilt: -7deg; --sticker-scale: 1.03; --icon-h: 84px; --chip: var(--booth-pink);   height: 108px; z-index: 3; }
+.makeup-booth__sticker:nth-child(2) { --lift: 5px;   --tilt: 5deg;  --sticker-scale: .94;  --icon-h: 74px; --chip: var(--booth-lime);   height: 96px;  z-index: 1; }
+.makeup-booth__sticker:nth-child(3) { --lift: -3px;  --tilt: -3deg; --sticker-scale: 1.06; --icon-h: 88px; --chip: #fff;                height: 112px; z-index: 4; }
+.makeup-booth__sticker:nth-child(4) { --lift: 7px;   --tilt: 8deg;  --sticker-scale: .98;  --icon-h: 78px; --chip: var(--booth-yellow); height: 100px; z-index: 2; }
+.makeup-booth__sticker:nth-child(5) { --lift: -8px;  --tilt: -6deg; --sticker-scale: 1.02; --icon-h: 82px; --chip: var(--booth-sky);    height: 106px; z-index: 3; }
+
+/* 選中：名牌反白，貼紙本身放大少少。一定要排喺上面五條 nth-child 之後 ——
+   兩邊 specificity 一樣，後寫嗰個先贏。 */
+.makeup-booth__sticker[data-active] { z-index: 5; }
+.makeup-booth__sticker[data-active] .makeup-booth__icon { transform: scale(1.1); }
+.makeup-booth__sticker[data-active] b {
+  border-color: #fff;
+  background: var(--booth-ink);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--chip);
+}
+
+/* ----- 閃光。只喺第一次載入播一次；換分類唔會再閃 ----- */
+.makeup-booth__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #fff;
+  pointer-events: none;
+  animation: booth-flash 520ms ease-out both;
+}
+@keyframes booth-flash { 0%, 15% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes booth-strip-in {
+  from { opacity: 0; transform: translateY(-70px) rotate(9deg); }
+  to   { opacity: 1; transform: rotate(4deg); }
+}
+
+/* 平板闊度：相紙同 FLASH!／色掃／K-BEAUTY! 會撞埋一齊。照 handoff 講嘅
+   次序處理 —— 先郁非必要嘅塗鴉，唔郁五粒掣嘅可撳範圍。 */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .makeup-booth__swatch, .makeup-booth__kbeauty { display: none; }
+  .makeup-booth__flashword { left: 33%; top: 188px; }
+}
+
+@media (max-width: 720px) {
+  .makeup-booth__title { left: 15px; top: 20px; }
+  .makeup-booth__title h1 {
+    font-size: 49px;
+    -webkit-text-stroke-width: 1px;
+    text-shadow: 3px 4px 0 var(--booth-lime);
+  }
+  .makeup-booth__meta { margin-top: 8px; font-size: 9px; }
+  .makeup-booth__strip { top: 58px; right: 17px; width: 126px; transform: rotate(3deg); }
+  .makeup-booth__word, .makeup-booth__swatch, .makeup-booth__kbeauty { display: none; }
+  .makeup-booth__kiss { left: 49%; top: 194px; width: 66px; }
+  /* 貼紙換咗做剪紙之後嗰行高咗，FLASH! 本來喺 213px 會同「底妝」個
+     件數牌撞，抬高佢。 */
+  .makeup-booth__flashword { left: 12px; top: 170px; padding: 5px 9px; font-size: 14px; }
+  .makeup-booth__star { left: 45%; top: 166px; width: 32px; }
+  .makeup-booth__heart { left: 56%; top: 10px; width: 28px; }
+  .makeup-booth__stickers { bottom: 10px; width: calc(100% - 14px); height: 104px; gap: 2px; }
+  .makeup-booth__sticker { padding-inline: 1px; padding-bottom: 14px; }
+  .makeup-booth__sticker b { padding: 1px 5px; font-size: 9px; }
+  /* 手機收窄之後，隔籬張貼紙會壓住呢張嘅右邊角（修容 z-index 高過頰彩），
+     件數要向內移少少先讀得晒。 */
+  .makeup-booth__sticker small { top: 0; right: 7%; min-width: 17px; padding: 1px 3px; font-size: 7px; }
+  .makeup-booth__sticker:nth-child(1) { --icon-h: 64px; height: 88px; }
+  .makeup-booth__sticker:nth-child(2) { --icon-h: 56px; height: 78px; }
+  .makeup-booth__sticker:nth-child(3) { --icon-h: 66px; height: 90px; }
+  .makeup-booth__sticker:nth-child(4) { --icon-h: 59px; height: 82px; }
+  .makeup-booth__sticker:nth-child(5) { --icon-h: 62px; height: 86px; }
+  @keyframes booth-strip-in {
+    from { opacity: 0; transform: translateY(-55px) rotate(8deg); }
+    to   { opacity: 1; transform: rotate(3deg); }
+  }
+}
+
+/* 窄機。先縮字同 icon，唔可以縮到啲掣撳唔到，亦都唔可以迫到出橫向捲軸。 */
+@media (max-width: 359px) {
+  .makeup-booth__title h1 { font-size: 42px; }
+  .makeup-booth__strip { width: 108px; }
+  .makeup-booth__stickers { width: calc(100% - 10px); gap: 1px; }
+  .makeup-booth__sticker { padding-inline: 0; }
+  .makeup-booth__sticker b { padding: 1px 4px; font-size: 8px; }
+  .makeup-booth__sticker small { right: 5%; min-width: 15px; font-size: 6px; }
+  .makeup-booth__sticker:nth-child(1) { --icon-h: 54px; }
+  .makeup-booth__sticker:nth-child(2) { --icon-h: 47px; }
+  .makeup-booth__sticker:nth-child(3) { --icon-h: 56px; }
+  .makeup-booth__sticker:nth-child(4) { --icon-h: 50px; }
+  .makeup-booth__sticker:nth-child(5) { --icon-h: 53px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .makeup-booth__flash { animation-duration: 1ms; }
+  .makeup-booth__strip { animation-duration: 1ms; }
+  .makeup-booth__sticker,
+  .makeup-booth__icon { transition: none; }
+}
+
+/* ============================================================
+   護膚頁頂：水光房貼紙相機（category.html 專用）
+
+   同彩妝嗰邊嘅貼紙相機係一家人，但係另一個世界：銀藍水光機身、
+   透明精華水珠、凝膠泡泡，八張按產品輪廓剪出嚟嘅分類貼紙。
+   全部 selector 收喺 .skincare-booth 下面。Hero 硬上限 350px。
+   ============================================================ */
+.skincare-booth {
+  --skin-ink: #11131a;
+  --skin-blue: #536cff;
+  --skin-aqua: #36d6ed;
+  --skin-lime: #b8ff62;
+  --skin-pink: #ff82c9;
+  --skin-yellow: #fff06a;
+  position: relative;
+  height: 350px;
+  min-height: 350px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--skin-ink);
+  /* 老闆要粉紅機身。條紋保留 —— 冇咗就變成一塊淨色，唔似部機。 */
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.32) 0 1px, transparent 1px 6px),
+    linear-gradient(135deg, #f6afcd, #fff1f7 48%, #f2a5c6);
+}
+
+/* ----- 主標 ----- */
+.skincare-booth__title {
+  position: absolute;
+  z-index: 4;
+  left: clamp(18px, 5vw, 72px);
+  top: 20px;
+  transform: rotate(-3deg);
+}
+.skincare-booth__title h1 {
+  margin: 0;
+  color: var(--skin-blue);
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-size: clamp(50px, 5.5vw, 74px);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: .78;
+  -webkit-text-stroke: 2px var(--skin-ink);
+  text-shadow: 4px 5px 0 var(--skin-lime);
+}
+.skincare-booth__title h1 span { color: var(--skin-aqua); }
+.skincare-booth__meta {
+  display: inline-block;
+  margin: 11px 0 0 7px;
+  padding: 5px 9px;
+  background: var(--skin-ink);
+  color: #fff;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* ----- 四格相紙 ----- */
+.skincare-booth__strip {
+  position: absolute;
+  z-index: 5;
+  top: 17px;
+  right: clamp(24px, 8vw, 120px);
+  width: 188px;
+  padding: 7px;
+  border: 2px solid var(--skin-ink);
+  background: #fff;
+  box-shadow: 7px 9px 0 rgba(17,19,26,.2);
+  transform: rotate(4deg);
+  animation: dew-strip-in 240ms cubic-bezier(.23, 1, .32, 1) both;
+}
+.skincare-booth__frames { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.skincare-booth__frames img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #eef1f2;   /* 圖未到都撐住格位，唔會跳版 */
+}
+.skincare-booth__strip > span {
+  display: block;
+  padding: 7px 2px 1px;
+  overflow: hidden;
+  font-family: "Space Mono", monospace;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ----- 中央水光藝術。純裝飾，唔可以擋住啲掣 ----- */
+.skincare-booth__art { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.skincare-booth__orb {
+  position: absolute;
+  left: 46%;
+  top: 34px;
+  width: 170px;
+  height: 188px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--skin-ink);
+  border-radius: 54% 46% 55% 45% / 62% 58% 42% 38%;
+  background:
+    radial-gradient(circle at 32% 22%, #fff 0 8%, transparent 9%),
+    radial-gradient(circle at 36% 28%, rgba(255,255,255,.9), rgba(76,231,242,.44) 43%, rgba(99,107,255,.4) 76%, rgba(255,255,255,.25));
+  box-shadow: inset -14px -18px 30px rgba(56,78,194,.2), 8px 10px 0 rgba(17,19,26,.16);
+  transform: rotate(8deg);
+}
+.skincare-booth__orb span {
+  color: #fff;
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-size: 25px;
+  line-height: .8;
+  text-align: center;
+  -webkit-text-stroke: 1.5px var(--skin-ink);
+  text-shadow: 2px 3px 0 var(--skin-blue);
+  transform: rotate(-8deg);
+}
+.skincare-booth__gel {
+  position: absolute;
+  border: 2px solid var(--skin-ink);
+  /* 底色轉咗粉紅，凝膠就唔可以再用粉紅 —— 會同背景溶埋一齊。 */
+  background: rgba(76,231,242,.72);
+  box-shadow: 3px 4px 0 rgba(17,19,26,.18);
+}
+.skincare-booth__gel--a { left: 32%; top: 172px; width: 72px; height: 44px; border-radius: 66% 34% 62% 38%; transform: rotate(-12deg); }
+.skincare-booth__gel--b { left: 64%; top: 143px; width: 58px; height: 58px; border-radius: 50%; background: rgba(184,255,98,.72); }
+.skincare-booth__gel--c { left: 26%; top: 93px; width: 38px; height: 38px; border-radius: 45% 55% 50% 50%; background: rgba(99,107,255,.55); }
+.skincare-booth__bubble {
+  position: absolute;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: inset 3px 3px 0 rgba(255,255,255,.55), 2px 3px 0 rgba(17,19,26,.22);
+}
+.skincare-booth__bubble--a { left: 71%; top: 55px; width: 32px; height: 32px; }
+.skincare-booth__bubble--b { left: 39%; top: 31px; width: 21px; height: 21px; }
+.skincare-booth__splash,
+.skincare-booth__glow {
+  position: absolute;
+  padding: 6px 10px;
+  border: 2px solid var(--skin-ink);
+  box-shadow: 3px 4px 0 rgba(17,19,26,.22);
+  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+}
+.skincare-booth__splash { left: 67%; top: 202px; background: var(--skin-yellow); font-size: 18px; transform: rotate(8deg); }
+.skincare-booth__glow {
+  left: 34%;
+  top: 224px;
+  background: var(--skin-blue);
+  color: #fff;
+  font-family: "Space Mono", monospace;
+  font-size: 8px;
+  font-weight: 700;
+  transform: rotate(-5deg);
+}
+
+/* ----- 八張分類貼紙。散落式絕對定位 —— 大細、高低、角度都要唔同，
+   但 DOM 同 tab 次序照舊 潔面 → 爽膚水 → 棉片 → 精華液 → 乳液 →
+   面膜 → 眼部護理 → 防曬 ----- */
+.skincare-booth__cats {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  /* 唔可以貼實 0 —— 棉片同眼部護理歪咗之後，個名牌會畀 hero 嘅
+     overflow:hidden 剃走兩三個像素。抬高成組，相對高低差原封不動。 */
+  bottom: 5px;
+  /* 桌面本來得 112px 高、960px 闊，成個中間同兩邊都吉。放大公仔，
+     順手撐闊條貼紙帶，等佢哋填得滿啲。 */
+  width: min(1600px, calc(100% - 36px));
+  height: 128px;
+  transform: translateX(-50%);
+}
+.skincare-booth__cat {
+  --tilt: 0deg;
+  --scale: 1;
+  position: absolute;
+  left: var(--x);
+  bottom: var(--y);
+  width: var(--w);
+  height: var(--h, 82px);
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px 15px;
+  border: 0;
+  background: transparent;
+  color: var(--skin-ink);
+  font-family: "Noto Sans TC", sans-serif;
+  cursor: pointer;
+  transform: rotate(var(--tilt)) scale(var(--scale));
+  transform-origin: 50% 80%;
+  transition: transform 160ms ease-out;
+}
+/* 白色剪紙外沿由 drop-shadow 疊出嚟，唔用圓形容器包住個 icon。 */
+.skincare-booth__icon {
+  width: var(--icon-w, 58px);
+  height: var(--icon-h, 61px);
+  overflow: visible;
+  filter:
+    drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)
+    drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff)
+    drop-shadow(3px 4px 0 rgba(17,19,26,.27));
+  transition: transform 160ms ease-out;
+}
+.skincare-booth__cat b {
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  min-width: 52px;
+  padding: 3px 8px;
+  border: 1.5px solid var(--skin-ink);
+  background: var(--cat-tint);
+  box-shadow: 2px 2px 0 rgba(17,19,26,.28);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  white-space: nowrap;
+  transform: translateX(-50%) rotate(calc(var(--tilt) * -.45));
+  transition: color 140ms ease-out, background 140ms ease-out;
+}
+.skincare-booth__cat small {
+  position: absolute;
+  right: 10%;
+  top: 2px;
+  min-width: 20px;
+  padding: 2px 3px;
+  border: 1.5px solid var(--skin-ink);
+  background: #fff;
+  box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.25);
+  font-family: "Space Mono", monospace;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  transform: rotate(8deg);
+}
+@media (hover: hover) {
+  .skincare-booth__cat:hover { transform: translateY(-5px) rotate(0) scale(1.06); }
+}
+.skincare-booth__cat:active { transform: rotate(var(--tilt)) scale(.98); }
+.skincare-booth__cat:focus-visible {
+  outline: 3px solid #e75d4e;
+  outline-offset: 3px;
+  z-index: 13;   /* focus 環唔可以畀隔籬張貼紙蓋住 */
+}
+.skincare-booth__cat[data-active] { z-index: 12; }
+.skincare-booth__cat[data-active] .skincare-booth__icon { transform: scale(1.12); }
+.skincare-booth__cat[data-active] b {
+  border-color: #fff;
+  background: var(--skin-ink);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--cat-tint);
+}
+
+/* 桌面收細一級（老闆 2026-08-23：「桌面版而家太大個，要細返啲」）。
+   全部 icon ×0.82，格仔高度跟住收，條帶由 152 → 128px。相對高低同傾側唔郁，
+   個貼紙牆嘅節奏保住，淨係冇咁霸。手機版係相反方向，見下面 720px 嗰段。 */
+.skincare-booth__cat:nth-child(1) { --x: 0%;     --y: 4px;  --w: 11%; --h: 88px;  --icon-w: 58px; --icon-h: 65px; --tilt: -10deg; }
+.skincare-booth__cat:nth-child(2) { --x: 10.5%;  --y: 28px; --w: 12%; --h: 76px;  --icon-w: 49px; --icon-h: 56px; --tilt: 7deg; }
+.skincare-booth__cat:nth-child(3) { --x: 22%;    --y: 0;    --w: 13%; --h: 108px; --icon-w: 82px; --icon-h: 83px; --tilt: -5deg; }
+.skincare-booth__cat:nth-child(4) { --x: 34%;    --y: 19px; --w: 14%; --h: 101px; --icon-w: 70px; --icon-h: 82px; --tilt: 9deg; }
+.skincare-booth__cat:nth-child(5) { --x: 48%;    --y: 2px;  --w: 10%; --h: 81px;  --icon-w: 52px; --icon-h: 55px; --tilt: -7deg; }
+.skincare-booth__cat:nth-child(6) { --x: 57.5%;  --y: 26px; --w: 14%; --h: 108px; --icon-w: 80px; --icon-h: 87px; --tilt: 8deg; }
+.skincare-booth__cat:nth-child(7) { --x: 71%;    --y: 0;    --w: 15%; --h: 98px;  --icon-w: 73px; --icon-h: 75px; --tilt: -11deg; }
+.skincare-booth__cat:nth-child(8) { --x: 85%;    --y: 22px; --w: 12%; --h: 81px;  --icon-w: 53px; --icon-h: 61px; --tilt: 6deg; }
+
+/* ----- 閃光。只喺第一次載入播一次 ----- */
+.skincare-booth__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #fff;
+  pointer-events: none;
+  animation: dew-flash 260ms ease-out both;
+}
+@keyframes dew-flash { 0%, 18% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes dew-strip-in {
+  from { opacity: 0; transform: translateY(-38px) rotate(9deg); }
+  to   { opacity: 1; transform: rotate(4deg); }
+}
+
+@media (max-width: 720px) {
+  .skincare-booth__title { left: 13px; top: 17px; }
+  .skincare-booth__title h1 { font-size: 43px; -webkit-text-stroke-width: 1px; text-shadow: 3px 4px 0 var(--skin-lime); }
+  .skincare-booth__meta { margin-top: 8px; font-size: 8px; }
+  .skincare-booth__strip { top: 49px; right: 12px; width: 112px; padding: 5px; }
+  .skincare-booth__frames { gap: 3px; }
+  .skincare-booth__strip > span { padding-top: 5px; font-size: 5.5px; }
+  .skincare-booth__orb { left: 36%; top: 124px; width: 105px; height: 112px; }
+  .skincare-booth__orb span { font-size: 17px; }
+  .skincare-booth__gel--a { left: 12%; top: 189px; width: 56px; height: 33px; }
+  .skincare-booth__gel--b { left: 70%; top: 180px; width: 38px; height: 38px; }
+  .skincare-booth__gel--c,
+  .skincare-booth__bubble--a,
+  .skincare-booth__bubble--b,
+  .skincare-booth__glow { display: none; }
+  .skincare-booth__splash { left: 10px; top: 148px; padding: 4px 7px; font-size: 13px; }
+
+  .skincare-booth__cats { bottom: 10px; width: calc(100% - 8px); height: 126px; }
+  .skincare-booth__cat { padding: 0 2px 12px; }
+  .skincare-booth__icon {
+    filter:
+      drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff)
+      drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff)
+      drop-shadow(2px 2px 0 rgba(17,19,26,.28));
+  }
+  .skincare-booth__cat b { min-width: 38px; padding: 1px 4px; font-size: 8px; }
+  .skincare-booth__cat small { top: 0; right: 9%; min-width: 17px; padding: 1px 2px; font-size: 5.5px; }
+  .skincare-booth__cat:nth-child(1) { --x: 0%;  --y: 61px; --w: 22%; --h: 58px; --icon-w: 38px; --icon-h: 43px; --tilt: -10deg; }
+  .skincare-booth__cat:nth-child(2) { --x: 21%; --y: 73px; --w: 26%; --h: 49px; --icon-w: 31px; --icon-h: 36px; --tilt: 8deg; }
+  .skincare-booth__cat:nth-child(3) { --x: 47%; --y: 55px; --w: 23%; --h: 67px; --icon-w: 49px; --icon-h: 50px; --tilt: -5deg; }
+  .skincare-booth__cat:nth-child(4) { --x: 69%; --y: 69px; --w: 29%; --h: 61px; --icon-w: 43px; --icon-h: 51px; --tilt: 10deg; }
+  .skincare-booth__cat:nth-child(5) { --x: 0%;  --y: 0;    --w: 24%; --h: 50px; --icon-w: 32px; --icon-h: 35px; --tilt: -8deg; }
+  .skincare-booth__cat:nth-child(6) { --x: 22%; --y: 13px; --w: 27%; --h: 65px; --icon-w: 49px; --icon-h: 54px; --tilt: 8deg; }
+  .skincare-booth__cat:nth-child(7) { --x: 48%; --y: -2px; --w: 29%; --h: 59px; --icon-w: 45px; --icon-h: 44px; --tilt: -12deg; }
+  .skincare-booth__cat:nth-child(8) { --x: 75%; --y: 10px; --w: 23%; --h: 52px; --icon-w: 34px; --icon-h: 40px; --tilt: 7deg; }
+}
+
+@media (max-width: 350px) {
+  .skincare-booth__title h1 { font-size: 38px; }
+  .skincare-booth__cat { --scale: .9; }
+  .skincare-booth__cat b { min-width: 34px; font-size: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skincare-booth__flash,
+  .skincare-booth__strip { animation-duration: 1ms; }
+  .skincare-booth__cat,
+  .skincare-booth__icon { transition: none; }
+}
+
+/* The current mobile preview styles hide the shared booth class at desktop.
+   Keep the mobile copy hidden and reveal only the exact 026bd38 copy here. */
+@media (min-width: 960px) {
+  .makeup-booth--mobile,
+  .skincare-booth--mobile { display: none; }
+  .makeup-booth--legacy-desktop,
+  .skincare-booth--legacy-desktop { display: block; }
+  .skincare-booth--legacy-desktop {
+    height: 350px !important;
+    min-height: 350px !important;
+  }
+  .skincare-booth--legacy-desktop .skincare-booth__cats {
+    height: 128px !important;
+  }
+  .makeup-booth--legacy-desktop > picture,
+  .skincare-booth--legacy-desktop > picture,
+  .makeup-booth--legacy-desktop .makeup-booth__watercolor,
+  .skincare-booth--legacy-desktop .skincare-booth__watercolor { display: none; }
+  .makeup-booth--legacy-desktop .makeup-booth__title,
+  .makeup-booth--legacy-desktop .makeup-booth__strip,
+  .makeup-booth--legacy-desktop .makeup-booth__collage,
+  .makeup-booth--legacy-desktop .makeup-booth__flash,
+  .skincare-booth--legacy-desktop .skincare-booth__title,
+  .skincare-booth--legacy-desktop .skincare-booth__strip,
+  .skincare-booth--legacy-desktop .skincare-booth__art,
+  .skincare-booth--legacy-desktop .skincare-booth__flash { display: block; }
+  .makeup-booth--legacy-desktop .makeup-booth__frames,
+  .skincare-booth--legacy-desktop .skincare-booth__frames { display: grid; }
+  .makeup-booth--legacy-desktop .makeup-booth__stickers,
+  .skincare-booth--legacy-desktop .skincare-booth__cats { display: grid; }
+  .skincare-booth--legacy-desktop .skincare-booth__title,
+  .skincare-booth--legacy-desktop .skincare-booth__strip,
+  .skincare-booth--legacy-desktop .skincare-booth__cat small {
+    opacity: 1 !important;
+  }
+  .skincare-booth--legacy-desktop .skincare-booth__icon {
+    opacity: 1 !important;
+  }
+  .skincare-booth--legacy-desktop .skincare-booth__cat {
+    --tilt: 0deg;
+    --scale: 1;
+    position: absolute;
+    left: var(--x);
+    top: auto;
+    bottom: var(--y);
+    width: var(--w);
+    height: var(--h, 82px);
+    min-width: 44px;
+    min-height: 44px;
+    display: grid;
+    place-items: center;
+    padding: 0 4px 15px;
+    border: 0;
+    background: transparent;
+    color: var(--skin-ink);
+    font-family: "Noto Sans TC", sans-serif;
+    cursor: pointer;
+    transform: rotate(var(--tilt)) scale(var(--scale));
+    transform-origin: 50% 80%;
+    transition: transform 160ms ease-out;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .skincare-booth--legacy-desktop .skincare-booth__icon {
+    width: var(--icon-w, 58px);
+    height: var(--icon-h, 61px);
+    overflow: visible;
+    filter:
+      drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)
+      drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff)
+      drop-shadow(3px 4px 0 rgba(17,19,26,.27));
+    transition: transform 160ms ease-out;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .skincare-booth--legacy-desktop .skincare-booth__cat b {
+    position: absolute;
+    left: 50%;
+    bottom: 1px;
+    min-width: 52px;
+    padding: 3px 8px;
+    border: 1.5px solid var(--skin-ink);
+    background: var(--cat-tint);
+    box-shadow: 2px 2px 0 rgba(17,19,26,.28);
+    color: var(--skin-ink);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
+    transform: translateX(-50%) rotate(calc(var(--tilt) * -.45));
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .skincare-booth--legacy-desktop .skincare-booth__cat small {
+    position: absolute;
+    right: 10%;
+    top: 2px;
+    min-width: 20px;
+    padding: 2px 3px;
+    border: 1.5px solid var(--skin-ink);
+    background: #fff;
+    box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.25);
+    font-family: "Space Mono", monospace;
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    transform: rotate(8deg);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* 026bd38 desktop makeup booth must win over the later watercolor rules in
+   styles.css.  Keep this scoped to the legacy copy so the mobile scene keeps
+   its current layout and controls. */
+@media (min-width: 960px) {
+  .makeup-booth--legacy-desktop {
+    height: 350px !important;
+    min-height: 350px !important;
+    max-width: none !important;
+    margin-bottom: 8px !important;
+    aspect-ratio: auto !important;
+    overflow: hidden;
+  }
+
+  .makeup-booth--legacy-desktop .makeup-booth__stickers {
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: 10px;
+    width: min(820px, calc(100% - 28px));
+    height: 124px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: end;
+    gap: clamp(6px, 1.1vw, 12px);
+    transform: translateX(-50%);
+  }
+
+  .makeup-booth--legacy-desktop .makeup-booth__sticker,
+  .makeup-booth--legacy-desktop .makeup-booth__sticker:nth-child(n) {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    display: grid;
+    place-items: end center;
+    align-content: end;
+    width: auto;
+    min-width: 0;
+    height: 104px;
+    padding: 0 2px 16px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--booth-ink);
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--sticker-scale));
+    transform-origin: 50% 85%;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .makeup-booth--legacy-desktop .makeup-booth__icon {
+    display: block;
+    width: auto;
+    height: var(--icon-h, 78px);
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(3px 4px 0 rgba(17,19,26,.24));
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .makeup-booth--legacy-desktop .makeup-booth__sticker b {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    padding: 2px 7px;
+    border: 1.5px solid var(--booth-ink);
+    border-radius: 0;
+    background: var(--chip, #fff);
+    box-shadow: 2px 2px 0 rgba(17,19,26,.26);
+    color: var(--booth-ink);
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+    transform: translateX(-50%) rotate(calc(var(--tilt) * -.5));
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .makeup-booth--legacy-desktop .makeup-booth__sticker small {
+    position: absolute;
+    top: 0;
+    right: 4%;
+    width: auto;
+    height: auto;
+    min-width: 20px;
+    margin: 0;
+    padding: 2px 4px;
+    border: 1.5px solid var(--booth-ink);
+    border-radius: 0;
+    background: #fff;
+    box-shadow: 1.5px 1.5px 0 rgba(17,19,26,.24);
+    color: var(--booth-ink);
+    font-family: "Space Mono", monospace;
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    transform: rotate(7deg);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .makeup-booth--legacy-desktop .makeup-booth__sticker:nth-child(1) {
+    --lift: -10px; --tilt: -7deg; --sticker-scale: 1.03;
+    --icon-h: 84px; --chip: var(--booth-pink); height: 108px; z-index: 3;
+  }
+  .makeup-booth--legacy-desktop .makeup-booth__sticker:nth-child(2) {
+    --lift: 5px; --tilt: 5deg; --sticker-scale: .94;
+    --icon-h: 74px; --chip: var(--booth-lime); height: 96px; z-index: 1;
+  }
+  .makeup-booth--legacy-desktop .makeup-booth__sticker:nth-child(3) {
+    --lift: -3px; --tilt: -3deg; --sticker-scale: 1.06;
+    --icon-h: 88px; --chip: #fff; height: 112px; z-index: 4;
+  }
+  .makeup-booth--legacy-desktop .makeup-booth__sticker:nth-child(4) {
+    --lift: 7px; --tilt: 8deg; --sticker-scale: .98;
+    --icon-h: 78px; --chip: var(--booth-yellow); height: 100px; z-index: 2;
+  }
+  .makeup-booth--legacy-desktop .makeup-booth__sticker:nth-child(5) {
+    --lift: -8px; --tilt: -6deg; --sticker-scale: 1.02;
+    --icon-h: 82px; --chip: var(--booth-sky); height: 106px; z-index: 3;
+  }
+
+  .makeup-booth--legacy-desktop .makeup-booth__sticker[data-active] {
+    z-index: 5;
+  }
+  .makeup-booth--legacy-desktop .makeup-booth__sticker[data-active] .makeup-booth__icon {
+    transform: scale(1.1);
+  }
+  .makeup-booth--legacy-desktop .makeup-booth__sticker[data-active] b {
+    border-color: #fff;
+    background: var(--booth-ink);
+    color: #fff;
+    box-shadow: 3px 3px 0 var(--chip);
+  }
+}

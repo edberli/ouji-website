@@ -1,0 +1,49 @@
+/*
+   OUJI skincare mobile paper integration
+   ---------------------------------------
+   Mobile-only background integration. The XP control panel stays owned by
+   skincare-match.css and skincare-modes.css, including its copy and states.
+*/
+
+@media (max-width: 959px) {
+  .skincare-booth,
+  #skincare-match {
+    --skincare-paper: #f7f4ec;
+  }
+
+  .skincare-booth,
+  .skincare-booth__cats,
+  #skincare-match,
+  #skincare-match .dl {
+    background: var(--skincare-paper);
+  }
+
+  /* Remove only the old sky/grass bridge behind the XP window. */
+  #skincare-match.sm::before,
+  #skincare-match.sm::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+  }
+
+  /* The small hero meta is intentionally not shown on mobile. */
+  .skincare-booth .skincare-booth__meta {
+    display: none;
+  }
+
+  /* Keep the watercolor mask, changing only its footprint and opacity. */
+  .skincare-booth__cat::before {
+    width: 72%;
+    height: 26px;
+    opacity: .42;
+  }
+
+  .skincare-booth__cat,
+  .skincare-booth__cat:hover,
+  .skincare-booth__cat:active,
+  .skincare-booth__cat[data-active],
+  .skincare-booth__cat:focus-visible {
+    background: transparent;
+    box-shadow: none;
+  }
+}

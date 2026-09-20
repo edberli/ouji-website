@@ -15284,3 +15284,219 @@ body::before { opacity: 0.18; }
 @media (min-width: 960px) {
   .skincare-booth__cats { height: 100% !important; }
 }
+/* 2026-09-20 preview only: mobile keeps the approved muted watercolor scene,
+   but every skincare category is now a separate, real button and image.
+   Desktop temporarily returns to the original compact category gate. */
+.skincare-booth--legacy-desktop { display: none; }
+
+@media (max-width: 959px) {
+  .skincare-booth {
+    top: auto;
+    width: 100%;
+    margin: 0;
+    overflow-x: clip;
+    overflow-y: visible;
+    aspect-ratio: auto !important;
+    /* 下面 .sm::before 本身係一幅向上延伸嘅完整天空／草地背景。
+       呢度保持透明，分類列先會同配方區用緊同一幅底，而唔係疊多張米白卡。 */
+    background: transparent;
+    z-index: 2;
+  }
+  .skincare-booth::after {
+    content: none;
+  }
+  .skincare-booth > picture {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+  }
+  .skincare-booth__watercolor {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .skincare-booth .skincare-booth__title {
+    display: block;
+    left: 31px;
+    top: 74px;
+    bottom: auto;
+    z-index: 4;
+    transform: rotate(-11deg);
+    pointer-events: none;
+  }
+  .skincare-booth .skincare-booth__title h1 {
+    display: none;
+  }
+  .skincare-booth .skincare-booth__meta {
+    display: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #315c7c;
+    font-size: clamp(7.5px, 2.3vw, 9px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 rgba(255,255,255,.62);
+  }
+  .skincare-booth__cats {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    z-index: 3;
+    width: 100%;
+    height: 78px !important;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 0;
+    margin-top: -6px;
+    padding: 2px 4px;
+    transform: none;
+    background: transparent;
+    border: 0;
+    border-bottom: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .skincare-booth__cats::before,
+  .skincare-booth__cats::after {
+    content: none;
+    border: 0;
+    border-bottom: 0;
+    box-shadow: none;
+  }
+  .skincare-booth__cat,
+  .skincare-booth__cat:nth-child(n) {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: 74px;
+    min-width: 0;
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    border: 0;
+    border-bottom: 0;
+    border-radius: 8px;
+    box-shadow: none;
+    transform: none;
+    z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+  .skincare-booth__cat:nth-child(1) { --cat-wash: #67BDE4; }
+  .skincare-booth__cat:nth-child(2) { --cat-wash: #9BCB72; }
+  .skincare-booth__cat:nth-child(3) { --cat-wash: #EFB177; }
+  .skincare-booth__cat:nth-child(4) { --cat-wash: #B892D2; }
+  .skincare-booth__cat:nth-child(5) { --cat-wash: #E989A8; }
+  .skincare-booth__cat:nth-child(6) { --cat-wash: #EC8F83; }
+  .skincare-booth__cat:nth-child(7) { --cat-wash: #78AADD; }
+  .skincare-booth__cat:nth-child(8) { --cat-wash: #E8C557; }
+  .skincare-booth__cat::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    width: 60px;
+    height: 34px;
+    top: 21px;
+    left: 50%;
+    border: 0;
+    border-bottom: 0;
+    box-shadow: none;
+    -webkit-mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
+    mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
+    background: var(--cat-wash);
+    opacity: .90;
+    transform: translateX(-50%) rotate(-4deg);
+    pointer-events: none;
+  }
+  .skincare-booth__cat::after {
+    content: none;
+    border: 0;
+    border-bottom: 0;
+    box-shadow: none;
+  }
+  .skincare-booth__cat > * {
+    position: relative;
+    z-index: 1;
+  }
+  .skincare-booth__icon {
+    display: block;
+    width: 100%;
+    height: 58px;
+    margin: 0;
+    object-fit: contain;
+    opacity: 1;
+    pointer-events: none;
+    transition: transform .18s ease, filter .18s ease;
+  }
+  .skincare-booth__cat:first-child .skincare-booth__icon { transform-origin: left center; }
+  .skincare-booth__cat:last-child .skincare-booth__icon { transform-origin: right center; }
+  .skincare-booth__cat b {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    min-width: 0;
+    max-width: 100%;
+    padding: 2px 1px;
+    border: 0;
+    border-radius: 999px;
+    box-shadow: none;
+    color: #315c7c;
+    background: transparent;
+    font-size: clamp(6.5px, 1.8vw, 8px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -.035em;
+    white-space: nowrap;
+    opacity: 1;
+    pointer-events: none;
+    transform: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.78);
+  }
+  .skincare-booth__cat small {
+    display: none;
+  }
+  .skincare-booth__cat[data-active] {
+    background: transparent;
+    box-shadow: none;
+  }
+  .skincare-booth__cat[data-active] b {
+    border-color: transparent;
+    background: transparent;
+    color: #315c7c;
+  }
+  .skincare-booth__cat[data-active] .skincare-booth__icon {
+    transform: translateY(-2px) scale(1.04);
+    filter: saturate(.96) brightness(1.03);
+  }
+  .skincare-booth__cat:active {
+    transform: translateY(1px) scale(.98);
+    background: transparent;
+    box-shadow: none;
+  }
+  .skincare-booth__cat:hover {
+    background: transparent;
+    box-shadow: none;
+  }
+  .skincare-booth__cat:focus-visible {
+    outline: none;
+    outline-offset: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 10px;
+  }
+}

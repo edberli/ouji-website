@@ -537,57 +537,60 @@ function buildMakeupBooth(section, products, sel, lockCat) {
    category.html，呢度淨係填會變嘅嘢 —— 件數、選中狀態、相紙嗰四張相。
    咁樣閃光同相紙落下嘅動畫只會喺第一次載入播一次，換分類唔會重播。 */
 function buildSkincareBooth(section, products, sel, lockCat) {
-  const booth = document.querySelector('[data-skincare-booth]');
-  if (!booth) return false;
+  const booths = [...document.querySelectorAll('[data-skincare-booth], [data-skincare-booth-legacy]')];
+  if (!booths.length) return false;
 
   const counts = new Map(availableSubs(section, products).map((x) => [x.id, x.count]));
   const active = new Set(sel.cat);
   if (lockCat) active.add(lockCat);
 
-  booth.querySelectorAll('[data-booth-sticker]').forEach((btn) => {
-    const id = btn.dataset.quick;
-    const on = active.has(id);
-    btn.querySelector(`[data-skincare-booth-n="${id}"]`).textContent = counts.get(id) || 0;
-    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    btn.toggleAttribute('data-active', on);
+  booths.forEach((booth) => {
+    booth.querySelectorAll('[data-booth-sticker]').forEach((btn) => {
+      const id = btn.dataset.quick;
+      const on = active.has(id);
+      const count = btn.querySelector(`[data-skincare-booth-n="${id}"]`);
+      if (count) count.textContent = counts.get(id) || 0;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.toggleAttribute('data-active', on);
+    });
+
+    const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
+    const meta = booth.querySelector('[data-skincare-booth-meta]');
+    if (meta) meta.textContent = `護膚精選 · ${products.length} 件產品 · ${brands} 個品牌`;
+
+    /* 相紙先用人手驗過有模特／情境嘅相（booth-shots.js）—— 貼紙相機要似
+       影相機，四格白底 packshot 做唔到嗰種感覺。冇揀分類就八格度輪住抽，
+       唔夠四張先用返推薦排序頭幾件補。全部都係嗰件貨自己嘅相。 */
+    const live = new Set(products.map((p) => p.handle));
+    const picked = typeof BOOTH_SHOTS === 'object' && BOOTH_SHOTS
+      ? (active.size
+          ? [...active].flatMap((id) => BOOTH_SHOTS[id] || [])
+          // 冇揀分類：八格輪流抽一張，唔好一整排都係同一格嘅貨
+          : Object.values(BOOTH_SHOTS).flatMap((rows, i) => rows[i % rows.length] || []))
+        .filter((r) => live.has(r.handle))
+      : [];
+
+    const used = new Set(picked.map((r) => r.handle));
+    const pool = active.size
+      ? products.filter((p) => [...active].some((id) => subMatch(section, id, p)))
+      : products;
+    const filler = pool
+      .filter((p) => p.images?.edges?.[0]?.node?.url && !BAD_IMAGE.has(p.title)
+        && !used.has(p.handle))
+      .sort((a, b) => featuredScore(b) - featuredScore(a))
+      .map((p) => p.images.edges[0].node.url);
+
+    const shots = [...picked.map((r) => r.url), ...filler]
+      .slice(0, 4)
+      .map((u) => u + '&width=300');
+
+    booth.querySelectorAll('.skincare-booth__frames img').forEach((img, i) => {
+      if (shots[i]) { img.src = shots[i]; img.hidden = false; }
+      else { img.removeAttribute('src'); img.hidden = true; }
+    });
+    const cap = booth.querySelector('[data-skincare-booth-caption]');
+    if (cap) cap.textContent = `FRESH DEW · ${products.length} / ${brands}`;
   });
-
-  const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
-  const meta = booth.querySelector('[data-skincare-booth-meta]');
-  if (meta) meta.textContent = `護膚 · ${products.length} 件 · ${brands} 品牌`;
-
-  /* 相紙先用人手驗過有模特／情境嘅相（booth-shots.js）—— 貼紙相機要似
-     影相機，四格白底 packshot 做唔到嗰種感覺。冇揀分類就八格度輪住抽，
-     唔夠四張先用返推薦排序頭幾件補。全部都係嗰件貨自己嘅相。 */
-  const live = new Set(products.map((p) => p.handle));
-  const picked = typeof BOOTH_SHOTS === 'object' && BOOTH_SHOTS
-    ? (active.size
-        ? [...active].flatMap((id) => BOOTH_SHOTS[id] || [])
-        // 冇揀分類：八格輪流抽一張，唔好一整排都係同一格嘅貨
-        : Object.values(BOOTH_SHOTS).flatMap((rows, i) => rows[i % rows.length] || []))
-      .filter((r) => live.has(r.handle))
-    : [];
-
-  const used = new Set(picked.map((r) => r.handle));
-  const pool = active.size
-    ? products.filter((p) => [...active].some((id) => subMatch(section, id, p)))
-    : products;
-  const filler = pool
-    .filter((p) => p.images?.edges?.[0]?.node?.url && !BAD_IMAGE.has(p.title)
-      && !used.has(p.handle))
-    .sort((a, b) => featuredScore(b) - featuredScore(a))
-    .map((p) => p.images.edges[0].node.url);
-
-  const shots = [...picked.map((r) => r.url), ...filler]
-    .slice(0, 4)
-    .map((u) => u + '&width=300');
-
-  booth.querySelectorAll('.skincare-booth__frames img').forEach((img, i) => {
-    if (shots[i]) { img.src = shots[i]; img.hidden = false; }
-    else { img.removeAttribute('src'); img.hidden = true; }
-  });
-  const cap = booth.querySelector('[data-skincare-booth-caption]');
-  if (cap) cap.textContent = `FRESH DEW · ${products.length} / ${brands}`;
   return true;
 }
 
