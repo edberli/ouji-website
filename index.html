@@ -50,7 +50,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260920-loader-desktop-1">
+  <link rel="stylesheet" href="styles.css?v=20260921-loader-video-1">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -72,11 +72,11 @@
          兩條後路），保證唔會見到「藍底閃一下」，亦唔會鎖死首頁。
          2026-09-20 老闆：「一閃即逝」→ 加留圖時間 → 跟住定案「總共
          0.5 秒咁樣囉」，所以總展示時間改為約 1 秒。
-         2026-09-20 新版：藍色底圖保留 OUJI 白字；芝麻拆成身體、左腳、右腳。
-         上半身、籃同產品不變，兩隻腳以前後相反角度交替擺動，整體向右行。 -->
+         2026-09-21 桌面版：22KB 靜態圖先顯示，1 秒 H.264 影片非阻塞載入；
+         影片失敗、手機版或 reduced-motion 都唔會因為影片而延遲離場。 -->
     <picture>
       <source media="(min-width: 769px)"
-              srcset="assets/images/home/ouji-blue-loader-desktop.webp">
+              srcset="assets/images/home/ouji-blue-loader-desktop-centered.webp">
       <img class="page-loader__art"
            src="assets/images/home/ouji-blue-loader-1200.webp"
            srcset="assets/images/home/ouji-blue-loader-720.webp 720w,
@@ -87,16 +87,28 @@
            alt="" width="1920" height="1080"
            fetchpriority="high" decoding="sync">
     </picture>
+    <video class="page-loader__desktop-video"
+           muted playsinline preload="none" aria-hidden="true"
+           data-src="assets/images/home/ouji-blue-loader-desktop-1s.mp4"></video>
     <div class="page-loader__cat" aria-hidden="true">
-      <img class="page-loader__cat-part page-loader__cat-leg page-loader__cat-leg--left"
-           src="assets/images/home/ouji-blue-cat-leg-left.webp"
-           alt="" width="487" height="412" decoding="sync">
-      <img class="page-loader__cat-part page-loader__cat-leg page-loader__cat-leg--right"
-           src="assets/images/home/ouji-blue-cat-leg-right.webp"
-           alt="" width="487" height="412" decoding="sync">
-      <img class="page-loader__cat-part page-loader__cat-body"
-           src="assets/images/home/ouji-blue-cat-body.webp"
-           alt="" width="487" height="412" decoding="sync">
+      <picture class="page-loader__cat-part page-loader__cat-leg page-loader__cat-leg--left">
+        <source media="(max-width: 768px)" srcset="assets/images/home/ouji-blue-cat-leg-left.webp">
+        <img class="page-loader__cat-part-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+             alt="" width="487" height="412" decoding="sync">
+      </picture>
+      <picture class="page-loader__cat-part page-loader__cat-leg page-loader__cat-leg--right">
+        <source media="(max-width: 768px)" srcset="assets/images/home/ouji-blue-cat-leg-right.webp">
+        <img class="page-loader__cat-part-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+             alt="" width="487" height="412" decoding="sync">
+      </picture>
+      <picture class="page-loader__cat-part page-loader__cat-body">
+        <source media="(max-width: 768px)" srcset="assets/images/home/ouji-blue-cat-body.webp">
+        <img class="page-loader__cat-part-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+             alt="" width="487" height="412" decoding="sync">
+      </picture>
     </div>
   </div>
   <script>
@@ -105,12 +117,25 @@
   (function () {
     var loader = document.querySelector('.page-loader');
     if (!loader) return;
-    var assets = loader.querySelectorAll('.page-loader__art, .page-loader__cat-part');
+    var desktopVideo = loader.querySelector('.page-loader__desktop-video');
+    var useDesktopVideo = desktopVideo &&
+      window.matchMedia('(min-width: 769px)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var assets = loader.querySelectorAll('.page-loader__art, .page-loader__cat-part-image');
     var remaining = assets.length;
     var done = false;
     function ready() {
       if (done) return;
       done = true;
+      if (useDesktopVideo) {
+        desktopVideo.addEventListener('playing', function () {
+          desktopVideo.classList.add('is-playing');
+        }, { once: true });
+        desktopVideo.src = desktopVideo.dataset.src;
+        desktopVideo.load();
+        var playback = desktopVideo.play();
+        if (playback && playback.catch) playback.catch(function () {});
+      }
       loader.classList.add('is-ready');
     }
     function settle() {
