@@ -1,0 +1,105 @@
+{
+  "_說明": [
+    "條碼真身登記冊。老闆 2026-09-20：「總之你就跟條碼，查到係咩就係咩。POS 寫錯，咁咪就 POS 錯囉。」",
+    "呢份係 listing_check.py 嘅最高權威 —— 排喺 POS 條碼表之上。",
+    "只可以寫『用條碼對得返官方／大型零售商』查實咗嘅嘢，每條要有 source 同 checked 日期。",
+    "specs 用同 listing_check.specs() 一樣嘅 key：ml / g / count / spf / pa。",
+    "pos_wrong 填咗即係 POS 條碼表寫錯，要喺 POS 度執；呢個唔算網站問題。"
+  ],
+  "8809962541628": {
+    "name": "ROUND LAB Pine Calming Cica Lotion（男士專用松樹舒緩修護乳液）250ml",
+    "specs": { "ml": 250 },
+    "source": "YesStyle pid.1123980100 / lewkin.com，兩邊都係 250ml；封面樽身亦印 250ml",
+    "checked": "2026-09-20",
+    "pos_wrong": "POS 寫「[200毫升]」"
+  },
+  "8809568939034": {
+    "name": "Lindsay Re:natural Glucose Gel Modeling Pack (Pink Salt) 35g",
+    "specs": { "g": 35 },
+    "source": "iQueen.sg / littlewonderland.nl；封面袋身印 35g / 1.23 oz",
+    "checked": "2026-09-20",
+    "pos_wrong": "POS 寫 30g"
+  },
+  "8809568939072": {
+    "name": "Lindsay Re:natural Glucose Gel Modeling Pack (Tea Tree) 35g",
+    "specs": { "g": 35 },
+    "source": "iQueen.sg；封面袋身印 35g / 1.23 oz",
+    "checked": "2026-09-20",
+    "pos_wrong": "POS 寫 30g"
+  },
+  "8809568939058": {
+    "name": "Lindsay Re:natural Glucose Gel Modeling Pack (Vegetable) 35g",
+    "specs": { "g": 35 },
+    "source": "iQueen.sg；封面袋身印 35g / 1.23 oz",
+    "checked": "2026-09-20",
+    "pos_wrong": "POS 寫 30g"
+  },
+  "8809568939041": {
+    "name": "Lindsay Re:natural Glucose Gel Modeling Pack (Black Mud) 35g",
+    "specs": { "g": 35 },
+    "source": "iQueen.sg；封面袋身印 35g / 1.23 oz",
+    "checked": "2026-09-20",
+    "pos_wrong": "POS 寫 30g"
+  },
+  "8800253024820": {
+    "name": "SUNGBOON EDITOR Deep Collagen Power Boosting Cream In Serum 30ml",
+    "specs": { "ml": 30 },
+    "source": "Ulta Beauty / Jomashop 都用呢個 UPC 對到 30ml（1.01 fl oz）",
+    "checked": "2026-09-20",
+    "pos_wrong": "POS 兩間鋪分別寫成「深層膠原蛋白彈力精華面霜 50ml」同「silk peptide intensive lifting cream 50ml」—— 即係呢個碼喺 POS 掛咗落另一隻貨"
+  },
+  "8809640735455": {
+    "name": "Anua Rice 70 Glow Milky Toner 250ml",
+    "specs": { "ml": 250 },
+    "source": "anua.com 官方站；原本封面用咗 150ml 樽嘅相，已換返 250ml",
+    "checked": "2026-09-19"
+  },
+  "8809576261226": {
+    "name": "SKIN1004 Madagascar Centella Light Cleansing Oil 30ml（迷你裝）",
+    "specs": { "ml": 30 },
+    "source": "skin1004.com 官方站有 30ml / 200ml 兩個規格；原本封面用咗 200ml 樽",
+    "checked": "2026-09-19"
+  },
+  "8809455422489": {
+    "name": "NEEDLY Mild Enzyme Cleansing Powder 40g",
+    "specs": { "g": 40 },
+    "source": "Walmart / YesStyle / dodoskin 都係 40g；原本封面係 60g 樽",
+    "checked": "2026-09-20"
+  },
+  "8809864756854": {
+    "name": "BRING GREEN Bamboo Hyalu Hydrating Cream 75ml（2025 新版）",
+    "specs": { "ml": 75 },
+    "source": "Amazon B0CG66Z7HS / Olive Young Global；原本封面係舊版 100ml Water Boosting Cream",
+    "checked": "2026-09-20"
+  },
+  "8800256114344": {
+    "name": "APRILSKIN Carrotene IPMP Clearing Solution 20ml",
+    "specs": { "ml": 20 },
+    "source": "aprilskin.us 官方站；原本五張圖全部係另一隻貨 Carrotene Clarifying Cream 60ml",
+    "checked": "2026-09-20"
+  },
+  "8809032673754": {
+    "name": "SKINFOOD Black Sugar Mask Wash Off 100g",
+    "specs": { "g": 100 },
+    "source": "POS 兩間鋪一致 100g，handle 亦係 100g；原標題誤寫 120g",
+    "checked": "2026-09-19"
+  },
+  "8800290368062": {
+    "name": "CLIO Kill Cover Founwear Cushion（極致持妝無瑕氣墊粉底 附補充裝）SPF40+ PA++ 21C",
+    "specs": { "spf": 40, "pa": 2 },
+    "source": "kosmetics.com.hk（CLIO 香港官方站）；原本封面用咗 The New Founwear 嘅相",
+    "checked": "2026-09-19"
+  },
+  "8800290365542": {
+    "name": "CLIO Kill Cover Mesh Blur Cushion（柔霧遮瑕氣墊粉底 附補充裝）SPF40+ PA++ 21C",
+    "specs": { "spf": 40, "pa": 2 },
+    "source": "kosmetics.com.hk；原本封面用咗 Kill Cover Skin Fixer 嘅相",
+    "checked": "2026-09-19"
+  },
+  "8800255688846": {
+    "name": "CLIO Kill Cover Mesh Glow Essential Cushion（網光亮肌精華氣墊粉底 附補充裝）SPF50+ 21C",
+    "specs": { "spf": 50 },
+    "source": "kosmetics.com.hk / ushopishop（同系列 8800255688815 對到中文名）；原本封面用咗 High Glow 嘅相",
+    "checked": "2026-09-19"
+  }
+}

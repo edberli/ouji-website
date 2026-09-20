@@ -132,7 +132,7 @@ def spec_conflict(a, b):
     return bad
 
 
-def name_issues(title, ts, barcode, pos):
+def name_issues(title, ts, barcode, pos, truth=None):
     """標題規格 vs 呢個條碼喺 POS 嘅名。
 
     一個條碼可以有幾個 POS 名（老闆自己改過名、兩間鋪各自入過）。
@@ -140,6 +140,24 @@ def name_issues(title, ts, barcode, pos):
     全部都對唔上先係真問題。POS 幾個名之間自己打交，另外用 🟡 講出嚟，
     因為嗰個係 POS 要執，唔係網站要執。
     """
+    # ① 條碼真身查實咗 → 佢話事。POS 唔夾就係 POS 錯，唔關網站事。
+    t = (truth or {}).get(barcode)
+    if t:
+        out = []
+        cf = spec_conflict(ts, truth_specs(t))
+        if cf:
+            d = "；".join(f"{k} 標題{a} vs 真身{bb}" for k, a, bb in cf)
+            out.append(("🔴", "名",
+                        f"標題同**查實咗嘅條碼真身**唔夾（{barcode}）：{d}"
+                        f"｜真身：{t['name'][:56]}（{t.get('source','')[:40]}）"))
+        for pname in sorted(pos.get(barcode, ())):
+            if spec_conflict(truth_specs(t), specs(pname)):
+                out.append(("🟠", "POS",
+                            f"POS 寫錯（{barcode}）：真身係「{t['name'][:44]}」，"
+                            f"POS 寫「{pname[:46]}」—— 要喺 POS 度執，唔關網站事"))
+                break
+        return out
+
     names = sorted(pos.get(barcode, ()))
     if not names:
         return []
@@ -148,12 +166,37 @@ def name_issues(title, ts, barcode, pos):
     if all(c for _, c in confl):
         n, c = confl[0]
         d = "；".join(f"{k} 標題{a} vs POS{bb}" for k, a, bb in c)
-        out.append(("🔴", "名", f"標題同條碼名唔夾（{barcode}）：{d}｜POS：{n[:60]}"))
+        # ⚠️ POS 唔係判詞。唔夾 ≠ 網站錯 —— 要攞條碼去查官方，查到邊個啱
+        #    就寫入 data/barcode-truth.json，之後兩邊照住改。
+        out.append(("🔴", "名",
+                    f"條碼身份未定案（{barcode}）：{d}｜POS：{n[:56]}"
+                    f"　→ 攞條碼查官方，答案寫入 data/barcode-truth.json"))
     elif len(names) > 1 and any(c for _, c in confl):
         bad_names = [n[:40] for n, c in confl if c]
         out.append(("🟡", "名",
                     f"同一條碼 {barcode} 喺 POS 有幾個唔同規格嘅名，"
                     f"網站對得上其中一個：{' ／ '.join(bad_names)} —— POS 要執"))
+    return out
+
+
+# ── 條碼真身登記冊（最高權威）────────────────────────────────────────
+TRUTH_PATH = os.path.join(ROOT, "data", "barcode-truth.json")
+
+
+def load_truth():
+    """老闆 2026-09-20：「總之你就跟條碼，查到係咩就係咩。POS 寫錯，咁咪就
+    POS 錯囉。」所以查實咗嘅條碼真身排喺 POS 條碼表**之上**。"""
+    try:
+        d = json.load(open(TRUTH_PATH, encoding="utf-8"))
+    except Exception:
+        return {}
+    return {k: v for k, v in d.items() if not k.startswith("_")}
+
+
+def truth_specs(entry):
+    out = {}
+    for k, v in (entry.get("specs") or {}).items():
+        out[k] = {float(v) if k in ("ml", "g") else int(v)}
     return out
 
 
@@ -301,7 +344,7 @@ def fetch(handles=None):
 OWN_PAGE_TYPES = {"短效期特價"}
 
 
-def check(products, pos, tax, ocr_text, ocr_on):
+def check(products, pos, tax, ocr_text, ocr_on, truth=None):
     report = []
     for p in products:
         # DRAFT／ARCHIVED 唔會見客，唔使嘈（例如付款測試商品）。
@@ -328,7 +371,7 @@ def check(products, pos, tax, ocr_text, ocr_on):
         # 2 名 vs POS 名
         ts = specs(title)
         for b in codes:
-            bad += name_issues(title, ts, b, pos)
+            bad += name_issues(title, ts, b, pos, truth)
 
         # 3 + 4 封面
         if not cover:
@@ -362,6 +405,7 @@ def check(products, pos, tax, ocr_text, ocr_on):
 # ── 上架前閘（publish.py 叫）────────────────────────────────────────────
 _POS_CACHE = None
 _TAX_CACHE = None
+_TRUTH_CACHE = None
 
 
 def gate_record(rec, ocr=True):
@@ -371,11 +415,13 @@ def gate_record(rec, ocr=True):
         {handle, title, productType, tags, shades:[{barcode,…}], images:[url]}
     回傳 [(level, kind, msg)]。有 🔴 就唔應該上架。
     """
-    global _POS_CACHE, _TAX_CACHE
+    global _POS_CACHE, _TAX_CACHE, _TRUTH_CACHE
     if _POS_CACHE is None:
         _POS_CACHE = load_pos()
     if _TAX_CACHE is None:
         _TAX_CACHE = load_taxonomy()
+    if _TRUTH_CACHE is None:
+        _TRUTH_CACHE = load_truth()
     pos, tax = _POS_CACHE, _TAX_CACHE
 
     bad = []
@@ -392,7 +438,7 @@ def gate_record(rec, ocr=True):
 
     # 2 名：標題規格要同條碼名一致
     for b in codes:
-        bad += name_issues(title, ts, b, pos)
+        bad += name_issues(title, ts, b, pos, _TRUTH_CACHE)
 
     # 5 分類
     if not (rec.get("productType") or "").strip():
@@ -435,16 +481,19 @@ def main():
         ap.error("俾幾個 handle，或者用 --all 掃全店")
 
     products = fetch(None if a.all else a.handles)
-    pos, tax = load_pos(), load_taxonomy()
+    pos, tax, truth = load_pos(), load_taxonomy(), load_truth()
     ocr_on = ocr_available()
     jobs = [(p["handle"], (p["media"]["nodes"][0].get("image") or {}).get("url"))
             for p in products if p["media"]["nodes"]]
     jobs = [(h, u) for h, u in jobs if u]
     text = ocr_covers(jobs) if ocr_on else {}
 
-    report = check(products, pos, tax, text, ocr_on)
+    report = check(products, pos, tax, text, ocr_on, truth)
     red = sum(1 for r in report for i in r["issues"] if i["level"] == "🔴")
-    print(f"\n查咗 {len(products)} 件貨，{len(report)} 件有問題（🔴 {red} 項）")
+    pos_bad = sum(1 for r in report for i in r["issues"] if i["level"] == "🟠")
+    print(f"\n查咗 {len(products)} 件貨，{len(report)} 件有問題"
+          f"（🔴 網站要執 {red} 項｜🟠 POS 要執 {pos_bad} 項）")
+    print(f"條碼真身登記冊：{len(truth)} 個條碼查實咗（data/barcode-truth.json）")
     if not ocr_on:
         print(f"⚠️  OCR venv 唔喺度（{OCR_HOME}/venv），封面贈品同裝量兩項未驗。")
     for r in report:
