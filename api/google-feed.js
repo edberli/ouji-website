@@ -136,6 +136,41 @@ function googleCategory(p) {
   return 'Health & Beauty > Personal Care > Cosmetics';
 }
 
+/* 呢 23 個 5 片裝係網店組合貨，冇獨立 POS SKU／barcode／門市價格，
+   所以唔可以捏造 local inventory row。只排除本地目的地；一般
+   Shopping ads 同 Free listings 仍然照常使用。 */
+const LOCAL_DESTINATION_EXCLUDED_IDS = new Set([
+  'shopify_ZZ_8822230843550_48288486719646',
+  'shopify_ZZ_8822227042462_48288485769374',
+  'shopify_ZZ_8822231007390_48288486785182',
+  'shopify_ZZ_8822225240222_48288485441694',
+  'shopify_ZZ_8822081421470_48288484589726',
+  'shopify_ZZ_8822227468446_48288486490270',
+  'shopify_ZZ_8822231302302_48288486817950',
+  'shopify_ZZ_8822231597214_48288487047326',
+  'shopify_ZZ_8822225207454_48288485376158',
+  'shopify_ZZ_8822225272990_48288485605534',
+  'shopify_ZZ_8822227075230_48288485802142',
+  'shopify_ZZ_8822230253726_48288486555806',
+  'shopify_ZZ_8822230679710_48288486686878',
+  'shopify_ZZ_8822230220958_48288486523038',
+  'shopify_ZZ_8822225174686_48288485343390',
+  'shopify_ZZ_8822231498910_48288486883486',
+  'shopify_ZZ_8822225305758_48288485638302',
+  'shopify_ZZ_8822233858206_48288487080094',
+  'shopify_ZZ_8822230581406_48288486654110',
+  'shopify_ZZ_8822230384798_48288486621342',
+  'shopify_ZZ_8822225338526_48288485671070',
+  'shopify_ZZ_8822227009694_48288485736606',
+  'shopify_ZZ_8822225141918_48288485310622',
+]);
+
+function localDestinationExclusions(merchantId) {
+  if (!LOCAL_DESTINATION_EXCLUDED_IDS.has(merchantId)) return '';
+  return tag('g:excluded_destination', 'Local_inventory_ads')
+    + tag('g:excluded_destination', 'Free_local_listings');
+}
+
 function itemsFor(p) {
   /* `__test` 係畀付款測試商品用嘅。一件平價、寫明「唔係真貨」嘅嘢
      流去 Google 購物，輕則被拒、重則拖低成個帳戶嘅信任度。 */
@@ -181,6 +216,7 @@ function itemsFor(p) {
 
     return '    <item>\n'
       + tag('g:id', merchantId)
+      + localDestinationExclusions(merchantId)
       + (grouped ? tag('g:item_group_id', p.handle) : '')
       + tag('g:title', clean(title).slice(0, 150))
       + tag('g:description', desc)
