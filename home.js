@@ -47,7 +47,7 @@ async function initHome() {
     const one = vs.length === 1;
     return `<a href="/products/${p.handle}" class="product-card">
       <div class="product-card__image-wrap">
-        ${img ? `<img class="product-card__image" src="${img.url}" alt="${p.title}" loading="lazy">` : ''}
+        ${img ? `<img class="product-card__image" ${shopifyCardImageAttrs(img.url)} alt="${p.title}" loading="lazy">` : ''}
         ${onSale && !soldOut ? '<span class="product-card__badge">特價</span>' : ''}
         ${soldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
@@ -189,7 +189,11 @@ async function initHome() {
         const fact = heroFact(p, t);
         return `<a class="home-feat__hero" href="/products/${p.handle}">
           <span class="home-feat__shot">
-            ${img ? `<img src="${img.url}" alt="${(p.title || '').replace(/"/g, '&quot;')}"
+            ${img ? `<img ${shopifyResponsiveImageAttrs(img.url, {
+              srcWidth: 960,
+              widths: [480, 720, 960, 1200],
+              sizes: '(max-width: 760px) 100vw, 50vw',
+            })} alt="${(p.title || '').replace(/"/g, '&quot;')}"
                  crossorigin="anonymous" data-feat-img>` : ''}
             ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
           </span>
@@ -452,7 +456,7 @@ async function initHome() {
       const a = topAward(p.handle);
       return `<a class="won-card" href="/products/${p.handle}">
         <span class="won-card__media">
-          ${img ? `<img src="${img.url}" alt="${p.title}" loading="lazy">` : ''}
+          ${img ? `<img ${shopifyCardImageAttrs(img.url)} alt="${p.title}" loading="lazy">` : ''}
           ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         </span>
         <span class="won-card__brand">${p.vendor || ''}</span>
@@ -589,7 +593,7 @@ async function initHome() {
       const productCell = (p) => {
         const img = p.images.edges[0].node;
         return `<a class="home-skin-cat__product" href="/products/${p.handle}">
-          <i><img src="${img.url}&width=240" alt="${esc(p.title)}"
+          <i><img src="${shopifyImageUrl(img.url, 240)}" alt="${esc(p.title)}"
                   width="240" height="267" loading="lazy" decoding="async"></i>
           <b>${p.vendor || ''}</b>
           <span>${p.title}</span>

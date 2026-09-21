@@ -797,12 +797,12 @@
       const thumbsContainer = document.querySelector('.product-gallery__thumbs');
 
       if (images.length > 0 && mainImgWrap) {
-        mainImgWrap.innerHTML = `<img src="${images[0].url}" alt="${productImageAlt(images[0], product.title)}">`;
+        mainImgWrap.innerHTML = `<img src="${shopifyImageUrl(images[0].url, 1200)}" alt="${productImageAlt(images[0], product.title)}">`;
 
         if (thumbsContainer) {
           thumbsContainer.innerHTML = images.map((img, i) => `
-            <button class="product-gallery__thumb ${i === 0 ? 'is-active' : ''}" onclick="document.querySelector('.product-gallery__main img').src='${img.url}'; document.querySelectorAll('.product-gallery__thumb').forEach(t=>t.classList.remove('is-active')); this.classList.add('is-active');">
-              <img src="${img.url}" alt="${productImageAlt(img, product.title, i)}">
+            <button class="product-gallery__thumb ${i === 0 ? 'is-active' : ''}" onclick="document.querySelector('.product-gallery__main img').src='${shopifyImageUrl(img.url, 1200)}'; document.querySelectorAll('.product-gallery__thumb').forEach(t=>t.classList.remove('is-active')); this.classList.add('is-active');">
+              <img src="${shopifyImageUrl(img.url, 180)}" alt="${productImageAlt(img, product.title, i)}" loading="lazy">
             </button>
           `).join('');
         }
@@ -1052,7 +1052,7 @@
             return `
               <a href="product.html?handle=${encodeURIComponent(p.handle)}" class="product-card">
                 <div class="product-card__image-wrap">
-                  ${img ? `<img class="product-card__image" src="${img.url}" alt="${productImageAlt(img, p.title)}">` : ''}
+                  ${img ? `<img class="product-card__image" ${shopifyCardImageAttrs(img.url)} alt="${productImageAlt(img, p.title)}" loading="lazy">` : ''}
                   <div class="product-card__quick-add product-card__quick-add--pick">入去睇</div>
                 </div>
                 <span class="product-card__brand">${relatedEsc(p.vendor)}</span>

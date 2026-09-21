@@ -34,10 +34,8 @@
   <!-- 目錄同啲相都喺 Shopify 手上，第一個 API call 之前先搭好線，
        慳返 DNS＋TLS 嗰兩程（實測首頁要等四個 API call 先出到貨）。 -->
   <link rel="preconnect" href="https://5rerjn-mt.myshopify.com" crossorigin>
-  <!-- 目錄快照要喺 head 就開始落載。之前佢要等成個 bootstrap 行到
-       先開始（實測 752ms 先出手，download 本身得 94ms）—— 白等咗
-       三百幾毫秒。呢一行令佢同 CSS／JS 一齊落。 -->
-  <link rel="preload" href="data/catalog.json" as="fetch" type="application/json" crossorigin>
+  <!-- 目錄快照 URL 每個鐘轉一次；唔可以 preload 固定 URL，否則瀏覽器會
+       同正式 fetch 各下載一次約 2MB JSON。保留 CDN preconnect 就夠。 -->
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1196,7 +1194,7 @@
             return `
               <a href="product.html?handle=${p.handle}" class="product-card">
                 <div class="product-card__image-wrap">
-                  ${image ? `<img class="product-card__image" src="${image.url}" alt="${productImageAlt(image, p.title)}">` : ''}
+                  ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, p.title)}" loading="lazy">` : ''}
                   ${isOnSale ? '<span class="product-card__badge">特價</span>' : ''}
                   <button type="button" class="product-card__wishlist${typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"
                     aria-label="加入願望清單" data-wish="${p.id}"

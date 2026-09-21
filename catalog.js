@@ -978,7 +978,7 @@ function productCard(p) {
   return `
     <a href="/products/${p.handle}" class="product-card">
       <div class="product-card__image-wrap">
-        ${image ? `<img class="product-card__image" src="${image.url}" alt="${image.altText || p.title}" loading="lazy">` : ''}
+        ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${image.altText || p.title}" loading="lazy">` : ''}
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${isOnSale && !isSoldOut ? '<span class="product-card__badge">特價</span>' : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}

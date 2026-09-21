@@ -76,6 +76,48 @@ function setLang(lang) {
   location.reload();
 }
 
+/* Shopify 會按 width 即時輸出合適尺寸兼自動協商 WebP/AVIF。原圖仍然保留
+   喺 CDN，列表頁只下載畫面真正需要嘅像素，避免一張卡攞完整產品大圖。 */
+function shopifyImageUrl(url, width) {
+  const raw = String(url || '');
+  if (!raw || !width) return raw;
+  try {
+    const parsed = new URL(raw, location.href);
+    const host = parsed.hostname.toLowerCase();
+    if (host !== 'cdn.shopify.com' && !host.endsWith('.myshopify.com')) return raw;
+    parsed.searchParams.set('width', String(Math.round(width)));
+    return parsed.toString();
+  } catch (_) {
+    return raw;
+  }
+}
+
+function shopifyImageSrcset(url, widths = [320, 480, 640, 800]) {
+  const raw = String(url || '');
+  const candidates = widths.map((width) => {
+    const candidate = shopifyImageUrl(raw, width);
+    return candidate === raw ? '' : `${candidate} ${width}w`;
+  }).filter(Boolean);
+  return candidates.join(', ');
+}
+
+function shopifyResponsiveImageAttrs(url, {
+  srcWidth = 480,
+  widths = [320, 480, 640, 800],
+  sizes = '(max-width: 600px) 50vw, (max-width: 1100px) 33vw, 260px',
+} = {}) {
+  const src = shopifyImageUrl(url, srcWidth);
+  const srcset = shopifyImageSrcset(url, widths);
+  const responsive = srcset
+    ? ` srcset="${srcset}" sizes="${sizes}"`
+    : '';
+  return `src="${src}"${responsive}`;
+}
+
+function shopifyCardImageAttrs(url) {
+  return shopifyResponsiveImageAttrs(url);
+}
+
 /* 將 @inContext(language: EN) 塞入 query 定義嗰行。
    購物車嗰幾條本身已經有 @inContext(country:)，就補多個 language 落去；
    其餘冇嘅就喺 operation 名後面加一個。
@@ -2417,7 +2459,7 @@ function productCardHTML(product) {
     <article class="product-card" data-product-id="${product.id}"${shortDated ? ' data-short-dated' : ''}>
       <a href="product.html?handle=${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
-          ${image ? `<img src="${image.url}" alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
+          ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
           ${isOnSale && !isSoldOut && !shortDated ? '<span class="product-card__badge product-card__badge--sale">特價</span>' : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
