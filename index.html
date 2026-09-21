@@ -50,7 +50,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260921-loader-desktop-hq-1">
+  <link rel="stylesheet" href="styles.css?v=20260921-loader-hq-cover-2">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -70,12 +70,12 @@
          0.5 秒咁樣囉」，所以總展示時間改為約 1 秒。
          2026-09-21：桌面同手機各用對應比例嘅靜態首幀先顯示。兩段動畫都由
          parser 同首幀並行預載；影片失敗或 reduced-motion 都唔會延遲離場。
-         桌面首幀本身已有芝麻，OUJI logo 則獨立做細並精準置中。 -->
+         兩個首幀本身已有芝麻，OUJI logo 則獨立疊上，避免隨影片縮放變矇。 -->
     <picture>
       <source media="(min-width: 769px)"
               srcset="assets/images/home/ouji-blue-loader-desktop-cat-hq-static.webp">
       <source media="(max-width: 768px)"
-              srcset="assets/images/home/ouji-blue-loader-mobile-static.webp">
+              srcset="assets/images/home/ouji-blue-loader-mobile-hq-static.webp">
       <img class="page-loader__art"
            src="assets/images/home/ouji-blue-loader-1200.webp"
            srcset="assets/images/home/ouji-blue-loader-720.webp 720w,
@@ -86,21 +86,19 @@
            alt="" width="1920" height="1080"
            fetchpriority="high" decoding="sync">
     </picture>
-    <picture class="page-loader__desktop-logo" aria-hidden="true">
-      <source media="(min-width: 769px)"
-              srcset="assets/images/home/ouji-loader-logo-white-cropped.png">
-      <img class="page-loader__desktop-logo-image"
-           src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+    <div class="page-loader__brand-logo" aria-hidden="true">
+      <img class="page-loader__brand-logo-image"
+           src="assets/images/home/ouji-loader-logo-white-cropped.png"
            alt="" width="826" height="272"
            fetchpriority="high" decoding="sync">
-    </picture>
+    </div>
     <video class="page-loader__motion-video"
            muted playsinline preload="auto" aria-hidden="true">
       <source media="(min-width: 769px) and (prefers-reduced-motion: no-preference)"
               src="assets/images/home/ouji-blue-loader-desktop-cat-hq-1s.mp4"
               type="video/mp4">
       <source media="(max-width: 768px) and (prefers-reduced-motion: no-preference)"
-              src="assets/images/home/ouji-blue-loader-mobile-1s.mp4"
+              src="assets/images/home/ouji-blue-loader-mobile-hq-1s.mp4"
               type="video/mp4">
     </video>
   </div>
@@ -113,7 +111,7 @@
     var motionVideo = loader.querySelector('.page-loader__motion-video');
     var useMotionVideo = motionVideo &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var assets = loader.querySelectorAll('.page-loader__art, .page-loader__desktop-logo-image');
+    var assets = loader.querySelectorAll('.page-loader__art, .page-loader__brand-logo-image');
     var remaining = assets.length;
     var done = false;
     function ready() {

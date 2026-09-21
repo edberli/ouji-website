@@ -3899,15 +3899,20 @@ button.product-card__quick-add,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: right center;
 }
 
-/* 桌面 OUJI logo 獨立於畫面素材：縮細、精準置中，唔跟影片縮放走位。 */
-.page-loader__desktop-logo {
-  display: none;
+/* OUJI logo 獨立於畫面素材，確保各比例都保持清晰同精準定位。 */
+.page-loader__brand-logo {
+  position: absolute;
+  top: 38.5%;
+  left: 50%;
+  z-index: 2;
+  width: min(76vw, 420px);
+  transform: translate(-50%, -50%);
 }
 
-.page-loader__desktop-logo-image {
+.page-loader__brand-logo-image {
   display: block;
   width: 100%;
   height: auto;
@@ -3922,7 +3927,7 @@ button.product-card__quick-add,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: right center;
   opacity: 0;
 }
 
@@ -3930,25 +3935,21 @@ button.product-card__quick-add,
   opacity: 1;
 }
 
-/* 桌面版保留完整 16:9 構圖；手機版則用 9:16 影片 cover 全屏。 */
+/* 桌面以右下角為錨點 cover 全屏：裁背景留白，唔裁芝麻，亦唔留上下色帶。 */
 @media (min-width: 769px) {
-  .page-loader__desktop-logo {
-    display: block;
-    position: absolute;
+  .page-loader__brand-logo {
     top: 50%;
-    left: 50%;
-    z-index: 2;
     width: clamp(180px, 14vw, 240px);
-    transform: translate(-50%, -50%);
   }
 
   .page-loader__art {
-    object-fit: contain;
-    object-position: center;
+    object-fit: cover;
+    object-position: right bottom;
   }
 
   .page-loader__motion-video {
-    object-fit: contain;
+    object-fit: cover;
+    object-position: right bottom;
   }
 }
 
