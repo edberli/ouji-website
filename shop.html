@@ -31,8 +31,25 @@
   <!-- 目錄同啲相都喺 Shopify 手上，第一個 API call 之前先搭好線，
        慳返 DNS＋TLS 嗰兩程（實測首頁要等四個 API call 先出到貨）。 -->
   <link rel="preconnect" href="https://5rerjn-mt.myshopify.com" crossorigin>
-  <!-- 目錄快照 URL 每個鐘轉一次；唔可以 preload 固定 URL，否則瀏覽器會
-       同正式 fetch 各下載一次約 2MB JSON。保留 CDN preconnect 就夠。 -->
+  <!-- 目錄快照 URL 每個鐘轉一次。全部產品／品牌頁喺 head 就開始同一個
+       fetch，shopify.js 會重用呢個 promise，唔會下載兩次。 -->
+  <script>
+  (() => {
+    try {
+      const lang = localStorage.getItem('ouji:lang') === 'en' ? 'en' : 'zh';
+      const file = lang === 'en' ? 'data/catalog-en.json' : 'data/catalog.json';
+      const bucket = Math.floor(Date.now() / 3600000);
+      const url = `${file}?v=${bucket}`;
+      const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
+      const promise = fetch(url, {
+        cache: 'no-cache',
+        signal: ctrl ? ctrl.signal : undefined,
+      }).catch(() => null).finally(() => { if (timer) clearTimeout(timer); });
+      window.OUJI_EARLY_CATALOG = { url, promise };
+    } catch (_) { /* 正式 loader 會照常再試 */ }
+  })();
+  </script>
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
