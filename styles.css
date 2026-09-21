@@ -15422,8 +15422,8 @@ body::before { opacity: 0.18; }
     border: 0;
     border-bottom: 0;
     box-shadow: none;
-    -webkit-mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
-    mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
+    -webkit-mask: url('assets/images/skincare-category-watercolor-shadow-512.webp') center / 100% 100% no-repeat;
+    mask: url('assets/images/skincare-category-watercolor-shadow-512.webp') center / 100% 100% no-repeat;
     background: var(--cat-wash);
     opacity: .90;
     transform: translateX(-50%) rotate(-4deg);

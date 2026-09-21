@@ -31,8 +31,25 @@
   <!-- 目錄同啲相都喺 Shopify 手上，第一個 API call 之前先搭好線，
        慳返 DNS＋TLS 嗰兩程（實測首頁要等四個 API call 先出到貨）。 -->
   <link rel="preconnect" href="https://5rerjn-mt.myshopify.com" crossorigin>
-  <!-- 目錄快照 URL 每個鐘轉一次；唔可以 preload 固定 URL，否則瀏覽器會
-       同正式 fetch 各下載一次約 2MB JSON。保留 CDN preconnect 就夠。 -->
+  <!-- 目錄快照 URL 每個鐘轉一次。護膚頁喺 head 就開始同一個 fetch，
+       shopify.js 會重用呢個 promise，唔會下載兩次。 -->
+  <script>
+  (() => {
+    try {
+      const lang = localStorage.getItem('ouji:lang') === 'en' ? 'en' : 'zh';
+      const file = lang === 'en' ? 'data/catalog-en.json' : 'data/catalog.json';
+      const bucket = Math.floor(Date.now() / 3600000);
+      const url = `${file}?v=${bucket}`;
+      const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
+      const promise = fetch(url, {
+        cache: 'no-cache',
+        signal: ctrl ? ctrl.signal : undefined,
+      }).catch(() => null).finally(() => { if (timer) clearTimeout(timer); });
+      window.OUJI_EARLY_CATALOG = { url, promise };
+    } catch (_) { /* 正式 loader 會照常再試 */ }
+  })();
+  </script>
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -395,42 +412,42 @@
       <div class="skincare-booth__cats" data-cat-gate aria-label="護膚分類">
         <button type="button" class="skincare-booth__cat" data-quick="cleanser" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#70e5ff">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/cleanser.webp" alt="" width="1361" height="1156">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/cleanser.webp" alt="" width="512" height="435">
           <b>潔面</b><small data-skincare-booth-n="cleanser"></small>
         </button>
         <button type="button" class="skincare-booth__cat" data-quick="toner" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#b8ff62">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/toner.webp" alt="" width="1369" height="1149">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/toner.webp" alt="" width="512" height="430">
           <b>爽膚水</b><small data-skincare-booth-n="toner"></small>
         </button>
         <button type="button" class="skincare-booth__cat" data-quick="pad" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#fff06a">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/pad.webp" alt="" width="1536" height="1024">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/pad.webp" alt="" width="512" height="342">
           <b>棉片</b><small data-skincare-booth-n="pad"></small>
         </button>
         <button type="button" class="skincare-booth__cat" data-quick="serum" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#ff82c9">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/serum.webp" alt="" width="1240" height="1268">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/serum.webp" alt="" width="512" height="524">
           <b>精華液</b><small data-skincare-booth-n="serum"></small>
         </button>
         <button type="button" class="skincare-booth__cat" data-quick="moisturizer" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#c8a6ff">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/moisturizer.webp" alt="" width="1374" height="1145">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/moisturizer.webp" alt="" width="512" height="427">
           <b>乳液</b><small data-skincare-booth-n="moisturizer"></small>
         </button>
         <button type="button" class="skincare-booth__cat" data-quick="mask" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#ff987c">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/mask.webp" alt="" width="1289" height="1220">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/mask.webp" alt="" width="512" height="485">
           <b>面膜</b><small data-skincare-booth-n="mask"></small>
         </button>
         <button type="button" class="skincare-booth__cat" data-quick="eye" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#77c8ff">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/eye.webp" alt="" width="1536" height="1024">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/eye.webp" alt="" width="512" height="342">
           <b>眼部護理</b><small data-skincare-booth-n="eye"></small>
         </button>
         <button type="button" class="skincare-booth__cat" data-quick="sunscreen" data-booth-sticker
           aria-pressed="false" style="--cat-tint:#ffce4f">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-muted/sunscreen.webp" alt="" width="1233" height="1275">
+          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/sunscreen.webp" alt="" width="512" height="530">
           <b>防曬</b><small data-skincare-booth-n="sunscreen"></small>
         </button>
       </div>

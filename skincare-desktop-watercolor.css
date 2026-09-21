@@ -111,8 +111,8 @@
     background: var(--cat-wash);
     opacity: .42;
     transform: translateX(-50%) rotate(-4deg);
-    -webkit-mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
-    mask: url('assets/images/skincare-category-watercolor-shadow.png') center / 100% 100% no-repeat;
+    -webkit-mask: url('assets/images/skincare-category-watercolor-shadow-512.webp') center / 100% 100% no-repeat;
+    mask: url('assets/images/skincare-category-watercolor-shadow-512.webp') center / 100% 100% no-repeat;
     pointer-events: none;
   }
 
