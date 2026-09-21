@@ -3906,9 +3906,9 @@ button.product-card__quick-add,
 .page-loader__brand-logo {
   position: absolute;
   top: 39.5%;
-  left: 50%;
+  left: 48%;
   z-index: 2;
-  width: min(78.5vw, 440px);
+  width: min(64.6vw, 608px);
   transform: translate(-50%, -50%);
 }
 
@@ -3939,6 +3939,7 @@ button.product-card__quick-add,
 @media (min-width: 769px) {
   .page-loader__brand-logo {
     top: 50%;
+    left: 50%;
     width: clamp(280px, 22vw, 360px);
   }
 
