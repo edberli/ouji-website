@@ -953,7 +953,9 @@ function unitPriceRange(product) {
   return { lo, hi };
 }
 
-function productCard(p) {
+function productCard(p, options = null) {
+  const eager = !!(options && typeof options === 'object' && options.eager);
+  const priority = !!(options && typeof options === 'object' && options.priority);
   const image = p.images?.edges?.[0]?.node;
   const p0 = p.priceRange?.minVariantPrice;
   /* 劃線價一定要嚟自「同一件變體」。單用 compareAtPriceRange.minVariantPrice
@@ -978,7 +980,7 @@ function productCard(p) {
   return `
     <a href="/products/${p.handle}" class="product-card">
       <div class="product-card__image-wrap">
-        ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${image.altText || p.title}" loading="lazy">` : ''}
+        ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${image.altText || p.title}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${priority ? ' fetchpriority="high"' : ''}>` : ''}
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${isOnSale && !isSoldOut ? '<span class="product-card__badge">特價</span>' : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
@@ -1421,7 +1423,10 @@ function syncGridWindows(pass = 0) {
   let changed = false;
   GRID_PANES.forEach((pane) => {
     const r = pane.el.getBoundingClientRect();
-    const near = r.top < h + NEAR && r.bottom > -NEAR;
+    /* 第一嚿係客入頁後第一批會見到嘅貨，唔可以因為 hero／字體／篩選列
+       仲喺度改高度而暫時跌出 NEAR 就清空。TAKENOKO 品牌頁實測會先
+       fill，跟住被 drop，最後只剩 3,101px 空白，直到客再 scroll 先補返。 */
+    const near = pane.keepMounted || (r.top < h + NEAR && r.bottom > -NEAR);
     if (near ? pane.fill() : pane.drop()) changed = true;
   });
   if (changed && pass < 3) syncGridWindows(pass + 1);
@@ -1469,7 +1474,10 @@ function mountGrid(host, items, { all = false } = {}) {
   /* `all` ＝ 客自己撳「展開」——佢要嘅就係全部，即刻砌晒，唔好再叫佢碌住等。 */
   if (all || items.length <= CHUNK) {
     host.innerHTML = `<div class="product-grid" data-chunk="0" data-on="1">${
-      items.map(productCard).join('')}</div>`;
+      items.map((item, j) => productCard(item, {
+        eager: j < 6,
+        priority: j < 2,
+      })).join('')}</div>`;
     return;
   }
   const chunks = [];
@@ -1490,9 +1498,13 @@ function mountGrid(host, items, { all = false } = {}) {
     el.style.minHeight = guessFor(chunks[i].length) + 'px';
     GRID_PANES.push({
       el,
+      keepMounted: i === 0,
       fill() {
         if (el.dataset.on === '1') return false;
-        el.innerHTML = chunks[i].map(productCard).join('');
+        el.innerHTML = chunks[i].map((item, j) => productCard(item, {
+          eager: i === 0 && j < 6,
+          priority: i === 0 && j < 2,
+        })).join('');
         /* 真內容出咗就要放走個佔位高度 —— 唔放走，短過估算嗰嚿
            就會喺卡片下面留一大版白。 */
         el.style.minHeight = '';
