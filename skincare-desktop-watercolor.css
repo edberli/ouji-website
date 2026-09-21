@@ -29,7 +29,7 @@
     inset: auto;
     display: block;
     width: 100%;
-    height: clamp(360px, 25vw, 520px);
+    height: clamp(360px, 25vw, 640px);
     aspect-ratio: auto;
     margin: 0 auto;
     overflow: hidden;
