@@ -29,8 +29,8 @@
     inset: auto;
     display: block;
     width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 1;
+    height: clamp(480px, 34vw, 500px);
+    aspect-ratio: auto;
     margin: 0 auto;
     overflow: hidden;
   }
