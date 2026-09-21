@@ -10799,14 +10799,16 @@ html.is-lite .home-tabs__btn::after { transition: none; }
     width: 100%;
     max-width: none;
     margin: 0 0 24px;
-    aspect-ratio: 1672 / 941;
+    aspect-ratio: 1672 / 442;
+    border-radius: 0;
   }
   .makeup-booth__stickers {
-    left: 50%;
+    left: 11.06%;
     bottom: 0;
-    width: 60%;
-    height: 25.5%;
-    transform: translateX(-50%);
+    width: 77.99%;
+    height: 21.95%;
+    grid-template-columns: 241fr 268fr 261fr 268fr 263fr;
+    transform: none;
   }
 }
 
@@ -11408,6 +11410,30 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   box-shadow: 3px 3px 0 rgba(17,19,26,.28);
 }
 .cat-subs__item.is-on small { color: rgba(255,255,255,.75); }
+
+/* 桌面細分類跟視窗比例收放：大螢幕保留原尺寸，畫面縮窄時圖示、文字、
+   膠囊 padding 同間距一齊縮，避免主圖已縮細但分類 logo 仍然一樣大。 */
+@media (min-width: 960px) {
+  .cat-subs {
+    gap: clamp(6px, .52vw, 10px);
+    padding-top: clamp(10px, .84vw, 16px);
+  }
+  .cat-subs__item {
+    gap: clamp(6px, .47vw, 9px);
+    padding:
+      clamp(5px, .37vw, 7px)
+      clamp(10px, .73vw, 14px)
+      clamp(5px, .37vw, 7px)
+      clamp(6px, .42vw, 8px);
+    border-width: clamp(1.5px, .105vw, 2px);
+    font-size: clamp(10px, .78vw, 13px);
+    box-shadow: clamp(2px, .16vw, 3px) clamp(2px, .16vw, 3px) 0 rgba(17,19,26,.16);
+  }
+  .cat-subs__item img {
+    width: clamp(26px, 2.27vw, 38px);
+    height: clamp(26px, 2.27vw, 38px);
+  }
+}
 
 @media (max-width: 720px) {
   /* 一行擺唔晒就打橫掃，唔好逼到粒粒細過手指 */
