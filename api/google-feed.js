@@ -99,10 +99,14 @@ const tag = (name, value) =>
   (value === undefined || value === null || value === '' ? ''
     : `      <${name}>${esc(value)}</${name}>\n`);
 
+const VALID_GTIN = /^(?:\d{8}|\d{12}|\d{13}|\d{14})$/;
+const validGtin = (value) => VALID_GTIN.test(String(value ?? '').trim());
+
 /* Google 嘅分類樹。對唔到就唔好亂填 —— 填錯分類比唔填仲差，
    會拎去同錯嘅產品比較。 */
+const CONTACT_LENS_CATEGORY = 'Health & Beauty > Personal Care > Vision Care > Contact Lenses';
 const CATEGORY = [
-  [/隱形眼鏡|lens/i, 'Health & Beauty > Personal Care > Vision Care > Contact Lenses'],
+  [/隱形眼鏡|lens/i, CONTACT_LENS_CATEGORY],
   [/防曬/, 'Health & Beauty > Personal Care > Cosmetics > Skin Care > Sunscreen'],
   [/面膜/, 'Health & Beauty > Personal Care > Cosmetics > Skin Care > Facial Cleansers'],
   [/潔面|洗面/, 'Health & Beauty > Personal Care > Cosmetics > Skin Care > Facial Cleansers'],
@@ -117,9 +121,18 @@ const CATEGORY = [
   [/沐浴|身體|護手/, 'Health & Beauty > Personal Care > Cosmetics > Bath & Body'],
 ];
 
+function isContactLensAccessory(p) {
+  const type = String(p.productType || '');
+  return /隱形眼鏡\s*(?:配件|盒)|contact\s+lens\s+(?:accessor(?:y|ies)|case)/i.test(type);
+}
+
 function googleCategory(p) {
   const hay = `${p.productType || ''} ${p.title || ''} ${(p.tags || []).join(' ')}`;
-  for (const [rx, cat] of CATEGORY) if (rx.test(hay)) return cat;
+  const lensAccessory = isContactLensAccessory(p);
+  for (const [rx, cat] of CATEGORY) {
+    if (lensAccessory && cat === CONTACT_LENS_CATEGORY) continue;
+    if (rx.test(hay)) return cat;
+  }
   return 'Health & Beauty > Personal Care > Cosmetics';
 }
 
@@ -189,7 +202,7 @@ function itemsFor(p) {
       + (onSale ? tag('g:sale_price', `${now.toFixed(2)} HKD`) : '')
       + tag('g:brand', p.vendor || 'OUJI')
       + tag('g:condition', 'new')
-      + (v.barcode ? tag('g:gtin', v.barcode)
+      + (validGtin(v.barcode) ? tag('g:gtin', String(v.barcode).trim())
         : tag('g:identifier_exists', 'no'))
       + (v.sku ? tag('g:mpn', v.sku) : '')
       + tag('g:google_product_category', cat)

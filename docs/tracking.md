@@ -82,8 +82,6 @@ Shopping 同 Meta 動態廣告都認得。
 
 ```js
 const GA4 = 'G-54MEJHNCXQ';
-const AW = 'AW-18398942973';
-const LABEL = 't9MSCNiFruQcEP2tpsVE';
 const s = document.createElement('script');
 s.async = true;
 s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4;
@@ -92,7 +90,6 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
 gtag('js', new Date());
 gtag('config', GA4, { send_page_view: false });
-gtag('config', AW);
 
 function itemId(line) {
   const product = line.variant?.product;
@@ -131,12 +128,12 @@ analytics.subscribe('checkout_completed', (event) => {
     tax: c.totalTax?.amount,
     items,
   });
-  gtag('event', 'conversion', {
-    send_to: AW + '/' + LABEL,
-    value, currency, transaction_id: transactionId,
-  });
 });
 ```
+
+Google Ads Purchase 由 Shopify 官方 `Google & YouTube` app 嘅「已完成結帳」
+單一路徑送去 `AW-18398942973/t9MSCNiFruQcEP2tpsVE`。`GA4 Purchase`
+custom pixel 只送 GA4 ecommerce events，避免同一張訂單重複直送 Ads。
 
 2026-09-04 後台實測：`GA4 Purchase` 已連結，權限設為行銷＋分析，修正版已顯示「像素已儲存」。
 
