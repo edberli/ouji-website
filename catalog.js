@@ -331,7 +331,7 @@ function optionRow(group, value, label, count) {
 function brandFromUrl(products) {
   const want = new URLSearchParams(location.search).get('brand');
   if (!want) return null;
-  const flat = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const flat = (s) => (s || '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
   const target = flat(want);
   const hit = products.find((p) => flat(p.vendor) === target)
     || products.find((p) => flat(p.vendor).startsWith(target) && target.length > 2);
@@ -1926,8 +1926,10 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   // Unit prices and ingredient chips are drawn into the cards, so the
   // data has to be in hand before the first draw — otherwise the badges
   // pop in a beat later and the grid jumps.
-  if (typeof loadIngredients === 'function') await loadIngredients();
-  if (typeof loadRatings === 'function') await loadRatings();
+  await Promise.all([
+    typeof loadIngredients === 'function' ? loadIngredients() : null,
+    typeof loadRatings === 'function' ? loadRatings() : null,
+  ]);
 
   buildFilterSidebar(section, products);
   /* URL 入面嘅 ?cat= 當一個已經揀咗嘅篩選處理，唔喺攞資料嗰陣預先篩走 ——

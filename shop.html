@@ -536,7 +536,9 @@
   <script src="script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
-    await initPage();
+    /* 購物袋 badge 唔可以阻住產品目錄。返頭客有 cart id 時，getCart 要行
+       Shopify request；以前 await 住佢，品牌頁就要等購物袋先開始畫貨。 */
+    initPage();
 
     const params = new URLSearchParams(window.location.search);
     // /collections/<handle> is rewritten server-side, so the browser URL
@@ -564,6 +566,23 @@
       const dialog = document.querySelector('[data-boot-dialog]');
       if (dialog && note) dialog.textContent = note;
     };
+
+    /* 品牌入口一早縮窄資料集，唔好將全店千幾件貨交入 initCatalog，砌完
+       所有品牌／分類 filter 先靠 checkbox 篩返 50 件。URL matching 同
+       catalog.js brandFromUrl 用同一把尺，中文、空格同標點都唔會影響。 */
+    const requestedBrand = params.get('brand');
+    if (requestedBrand) {
+      const flatBrand = (x) => String(x || '').toLowerCase()
+        .replace(/[^\p{L}\p{N}]/gu, '');
+      const target = flatBrand(requestedBrand);
+      const brandHit = products.find((p) => flatBrand(p.vendor) === target)
+        || products.find((p) => flatBrand(p.vendor).startsWith(target) && target.length > 2);
+      if (brandHit?.vendor) {
+        products = products.filter((p) => p.vendor === brandHit.vendor);
+        setFolder(brandHit.vendor, 'Loading brand...');
+        document.title = `${brandHit.vendor} — OUJI`;
+      }
+    }
 
     if (q) {
       const flat = (x) => String(x || '').toLowerCase()
