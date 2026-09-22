@@ -16,6 +16,7 @@
   let root = null;       // 浮層本身，第一次開先砌
   let cursor = -1;       // 鍵盤揀緊第幾個
   let vendors = null;    // 品牌清單（跟 cache 一齊建／清）
+  const wordCache = new Map(); // 產品標題嘅字詞 runs（fuzzy 用）
 
   const esc = (s) => String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -46,6 +47,113 @@
     const q = flat(term);
     const group = SYNONYM_GROUPS.find((forms) => forms.includes(q));
     return group ? [q, ...group.filter((form) => form !== q)] : [q];
+  }
+
+  /* ===== 打錯字都搵到（fuzzy） =====
+     淨係喺「冇任何直接結果」先至行呢層；正常搜尋唔會畀佢污染。
+     用編輯距離（容許相鄰字調位）；短字唔准差太遠，免得亂 suggest。 */
+  const CJK_RE = /[\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af\u3040-\u30ff]/;
+  function tolOf(q) { const L = q.length; return L <= 3 ? 0 : L <= 5 ? 1 : 2; }
+  function tolCJK(q) { return q.length >= 6 ? 2 : 1; }
+
+  function editd(a, b, max) {
+    if (a === b) return 0;
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    const m = a.length, n = b.length;
+    let prev2 = null, prev = [], cur = [];
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+      cur = [i];
+      let rowMin = i;
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        let v = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) v = Math.min(v, prev2[j - 2] + 1);
+        cur[j] = v;
+        if (v < rowMin) rowMin = v;
+      }
+      if (rowMin > max) return max + 1;
+      prev2 = prev; prev = cur;
+    }
+    return prev[n];
+  }
+
+  /* 拆 runs：拉丁字一截、連續中日韓字一截。 */
+  function runsOf(s) {
+    const out = [];
+    let buf = '', kind = 0;
+    for (const ch of s) {
+      const k = CJK_RE.test(ch) ? 2 : /[0-9a-z]/.test(ch) ? 1 : 0;
+      if (!k) { if (buf) out.push(buf); buf = ''; kind = 0; continue; }
+      if (k !== kind && buf) { out.push(buf); buf = ''; }
+      kind = k; buf += ch;
+    }
+    if (buf) out.push(buf);
+    return out;
+  }
+
+  function wordRuns(p) {
+    if (!wordCache.has(p)) wordCache.set(p, runsOf(flat(p.title || '')));
+    return wordCache.get(p);
+  }
+
+  function runBest(runs, q, max, cjk) {
+    let best = max + 1;
+    for (const run of runs) {
+      if (best === 0) break;
+      if (cjk) {
+        for (let wl = Math.max(1, q.length - max); wl <= q.length + max && wl <= run.length; wl++) {
+          if (best === 0) break;
+          for (let s = 0; s + wl <= run.length; s++) {
+            if (best === 0) break;
+            const d = editd(q, run.slice(s, s + wl), Math.min(best - 1, max));
+            if (d < best) best = d;
+          }
+        }
+      } else {
+        if (Math.abs(run.length - q.length) > max) continue;
+        const d = editd(q, run, Math.min(best - 1, max));
+        if (d < best) best = d;
+      }
+    }
+    return best;
+  }
+
+  function fuzzyMatches(term) {
+    const q = flat(term);
+    if (!cache || !q) return { brand: null, products: [] };
+    const cjk = CJK_RE.test(q), latin = /[a-z0-9]/.test(q);
+    if (cjk && latin) return { brand: null, products: [] };   // 中英混合唔做 fuzzy
+    if (cjk && q.length < 2) return { brand: null, products: [] };
+    const max = cjk ? tolCJK(q) : tolOf(q);
+    if (!max) return { brand: null, products: [] };
+    if (!vendors) vendors = [...new Set(cache.map((p) => p.vendor).filter(Boolean))];
+
+    let brand = null, bd = max + 1, blen = 1e9;
+    for (const v of vendors) {
+      const d = runBest(runsOf(flat(v)), q, max, cjk);
+      if (d <= max) {
+        const ld = Math.abs(flat(v).length - q.length);
+        if (d < bd || (d === bd && (ld < blen || (ld === blen && brand && v.localeCompare(brand) < 0)))) {
+          brand = v; bd = d; blen = ld;
+        }
+      }
+    }
+
+    const out = [];
+    for (const p of cache) {
+      if (typeof soldOut === 'function' && soldOut(p)) continue;
+      const dv = runBest([flat(p.vendor || '')], q, max, cjk);
+      let rank = 0;
+      if (dv <= max) rank = 10 + dv;
+      else {
+        const dt = runBest(wordRuns(p), q, max, cjk);
+        if (dt <= max) rank = 30 + dt;
+      }
+      if (rank) out.push({ p, rank });
+    }
+    out.sort((a, b) => a.rank - b.rank || a.p.title.length - b.p.title.length);
+    return { brand, products: out.map((x) => x.p) };
   }
 
   function score(p, q) {
@@ -123,9 +231,19 @@
 
   function draw(term) {
     const box = root.querySelector('[data-search-results]');
-    const hits = find(term);
+    let hits = find(term);
     cursor = -1;
-    const b = brandHit(term);
+    let b = brandHit(term);
+    let note = '';
+    if (!hits.length && !b) {
+      // 打錯字都搵到：冇直接結果先出「相近」建議。
+      const fz = fuzzyMatches(term);
+      if (fz.brand || fz.products.length) {
+        hits = fz.products;
+        b = fz.brand ? { vendor: fz.brand, count: cache.filter((p) => p.vendor === fz.brand).length } : null;
+        note = `<p class="site-search__hint site-search__hint--slim">搵唔到「${esc(term)}」——你係咪想搵：</p>`;
+      }
+    }
     const brandHTML = b ? brandRow(b) : '';
     if (!term.trim()) {
       box.innerHTML = '<p class="site-search__hint">打產品名或者品牌，例如「防曬」、「TIRTIR」</p>';
@@ -137,7 +255,7 @@
         <a href="shop.html">睇全部產品</a></p>`;
       return;
     }
-    box.innerHTML = brandHTML + hits.slice(0, MAX).map(row).join('')
+    box.innerHTML = note + brandHTML + hits.slice(0, MAX).map(row).join('')
       + (hits.length > MAX
         ? `<a class="site-search__more" href="shop.html?q=${encodeURIComponent(term)}">睇埋其餘 ${hits.length - MAX} 件</a>`
         : '');
@@ -209,6 +327,7 @@
         cache = [];
       }
       vendors = null;
+      wordCache.clear();
       if (input.value) draw(input.value);
     }
   }
