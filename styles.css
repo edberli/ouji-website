@@ -11963,6 +11963,32 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 body { background: var(--bg-primary); background-image: none; }
 body::before { opacity: 0.18; }
 
+/* 美妝工具分類封面：同彩妝／護膚一樣用獨立桌面及手機構圖，滿版顯示。 */
+.tools-story-hero,
+.tools-story-hero picture {
+  display: block;
+  width: 100%;
+}
+
+.tools-story-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 960px) {
+  .tools-story-hero picture {
+    height: clamp(360px, 25vw, 640px);
+    overflow: hidden;
+  }
+
+  .tools-story-hero img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
 .announcement-bar {
   background: linear-gradient(110deg, #356f83 0%, #397f93 48%, #356f83 100%);
 }
