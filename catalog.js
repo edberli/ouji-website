@@ -691,10 +691,10 @@ const BRAND_SPOTLIGHTS = {
   skincare: {
     label: '熱門護膚品牌', page: 'category.html',
     slides: [
-      { art: 'skincare-slide-1.webp', focusArt: 'assets/brand-carousel/skincare-focus-round-lab-v3.png', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
-      { art: 'skincare-slide-2.webp', focusArt: 'assets/brand-carousel/skincare-focus-anua-v3.png', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
-      { art: 'skincare-slide-3.webp', focusArt: 'assets/brand-carousel/skincare-focus-cosrx-v3.png', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
-      { art: 'skincare-slide-4.webp', focusArt: 'assets/brand-carousel/skincare-focus-torriden-v3.png', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
+      { art: 'skincare-slide-1.webp', focusArt: 'assets/brand-carousel/skincare-focus-round-lab-v4.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
+      { art: 'skincare-slide-4.webp', focusArt: 'assets/brand-carousel/skincare-focus-torriden-v4.webp', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
+      { art: 'skincare-slide-2.webp', focusArt: 'assets/brand-carousel/skincare-focus-anua-v4.webp', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
+      { art: 'skincare-slide-3.webp', focusArt: 'assets/brand-carousel/skincare-focus-cosrx-v4.webp', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
     ],
   },
 };
@@ -923,16 +923,16 @@ function buildSkincareFocusSpotlight(config) {
   if (!host) return;
   const slides = config.slides.map((slide, index) => {
     const source = brandCarouselAsset(slide.focusArt || slide.art);
-    const image = index < 2
-      ? `src="${escapeSpotlightAttr(source)}"`
-      : `data-src="${escapeSpotlightAttr(source)}"`;
+    /* 四張 WebP 合計約 260KB；全部即刻排入下載，避免第 3、4 張要等到
+       撳翻頁先至出現。首屏兩張保留高優先，其餘低優先背景載入。 */
+    const image = `src="${escapeSpotlightAttr(source)}"`;
     const href = `${config.page}?brand=${encodeURIComponent(slide.focus)}`;
     return `<article class="skincare-focus__slide" role="group"
       aria-label="${escapeSpotlightAttr(slide.focus)}，今週焦點">
       <a class="skincare-focus__card" href="${href}"
          aria-label="瀏覽 ${escapeSpotlightAttr(slide.focus)} 產品">
         <img class="skincare-focus__visual" ${image} alt="" width="1600" height="755"
-             loading="${index < 2 ? 'eager' : 'lazy'}" decoding="async">
+             loading="eager" fetchpriority="${index < 2 ? 'high' : 'low'}" decoding="async">
         <span class="sr-only">${escapeSpotlightAttr(slide.focus)}</span>
       </a>
     </article>`;
@@ -2045,9 +2045,11 @@ function renderProducts(container, products, { grouped }) {
 
      ⚠️ vendor 實際係「吉伊卡哇 Chiikawa」，唔係淨係「Chiikawa」——
      舊版用 indexOf 全等比對，所以 Chiikawa 其實一直冇置頂到。改用包含比對。 */
-  const PIN_SECTIONS = new Set(['toys']);
-  const PINNED_VENDORS = PIN_SECTIONS.has(CURRENT_SECTION)
-    ? ['Chiikawa', 'Sanrio'] : [];
+  const PINNED_VENDORS_BY_SECTION = {
+    toys: ['Chiikawa', 'Sanrio'],
+    skincare: ['Torriden', 'Skin1004', 'Round Lab'],
+  };
+  const PINNED_VENDORS = PINNED_VENDORS_BY_SECTION[CURRENT_SECTION] || [];
   const pinRank = (v) => {
     const name = String(v || '').trim().toLowerCase();
     const i = PINNED_VENDORS.findIndex((k) => name.includes(k.toLowerCase()));
