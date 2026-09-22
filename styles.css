@@ -11800,6 +11800,18 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   background: #f2f5f4;
 }
 .site-search__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.site-search__thumb--brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark-base, #2b4c58);
+  background: rgba(109, 163, 181, .16);
+}
+.site-search__thumb--brand svg { width: 20px; height: 20px; }
+.site-search__hit--brand {
+  background: rgba(109, 163, 181, .07);
+  border-bottom: 1px solid var(--line, #e6e9ea);
+}
 .site-search__text { flex: 1; min-width: 0; }
 .site-search__brand {
   display: block;

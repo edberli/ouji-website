@@ -15,6 +15,7 @@
   let cache = null;      // 全目錄，第一次開先攞
   let root = null;       // 浮層本身，第一次開先砌
   let cursor = -1;       // 鍵盤揀緊第幾個
+  let vendors = null;    // 品牌清單（跟 cache 一齊建／清）
 
   const esc = (s) => String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -72,6 +73,38 @@
       .map((x) => x.p);
   }
 
+  /* 打品牌名嗰陣，客其實想去品牌自己嗰版，唔係逐件貨睇。呢度搵返
+     最貼嘅一個牌子：完全一樣（包括同義詞）行先；冇就前綴對，最少三隻字。
+     搵到就喺產品上面加一行「直接去 <品牌> 品牌頁」。 */
+  function brandHit(term) {
+    if (!cache) return null;
+    const forms = queryForms(term);
+    if (!forms[0]) return null;
+    if (!vendors) vendors = [...new Set(cache.map((p) => p.vendor).filter(Boolean))];
+    const q = flat(term);
+    let v = vendors.find((x) => forms.includes(flat(x)));
+    if (!v && q.length >= 3) {
+      v = vendors
+        .filter((x) => flat(x).startsWith(q))
+        .sort((a, b) => flat(a).length - flat(b).length || a.localeCompare(b))[0];
+    }
+    if (!v) return null;
+    return { vendor: v, count: cache.filter((p) => p.vendor === v).length };
+  }
+
+  function brandRow(b) {
+    return `<a class="site-search__hit site-search__hit--brand" href="/shop?brand=${encodeURIComponent(b.vendor)}">
+      <span class="site-search__thumb site-search__thumb--brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.59 13.41 12 22 2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg>
+      </span>
+      <span class="site-search__text">
+        <span class="site-search__brand">品牌</span>
+        <span class="site-search__name">直接去 ${esc(b.vendor)} 品牌頁</span>
+      </span>
+      <span class="site-search__price">${b.count} 件</span>
+    </a>`;
+  }
+
   function row(p, i) {
     const img = p.images?.edges?.[0]?.node?.url;
     const amt = p.priceRange?.minVariantPrice?.amount;
@@ -92,17 +125,19 @@
     const box = root.querySelector('[data-search-results]');
     const hits = find(term);
     cursor = -1;
+    const b = brandHit(term);
+    const brandHTML = b ? brandRow(b) : '';
     if (!term.trim()) {
       box.innerHTML = '<p class="site-search__hint">打產品名或者品牌，例如「防曬」、「TIRTIR」</p>';
       return;
     }
-    if (!hits.length) {
+    if (!hits.length && !brandHTML) {
       // 搵唔到唔好淨係得一句「冇結果」—— 畀條路行落去。
       box.innerHTML = `<p class="site-search__hint">搵唔到「${esc(term)}」。
         <a href="shop.html">睇全部產品</a></p>`;
       return;
     }
-    box.innerHTML = hits.slice(0, MAX).map(row).join('')
+    box.innerHTML = brandHTML + hits.slice(0, MAX).map(row).join('')
       + (hits.length > MAX
         ? `<a class="site-search__more" href="shop.html?q=${encodeURIComponent(term)}">睇埋其餘 ${hits.length - MAX} 件</a>`
         : '');
@@ -173,6 +208,7 @@
       } catch (err) {
         cache = [];
       }
+      vendors = null;
       if (input.value) draw(input.value);
     }
   }
