@@ -2530,7 +2530,6 @@ const CATEGORY_TAXONOMY = {
       sunscreen:   { label: '防曬',     keywords: ['sunscreen', 'suncare', 'sun cream', '防曬', '선크림', '선케어'] },
       spot:        { label: '局部護理', keywords: ['局部護理', '痘痘貼', 'spot'] },
       exfoliator:  { label: '去角質',   keywords: ['去角質', 'peeling', 'exfoliator'] },
-      lipcare:     { label: '唇部護理', keywords: ['唇部護理', '潤唇膏', '護唇膏', '唇部精華', '唇膜', 'lip balm', 'lip care', 'lip mask'] },
       kit:         { label: '套裝',     keywords: ['套裝護膚', '套裝', 'kit'] },
     },
   },
@@ -2669,8 +2668,9 @@ const CATEGORY_TAXONOMY = {
   },
   seasonal: {
     label: '季節性',
-    /* 防曬同護手霜跟季節走，所以喺呢度再出現一次；佢哋喺護膚／沐浴嗰邊
-       照樣留住。呢個 section 係「疊」出嚟嘅，唔係搬。 */
+    /* 防曬、護手霜同護唇產品跟季節走。主流護膚品牌嘅防曬仍可同時留喺
+       護膚；只得一兩件貨嘅細品牌防曬就集中喺季節性，避免護膚頁出現
+       一大堆孤零零品牌。 */
     /* 老闆 2026-09-02：「嗰啲潤唇膏⋯係四季嘅產品」——
        同護手霜一樣，天氣一凍就要，唔係彩妝。 */
     keywords: ['季節性', '防曬', '護手霜', '唇部護理', '涼感', '止汗', '便攜風扇', '風扇'],
@@ -2789,16 +2789,16 @@ function matchesKeywords(p, keywords) {
    ⚠️ 同 scripts/makeup_subcats.py 嘅 RULES 係同一套，改就兩邊一齊改，
    否則頁面同 script 會報唔同嘅件數。 */
 const MAKEUP_RULES = [
-  ['lip',     /唇膏|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|唇線|唇筆|唇頰|唇膜|唇凍|\btint\b|lip/i],
-  ['eye',     /眼影|眼線|睫毛|眉筆|眉粉|染眉|眼彩|臥蠶|閃粉|eyeshadow|eyeliner|mascara|\bbrow\b/i],
-  ['base',    /粉底|氣墊|遮瑕|妝前|飾底|蜜粉|定妝|素顏霜|底霜|cushion|foundation|concealer|primer/i],
+  ['lip',     /唇膏|口紅|唇粉|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|唇線|唇筆|唇頰|唇膜|唇凍|\btint\b|lip/i],
+  ['eye',     /眼影|眼線|睫毛|假睫毛|眉筆|眉粉|染眉|眼彩|臥蠶|閃粉|eyeshadow|eyeliner|eyelash|mascara|\bbrow\b/i],
+  ['base',    /粉底|粉餅|氣墊|遮瑕|妝前|飾底|蜜粉|定妝|素顏霜|底霜|cc\s*cream|cushion|foundation|concealer|primer/i],
   ['contour', /修容|高光|打亮|陰影|水光棒|contour|highlight|shading/i],
   ['cheek',   /胭脂|腮紅|頰彩|多用彩膏|多用膏|blush|cheek/i],
 ];
 
 // 潤唇膏／護唇膏／唇膜係護理貨；就算產品名包含「唇膏」或英文 lip，
 // 都唔可以跌返入彩妝。要喺一般唇妝規則之前截走。
-const LIP_CARE_TITLE = /潤唇膏|護唇膏|唇部精華|唇膜|lip\s*(?:balm|care|mask|serum)/i;
+const LIP_CARE_TITLE = /潤唇膏|護唇膏|唇部精華|唇膜|豐唇抗紋精華|lip\s*(?:balm|care|mask|serum)/i;
 
 /* 型號（productType）行先，冇型號先至退返去睇產品名。
    ⚠️ 唔可以淨係靠名：「WAKEMAKE 柔亮水潤唇膏」係真唇膏，個名一樣
@@ -2808,6 +2808,44 @@ function isLipCare(p) {
   const t = String(p.productType || '').trim();
   if (t) return LIP_CARE_TYPES.has(t);
   return LIP_CARE_TITLE.test(p.title || '');
+}
+
+/* 護手霜同潤唇膏都係季節性用品，唔屬護膚頁。型號行先，舊貨冇型號
+   先退返去睇標題，避免 collection 入面嘅舊標籤繞過分類規則。 */
+const HAND_CARE_TYPES = new Set(['護手霜', '手部護理']);
+const HAND_CARE_TITLE = /護手霜|手部護理|hand\s*(?:cream|care|balm|mask)/i;
+function isHandCare(p) {
+  const t = String(p.productType || '').trim();
+  if (t && HAND_CARE_TYPES.has(t)) return true;
+  return HAND_CARE_TITLE.test(p.title || '');
+}
+
+const SUNSCREEN_TITLE = /防曬|spf\s*\d|sun\s*(?:cream|stick|serum|essence|cushion|lotion|screen|milk)|\buv\b|선크림|선케어/i;
+function isSunscreenProduct(p) {
+  return SUNSCREEN_TITLE.test(productHaystackLoose(p));
+}
+
+/* 人工 skincare collection 曾經混入全套彩妝、假睫毛、保健品同護髮。
+   呢個閘按產品而唔係按品牌：同一品牌真正嘅面霜／精華仍然可以保留。 */
+const SKINCARE_FOREIGN_TYPES = /^(?:保健品|化妝工具|美容工具|美妝工具|美髮工具|隱形眼鏡|公仔|玩具|香水|家居香氛|頭髮護理|護髮)$/i;
+const SKINCARE_FOREIGN_TITLE = /頭髮|護髮|洗髮|髮膜|hair\s*(?:ampoule|serum|treatment|mask|oil)|葉黃素|玉米黃質|益生菌膠囊|睫毛夾/i;
+function isSkincareCategoryMismatch(p) {
+  if (isSoNaturalFixx(p)) return false;
+  if (isLipCare(p) || isHandCare(p) || makeupBucket(p)) return true;
+  if (SKINCARE_FOREIGN_TYPES.test(String(p.productType || '').trim())) return true;
+  return SKINCARE_FOREIGN_TITLE.test(productHaystackLoose(p));
+}
+
+function isSeasonalCare(p) {
+  return isLipCare(p) || isHandCare(p) || isSunscreenProduct(p);
+}
+
+/* Winston 指定 So Natural FIXX 定妝噴霧要護膚／彩妝兩邊都有。
+   限死品牌＋FIXX／定妝噴霧，唔會將其他彩妝順手灌入護膚。 */
+function isSoNaturalFixx(p) {
+  const vendor = String(p.vendor || '').replace(/[^a-z]/gi, '').toLowerCase();
+  return vendor === 'sonatural'
+    && /定妝噴霧|setting\s*(?:spray|fixer)/i.test(p.title || '');
 }
 
 function makeupBucket(p) {
@@ -2851,9 +2889,15 @@ function categoryKeywords(section, cat) {
    （唇部護理），所以呢度係淨係由彩妝剔走，唔係搬走。
    ⚠️ 所有判斷「呢件貨屬唔屬呢個 section」嘅地方一律叫呢個，唔好再直接
    叫 matchesKeywords，否則又會有一半入口漏咗呢條規則。 */
-const SECTION_EXCLUDE = { makeup: (p) => isLipCare(p) };
+const SECTION_EXCLUDE = {
+  makeup: (p) => isLipCare(p),
+  skincare: (p) => isSkincareCategoryMismatch(p),
+};
 
 function sectionMatch(p, section) {
+  if (section === 'skincare' && isSoNaturalFixx(p)) return true;
+  if (section === 'makeup' && makeupBucket(p)) return true;
+  if (section === 'seasonal' && isSeasonalCare(p)) return true;
   if (!matchesKeywords(p, categoryKeywords(section, null))) return false;
   const drop = SECTION_EXCLUDE[section];
   return !(drop && drop(p));
@@ -2933,6 +2977,21 @@ async function getCategoryProducts({ section, cat = null } = {}) {
     seen.add(key);
     return true;
   });
+  /* collection 係人工整理但可以滯後；合併後再套 section 硬排除，否則
+     collection 入面嘅潤手霜／潤唇膏會繞過上面 sectionMatch。 */
+  const sectionDrop = SECTION_EXCLUDE[section];
+  if (sectionDrop) products = products.filter((p) => !sectionDrop(p));
+  if (section === 'skincare') {
+    const vendorTotals = new Map();
+    products.forEach((p) => {
+      const vendor = String(p.vendor || '其他');
+      vendorTotals.set(vendor, (vendorTotals.get(vendor) || 0) + 1);
+    });
+    products = products.filter((p) => !(
+      isSunscreenProduct(p)
+      && (vendorTotals.get(String(p.vendor || '其他')) || 0) <= 2
+    ));
+  }
   /* 短效期特價有自己一版（short-dated.html），唔好喺分類頁同正價貨並排，
      客會見到同一件貨兩個價。 */
   if (section !== 'short-dated') products = products.filter((p) => !isShortDated(p));

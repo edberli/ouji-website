@@ -72,7 +72,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260920-icons-large">
+  <link rel="stylesheet" href="styles.css?v=20260921-focus-arrows-v3">
   <!-- 護膚配方（玻璃版）。skincare-match.css 睇落似殘留，但入面
        仲有幾條 .sm 基礎 rule 生效，唔可以剩係要 modes 嗰張。 -->
   <link rel="stylesheet" href="skincare-match.css">
@@ -465,24 +465,25 @@
 
     <!-- Breadcrumb & Filter Bar -->
     <div class="container">
-      <nav class="breadcrumb">
-        <a href="index.html">首頁</a>
-        <span class="breadcrumb__sep">/</span>
-        <span>護膚</span>
-      </nav>
-
       <!-- 子分類 pill 剷咗：頁頂嘅入口 tile 已經做緊同一件事
            （同一批子分類、同一個件數、同一個 data-quick）。
            留兩份係重複導覽，客要諗「呢兩行有咩分別」。 -->
 
-      <!-- 品牌 logo 一行，撳一下直接去嗰個牌子 -->
-      <!-- 幼優惠條。老闆：「如果啲人一入嚟就剷全部產品頁面，或者淨係睇
-           產品頁面，咁佢未必知，未必夠凸顯呢個優惠。」
-           首頁嗰個大 banner 縮到一條，擺喺產品格上面。用返購物袋嗰隻
-           去背面霜圖（13KB，已經喺快取），唔另外落六格動畫 —— 呢啲版面
-           本身已經有一隻芝麻，再落多一套就淨係為咗多 115KB。 -->
-      <section id="skincare-brand-spotlight" class="shop-brand-spotlight" data-shop-brand-spotlight
-               data-spotlight-section="skincare" aria-label="按護膚品牌選購"></section>
+      <!-- 護膚焦點同熱門品牌刻意拆開：焦點圖之後會逐張替換，品牌入口
+           就保持一行獨立 carousel，唔再將兩種訊息壓喺同一張 artwork 入面。 -->
+      <section id="skincare-focus" class="skincare-spotlight-section skincare-focus"
+               aria-labelledby="skincare-focus-title">
+        <h2 id="skincare-focus-title" class="sr-only">今週焦點</h2>
+        <div data-skincare-focus-carousel></div>
+      </section>
+
+      <section id="skincare-brands" class="skincare-spotlight-section skincare-brands"
+               aria-labelledby="skincare-brands-title">
+        <div class="skincare-spotlight__heading">
+          <h2 id="skincare-brands-title" class="skincare-spotlight__title">所有護膚品牌</h2>
+        </div>
+        <div data-skincare-brands-carousel></div>
+      </section>
 
       <aside class="promo-slim" aria-label="已結束的推廣" hidden>
         <img class="promo-slim__jar" src="assets/images/home/gift-cream.webp"
@@ -498,6 +499,11 @@
       </aside>
       <div class="filter-bar">
         <div class="filter-bar__left">
+          <nav class="breadcrumb breadcrumb--inline" aria-label="目前位置">
+            <a href="index.html">首頁</a>
+            <span class="breadcrumb__sep">/</span>
+            <span>護膚</span>
+          </nav>
           <button class="filter-btn" data-filter-toggle>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
             篩選
@@ -640,13 +646,13 @@
   </nav>
 
   <script src="analytics.js"></script>
-  <script src="shopify.js"></script>
+  <script src="shopify.js?v=20260921-category-rules-v3"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
   <!-- 相紙揀相嘅名單（人手開圖驗過），一定要喺 catalog.js 之前。 -->
   <script src="booth-shots.js"></script>
-  <script src="catalog.js?v=20260920-live"></script>
+  <script src="catalog.js?v=20260921-brand-flow-v9"></script>
   <!-- modes 一定要喺 match 之前：match 會即刻叫 modes 入面啲 render。 -->
   <script src="skincare-modes.js"></script>
   <script src="skincare-match.js"></script>

@@ -1,5 +1,145 @@
 # OUJI 三個產品頁品牌輪播 — Design QA
 
+## 2026-09-21 — 季節性產品及細品牌歸類
+
+- 護膚頁喺 collection 與 taxonomy 合併後再次硬性排除潤手霜、手部護理、潤唇膏、護唇膏、唇部精華及唇膜；相關產品保留喺季節性頁。
+- 所有分類頁共用同一品牌門檻：品牌喺目前分類得 2 件或以下產品時，品牌篩選、品牌導覽及產品分段一律合併為「其他」。
+- 「其他」固定排喺獨立品牌之後；3 件或以上先保留獨立品牌段落。
+- 「其他」內按原品牌連續排列；每個小組第一張卡有細型品牌 pill 及輕量邊框，產品卡本身仍顯示原品牌名。
+- So Natural FIXX 定妝噴霧以精確品牌＋產品名例外加入護膚，同時保留彩妝歸類；例外唔會放寬至其他定妝產品。
+- 護膚頁硬排除彩妝、假睫毛、CC Cream／底妝、護髮及保健品；只得一至兩件貨嘅細品牌防曬集中到季節性。
+- 蠟筆小新防曬及 ATOPALM 兩款兒童防曬已於季節性頁核對；miru miru、CORINGCO、AN' BLESS 已於彩妝頁核對。
+- 靜態語法、diff whitespace、護膚頁實際產品標題掃描、品牌列／產品段落／篩選一致性及 console 已驗收。
+
+final result: passed
+
+---
+
+## 2026-09-21 — 護膚焦點桌面箭嘴融入輪播邊緣
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-7ad31e7c-c5eb-4fdc-8f1d-c78b29400f06.png`
+- implementation screenshot: Codex IAB tab 2 inline capture；local preview `http://127.0.0.1:8765/category.html`
+- viewport: desktop `1146px` CSS width；mobile interaction check `390 × 844px`
+- state: desktop focus carousel first position；mobile first position
+
+### Findings
+
+- 冇剩餘 P0／P1／P2。桌面箭嘴層由卡頂伸到卡底，外側使用同頁面完全一致嘅 `#f7f9f9`，跨入卡面後先逐步透明，幼線箭嘴貼住可視邊界。
+- Fonts/typography：本次無文字改動；焦點圖內文字及網站標題保持原樣。
+- Spacing/layout：實測 card、左右箭嘴層均為 `244px` 高，top／bottom 完全對齊；箭嘴層 68px 闊、跨出輪播 20px，冇佔用 dots 或增加 section 高度。
+- Colors/tokens：箭嘴層外側 `rgb(247,249,249)` 與 body 背景完全一致，再向 card 變透明；沿用 OUJI 深藍箭嘴，hover 只輕移 3px。
+- Image quality/assets：四張焦點圖完全不變，冇重新裁切、拉伸或覆寫圖像內容。
+- Copy/content：畫面文字不變；`上一組`／`下一組` 只保留作 accessibility name。
+- Responsive：desktop 實測右箭嘴將 `scrollLeft` 由 0 推至 599、active page 由 0 轉 1；390px 手機兩個箭嘴均為 `display:none`，viewport 保留 `overflow-x:auto`，可手指滑動。
+
+### Comparison history
+
+1. P2 — 原本圓形白掣與首頁分類 rail 視覺語言不一致。修正：改用邊緣淡出帶與幼線箭嘴。
+2. P2 — 第一輪淡出帶只得 104px 高，而且純白與頁面底色斷開，形成細方塊。修正：高度改為精確跟 card，外側改用 `--bg-primary`；post-fix 實測三者 top／bottom 同線、背景 RGB 完全相同。
+
+### Implementation checklist
+
+- [x] 桌面箭嘴改為邊緣淡出樣式
+- [x] 左右箭嘴貼住輪播外緣並保留 click navigation
+- [x] 手機完全隱藏箭嘴並保留 swipe
+- [x] desktop／mobile interaction、JavaScript syntax、diff whitespace 驗收
+
+final result: passed
+
+---
+
+## 2026-09-21 — 修正正常／置頂品牌卡狀態
+
+- source visual truth: 用戶確認規格：未滾動保留原本彩色正方形品牌卡；滾動置頂後先過渡為白色 Logo 導覽條
+- implementation: `http://127.0.0.1:8765/category.html?preview=sticky-brand-v2`
+
+### Findings
+
+- 正常狀態重新使用原有品牌 artwork，冇再統一改成白色 Logo 卡；排序仍嚴格跟產品 section，由 Skin1004 起首。
+- sticky 狀態先隱藏 artwork 背景並顯示品牌 Logo／文字，維持 `92 × 42px` 白色 pills、active 指示、auto-center、點擊跳轉及進度功能。
+- 原 artwork 集合以外嘅品牌冇對應彩色資產，正常狀態保留 Logo／文字 fallback，唔虛構新 artwork。
+- `node --check`、`git diff --check` 通過；desktop 正常／sticky 畫面及 console 已驗收。
+
+final result: passed
+
+---
+
+## 2026-09-21 — 護膚品牌排序及置頂過渡
+
+> 此段正常狀態設計已被上方修正取代；排序及 sticky 行為記錄仍有效。
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-09bc65db-a59a-4e3c-862b-561bb5e11510.png`，加用戶確認嘅「低彩度正方形 Logo 卡 → 置頂白色 Logo 導覽條」方案
+- implementation: `http://127.0.0.1:8765/category.html?preview=sticky-brand-v2`；Codex IAB 正常及 sticky 即時 capture
+- viewport/state: desktop `1190 × 1258` CSS px、DPR 2；正常品牌區及 Round Lab sticky／active 狀態
+
+### Findings
+
+- 冇剩餘 P0／P1／P2。品牌卡以 `.brand-section` 排序為唯一資料來源，實測頭八張同產品分段逐個一致：Skin1004、Round Lab、Anua、Beauty of Joseon、Abib、COSRX、VT Cosmetics、Some By Mi。
+- 正常狀態統一為低彩度暖白正方形卡，移除原先精選 artwork 帶來嘅多色背景；現有品牌 Logo 圖檔保留原色，冇重畫或濾色。
+- sticky 狀態由 82px 方卡過渡成 `92 × 42px` Logo pill；背景改為半透明暖白玻璃，非目前品牌 opacity 收至 .76，目前品牌用 OUJI 藍邊及底線辨識。
+- 點擊 Round Lab 實測成功跳到 `#brand-1`、sticky 生效、active 同步為 Round Lab、自動橫移保留；舊 `.brand-rail` 及 `[data-brand-strip]` 均為 0。
+- Fonts/typography：品牌 Logo 使用現有 raster／vector asset；缺 Logo 品牌沿用小型網站字體 fallback，無新增字款。
+- Spacing/layout：正常卡縮至 82–104px；sticky 卡 42px 高，標題收起，保留纖細進度線。
+- Colors/tokens：背景只用暖白、淺灰藍玻璃及 OUJI 藍 active 狀態；無多色卡底。
+- Image quality/assets：所有 Logo 使用現有 `brandLogo()` 對應資產及 `object-fit: contain`，無拉伸或重新生成。
+- Copy/content：品牌名稱、98 個實際產品品牌及產品 section 保持不變。
+- Console：Codex IAB 實測 0 error；`node --check`、`git diff --check` 通過。
+
+### Comparison history
+
+1. P1 — 品牌列沿用精選 artwork 次序，Anua 起首但產品由 Skin1004 起首。修正：每次 render 直接按產品 `order` 重建 98 張品牌卡。
+2. P2 — 彩色 artwork 卡與後加白色 Logo 卡混雜。修正：全部統一為暖白 Logo 卡，保留 Logo 原色。
+3. P2 — sticky 收矮後點擊 Round Lab 嘅判定線差約十幾像素，active 一度停留 Skin1004。修正跳轉 offset 後，實測 active=`Round Lab`、targetTop=`217px`。
+
+### Implementation checklist
+
+- [x] 品牌順序完全跟產品 section
+- [x] 正常狀態低彩度、Logo 保留原色
+- [x] sticky 平滑縮成白色 Logo pills
+- [x] active 藍色指示、auto-center、click jump 保留
+- [x] 舊品牌列完全移除
+- [x] desktop 正常／sticky 狀態及 console 驗收
+
+final result: passed
+
+---
+
+## 2026-09-21 — 護膚焦點控制列精簡
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3f5bbdee-bfeb-4b52-b206-b8bc3c32e2ce.png`、`/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-09bc65db-a59a-4e3c-862b-561bb5e11510.png`
+- implementation: `http://127.0.0.1:8765/category.html?preview=sticky-brand-v2`；Codex IAB 即時 capture
+- viewport: `1190 × 1258` CSS px、DPR 2；source screenshots 分別為 `2902 × 814`、`2322 × 568`，以相同 desktop layout region 作比例比較
+- state: desktop，焦點第 1／第 2 頁及品牌區同屏
+
+### Findings
+
+- 冇剩餘 P0／P1／P2。原本「上一組／下一組」文字膠囊已移除，改成焦點卡左右邊緣嘅圓形箭嘴；按鈕仍有 aria-label、disabled、focus 及 reduced-motion 行為。
+- 桌面四張焦點卡採逐張前進，形成三個有效位置 `[1+2] → [2+3] → [3+4]`，所以只顯示三粒點；實測右箭嘴由第 1 頁前進至第 2 頁，active dot 同 scrollLeft 同步。
+- controls 高度由約 40px 收至 18px、卡下間距收至 5px；焦點與品牌 section gap 收至 10–16px，畫面冇再為文字翻頁掣留出大幅空白。
+- Fonts/typography：刪除控制文字，保留既有標題字款；冇新增字體。
+- Spacing/layout：箭嘴疊放於卡面兩側，三點緊貼卡下；desktop 畫面可同時見到焦點、品牌列及篩選列。
+- Colors/tokens：箭嘴使用半透明暖白玻璃底及既有深藍文字色；唔新增搶眼色塊。
+- Image quality/assets：四張焦點 raster 完全不變，冇裁切、拉伸或重製；箭嘴沿用網站既有線性 SVG icon 語言。
+- Copy/content：畫面不再顯示「上一組／下一組」，accessibility name 仍保留。
+- Console：Codex IAB 實測 0 error。
+
+### Comparison history
+
+1. P2 — 文字翻頁掣加 12px 下距令控制區過高。修正：左右箭嘴移入卡面邊緣，dots margin 改為 5px、controls 高度改為 18px。
+2. P2 — 四張卡以兩張為一頁時只得兩粒點，唔符合指定三點。修正：desktop 保持兩卡可見但每次前進一張，形成三個有效位置。
+
+### Implementation checklist
+
+- [x] 只顯示三粒點
+- [x] 左右箭嘴取代文字翻頁掣
+- [x] 收緊焦點控制列及兩個 section 上下留白
+- [x] 箭嘴、dots、鍵盤及 swipe 行為保留
+- [x] desktop 實際畫面、翻頁、console 驗證
+
+final result: passed
+
+---
+
 ## 測試基準
 
 - source visual truth: `/Volumes/core/Projects/OUJI/Website-and-Design/ouji-brand-section-exact/source-exact-user.png`
@@ -58,6 +198,146 @@
 - [x] WebP 壓縮及逐版 lazy load
 - [x] 11 張 artwork 各自量度 hotspot；品牌卡及焦點大圖逐版對位
 - [x] Desktop、mobile、interaction、responsive、console QA
+
+final result: passed
+
+---
+
+# 護膚焦點輪播及品牌導覽修正 — Design QA（2026-09-21）
+
+## 測試基準
+
+- reference: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-387ad0fc-c596-4abc-8f85-85caf5d6abdf.png`
+- local preview: `http://localhost:8765/category.html`
+- desktop viewport: `1440 × 900px`
+- mobile viewport: Codex IAB 預設窄版 viewport
+
+## Findings
+
+- **焦點卡一致。** Round Lab、Anua、COSRX、Torriden 四張圖重新輸出為 `1600 × 755px`，徽章、品牌字位及 CTA 採用同一位置與比例，背景滿版，無白邊或拉闊。
+- **輪播完整。** 桌面每頁兩張、共兩頁；窄版每頁一張並露出下一張卡。上一組／下一組、頁點及 live status 均可用，實測由第 1 頁切換至第 2 頁。
+- **品牌列完整。** 保留 30 個正方形品牌卡，縮細桌面及手機卡片尺寸；可橫向滑動，進度線與 `01 / 30` 計數會隨位置更新。
+- **Sticky 快速導覽。** 原有完整品牌快速跳轉列已恢復；向下捲動後固定頁頂，會按目前產品品牌高亮並自動將該品牌帶到可見範圍。
+- **靜態檢查。** `node --check catalog.js` 及 `git diff --check -- catalog.js styles.css` 通過。
+
+## Implementation checklist
+
+- [x] 四張焦點卡使用統一視覺規格
+- [x] 桌面兩張一頁、手機一張一頁並支援左右滑動
+- [x] 所有 30 個品牌卡保留並縮細
+- [x] 品牌卡進度提示保留
+- [x] Sticky 品牌快速導覽及自動高亮／置中恢復
+- [x] Desktop／mobile 實際畫面及互動驗收
+
+final result: passed
+
+---
+
+# 護膚分類頁 Focus／品牌列修正版 — Design QA（2026-09-21）
+
+## 測試基準
+
+- desktop reference: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-3660b5cd-a183-48ca-84f3-321884c55045.png`（原圖 2888 × 1380）
+- breadcrumb detail: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-c056fdfb-2291-4926-bf9e-ac63a97f51de.png`
+- local implementation: `http://localhost:8765/category.html`
+- generated focus artwork: `assets/brand-carousel/skincare-focus-round-lab-v2.png`、`assets/brand-carousel/skincare-focus-anua-v2.png`（各 1600 × 755；2.12:1）
+
+## Findings
+
+- **Focus 圖像：** 兩張圖均重新建立為原生闊幅構圖，背景延伸至四邊；卡片無白色外框，CSS 使用 `object-fit: cover`，無水平拉伸。
+- **品牌比例及完整性：** 品牌卡固定 `aspect-ratio: 1 / 1`，保持正方形；由四組既有品牌資料合併成 30 個品牌，單行橫向滾動及 scroll snap 保留。
+- **版面密度：** 收窄 focus、品牌列及篩選列之間垂直距離，避免原版過量留白。
+- **資訊層級：** 標題改為「所有護膚品牌」並縮細；「首頁 / 護膚」移到篩選按鈕旁，移除原本獨立 breadcrumb 佔位。
+- **互動驗證：** desktop browser 實測品牌列可拖動；accessibility tree 可讀出由 Anua 至 HEVEBLUE 共 30 個品牌連結。
+- **範圍：** 本輪只驗收本地 desktop 修正版；responsive CSS 已保留正方形卡片與橫向滾動，但未聲稱已發布或 public/live。
+
+## Implementation checklist
+
+- [x] 無白邊、無 CSS 夾硬拉闊
+- [x] 兩張 focus 圖為新闊幅素材，背景可安全裁切
+- [x] 品牌卡保持正方形
+- [x] 30 個品牌完整保留並可向右滾動
+- [x] 留白收緊、breadcrumb 融入篩選列
+- [x] 標題改為「所有護膚品牌」並縮細
+
+final result: passed
+
+---
+
+# 護膚頁焦點／熱門品牌分拆 — Design QA（2026-09-21）
+
+## 測試基準
+
+- source visual truth: `/var/folders/z_/ygspprr92sv_g1p2bhq28fzw0000gn/T/codex-clipboard-b518f432-6311-49d9-9567-02062e7e5f7d.png`（1938 × 812）
+- implementation: `http://localhost:8765/category.html`
+- implementation screenshot: Codex in-app Browser 即時畫面（未能落地成獨立檔案）
+- observed desktop viewport: 1108 × 720 CSS px，density 1
+- state: 護膚首頁、無篩選、焦點及熱門品牌區可見
+
+## Findings
+
+- 已將「今週焦點」同「熱門護膚品牌」拆成兩個語義 section；桌面焦點為兩張同列，熱門品牌為 8 張單行卡。
+- 熱門品牌卡直接裁切現有 skincare artwork，保留參考圖嘅底色、材質同品牌字款；下方舊品牌 rail 喺 skincare 模式停用。
+- 「查看更多」已連到 `brands.html#skincare-brands`；每張焦點卡及品牌卡保留可聚焦品牌連結。
+- 瀏覽器實際畫面冇見到品牌字樣重疊；桌面主要比例、間距同參考圖方向一致。
+- 暫時焦點圖仍由舊 2151 × 731 artwork 裁切，唔係用戶將會重做嘅獨立闊圖，所以產品構圖只屬 layout placeholder。
+
+## 五個 fidelity surfaces
+
+- **Fonts and typography:** 沿用現有 OUJI 字體 token；熱門護膚品牌標題層級同參考一致。
+- **Spacing and layout rhythm:** 桌面兩張焦點卡 1:1 平排；品牌 8 張單行；窄屏改為橫向 swipe。
+- **Colors and visual tokens:** 沿用現有護膚 artwork 色彩及現有頁面 token，冇新增另一套 palette。
+- **Image quality and asset fidelity:** 品牌 tile 用原 artwork 精準區域裁切；焦點圖等候新獨立資產替換 `focusArt`。
+- **Copy and content:** 「今週焦點」、「熱門護膚品牌」、「查看更多」及品牌連結符合最新參考。
+
+## Comparison history
+
+- 首次畫面發現 screen-reader fallback 文字因專案冇全域 `.sr-only` 規則而疊喺品牌 artwork 上。
+- 已加入 section-scoped visually-hidden 規則；重載後 8 張品牌卡只顯示 artwork 原字樣。
+- 焦點圖右邊曾露出原 artwork 下一格品牌卡邊緣；已微調 placeholder crop，等待新焦點圖時保持乾淨邊界。
+
+## Remaining blocker
+
+- 未有同參考圖相同 1938 × 812 viewport 嘅已落地 implementation screenshot，亦未有用戶將重做嘅兩張正式焦點圖；因此無法做同尺寸合併圖比較。
+
+final result: blocked
+
+## 2026-09-21 — 彩妝細分類水彩 icon 更新
+
+- Scope: 粉底、氣墊、遮瑕、眼影、眼線、睫毛膏、眉筆、唇膏、唇釉、唇彩，共 10 個細分類 icon。
+- Style source: `makeup-watercolor-hero-mobile-clean.png`；沿用淡粉、霧藍、暖白及細緻水彩紙紋，移除舊款高飽和色、星星及粗黑卡通邊。
+- Assets: 同名 PNG 及 WebP，透明背景，標準化為 `512 × 512`；內容透明邊已裁緊再留安全 padding。
+- Runtime captures: `qa-makeup-subcats-base.png`、`qa-makeup-subcats-eye.png`、`qa-makeup-subcats-lip.png`。
+- Result: 三組展開狀態全部可辨、冇切邊、冇錯圖、冇文字或 logo 混入；原有分類名稱、次序及互動不變。
+- Remaining P0/P1/P2: none.
+
+final result: passed
+
+## 2026-09-21 — 彩妝手機分類列第二輪修正（已撤回）
+
+- 呢次曾錯誤重建分類列及移除件數，破壞原本比例；用戶否決後已完整撤回，唔係現行實作。
+
+final result: superseded
+
+## 2026-09-21 — 彩妝手機 hero 最終修正
+
+- 保留原始 `941 × 625` 畫布、構圖、分類列、五組分類圖、分類名稱及間距。
+- 原圖局部移除三粒輪播點、最右箭嘴、箭嘴格分隔線，以及五個大分類件數；細分類件數亦收起。
+- 分類帶原有效範圍 `0–879px` 拉滿原畫布 `941px`，消除箭嘴留下嘅右側空區，令左右外側留白平衡。
+- 透明按鈕按原五格比例 `179 / 173 / 158 / 182 / 187` 鋪滿全寬，active indicator 跟新分隔線對位。
+- Prototype capture: `qa-makeup-mobile.png`（headless Chrome，959px 手機 CSS 最大邊界，`?cat=cheek`）。
+- 實截確認頰彩 active indicator 左右端精準對齊原圖第四格分隔線，頁面下面內容沒有重疊。
+- Remaining P0/P1/P2: none.
+
+final result: passed
+
+## 2026-09-21 — 彩妝頁手機 hero 跟選定參考圖
+
+- Source visual: `/Users/winstonli/Downloads/87B9988A-D36D-4721-8145-4C9E030C46F9.PNG`
+- Prototype capture: `qa-makeup-mobile.png`（headless Chrome，500px；Chrome macOS headless 最小完整 viewport）
+- Scope: `makeup.html` 手機版 hero；桌面版不變。
+- Result: 水彩主圖、五格分類橫帶、文字及件數完整；底妝／眼妝／唇妝／頰彩／修容五個透明操作區仍在原位；下面 breadcrumb 及產品內容沒有重疊或橫向裁切。
+- Remaining P0/P1/P2: none.
 
 final result: passed
 

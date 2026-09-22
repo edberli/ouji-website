@@ -1283,6 +1283,34 @@ main { padding-top: calc(var(--hdr-h, var(--header-height)) + var(--ann-h, 36px)
   transition: transform var(--duration-slow) var(--ease-out);
 }
 
+.product-card__mini-brand {
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  left: 10px;
+  max-width: calc(100% - 58px);
+  overflow: hidden;
+  padding: 5px 9px;
+  border: 1px solid rgba(255,255,255,.78);
+  border-radius: 999px;
+  background: rgba(248,251,250,.9);
+  box-shadow: 0 3px 10px rgba(31,79,99,.1);
+  color: #315b6b;
+  font-size: .625rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  backdrop-filter: blur(9px);
+}
+
+.product-card--other-brand-start .product-card__image-wrap {
+  box-shadow: 0 0 0 1px rgba(38,127,178,.15), 0 6px 22px rgba(31,79,99,.08);
+}
+
+.product-card--other-brand-start .product-card__badge { top: 42px; }
+
 .product-card:hover .product-card__image { transform: scale(1.06); }
 
 .product-card__quick-add {
@@ -9709,6 +9737,446 @@ html.is-lite .section--brand-intro::after {
 @media (max-width: 768px) {
   .brand-strip__item { width: 72px; height: 36px; }
   .brand-strip__item img { max-height: 17px; }
+}
+
+/* ============================================
+   護膚頁：今週焦點／熱門品牌分開
+
+   焦點卡暫時由 skincare-slide artwork 嘅左側 crop 供圖；圖片來源喺
+   catalog.js 每張 slide 自己嘅 focusArt，日後可以逐張換獨立焦點圖。
+   品牌列係另一個 carousel，每版只保留一行水平品牌卡。
+   ============================================ */
+.skincare-spotlight-section {
+  min-width: 0;
+  margin: clamp(16px, 2vw, 24px) 0 0;
+}
+
+.skincare-spotlight-section .sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.skincare-focus { margin-top: clamp(10px, 1.3vw, 16px); }
+
+.skincare-spotlight-section + .skincare-spotlight-section {
+  margin-top: clamp(10px, 1.2vw, 16px);
+}
+
+.skincare-spotlight__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 9px;
+}
+
+.skincare-spotlight__title {
+  margin: 0;
+  color: var(--text, #1e3038);
+  font-family: var(--font-display, 'Noto Serif TC', serif);
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1.2;
+}
+
+.skincare-focus__viewport {
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.skincare-focus__viewport::-webkit-scrollbar { display: none; }
+
+.skincare-focus__grid {
+  display: flex;
+  gap: 14px;
+}
+
+[data-skincare-focus-carousel] { position: relative; }
+
+.skincare-brand-row::-webkit-scrollbar { display: none; }
+
+/* Breadcrumb 收入篩選工具列，唔再獨佔一整行垂直空間。 */
+.breadcrumb--inline {
+  padding: 0;
+  margin: 0 4px 0 0;
+  font-size: .75rem;
+}
+
+.breadcrumb--inline + .filter-btn { margin-left: 2px; }
+
+.skincare-focus__slide,
+.skincare-brands__slide {
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.skincare-focus__slide {
+  flex: 0 0 calc((100% - 14px) / 2);
+  min-width: 0;
+}
+
+.skincare-focus__card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 2.12 / 1;
+  border: 0;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(30, 48, 56, .08);
+  isolation: isolate;
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast),
+              border-color var(--duration-fast);
+}
+
+.skincare-focus__visual {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.skincare-focus__card:focus-visible,
+.skincare-brand-card:focus-visible {
+  outline: 3px solid var(--boot-pink, #ff63b4);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .skincare-focus__card:hover {
+    border-color: rgba(54, 151, 164, .3);
+    box-shadow: 0 14px 28px rgba(54, 151, 164, .16);
+    transform: translateY(-2px);
+  }
+}
+
+.skincare-brand-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 2px 2px 10px;
+  list-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-inline: contain;
+  touch-action: pan-x;
+  scroll-snap-type: x proximity;
+}
+
+.skincare-brand-row > li {
+  --brand-card-size: clamp(82px, 6.6vw, 104px);
+  flex: 0 0 var(--brand-card-size);
+  min-width: 0;
+  scroll-snap-align: start;
+  transition: flex-basis 260ms cubic-bezier(.2,.7,.2,1);
+}
+
+.skincare-brand-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--brand-card-size);
+  padding: 0;
+  border: 1px solid rgba(45, 70, 80, .11);
+  border-radius: 12px;
+  background-color: rgba(250, 252, 251, .96);
+  background-image: var(--brand-art);
+  background-size: var(--brand-size-x) var(--brand-size-y);
+  background-position: var(--brand-pos-x) var(--brand-pos-y);
+  background-repeat: no-repeat;
+  color: var(--text, #1e3038);
+  text-align: center;
+  text-decoration: none;
+  transition: height 260ms cubic-bezier(.2,.7,.2,1),
+              padding 260ms cubic-bezier(.2,.7,.2,1),
+              border-radius 260ms cubic-bezier(.2,.7,.2,1),
+              border-color var(--duration-fast), box-shadow var(--duration-fast),
+              background-color 260ms ease, transform var(--duration-fast);
+}
+
+.skincare-brand-card--logo {
+  padding: 13px;
+  background-image: none;
+}
+
+.skincare-brand-card--logo img {
+  width: 78%;
+  height: 42%;
+  object-fit: contain;
+  transition: width 260ms ease, height 260ms ease, opacity 180ms ease;
+}
+
+.skincare-brand-card--logo span {
+  overflow: hidden;
+  font-size: .72rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skincare-brand-card__sticky-logo { display: none; }
+
+.skincare-brand-card__sticky-logo img {
+  width: 80%;
+  height: 72%;
+  object-fit: contain;
+}
+
+.skincare-brand-card__sticky-logo span {
+  overflow: hidden;
+  font-size: .67rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skincare-brand-card.is-current {
+  border-color: #267fb2;
+  box-shadow: inset 0 -3px 0 #267fb2, 0 5px 14px rgba(28, 92, 124, .14);
+}
+
+.skincare-brand-dock { width: 100%; }
+
+#skincare-brands {
+  transition: padding 260ms ease, background-color 260ms ease,
+              box-shadow 260ms ease, border-radius 260ms ease;
+}
+
+#skincare-brands.is-stuck {
+  position: fixed;
+  z-index: 55;
+  top: var(--skincare-sticky-top, 100px);
+  left: var(--skincare-sticky-left, 12px);
+  width: var(--skincare-sticky-width, calc(100% - 24px));
+  margin: 0;
+  padding: 7px 10px 6px;
+  border: 1px solid rgba(255,255,255,.82);
+  border-radius: 14px;
+  background: rgba(244, 249, 250, .9);
+  box-shadow: 0 9px 24px rgba(31, 79, 99, .13);
+  backdrop-filter: blur(18px);
+  transition: padding 260ms ease, background-color 260ms ease,
+              box-shadow 260ms ease, border-radius 260ms ease;
+}
+
+#skincare-brands.is-stuck .skincare-spotlight__heading { display: none; }
+#skincare-brands.is-stuck .skincare-brand-row {
+  gap: 8px;
+  padding: 1px 2px 3px;
+}
+#skincare-brands.is-stuck .skincare-brand-row > li {
+  --brand-card-size: 92px;
+  flex-basis: 92px;
+}
+#skincare-brands.is-stuck .skincare-brand-card {
+  height: 42px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background-color: rgba(255,255,255,.82);
+}
+#skincare-brands.is-stuck .skincare-brand-card--art { background-image: none; }
+#skincare-brands.is-stuck .skincare-brand-card__sticky-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+#skincare-brands.is-stuck .skincare-brand-card--logo img {
+  width: 80%;
+  height: 72%;
+}
+#skincare-brands.is-stuck .skincare-brand-card--logo span { font-size: .67rem; }
+#skincare-brands.is-stuck .skincare-brand-card:not(.is-current) img { opacity: .76; }
+#skincare-brands.is-stuck .skincare-brand-card.is-current {
+  background-color: #fff;
+  box-shadow: inset 0 -3px 0 #267fb2, 0 4px 12px rgba(28,92,124,.12);
+}
+#skincare-brands.is-stuck .skincare-brand-progress {
+  width: min(220px, 45vw);
+  margin-top: 3px;
+}
+
+.skincare-brand-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(320px, 42vw);
+  margin: 7px 2px 0 auto;
+  color: #6b7f88;
+  font-size: .6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .08em;
+}
+
+.skincare-brand-progress__bar {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dce8ed;
+}
+
+.skincare-brand-progress__bar i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #237fbd;
+  transform: scaleX(.06);
+  transform-origin: left center;
+  transition: transform 120ms ease-out;
+}
+
+.skincare-brand-progress__count b { color: #25556a; font-weight: 750; }
+
+@media (hover: hover) and (pointer: fine) {
+  .skincare-brand-card:hover {
+    border-color: rgba(54, 151, 164, .34);
+    box-shadow: 0 10px 20px rgba(54, 151, 164, .12);
+    transform: translateY(-2px);
+  }
+}
+
+.skincare-spotlight__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18px;
+  margin-top: 5px;
+}
+
+.skincare-spotlight__page {
+  position: absolute;
+  top: 0;
+  bottom: 23px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  width: 68px;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  color: #25556a;
+  cursor: pointer;
+  transform: none;
+  transition: color var(--duration-fast), background var(--duration-fast),
+              transform var(--duration-fast);
+}
+
+/* 同首頁產品分類 rail 一樣：整條淡出帶跟焦點 card 同高。
+   外側直接用頁面底色，跨入 card 後先慢慢變透明，唔會再有一截白色方塊。 */
+.skincare-spotlight__page--prev {
+  left: -20px;
+  justify-content: flex-start;
+  padding-left: 10px;
+  background: linear-gradient(to right,
+    var(--bg-primary, #f7f9f9) 0%, var(--bg-primary, #f7f9f9) 28%,
+    rgba(247,249,249,.78) 52%, rgba(247,249,249,.28) 76%,
+    rgba(247,249,249,0) 100%);
+}
+.skincare-spotlight__page--next {
+  right: -20px;
+  justify-content: flex-end;
+  padding-right: 10px;
+  background: linear-gradient(to left,
+    var(--bg-primary, #f7f9f9) 0%, var(--bg-primary, #f7f9f9) 28%,
+    rgba(247,249,249,.78) 52%, rgba(247,249,249,.28) 76%,
+    rgba(247,249,249,0) 100%);
+}
+.skincare-spotlight__page svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 3px rgba(255,255,255,.98));
+}
+
+.skincare-spotlight__page:hover,
+.skincare-spotlight__page:focus-visible {
+  color: #116fbd;
+}
+.skincare-spotlight__page--prev:hover { transform: translateX(-3px); }
+.skincare-spotlight__page--next:hover { transform: translateX(3px); }
+
+.skincare-spotlight__page:active { transform: scale(.98); }
+.skincare-spotlight__page:disabled { opacity: .28; cursor: default; }
+
+.skincare-spotlight__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skincare-spotlight__dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #c8d8df;
+  cursor: pointer;
+  transition: width var(--duration-fast), background var(--duration-fast);
+}
+
+.skincare-spotlight__dot[aria-current="true"] {
+  width: 28px;
+  background: #237fbd;
+}
+
+.skincare-spotlight__dot:focus-visible {
+  outline: 3px solid var(--boot-pink, #ff63b4);
+  outline-offset: 3px;
+}
+
+@media (max-width: 840px) {
+  .skincare-spotlight-section { margin-top: 12px; }
+  .skincare-spotlight-section + .skincare-spotlight-section { margin-top: 12px; }
+  .skincare-spotlight__heading { margin-bottom: 8px; }
+  .skincare-spotlight__title { font-size: 1rem; }
+  .skincare-focus__grid {
+    gap: 12px;
+  }
+  .skincare-focus__slide { flex: 0 0 88%; scroll-snap-align: start; }
+  .skincare-brand-row {
+    display: flex;
+    gap: 10px;
+    scroll-snap-type: x proximity;
+  }
+  .skincare-brand-row > li { --brand-card-size: 88px; flex: 0 0 88px; }
+  .skincare-brand-progress { width: min(240px, 70vw); }
+  .breadcrumb--inline { gap: 5px; font-size: .7rem; }
+  .filter-bar__left { gap: 9px; }
+  .skincare-spotlight__controls { margin-top: 5px; }
+  /* Mobile is swipe-first. Keep the dots as position feedback; arrows only
+     belong to desktop pointer navigation. */
+  .skincare-spotlight__page { display: none; }
+}
+
+@media (max-width: 520px) {
+  .skincare-spotlight__dots { gap: 6px; }
+  .skincare-spotlight__dot { width: 8px; height: 8px; }
+  .skincare-spotlight__dot[aria-current="true"] { width: 22px; }
 }
 
 /* 冇 logo 檔嘅品牌用文字卡。呢五個（April Skin、KSECRET、

@@ -297,10 +297,28 @@ function availableSubs(section, products) {
     .map((s) => ({ id: s.id, label: s.label, count: s.set.size }));
 }
 
-function vendorsOf(products) {
+const MIN_STANDALONE_BRAND_PRODUCTS = 3;
+
+function vendorCounts(products) {
   const counts = new Map();
   products.forEach((p) => {
-    const v = p.vendor || '其他';
+    const vendor = p.vendor || '其他';
+    counts.set(vendor, (counts.get(vendor) || 0) + 1);
+  });
+  return counts;
+}
+
+function groupedVendor(p, counts) {
+  const vendor = p.vendor || '其他';
+  return vendor === '其他' || (counts.get(vendor) || 0) < MIN_STANDALONE_BRAND_PRODUCTS
+    ? '其他' : vendor;
+}
+
+function vendorsOf(products) {
+  const rawCounts = vendorCounts(products);
+  const counts = new Map();
+  products.forEach((p) => {
+    const v = groupedVendor(p, rawCounts);
     counts.set(v, (counts.get(v) || 0) + 1);
   });
   return [...counts.entries()]
@@ -399,10 +417,11 @@ function preselectBrand(vendor) {
 }
 
 function applyFilters(section, products, sel) {
+  const counts = vendorCounts(products);
   return products.filter((p) => {
     if (sel.flag.has('award') && !(typeof awardsFor === 'function'
         && awardsFor(p.handle).length)) return false;
-    if (sel.vendor.size && !sel.vendor.has(p.vendor || '其他')) return false;
+    if (sel.vendor.size && !sel.vendor.has(groupedVendor(p, counts))) return false;
     if (sel.price.size) {
       const v = price(p);
       const hit = PRICE_BUCKETS.some((b) => sel.price.has(b.id) && b.test(v));
@@ -672,10 +691,10 @@ const BRAND_SPOTLIGHTS = {
   skincare: {
     label: '熱門護膚品牌', page: 'category.html',
     slides: [
-      { art: 'skincare-slide-1.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
-      { art: 'skincare-slide-2.webp', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
-      { art: 'skincare-slide-3.webp', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
-      { art: 'skincare-slide-4.webp', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
+      { art: 'skincare-slide-1.webp', focusArt: 'assets/brand-carousel/skincare-focus-round-lab-v3.png', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
+      { art: 'skincare-slide-2.webp', focusArt: 'assets/brand-carousel/skincare-focus-anua-v3.png', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
+      { art: 'skincare-slide-3.webp', focusArt: 'assets/brand-carousel/skincare-focus-cosrx-v3.png', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
+      { art: 'skincare-slide-4.webp', focusArt: 'assets/brand-carousel/skincare-focus-torriden-v3.png', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
     ],
   },
 };
@@ -776,6 +795,400 @@ function spotlightLinks(slide, page, mobile = false) {
   return `${feature}${brands}`;
 }
 
+function escapeSpotlightAttr(value) {
+  return String(value).replace(/[&<>"']/g, (ch) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[ch]);
+}
+
+/* 護膚焦點圖故意獨立一個欄位。暫時仍用現有 artwork，日後換獨立焦點圖
+   時只改 focusArt，唔需要再拆 render 或碰品牌資料。 */
+function brandCarouselAsset(asset) {
+  const raw = String(asset || '');
+  if (!raw) return '';
+  const base = raw.includes('/') ? raw : `assets/brand-carousel/${raw}`;
+  return `${base}${base.includes('?') ? '&' : '?'}v=20260826-speed`;
+}
+
+/* Focus 同熱門品牌係兩個獨立 carousel，但 keyboard、swipe、翻頁掣同 live
+   region 應該保持同一套行為。getPageSize 只決定一頁要滾幾張卡。 */
+function bindSkincareCarousel(host, {
+  viewportSelector,
+  slideSelector,
+  dotSelector,
+  prevSelector,
+  nextSelector,
+  statusSelector,
+  getPageSize,
+  getPageStep,
+}) {
+  host._skincareCarouselResize?.disconnect();
+  host._skincareCarouselAbort?.abort();
+  const abort = new AbortController();
+  host._skincareCarouselAbort = abort;
+  const viewport = host.querySelector(viewportSelector);
+  const slides = [...host.querySelectorAll(slideSelector)];
+  const dots = [...host.querySelectorAll(dotSelector)];
+  const prev = host.querySelector(prevSelector);
+  const next = host.querySelector(nextSelector);
+  const status = host.querySelector(statusSelector);
+  if (!viewport || !slides.length) return;
+
+  let activeIndex = 0;
+  let activePage = 0;
+  let raf = 0;
+
+  const pageSize = () => Math.max(1, Number(getPageSize?.()) || 1);
+  const pageStep = () => Math.max(1, Number(getPageStep?.()) || pageSize());
+  const pageCount = () => Math.max(1,
+    Math.ceil(Math.max(0, slides.length - pageSize()) / pageStep()) + 1);
+  const loadSlide = (index) => {
+    const slide = slides[index];
+    if (!slide) return;
+    slide.querySelectorAll('img[data-src]').forEach((img) => {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
+  };
+  const nearestIndex = () => slides.reduce((best, slide, index) =>
+    Math.abs(slide.offsetLeft - viewport.scrollLeft)
+      < Math.abs(slides[best].offsetLeft - viewport.scrollLeft) ? index : best, 0);
+  const sync = (index, announce = false) => {
+    activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+    const size = pageSize();
+    const pages = pageCount();
+    activePage = Math.min(pages - 1, Math.round(activeIndex / pageStep()));
+    dots.forEach((dot, index) => {
+      const visible = index < pages;
+      dot.hidden = !visible;
+      dot.tabIndex = visible ? 0 : -1;
+      dot.setAttribute('aria-hidden', visible ? 'false' : 'true');
+      dot.setAttribute('aria-current', visible && index === activePage ? 'true' : 'false');
+    });
+    if (prev) prev.disabled = activePage === 0;
+    if (next) next.disabled = activePage === pages - 1;
+    if (status) {
+      status.textContent = `第 ${activePage + 1} 頁，共 ${pages} 頁`;
+      if (!announce) status.setAttribute('data-silent', '');
+      else status.removeAttribute('data-silent');
+    }
+  };
+  const go = (page) => {
+    const pages = pageCount();
+    const targetPage = Math.max(0, Math.min(pages - 1, page));
+    const index = Math.min(Math.max(0, slides.length - pageSize()), targetPage * pageStep());
+    loadSlide(index);
+    loadSlide(index + 1);
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    viewport.scrollTo({ left: slides[index].offsetLeft, behavior: reduced ? 'auto' : 'smooth' });
+    sync(index, true);
+  };
+
+  prev?.addEventListener('click', () => go(activePage - 1), { signal: abort.signal });
+  next?.addEventListener('click', () => go(activePage + 1), { signal: abort.signal });
+  dots.forEach((dot) => dot.addEventListener('click', () => {
+    go(Number(dot.dataset.skincareCarouselDot));
+  }, { signal: abort.signal }));
+  viewport.addEventListener('pointerdown', () => {
+    loadSlide(activeIndex - 1);
+    loadSlide(activeIndex + 1);
+  }, { passive: true, signal: abort.signal });
+  viewport.addEventListener('scroll', () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => sync(nearestIndex()));
+  }, { passive: true, signal: abort.signal });
+  viewport.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); go(activePage - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); go(activePage + 1); }
+  }, { signal: abort.signal });
+
+  const ro = new ResizeObserver(() => {
+    const page = activePage;
+    requestAnimationFrame(() => {
+      if (abort.signal.aborted) return;
+      const index = Math.min(Math.max(0, slides.length - pageSize()), page * pageStep());
+      viewport.scrollTo({ left: slides[index].offsetLeft, behavior: 'auto' });
+      sync(index);
+    });
+  });
+  ro.observe(viewport);
+  host._skincareCarouselResize = ro;
+  loadSlide(0);
+  loadSlide(1);
+  sync(0);
+}
+
+function buildSkincareFocusSpotlight(config) {
+  const host = document.querySelector('[data-skincare-focus-carousel]');
+  if (!host) return;
+  const slides = config.slides.map((slide, index) => {
+    const source = brandCarouselAsset(slide.focusArt || slide.art);
+    const image = index < 2
+      ? `src="${escapeSpotlightAttr(source)}"`
+      : `data-src="${escapeSpotlightAttr(source)}"`;
+    const href = `${config.page}?brand=${encodeURIComponent(slide.focus)}`;
+    return `<article class="skincare-focus__slide" role="group"
+      aria-label="${escapeSpotlightAttr(slide.focus)}，今週焦點">
+      <a class="skincare-focus__card" href="${href}"
+         aria-label="瀏覽 ${escapeSpotlightAttr(slide.focus)} 產品">
+        <img class="skincare-focus__visual" ${image} alt="" width="1600" height="755"
+             loading="${index < 2 ? 'eager' : 'lazy'}" decoding="async">
+        <span class="sr-only">${escapeSpotlightAttr(slide.focus)}</span>
+      </a>
+    </article>`;
+  }).join('');
+  host.innerHTML = `
+    <div class="skincare-focus__viewport" data-skincare-focus-viewport tabindex="0"
+         aria-roledescription="carousel" aria-label="護膚焦點推介">
+      <div class="skincare-focus__grid">${slides}</div>
+    </div>
+    <div class="skincare-spotlight__controls" aria-label="焦點卡翻頁">
+      <button class="skincare-spotlight__page skincare-spotlight__page--prev" type="button"
+        data-skincare-focus-prev aria-label="上一組">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="skincare-spotlight__dots" aria-label="焦點卡頁數">
+        ${config.slides.map((_, index) => `<button class="skincare-spotlight__dot" type="button"
+          data-skincare-focus-dot="${index}" aria-label="第 ${index + 1} 組"></button>`).join('')}
+      </div>
+      <button class="skincare-spotlight__page skincare-spotlight__page--next" type="button"
+        data-skincare-focus-next aria-label="下一組">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+      <span class="sr-only" role="status" aria-live="polite" data-skincare-focus-status></span>
+    </div>`;
+
+  bindSkincareCarousel(host, {
+    viewportSelector: '[data-skincare-focus-viewport]',
+    slideSelector: '.skincare-focus__slide',
+    dotSelector: '[data-skincare-focus-dot]',
+    prevSelector: '[data-skincare-focus-prev]',
+    nextSelector: '[data-skincare-focus-next]',
+    statusSelector: '[data-skincare-focus-status]',
+    getPageSize: () => matchMedia('(max-width: 840px)').matches ? 1 : 2,
+    getPageStep: () => 1,
+  });
+}
+
+function buildSkincareBrandSpotlight(config) {
+  const host = document.querySelector('[data-skincare-brands-carousel]');
+  if (!host) return;
+  const cards = config.slides.flatMap((slide) => {
+    const geometry = BRAND_SPOTLIGHT_GEOMETRY[slide.art];
+    const source = brandCarouselAsset(slide.art);
+    return slide.brands.map((vendor, index) => {
+      const col = index % 4;
+      const row = Math.floor(index / 4);
+      const [left, right] = geometry.columns[col];
+      const [top, bottom] = geometry.rows[row];
+      const tileWidth = right - left;
+      const tileHeight = bottom - top;
+      const bgSizeX = geometry.width / tileWidth * 100;
+      const bgSizeY = 731 / tileHeight * 100;
+      const bgPosX = left / (geometry.width - tileWidth) * 100;
+      const bgPosY = top / (731 - tileHeight) * 100;
+      const name = escapeSpotlightAttr(vendor);
+      const href = `${config.page}?brand=${encodeURIComponent(vendor)}`;
+      return `<li data-skincare-brand="${name}">
+        <a class="skincare-brand-card" href="${href}" data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品"
+           style="--brand-art:url('${escapeSpotlightAttr(source)}');--brand-size-x:${bgSizeX.toFixed(3)}%;--brand-size-y:${bgSizeY.toFixed(3)}%;--brand-pos-x:${bgPosX.toFixed(3)}%;--brand-pos-y:${bgPosY.toFixed(3)}%">
+          <span class="sr-only">${name}</span>
+        </a>
+      </li>`;
+    });
+  }).join('');
+  host.innerHTML = `
+    <ul class="skincare-brand-row" tabindex="0" aria-label="所有護膚品牌，可左右滑動">${cards}</ul>
+    <div class="skincare-brand-progress" aria-hidden="true">
+      <span class="skincare-brand-progress__bar"><i></i></span>
+      <span class="skincare-brand-progress__count"><b>01</b> / ${String(config.slides.flatMap((slide) => slide.brands).length).padStart(2, '0')}</span>
+    </div>`;
+
+  const row = host.querySelector('.skincare-brand-row');
+  const fill = host.querySelector('.skincare-brand-progress__bar i');
+  const current = host.querySelector('.skincare-brand-progress__count b');
+  const items = [...host.querySelectorAll('.skincare-brand-row > li')];
+  let raf = 0;
+  const syncProgress = () => {
+    const max = Math.max(1, row.scrollWidth - row.clientWidth);
+    const ratio = Math.max(0, Math.min(1, row.scrollLeft / max));
+    const nearest = items.reduce((best, item, index) =>
+      Math.abs(item.offsetLeft - row.scrollLeft) < Math.abs(items[best].offsetLeft - row.scrollLeft)
+        ? index : best, 0);
+    fill.style.transform = `scaleX(${Math.max(.06, ratio)})`;
+    current.textContent = String(nearest + 1).padStart(2, '0');
+  };
+  row.addEventListener('scroll', () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(syncProgress);
+  }, { passive: true });
+  row.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    event.preventDefault();
+    row.scrollBy({ left: (event.key === 'ArrowRight' ? 1 : -1) * row.clientWidth * .7,
+      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+  syncProgress();
+}
+
+function bindSkincareBrandNavigation(order) {
+  removeBrandRail();
+  /* 護膚頁由上面「所有護膚品牌」直接接手 Clearline 全部功能。
+     清走舊落腳位／外殼，避免畫面或者 accessibility tree 留低第二條品牌列。 */
+  document.querySelectorAll('[data-brand-strip]').forEach((slot) => {
+    const shell = slot.parentElement?.classList.contains('h-scroll')
+      ? slot.parentElement : slot;
+    shell.remove();
+  });
+  document.querySelectorAll('.brand-rail-dock').forEach((dock) => dock.remove());
+  const section = document.querySelector('#skincare-brands');
+  const host = section?.querySelector('[data-skincare-brands-carousel]');
+  const row = host?.querySelector('.skincare-brand-row');
+  if (!section || !host || !row || order.length < 2) return;
+
+  const abort = new AbortController();
+  RAIL_ABORT = abort;
+  const sections = [...document.querySelectorAll('.brand-section')];
+  const indexByVendor = new Map(order.map(([vendor], index) => [vendor, index]));
+  /* 正常狀態保留原本彩色 artwork；只係按產品 section 次序重新排列。
+     sticky 狀態先由 CSS 切成白色 Logo 導覽條。 */
+  const artworkByVendor = new Map(
+    [...row.querySelectorAll('[data-skincare-brand]')].map((item) => {
+      const card = item.querySelector('.skincare-brand-card');
+      return [item.dataset.skincareBrand, card?.getAttribute('style') || ''];
+    })
+  );
+  row.innerHTML = order.map(([vendor], index) => {
+    const name = escapeSpotlightAttr(vendor);
+    const logo = brandLogo(vendor);
+    const artwork = artworkByVendor.get(vendor);
+    const stickyLogo = logo
+      ? `<img src="${escapeSpotlightAttr(logo)}" alt="" loading="${index < 10 ? 'eager' : 'lazy'}" decoding="async">`
+      : `<span>${name}</span>`;
+    if (artwork) {
+      return `<li data-skincare-brand="${name}">
+        <a class="skincare-brand-card skincare-brand-card--art" href="#brand-${index}"
+        data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品" style="${artwork}">
+          <span class="sr-only">${name}</span>
+          <span class="skincare-brand-card__sticky-logo" aria-hidden="true">${stickyLogo}</span>
+        </a>
+      </li>`;
+    }
+    return `<li data-skincare-brand="${name}">
+      <a class="skincare-brand-card skincare-brand-card--logo" href="#brand-${index}"
+      data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品">
+      ${logo ? `<img src="${escapeSpotlightAttr(logo)}" alt="${name}"
+        loading="${index < 10 ? 'eager' : 'lazy'}" decoding="async">`
+        : `<span>${name}</span>`}
+      </a>
+    </li>`;
+  }).join('');
+
+  const progressTotal = host.querySelector('.skincare-brand-progress__count');
+  if (progressTotal) progressTotal.lastChild.textContent = ` / ${String(order.length).padStart(2, '0')}`;
+  const cards = [...row.querySelectorAll('[data-skincare-brand]')];
+  const links = [...row.querySelectorAll('[data-skincare-brand-link]')];
+  const dock = section.parentElement?.classList.contains('skincare-brand-dock')
+    ? section.parentElement : document.createElement('div');
+  if (!dock.classList.contains('skincare-brand-dock')) {
+    dock.className = 'skincare-brand-dock';
+    section.replaceWith(dock);
+    dock.appendChild(section);
+  }
+  let currentVendor = '';
+  let dockTop = 0;
+
+  const headerOffset = () => {
+    const root = getComputedStyle(document.documentElement);
+    const ann = parseFloat(root.getPropertyValue('--ann-h')) || 36;
+    const hdr = parseFloat(root.getPropertyValue('--hdr-h'))
+      || parseFloat(root.getPropertyValue('--header-height')) || 64;
+    return matchMedia('(max-width: 768px)').matches
+      && document.body.classList.contains('is-nav-tucked') ? 0 : ann + hdr;
+  };
+
+  const syncDock = () => {
+    const rect = dock.getBoundingClientRect();
+    section.style.setProperty('--skincare-sticky-top', `${headerOffset()}px`);
+    section.style.setProperty('--skincare-sticky-left', `${Math.round(rect.left)}px`);
+    section.style.setProperty('--skincare-sticky-width', `${Math.round(rect.width)}px`);
+    section.classList.toggle('is-stuck', window.scrollY + headerOffset() >= dockTop);
+  };
+  const measureDock = () => {
+    const wasStuck = section.classList.contains('is-stuck');
+    section.classList.remove('is-stuck');
+    dock.style.height = `${section.getBoundingClientRect().height}px`;
+    dockTop = dock.getBoundingClientRect().top + window.scrollY;
+    section.classList.toggle('is-stuck', wasStuck);
+    syncDock();
+  };
+
+  const mark = (vendor) => {
+    if (!vendor || vendor === currentVendor) return;
+    currentVendor = vendor;
+    links.forEach((link) => {
+      const active = link.dataset.skincareBrandLink === vendor;
+      link.classList.toggle('is-current', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+    const active = cards.find((item) => item.dataset.skincareBrand === vendor);
+    if (active) row.scrollTo({
+      left: Math.max(0, active.offsetLeft - (row.clientWidth - active.offsetWidth) / 2),
+      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
+  };
+
+  const spy = () => {
+    /* 用置頂品牌列底線作為判定線：跳去新品牌時，該段一露出喺導覽列
+       下面就即刻轉 active，而唔係要再碌多四分一個畫面。 */
+    const line = headerOffset() + section.getBoundingClientRect().height + 36;
+    let current = 0;
+    for (let index = 0; index < sections.length; index += 1) {
+      if (sections[index].getBoundingClientRect().top <= line) current = index;
+    }
+    mark(order[current]?.[0]);
+  };
+
+  const syncProgress = () => {
+    const max = Math.max(1, row.scrollWidth - row.clientWidth);
+    const ratio = Math.max(0, Math.min(1, row.scrollLeft / max));
+    const nearest = cards.reduce((best, item, index) =>
+      Math.abs(item.offsetLeft - row.scrollLeft) < Math.abs(cards[best].offsetLeft - row.scrollLeft)
+        ? index : best, 0);
+    host.querySelector('.skincare-brand-progress__bar i')?.style
+      .setProperty('transform', `scaleX(${Math.max(.03, ratio)})`);
+    const count = host.querySelector('.skincare-brand-progress__count b');
+    if (count) count.textContent = String(nearest + 1).padStart(2, '0');
+  };
+
+  row.addEventListener('click', (event) => {
+    const link = event.target.closest('[data-skincare-brand-link]');
+    if (!link) return;
+    const index = indexByVendor.get(link.dataset.skincareBrandLink);
+    const target = Number.isInteger(index) ? sections[index] : null;
+    if (!target) return;
+    event.preventDefault();
+    const y = window.scrollY + target.getBoundingClientRect().top
+      - headerOffset() - section.getBoundingClientRect().height + 12;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }, { signal: abort.signal });
+  row.addEventListener('scroll', syncProgress, { passive: true, signal: abort.signal });
+  window.addEventListener('scroll', () => { syncDock(); spy(); },
+    { passive: true, signal: abort.signal });
+  window.addEventListener('resize', measureDock, { passive: true, signal: abort.signal });
+  document.addEventListener('ouji:layout-changed', spy, { signal: abort.signal });
+  measureDock();
+  syncProgress();
+  spy();
+}
+
+function buildSkincareSpotlights() {
+  const config = BRAND_SPOTLIGHTS.skincare;
+  buildSkincareFocusSpotlight(config);
+  buildSkincareBrandSpotlight(config);
+}
+
 function bindBrandSpotlight(host) {
   host._brandCarouselAbort?.abort();
   host._brandCarouselResize?.disconnect();
@@ -847,7 +1260,7 @@ function buildShopBrandSpotlight(products, section = null) {
   const key = host.dataset.spotlightSection || section || 'all';
   const config = BRAND_SPOTLIGHTS[key] || BRAND_SPOTLIGHTS.all;
   const slides = config.slides.map((slide, index) => {
-    const source = `assets/brand-carousel/${slide.art}?v=20260826-speed`;
+    const source = brandCarouselAsset(slide.art);
     const sourceAttr = index ? `data-src="${source}"` : `src="${source}"`;
     const artAttr = index
       ? `data-spotlight-art="${source}"`
@@ -978,9 +1391,11 @@ function productCard(p, options = null) {
   // 幫佢揀咗第一隻色，等於幫佢買錯嘢。
   const oneVariant = variants.length === 1;
   return `
-    <a href="/products/${p.handle}" class="product-card">
+    <a href="/products/${p.handle}" class="product-card${p._oujiOtherBrandStart ? ' product-card--other-brand-start' : ''}">
       <div class="product-card__image-wrap">
         ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${image.altText || p.title}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${priority ? ' fetchpriority="high"' : ''}>` : ''}
+        ${p._oujiOtherBrandStart
+          ? `<span class="product-card__mini-brand">${p._oujiOtherBrandStart}</span>` : ''}
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${isOnSale && !isSoldOut ? '<span class="product-card__badge">特價</span>' : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
@@ -1022,11 +1437,33 @@ function brandSection(vendor, items, index) {
      （精華 3、潔面 3、爽膚水 2、防曬 2、面霜 2）—— 睇落係「一個牌子
      嘅代表作」而唔係「一格洗面奶」。程序次序留低做同分時嘅第二把尺。 */
   const [live, dead] = splitStock(items);
-  const ordered = [
-    ...[...live].sort((a, b) =>
-      featuredScore(b) - featuredScore(a) || routineStep(a) - routineStep(b)),
-    ...dead,
-  ];
+  let ordered;
+  if (vendor === '其他') {
+    /* 「其他」只係合併大標題，唔係打亂品牌。先按原品牌聚埋，再喺每個
+       小組內按代表性排序；第一張卡加一粒細品牌牌，客一眼睇得出分組。 */
+    const groups = new Map();
+    [...live, ...dead].forEach((p) => {
+      const name = p.vendor || '其他';
+      if (!groups.has(name)) groups.set(name, []);
+      groups.get(name).push(p);
+    });
+    ordered = [...groups.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0], 'zh-Hant'))
+      .flatMap(([name, group]) => {
+        const [groupLive, groupDead] = splitStock(group);
+        const sorted = [
+          ...groupLive.sort((a, b) => featuredScore(b) - featuredScore(a)),
+          ...groupDead.sort((a, b) => featuredScore(b) - featuredScore(a)),
+        ];
+        return sorted.map((p, i) => i ? p : { ...p, _oujiOtherBrandStart: name });
+      });
+  } else {
+    ordered = [
+      ...[...live].sort((a, b) =>
+        featuredScore(b) - featuredScore(a) || routineStep(a) - routineStep(b)),
+      ...dead,
+    ];
+  }
   const [inStock, out] = splitStock(ordered);
   /* 每個牌子段落只出頭三行，其餘一撳去佢自己個品牌頁。
 
@@ -1546,9 +1983,10 @@ function renderProducts(container, products, { grouped }) {
     syncGridWindows();
     return;
   }
+  const counts = vendorCounts(products);
   const byVendor = new Map();
   products.forEach((p) => {
-    const v = p.vendor || '其他';
+    const v = groupedVendor(p, counts);
     if (!byVendor.has(v)) byVendor.set(v, []);
     byVendor.get(v).push(p);
   });
@@ -1616,7 +2054,8 @@ function renderProducts(container, products, { grouped }) {
     return i < 0 ? PINNED_VENDORS.length : i;
   };
   const order = [...byVendor.entries()].sort((a, b) =>
-    pinRank(a[0]) - pinRank(b[0])
+    (a[0] === '其他') - (b[0] === '其他')
+    || pinRank(a[0]) - pinRank(b[0])
     || tier(a[1]) - tier(b[1])
     || brandScore(b[1]) - brandScore(a[1])
     || b[1].length - a[1].length);
@@ -1679,7 +2118,8 @@ function renderProducts(container, products, { grouped }) {
   });
   // 三十幾格全部掛好先至計一次 —— 每格計一次即係計三十幾次
   syncGridWindows();
-  buildBrandRail(order);
+  if (CURRENT_SECTION === 'skincare') bindSkincareBrandNavigation(order);
+  else buildBrandRail(order);
 }
 
 /**
@@ -2027,11 +2467,15 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
     const grouped = !filtered && sortKey === 'featured'
-      && new Set(list.map((p) => p.vendor)).size > 1;
+      && vendorsOf(list).length > 1;
 
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);
-    buildShopBrandSpotlight(scope, section);
+    if (section === 'skincare' && document.querySelector('[data-skincare-focus-carousel]')) {
+      buildSkincareSpotlights();
+    } else {
+      buildShopBrandSpotlight(scope, section);
+    }
     prepareBrandRailSlot();
     buildActiveChips(section, sel, lockCat);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
@@ -2048,7 +2492,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
     const headMeta = document.querySelector('[data-cat-count]');
     if (headMeta) {
-      const brands = new Set(products.map((x) => x.vendor).filter(Boolean)).size;
+      const brands = vendorsOf(products).length;
       headMeta.textContent = filtered ? ''
         : `${products.length} 件 · ${brands} 個品牌`;
     }
