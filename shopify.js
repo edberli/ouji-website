@@ -2191,7 +2191,14 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
   document.documentElement.classList.toggle('has-ouji-opening-promo', active);
   document.querySelectorAll('.announcement-bar').forEach((bar) => {
     if (!active) return;
-    bar.innerHTML = '<span class="announcement-bar__moon" aria-hidden="true">☾</span><b>中秋限定 9月23–27日</b><span>滿 $299 減 $20 · 滿 $499 減 $40 · 滿 $699 減 $60</span><span>滿 $599 送 Round Lab</span>';
+    bar.innerHTML = `<span class="announcement-bar__moon" aria-hidden="true"></span>
+      <span class="announcement-bar__festival"><b>中秋限定</b><small>9月23–27日</small></span>
+      <span class="announcement-bar__offers" aria-hidden="true">
+        <span><small>滿</small>$299 <b>減 $20</b></span>
+        <span><small>滿</small>$499 <b>減 $40</b></span>
+        <span><small>滿</small>$699 <b>減 $60</b></span>
+      </span>
+      <span class="announcement-bar__gift">滿 $599 送 Round Lab</span>`;
     bar.setAttribute('aria-label', '中秋限定，9月23日至27日；滿299元減20元，滿499元減40元，滿699元減60元，每張訂單只享最高一級；滿599元送Round Lab');
   });
   document.querySelectorAll('[data-ouji-opening-promo]').forEach((surface) => {

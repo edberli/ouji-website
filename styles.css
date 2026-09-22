@@ -571,13 +571,35 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 
 /* 2026 中秋限定：全站公告、首頁月夜與產品頁優惠提示。 */
 .has-ouji-opening-promo .announcement-bar {
+  position:fixed; isolation:isolate; overflow:hidden;
   display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-  gap:6px 14px; min-height:44px; height:auto; padding:8px 18px;
-  background:linear-gradient(100deg,#071d3b 0%,#143d68 52%,#372952 100%);
-  color:#fff8df; letter-spacing:.02em;
+  gap:6px 16px; min-height:48px; height:auto; padding:8px 20px;
+  background:
+    radial-gradient(circle at 9% 42%, transparent 0 15px, rgba(255,255,255,.045) 16px 17px, transparent 18px),
+    radial-gradient(circle at 22% 78%, rgba(255,255,255,.035) 0 8px, rgba(0,0,0,.28) 9px 12px, transparent 13px),
+    radial-gradient(circle at 73% 10%, transparent 0 22px, rgba(255,255,255,.04) 23px 24px, transparent 25px),
+    radial-gradient(circle at 91% 72%, rgba(255,255,255,.025) 0 12px, rgba(0,0,0,.3) 13px 17px, transparent 18px),
+    linear-gradient(105deg,#030303 0%,#171717 45%,#080808 100%);
+  color:#f4f1e9; border-bottom:1px solid rgba(216,190,126,.24);
+  box-shadow:inset 0 -10px 24px rgba(0,0,0,.38),0 1px 0 rgba(255,255,255,.05);
+  letter-spacing:.02em;
 }
-.announcement-bar__moon { color:#ffd77a; font-size:1.35em; filter:drop-shadow(0 0 8px rgba(255,215,122,.55)); }
-.has-ouji-opening-promo .announcement-bar b { color:#ffd77a; }
+.has-ouji-opening-promo .announcement-bar::before {
+  content:''; position:absolute; inset:0; z-index:-1; opacity:.3; pointer-events:none;
+  background-image:repeating-radial-gradient(ellipse at 30% 160%,transparent 0 17px,rgba(255,255,255,.055) 18px,transparent 20px 33px);
+  mix-blend-mode:screen;
+}
+.announcement-bar__moon { width:25px; aspect-ratio:1; flex:0 0 auto; border-radius:50%;
+  background:radial-gradient(circle at 63% 37%,#c9c5b8 0 2px,transparent 3px),radial-gradient(circle at 34% 67%,#aaa79e 0 3px,transparent 4px),radial-gradient(circle at 65% 70%,#88867f 0 2px,transparent 3px),linear-gradient(135deg,#f0eee6,#8c8a83);
+  box-shadow:0 0 15px rgba(232,226,204,.2),inset -5px -4px 8px rgba(0,0,0,.42); }
+.announcement-bar__festival { display:flex; align-items:baseline; gap:7px; padding-right:14px; border-right:1px solid rgba(255,255,255,.16); }
+.announcement-bar__festival b { color:#e9d39a; font-size:.82rem; letter-spacing:.12em; }
+.announcement-bar__festival small { color:#aaa79f; font-size:.66rem; letter-spacing:.04em; }
+.has-ouji-opening-promo .announcement-bar__offers { grid-area:auto; display:flex; align-items:center; justify-content:center; gap:7px; padding:0; white-space:nowrap; opacity:1; transform:none; position:static; transition:none; }
+.has-ouji-opening-promo .announcement-bar__offers > span { display:inline-flex; align-items:baseline; gap:3px; padding:4px 8px; border:1px solid rgba(233,211,154,.18); border-radius:999px; background:rgba(255,255,255,.045); color:#d8d5cd; font-variant-numeric:tabular-nums; }
+.has-ouji-opening-promo .announcement-bar__offers small { color:#89877f; font-size:.6rem; }
+.has-ouji-opening-promo .announcement-bar__offers b { color:#f3dfaa; font-weight:650; }
+.announcement-bar__gift { color:#c4c0b6; font-size:.7rem; }
 .promo__festival-art { position:absolute; right:20px; top:10px; display:flex; align-items:flex-end; gap:10px; opacity:.9; pointer-events:none; }
 .promo__moon { display:grid; place-items:center; width:86px; aspect-ratio:1; border-radius:50%; color:#6f5830; font:600 17px 'Noto Serif TC',serif; background:radial-gradient(circle at 35% 30%,#fff9cf,#ffd77a 65%,#eab64d); box-shadow:0 0 34px rgba(255,215,122,.48); }
 .promo__mooncake { display:grid; place-items:center; width:48px; aspect-ratio:1; border:3px double #f4ca72; border-radius:50%; color:#f4ca72; font-weight:700; background:#7f3d2f; box-shadow:0 8px 18px rgba(0,0,0,.25); }
@@ -585,8 +607,14 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .product-info__promo-card--midautumn::before { content:'☾'; position:absolute; right:18px; top:8px; color:#ffd77a; font-size:42px; opacity:.35; }
 .promo-slim__festival { color:#ffd77a; font-weight:700; letter-spacing:.12em; }
 @media (max-width:720px){
-  .has-ouji-opening-promo .announcement-bar { gap:2px 8px; min-height:48px; font-size:.69rem; line-height:1.35; }
-  .has-ouji-opening-promo .announcement-bar span:last-child { width:100%; text-align:center; }
+  .has-ouji-opening-promo .announcement-bar { gap:4px 7px; min-height:64px; padding:7px 8px 8px; font-size:.68rem; line-height:1.25; }
+  .announcement-bar__moon { width:20px; }
+  .announcement-bar__festival { padding-right:8px; }
+  .announcement-bar__festival b { font-size:.71rem; }
+  .announcement-bar__festival small { font-size:.58rem; }
+  .has-ouji-opening-promo .announcement-bar__offers { order:3; width:100%; justify-content:center; gap:4px; }
+  .has-ouji-opening-promo .announcement-bar__offers > span { padding:3px 6px; }
+  .announcement-bar__gift { font-size:.62rem; }
   .promo__festival-art { right:12px; top:8px; transform:scale(.72); transform-origin:top right; }
 }
 
