@@ -15994,3 +15994,374 @@ body::before { opacity: 0.18; }
     border-radius: 10px;
   }
 }
+
+/* 2026-09-21 makeup responsive lock.
+   Keep the existing makeup selectors and catalog hooks, but replace the old
+   baked-image hit area with the same real-image category rail as skincare. */
+.makeup-booth {
+  position: relative;
+  width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0;
+  overflow: visible;
+  aspect-ratio: auto !important;
+  background: #f7f9f9;
+  color: #315c7c;
+}
+
+.makeup-booth > picture {
+  position: relative;
+  inset: auto;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.makeup-booth__art {
+  position: static;
+  inset: auto;
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  object-fit: contain;
+  background: #f7f9f9;
+}
+
+.makeup-booth__stickers,
+.makeup-booth__stickers::before,
+.makeup-booth__stickers::after {
+  border: 0;
+  border-bottom: 0;
+  box-shadow: none;
+}
+
+.makeup-booth__stickers {
+  position: relative;
+  z-index: 3;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  height: 88px !important;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  margin: -6px 0 0;
+  padding: 2px 4px;
+  transform: none;
+  overflow: visible;
+  background: #f7f9f9;
+}
+
+.makeup-booth__stickers::before,
+.makeup-booth__stickers::after {
+  content: none;
+}
+
+.makeup-booth__sticker,
+.makeup-booth__sticker:nth-child(n) {
+  --cat-wash: #b8ddec;
+  position: relative;
+  inset: auto;
+  width: auto;
+  height: 84px;
+  min-width: 0;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+  color: #315c7c;
+  font-family: "Noto Sans TC", sans-serif;
+  font-weight: 700;
+  transform: none;
+  transform-origin: 50% 80%;
+  cursor: pointer;
+  z-index: 1;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.makeup-booth__sticker:nth-child(1) { --cat-wash: #9bcfe2; }
+.makeup-booth__sticker:nth-child(2) { --cat-wash: #b8d7a5; }
+.makeup-booth__sticker:nth-child(3) { --cat-wash: #efc294; }
+.makeup-booth__sticker:nth-child(4) { --cat-wash: #e5b8c9; }
+.makeup-booth__sticker:nth-child(5) { --cat-wash: #d8c9a9; }
+
+.makeup-booth__sticker::before {
+  content: none;
+  position: absolute;
+  z-index: 0;
+  width: 60px;
+  height: 34px;
+  top: 21px;
+  left: 50%;
+  background: var(--cat-wash);
+  opacity: .90;
+  transform: translateX(-50%) rotate(-4deg);
+  -webkit-mask: url('assets/images/skincare-category-watercolor-shadow-512.webp') center / 100% 100% no-repeat;
+  mask: url('assets/images/skincare-category-watercolor-shadow-512.webp') center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.makeup-booth__sticker::after {
+  content: none;
+}
+
+.makeup-booth__sticker:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  right: 0;
+  bottom: 6px;
+  width: 1px;
+  background: #cbd8e7;
+  pointer-events: none;
+}
+
+.makeup-booth__sticker > * {
+  position: relative;
+  z-index: 1;
+}
+
+.makeup-booth__icon {
+  display: block;
+  width: 112%;
+  height: 70px;
+  margin: 0;
+  object-fit: contain;
+  opacity: 1;
+  pointer-events: none;
+  transform: scale(1.28);
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.makeup-booth__sticker:first-child .makeup-booth__icon {
+  transform-origin: left center;
+}
+
+.makeup-booth__sticker:last-child .makeup-booth__icon {
+  transform-origin: right center;
+}
+
+.makeup-booth__sticker b {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  min-width: 0;
+  max-width: 100%;
+  padding: 2px 1px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  color: #315c7c;
+  font-size: clamp(7.5px, 2vw, 9.5px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+  opacity: 1;
+  pointer-events: none;
+  transform: none;
+  text-shadow: 0 1px 0 rgba(255,255,255,.78);
+}
+
+.makeup-booth__sticker small {
+  display: none;
+}
+
+.makeup-booth__sticker[data-active],
+.makeup-booth__sticker:hover,
+.makeup-booth__sticker:active,
+.makeup-booth__sticker:focus-visible {
+  background: transparent;
+  box-shadow: none;
+}
+
+.makeup-booth__sticker[data-active] b {
+  border-color: transparent;
+  background: transparent;
+  color: #315c7c;
+  box-shadow: none;
+}
+
+.makeup-booth__sticker:hover .makeup-booth__icon,
+.makeup-booth__sticker[data-active] .makeup-booth__icon {
+  transform: translateY(-2px) scale(1.34);
+  filter: saturate(.96) brightness(1.03);
+}
+
+.makeup-booth__sticker:active {
+  transform: translateY(1px) scale(.98);
+  background: transparent;
+  box-shadow: none;
+}
+
+.makeup-booth__sticker:focus-visible {
+  outline: none;
+  outline-offset: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+@media (min-width: 960px) {
+  .makeup-booth {
+    background: #f7f9f9;
+  }
+
+  .makeup-booth > picture {
+    height: auto;
+    overflow: visible;
+  }
+
+  .makeup-booth__art {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .makeup-booth__stickers {
+    width: 100%;
+    max-width: 1200px;
+    height: 90px !important;
+    margin: 0 auto;
+    padding: 3px 18px 5px;
+  }
+
+  .makeup-booth__sticker,
+  .makeup-booth__sticker:nth-child(n) {
+    height: 82px;
+    min-height: 44px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 12px;
+    border-radius: 10px;
+  }
+
+  .makeup-booth__sticker::before {
+    width: 82%;
+    height: 29px;
+    top: 29px;
+    opacity: .42;
+  }
+
+  .makeup-booth__sticker:not(:last-child)::after {
+    top: 9px;
+    bottom: 6px;
+  }
+
+  .makeup-booth__icon {
+    flex: 0 0 66px;
+    width: 66px;
+    height: 66px;
+    transform: none;
+    transition: transform .18s ease, filter .18s ease;
+  }
+
+  .makeup-booth__sticker b {
+    min-width: 0;
+    max-width: 100%;
+    padding: 2px 3px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #315c7c;
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    text-shadow: 0 1px 0 rgba(255,255,255,.78);
+  }
+
+  .makeup-booth__sticker:hover .makeup-booth__icon,
+  .makeup-booth__sticker[data-active] .makeup-booth__icon {
+    transform: translateY(-2px) scale(1.05);
+    filter: saturate(.98) brightness(1.03);
+  }
+
+  .makeup-booth__sticker:focus-visible {
+    outline: 2px solid rgba(49, 92, 124, .5);
+    outline-offset: -4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .makeup-booth__sticker,
+  .makeup-booth__icon {
+    transition: none;
+  }
+}
+
+/* Mobile makeup finish: match the approved 390px composition and keep both
+   category levels compact, even and free of the old black sticker state. */
+@media (max-width: 959px) {
+  .makeup-booth__icon {
+    width: 100%;
+    height: 64px;
+    transform: scale(1.05);
+  }
+
+  .makeup-booth__sticker:hover .makeup-booth__icon,
+  .makeup-booth__sticker[data-active] .makeup-booth__icon {
+    transform: translateY(-1px) scale(1.08);
+  }
+
+  .cat-subs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    padding: 12px 0 2px;
+    overflow: visible;
+  }
+
+  .cat-subs__item,
+  .cat-subs__item.is-on {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    justify-content: center;
+    gap: 6px;
+    padding: 4px 7px;
+    border: 1px solid #79add0;
+    background: transparent;
+    color: #183b59;
+    box-shadow: none;
+    font-size: 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cat-subs__item img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .cat-subs__item:hover,
+  .cat-subs__item:active,
+  .cat-subs__item.is-on {
+    background: #f4f9fc;
+    color: #183b59;
+    box-shadow: none;
+  }
+
+  .container .cat-subs .cat-subs__item,
+  .container .cat-subs .cat-subs__item.is-on {
+    border: 1px solid #79add0 !important;
+    background: #fff !important;
+    color: #183b59 !important;
+    box-shadow: none !important;
+  }
+}

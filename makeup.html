@@ -245,33 +245,37 @@
 
   <main id="main-content" style="padding-top: 96px;">
 
-    <!-- 彩妝頁頂：水彩 OUJI STICKER CLUB。
-         插畫係完整主視覺；五個透明 hotspot 保留原有 catalog 篩選、鍵盤操作
-         同 aria-pressed 狀態，DOM 次序固定底妝 → 眼妝 → 唇妝 → 頰彩 → 修容。 -->
+    <!-- 彩妝頁頂：桌面及手機使用各自構圖；分類圖案係獨立高清資產，
+         分類名稱保留真正 HTML 文字及原有 catalog 篩選／ARIA 行為。 -->
     <section class="makeup-booth" data-makeup-booth>
       <picture>
-        <source media="(min-width: 960px)" srcset="assets/images/makeup-watercolor-hero-desktop-panoramic-v3.png">
-        <source media="(max-width: 959px)" srcset="assets/images/makeup-watercolor-hero-mobile-simple-v2.png">
-        <img class="makeup-booth__art" src="assets/images/makeup-watercolor-hero.webp"
-             alt="OUJI Sticker Club 水彩彩妝主題插畫" width="949" height="986"
+        <source media="(min-width: 960px)" srcset="assets/images/makeup-hero-glow-desktop-v1.png" width="2172" height="724">
+        <source media="(max-width: 959px)" srcset="assets/images/makeup-hero-glow-mobile-v1.png" width="1447" height="1087">
+        <img class="makeup-booth__art" src="assets/images/makeup-hero-glow-mobile-v1.png"
+             alt="OUJI Glow 海邊水彩彩妝主題插畫" width="1447" height="1087"
              loading="eager" decoding="async" fetchpriority="high">
       </picture>
 
-      <div class="makeup-booth__stickers" data-cat-gate>
+      <div class="makeup-booth__stickers" data-cat-gate aria-label="彩妝分類">
         <button type="button" class="makeup-booth__sticker" data-quick="base" data-booth-sticker aria-pressed="false">
-          <span>底妝</span><small data-booth-n="base"></small>
+          <img class="makeup-booth__icon" src="assets/images/makeup-category-optimized/base.webp" alt="" width="512" height="512" decoding="async">
+          <b>底妝</b><small data-booth-n="base"></small>
         </button>
         <button type="button" class="makeup-booth__sticker" data-quick="eye" data-booth-sticker aria-pressed="false">
-          <span>眼妝</span><small data-booth-n="eye"></small>
+          <img class="makeup-booth__icon" src="assets/images/makeup-category-optimized/eye.webp" alt="" width="512" height="512" decoding="async">
+          <b>眼妝</b><small data-booth-n="eye"></small>
         </button>
         <button type="button" class="makeup-booth__sticker" data-quick="lip" data-booth-sticker aria-pressed="false">
-          <span>唇妝</span><small data-booth-n="lip"></small>
+          <img class="makeup-booth__icon" src="assets/images/makeup-category-optimized/lip.webp" alt="" width="512" height="512" decoding="async">
+          <b>唇妝</b><small data-booth-n="lip"></small>
         </button>
         <button type="button" class="makeup-booth__sticker" data-quick="cheek" data-booth-sticker aria-pressed="false">
-          <span>頰彩</span><small data-booth-n="cheek"></small>
+          <img class="makeup-booth__icon" src="assets/images/makeup-category-optimized/cheek.webp" alt="" width="512" height="512" decoding="async">
+          <b>頰彩</b><small data-booth-n="cheek"></small>
         </button>
         <button type="button" class="makeup-booth__sticker" data-quick="contour" data-booth-sticker aria-pressed="false">
-          <span>修容</span><small data-booth-n="contour"></small>
+          <img class="makeup-booth__icon" src="assets/images/makeup-category-optimized/contour.webp" alt="" width="512" height="512" decoding="async">
+          <b>修容</b><small data-booth-n="contour"></small>
         </button>
       </div>
     </section>
