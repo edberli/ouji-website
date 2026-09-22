@@ -11780,6 +11780,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 .site-search__results { overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .site-search__hint { margin: 0; padding: 22px 18px; color: var(--muted, #687578); font-size: 13px; }
 .site-search__hint a { color: var(--dark-base, #2b4c58); }
+.site-search__hint--slim { padding: 12px 16px 8px; }
 
 .site-search__hit {
   display: flex;
