@@ -569,6 +569,27 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   overflow: hidden;
 }
 
+/* 2026 中秋限定：全站公告、首頁月夜與產品頁優惠提示。 */
+.has-ouji-opening-promo .announcement-bar {
+  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+  gap:6px 14px; min-height:44px; height:auto; padding:8px 18px;
+  background:linear-gradient(100deg,#071d3b 0%,#143d68 52%,#372952 100%);
+  color:#fff8df; letter-spacing:.02em;
+}
+.announcement-bar__moon { color:#ffd77a; font-size:1.35em; filter:drop-shadow(0 0 8px rgba(255,215,122,.55)); }
+.has-ouji-opening-promo .announcement-bar b { color:#ffd77a; }
+.promo__festival-art { position:absolute; right:20px; top:10px; display:flex; align-items:flex-end; gap:10px; opacity:.9; pointer-events:none; }
+.promo__moon { display:grid; place-items:center; width:86px; aspect-ratio:1; border-radius:50%; color:#6f5830; font:600 17px 'Noto Serif TC',serif; background:radial-gradient(circle at 35% 30%,#fff9cf,#ffd77a 65%,#eab64d); box-shadow:0 0 34px rgba(255,215,122,.48); }
+.promo__mooncake { display:grid; place-items:center; width:48px; aspect-ratio:1; border:3px double #f4ca72; border-radius:50%; color:#f4ca72; font-weight:700; background:#7f3d2f; box-shadow:0 8px 18px rgba(0,0,0,.25); }
+.product-info__promo-card--midautumn { background:linear-gradient(135deg,#091d3a,#183e67 62%,#4a304e); }
+.product-info__promo-card--midautumn::before { content:'☾'; position:absolute; right:18px; top:8px; color:#ffd77a; font-size:42px; opacity:.35; }
+.promo-slim__festival { color:#ffd77a; font-weight:700; letter-spacing:.12em; }
+@media (max-width:720px){
+  .has-ouji-opening-promo .announcement-bar { gap:2px 8px; min-height:48px; font-size:.69rem; line-height:1.35; }
+  .has-ouji-opening-promo .announcement-bar span:last-child { width:100%; text-align:center; }
+  .promo__festival-art { right:12px; top:8px; transform:scale(.72); transform-origin:top right; }
+}
+
 .announcement-bar__offers {
   grid-area: 1 / 1;
   display: flex;

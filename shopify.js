@@ -11,7 +11,13 @@ const SHOPIFY_API    = `https://${SHOPIFY_DOMAIN}/api/2026-07/graphql.json`;
    購物袋、贈品同步同結帳判斷全部讀同一份設定。 */
 const OUJI_COMMERCE = Object.freeze({
   promotion: Object.freeze({
-    endsAt: '2026-09-15T23:59:59+08:00',
+    startsAt: '2026-09-23T00:00:00+08:00',
+    endsAt: '2026-09-27T23:59:59+08:00',
+    tiers: Object.freeze([
+      Object.freeze({ threshold: 299, saving: 20 }),
+      Object.freeze({ threshold: 499, saving: 40 }),
+      Object.freeze({ threshold: 699, saving: 60 }),
+    ]),
     gift: Object.freeze({
       threshold: 599,
       handle: 'round-lab-round-lab-80ml-0221',
@@ -2161,17 +2167,14 @@ function formatPrice(amount, currencyCode = 'HKD') {
   return `HK$${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-/* 2026 開業優惠：全單 88 折去到 9 月 15 日 23:59（香港時間）。
-   Shopify 喺結帳先真正套用折扣，所以產品頁顯示「約」價；個客要求唔
-   顯示毫子／仙位，視覺價用四捨五入整數，最後收費仍以結帳為準。
-   到期後 helper 自動退回正常售價，唔會留低過期優惠價。 */
+/* 2026 中秋限定：每張訂單只套用一個最高合資格固定額折扣，唔累加。 */
 const OUJI_OPENING_PROMO = Object.freeze({
-  rate: 0.88,
-  endsAt: new Date('2026-09-15T23:59:00+08:00').getTime(),
+  startsAt: new Date(OUJI_COMMERCE.promotion.startsAt).getTime(),
+  endsAt: new Date(OUJI_COMMERCE.promotion.endsAt).getTime(),
 });
 
 function isOujiOpeningPromoActive(now = Date.now()) {
-  return now <= OUJI_OPENING_PROMO.endsAt;
+  return now >= OUJI_OPENING_PROMO.startsAt && now <= OUJI_OPENING_PROMO.endsAt;
 }
 
 function oujiOpeningPromoRemainingDays(now = Date.now()) {
@@ -2186,11 +2189,27 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
   const remainingDays = oujiOpeningPromoRemainingDays(now);
 
   document.documentElement.classList.toggle('has-ouji-opening-promo', active);
+  document.querySelectorAll('.announcement-bar').forEach((bar) => {
+    if (!active) return;
+    bar.innerHTML = '<span class="announcement-bar__moon" aria-hidden="true">☾</span><b>中秋限定 9月23–27日</b><span>滿 $299 減 $20 · 滿 $499 減 $40 · 滿 $699 減 $60</span><span>滿 $599 送 Round Lab</span>';
+    bar.setAttribute('aria-label', '中秋限定，9月23日至27日；滿299元減20元，滿499元減40元，滿699元減60元，每張訂單只享最高一級；滿599元送Round Lab');
+  });
   document.querySelectorAll('[data-ouji-opening-promo]').forEach((surface) => {
     surface.hidden = !active;
     surface.querySelectorAll('[data-ouji-promo-days]').forEach((node) => {
       node.textContent = String(remainingDays);
     });
+  });
+  document.querySelectorAll('.promo-slim').forEach((surface) => {
+    if (!active) return;
+    surface.hidden = false;
+    surface.setAttribute('aria-label', '中秋限定滿額優惠');
+    surface.innerHTML = `<div class="promo-slim__festival" aria-hidden="true">☾ 兔</div>
+      <p class="promo-slim__head"><b>中秋 <i>滿額減</i></b><span>9月23–27日</span></p>
+      <ul class="promo-slim__list">
+        <li>滿 <b>HK$299</b> 減 $20</li><li>滿 <b>HK$499</b> 減 $40</li>
+        <li>滿 <b>HK$699</b> 減 $60</li><li>滿 <b>HK$599</b> 送 Round Lab</li>
+      </ul><p class="promo-slim__end">每張單只享最高一級<span>結帳自動套用</span></p>`;
   });
   /* 只控制有活動標記嘅 88 折內容。首頁 `.promo-wrap` 已改成長期購物禮遇卡，
      88 折完結後仍要顯示免運門檻同滿額贈品，唔可以再一刀切收起。 */
@@ -2236,8 +2255,7 @@ function formatWholePrice(amount) {
 function oujiPromoPriceText(amount) {
   const num = parseFloat(amount);
   if (!Number.isFinite(num)) return '';
-  if (!isOujiOpeningPromoActive()) return formatPrice(num);
-  return `約 ${formatWholePrice(num * OUJI_OPENING_PROMO.rate)}`;
+  return formatPrice(num);
 }
 
 function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
@@ -2245,32 +2263,29 @@ function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
   if (!Number.isFinite(num)) return '';
   if (!isOujiOpeningPromoActive()) return formatPrice(num);
 
-  const discounted = formatWholePrice(num * OUJI_OPENING_PROMO.rate);
   const original = formatWholePrice(num);
   const remainingDays = oujiOpeningPromoRemainingDays();
-  const aria = `全單 88 折後約 ${discounted}，原價 ${original}；實際金額以結帳為準`;
+  const aria = `售價 ${original}；中秋限定滿二百九十九元減二十元、滿四百九十九元減四十元、滿六百九十九元減六十元，每張訂單只享最高一級`;
 
   if (search) {
     return `<span class="ouji-promo-price ouji-promo-price--search" aria-label="${aria}">
-      <small>88 折約</small>${discounted}
+      <small>中秋滿額減</small>${original}
     </span>`;
   }
 
   if (!detail) {
     return `<span class="ouji-promo-price ouji-promo-price--card" aria-label="${aria}">
-      <span class="ouji-promo-price__sale"><small>88 折後約</small>${discounted}</span>
-      <s class="ouji-promo-price__original" aria-hidden="true">${original}</s>
+      <span class="ouji-promo-price__sale">${original}</span>
     </span>`;
   }
 
-  const detailAria = `開業限時優惠 88 折，最後 ${remainingDays} 日；${aria}`;
+  const detailAria = `中秋限定優惠，尚餘 ${remainingDays} 日；${aria}`;
   return `<span class="ouji-promo-price ouji-promo-price--detail" aria-label="${detailAria}">
-    <span class="ouji-promo-price__badge">開業限時優惠 <b>88 折</b><span aria-hidden="true">· 最後 ${remainingDays} 日</span></span>
+    <span class="ouji-promo-price__badge">🌕 中秋限定 <b>滿額即減</b><span aria-hidden="true"> · 9月27日止</span></span>
     <span class="ouji-promo-price__row">
-      <strong class="ouji-promo-price__sale">${discounted}</strong>
-      <s class="ouji-promo-price__original" aria-hidden="true">${original}</s>
+      <strong class="ouji-promo-price__sale">${original}</strong>
     </span>
-    <small class="ouji-promo-price__note">88 折後約價・結帳自動減・實際金額以結帳為準</small>
+    <small class="ouji-promo-price__note">滿 $299 減 $20 · $499 減 $40 · $699 減 $60<br>每張單只享最高一級 · 結帳自動減</small>
   </span>`;
 }
 
