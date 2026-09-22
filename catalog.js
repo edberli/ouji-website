@@ -479,10 +479,16 @@ const MAKEUP_SUBS = {
   contour: [['highlight', '高光', 'highlighter']],
 };
 
+/* 次分類係一次互動後先展開嘅第二層導覽。URL 入面嘅 ?cat=base 只代表
+   產品篩選狀態，唔等於用戶已經撳開「底妝」；所以初次載入保持收起。 */
+let expandedMakeupParent = null;
+
 function buildMakeupSubs(section, products, active, lockCat) {
   const host = document.querySelector('[data-cat-subs]');
   if (!host) return;
-  const parent = [...active].find((id) => MAKEUP_SUBS[id]);
+  const parent = expandedMakeupParent && active.has(expandedMakeupParent)
+    ? expandedMakeupParent
+    : null;
   const rows = (MAKEUP_SUBS[parent] || [])
     .map(([id, label, file]) => ({ id, label, file,
       n: products.filter((p) => subMatch(section, id, p)).length }))
@@ -2561,6 +2567,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     if (clear) {
       boxes().forEach((el) => { el.checked = false; });
       lockCat = null;   // 細分類唔喺 checkbox 度，唔清佢就清唔乾淨
+      expandedMakeupParent = null;
       return draw();
     }
     // A quick tab is a 分類 filter that happens to live outside the drawer,
@@ -2570,10 +2577,19 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       // 貼紙牆冇「全部」嗰格，所以再撳一次選中嗰張就係解除 —— 唔係
       // 咁樣揀完一格就返唔到轉頭。pill 嗰行有「全部」，照舊。
       const isBooth = tab.hasAttribute('data-booth-sticker') || tab.hasAttribute('data-booth-sub');
-      const off = isBooth && tab.getAttribute('aria-pressed') === 'true';
+      const isMakeupParent = tab.hasAttribute('data-booth-sticker')
+        && !!tab.closest('[data-makeup-booth]');
+      const isExpandedParent = isMakeupParent
+        && expandedMakeupParent === tab.dataset.quick;
+      /* URL 預選咗底妝但次分類未開時，第一次撳係「展開」，唔係取消。 */
+      const off = isBooth && tab.getAttribute('aria-pressed') === 'true'
+        && (!isMakeupParent || isExpandedParent);
       /* 細分類（粉底、氣墊⋯）喺篩選側欄係冇對應嗰粒剔嘅 —— availableSubs
          特登收埋咗佢哋。所以細分類要行 lockCat 呢條路，大分類就照舊剔側欄。 */
       const isSub = tab.hasAttribute('data-booth-sub');
+      if (isMakeupParent) {
+        expandedMakeupParent = off ? null : tab.dataset.quick;
+      }
       // 頰彩同修容各自只有一個實際分類，下面唔會再出細分類掣。
       // 篩完直接帶客去產品結果，否則畫面仍然停喺 hero，睇落會似冇反應。
       const goesStraightToProducts = tab.hasAttribute('data-booth-sticker')

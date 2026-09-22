@@ -16222,14 +16222,14 @@ body::before { opacity: 0.18; }
   }
 
   .makeup-booth > picture {
-    height: auto;
-    overflow: visible;
+    height: clamp(360px, 25vw, 640px);
+    overflow: hidden;
   }
 
   .makeup-booth__art {
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     object-position: center;
   }
 
@@ -16309,15 +16309,36 @@ body::before { opacity: 0.18; }
 /* Mobile makeup finish: match the approved 390px composition and keep both
    category levels compact, even and free of the old black sticker state. */
 @media (max-width: 959px) {
+  .makeup-booth__stickers {
+    height: 74px !important;
+    margin-top: 0;
+    padding: 3px 4px;
+  }
+
+  .makeup-booth__sticker,
+  .makeup-booth__sticker:nth-child(n) {
+    height: 68px;
+  }
+
+  .makeup-booth__sticker:not(:last-child)::after {
+    top: 8px;
+    bottom: 8px;
+  }
+
   .makeup-booth__icon {
     width: 100%;
-    height: 64px;
-    transform: scale(1.05);
+    height: 49px;
+    transform: scale(.92);
   }
 
   .makeup-booth__sticker:hover .makeup-booth__icon,
   .makeup-booth__sticker[data-active] .makeup-booth__icon {
-    transform: translateY(-1px) scale(1.08);
+    transform: translateY(-1px) scale(.97);
+  }
+
+  .makeup-booth__sticker b {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .cat-subs {
@@ -16345,8 +16366,8 @@ body::before { opacity: 0.18; }
   }
 
   .cat-subs__item img {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
   }
 
   .cat-subs__item:hover,
