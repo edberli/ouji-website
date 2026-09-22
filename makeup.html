@@ -45,7 +45,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260921-brand-group-v1">
+  <link rel="stylesheet" href="styles.css?v=20260922-makeup-focus-v1">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -286,23 +286,29 @@
 
     <!-- Breadcrumb & Filter Bar -->
     <div class="container">
-      <nav class="breadcrumb">
-        <a href="index.html">首頁</a>
-        <span class="breadcrumb__sep">/</span>
-        <span>彩妝</span>
-      </nav>
-
       <!-- 子分類 pill 剷咗：頁頂嘅入口 tile 做緊同一件事。 -->
 
-      <!-- 品牌 logo 一行，撳一下直接去嗰個牌子 -->
+      <!-- 彩妝同護膚共用同一套資訊層次：焦點圖獨立成雙卡 carousel，
+           所有品牌另開一行方形卡；捲到產品區後品牌列會縮成 sticky 導覽。 -->
+      <section id="makeup-focus" class="skincare-spotlight-section skincare-focus makeup-focus"
+               aria-labelledby="makeup-focus-title">
+        <h2 id="makeup-focus-title" class="sr-only">今週焦點</h2>
+        <div data-makeup-focus-carousel></div>
+      </section>
+
+      <section id="makeup-brands" class="skincare-spotlight-section skincare-brands makeup-brands"
+               aria-labelledby="makeup-brands-title">
+        <div class="skincare-spotlight__heading">
+          <h2 id="makeup-brands-title" class="skincare-spotlight__title">所有彩妝品牌</h2>
+        </div>
+        <div data-makeup-brands-carousel></div>
+      </section>
+
       <!-- 幼優惠條。老闆：「如果啲人一入嚟就剷全部產品頁面，或者淨係睇
            產品頁面，咁佢未必知，未必夠凸顯呢個優惠。」
            首頁嗰個大 banner 縮到一條，擺喺產品格上面。用返購物袋嗰隻
            去背面霜圖（13KB，已經喺快取），唔另外落六格動畫 —— 呢啲版面
            本身已經有一隻芝麻，再落多一套就淨係為咗多 115KB。 -->
-      <section id="makeup-brand-spotlight" class="shop-brand-spotlight" data-shop-brand-spotlight
-               data-spotlight-section="makeup" aria-label="按彩妝品牌選購"></section>
-
       <aside class="promo-slim" aria-label="已結束的推廣" hidden>
         <img class="promo-slim__jar" src="assets/images/home/gift-cream.webp"
              alt="" width="208" height="260" decoding="async">
@@ -331,6 +337,11 @@
       </aside>
       <div class="filter-bar">
         <div class="filter-bar__left">
+          <nav class="breadcrumb breadcrumb--inline" aria-label="目前位置">
+            <a href="index.html">首頁</a>
+            <span class="breadcrumb__sep">/</span>
+            <span>彩妝</span>
+          </nav>
           <button class="filter-btn" data-filter-toggle>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
             篩選
@@ -475,7 +486,7 @@
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js?v=20260921-brand-group-v1"></script>
+  <script src="catalog.js?v=20260922-makeup-focus-v1"></script>
   <script src="search.js"></script>
   <script src="script.js"></script>
   <script>
