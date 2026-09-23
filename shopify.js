@@ -2200,13 +2200,22 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
       </span>
       <span class="announcement-bar__mobile" aria-label="中秋優惠及自取免運訊息">
         <button class="announcement-bar__slide is-active" type="button" data-ann-slide="0" aria-controls="ann-promo-details" aria-expanded="false"><span>中秋限定 <i aria-hidden="true">｜</i><strong>最高即減 $60</strong></span><span class="announcement-bar__more"><span class="announcement-bar__more-prefix">優惠</span>詳情 <b aria-hidden="true">›</b></span></button>
-        <a class="announcement-bar__slide" data-ann-slide="1" href="shipping.html" aria-hidden="true" tabindex="-1"><span><strong>滿 $99</strong> 自取免運</span><span class="announcement-bar__more"><span class="announcement-bar__more-prefix">運送</span>詳情 <b aria-hidden="true">›</b></span></a>
+        <button class="announcement-bar__slide" type="button" data-ann-slide="1" aria-controls="ann-shipping-details" aria-expanded="false" aria-hidden="true" tabindex="-1"><span><strong>滿 $99</strong> 自取免運</span><span class="announcement-bar__more"><span class="announcement-bar__more-prefix">運送</span>詳情 <b aria-hidden="true">›</b></span></button>
         <span class="announcement-bar__dots" role="group" aria-label="切換公告"><button class="is-active" type="button" aria-label="中秋優惠" aria-pressed="true" data-ann-dot="0"></button><button type="button" aria-label="自取免運" aria-pressed="false" data-ann-dot="1"></button></span>
       </span>
       <div class="announcement-bar__details" id="ann-promo-details" hidden>
         <div class="announcement-bar__details-head"><strong>中秋限定 · 滿額即減</strong><button type="button" data-ann-close aria-label="收起優惠詳情">×</button></div>
         <ul><li><span>滿 HK$299</span><b>減 $20</b></li><li><span>滿 HK$499</span><b>減 $40</b></li><li><span>滿 HK$699</span><b>減 $60</b></li></ul>
         <p>活動至 9 月 27 日 · 每張單只享最高一級，不累加</p>
+      </div>
+      <div class="announcement-bar__details announcement-bar__details--shipping" id="ann-shipping-details" hidden>
+        <div class="announcement-bar__details-head"><strong>運送與自取 · 免運門檻</strong><button type="button" data-ann-close aria-label="收起運送詳情">×</button></div>
+        <ul>
+          <li><span><b>滿 HK$99</b><small>7-Eleven／郵局自取</small></span><em>免運</em></li>
+          <li><span><b>滿 HK$250</b><small>順豐站／智能櫃</small></span><em>免運</em></li>
+          <li><span><b>滿 HK$290</b><small>順豐送貨到屋企</small></span><em>免運</em></li>
+        </ul>
+        <p>觀塘門市免費自取 · 備妥後通知取貨</p>
       </div>`;
     bar.setAttribute('aria-label', '中秋限定，9月23日至27日；滿299元減20元，滿499元減40元，滿699元減60元，每張訂單只享最高一級；滿99元自取免運');
     initOujiMobileAnnouncement(bar);
@@ -2238,8 +2247,7 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
 function initOujiMobileAnnouncement(bar) {
   const slides = [...bar.querySelectorAll('[data-ann-slide]')];
   const dots = [...bar.querySelectorAll('[data-ann-dot]')];
-  const details = bar.querySelector('#ann-promo-details');
-  const promoButton = slides[0];
+  const details = slides.map((slide) => bar.querySelector(`#${slide.getAttribute('aria-controls')}`));
   let index = 0;
   let timer;
   const show = (next) => {
@@ -2256,23 +2264,25 @@ function initOujiMobileAnnouncement(bar) {
   const stop = () => { clearInterval(timer); timer = null; };
   const start = () => {
     stop();
-    if (!window.matchMedia('(max-width: 720px)').matches || document.hidden || !details.hidden) return;
+    if (!window.matchMedia('(max-width: 720px)').matches || document.hidden || details.some((panel) => !panel.hidden)) return;
     timer = setInterval(() => show(index + 1), 4500);
   };
   const close = () => {
-    details.hidden = true;
-    promoButton.setAttribute('aria-expanded', 'false');
+    details.forEach((panel, i) => {
+      panel.hidden = true;
+      slides[i].setAttribute('aria-expanded', 'false');
+    });
     start();
   };
-  promoButton.addEventListener('click', () => {
-    if (details.hidden) {
-      show(0);
-      details.hidden = false;
-      promoButton.setAttribute('aria-expanded', 'true');
-      stop();
-    } else close();
-  });
-  bar.querySelector('[data-ann-close]').addEventListener('click', close);
+  slides.forEach((slide, i) => slide.addEventListener('click', () => {
+    if (!details[i].hidden) return close();
+    close();
+    show(i);
+    details[i].hidden = false;
+    slide.setAttribute('aria-expanded', 'true');
+    stop();
+  }));
+  bar.querySelectorAll('[data-ann-close]').forEach((button) => button.addEventListener('click', close));
   dots.forEach((dot, i) => dot.addEventListener('click', () => { close(); show(i); start(); }));
   let touchX = null;
   let touchY = null;
@@ -2292,7 +2302,7 @@ function initOujiMobileAnnouncement(bar) {
     show(index + (dx < 0 ? 1 : -1));
     start();
   }, { passive: false });
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !details.hidden) close(); });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && details.some((panel) => !panel.hidden)) close(); });
   document.addEventListener('visibilitychange', start);
   window.addEventListener('resize', start);
   show(0);
