@@ -17206,8 +17206,8 @@ body::before { opacity: 0.18; }
   .shima.midautumn-home__mascot { width: 55px; height: 67px; right: -4px; bottom: -7px; }
 }
 
-/* Homepage: make delivery a real horizontal companion banner. */
-.midautumn-home__grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+/* Keep the two homepage cards side by side on desktop; stack only on mobile. */
+.midautumn-home__grid { grid-template-columns: minmax(0, 1.48fr) minmax(0, .72fr); gap: 18px; }
 .midautumn-product-benefits { grid-template-columns: minmax(0, 1fr); }
 .midautumn-home__shipping {
   min-height: 0;
@@ -17301,4 +17301,27 @@ body::before { opacity: 0.18; }
   .midautumn-home__shipping > p { display: grid; gap: 2px; padding: 7px 66px 0 0; font-size: .62rem; }
   .midautumn-home__shipping > p span + span::before { display: none; }
   .shima.midautumn-home__mascot { width: 55px; height: 67px; right: -4px; bottom: -7px; }
+}
+
+@media (min-width: 801px) {
+  .midautumn-home__shipping { padding: 24px; }
+  .midautumn-home__shipping-head { display: block; }
+  .midautumn-home__shipping-head .midautumn-home__label { padding: 0; border: 0; }
+  .midautumn-home__shipping h3 { margin: 7px 0 14px; }
+  .midautumn-home__shipping-note { display: none; }
+  .midautumn-home__shipping ul { width: 100%; grid-template-columns: 1fr; gap: 0; margin-top: 0; }
+  .midautumn-home__shipping li { display: grid; grid-template-columns: 48px minmax(0,1fr); align-items: center; min-height: 72px; gap: 11px; padding: 9px 0; border-radius: 0; }
+  .midautumn-home__shipping li strong { font-size: .87rem; }
+  .midautumn-home__shipping li small { font-size: .72rem; }
+  .midautumn-home__shipping .midautumn-home__ship-icon { width: 42px; height: 42px; border-radius: 11px; }
+  .midautumn-home__shipping .midautumn-home__ship-icon svg { width: 25px; height: 25px; }
+  .midautumn-home__shipping .midautumn-home__seven-logo { width: 42px; height: 38px; }
+  .midautumn-home__shipping .midautumn-home__seven-logo b { min-width: 21px; font-size: 1.1rem; }
+  .midautumn-home__shipping .midautumn-home__seven-logo span { font-size: .35rem; }
+  .midautumn-home__shipping > p { display: grid; width: calc(100% - 65px); gap: 3px; margin-top: auto; padding-top: 12px; }
+  .midautumn-home__shipping > p span + span::before { display: none; }
+  .shima.midautumn-home__mascot { width: 82px; height: 100px; right: -7px; bottom: -7px; }
+}
+@media (max-width: 800px) {
+  .midautumn-home__grid { grid-template-columns: minmax(0, 1fr); }
 }
