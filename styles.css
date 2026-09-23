@@ -16988,29 +16988,47 @@ body::before { opacity: 0.18; }
 .ouji-promo-price--detail .ouji-promo-price__badge b { color: #234957; font-size: .9rem; }
 .ouji-promo-price--detail .ouji-promo-price__badge span { color: #6d8187; font-size: .7rem; }
 
-/* Cart: editorial black lunar card for discounts; delivery keeps OUJI blue. */
+/* Cart: one moonlit reward journey for both instant savings and the cream gift. */
 .reward--focused { padding: 14px; }
 .reward--focused .reward__brief { margin: 14px 2px 17px; }
 .cart-moon-promo {
   position: relative; isolation: isolate; overflow: hidden; padding: 18px;
-  border: 1px solid rgba(239,221,177,.32); border-radius: 13px;
-  background: radial-gradient(circle at 78% 8%, rgba(104,125,133,.26), transparent 48%), #141c22;
+  border: 1px solid rgba(239,221,177,.38); border-radius: 16px;
+  background: radial-gradient(circle at 90% -12%, rgba(145,171,178,.3), transparent 42%), linear-gradient(155deg,#17242b,#101a21 72%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 14px 28px rgba(8,22,31,.15);
   color: #f6f3e9;
 }
 .cart-moon-promo[hidden] { display: none; }
-.cart-moon-promo__art { position: absolute; z-index: -1; width: 67%; height: auto; top: -46px; right: -58px; opacity: .42; pointer-events: none; }
-.cart-moon-promo__head { position: relative; display: grid; gap: 2px; }
-.cart-moon-promo__head span { color: #e5cc98; font-size: .65rem; font-weight: 700; letter-spacing: .16em; }
-.cart-moon-promo__head strong { font: 600 1.42rem/1.25 var(--font-display); }
-.cart-moon-promo__head small { color: #c7d5d6; font-size: .7rem; }
-.cart-moon-promo__tiers { position: relative; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 0; margin: 13px 0 0; padding: 0; list-style: none; border: 1px solid rgba(237,220,185,.29); border-radius: 9px; background: rgba(19,32,40,.72); }
-.cart-moon-promo__tiers li { display: grid; gap: 3px; min-width: 0; padding: 9px 7px; border-right: 1px solid rgba(237,220,185,.22); }
-.cart-moon-promo__tiers li:last-child { border: 0; }
-.cart-moon-promo__tiers span { color: #d2dcda; font-size: .68rem; white-space: nowrap; }
-.cart-moon-promo__tiers b { color: #f4d69e; font-size: 1rem; white-space: nowrap; }
-.cart-moon-promo__tiers .is-reached { background: rgba(229,204,152,.11); }
-.cart-moon-promo__status { position: relative; margin: 12px 0 0; color: #f3dda9; font-size: .82rem; font-weight: 700; line-height: 1.4; }
-.cart-moon-promo__terms { position: relative; margin: 5px 0 0; color: #bfcbd0; font-size: .67rem; line-height: 1.4; }
+.cart-moon-promo__art { position: absolute; z-index: -1; width: 50%; height: auto; top: -40px; right: -48px; opacity: .22; pointer-events: none; }
+.cart-moon-promo__head { position: relative; display: grid; gap: 3px; }
+.cart-moon-promo__head span { color: #e5cc98; font-size: .62rem; font-weight: 700; letter-spacing: .14em; }
+.cart-moon-promo__head strong { font: 600 1.35rem/1.25 var(--font-display); }
+.cart-moon-promo__progress { position: relative; margin-top: 17px; padding: 13px 14px 11px; border: 1px solid rgba(234,219,182,.3); border-radius: 12px; background: rgba(255,255,255,.055); }
+.cart-moon-promo__progress-top, .cart-moon-promo__progress-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.cart-moon-promo__progress-top span { color: #c6d7d9; font-size: .68rem; white-space: nowrap; }
+.cart-moon-promo__progress-top strong { color: #f8e2aa; font-size: .87rem; line-height: 1.3; text-align: right; }
+.cart-moon-promo__meter { position: relative; height: 18px; margin: 12px 0 7px; overflow: hidden; border: 1px solid rgba(164,207,216,.32); border-radius: 999px; background: #08131a; box-shadow: inset 0 2px 5px rgba(0,0,0,.42); }
+.cart-moon-promo__water { position: absolute; inset: 0 auto 0 0; width: 0; min-width: 0; overflow: hidden; border-radius: inherit; background: linear-gradient(100deg,#3e7a8a,#8ccbd0 48%,#f4d795 85%,#8ccbd0); background-size: 190% 100%; box-shadow: inset 0 2px 1px rgba(255,255,255,.46), 0 0 13px rgba(145,213,218,.57); transition: width 650ms cubic-bezier(.2,.75,.2,1); animation: cart-moon-water 4.5s ease-in-out infinite alternate; }
+.cart-moon-promo__water::after { content: ''; position: absolute; inset: 1px 4px auto 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,.45); filter: blur(2px); }
+@keyframes cart-moon-water { to { background-position: 100% 0; } }
+.cart-moon-promo__progress-foot { color: #bfced0; font-size: .65rem; font-variant-numeric: tabular-nums; }
+.cart-moon-promo__progress-foot strong { color: #e8f1f0; font-weight: 600; }
+.cart-moon-promo__tiers { position: relative; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin: 11px 0 0; padding: 0; list-style: none; }
+.cart-moon-promo__tiers li { position: relative; display: grid; align-content: end; gap: 5px; min-width: 0; min-height: 73px; padding: 9px; border: 1px solid rgba(223,234,232,.18); border-radius: 10px; background: rgba(255,255,255,.045); }
+.cart-moon-promo__tiers li > span:nth-child(2) { display: grid; gap: 2px; min-width: 0; }
+.cart-moon-promo__tiers small { color: #b9c9cb; font-size: .63rem; line-height: 1.2; }
+.cart-moon-promo__tiers b { color: #f2d89f; font-size: .9rem; line-height: 1.2; white-space: nowrap; }
+.cart-moon-promo__check { position: absolute; top: 7px; right: 7px; display: grid; place-items: center; width: 16px; height: 16px; border: 1px solid rgba(222,229,225,.38); border-radius: 50%; color: transparent; font-size: .64rem; }
+.cart-moon-promo__tiers em { color: #b9c9cb; font-size: .61rem; font-style: normal; line-height: 1; }
+.cart-moon-promo__tiers li.is-next { border-color: rgba(242,216,159,.65); background: rgba(242,216,159,.075); }
+.cart-moon-promo__tiers li.is-reached { border-color: rgba(245,223,168,.78); background: linear-gradient(145deg,rgba(237,211,153,.22),rgba(126,190,191,.1)); box-shadow: inset 0 1px 0 rgba(255,255,255,.13), 0 0 17px rgba(234,211,157,.12); }
+.cart-moon-promo__tiers li.is-reached .cart-moon-promo__check { border-color: #f3d797; background: #f3d797; color: #15252c; box-shadow: 0 0 10px rgba(243,215,151,.5); }
+.cart-moon-promo__tiers li.is-reached em { color: #f5dca4; font-weight: 700; }
+.cart-moon-promo__tiers li[data-cart-promo-gift] { grid-column: 1 / -1; min-height: 56px; padding: 9px 60px 9px 36px; }
+.cart-moon-promo__tiers li[data-cart-promo-gift] .cart-moon-promo__check { left: 10px; right: auto; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; }
+.cart-moon-promo__tiers li[data-cart-promo-gift] img { position: absolute; right: 7px; bottom: 0; width: 43px; height: 51px; object-fit: contain; filter: drop-shadow(0 3px 4px rgba(0,0,0,.26)); }
+.cart-moon-promo__terms { position: relative; margin: 10px 0 0; color: #bfcbd0; font-size: .65rem; line-height: 1.4; }
+@media (prefers-reduced-motion: reduce) { .cart-moon-promo__water { animation: none; transition: none; } }
 [data-discount-row][hidden] { display: none !important; }
 
 @media (max-width: 720px) {
@@ -17100,11 +17118,16 @@ body::before { opacity: 0.18; }
 }
 @media (max-width: 360px) {
   .announcement-bar__slide { font-size: .88rem; }
+  .cart-summary { padding: 14px; }
+  .reward--focused { padding: 10px; }
   .announcement-bar__more-prefix { display: none; }
   .cart-moon-promo { padding: 13px; }
-  .cart-moon-promo__tiers li { padding-inline: 4px; }
-  .cart-moon-promo__tiers span { font-size: .61rem; }
-  .cart-moon-promo__tiers b { font-size: .9rem; }
+  .cart-moon-promo__progress { padding-inline: 10px; }
+  .cart-moon-promo__tiers { gap: 5px; }
+  .cart-moon-promo__tiers li { padding: 7px 5px; }
+  .cart-moon-promo__tiers b { font-size: .77rem; }
+  .cart-moon-promo__tiers li[data-cart-promo-gift] { padding: 8px 48px 8px 31px; }
+  .cart-moon-promo__tiers li[data-cart-promo-gift] img { width: 38px; }
 }
 
 /* Delivery options are three distinct columns, not three compressed rows. */

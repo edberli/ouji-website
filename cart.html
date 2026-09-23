@@ -421,14 +421,21 @@
             <div class="reward reward--focused" data-reward hidden>
               <section class="cart-moon-promo" data-cart-moon-promo hidden aria-label="中秋限定滿額優惠">
                 <img class="cart-moon-promo__art" src="assets/images/home/midautumn-lunar-rabbit-v4.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-                <div class="cart-moon-promo__head"><span>OUJI MID-AUTUMN</span><strong>月圓，禮更滿。</strong><small>9 月 23–27 日限定</small></div>
-                <ul class="cart-moon-promo__tiers" aria-label="每張訂單最高一級滿額減">
-                  <li data-cart-promo-tier="299"><span>滿 HK$299</span><b>減 $20</b></li>
-                  <li data-cart-promo-tier="499"><span>滿 HK$499</span><b>減 $40</b></li>
-                  <li data-cart-promo-tier="699"><span>滿 HK$699</span><b>減 $60</b></li>
+                <div class="cart-moon-promo__head"><span>OUJI MID-AUTUMN · 9.23–27</span><strong>好禮，逐級解鎖。</strong></div>
+                <div class="cart-moon-promo__progress">
+                  <div class="cart-moon-promo__progress-top"><span>下一份好禮</span><strong data-cart-promo-status aria-live="polite"></strong></div>
+                  <div class="cart-moon-promo__meter" data-cart-promo-track role="progressbar" aria-label="中秋優惠進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <span class="cart-moon-promo__water" data-cart-promo-fill></span>
+                  </div>
+                  <div class="cart-moon-promo__progress-foot"><span data-cart-promo-basis>商品小計</span><strong data-cart-promo-total>HK$0 / HK$299</strong></div>
+                </div>
+                <ul class="cart-moon-promo__tiers" aria-label="中秋優惠達標情況">
+                  <li data-cart-promo-tier="299"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $299</small><b>減 $20</b></span><em data-cart-promo-state>未達成</em></li>
+                  <li data-cart-promo-tier="499"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $499</small><b>減 $40</b></span><em data-cart-promo-state>未達成</em></li>
+                  <li data-cart-promo-tier="699"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $699</small><b>減 $60</b></span><em data-cart-promo-state>未達成</em></li>
+                  <li data-cart-promo-tier="599" data-cart-promo-gift><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>折實貨價滿 $599</small><b>送 Round Lab 面霜</b></span><em data-cart-promo-state>未達成</em><img src="assets/images/home/gift-cream-cutout.png" alt="" width="1254" height="1254" loading="lazy" decoding="async"></li>
                 </ul>
-                <p class="cart-moon-promo__status" data-cart-promo-status aria-live="polite"></p>
-                <p class="cart-moon-promo__terms">每張單只享最高一級，優惠不累加；實際折扣以結帳顯示為準。</p>
+                <p class="cart-moon-promo__terms">即減只享最高一級、不累加 · 面霜送完即止 · 實際優惠以結帳為準</p>
               </section>
               <div class="reward__brief" aria-live="polite">
                 <p class="reward__sample" data-reward-sample hidden></p>
@@ -1216,18 +1223,41 @@
       promoCard.hidden = !promoActive;
       if (promoActive) {
         const tiers = promo?.tiers || [];
-        const attained = tiers.filter((tier) => gross + 0.001 >= tier.threshold).at(-1);
-        const nextTier = tiers.find((tier) => gross + 0.001 < tier.threshold);
+        const giftReached = net + 0.001 >= GIFT || (inCart || []).includes(promo?.gift?.handle);
+        const milestones = [
+          ...tiers.map((tier) => ({ threshold: tier.threshold, total: gross, label: `即減 $${tier.saving}`, en: `$${tier.saving} off`, basis: 'gross' })),
+          { threshold: GIFT, total: net, label: '送 Round Lab 面霜', en: 'a Round Lab cream', basis: 'net', reached: giftReached },
+        ];
+        const pending = milestones.filter((item) => !(item.reached || item.total + 0.001 >= item.threshold))
+          .map((item) => ({ ...item, gap: Math.max(0, Math.ceil((item.threshold - item.total) * 100 - 0.001) / 100) }))
+          .sort((a, b) => a.gap - b.gap || a.threshold - b.threshold)[0];
         promoCard.querySelectorAll('[data-cart-promo-tier]').forEach((row) => {
-          row.classList.toggle('is-reached', gross + 0.001 >= Number(row.dataset.cartPromoTier));
+          const isGift = row.hasAttribute('data-cart-promo-gift');
+          const reached = isGift ? giftReached : gross + 0.001 >= Number(row.dataset.cartPromoTier);
+          row.classList.toggle('is-reached', reached);
+          row.classList.toggle('is-next', !reached && pending?.threshold === Number(row.dataset.cartPromoTier));
+          row.querySelector('[data-cart-promo-state]').textContent = reached
+            ? window.OUJI_cartCopy('已達成', 'Unlocked')
+            : window.OUJI_cartCopy('未達成', 'Locked');
         });
-        const gap = nextTier ? Math.max(0, Math.ceil((nextTier.threshold - gross) * 100 - 0.001) / 100) : 0;
-        promoCard.querySelector('[data-cart-promo-status]').textContent = nextTier
+        const money = (amount) => Number.isInteger(amount) ? String(amount) : amount.toFixed(2);
+        promoCard.querySelector('[data-cart-promo-status]').textContent = pending
           ? window.OUJI_cartCopy(
-            `${attained ? `已達減 HK$${attained.saving} 門檻 · ` : ''}再買 HK$${gap} 可達減 HK$${nextTier.saving} 門檻`,
-            `${attained ? `Reached HK$${attained.saving} off · ` : ''}Add HK$${gap} to reach HK$${nextTier.saving} off`
+            `再買 HK$${money(pending.gap)} ${pending.label}`,
+            `Add HK$${money(pending.gap)} for ${pending.en}`
           )
-          : window.OUJI_cartCopy('已達最高級：減 HK$60 門檻', 'Top tier reached: HK$60 off');
+          : window.OUJI_cartCopy('所有優惠門檻已達成 ✓', 'All reward thresholds reached ✓');
+        promoCard.querySelector('[data-cart-promo-basis]').textContent = pending?.basis === 'net'
+          ? window.OUJI_cartCopy('折實貨價進度', 'Discounted goods total')
+          : window.OUJI_cartCopy('商品小計進度', 'Goods subtotal');
+        promoCard.querySelector('[data-cart-promo-total]').textContent = pending
+          ? `HK$${money(pending.total)} / HK$${pending.threshold}`
+          : window.OUJI_cartCopy('全部達成', 'Complete');
+        const track = promoCard.querySelector('[data-cart-promo-track]');
+        const percent = pending ? Math.min(100, Math.max(0, pending.total / pending.threshold * 100)) : 100;
+        track.setAttribute('aria-valuenow', String(Math.round(percent)));
+        track.setAttribute('aria-valuetext', promoCard.querySelector('[data-cart-promo-status]').textContent);
+        promoCard.querySelector('[data-cart-promo-fill]').style.width = `${percent}%`;
       }
     }
     const mode = window.OUJI_getShipMode?.() || 'post';
@@ -1279,7 +1309,7 @@
     host.querySelector('[data-reward-cta]').hidden = met;
     const gift = window.OUJI_COMMERCE?.promotion?.gift;
     const giftLine = host.querySelector('[data-reward-gift]');
-    giftLine.hidden = false;
+    giftLine.hidden = promoActive;
     host.querySelector('[data-gift-title]').replaceChildren(
       document.createTextNode(window.OUJI_cartCopy('滿 HK$' + GIFT, 'Spend HK$' + GIFT)),
       document.createElement('br'),
