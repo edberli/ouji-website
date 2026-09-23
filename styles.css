@@ -17337,7 +17337,8 @@ body::before { opacity: 0.18; }
   .midautumn-home__desktop-art { display: block; width: 100%; height: 100%; object-fit: contain; }
   .midautumn-home__shipping { height: 100%; }
   .midautumn-home__shipping ul { display: flex; flex-direction: column; justify-content: space-evenly; flex: 1; gap: 8px; margin-block: 0; }
-  .midautumn-home__shipping li { min-height: clamp(78px, 8vw, 112px); padding: 13px 16px; border: 1px solid rgba(255,255,255,.2); border-radius: 15px; background: rgba(255,255,255,.08); }
+  .midautumn-home__shipping li { min-height: clamp(76px, 5vw, 84px); padding: 10px 14px; border: 1px solid rgba(255,255,255,.2); border-radius: 15px; background: rgba(255,255,255,.08); }
+  .midautumn-home__shipping > p { padding-top: 14px; border-top-color: rgba(255,255,255,.12); }
 }
 @media (max-width: 800px) {
   .midautumn-home__discount { min-height: 0; padding: 0; border: 1px solid #3a5364; background: #172c4b; }
