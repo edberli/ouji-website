@@ -2199,8 +2199,8 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
         <span>滿 $699 <b>減 $60</b></span>
       </span>
       <span class="announcement-bar__mobile" aria-label="中秋優惠及自取免運訊息">
-        <button class="announcement-bar__slide is-active" type="button" data-ann-slide="0" aria-controls="ann-promo-details" aria-expanded="false"><span>中秋限定 <i aria-hidden="true">｜</i><strong>最高即減 $60</strong></span><span class="announcement-bar__more">優惠詳情 <b aria-hidden="true">›</b></span></button>
-        <a class="announcement-bar__slide" data-ann-slide="1" href="shipping.html" aria-hidden="true" tabindex="-1"><span><strong>滿 $99</strong> 自取免運</span><span class="announcement-bar__more">運送詳情 <b aria-hidden="true">›</b></span></a>
+        <button class="announcement-bar__slide is-active" type="button" data-ann-slide="0" aria-controls="ann-promo-details" aria-expanded="false"><span>中秋限定 <i aria-hidden="true">｜</i><strong>最高即減 $60</strong></span><span class="announcement-bar__more"><span class="announcement-bar__more-prefix">優惠</span>詳情 <b aria-hidden="true">›</b></span></button>
+        <a class="announcement-bar__slide" data-ann-slide="1" href="shipping.html" aria-hidden="true" tabindex="-1"><span><strong>滿 $99</strong> 自取免運</span><span class="announcement-bar__more"><span class="announcement-bar__more-prefix">運送</span>詳情 <b aria-hidden="true">›</b></span></a>
         <span class="announcement-bar__dots" role="group" aria-label="切換公告"><button class="is-active" type="button" aria-label="中秋優惠" aria-pressed="true" data-ann-dot="0"></button><button type="button" aria-label="自取免運" aria-pressed="false" data-ann-dot="1"></button></span>
       </span>
       <div class="announcement-bar__details" id="ann-promo-details" hidden>

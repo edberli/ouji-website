@@ -17045,11 +17045,11 @@ body::before { opacity: 0.18; }
 @media (max-width: 720px) {
   .has-ouji-opening-promo .announcement-bar {
     display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
-    height: 34px; min-height: 34px; padding: 0; gap: 0;
+    height: 44px; min-height: 44px; padding: 0; gap: 0;
     overflow: visible; line-height: 1.2;
   }
   .has-ouji-opening-promo .announcement-bar__moon-badge {
-    top: -6px; left: -7px; width: 55px; height: 55px;
+    top: -7px; left: -8px; width: 64px; height: 64px;
     transform: none; filter: drop-shadow(0 4px 7px rgba(235,220,185,.34));
   }
   .announcement-bar__moon-badge b, .announcement-bar__moon-badge small { display: none; }
@@ -17061,20 +17061,21 @@ body::before { opacity: 0.18; }
   }
   .announcement-bar__slide {
     position: absolute; inset: 0; display: none; align-items: center;
-    width: 100%; height: 34px; padding: 0;
+    width: 100%; height: 44px; padding: 0;
     border: 0; background: none; color: #f6f4ed; text-align: center;
-    text-decoration: none; font: 600 .88rem/1.2 var(--font-body); letter-spacing: .01em;
+    text-decoration: none; font: 600 .94rem/1.2 var(--font-body); letter-spacing: .01em;
     white-space: nowrap; cursor: pointer;
   }
   .announcement-bar__slide.is-active { display: flex; }
   .announcement-bar__slide > span:first-child { position: absolute; left: 50%; transform: translateX(-50%); }
   .announcement-bar__slide strong { color: #f4d79d; font-weight: 750; }
   .announcement-bar__slide i { color: #b5c7c9; font-style: normal; }
-  .announcement-bar__more { position: absolute; right: 22px; color: #d0dbdc; font-size: .68rem; font-weight: 500; }
-  .announcement-bar__more b { margin-left: 1px; font-size: 1.23rem; font-weight: 400; vertical-align: -.06em; }
-  .announcement-bar__dots { position: absolute; top: 50%; right: 6px; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; width: 7px; }
-  .announcement-bar__dots button { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 50%; background: #6d7d82; cursor: pointer; }
-  .announcement-bar__dots button.is-active { width: 7px; height: 7px; background: #f0d59c; }
+  .announcement-bar__more { position: absolute; right: 26px; color: #d0dbdc; font-size: .72rem; font-weight: 500; }
+  .announcement-bar__more b { margin-left: 1px; font-size: 1.3rem; font-weight: 400; vertical-align: -.06em; }
+  .announcement-bar__dots { position: absolute; top: 50%; right: 2px; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; width: 18px; }
+  .announcement-bar__dots button { position: relative; width: 18px; height: 18px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .announcement-bar__dots button::after { content: ''; position: absolute; top: 50%; left: 50%; width: 7px; height: 7px; border-radius: 50%; transform: translate(-50%,-50%); background: #6d7d82; }
+  .announcement-bar__dots button.is-active::after { width: 9px; height: 9px; background: #f0d59c; }
   .announcement-bar__slide:focus-visible, .announcement-bar__dots button:focus-visible,
   .announcement-bar__details button:focus-visible { outline: 2px solid #f0d59c; outline-offset: 2px; }
   .announcement-bar__details:not([hidden]) {
@@ -17094,7 +17095,8 @@ body::before { opacity: 0.18; }
   .has-ouji-opening-promo .header__inner { padding-inline: var(--space-md); }
 }
 @media (max-width: 360px) {
-  .announcement-bar__slide { font-size: .76rem; }
+  .announcement-bar__slide { font-size: .88rem; }
+  .announcement-bar__more-prefix { display: none; }
   .cart-moon-promo { padding: 13px; }
   .cart-moon-promo__tiers li { padding-inline: 4px; }
   .cart-moon-promo__tiers span { font-size: .61rem; }
