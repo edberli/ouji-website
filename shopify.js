@@ -2197,8 +2197,19 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
         <span>滿 $299 <b>減 $20</b></span>
         <span>滿 $499 <b>減 $40</b></span>
         <span>滿 $699 <b>減 $60</b></span>
-      </span>`;
+      </span>
+      <span class="announcement-bar__mobile" aria-label="中秋優惠及自取免運訊息">
+        <button class="announcement-bar__slide is-active" type="button" data-ann-slide="0" aria-controls="ann-promo-details" aria-expanded="false"><span>中秋限定 <i aria-hidden="true">｜</i><strong>最高即減 $60</strong></span><span class="announcement-bar__more">優惠詳情 <b aria-hidden="true">›</b></span></button>
+        <a class="announcement-bar__slide" data-ann-slide="1" href="shipping.html" aria-hidden="true" tabindex="-1"><span><strong>滿 $99</strong> 自取免運</span><span class="announcement-bar__more">運送詳情 <b aria-hidden="true">›</b></span></a>
+        <span class="announcement-bar__dots" role="group" aria-label="切換公告"><button class="is-active" type="button" aria-label="中秋優惠" aria-pressed="true" data-ann-dot="0"></button><button type="button" aria-label="自取免運" aria-pressed="false" data-ann-dot="1"></button></span>
+      </span>
+      <div class="announcement-bar__details" id="ann-promo-details" hidden>
+        <div class="announcement-bar__details-head"><strong>中秋限定 · 滿額即減</strong><button type="button" data-ann-close aria-label="收起優惠詳情">×</button></div>
+        <ul><li><span>滿 HK$299</span><b>減 $20</b></li><li><span>滿 HK$499</span><b>減 $40</b></li><li><span>滿 HK$699</span><b>減 $60</b></li></ul>
+        <p>活動至 9 月 27 日 · 每張單只享最高一級，不累加</p>
+      </div>`;
     bar.setAttribute('aria-label', '中秋限定，9月23日至27日；滿299元減20元，滿499元減40元，滿699元減60元，每張訂單只享最高一級；滿99元自取免運');
+    initOujiMobileAnnouncement(bar);
   });
   document.querySelectorAll('[data-ouji-opening-promo]').forEach((surface) => {
     surface.hidden = !active;
@@ -2222,6 +2233,70 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
   /* 只控制有活動標記嘅 88 折內容。首頁 `.promo-wrap` 已改成長期購物禮遇卡，
      88 折完結後仍要顯示免運門檻同滿額贈品，唔可以再一刀切收起。 */
   return active;
+}
+
+function initOujiMobileAnnouncement(bar) {
+  const slides = [...bar.querySelectorAll('[data-ann-slide]')];
+  const dots = [...bar.querySelectorAll('[data-ann-dot]')];
+  const details = bar.querySelector('#ann-promo-details');
+  const promoButton = slides[0];
+  let index = 0;
+  let timer;
+  const show = (next) => {
+    index = (next + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      const active = i === index;
+      slide.classList.toggle('is-active', active);
+      slide.setAttribute('aria-hidden', String(!active));
+      slide.tabIndex = active ? 0 : -1;
+      dots[i].classList.toggle('is-active', active);
+      dots[i].setAttribute('aria-pressed', String(active));
+    });
+  };
+  const stop = () => { clearInterval(timer); timer = null; };
+  const start = () => {
+    stop();
+    if (!window.matchMedia('(max-width: 720px)').matches || document.hidden || !details.hidden) return;
+    timer = setInterval(() => show(index + 1), 4500);
+  };
+  const close = () => {
+    details.hidden = true;
+    promoButton.setAttribute('aria-expanded', 'false');
+    start();
+  };
+  promoButton.addEventListener('click', () => {
+    if (details.hidden) {
+      show(0);
+      details.hidden = false;
+      promoButton.setAttribute('aria-expanded', 'true');
+      stop();
+    } else close();
+  });
+  bar.querySelector('[data-ann-close]').addEventListener('click', close);
+  dots.forEach((dot, i) => dot.addEventListener('click', () => { close(); show(i); start(); }));
+  let touchX = null;
+  let touchY = null;
+  const mobile = bar.querySelector('.announcement-bar__mobile');
+  mobile.addEventListener('touchstart', (event) => {
+    touchX = event.changedTouches[0].clientX;
+    touchY = event.changedTouches[0].clientY;
+  }, { passive: true });
+  mobile.addEventListener('touchend', (event) => {
+    if (touchX == null) return;
+    const dx = event.changedTouches[0].clientX - touchX;
+    const dy = event.changedTouches[0].clientY - touchY;
+    touchX = touchY = null;
+    if (Math.abs(dx) < 35 || Math.abs(dx) < Math.abs(dy)) return;
+    event.preventDefault();
+    close();
+    show(index + (dx < 0 ? 1 : -1));
+    start();
+  }, { passive: false });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !details.hidden) close(); });
+  document.addEventListener('visibilitychange', start);
+  window.addEventListener('resize', start);
+  show(0);
+  start();
 }
 
 /* 短效期特價（2026-09-12 老闆批）：快到期門市實貨，1–3 個月 5 折、3–6 個月 7 折。

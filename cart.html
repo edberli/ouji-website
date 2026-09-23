@@ -401,6 +401,17 @@
 
             <!-- 免運門檻最高 $290；商品合計滿 $599 送面霜。 -->
             <div class="reward reward--focused" data-reward hidden>
+              <section class="cart-moon-promo" data-cart-moon-promo hidden aria-label="中秋限定滿額優惠">
+                <img class="cart-moon-promo__art" src="assets/images/home/midautumn-lunar-rabbit-v4.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+                <div class="cart-moon-promo__head"><span>OUJI MID-AUTUMN</span><strong>月圓，禮更滿。</strong><small>9 月 23–27 日限定</small></div>
+                <ul class="cart-moon-promo__tiers" aria-label="每張訂單最高一級滿額減">
+                  <li data-cart-promo-tier="299"><span>滿 HK$299</span><b>減 $20</b></li>
+                  <li data-cart-promo-tier="499"><span>滿 HK$499</span><b>減 $40</b></li>
+                  <li data-cart-promo-tier="699"><span>滿 HK$699</span><b>減 $60</b></li>
+                </ul>
+                <p class="cart-moon-promo__status" data-cart-promo-status aria-live="polite"></p>
+                <p class="cart-moon-promo__terms">每張單只享最高一級，優惠不累加；實際折扣以結帳顯示為準。</p>
+              </section>
               <div class="reward__brief" aria-live="polite">
                 <p class="reward__sample" data-reward-sample hidden></p>
                 <p class="reward__line" data-reward-line></p>
@@ -978,6 +989,7 @@
        $84 貨品加 $15 運費就變 $99，啱啱夠 post 嘅 $99 門檻，白送運費。
        直接放個數出嚟，唔好再由 DOM 反推。 */
     window.OUJI_netGoods = netTotal;
+    window.OUJI_grossGoods = subtotal;
     const estimatedPoints = document.querySelector('[data-cart-member-points]');
     if (estimatedPoints) estimatedPoints.textContent = Math.max(0, Math.floor(netTotal)).toLocaleString(window.OUJI_cartEnglish() ? 'en-HK' : 'zh-HK');
     const memberAuth = document.querySelector('[data-cart-member-auth]');
@@ -1177,6 +1189,27 @@
     if (!host) return;
     host.hidden = net <= 0;
     if (host.hidden) return;
+    const promoCard = host.querySelector('[data-cart-moon-promo]');
+    const promo = window.OUJI_COMMERCE?.promotion;
+    const promoActive = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive();
+    if (promoCard) {
+      promoCard.hidden = !promoActive;
+      if (promoActive) {
+        const tiers = promo?.tiers || [];
+        const attained = tiers.filter((tier) => gross + 0.001 >= tier.threshold).at(-1);
+        const nextTier = tiers.find((tier) => gross + 0.001 < tier.threshold);
+        promoCard.querySelectorAll('[data-cart-promo-tier]').forEach((row) => {
+          row.classList.toggle('is-reached', gross + 0.001 >= Number(row.dataset.cartPromoTier));
+        });
+        const gap = nextTier ? Math.max(0, Math.ceil((nextTier.threshold - gross) * 100 - 0.001) / 100) : 0;
+        promoCard.querySelector('[data-cart-promo-status]').textContent = nextTier
+          ? window.OUJI_cartCopy(
+            `${attained ? `已達減 HK$${attained.saving} 門檻 · ` : ''}再買 HK$${gap} 可達減 HK$${nextTier.saving} 門檻`,
+            `${attained ? `Reached HK$${attained.saving} off · ` : ''}Add HK$${gap} to reach HK$${nextTier.saving} off`
+          )
+          : window.OUJI_cartCopy('已達最高級：減 HK$60 門檻', 'Top tier reached: HK$60 off');
+      }
+    }
     const mode = window.OUJI_getShipMode?.() || 'post';
     const method = window.OUJI_SHIP[mode];
     const met = method.fee === 0 || net >= method.free;
@@ -1760,14 +1793,17 @@
         { at: S.sfd?.free, label: '升級到順豐送上門免運費', en: 'free home delivery', up: 1, badge: '加咗送上門免運', badgeEn: 'Add for free home delivery' },
         ...(midAutumnActive ? (PROMO.tiers || []).map(({ threshold, saving }) => ({
           at: threshold, label: `減 $${saving}`, en: `$${saving} off`,
-          badge: `加咗減 $${saving}`, badgeEn: `Add for $${saving} off`,
+          badge: `加咗減 $${saving}`, badgeEn: `Add for $${saving} off`, basis: 'gross',
         })) : []),
         { at: PROMO.gift?.threshold || 599, label: '送 Round Lab 白樺樹面霜', en: 'a free Round Lab cream', badge: '加咗送面霜', badgeEn: 'Add for a free cream' },
       ].filter((l) => Number(l.at) > 0);
 
       const net = Number(window.OUJI_netGoods) || 0;
-      const next = LEVELS.filter((l) => l.at > net).sort((a, b) => a.at - b.at)[0] || null;
-      const gap = next ? Math.ceil(next.at - net - 0.001) : 0;
+      const gross = Number(window.OUJI_grossGoods) || 0;
+      const next = LEVELS.map((level) => ({ ...level,
+        gap: Math.max(0, Math.ceil(level.at - (level.basis === 'gross' ? gross : net) - 0.001))
+      })).filter((level) => level.gap > 0).sort((a, b) => a.gap - b.gap)[0] || null;
+      const gap = next?.gap || 0;
 
       const prices = items.map((p) => p.__price);
       const cheapest = Math.min(...prices), dearest = Math.max(...prices);

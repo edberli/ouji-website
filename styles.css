@@ -16947,3 +16947,156 @@ body::before { opacity: 0.18; }
 .product-card__prices:has(.product-card__compare-price) .product-card__price {
   color: var(--sale, #c8452f);
 }
+
+/* Product benefits reuse the approved homepage lunar card, scaled for the buy box. */
+.midautumn-product-benefits > .midautumn-product-benefits__offer {
+  min-height: 0;
+  padding: 23px;
+  border-color: #344651;
+  border-radius: 18px;
+  background: radial-gradient(circle at 76% 42%, rgba(67,91,107,.3), transparent 45%), #11191f;
+  box-shadow: 0 15px 34px rgba(21,44,56,.13);
+}
+.midautumn-product-benefits__offer .midautumn-home__art { width: 74%; right: -95px; top: -28px; opacity: .66; }
+.midautumn-product-benefits__offer .midautumn-home__label { position: relative; }
+.midautumn-product-benefits__offer h3 { max-width: 78%; margin: 8px 0 20px; font-size: clamp(1.25rem, 1.8vw, 1.65rem); }
+.midautumn-product-benefits__offer .midautumn-home__tiers { width: 100%; }
+.midautumn-product-benefits__offer .midautumn-home__tiers li { padding: 11px 8px; font-size: .72rem; }
+.midautumn-product-benefits__offer .midautumn-home__tiers strong { font-size: clamp(1.02rem, 1.4vw, 1.27rem); }
+.midautumn-product-benefits__offer .midautumn-home__gift {
+  width: 100%; min-height: 70px; margin-top: 14px; padding: 7px 10px;
+  grid-template-columns: 48px minmax(0,1fr); gap: 9px;
+}
+.midautumn-product-benefits__offer .midautumn-home__gift img { width: 46px; height: 53px; }
+.midautumn-product-benefits__offer .midautumn-home__gift strong { font-size: .86rem; }
+.midautumn-product-benefits__offer .midautumn-home__gift small { font-size: .68rem; }
+.midautumn-product-benefits__terms { position: relative; margin: 10px 0 0; color: #c5d0d1; font-size: .7rem; }
+
+/* Price-level campaign tag is visible but never makes a regular product price red. */
+.ouji-promo-price--detail .ouji-promo-price__badge {
+  align-items: center; gap: 7px; min-height: 32px; padding: 7px 11px;
+  border: 1px solid #b9ccd1; border-radius: 8px;
+  background: linear-gradient(110deg, #f2f8f9, #fff9ec);
+  color: #345d6b; font-size: .82rem; line-height: 1.2;
+  box-shadow: 0 3px 9px rgba(36,71,86,.07);
+}
+.ouji-promo-price--detail .ouji-promo-price__badge::before {
+  content: ''; flex: none; width: 13px; height: 13px; border-radius: 50%;
+  background: radial-gradient(circle at 33% 32%, #fff9e3, #dacda9 72%, #b8b6ad);
+  box-shadow: inset -3px -2px 3px rgba(55,74,80,.18);
+}
+.ouji-promo-price--detail .ouji-promo-price__badge b { color: #234957; font-size: .9rem; }
+.ouji-promo-price--detail .ouji-promo-price__badge span { color: #6d8187; font-size: .7rem; }
+
+/* Cart: editorial black lunar card for discounts; delivery keeps OUJI blue. */
+.reward--focused { padding: 14px; }
+.reward--focused .reward__brief { margin: 14px 2px 17px; }
+.cart-moon-promo {
+  position: relative; isolation: isolate; overflow: hidden; padding: 18px;
+  border: 1px solid rgba(239,221,177,.32); border-radius: 13px;
+  background: radial-gradient(circle at 78% 8%, rgba(104,125,133,.26), transparent 48%), #141c22;
+  color: #f6f3e9;
+}
+.cart-moon-promo[hidden] { display: none; }
+.cart-moon-promo__art { position: absolute; z-index: -1; width: 67%; height: auto; top: -46px; right: -58px; opacity: .42; pointer-events: none; }
+.cart-moon-promo__head { position: relative; display: grid; gap: 2px; }
+.cart-moon-promo__head span { color: #e5cc98; font-size: .65rem; font-weight: 700; letter-spacing: .16em; }
+.cart-moon-promo__head strong { font: 600 1.42rem/1.25 var(--font-display); }
+.cart-moon-promo__head small { color: #c7d5d6; font-size: .7rem; }
+.cart-moon-promo__tiers { position: relative; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 0; margin: 13px 0 0; padding: 0; list-style: none; border: 1px solid rgba(237,220,185,.29); border-radius: 9px; background: rgba(19,32,40,.72); }
+.cart-moon-promo__tiers li { display: grid; gap: 3px; min-width: 0; padding: 9px 7px; border-right: 1px solid rgba(237,220,185,.22); }
+.cart-moon-promo__tiers li:last-child { border: 0; }
+.cart-moon-promo__tiers span { color: #d2dcda; font-size: .68rem; white-space: nowrap; }
+.cart-moon-promo__tiers b { color: #f4d69e; font-size: 1rem; white-space: nowrap; }
+.cart-moon-promo__tiers .is-reached { background: rgba(229,204,152,.11); }
+.cart-moon-promo__status { position: relative; margin: 12px 0 0; color: #f3dda9; font-size: .82rem; font-weight: 700; line-height: 1.4; }
+.cart-moon-promo__terms { position: relative; margin: 5px 0 0; color: #bfcbd0; font-size: .67rem; line-height: 1.4; }
+[data-discount-row][hidden] { display: none !important; }
+
+@media (max-width: 720px) {
+  /* Three compact delivery thresholds, with the original blue/gold tile language. */
+  .midautumn-home__shipping { min-height: 0; padding: 13px 14px; border-radius: 15px; }
+  .midautumn-home__shipping-head { display: flex; align-items: baseline; gap: 10px; }
+  .midautumn-home__shipping h3 { margin: 0; font-size: 1.12rem; }
+  .midautumn-home__shipping ul { gap: 5px; margin-top: 9px; }
+  .midautumn-home__shipping li { min-height: 0; grid-template-columns: 29px minmax(0,1fr); gap: 8px; padding: 5px 8px; border-radius: 9px; }
+  .midautumn-home__shipping li strong { font-size: .76rem; line-height: 1.2; }
+  .midautumn-home__shipping li small { font-size: .65rem; line-height: 1.2; }
+  .midautumn-home__ship-icon { width: 27px; height: 27px; border-radius: 7px; }
+  .midautumn-home__ship-icon svg { width: 17px; height: 17px; }
+  .midautumn-home__seven-logo { width: 27px; height: 22px; }
+  .midautumn-home__seven-logo b { min-width: 13px; font-size: .75rem; }
+  .midautumn-home__seven-logo span { padding-inline: 1px; font-size: .28rem; }
+  .midautumn-home__shipping > p { gap: 0; margin-top: 8px; padding-top: 6px; padding-right: 66px; font-size: .62rem; line-height: 1.35; }
+  .shima.midautumn-home__mascot { width: 65px; height: 79px; right: -4px; bottom: -2px; }
+  .midautumn-product-benefits__shipping { padding: 12px 14px; }
+  .midautumn-product-benefits__shipping h2 { margin: 2px 0 6px; font-size: 1.08rem; }
+  .midautumn-product-benefits__shipping ul { gap: 4px; }
+  .midautumn-product-benefits__shipping li { display: flex; align-items: baseline; justify-content: space-between; gap: 7px; padding: 4px 0; font-size: .7rem; }
+  .midautumn-product-benefits__shipping li span { text-align: right; }
+  .midautumn-product-benefits__shipping p { margin: 0; padding-top: 6px; font-size: .62rem; }
+  .midautumn-product-benefits__offer .midautumn-home__art { width: 85%; right: -80px; top: -15px; opacity: .5; }
+  .midautumn-product-benefits__offer .midautumn-home__tiers { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .midautumn-product-benefits__offer .midautumn-home__tiers li { display: grid; }
+}
+
+/* Mobile announcement: two deliberate messages, never a dense row of thresholds. */
+.announcement-bar__mobile, .announcement-bar__details { display: none; }
+@media (max-width: 720px) {
+  .has-ouji-opening-promo .announcement-bar {
+    display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+    height: 34px; min-height: 34px; padding: 0; gap: 0;
+    overflow: visible; line-height: 1.2;
+  }
+  .has-ouji-opening-promo .announcement-bar__moon-badge {
+    top: -6px; left: -7px; width: 55px; height: 55px;
+    transform: none; filter: drop-shadow(0 4px 7px rgba(235,220,185,.34));
+  }
+  .announcement-bar__moon-badge b, .announcement-bar__moon-badge small { display: none; }
+  .has-ouji-opening-promo .announcement-bar__shipping,
+  .has-ouji-opening-promo .announcement-bar__offers { display: none !important; }
+  .has-ouji-opening-promo .announcement-bar__mobile {
+    position: absolute; inset: 0;
+    display: block; width: 100%; max-width: none; height: 100%;
+  }
+  .announcement-bar__slide {
+    position: absolute; inset: 0; display: none; align-items: center;
+    width: 100%; height: 34px; padding: 0;
+    border: 0; background: none; color: #f6f4ed; text-align: center;
+    text-decoration: none; font: 600 .88rem/1.2 var(--font-body); letter-spacing: .01em;
+    white-space: nowrap; cursor: pointer;
+  }
+  .announcement-bar__slide.is-active { display: flex; }
+  .announcement-bar__slide > span:first-child { position: absolute; left: 50%; transform: translateX(-50%); }
+  .announcement-bar__slide strong { color: #f4d79d; font-weight: 750; }
+  .announcement-bar__slide i { color: #b5c7c9; font-style: normal; }
+  .announcement-bar__more { position: absolute; right: 22px; color: #d0dbdc; font-size: .68rem; font-weight: 500; }
+  .announcement-bar__more b { margin-left: 1px; font-size: 1.23rem; font-weight: 400; vertical-align: -.06em; }
+  .announcement-bar__dots { position: absolute; top: 50%; right: 6px; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; width: 7px; }
+  .announcement-bar__dots button { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 50%; background: #6d7d82; cursor: pointer; }
+  .announcement-bar__dots button.is-active { width: 7px; height: 7px; background: #f0d59c; }
+  .announcement-bar__slide:focus-visible, .announcement-bar__dots button:focus-visible,
+  .announcement-bar__details button:focus-visible { outline: 2px solid #f0d59c; outline-offset: 2px; }
+  .announcement-bar__details:not([hidden]) {
+    position: absolute; z-index: 3; top: 100%; left: 8px; right: 8px;
+    display: block; padding: 17px 18px 15px;
+    border: 1px solid #536c75; border-radius: 0 0 14px 14px;
+    background: radial-gradient(circle at 92% 10%, rgba(114,137,142,.19), transparent 45%), #17232a;
+    box-shadow: 0 18px 30px rgba(14,30,38,.28); color: #f4f4ee; text-align: left;
+  }
+  .announcement-bar__details-head { display: flex; align-items: center; justify-content: space-between; }
+  .announcement-bar__details-head strong { color: #f7e3b9; font-size: .91rem; }
+  .announcement-bar__details-head button { border: 0; background: none; color: #d8e4e5; font-size: 1.5rem; line-height: 1; cursor: pointer; }
+  .announcement-bar__details ul { margin: 12px 0 0; padding: 0; list-style: none; }
+  .announcement-bar__details li { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid rgba(225,236,234,.17); font-size: .85rem; }
+  .announcement-bar__details li b { color: #f2d69c; font-size: 1rem; }
+  .announcement-bar__details p { margin: 8px 0 0; color: #c9d5d5; font-size: .72rem; line-height: 1.45; }
+  .has-ouji-opening-promo .header__inner { padding-inline: var(--space-md); }
+}
+@media (max-width: 360px) {
+  .announcement-bar__slide { font-size: .76rem; }
+  .cart-moon-promo { padding: 13px; }
+  .cart-moon-promo__tiers li { padding-inline: 4px; }
+  .cart-moon-promo__tiers span { font-size: .61rem; }
+  .cart-moon-promo__tiers b { font-size: .9rem; }
+}
