@@ -17325,3 +17325,19 @@ body::before { opacity: 0.18; }
 @media (max-width: 800px) {
   .midautumn-home__grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* The supplied Mid-Autumn poster is the desktop offer card, at its native ratio. */
+.midautumn-home__poster { display: none; }
+@media (min-width: 801px) {
+  .midautumn-home__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .midautumn-home__discount { min-height: 0; padding: 0; border: 0; background: #172c4b; }
+  .midautumn-home__discount::before,
+  .midautumn-home__discount::after { display: none; }
+  .midautumn-home__poster { display: block; width: 100%; height: auto; }
+  .midautumn-home__mobile-offer { display: none; }
+  .midautumn-home__shipping ul { display: flex; flex-direction: column; justify-content: space-evenly; flex: 1; gap: 8px; margin-block: 0; }
+  .midautumn-home__shipping li { min-height: clamp(78px, 8vw, 112px); padding: 13px 16px; border: 1px solid rgba(255,255,255,.2); border-radius: 15px; background: rgba(255,255,255,.08); }
+}
+@media (max-width: 800px) {
+  .midautumn-home__mobile-offer > p { position: relative; margin-top: 15px; color: #becdd1; font-size: .71rem; }
+}
