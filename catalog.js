@@ -77,6 +77,103 @@ function brandPlate(vendor) {
   return BRAND_PLATE[vendor] || { tint: '#eeeae3' };
 }
 
+/* Brand colour is used only while the navigation rail is sticky.
+   The original artwork remains visible in its normal position. */
+const BRAND_CARD_COLOR = {
+  'rom&nd': { bg: '#f2e9e3', ink: '#6b2d3e' },
+  'CLIO': { bg: '#fff8fb', ink: '#1a1a1a' },
+  'hince': { bg: '#ede4dc', ink: '#8c7355' },
+  'TIRTIR': { bg: '#fff0f2', ink: '#dc2626' },
+  'dasique': { bg: '#f3ece8', ink: '#7e6b63' },
+  'lilybyred': { bg: '#f7e4e7', ink: '#a83b59' },
+  'AMUSE': { bg: '#e8f4ec', ink: '#6a9a74' },
+  'WAKEMAKE': { bg: '#fff0df', ink: '#e8821a' },
+  'Peripera': { bg: '#fde8ee', ink: '#c14b76' },
+  'UNLEASHIA': { bg: '#eee8f8', ink: '#7f52a5' },
+  'Laka': { bg: '#f1eafa', ink: '#7a5f9e' },
+  'fwee': { bg: '#e8f1ff', ink: '#0072f5' },
+  'MAYBELLINE': { bg: '#fff1f1', ink: '#e30613' },
+  '2aN': { bg: '#e5f6f5', ink: '#238e8b' },
+  'Heart Percent': { bg: '#fdecef', ink: '#cf4c76' },
+  'Coralhaze': { bg: '#fbe8e3', ink: '#b66350' },
+  'BRAYE': { bg: '#f4e4eb', ink: '#b36b88' },
+  'Glint': { bg: '#f3eee3', ink: '#b18b1e' },
+  '花知曉 Flower Knows': { bg: '#fbe8ec', ink: '#b56a7b' },
+  'fillimilli': { bg: '#b9dedc', ink: '#33463f' },
+  'CEZANNE': { bg: '#f7d1c8', ink: '#b42046' },
+  'STUDIO 17': { bg: '#3f4954', ink: '#ffffff', dark: true },
+  'miru miru': { bg: '#120506', ink: '#ffffff', dark: true },
+  'CORINGCO': { bg: '#f7a1c4', ink: '#9f174c' },
+  "AN' BLESS": { bg: '#f1f1f1', ink: '#171717' },
+  'ROSY ROSA': { bg: '#d6003b', ink: '#ffffff', dark: true },
+  '其他': { bg: '#dfeaf0', ink: '#31586a', neutral: true },
+};
+
+/* Preview palette for skincare navigation. These are readable brand-inspired
+   plates, not a claim that exact official brand-guide HEX values are known. */
+const SKINCARE_CARD_COLOR = {
+  'Torriden': { bg: '#ccebea', ink: '#226d70' },
+  'Skin1004': { bg: '#eae4d6', ink: '#3c3429' },
+  'Round Lab': { bg: '#dcecf2', ink: '#1b566e' },
+  'Anua': { bg: '#e3efdd', ink: '#426c49' },
+  'Beauty of Joseon': { bg: '#eee7d8', ink: '#4d3e30' },
+  'Abib': { bg: '#e7e8e4', ink: '#292d29' },
+  'COSRX': { bg: '#e9ecec', ink: '#282d2e' },
+  'VT Cosmetics': { bg: '#dceee4', ink: '#28714d' },
+  'Some By Mi': { bg: '#e4eed9', ink: '#3f7245' },
+  'Mixsoon': { bg: '#eee8e1', ink: '#473f36' },
+  'BOH': { bg: '#e4ecf5', ink: '#325474' },
+  'Beplain': { bg: '#e3ecdb', ink: '#436b42' },
+  'Skinfood': { bg: '#f1e6d5', ink: '#75562d' },
+  'Goodal': { bg: '#e9efd8', ink: '#697736' },
+  'Purito': { bg: '#e4ece5', ink: '#416c56' },
+  'Bring Green': { bg: '#deeddf', ink: '#376f4d' },
+  'ma:nyo': { bg: '#e9e5dc', ink: '#38352d' },
+  'SO Natural': { bg: '#f1e3e5', ink: '#734d56' },
+  'Haruharu Wonder': { bg: '#e9e5df', ink: '#3b3732' },
+  'TOCOBO': { bg: '#e7e5ed', ink: '#554d6b' },
+  'SUNGBOON EDITOR': { bg: '#e5e8e7', ink: '#424d4b' },
+  'KSECRET': { bg: '#e9e5df', ink: '#4b443c' },
+  'Arencia': { bg: '#ede4df', ink: '#735248' },
+  'Needly': { bg: '#e0ebed', ink: '#4d6970' },
+  'Dr. Melaxin': { bg: '#e9e8eb', ink: '#55505e' },
+  'April Skin': { bg: '#f1e1d7', ink: '#9a5a43' },
+  'LINDSAY': { bg: '#efe8df', ink: '#5d534a' },
+  'OOTD': { bg: '#e9e2d9', ink: '#574d42' },
+  'AKARAN': { bg: '#e0efeb', ink: '#3b6b61' },
+  'ongredients': { bg: '#e3eee5', ink: '#486f55' },
+  'NUMBUZIN': { bg: '#eeeae3', ink: '#3d3935' },
+  'The History of Whoo 后': { bg: '#eee3d2', ink: '#765c3d' },
+  "d'Alba Piedmont": { bg: '#f2e9d9', ink: '#80643e' },
+  "It's Skin": { bg: '#efe4e7', ink: '#76525d' },
+  'NACIFIC': { bg: '#e8ebe1', ink: '#526449' },
+  'MENOKIN': { bg: '#f1e3e8', ink: '#8c536d' },
+  'Dr.Jart+': { bg: '#e4ece8', ink: '#3d6458' },
+  'Dr.G': { bg: '#e4edeb', ink: '#366f6e' },
+  'AGARISM': { bg: '#f3e4e1', ink: '#a06064' },
+  'MEDIHEAL': { bg: '#dcebf1', ink: '#28637d' },
+  'FATION': { bg: '#e5eae4', ink: '#435b4a' },
+  'Country & Stream': { bg: '#f2e8d9', ink: '#796143' },
+  'Karte Made': { bg: '#eae4dd', ink: '#64584f' },
+  'FRUDIA': { bg: '#f6e5d9', ink: '#a65d3f' },
+  'ELIZAVECCA': { bg: '#efdfeb', ink: '#8b5378' },
+  'FARMSTAY': { bg: '#e4eddf', ink: '#4b6b41' },
+};
+
+function brandCardColor(vendor, section) {
+  return (section === 'skincare' ? SKINCARE_CARD_COLOR[vendor] : BRAND_CARD_COLOR[vendor])
+    || (vendor === '其他' ? BRAND_CARD_COLOR['其他'] : null);
+}
+
+/* Small-screen wordmarks contain very different amounts of transparent space.
+   Tune the visible mark, not the image box, for the sticky navigation. */
+const BRAND_NAV_LOGO_SCALE = {
+  'Skin1004': .9, 'Round Lab': .95, 'Beauty of Joseon': .9,
+  'VT Cosmetics': .82, 'Some By Mi': .9, 'Mixsoon': .88,
+  'Torriden': .84, 'Anua': .74, 'Abib': .62, 'COSRX': .78,
+  'BOH': .78, 'Beplain': .84, 'Dr.Jart+': .78,
+};
+
 /* BRAND_LOGO 同 brandLogo() 搬咗去 shopify.js。
    首頁載 shopify.js 但唔載 catalog.js，而「新品速遞」嗰格都要
    攞品牌 logo —— 放喺共用嗰層先兩邊都用得。 */
@@ -1007,22 +1104,17 @@ function buildCategoryBrandSpotlight(config, section) {
     <ul class="skincare-brand-row" tabindex="0" aria-label="所有${section === 'makeup' ? '彩妝' : '護膚'}品牌，可左右滑動">${cards}</ul>
     <div class="skincare-brand-progress" aria-hidden="true">
       <span class="skincare-brand-progress__bar"><i></i></span>
-      <span class="skincare-brand-progress__count"><b>01</b> / ${String(config.slides.flatMap((slide) => slide.brands).length).padStart(2, '0')}</span>
     </div>`;
 
   const row = host.querySelector('.skincare-brand-row');
   const fill = host.querySelector('.skincare-brand-progress__bar i');
-  const current = host.querySelector('.skincare-brand-progress__count b');
-  const items = [...host.querySelectorAll('.skincare-brand-row > li')];
   let raf = 0;
   const syncProgress = () => {
     const max = Math.max(1, row.scrollWidth - row.clientWidth);
     const ratio = Math.max(0, Math.min(1, row.scrollLeft / max));
-    const nearest = items.reduce((best, item, index) =>
-      Math.abs(item.offsetLeft - row.scrollLeft) < Math.abs(items[best].offsetLeft - row.scrollLeft)
-        ? index : best, 0);
-    fill.style.transform = `scaleX(${Math.max(.06, ratio)})`;
-    current.textContent = String(nearest + 1).padStart(2, '0');
+    const visible = Math.min(1, row.clientWidth / row.scrollWidth);
+    fill.style.width = `${visible * 100}%`;
+    fill.style.left = `${ratio * (1 - visible) * 100}%`;
   };
   row.addEventListener('scroll', () => {
     cancelAnimationFrame(raf);
@@ -1056,8 +1148,7 @@ function bindCategoryBrandNavigation(order, section) {
   RAIL_ABORT = abort;
   const sections = [...document.querySelectorAll('.brand-section')];
   const indexByVendor = new Map(order.map(([vendor], index) => [vendor, index]));
-  /* 正常狀態保留原本彩色 artwork；只係按產品 section 次序重新排列。
-     sticky 狀態先由 CSS 切成白色 Logo 導覽條。 */
+  /* Preserve the existing artwork in the normal rail, regardless of colour. */
   const artworkByVendor = new Map(
     [...row.querySelectorAll('[data-skincare-brand]')].map((item) => {
       const card = item.querySelector('.skincare-brand-card');
@@ -1068,21 +1159,27 @@ function bindCategoryBrandNavigation(order, section) {
     const name = escapeSpotlightAttr(vendor);
     const logo = brandLogo(vendor);
     const artwork = artworkByVendor.get(vendor);
+    const cardColor = brandCardColor(vendor, section);
     const stickyLogo = logo
       ? `<img src="${escapeSpotlightAttr(logo)}" alt="" loading="${index < 10 ? 'eager' : 'lazy'}" decoding="async">`
       : `<span>${name}</span>`;
+    const colorClass = cardColor ? ` skincare-brand-card--brand-color${cardColor.neutral ? ' skincare-brand-card--neutral' : ''}${cardColor.dark ? ' skincare-brand-card--dark' : ''}` : '';
+    const colorVars = `${cardColor ? `--brand-card-bg:${cardColor.bg};--brand-card-ink:${cardColor.ink};` : ''}${BRAND_NAV_LOGO_SCALE[vendor] ? `--brand-nav-logo-scale:${BRAND_NAV_LOGO_SCALE[vendor]};` : ''}`;
     if (artwork) {
       return `<li data-skincare-brand="${name}">
-        <a class="skincare-brand-card skincare-brand-card--art" href="#brand-${index}"
-        data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品" style="${artwork}">
+        <a class="skincare-brand-card skincare-brand-card--art${colorClass}" href="#brand-${index}"
+        data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品" style="${artwork};${colorVars}">
           <span class="sr-only">${name}</span>
           <span class="skincare-brand-card__sticky-logo" aria-hidden="true">${stickyLogo}</span>
         </a>
       </li>`;
     }
+    const colorStyle = colorVars
+      ? ` style="${colorVars}"`
+      : '';
     return `<li data-skincare-brand="${name}">
-      <a class="skincare-brand-card skincare-brand-card--logo" href="#brand-${index}"
-      data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品">
+      <a class="skincare-brand-card skincare-brand-card--logo${colorClass}" href="#brand-${index}"
+      data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品"${colorStyle}>
       ${logo ? `<img src="${escapeSpotlightAttr(logo)}" alt="${name}"
         loading="${index < 10 ? 'eager' : 'lazy'}" decoding="async">`
         : `<span>${name}</span>`}
@@ -1090,8 +1187,6 @@ function bindCategoryBrandNavigation(order, section) {
     </li>`;
   }).join('');
 
-  const progressTotal = host.querySelector('.skincare-brand-progress__count');
-  if (progressTotal) progressTotal.lastChild.textContent = ` / ${String(order.length).padStart(2, '0')}`;
   const cards = [...row.querySelectorAll('[data-skincare-brand]')];
   const links = [...row.querySelectorAll('[data-skincare-brand-link]')];
   const dock = brandSection.parentElement?.classList.contains('skincare-brand-dock')
@@ -1103,6 +1198,8 @@ function bindCategoryBrandNavigation(order, section) {
   }
   let currentVendor = '';
   let dockTop = 0;
+  let jumpRun = 0;
+  let jumpCleanup = () => {};
 
   const headerOffset = () => {
     const root = getComputedStyle(document.documentElement);
@@ -1159,13 +1256,12 @@ function bindCategoryBrandNavigation(order, section) {
   const syncProgress = () => {
     const max = Math.max(1, row.scrollWidth - row.clientWidth);
     const ratio = Math.max(0, Math.min(1, row.scrollLeft / max));
-    const nearest = cards.reduce((best, item, index) =>
-      Math.abs(item.offsetLeft - row.scrollLeft) < Math.abs(cards[best].offsetLeft - row.scrollLeft)
-        ? index : best, 0);
-    host.querySelector('.skincare-brand-progress__bar i')?.style
-      .setProperty('transform', `scaleX(${Math.max(.03, ratio)})`);
-    const count = host.querySelector('.skincare-brand-progress__count b');
-    if (count) count.textContent = String(nearest + 1).padStart(2, '0');
+    const visible = Math.min(1, row.clientWidth / row.scrollWidth);
+    const thumb = host.querySelector('.skincare-brand-progress__bar i');
+    if (thumb) {
+      thumb.style.width = `${visible * 100}%`;
+      thumb.style.left = `${ratio * (1 - visible) * 100}%`;
+    }
   };
 
   row.addEventListener('click', (event) => {
@@ -1175,9 +1271,71 @@ function bindCategoryBrandNavigation(order, section) {
     const target = Number.isInteger(index) ? sections[index] : null;
     if (!target) return;
     event.preventDefault();
-    const y = window.scrollY + target.getBoundingClientRect().top
-      - headerOffset() - brandSection.getBoundingClientRect().height + 12;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    jumpCleanup();
+    const run = ++jumpRun;
+    /* 先畀目標以上嘅 lazy section 做一次真實排版。否則 browser 只知道
+       contain-intrinsic-size 嘅 760px 估值，愈後嘅品牌累積誤差愈大。 */
+    const measured = sections.slice(0, index + 1).map((sectionNode) => ({
+      node: sectionNode,
+      value: sectionNode.style.contentVisibility,
+    }));
+    measured.forEach(({ node }) => { node.style.contentVisibility = 'visible'; });
+    document.body.getBoundingClientRect();
+    let released = false;
+    const releaseMeasuredSections = () => {
+      if (released) return;
+      released = true;
+      measured.forEach(({ node, value }) => { node.style.contentVisibility = value; });
+    };
+    jumpCleanup = releaseMeasuredSections;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wantedTop = () => headerOffset() + brandSection.getBoundingClientRect().height - 12;
+    const alignTarget = (behavior = 'auto') => {
+      const y = window.scrollY + target.getBoundingClientRect().top - wantedTop();
+      window.scrollTo({ top: Math.max(0, y), behavior });
+    };
+
+    /* brand-section 用 content-visibility:auto；跳去後段品牌時，上面未見過嘅
+       section 會由估算高度逐段換成真高度。只捲一次就會被推去前／後一個牌子。
+       首次保留 smooth，之後短暫追蹤真實 layout；連續三格穩定就停止。 */
+    alignTarget(reduced ? 'auto' : 'smooth');
+    const started = performance.now();
+    let stableSince = 0;
+    const settle = () => {
+      if (abort.signal.aborted || run !== jumpRun) {
+        releaseMeasuredSections();
+        return;
+      }
+      const delta = target.getBoundingClientRect().top - wantedTop();
+      if (Math.abs(delta) <= 2) {
+        if (!stableSince) stableSince = performance.now();
+      }
+      else {
+        stableSince = 0;
+        alignTarget('auto');
+      }
+      const stableFor = stableSince ? performance.now() - stableSince : 0;
+      if (stableFor < 700 && performance.now() - started < 4000) {
+        setTimeout(settle, 100);
+      } else {
+        mark(link.dataset.skincareBrandLink);
+        syncProgress();
+        releaseMeasuredSections();
+      }
+    };
+    /* 等第一次 smooth scroll 行出嚟先校正，避免一開始就將動畫截斷。 */
+    setTimeout(settle, reduced ? 0 : 420);
+  }, { signal: abort.signal });
+  const cancelPendingJump = () => {
+    jumpRun += 1;
+    jumpCleanup();
+  };
+  window.addEventListener('wheel', cancelPendingJump, { passive: true, signal: abort.signal });
+  window.addEventListener('touchstart', cancelPendingJump, { passive: true, signal: abort.signal });
+  window.addEventListener('keydown', (event) => {
+    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
+      cancelPendingJump();
+    }
   }, { signal: abort.signal });
   row.addEventListener('scroll', syncProgress, { passive: true, signal: abort.signal });
   window.addEventListener('scroll', () => { syncDock(); spy(); },
