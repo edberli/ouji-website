@@ -45,7 +45,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260923-midautumn-visible">
+  <link rel="stylesheet" href="styles.css?v=20260923-midautumn-delivery-v8">
   <style>
     .cart-member-points { margin-top: 20px; padding: 17px 18px 16px; border: 1px solid #d8e4e5; border-radius: 16px; background: #f7faf9; color: #244650; }
     .cart-member-points__top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
@@ -84,7 +84,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$399 減 $20 &nbsp;·&nbsp; 滿 HK$599 送面霜
+    滿 HK$99 自取免運 &nbsp;·&nbsp; 滿 HK$250 順豐站免運 &nbsp;·&nbsp; 滿 HK$290 送貨上門免運
   </div>
 
   <!-- Header -->
@@ -644,11 +644,11 @@
   </nav>
 
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260923-midautumn-visible"></script>
+  <script src="shopify.js?v=20260923-midautumn-delivery-v8"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="search.js?v=20260922-search-smart"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   /* Cart copy is rendered after the shared UI dictionary starts loading.  Keep
      stateful strings in this page on the same language switch so interpolated
@@ -1745,11 +1745,11 @@
 
       /* ── 下一個 level 係邊個？ ─────────────────────────────────────
          加購最有力嘅理由唔係「順手買多件」，而係「爭幾多就去到下一個 level」。
-         六個 level：$99 自取免運／$149 體驗裝／$250 順豐站／$290 送上門／
-         $399 減 $20／$599 送面霜 —— 取最近嗰個。
+         免運、體驗裝同當期滿額優惠各自成一級；只取最近嗰個。
          爭 $10 同爭 $120 唔應該推同一批貨，所以下面揀貨會跟住個差額走。 */
       const S = window.OUJI_SHIP || {};
       const PROMO = window.OUJI_COMMERCE?.promotion || {};
+      const midAutumnActive = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive();
       const LEVELS = [
         { at: S.post?.free, label: '免運費（7-Eleven／郵局自取）', en: 'free 7-Eleven / post office pickup', badge: '加咗自取免運', badgeEn: 'Add for free pickup' },
         { at: PROMO.sample?.threshold, label: '送精選美妝護膚體驗裝', en: 'a free sample set', badge: '加咗送體驗裝', badgeEn: 'Add for a free sample set' },
@@ -1758,8 +1758,10 @@
            一律講「升級到⋯」——由自取升級做順豐站／送上門，係升級唔係慳錢。 */
         { at: S.sfp?.free, label: '升級到順豐站／智能櫃免運費', en: 'free SF station / locker delivery', up: 1, badge: '加咗順豐站免運', badgeEn: 'Add for free SF station' },
         { at: S.sfd?.free, label: '升級到順豐送上門免運費', en: 'free home delivery', up: 1, badge: '加咗送上門免運', badgeEn: 'Add for free home delivery' },
-        /* $399 減 $20 係 Shopify 折扣規則，冇寫入 OUJI_COMMERCE，所以照抄喺度 */
-        { at: 399, label: '減 $20', en: '$20 off', badge: '加咗減 $20', badgeEn: 'Add for $20 off' },
+        ...(midAutumnActive ? (PROMO.tiers || []).map(({ threshold, saving }) => ({
+          at: threshold, label: `減 $${saving}`, en: `$${saving} off`,
+          badge: `加咗減 $${saving}`, badgeEn: `Add for $${saving} off`,
+        })) : []),
         { at: PROMO.gift?.threshold || 599, label: '送 Round Lab 白樺樹面霜', en: 'a free Round Lab cream', badge: '加咗送面霜', badgeEn: 'Add for a free cream' },
       ].filter((l) => Number(l.at) > 0);
 

@@ -2191,15 +2191,14 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
   document.documentElement.classList.toggle('has-ouji-opening-promo', active);
   document.querySelectorAll('.announcement-bar').forEach((bar) => {
     if (!active) return;
-    bar.innerHTML = `<span class="announcement-bar__moon" aria-hidden="true"></span>
-      <span class="announcement-bar__festival"><b>中秋限定</b><small>9月23–27日</small></span>
+    bar.innerHTML = `<span class="announcement-bar__moon-badge" aria-hidden="true"><b>中秋限定</b><small>9.23—27</small></span>
+      <span class="announcement-bar__shipping"><b>滿 $99</b> 自取免運</span>
       <span class="announcement-bar__offers" aria-hidden="true">
-        <span><small>滿</small>$299 <b>減 $20</b></span>
-        <span><small>滿</small>$499 <b>減 $40</b></span>
-        <span><small>滿</small>$699 <b>減 $60</b></span>
-      </span>
-      <span class="announcement-bar__gift">滿 $599 送 Round Lab</span>`;
-    bar.setAttribute('aria-label', '中秋限定，9月23日至27日；滿299元減20元，滿499元減40元，滿699元減60元，每張訂單只享最高一級；滿599元送Round Lab');
+        <span>滿 $299 <b>減 $20</b></span>
+        <span>滿 $499 <b>減 $40</b></span>
+        <span>滿 $699 <b>減 $60</b></span>
+      </span>`;
+    bar.setAttribute('aria-label', '中秋限定，9月23日至27日；滿299元減20元，滿499元減40元，滿699元減60元，每張訂單只享最高一級；滿99元自取免運');
   });
   document.querySelectorAll('[data-ouji-opening-promo]').forEach((surface) => {
     surface.hidden = !active;
@@ -2210,13 +2209,15 @@ function syncOujiOpeningPromoSurfaces(now = Date.now()) {
   document.querySelectorAll('.promo-slim').forEach((surface) => {
     if (!active) return;
     surface.hidden = false;
+    surface.classList.add('promo-slim--midautumn');
     surface.setAttribute('aria-label', '中秋限定滿額優惠');
-    surface.innerHTML = `<div class="promo-slim__festival" aria-hidden="true">☾ 兔</div>
-      <p class="promo-slim__head"><b>中秋 <i>滿額減</i></b><span>9月23–27日</span></p>
-      <ul class="promo-slim__list">
-        <li>滿 <b>HK$299</b> 減 $20</li><li>滿 <b>HK$499</b> 減 $40</li>
-        <li>滿 <b>HK$699</b> 減 $60</li><li>滿 <b>HK$599</b> 送 Round Lab</li>
-      </ul><p class="promo-slim__end">每張單只享最高一級<span>結帳自動套用</span></p>`;
+    surface.innerHTML = `<div class="promo-slim__single-card">
+        <img class="promo-slim__art" src="assets/images/home/midautumn-mooncakes-v4.webp" alt="" width="1374" height="1145" loading="lazy" decoding="async">
+        <div class="promo-slim__title"><span>OUJI · 9.23–27</span><strong>月圓，禮更滿。</strong></div>
+        <div class="promo-slim__deal"><ul><li>滿 $299 <b>減 $20</b></li><li>滿 $499 <b>減 $40</b></li><li>滿 $699 <b>減 $60</b></li></ul>
+          <small class="promo-slim__fine">每張單只享最高一級 · 結帳自動套用</small></div>
+        <div class="promo-slim__gift"><img src="assets/images/home/gift-cream-cutout.png" alt="" width="1254" height="1254" loading="lazy" decoding="async"><span>滿 $599 送 <b>Round Lab 面霜</b><small>80ml · 送完即止</small></span></div>
+      </div>`;
   });
   /* 只控制有活動標記嘅 88 折內容。首頁 `.promo-wrap` 已改成長期購物禮遇卡，
      88 折完結後仍要顯示免運門檻同滿額贈品，唔可以再一刀切收起。 */
@@ -2265,12 +2266,14 @@ function oujiPromoPriceText(amount) {
   return formatPrice(num);
 }
 
-function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
+function oujiPromoPriceHTML(amount, { detail = false, search = false, compareAt = null } = {}) {
   const num = parseFloat(amount);
   if (!Number.isFinite(num)) return '';
   if (!isOujiOpeningPromoActive()) return formatPrice(num);
 
   const original = formatWholePrice(num);
+  const compareAmount = parseFloat(compareAt);
+  const onSale = Number.isFinite(compareAmount) && compareAmount > num;
   const remainingDays = oujiOpeningPromoRemainingDays();
   const aria = `售價 ${original}；中秋限定滿二百九十九元減二十元、滿四百九十九元減四十元、滿六百九十九元減六十元，每張訂單只享最高一級`;
 
@@ -2288,9 +2291,10 @@ function oujiPromoPriceHTML(amount, { detail = false, search = false } = {}) {
 
   const detailAria = `中秋限定優惠，尚餘 ${remainingDays} 日；${aria}`;
   return `<span class="ouji-promo-price ouji-promo-price--detail" aria-label="${detailAria}">
-    <span class="ouji-promo-price__badge">🌕 中秋限定 <b>滿額即減</b><span aria-hidden="true"> · 9月27日止</span></span>
+    <span class="ouji-promo-price__badge">中秋限定 <b>滿額即減</b><span aria-hidden="true"> · 9月27日止</span></span>
     <span class="ouji-promo-price__row">
-      <strong class="ouji-promo-price__sale">${original}</strong>
+      ${onSale ? `<s class="ouji-promo-price__original">${formatPrice(compareAmount)}</s>` : ''}
+      <strong class="ouji-promo-price__sale${onSale ? ' ouji-promo-price__sale--discounted' : ''}">${original}</strong>
     </span>
     <small class="ouji-promo-price__note">滿 $299 減 $20 · $499 減 $40 · $699 減 $60<br>每張單只享最高一級 · 結帳自動減</small>
   </span>`;
@@ -2318,6 +2322,7 @@ function initOujiPromoPrices() {
          搜尋結果冇，就睇埋條連結／卡片入面個標題。 */
       const holder = node.closest('[data-short-dated], a, article, li');
       if (holder && (holder.hasAttribute('data-short-dated') || holder.textContent.includes('【短效期'))) return;
+      if (node.classList.contains('product-card__price') && holder?.querySelector('.product-card__compare-price')) return;
       const match = node.textContent.replace(/,/g, '').match(/HK\$\s*([0-9]+(?:\.[0-9]+)?)/i);
       if (!match) return;
       const amount = parseFloat(match[1]);

@@ -1848,6 +1848,10 @@ function initHScrollArrows() {
 
   if (!bar) return;
 
+  // Campaign markup and copy are owned by shopify.js. Do not rebuild the
+  // fallback announcement over it on category/product pages.
+  if (typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive()) return;
+
   /* 原文係「A &nbsp;·&nbsp; B &nbsp;·&nbsp; C」，全部 28 版 HTML 都一樣。
      唔改 HTML —— 喺呢度拆，改咗 markup 就要改 28 個檔。 */
   const full = bar.textContent.replace(/\s+/g, ' ').trim();
@@ -1857,10 +1861,10 @@ function initHScrollArrows() {
   /* 窄機版：最少嘅字，但三個優惠都要齊。
      老闆：「咁有限嘅位置入邊⋯⋯用最少嘅字去表達。」
      之前窄機淨係得輪流播，客一次只見到一個優惠，好易走寶。 */
-  /* 條 bar 只賣三個 marketing 禮遇（2026-09-16 老闆定）。
-     順豐 $250／$290 免運係 delivery rule，留返喺購物袋揀運送方式度講。 */
-  const SHORT = ['$99 自取免郵', '$399 減 $20', '$599 送面霜'];
-  const LABELS = ['自取', '折扣', '贈品'];
+  /* Campaign announcement is supplied by shopify.js while active.
+     The fallback must never revive a paused discount or expired gift. */
+  const SHORT = ['$99 自取免運', '$250 順豐站免運', '$290 送貨上門免運'];
+  const LABELS = ['自取', '順豐站', '送貨上門'];
 
   bar.textContent = '';
   const make = (text, index, parent = bar) => {

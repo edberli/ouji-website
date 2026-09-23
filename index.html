@@ -48,7 +48,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260923-midautumn-visible">
+  <link rel="stylesheet" href="styles.css?v=20260923-midautumn-delivery-v8">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -149,7 +149,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$399 減 $20 &nbsp;·&nbsp; 滿 HK$599 送面霜
+    滿 HK$99 自取免運 &nbsp;·&nbsp; 滿 HK$250 順豐站免運 &nbsp;·&nbsp; 滿 HK$290 送貨上門免運
   </div>
 
   <!-- Header -->
@@ -418,7 +418,7 @@
     </section>
 
     <!-- ═══════════ 首頁購物禮遇 banner ═══════════
-         只講三級 marketing 禮遇：$99 自取包郵 → $399 減 $20 → $599 送面霜。
+         活動期間由 shopify.js 注入中秋優惠；活動以外只顯示免運門檻。
          順豐 $250／$290 免運係 delivery rule，只喺購物袋揀運送方式時先出現；
          一次過要客記六個門檻係成套設計最容易出事嘅位，唔好喺呢度列出。
          贈品剩幾多支係即時由 Shopify 攞，攞唔到就唔顯示，唔准作數。 -->
@@ -443,75 +443,61 @@
   </symbol>
 </svg>
 
-    <div class="promo-wrap">
-      <section class="promo">
-      <div class="promo__grid">
-
-        <!-- 左：贈品面霜。老闆試過擺右邊，話擺返左邊好睇啲。
-             高度同右邊嗰疊資訊睇齊（grid align stretch），唔可以細過佢。 -->
-        <div class="promo__shot rise">
-          <span class="promo__ribbon">滿 <b>$599</b> 免費送</span>
-          <span class="promo__stock" data-giftstock hidden></span>
-          <img class="promo__jar"
-               src="https://cdn.shopify.com/s/files/1/0765/3405/5070/files/birch-moisturizing-cream-round-lab-3.jpg?v=1786074487&amp;width=1000"
-               alt="Round Lab 白樺樹保濕面霜 80ml" width="1000" height="1000" loading="lazy" decoding="async">
-        </div>
-
-        <!-- 右：優惠資訊 ＋ 大隻芝麻 -->
-        <div class="rise promo__col">
-          <p class="promo__eyebrow">OUJI BENEFITS</p>
-          <div class="promo__festival-art" aria-hidden="true"><span class="promo__moon">兔</span><span class="promo__mooncake">月</span></div>
-          <h3 class="promo__title">中秋限定 <b>滿額即減</b></h3>
-          <p class="promo__lede">9 月 23–27 日，限時 5 日 · 每張單只享最高一級。</p>
-
-          <ul class="promo__rows">
-            <li class="promo__row promo__row--lead"><div><p class="promo__k">滿 <b>$299</b> 減 $20 · 滿 <b>$499</b> 減 $40 · 滿 <b>$699</b> 減 $60</p><p class="promo__v">優惠唔累加，系統會自動套用最高合資格一級。</p></div></li>
-            <li class="promo__row">
-              <svg class="ico" aria-hidden="true"><use href="#i-truck"></use></svg>
-              <div>
-                <p class="promo__k">滿 <b>HK$99</b> — 7-Eleven／郵局自取免郵</p>
-                <p class="promo__v">7-Eleven／郵局／智郵站自取。順豐運費喺購物袋揀運送方式時顯示。</p>
-              </div>
-            </li>
-            <li class="promo__row">
-              <svg class="ico" aria-hidden="true"><use href="#i-jar"></use></svg>
-              <div>
-                <p class="promo__k">滿 <b>HK$599</b> 送面霜
-                  <span class="promo__left" data-giftleft hidden></span>
-                </p>
-                <p class="promo__v"><a href="/products/round-lab-round-lab-80ml-0221">Round Lab 白樺樹保濕面霜 80ml</a>，價值 HK$148，送完即止。</p>
-              </div>
-            </li>
-          </ul>
-
-          <div class="promo__actions">
-            <a class="promo__cta" href="shop.html">開始揀貨<svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
-            <!-- 老闆 2026-09-03：拆走「原價買夠 HK$454 免運，HK$568 有面霜」。
-                 上面三個門檻已經係 Shopify 真正睇嘅數（折實價），再寫一組
-                 原價數字係要客倒推折扣，兩組數放埋一齊只會令人分唔清邊組算。
-                 「折實」個定義留返 —— 呢個字上面用咗，唔解釋會出客訴。 -->
-            <p class="promo__fine">滿額折扣每張訂單只用一次；Round Lab 贈品送完即止。</p>
+    <div class="promo-wrap" data-ouji-opening-promo hidden>
+      <section class="midautumn-home" aria-labelledby="midautumn-home-title">
+        <div class="midautumn-home__inner">
+          <div class="midautumn-home__heading">
+            <div>
+              <p class="midautumn-home__eyebrow">OUJI · 9 月 23–27 日</p>
+              <h2 id="midautumn-home-title">中秋限定購物禮遇</h2>
+            </div>
+            <p>限時 5 日 · 優惠同收貨安排一眼睇清</p>
           </div>
-
-          <!-- 芝麻做緊動作：真畫換格，唔係一張相加 CSS 扭。
-               開咗「減少動態效果」就淨係企喺度捧住份禮。 -->
-          <!-- 芝麻喺度打包裹貼膠紙 —— 六格連續分解圖，唔係六個唔同動作。
-               分別好緊要：同一動作逐格差少少先播得順；四個唔同動作快播
-               只會似閃燈。第 6 格收返埋手，接得返第 1 格，所以 loop 得順。
-               圖：/Volumes/core/下載/ouji-20260824-芝麻打包裹動作表.png（ChatGPT 生）
-               開咗「減少動態效果」就停喺第 1 格。 -->
-          <div class="promo__shima" aria-hidden="true">
-            <img class="promo__frame is-on" src="assets/images/home/shima-pack1.webp" alt="" width="294" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame" src="assets/images/home/shima-pack2.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame" src="assets/images/home/shima-pack3.webp" alt="" width="293" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame" src="assets/images/home/shima-pack4.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame" src="assets/images/home/shima-pack5.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
-            <img class="promo__frame" src="assets/images/home/shima-pack6.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
+          <div class="midautumn-home__grid">
+            <div class="midautumn-home__offers" aria-label="中秋優惠">
+              <article class="midautumn-home__discount">
+                <img class="midautumn-home__art" src="assets/images/home/midautumn-lunar-rabbit-v4.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+                <span class="midautumn-home__label">OUJI MID-AUTUMN · 5 DAYS ONLY</span>
+                <h3>月光下，<br>滿額有好禮。</h3>
+                <ul class="midautumn-home__tiers" aria-label="三級滿額減優惠">
+                  <li><span>滿 HK$299</span><strong>減 $20</strong></li>
+                  <li><span>滿 HK$499</span><strong>減 $40</strong></li>
+                  <li><span>滿 HK$699</span><strong>減 $60</strong></li>
+                </ul>
+                <div class="midautumn-home__gift">
+                  <img src="assets/images/home/gift-cream-cutout.png" alt="Round Lab 白樺樹保濕面霜" width="1254" height="1254" loading="lazy" decoding="async">
+                  <div>
+                    <span class="midautumn-home__label">滿額贈禮</span>
+                    <strong>滿 HK$599 送 Round Lab 面霜</strong>
+                    <small>80ml · 價值 HK$148 · 送完即止</small>
+                  </div>
+                </div>
+                <p>每張訂單只享最高一級滿額減，優惠不累加 · 結帳自動套用</p>
+              </article>
+            </div>
+            <aside class="midautumn-home__shipping" aria-label="運送及自取">
+              <div class="midautumn-home__shipping-head">
+                <span class="midautumn-home__label">OUJI DELIVERY</span>
+                <h3>運送與自取</h3>
+              </div>
+              <ul>
+                <li><span class="ship-mode__seven-logo midautumn-home__seven-logo" aria-hidden="true"><b>7</b><span>ELEVEN</span></span><span><strong>滿 <b>HK$99</b> 自取免運</strong><small>7-Eleven／郵局自取</small></span></li>
+                <li><span class="midautumn-home__ship-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M12 3v18M5 12h14M8 8h1M15 16h1"/></svg></span><span><strong>滿 <b>HK$250</b> 免運</strong><small>順豐站／智能櫃</small></span></li>
+                <li><span class="midautumn-home__ship-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-7 9 7v9H3v-9Z"/><path d="M9 20v-6h6v6"/></svg></span><span><strong>滿 <b>HK$290</b> 免運</strong><small>順豐送貨到屋企</small></span></li>
+              </ul>
+              <p><span>一般下單後約 1–3 個工作天送達</span><span>觀塘門市免費自取，備妥後通知取貨</span></p>
+              <div class="shima midautumn-home__mascot" aria-hidden="true">
+                <img class="shima__f is-on" src="assets/images/home/shima-pack1.webp" alt="" width="294" height="360" loading="lazy" decoding="async">
+                <img class="shima__f" src="assets/images/home/shima-pack2.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
+                <img class="shima__f" src="assets/images/home/shima-pack3.webp" alt="" width="293" height="360" loading="lazy" decoding="async">
+                <img class="shima__f" src="assets/images/home/shima-pack4.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
+                <img class="shima__f" src="assets/images/home/shima-pack5.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
+                <img class="shima__f" src="assets/images/home/shima-pack6.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
+              </div>
+            </aside>
           </div>
         </div>
-
-      </div>
-    </section>
+      </section>
     </div>
 
 
@@ -1082,13 +1068,13 @@
   </nav>
 
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260923-midautumn-visible"></script>
+  <script src="shopify.js?v=20260923-midautumn-delivery-v8"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
   <script src="home.js"></script>
   <script src="search.js?v=20260922-search-smart"></script>
-  <script src="script.js?v=20260831-shadecards-exact-a-13"></script>
+  <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
     // Brand section toggles (independent per category)
     (function () {

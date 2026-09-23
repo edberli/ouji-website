@@ -48,7 +48,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260923-midautumn-visible">
+  <link rel="stylesheet" href="styles.css?v=20260923-midautumn-delivery-v8">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
   </style>
@@ -58,7 +58,7 @@
 
   <!-- Announcement Bar -->
   <div class="announcement-bar">
-    滿 HK$99 自取免郵 &nbsp;·&nbsp; 滿 HK$399 減 $20 &nbsp;·&nbsp; 滿 HK$599 送面霜
+    滿 HK$99 自取免運 &nbsp;·&nbsp; 滿 HK$250 順豐站免運 &nbsp;·&nbsp; 滿 HK$290 送貨上門免運
   </div>
 
   <!-- Header -->
@@ -290,62 +290,34 @@
             </button>
           </div>
 
-          <section class="product-info__purchase-panel" aria-label="優惠、免運及送貨資料">
-            <!-- 開業優惠濃縮卡：只講折扣同贈品；免運方式由下面三級欄負責。 -->
-            <aside class="product-info__promo-card product-info__promo-card--midautumn" data-ouji-opening-promo hidden aria-label="中秋限定：滿二百九十九元減二十元、滿四百九十九元減四十元、滿六百九十九元減六十元；滿五百九十九元送 Round Lab 面霜">
-              <img class="product-info__promo-cat" src="assets/images/shima/shima-wink1.webp" alt="" width="230" height="219" loading="lazy" decoding="async">
-              <div class="product-info__promo-copy">
-                <p class="product-info__promo-kicker"><span>OUJI</span> 中秋限定</p>
-                <p class="product-info__promo-title"><span>滿額</span><em><b>即</b> 減</em></p>
-                <p class="product-info__promo-deadline">9 月 23–27 日 · 每單只享最高一級</p>
+          <section class="midautumn-product-benefits" aria-label="購物優惠及運送安排">
+            <div class="midautumn-product-benefits__offer" aria-label="中秋優惠及贈品">
+              <img class="midautumn-product-benefits__art" src="assets/images/home/midautumn-crescent-illustration-v3.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+              <div class="midautumn-product-benefits__discount" data-ouji-opening-promo hidden>
+                <span class="midautumn-product-benefits__eyebrow">中秋限定 · 9 月 23–27 日</span>
+                <strong>滿額即減</strong>
+                <ul aria-label="三級滿額折扣">
+                  <li>滿 $299 <b>減 $20</b></li>
+                  <li>滿 $499 <b>減 $40</b></li>
+                  <li>滿 $699 <b>減 $60</b></li>
+                </ul>
+                <small>每張單只享最高一級 · 結帳自動套用</small>
               </div>
-              <div class="product-info__promo-gift-side">
-                <img class="product-info__promo-cream" src="assets/images/home/gift-cream-cutout.png" alt="" width="1254" height="1254" loading="lazy" decoding="async">
-                <p class="product-info__promo-gift"><strong><b>$299−$20 · $499−$40 · $699−$60</b></strong><span>滿 $599 送 Round Lab 面霜</span><small>結帳自動套用</small></p>
-              </div>
-            </aside>
-
-            <aside class="product-info__gift-card" aria-label="購物滿港幣五百九十九元送 Round Lab 白樺樹保濕面霜">
-              <img class="product-info__gift-card-cream" src="assets/images/home/gift-cream-cutout.png" alt="" width="1254" height="1254" loading="lazy" decoding="async">
-              <div class="product-info__gift-card-copy">
-                <span class="product-info__gift-card-label">滿額贈禮</span>
-                <strong>滿 <b>HK$599</b> 送面霜</strong>
-                <small>Round Lab 白樺樹保濕面霜 80ml · 價值 HK$148 · 送完即止</small>
-              </div>
-            </aside>
-
-            <!-- 三級免運要一眼分清楚，唔再塞成一行細字。 -->
-            <div class="product-info__shipping-tiers" role="list" aria-label="三級免運方式">
-              <div class="product-info__shipping-tier product-info__shipping-tier--featured" role="listitem">
-                <span class="product-info__shipping-icon product-info__shipping-icon--pickup" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 11H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M9 13h6"/></svg>
-                </span>
-                <span class="product-info__shipping-copy"><strong>滿 <b>HK$99</b> 即免運</strong><span>7-Eleven／郵局自取</span></span>
-              </div>
-              <div class="product-info__shipping-tier" role="listitem">
-                <span class="product-info__shipping-icon product-info__shipping-icon--locker" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 10h14M12 3v18M8.5 6.5h.01M15.5 14h.01"/></svg>
-                </span>
-                <span class="product-info__shipping-copy"><strong>滿 HK$250 免運</strong><span>順豐站／智能櫃</span></span>
-              </div>
-              <div class="product-info__shipping-tier" role="listitem">
-                <span class="product-info__shipping-icon product-info__shipping-icon--home" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="m4 10 8-6 8 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9Z"/><path d="M9 20v-6h6v6"/><path d="m16 7 2-1.5"/></svg>
-                </span>
-                <span class="product-info__shipping-copy"><strong>滿 HK$290 免運</strong><span>順豐送貨到屋企</span></span>
+              <div class="midautumn-product-benefits__gift">
+                <img src="assets/images/home/gift-cream-cutout.png" alt="Round Lab 白樺樹保濕面霜" width="1254" height="1254" loading="lazy" decoding="async">
+                <div><span>滿額贈禮</span><strong>滿 $599 送面霜</strong><small>Round Lab 80ml · 價值 HK$148 · 送完即止</small></div>
               </div>
             </div>
-
-            <div class="product-info__assurances" aria-label="送貨及門市自取安排">
-              <div class="product-info__assurance product-info__assurance--delivery">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                <span>一般下單後約 1–3 個工作天送達</span>
-              </div>
-              <div class="product-info__assurance product-info__assurance--store-pickup">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10h14v10H5z"/><path d="M4 10l2-5h12l2 5"/><path d="M9 20v-6h6v6"/><path d="M4 10c0 1.1.9 2 2 2s2-.9 2-2c0 1.1.9 2 2 2s2-.9 2-2c0 1.1.9 2 2 2s2-.9 2-2c0 1.1.9 2 2 2s2-.9 2-2"/></svg>
-                <span>觀塘門市免費自取，備妥後通知取貨</span>
-              </div>
-            </div>
+            <aside class="midautumn-product-benefits__shipping" aria-label="免運及自取">
+              <span class="midautumn-product-benefits__eyebrow">運送與自取</span>
+              <h2>揀啱收貨方式</h2>
+              <ul>
+                <li><strong>滿 HK$99 免運</strong><span>7-Eleven／郵局自取</span></li>
+                <li><strong>滿 HK$250 免運</strong><span>順豐站／智能櫃</span></li>
+                <li><strong>滿 HK$290 免運</strong><span>順豐送貨到屋企</span></li>
+              </ul>
+              <p>約 1–3 個工作天送達<br>觀塘門市免費自取，備妥後通知取貨</p>
+            </aside>
           </section>
 
         </div>
@@ -495,11 +467,11 @@
   </nav>
 
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260923-midautumn-visible"></script>
+  <script src="shopify.js?v=20260923-midautumn-delivery-v8"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="search.js?v=20260922-search-smart"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   /**
    * The brands' detail strips run to tens of thousands of pixels — the
@@ -682,7 +654,7 @@
           </span>`;
         }
         if (typeof oujiPromoPriceHTML === 'function' && isOujiOpeningPromoActive()) {
-          return oujiPromoPriceHTML(amount, { detail: true });
+          return oujiPromoPriceHTML(amount, { detail: true, compareAt: compareAt?.amount });
         }
         const onSale = compareAt && parseFloat(compareAt.amount) > parseFloat(amount);
         /* 套裝變體（例：「5片裝」）客真正比較嘅係每片幾錢 —— 佢隔離就係
@@ -741,7 +713,7 @@
             <a class="sd-notice__more" href="short-dated.html">睇其他短效期特價 →</a>
           </section>`);
         /* 開業 88 折卡喺呢件貨唔適用，唔好出 */
-        document.querySelectorAll('.product-info__promo-card').forEach((el) => {
+        document.querySelectorAll('.midautumn-product-benefits__discount').forEach((el) => {
           el.removeAttribute('data-ouji-opening-promo');
           el.hidden = true;
         });
