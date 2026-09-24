@@ -12587,15 +12587,13 @@ body::before { opacity: 0.18; }
 }
 
 /* ============================================================
-   全部產品頁：Y2K BOOT Header ＋ OUJI Explorer（2026-08-20）
+   全部產品頁：分類入口與焦點內容（原 Y2K prototype）
    來源 prototype：/Volumes/core/Projects/OUJI/Website-and-Design/ouji-all-products-y2k/（commit 5443c33）
 
-   全部 selector 都收喺 .shop-boot / .shop-explorer 底下，token 亦都
-   只落喺呢兩個 scope —— 唔郁 :root 品牌色，唔會污染其他分類頁。
-   Explorer 淨係做外殼：入面嘅產品卡、篩選側欄、品牌 rail 一律唔覆蓋。
+   全部 selector 都收喺 .shop-boot / .shop-page 底下，唔會污染其他分類頁。
    ============================================================ */
 .shop-boot,
-.shop-explorer {
+.shop-page {
   --boot-ink: #11141c;
   --boot-blue: #0752c8;
   --boot-electric: #2c7be9;
@@ -12970,83 +12968,95 @@ body::before { opacity: 0.18; }
 .shop-boot__tab { margin-left: 12px; padding: 4px 18px; border: 2px inset #66a0ef; }
 .shop-boot__clock { margin-left: auto; padding-right: 20px; }
 
-/* ---------- Explorer 外殼 ---------- */
-.shop-explorer {
-  position: relative; z-index: 3;
-  max-width: 1220px; margin: -14px auto 62px;
-  border: 4px solid #0648b8; background: #d9d6c8;
-  box-shadow: 10px 12px 0 rgba(17,20,28,.18);
+/* 全部產品頁下半部移除 Explorer 外框；主視覺沿用原有 Y2K Hero。 */
+.shop-page {
+  padding: 0 0 clamp(28px, 4vw, 52px);
+  background: var(--bg-primary, #f7f9f9);
 }
-.shop-explorer__titlebar {
-  display: flex; align-items: center; justify-content: space-between;
-  min-height: 40px; padding: 4px 6px 4px 10px; color: #fff;
-  background: linear-gradient(90deg, #0752c8, #3889ee);
-  font: 19px var(--boot-pixel);
-}
-.shop-explorer__titlebar strong { display: flex; align-items: center; gap: 8px; font-weight: 500; }
-.shop-explorer__folder {
-  position: relative; width: 22px; height: 15px;
-  border: 2px solid var(--boot-ink); background: #ffdf45; box-shadow: 2px 2px 0 #fff;
-}
-.shop-explorer__folder::before {
-  position: absolute; top: -7px; left: 1px; width: 10px; height: 6px;
-  border: 2px solid var(--boot-ink); border-bottom: 0; background: #ffdf45; content: '';
-}
-.shop-explorer__ctrls { display: flex; gap: 4px; }
-.shop-explorer__ctrls i {
-  display: grid; width: 28px; height: 27px; place-items: center;
-  border: 2px outset #fff; background: #2177df; font: 17px/1 sans-serif; font-style: normal;
-}
-.shop-explorer__ctrls i:last-child { background: #eb4f3f; }
 
-.shop-explorer__toolbar {
-  display: flex; align-items: center; gap: 7px;
-  min-height: 38px; padding: 5px 9px;
-  border-bottom: 2px solid #a5a28f; background: var(--boot-silver);
+.shop-page__content { min-width: 0; }
+
+.shop-page__categories {
+  display: flex;
+  gap: 8px;
+  margin: 18px 0 2px;
+  padding: 2px 1px 5px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
-.shop-explorer__back {
-  padding: 3px 10px; border: 2px outset #fff; background: var(--boot-silver);
-  color: var(--boot-ink); font-size: 14px; font-weight: 700; cursor: pointer;
+.shop-page__categories::-webkit-scrollbar { display: none; }
+.shop-page__categories a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 15px;
+  border: 1px solid rgba(43,76,88,.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,.86);
+  color: var(--text-secondary, #4a5e66);
+  font-size: .84rem;
+  text-decoration: none;
+  transition: border-color var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
+  scroll-snap-align: start;
 }
-.shop-explorer__back:active { border-style: inset; }
-.shop-explorer__back:disabled { color: #8a887f; cursor: default; }
-.shop-explorer__sep { color: #8a887f; }
-/* 篩選／排序係原本嗰套真控制，搬入嚟淨係去殼，唔另造一套假掣 */
-.shop-explorer__toolbar .filter-bar {
-  flex: 1 1 auto; display: flex; align-items: center; justify-content: space-between;
-  gap: 10px; margin: 0; padding: 0; border: 0; background: transparent;
+.shop-page__categories a:hover,
+.shop-page__categories a:focus-visible {
+  border-color: rgba(35,127,189,.4);
+  background: #f1f8fb;
+  color: #236f93;
 }
-/* toolbar 係一行工具，唔可以讓佢逐個字斷行 —— 窄機寧願橫掃 */
-.shop-explorer__toolbar .filter-bar__left { display: flex; align-items: center; gap: 8px; }
-.shop-explorer__toolbar .filter-bar__count,
-.shop-explorer__toolbar .filter-btn,
-.shop-explorer__toolbar .filter-bar__sort select { white-space: nowrap; }
-.shop-explorer__toolbar .filter-btn,
-.shop-explorer__toolbar .filter-bar__left,
-.shop-explorer__toolbar .filter-bar__sort { flex: 0 0 auto; }
-.shop-explorer__address {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center; gap: 8px; padding: 5px 9px;
-  border-bottom: 2px solid #aaa793; background: var(--boot-silver); font-size: 13px;
+.shop-page__categories a:focus-visible { outline: 2px solid #397f93; outline-offset: 2px; }
+
+.shop-page__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
 }
-.shop-explorer__address > b { font-weight: 400; }
-.shop-explorer__address > span {
-  min-width: 0; padding: 4px 8px; border: 2px inset #fff; background: #fff;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+
+.shop-page__reset {
+  flex: 0 0 auto;
+  padding: 7px 12px;
+  border: 1px solid rgba(30,48,56,.12);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text-secondary, #66777d);
+  font: inherit;
+  font-size: .78rem;
+  cursor: pointer;
 }
-.shop-explorer__address i { color: #777; font-style: normal; }
-.shop-explorer__address em {
-  padding: 3px 7px; border: 2px inset #fff; background: #fff;
-  font: 16px var(--boot-mono); font-style: normal;
+
+.shop-page__reset:disabled { opacity: .48; cursor: default; }
+.shop-page__toolbar .filter-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
 }
-.shop-explorer__body { padding: 24px 0 30px; background: #f8f7f2; }
-.shop-explorer__status {
-  display: flex; align-items: center; justify-content: space-between;
-  min-height: 30px; padding: 4px 10px;
-  border-top: 2px solid #aaa793; background: var(--boot-silver);
-  font: 16px var(--boot-mono);
+.shop-page .breadcrumb { margin-top: 12px; }
+.shop-page #all-focus,
+.shop-page #all-brands { min-width: 0; }
+.shop-page .skincare-brand-row { max-width: 100%; }
+
+@media (max-width: 840px) {
+  .shop-page__toolbar .filter-bar { gap: 10px; }
+  .shop-page__categories { gap: 7px; margin-top: 12px; scroll-snap-type: x proximity; }
+  .shop-page__categories a { min-height: 38px; padding-inline: 13px; font-size: .8rem; }
 }
-.shop-explorer__status b { color: #0648b8; font-weight: 400; }
+
+@media (max-width: 520px) {
+  .shop-page__toolbar { gap: 7px; }
+  .shop-page__reset { padding: 6px 9px; font-size: .72rem; }
+  .shop-page__categories { margin-top: 10px; }
+  .shop-page__categories a { min-height: 36px; padding-inline: 12px; font-size: .76rem; }
+}
 
 /* ---------- 手機（老闆實機睇過之後嘅修正版）---------- */
 @media (max-width: 760px) {
@@ -13075,23 +13085,16 @@ body::before { opacity: 0.18; }
   .shop-boot__progress { gap: 2px; height: 17px; padding: 2px; }
   .shop-boot__hint { margin-top: 3px; font-size: 10px; }
   .shop-boot__stickers { inset: 0 0 40px; }
-  /* 貼紙唔用 carousel，交錯兩個高度；hit box keep 住 44px 以上 */
   .shop-boot__sticker { width: 84px; transform: translateX(-50%) rotate(var(--r)) scale(.70); }
   .shop-boot__sticker:hover,
   .shop-boot__sticker:focus-visible,
   .shop-boot__sticker.is-on { transform: translateX(-50%) rotate(0) scale(.77); }
-  /* 九格：三行三個，行與行之間交錯少少，撳嘅位仍然過 44px。
-     ⚠️ `bottom` 越大越高 —— 頭三格（護膚／彩妝／沐浴洗護）要 **最大** 嘅值，
-     先會排喺最上面。寫細數字嘅話最大嗰格會沉到底，客一入嚟見到嘅係
-     「其他 5 件」。 */
   .shop-boot__sticker:nth-child(1) { left: 17%; bottom: 208px; }
   .shop-boot__sticker:nth-child(2) { left: 50%; bottom: 216px; }
   .shop-boot__sticker:nth-child(3) { left: 83%; bottom: 208px; }
   .shop-boot__sticker:nth-child(4) { left: 17%; bottom: 116px; }
   .shop-boot__sticker:nth-child(5) { left: 50%; bottom: 124px; }
   .shop-boot__sticker:nth-child(6) { left: 83%; bottom: 116px; }
-  /* 十一格手機三欄擺唔落 —— 頭兩行維持三個，最後一行放五個。
-     最後一行嘅標籤都短，收窄啲夠位，唔使郁上面兩行嘅節奏。 */
   .shop-boot__sticker:nth-child(7)  { left: 10%; bottom: 24px; }
   .shop-boot__sticker:nth-child(8)  { left: 30%; bottom: 32px; }
   .shop-boot__sticker:nth-child(9)  { left: 50%; bottom: 24px; }
@@ -13101,23 +13104,7 @@ body::before { opacity: 0.18; }
   .shop-boot__start { min-width: 72px; padding: 8px 13px; }
   .shop-boot__tab { margin-left: 7px; padding: 3px 9px; }
   .shop-boot__clock { padding-right: 10px; }
-
-  .shop-explorer { margin: -8px 7px 42px; border-width: 3px; box-shadow: 5px 6px 0 rgba(17,20,28,.18); }
-  .shop-explorer__titlebar { min-height: 32px; padding: 3px 4px 3px 7px; font-size: 13px; }
-  .shop-explorer__folder { width: 18px; height: 12px; box-shadow: 1px 1px 0 #fff; }
-  .shop-explorer__folder::before { top: -6px; width: 8px; height: 5px; }
-  .shop-explorer__ctrls { gap: 2px; }
-  .shop-explorer__ctrls i { width: 21px; height: 21px; border-width: 1px; font-size: 12px; }
-  /* toolbar 自己可以橫掃，但成頁唔可以 overflow */
-  .shop-explorer__toolbar { gap: 4px; min-height: 34px; padding: 4px 6px; overflow-x: auto; }
-  .shop-explorer__back { flex: 0 0 auto; padding: 3px 7px; font-size: 12px; white-space: nowrap; }
-  .shop-explorer__toolbar .filter-bar { flex: 0 0 auto; gap: 8px; }
-  .shop-explorer__toolbar .filter-bar__count { font-size: 12px; }
-  .shop-explorer__address { grid-template-columns: auto minmax(0, 1fr); gap: 5px; padding: 4px 6px; font-size: 11px; }
-  .shop-explorer__address > span { padding: 3px 6px; }
-  .shop-explorer__address em { display: none; }
-  .shop-explorer__body { padding: 20px 0 26px; }
-  .shop-explorer__status { min-height: 27px; padding: 3px 7px; font-size: 13px; }
+  .shop-page__toolbar .filter-bar { flex: 1 1 auto; }
 }
 
 @media (max-width: 350px) {
@@ -13129,6 +13116,7 @@ body::before { opacity: 0.18; }
   .shop-boot__sticker:hover,
   .shop-boot__sticker:focus-visible,
   .shop-boot__sticker.is-on { transform: translateX(-50%) rotate(0) scale(.69); }
+  .shop-page__toolbar { flex-wrap: wrap; }
 }
 
 @media (prefers-reduced-motion: reduce) {

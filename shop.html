@@ -61,17 +61,10 @@
        字體未到嗰陣行 fallback（Georgia／system sans），版面照出。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap"></noscript>
-  <!-- 全部產品頁專用：BOOT hero 嘅 pixel 字。載唔到就跌返 Noto Sans TC，
-       唔用 Impact 頂 —— 中文會爛。 -->
-  <!-- Google Fonts 唔可以再 render-blocking。實測：fonts.googleapis.com
-       一連唔到（大陸線路、公司／學校防火牆、擋 Google 嘅 DNS 或者
-       ad-blocker），瀏覽器就企喺度等佢，first-paint 量到 32.5 秒 ——
-       客見到嘅就係「白畫面，load 極都 load 唔到」。
-       media="print" 令佢唔算 render-blocking，落到就 onload 轉返 all。
-       字體未到嗰陣行 fallback（Georgia／system sans），版面照出。 -->
+  <!-- BOOT 主視覺專用 pixel 字體；非阻塞載入，避免拖慢首屏。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260924-card-deal-v2">
+  <link rel="stylesheet" href="styles.css?v=20260925-shop-layout-card-deal-v2">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -271,10 +264,7 @@
 
   <main id="main-content" style="padding-top: 96px;">
 
-    <!-- ===== Y2K BOOT HERO =====
-         全部產品頁頂由「分類標頭」換成一部開緊機嘅 OUJI SHOP OS。
-         呢度淨係外殼；件數、五個分類貼紙、視窗入面四張真產品相，
-         全部由 catalog.js 用 live Storefront 目錄填 —— 唔准寫死件數。 -->
+    <!-- Windows 主視覺保留原有構圖；以下目錄內容改用彩妝／護膚頁層次。 -->
     <section class="shop-boot" aria-labelledby="shop-boot-title" data-shop-boot>
       <div class="shop-boot__wallpaper" aria-hidden="true">
         <span class="shop-boot__cloud"></span>
@@ -287,14 +277,13 @@
         <p class="shop-boot__count" data-boot-count></p>
       </div>
 
-      <!-- 四格預覽係下面產品卡嘅重複內容，讀屏唔使讀多次 -->
       <div class="shop-boot__window" aria-hidden="true">
         <div class="shop-boot__bar">
           <span>ouji_shop.exe</span>
           <span class="shop-boot__ctrls"><span>_</span><span>□</span><span class="is-close">×</span></span>
         </div>
         <div class="shop-boot__photos" data-boot-photos></div>
-        <div class="shop-boot__status"><span data-boot-folder>5 folders ready</span><b>OUJI</b></div>
+        <div class="shop-boot__status"><span data-boot-folder>11 folders ready</span><b>OUJI</b></div>
       </div>
 
       <div class="shop-boot__disk" aria-hidden="true">
@@ -312,7 +301,6 @@
         </div>
       </div>
 
-      <!-- 五個分類貼紙由 JS 出：label 同件數要係真嘅，插畫係輔助 -->
       <div class="shop-boot__stickers" data-boot-stickers aria-label="全部產品分類"></div>
 
       <div class="shop-boot__taskbar" aria-hidden="true">
@@ -322,20 +310,42 @@
       </div>
     </section>
 
-    <!-- ===== OUJI EXPLORER =====
-         Explorer 唔係另一套 catalog，佢淨係包住原有嘅 breadcrumb、
-         quick tabs、品牌條、篩選／排序同產品格。所有 data-* hook 原封不動。 -->
-    <div class="shop-explorer" data-shop-explorer>
-      <div class="shop-explorer__titlebar">
-        <strong><i class="shop-explorer__folder" aria-hidden="true"></i><span data-explorer-title>全部產品</span> — OUJI Explorer</strong>
-        <span class="shop-explorer__ctrls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
-      </div>
+    <section class="shop-page" data-shop-catalog aria-label="全部產品目錄">
+      <div class="container shop-page__content">
+        <section id="all-focus" class="skincare-spotlight-section skincare-focus all-focus"
+                 aria-labelledby="all-focus-title">
+          <h2 id="all-focus-title" class="sr-only">今週焦點</h2>
+          <div data-all-focus-carousel></div>
+        </section>
 
-      <div class="shop-explorer__toolbar">
-        <button type="button" class="shop-explorer__back" data-boot-reset disabled>← 返回全部</button>
-        <span class="shop-explorer__sep" aria-hidden="true">│</span>
-        <div class="filter-bar">
+        <section id="all-brands" class="skincare-spotlight-section skincare-brands"
+                 aria-labelledby="all-brands-title">
+          <div class="skincare-spotlight__heading">
+            <h2 id="all-brands-title" class="skincare-spotlight__title">所有品牌</h2>
+          </div>
+          <div data-all-brands-carousel></div>
+        </section>
+
+        <aside class="promo-slim" aria-label="限時優惠" hidden>
+          <img class="promo-slim__jar" src="assets/images/home/gift-cream.webp"
+               alt="" width="208" height="260" decoding="async">
+          <p class="promo-slim__head"><b>全單 <i>88</i> 折</b><span>全店冇門檻</span></p>
+          <ul class="promo-slim__list">
+            <li>折實滿 <b>HK$99</b> — 7-Eleven／郵局自取免郵</li>
+            <li>折實滿 <b>HK$250</b> — 順豐站／智能櫃免運</li>
+            <li>折實滿 <b>HK$290</b> — 順豐派送上門免運</li>
+            <li>折實滿 <b>HK$499</b> 送面霜<em data-giftstock hidden></em></li>
+          </ul>
+          <p class="promo-slim__end">9 月 15 日前<span>仲有 <b data-countdown>—</b> 日</span></p>
+        </aside>
+
+        <div class="filter-bar shop-page__filter">
           <div class="filter-bar__left">
+            <nav class="breadcrumb breadcrumb--inline" aria-label="目前位置">
+              <a href="index.html">首頁</a>
+              <span class="breadcrumb__sep">/</span>
+              <span data-shop-title>全部產品</span>
+            </nav>
             <button class="filter-btn" data-filter-toggle>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
               篩選
@@ -353,91 +363,12 @@
             </select>
           </div>
         </div>
+        <div class="active-filters" data-active-filters></div>
+        <div class="catalog reveal-stagger" data-catalog></div>
       </div>
-
-      <div class="shop-explorer__address">
-        <b>位置</b>
-        <span data-explorer-path>OUJI SHOP <i>›</i> 全部產品</span>
-        <em data-explorer-items></em>
-      </div>
-
-      <div class="shop-explorer__body">
-        <div class="container">
-          <nav class="breadcrumb">
-            <a href="index.html">首頁</a>
-            <span class="breadcrumb__sep">/</span>
-            <span>全部產品</span>
-          </nav>
-
-          <!-- 分類 pill 行剷咗：頂頭五個貼紙已經係分類入口，
-               再喺 Explorer 入面出多一行係講同一件事兩次，而且兩邊
-               嘅件數計法唔同（貼紙互斥、pill 唔互斥），數對唔上更加誤導。
-               其他分類頁照舊有 quick tabs —— buildQuickTabs 搵唔到
-               [data-quick-tabs] 就自己收工，唔使改 catalog.js。 -->
-
-          <!-- 跟彩妝／護膚頁同一做法：今週焦點輪播同單一品牌列分開，
-               品牌列接手快速跳轉，唔再另外重複一條品牌導覽。 -->
-          <section id="all-focus" class="skincare-spotlight-section skincare-focus all-focus"
-                   aria-labelledby="all-focus-title">
-            <h2 id="all-focus-title" class="sr-only">今週焦點</h2>
-            <div data-all-focus-carousel></div>
-          </section>
-
-          <section id="all-brands" class="skincare-spotlight-section skincare-brands all-products-brands"
-                   aria-labelledby="all-brands-title">
-            <div class="skincare-spotlight__heading">
-              <h2 id="all-brands-title" class="skincare-spotlight__title">所有品牌</h2>
-            </div>
-            <div data-all-brands-carousel></div>
-          </section>
-
-          <!-- 幼優惠條。老闆：「如果啲人一入嚟就剷全部產品頁面，或者淨係睇
-               產品頁面，咁佢未必知，未必夠凸顯呢個優惠。」
-               首頁嗰個大 banner 縮到一條，擺喺產品格上面。用返購物袋嗰隻
-               去背面霜圖（13KB，已經喺快取），唔另外落六格動畫 —— 呢啲版面
-               本身已經有一隻芝麻，再落多一套就淨係為咗多 115KB。 -->
-          <aside class="promo-slim" aria-label="已結束的推廣" hidden>
-            <img class="promo-slim__jar" src="assets/images/home/gift-cream.webp"
-                 alt="" width="208" height="260" decoding="async">
-            <p class="promo-slim__head"><b>全單 <i>88</i> 折</b><span>全店冇門檻</span></p>
-            <ul class="promo-slim__list">
-              <li>折實滿 <b>HK$99</b> — 7-Eleven／郵局自取免郵</li>
-          <li>折實滿 <b>HK$250</b> — 順豐站／智能櫃免運</li>
-          <li>折實滿 <b>HK$290</b> — 順豐派送上門免運</li>
-              <li>折實滿 <b>HK$499</b> 送面霜<em data-giftstock hidden></em></li>
-            </ul>
-            <p class="promo-slim__end">9 月 15 日前<span>仲有 <b data-countdown>—</b> 日</span></p>
-            <!-- 隻貓塞入條優惠條入面本來就吉咗嘅位，唔另外開一條帶。
-                 老闆：「貓貓嘅貼圖動畫係應該跟嗰個畫面嘅，而唔係個畫面
-                 就佢。你唔好又浪費啲咁有限嘅空間俾佢用。」
-                 絕對定位 ＋ 條 strip 讓返條巷，所以佢一 px 都冇撐高。 -->
-            <div class="promo-slim__cat" aria-hidden="true">
-              <div class="shima">
-                            <img class="shima__f is-on" src="assets/images/shima/shima-shop1.webp" alt="" width="360" height="291" loading="lazy" decoding="async">
-                            <img class="shima__f" src="assets/images/shima/shima-shop2.webp" alt="" width="360" height="287" loading="lazy" decoding="async">
-                            <img class="shima__f" src="assets/images/shima/shima-shop3.webp" alt="" width="360" height="295" loading="lazy" decoding="async">
-                            <img class="shima__f" src="assets/images/shima/shima-shop4.webp" alt="" width="360" height="281" loading="lazy" decoding="async">
-                            <img class="shima__f" src="assets/images/shima/shima-shop5.webp" alt="" width="360" height="295" loading="lazy" decoding="async">
-                            <img class="shima__f" src="assets/images/shima/shima-shop6.webp" alt="" width="360" height="275" loading="lazy" decoding="async">
-                          </div>
-            </div>
-          </aside>
-
-          <div class="active-filters" data-active-filters></div>
-
-          <!-- Product Grid -->
-          <div class="catalog reveal-stagger" data-catalog></div>
-        </div>
-      </div>
-
-      <!-- 換資料夾之後讀屏要知發生咗咩事，但唔應該搶 focus 去頁頂。
-           狀態列本身照出 Windows 嗰句「N 個物件」，宣讀就交畀呢個隱藏區。 -->
-      <p class="visually-hidden" aria-live="polite" data-explorer-announce></p>
-      <div class="shop-explorer__status">
-        <span data-explorer-status></span>
-        <b>OUJI SHOP OS · READY</b>
-      </div>
-    </div>
+      <!-- 分類切換後向讀屏宣讀結果，不會搶走焦點。 -->
+      <p class="visually-hidden" aria-live="polite" data-shop-announce></p>
+    </section>
   </main>
 
   <!-- Footer -->
@@ -558,7 +489,7 @@
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js?v=20260924-card-deal-v2"></script>
+  <script src="catalog.js?v=20260925-shop-layout-card-deal-v2"></script>
   <script src="search.js?v=20260922-search-smart"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
@@ -579,19 +510,16 @@
     /* 由頁頂搜尋浮層「睇埋其餘 N 件」入嚟。同浮層用同一套配對規則
        （大細楷、空格、標點唔計），唔係嘅話撳落嚟會少咗貨。 */
     const q = (params.get('q') || '').trim();
-    /* 搜尋／煩惱入嚟嗰陣，Explorer 個資料夾名要跟返佢，唔可以仲寫住
-       「全部產品」—— 個名就係客而家企緊喺邊。BOOT hero 保持原樣。 */
+    /* 搜尋／煩惱入嚟嗰陣，頁面標題要跟返搜尋名稱。 */
     let folderLabel = null;
     const setFolder = (name, note) => {
       folderLabel = name;
-      const t = document.querySelector('[data-explorer-title]');
+      const t = document.querySelector('[data-shop-title]');
       if (t) t.textContent = name;
-      const path = document.querySelector('[data-explorer-path]');
-      if (path) path.innerHTML = `OUJI SHOP <i>›</i> ${name}`;
       const tail = document.querySelector('.breadcrumb span:last-child');
       if (tail && !tail.classList.contains('breadcrumb__sep')) tail.textContent = name;
-      const dialog = document.querySelector('[data-boot-dialog]');
-      if (dialog && note) dialog.textContent = note;
+      const count = document.querySelector('[data-boot-count]');
+      if (count && note) count.textContent = note;
     };
 
     /* 品牌入口一早縮窄資料集，唔好將全店千幾件貨交入 initCatalog，砌完
