@@ -347,7 +347,7 @@
             <section class="addon addon--sd" data-sd-addon hidden>
               <div class="addon__head">
                 <h2 class="addon__title">搭埋呢啲短效期特價</h2>
-                <p class="addon__sub">門市快到期實貨，5 折／7 折・寫明到期日・唔設退換</p>
+                <p class="addon__sub">門市快到期實貨，5 折或 7 折 · 寫明到期日 · 唔設退換</p>
               </div>
               <div class="addon__grid" data-sd-addon-grid></div>
               <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
@@ -380,7 +380,7 @@
                     <strong data-member-remaining>—</strong>
                   </div>
                 </div>
-                <p class="cart-member-points__foot" data-cart-member-description>今單積分將於付款後翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入／免費加入</a></span></p>
+                <p class="cart-member-points__foot" data-cart-member-description>今單積分將於付款後翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入或免費加入</a></span></p>
                 <div class="cart-member-coupon" data-member-coupon data-state="locked" hidden>
                   <span class="cart-member-coupon__amount" data-coupon-amount>HK$10</span>
                   <span class="cart-member-coupon__copy" data-coupon-copy></span>
@@ -834,7 +834,7 @@
           if (err) {
             const shipName = window.OUJI_cartShipDisplay(mode, cfg.name);
             err.textContent = window.OUJI_cartCopy(
-              `仲未揀去邊間 ${cfg.name.replace('自取', '').trim()} 攞貨 —— 先選擇分區，或撳「瀏覽取件點」先可以結帳。`,
+              `仲未揀去邊間 ${(cfg.label || cfg.name).replace('自取', '').trim()} 攞貨 —— 先選擇分區，或撳「瀏覽取件點」先可以結帳。`,
               `Please choose a ${shipName} pickup point first — select a district or tap “Browse pickup points” to continue to checkout.`
             );
             err.hidden = false;
@@ -1269,9 +1269,9 @@
     const methodName = window.OUJI_cartShipDisplay(mode, method.name);
     const line = host.querySelector('[data-reward-line]');
     line.innerHTML = window.OUJI_cartCopy(
-      method.fee === 0 ? '✓ 門市免費自取，毋須湊單'
-        : met ? '✓ 已享 ' + method.name + ' 免運費'
-        : '再買 <strong>HK$' + money(gap) + '</strong>，即享' + method.name + '免運',
+      method.fee === 0 ? '門市免費自取，毋須湊單'
+        : met ? '已享 ' + (method.label || method.name) + ' 免運費'
+        : '再買 <strong>HK$' + money(gap) + '</strong>，即享 ' + (method.label || method.name) + ' 免運',
       method.fee === 0 ? '✓ Free store pickup, no minimum spend'
         : met ? '✓ ' + methodName + ' free shipping applied'
         : 'Add <strong>HK$' + money(gap) + '</strong> more for free shipping with ' + methodName
@@ -1465,10 +1465,12 @@
      ⚠️ 一定要喺呢度定義（同步執行），唔可以放落 DOMContentLoaded handler ——
         下面兩個 IIFE 即刻要用，handler 要等 DOM ready 先跑，太遲。 */
     window.OUJI_SHIP = {
-      post: { fee: 15, free: 99,  name: '7-Eleven／郵局', src: 'data/pickup-points.json', match: '7-Eleven',
-              sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天', hint: '要揀定去邊間 7-Eleven／郵局攞貨' },
-      sfp:  { fee: 16, free: 250, name: '順豐站／智能櫃',      src: 'assets/data/sf-points.json', match: '順豐站',
-              sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', hint: '要揀定去邊個順豐站／自助櫃攞貨' },
+      /* label＝客見到嘅名（2026-09-24 老闆：「／」唔好睇，改用「·」）；
+         name 係寫入訂單「運送方式」屬性、鋪頭執單睇嘅，唔好改。 */
+      post: { fee: 15, free: 99,  name: '7-Eleven／郵局', label: '7-Eleven · 郵局', src: 'data/pickup-points.json', match: '7-Eleven',
+              sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天', hint: '要揀定去邊間 7-Eleven 或郵局攞貨' },
+      sfp:  { fee: 16, free: 250, name: '順豐站／智能櫃', label: '順豐站 · 智能櫃', src: 'assets/data/sf-points.json', match: '順豐站',
+              sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', hint: '要揀定去邊個順豐站或智能櫃攞貨' },
       sfd:  { fee: 31, free: 290, name: '順豐派送上門',        src: null, match: '順豐派送',
               sub: '送到門口 · 1–2 個工作天' },
       shop: { fee: 0,  free: 0,   name: '觀塘門市自取',        src: null,
@@ -1490,10 +1492,10 @@
        門檻唔同，唔可以寫一句總述。順豐唔用佢哋個 logo，用返我哋自己嘅線條 icon。 */
     const ORDER = ['post', 'sfp', 'sfd', 'shop'];
     const TILE = {
-      post: { label: '7-Eleven／<wbr>郵局', sub: '自取 · 平郵' },
-      sfp:  { label: '順豐站／<wbr>智能櫃', sub: '網點多 · 方便' },
+      post: { label: '7-Eleven<br>郵局', sub: '自取 · 平郵' },
+      sfp:  { label: '順豐站<br>智能櫃', sub: '網點多 · 方便' },
       sfd:  { label: '順豐上門', sub: '直送到府' },
-      shop: { label: '觀塘<wbr>自取', sub: '門市自取 · 即日' },
+      shop: { label: '觀塘<br>自取', sub: '門市自取 · 即日' },
     };
     const ICON = {
       sfp: '<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M4 12h16M12 3.5v17M9.5 8h.01M14.5 8h.01M9.5 16h.01M14.5 16h.01"/></svg>',
@@ -1819,11 +1821,11 @@
       const PROMO = window.OUJI_COMMERCE?.promotion || {};
       const midAutumnActive = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive();
       const LEVELS = [
-        { at: S.post?.free, label: '免運費（7-Eleven／郵局自取）', en: 'free 7-Eleven / post office pickup', badge: '加咗自取免運', badgeEn: 'Add for free pickup' },
+        { at: S.post?.free, label: '免運費（7-Eleven · 郵局自取）', en: 'free 7-Eleven / post office pickup', badge: '加咗自取免運', badgeEn: 'Add for free pickup' },
         /* ⚠️ 呢兩級唔可以寫「慳返 $16 運費」：本身買滿 $99 已經免運，
            再講「慳運費」會令客以為本來要俾錢（2026-09-17 老闆指正）。
            一律講「升級到⋯」——由自取升級做順豐站／送上門，係升級唔係慳錢。 */
-        { at: S.sfp?.free, label: '升級到順豐站／智能櫃免運費', en: 'free SF station / locker delivery', up: 1, badge: '加咗順豐站免運', badgeEn: 'Add for free SF station' },
+        { at: S.sfp?.free, label: '升級到順豐站 · 智能櫃免運費', en: 'free SF station / locker delivery', up: 1, badge: '加咗順豐站免運', badgeEn: 'Add for free SF station' },
         { at: S.sfd?.free, label: '升級到順豐送上門免運費', en: 'free home delivery', up: 1, badge: '加咗送上門免運', badgeEn: 'Add for free home delivery' },
         ...(midAutumnActive ? (PROMO.tiers || []).map(({ threshold, saving }) => ({
           at: threshold, label: `減 $${saving}`, en: `$${saving} off`,
@@ -2029,7 +2031,7 @@
       root.classList.toggle('sfp--info', !o.src);
       if (!o.src) {
         labelEl.textContent = mode === 'shop' ? '門市取貨' : '送到你手上';
-        root.querySelector('[data-sfp-heading]').textContent = o.name;
+        root.querySelector('[data-sfp-heading]').textContent = o.label || o.name;
         root.querySelector('[data-sfp-detail]').textContent = mode === 'shop'
           ? '觀塘觀塘道 472–480 號，觀塘工業中心一期地下 B 舖。每日 10:00–20:00。收到可取貨通知後，帶同訂單資料到店領取。'
           : '結賬時填寫收件地址及聯絡電話，由順豐派送上門。運費 HK$31，折實滿 HK$290 免運費。';
@@ -2038,7 +2040,7 @@
         return;
       }
       paintChosen();
-      if (labelEl) labelEl.textContent = o.name;
+      if (labelEl) labelEl.textContent = o.label || o.name;
       if (hintEl) hintEl.textContent = o.hint || '要喺呢度揀定去邊個點攞貨';
       if (src !== o.src) {          // 換咗名單 → 之前揀嗰個已經唔啱用
         /* 例外：一開頁第一次行到呢度（src 仲係 null），而 localStorage 嗰個點
