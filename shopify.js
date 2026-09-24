@@ -2347,6 +2347,21 @@ function oujiPromoPriceText(amount) {
   return formatPrice(num);
 }
 
+/* 劃線價一定要嚟自售價嗰件變體（同 catalog.js productCard 一把尺）：
+   單片 $18 冇折、5片裝 $78 劃線 $90，唔可以標成「$18 ／ $90」。
+   列表冇變體價錢，就只喺全部變體同價時先用 compareAtPriceRange。 */
+function oujiCardComparePrice(p) {
+  const p0 = p.priceRange?.minVariantPrice;
+  const vs = (p.variants?.edges || []).map((e) => e.node).filter(Boolean);
+  if (vs.some((v) => v.price)) {
+    const cheap = vs.find((v) => parseFloat(v.price?.amount) === parseFloat(p0?.amount));
+    return cheap?.compareAtPrice || null;
+  }
+  const hi = p.priceRange?.maxVariantPrice?.amount;
+  return hi != null && parseFloat(hi) === parseFloat(p0?.amount || 0)
+    ? (p.compareAtPriceRange?.minVariantPrice || null) : null;
+}
+
 /* 商品卡兩套減價信號（2026-09-25 老闆定）：
    限時 = 跟市場減價 → 左上紅色圓角牌 ＋ 紅色售價。
    促銷 = 孖裝／套裝多件優惠 → 相底黃色優惠帶（促銷｜2件 · 每件 $X）＋ 黑色售價加黃色螢光底 ＋「每件 $X」。

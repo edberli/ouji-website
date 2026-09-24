@@ -29,7 +29,7 @@ async function initHome() {
   const card = (p) => {
     const img = p.images?.edges?.[0]?.node;
     const v = p.variants?.edges?.[0]?.node;
-    const cp = p.compareAtPriceRange?.minVariantPrice;
+    const cp = oujiCardComparePrice(p);
     const p0 = p.priceRange?.minVariantPrice;
     const onSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount);
     /* 首頁啲卡本來一粒掣都冇 —— 心心同快速加入淨係喺分類頁有。
@@ -124,7 +124,7 @@ async function initHome() {
   let RATINGS = null;
   const reviewCount = (p) => RATINGS?.[p.handle]?.count || 0;
   const onSale = (p) => {
-    const cp = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0);
+    const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
     const p0 = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
     return cp > p0 ? (cp - p0) / cp : 0;
   };
@@ -168,7 +168,7 @@ async function initHome() {
          優惠講減幾多，新品就淨係講新上架。冇數就唔寫。 */
       const heroFact = (p, t) => {
         const r = RATINGS?.[p.handle];
-        const cp = p.compareAtPriceRange?.minVariantPrice;
+        const cp = oujiCardComparePrice(p);
         const p0 = p.priceRange?.minVariantPrice;
         if (t.id === 'hot') {
           return r?.count
