@@ -434,7 +434,6 @@
                 <p class="cart-moon-promo__terms">即減只享最高一級、不累加 · 面霜送完即止 · 實際優惠以結帳為準</p>
               </section>
               <div class="reward__brief" aria-live="polite">
-                <p class="reward__sample" data-reward-sample hidden></p>
                 <p class="reward__line" data-reward-line></p>
                 <p class="reward__cost" data-reward-cost></p>
                 <div class="reward__track" data-reward-track role="progressbar" aria-label="所選運送方式免運進度" aria-valuemin="0" aria-valuemax="100"><div class="reward__fill" data-reward-fill></div></div>
@@ -676,7 +675,7 @@
   </nav>
 
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260923-midautumn-delivery-v8"></script>
+  <script src="shopify.js?v=20260924-sample-pause-v1"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="search.js?v=20260922-search-smart"></script>
@@ -1262,20 +1261,6 @@
     const gap = Math.max(0, Math.ceil((method.free - net) * 100 - 0.001) / 100);
     const money = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
     const methodName = window.OUJI_cartShipDisplay(mode, method.name);
-    /* 滿 HK$149 送精選美妝護膚體驗裝 —— 成套購物禮遇入面最低一級，
-       亦係客最容易達到嘅一級，所以擺喺運費進度上面第一句講。 */
-    const SAMPLE = window.OUJI_COMMERCE?.promotion?.sample?.threshold || 149;
-    const sampleEl = host.querySelector('[data-reward-sample]');
-    if (sampleEl) {
-      const sampleGap = Math.max(0, Math.ceil((SAMPLE - net) * 100 - 0.001) / 100);
-      sampleEl.hidden = sampleGap <= 0;
-      sampleEl.classList.remove('is-unlocked');
-      sampleEl.innerHTML = sampleGap > 0
-        ? window.OUJI_cartCopy(
-          '再買 <strong>HK$' + money(sampleGap) + '</strong> — 送你精選美妝護膚體驗裝',
-          'Add <strong>HK$' + money(sampleGap) + '</strong> — free beauty sample set with your order')
-        : '';
-    }
     const line = host.querySelector('[data-reward-line]');
     line.innerHTML = window.OUJI_cartCopy(
       method.fee === 0 ? '✓ 門市免費自取，毋須湊單'
@@ -1822,14 +1807,13 @@
 
       /* ── 下一個 level 係邊個？ ─────────────────────────────────────
          加購最有力嘅理由唔係「順手買多件」，而係「爭幾多就去到下一個 level」。
-         免運、體驗裝同當期滿額優惠各自成一級；只取最近嗰個。
+         免運同當期滿額優惠各自成一級；只取最近嗰個。
          爭 $10 同爭 $120 唔應該推同一批貨，所以下面揀貨會跟住個差額走。 */
       const S = window.OUJI_SHIP || {};
       const PROMO = window.OUJI_COMMERCE?.promotion || {};
       const midAutumnActive = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive();
       const LEVELS = [
         { at: S.post?.free, label: '免運費（7-Eleven／郵局自取）', en: 'free 7-Eleven / post office pickup', badge: '加咗自取免運', badgeEn: 'Add for free pickup' },
-        { at: PROMO.sample?.threshold, label: '送精選美妝護膚體驗裝', en: 'a free sample set', badge: '加咗送體驗裝', badgeEn: 'Add for a free sample set' },
         /* ⚠️ 呢兩級唔可以寫「慳返 $16 運費」：本身買滿 $99 已經免運，
            再講「慳運費」會令客以為本來要俾錢（2026-09-17 老闆指正）。
            一律講「升級到⋯」——由自取升級做順豐站／送上門，係升級唔係慳錢。 */
