@@ -2347,6 +2347,27 @@ function oujiPromoPriceText(amount) {
   return formatPrice(num);
 }
 
+/* 商品卡價錢（2026-09-24 老闆定）：有真減價先出劃線原價，原價喺前、紅色特價喺後；
+   一張卡只出一個「慳幾多」訊息，折扣唔夠一成唔出（寒酸反效果）。
+   慳嘅金額 ≥ $50 用「慳 $X」，細額用「X% OFF」。冇減價就只顯示售價。
+   五個卡 renderer（shopify.js／catalog.js／home.js／index.html／wishlist.html）一律用呢個。 */
+function oujiCardPriceHTML(priceAmount, compareAmount, { range = null } = {}) {
+  const now = parseFloat(priceAmount);
+  const was = parseFloat(compareAmount);
+  const main = range ? `${formatPrice(range.lo)} – ${formatPrice(range.hi)}` : formatPrice(now);
+  if (range || !Number.isFinite(was) || !(was > now)) {
+    return `<span class="product-card__price">${main}</span>`;
+  }
+  const save = was - now;
+  const pct = Math.round((save / was) * 100);
+  const badge = pct < 10 ? ''
+    : `<span class="product-card__savings">${save >= 50 ? `慳 $${Math.round(save)}` : `${pct}% OFF`}</span>`;
+  return `<span class="product-card__deal">`
+    + `<s class="product-card__compare-price">${formatPrice(was)}</s>`
+    + `<span class="product-card__price product-card__price--sale">${main}</span>`
+    + badge + `</span>`;
+}
+
 function oujiPromoPriceHTML(amount, { detail = false, search = false, compareAt = null } = {}) {
   const num = parseFloat(amount);
   if (!Number.isFinite(num)) return '';
@@ -2583,10 +2604,7 @@ function productCardHTML(product) {
       <div class="product-card__info">
         <a href="product.html?handle=${product.handle}" class="product-card__title">${title}</a>
         <div class="product-card__prices">
-          ${(() => { const u = unitPriceRange(product);
-             return u ? `<span class="product-card__price">${formatPrice(u.lo)} – ${formatPrice(u.hi)}</span>`
-                      : `<span class="product-card__price">${formatPrice(price.amount)}</span>`; })()}
-          ${isOnSale ? `<span class="product-card__compare-price">${formatPrice(comparePrice.amount)}</span>` : ''}
+          ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { range: unitPriceRange(product) })}
         </div>
         <button class="product-card__wishlist-btn ${isInWishlist(product.id) ? 'is-active' : ''}"
           onclick="toggleWishlist(event, ${JSON.stringify(product).replace(/"/g, '&quot;')})"

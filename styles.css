@@ -1445,6 +1445,11 @@ button.product-card__quick-add,
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(109,163,181,0.3);
 }
+/* 特價牌一律紅色（老闆 2026-09-24），同紅色特價價錢同一個色 */
+.product-card__badge--sale {
+  background: var(--sale, #c8452f);
+  box-shadow: 0 2px 10px rgba(200,69,47,0.28);
+}
 
 .product-card__wishlist {
   position: absolute;
@@ -1485,6 +1490,11 @@ button.product-card__quick-add,
 .product-card__brand { font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.08em; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; }
 .product-card__name { font-size: 0.9375rem; font-weight: 400; color: var(--text-primary); line-height: 1.4; margin-bottom: 6px; }
 .product-card__price { font-size: 0.875rem; font-weight: 600; color: var(--primary-dark); }
+/* 減價卡：劃線原價（細、灰）喺前，紅色特價做主角，一個「慳 $X／X% OFF」細牌 */
+.product-card__deal { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; }
+.product-card__compare-price { font-size: 0.75rem; font-weight: 400; color: var(--text-tertiary, #8a9499); text-decoration: line-through; }
+.product-card__price.product-card__price--sale { color: var(--sale, #c8452f); }  /* 雙 class：要贏 4804 行 warm accent 嘅 .product-card__price */
+.product-card__savings { font-size: 0.6875rem; font-weight: 600; line-height: 1; padding: 3px 6px; border-radius: 4px; color: var(--sale, #c8452f); background: rgba(200,69,47,0.1); }
 
 /* ----- Brands Page — Dark Smoke Theme ----- */
 .brands-page {
@@ -16974,11 +16984,6 @@ body::before { opacity: 0.18; }
   background: rgba(255,255,255,.1);
 }
 .midautumn-home__shipping li strong b { color: #ffd77a; font-weight: 750; }
-/* A genuine compare-at markdown keeps the original sale-red cue; an
-   order-level Mid-Autumn threshold never turns every shelf price red. */
-.product-card__prices:has(.product-card__compare-price) .product-card__price {
-  color: var(--sale, #c8452f);
-}
 
 /* Product benefits reuse the approved homepage lunar card, scaled for the buy box. */
 .midautumn-product-benefits > .midautumn-product-benefits__offer {
