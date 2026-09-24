@@ -2347,6 +2347,16 @@ function oujiPromoPriceText(amount) {
   return formatPrice(num);
 }
 
+/* 商品卡減價牌（2026-09-25 老闆定）：孖裝／套裝一律當促銷，牌寫「促銷」（有冇劃線都出）；
+   其他貨有真減價先出「限時」。五個卡 renderer 一律用呢個，唔好各自寫死。 */
+const OUJI_BUNDLE_RE = /孖裝|套裝|雙支|[2二兩]只裝?|[2二兩][支枝]裝|[2-4二兩三四]\s?件|[x×*＊]\s?2(?!\d)|1\s?\+\s?1/i;
+// 一盒面膜／工具叫「套裝」但其實係一件貨，唔當促銷
+const OUJI_NOT_BUNDLE_RE = /橡筋|髮圈|面膜[^／/]*套裝|套裝\s*[\[（(][^\]）)]*片|掃|鑷子|粉撲/;
+function oujiSaleBadgeHTML(title, onSale) {
+  if (OUJI_BUNDLE_RE.test(title || '') && !OUJI_NOT_BUNDLE_RE.test(title || '')) return '<span class="product-card__badge product-card__badge--sale">促銷</span>';
+  return onSale ? '<span class="product-card__badge product-card__badge--sale">限時</span>' : '';
+}
+
 /* 商品卡價錢（2026-09-24 老闆定）：有真減價先出劃線原價，原價喺前、紅色特價喺後；
    一張卡只出一個「慳幾多」訊息，折扣唔夠一成唔出（寒酸反效果）。
    慳嘅金額 ≥ $50 用「慳 $X」，細額用「X% OFF」。冇減價就只顯示售價。
@@ -2597,7 +2607,7 @@ function productCardHTML(product) {
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-          ${isOnSale && !isSoldOut && !shortDated ? '<span class="product-card__badge product-card__badge--sale">限時</span>' : ''}
+          ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(title, isOnSale) : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
       </a>
