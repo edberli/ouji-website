@@ -161,6 +161,10 @@ const SKINCARE_CARD_COLOR = {
 };
 
 function brandCardColor(vendor, section) {
+  if (section === 'all') {
+    return SKINCARE_CARD_COLOR[vendor] || BRAND_CARD_COLOR[vendor]
+      || (vendor === '其他' ? BRAND_CARD_COLOR['其他'] : null);
+  }
   return (section === 'skincare' ? SKINCARE_CARD_COLOR[vendor] : BRAND_CARD_COLOR[vendor])
     || (vendor === '其他' ? BRAND_CARD_COLOR['其他'] : null);
 }
@@ -1021,28 +1025,42 @@ function bindSkincareCarousel(host, {
   sync(0);
 }
 
-function buildCategoryFocusSpotlight(config, section) {
+function buildCategoryFocusSpotlight(config, section, { focusOnly = false } = {}) {
   const host = document.querySelector(`[data-${section}-focus-carousel]`);
   if (!host) return;
   const slides = config.slides.map((slide, index) => {
     const source = brandCarouselAsset(slide.focusArt || slide.art);
+    const geometry = focusOnly && !slide.focusArt
+      ? BRAND_SPOTLIGHT_GEOMETRY[slide.art] : null;
+    const crop = geometry?.feature;
+    const [cropLeft, cropTop, cropRight, cropBottom] = crop || [];
+    const cropWidth = crop ? cropRight - cropLeft : 0;
+    const cropHeight = crop ? cropBottom - cropTop : 0;
+    const cropStyle = crop ? [
+      `--focus-card-ratio:${cropWidth}/${cropHeight}`,
+      `--focus-image-width:${(geometry.width / cropWidth * 100).toFixed(3)}%`,
+      `--focus-image-height:${(731 / cropHeight * 100).toFixed(3)}%`,
+      `--focus-image-left:${(-cropLeft / cropWidth * 100).toFixed(3)}%`,
+      `--focus-image-top:${(-cropTop / cropHeight * 100).toFixed(3)}%`,
+    ].join(';') : '';
     /* 四張 WebP 合計約 260KB；全部即刻排入下載，避免第 3、4 張要等到
        撳翻頁先至出現。首屏兩張保留高優先，其餘低優先背景載入。 */
-    const image = `src="${escapeSpotlightAttr(source)}"`;
+    const image = `<img class="skincare-focus__visual" src="${escapeSpotlightAttr(source)}"
+      alt="" width="${geometry?.width || 1600}" height="${geometry ? 731 : 755}"
+      loading="eager" fetchpriority="${index < 2 ? 'high' : 'low'}" decoding="async">`;
     const href = `${config.page}?brand=${encodeURIComponent(slide.focus)}`;
     return `<article class="skincare-focus__slide" role="group"
       aria-label="${escapeSpotlightAttr(slide.focus)}，今週焦點">
-      <a class="skincare-focus__card" href="${href}"
+      <a class="skincare-focus__card${crop ? ' skincare-focus__card--crop' : ''}" href="${href}"${crop ? ` style="${cropStyle}"` : ''}
          aria-label="瀏覽 ${escapeSpotlightAttr(slide.focus)} 產品">
-        <img class="skincare-focus__visual" ${image} alt="" width="1600" height="755"
-             loading="eager" fetchpriority="${index < 2 ? 'high' : 'low'}" decoding="async">
+        ${crop ? `<span class="skincare-focus__crop">${image}</span>` : image}
         <span class="sr-only">${escapeSpotlightAttr(slide.focus)}</span>
       </a>
     </article>`;
   }).join('');
   host.innerHTML = `
     <div class="skincare-focus__viewport" data-skincare-focus-viewport tabindex="0"
-         aria-roledescription="carousel" aria-label="${section === 'makeup' ? '彩妝' : '護膚'}焦點推介">
+         aria-roledescription="carousel" aria-label="${focusOnly ? '全部產品' : section === 'makeup' ? '彩妝' : section === 'skincare' ? '護膚' : '全部產品'}焦點推介">
       <div class="skincare-focus__grid">${slides}</div>
     </div>
     <div class="skincare-spotlight__controls" aria-label="焦點卡翻頁">
@@ -1076,6 +1094,7 @@ function buildCategoryFocusSpotlight(config, section) {
 function buildCategoryBrandSpotlight(config, section) {
   const host = document.querySelector(`[data-${section}-brands-carousel]`);
   if (!host) return;
+  const seenBrands = new Set();
   const cards = config.slides.flatMap((slide) => {
     const geometry = BRAND_SPOTLIGHT_GEOMETRY[slide.art];
     const source = brandCarouselAsset(slide.art);
@@ -1091,6 +1110,8 @@ function buildCategoryBrandSpotlight(config, section) {
       const bgPosX = left / (geometry.width - tileWidth) * 100;
       const bgPosY = top / (731 - tileHeight) * 100;
       const name = escapeSpotlightAttr(vendor);
+      if (section === 'all' && seenBrands.has(vendor)) return '';
+      seenBrands.add(vendor);
       const href = `${config.page}?brand=${encodeURIComponent(vendor)}`;
       return `<li data-skincare-brand="${name}">
         <a class="skincare-brand-card" href="${href}" data-skincare-brand-link="${name}" aria-label="瀏覽 ${name} 產品"
@@ -1100,8 +1121,9 @@ function buildCategoryBrandSpotlight(config, section) {
       </li>`;
     });
   }).join('');
+  const categoryName = section === 'makeup' ? '彩妝' : section === 'skincare' ? '護膚' : '';
   host.innerHTML = `
-    <ul class="skincare-brand-row" tabindex="0" aria-label="所有${section === 'makeup' ? '彩妝' : '護膚'}品牌，可左右滑動">${cards}</ul>
+    <ul class="skincare-brand-row" tabindex="0" aria-label="所有${categoryName}品牌，可左右滑動">${cards}</ul>
     <div class="skincare-brand-progress" aria-hidden="true">
       <span class="skincare-brand-progress__bar"><i></i></span>
     </div>`;
@@ -1129,18 +1151,18 @@ function buildCategoryBrandSpotlight(config, section) {
   syncProgress();
 }
 
-function bindCategoryBrandNavigation(order, section) {
+function bindCategoryBrandNavigation(order, section, { shopAll = false } = {}) {
   removeBrandRail();
-  /* 護膚頁由上面「所有護膚品牌」直接接手 Clearline 全部功能。
-     清走舊落腳位／外殼，避免畫面或者 accessibility tree 留低第二條品牌列。 */
+  /* 品牌列直接接手 Clearline 全部功能；保留唯一一條品牌列，清走舊落腳位
+     同外殼，避免頁面或 accessibility tree 出現第二條重複品牌列。 */
   document.querySelectorAll('[data-brand-strip]').forEach((slot) => {
     const shell = slot.parentElement?.classList.contains('h-scroll')
       ? slot.parentElement : slot;
     shell.remove();
   });
   document.querySelectorAll('.brand-rail-dock').forEach((dock) => dock.remove());
-  const brandSection = document.querySelector(`#${section}-brands`);
-  const host = brandSection?.querySelector(`[data-${section}-brands-carousel]`);
+  const brandSection = document.querySelector(shopAll ? '#all-brands' : `#${section}-brands`);
+  const host = brandSection?.querySelector(`[data-${shopAll ? 'all' : section}-brands-carousel]`);
   const row = host?.querySelector('.skincare-brand-row');
   if (!brandSection || !host || !row || order.length < 2) return;
 
@@ -1352,6 +1374,12 @@ function buildCategorySpotlights(section) {
   if (!config) return;
   buildCategoryFocusSpotlight(config, section);
   buildCategoryBrandSpotlight(config, section);
+}
+
+function buildAllProductsSpotlights() {
+  const config = BRAND_SPOTLIGHTS.all;
+  buildCategoryFocusSpotlight(config, 'all', { focusOnly: true });
+  buildCategoryBrandSpotlight(config, 'all');
 }
 
 function bindBrandSpotlight(host) {
@@ -2287,8 +2315,9 @@ function renderProducts(container, products, { grouped }) {
   syncGridWindows();
   if (['skincare', 'makeup'].includes(CURRENT_SECTION)) {
     bindCategoryBrandNavigation(order, CURRENT_SECTION);
-  }
-  else buildBrandRail(order);
+  } else if (document.querySelector('#all-brands')) {
+    bindCategoryBrandNavigation(order, 'all', { shopAll: true });
+  } else buildBrandRail(order);
 }
 
 /**
@@ -2640,7 +2669,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);
-    if (['skincare', 'makeup'].includes(section)
+    if (bootHost && document.querySelector('[data-all-focus-carousel]')) {
+      buildAllProductsSpotlights();
+    } else if (['skincare', 'makeup'].includes(section)
         && document.querySelector(`[data-${section}-focus-carousel]`)) {
       buildCategorySpotlights(section);
     } else {

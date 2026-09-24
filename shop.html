@@ -71,7 +71,7 @@
        字體未到嗰陣行 fallback（Georgia／system sans），版面照出。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260923-midautumn-delivery-v8">
+  <link rel="stylesheet" href="styles.css?v=all-products-brand-focus-20260924">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -375,11 +375,21 @@
                其他分類頁照舊有 quick tabs —— buildQuickTabs 搵唔到
                [data-quick-tabs] 就自己收工，唔使改 catalog.js。 -->
 
-          <!-- 第 3 款品牌焦點延伸成分頁輪播：每版一個主推品牌加八個
-               原色品牌卡；桌面用翻頁掣與圓點，手機亦可直接掃。 -->
-          <section id="brand-spotlight" class="shop-brand-spotlight" data-shop-brand-spotlight
-                   data-spotlight-section="all"
-                   aria-label="按品牌選購"></section>
+          <!-- 跟彩妝／護膚頁同一做法：今週焦點輪播同單一品牌列分開，
+               品牌列接手快速跳轉，唔再另外重複一條品牌導覽。 -->
+          <section id="all-focus" class="skincare-spotlight-section skincare-focus all-focus"
+                   aria-labelledby="all-focus-title">
+            <h2 id="all-focus-title" class="sr-only">今週焦點</h2>
+            <div data-all-focus-carousel></div>
+          </section>
+
+          <section id="all-brands" class="skincare-spotlight-section skincare-brands all-products-brands"
+                   aria-labelledby="all-brands-title">
+            <div class="skincare-spotlight__heading">
+              <h2 id="all-brands-title" class="skincare-spotlight__title">所有品牌</h2>
+            </div>
+            <div data-all-brands-carousel></div>
+          </section>
 
           <!-- 幼優惠條。老闆：「如果啲人一入嚟就剷全部產品頁面，或者淨係睇
                產品頁面，咁佢未必知，未必夠凸顯呢個優惠。」
@@ -548,7 +558,7 @@
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js"></script>
+  <script src="catalog.js?v=all-products-brand-focus-20260924"></script>
   <script src="search.js?v=20260922-search-smart"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>

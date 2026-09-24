@@ -9828,7 +9828,9 @@ html.is-lite .section--brand-intro::after {
   gap: 14px;
 }
 
-:is([data-skincare-focus-carousel], [data-makeup-focus-carousel]) { position: relative; }
+#all-focus .skincare-focus__grid { gap: 14px; }
+
+:is([data-skincare-focus-carousel], [data-makeup-focus-carousel], [data-all-focus-carousel]) { position: relative; }
 
 .skincare-brand-row::-webkit-scrollbar { display: none; }
 
@@ -9873,6 +9875,29 @@ html.is-lite .section--brand-intro::after {
   height: 100%;
   max-width: 100%;
   object-fit: cover;
+}
+
+.skincare-focus__card--crop {
+  aspect-ratio: var(--focus-card-ratio, 1.34);
+}
+
+.skincare-focus__crop {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--category-accent, #237fbd);
+}
+
+.skincare-focus__crop .skincare-focus__visual {
+  position: absolute;
+  top: var(--focus-image-top, 0);
+  left: var(--focus-image-left, 0);
+  width: var(--focus-image-width, 100%);
+  height: var(--focus-image-height, 100%);
+  max-width: none;
+  object-fit: fill;
 }
 
 .skincare-focus__card:focus-visible,
@@ -9958,11 +9983,11 @@ html.is-lite .section--brand-intro::after {
 
 /* Artwork cards keep their original imagery; logo/text-only cards get a
    brand plate in the full-size rail as well as the sticky rail. */
-:is(#skincare-brands, #makeup-brands) .skincare-brand-card--logo.skincare-brand-card--brand-color {
+:is(#skincare-brands, #makeup-brands, #all-brands) .skincare-brand-card--logo.skincare-brand-card--brand-color {
   background: var(--brand-card-bg, #fff);
   color: var(--brand-card-ink, #1e3038);
 }
-:is(#skincare-brands, #makeup-brands):not(.is-stuck) .skincare-brand-card--logo span {
+:is(#skincare-brands, #makeup-brands, #all-brands):not(.is-stuck) .skincare-brand-card--logo span {
   max-width: 100%;
   font-size: .72rem;
   line-height: 1.15;
@@ -9970,18 +9995,18 @@ html.is-lite .section--brand-intro::after {
   overflow-wrap: anywhere;
   text-overflow: clip;
 }
-:is(#skincare-brands, #makeup-brands):not(.is-stuck) .skincare-brand-card--logo img {
+:is(#skincare-brands, #makeup-brands, #all-brands):not(.is-stuck) .skincare-brand-card--logo img {
   transform: none;
 }
 
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card--brand-color span:not(.sr-only) {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card--brand-color span:not(.sr-only) {
   position: relative;
   z-index: 1;
   color: var(--brand-card-ink, #15181e);
   text-shadow: none;
 }
 
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card--brand-color img {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card--brand-color img {
   position: relative;
   z-index: 1;
   filter: none;
@@ -10011,12 +10036,12 @@ html.is-lite .section--brand-intro::after {
 
 .skincare-brand-dock { width: 100%; }
 
-:is(#skincare-brands, #makeup-brands) {
+:is(#skincare-brands, #makeup-brands, #all-brands) {
   transition: padding 260ms ease, background-color 260ms ease,
               box-shadow 260ms ease, border-radius 260ms ease;
 }
 
-:is(#skincare-brands, #makeup-brands).is-stuck {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck {
   position: fixed;
   z-index: 55;
   top: var(--skincare-sticky-top, 100px);
@@ -10033,43 +10058,43 @@ html.is-lite .section--brand-intro::after {
               box-shadow 260ms ease, border-radius 260ms ease;
 }
 
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-spotlight__heading { display: none; }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-row {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-spotlight__heading { display: none; }
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-row {
   gap: 8px;
   padding: 1px 2px 3px;
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-row > li {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-row > li {
   --brand-card-size: 120px;
   flex-basis: 120px;
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card {
   height: 46px;
   padding: 7px 10px;
   overflow: hidden;
   border-radius: 10px;
   background-color: rgba(255,255,255,.82);
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card--art { background-image: none; }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card--brand-color {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card--art { background-image: none; }
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card--brand-color {
   background: var(--brand-card-bg, #fff);
   color: var(--brand-card-ink, #15181e);
   box-shadow: inset 0 0 0 1px rgba(30,36,40,.07);
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card__sticky-logo {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card__sticky-logo {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card--logo img {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card--logo img {
   width: 100%;
   height: 100%;
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card img {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card img {
   transform: scale(var(--brand-nav-logo-scale, 1.24));
 }
-#skincare-brands.is-stuck .skincare-brand-card img {
+:is(#skincare-brands, #all-brands).is-stuck .skincare-brand-card img {
   width: 84%;
   height: 70%;
   max-width: 84%;
@@ -10077,21 +10102,21 @@ html.is-lite .section--brand-intro::after {
   object-fit: contain;
   transform: scale(var(--brand-nav-logo-scale, .8));
 }
-:is(#skincare-brands, #makeup-brands).is-stuck [data-skincare-brand="Peripera"] img,
-:is(#skincare-brands, #makeup-brands).is-stuck [data-skincare-brand="dasique"] img {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck [data-skincare-brand="Peripera"] img,
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck [data-skincare-brand="dasique"] img {
   transform: scale(1.04);
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card--logo span { font-size: .75rem; }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card:not(.is-current) img { opacity: .76; }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card.is-current {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card--logo span { font-size: .75rem; }
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card:not(.is-current) img { opacity: .76; }
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card.is-current {
   background-color: #fff;
   box-shadow: inset 0 -3px 0 var(--category-accent), 0 4px 12px rgba(var(--category-accent-rgb), .12);
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-card--brand-color.is-current {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-card--brand-color.is-current {
   background: var(--brand-card-bg, #fff);
   box-shadow: inset 0 -3px 0 var(--category-accent), 0 4px 12px rgba(var(--category-accent-rgb), .12);
 }
-:is(#skincare-brands, #makeup-brands).is-stuck .skincare-brand-progress {
+:is(#skincare-brands, #makeup-brands, #all-brands).is-stuck .skincare-brand-progress {
   width: min(180px, 35vw);
   margin-top: 2px;
 }
@@ -10234,6 +10259,7 @@ html.is-lite .section--brand-intro::after {
   .skincare-focus__grid {
     gap: 12px;
   }
+  #all-focus .skincare-focus__grid { gap: 12px; }
   .skincare-focus__slide { flex: 0 0 88%; scroll-snap-align: start; }
   .skincare-brand-row {
     display: flex;
@@ -10248,6 +10274,10 @@ html.is-lite .section--brand-intro::after {
   /* Mobile is swipe-first. Keep the dots as position feedback; arrows only
      belong to desktop pointer navigation. */
   .skincare-spotlight__page { display: none; }
+}
+
+@media (min-width: 841px) {
+  #all-focus .skincare-focus__slide { flex-basis: 50%; }
 }
 
 @media (max-width: 520px) {
