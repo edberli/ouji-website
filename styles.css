@@ -15280,18 +15280,20 @@ body::before { opacity: 0.18; }
 /* 免運提示：白卡一行，左邊貨車 icon，右邊細連結；深藍大底已拎走。 */
 /* 老闆 mockup（2026-09-24 截圖指定）：外圈一道白色粗框，入面淡灰藍底；
    一行一樣「今單攞到咩」（即減、面霜、運費），行與行之間一條細線；冇進度條。 */
-.reward__card { padding: 0 16px 0 14px; border: 5px solid #fff; border-radius: 20px; background: #f0f4f7; box-shadow: 0 0 0 1px rgba(43,76,88,0.06), 0 10px 24px -18px rgba(28,61,71,0.4); }
-.reward__row { display: grid; grid-template-columns: 26px minmax(0,1fr) auto; gap: 14px; align-items: center; padding: 13px 0; }
+.reward__card { padding: 2px 12px 2px 12px; border: 4px solid #fff; border-radius: 16px; background: #f0f4f7; box-shadow: 0 0 0 1px rgba(43,76,88,0.06), 0 8px 18px -16px rgba(28,61,71,0.4); }
+/* 一樣嘢一行：icon｜主句……右邊細字，淨係畀人一眼睇晒（老闆：「唔使咁大嚿」）。 */
+.reward__row { display: grid; grid-template-columns: 18px minmax(0,1fr) auto; gap: 10px; align-items: center; min-height: 38px; padding: 7px 0; }
 [data-reward-perks] > .reward__row { border-bottom: 1px solid #dde6eb; }
-.reward__icon { width: 26px; height: 26px; fill: #1f4753; }
+.reward__copy { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
+.reward__icon { width: 18px; height: 18px; fill: #1f4753; }
 .reward__icon circle { fill: #fff; stroke: #1f4753; stroke-width: 1.4; }
-.reward--focused .reward__line { margin: 0; color: #1c3440; font-size: 1rem; font-weight: 400; line-height: 1.45; }
+.reward--focused .reward__line { margin: 0; min-width: 0; color: #1c3440; font-size: 0.875rem; font-weight: 500; line-height: 1.35; }
 .reward--focused .reward__line strong { color: #1c3440; font-weight: 700; font-size: 1em; }
-.reward--focused .reward__cost { margin: 2px 0 0; font-size: 0.8125rem; line-height: 1.45; color: #6f8389; }
+.reward--focused .reward__cost { flex: none; margin: 0; font-size: 0.75rem; line-height: 1.35; color: #6f8389; white-space: nowrap; }
 .reward--focused .reward__track { display: none; }
 .reward--focused [hidden] { display: none !important; }
 .reward--focused .reward__fill { height: 100%; background: linear-gradient(90deg,#6fa9b8,#e2c27e); transition: width 400ms var(--ease-out); }
-.reward--focused .reward__go { margin: 0; padding: 4px 0 4px 8px; border: 0; color: #1c3440; font-size: 1.5rem; font-weight: 300; line-height: 1; }
+.reward--focused .reward__go { margin: 0 -2px 0 -4px; padding: 2px 0 4px; border: 0; color: #1c3440; font-size: 1.25rem; font-weight: 300; line-height: 1; }
 .reward-gift { display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 14px; align-items: center; margin-top: 10px; padding: 14px; border: 1px solid var(--border-light); border-radius: 14px; background: #fff; color: var(--dark-base); }
 .reward-gift__image { display: grid; place-items: center; background: none; }
 .reward-gift__image img { width: 100%; height: 105px; object-fit: contain; filter: drop-shadow(0 5px 4px #24455122); transition: transform 200ms cubic-bezier(.23,1,.32,1); }
