@@ -3283,6 +3283,8 @@ button.product-card__quick-add,
 /* ----- Cart ----- */
 .cart-page { padding: var(--space-3xl) 0 var(--space-5xl); }
 .cart-page__title { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 300; margin-bottom: var(--space-2xl); }
+.cart-empty { padding: var(--space-2xl) 0; text-align: center; }
+.cart-empty > p { color: var(--text-tertiary); margin-bottom: 32px; line-height: 1.8; }
 
 /* 右欄 400px 睇落夠闊，但入面有兩層 padding（.cart-summary 48 ＋ .reward 24），
    運送選項嗰啲卡實際只剩 254px —— 比 375px 手機仲窄，等於完全冇用到桌面嘅位。
@@ -3568,7 +3570,14 @@ button.product-card__quick-add,
   /* ⚠️ 一定要 minmax(0, 1fr)，唔可以淨寫 1fr。
      1fr ＝ minmax(auto, 1fr)，條 track 嘅最小闊度會跟 grid item 嘅
      min-content 走 —— 加購卡橫掃（148px × N）一撐，成頁就向右爆出畫面。 */
-  .cart-layout { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-3xl); }
+  .cart-page { padding-top: var(--space-md); padding-bottom: var(--space-3xl); }
+  .cart-page > .breadcrumb { padding-block: var(--space-sm); }
+  .cart-page__title { margin-bottom: var(--space-md); }
+  .cart-empty { padding: var(--space-md) 0 var(--space-lg); }
+  .cart-empty > p { margin-bottom: var(--space-md); }
+  .cart-empty .shima--empty { width: 120px; height: 146px; margin-bottom: var(--space-sm); }
+  .cart-layout { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-xl); }
+  .cart-item { padding-block: var(--space-md); }
   .cart-column { display: contents; }
   .cart-items { order: 1; }
   [data-cart-notes] { order: 2; }
@@ -3581,7 +3590,7 @@ button.product-card__quick-add,
      @media (max-width:768px) 嗰句 .addon { margin-top: var(--space-xl) } 蓋返。
      三件事要處理：
        1) grid item 預設 min-width:auto —— 橫掃 rail 會反過來撐闊條 track，鎖 0；
-       2) 自己嘅 margin-top 同 row-gap 疊加（實測 48＋64＝112px 大白位）→ 歸零；
+       2) 自己嘅 margin-top 同 row-gap 疊加（32＋32＝64px 大白位）→ 歸零；
        3) 空嘅 [data-cart-notes] 係 0 高 grid item，前後各食一次 gap → 隱藏。 */
   .cart-layout .cart-items,
   .cart-layout [data-cart-notes],
@@ -5193,8 +5202,7 @@ button.product-card__quick-add,
 .mobile-nav__all-products small { font-family: var(--font-body); font-size: .6875rem; letter-spacing: .02em; color: rgba(255,255,255,.62); }
 .mobile-nav__all-products svg { width: 19px; height: 19px; flex: 0 0 auto; color: rgba(255,255,255,.72); }
 
-/* 護膚、彩妝、美妝工具係手機分類頁嘅主入口。粉紅水彩邊框只做一個
-   輕柔視覺分組，底色仍然係原本深藍玻璃，唔會變成另一套 UI。 */
+/* 護膚、彩妝、美妝工具保留原本分類間距，不加額外底框或粉色裝飾。 */
 @media (max-width: 768px) {
   .mobile-nav {
     /* 100vh 喺手機 Chrome 可能包括網址列後面嗰段；dvh 跟實際可見高度。
@@ -5206,41 +5214,11 @@ button.product-card__quick-add,
   }
 
   .mobile-nav__beauty-focus {
-    position: relative;
-    isolation: isolate;
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
     margin: 0;
     padding: 0;
-  }
-  .mobile-nav__beauty-focus::before,
-  .mobile-nav__beauty-focus::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    pointer-events: none;
-  }
-  .mobile-nav__beauty-focus::before {
-    inset: -11px -10px;
-    border: 1px solid rgba(255, 180, 205, .58);
-    border-radius: 21px 17px 22px 18px;
-    background:
-      radial-gradient(ellipse at 7% 7%, rgba(255, 170, 204, .15), transparent 42%),
-      radial-gradient(ellipse at 94% 91%, rgba(255, 205, 222, .12), transparent 45%),
-      rgba(255, 190, 211, .035);
-    box-shadow:
-      0 0 0 3px rgba(255, 170, 204, .045),
-      inset 0 1px 0 rgba(255, 232, 240, .1),
-      0 10px 28px rgba(23, 52, 64, .1);
-  }
-  .mobile-nav__beauty-focus::after {
-    inset: -7px -6px;
-    border-radius: 18px 15px 20px 16px;
-    background:
-      linear-gradient(96deg, rgba(255, 151, 191, .16), transparent 27%) top left / 56% 3px no-repeat,
-      linear-gradient(276deg, rgba(255, 194, 216, .13), transparent 32%) bottom right / 48% 3px no-repeat;
-    filter: blur(2px);
   }
 }
 
@@ -14528,29 +14506,16 @@ body::before { opacity: 0.18; }
 }
 .shima__f.is-on { opacity: 1; }
 
-/* 購物袋：收銀芝麻企喺「前往結帳」上面 */
-/* ⚠️ .cart-summary 係 flex column ＋ stretch，淨靠 aspect-ratio 個盒會
-   畀拉到成欄咁高（實測 302×2015）。要寫死高度兼 flex: none。 */
-/* 收銀芝麻：由摘要入面自己佔一行，改為貼喺「購物袋」大標題右邊嗰忽
-   吉位。老闆：「唔應該佔用一個空間，而係應該融入喺其他嘅畫面入邊。」
-   絕對定位 ＋ 標題行本身夠高，所以一 px 都唔會撐高個版。 */
-.cart-page { position: relative; }
-/* 老闆再要求：「大個少少，同埋擺右、擺下、擺落啲。」
-   right 出負數 = 撐出容器 padding（桌面容器兩邊各留 48px，所以 -26px
-   仍然離畫面邊 22px，唔會爆位）；top 落低咗，貓踎喺標題右手邊而唔係
-   浮喺麵包屑上面。 */
+/* 收銀芝麻放喺商品清單之後，避開每件商品右側嘅價錢。 */
 .shima--cash {
-  position: absolute;
-  right: -26px;
-  top: 34px;
-  width: auto;
-  height: clamp(120px, 16vw, 200px);
-  aspect-ratio: 190 / 216;
-  margin: 0;
+  width: 110px;
+  height: 125px;
+  margin: 8px 0 0 auto;
   pointer-events: none;
 }
 @media (max-width: 640px) {
-  .shima--cash { height: 104px; top: 56px; right: -8px; }
+  /* 手機單欄空位唔夠；收起裝飾，價錢同加購內容先行。 */
+  .shima--cash { display: none; }
 }
 
 /* 提示句：講明「要用自提櫃就要喺呢度揀咗先」 */
@@ -15592,6 +15557,14 @@ body::before { opacity: 0.18; }
     padding-bottom: 4px;
   }
   .addon__card { scroll-snap-align: start; }
+  .addon:not(.addon--sd) .addon__grid { grid-auto-columns: 132px; }
+  .addon:not(.addon--sd) .addon__card { padding: 12px; }
+  .addon:not(.addon--sd) .addon__media { aspect-ratio: 4 / 3; }
+  .addon:not(.addon--sd) .addon__media img { height: 100%; aspect-ratio: auto; object-fit: contain; }
+  .addon:not(.addon--sd) .addon__vendor { margin-top: var(--space-xs); }
+  .addon:not(.addon--sd) .addon__name { margin-bottom: var(--space-xs); }
+  .addon:not(.addon--sd) .addon__price { margin-bottom: var(--space-xs); }
+  .addon:not(.addon--sd) .addon__add { padding-block: 7px; }
 }
 
 /* 平板／窄桌面（769–1300px）：購物袋仍然左右兩欄，但左欄得返 220–650px。
@@ -17347,6 +17320,7 @@ body::before { opacity: 0.18; }
   .midautumn-home__shipping .midautumn-home__ship-icon { width: 27px; height: 27px; border-radius: 7px; }
   .midautumn-home__shipping .midautumn-home__ship-icon svg { width: 17px; height: 17px; }
   .midautumn-home__shipping .midautumn-home__seven-logo { width: 27px; height: 22px; }
+  .midautumn-home__shipping .midautumn-home__seven-logo { align-self: flex-start; }
   .midautumn-home__shipping .midautumn-home__seven-logo b { min-width: 13px; font-size: .75rem; }
   .midautumn-home__shipping .midautumn-home__seven-logo span { font-size: .28rem; }
   .midautumn-home__shipping > p { display: grid; gap: 2px; padding: 7px 66px 0 0; font-size: .62rem; }
