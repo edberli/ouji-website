@@ -52,7 +52,8 @@
     .cart-member-points__summary { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 43px; padding: 7px 11px; list-style: none; cursor: pointer; }
     .cart-member-points__summary::-webkit-details-marker { display: none; }
     .cart-member-points__summary:focus-visible { outline: 2px solid #3b7280; outline-offset: 2px; border-radius: 10px; }
-    .cart-member-points__brand { color: #52717a; font-size: .64rem; font-weight: 800; letter-spacing: .1em; white-space: nowrap; }
+    .cart-member-points__brand { display: inline-flex; align-items: center; gap: 7px; color: #52717a; font-size: .64rem; font-weight: 800; letter-spacing: .1em; white-space: nowrap; }
+    .cart-member-points__crown { flex: none; width: 20px; height: 16px; fill: #1f4753; }
     .cart-member-points__earned { display: flex; align-items: baseline; justify-content: center; gap: 4px; min-width: 0; color: #71878d; font-size: .7rem; white-space: nowrap; }
     .cart-member-points__earned strong { color: #234650; font-size: .9rem; line-height: 1; }
     .cart-member-points__earned small { margin-left: 2px; color: #71878d; font-size: .64rem; font-weight: 600; }
@@ -86,7 +87,8 @@
     .cart-member-coupon[hidden], .cart-member-redeem[hidden] { display: none !important; }
     @media (max-width: 440px) {
       .cart-member-points__summary { gap: 6px; padding-inline: 9px; }
-      .cart-member-points__brand { font-size: .58rem; letter-spacing: .06em; }
+      .cart-member-points__brand { gap: 5px; font-size: .58rem; letter-spacing: .06em; }
+      .cart-member-points__crown { width: 17px; height: 14px; }
       .cart-member-points__earned { font-size: .65rem; }
       .cart-member-points__earned strong { font-size: .83rem; }
       .cart-member-points__toggle-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
@@ -359,7 +361,7 @@
 
             <details class="cart-member-points">
               <summary class="cart-member-points__summary">
-                <span class="cart-member-points__brand">OUJI MEMBER</span>
+                <span class="cart-member-points__brand"><svg class="cart-member-points__crown" aria-hidden="true" viewBox="0 0 24 19"><path d="M2 5.2l5.4 4.3L12 2l4.6 7.5L22 5.2 20 15H4z"/><circle cx="2" cy="4.4" r="1.8"/><circle cx="12" cy="1.8" r="1.8"/><circle cx="22" cy="4.4" r="1.8"/><rect x="4" y="16.2" width="16" height="2.6" rx="1.1"/></svg>OUJI MEMBER</span>
                 <span class="cart-member-points__earned"><span data-points-earned-label>今單</span><strong>+<b data-cart-member-points>0</b><small>Points</small></strong></span>
                 <span class="cart-member-points__toggle"><span class="cart-member-points__toggle-label" data-member-expand-label>積分獎賞</span><span class="cart-member-points__toggle-label-mobile" data-member-mobile-label aria-hidden="true">詳情</span><span class="cart-member-points__chevron" aria-hidden="true">⌄</span></span>
               </summary>
