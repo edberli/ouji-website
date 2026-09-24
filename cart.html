@@ -434,13 +434,13 @@
               </section>
               <div class="reward__brief" aria-live="polite">
                 <div class="reward__ship">
-                  <svg class="reward__icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 6.5h11v9H3zM14 9.5h3.6l3.4 3.6v2.4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>
+                  <svg class="reward__icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 6.5A1.5 1.5 0 0 1 4 5h9a1.5 1.5 0 0 1 1.5 1.5V9h3.2c.5 0 .9.2 1.2.6l2.3 3c.2.3.3.6.3.9v2.5a1 1 0 0 1-1 1h-1.1a2.6 2.6 0 0 0-5.1 0H9.6a2.6 2.6 0 0 0-5.1 0H4A1.5 1.5 0 0 1 2.5 15.5z"/><circle cx="7" cy="17.4" r="1.7"/><circle cx="17" cy="17.4" r="1.7"/></svg>
                   <div class="reward__ship-copy">
                     <p class="reward__line" data-reward-line></p>
                     <p class="reward__cost" data-reward-cost></p>
                     <div class="reward__track" data-reward-track role="progressbar" aria-label="所選運送方式免運進度" aria-valuemin="0" aria-valuemax="100"><div class="reward__fill" data-reward-fill></div></div>
                   </div>
-                  <a class="reward__go" href="shop.html" data-reward-cta hidden>去揀 →</a>
+                  <a class="reward__go" href="shop.html" data-reward-cta hidden aria-label="繼續選購">›</a>
                 </div>
                 <section class="reward-gift" data-reward-gift aria-label="購物滿額贈品">
                   <a class="reward-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
@@ -478,7 +478,7 @@
                   <p class="sfp__detail" data-sfp-detail>揀一個方便你嘅取件點。</p>
                   <select class="sfp__start" data-sfp-start aria-label="第一步：選擇大區" disabled><option value="">載入大區中…</option></select>
                   <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false" aria-controls="pickup-options">
-                    <span data-sfp-chosen>瀏覽取件點</span><span aria-hidden="true">↗</span>
+                    <svg class="sfp__pin" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span data-sfp-chosen>瀏覽取件點</span><span class="sfp__chev" aria-hidden="true">›</span>
                   </button>
                   <p class="sfp__status" data-sfp-status aria-live="polite">選好取件點，就可以繼續結賬</p>
                   <div class="sfp__panel" id="pickup-options" data-sfp-panel hidden>
@@ -1277,9 +1277,9 @@
     host.querySelector('[data-reward-cost]').textContent = method.fee === 0
       ? window.OUJI_cartCopy('觀塘工業中心一期地下 B 舖 · 10:00–20:00', 'Kwun Tong Industrial Centre Phase 1, Shop B · 10:00–20:00')
       : met
-      ? window.OUJI_cartCopy('折實滿 HK$' + method.free + ' 免運 · 按目前折實商品金額計算', 'Free over HK$' + method.free + ' after discount · based on current item total')
+      ? window.OUJI_cartCopy('折實滿 HK$' + method.free + ' 即免運', 'Free over HK$' + method.free + ' after discount')
       : window.OUJI_cartCopy(
-        '目前運費 HK$' + method.fee + ' · 折實滿 HK$' + method.free + ' 免運',
+        '運費 HK$' + method.fee + ' · 折實滿 HK$' + method.free + ' 免運',
         'Current shipping HK$' + method.fee + ' · Free over HK$' + method.free + ' after discount'
       );
     const track = host.querySelector('[data-reward-track]');
@@ -1488,10 +1488,10 @@
        門檻唔同，唔可以寫一句總述。順豐唔用佢哋個 logo，用返我哋自己嘅線條 icon。 */
     const ORDER = ['post', 'sfp', 'sfd', 'shop'];
     const TILE = {
-      post: { label: '7-Eleven', sub: '郵局 · 智郵站' },
-      sfp:  { label: '順豐站／智能櫃', sub: '網點多 · 方便' },
+      post: { label: '7-Eleven／<wbr>郵局', sub: '自取 · 平郵' },
+      sfp:  { label: '順豐站／<wbr>智能櫃', sub: '網點多 · 方便' },
       sfd:  { label: '順豐上門', sub: '直送到府' },
-      shop: { label: '觀塘門市自取', sub: '即日 · 觀塘' },
+      shop: { label: '觀塘<wbr>自取', sub: '門市自取 · 即日' },
     };
     const ICON = {
       sfp: '<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M4 12h16M12 3.5v17M9.5 8h.01M14.5 8h.01M9.5 16h.01M14.5 16h.01"/></svg>',
@@ -1534,10 +1534,10 @@
           gapLine = '<span class="ship-mode__gap is-met">毋須湊單</span>';
         } else if (n >= o.free) {
           fee = `<span class="ship-mode__free">免費</span><s class="ship-mode__was">$${o.fee}</s>`;
-          gapLine = `<span class="ship-mode__gap is-met">滿 $${o.free} ✓</span>`;
+          gapLine = `<span class="ship-mode__gap is-met">滿$${o.free} ✓</span>`;
         } else {
           fee = `<span class="ship-mode__price">HK$${o.fee}</span>`;
-          gapLine = `<span class="ship-mode__gap">再買 $${Math.ceil(o.free - n - 0.001)} 免運</span>`;
+          gapLine = `<span class="ship-mode__gap">差$${Math.ceil(o.free - n - 0.001)}免運</span>`;
         }
         const isPost = k === 'post';
         const icon = isPost
@@ -1549,9 +1549,7 @@
           <span class="ship-mode__dot"></span>
           ${icon}
           <span class="ship-mode__name">${t.label}</span>
-          <span class="ship-mode__sub">${t.sub}</span>
-          <span class="ship-mode__fee">${fee}</span>
-          ${gapLine}
+          <span class="ship-mode__fee"><span>${fee}</span>${gapLine}</span>
         </label>`;
       }
       html += '</div>';
@@ -1589,10 +1587,11 @@
       const S = window.OUJI_SHIP[mode], n = net();
       const ship = n >= S.free ? 0 : S.fee;
       const shipEl = document.querySelector('[data-shipping]');
-      if (shipEl) shipEl.textContent = ship === 0 ? '免費' : `HK$${ship.toFixed(2)}`;
+      const fmt = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
+      if (shipEl) shipEl.textContent = ship === 0 ? '免費' : `HK$${fmt(ship)}`;
       /* 合計都要跟住郁 —— 之前淨係改運費嗰格，揀完 $30 上門合計都唔變。 */
       const totEl2 = document.querySelector('[data-total]');
-      if (totEl2) totEl2.textContent = `HK$${(n + ship).toFixed(2)}`;
+      if (totEl2) totEl2.textContent = `HK$${fmt(Math.round((n + ship) * 100) / 100)}`;
       /* 加購嗰行講緊「再買 $X 就免運費」，而每個運送方式門檻都唔同
          （$99／$199／$290／門市自取冇門檻）—— 換方式一定要重算。
          加購自己嗰個 observer 只盯小計，換方式唔會觸發到。 */
