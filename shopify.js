@@ -2597,7 +2597,7 @@ function productCardHTML(product) {
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-          ${isOnSale && !isSoldOut && !shortDated ? '<span class="product-card__badge product-card__badge--sale">特價</span>' : ''}
+          ${isOnSale && !isSoldOut && !shortDated ? '<span class="product-card__badge product-card__badge--sale">限時</span>' : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
       </a>
