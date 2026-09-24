@@ -435,7 +435,10 @@
                 <p class="cart-moon-promo__terms">即減只享最高一級、不累加 · 面霜（Round Lab 80ml）送完即止 · 以結帳為準</p>
               </section>
               <div class="reward__brief" aria-live="polite">
-                <div class="reward__ship">
+                <!-- 老闆 2026-09-24：呢張卡係「今單攞到咩」清單 —— 已享嘅即減、送面霜、運費，每樣一行。 -->
+                <div class="reward__card">
+                <div data-reward-perks></div>
+                <div class="reward__row reward__ship">
                   <svg class="reward__icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 6.5A1.5 1.5 0 0 1 4 5h9a1.5 1.5 0 0 1 1.5 1.5V9h3.2c.5 0 .9.2 1.2.6l2.3 3c.2.3.3.6.3.9v2.5a1 1 0 0 1-1 1h-1.1a2.6 2.6 0 0 0-5.1 0H9.6a2.6 2.6 0 0 0-5.1 0H4A1.5 1.5 0 0 1 2.5 15.5z"/><circle cx="7" cy="17.4" r="1.7"/><circle cx="17" cy="17.4" r="1.7"/></svg>
                   <div class="reward__ship-copy">
                     <p class="reward__line" data-reward-line></p>
@@ -443,6 +446,7 @@
                     <div class="reward__track" data-reward-track role="progressbar" aria-label="所選運送方式免運進度" aria-valuemin="0" aria-valuemax="100"><div class="reward__fill" data-reward-fill></div></div>
                   </div>
                   <a class="reward__go" href="shop.html" data-reward-cta hidden aria-label="繼續選購">›</a>
+                </div>
                 </div>
                 <section class="reward-gift" data-reward-gift aria-label="購物滿額贈品">
                   <a class="reward-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
@@ -1260,6 +1264,26 @@
         track.setAttribute('aria-valuetext', promoCard.querySelector('[data-cart-promo-status]').textContent);
         promoCard.querySelector('[data-cart-promo-fill]').style.width = `${percent}%`;
       }
+    }
+    /* 已攞到嘅優惠逐行列出（未攞到嘅由上面中秋卡講「再買幾多」）。 */
+    const perks = host.querySelector('[data-reward-perks]');
+    if (perks) {
+      const rows = [];
+      if (promoActive) {
+        const tier = (promo?.tiers || []).filter((t) => gross + 0.001 >= t.threshold).pop();
+        if (tier) rows.push({
+          icon: '<path d="M3 12.2V4.5A1.5 1.5 0 0 1 4.5 3h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-7.1 7.1a1.5 1.5 0 0 1-2.1 0z"/><circle cx="7.6" cy="7.6" r="1.7" fill="#f0f4f7"/>',
+          line: window.OUJI_cartCopy(`已享中秋即減 <strong>HK$${tier.saving}</strong>`, `Mid-Autumn <strong>HK$${tier.saving}</strong> off applied`),
+          cost: window.OUJI_cartCopy(`滿 HK$${tier.threshold} · 已喺合計扣減`, `Over HK$${tier.threshold} · already deducted`),
+        });
+        const giftHave = net + 0.001 >= GIFT || (inCart || []).includes(promo?.gift?.handle);
+        if (giftHave) rows.push({
+          icon: '<path d="M3 8.5h18v4H3zM4.5 12.5h15V21h-15z"/><path d="M12 8.5c-1.6-3.6-6.3-4.4-6.3-1.6 0 1.5 2.6 1.6 6.3 1.6zm0 0c1.6-3.6 6.3-4.4 6.3-1.6 0 1.5-2.6 1.6-6.3 1.6z"/><path d="M10.8 8.5h2.4V21h-2.4z" fill="#f0f4f7"/>',
+          line: window.OUJI_cartCopy('已獲贈 <strong>Round Lab 白樺樹面霜</strong>', 'Free <strong>Round Lab birch cream</strong> unlocked'),
+          cost: window.OUJI_cartCopy('80ml · 結帳時隨單附送，送完即止', '80ml · added with your order, while stocks last'),
+        });
+      }
+      perks.innerHTML = rows.map((r) => `<div class="reward__row"><svg class="reward__icon" aria-hidden="true" viewBox="0 0 24 24">${r.icon}</svg><div><p class="reward__line">${r.line}</p><p class="reward__cost">${r.cost}</p></div></div>`).join('');
     }
     const mode = window.OUJI_getShipMode?.() || 'post';
     const method = window.OUJI_SHIP[mode];

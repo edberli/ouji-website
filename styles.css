@@ -15278,9 +15278,11 @@ body::before { opacity: 0.18; }
 .sfp--steps .sfp__region[hidden] { display: none; }
 .sfp--steps .sfp__district { grid-column: 1 / -1; }
 /* 免運提示：白卡一行，左邊貨車 icon，右邊細連結；深藍大底已拎走。 */
-/* 老闆 mockup（2026-09-24 截圖指定）：外圈一道白色粗框，入面淡灰藍底；冇進度條，
-   差額同門檻由兩行字講晒；右邊一個「›」。 */
-.reward--focused .reward__ship { display: grid; grid-template-columns: 26px minmax(0,1fr) auto; gap: 14px; align-items: center; padding: 14px 16px 14px 14px; border: 5px solid #fff; border-radius: 20px; background: #f0f4f7; box-shadow: 0 0 0 1px rgba(43,76,88,0.06), 0 10px 24px -18px rgba(28,61,71,0.4); }
+/* 老闆 mockup（2026-09-24 截圖指定）：外圈一道白色粗框，入面淡灰藍底；
+   一行一樣「今單攞到咩」（即減、面霜、運費），行與行之間一條細線；冇進度條。 */
+.reward__card { padding: 0 16px 0 14px; border: 5px solid #fff; border-radius: 20px; background: #f0f4f7; box-shadow: 0 0 0 1px rgba(43,76,88,0.06), 0 10px 24px -18px rgba(28,61,71,0.4); }
+.reward__row { display: grid; grid-template-columns: 26px minmax(0,1fr) auto; gap: 14px; align-items: center; padding: 13px 0; }
+[data-reward-perks] > .reward__row { border-bottom: 1px solid #dde6eb; }
 .reward__icon { width: 26px; height: 26px; fill: #1f4753; }
 .reward__icon circle { fill: #fff; stroke: #1f4753; stroke-width: 1.4; }
 .reward--focused .reward__line { margin: 0; color: #1c3440; font-size: 1rem; font-weight: 400; line-height: 1.45; }
