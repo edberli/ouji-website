@@ -2347,25 +2347,52 @@ function oujiPromoPriceText(amount) {
   return formatPrice(num);
 }
 
-/* 商品卡減價牌（2026-09-25 老闆定）：孖裝／套裝一律當促銷，牌寫「促銷」（有冇劃線都出）；
-   其他貨有真減價先出「限時」。五個卡 renderer 一律用呢個，唔好各自寫死。 */
+/* 商品卡兩套減價信號（2026-09-25 老闆定）：
+   限時 = 跟市場減價 → 左上紅色圓角牌 ＋ 紅色售價。
+   促銷 = 孖裝／套裝多件優惠 → 相底黃色優惠帶（促銷｜2件 · 每件 $X）＋ 黑色售價加黃色螢光底 ＋「每件 $X」。
+   孖裝／套裝一律當促銷（有冇劃線都出）。五個卡 renderer 一律用呢兩個 function，唔好各自寫死。 */
 const OUJI_BUNDLE_RE = /孖裝|套裝|雙支|[2二兩]只裝?|[2二兩][支枝]裝|[2-4二兩三四]\s?件|[x×*＊]\s?2(?!\d)|1\s?\+\s?1/i;
 // 一盒面膜／工具叫「套裝」但其實係一件貨，唔當促銷
 const OUJI_NOT_BUNDLE_RE = /橡筋|髮圈|面膜[^／/]*套裝|套裝\s*[\[（(][^\]）)]*片|掃|鑷子|粉撲/;
-function oujiSaleBadgeHTML(title, onSale) {
-  if (OUJI_BUNDLE_RE.test(title || '') && !OUJI_NOT_BUNDLE_RE.test(title || '')) return '<span class="product-card__badge product-card__badge--sale">促銷</span>';
+// 同一件貨幾件：先計得「每件幾錢」；水＋乳呢類混合套裝冇件數
+const OUJI_SAME_COUNT = [[/孖裝|雙支|[2二兩][只支枝]裝?|1\s?\+\s?1/, 2], [/[x×*＊]\s?([2-4])(?!\d)/, 0], [/([2-4])\s?件裝/, 0]];
+function oujiBundleInfo(title) {
+  const t = title || '';
+  if (!OUJI_BUNDLE_RE.test(t) || OUJI_NOT_BUNDLE_RE.test(t)) return null;
+  for (const [re, n] of OUJI_SAME_COUNT) { const m = t.match(re); if (m) return { count: n || Number(m[1]) }; }
+  return { count: null };
+}
+function oujiPerUnit(amount, count) {
+  const each = parseFloat(amount) / count;
+  return Number.isInteger(each) ? `$${each}` : `$${each.toFixed(1)}`;
+}
+function oujiSaleBadgeHTML(title, onSale, priceAmount) {
+  const b = oujiBundleInfo(title);
+  if (b) {
+    const detail = b.count ? `${b.count}件 · 每件 ${oujiPerUnit(priceAmount, b.count)}` : '套裝優惠';
+    return `<div class="product-card__bundle-band"><strong>促銷</strong><span>${detail}</span></div>`;
+  }
   return onSale ? '<span class="product-card__badge product-card__badge--sale">限時</span>' : '';
 }
 
-/* 商品卡價錢（2026-09-24 老闆定）：有真減價先出劃線原價，原價喺前、紅色特價喺後；
-   一張卡只出一個「慳幾多」訊息，折扣唔夠一成唔出（寒酸反效果）。
-   慳嘅金額 ≥ $50 用「慳 $X」，細額用「X% OFF」。冇減價就只顯示售價。
-   五個卡 renderer（shopify.js／catalog.js／home.js／index.html／wishlist.html）一律用呢個。 */
-function oujiCardPriceHTML(priceAmount, compareAmount, { range = null } = {}) {
+/* 商品卡價錢：有真減價先出劃線原價，原價喺前、售價喺後；一張卡只出一個細牌。
+   限時：紅色售價；慳 ≥ $50 用「慳 $X」，細額用「X% OFF」，唔夠一成唔出（寒酸反效果）。
+   促銷：黑色售價加黃底；同一件貨幾件就出「每件 $X」，混合套裝出「慳 $X」。 */
+function oujiCardPriceHTML(priceAmount, compareAmount, { range = null, title = '' } = {}) {
   const now = parseFloat(priceAmount);
   const was = parseFloat(compareAmount);
   const main = range ? `${formatPrice(range.lo)} – ${formatPrice(range.hi)}` : formatPrice(now);
-  if (range || !Number.isFinite(was) || !(was > now)) {
+  const bundle = range ? null : oujiBundleInfo(title);
+  const hasWas = Number.isFinite(was) && was > now;
+  if (bundle) {
+    const chip = bundle.count ? `每件 ${oujiPerUnit(now, bundle.count)}`
+      : hasWas ? `慳 $${Math.round(was - now)}` : '';
+    return `<span class="product-card__deal">`
+      + (hasWas ? `<s class="product-card__compare-price">${formatPrice(was)}</s>` : '')
+      + `<span class="product-card__price product-card__price--bundle">${main}</span>`
+      + (chip ? `<span class="product-card__per-unit">${chip}</span>` : '') + `</span>`;
+  }
+  if (range || !hasWas) {
     return `<span class="product-card__price">${main}</span>`;
   }
   const save = was - now;
@@ -2607,14 +2634,14 @@ function productCardHTML(product) {
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-          ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(title, isOnSale) : ''}
+          ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount) : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
       </a>
       <div class="product-card__info">
         <a href="product.html?handle=${product.handle}" class="product-card__title">${title}</a>
         <div class="product-card__prices">
-          ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { range: unitPriceRange(product) })}
+          ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { range: unitPriceRange(product), title: product.title })}
         </div>
         <button class="product-card__wishlist-btn ${isInWishlist(product.id) ? 'is-active' : ''}"
           onclick="toggleWishlist(event, ${JSON.stringify(product).replace(/"/g, '&quot;')})"

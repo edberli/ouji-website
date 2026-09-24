@@ -26,6 +26,10 @@
   --accent: #89c4d4;
   --accent-light: #a8d8e4;
   --accent-glow: rgba(109, 163, 181, 0.25);
+  /* 促銷（孖裝／套裝）用黃黑價錢貼紙色；限時用 --sale 紅（2026-09-25 老闆定兩套信號） */
+  --promo: #ffd60a;
+  --promo-tint: #fff4b8;
+  --promo-ink: #141414;
 
   /* Warm accent — beige / cream */
   /* ⚠️ 個名叫 --warm-* 係歷史遺留 —— 2026-08-19 全站由米白／奶油轉咗
@@ -1495,6 +1499,11 @@ button.product-card__quick-add,
 .product-card__compare-price { font-size: 0.75rem; font-weight: 400; color: var(--text-tertiary, #8a9499); text-decoration: line-through; }
 .product-card__price.product-card__price--sale { color: var(--sale, #c8452f); }  /* 雙 class：要贏 4804 行 warm accent 嘅 .product-card__price */
 .product-card__savings { font-size: 0.6875rem; font-weight: 600; line-height: 1; padding: 3px 6px; border-radius: 4px; color: var(--sale, #c8452f); background: rgba(200,69,47,0.1); }
+/* 促銷卡（孖裝／套裝）：相底黃色優惠帶；黑色售價加黃色螢光底；「每件 $X」黃底細牌。快速加入掣喺 DOM 後面，hover 時會蓋過條帶 */
+.product-card__bundle-band { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px; padding: 7px 12px; background: var(--promo); color: var(--promo-ink); font-size: 0.75rem; font-weight: 700; line-height: 1.2; }
+.product-card__bundle-band strong { font-weight: 900; letter-spacing: 0.06em; padding-right: 8px; border-right: 1.5px solid currentColor; }
+.product-card__price.product-card__price--bundle { color: var(--promo-ink); font-weight: 800; padding: 0 2px; background: linear-gradient(transparent 58%, var(--promo) 58%, var(--promo) 92%, transparent 92%); }
+.product-card__per-unit { font-size: 0.6875rem; font-weight: 800; line-height: 1; padding: 3px 6px; border-radius: 2px; color: var(--promo-ink); background: var(--promo-tint); }
 
 /* ----- Brands Page — Dark Smoke Theme ----- */
 .brands-page {
@@ -7325,6 +7334,8 @@ body.has-brand-rail .brand-section {
   text-align: center;
   pointer-events: none;
 }
+/* 促銷卡相底有黃色優惠帶（28px 高），得獎章升返上帶面，唔好蓋住條帶 */
+.product-card__image-wrap:has(.product-card__bundle-band) .award-ribbon { bottom: 38px; }
 .award-ribbon__crown { width: 20px; height: 9px; color: #cba86a; }
 .award-ribbon__crown svg { width: 100%; height: 100%; display: block; }
 /* 實色，唔用漸變字 —— 漸變字細過 12px 會糊，而且係一望就知係「生成」嘅招 */
@@ -7356,6 +7367,7 @@ body.has-brand-rail .brand-section {
     width: 46px; min-height: 77px;
     padding: 7px 4px; border-radius: 7px;
   }
+  .product-card__image-wrap:has(.product-card__bundle-band) .award-ribbon { bottom: 35px; }
   .award-ribbon__rank { font-size: 0.75rem; }
   .award-ribbon__crown { width: 17px; height: 7px; }
   .award-ribbon__body { font-size: 0.4375rem; }

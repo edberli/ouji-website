@@ -48,7 +48,7 @@ async function initHome() {
     return `<a href="/products/${p.handle}" class="product-card">
       <div class="product-card__image-wrap">
         ${img ? `<img class="product-card__image" ${shopifyCardImageAttrs(img.url)} alt="${p.title}" loading="lazy">` : ''}
-        ${!soldOut ? oujiSaleBadgeHTML(p.title, onSale) : ''}
+        ${!soldOut ? oujiSaleBadgeHTML(p.title, onSale, p0.amount) : ''}
         ${soldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button type="button" class="product-card__wishlist${
@@ -68,7 +68,7 @@ async function initHome() {
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${p.title}</span>
       ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
-      ${oujiCardPriceHTML(p0.amount, onSale ? cp.amount : null)}
+      ${oujiCardPriceHTML(p0.amount, onSale ? cp.amount : null, { title: p.title })}
     </a>`;
   };
 

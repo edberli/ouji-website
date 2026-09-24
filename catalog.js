@@ -1590,7 +1590,7 @@ function productCard(p, options = null) {
         ${p._oujiOtherBrandStart
           ? `<span class="product-card__mini-brand">${p._oujiOtherBrandStart}</span>` : ''}
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-        ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale) : ''}
+        ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale, p0.amount) : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button type="button" class="product-card__wishlist${
           typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"
@@ -1604,7 +1604,7 @@ function productCard(p, options = null) {
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${p.title}</span>
       ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
-      ${oujiCardPriceHTML(p0.amount, isOnSale ? cp.amount : null, { range: unitPriceRange(p) })}
+      ${oujiCardPriceHTML(p0.amount, isOnSale ? cp.amount : null, { range: unitPriceRange(p), title: p.title })}
     </a>`;
 }
 
