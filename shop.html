@@ -64,7 +64,7 @@
   <!-- BOOT 主視覺專用 pixel 字體；非阻塞載入，避免拖慢首屏。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260925-shop-layout-card-compare-fix">
+  <link rel="stylesheet" href="styles.css?v=20260926-first-impression">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -295,7 +295,7 @@
       <div class="shop-boot__dialog" aria-hidden="true">
         <div class="shop-boot__bar">Starting shop.exe</div>
         <div class="shop-boot__dialogbody">
-          <p data-boot-dialog>Loading all products...</p>
+          <p data-boot-dialog>Choose your category...</p>
           <div class="shop-boot__progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <span class="shop-boot__hint">DON'T TURN OFF YOUR STYLE</span>
         </div>
@@ -485,11 +485,11 @@
   </nav>
 
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260925-card-compare-fix"></script>
+  <script src="shopify.js?v=20260926-first-impression"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js?v=20260925-shop-layout-card-compare-fix"></script>
+  <script src="catalog.js?v=20260926-first-impression"></script>
   <script src="search.js?v=20260922-search-smart"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
@@ -504,7 +504,16 @@
     const pathCollection = (location.pathname.match(/^\/collections\/([^/]+)/) || [])[1];
     // 全部產品：唔限 section，直接攞成個目錄
     const cat = params.get('cat');
-    const all = await getAllProducts();
+    // 分類入口由現成導覽資料即刻砌出；毋須等產品／價格 API 八頁拉齊。
+    buildShopBootHero([], null, true);
+    loadIngredients();
+    loadRatings();
+    document.addEventListener('ouji:catalog-progress-error', () => {
+      const count = document.querySelector('[data-boot-count]');
+      if (count) count.textContent = '部分商品未能載入，請重新整理';
+    }, { once: true });
+    const progressive = !params.toString() && !pathCollection;
+    const all = await getAllProducts({ progressive });
     let products = all?.edges?.map((e) => e.node) ?? [];
 
     /* 由頁頂搜尋浮層「睇埋其餘 N 件」入嚟。同浮層用同一套配對規則

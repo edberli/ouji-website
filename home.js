@@ -10,16 +10,19 @@
  * pages order 推薦: margin first, awards as the counterweight.
  */
 async function initHome() {
-  const all = await getAllProducts();
-  if (typeof loadRatings === 'function') await loadRatings();
+  // These independent reads can start together. The catalogue no longer
+  // waits for ratings before featured rankings have even begun downloading.
+  const [all, ratings, rank] = await Promise.all([
+    getAllProducts({ progressive: true }),
+    typeof loadRatings === 'function' ? loadRatings() : Promise.resolve(null),
+    fetch('featured.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => d?.profitRank || {})
+      .catch(() => ({})),
+  ]);
   const products = (all?.edges || []).map((e) => e.node)
     .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale);
   if (!products.length) return;
-
-  const rank = await fetch('featured.json')
-    .then((r) => (r.ok ? r.json() : null))
-    .then((d) => d?.profitRank || {})
-    .catch(() => ({}));
 
   const awards = (h) => (typeof awardsFor === 'function' ? awardsFor(h) : []);
   const weight = (p) => awards(p.handle).reduce((n, a) =>
@@ -121,7 +124,7 @@ async function initHome() {
     return want.some((w) => tags.includes(w.toLowerCase()));
   }
 
-  let RATINGS = null;
+  let RATINGS = ratings;
   const reviewCount = (p) => RATINGS?.[p.handle]?.count || 0;
   const onSale = (p) => {
     const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
@@ -270,17 +273,15 @@ async function initHome() {
           </div>
         </div>`;
 
-      tabHost.addEventListener('click', (e) => {
+      // 背景攞齊目錄後會重畫一次；換走舊 handler，避免一撳 tab 執行兩次。
+      tabHost.onclick = (e) => {
         const b = e.target.closest('[data-tab]');
         if (b) paint(b.dataset.tab);
-      });
+      };
       paint(shown[0].id);
     };
 
-    fetch('data/ratings.json')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => { RATINGS = d?.products || null; build(); })
-      .catch(() => build());
+    build();
   }
 
   /* 分類行 —— 老闆講明呢啲要留返，tab 係加上去，唔係換走佢哋。 */
@@ -696,6 +697,7 @@ async function initHome() {
   /* 妝感配對嗰格改咗喺 index.html 寫死（三張妝感相 + 連結）。
     舊版由 match-data.json 生成六個文字 pill，連結去 match.html#<id> ——
     新版 /match 係讀 ?look=<id>，個 hash 乜都唔會做，即係啲連結全部死咗。 */
+  return all;
 }
 
 /* 背景對數攞到新目錄之後，首頁嘅貨架都要即刻換新 —— 唔好等客人

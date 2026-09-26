@@ -511,11 +511,13 @@ function cacheWrite(key, v) {
   }
 }
 
-async function fetchAllPages({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
+async function fetchAllPages({ collectionHandle, pageSize = 250, max = 2000, firstPage = null } = {}) {
   const out = [];
   let after = null;
   while (out.length < max) {
-    const page = await getProducts({ collectionHandle, first: pageSize, after });
+    const page = firstPage || await getProducts({ collectionHandle, first: pageSize, after });
+    firstPage = null;
+    if (!page?.pageInfo) throw new Error('Incomplete catalogue page');
     const edges = page?.edges || [];
     out.push(...edges);
     if (!page?.pageInfo?.hasNextPage || !edges.length) break;
@@ -600,7 +602,7 @@ function revalidateCatalog(key, opts) {
   else setTimeout(run, 1500);
 }
 
-async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } = {}) {
+async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000, progressive = false } = {}) {
   const key = cacheKey(`catalog:${collectionHandle || 'all'}`);
   const cached = cacheRead(key);
   if (cached) return { edges: cached };
@@ -612,6 +614,37 @@ async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000 } =
       cacheWrite(key, snap);
       revalidateCatalog(key, { collectionHandle, pageSize, max });
       return { edges: snap };
+    }
+  }
+
+  /* 快照過期時，首頁同全部產品先用即時 API 第一頁畫出真實價錢／庫存；
+     餘下游標頁繼續喺背景攞。只喺明確要求 progressive 嘅頁面使用，
+     搜尋、品牌同分類計數仍等完整目錄，避免漏貨。 */
+  if (progressive && !collectionHandle) {
+    try {
+      const first = await getProducts({ first: pageSize, after: null });
+      const edges = first?.edges || [];
+      if (!first?.pageInfo || !edges.length) throw new Error('Empty first catalogue page');
+      if (!first.pageInfo.hasNextPage) {
+        cacheWrite(key, edges);
+        return { edges };
+      }
+      window.OUJI_CATALOG_PARTIAL = true;
+      fetchAllPages({ collectionHandle, pageSize, max, firstPage: first })
+        .then((fresh) => {
+          cacheWrite(key, fresh);
+          window.OUJI_CATALOG_PARTIAL = false;
+          document.dispatchEvent(new CustomEvent('ouji:catalog-refreshed',
+            { detail: { edges: fresh } }));
+        })
+        .catch((e) => {
+          window.OUJI_CATALOG_PARTIAL = 'failed';
+          document.dispatchEvent(new Event('ouji:catalog-progress-error'));
+          console.error('[OUJI] 其餘產品載入失敗：', e);
+        });
+      return { edges, partial: true };
+    } catch (e) {
+      /* 第一頁都攞唔到時照舊重試完整目錄，保留原本錯誤後路。 */
     }
   }
 

@@ -2031,11 +2031,19 @@ let RENDER_TOKEN = 0;      // 新一次 draw 會令舊嘅分批 render 自動失
    再用 rAF 節流。IO 慳嗰啲 CPU 唔值得換返個「有機會乜都唔出」。 */
 let GRID_ABORT = null;     // 拆走上一次 render 掛住嘅 scroll／resize
 let GRID_PANES = [];       // 而家管住緊嘅嚿
+let EAGER_PRODUCT_GRID_CLAIMED = false;
+let BRAND_GRID_ABORT = null;
+let SECTION_MORE_ABORT = null;
 
 function clearGridWindows() {
   GRID_ABORT?.abort();
   GRID_ABORT = null;
+  BRAND_GRID_ABORT?.abort();
+  BRAND_GRID_ABORT = null;
+  SECTION_MORE_ABORT?.abort();
+  SECTION_MORE_ABORT = null;
   GRID_PANES = [];
+  EAGER_PRODUCT_GRID_CLAIMED = false;
 }
 
 function gridCols(host) {
@@ -2089,6 +2097,10 @@ function watchGridWindows() {
 
 function mountGrid(host, items, { all = false } = {}) {
   if (!items.length) { host.innerHTML = ''; return; }
+  const rect = host.getBoundingClientRect();
+  const useEager = !EAGER_PRODUCT_GRID_CLAIMED
+    && rect.top < window.innerHeight && rect.bottom > 0;
+  if (useEager) EAGER_PRODUCT_GRID_CLAIMED = true;
   /* 一嚿以內（24 件）就直接砌出嚟，唔行窗口式渲染。
 
      窗口式渲染當初係為咗頂住「一版 572 張卡」——iPhone 會爆記憶體。
@@ -2104,8 +2116,8 @@ function mountGrid(host, items, { all = false } = {}) {
   if (all || items.length <= CHUNK) {
     host.innerHTML = `<div class="product-grid" data-chunk="0" data-on="1">${
       items.map((item, j) => productCard(item, {
-        eager: j < 6,
-        priority: j < 2,
+        eager: useEager && j < 6,
+        priority: useEager && j < 2,
       })).join('')}</div>`;
     return;
   }
@@ -2131,8 +2143,8 @@ function mountGrid(host, items, { all = false } = {}) {
       fill() {
         if (el.dataset.on === '1') return false;
         el.innerHTML = chunks[i].map((item, j) => productCard(item, {
-          eager: i === 0 && j < 6,
-          priority: i === 0 && j < 2,
+          eager: useEager && i === 0 && j < 6,
+          priority: useEager && i === 0 && j < 2,
         })).join('');
         /* 真內容出咗就要放走個佔位高度 —— 唔放走，短過估算嗰嚿
            就會喺卡片下面留一大版白。 */
@@ -2247,34 +2259,74 @@ function renderProducts(container, products, { grouped }) {
     const i = PINNED_VENDORS.findIndex((k) => name.includes(k.toLowerCase()));
     return i < 0 ? PINNED_VENDORS.length : i;
   };
-  const order = [...byVendor.entries()].sort((a, b) =>
-    (a[0] === '其他') - (b[0] === '其他')
-    || pinRank(a[0]) - pinRank(b[0])
-    || tier(a[1]) - tier(b[1])
-    || brandScore(b[1]) - brandScore(a[1])
-    || b[1].length - a[1].length);
+  // Sorting calls the comparator many times; score each brand only once.
+  const order = [...byVendor.entries()].map(([vendor, items]) => ({
+    vendor, items,
+    pin: pinRank(vendor),
+    tier: tier(items),
+    score: brandScore(items),
+  })).sort((a, b) =>
+    (a.vendor === '其他') - (b.vendor === '其他')
+    || a.pin - b.pin
+    || a.tier - b.tier
+    || b.score - a.score
+    || b.items.length - a.items.length)
+    .map(({ vendor, items }) => [vendor, items]);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
   SECTION_ITEMS.clear();
   container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
   const grids = [...container.querySelectorAll('.grid-host[data-section]')];
-  const mountOne = (host) => mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
-  /* 頭四格即刻出，足夠覆蓋首屏；其餘逐 frame 小批補齊，避免 catalog.js
-     一口氣霸住 main thread。新篩選開始就由 token 取消舊批次。 */
-  grids.slice(0, 4).forEach(mountOne);
-  let cursor = 4;
-  const mountBatch = () => {
-    if (token !== RENDER_TOKEN || !container.isConnected) return;
-    grids.slice(cursor, cursor + 3).forEach(mountOne);
-    cursor += 3;
-    if (cursor < grids.length) requestAnimationFrame(mountBatch);
-    else syncGridWindows();
+  const mountOne = (host) => {
+    if (host.dataset.mounted === '1') return;
+    host.dataset.mounted = '1';
+    mountGrid(host, SECTION_ITEMS.get(host.dataset.section) || []);
   };
-  if (cursor < grids.length) requestAnimationFrame(mountBatch);
+  /* Keep every brand heading and link in the document, but build cards only
+     near the viewport. A scroll event plus timer fallback fills rapid jumps. */
+  grids.slice(0, 4).forEach(mountOne);
+  let pending = grids.slice(4);
+  BRAND_GRID_ABORT = new AbortController();
+  const signal = BRAND_GRID_ABORT.signal;
+  let queued = false;
+  let fallback = 0;
+  const syncNearby = () => {
+    if (signal.aborted || token !== RENDER_TOKEN || !container.isConnected) return;
+    let changed = false;
+    pending = pending.filter((host) => {
+      const rect = host.getBoundingClientRect();
+      if (rect.top > window.innerHeight + 1400 || rect.bottom < -900) return true;
+      mountOne(host);
+      changed = true;
+      return false;
+    });
+    if (!pending.length) { BRAND_GRID_ABORT?.abort(); BRAND_GRID_ABORT = null; }
+    else if (changed) scheduleNearby();
+  };
+  const runNearby = () => {
+    if (!queued) return;
+    queued = false;
+    clearTimeout(fallback);
+    syncNearby();
+  };
+  const scheduleNearby = () => {
+    if (queued || signal.aborted) return;
+    queued = true;
+    requestAnimationFrame(runNearby);
+    fallback = setTimeout(runNearby, 160);
+  };
+  signal.addEventListener('abort', () => clearTimeout(fallback), { once: true });
+  window.addEventListener('scroll', scheduleNearby, { passive: true, signal });
+  window.addEventListener('resize', scheduleNearby, { passive: true, signal });
+  window.addEventListener('pageshow', scheduleNearby, { signal });
+  window.addEventListener('hashchange', scheduleNearby, { signal });
+  syncNearby();
+  scheduleNearby();
 
   /* 撳「仲有 N 件」＝就地展開，唔會跳去另一版。
      老闆 2026-09-02：「唔需要去一個新嘅頁面，而係撳咗落去之後佢會展開。」
      偷望嗰行本身就係嗰批貨嘅頭幾件，所以展開之後唔會重複 —— 直接將
      成個 .brand-more 換成剩返嗰批嘅 grid。 */
+  SECTION_MORE_ABORT = new AbortController();
   container.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-more-btn]');
     if (!btn) return;
@@ -2309,7 +2361,7 @@ function renderProducts(container, products, { grouped }) {
        所有段落都會落低幾千 px，唔通知佢重新度，成條 rail 就會一直
        指住錯嘅品牌（老闆 2026-09-02 撞到）。 */
     document.dispatchEvent(new CustomEvent('ouji:layout-changed'));
-  });
+  }, { signal: SECTION_MORE_ABORT.signal });
   // 三十幾格全部掛好先至計一次 —— 每格計一次即係計三十幾次
   syncGridWindows();
   if (['skincare', 'makeup', 'all'].includes(CURRENT_SECTION)) {
@@ -2424,7 +2476,7 @@ function stickerArt(id) {
   return `<span class="shop-boot__art shop-boot__art--${id}" aria-hidden="true"><i></i></span>`;
 }
 
-function buildShopBootHero(products, activeGroup) {
+function buildShopBootHero(products, activeGroup, pending = false) {
   const host = document.querySelector('[data-boot-stickers]');
   if (!host) return;
   const counts = shopGroupCounts(products);
@@ -2436,16 +2488,20 @@ function buildShopBootHero(products, activeGroup) {
     const style = `--x:${pos.x};--y:${pos.y};--r:${pos.r};--s:${pos.s};--tint:${g.tint}`;
     const inner = `${stickerArt(g.id)}
       <b class="shop-boot__label">${g.label}</b>
-      <small class="shop-boot__n">${counts[g.id]}</small>`;
+      ${pending ? '' : `<small class="shop-boot__n">${counts[g.id]}</small>`}`;
     return g.href
-      ? `<a class="shop-boot__sticker" href="${g.href}" style="${style}" aria-label="${g.label}，${counts[g.id]} 件產品">${inner}</a>`
+      ? `<a class="shop-boot__sticker" href="${g.href}" style="${style}" aria-label="${pending ? g.label : `${g.label}，${counts[g.id]} 件產品`}">${inner}</a>`
+      : pending
+        ? `<span class="shop-boot__sticker" style="${style}">${inner}</span>`
       : `<button type="button" class="shop-boot__sticker${on ? ' is-on' : ''}"
           data-boot-group="${g.id}" aria-pressed="${on ? 'true' : 'false'}"
           style="${style}" aria-label="${g.label}，${counts[g.id]} 件產品">${inner}</button>`;
   }).join('');
 
   const count = document.querySelector('[data-boot-count]');
-  if (count) count.textContent = `${products.length} 件產品 · ${brands} 個品牌`;
+  if (count) count.textContent = pending
+    ? (products.length ? `先顯示 ${products.length} 件 · 其餘載入中` : `${SHOP_GROUPS.length} 個分類 · 揀一類開始`)
+    : `${products.length} 件產品 · ${brands} 個品牌`;
 }
 
 function syncShopBoot(products, activeGroup, list) {
@@ -2465,7 +2521,9 @@ function syncShopBoot(products, activeGroup, list) {
             onerror="this.remove()">`).join('');
   }
   const count = document.querySelector('[data-boot-count]');
-  if (count) count.textContent = `${list.length} 件產品 · ${g ? g.label : `${products.length} 件全部產品`}`;
+  if (count) count.textContent = window.OUJI_CATALOG_PARTIAL
+    ? `先顯示 ${list.length} 件 · 其餘載入中`
+    : `${list.length} 件產品 · ${g ? g.label : `${products.length} 件全部產品`}`;
 }
 
 /* 由搜尋或者煩惱入嚟嗰陣，資料夾名已經由 shop.html 設咗做「暗沉・痘印」
@@ -2536,10 +2594,15 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       .filter((p) => !soldOut(p))
       .filter(inSection);
     if (!next.length) return;
+    // 同一批 ID 嘅價錢、存貨同圖片都可能已更新；淨係比較 ID 會令
+    // 快照嘅舊價繼續留喺畫面。完整資料一致先跳過重畫。
     const same = next.length === products.length
-      && next.every((p, i) => p.id && products[i] && p.id === products[i].id);
+      && next.every((p, i) => JSON.stringify(p) === JSON.stringify(products[i]));
     if (same) return;
     products = next;
+    if (document.querySelector('[data-shop-boot]')) {
+      buildShopBootHero(products, document.querySelector('[data-boot-group].is-on')?.dataset.bootGroup || null);
+    }
     draw();
   });
 
@@ -2596,7 +2659,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   if (folderLabel) SHOP_BASE_LABEL = folderLabel;
   const validGroup = (k) => SHOP_GROUPS.some((g) => g.id === k) ? k : null;
   let activeGroup = bootHost ? validGroup(group) : null;
-  if (bootHost) buildShopBootHero(products, activeGroup);
+  if (bootHost) buildShopBootHero(products, activeGroup, !!window.OUJI_CATALOG_PARTIAL);
 
   /* draw() 入面任何一句拋錯，客見到嘅就係一版有標題冇貨嘅頁。
      唔係假設 —— 客嗰邊報返嚟一條：iPhone 開 /shop，成個 <main> 得
