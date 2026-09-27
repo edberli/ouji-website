@@ -131,25 +131,24 @@
     return { primary, subtitle, specification, seoTitle, split: Boolean(english) };
   }
 
-  /* Product tiles have limited space. Keep the brand and existing Chinese
-     descriptor; the full bilingual name remains in search, SEO and detail. */
+  /* Product tiles have limited space. Remove only a verified brand prefix
+     from the existing Chinese-market name. Digits, acronyms, pack counts and
+     punctuation inside that name are product identity, never disposable. */
   function cardParts(product) {
-    const original = clean(product?.title);
     const names = display(product);
     const vendor = clean(product?.vendor);
-    let brand = brandFromTitle(original, vendor);
-    if (HAN.test(brand)) {
-      const chineseVendor = vendor.match(/^[\u3400-\u9fff]+/);
-      if (chineseVendor) brand = chineseVendor[0];
-      else brand = clean(brand.replace(/\s+[A-Za-z].*$/, ''));
-    }
-    let chinese = names.primary;
-    if (HAN.test(brand) && chinese.startsWith(brand)) chinese = clean(chinese.slice(brand.length));
-    else chinese = clean(chinese.slice(Math.max(0, chinese.search(HAN))));
-    chinese = clean(chinese.replace(/[A-Za-z][A-Za-z0-9+&.\-]*/g, ' ')
-      .replace(/\s*([（(])\s*[）)]/g, ' ')
-      .replace(/^[×x＋+&|·\s]+/, ''));
-    if (!HAN.test(chinese)) return { brand: '', chinese: names.primary };
+    const primary = names.primary;
+    const candidates = [vendor];
+    const vendorHan = vendor.search(HAN);
+    if (vendorHan > 0) candidates.push(clean(vendor.slice(0, vendorHan)));
+    if (vendorHan === 0) candidates.push((vendor.match(/^[\u3400-\u9fff]+/) || [])[0]);
+    candidates.push((vendor.match(/^[^\s(]+/) || [])[0]);
+    const brand = candidates.find((candidate) => candidate
+      && primary.slice(0, candidate.length).toLowerCase() === candidate.toLowerCase()
+      && (!/[A-Za-z0-9]/.test(candidate.at(-1))
+        || !/[A-Za-z0-9]/.test(primary[candidate.length] || ''))) || '';
+    let chinese = brand ? clean(primary.slice(brand.length).replace(/^[\s-]+/, '')) : primary;
+    if (!HAN.test(chinese)) return { brand: '', chinese: primary };
     const shade = names.specification.match(/(?:^|\s)(#[0-9]{1,3}[A-Za-z]?)(?=\s|$)/);
     return { brand, chinese: clean(`${chinese}${shade ? ` ${shade[1]}` : ''}`) };
   }
