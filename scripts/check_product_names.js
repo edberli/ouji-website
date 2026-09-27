@@ -19,6 +19,17 @@ for (const product of products) {
       || !comparable(cardTitle).startsWith(comparable(out.primary))) {
     failures.push({ id: product.id, reason: 'bad Chinese product tile', cardName, cardTitle });
   }
+  const shade = (out.specification.match(/(?:^|\s)(#[0-9]{1,3}[A-Za-z]?)(?=\s|$)/) || [])[1] || '';
+  if (comparable(cardTitle) !== comparable(`${out.primary} ${shade}`)) {
+    failures.push({ id: product.id, reason: 'product title content changed on tile',
+      primary: out.primary, cardTitle });
+  }
+  const vendorKeys = [product.vendor,
+    String(product.vendor || '').replace(/[\u3400-\u9fff]+/g, ' ')].map(comparable).filter(Boolean);
+  if (vendorKeys.some((key) => comparable(cardName).startsWith(key))) {
+    failures.push({ id: product.id, reason: 'brand repeated inside tile name',
+      vendor: product.vendor, cardName });
+  }
   const combined = `${out.primary} ${out.subtitle} ${out.specification}`.toLowerCase();
   if (!out.split || !/[\u3400-\u9fff]/.test(out.primary)
       || !/[A-Za-z]/.test(out.subtitle) || /[\u3400-\u9fff]/.test(out.subtitle)) {
@@ -63,6 +74,11 @@ for (const [id, expected] of [
   ['8822188343454', '1025獨島爽膚水'],
   ['8822235168926', '(70片) 羅勒茶樹清涼棉片'],
   ['8822080274590', '米及維他命B5防曬霜'],
+  ['8820020543646', '甜心小熊成膜唇凍'],
+  ['8822193553566', '胡蘿蔔舒緩保濕面膜'],
+  ['8822242869406', '維他命C超亮眼凝膠眼膜'],
+  ['8861742170270', '雙色眼線液筆'],
+  ['8887467016350', '深椰香香氛凝膠'],
 ]) {
   const item = products.find((p) => p.id.endsWith(id));
   if (naming.cardChinese(item) !== expected) {

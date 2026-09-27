@@ -139,14 +139,27 @@
     const vendor = clean(product?.vendor);
     const primary = names.primary;
     const candidates = [vendor];
-    const vendorHan = vendor.search(HAN);
-    if (vendorHan > 0) candidates.push(clean(vendor.slice(0, vendorHan)));
-    if (vendorHan === 0) candidates.push((vendor.match(/^[\u3400-\u9fff]+/) || [])[0]);
+    const romanVendor = clean(vendor.replace(/[\u3400-\u9fff]+/g, ' '));
+    if (romanVendor && romanVendor !== vendor) candidates.push(romanVendor);
+    const chineseVendor = (vendor.match(/^[\u3400-\u9fff]+/) || [])[0];
+    if (chineseVendor) candidates.push(chineseVendor);
     candidates.push((vendor.match(/^[^\s(]+/) || [])[0]);
-    const brand = candidates.find((candidate) => candidate
-      && primary.slice(0, candidate.length).toLowerCase() === candidate.toLowerCase()
-      && (!/[A-Za-z0-9]/.test(candidate.at(-1))
-        || !/[A-Za-z0-9]/.test(primary[candidate.length] || ''))) || '';
+    /* Compare a whole leading brand, allowing vendor spelling variants such as
+       April Skin/APRILSKIN and KSECRET/K-SECRET. Never consume the next word. */
+    const prefixes = [...primary.matchAll(/[^\s]+(?=\s|$)/g)]
+      .filter((match) => match.index === 0);
+    let brand = '';
+    const candidateKeys = new Set(candidates.filter(Boolean).map(compact));
+    for (const match of prefixes) {
+      if (candidateKeys.has(compact(match[0]))) brand = match[0];
+    }
+    for (const candidate of candidates) {
+      if (!candidate || brand.length >= candidate.length) continue;
+      const prefix = primary.slice(0, candidate.length);
+      if (compact(prefix) === compact(candidate)
+          && (!/[A-Za-z0-9]/.test(prefix.at(-1))
+            || !/[A-Za-z0-9]/.test(primary[candidate.length] || ''))) brand = prefix;
+    }
     let chinese = brand ? clean(primary.slice(brand.length).replace(/^[\s-]+/, '')) : primary;
     if (!HAN.test(chinese)) return { brand: '', chinese: primary };
     const shade = names.specification.match(/(?:^|\s)(#[0-9]{1,3}[A-Za-z]?)(?=\s|$)/);
