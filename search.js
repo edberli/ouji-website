@@ -17,6 +17,29 @@
   let cursor = -1;       // 鍵盤揀緊第幾個
   let vendors = null;    // 品牌清單（跟 cache 一齊建／清）
   const wordCache = new Map(); // 產品標題嘅字詞 runs（fuzzy 用）
+  let aliasIndex = Object.create(null);
+  let aliasRequest = null;
+
+  /* 別名索引按 Product ID 綁定；只供搜尋，畫面仍顯示 Shopify 目前標題。
+     失敗時沿用標題搜尋，新上架而未入索引嘅貨亦照樣可搵到。 */
+  window.OUJI_loadSearchIndex = () => {
+    if (!aliasRequest) aliasRequest = fetch(`/data/search-aliases.json?v=${Math.floor(Date.now() / 3600000)}`, { cache: 'no-cache' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Search index HTTP ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.v !== 1 || !data.products) throw new Error('Invalid search index');
+        aliasIndex = data.products;
+        if (root && !root.hidden) draw(root.querySelector('input').value);
+        return aliasIndex;
+      })
+      .catch((error) => {
+        console.warn('[OUJI] Search aliases unavailable:', error);
+        return aliasIndex;
+      });
+    return aliasRequest;
+  };
 
   const esc = (s) => String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -26,7 +49,7 @@
      `&` 當成 a —— 目錄入面有 `rom&nd`，客實係打「romand」。
      用白名單剔標點試過走漏 `ma:nyo` 同 `Dr.Jart+`（個冒號同加號冇剔到），
      所以改成「唔係字母數字就剔」。 */
-  const flat = (s) => String(s || '').toLowerCase()
+  const flat = (s) => String(s || '').normalize('NFKC').toLowerCase()
     .replace(/&/g, 'a')
     .replace(/[^\p{L}\p{N}]/gu, '');
 
@@ -177,19 +200,33 @@
 
   function score(p, q, terms = []) {
     const t = flat(p.title), v = flat(p.vendor);
+    const extra = aliasIndex[p.id];
+    if (extra?.i?.some((identifier) => flat(identifier) === q)) return -10;
+    if (t === q) return -5;
+    if (extra?.a?.some((alias) => flat(alias) === q)) return -4;
+    if (terms.length > 1 && extra?.a?.some((alias) => hasOrderedTerms(flat(alias), terms))) return -3;
     if (v.startsWith(q)) return 0;          // 牌子頭幾個字 —— 最想要嘅
     if (t.startsWith(q)) return 1;
     if (v.includes(q)) return 2;
     if (t.includes(q)) return 3;
     if (terms.length > 1 && hasOrderedTerms(t, terms)) return 4;
     if (terms.length > 1 && hasOrderedTerms(v + t, terms)) return 5;
+    if (extra?.a?.some((alias) => flat(alias).includes(q))) return 6;
     return -1;
   }
 
   /* /shop?q= 同浮層共用，避免「睇埋其餘」跳頁後消失。 */
   window.OUJI_searchProductMatch = (product, term) => {
     const terms = orderedTerms(term);
-    return queryForms(term).some((q) => q && score(product, q, terms) >= 0);
+    return queryForms(term).some((q) => q && score(product, q, terms) !== -1);
+  };
+
+  window.OUJI_searchProductScore = (product, term) => {
+    const terms = orderedTerms(term);
+    return Math.min(...queryForms(term).map((q) => {
+      const hit = q ? score(product, q, terms) : -1;
+      return hit === -1 ? 99 : hit;
+    }));
   };
 
   function find(term) {
@@ -197,10 +234,9 @@
     if (!queries[0] || !cache) return [];
     const terms = orderedTerms(term);
     return cache
-      .filter((p) => !(typeof soldOut === 'function' && soldOut(p)))
       .map((p) => ({ p, s: Math.min(...queries.map((q) => {
         const hit = score(p, q, terms);
-        return hit < 0 ? 99 : hit;
+        return hit === -1 ? 99 : hit;
       })) }))
       .filter((x) => x.s < 99)
       .sort((a, b) => a.s - b.s
@@ -346,6 +382,7 @@
     document.body.style.overflow = 'hidden';
     const input = root.querySelector('input');
     input.focus();
+    window.OUJI_loadSearchIndex();
     if (!cache) {
       draw('');
       try {

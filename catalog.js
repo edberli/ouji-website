@@ -2543,7 +2543,7 @@ function syncShopPage(activeGroup, shown) {
   document.title = `${name} — OUJI`;
 }
 
-async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null }) {
+async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '' }) {
   /* 品牌置頂（見 renderProducts）要知而家喺邊一版。渲染嗰陣攞唔到
      section，所以喺入口記低一次。 */
   CURRENT_SECTION = section || (document.querySelector('[data-shop-catalog]') ? 'all' : null);
@@ -2555,7 +2555,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   /* 老闆 2026-09-04 定義嘅上架規則：有貨先擺入產品目錄。售完產品可以
      保留直接網址同補貨通知，但唔應該喺全部產品、分類、品牌段落或件數
      入面出現，更加唔需要畀客再剔一次「有貨」。 */
-  products = products.filter((p) => !soldOut(p));
+  products = searchTerm ? products : products.filter((p) => !soldOut(p));
 
   /* 首屏用嘅 catalog 快照可能係舊 cache 版本。背景對數攞到新目錄之後
      會派 ouji:catalog-refreshed，但之前**冇人聽** —— 結果老闆見到
@@ -2591,15 +2591,17 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     if (fresh.length < 100) return;
     const next = fresh.map((x) => (x && x.node) || x)
       .filter((p) => p && p.handle)
-      .filter((p) => !soldOut(p))
+      .filter((p) => searchTerm || !soldOut(p))
       .filter(inSection);
-    if (!next.length) return;
+    const matching = searchTerm && typeof window.OUJI_searchProductMatch === 'function'
+      ? next.filter((p) => window.OUJI_searchProductMatch(p, searchTerm)) : next;
+    if (!matching.length && !searchTerm) return;
     // 同一批 ID 嘅價錢、存貨同圖片都可能已更新；淨係比較 ID 會令
     // 快照嘅舊價繼續留喺畫面。完整資料一致先跳過重畫。
-    const same = next.length === products.length
-      && next.every((p, i) => JSON.stringify(p) === JSON.stringify(products[i]));
+    const same = matching.length === products.length
+      && matching.every((p, i) => JSON.stringify(p) === JSON.stringify(products[i]));
     if (same) return;
-    products = next;
+    products = matching;
     if (document.querySelector('[data-shop-boot]')) {
       buildShopBootHero(products, document.querySelector('[data-boot-group].is-on')?.dataset.bootGroup || null);
     }
@@ -2647,6 +2649,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
   const countEl = document.querySelector('.filter-bar__count');
   const sortEl = document.querySelector('.filter-bar__sort select');
+  if (searchTerm && sortEl?.querySelector('option[value="featured"]')) {
+    sortEl.querySelector('option[value="featured"]').textContent = '排序：相關度';
+  }
 
   /* ?sort=new 由首頁「睇晒新貨」同埋新品格帶過嚟。只認 SORTS 有嘅 key，
      亂打一個就當冇寫，唔好靜靜哋出一個空清單。 */
@@ -2699,7 +2704,10 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     let list = applyFilters(section, scope, sel);
     if (lockCat) list = list.filter((p) => subMatch(section, lockCat, p));
     const cmp = SORTS[sortKey];
-    if (cmp) list = [...list].sort(cmp);
+    if (searchTerm && sortKey === 'featured' && typeof window.OUJI_searchProductScore === 'function') {
+      list = [...list].sort((a, b) =>
+        window.OUJI_searchProductScore(a, searchTerm) - window.OUJI_searchProductScore(b, searchTerm));
+    } else if (cmp) list = [...list].sort(cmp);
 
     // Generic category pages (沐浴、香氛、保健、季節性、工具、公仔、
     // 隱形眼鏡、K-pop) 會喺入 initCatalog 前已經用 `cat` 縮窄 products；
@@ -2710,7 +2718,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       || sel.price.size || sel.flag.size;
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
-    const grouped = !filtered && sortKey === 'featured'
+    const grouped = !searchTerm && !filtered && sortKey === 'featured'
       && vendorsOf(list).length > 1;
 
     buildCatGate(section, products, sel, lockCat);

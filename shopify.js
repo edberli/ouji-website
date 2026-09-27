@@ -602,7 +602,7 @@ function revalidateCatalog(key, opts) {
   else setTimeout(run, 1500);
 }
 
-async function getAllProducts({ collectionHandle, pageSize = 250, max = 2000, progressive = false } = {}) {
+async function getAllProducts({ collectionHandle, pageSize = 250, max = 5000, progressive = false } = {}) {
   const key = cacheKey(`catalog:${collectionHandle || 'all'}`);
   const cached = cacheRead(key);
   if (cached) return { edges: cached };

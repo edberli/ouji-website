@@ -485,12 +485,12 @@
   </nav>
 
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260926-first-impression"></script>
+  <script src="shopify.js?v=20260927-sitewide"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js?v=20260926-first-impression"></script>
-  <script src="search.js?v=20260927-bilingual-terms"></script>
+  <script src="catalog.js?v=20260927-sitewide"></script>
+  <script src="search.js?v=20260927-sitewide"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
@@ -549,6 +549,9 @@
     }
 
     if (q) {
+      if (typeof window.OUJI_loadSearchIndex === 'function') await window.OUJI_loadSearchIndex();
+      const latest = await getAllProducts();
+      if (latest?.edges?.length) products = latest.edges.map((edge) => edge.node);
       const flat = (x) => String(x || '').toLowerCase()
         .replace(/&/g, 'a').replace(/[^\p{L}\p{N}]/gu, '');
       const needle = flat(q);
@@ -582,7 +585,7 @@
     if (!products.length) {
       showCategoryEmpty('skincare', cat);
     } else {
-      initCatalog({ section: null, cat, products, group: params.get('group'), folderLabel });
+      initCatalog({ section: null, cat, products, group: params.get('group'), folderLabel, searchTerm: q });
     }
   });
   </script>
