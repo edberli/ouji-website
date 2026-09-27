@@ -17387,3 +17387,100 @@ body::before { opacity: 0.18; }
   .midautumn-home__discount::after { display: none; }
   .midautumn-home__poster-mobile { display: block; width: 100%; height: auto; }
 }
+
+
+/* Permanent Round Lab gift offer on the homepage. */
+.home-gift-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 36%);
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 28px);
+  min-height: 100%;
+  padding: clamp(21px, 2.8vw, 36px);
+  overflow: hidden;
+  border: 1px solid #d6e1e5;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 90% 12%, rgba(203,226,232,.65), transparent 39%),
+    linear-gradient(145deg, #fffdf8, #f2f7f8);
+  box-shadow: 0 12px 28px rgba(36,61,70,.08);
+  color: #263b43;
+}
+.home-gift-card__copy { position: relative; z-index: 1; min-width: 0; }
+.home-gift-card__eyebrow {
+  margin: 0;
+  color: #557b8b;
+  font-size: .74rem;
+  font-weight: 750;
+  letter-spacing: .14em;
+}
+.home-gift-card h3 {
+  margin: 11px 0 14px;
+  color: #294b57;
+  font: 600 clamp(1.4rem, 2.35vw, 2.15rem)/1.22 var(--font-display);
+}
+.home-gift-card__condition {
+  margin: 0;
+  color: #52666d;
+  font-size: clamp(.82rem, 1vw, .94rem);
+  line-height: 1.6;
+}
+.home-gift-card__condition strong { color: #284f60; }
+.home-gift-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+  padding: 10px 14px;
+  border: 1px solid #294b57;
+  border-radius: 999px;
+  background: #294b57;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color .18s ease, color .18s ease, transform .18s ease;
+}
+.home-gift-card__link:hover { background: #3b6474; border-color: #3b6474; transform: translateY(-1px); }
+.home-gift-card__link:focus-visible { outline: 3px solid #9bbbc5; outline-offset: 3px; }
+.home-gift-card__link svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.home-gift-card__image {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  max-height: 270px;
+  aspect-ratio: 1;
+  justify-self: center;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 16px rgba(45,69,77,.16));
+}
+@media (max-width: 800px) {
+  .home-gift-card {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(100px, 30%);
+    padding: 20px;
+    border-radius: 18px;
+  }
+  .home-gift-card__image { max-width: 190px; max-height: 190px; }
+  .home-gift-card__link { margin-top: 14px; }
+}
+@media (max-width: 460px) {
+  .home-gift-card {
+    grid-template-columns: minmax(0, 1fr) 84px;
+    gap: 10px;
+    padding: 16px;
+  }
+  .home-gift-card h3 { margin: 8px 0 10px; font-size: 1.2rem; }
+  .home-gift-card__condition { font-size: .79rem; }
+  .home-gift-card__image { width: 84px; height: 100px; }
+  .home-gift-card__link { gap: 6px; padding: 9px 11px; font-size: .76rem; }
+}

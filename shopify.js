@@ -18,6 +18,8 @@ const OUJI_COMMERCE = Object.freeze({
       Object.freeze({ threshold: 499, saving: 40 }),
       Object.freeze({ threshold: 699, saving: 60 }),
     ]),
+    /* 面霜贈品屬常設優惠，獨立於上方中秋活動日期。此門檻要同 Shopify
+       自動贈品折扣 customerBuys.value.amount 一致；季節折扣完結時要再核對。 */
     gift: Object.freeze({
       threshold: 599,
       handle: 'round-lab-round-lab-80ml-0221',

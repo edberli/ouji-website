@@ -417,11 +417,9 @@
       <div class="cat-cards" data-home-cats></div>
     </section>
 
-    <!-- ═══════════ 首頁購物禮遇 banner ═══════════
-         活動期間由 shopify.js 注入中秋優惠；活動以外只顯示免運門檻。
-         順豐 $250／$290 免運係 delivery rule，只喺購物袋揀運送方式時先出現；
-         一次過要客記六個門檻係成套設計最容易出事嘅位，唔好喺呢度列出。
-         贈品剩幾多支係即時由 Shopify 攞，攞唔到就唔顯示，唔准作數。 -->
+    <!-- ═══════════ 首頁長駐購物禮遇 ═══════════
+         左側列出 Round Lab 贈品條件，右側保留既有運送安排。
+         符合條件時購物車自動加入贈品；實際結果以購物袋及結帳為準。 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="i-tag" viewBox="0 0 24 24">
     <path d="M20.4 12.6 12.6 20.4a1.9 1.9 0 0 1-2.7 0l-6-6a1.9 1.9 0 0 1-.6-1.4V4.6A1.6 1.6 0 0 1 4.9 3h8.1c.5 0 1 .2 1.4.6l6 6a1.9 1.9 0 0 1 0 2.7Z"/>
@@ -443,23 +441,29 @@
   </symbol>
 </svg>
 
-    <div class="promo-wrap" data-ouji-opening-promo hidden>
-      <section class="midautumn-home" aria-labelledby="midautumn-home-title">
+    <div class="promo-wrap">
+      <section class="midautumn-home" aria-labelledby="home-benefits-title">
         <div class="midautumn-home__inner">
           <div class="midautumn-home__heading">
             <div>
-              <p class="midautumn-home__eyebrow">OUJI · 9 月 23–27 日</p>
-              <h2 id="midautumn-home-title">中秋限定購物禮遇</h2>
+              <p class="midautumn-home__eyebrow">OUJI · 購物禮遇</p>
+              <h2 id="home-benefits-title">購物禮遇與運送安排</h2>
             </div>
-            <p>限時 5 日 · 優惠同收貨安排一眼睇清</p>
+            <p>Round Lab 面霜贈品與收貨安排一眼睇清</p>
           </div>
           <div class="midautumn-home__grid">
-            <div class="midautumn-home__offers" aria-label="中秋優惠">
-              <article class="midautumn-home__discount">
-                <img class="midautumn-home__desktop-art" src="assets/images/home/midautumn-promo-landscape-20260923.webp" alt="OUJI 中秋限定，9 月 23 至 27 日。滿 HK$299 減 $20、滿 HK$499 減 $40、滿 HK$699 減 $60；滿 HK$599 送 Round Lab 面霜 80ml，價值 HK$148。每張訂單只享最高一級滿額減，結帳自動套用。" width="1586" height="992" loading="lazy" decoding="async">
-                <img class="midautumn-home__poster-mobile" src="assets/images/home/midautumn-poster-user-20260923.jpg" alt="OUJI 中秋限定，9 月 23 至 27 日。滿 HK$299 減 $20、滿 HK$499 減 $40、滿 HK$699 減 $60；滿 HK$599 送 Round Lab 面霜 80ml，價值 HK$148。每張訂單只享最高一級滿額減，結帳自動套用。" width="1024" height="1280" loading="lazy" decoding="async">
-              </article>
-            </div>
+            <article class="home-gift-card" aria-labelledby="home-gift-title">
+              <div class="home-gift-card__copy">
+                <p class="home-gift-card__eyebrow">購物滿額禮</p>
+                <h3 id="home-gift-title">Round Lab 白樺樹保濕面霜 80ml</h3>
+                <p class="home-gift-card__condition"><strong>合資格商品滿 HK$599</strong>（不計運費），即送一支；數量有限，送完即止，以結帳為準。</p>
+                <a class="home-gift-card__link" href="product.html?handle=round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml 商品詳情">
+                  查看產品詳情
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6.5l5.5 5.5-5.5 5.5"/></svg>
+                </a>
+              </div>
+              <img class="home-gift-card__image" src="assets/images/home/gift-cream-cutout.png" alt="Round Lab 白樺樹保濕面霜 80ml 贈品" width="1254" height="1254" loading="lazy" decoding="async">
+            </article>
             <aside class="midautumn-home__shipping" aria-label="運送及自取">
               <div class="midautumn-home__shipping-head">
                 <span class="midautumn-home__label">OUJI DELIVERY</span>
