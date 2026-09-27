@@ -20,6 +20,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const naming = require('../product-naming.js');
 
 const SHOP = '5rerjn-mt.myshopify.com';
 const TOKEN = '795e2f7cb13da1d3776449eba5802377';
@@ -130,7 +131,7 @@ function gtinField(raw) {
 /** 同 analytics.js 嘅 applyProductSeo() 保持一致，兩邊出同一組值。 */
 function buildHead(p) {
   const url = `${SITE}/products/${p.handle}`;
-  const title = `${p.title} — OUJI`;
+  const title = naming.display(p).seoTitle;
   const raw = (p.description || '').replace(/\s+/g, ' ').trim();
   const desc = raw
     ? raw.slice(0, 150) + (raw.length > 150 ? '…' : '')
@@ -229,10 +230,14 @@ function fillBody(html, p) {
 }
 
 function fillH1(html, p) {
-  const t = (p && p.title) || '';
-  if (!t) return html;
+  if (!p?.title) return html;
+  const names = naming.display(p);
   return html.replace(H1_EMPTY,
-    `<h1 class="product-info__name">${esc(t)}</h1>`);
+    `<h1 class="product-info__name">${esc(names.primary)}</h1>`)
+    .replace('<p class="product-info__subtitle" hidden></p>',
+      names.subtitle ? `<p class="product-info__subtitle">${esc(names.subtitle)}</p>` : '<p class="product-info__subtitle" hidden></p>')
+    .replace('<p class="product-info__specification" hidden></p>',
+      names.specification ? `<p class="product-info__specification">${esc(names.specification)}</p>` : '<p class="product-info__specification" hidden></p>');
 }
 
 module.exports = async function handler(req, res) {

@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+/* Exact-ID full-catalog check for the two-line display and Organic SEO title. */
+const fs = require('fs');
+const path = require('path');
+const naming = require('../product-naming.js');
+const products = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/catalog.json')))
+  .v.map(({ node }) => node);
+const failures = [];
+const seo = new Map();
+
+for (const product of products) {
+  const out = naming.display(product);
+  const combined = `${out.primary} ${out.subtitle} ${out.specification}`.toLowerCase();
+  if (!out.split || !/[\u3400-\u9fff]/.test(out.primary)
+      || !/[A-Za-z]/.test(out.subtitle) || /[\u3400-\u9fff]/.test(out.subtitle)) {
+    failures.push({ id: product.id, reason: 'bad two-line split', title: product.title, out });
+  }
+  if (!out.seoTitle.startsWith(out.primary) || /[｜—-]\s*OUJI$/i.test(out.seoTitle)) {
+    failures.push({ id: product.id, reason: 'bad Organic SEO title', out });
+  }
+  for (const token of product.title.match(/[\p{L}\p{N}]+/gu) || []) {
+    if (!combined.includes(token.toLowerCase())) {
+      failures.push({ id: product.id, reason: `lost title token: ${token}`, out });
+    }
+  }
+  if (!seo.has(out.seoTitle)) seo.set(out.seoTitle, []);
+  seo.get(out.seoTitle).push(product.id);
+}
+
+const clio = naming.display(products.find((p) => p.id === 'gid://shopify/Product/8817695785118'));
+if (clio.primary !== 'CLIO 輕盈12色眼影盤'
+    || clio.subtitle !== 'CLIO Pro Eye Palette Air'
+    || clio.specification !== '#03 Mute Library'
+    || clio.seoTitle !== 'CLIO 輕盈12色眼影盤｜Pro Eye Palette Air #03') {
+  failures.push({ reason: 'approved CLIO layout drift', clio });
+}
+
+const molak = naming.display(products.find((p) => p.id === 'gid://shopify/Product/8826994131102'));
+if (molak.subtitle !== 'Molak Brown Bunny' || molak.specification !== '10枚/盒') {
+  failures.push({ reason: 'shade and pack split drift', molak });
+}
+const jungwonsam = naming.display(products.find((p) => p.id === 'gid://shopify/Product/8860607807646'));
+if (!jungwonsam.subtitle.startsWith('JUNGWONSAM 6 Years')
+    || jungwonsam.primary.endsWith(' 6')) {
+  failures.push({ reason: 'English numeric name split drift', jungwonsam });
+}
+
+const duplicates = [...seo].filter(([, ids]) => ids.length > 1)
+  .map(([title, ids]) => ({ title, ids }));
+console.log(JSON.stringify({ checked: products.length, split: products.length - failures.length,
+  failures: failures.slice(0, 15), duplicateSeoTitles: duplicates }, null, 2));
+if (failures.length) process.exitCode = 1;

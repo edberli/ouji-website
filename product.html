@@ -48,7 +48,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20260925-card-compare-fix">
+  <link rel="stylesheet" href="styles.css?v=20260927-two-line-title">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
   </style>
@@ -262,6 +262,8 @@
         <div class="product-info">
           <span class="product-info__brand"></span>
           <h1 class="product-info__name"></h1>
+          <p class="product-info__subtitle" hidden></p>
+          <p class="product-info__specification" hidden></p>
           <!-- 評分摘要 —— 有評價先出，撳一下捲落去成段評價 -->
           <a class="product-info__rating" data-rating-jump href="#reviews" hidden></a>
           <div class="product-info__price"></div>
@@ -466,7 +468,8 @@
     </a>
   </nav>
 
-  <script src="analytics.js"></script>
+  <script src="product-naming.js?v=20260927-two-line-title"></script>
+  <script src="analytics.js?v=20260927-two-line-title"></script>
   <script src="shopify.js?v=20260925-card-compare-fix"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
@@ -614,7 +617,8 @@
       if (galleryMain) galleryMain.classList.remove('is-loading');
 
       // Update page title
-      document.title = product.title + ' — OUJI';
+      const naming = window.OUJI_productNaming?.display(product);
+      document.title = naming?.seoTitle || product.title;
 
       // Update breadcrumb — the section link is a placeholder until we know the product
       const breadcrumbLast = document.querySelector('.breadcrumb span:last-child');
@@ -677,7 +681,17 @@
           brand.innerHTML = `<a href="shop.html?brand=${encodeURIComponent(product.vendor)}">${brand.textContent}</a>`;
         }
       }
-      if (nameEl) nameEl.textContent = shortDated ? shortDatedDisplayTitle(product.title) : product.title;
+      if (nameEl) nameEl.textContent = naming?.primary || (shortDated ? shortDatedDisplayTitle(product.title) : product.title);
+      const subtitleEl = document.querySelector('.product-info__subtitle');
+      if (subtitleEl) {
+        subtitleEl.textContent = naming?.subtitle || '';
+        subtitleEl.hidden = !naming?.subtitle;
+      }
+      const specificationEl = document.querySelector('.product-info__specification');
+      if (specificationEl) {
+        specificationEl.textContent = naming?.specification || '';
+        specificationEl.hidden = !naming?.specification;
+      }
       if (priceEl) {
         const p = product.priceRange.minVariantPrice;
         /* ⚠️ 2026-09-18：唔可以用 compareAtPriceRange.minVariantPrice ——

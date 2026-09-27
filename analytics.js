@@ -394,7 +394,7 @@ function setCanonical(url) {
 function applyProductSeo(product) {
   if (!product) return;
   const url = `https://oujikbeauty.com/products/${product.handle}`;
-  const title = `${product.title} — OUJI`;
+  const title = window.OUJI_productNaming?.display(product).seoTitle || product.title;
   /* 描述取產品自己嘅文案頭 150 字；冇就用品牌做 fallback，
      總之唔可以 807 版一模一樣。 */
   const raw = (product.description || '').replace(/\s+/g, ' ').trim();

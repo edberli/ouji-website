@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "functions": {
     "api/product.js": {
-      "includeFiles": "product.html"
+      "includeFiles": "{product.html,product-naming.js}"
     },
     "api/google-feed.js": {
       "maxDuration": 60
