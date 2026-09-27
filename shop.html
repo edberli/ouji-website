@@ -490,7 +490,7 @@
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
   <script src="catalog.js?v=20260926-first-impression"></script>
-  <script src="search.js?v=20260922-search-smart"></script>
+  <script src="search.js?v=20260927-bilingual-terms"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
@@ -552,8 +552,9 @@
       const flat = (x) => String(x || '').toLowerCase()
         .replace(/&/g, 'a').replace(/[^\p{L}\p{N}]/gu, '');
       const needle = flat(q);
-      products = products.filter((p) => flat(p.title).includes(needle)
-        || flat(p.vendor).includes(needle));
+      products = products.filter((p) => typeof window.OUJI_searchProductMatch === 'function'
+        ? window.OUJI_searchProductMatch(p, q)
+        : (flat(p.title).includes(needle) || flat(p.vendor).includes(needle)));
       setFolder(`「${q}」`, 'Searching...');
       document.title = `${q} — OUJI`;
     }

@@ -156,22 +156,50 @@
     return { brand, products: out.map((x) => x.p) };
   }
 
-  function score(p, q) {
+  /* 產品名用「品牌 → 中文 → 英文」時，客打「CLIO Pro Eye Palette Air」
+     會跨過中間嘅中文。保留原本精確子字串優先級，再按原順序搵字詞；
+     唔做任意 OR，避免只中一個常用字就混入無關商品。 */
+  function orderedTerms(term) {
+    const normalized = String(term || '').normalize('NFKC').toLowerCase().replace(/&/g, 'a');
+    return (normalized.match(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]+|[a-z0-9]+/gu) || [])
+      .map(flat).filter(Boolean);
+  }
+
+  function hasOrderedTerms(text, terms) {
+    let from = 0;
+    for (const term of terms) {
+      const at = text.indexOf(term, from);
+      if (at < 0) return false;
+      from = at + term.length;
+    }
+    return true;
+  }
+
+  function score(p, q, terms = []) {
     const t = flat(p.title), v = flat(p.vendor);
     if (v.startsWith(q)) return 0;          // 牌子頭幾個字 —— 最想要嘅
     if (t.startsWith(q)) return 1;
     if (v.includes(q)) return 2;
     if (t.includes(q)) return 3;
+    if (terms.length > 1 && hasOrderedTerms(t, terms)) return 4;
+    if (terms.length > 1 && hasOrderedTerms(v + t, terms)) return 5;
     return -1;
   }
+
+  /* /shop?q= 同浮層共用，避免「睇埋其餘」跳頁後消失。 */
+  window.OUJI_searchProductMatch = (product, term) => {
+    const terms = orderedTerms(term);
+    return queryForms(term).some((q) => q && score(product, q, terms) >= 0);
+  };
 
   function find(term) {
     const queries = queryForms(term);
     if (!queries[0] || !cache) return [];
+    const terms = orderedTerms(term);
     return cache
       .filter((p) => !(typeof soldOut === 'function' && soldOut(p)))
       .map((p) => ({ p, s: Math.min(...queries.map((q) => {
-        const hit = score(p, q);
+        const hit = score(p, q, terms);
         return hit < 0 ? 99 : hit;
       })) }))
       .filter((x) => x.s < 99)
@@ -331,6 +359,16 @@
       if (input.value) draw(input.value);
     }
   }
+
+  /* 初次打開可能先收到舊商品快照；背景 Storefront API 更新完成後，
+     即時重建搜尋資料，唔使客關掉再開先搵到剛改名嘅商品。 */
+  document.addEventListener('ouji:catalog-refreshed', (event) => {
+    if (!root || !Array.isArray(event.detail?.edges)) return;
+    cache = event.detail.edges.map((edge) => edge.node);
+    vendors = null;
+    wordCache.clear();
+    if (!root.hidden) draw(root.querySelector('input').value);
+  });
 
   function close() {
     root.hidden = true;
