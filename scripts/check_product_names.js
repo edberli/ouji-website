@@ -10,6 +10,12 @@ const seo = new Map();
 
 for (const product of products) {
   const out = naming.display(product);
+  const cardName = naming.cardChinese(product);
+  const cardTitle = naming.cardTitle(product);
+  if (!/[\u3400-\u9fff]/.test(cardName) || /[A-Za-z]/.test(cardName)
+      || !cardTitle.endsWith(cardName)) {
+    failures.push({ id: product.id, reason: 'bad Chinese product tile', cardName, cardTitle });
+  }
   const combined = `${out.primary} ${out.subtitle} ${out.specification}`.toLowerCase();
   if (!out.split || !/[\u3400-\u9fff]/.test(out.primary)
       || !/[A-Za-z]/.test(out.subtitle) || /[\u3400-\u9fff]/.test(out.subtitle)) {
@@ -43,6 +49,10 @@ const jungwonsam = naming.display(products.find((p) => p.id === 'gid://shopify/P
 if (!jungwonsam.subtitle.startsWith('JUNGWONSAM 6 Years')
     || jungwonsam.primary.endsWith(' 6')) {
   failures.push({ reason: 'English numeric name split drift', jungwonsam });
+}
+const clioTint = products.find((p) => p.title === 'CLIO 晶透水光唇釉 Crystal Glam Tint');
+if (naming.cardChinese(clioTint) !== '晶透水光唇釉') {
+  failures.push({ reason: 'CLIO product tile drift', cardName: naming.cardChinese(clioTint) });
 }
 
 const duplicates = [...seo].filter(([, ids]) => ids.length > 1)

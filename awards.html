@@ -403,13 +403,14 @@
     </a>
   </nav>
 
+  <script src="product-naming.js?v=20260927-card-chinese"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260925-card-compare-fix"></script>
+  <script src="shopify.js?v=20260927-card-chinese"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js?v=20260925-card-compare-fix"></script>
-  <script src="search.js?v=20260927-sitewide"></script>
+  <script src="catalog.js?v=20260927-card-chinese"></script>
+  <script src="search.js?v=20260927-card-chinese"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   /* Grouped by product, not by award: the same lipstick winning five
@@ -535,7 +536,7 @@
         </div>
         <div class="award-card__body">
           <span class="award-card__brand">${p.vendor || ''}</span>
-          <h3 class="award-card__title">${p.title}</h3>
+          <h3 class="award-card__title">${oujiCardName(p)}</h3>
           <ul class="award-card__lines">${shown.map(line).join('')}</ul>
           <span class="award-card__price">${price ? formatPrice(price.amount) : ''}</span>
         </div>

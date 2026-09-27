@@ -1053,13 +1053,14 @@
     </a>
   </nav>
 
+  <script src="product-naming.js?v=20260927-card-chinese"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260927-sitewide"></script>
+  <script src="shopify.js?v=20260927-card-chinese"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="home.js?v=20260926-first-impression"></script>
-  <script src="search.js?v=20260927-sitewide"></script>
+  <script src="home.js?v=20260927-card-chinese"></script>
+  <script src="search.js?v=20260927-card-chinese"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
     // Brand section toggles (independent per category)
@@ -1275,7 +1276,7 @@
                   <div class="product-card__quick-add product-card__quick-add--pick">入去睇</div>
                 </div>
                 <span class="product-card__brand">${p.vendor || ''}</span>
-                <span class="product-card__name">${p.title}</span>
+                <span class="product-card__name">${oujiCardName(p)}</span>
                 ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { title: p.title })}
               </a>
             `;

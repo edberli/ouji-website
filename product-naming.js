@@ -131,5 +131,33 @@
     return { primary, subtitle, specification, seoTitle, split: Boolean(english) };
   }
 
-  return { display };
+  /* Product tiles have limited space. Keep the brand and existing Chinese
+     descriptor; the full bilingual name remains in search, SEO and detail. */
+  function cardParts(product) {
+    const original = clean(product?.title);
+    const names = display(product);
+    const vendor = clean(product?.vendor);
+    let brand = brandFromTitle(original, vendor);
+    if (HAN.test(brand)) {
+      const chineseVendor = vendor.match(/^[\u3400-\u9fff]+/);
+      if (chineseVendor) brand = chineseVendor[0];
+      else brand = clean(brand.replace(/\s+[A-Za-z].*$/, ''));
+    }
+    let chinese = names.primary;
+    if (HAN.test(brand) && chinese.startsWith(brand)) chinese = clean(chinese.slice(brand.length));
+    else chinese = clean(chinese.slice(Math.max(0, chinese.search(HAN))));
+    chinese = clean(chinese.replace(/[A-Za-z][A-Za-z0-9+&.\-]*/g, ' ')
+      .replace(/\s*([（(])\s*[）)]/g, ' ')
+      .replace(/^[×x＋+&|·\s]+/, ''));
+    if (!HAN.test(chinese)) return { brand: '', chinese: names.primary };
+    const shade = names.specification.match(/(?:^|\s)(#[0-9]{1,3}[A-Za-z]?)(?=\s|$)/);
+    return { brand, chinese: clean(`${chinese}${shade ? ` ${shade[1]}` : ''}`) };
+  }
+
+  function cardTitle(product) {
+    const parts = cardParts(product);
+    return clean(`${parts.brand} ${parts.chinese}`);
+  }
+
+  return { display, cardTitle, cardChinese: (product) => cardParts(product).chinese };
 });

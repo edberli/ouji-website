@@ -468,12 +468,12 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20260927-two-line-title"></script>
+  <script src="product-naming.js?v=20260927-card-chinese"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
-  <script src="shopify.js?v=20260925-card-compare-fix"></script>
+  <script src="shopify.js?v=20260927-card-chinese"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
-  <script src="search.js?v=20260927-sitewide"></script>
+  <script src="search.js?v=20260927-card-chinese"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   /**
@@ -1042,7 +1042,7 @@
                   <div class="product-card__quick-add product-card__quick-add--pick">入去睇</div>
                 </div>
                 <span class="product-card__brand">${relatedEsc(p.vendor)}</span>
-                <span class="product-card__name">${relatedEsc(p.title)}</span>
+                <span class="product-card__name">${relatedEsc(oujiCardName(p))}</span>
                 <span class="product-card__price">${pr ? formatPrice(pr.amount) : ''}</span>
               </a>
             `;

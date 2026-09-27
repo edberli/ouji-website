@@ -70,6 +70,18 @@ function getLang() {
   }
 }
 
+/* Keep the full Shopify title for data, search and checkout. Only customer
+   facing product tiles use the short Chinese label in the Chinese locale. */
+function oujiCardTitle(product) {
+  if (getLang() === 'en') return product?.title || '';
+  return window.OUJI_productNaming?.cardTitle(product) || product?.title || '';
+}
+
+function oujiCardName(product) {
+  if (getLang() === 'en') return product?.title || '';
+  return window.OUJI_productNaming?.cardChinese(product) || product?.title || '';
+}
+
 function setLang(lang) {
   const next = lang === 'en' ? 'en' : 'zh';
   try { localStorage.setItem(OUJI_LANG_KEY, next); } catch (e) { /* 記唔到就今次算 */ }
@@ -2674,7 +2686,7 @@ function productCardHTML(product) {
   const isSoldOut = !variant?.availableForSale;
   const shortDated = isShortDated(product);
   const expiry = shortDated ? shortDatedExpiry(product) : '';
-  const title = shortDated ? shortDatedDisplayTitle(product.title) : product.title;
+  const title = oujiCardTitle(product);
 
   return `
     <article class="product-card" data-product-id="${product.id}"${shortDated ? ' data-short-dated' : ''}>

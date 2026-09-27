@@ -1602,7 +1602,7 @@ function productCard(p, options = null) {
         ${quickAddControl(p, { isSoldOut, oneVariant, variantId: variant?.id })}
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
-      <span class="product-card__name">${p.title}</span>
+      <span class="product-card__name">${oujiCardName(p)}</span>
       ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
       ${oujiCardPriceHTML(p0.amount, isOnSale ? cp.amount : null, { range: unitPriceRange(p), title: p.title })}
     </a>`;

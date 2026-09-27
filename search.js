@@ -286,7 +286,7 @@
         ? `<img src="${esc(img)}&width=120" alt="" loading="lazy">` : ''}</span>
       <span class="site-search__text">
         <span class="site-search__brand">${esc(p.vendor || '')}</span>
-        <span class="site-search__name">${esc(p.title)}</span>
+        <span class="site-search__name">${esc(oujiCardName(p))}</span>
       </span>
       <span class="site-search__price">${out ? '售完'
         : (amt ? 'HK$' + Math.round(parseFloat(amt)) : '')}</span>

@@ -353,9 +353,10 @@
     </a>
   </nav>
 
+  <script src="product-naming.js?v=20260927-card-chinese"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260925-card-compare-fix"></script>
-  <script src="search.js?v=20260927-sitewide"></script>
+  <script src="shopify.js?v=20260927-card-chinese"></script>
+  <script src="search.js?v=20260927-card-chinese"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   /* 短效期特價專區（2026-09-12）。貨源係 Shopify「short-dated」系列（tag 短效期），
@@ -403,7 +404,7 @@
       const img = p.images?.edges?.[0]?.node;
       const nowP = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
       const was = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0);
-      const name = shortDatedDisplayTitle(p.title);
+      const name = oujiCardName(p);
       const href = `product.html?handle=${encodeURIComponent(p.handle)}`;
       return `<article class="sd-card">
         <a class="sd-card__media" href="${href}">

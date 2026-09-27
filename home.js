@@ -69,7 +69,7 @@ async function initHome() {
             : '<div class="product-card__quick-add product-card__quick-add--pick">入去揀規格</div>')}
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
-      <span class="product-card__name">${p.title}</span>
+      <span class="product-card__name">${oujiCardName(p)}</span>
       ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
       ${oujiCardPriceHTML(p0.amount, onSale ? cp.amount : null, { title: p.title })}
     </a>`;
@@ -202,7 +202,7 @@ async function initHome() {
           </span>
           <span class="home-feat__meta">
             <span class="home-feat__brand">${p.vendor || ''}</span>
-            <span class="home-feat__name">${p.title}</span>
+            <span class="home-feat__name">${oujiCardName(p)}</span>
             ${fact ? `<span class="home-feat__fact">${fact}</span>` : ''}
             <span class="home-feat__price">${formatPrice(p0.amount)}</span>
           </span>
@@ -461,7 +461,7 @@ async function initHome() {
           ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         </span>
         <span class="won-card__brand">${p.vendor || ''}</span>
-        <span class="won-card__title">${p.title}</span>
+        <span class="won-card__title">${oujiCardName(p)}</span>
         <span class="won-card__award">${awardLabel(a)}${
           awards(p.handle).length > 1 ? ` · 共 ${awards(p.handle).length} 項獎` : ''}</span>
       </a>`;

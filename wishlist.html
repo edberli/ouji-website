@@ -370,11 +370,12 @@
     </a>
   </nav>
 
+  <script src="product-naming.js?v=20260927-card-chinese"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20260925-card-compare-fix"></script>
+  <script src="shopify.js?v=20260927-card-chinese"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
-  <script src="search.js?v=20260927-sitewide"></script>
+  <script src="search.js?v=20260927-card-chinese"></script>
   <script src="script.js?v=20260923-midautumn-delivery-v8"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
@@ -435,7 +436,7 @@
             </div>
           </a>
           <div class="product-card__info">
-            <a href="product.html?handle=${product.handle}" class="product-card__title">${product.title}</a>
+            <a href="product.html?handle=${product.handle}" class="product-card__title">${oujiCardTitle(product)}</a>
             <div class="product-card__prices">
               ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { title: product.title })}
             </div>
