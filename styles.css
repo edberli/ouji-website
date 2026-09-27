@@ -15233,11 +15233,6 @@ body::before { opacity: 0.18; }
    「順豐自提點（$25·滿$399免費）」＋ 右邊條 nowrap 嘅已揀膠囊夾埋
    min-content 就 362px，成個 .sfp 縮唔細，喺手機直接將 grid 欄撐到
    462px，成版購物袋右邊俾切走（實測 375px 畫面 body scrollWidth 478）。 */
-.sfp__toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px 10px; flex-wrap: wrap; width: 100%; padding: 13px var(--space-md); border: 0; background: transparent; font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; color: var(--dark-base); text-align: left; cursor: pointer; }
-.sfp__toggle:hover { background: rgba(255, 255, 255, 0.08); }
-.sfp:has(.sfp__hint) .sfp__toggle { border-top: 0; }
-.sfp__toggle-label { min-width: 0; color: var(--dark-base); }
-.sfp__toggle-label em { font-style: normal; color: var(--text-tertiary); font-size: 0.75rem; }
 .sfp__chosen {
   flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 5px 12px; border-radius: 999px;
   background: var(--primary-lightest); color: var(--dark-base);
@@ -15302,7 +15297,7 @@ body::before { opacity: 0.18; }
 .sfp--steps .sfp__detail { margin: 0; color: #355d6e; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
 .sfp__start { display: block; width: 100%; min-height: 46px; margin-top: 18px; padding: 10px 12px; border: 1px solid #d3dfe3; border-radius: 10px; background: #fff; color: #244551; font: inherit; font-size: 14px; }
 .sfp__start[hidden] { display: none; }
-.sfp--info :is(.sfp__steps,.sfp__start,.sfp__toggle,.sfp__status,.sfp__panel,.sfp__err) { display: none; }
+.sfp--info :is(.sfp__steps,.sfp__start,.sfp__retry,.sfp__status,.sfp__panel,.sfp__err) { display: none; }
 .sfp--steps .sfp__region[hidden] { display: none; }
 .sfp--steps .sfp__district { grid-column: 1 / -1; }
 /* 免運提示：白卡一行，左邊貨車 icon，右邊細連結；深藍大底已拎走。 */
@@ -15346,11 +15341,8 @@ body::before { opacity: 0.18; }
 .sfp--inline .sfp__heading { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: #1c3440; }
 .sfp--inline:not(.sfp--info):not(.sfp--chosen) .sfp__detail { display: none; }
 .sfp--inline .sfp__status { margin-top: 8px; text-align: center; }
-.sfp--steps .sfp__toggle { position: relative; justify-content: center; gap: 8px; margin-top: 10px; min-height: 48px; padding: 12px 40px; border-radius: 12px; background: linear-gradient(180deg,#2a5764,#1f4753); color: #fff; font-size: 15px; font-weight: 600; letter-spacing: .04em; box-shadow: 0 8px 16px -10px rgba(31,71,83,.8); }
-.sfp__pin { flex: none; width: 19px; height: 19px; fill: #fff; stroke: #1f4753; stroke-width: 0; }
-.sfp__pin circle { fill: #1f4753; }
-.sfp__chev { position: absolute; right: 16px; font-size: 22px; line-height: 1; opacity: .85; }
-.sfp--steps .sfp__toggle:hover { background: #223d47; }
+.sfp__retry { display: block; margin: 8px auto 0; padding: 4px 8px; border: 0; background: none; color: #1f4753; font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.sfp__retry[hidden] { display: none; }
 .sfp--steps .sfp__status { margin: 12px 0 0; color: #4e727f; font-size: 11px; line-height: 1.5; }
 .sfp--steps .sfp__panel { margin-top: 18px; padding: 18px 0 0; border-top: 1px solid #bdcfd6; }
 .sfp--steps .sfp__err { margin-bottom: 14px; padding: 10px; border: 0; border-radius: 8px; }

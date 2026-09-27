@@ -482,10 +482,8 @@
                   <p class="sfp__service" data-sfp-sublabel></p>
                   <h3 class="sfp__heading" data-sfp-heading>想喺邊度攞貨？</h3>
                   <p class="sfp__detail" data-sfp-detail>揀一個方便你嘅取件點。</p>
-                  <select class="sfp__start" data-sfp-start aria-label="第一步：選擇大區" disabled><option value="">載入大區中…</option></select>
-                  <button type="button" class="sfp__toggle" data-sfp-toggle aria-expanded="false" aria-controls="pickup-options">
-                    <svg class="sfp__pin" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span data-sfp-chosen>瀏覽取件點</span><span class="sfp__chev" aria-hidden="true">›</span>
-                  </button>
+                  <select class="sfp__start" data-sfp-start aria-label="選擇取件點大區" disabled><option value="">載入大區中…</option></select>
+                  <button type="button" class="sfp__retry" data-sfp-retry hidden>重試載入取件點</button>
                   <p class="sfp__status" data-sfp-status aria-live="polite">選好取件點，就可以繼續結賬</p>
                   <div class="sfp__panel" id="pickup-options" data-sfp-panel hidden>
                     <div class="sfp__filters">
@@ -839,8 +837,8 @@
           if (err) {
             const shipName = window.OUJI_cartShipDisplay(mode, cfg.name);
             err.textContent = window.OUJI_cartCopy(
-              `仲未揀去邊間 ${(cfg.label || cfg.name).replace('自取', '').trim()} 攞貨 —— 先選擇分區，或撳「瀏覽取件點」先可以結帳。`,
-              `Please choose a ${shipName} pickup point first — select a district or tap “Browse pickup points” to continue to checkout.`
+              `仲未揀去邊間 ${(cfg.label || cfg.name).replace('自取', '').trim()} 攞貨 —— 請先選擇大區及分區，再揀取件點。`,
+              `Please choose a ${shipName} pickup point first — select a region and district, then a pickup point.`
             );
             err.hidden = false;
           }
@@ -2018,14 +2016,13 @@
      （唔係 Plus、冇 checkout extension）。所以喺呢度揀，揀完寫落
      cart attributes，跟住張單過去，鋪頭喺訂單詳情就見到。
 
-     份 JSON 88KB —— **撳開個面板先至落**，唔好一入購物袋就白白落多 88KB。
+     份 JSON 88KB —— 選用自取運送方式時先載入，唔好一入購物袋就白白落多 88KB。
   */
   (function () {
     const root = document.querySelector('[data-sfp]');
     if (!root) return;
-    const toggle = root.querySelector('[data-sfp-toggle]');
     const panel = root.querySelector('[data-sfp-panel]');
-    const chosenEl = root.querySelector('[data-sfp-chosen]');
+    const retryEl = root.querySelector('[data-sfp-retry]');
     const regionEl = root.querySelector('[data-sfp-region]');
     const districtEl = root.querySelector('[data-sfp-district]');
     const qEl = root.querySelector('[data-sfp-q]');
@@ -2058,7 +2055,7 @@
           ? '觀塘觀塘道 472–480 號，觀塘工業中心一期地下 B 舖。每日 10:00–20:00。收到可取貨通知後，帶同訂單資料到店領取。'
           : '結賬時填寫收件地址及聯絡電話，由順豐派送上門。運費 HK$31，折實滿 HK$290 免運費。';
         panel.hidden = true;
-        toggle.setAttribute('aria-expanded', 'false');
+        startEl.value = '';
         return;
       }
       paintChosen();
@@ -2078,7 +2075,7 @@
         districtEl.innerHTML = '<option value="">所有分區</option>';
         listEl.innerHTML = ''; countEl.textContent = '';
         panel.setAttribute('hidden', '');
-        toggle.setAttribute('aria-expanded', 'false');
+        retryEl.hidden = true;
         startEl.disabled = true;
         startEl.innerHTML = '<option value="">載入分區中…</option>';
         load().catch(showLoadError);
@@ -2110,19 +2107,17 @@
 
     function paintChosen() {
       root.classList.toggle('sfp--chosen', !!chosen);
-      chosenEl.textContent = chosen ? '更改取件點' : '瀏覽取件點';
-      chosenEl.classList.toggle('is-set', !!chosen);
       root.querySelector('[data-sfp-heading]').textContent = chosen ? '✓ ' + chosen.kind + ' ' + chosen.code : '選擇取件點';
       root.querySelector('[data-sfp-detail]').textContent = chosen
         ? `${chosen.address}${chosen.hours ? ' · ' + chosen.hours : ''}` : '揀一個方便你嘅取件點。';
       root.querySelector('[data-sfp-status]').textContent = chosen ? '✓ 已選取件點' : '選好取件點，就可以繼續結賬';
-      startEl.hidden = !!chosen;
     }
 
     function showLoadError() {
       startEl.disabled = true;
       startEl.innerHTML = '<option value="">暫時未能載入分區</option>';
-      countEl.textContent = '未能載入取件點，請再撳「瀏覽取件點」重試。';
+      retryEl.hidden = false;
+      if (!chosen) root.querySelector('[data-sfp-status]').textContent = '未能載入取件點，請重試。';
     }
 
     async function load() {
@@ -2148,6 +2143,8 @@
       fillDistricts();
       startEl.innerHTML = regionEl.innerHTML;
       startEl.disabled = false;
+      retryEl.hidden = true;
+      if (!chosen) root.querySelector('[data-sfp-status]').textContent = '選好取件點，就可以繼續結賬';
       return points;
     }
 
@@ -2183,19 +2180,16 @@
         + (list.length > shown.length ? `<li class="sfp__more">仲有 ${list.length - shown.length} 個 —— 打商場名、街名或者地區收窄佢</li>` : '');
     }
 
-    toggle.addEventListener('click', async () => {
-      const open = panel.hasAttribute('hidden');
-      panel.toggleAttribute('hidden', !open);
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (open) startEl.hidden = false;
-      if (open) { try { if (await load()) render(); } catch (e) { showLoadError(); } }
+    retryEl.addEventListener('click', () => {
+      retryEl.hidden = true;
+      startEl.innerHTML = '<option value="">載入分區中…</option>';
+      load().catch(showLoadError);
     });
     startEl.addEventListener('change', () => {
       regionEl.value = startEl.value;
       fillDistricts();
       qEl.value = '';
       panel.removeAttribute('hidden');
-      toggle.setAttribute('aria-expanded', 'true');
       render();
     });
     regionEl.addEventListener('change', () => { fillDistricts(); render(); });
@@ -2211,7 +2205,7 @@
       paintChosen();
       render();
       panel.setAttribute('hidden', '');
-      toggle.setAttribute('aria-expanded', 'false');
+      startEl.value = '';
       if (!chosen) return;
       const err = root.querySelector('[data-sfp-err]');
       if (err) err.hidden = true;
