@@ -18123,15 +18123,19 @@ body::before { opacity: 0.18; }
   .midautumn-home .shima.midautumn-home__mascot { width: 72px; height: 88px; }
 }
 
-/* Keep the campaign image at its native proportions while retaining a compact desktop section. */
+/* Align the desktop offer with the 1440px site container; crop the photo without stretching it. */
 @media (min-width: 1101px) {
-  .midautumn-home__inner { max-width: 1150px; }
+  .midautumn-home__inner { max-width: var(--max-width); padding-inline: var(--space-2xl); }
   .midautumn-home__heading { grid-template-columns: max-content max-content minmax(0, 1fr); column-gap: 14px; }
   .midautumn-home__heading > .midautumn-home__heading-detail { display: none; }
   .midautumn-home__brand-script { grid-column: 3; }
 }
 .midautumn-home .midautumn-home__grid { height: auto; min-height: 0; align-items: stretch; }
 .midautumn-home .home-gift-card { height: auto; min-height: 0; aspect-ratio: 1644 / 957; overflow: hidden; }
+@media (min-width: 1101px) {
+  .midautumn-home .midautumn-home__grid { height: 320px; }
+  .midautumn-home .home-gift-card { aspect-ratio: auto; height: 100%; }
+}
 .midautumn-home .home-gift-card__scene { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .midautumn-home .home-gift-card__condition { margin-top: 12px; font-size: clamp(.95rem, 1.15vw, 1.2rem); line-height: 1.2; }
 .midautumn-home .home-gift-card__condition strong { font-weight: 800; }
