@@ -15087,6 +15087,11 @@ body::before { opacity: 0.18; }
 .promo-slim__end span { display: block; }
 .promo-slim__end b { color: #ffd77a; font-weight: 700; font-variant-numeric: tabular-nums; }
 
+/* 常設禮遇保留原本深藍幼條；每級字句分兩行，窄機自然換行。 */
+.promo-slim--evergreen .promo-slim__list li { display: grid; gap: 3px; min-width: 0; }
+.promo-slim--evergreen .promo-slim__list li span { line-height: 1.35; }
+.promo-slim--evergreen .promo-slim__head { min-width: max-content; }
+
 @media (max-width: 760px) {
   /* 窄機：面霜 ＋ 標題一行，兩級門檻落第二行，倒數縮到標題隔籬 */
   .promo-slim { flex-wrap: wrap; gap: 10px 14px; padding: 12px 14px; }
@@ -15883,7 +15888,7 @@ body::before { opacity: 0.18; }
 }
 }
 
-/* 已完結嘅全單 88 折宣傳不可再被原有 display 規則重新顯示。 */
+/* 隱藏嘅限時活動唔可被原有 display 規則重新顯示。 */
 .promo-wrap[hidden],
 .promo-slim[hidden] {
   display: none !important;
