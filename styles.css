@@ -17790,6 +17790,7 @@ body::before { opacity: 0.18; }
 .midautumn-home__shipping li strong { display: grid; gap: 0; color: #fff; font-size: clamp(.96rem, 1.25vw, 1.45rem); line-height: 1.18; }
 .midautumn-home__shipping li strong > span,
 .midautumn-home__shipping li strong em { color: #fff; font-weight: 650; }
+.midautumn-home__shipping li strong > span { text-align: left; }
 .midautumn-home__shipping li small { color: #eef8fc; font-size: clamp(.75rem, .95vw, 1rem); line-height: 1.2; }
 .midautumn-home__chevron {
   width: 25px;
