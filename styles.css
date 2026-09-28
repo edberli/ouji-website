@@ -18010,47 +18010,25 @@ body::before { opacity: 0.18; }
   line-height: 1.35;
   text-shadow: 0 1px 3px rgba(11,50,77,.8);
 }
-.midautumn-product-benefits__shipping {
-  display: block;
-  padding: 18px;
-  border: 0;
-  border-radius: 18px;
-  background: var(--primary);
-  box-shadow: 0 10px 28px rgba(38,82,103,.12);
-  color: #fff;
-}
-.midautumn-product-benefits__shipping .midautumn-product-benefits__eyebrow { color: #ffe08a; }
-.midautumn-product-benefits__shipping h2 { margin: 5px 0 12px; color: #fff; font-size: 1.3rem; }
-.midautumn-product-benefits__shipping ul {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-}
-.midautumn-product-benefits__shipping li {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  min-width: 0;
-  min-height: 92px;
-  gap: 5px;
-  padding: 10px;
-  border: 1px solid rgba(255,255,255,.25);
-  border-radius: 12px;
-  background: rgba(28,78,104,.34);
-}
-.midautumn-product-benefits__shipping li strong { display: grid; gap: 2px; color: #fff; font-size: .82rem; line-height: 1.2; }
-.midautumn-product-benefits__shipping li strong > span,
-.midautumn-product-benefits__shipping li strong em { color: #fff; text-align: left; font-style: normal; }
-.midautumn-product-benefits__shipping li > span { color: #e7f3f8; font-size: .7rem; text-align: left; }
-.midautumn-product-benefits__shipping p { margin: 12px 0 0; padding: 0; color: #e7f3f8; font-size: .7rem; line-height: 1.5; }
+/* Product detail is a narrow column on desktop; use the homepage card's three-up layout there too. */
+.midautumn-home__shipping--three-up { height: auto; min-height: 0; padding: 15px 13px 14px; }
+.midautumn-home__shipping--three-up .midautumn-home__shipping-head { min-height: 0; }
+.midautumn-home__shipping--three-up h3 { margin-top: 5px; font-size: 1.4rem; }
+.midautumn-home__shipping--three-up .midautumn-home__shipping-note { display: none; }
+.midautumn-home__shipping--three-up ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); flex: none; gap: 5px; margin-top: 11px; }
+.midautumn-home__shipping--three-up li { flex: none; min-height: 0; }
+.midautumn-home__shipping--three-up li a { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; min-height: 112px; height: auto; gap: 5px; padding: 10px 7px; }
+.midautumn-home__shipping--three-up .midautumn-home__seven-logo,
+.midautumn-home__shipping--three-up .midautumn-home__ship-icon { width: 34px; height: 34px; flex: none; align-self: flex-start; }
+.midautumn-home__shipping--three-up .midautumn-home__seven-logo b { font-size: 1.1rem; }
+.midautumn-home__shipping--three-up .midautumn-home__seven-logo span { font-size: .34rem; }
+.midautumn-home__shipping--three-up li strong { font-size: clamp(.65rem, 2.7vw, .79rem); }
+.midautumn-home__shipping--three-up li small { font-size: clamp(.56rem, 2.35vw, .68rem); }
+.midautumn-home__shipping--three-up .midautumn-home__chevron { display: none; }
+.midautumn-home__shipping--three-up > p { width: calc(100% - 64px); padding-top: 8px; font-size: .65rem; }
+.midautumn-home__shipping--three-up .shima.midautumn-home__mascot { width: 65px; height: 79px; }
 @media (max-width: 420px) {
   .product-gift-card__copy { width: 66%; padding-left: 14px; }
   .product-gift-card h3 { font-size: 1.05rem; }
   .product-gift-card__threshold { font-size: .75rem; }
-  .midautumn-product-benefits__shipping { padding: 14px; }
-  .midautumn-product-benefits__shipping li { padding: 8px 6px; }
-  .midautumn-product-benefits__shipping li strong { font-size: .69rem; }
-  .midautumn-product-benefits__shipping li > span { font-size: .62rem; }
 }
