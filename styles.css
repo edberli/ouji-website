@@ -17860,13 +17860,14 @@ body::before { opacity: 0.18; }
   .midautumn-home__heading-promise { margin-top: 8px; }
   .midautumn-home__heading > .midautumn-home__heading-detail { margin: 7px 0 0; white-space: normal; }
   .midautumn-home__brand-script { display: none; }
-  .home-gift-card { display: block; min-height: 250px; aspect-ratio: auto; background: #438fb3; }
+  .home-gift-card { display: block; min-height: 240px; aspect-ratio: auto; }
   .home-gift-card__copy {
-    width: 60%;
+    width: 56%;
     height: auto;
-    min-height: 250px;
-    padding: 16px 0 16px 16px;
+    min-height: 240px;
+    padding: 14px 0 14px 14px;
     background: transparent;
+    text-shadow: 0 1px 4px rgba(11,50,77,.7);
   }
   .home-gift-card__eyebrow { margin-bottom: 8px; font-size: .62rem; letter-spacing: .17em; }
   .home-gift-card h3 { font-size: clamp(1.1rem, 3.6vw, 1.6rem); white-space: normal; }
@@ -17876,11 +17877,11 @@ body::before { opacity: 0.18; }
   .home-gift-card__link { margin-top: 12px; padding: 9px 11px; font-size: .72rem; }
   .home-gift-card__scene {
     position: absolute;
-    inset: 0 0 0 auto;
-    width: 40%;
+    inset: 0;
+    width: 100%;
     height: 100%;
     aspect-ratio: auto;
-    object-position: 72% center;
+    object-position: 20% center;
   }
   .home-gift-card__script,
   .home-gift-card__footer { display: none; }
