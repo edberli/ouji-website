@@ -450,11 +450,11 @@
                 </div>
                 <section class="reward-gift" data-reward-gift aria-label="購物滿額贈品">
                   <a class="reward-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
-                    <img src="assets/images/home/gift-cream-cutout.png" alt="Round Lab 白樺樹保濕面霜 80ml" width="1254" height="1254" decoding="async">
+                    <img src="assets/images/home/gift-cream-scene.webp" alt="Round Lab 白樺樹保濕面霜 80ml 產品照片" width="1644" height="957" decoding="async">
                   </a>
                   <div class="reward-gift__copy">
                     <p class="reward-gift__eyebrow">滿額贈禮</p>
-                    <h3 class="reward-gift__title" data-gift-title>滿 HK$599，呢樽送畀你</h3>
+                    <h3 class="reward-gift__title" data-gift-title>滿 <span class="reward-gift__threshold-amount">HK$599</span><br>呢樽免費送</h3>
                     <p class="reward-gift__name">ROUND LAB 白樺樹保濕面霜 · 80ml</p>
                     <p class="reward-gift__status" data-gift-status></p>
                     <p class="reward-gift__terms">送完即止 · <a href="/products/round-lab-round-lab-80ml-0221">睇吓呢份禮物 ↗</a></p>
@@ -1317,8 +1317,12 @@
     const gift = window.OUJI_COMMERCE?.promotion?.gift;
     const giftLine = host.querySelector('[data-reward-gift]');
     giftLine.hidden = promoActive;
+    const giftTitleAmount = document.createElement('span');
+    giftTitleAmount.className = 'reward-gift__threshold-amount';
+    giftTitleAmount.textContent = 'HK$' + GIFT;
     host.querySelector('[data-gift-title]').replaceChildren(
-      document.createTextNode(window.OUJI_cartCopy('滿 HK$' + GIFT, 'Spend HK$' + GIFT)),
+      document.createTextNode(window.OUJI_cartCopy('滿 ', 'Spend ')),
+      giftTitleAmount,
       document.createElement('br'),
       document.createTextNode(window.OUJI_cartCopy('呢樽免費送', 'This gift is free')));
     host.querySelector('[data-gift-status]').textContent = (inCart || []).includes(gift?.handle)
