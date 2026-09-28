@@ -12146,7 +12146,7 @@ body::before { opacity: 0.18; }
 /* 陶瓷分類格：底要夠實先托得起相框嗰兩道光，
    純白同太淺嘅藍都會令個立體感消失。 */
 .section--sm:has(.cat-cards) {
-  background: linear-gradient(180deg, #eaf1f3 0%, #dfe9ec 100%);
+  background: linear-gradient(180deg, #eaf1f3 0%, var(--warm-100) 100%);
 }
 .section--warm { background: #ffffff; }
 .cat-cards__title,
@@ -17515,7 +17515,7 @@ body::before { opacity: 0.18; }
 /* Homepage gift and delivery cards: reference-led campaign layout. */
 .midautumn-home {
   padding: clamp(20px, 1.8vw, 28px) 0 clamp(24px, 2vw, 34px);
-  background: #edf7fb;
+  background: var(--warm-100);
 }
 .midautumn-home__inner {
   max-width: 1720px;
@@ -17610,11 +17610,26 @@ body::before { opacity: 0.18; }
   text-shadow: 0 1px 3px rgba(22,65,89,.45);
 }
 .home-gift-card__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin: 0 0 12px;
   color: #fff;
   font-size: clamp(.73rem, .83vw, .9rem);
   font-weight: 600;
   letter-spacing: .28em;
+}
+.home-gift-card__badge {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: #ffe08a;
+  box-shadow: 0 3px 9px rgba(24, 69, 91, .2);
+  color: #25536d;
+  font: 800 clamp(.82rem, .9vw, 1rem)/1.2 var(--font-body);
+  letter-spacing: .03em;
+  text-shadow: none;
+  white-space: nowrap;
 }
 .home-gift-card h3 {
   display: grid;
@@ -17873,6 +17888,7 @@ body::before { opacity: 0.18; }
     text-shadow: 0 1px 4px rgba(11,50,77,.7);
   }
   .home-gift-card__eyebrow { margin-bottom: 8px; font-size: .62rem; letter-spacing: .17em; }
+  .home-gift-card__badge { padding: 4px 9px; font-size: .78rem; }
   .home-gift-card h3 { font-size: clamp(1.1rem, 3.6vw, 1.6rem); white-space: normal; }
   .home-gift-card h3 small { margin-top: 3px; }
   .home-gift-card__benefits { margin-top: 8px; font-size: .65rem; line-height: 1.3; white-space: normal; }
@@ -18105,4 +18121,27 @@ body::before { opacity: 0.18; }
     line-height: 1.3;
   }
   .midautumn-home .shima.midautumn-home__mascot { width: 72px; height: 88px; }
+}
+
+/* Keep the campaign image at its native proportions while retaining a compact desktop section. */
+@media (min-width: 1101px) {
+  .midautumn-home__inner { max-width: 1150px; }
+  .midautumn-home__heading { grid-template-columns: max-content max-content minmax(0, 1fr); column-gap: 14px; }
+  .midautumn-home__heading > .midautumn-home__heading-detail { display: none; }
+  .midautumn-home__brand-script { grid-column: 3; }
+}
+.midautumn-home .midautumn-home__grid { height: auto; min-height: 0; align-items: stretch; }
+.midautumn-home .home-gift-card { height: auto; min-height: 0; aspect-ratio: 1644 / 957; overflow: hidden; }
+.midautumn-home .home-gift-card__scene { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.midautumn-home .home-gift-card__condition { margin-top: 12px; font-size: clamp(.95rem, 1.15vw, 1.2rem); line-height: 1.2; }
+.midautumn-home .home-gift-card__condition strong { font-weight: 800; }
+.home-gift-terms { margin-top: 9px; color: #527080; font-size: .75rem; line-height: 1.5; }
+.home-gift-terms summary { width: fit-content; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.home-gift-terms summary:focus-visible { outline: 2px solid #386f8b; outline-offset: 3px; }
+.home-gift-terms p { margin: 6px 0 0; }
+@media (max-width: 700px) {
+  .midautumn-home .home-gift-card { aspect-ratio: 1644 / 957; min-height: 270px; }
+  .midautumn-home .home-gift-card__copy { min-height: 0; height: 100%; padding-bottom: 13px; }
+  .midautumn-home .home-gift-card__condition { position: static; max-width: none; margin-top: 10px; padding: 0; background: none; font-size: .84rem; }
+  .midautumn-home .home-gift-card__link { margin-top: auto; }
 }
