@@ -17566,8 +17566,7 @@ body::before { opacity: 0.18; }
   grid-template-columns: minmax(0, 1.39fr) minmax(0, 1fr);
   gap: clamp(20px, 1.4vw, 28px);
   align-items: stretch;
-  min-height: 460px;
-  aspect-ratio: 3 / 1;
+  min-height: clamp(540px, 32vw, 650px);
 }
 .home-gift-card {
   position: relative;
@@ -17751,7 +17750,7 @@ body::before { opacity: 0.18; }
 .midautumn-home__shipping li {
   display: block;
   flex: 1;
-  min-height: 0;
+  min-height: 104px;
   padding: 0;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,.18);
@@ -17770,7 +17769,7 @@ body::before { opacity: 0.18; }
   grid-template-columns: clamp(52px, 4.2vw, 76px) minmax(0, 1fr) 26px;
   align-items: center;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   gap: clamp(12px, 1.5vw, 24px);
   padding: clamp(10px, .85vw, 17px) clamp(13px, 1vw, 20px);
   color: #fff;
@@ -17786,13 +17785,17 @@ body::before { opacity: 0.18; }
   border-radius: 50%;
 }
 .midautumn-home__shipping .midautumn-home__seven-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: none;
   align-self: center;
   background: #e9f7fb;
   border: 0;
   box-shadow: 0 5px 16px rgba(20,63,83,.24);
 }
-.midautumn-home__shipping .midautumn-home__seven-logo b { font-size: clamp(1.5rem, 2vw, 2.2rem); }
-.midautumn-home__shipping .midautumn-home__seven-logo span { font-size: .47rem; }
+.midautumn-home__shipping .midautumn-home__seven-logo b { margin: 0; font-size: clamp(1.5rem, 2vw, 2.2rem); line-height: 1; }
+.midautumn-home__shipping .midautumn-home__seven-logo span { font-size: .47rem; line-height: 1; }
 .midautumn-home__shipping .midautumn-home__ship-icon { background: rgba(255,255,255,.22); }
 .midautumn-home__shipping .midautumn-home__ship-icon svg { width: 45%; height: 45%; stroke: #fff; stroke-width: 1.8; }
 .midautumn-home__shipping .midautumn-home__ship-copy { display: grid; min-width: 0; gap: 3px; text-align: left; }
@@ -17847,7 +17850,10 @@ body::before { opacity: 0.18; }
   .midautumn-home__heading > .midautumn-home__heading-detail { grid-column: 1; margin: 0; text-align: left; }
   .midautumn-home__brand-script { grid-column: 2; grid-row: 1 / 4; }
   .home-gift-card { height: auto; min-height: 0; aspect-ratio: 1644 / 957; }
-  .midautumn-home__shipping { height: auto; min-height: 490px; }
+  .midautumn-home__shipping { height: auto; min-height: 0; }
+  .midautumn-home__shipping ul { flex: none; }
+  .midautumn-home__shipping li { flex: none; }
+  .midautumn-home__shipping li a { min-height: 104px; }
 }
 @media (max-width: 700px) {
   .midautumn-home__heading { display: block; min-height: 0; margin-bottom: 18px; }
@@ -17882,10 +17888,12 @@ body::before { opacity: 0.18; }
   .midautumn-home__shipping h3 { margin-top: 5px; font-size: 1.4rem; }
   .midautumn-home__shipping-note { display: none; }
   .midautumn-home__shipping ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; margin-top: 11px; }
-  .midautumn-home__shipping li { min-height: 108px; }
-  .midautumn-home__shipping li a { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 4px; padding: 9px 6px; }
+  .midautumn-home__shipping li { min-height: 0; }
+  .midautumn-home__shipping li a { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; min-height: 112px; height: auto; gap: 5px; padding: 10px 7px; }
   .midautumn-home__shipping .midautumn-home__seven-logo,
-  .midautumn-home__shipping .midautumn-home__ship-icon { width: 28px; height: 28px; }
+  .midautumn-home__shipping .midautumn-home__ship-icon { width: 34px; height: 34px; flex: none; align-self: flex-start; }
+  .midautumn-home__shipping .midautumn-home__seven-logo b { font-size: 1.1rem; }
+  .midautumn-home__shipping .midautumn-home__seven-logo span { font-size: .34rem; }
   .midautumn-home__shipping li strong { font-size: clamp(.65rem, 2.7vw, .79rem); }
   .midautumn-home__shipping li small { font-size: clamp(.56rem, 2.35vw, .68rem); }
   .midautumn-home__chevron { display: none; }
