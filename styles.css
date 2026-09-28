@@ -18032,3 +18032,10 @@ body::before { opacity: 0.18; }
   .product-gift-card h3 { font-size: 1.05rem; }
   .product-gift-card__threshold { font-size: .75rem; }
 }
+
+/* Match the muted sea-blue Round Lab reference across the shared gift artwork. */
+.home-gift-card__scene,
+.product-gift-card__scene,
+.reward-gift__image img {
+  filter: brightness(.87) contrast(1.35) saturate(.65);
+}
