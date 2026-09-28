@@ -17400,14 +17400,16 @@ body::before { opacity: 0.18; }
   overflow: hidden;
   border: 1px solid #b7d2df;
   border-radius: 24px;
-  background: #dcecf3;
+  background:
+    radial-gradient(circle at 90% 12%, var(--accent-glow), transparent 39%),
+    linear-gradient(145deg, var(--primary-lightest), var(--primary-lighter));
   box-shadow: 0 12px 28px rgba(36,61,70,.08);
   color: #263b43;
 }
 .home-gift-card__copy { position: relative; z-index: 1; min-width: 0; }
 .home-gift-card__eyebrow {
   margin: 0;
-  color: #416b7c;
+  color: #294b57;
   font-size: .74rem;
   font-weight: 750;
   letter-spacing: .14em;
@@ -17419,7 +17421,7 @@ body::before { opacity: 0.18; }
 }
 .home-gift-card__condition {
   margin: 0;
-  color: #52666d;
+  color: #294b57;
   font-size: clamp(.82rem, 1vw, .94rem);
   line-height: 1.6;
 }
@@ -17483,15 +17485,15 @@ body::before { opacity: 0.18; }
   .home-gift-card__link { gap: 6px; padding: 9px 11px; font-size: .76rem; }
 }
 
-/* Match the shipping tile to the gift tile's light blue, with legible details. */
+/* Keep both homepage tiles in the OUJI blue gradient palette. */
 .midautumn-home__shipping {
   border-color: #b7d2df;
-  background: #dcecf3;
+  background: linear-gradient(150deg, var(--primary-lightest), var(--primary-lighter));
   color: #294b57;
 }
-.midautumn-home__shipping .midautumn-home__label { color: #416b7c; }
+.midautumn-home__shipping .midautumn-home__label { color: #294b57; }
 .midautumn-home__shipping h3 { color: #294b57; }
-.midautumn-home__shipping-note { color: #4b7181; }
+.midautumn-home__shipping-note { color: #294b57; }
 .midautumn-home__shipping-head .midautumn-home__label { border-right-color: #a8c6d3; }
 .midautumn-home__shipping li {
   border-color: #c0d8e2;
@@ -17499,10 +17501,10 @@ body::before { opacity: 0.18; }
 }
 .midautumn-home__shipping li strong,
 .midautumn-home__shipping li strong > span { color: #294b57; }
-.midautumn-home__shipping li strong b { color: #215d76; }
-.midautumn-home__shipping li strong em { color: #416b7c; }
+.midautumn-home__shipping li strong b { color: #284f60; }
+.midautumn-home__shipping li strong em { color: #294b57; }
 .midautumn-home__shipping li small,
-.midautumn-home__shipping > p { color: #4b6874; }
+.midautumn-home__shipping > p { color: #294b57; }
 .midautumn-home__shipping > p { border-top-color: #bdd5df; }
 .midautumn-home__shipping > p span + span::before { color: #90adba; }
 .midautumn-home__ship-icon { background: rgba(255,255,255,.68); }
