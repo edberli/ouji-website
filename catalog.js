@@ -781,10 +781,10 @@ const BRAND_SPOTLIGHTS = {
   all: {
     label: '熱門品牌', page: 'shop.html',
     slides: [
-      { art: 'all-slide-1.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'rom&nd', 'hince', 'TIRTIR'] },
-      { art: 'all-slide-2.webp', focus: 'Some By Mi', brands: ['Mixsoon', 'Goodal', 'TIRTIR', 'Beplain', 'Bring Green', 'AMUSE', 'LINDSAY', 'lilybyred'] },
-      { art: 'all-slide-3.webp', focus: 'Skinfood', brands: ['hince', 'MAYBELLINE', 'Beauty of Joseon', 'CLIO', 'dasique', 'Needly', 'WAKEMAKE', 'April Skin'] },
-      { art: 'all-slide-4.webp', focus: 'rom&nd', brands: ['Purito', 'rom&nd', 'KSECRET', 'BOH', 'Laka', 'TOCOBO', 'SO Natural', 'ma:nyo'] },
+      { art: 'all-slide-1.webp', focusArt: 'assets/brand-carousel/all-focus-round-lab-v1.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'rom&nd', 'hince', 'TIRTIR'] },
+      { art: 'all-slide-2.webp', focusArt: 'assets/brand-carousel/all-focus-some-by-mi-v2.webp', focus: 'Some By Mi', brands: ['Mixsoon', 'Goodal', 'TIRTIR', 'Beplain', 'Bring Green', 'AMUSE', 'LINDSAY', 'lilybyred'] },
+      { art: 'all-slide-3.webp', focusArt: 'assets/brand-carousel/all-focus-skinfood-v1.webp', focus: 'Skinfood', brands: ['hince', 'MAYBELLINE', 'Beauty of Joseon', 'CLIO', 'dasique', 'Needly', 'WAKEMAKE', 'April Skin'] },
+      { art: 'all-slide-4.webp', focusArt: 'assets/brand-carousel/all-focus-romand-v1.webp', focus: 'rom&nd', brands: ['Purito', 'rom&nd', 'KSECRET', 'BOH', 'Laka', 'TOCOBO', 'SO Natural', 'ma:nyo'] },
     ],
   },
   makeup: {
@@ -1025,35 +1025,36 @@ function bindSkincareCarousel(host, {
   sync(0);
 }
 
-function buildCategoryFocusSpotlight(config, section, { focusOnly = false } = {}) {
+function buildCategoryFocusSpotlight(config, section, { focusOnly = false, counts = null } = {}) {
   const host = document.querySelector(`[data-${section}-focus-carousel]`);
   if (!host) return;
   const slides = config.slides.map((slide, index) => {
     const source = brandCarouselAsset(slide.focusArt || slide.art);
-    const geometry = focusOnly && !slide.focusArt
-      ? BRAND_SPOTLIGHT_GEOMETRY[slide.art] : null;
-    const crop = geometry?.feature;
-    const [cropLeft, cropTop, cropRight, cropBottom] = crop || [];
-    const cropWidth = crop ? cropRight - cropLeft : 0;
-    const cropHeight = crop ? cropBottom - cropTop : 0;
-    const cropStyle = crop ? [
-      `--focus-card-ratio:${cropWidth}/${cropHeight}`,
-      `--focus-image-width:${(geometry.width / cropWidth * 100).toFixed(3)}%`,
-      `--focus-image-height:${(731 / cropHeight * 100).toFixed(3)}%`,
-      `--focus-image-left:${(-cropLeft / cropWidth * 100).toFixed(3)}%`,
-      `--focus-image-top:${(-cropTop / cropHeight * 100).toFixed(3)}%`,
-    ].join(';') : '';
-    /* 四張 WebP 合計約 260KB；全部即刻排入下載，避免第 3、4 張要等到
+    /* 四張橫幅 WebP 合計約 326KB；全部即刻排入下載，避免第 3、4 張要等到
        撳翻頁先至出現。首屏兩張保留高優先，其餘低優先背景載入。 */
     const image = `<img class="skincare-focus__visual" src="${escapeSpotlightAttr(source)}"
-      alt="" width="${geometry?.width || 1600}" height="${geometry ? 731 : 755}"
+      alt="" width="${focusOnly ? 1825 : 1600}" height="${focusOnly ? 862 : 755}"
       loading="eager" fetchpriority="${index < 2 ? 'high' : 'low'}" decoding="async">`;
     const href = `${config.page}?brand=${encodeURIComponent(slide.focus)}`;
+    const count = counts?.get(slide.focus);
+    const wordmark = slide.focus === 'Round Lab' ? 'ROUND<br>LAB'
+      : slide.focus === 'Some By Mi' ? 'SOME<br>BY MI'
+      : slide.focus === 'Skinfood' ? 'SKINFOOD' : 'rom&amp;nd';
+    const logoStyle = slide.focus === 'Round Lab' ? 'round-lab'
+      : slide.focus === 'Some By Mi' ? 'some-by-mi'
+      : slide.focus === 'Skinfood' ? 'skinfood' : 'romand';
+    const focusCopy = focusOnly ? `<span class="all-focus__copy">
+        <span class="all-focus__badge">今週焦點</span>
+        <span class="all-focus__logo all-focus__logo--${logoStyle}">${wordmark}</span>
+        <span class="all-focus__name">${escapeSpotlightAttr(slide.focus)}</span>
+        <span class="all-focus__cta">睇${count ? ` ${count} 件` : ''}產品 <span aria-hidden="true">→</span></span>
+      </span>` : '';
     return `<article class="skincare-focus__slide" role="group"
       aria-label="${escapeSpotlightAttr(slide.focus)}，今週焦點">
-      <a class="skincare-focus__card${crop ? ' skincare-focus__card--crop' : ''}" href="${href}"${crop ? ` style="${cropStyle}"` : ''}
+      <a class="skincare-focus__card${focusOnly ? ' all-focus__card' : ''}" href="${href}"
          aria-label="瀏覽 ${escapeSpotlightAttr(slide.focus)} 產品">
-        ${crop ? `<span class="skincare-focus__crop">${image}</span>` : image}
+        ${image}
+        ${focusCopy}
         <span class="sr-only">${escapeSpotlightAttr(slide.focus)}</span>
       </a>
     </article>`;
@@ -1376,9 +1377,9 @@ function buildCategorySpotlights(section) {
   buildCategoryBrandSpotlight(config, section);
 }
 
-function buildAllProductsSpotlights() {
+function buildAllProductsSpotlights(products) {
   const config = BRAND_SPOTLIGHTS.all;
-  buildCategoryFocusSpotlight(config, 'all', { focusOnly: true });
+  buildCategoryFocusSpotlight(config, 'all', { focusOnly: true, counts: vendorCounts(products) });
   buildCategoryBrandSpotlight(config, 'all');
 }
 
@@ -2724,7 +2725,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);
     if (bootHost && document.querySelector('[data-all-focus-carousel]')) {
-      buildAllProductsSpotlights();
+      buildAllProductsSpotlights(products);
     } else if (['skincare', 'makeup'].includes(section)
         && document.querySelector(`[data-${section}-focus-carousel]`)) {
       buildCategorySpotlights(section);
