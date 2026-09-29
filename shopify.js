@@ -281,11 +281,11 @@ function translateTree(root, dict) {
      會插入一個**純 text node**，MutationObserver 嗰陣 root 就係嗰個 text node
      本身 —— 唔特別處理就會永遠譯唔到。實測 2026-09-14 就係咁。 */
   const consider = (node) => {
+    if (node.parentElement?.closest(I18N_SKIP)) return;
     const key = node.nodeValue.trim();
     if (!key) return;
     const val = dict[key] || translatePattern(key);
     if (!val) return;
-    if (node.parentElement && node.parentElement.closest(I18N_SKIP)) return;
     jobs.push([node, val, key]);
   };
   if (root.nodeType === 3) consider(root);
@@ -293,20 +293,22 @@ function translateTree(root, dict) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
   let n;
   while ((n = walker.nextNode())) {
+    if (n.parentElement?.closest(I18N_SKIP)) continue;
     const key = n.nodeValue.trim();
     if (!key) continue;
     const val = dict[key] || translatePattern(key);
     if (!val) continue;
-    if (n.parentElement && n.parentElement.closest(I18N_SKIP)) continue;
     jobs.push([n, val, key]);
   }
   /* 行完 walker 先改 —— 一邊行一邊改 DOM 會令 walker 跳格 */
   jobs.forEach(([node, val, key]) => { node.nodeValue = node.nodeValue.replace(key, val); });
 
-  const scope = root.nodeType === 1 ? root : document.body;
+  /* 單一 text node 改字時只需處理該字；舊寫法每次都由 body
+     重掃全部 aria-label／alt，商品卡大量更新時會放大成全頁卡頓。 */
+  const scope = root.nodeType === 1 ? root : null;
   const attrs = ['aria-label', 'placeholder', 'title', 'alt'];
-  const els = scope.querySelectorAll ? [...scope.querySelectorAll('[aria-label],[placeholder],[title],[alt]')] : [];
-  if (scope.matches && scope.matches('[aria-label],[placeholder],[title],[alt]')) els.push(scope);
+  const els = scope?.querySelectorAll ? [...scope.querySelectorAll('[aria-label],[placeholder],[title],[alt]')] : [];
+  if (scope?.matches && scope.matches('[aria-label],[placeholder],[title],[alt]')) els.push(scope);
   els.forEach((el) => {
     if (el.closest(I18N_SKIP)) return;
     attrs.forEach((a) => {
@@ -325,13 +327,38 @@ async function initUiI18n() {
   const translatedTitle = dict[title] || translatePattern(title);
   if (translatedTitle) document.title = translatedTitle;
   translateTree(document.body, dict);
-  /* 產品格、購物袋、搜尋結果都係 JS 後補插入嘅，所以要跟住新節點譯 */
+  /* 商品格會一次過插入大量巢狀節點。逐條 mutation 即時行 TreeWalker
+     會反覆掃同一棵 subtree，英文頁面尤其容易卡住。合併成每幀一批，
+     父節點已經排隊時就毋須再掃其子節點。 */
+  const pending = new Set();
+  let scheduled = false;
+  const flush = () => {
+    scheduled = false;
+    const roots = [...pending];
+    pending.clear();
+    roots.forEach((node) => translateTree(node, dict));
+    if (pending.size && !scheduled) {
+      scheduled = true;
+      setTimeout(flush, 16);
+    }
+  };
+  const queue = (node) => {
+    if (node.nodeType !== 1 && node.nodeType !== 3) return;
+    if (node.parentElement?.closest(I18N_SKIP)) return;
+    for (const root of pending) {
+      if (root === node || (root.nodeType === 1 && root.contains(node))) return;
+      if (node.nodeType === 1 && node.contains(root)) pending.delete(root);
+    }
+    pending.add(node);
+    if (!scheduled) {
+      scheduled = true;
+      setTimeout(flush, 16);
+    }
+  };
   new MutationObserver((recs) => {
     recs.forEach((r) => {
-      if (r.type === 'characterData') translateTree(r.target, dict);
-      r.addedNodes.forEach((node) => {
-        if (node.nodeType === 1 || node.nodeType === 3) translateTree(node, dict);
-      });
+      if (r.type === 'characterData') queue(r.target);
+      r.addedNodes.forEach(queue);
     });
   }).observe(document.body, { childList: true, characterData: true, subtree: true });
 
