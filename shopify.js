@@ -217,9 +217,12 @@ const I18N_PATTERNS = [
   [/^Olive Young ([\d,]+) 則評價(?: · ([\d.]+)★)?$/, (_, count, star) => `Olive Young ${count} reviews${star ? ` · ${star}★` : ''}`],
   [/^([\d,]+) 件$/, '$1 products'],
   [/^([\d,]+) 件產品$/, '$1 products'],
+  [/^([\d,]+) 件產品 · ([\d,]+) 件全部產品$/, '$1 products · $2 total'],
+  [/^([\d,]+) 件產品 · (.+)$/, (_, count, category) => `${count} products · ${translateUiText(category)}`],
   [/^([\d,]+) 個品牌$/, '$1 brands'],
   [/^全部產品 — showing ([\d,]+) products$/i, 'All products — showing $1 products'],
   [/^打開 ([\d,]+) 件(.+)產品$/, (_, count, category) => `Open ${count} ${translateUiText(category.trim())} products`],
+  [/^瀏覽 (.+) 產品$/, 'Browse $1 products'],
   [/^([\d,]+) 件顯示中 · 共 ([\d,]+) 件$/, 'Showing $1 of $2 products'],
   [/^(.+) — ([\d,]+) products$/, (_, category, count) => `${translateUiText(category)} — ${count} products`],
   [/^(.+) · ([\d,]+) 件 · ([\d,]+) 品牌$/, (_, category, count, brands) => `${translateUiText(category)} · ${count} products · ${brands} brands`],
@@ -250,8 +253,8 @@ const I18N_PATTERNS = [
   [/^約 HK\$([\d,]+)$/, 'about HK$$$1'],
   [/^共 ([\d,]+) 項$/, '$1 total'],
   /* 螢幕閱讀器用嘅隱藏句（.visually-hidden）—— 客睇唔到但讀屏會讀，一樣要譯 */
-  [/^(.+)，顯示 ([\d,]+) 件產品$/, '$1 — showing $2 products'],
-  [/^(.+)，([\d,]+) 件產品$/, '$1 — $2 products'],
+  [/^(.+)，顯示 ([\d,]+) 件產品$/, (_, category, count) => `${translateUiText(category)} — showing ${count} products`],
+  [/^(.+)，([\d,]+) 件產品$/, (_, category, count) => `${translateUiText(category)} — ${count} products`],
 ];
 
 function translatePattern(s) {
@@ -313,7 +316,8 @@ function translateTree(root, dict) {
     if (el.closest(I18N_SKIP)) return;
     attrs.forEach((a) => {
       const v = el.getAttribute(a);
-      if (v && dict[v.trim()]) el.setAttribute(a, dict[v.trim()]);
+      const translated = v && (dict[v.trim()] || translatePattern(v.trim()));
+      if (translated && translated !== v) el.setAttribute(a, translated);
     });
   });
 }
