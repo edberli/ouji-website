@@ -1591,7 +1591,7 @@ function productCard(p, options = null) {
         ${p._oujiOtherBrandStart
           ? `<span class="product-card__mini-brand">${p._oujiOtherBrandStart}</span>` : ''}
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-        ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale, p0.amount) : ''}
+        ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale, p0.amount, p.tags) : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button type="button" class="product-card__wishlist${
           typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"

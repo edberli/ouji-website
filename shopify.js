@@ -2459,13 +2459,15 @@ function oujiPerUnit(amount, count) {
   const each = parseFloat(amount) / count;
   return Number.isInteger(each) ? `$${each}` : `$${each.toFixed(1)}`;
 }
-function oujiSaleBadgeHTML(title, onSale, priceAmount) {
+function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = []) {
+  const saleBadge = '<span class="product-card__badge product-card__badge--sale">限時</span>';
+  if ((tags || []).includes('限時')) return saleBadge;
   const b = oujiBundleInfo(title);
   if (b) {
     const detail = b.count ? `${b.count}件 · 每件 ${oujiPerUnit(priceAmount, b.count)}` : '套裝優惠';
     return `<div class="product-card__bundle-band"><strong>促銷</strong><span>${detail}</span></div>`;
   }
-  return onSale ? '<span class="product-card__badge product-card__badge--sale">限時</span>' : '';
+  return onSale ? saleBadge : '';
 }
 
 /* 商品卡價錢：有真減價先出劃線原價，原價喺前、售價喺後；一張卡只出一個細牌。
@@ -2727,7 +2729,7 @@ function productCardHTML(product) {
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-          ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount) : ''}
+          ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount, product.tags) : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
       </a>

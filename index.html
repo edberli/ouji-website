@@ -1268,7 +1268,7 @@
               <a href="product.html?handle=${p.handle}" class="product-card">
                 <div class="product-card__image-wrap">
                   ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, p.title)}" loading="lazy">` : ''}
-                  ${oujiSaleBadgeHTML(p.title, isOnSale, price.amount)}
+                  ${oujiSaleBadgeHTML(p.title, isOnSale, price.amount, p.tags)}
                   <button type="button" class="product-card__wishlist${typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"
                     aria-label="加入願望清單" data-wish="${p.id}"
                     data-wish-handle="${p.handle}"
