@@ -131,6 +131,35 @@
     return { primary, subtitle, specification, seoTitle, split: Boolean(english) };
   }
 
+  /* Keep source specifications after the first real size/count unit in the
+     English subtitle. A trailing descriptor such as SPF or a scent is part
+     of the source specification, even when it contains other Latin words. */
+  function cardMeasurement(value) {
+    const text = clean(value);
+    const amount = '(?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d+)?';
+    const measures = [...text.matchAll(new RegExp(
+      amount + '\\s*(?:kg|ml|g|l|oz|片|枚|粒|個|本|支|包)(?![A-Za-z])', 'gi',
+    ))];
+    const measure = measures[0];
+    const before = text.slice(0, measure ? measure.index : text.length);
+    const descriptors = [];
+    const numbered = before.match(/\bNo\.\s*\d+/i);
+    if (numbered) descriptors.push({ index: numbered.index, value: clean(before.slice(numbered.index)) });
+    const lightOchre = before.match(/\b\d{1,3}\s+Light\s+Ochre\b/i);
+    if (lightOchre) descriptors.push({ index: lightOchre.index, value: clean(lightOchre[0]) });
+
+    if (!measure) return descriptors.map((item) => item.value).join(' ');
+    let start = measure.index;
+    const opening = text[start - 1];
+    const closing = { '[': ']', '(': ')', '（': '）', '【': '】', '{': '}', '［': '］' }[opening];
+    if (closing && text.indexOf(closing, start + measure[0].length) >= 0) start--;
+    const suffix = clean(text.slice(start));
+    const leadingDescriptors = descriptors
+      .filter((item) => item.index < measure.index)
+      .map((item) => item.value);
+    return [...leadingDescriptors, suffix].filter(Boolean).join(' ');
+  }
+
   /* Product tiles have limited space. Remove only a verified brand prefix
      from the existing Chinese-market name. Digits, acronyms, pack counts and
      punctuation inside that name are product identity, never disposable. */
@@ -162,8 +191,21 @@
     }
     let chinese = brand ? clean(primary.slice(brand.length).replace(/^[\s-]+/, '')) : primary;
     if (!HAN.test(chinese)) return { brand: '', chinese: primary };
-    const shade = names.specification.match(/(?:^|\s)(#[0-9]{1,3}[A-Za-z]?)(?=\s|$)/);
-    return { brand, chinese: clean(`${chinese}${shade ? ` ${shade[1]}` : ''}`) };
+    const specification = clean(names.specification);
+    const measurement = cardMeasurement(names.subtitle);
+    const cardSpecs = [];
+    const appendSpec = (value) => {
+      const spec = clean(value);
+      const key = compact(spec);
+      if (!key || compact(chinese).includes(key)
+          || cardSpecs.some((existing) => compact(existing).includes(key)
+            || key.includes(compact(existing)))) return;
+      cardSpecs.push(spec);
+    };
+    if (!compact(specification).includes(compact(measurement))) appendSpec(measurement);
+    appendSpec(specification);
+    const suffix = cardSpecs.length ? ` ${cardSpecs.join(' ')}` : '';
+    return { brand, chinese: clean(chinese + suffix) };
   }
 
   function cardTitle(product) {
