@@ -725,6 +725,13 @@ async function getProduct(handle) {
         }
         compareAtPriceRange { minVariantPrice { amount currencyCode } }
         images(first: 50) { edges { node { url altText } } }
+        media(first: 50) {
+          nodes {
+            id mediaContentType alt previewImage { url altText }
+            ... on ExternalVideo { embedUrl originUrl }
+            ... on Video { sources { url mimeType } }
+          }
+        }
         variants(first: 50) {
           edges {
             node {
@@ -2912,6 +2919,16 @@ const CATEGORY_TAXONOMY = {
       wipes:    { label: '濕紙巾',   keywords: ['濕紙巾'] },
     },
   },
+  supports: {
+    label: '護具及壓力襪',
+    keywords: ['護具', '壓力襪', '襪類', '襪褲', '運動護理／貼布'],
+    subs: {
+      socks:    { label: '壓力襪', keywords: ['襪類', '壓力襪'] },
+      leggings: { label: '壓力襪褲', keywords: ['襪褲', '緊身襪褲', '短褲'] },
+      braces:  { label: '護具', keywords: ['護具'] },
+      tape:    { label: '運動貼布', keywords: ['運動護理／貼布'] },
+    },
+  },
   health: {
     label: '保健品',
     keywords: ['保健品'],
@@ -3112,9 +3129,24 @@ function makeupBucket(p) {
   return hit ? hit[0] : null;
 }
 
+/* 功能性穿戴用品獨立於護膚及口服保健品。只按明確 productType
+   收貨；襪類再限定 Slimwalk，避免普通襪／短褲誤入壓力用品。 */
+function supportKind(p) {
+  const type = String(p.productType || '').trim();
+  const brand = `${p.vendor || ''} ${p.title || ''}`;
+  if (/^護具(?:／|$)/.test(type)) return 'braces';
+  if (type === '運動護理／貼布') return 'tape';
+  if (!/slimwalk|スリムウォーク/i.test(brand)) return null;
+  if (type === '襪類／連褲襪') return 'leggings';
+  if (/^襪類(?:／|$)/.test(type) || type === '服飾／襪類') return 'socks';
+  if (/^服飾／(?:緊身襪褲|襪褲|短褲)$/.test(type)) return 'leggings';
+  return null;
+}
+
 /* 一個子分類收唔收呢件貨。彩妝行上面嘅產品名規則，其餘照舊睇
    標題＋標籤＋類型（matchesKeywords）。 */
 function subMatch(section, id, p) {
+  if (section === 'supports') return supportKind(p) === id;
   const sub = CATEGORY_TAXONOMY[section]?.subs?.[id];
   if (!sub) return false;
   /* 只將中高階禮盒從潔面／爽膚水／面霜等步驟抽離；普通平價精華／潤膚
@@ -3149,10 +3181,13 @@ function categoryKeywords(section, cat) {
    叫 matchesKeywords，否則又會有一半入口漏咗呢條規則。 */
 const SECTION_EXCLUDE = {
   makeup: (p) => isLipCare(p),
-  skincare: (p) => isSkincareCategoryMismatch(p),
+  skincare: (p) => isSkincareCategoryMismatch(p) || Boolean(supportKind(p)),
+  health: (p) => Boolean(supportKind(p)),
+  supports: (p) => !supportKind(p),
 };
 
 function sectionMatch(p, section) {
+  if (section === 'supports') return Boolean(supportKind(p));
   if (section === 'skincare' && isSoNaturalFixx(p)) return true;
   if (section === 'makeup' && makeupBucket(p)) return true;
   if (section === 'seasonal' && isSeasonalCare(p)) return true;
@@ -3174,6 +3209,7 @@ function categoryLabel(section, cat) {
 const PRODUCT_BREADCRUMB_ROUTES = [
   ['fragrance', 'fragrance.html'],
   ['health',    'health.html'],
+  ['supports',  'supports.html'],
   ['tools',     'tools.html'],
   ['kpop',      'kpop.html'],
   ['lens',      'lens.html'],

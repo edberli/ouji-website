@@ -813,7 +813,7 @@ function prepareMobileShopNav() {
     const focus = document.createElement('section');
     focus.className = 'mobile-nav__beauty-focus';
     focus.setAttribute('aria-label', '護膚彩妝精選分類');
-    const wanted = ['護膚', '彩妝', '美妝工具'];
+    const wanted = ['護膚', '彩妝', '季節性', '美妝工具'];
     const groups = Array.from(links.querySelectorAll(':scope > .mobile-nav__group'));
     wanted.forEach((label) => {
       const group = groups.find((item) => item.querySelector('.mobile-nav__group-row span')?.textContent.trim() === label);
@@ -1026,6 +1026,15 @@ function initMobileNav() {
 function initMegaMenu() {
   const mega = document.querySelector('.header__mega');
   if (!mega) return;
+
+  /* 防曬係常用季節商品，導覽放喺彩妝之後，護膚仍保留原位。 */
+  const groups = Array.from(mega.querySelectorAll(':scope > .header__mega-group'));
+  const groupByLabel = (label) => groups.find((group) => (
+    group.querySelector('.header__mega-row span')?.textContent.trim() === label
+  ));
+  const makeup = groupByLabel('彩妝');
+  const seasonal = groupByLabel('季節性');
+  if (makeup && seasonal) makeup.insertAdjacentElement('afterend', seasonal);
 
   /* 「隱形眼鏡」同「K-pop 周邊」係直接連結，冇下拉。以前連佢哋都當
      成摺疊掣，落咗 preventDefault，結果撳極都唔會去到嗰版。 */

@@ -72,6 +72,13 @@ NAV = [
         ('紅參人參', 'health.html?cat=ginseng', ''),
         ('康普茶', 'health.html?cat=kombucha', ''),
     ]),
+    ('護具及壓力襪', 'supports.html', [
+        ('全部護具及壓力襪', 'supports.html', ''),
+        ('壓力襪', 'supports.html?cat=socks', ''),
+        ('壓力襪褲', 'supports.html?cat=leggings', ''),
+        ('護具', 'supports.html?cat=braces', ''),
+        ('運動貼布', 'supports.html?cat=tape', ''),
+    ]),
     ('季節性', 'seasonal.html', [
         ('全部季節性用品', 'seasonal.html', ''),
         ('防曬', 'seasonal.html?cat=sun', ''),

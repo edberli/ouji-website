@@ -2599,6 +2599,17 @@ button.product-card__quick-add,
 .product-gallery__thumb.is-active, .product-gallery__thumb:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(109,163,181,0.2); }
 .product-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
 
+.product-videos { padding: var(--space-xl) 0; }
+.product-videos[hidden] { display: none; }
+.product-videos h2 { font-size: 1.25rem; margin-bottom: var(--space-md); }
+.product-videos__card { max-width: 780px; margin-bottom: var(--space-lg); }
+.product-videos__frame { aspect-ratio: 16 / 9; background: #111; border-radius: 12px; overflow: hidden; }
+.product-videos__frame iframe, .product-videos__frame video { display: block; width: 100%; height: 100%; border: 0; }
+.product-videos__link { display: grid; place-items: center; width: 100%; height: 100%; position: relative; color: #fff; }
+.product-videos__link img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.product-videos__play { position: relative; z-index: 1; background: #ad1730; border-radius: 999px; padding: 12px 22px; font-weight: 700; }
+.product-videos__card p { margin-top: var(--space-sm); color: var(--text-secondary); }
+
 .product-info { padding-top: var(--space-lg); }
 .product-info__brand { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary); margin-bottom: var(--space-sm); }
 .product-info__brand a { color: inherit; border-bottom: 1px solid transparent; transition: border-color var(--duration-fast); }
@@ -3969,7 +3980,7 @@ button.product-card__quick-add,
   display: flex;
   align-items: center;
   justify-content: center;
-  --loader-hold: 0.6s;   /* 圖到齊後展示／播腳步 0.6 秒，再用 0.4 秒淡走 */
+  --loader-hold: 0.1s;   /* 圖到齊後停 0.1 秒，再用 0.4 秒淡走 */
   pointer-events: none;
 }
 
@@ -3978,11 +3989,11 @@ button.product-card__quick-add,
 
    老闆同日跟手：「張圖可以留多一陣……現在係一閃即逝」，跟住補一句
    「都唔應該留咁耐……總共 0.5 秒咁樣囉」——所以 .is-ready 之後 hold
-   0.6 秒（--loader-hold），再用 0.4 秒淡走，合共約 1 秒。
+   0.1 秒（--loader-hold），再用 0.4 秒淡走，合共約 0.5 秒。
    ⚠️ 要改「留幾久」淨係改 --loader-hold 一個數就得；hold 係由 .is-ready
    開始計（即係圖到齊先計），唔係由頁面開始載入計。 */
 .page-loader.is-ready {
-  animation: loaderFade 0.4s var(--ease-out) var(--loader-hold, 0.6s) forwards;
+  animation: loaderFade 0.4s var(--ease-out) var(--loader-hold, 0.1s) forwards;
 }
 
 @keyframes loaderFade {
@@ -13005,6 +13016,25 @@ body::before { opacity: 0.18; }
   box-shadow: 0 0 0 5px #ffffff, inset 17px 0 0 0 #ff8f6b; transform: rotate(-18deg);
 }
 
+/* 護具及壓力襪：抽象護套圖案，不借用品牌產品圖。 */
+.shop-boot__art--supports { border: 0; }
+.shop-boot__art--supports::before {
+  left: 27px; top: 4px; width: 36px; height: 72px;
+  border: 5px solid var(--boot-ink); border-radius: 14px 14px 8px 8px;
+  background: #84caca; box-shadow: 0 0 0 5px #ffffff;
+  transform: rotate(-7deg);
+}
+.shop-boot__art--supports::after {
+  left: 31px; top: 27px; width: 39px; height: 7px;
+  background: #ffffff; border: 3px solid var(--boot-ink);
+  transform: rotate(-7deg);
+}
+.shop-boot__art--supports > i {
+  left: 31px; top: 50px; width: 39px; height: 7px;
+  background: #ffffff; border: 3px solid var(--boot-ink);
+  transform: rotate(-7deg);
+}
+
 /* 香水香氛：細樽 ＋ 蓋，保持同一套粗墨邊平色貼紙語言。 */
 .shop-boot__art--fragrance { border: 0; }
 .shop-boot__art--fragrance::before {
@@ -13170,17 +13200,13 @@ body::before { opacity: 0.18; }
   .shop-boot__sticker:hover,
   .shop-boot__sticker:focus-visible,
   .shop-boot__sticker.is-on { transform: translateX(-50%) rotate(0) scale(.77); }
-  .shop-boot__sticker:nth-child(1) { left: 17%; bottom: 208px; }
-  .shop-boot__sticker:nth-child(2) { left: 50%; bottom: 216px; }
-  .shop-boot__sticker:nth-child(3) { left: 83%; bottom: 208px; }
-  .shop-boot__sticker:nth-child(4) { left: 17%; bottom: 116px; }
-  .shop-boot__sticker:nth-child(5) { left: 50%; bottom: 124px; }
-  .shop-boot__sticker:nth-child(6) { left: 83%; bottom: 116px; }
-  .shop-boot__sticker:nth-child(7)  { left: 10%; bottom: 24px; }
-  .shop-boot__sticker:nth-child(8)  { left: 30%; bottom: 32px; }
-  .shop-boot__sticker:nth-child(9)  { left: 50%; bottom: 24px; }
-  .shop-boot__sticker:nth-child(10) { left: 70%; bottom: 32px; }
-  .shop-boot__sticker:nth-child(11) { left: 90%; bottom: 24px; }
+  .shop-boot__sticker:nth-child(4n+1) { left: 12%; }
+  .shop-boot__sticker:nth-child(4n+2) { left: 37%; }
+  .shop-boot__sticker:nth-child(4n+3) { left: 63%; }
+  .shop-boot__sticker:nth-child(4n) { left: 88%; }
+  .shop-boot__sticker:nth-child(-n+4) { bottom: 208px; }
+  .shop-boot__sticker:nth-child(n+5):nth-child(-n+8) { bottom: 116px; }
+  .shop-boot__sticker:nth-child(n+9) { bottom: 24px; }
   .shop-boot__taskbar { height: 40px; font-size: 16px; }
   .shop-boot__start { min-width: 72px; padding: 8px 13px; }
   .shop-boot__tab { margin-left: 7px; padding: 3px 9px; }
@@ -13189,7 +13215,7 @@ body::before { opacity: 0.18; }
 }
 
 @media (max-width: 350px) {
-  .shop-boot { height: 490px; }
+  .shop-boot { height: 630px; }
   .shop-boot__title h1 { font-size: 38px; }
   .shop-boot__window { top: 143px; width: 184px; }
   .shop-boot__dialog { top: 188px; width: 154px; }

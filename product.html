@@ -330,6 +330,8 @@
         </div>
       </div>
 
+      <section class="product-videos" data-product-videos hidden aria-label="產品影片"></section>
+
       <!-- Product Description — full width under the buy box, so the long
            detail strips read at their intended size -->
       <div class="product-tabs product-tabs--full">
@@ -573,7 +575,17 @@
     // Shopify-style /products/<handle> is rewritten server-side, so the
     // browser URL keeps the path and carries no ?handle= — read either.
     const pathHandle = (location.pathname.match(/^\/products\/([^/]+)/) || [])[1];
-    const handle = params.get('handle') || (pathHandle ? decodeURIComponent(pathHandle) : null);
+    // Tina size aliases (verified from exact JAN donor products)
+    const tinaSizeAliases = {"slimwalk-膝下襪-m-l":{"handle":"slimwalk-膝下襪-s-m","variant":"50532173086878"},"slimwalk-膝下襪-l-ll":{"handle":"slimwalk-膝下襪-s-m","variant":"50532173119646"},"slimwalk-分段壓力短筒襪-m-l":{"handle":"slimwalk-分段壓力短筒襪-s-m","variant":"50532238262430"},"slimwalk-分段壓力長筒襪-m-l":{"handle":"slimwalk-分段壓力長筒襪-s-m","variant":"50532261757086"},"slimwalk-連褲襪-m-l":{"handle":"slimwalk-連褲襪-s-m","variant":"50532262019230"},"slimwalk-beau-acty-襪褲-m-l":{"handle":"slimwalk-beau-acty-襪褲-s-m","variant":"50532264181918"},"slimwalk-beau-acty-緊身襪褲-m-l":{"handle":"slimwalk-beau-acty-緊身襪褲-s-m","variant":"50532265296030"},"slimwalk-beau-acty-短褲-l":{"handle":"slimwalk-beau-acty-短褲-m","variant":"50532265427102"},"slimwalk-長款襪褲-m-l":{"handle":"slimwalk-長款襪褲-s-m","variant":"50532265722014"},"slimwalk-羅紋緊身襪褲-m-l":{"handle":"slimwalk-羅紋緊身襪褲-s-m","variant":"50532268343454"},"slimwalk-襪-m-l":{"handle":"slimwalk-襪-s-m","variant":"50532272406686"},"slimwalk-分段壓力襪褲-m-l":{"handle":"slimwalk-分段壓力襪褲-s-m","variant":"50532274307230"},"slimwalk-reset-refre-襪款-m-l":{"handle":"slimwalk-reset-refre-襪款-s-m","variant":"50532274372766"},"pro-fits-手肘護套-l":{"handle":"pro-fits-手肘護套-m","variant":"50532274864286"},"pro-fits-膝部護套-l":{"handle":"pro-fits-膝部護套-m","variant":"50532276404382"},"pro-fits-膝部護套-ll":{"handle":"pro-fits-膝部護套-m","variant":"50532276437150"},"pro-fits-sport-tech-小腿套-l":{"handle":"pro-fits-sport-tech-小腿套-m","variant":"50532276469918"},"pro-fits-足踝護套-l":{"handle":"pro-fits-足踝護套-m","variant":"50532292493470"},"pro-fits-腰部護套-l":{"handle":"pro-fits-腰部護套-m","variant":"50532292526238"},"pro-fits-腰部護套-ll":{"handle":"pro-fits-腰部護套-m","variant":"50532292559006"}};
+    let handle = params.get('handle') || (pathHandle ? decodeURIComponent(pathHandle) : null);
+    if (handle && tinaSizeAliases[handle]) {
+      const alias = tinaSizeAliases[handle];
+      const query = new URLSearchParams(location.search);
+      query.delete('handle');
+      query.set('variant', alias.variant);
+      history.replaceState(null, '', '/products/' + encodeURIComponent(alias.handle) + '?' + query);
+      handle = alias.handle;
+    }
     const productDetail = document.querySelector('.product-detail');
 
     const galleryMain = document.querySelector('.product-gallery__main');
@@ -782,6 +794,64 @@
       }
       collapseDetailStrips();
 
+      // Product videos live in Shopify media, not in the images connection.
+      const videoSection = document.querySelector('[data-product-videos]');
+      if (videoSection) {
+        videoSection.replaceChildren();
+        const videos = (product.media?.nodes || []).filter((media) =>
+          media.mediaContentType === 'EXTERNAL_VIDEO' || media.mediaContentType === 'VIDEO');
+        for (const media of videos) {
+          const card = document.createElement('article');
+          card.className = 'product-videos__card';
+          const frame = document.createElement('div');
+          frame.className = 'product-videos__frame';
+          if (media.mediaContentType === 'EXTERNAL_VIDEO' && media.embedUrl) {
+            let source;
+            try { source = new URL(media.originUrl || media.embedUrl); } catch (_) { continue; }
+            if (!['www.youtube.com', 'youtu.be', 'www.youtube-nocookie.com', 'vimeo.com', 'player.vimeo.com']
+              .includes(source.hostname) || source.protocol !== 'https:') continue;
+            const link = document.createElement('a');
+            link.className = 'product-videos__link';
+            link.href = source.href;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.setAttribute('aria-label', `觀看影片：${media.alt || product.title}`);
+            if (media.previewImage?.url) {
+              const preview = document.createElement('img');
+              preview.src = media.previewImage.url;
+              preview.alt = '';
+              preview.loading = 'lazy';
+              link.append(preview);
+            }
+            const play = document.createElement('span');
+            play.className = 'product-videos__play';
+            play.textContent = '▶ 播放影片';
+            link.append(play);
+            frame.append(link);
+          } else if (media.mediaContentType === 'VIDEO') {
+            const source = media.sources?.find((item) => item.mimeType === 'video/mp4');
+            if (!source?.url) continue;
+            const video = document.createElement('video');
+            video.src = source.url;
+            video.controls = true;
+            video.playsInline = true;
+            video.preload = 'metadata';
+            if (media.previewImage?.url) video.poster = media.previewImage.url;
+            frame.append(video);
+          } else continue;
+          const label = document.createElement('p');
+          label.textContent = media.alt || `${product.title} 影片`;
+          card.append(frame, label);
+          videoSection.append(card);
+        }
+        if (videoSection.childElementCount) {
+          const heading = document.createElement('h2');
+          heading.textContent = '產品影片';
+          videoSection.prepend(heading);
+        }
+        videoSection.hidden = !videoSection.childElementCount;
+      }
+
       // Update images
       const images = product.images?.edges?.map(e => e.node) ?? [];
       const mainImgWrap = document.querySelector('.product-gallery__main');
@@ -816,7 +886,7 @@
         const approved = verifiedVariantImages[variant?.id];
         if (!url || !approved?.imageUrl
           || canonicalVariantAssetUrl(approved.imageUrl) !== canonicalVariantAssetUrl(url)) return '';
-        return ['lip-swatch', 'arm-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'cheek-swatch', 'complexion-swatch']
+        return ['lip-swatch', 'arm-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'cheek-swatch', 'complexion-swatch', 'product-size']
           .includes(approved.presentation) ? url : '';
       }
 
@@ -881,7 +951,7 @@
                 : formatPrice(v.price.amount);
               const verifiedImage = verifiedVariantImageUrl(v);
               const shadeThumb = verifiedImage
-                ? `<img class="variant-btn__image" src="${verifiedImage}" alt="${optionText} 色號效果" loading="lazy">`
+                ? `<img class="variant-btn__image" src="${verifiedImage}" alt="${optionText} 商品圖片" loading="lazy">`
                 : '';
               return `<button class="variant-btn ${shadeThumb ? 'variant-btn--image' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${shadeThumb}<span>${optionText}${optionText ? ' — ' : ''}${vPrice}</span></button>`;
             }).join('')}
@@ -969,7 +1039,7 @@
       }
 
       if (addBtn && anyStock && requiresExplicitShade && !preselected) {
-        addBtn.textContent = '請先揀色號';
+        addBtn.textContent = primaryOptionName === '尺碼' ? '請先揀尺碼' : '請先揀色號';
         addBtn.disabled = true;
       }
 
@@ -1066,9 +1136,13 @@
         /* 快取版本可能係換封面之前嘅（客會先見到舊 OUJI 佔位圖）。
            背景對一次最新資料，封面一唔同就即刻換走，唔使等 TTL 過期。 */
         try {
-          const coverOf = (p) => p?.images?.edges?.[0]?.node?.url || '';
+          const mediaSignature = (p) => JSON.stringify({
+            description: p?.descriptionHtml || '',
+            images: (p?.images?.edges || []).map((edge) => edge.node?.url),
+            media: (p?.media?.nodes || []).map((item) => item.id),
+          });
           const fresh = await getProduct(handle);
-          if (fresh && coverOf(fresh) !== coverOf(cached)) {
+          if (fresh && mediaSignature(fresh) !== mediaSignature(cached)) {
             cacheProduct(fresh);
             await renderProduct(fresh);
           }
