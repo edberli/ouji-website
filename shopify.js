@@ -2481,6 +2481,19 @@ function oujiZhe(price, was) {
   const z = Math.round((parseFloat(price) / parseFloat(was)) * 100) / 10;
   return Number.isFinite(z) ? `${z} 折` : '';
 }
+/* 低庫存標籤（老闆 2026-10-01 批准）。只讀 Shopify 真實數量：1 件＝「最後一件」，
+   2 件＝「只剩 2 件」，其餘唔出。冇追蹤（null）、0／負數（賣完照賣）、
+   隱形眼鏡度數（本來就做預訂）一律唔出，唔准扮稀缺。 */
+const OUJI_LOW_STOCK_MAX = 2;
+function oujiLowStockText(n) {
+  if (typeof n !== 'number' || n < 1 || n > OUJI_LOW_STOCK_MAX) return '';
+  return n === 1 ? '最後一件' : `只剩 ${n} 件`;
+}
+function oujiLowStockBadgeHTML(p) {
+  if ((p.options?.[0]?.name || '') === '度數') return '';
+  const t = oujiLowStockText(p.totalInventory);
+  return t ? `<span class="product-card__stock">${t}</span>` : '';
+}
 function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount = null) {
   // 孖裝／套裝本身係「促銷」（黃條），唔轉紅（老闆 2026-10-01 更正）；紅色換季優惠條只係減價單件
   const season = oujiIsSeasonProduct(title, tags) && !oujiBundleInfo(title);
@@ -2761,7 +2774,7 @@ function productCardHTML(product) {
       <a href="product.html?handle=${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
-          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
+          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : oujiLowStockBadgeHTML(product)}
           ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount, product.tags, isOnSale ? comparePrice.amount : null) : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>

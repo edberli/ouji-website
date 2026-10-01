@@ -18557,3 +18557,17 @@ body::before { opacity: 0.18; }
 @media (min-width: 701px) and (max-width: 1100px) {
   .midautumn-home__ship-badge { top: 6px; right: 5px; font-size: .48rem; padding: 1px 5px 2px; letter-spacing: .08em; text-indent: .08em; }
 }
+
+/* 低庫存：圖左下細字牌，唔搶特價紅牌 */
+.product-card__stock {
+  position: absolute;
+  left: 12px; bottom: 12px;
+  padding: 3px 9px;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: #8f301f;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 6px;
+}
+.product-info__stock { margin: 6px 0 0; font-size: 0.8125rem; font-weight: 650; color: #8f301f; }
