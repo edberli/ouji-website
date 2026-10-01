@@ -1188,7 +1188,7 @@ async function getCart() {
         deliveryGroups(first: 1) {
           edges { node { selectedDeliveryOption { estimatedCost { amount } } } }
         }
-        lines(first: 50) {
+        lines(first: 250) {
           edges {
             node {
               id quantity

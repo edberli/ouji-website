@@ -698,7 +698,7 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261001-season4"></script>
+  <script src="shopify.js?v=20261001-cartfix2"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="search.js?v=20260927-card-chinese"></script>
@@ -941,14 +941,29 @@
     /* Shopify BXGY 唔會自動將贈品加落袋。先同步一次；有變更就 reload
        攞返折扣後嘅正式 cart，避免畫面短暫顯示贈品正價。 */
     if (typeof syncAutomaticGift === 'function') {
-      /* 贈品同步失敗唔應該令成個購物袋唔顯示 */
-      const giftSync = await syncAutomaticGift(cart).catch((e) => {
-        console.warn('[OUJI] 贈品同步失敗，照顯示購物袋：', e);
-        return { changed: false, error: true };
-      });
-      if (giftSync.changed) {
-        location.reload();
-        return;
+      /* 贈品同步會 reload 重畫。若果兩分鐘內已經為同一個 cart reload 過 2 次，
+         就唔再同步、直接顯示貨品 —— 否則加／減贈品來回拉扯，客見到嘅就係
+         頁面不斷自己重新載入（2026-10-01 觀塘部機實測：約 30 秒、每 4–6 秒一次）。 */
+      const gk = `ouji:gift-reloads:${cart.id}`;
+      let gs = { n: 0, t: 0 };
+      try { gs = JSON.parse(sessionStorage.getItem(gk) || 'null') || gs; } catch (e) {}
+      const looping = gs.n >= 2 && Date.now() - gs.t < 120000;
+      if (!looping) {
+        /* 贈品同步失敗唔應該令成個購物袋唔顯示 */
+        const giftSync = await syncAutomaticGift(cart).catch((e) => {
+          console.warn('[OUJI] 贈品同步失敗，照顯示購物袋：', e);
+          return { changed: false, error: true };
+        });
+        if (giftSync.changed) {
+          try {
+            const fresh = Date.now() - gs.t < 120000;
+            sessionStorage.setItem(gk, JSON.stringify({ n: (fresh ? gs.n : 0) + 1, t: fresh ? gs.t : Date.now() }));
+          } catch (e) {}
+          location.reload();
+          return;
+        }
+      } else {
+        console.warn('[OUJI] 贈品同步已停止（短時間內重複改動同一個購物袋）');
       }
     }
     try { if (typeof trackViewCart === 'function') trackViewCart(cart); } catch (e) { /* 追蹤唔好連累購物袋 */ }
