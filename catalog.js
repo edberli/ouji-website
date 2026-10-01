@@ -1591,7 +1591,7 @@ function productCard(p, options = null) {
         ${p._oujiOtherBrandStart
           ? `<span class="product-card__mini-brand">${p._oujiOtherBrandStart}</span>` : ''}
         ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-        ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale, p0.amount, p.tags) : ''}
+        ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale, p0.amount, p.tags, isOnSale ? cp.amount : null) : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button type="button" class="product-card__wishlist${
           typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"
@@ -1605,7 +1605,7 @@ function productCard(p, options = null) {
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${oujiCardName(p)}</span>
       ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
-      ${oujiCardPriceHTML(p0.amount, isOnSale ? cp.amount : null, { range: unitPriceRange(p), title: p.title })}
+      ${oujiCardPriceHTML(p0.amount, isOnSale ? cp.amount : null, { range: unitPriceRange(p), title: p.title, tags: p.tags })}
     </a>`;
 }
 
@@ -2546,6 +2546,40 @@ function syncShopPage(activeGroup, shown) {
   document.title = `${name} — OUJI`;
 }
 
+/* 防曬頁（seasonal.html?cat=sun、category.html?cat=sunscreen）：換季優惠 banner ＋ 特價貨排前面。
+   老闆 2026-10-01：「特價擺得咁後，啲人未必睇到」。折數按當頁有貨產品嘅劃線價計。 */
+function isSeasonSalePage(section, cat) {
+  return OUJI_SEASON_SALE_ON
+    && ((section === 'seasonal' && cat === 'sun') || (section === 'skincare' && cat === 'sunscreen'));
+}
+function dealRatio(p) {
+  let best = 1;
+  for (const e of (p.variants?.edges || [])) {
+    const v = e.node;
+    const now = parseFloat(v?.price?.amount), was = parseFloat(v?.compareAtPrice?.amount);
+    if (was > now && now > 0) best = Math.min(best, now / was);
+  }
+  return best;
+}
+function mountSeasonSale(products, section) {
+  // 護膚頁（category.html）傳入嘅係成個護膚目錄，折數只計防曬
+  if (section === 'skincare' && typeof subMatch === 'function') products = products.filter((p) => subMatch('skincare', 'sunscreen', p));
+  document.querySelector('.season-sale')?.remove();
+  const anchor = document.querySelector('.breadcrumb');
+  if (!anchor) return;
+  const best = products.reduce((m, p) => Math.min(m, dealRatio(p)), 1);
+  const zhe = Math.round(best * 100) / 10;
+  const deal = best < 0.95
+    ? `<p class="season-sale__deal"><span>低至</span><strong>${zhe}</strong><span>折</span></p>` : '';
+  anchor.insertAdjacentHTML('afterend', `<aside class="season-sale" aria-label="防曬換季優惠">
+    <img class="season-sale__art" src="assets/images/skincare-category-optimized/sunscreen.webp" alt="" width="512" height="530" decoding="async">
+    <div class="season-sale__copy">
+      <p class="season-sale__kicker">防曬 · 換季</p>
+      <h2 class="season-sale__title">換季優惠<i>·</i>限時特價</h2>
+      <p class="season-sale__fine">售完即止 · 劃線為連鎖參考原價</p>
+    </div>${deal}</aside>`);
+}
+
 async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '' }) {
   /* 品牌置頂（見 renderProducts）要知而家喺邊一版。渲染嗰陣攞唔到
      section，所以喺入口記低一次。 */
@@ -2559,6 +2593,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
      保留直接網址同補貨通知，但唔應該喺全部產品、分類、品牌段落或件數
      入面出現，更加唔需要畀客再剔一次「有貨」。 */
   products = searchTerm ? products : products.filter((p) => !soldOut(p));
+  const seasonPage = isSeasonSalePage(section, cat || presetCat);
+  if (seasonPage) mountSeasonSale(products, section);
 
   /* 首屏用嘅 catalog 快照可能係舊 cache 版本。背景對數攞到新目錄之後
      會派 ouji:catalog-refreshed，但之前**冇人聽** —— 結果老闆見到
@@ -2711,6 +2747,10 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       list = [...list].sort((a, b) =>
         window.OUJI_searchProductScore(a, searchTerm) - window.OUJI_searchProductScore(b, searchTerm));
     } else if (cmp) list = [...list].sort(cmp);
+    // 防曬頁預設排序：越平（折數越低）越前，冇特價嘅殿後
+    if (seasonPage && sortKey === 'featured' && !searchTerm) {
+      list = [...list].sort((a, b) => dealRatio(a) - dealRatio(b));
+    }
 
     // Generic category pages (沐浴、香氛、保健、季節性、工具、公仔、
     // 隱形眼鏡、K-pop) 會喺入 initCatalog 前已經用 `cat` 縮窄 products；
@@ -2722,7 +2762,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
     const grouped = !searchTerm && !filtered && sortKey === 'featured'
-      && vendorsOf(list).length > 1;
+      && !seasonPage && vendorsOf(list).length > 1;
 
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);

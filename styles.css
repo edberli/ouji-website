@@ -1504,6 +1504,11 @@ button.product-card__quick-add,
 .product-card__bundle-band strong { font-weight: 900; letter-spacing: 0.06em; padding-right: 8px; border-right: 1.5px solid currentColor; }
 .product-card__price.product-card__price--bundle { color: var(--promo-ink); font-weight: 800; padding: 0 2px; background: linear-gradient(transparent 58%, var(--promo) 58%, var(--promo) 92%, transparent 92%); }
 .product-card__per-unit { font-size: 0.6875rem; font-weight: 800; line-height: 1; padding: 3px 6px; border-radius: 2px; color: var(--promo-ink); background: var(--promo-tint); }
+/* 防曬換季優惠（2026-10-01 老闆）：促銷條同價錢高光由黃轉紅，其餘版面跟促銷一樣。
+   紅底白字 5.4:1；高光用紅色半透明托住深紅字，細字 AA。 */
+.product-card__bundle-band--season { background: var(--sale, #c8452f); color: #fff; }
+.product-card__price.product-card__price--season { color: #8f2a19; background: linear-gradient(transparent 58%, rgba(200,69,47,0.30) 58%, rgba(200,69,47,0.30) 92%, transparent 92%); }
+.product-card__per-unit--season { color: #8f2a19; background: rgba(200,69,47,0.12); }
 
 /* ----- Brands Page — Dark Smoke Theme ----- */
 .brands-page {
@@ -15206,6 +15211,41 @@ body::before { opacity: 0.18; }
   .promo-slim:has(.promo-slim__cat) { padding-right: 92px; }
   .promo-slim__cat { height: 84px; right: 6px; }
   .promo-slim__cat:has(img[src*="shima-shop1"]) { height: 74px; }
+}
+
+/* ============================================================
+   防曬頁換季優惠 banner（2026-10-01 老闆：「換季優惠、限時特價」＋「低至幾多折」）
+   紅底同商品卡嘅換季優惠條一個色（--sale），金色只落喺折數；
+   「低至 N 折」由 catalog.js mountSeasonSale() 按當頁貨價計，唔寫死。
+   ============================================================ */
+.season-sale {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+  gap: clamp(12px, 3vw, 36px);
+  margin: var(--space-lg) 0 var(--space-md);
+  padding: clamp(12px, 2vw, 20px) clamp(16px, 3vw, 36px);
+  border-radius: 14px;
+  background: linear-gradient(118deg, #c8452f 0%, #b63a27 60%, #a23020 100%);
+  box-shadow: 0 14px 30px -22px rgba(110, 28, 14, 0.8);
+  color: #fff;
+}
+.season-sale__art { width: auto; height: clamp(72px, 9vw, 112px); filter: drop-shadow(0 6px 12px rgba(80, 16, 6, 0.45)); }
+.season-sale__copy { min-width: 0; display: grid; gap: 4px; }
+.season-sale__kicker { margin: 0; font-size: 0.75rem; letter-spacing: 0.14em; color: rgba(255, 255, 255, 0.85); }
+.season-sale__title {
+  margin: 0; font-family: var(--font-display, var(--font-body));
+  font-size: clamp(1.45rem, 3.4vw, 2.3rem); font-weight: 700; line-height: 1.15; text-wrap: balance;
+}
+.season-sale__title i { font-style: normal; opacity: 0.6; padding: 0 0.2em; }
+.season-sale__fine { margin: 0; font-size: 0.75rem; color: rgba(255, 255, 255, 0.85); }
+.season-sale__deal { margin: 0; display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+.season-sale__deal span { font-size: clamp(0.9rem, 1.6vw, 1.1rem); font-weight: 600; }
+.season-sale__deal strong {
+  font-family: var(--font-body); font-weight: 800; line-height: 0.95; letter-spacing: -0.02em;
+  font-size: clamp(2.6rem, 6.4vw, 4.2rem); color: #ffe08a; font-variant-numeric: lining-nums tabular-nums;
+}
+@media (max-width: 640px) {
+  .season-sale { grid-template-columns: auto 1fr; row-gap: 8px; }
+  .season-sale__deal { grid-column: 1 / -1; justify-content: flex-end; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.25); }
 }
 
 /* ============================================================

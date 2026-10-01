@@ -2466,7 +2466,33 @@ function oujiPerUnit(amount, count) {
   const each = parseFloat(amount) / count;
   return Number.isInteger(each) ? `$${each}` : `$${each.toFixed(1)}`;
 }
-function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = []) {
+/* 防曬換季清貨（2026-10-01 老闆：防曬嘅紅牌／促銷條改做「換季優惠」，條同價錢高光都轉紅）。
+   清貨完結就將 OUJI_SEASON_SALE_ON 改 false，防曬卡即刻返回「限時／促銷」。 */
+const OUJI_SEASON_SALE_ON = true;
+function oujiIsSeasonProduct(title, tags = []) {
+  return OUJI_SEASON_SALE_ON
+    && ((tags || []).includes('防曬') || SUNSCREEN_TITLE.test(title || ''));
+}
+// 4.5 折、5 折：售價 ÷ 原價，一個細數位
+function oujiZhe(price, was) {
+  const z = Math.round((parseFloat(price) / parseFloat(was)) * 100) / 10;
+  return Number.isFinite(z) ? `${z} 折` : '';
+}
+function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount = null) {
+  const season = oujiIsSeasonProduct(title, tags);
+  const hasWas = parseFloat(compareAmount) > parseFloat(priceAmount);
+  if (season) {
+    const b = oujiBundleInfo(title);
+    if (b) {
+      const detail = b.count ? `${b.count}件 · 每件 ${oujiPerUnit(priceAmount, b.count)}` : '套裝優惠';
+      return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>換季優惠</strong><span>${detail}</span></div>`;
+    }
+    if ((tags || []).includes('限時') || onSale) {
+      const detail = hasWas ? oujiZhe(priceAmount, compareAmount) : '限時特價';
+      return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>換季優惠</strong><span>${detail}</span></div>`;
+    }
+    return '';
+  }
   const saleBadge = '<span class="product-card__badge product-card__badge--sale">限時</span>';
   if ((tags || []).includes('限時')) return saleBadge;
   const b = oujiBundleInfo(title);
@@ -2480,8 +2506,9 @@ function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = []) {
 /* 商品卡價錢：有真減價先出劃線原價，原價喺前、售價喺後；一張卡只出一個細牌。
    限時：紅色售價；慳 ≥ $50 用「慳 $X」，細額用「X% OFF」，唔夠一成唔出（寒酸反效果）。
    促銷：黑色售價加黃底；同一件貨幾件就出「每件 $X」，混合套裝出「慳 $X」。 */
-function oujiCardPriceHTML(priceAmount, compareAmount, { range = null, title = '' } = {}) {
+function oujiCardPriceHTML(priceAmount, compareAmount, { range = null, title = '', tags = [] } = {}) {
   const now = parseFloat(priceAmount);
+  const season = oujiIsSeasonProduct(title, tags);
   const was = parseFloat(compareAmount);
   const main = range ? `${formatPrice(range.lo)} – ${formatPrice(range.hi)}` : formatPrice(now);
   const bundle = range ? null : oujiBundleInfo(title);
@@ -2491,8 +2518,8 @@ function oujiCardPriceHTML(priceAmount, compareAmount, { range = null, title = '
       : hasWas ? `慳 $${Math.round(was - now)}` : '';
     return `<span class="product-card__deal">`
       + (hasWas ? `<s class="product-card__compare-price">${formatPrice(was)}</s>` : '')
-      + `<span class="product-card__price product-card__price--bundle">${main}</span>`
-      + (chip ? `<span class="product-card__per-unit">${chip}</span>` : '') + `</span>`;
+      + `<span class="product-card__price product-card__price--bundle${season ? ' product-card__price--season' : ''}">${main}</span>`
+      + (chip ? `<span class="product-card__per-unit${season ? ' product-card__per-unit--season' : ''}">${chip}</span>` : '') + `</span>`;
   }
   if (range || !hasWas) {
     return `<span class="product-card__price">${main}</span>`;
@@ -2503,7 +2530,7 @@ function oujiCardPriceHTML(priceAmount, compareAmount, { range = null, title = '
     : `<span class="product-card__savings">${save >= 50 ? `慳 $${Math.round(save)}` : `${pct}% OFF`}</span>`;
   return `<span class="product-card__deal">`
     + `<s class="product-card__compare-price">${formatPrice(was)}</s>`
-    + `<span class="product-card__price product-card__price--sale">${main}</span>`
+    + `<span class="product-card__price product-card__price--sale${season ? ' product-card__price--season' : ''}">${main}</span>`
     + badge + `</span>`;
 }
 
@@ -2736,14 +2763,14 @@ function productCardHTML(product) {
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : ''}
-          ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount, product.tags) : ''}
+          ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount, product.tags, isOnSale ? comparePrice.amount : null) : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
       </a>
       <div class="product-card__info">
         <a href="product.html?handle=${product.handle}" class="product-card__title">${title}</a>
         <div class="product-card__prices">
-          ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { range: unitPriceRange(product), title: product.title })}
+          ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { range: unitPriceRange(product), title: product.title, tags: product.tags })}
         </div>
         <button class="product-card__wishlist-btn ${isInWishlist(product.id) ? 'is-active' : ''}"
           onclick="toggleWishlist(event, ${JSON.stringify(product).replace(/"/g, '&quot;')})"
