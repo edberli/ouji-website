@@ -2774,7 +2774,7 @@ function productCardHTML(product) {
       <a href="product.html?handle=${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
-          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : oujiLowStockBadgeHTML(product)}
+          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : oujiLowStockBadgeHTML(product)}
           ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount, product.tags, isOnSale ? comparePrice.amount : null) : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
@@ -3223,9 +3223,17 @@ function categoryKeywords(section, cat) {
    （唇部護理），所以呢度係淨係由彩妝剔走，唔係搬走。
    ⚠️ 所有判斷「呢件貨屬唔屬呢個 section」嘅地方一律叫呢個，唔好再直接
    叫 matchesKeywords，否則又會有一半入口漏咗呢條規則。 */
+/* 日本品牌防曬只喺防曬頁（季節性）出現，唔放護膚；韓國品牌防曬（Skin1004、Round Lab…）
+   照舊兩邊都有（老闆 2026-10-01）。以前用「細品牌 ≤2 件先集中喺季節性」，
+   令日本大牌（SUNCUT、ANESSA、碧柔）反而留喺護膚，而細韓牌掉咗出護膚，剛好倒轉。 */
+const JAPANESE_SUN_VENDOR = /anessa|allie|suncut|kos[eé]|fancl|elixir|^omi\b|雪芙蘭|bior[eé]|hadariki|^sana$|privacy|^bcl$|nivea|shiseido|cezanne|rohto|sunplay|skin\s*aqua|mentholatum/i;
+function isJapaneseSunscreen(p) {
+  return isSunscreenProduct(p) && JAPANESE_SUN_VENDOR.test(String(p.vendor || '').trim());
+}
+
 const SECTION_EXCLUDE = {
   makeup: (p) => isLipCare(p),
-  skincare: (p) => isSkincareCategoryMismatch(p) || Boolean(supportKind(p)),
+  skincare: (p) => isSkincareCategoryMismatch(p) || Boolean(supportKind(p)) || isJapaneseSunscreen(p),
   health: (p) => Boolean(supportKind(p)),
   supports: (p) => !supportKind(p),
 };
@@ -3266,6 +3274,8 @@ const PRODUCT_BREADCRUMB_ROUTES = [
 
 function productBreadcrumb(product) {
   const p = product || {};
+  // 防曬產品麵包屑寫「防曬」，唔好掛護膚（老闆 2026-10-01）
+  if (isSunscreenProduct(p)) return { href: 'seasonal.html?cat=sun', label: '防曬' };
   const care = ['eye', 'lipcare'].some((id) => subMatch('skincare', id, p));
   const hit = care
     ? ['skincare', 'category.html']
@@ -3319,17 +3329,6 @@ async function getCategoryProducts({ section, cat = null } = {}) {
      collection 入面嘅潤手霜／潤唇膏會繞過上面 sectionMatch。 */
   const sectionDrop = SECTION_EXCLUDE[section];
   if (sectionDrop) products = products.filter((p) => !sectionDrop(p));
-  if (section === 'skincare') {
-    const vendorTotals = new Map();
-    products.forEach((p) => {
-      const vendor = String(p.vendor || '其他');
-      vendorTotals.set(vendor, (vendorTotals.get(vendor) || 0) + 1);
-    });
-    products = products.filter((p) => !(
-      isSunscreenProduct(p)
-      && (vendorTotals.get(String(p.vendor || '其他')) || 0) <= 2
-    ));
-  }
   /* 短效期特價有自己一版（short-dated.html），唔好喺分類頁同正價貨並排，
      客會見到同一件貨兩個價。 */
   if (section !== 'short-dated') products = products.filter((p) => !isShortDated(p));
