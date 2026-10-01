@@ -3121,7 +3121,11 @@ function isHandCare(p) {
   return HAND_CARE_TITLE.test(p.title || '');
 }
 
-const SUNSCREEN_TITLE = /防曬|spf\s*\d|sun\s*(?:cream|stick|serum|essence|cushion|lotion|screen|milk)|\buv\b|선크림|선케어/i;
+/* 防曬 = 名／tag／類型明寫「防曬」或 sunscreen／sun cream 呢類字。
+   2026-10-01 老闆指出 CLIO 氣墊粉底被當防曬：舊規則連 `SPF40`、`UV` 都當防曬，
+   令帶 SPF 嘅粉底、氣墊、遮瑕、蜜粉、UV 保健品全部跌入防曬頁同「換季優惠」。
+   SPF／UV 只係底妝附帶功能，唔係防曬產品，所以拎走。 */
+const SUNSCREEN_TITLE = /防曬|sun\s*(?:cream|stick|serum|essence|cushion|lotion|screen|milk)|sunscreen|선크림|선케어/i;
 function isSunscreenProduct(p) {
   return SUNSCREEN_TITLE.test(productHaystackLoose(p));
 }
