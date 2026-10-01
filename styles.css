@@ -18437,7 +18437,7 @@ body::before { opacity: 0.18; }
     content: ""; position: absolute; left: 0; right: 0; bottom: 6px; border-top: 2px dashed rgba(255,255,255,.35);
   }
   .ship-walk__cat {
-    position: absolute; left: 0; bottom: 0; aspect-ratio: 487 / 412;
+    position: absolute; left: 0; bottom: -20px; aspect-ratio: 487 / 412;
     height: min(88cqh, 150px); will-change: transform;
     animation: ship-walk-x 11s linear infinite; animation-play-state: paused;
   }
