@@ -18424,12 +18424,40 @@ body::before { opacity: 0.18; }
 @media (min-width: 1101px) {
   .midautumn-home .midautumn-home__grid { align-items: stretch; }
   .midautumn-home .midautumn-home__shipping { height: auto; }
-  /* 運送卡高度跟橫幅，三格選項長高填滿：圖示放頂、文字壓底，唔留大空白 */
-  .midautumn-home .midautumn-home__shipping ul { flex: 1 1 auto; align-items: stretch; margin-block: 4px 12px; }
-  .midautumn-home .midautumn-home__shipping li { height: auto; }
-  .midautumn-home .midautumn-home__shipping li a { height: 100%; justify-content: center; gap: clamp(12px, 1.6vw, 22px); padding-block: 16px; }
-  .midautumn-home .midautumn-home__shipping li strong { font-size: clamp(1.1rem, 1.5vw, 1.45rem); }
-  .midautumn-home .midautumn-home__shipping li small { font-size: clamp(.8rem, .9vw, .95rem); }
-  .midautumn-home .midautumn-home__shipping .midautumn-home__seven-logo,
-  .midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon { width: clamp(48px, 4.4vw, 68px); height: clamp(48px, 4.4vw, 68px); }
+}
+
+/* 運送卡空白位：芝麻貓喺虛線路上由左行到右，到右邊淡出，再由左邊出現 */
+.ship-walk { display: none; }
+@media (min-width: 1101px) {
+  .midautumn-home .ship-walk {
+    display: block; position: relative; flex: 1 1 0; min-height: 0; margin: 6px 0 4px;
+    container-type: size; overflow: hidden; pointer-events: none;
+  }
+  .ship-walk::after { /* 路 */
+    content: ""; position: absolute; left: 0; right: 0; bottom: 6px; border-top: 2px dashed rgba(255,255,255,.35);
+  }
+  .ship-walk__cat {
+    position: absolute; left: 0; bottom: 0; aspect-ratio: 487 / 412;
+    height: min(88cqh, 150px); will-change: transform;
+    animation: ship-walk-x 11s linear infinite; animation-play-state: paused;
+  }
+  .ship-walk.is-in .ship-walk__cat, .ship-walk.is-in .ship-walk__cat * { animation-play-state: running; }
+  .ship-walk__cat img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .ship-walk__body { animation: ship-walk-bob .56s ease-in-out infinite; animation-play-state: paused; }
+  .ship-walk__leg-l { transform-origin: 17% 66%; animation: ship-walk-leg-a .56s ease-in-out infinite; animation-play-state: paused; }
+  .ship-walk__leg-r { transform-origin: 64% 66%; animation: ship-walk-leg-b .56s ease-in-out infinite; animation-play-state: paused; }
+}
+@container (height < 56px) { .ship-walk__cat { display: none; } }
+@keyframes ship-walk-x {
+  0%   { transform: translateX(-110%); opacity: 0; }
+  6%   { opacity: 1; }
+  78%  { opacity: 1; }
+  100% { transform: translateX(100cqw); opacity: 0; }
+}
+@keyframes ship-walk-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.5%); } }
+@keyframes ship-walk-leg-a { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(14deg); } }
+@keyframes ship-walk-leg-b { 0%, 100% { transform: rotate(14deg); } 50% { transform: rotate(-14deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .ship-walk__cat, .ship-walk__cat * { animation: none !important; }
+  .ship-walk__cat { left: 8%; opacity: 1; }
 }
