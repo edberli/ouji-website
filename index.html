@@ -416,37 +416,6 @@
       </div>
     </div>
 
-    <!-- ═══════════ 秋季換季大特賣（2026-10-02 老闆）═══════════
-         「做優惠唔可以悶聲做，要大大聲聲話俾人知。」所以優惠擺首頁第一屏之後。
-         全部由實時目錄計：折數、件數、到期日都係真數，冇優惠就成格收起。 -->
-    <section class="home-sale" data-home-sale aria-labelledby="home-sale-title" hidden>
-      <div class="container home-sale__hub">
-        <a class="home-sale__hero" href="#home-deals">
-          <span class="home-sale__kicker">AUTUMN SALE · 換季清貨</span>
-          <h2 class="home-sale__title" id="home-sale-title">秋季換季大特賣</h2>
-          <p class="home-sale__sub">防曬、便攜風扇、主力品牌限時特價，售完即止</p>
-          <p class="home-sale__best" data-sale-best-wrap><span>全場低至</span><strong data-sale-best></strong><span>折</span></p>
-          <span class="home-sale__cta">睇晒優惠</span>
-        </a>
-        <div class="home-sale__doors" data-sale-doors></div>
-      </div>
-      <div class="container home-sale__head" id="home-deals">
-        <h3 class="home-sale__h3">限時特價 · 慳得最多</h3>
-        <p class="home-sale__note">原價為連鎖店或官方參考價</p>
-      </div>
-      <div class="home-sale__track" data-sale-deals></div>
-    </section>
-
-    <!-- 主力品牌嘅優惠一齊攞出嚟講：Torriden、CLIO 呢啲本身有人搵，有劃線價就要見得到。 -->
-    <section class="home-brand-deals" data-home-brand-deals aria-labelledby="home-brand-deals-title" hidden>
-      <div class="container">
-        <div class="home-sale__head home-sale__head--flush">
-          <h3 class="home-sale__h3" id="home-brand-deals-title">主力品牌 · 正價貨都減</h3>
-        </div>
-        <div class="home-brand-deals__grid" data-brand-deals></div>
-      </div>
-    </section>
-
     <!-- 客一入到嚟最想做嘅係搵嘢，唔係讀我哋自我介紹。
          呢一格本來排喺第六位，要碌三個螢幕先見到 —— 搬咗上嚟。 -->
     <section class="section--sm section-float">
@@ -560,16 +529,29 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
     </div>
 
 
-    <!-- 就快到期 · 執平貨：短效期貨本身有一版（short-dated.html），首頁出最快到期嗰批。
-         「而家買咩好」同分類海報（彩妝／護膚／隱形眼鏡／K-pop）2026-10-02 老闆話冇特色，拎走。 -->
-    <section class="home-expiring" data-home-expiring aria-labelledby="home-expiring-title" hidden>
-      <div class="container home-sale__head">
-        <h3 class="home-sale__h3" id="home-expiring-title">就快到期 · 執平貨</h3>
-        <a class="home-sale__more" href="short-dated.html">睇晒短效期特價</a>
+    <!-- ═══════════ 秋季換季大特賣（2026-10-02 老闆）═══════════
+         「做優惠唔可以悶聲做」。第一版左邊大格講折數、右邊三道門，老闆話冇用 ——
+         客睇完都未見到一件貨。而家一條紅標題，下面即刻出貨，tab 揀防曬／品牌／短效期。
+         全部由實時目錄計，冇優惠就成格收起。
+         位置：產品分類、購物禮遇（運費）之後（老闆：「冇理由擺喺上面」）。 -->
+    <section class="section section-float home-sale" data-home-sale aria-labelledby="home-sale-title" hidden>
+      <div class="container">
+        <div class="section-header section-header--split">
+          <div>
+            <span class="label section-header__label home-sale__label">換季優惠 · 限時特價</span>
+            <h2 class="heading-lg section-header__title" id="home-sale-title">秋季換季大特賣</h2>
+          </div>
+          <p class="home-sale__best">全場低至 <strong data-sale-best></strong> 折</p>
+        </div>
+        <div class="home-tabs" role="tablist" data-sale-tabs></div>
+        <p class="home-tabs__note">劃線為連鎖店或官方參考原價 · 售完即止</p>
+        <div class="home-sale__grid" data-sale-grid></div>
+        <div class="home-sale__foot"><a class="btn--ghost" data-sale-more href="#"></a></div>
       </div>
-      <div class="home-sale__track" data-expiring></div>
     </section>
 
+    <!-- 「而家買咩好」同分類海報（彩妝／護膚／隱形眼鏡／K-pop）2026-10-02 老闆話冇特色，拎走；
+         短效期貨併入上面換季大特賣嘅 tab。 -->
     <!-- 品牌牆擺喺「而家買咩好」下面：客啱啱睇完頭幾行貨，
          「你哋有邊啲牌子」就變返有用。
          試過拆兩條插入各自嗰行貨嘅頭頂（彩妝一條、護膚一條），

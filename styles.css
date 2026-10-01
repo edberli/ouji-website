@@ -10612,121 +10612,33 @@ html.is-lite .section--brand-intro::after {
 
 /* ============================================================
    首頁「秋季換季大特賣」（2026-10-02 老闆：優惠要大聲講）
-   一個主色：同防曬頁 banner、商品卡換季優惠條一樣用 --sale 紅；金色只落喺折數。
-   左邊一大格講「全場低至幾折」，右邊三道門（防曬／風扇／短效期），
-   下面一條橫掃限時特價；之後主力品牌、就快到期兩格用同一套標題。
+   用返首頁原有嘅一套：section-header（細眉題＋襯線大標題）、雜誌式 home-tabs、
+   product-grid 四欄卡。紅色只落喺眉題、折數同 tab 嘅「幾折起」，唔再另起一套字款。
    ============================================================ */
-.home-sale { padding-block: clamp(28px, 4vw, 56px) clamp(8px, 2vw, 24px); }
-.home-sale__hub {
-  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: clamp(12px, 1.6vw, 20px); align-items: stretch;
+.home-sale__label { color: var(--sale, #c8452f); }
+.home-sale__best {
+  margin: 0; white-space: nowrap; font-size: 0.9375rem; color: var(--text-secondary);
 }
-.home-sale__hero {
-  position: relative; overflow: hidden;
-  display: grid; align-content: center; gap: 10px;
-  padding: clamp(24px, 3.4vw, 48px);
-  border-radius: 18px; color: #fff; text-decoration: none;
-  background:
-    radial-gradient(120% 90% at 100% 0%, rgba(255, 224, 138, 0.22) 0%, rgba(255, 224, 138, 0) 55%),
-    linear-gradient(125deg, #c8452f 0%, #b63a27 55%, #9c2c1d 100%);
-  box-shadow: 0 22px 44px -30px rgba(110, 28, 14, 0.85);
-}
-.home-sale__kicker { font-size: 0.75rem; letter-spacing: 0.18em; color: rgba(255, 255, 255, 0.85); }
-.home-sale__title {
-  margin: 0; font-family: var(--font-display, var(--font-body));
-  font-size: clamp(2rem, 4.2vw, 3.4rem); font-weight: 700; line-height: 1.08; text-wrap: balance;
-}
-.home-sale__sub { margin: 0; font-size: clamp(0.9rem, 1.3vw, 1.05rem); color: rgba(255, 255, 255, 0.9); max-width: 30em; text-wrap: balance; }
-.home-sale__best { margin: 6px 0 0; display: flex; align-items: baseline; gap: 8px; }
-.home-sale__best span { font-size: clamp(1rem, 1.6vw, 1.25rem); font-weight: 700; }
 .home-sale__best strong {
-  font-family: var(--font-body); font-weight: 800; letter-spacing: -0.03em; line-height: 0.9;
-  font-size: clamp(3.6rem, 8vw, 6.2rem); color: #ffe08a; font-variant-numeric: lining-nums tabular-nums;
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 3.6vw, 3rem);
+  line-height: 1; color: var(--sale, #c8452f); font-variant-numeric: lining-nums; margin: 0 2px;
 }
-.home-sale__cta {
-  justify-self: start; margin-top: 6px; padding: 10px 18px; border-radius: 999px;
-  background: #fff; color: #9c2c1d; font-weight: 700; font-size: 0.875rem;
+.home-sale__tab-deal {
+  margin-left: 6px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0; color: var(--sale, #c8452f); vertical-align: 0.15em;
 }
-.home-sale__hero:hover .home-sale__cta, .home-sale__hero:focus-visible .home-sale__cta { background: #ffe08a; }
-.home-sale__hero:focus-visible { outline: 3px solid #ffe08a; outline-offset: 3px; }
-
-.home-sale__doors { display: grid; gap: clamp(10px, 1.2vw, 14px); grid-auto-rows: 1fr; }
-.home-sale__door {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center;
-  gap: 14px; padding: 14px 18px; border-radius: 14px; text-decoration: none;
-  background: var(--bg-secondary, #fff); border: 1px solid rgba(200, 69, 47, 0.18);
-  color: var(--text-primary, #1d2b33);
-  transition: border-color var(--duration-normal, 0.2s), transform var(--duration-normal, 0.2s);
+.home-sale__grid {
+  /* 同 .product-grid 一樣嘅欄數同間距；唔直接用 .product-grid —— 首頁品牌牆嘅程式
+     會揾頁面第一個 .product-grid 填貨，會冚咗呢格。 */
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2xl) var(--space-lg); margin-top: var(--space-xl);
 }
-.home-sale__door:hover { border-color: rgba(200, 69, 47, 0.55); transform: translateY(-2px); }
-.home-sale__door-art { width: 64px; height: 64px; object-fit: contain; border-radius: 10px; }
-.home-sale__door-text { display: grid; gap: 2px; min-width: 0; }
-.home-sale__door-text b { font-size: 1.05rem; }
-.home-sale__door-text small { font-size: 0.8125rem; color: var(--text-secondary, #5a6b73); }
-.home-sale__door-deal {
-  display: flex; align-items: baseline; gap: 2px; white-space: nowrap;
-  font-weight: 800; font-size: 1.9rem; line-height: 1; color: var(--sale, #c8452f); font-variant-numeric: tabular-nums;
-}
-.home-sale__door-deal small { font-size: 0.75rem; font-weight: 700; }
-
-.home-sale__head {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-  margin-top: clamp(28px, 3.6vw, 44px); margin-bottom: 14px;
-}
-.home-sale__head--flush { margin-top: 0; }
-.home-sale__h3 {
-  margin: 0; font-family: var(--font-display, var(--font-body));
-  font-size: clamp(1.35rem, 2.4vw, 1.9rem); font-weight: 700;
-}
-.home-sale__h3::before {
-  content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 10px; border-radius: 3px;
-  background: var(--sale, #c8452f); vertical-align: 0.15em;
-}
-.home-sale__note { margin: 0; font-size: 0.75rem; color: var(--text-tertiary, #7b8a91); }
-.home-sale__more { font-size: 0.875rem; font-weight: 600; color: var(--sale, #c8452f); text-decoration: none; }
-.home-sale__more:hover { text-decoration: underline; }
-
-/* 橫掃一行：卡闊跟螢幕，左右留返 container 嘅邊 */
-.home-sale__track {
-  display: grid; grid-auto-flow: column;
-  grid-auto-columns: clamp(158px, 17vw, 228px); gap: clamp(12px, 1.4vw, 18px);
-  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity;
-  --sale-gutter: var(--space-2xl);
-  padding-inline: max(var(--sale-gutter), calc((100% - var(--max-width)) / 2 + var(--sale-gutter)));
-  scroll-padding-inline: max(var(--sale-gutter), calc((100% - var(--max-width)) / 2 + var(--sale-gutter)));
-  padding-bottom: 10px; scrollbar-width: thin;
-}
-.home-sale__track > * { scroll-snap-align: start; min-width: 0; }
-
-.home-brand-deals { padding-block: clamp(24px, 3.4vw, 44px) 8px; }
-.home-brand-deals__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: clamp(12px, 1.4vw, 18px); }
-.home-brand-deal {
-  display: grid; gap: 10px; padding: 18px; border-radius: 16px; text-decoration: none;
-  background: var(--bg-secondary, #fff); border: 1px solid rgba(29, 43, 51, 0.08);
-  color: var(--text-primary, #1d2b33);
-  transition: border-color var(--duration-normal, 0.2s), transform var(--duration-normal, 0.2s);
-}
-.home-brand-deal:hover { border-color: rgba(200, 69, 47, 0.45); transform: translateY(-2px); }
-.home-brand-deal__name { font-family: var(--font-brand, var(--font-body)); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.02em; }
-.home-brand-deal__meta { font-size: 0.875rem; color: var(--text-secondary, #5a6b73); }
-.home-brand-deal__meta b { color: var(--sale, #c8452f); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
-.home-brand-deal__shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.home-brand-deal__shots img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; background: #f3f5f5; }
-.home-brand-deal__go { font-size: 0.8125rem; font-weight: 700; color: var(--sale, #c8452f); }
-
-.home-expiring { padding-block: clamp(20px, 3vw, 40px) 8px; }
-@media (max-width: 1024px) { .home-sale__track { --sale-gutter: var(--space-xl); } }
-@media (max-width: 768px) { .home-sale__track { --sale-gutter: var(--space-md); } }
-@media (max-width: 860px) {
-  .home-sale__hub { grid-template-columns: 1fr; }
-  .home-sale__doors { grid-auto-rows: auto; }
-}
-@media (max-width: 560px) {
-  .home-sale__door { padding: 12px 14px; gap: 12px; }
-  .home-sale__door-art { width: 52px; height: 52px; }
-  .home-sale__door-deal { font-size: 1.6rem; }
-  .home-brand-deals__grid { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x proximity; }
-  .home-brand-deal { scroll-snap-align: start; }
+@media (max-width: 1024px) { .home-sale__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 768px) { .home-sale__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-md); } }
+.home-sale__foot { display: flex; justify-content: center; margin-top: var(--space-2xl); }
+.home-sale__foot[hidden] { display: none; }
+@media (max-width: 768px) {
+  .home-sale .section-header--split { gap: var(--space-sm); }
 }
 
 /* ============================================================
