@@ -1216,8 +1216,11 @@ async function getCart() {
   `, { cartId, country: CART_COUNTRY });
   /* 個 ID 指住一個唔存在嘅購物車 → 清走佢。唔清嘅話，購物袋一版
      永遠都係空，而下一次加貨又會撞返同一個死 ID。 */
-  if (!data?.cart) localStorage.removeItem('shopify_cart_id');
-  return data?.cart;
+  /* 只有 Shopify 明確回 cart:null 先清 ID；data 缺失（GraphQL 出錯／限流）
+     唔係「車唔存在」，清咗客嘅貨就永久搵唔返。出錯就拋錯，等頁面顯示重試。 */
+  if (!data) throw new Error('Shopify 未回覆購物袋資料');
+  if (data.cart === null) localStorage.removeItem('shopify_cart_id');
+  return data.cart;
 }
 
 /**

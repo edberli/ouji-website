@@ -304,7 +304,10 @@
 
         <h1 class="cart-page__title">購物袋</h1>
         <!-- Empty Cart State (shown when cart is empty) -->
-        <div class="cart-empty" id="cart-empty">
+        <!-- 載入中／讀取失敗：唔好預設顯示「空」，否則角標有數但畫面話空（2026-10-01 客投訴） -->
+        <div class="cart-empty" id="cart-loading" role="status"><p>正在載入購物袋…</p></div>
+        <div class="cart-empty" id="cart-error" hidden><p>暫時讀取唔到你嘅購物袋，貨品仍然保留。<br>請再試一次。</p><button type="button" class="btn btn--primary" onclick="location.reload()">重新載入</button></div>
+        <div class="cart-empty" id="cart-empty" style="display:none;">
           <!-- 空購物袋：芝麻喺度招手，叫人入去揀嘢。
                本來係一粒灰色線稿購物袋，同「空咗」呢個訊息重複咗。 -->
           <div class="shima shima--empty" aria-hidden="true">
@@ -695,7 +698,7 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261001-season2"></script>
+  <script src="shopify.js?v=20261001-cartfix"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="search.js?v=20260927-card-chinese"></script>
@@ -826,7 +829,14 @@
     await initPage();
     initCartEnglishStaticCopy();
 
-    const cart = await getCart();
+    let cart;
+    let cartFetchFailed = false;
+    try { cart = await getCart(); } catch (e) {
+      console.warn('[OUJI] 購物袋讀取失敗：', e);
+      cartFetchFailed = true;
+    }
+    const cartLoading = document.getElementById('cart-loading');
+    if (cartLoading) cartLoading.style.display = 'none';
     const cartEmpty = document.getElementById('cart-empty');
     const cartLayout = document.getElementById('cart-layout');
     const itemsContainer = document.querySelector('.cart-items');
@@ -915,6 +925,12 @@
       });
     }
 
+    if (cartFetchFailed) {
+      const errBox = document.getElementById('cart-error');
+      if (errBox) errBox.hidden = false;
+      cartLayout.style.display = 'none';
+      return;
+    }
     if (!cart || !cart.lines?.edges?.length) {
       // Show empty cart state
       cartEmpty.style.display = '';
@@ -925,13 +941,17 @@
     /* Shopify BXGY 唔會自動將贈品加落袋。先同步一次；有變更就 reload
        攞返折扣後嘅正式 cart，避免畫面短暫顯示贈品正價。 */
     if (typeof syncAutomaticGift === 'function') {
-      const giftSync = await syncAutomaticGift(cart);
+      /* 贈品同步失敗唔應該令成個購物袋唔顯示 */
+      const giftSync = await syncAutomaticGift(cart).catch((e) => {
+        console.warn('[OUJI] 贈品同步失敗，照顯示購物袋：', e);
+        return { changed: false, error: true };
+      });
       if (giftSync.changed) {
         location.reload();
         return;
       }
     }
-    if (typeof trackViewCart === 'function') trackViewCart(cart);
+    try { if (typeof trackViewCart === 'function') trackViewCart(cart); } catch (e) { /* 追蹤唔好連累購物袋 */ }
 
     // Show cart layout, hide empty state
     cartEmpty.style.display = 'none';
