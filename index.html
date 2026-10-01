@@ -529,24 +529,93 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
     </div>
 
 
-    <!-- ═══════════ 秋季換季大特賣（2026-10-02 老闆）═══════════
-         「做優惠唔可以悶聲做」。第一版左邊大格講折數、右邊三道門，老闆話冇用 ——
-         客睇完都未見到一件貨。而家一條紅標題，下面即刻出貨，tab 揀防曬／品牌／短效期。
-         全部由實時目錄計，冇優惠就成格收起。
-         位置：產品分類、購物禮遇（運費）之後（老闆：「冇理由擺喺上面」）。 -->
-    <section class="section section-float home-sale" data-home-sale aria-labelledby="home-sale-title" hidden>
+    <!-- ═══════════ 首頁商品格（2026-10-02 老闆重新定）═══════════
+         形象同優惠交錯：TIRTIR 本月主打（正價、官方廣告相）→ 秋季換季大特賣 → 防曬清貨
+         → Torriden 優惠 → 就快到期。海報全部用品牌官方廣告相，唔自己生成；
+         人哋網店自己嘅優惠字（滿額減、贈品）嘅 banner 唔用，免得客以為我哋都有。
+         每格嘅貨同折數由實時目錄計，唔夠貨就成格收起。 -->
+    <section class="section section-float home-block home-block--tirtir" data-home-block="tirtir" aria-labelledby="home-tirtir-title" hidden>
       <div class="container">
         <div class="section-header section-header--split">
           <div>
-            <span class="label section-header__label home-sale__label">換季優惠 · 限時特價</span>
+            <span class="label section-header__label">本月主打 · Brand Focus</span>
+            <h2 class="heading-lg section-header__title" id="home-tirtir-title">TIRTIR 氣墊同粉底</h2>
+          </div>
+          <a class="btn--ghost" href="shop.html?brand=TIRTIR">睇晒 TIRTIR</a>
+        </div>
+        <a class="home-poster" href="shop.html?brand=TIRTIR">
+          <picture>
+            <source media="(max-width: 768px)" srcset="assets/images/home/brand/tirtir-bebold-960.webp">
+            <img src="assets/images/home/brand/tirtir-bebold.webp" alt="TIRTIR 官方廣告：Mask Fit Red Foundation" width="1920" height="749" loading="lazy" decoding="async">
+          </picture>
+        </a>
+        <div class="home-block__grid" data-block-grid></div>
+      </div>
+    </section>
+
+    <section class="section section-float home-block home-block--sale" data-home-block="sale" aria-labelledby="home-sale-title" hidden>
+      <div class="container">
+        <div class="section-header section-header--split">
+          <div>
+            <span class="label section-header__label home-block__label--sale">換季優惠 · 限時特價</span>
             <h2 class="heading-lg section-header__title" id="home-sale-title">秋季換季大特賣</h2>
           </div>
-          <p class="home-sale__best">全場低至 <strong data-sale-best></strong> 折</p>
+          <p class="home-block__best">全場低至 <strong data-block-best></strong> 折</p>
+          
         </div>
-        <div class="home-tabs" role="tablist" data-sale-tabs></div>
-        <p class="home-tabs__note">劃線為連鎖店或官方參考原價 · 售完即止</p>
-        <div class="home-sale__grid" data-sale-grid></div>
-        <div class="home-sale__foot"><a class="btn--ghost" data-sale-more href="#"></a></div>
+        <div class="home-block__grid" data-block-grid></div>
+      </div>
+    </section>
+
+    <section class="section section-float home-block home-block--sun" data-home-block="sun" aria-labelledby="home-sun-title" hidden>
+      <div class="container">
+        <div class="section-header section-header--split">
+          <div>
+            <span class="label section-header__label home-block__label--sale">防曬清貨 · Suncare</span>
+            <h2 class="heading-lg section-header__title" id="home-sun-title">防曬換季清貨</h2>
+          </div>
+          <a class="btn--ghost" href="seasonal.html?cat=sun">睇晒防曬優惠</a>
+        </div>
+        <a class="home-poster" href="seasonal.html?cat=sun">
+          <picture>
+            <source media="(max-width: 768px)" srcset="assets/images/home/brand/goodal-sun-960.webp">
+            <img src="assets/images/home/brand/goodal-sun.webp" alt="Goodal 香港官方廣告：魚腥草舒緩防曬系列" width="1600" height="600" loading="lazy" decoding="async">
+          </picture>
+        </a>
+        <div class="home-block__grid" data-block-grid></div>
+      </div>
+    </section>
+
+    <section class="section section-float home-block home-block--torriden" data-home-block="torriden" aria-labelledby="home-torriden-title" hidden>
+      <div class="container">
+        <div class="section-header section-header--split">
+          <div>
+            <span class="label section-header__label home-block__label--sale">主力品牌 · 正價貨都減</span>
+            <h2 class="heading-lg section-header__title" id="home-torriden-title">Torriden 補水系列</h2>
+          </div>
+          <a class="btn--ghost" href="shop.html?brand=Torriden">睇晒 Torriden</a>
+        </div>
+        <a class="home-poster" href="shop.html?brand=Torriden">
+          <picture>
+            <source media="(max-width: 768px)" srcset="assets/images/home/brand/torriden-field-960.webp">
+            <img src="assets/images/home/brand/torriden-field.webp" alt="Torriden 香港官方廣告" width="1820" height="800" loading="lazy" decoding="async">
+          </picture>
+          <span class="home-poster__tag">Torriden 低至 <b data-block-tag></b> 折</span>
+        </a>
+        <div class="home-block__grid" data-block-grid></div>
+      </div>
+    </section>
+
+    <section class="section section-float home-block home-block--expiring" data-home-block="expiring" aria-labelledby="home-expiring-title" hidden>
+      <div class="container">
+        <div class="section-header section-header--split">
+          <div>
+            <span class="label section-header__label home-block__label--sale">就快到期 · 執平貨</span>
+            <h2 class="heading-lg section-header__title" id="home-expiring-title">短效期特價</h2>
+          </div>
+          <a class="btn--ghost" href="short-dated.html">睇晒短效期特價</a>
+        </div>
+        <div class="home-block__grid" data-block-grid></div>
       </div>
     </section>
 

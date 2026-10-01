@@ -10611,34 +10611,47 @@ html.is-lite .section--brand-intro::after {
 }
 
 /* ============================================================
-   首頁「秋季換季大特賣」（2026-10-02 老闆：優惠要大聲講）
-   用返首頁原有嘅一套：section-header（細眉題＋襯線大標題）、雜誌式 home-tabs、
-   product-grid 四欄卡。紅色只落喺眉題、折數同 tab 嘅「幾折起」，唔再另起一套字款。
+   首頁商品格（2026-10-02 老闆）：TIRTIR 本月主打、換季大特賣、防曬清貨、Torriden、短效期
+   一律用首頁原有嘅 section-header（細眉題＋襯線大標題）＋四欄卡；
+   海報係品牌官方廣告相，圓角同產品卡一致。紅色只落喺優惠格嘅眉題同折數。
    ============================================================ */
-.home-sale__label { color: var(--sale, #c8452f); }
-.home-sale__best {
-  margin: 0; white-space: nowrap; font-size: 0.9375rem; color: var(--text-secondary);
-}
-.home-sale__best strong {
+.home-block__label--sale { color: var(--sale, #c8452f); }
+.home-block__best { margin: 0 0 0 auto; white-space: nowrap; font-size: 0.9375rem; color: var(--text-secondary); }
+.home-block__best strong {
   font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 3.6vw, 3rem);
   line-height: 1; color: var(--sale, #c8452f); font-variant-numeric: lining-nums; margin: 0 2px;
 }
-.home-sale__tab-deal {
-  margin-left: 6px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600;
-  letter-spacing: 0; color: var(--sale, #c8452f); vertical-align: 0.15em;
+.home-poster {
+  position: relative; display: block; margin-bottom: var(--space-xl);
+  border-radius: 16px; overflow: hidden; background: #eef2f3;
 }
-.home-sale__grid {
-  /* 同 .product-grid 一樣嘅欄數同間距；唔直接用 .product-grid —— 首頁品牌牆嘅程式
-     會揾頁面第一個 .product-grid 填貨，會冚咗呢格。 */
+.home-poster img {
+  display: block; width: 100%; height: auto; aspect-ratio: 2.6 / 1; object-fit: cover;
+  transition: transform 600ms var(--ease-out, ease);
+}
+/* Torriden 張相天空佔大半，裁低少少保住人物同草地 */
+.home-block--torriden .home-poster img { object-position: center 70%; }
+.home-poster:hover img { transform: scale(1.015); }
+.home-poster__tag {
+  position: absolute; left: clamp(14px, 2.4vw, 32px); bottom: clamp(14px, 2.4vw, 32px);
+  padding: 10px 16px; border-radius: 999px; background: rgba(255, 255, 255, 0.94);
+  font-size: clamp(0.875rem, 1.3vw, 1rem); font-weight: 600; color: var(--text-primary, #1d2b33);
+  box-shadow: 0 8px 24px -12px rgba(8, 26, 33, 0.45);
+}
+.home-poster__tag b { color: var(--sale, #c8452f); font-size: 1.25em; font-variant-numeric: tabular-nums; }
+.home-block__grid {
+  /* 同 .product-grid 一樣欄數同間距；唔直接用 .product-grid —— 首頁品牌牆程式
+     會揾頁面第一個 .product-grid 填貨（實測會冚成 20 件 Glint 落嚟）。 */
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-2xl) var(--space-lg); margin-top: var(--space-xl);
+  gap: var(--space-2xl) var(--space-lg);
 }
-@media (max-width: 1024px) { .home-sale__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 768px) { .home-sale__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-md); } }
-.home-sale__foot { display: flex; justify-content: center; margin-top: var(--space-2xl); }
-.home-sale__foot[hidden] { display: none; }
+/* 4 件一行嘅格去到 3 欄會剩一件孤零零 —— 所以直接由 4 欄跳 2 欄 */
+@media (max-width: 900px) { .home-block__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 768px) {
-  .home-sale .section-header--split { gap: var(--space-sm); }
+  .home-block__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-md); }
+  .home-block .section-header--split { gap: var(--space-sm); margin-bottom: var(--space-lg); }
+  .home-poster { border-radius: 12px; margin-bottom: var(--space-lg); }
+  .home-poster img { aspect-ratio: auto; }
 }
 
 /* ============================================================

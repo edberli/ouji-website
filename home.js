@@ -76,11 +76,10 @@ async function initHome() {
     </a>`;
   };
 
-  /* ----- 秋季換季大特賣（2026-10-02 老闆：「做優惠唔可以悶聲做」）-----
-     一條紅標題＋tab＋直接出貨。折數 = 售價 ÷ 劃線原價；冇劃線唔算優惠。 */
-  (function buildSale() {
-    const host = document.querySelector('[data-home-sale]');
-    if (!host) return;
+  /* ----- 首頁商品格（2026-10-02 老闆）-----
+     TIRTIR 本月主打（正價形象）→ 換季大特賣 → 防曬清貨 → Torriden 優惠 → 就快到期。
+     折數 = 售價 ÷ 劃線原價；冇劃線唔算優惠。唔夠貨嘅格成格收起。 */
+  (function buildBlocks() {
     const live = products.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
     const ratio = (p) => {
       const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
@@ -90,63 +89,44 @@ async function initHome() {
     const zhe = (r) => `${Math.round(r * 100) / 10}`;
     const isSun = (p) => typeof isSunscreenProduct === 'function' && isSunscreenProduct(p);
     const isShort = (p) => typeof isShortDated === 'function' && isShortDated(p);
+    const byVendor = (v) => (p) => String(p.vendor || '').toLowerCase() === v;
     const deals = live.filter((p) => ratio(p) <= 0.95).sort((a, b) => ratio(a) - ratio(b));
-    if (deals.length < 6) return;
-
-    // 「全部」：每個牌子最多兩件，免得成格都係同一隻防曬
-    // SUNCUT 喺 Shopify 有「SUNCUT」「KOSE COSMEPORT」「KOSÉ COSMEPORT」三個寫法，當同一個牌
-    const brandKey = (v) => String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    // SUNCUT 喺 Shopify 有 SUNCUT／KOSE COSMEPORT／KOSÉ COSMEPORT 三個寫法，當同一個牌
+    const brandKey = (v) => String(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
       .toLowerCase().replace(/cosmeport|\s+/g, '').replace('suncut', 'kose');
-    const mixed = (list) => {
+    const capPerBrand = (list, n) => {
       const seen = new Map();
       return list.filter((p) => {
         const k = brandKey(p.vendor);
-        const n = seen.get(k) || 0;
-        seen.set(k, n + 1);
-        return n < 2;
+        seen.set(k, (seen.get(k) || 0) + 1);
+        return seen.get(k) <= n;
       });
     };
-    const brandCount = new Map();
-    deals.filter((p) => !isSun(p) && !isShort(p)).forEach((p) => brandCount.set(p.vendor, (brandCount.get(p.vendor) || 0) + 1));
-    const brands = [...brandCount.entries()].filter(([, n]) => n >= 4)
-      .sort((a, b) => b[1] - a[1]).slice(0, 3).map(([v]) => v);
+    // 形象格揀正價熱門：韓國站評價多嘅行先，冇評價就跟推薦分數
+    const reviews = (p) => ratings?.[p.handle]?.count || 0;
+    const popular = (list) => [...list].sort((a, b) => (reviews(b) - reviews(a)) || (featured(b) - featured(a)));
 
-    const TABS = [
-      { id: 'all', label: '全部優惠', list: mixed(deals), href: null },
-      { id: 'sun', label: '防曬清貨', list: deals.filter(isSun), href: 'seasonal.html?cat=sun', more: '睇晒防曬優惠' },
-      ...brands.map((v) => ({ id: `b-${v}`, label: v, list: deals.filter((p) => p.vendor === v),
-        href: `shop.html?brand=${encodeURIComponent(v)}`, more: `睇晒 ${v}` })),
-      { id: 'short', label: '短效期', list: live.filter(isShort).sort((a, b) =>
-          String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))),
-        href: 'short-dated.html', more: '睇晒短效期特價' },
-    ].filter((t) => t.list.length >= 3);
-
-    host.querySelector('[data-sale-best]').textContent = zhe(ratio(deals[0]));
-    const tabsEl = host.querySelector('[data-sale-tabs]');
-    const grid = host.querySelector('[data-sale-grid]');
-    const more = host.querySelector('[data-sale-more]');
-    tabsEl.innerHTML = TABS.map((t, i) => {
-      const best = Math.min(...t.list.map(ratio));
-      return `<button type="button" role="tab" class="home-tabs__btn${i === 0 ? ' is-on' : ''}" data-sale-tab="${t.id}" aria-selected="${i === 0}">
-        ${t.label}${best < 0.95 ? `<small class="home-sale__tab-deal">${zhe(best)}折起</small>` : ''}</button>`;
-    }).join('');
-    const show = (id) => {
-      const t = TABS.find((x) => x.id === id) || TABS[0];
-      tabsEl.querySelectorAll('[data-sale-tab]').forEach((b) => {
-        const on = b.dataset.saleTab === t.id;
-        b.setAttribute('aria-selected', String(on));
-        b.classList.toggle('is-on', on);
-      });
-      grid.innerHTML = t.list.slice(0, 8).map(card).join('');
-      more.parentElement.hidden = !t.href;
-      if (t.href) { more.href = t.href; more.textContent = `${t.more}（${t.list.length} 件）`; }
+    const BLOCKS = {
+      // 主打跟官方廣告：氣墊、粉底、遮瑕；迷你裝唔做主角
+      tirtir: { list: popular(live.filter((p) => byVendor('tirtir')(p) && /氣墊|粉底|遮瑕/.test(p.title) && !/迷你|mini/i.test(p.title))), n: 4 },
+      // 防曬、Torriden 下面各有自己一格，呢度出其餘減價貨，免得同一批貨出兩次
+      sale: { list: capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !byVendor('torriden')(p)), 2), n: 8,
+        best: deals.length ? ratio(deals[0]) : 1 },
+      sun: { list: capPerBrand(deals.filter(isSun), 1), n: 4 },
+      torriden: { list: deals.filter(byVendor('torriden')), n: 4 },
+      expiring: { list: live.filter(isShort).sort((a, b) =>
+        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))), n: 4 },
     };
-    tabsEl.addEventListener('click', (e) => {
-      const b = e.target.closest('[data-sale-tab]');
-      if (b) show(b.dataset.saleTab);
+    Object.entries(BLOCKS).forEach(([key, b]) => {
+      const host = document.querySelector(`[data-home-block="${key}"]`);
+      if (!host || b.list.length < 3) return;
+      host.querySelector('[data-block-grid]').innerHTML = b.list.slice(0, b.n).map(card).join('');
+      const best = host.querySelector('[data-block-best]');
+      if (best) best.textContent = zhe(b.best);
+      const tag = host.querySelector('[data-block-tag]');
+      if (tag) tag.textContent = zhe(Math.min(...b.list.map(ratio)));
+      host.hidden = false;
     });
-    show('all');
-    host.hidden = false;
   })();
 
   /* ----- the counts in the about block, from the catalogue itself ----- */
