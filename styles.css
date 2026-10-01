@@ -18441,8 +18441,10 @@ body::before { opacity: 0.18; }
 @container (height < 56px) { .ship-walk__cat { visibility: hidden; } }
 @keyframes ship-walk-x {
   0%   { transform: translateX(-110%); opacity: 0; }
-  6%   { opacity: 1; }
-  78%  { opacity: 1; }
+  14%  { opacity: 0; }
+  32%  { opacity: 1; }
+  60%  { opacity: 1; }
+  80%  { opacity: 0; }
   100% { transform: translateX(100cqw); opacity: 0; }
 }
 @keyframes ship-walk-frames { from { transform: translateX(0); } to { transform: translateX(-100%); } }
@@ -18454,16 +18456,18 @@ body::before { opacity: 0.18; }
 /* 運送資訊卡：三格純資訊（唔可以撳）；右上角只放一個「了解更多」 */
 .midautumn-home__shipping { position: relative; }
 .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more {
-  position: absolute; margin-top: 0; align-self: auto; top: clamp(44px, 3.6vw, 56px); right: clamp(20px, 2.2vw, 32px);
+  position: absolute; margin-top: 0; align-self: auto; top: auto;
+  bottom: clamp(10px, 1vw, 14px); right: clamp(150px, 11.5vw, 170px);
   display: inline-flex; align-items: center; gap: 4px;
-  color: #fff; font-size: .8rem; font-weight: 600; text-decoration: none;
-  padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.55);
+  color: #fff; font-size: .76rem; font-weight: 600; text-decoration: none; white-space: nowrap;
+  padding: 3px 11px; border-radius: 999px; border: 1px solid rgba(255,255,255,.55);
   background: rgba(255,255,255,.1); transition: background-color .18s ease;
 }
+.midautumn-home .midautumn-home__shipping li small .ship-nb { display: inline-block; color: inherit; text-align: inherit; }
 .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more:hover { text-decoration: none; background: rgba(255,255,255,.22); }
 .midautumn-home__ship-more:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .midautumn-home__ship-more svg { width: 12px; height: 12px; }
-@media (max-width: 700px) { .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { top: 14px; right: 16px; } }
+@media (max-width: 700px) { .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { top: 14px; right: 16px; bottom: auto; } }
 
 /* 窄桌面／平板（701–1100px）：照桌面排版等比縮細，唔轉做手機疊法 */
 @media (min-width: 701px) and (max-width: 1100px) {
@@ -18481,10 +18485,11 @@ body::before { opacity: 0.18; }
   .midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon { width: clamp(26px, 3.6vw, 36px); height: clamp(26px, 3.6vw, 36px); }
   .midautumn-home .midautumn-home__shipping > p { margin-top: 4px; font-size: clamp(.54rem, 1.05vw, .68rem); line-height: 1.45; padding-right: 64px; }
   .midautumn-home .midautumn-home__shipping .shima.midautumn-home__mascot { width: 64px; right: 6px; bottom: 6px; }
-  .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { top: 10px; right: 12px; font-size: .62rem; padding: 3px 8px; }
+  .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { top: auto; bottom: 10px; right: 84px; font-size: .62rem; padding: 3px 8px; }
 }
 @media (min-width: 701px) and (max-width: 860px) {
   .midautumn-home .midautumn-home__shipping .shima.midautumn-home__mascot { display: none; }
   .midautumn-home .midautumn-home__shipping > p { padding-right: 0; }
+  .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { right: 12px; bottom: 8px; }
   .midautumn-home .midautumn-home__shipping-head { min-height: 0; }
 }
