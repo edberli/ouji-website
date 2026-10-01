@@ -2479,14 +2479,10 @@ function oujiZhe(price, was) {
   return Number.isFinite(z) ? `${z} 折` : '';
 }
 function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount = null) {
-  const season = oujiIsSeasonProduct(title, tags);
+  // 孖裝／套裝本身係「促銷」（黃條），唔轉紅（老闆 2026-10-01 更正）；紅色換季優惠條只係減價單件
+  const season = oujiIsSeasonProduct(title, tags) && !oujiBundleInfo(title);
   const hasWas = parseFloat(compareAmount) > parseFloat(priceAmount);
   if (season) {
-    const b = oujiBundleInfo(title);
-    if (b) {
-      const detail = b.count ? `${b.count}件 · 每件 ${oujiPerUnit(priceAmount, b.count)}` : '套裝優惠';
-      return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>換季優惠</strong><span>${detail}</span></div>`;
-    }
     if ((tags || []).includes('限時') || onSale) {
       const detail = hasWas ? oujiZhe(priceAmount, compareAmount) : '限時特價';
       return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>換季優惠</strong><span>${detail}</span></div>`;
@@ -2508,7 +2504,7 @@ function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount 
    促銷：黑色售價加黃底；同一件貨幾件就出「每件 $X」，混合套裝出「慳 $X」。 */
 function oujiCardPriceHTML(priceAmount, compareAmount, { range = null, title = '', tags = [] } = {}) {
   const now = parseFloat(priceAmount);
-  const season = oujiIsSeasonProduct(title, tags);
+  const season = oujiIsSeasonProduct(title, tags) && !oujiBundleInfo(title);
   const was = parseFloat(compareAmount);
   const main = range ? `${formatPrice(range.lo)} – ${formatPrice(range.hi)}` : formatPrice(now);
   const bundle = range ? null : oujiBundleInfo(title);
