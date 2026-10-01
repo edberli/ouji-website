@@ -76,6 +76,87 @@ async function initHome() {
     </a>`;
   };
 
+  /* ----- 秋季換季大特賣（2026-10-02 老闆：「做優惠唔可以悶聲做」）-----
+     全部由實時目錄計，唔寫死：折數 = 售價 ÷ 劃線原價；冇劃線就唔算優惠。 */
+  (function buildSale() {
+    const live = products.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
+    const ratio = (p) => {
+      const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
+      const now = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
+      return cp > now && now > 0 ? now / cp : 1;
+    };
+    const zhe = (r) => `${Math.round(r * 100) / 10}`;
+    const deals = live.filter((p) => ratio(p) <= 0.95).sort((a, b) => ratio(a) - ratio(b));
+    const saleHost = document.querySelector('[data-home-sale]');
+    if (saleHost && deals.length >= 4) {
+      saleHost.querySelector('[data-sale-best]').textContent = zhe(ratio(deals[0]));
+      // 每個牌子最多兩件，免得成行都係同一隻防曬
+      const perBrand = new Map();
+      const picks = deals.filter((p) => {
+        const n = perBrand.get(p.vendor) || 0;
+        if (n >= 2) return false;
+        perBrand.set(p.vendor, n + 1);
+        return true;
+      }).slice(0, 14);
+      saleHost.querySelector('[data-sale-deals]').innerHTML = picks.map(card).join('');
+
+      const isSun = (p) => typeof isSunscreenProduct === 'function' && isSunscreenProduct(p);
+      const isFan = (p) => typeof subMatch === 'function' && subMatch('seasonal', 'fan', p);
+      const isShort = (p) => typeof isShortDated === 'function' && isShortDated(p);
+      const img = (p) => p?.images?.edges?.[0]?.node?.url;
+      const door = ({ href, title, list, art, fallback }) => {
+        if (!list.length) return '';
+        const sale = list.filter((p) => ratio(p) <= 0.95);
+        const best = sale.length ? Math.min(...sale.map(ratio)) : 1;
+        const pic = art || img(list[0]);
+        return `<a class="home-sale__door" href="${href}">
+          ${pic ? `<img class="home-sale__door-art" ${art ? `src="${art}"` : shopifyCardImageAttrs(pic)} alt="" loading="lazy">` : ''}
+          <span class="home-sale__door-text"><b>${title}</b><small>${list.length} 件${sale.length ? ` · ${sale.length} 件減價` : ''}</small></span>
+          <span class="home-sale__door-deal">${best < 0.95 ? `<small>低至</small>${zhe(best)}<small>折</small>` : `<small>${fallback}</small>`}</span>
+        </a>`;
+      };
+      const short = live.filter(isShort).sort((a, b) =>
+        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b))));
+      saleHost.querySelector('[data-sale-doors]').innerHTML = [
+        door({ href: 'seasonal.html?cat=sun', title: '防曬清貨', list: live.filter(isSun),
+          art: 'assets/images/skincare-category-optimized/sunscreen.webp', fallback: '換季必備' }),
+        door({ href: 'seasonal.html?cat=fan', title: '便攜風扇', list: live.filter(isFan), fallback: '秋老虎必備' }),
+        door({ href: 'short-dated.html', title: '短效期特價', list: short, fallback: '就快到期' }),
+      ].join('');
+      saleHost.hidden = false;
+
+      // 主力品牌：有 3 件或以上減價貨嘅牌子
+      const byBrand = new Map();
+      // 防曬已經有自己一道門，呢度講正價主力貨（Torriden、CLIO…），唔重複
+      deals.filter((p) => !isSun(p)).forEach((p) => byBrand.set(p.vendor, [...(byBrand.get(p.vendor) || []), p]));
+      const brands = [...byBrand.entries()].filter(([, l]) => l.length >= 3)
+        .sort((a, b) => b[1].length - a[1].length).slice(0, 4);
+      const brandHost = document.querySelector('[data-home-brand-deals]');
+      if (brandHost && brands.length >= 2) {
+        brandHost.querySelector('[data-brand-deals]').innerHTML = brands.map(([vendor, l]) => `
+          <a class="home-brand-deal" href="shop.html?brand=${encodeURIComponent(vendor)}">
+            <span class="home-brand-deal__name">${vendor}</span>
+            <span class="home-brand-deal__meta"><b>${l.length}</b> 件減價 · 低至 <b>${zhe(ratio(l[0]))}</b> 折</span>
+            <span class="home-brand-deal__shots">${l.slice(0, 3).map((p) => img(p)
+              ? `<img ${shopifyCardImageAttrs(img(p))} alt="" loading="lazy">` : '').join('')}</span>
+            <span class="home-brand-deal__go">睇 ${vendor} 優惠</span>
+          </a>`).join('');
+        brandHost.hidden = false;
+      }
+    }
+
+    const expHost = document.querySelector('[data-home-expiring]');
+    if (expHost && typeof isShortDated === 'function') {
+      const short = live.filter((p) => isShortDated(p)).sort((a, b) =>
+        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))).slice(0, 12);
+      if (short.length >= 3) {
+        // 短效期貨個名本身已經寫住「到期 YYYY-MM-DD」，唔使再加一粒日期
+        expHost.querySelector('[data-expiring]').innerHTML = short.map(card).join('');
+        expHost.hidden = false;
+      }
+    }
+  })();
+
   /* ----- the counts in the about block, from the catalogue itself ----- */
   // The count-up animation reads `data-count` when the block scrolls into
   // view, so setting it is usually enough. Usually — but not if the counter

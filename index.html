@@ -51,7 +51,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&family=Klee+One:wght@600&display=swap&text=%E7%B4%94%E6%B7%A8%E6%B0%B4%E5%88%86%E6%BA%AB%E6%9F%94%E5%AE%88%E8%AD%B7%E4%BE%86%E8%87%AA%E7%99%BD%E6%A8%BA%E6%A8%B9%E7%9A%84%E7%B4%94%E6%B7%A8%E6%B0%B4%E5%88%86%E7%82%BA%E8%82%8C%E8%86%9A%E6%B3%A8%E5%85%A5%E6%BA%AB%E6%9F%94%E5%8A%9B%E9%87%8F%E3%80%82%E6%B8%9B" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap&text=GoodSkinDays!" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261001-lowstock3">
+  <link rel="stylesheet" href="styles.css?v=20261002-sale">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -416,6 +416,37 @@
       </div>
     </div>
 
+    <!-- ═══════════ 秋季換季大特賣（2026-10-02 老闆）═══════════
+         「做優惠唔可以悶聲做，要大大聲聲話俾人知。」所以優惠擺首頁第一屏之後。
+         全部由實時目錄計：折數、件數、到期日都係真數，冇優惠就成格收起。 -->
+    <section class="home-sale" data-home-sale aria-labelledby="home-sale-title" hidden>
+      <div class="container home-sale__hub">
+        <a class="home-sale__hero" href="#home-deals">
+          <span class="home-sale__kicker">AUTUMN SALE · 換季清貨</span>
+          <h2 class="home-sale__title" id="home-sale-title">秋季換季大特賣</h2>
+          <p class="home-sale__sub">防曬、便攜風扇、主力品牌限時特價，售完即止</p>
+          <p class="home-sale__best" data-sale-best-wrap><span>全場低至</span><strong data-sale-best></strong><span>折</span></p>
+          <span class="home-sale__cta">睇晒優惠</span>
+        </a>
+        <div class="home-sale__doors" data-sale-doors></div>
+      </div>
+      <div class="container home-sale__head" id="home-deals">
+        <h3 class="home-sale__h3">限時特價 · 慳得最多</h3>
+        <p class="home-sale__note">原價為連鎖店或官方參考價</p>
+      </div>
+      <div class="home-sale__track" data-sale-deals></div>
+    </section>
+
+    <!-- 主力品牌嘅優惠一齊攞出嚟講：Torriden、CLIO 呢啲本身有人搵，有劃線價就要見得到。 -->
+    <section class="home-brand-deals" data-home-brand-deals aria-labelledby="home-brand-deals-title" hidden>
+      <div class="container">
+        <div class="home-sale__head home-sale__head--flush">
+          <h3 class="home-sale__h3" id="home-brand-deals-title">主力品牌 · 正價貨都減</h3>
+        </div>
+        <div class="home-brand-deals__grid" data-brand-deals></div>
+      </div>
+    </section>
+
     <!-- 客一入到嚟最想做嘅係搵嘢，唔係讀我哋自我介紹。
          呢一格本來排喺第六位，要碌三個螢幕先見到 —— 搬咗上嚟。 -->
     <section class="section--sm section-float">
@@ -529,26 +560,14 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
     </div>
 
 
-    <!-- ===== FEATURED COLLECTION ===== -->
-
-    <!-- 逐個類別一條橫向捲軸 — 由實際目錄砌出嚟 -->
-    <section class="section section-float home-feat-sec">
-      <div class="container">
-        <div class="section-header section-header--split reveal-blur">
-          <div>
-            <span class="label section-header__label">精選推薦</span>
-            <h2 class="heading-lg section-header__title">而家買咩好</h2>
-          </div>
-          <a href="shop.html" class="btn--ghost">瀏覽全部</a>
-        </div>
+    <!-- 就快到期 · 執平貨：短效期貨本身有一版（short-dated.html），首頁出最快到期嗰批。
+         「而家買咩好」同分類海報（彩妝／護膚／隱形眼鏡／K-pop）2026-10-02 老闆話冇特色，拎走。 -->
+    <section class="home-expiring" data-home-expiring aria-labelledby="home-expiring-title" hidden>
+      <div class="container home-sale__head">
+        <h3 class="home-sale__h3" id="home-expiring-title">就快到期 · 執平貨</h3>
+        <a class="home-sale__more" href="short-dated.html">睇晒短效期特價</a>
       </div>
-      <div data-home-tabs></div>
-    </section>
-
-    <!-- 分類行自己一格 —— 上面「而家買咩好」係一幅大相＋一格產品，
-         同呢啲橫掃行係兩種睇法，唔應該擠喺同一格入面。 -->
-    <section class="section section-float home-rails">
-      <div data-home-rails></div>
+      <div class="home-sale__track" data-expiring></div>
     </section>
 
     <!-- 品牌牆擺喺「而家買咩好」下面：客啱啱睇完頭幾行貨，
@@ -1102,7 +1121,7 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="home.js?v=20261001-lowstock3"></script>
+  <script src="home.js?v=20261002-sale"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261001-supports"></script>
   <script>
