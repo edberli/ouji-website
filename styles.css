@@ -18424,4 +18424,12 @@ body::before { opacity: 0.18; }
 @media (min-width: 1101px) {
   .midautumn-home .midautumn-home__grid { align-items: stretch; }
   .midautumn-home .midautumn-home__shipping { height: auto; }
+  /* 運送卡高度跟橫幅，三格選項長高填滿：圖示放頂、文字壓底，唔留大空白 */
+  .midautumn-home .midautumn-home__shipping ul { flex: 1 1 auto; align-items: stretch; margin-block: 4px 12px; }
+  .midautumn-home .midautumn-home__shipping li { height: auto; }
+  .midautumn-home .midautumn-home__shipping li a { height: 100%; justify-content: center; gap: clamp(12px, 1.6vw, 22px); padding-block: 16px; }
+  .midautumn-home .midautumn-home__shipping li strong { font-size: clamp(1.1rem, 1.5vw, 1.45rem); }
+  .midautumn-home .midautumn-home__shipping li small { font-size: clamp(.8rem, .9vw, .95rem); }
+  .midautumn-home .midautumn-home__shipping .midautumn-home__seven-logo,
+  .midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon { width: clamp(48px, 4.4vw, 68px); height: clamp(48px, 4.4vw, 68px); }
 }

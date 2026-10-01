@@ -2404,6 +2404,7 @@ const SHOP_GROUPS = [
   { id: 'seasonal', label: '季節性',     tint: '#ffc26a', dialog: 'Loading seasonal...',     href: 'seasonal.html' },
   { id: 'tools',    label: '美妝工具',   tint: '#ffa8d8', dialog: 'Loading makeup tools...', href: 'tools.html' },
   { id: 'health',   label: '保健品',     tint: '#b6e86a', dialog: 'Loading supplements...',  href: 'health.html' },
+  { id: 'supports', label: '護具及壓力襪', tint: '#84caca', dialog: 'Loading supports...', href: 'supports.html' },
   { id: 'lens',     label: '隱形眼鏡',   tint: '#77c8ff', dialog: 'Loading contact lens...', href: 'lens.html' },
   { id: 'kpop',     label: 'K-pop 周邊', tint: '#fff06a', dialog: 'Loading K-pop goods...',  href: 'kpop.html' },
   /* 老闆 2026-08-31：「嗰啲公仔，你應該有個新嘅分類叫『公仔』。」
@@ -2416,11 +2417,12 @@ const SHOP_GROUPS = [
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
 /* 保留原 Windows 主視覺分類貼紙嘅錯落位置；拆 Explorer 只影響下面目錄外框。 */
 const SHOP_STICKER_POS = [
-  { x: '7%',  y: '150px', r: '-5deg', s: 1 },
-  { x: '30%', y: '164px', r: '4deg',  s: 0.95 },
-  { x: '51%', y: '148px', r: '-2deg', s: 1.06 },
-  { x: '72%', y: '162px', r: '5deg',  s: 0.97 },
-  { x: '92%', y: '150px', r: '-4deg', s: 0.93 },
+  { x: '8%',  y: '150px', r: '-5deg', s: 1 },
+  { x: '25%', y: '164px', r: '4deg',  s: 0.95 },
+  { x: '42%', y: '148px', r: '-2deg', s: 1.06 },
+  { x: '58%', y: '162px', r: '5deg',  s: 0.97 },
+  { x: '75%', y: '150px', r: '-4deg', s: 0.93 },
+  { x: '92%', y: '162px', r: '3deg', s: 0.95 },
   { x: '8%',  y: '24px',  r: '3deg',  s: 0.92 },
   { x: '25%', y: '36px',  r: '-4deg', s: 0.94 },
   { x: '42%', y: '22px',  r: '4deg',  s: 0.91 },
