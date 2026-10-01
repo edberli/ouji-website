@@ -18533,3 +18533,30 @@ body::before { opacity: 0.18; }
   .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { right: 12px; bottom: 8px; }
   .midautumn-home .midautumn-home__shipping-head { min-height: 0; }
 }
+
+/* 7-Eleven 自取：新版 logo ＋「推薦自取」標籤（金色絲帶，只此一格有） */
+.midautumn-home__shipping li .midautumn-home__ship-tile { position: relative; }
+.midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon--seven { background: #fff; box-shadow: 0 3px 10px rgba(12,40,58,.22); }
+.midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon--seven svg { display: block; width: 84%; height: 84%; stroke: none; }
+.midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon--seven .seven-mark { fill: url(#seven-bands); stroke: none; }
+.midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon--seven .seven-word { fill: #00874a; stroke: none; }
+.midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon--seven .seven-n { fill: #ee2737; }
+.midautumn-home .midautumn-home__shipping li.midautumn-home__ship-recommend {
+  background: linear-gradient(155deg, rgba(255,226,140,.20), rgba(28,78,104,.46) 62%);
+  box-shadow: 0 0 0 1.5px rgba(246,215,122,.85), 0 8px 18px rgba(12,40,58,.22);
+}
+.midautumn-home__ship-badge {
+  position: absolute; top: 9px; right: 9px; z-index: 1;
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 3px 9px 3px 7px; border-radius: 999px;
+  background: linear-gradient(135deg, #ffe58f, #f3c24d); color: #4a3200;
+  font-size: .72rem; font-weight: 800; line-height: 1.2; letter-spacing: .02em; white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(70,45,0,.28);
+}
+.midautumn-home__ship-badge svg { width: .85em; height: .85em; fill: currentColor; }
+@media (max-width: 700px) {
+  .midautumn-home__ship-badge { top: 6px; right: 5px; font-size: .56rem; padding: 2px 6px 2px 5px; }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .midautumn-home__ship-badge { top: 5px; right: 5px; font-size: .5rem; padding: 2px 5px 2px 4px; }
+}
