@@ -18442,10 +18442,7 @@ body::before { opacity: 0.18; }
     animation: ship-walk-x 11s linear infinite; animation-play-state: paused;
   }
   .ship-walk.is-in .ship-walk__cat, .ship-walk.is-in .ship-walk__cat * { animation-play-state: running; }
-  .ship-walk__cat img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .ship-walk__body { animation: ship-walk-bob .56s ease-in-out infinite; animation-play-state: paused; }
-  .ship-walk__leg-l { transform-origin: 17% 66%; animation: ship-walk-leg-a .56s ease-in-out infinite; animation-play-state: paused; }
-  .ship-walk__leg-r { transform-origin: 64% 66%; animation: ship-walk-leg-b .56s ease-in-out infinite; animation-play-state: paused; }
+  .ship-walk__cat img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transform-origin: 50% 92%; animation: ship-walk-step .62s ease-in-out infinite; animation-play-state: paused; }
 }
 @container (height < 56px) { .ship-walk__cat { display: none; } }
 @keyframes ship-walk-x {
@@ -18454,9 +18451,12 @@ body::before { opacity: 0.18; }
   78%  { opacity: 1; }
   100% { transform: translateX(100cqw); opacity: 0; }
 }
-@keyframes ship-walk-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.5%); } }
-@keyframes ship-walk-leg-a { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(14deg); } }
-@keyframes ship-walk-leg-b { 0%, 100% { transform: rotate(14deg); } 50% { transform: rotate(-14deg); } }
+@keyframes ship-walk-step {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  25% { transform: translateY(-5%) rotate(0deg); }
+  50% { transform: translateY(0) rotate(1.5deg); }
+  75% { transform: translateY(-5%) rotate(0deg); }
+}
 @media (prefers-reduced-motion: reduce) {
   .ship-walk__cat, .ship-walk__cat * { animation: none !important; }
   .ship-walk__cat { left: 8%; opacity: 1; }
