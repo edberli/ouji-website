@@ -16666,7 +16666,7 @@ body::before { opacity: 0.18; }
 .promo-slim__gift-card strong { font-size: .88rem; line-height: 1.3; }
 .promo-slim__gift-card small { color: #766766; font-size: .68rem; line-height: 1.4; }
 
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   .midautumn-home__grid { grid-template-columns: 1fr; }
   .midautumn-home__heading { align-items: start; flex-direction: column; gap: 8px; }
 }
@@ -17386,7 +17386,7 @@ body::before { opacity: 0.18; }
 }
 .midautumn-home__shipping > p span + span::before { content: '|'; margin-right: 22px; color: rgba(255,255,255,.45); }
 .shima.midautumn-home__mascot { width: 166px; height: 190px; right: 0; bottom: -8px; }
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   .midautumn-home__shipping li { grid-template-columns: 42px minmax(0,1fr); gap: 8px; padding-inline: 10px; }
   .midautumn-home__shipping .midautumn-home__ship-icon { width: 40px; height: 40px; }
   .midautumn-home__shipping .midautumn-home__ship-icon svg { width: 24px; height: 24px; }
@@ -17429,7 +17429,7 @@ body::before { opacity: 0.18; }
   .shima.midautumn-home__mascot { width: 55px; height: 67px; right: -4px; bottom: -7px; }
 }
 
-@media (min-width: 801px) {
+@media (min-width: 701px) {
   .midautumn-home__shipping { padding: 24px; }
   .midautumn-home__shipping-head { display: block; }
   .midautumn-home__shipping-head .midautumn-home__label { padding: 0; border: 0; }
@@ -17448,14 +17448,14 @@ body::before { opacity: 0.18; }
   .midautumn-home__shipping > p span + span::before { display: none; }
   .shima.midautumn-home__mascot { width: 82px; height: 100px; right: -7px; bottom: -7px; }
 }
-@media (max-width: 800px) {
+@media (max-width: 700px) {
   .midautumn-home__grid { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* The landscape artwork is the complete desktop card; keep its native ratio. */
 .midautumn-home__desktop-art { display: none; }
 .midautumn-home__poster-mobile { display: none; }
-@media (min-width: 801px) {
+@media (min-width: 701px) {
   .midautumn-home__grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, .85fr); align-items: stretch; }
   .midautumn-home__discount { min-height: 0; aspect-ratio: 1586 / 992; padding: 0; border: 1px solid #3a5364; background: #172c4b; }
   .midautumn-home__discount::before,
@@ -17466,7 +17466,7 @@ body::before { opacity: 0.18; }
   .midautumn-home__shipping li { min-height: clamp(76px, 5vw, 84px); padding: 10px 14px; border: 1px solid rgba(255,255,255,.2); border-radius: 15px; background: rgba(255,255,255,.08); }
   .midautumn-home__shipping > p { padding-top: 14px; border-top-color: rgba(255,255,255,.12); }
 }
-@media (max-width: 800px) {
+@media (max-width: 700px) {
   .midautumn-home__discount { min-height: 0; padding: 0; border: 1px solid #3a5364; background: #172c4b; }
   .midautumn-home__discount::before,
   .midautumn-home__discount::after { display: none; }
@@ -17546,7 +17546,7 @@ body::before { opacity: 0.18; }
   object-fit: contain;
   filter: drop-shadow(0 12px 16px rgba(45,69,77,.16));
 }
-@media (max-width: 800px) {
+@media (max-width: 700px) {
   .home-gift-card {
     min-height: 0;
     grid-template-columns: minmax(0, 1fr) minmax(100px, 30%);
@@ -17861,13 +17861,7 @@ body::before { opacity: 0.18; }
   background: rgba(28,78,104,.36);
   transition: background-color .18s ease, transform .18s ease;
 }
-.midautumn-home__shipping li:first-child {
-  border: 2px solid #e2f6ff;
-  background: rgba(28,78,104,.45);
-  box-shadow: 0 0 0 2px rgba(255,255,255,.13), inset 0 0 18px rgba(255,255,255,.08);
-}
-.midautumn-home__shipping li:hover { background: rgba(28,78,104,.52); transform: translateY(-2px); }
-.midautumn-home__shipping li a {
+.midautumn-home__shipping li .midautumn-home__ship-tile {
   display: grid;
   grid-template-columns: clamp(48px, 3.2vw, 58px) minmax(0, 1fr) 22px;
   align-items: center;
@@ -17878,7 +17872,6 @@ body::before { opacity: 0.18; }
   color: #fff;
   text-decoration: none;
 }
-.midautumn-home__shipping li a:focus-visible { outline: 3px solid #fff; outline-offset: -5px; }
 .midautumn-home__shipping .midautumn-home__seven-logo,
 .midautumn-home__shipping .midautumn-home__ship-icon {
   display: grid;
@@ -17945,7 +17938,7 @@ body::before { opacity: 0.18; }
   height: clamp(110px, 8vw, 144px);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 700px) {
   .midautumn-home__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; aspect-ratio: auto; }
   .midautumn-home__heading { grid-template-columns: minmax(0, 1fr) 145px; row-gap: 10px; }
   .midautumn-home__heading > div { grid-column: 1; }
@@ -17956,7 +17949,7 @@ body::before { opacity: 0.18; }
   .midautumn-home__shipping { height: auto; min-height: 0; }
   .midautumn-home__shipping ul { flex: none; }
   .midautumn-home__shipping li { flex: none; }
-  .midautumn-home__shipping li a { min-height: 104px; }
+  .midautumn-home__shipping li .midautumn-home__ship-tile { min-height: 104px; }
 }
 @media (max-width: 700px) {
   .midautumn-home__heading { display: block; min-height: 0; margin-bottom: 18px; }
@@ -18009,7 +18002,7 @@ body::before { opacity: 0.18; }
   .midautumn-home__shipping-note { display: none; }
   .midautumn-home__shipping ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; margin-top: 11px; }
   .midautumn-home__shipping li { min-height: 0; }
-  .midautumn-home__shipping li a { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; min-height: 112px; height: auto; gap: 5px; padding: 10px 7px; }
+  .midautumn-home__shipping li .midautumn-home__ship-tile { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; min-height: 112px; height: auto; gap: 5px; padding: 10px 7px; }
   .midautumn-home__shipping .midautumn-home__seven-logo,
   .midautumn-home__shipping .midautumn-home__ship-icon { width: 34px; height: 34px; flex: none; align-self: flex-start; }
   .midautumn-home__shipping .midautumn-home__seven-logo b { font-size: 1.1rem; }
@@ -18143,7 +18136,7 @@ body::before { opacity: 0.18; }
 }
 
 /* Keep the desktop offer useful without pushing the featured products too far down. */
-@media (min-width: 1101px) {
+@media (min-width: 701px) {
   .midautumn-home { padding-block: 14px 17px; }
   .midautumn-home__inner { max-width: 1520px; }
   .midautumn-home__heading { min-height: 60px; margin-bottom: 10px; }
@@ -18176,7 +18169,7 @@ body::before { opacity: 0.18; }
     margin-top: 8px;
   }
   .midautumn-home .midautumn-home__shipping li { flex: none; min-height: 0; }
-  .midautumn-home .midautumn-home__shipping li a {
+  .midautumn-home .midautumn-home__shipping li .midautumn-home__ship-tile {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -18210,7 +18203,7 @@ body::before { opacity: 0.18; }
 }
 
 /* Align the desktop offer with the 1440px site container; crop the photo without stretching it. */
-@media (min-width: 1101px) {
+@media (min-width: 701px) {
   .midautumn-home__inner { max-width: var(--max-width); padding-inline: var(--space-2xl); }
   .midautumn-home__heading { grid-template-columns: max-content max-content minmax(0, 1fr); column-gap: 14px; }
   .midautumn-home__heading > .midautumn-home__heading-detail { display: none; }
@@ -18218,7 +18211,7 @@ body::before { opacity: 0.18; }
 }
 .midautumn-home .midautumn-home__grid { height: auto; min-height: 0; align-items: stretch; }
 .midautumn-home .home-gift-card { height: auto; min-height: 0; aspect-ratio: 1644 / 957; overflow: hidden; }
-@media (min-width: 1101px) {
+@media (min-width: 701px) {
   .midautumn-home .midautumn-home__grid { height: 320px; }
   .midautumn-home .home-gift-card { aspect-ratio: auto; height: 100%; }
 }
@@ -18271,7 +18264,7 @@ body::before { opacity: 0.18; }
     gap: 5px;
     margin-top: 9px;
   }
-  .midautumn-home__shipping li a,
+  .midautumn-home__shipping li .midautumn-home__ship-tile,
   .midautumn-home__shipping--three-up li a {
     min-height: 84px;
     gap: 3px;
@@ -18342,12 +18335,12 @@ body::before { opacity: 0.18; }
   filter: none;
 }
 .home-gift-card__mobile-offer { display: none; }
-@media (min-width: 1101px) {
+@media (min-width: 701px) {
   .midautumn-home .midautumn-home__grid { height: auto; align-items: start; }
   .midautumn-home .home-gift-card--campaign { height: auto; }
   .midautumn-home .midautumn-home__shipping { height: 320px; }
 }
-@media (max-width: 1100px) {
+@media (max-width: 700px) {
   .midautumn-home .midautumn-home__grid { align-items: start; }
   .midautumn-home .home-gift-card--campaign { min-height: 0; aspect-ratio: auto; }
 }
@@ -18421,17 +18414,17 @@ body::before { opacity: 0.18; }
 .rlb.is-armed:not(.is-in) *{animation-play-state:paused}
 .rlb.is-armed:not(.is-in) .rlb__brand,.rlb.is-armed:not(.is-in) .rlb__h1,.rlb.is-armed:not(.is-in) .rlb__en,.rlb.is-armed:not(.is-in) .rlb__tags,.rlb.is-armed:not(.is-in) .rlb__slogan,.rlb.is-armed:not(.is-in) .rlb__pill,.rlb.is-armed:not(.is-in) .rlb__buy,.rlb.is-armed:not(.is-in) .rlb__free,.rlb.is-armed:not(.is-in) .rlb__b599,.rlb.is-armed:not(.is-in) .rlb__gtxt,.rlb.is-armed:not(.is-in) .rlb__amt,.rlb.is-armed:not(.is-in) .rlb__cut{opacity:0}
 /* 橫幅同運送卡同高：以橫幅（16:9）為準，運送卡撐滿同一行 */
-@media (min-width: 1101px) {
+@media (min-width: 701px) {
   .midautumn-home .midautumn-home__grid { align-items: stretch; }
   .midautumn-home .midautumn-home__shipping { height: auto; }
 }
 
 /* 運送卡空白位：芝麻貓喺虛線路上由左行到右，到右邊淡出，再由左邊出現 */
 .ship-walk { display: none; }
-@media (min-width: 1101px) {
+@media (min-width: 701px) {
   .midautumn-home .ship-walk {
     display: block; position: relative; flex: 1 1 0; min-height: 0; margin: 6px 0 4px;
-    container-type: size; overflow: hidden; pointer-events: none;
+    container-type: size; overflow: hidden; pointer-events: none; contain: layout paint;
   }
   .ship-walk::after { /* 路 */
     content: ""; position: absolute; left: 0; right: 0; bottom: 6px; border-top: 2px dashed rgba(255,255,255,.35);
@@ -18445,7 +18438,7 @@ body::before { opacity: 0.18; }
   .ship-walk__cat { aspect-ratio: 252 / 200; overflow: hidden; }
   .ship-walk__strip { display: block; height: 100%; width: 1600%; max-width: none; animation: ship-walk-frames .8s steps(16) infinite; animation-play-state: paused; }
 }
-@container (height < 56px) { .ship-walk__cat { display: none; } }
+@container (height < 56px) { .ship-walk__cat { visibility: hidden; } }
 @keyframes ship-walk-x {
   0%   { transform: translateX(-110%); opacity: 0; }
   6%   { opacity: 1; }
@@ -18456,4 +18449,42 @@ body::before { opacity: 0.18; }
 @media (prefers-reduced-motion: reduce) {
   .ship-walk__cat, .ship-walk__cat * { animation: none !important; }
   .ship-walk__cat { left: 8%; opacity: 1; }
+}
+
+/* 運送資訊卡：三格純資訊（唔可以撳）；右上角只放一個「了解更多」 */
+.midautumn-home__shipping { position: relative; }
+.midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more {
+  position: absolute; margin-top: 0; align-self: auto; top: clamp(44px, 3.6vw, 56px); right: clamp(20px, 2.2vw, 32px);
+  display: inline-flex; align-items: center; gap: 4px;
+  color: #fff; font-size: .8rem; font-weight: 600; text-decoration: none;
+  padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.55);
+  background: rgba(255,255,255,.1); transition: background-color .18s ease;
+}
+.midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more:hover { text-decoration: none; background: rgba(255,255,255,.22); }
+.midautumn-home__ship-more:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.midautumn-home__ship-more svg { width: 12px; height: 12px; }
+@media (max-width: 700px) { .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { top: 14px; right: 16px; } }
+
+/* 窄桌面／平板（701–1100px）：照桌面排版等比縮細，唔轉做手機疊法 */
+@media (min-width: 701px) and (max-width: 1100px) {
+  .midautumn-home .midautumn-home__shipping { padding: 12px 12px 10px; }
+  .midautumn-home .midautumn-home__shipping .midautumn-home__label { font-size: .54rem; }
+  .midautumn-home .midautumn-home__shipping h3 { font-size: clamp(.9rem, 1.9vw, 1.2rem); margin: 2px 0 8px; }
+  .midautumn-home .midautumn-home__shipping-note { display: none; }
+  .midautumn-home .midautumn-home__shipping ul { gap: 6px; margin-block: 0 6px; flex: 0 0 auto; }
+  .midautumn-home .midautumn-home__shipping li { min-height: 0; }
+  .midautumn-home .midautumn-home__shipping li .midautumn-home__ship-tile { min-height: 0; }
+  .midautumn-home .midautumn-home__shipping li .midautumn-home__ship-tile { padding: 8px 6px; gap: 6px; }
+  .midautumn-home .midautumn-home__shipping li strong { font-size: clamp(.68rem, 1.45vw, .9rem); }
+  .midautumn-home .midautumn-home__shipping li small { font-size: clamp(.55rem, 1.1vw, .7rem); }
+  .midautumn-home .midautumn-home__shipping .midautumn-home__seven-logo,
+  .midautumn-home .midautumn-home__shipping .midautumn-home__ship-icon { width: clamp(26px, 3.6vw, 36px); height: clamp(26px, 3.6vw, 36px); }
+  .midautumn-home .midautumn-home__shipping > p { margin-top: 4px; font-size: clamp(.54rem, 1.05vw, .68rem); line-height: 1.45; padding-right: 64px; }
+  .midautumn-home .midautumn-home__shipping .shima.midautumn-home__mascot { width: 64px; right: 6px; bottom: 6px; }
+  .midautumn-home .midautumn-home__shipping > a.midautumn-home__ship-more { top: 10px; right: 12px; font-size: .62rem; padding: 3px 8px; }
+}
+@media (min-width: 701px) and (max-width: 860px) {
+  .midautumn-home .midautumn-home__shipping .shima.midautumn-home__mascot { display: none; }
+  .midautumn-home .midautumn-home__shipping > p { padding-right: 0; }
+  .midautumn-home .midautumn-home__shipping-head { min-height: 0; }
 }
