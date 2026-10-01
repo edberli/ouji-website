@@ -18342,3 +18342,60 @@ body::before { opacity: 0.18; }
   }
   .home-gift-card__mobile-offer span { color: #ffe493; }
 }
+
+/* ===== Round Lab 首頁橫幅（HTML 版，取代整張 PNG）===== */
+.rlb{position:relative;width:100%;aspect-ratio:1672/941;container-type:inline-size;overflow:hidden;background:linear-gradient(#c9e4f8,#a6cdee);color:var(--rlb-ink);--rlb-ink:#12306b;--rlb-blue:#1c4fa8;--rlb-cream:#fdf0c8;--rlb-butter:#fbe9a6;--rlb-script:#2e6fd0;--rlb-serif:"Noto Serif TC","Songti TC",serif;--rlb-sans:"Noto Sans TC","PingFang TC",sans-serif;--rlb-hand:"Klee One","Kaiti TC",cursive;--rlb-latin:"Caveat","Snell Roundhand",cursive;font-family:var(--rlb-sans);line-height:normal;letter-spacing:normal;text-align:left}
+.rlb__bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rlb__abs{position:absolute;white-space:nowrap}
+
+.rlb__brand{left:5.86%;top:5.9%;font-size:1.35cqw;font-weight:900;letter-spacing:.32em;display:flex;align-items:center;gap:1.4cqw}
+.rlb__brand i{display:block;width:3.2cqw;height:1px;background:var(--rlb-ink)}
+.rlb__h1{left:5.6%;top:11.4%;font-family:var(--rlb-serif);font-weight:900;font-size:6.1cqw;line-height:1.19;letter-spacing:.06em;color:var(--rlb-ink)}
+.rlb__en{left:5.86%;top:36.4%;font-size:1.3cqw;letter-spacing:.2em;font-weight:500}
+.rlb__tags{left:5.86%;top:40.6%;font-size:1.45cqw;font-weight:500;letter-spacing:.06em}
+.rlb__tags b{font-weight:400;margin-inline:1.1cqw;opacity:.7}
+.rlb__slogan{left:5.9%;top:46.4%;font-family:var(--rlb-hand);font-weight:600;font-size:2.2cqw;line-height:1.45;color:var(--rlb-script);transform:rotate(-4deg);transform-origin:left top}
+.rlb__slogan span{display:block}
+.rlb__slogan span+span{margin-left:3.6cqw}
+.rlb__slogan::after{content:"";position:absolute;left:3cqw;right:-.5cqw;bottom:-.5cqw;height:.15cqw;background:var(--rlb-script);border-radius:9px;transform:rotate(1deg)}
+
+.rlb__pill{left:5.08%;top:56.8%;width:16.8%;height:6.6%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:2.2cqw;color:var(--rlb-ink);gap:1.5cqw}
+.rlb__pill svg{width:2.6cqw;height:2.6cqw}
+.rlb__buy{left:14.3%;top:63.6%;width:16.2%;text-align:center;font-weight:900;font-size:2.5cqw;letter-spacing:.02em}
+.rlb__cut{left:8.9%;top:69.4%;width:6.9%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:var(--rlb-serif);font-weight:900;font-size:4.5cqw;color:var(--rlb-ink)}
+.rlb__amt{left:16.7%;top:68.6%;font-weight:900;font-size:5.6cqw;letter-spacing:.005em;color:var(--rlb-cream);line-height:1.2}
+
+.rlb__cta{left:4.8%;top:85.6%;width:20%;height:9.1%;color:#fff;font-weight:700;font-size:2.05cqw;display:flex;align-items:center;justify-content:center;gap:2.6cqw;text-decoration:none}
+.rlb__cta svg{width:2.2cqw;height:2.2cqw}
+
+.rlb__free{left:82.7%;top:6.2%;width:13%;height:8.5%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:2.7cqw;color:var(--rlb-ink)}
+.rlb__b599{left:72.1%;top:31.3%;width:17.6%;text-align:center;font-weight:900;font-size:2.7cqw}
+.rlb__gtxt{left:78.1%;top:39.3%;font-weight:700;font-size:1.75cqw;line-height:1.36;color:var(--rlb-ink)}
+.rlb__gline{left:87.6%;top:92.5%;width:6.5%}
+.rlb__gsd{left:87%;top:77.5%;font-family:var(--rlb-latin);font-weight:600;font-size:3.4cqw;line-height:1.02;color:#fff;transform:rotate(-14deg);white-space:normal;width:9cqw}
+.rlb__gsd span{display:block}
+.rlb__gsd span:nth-child(2){margin-left:1.4cqw}.rlb__gsd span:nth-child(3){margin-left:2.8cqw}
+
+/* motion: transform/opacity only, so it stays on the GPU and costs no extra downloads */
+@keyframes rlb-rise{from{opacity:0;translate:0 1.2cqw}to{opacity:1;translate:0 0}}
+@keyframes rlb-pop{0%,82%,100%{scale:1}88%{scale:1.09;rotate:-1.5deg}94%{scale:.98;rotate:0deg}}
+@keyframes rlb-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(.5cqw)}}
+@keyframes rlb-sway{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(-11deg) translateY(-.4cqw)}}
+@keyframes rlb-tick{0%,88%,100%{transform:rotate(0)}94%{transform:rotate(16deg)}}
+.rlb__brand,.rlb__h1,.rlb__en,.rlb__tags,.rlb__pill,.rlb__buy,.rlb__free,.rlb__b599,.rlb__gtxt{animation:rlb-rise .7s cubic-bezier(.2,.7,.2,1) both}
+.rlb__slogan{animation:rlb-rise .7s .5s cubic-bezier(.2,.7,.2,1) both}
+.rlb__h1{animation-delay:.1s}.rlb__en{animation-delay:.25s}.rlb__tags{animation-delay:.35s}.rlb__pill{animation-delay:.6s}.rlb__buy{animation-delay:.7s}.rlb__free{animation-delay:.8s}.rlb__b599{animation-delay:.9s}.rlb__gtxt{animation-delay:1s}
+.rlb__amt,.rlb__cut{animation:rlb-rise .7s .8s cubic-bezier(.2,.7,.2,1) both,rlb-pop 4.8s 2.4s ease-in-out infinite}
+.rlb__cut{animation-delay:.8s,3s}
+.rlb__cta svg{animation:rlb-nudge 1.6s ease-in-out infinite}
+.rlb__gsd{animation:rlb-sway 4.2s ease-in-out infinite}
+.rlb__pill svg{animation:rlb-tick 4.8s 3s ease-in-out infinite;transform-origin:50% 60%}
+@media (prefers-reduced-motion:reduce){.rlb *{animation:none!important}}
+/* 未入畫面前暫停，入咗畫面先播（home.js 之外嘅小 observer，見 index.html） */
+.rlb.is-armed:not(.is-in) *{animation-play-state:paused}
+.rlb.is-armed:not(.is-in) .rlb__brand,.rlb.is-armed:not(.is-in) .rlb__h1,.rlb.is-armed:not(.is-in) .rlb__en,.rlb.is-armed:not(.is-in) .rlb__tags,.rlb.is-armed:not(.is-in) .rlb__slogan,.rlb.is-armed:not(.is-in) .rlb__pill,.rlb.is-armed:not(.is-in) .rlb__buy,.rlb.is-armed:not(.is-in) .rlb__free,.rlb.is-armed:not(.is-in) .rlb__b599,.rlb.is-armed:not(.is-in) .rlb__gtxt,.rlb.is-armed:not(.is-in) .rlb__amt,.rlb.is-armed:not(.is-in) .rlb__cut{opacity:0}
+/* 橫幅同運送卡同高：以橫幅（16:9）為準，運送卡撐滿同一行 */
+@media (min-width: 1101px) {
+  .midautumn-home .midautumn-home__grid { align-items: stretch; }
+  .midautumn-home .midautumn-home__shipping { height: auto; }
+}
