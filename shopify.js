@@ -3125,7 +3125,8 @@ function isHandCare(p) {
    2026-10-01 老闆指出 CLIO 氣墊粉底被當防曬：舊規則連 `SPF40`、`UV` 都當防曬，
    令帶 SPF 嘅粉底、氣墊、遮瑕、蜜粉、UV 保健品全部跌入防曬頁同「換季優惠」。
    SPF／UV 只係底妝附帶功能，唔係防曬產品，所以拎走。 */
-const SUNSCREEN_TITLE = /防曬|sun\s*(?:cream|stick|serum|essence|cushion|lotion|screen|milk)|sunscreen|선크림|선케어/i;
+/* UV 妝前底霜（UV Base／UV Tone Up Base）主要功能就係日常防曬，歸防曬（老闆：用常識）。 */
+const SUNSCREEN_TITLE = /防曬|sun\s*(?:cream|stick|serum|essence|cushion|lotion|screen|milk)|sunscreen|uv\s*(?:tone\s*up\s*)?base|선크림|선케어/i;
 function isSunscreenProduct(p) {
   return SUNSCREEN_TITLE.test(productHaystackLoose(p));
 }
