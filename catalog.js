@@ -2561,6 +2561,16 @@ function dealRatio(p) {
   }
   return best;
 }
+// 喺季節性／護膚頁撳「防曬」格（冇帶 ?cat=）都要同直入防曬頁一樣（老闆 2026-10-01：兩邊要統一）
+function isSeasonFilter(section, sel) {
+  if (!OUJI_SEASON_SALE_ON || !sel?.cat || sel.cat.size !== 1) return false;
+  return (section === 'seasonal' && sel.cat.has('sun')) || (section === 'skincare' && sel.cat.has('sunscreen'));
+}
+function syncSeasonSale(active, products, section) {
+  const has = !!document.querySelector('.season-sale');
+  if (!active) { if (has) document.querySelector('.season-sale').remove(); return; }
+  if (!has) mountSeasonSale(products, section);
+}
 function mountSeasonSale(products, section) {
   // 護膚頁（category.html）傳入嘅係成個護膚目錄，折數只計防曬
   if (section === 'skincare' && typeof subMatch === 'function') products = products.filter((p) => subMatch('skincare', 'sunscreen', p));
@@ -2594,7 +2604,6 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
      入面出現，更加唔需要畀客再剔一次「有貨」。 */
   products = searchTerm ? products : products.filter((p) => !soldOut(p));
   const seasonPage = isSeasonSalePage(section, cat || presetCat);
-  if (seasonPage) mountSeasonSale(products, section);
 
   /* 首屏用嘅 catalog 快照可能係舊 cache 版本。背景對數攞到新目錄之後
      會派 ouji:catalog-refreshed，但之前**冇人聽** —— 結果老闆見到
@@ -2736,6 +2745,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
   function drawInner() {
     const sel = activeFilters();
+    const seasonNow = seasonPage || isSeasonFilter(section, sel);
+    syncSeasonSale(seasonNow, products, section);
     const sortKey = sortEl?.value || 'featured';
     /* 先套 group（頂層資料夾），再套側欄篩選同排序 —— 次序調轉嘅話
        件數會對唔上客撳嗰張貼紙。 */
@@ -2748,7 +2759,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
         window.OUJI_searchProductScore(a, searchTerm) - window.OUJI_searchProductScore(b, searchTerm));
     } else if (cmp) list = [...list].sort(cmp);
     // 防曬頁預設排序：越平（折數越低）越前，冇特價嘅殿後
-    if (seasonPage && sortKey === 'featured' && !searchTerm) {
+    if (seasonNow && sortKey === 'featured' && !searchTerm) {
       list = [...list].sort((a, b) => dealRatio(a) - dealRatio(b));
     }
 
@@ -2762,7 +2773,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
     const grouped = !searchTerm && !filtered && sortKey === 'featured'
-      && !seasonPage && vendorsOf(list).length > 1;
+      && !seasonNow && vendorsOf(list).length > 1;
 
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);
