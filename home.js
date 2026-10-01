@@ -52,7 +52,7 @@ async function initHome() {
       <div class="product-card__image-wrap">
         ${img ? `<img class="product-card__image" ${shopifyCardImageAttrs(img.url)} alt="${p.title}" loading="lazy">` : ''}
         ${!soldOut ? oujiSaleBadgeHTML(p.title, onSale, p0.amount, p.tags, onSale ? cp.amount : null) : ''}
-        ${soldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : (typeof oujiLowStockBadgeHTML === 'function' ? oujiLowStockBadgeHTML(p) : '')}
+        ${soldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : (typeof oujiLowStockBadgeHTML === 'function' ? oujiLowStockBadgeHTML(p) : '')}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button type="button" class="product-card__wishlist${
           typeof isInWishlist === 'function' && isInWishlist(p.id) ? ' is-active' : ''}"

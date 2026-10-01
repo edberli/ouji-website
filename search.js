@@ -288,7 +288,7 @@
         <span class="site-search__brand">${esc(p.vendor || '')}</span>
         <span class="site-search__name">${esc(oujiCardName(p))}</span>
       </span>
-      <span class="site-search__price">${out ? '售完'
+      <span class="site-search__price">${out ? '暫時缺貨'
         : (amt ? 'HK$' + Math.round(parseFloat(amt)) : '')}</span>
     </a>`;
   }

@@ -937,6 +937,13 @@
           ? oujiLowStockText(v.quantityAvailable) : '';
         el.textContent = t;
         el.hidden = !t;
+        /* 數量上限：現貨有幾多就買得幾多（唔做預訂）。度數隱形眼鏡例外。 */
+        const qi = document.querySelector('.qty-input');
+        if (qi) {
+          const cap = !lens && v && typeof v.quantityAvailable === 'number' ? Math.max(1, v.quantityAvailable) : 99;
+          qi.max = String(cap);
+          if (parseInt(qi.value) > cap) qi.value = String(cap);
+        }
       };
       stockHint();
 
@@ -1065,7 +1072,8 @@
       if (addBtn && anyStock) {
         addBtn.addEventListener('click', async () => {
           const qtyInput = document.querySelector('.qty-input');
-          const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+          const qMax = qtyInput ? parseInt(qtyInput.max) || 99 : 99;
+          const qty = Math.min(qtyInput ? parseInt(qtyInput.value) || 1 : 1, qMax);
           addBtn.textContent = '加入中...';
           addBtn.disabled = true;
           const ok = await addToCart(selectedVariantId, qty);

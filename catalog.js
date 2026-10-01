@@ -1590,7 +1590,7 @@ function productCard(p, options = null) {
         ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${image.altText || p.title}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${priority ? ' fetchpriority="high"' : ''}>` : ''}
         ${p._oujiOtherBrandStart
           ? `<span class="product-card__mini-brand">${p._oujiOtherBrandStart}</span>` : ''}
-        ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">售完</span>' : oujiLowStockBadgeHTML(p)}
+        ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : oujiLowStockBadgeHTML(p)}
         ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale, p0.amount, p.tags, isOnSale ? cp.amount : null) : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button type="button" class="product-card__wishlist${
@@ -1984,9 +1984,9 @@ function splitStock(items) {
 
 function soldOutBlock(items, id) {
   if (!items.length) return '';
-  return `<details class="sold-out" ${''}>
+  return `<details class="sold-out" open>
     <summary class="sold-out__toggle">
-      <span>售完商品</span><span class="sold-out__n">${items.length}</span>
+      <span>暫時缺貨</span><span class="sold-out__n">${items.length}</span>
     </summary>
     <div class="product-grid sold-out__grid">${items.map(productCard).join('')}</div>
   </details>`;
@@ -2602,7 +2602,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   /* 老闆 2026-09-04 定義嘅上架規則：有貨先擺入產品目錄。售完產品可以
      保留直接網址同補貨通知，但唔應該喺全部產品、分類、品牌段落或件數
      入面出現，更加唔需要畀客再剔一次「有貨」。 */
-  products = searchTerm ? products : products.filter((p) => !soldOut(p));
+  /* 老闆 2026-10-01 改：冇貨但最近三個月有賣過嘅貨（後台 sync 決定邊啲保持上架）
+     照樣出，標「暫時缺貨」，排喺所屬品牌／全頁最尾（splitStock → soldOutBlock）。 */
   const seasonPage = isSeasonSalePage(section, cat || presetCat);
 
   /* 首屏用嘅 catalog 快照可能係舊 cache 版本。背景對數攞到新目錄之後
@@ -2639,7 +2640,6 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     if (fresh.length < 100) return;
     const next = fresh.map((x) => (x && x.node) || x)
       .filter((p) => p && p.handle)
-      .filter((p) => searchTerm || !soldOut(p))
       .filter(inSection);
     const matching = searchTerm && typeof window.OUJI_searchProductMatch === 'function'
       ? next.filter((p) => window.OUJI_searchProductMatch(p, searchTerm)) : next;
