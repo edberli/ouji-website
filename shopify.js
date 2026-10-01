@@ -2482,17 +2482,17 @@ function oujiZhe(price, was) {
   return Number.isFinite(z) ? `${z} 折` : '';
 }
 /* 低庫存標籤（老闆 2026-10-01 批准）。只讀 Shopify 真實數量：1 件＝「最後一件」，
-   2 件＝「只剩 2 件」，其餘唔出。冇追蹤（null）、0／負數（賣完照賣）、
+   2 件＝「最後兩件」，其餘唔出。冇追蹤（null）、0／負數（賣完照賣）、
    隱形眼鏡度數（本來就做預訂）一律唔出，唔准扮稀缺。 */
 const OUJI_LOW_STOCK_MAX = 2;
 function oujiLowStockText(n) {
   if (typeof n !== 'number' || n < 1 || n > OUJI_LOW_STOCK_MAX) return '';
-  return n === 1 ? '最後一件' : `只剩 ${n} 件`;
+  return n === 1 ? '最後一件' : '最後兩件';
 }
 function oujiLowStockBadgeHTML(p) {
   if ((p.options?.[0]?.name || '') === '度數') return '';
   const t = oujiLowStockText(p.totalInventory);
-  return t ? `<span class="product-card__stock">${t}</span>` : '';
+  return t ? `<span class="product-card__stock"><i aria-hidden="true"></i>${t}</span>` : '';
 }
 function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount = null) {
   // 孖裝／套裝本身係「促銷」（黃條），唔轉紅（老闆 2026-10-01 更正）；紅色換季優惠條只係減價單件
@@ -2774,7 +2774,7 @@ function productCardHTML(product) {
       <a href="product.html?handle=${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
-          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : oujiLowStockBadgeHTML(product)}
+          ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : ''}
           ${!isSoldOut && !shortDated ? oujiSaleBadgeHTML(product.title, isOnSale, price.amount, product.tags, isOnSale ? comparePrice.amount : null) : ''}
           ${shortDated && !isSoldOut ? `<span class="product-card__badge product-card__badge--expiry">到期 ${formatShortDatedExpiry(expiry)}</span>` : ''}
         </div>
@@ -2784,6 +2784,7 @@ function productCardHTML(product) {
         <div class="product-card__prices">
           ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { range: unitPriceRange(product), title: product.title, tags: product.tags })}
         </div>
+        ${isSoldOut ? '' : oujiLowStockBadgeHTML(product)}
         <button class="product-card__wishlist-btn ${isInWishlist(product.id) ? 'is-active' : ''}"
           onclick="toggleWishlist(event, ${JSON.stringify(product).replace(/"/g, '&quot;')})"
           aria-label="加入心願單">

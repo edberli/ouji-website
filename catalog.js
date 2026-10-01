@@ -1590,7 +1590,7 @@ function productCard(p, options = null) {
         ${image ? `<img class="product-card__image" ${shopifyCardImageAttrs(image.url)} alt="${image.altText || p.title}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${priority ? ' fetchpriority="high"' : ''}>` : ''}
         ${p._oujiOtherBrandStart
           ? `<span class="product-card__mini-brand">${p._oujiOtherBrandStart}</span>` : ''}
-        ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : oujiLowStockBadgeHTML(p)}
+        ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : ''}
         ${!isSoldOut ? oujiSaleBadgeHTML(p.title, isOnSale, p0.amount, p.tags, isOnSale ? cp.amount : null) : ''}
         ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
         <button type="button" class="product-card__wishlist${
@@ -1606,6 +1606,7 @@ function productCard(p, options = null) {
       <span class="product-card__name">${oujiCardName(p)}</span>
       ${typeof ratingChip === 'function' ? ratingChip(p.handle) : ''}
       ${oujiCardPriceHTML(p0.amount, isOnSale ? cp.amount : null, { range: unitPriceRange(p), title: p.title, tags: p.tags })}
+      ${isSoldOut ? '' : oujiLowStockBadgeHTML(p)}
     </a>`;
 }
 

@@ -1455,6 +1455,25 @@ button.product-card__quick-add,
   box-shadow: 0 2px 10px rgba(200,69,47,0.28);
 }
 
+/* 低庫存（老闆 2026-10-01）：唔放喺圖上面——圖角已經有特價牌、獎項牌、心願單，
+   而且白底圖會食字。放喺價錢下面一行：細紅點＋「最後一件／最後兩件」。 */
+.product-card__stock {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #8f301f;
+}
+.product-card__stock i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sale, #c8452f);
+  flex: none;
+}
+.product-info__stock { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.06em; color: #8f301f; }
+.product-info__stock::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--sale, #c8452f); flex: none; }
+.product-info__stock span { font-weight: 400; letter-spacing: 0.02em; color: var(--text-tertiary, #8a8580); }
+
 .product-card__wishlist {
   position: absolute;
   top: 12px; right: 12px;
@@ -18557,17 +18576,3 @@ body::before { opacity: 0.18; }
 @media (min-width: 701px) and (max-width: 1100px) {
   .midautumn-home__ship-badge { top: 6px; right: 5px; font-size: .48rem; padding: 1px 5px 2px; letter-spacing: .08em; text-indent: .08em; }
 }
-
-/* 低庫存：圖左下細字牌，唔搶特價紅牌 */
-.product-card__stock {
-  position: absolute;
-  left: 12px; bottom: 12px;
-  padding: 3px 9px;
-  font-size: 0.6875rem;
-  font-weight: 650;
-  letter-spacing: 0.02em;
-  color: #8f301f;
-  background: rgba(255, 255, 255, 0.94);
-  border-radius: 6px;
-}
-.product-info__stock { margin: 6px 0 0; font-size: 0.8125rem; font-weight: 650; color: #8f301f; }
