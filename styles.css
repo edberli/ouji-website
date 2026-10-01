@@ -18437,12 +18437,13 @@ body::before { opacity: 0.18; }
     content: ""; position: absolute; left: 0; right: 0; bottom: 6px; border-top: 2px dashed rgba(255,255,255,.35);
   }
   .ship-walk__cat {
-    position: absolute; left: 0; bottom: -20px; aspect-ratio: 487 / 412;
-    height: min(88cqh, 150px); will-change: transform;
-    animation: ship-walk-x 11s linear infinite; animation-play-state: paused;
+    position: absolute; left: 0; bottom: -4px;
+    height: min(100cqh, 150px); will-change: transform;
+    animation: ship-walk-x 7.5s linear infinite; animation-play-state: paused;
   }
   .ship-walk.is-in .ship-walk__cat, .ship-walk.is-in .ship-walk__cat * { animation-play-state: running; }
-  .ship-walk__cat img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transform-origin: 50% 92%; animation: ship-walk-step .62s ease-in-out infinite; animation-play-state: paused; }
+  .ship-walk__cat { aspect-ratio: 252 / 200; overflow: hidden; }
+  .ship-walk__strip { display: block; height: 100%; width: 1600%; max-width: none; animation: ship-walk-frames .8s steps(16) infinite; animation-play-state: paused; }
 }
 @container (height < 56px) { .ship-walk__cat { display: none; } }
 @keyframes ship-walk-x {
@@ -18451,12 +18452,7 @@ body::before { opacity: 0.18; }
   78%  { opacity: 1; }
   100% { transform: translateX(100cqw); opacity: 0; }
 }
-@keyframes ship-walk-step {
-  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
-  25% { transform: translateY(-5%) rotate(0deg); }
-  50% { transform: translateY(0) rotate(1.5deg); }
-  75% { transform: translateY(-5%) rotate(0deg); }
-}
+@keyframes ship-walk-frames { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 @media (prefers-reduced-motion: reduce) {
   .ship-walk__cat, .ship-walk__cat * { animation: none !important; }
   .ship-walk__cat { left: 8%; opacity: 1; }
