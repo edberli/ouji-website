@@ -765,7 +765,18 @@ function buildQuickTabs(section, products, sel) {
   host.innerHTML = `
     <button class="quick-tab${active.size ? '' : ' is-active'}" data-quick="">全部</button>`
     + subs.map((s) => `<button class="quick-tab${active.has(s.id) ? ' is-active' : ''}"
-        data-quick="${s.id}">${s.label}<span class="quick-tab__count">${s.count}</span></button>`).join('');
+        data-quick="${s.id}">${toysTabIcon(s.label)}${s.label}<span class="quick-tab__count">${s.count}</span></button>`).join('');
+}
+
+/* 公仔頁品類按鈕嘅手繪細圖示（只喺 .page-toys）。按 label 認，唔認得就唔出圖。 */
+const TOYS_TAB_ICONS = [
+  ['扭蛋', 'icon-gacha'], ['盲盒', 'icon-blindbox'],
+  ['毛絨', 'icon-plush'], ['掛件', 'icon-charm'],
+];
+function toysTabIcon(label) {
+  if (!document.body.classList.contains('page-toys')) return '';
+  const hit = TOYS_TAB_ICONS.find(([k]) => label.includes(k));
+  return hit ? `<img class="quick-tab__icon" src="assets/brand-banners/${hit[1]}.webp" alt="" width="28" height="28" loading="lazy" decoding="async">` : '';
 }
 
 /** 舊品牌列嘅位置保留做 Clearline 落腳點，但唔再砌第二套品牌入口。
@@ -2291,7 +2302,11 @@ function renderProducts(container, products, { grouped }) {
     .map(({ vendor, items }) => [vendor, items]);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
   SECTION_ITEMS.clear();
-  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
+  /* 公仔頁：品牌段之間夾一條手繪插畫（左右交替），只喺 .page-toys，最尾一段後面唔放。 */
+  const toysDivider = document.body.classList.contains('page-toys');
+  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)
+    + (toysDivider && i < order.length - 1
+      ? `<div class="toys-divider toys-divider--${i % 2 ? 'r' : 'l'}" aria-hidden="true"></div>` : '')).join('');
   const grids = [...container.querySelectorAll('.grid-host[data-section]')];
   const mountOne = (host) => {
     if (host.dataset.mounted === '1') return;

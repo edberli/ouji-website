@@ -10659,6 +10659,24 @@ html.is-lite .section--brand-intro::after {
   --primary-deep: #7a4a2c;
 }
 .page-toys main { background: var(--bg); }
+/* 品牌段之間嘅插畫條：8:1，兩邊有角色、中間留空；圖上下邊淡出到 --bg，無縫。 */
+.toys-divider {
+  height: clamp(90px, 12.5vw, 180px);
+  margin: clamp(8px, 2vw, 24px) 0;
+  background: url('assets/brand-banners/toys-divider.webp') no-repeat center / 100% auto;
+}
+@media (max-width: 860px) {
+  /* 窄機 8:1 會細到睇唔清，改為按高度鋪，左右交替只見一邊角色。 */
+  .toys-divider { height: 96px; background-size: auto 100%; background-position: left center; }
+  .toys-divider--r { background-position: right center; }
+}
+.page-toys .quick-tab { align-items: center; }
+.page-toys .quick-tab__icon {
+  width: 28px; height: 28px; margin: -4px 0 -4px -6px;
+  /* 圖底係奶油黃 #fffbea，multiply 令佢喺白色按鈕上面溶入去 */
+  mix-blend-mode: multiply;
+}
+
 .cat-head.cat-head--shot.cat-head--toys {
   background: #fdfae2 var(--toys-hero, url('assets/brand-banners/toys-hero.webp')) no-repeat right bottom / auto 100%;
   min-height: clamp(260px, 25vw, 360px);
