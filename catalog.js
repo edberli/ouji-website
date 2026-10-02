@@ -2759,6 +2759,12 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       list = [...list].sort((a, b) =>
         window.OUJI_searchProductScore(a, searchTerm) - window.OUJI_searchProductScore(b, searchTerm));
     } else if (cmp) list = [...list].sort(cmp);
+    // 專櫃套裝頁預設排序：按品牌聚埋（老闆 2026-10-02），同品牌內貴嘅先
+    if (lockCat === 'counter' && sortKey === 'featured' && !searchTerm) {
+      const amt = (p) => parseFloat(p.priceRange?.minVariantPrice?.amount) || 0;
+      list = [...list].sort((x, y) =>
+        String(x.vendor || '').localeCompare(String(y.vendor || ''), 'zh-Hant') || amt(y) - amt(x));
+    }
     // 防曬頁預設排序：越平（折數越低）越前，冇特價嘅殿後
     if (seasonNow && sortKey === 'featured' && !searchTerm) {
       list = [...list].sort((a, b) => dealRatio(a) - dealRatio(b));
