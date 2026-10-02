@@ -3058,7 +3058,18 @@ function bundleHaystack(p) {
   return [p?.handle || '', p?.title || '', p?.productType || '', ...(p?.tags || [])].join(' ');
 }
 
+/* 套裝 = 一盒入面有幾種唔同嘅產品（水＋乳、精華＋補充裝、試用組）。
+   單一種貨嘅「一盒／一包／幾片」唔係套裝（老闆 2026-10-02）：面膜（Mask Set、10片套裝）、
+   化妝棉、同一件貨孖裝／雙支。個名有「＋」就當真套裝，唔排除。 */
+const SINGLE_ITEM_PACK_RE = /面膜|mask|化妝棉|棉片|\bpads?\b|雙支|孖裝|twin\s*pack|\bduo\b/i;
+function isSingleItemPack(p) {
+  const title = p?.title || '';
+  if (/[+＋]/.test(title)) return false;
+  return p?.productType === '面膜' || SINGLE_ITEM_PACK_RE.test(title);
+}
+
 function isBundleProduct(p) {
+  if (isSingleItemPack(p)) return false;
   const text = bundleHaystack(p);
   return BUNDLE_CJK.test(text) || BUNDLE_EN.test(text);
 }
