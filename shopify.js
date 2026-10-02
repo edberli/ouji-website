@@ -3074,9 +3074,9 @@ function isCounterBrandBundle(title, tags = []) {
   return (PREMIUM_BUNDLE_BRANDS.test(text) || COUNTER_EXTRA_BRANDS.test(text))
     && (BUNDLE_CJK.test(text) || BUNDLE_EN.test(text));
 }
+// 專櫃套裝頁收專櫃品牌所有套裝（唔限護膚：洗頭、沐浴、潤手霜都入），唔設價底
 function isCounterSet(p) {
-  const amount = Number(p?.priceRange?.minVariantPrice?.amount || 0);
-  return isCounterBrandBundle(p?.title, p?.tags) && amount >= COUNTER_SET_MIN_PRICE;
+  return isCounterBrandBundle(p?.title, p?.tags);
 }
 window.OUJI_isCounterSet = isCounterSet;
 
@@ -3324,6 +3324,7 @@ window.OUJI_getProductBreadcrumb = productBreadcrumb;
 async function getCategoryProducts({ section, cat = null } = {}) {
   let collectionProducts = [];
   let taxonomyProducts = [];
+  let counterExtra = [];
   try {
     /* Run both reads together. The full catalogue normally comes from the
        edge snapshot, while the collection request preserves deliberately
@@ -3338,6 +3339,11 @@ async function getCategoryProducts({ section, cat = null } = {}) {
     collectionProducts = viaCollection?.edges?.map((e) => e.node) ?? [];
     const everything = all?.edges?.map((e) => e.node) ?? [];
     taxonomyProducts = everything.filter((p) => sectionMatch(p, section));
+    // 專櫃套裝頁：專櫃品牌套裝跨分類（洗頭、沐浴、潤手霜）一齊收
+    if (section === 'skincare' && (cat === 'counter'
+      || new URLSearchParams(location.search).get('cat') === 'counter')) {
+      counterExtra = everything.filter(isCounterSet);
+    }
   } catch (e) {
     collectionProducts = [];
     taxonomyProducts = [];
@@ -3355,6 +3361,10 @@ async function getCategoryProducts({ section, cat = null } = {}) {
      collection 入面嘅潤手霜／潤唇膏會繞過上面 sectionMatch。 */
   const sectionDrop = SECTION_EXCLUDE[section];
   if (sectionDrop) products = products.filter((p) => !sectionDrop(p));
+  if (counterExtra.length) {
+    const have = new Set(products.map((p) => p.id || p.handle));
+    products = [...products, ...counterExtra.filter((p) => !have.has(p.id || p.handle))];
+  }
   /* 短效期特價有自己一版（short-dated.html），唔好喺分類頁同正價貨並排，
      客會見到同一件貨兩個價。 */
   if (section !== 'short-dated') products = products.filter((p) => !isShortDated(p));
