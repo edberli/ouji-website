@@ -2951,8 +2951,7 @@ const CATEGORY_TAXONOMY = {
                '口腔護理', '濕紙巾'],
     subs: {
       cleanser: { label: '潔面',     keywords: ['潔面'] },
-      shampoo:  { label: '洗髮',     keywords: ['洗髮'] },
-      hair:     { label: '護髮',     keywords: ['護髮', '頭髮護理'] },
+      haircare: { label: '洗髮護髮', keywords: ['洗髮', '護髮', '頭髮護理'] },
       body:     { label: '沐浴',     keywords: ['沐浴'] },
       lotion:   { label: '身體乳',   keywords: ['身體護理'] },
       oral:     { label: '口腔護理', keywords: ['口腔護理'] },

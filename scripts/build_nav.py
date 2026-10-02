@@ -59,8 +59,7 @@ NAV = [
     ('沐浴洗護', 'bath.html', [
         ('全部沐浴洗護', 'bath.html', ''),
         ('潔面', 'bath.html?cat=cleanser', ''),
-        ('洗髮', 'bath.html?cat=shampoo', ''),
-        ('護髮', 'bath.html?cat=hair', ''),
+        ('洗髮護髮', 'bath.html?cat=haircare', ''),
         ('沐浴', 'bath.html?cat=body', ''),
         ('身體乳', 'bath.html?cat=lotion', ''),
     ]),
