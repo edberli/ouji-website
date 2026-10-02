@@ -10676,6 +10676,22 @@ html.is-lite .section--brand-intro::after {
 .home-poster:hover img { transform: scale(1.015); }
 .home-block--tirtir .home-poster img { object-position: center 30%; }
 
+/* 風扇格：貨少，左邊海報右邊貨並排（桌面），貨架喺右欄入面一行三件 */
+.home-block__split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--rail-gap); align-items: start; }
+.home-block__split .home-poster { margin-bottom: 0; }
+.home-block__split .home-poster img { aspect-ratio: 2 / 1; }
+.home-block--fan .home-block__split .home-rail { --rail-visible: 3; --rail-gaps: 2; } /* 風扇三款，右欄一行三件 */
+.home-block--fan { background: #eef6f3; }
+.home-block--fan .home-rail__nav { display: none; } /* 得兩三件，唔使箭嘴 */ /* 防曬格係淡天藍，緊接住佢用淡薄荷，兩格分得開 */
+.home-block--fan .home-block__label { color: var(--primary-dark); }
+@media (max-width: 900px) {
+  .home-block__split { grid-template-columns: 1fr; }
+  .home-block__split .home-poster { margin-bottom: 16px; }
+}
+@media (max-width: 768px) {
+  .home-block--fan .home-block__split .home-rail { --rail-visible: 2.8; }
+}
+
 /* 「OUJI 仲有呢啲」：分類 tab 用返首頁雜誌式 home-tabs，同貨架之間留返呼吸 */
 .home-more__tabs { margin-bottom: clamp(16px, 2vw, 24px); }
 
