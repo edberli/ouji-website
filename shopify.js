@@ -2494,7 +2494,18 @@ function oujiLowStockBadgeHTML(p) {
   const t = oujiLowStockText(p.totalInventory);
   return t ? `<span class="product-card__stock"><i aria-hidden="true"></i>${t}</span>` : '';
 }
+/* 清貨「任揀 2 件」優惠（2026-10-02 老闆）：Shopify 產品加 tag「兩件優惠」＋後台自動折扣
+   同步改呢度金額。結束優惠就移走 tag（或將 OUJI_PAIR_DEAL.on 改 false）。 */
+const OUJI_PAIR_DEAL = Object.freeze({ on: true, tag: '兩件優惠', count: 2, total: 160 });
+function oujiHasPairDeal(tags) {
+  return OUJI_PAIR_DEAL.on && (tags || []).includes(OUJI_PAIR_DEAL.tag);
+}
+function oujiPairDealBandHTML() {
+  const d = OUJI_PAIR_DEAL;
+  return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>任揀${d.count}件</strong><span>$${d.total} · 每件 $${d.total / d.count}</span></div>`;
+}
 function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount = null) {
+  if (oujiHasPairDeal(tags)) return oujiPairDealBandHTML();
   // 孖裝／套裝本身係「促銷」（黃條），唔轉紅（老闆 2026-10-01 更正）；紅色換季優惠條只係減價單件
   const season = oujiIsSeasonProduct(title, tags) && !oujiBundleInfo(title);
   const hasWas = parseFloat(compareAmount) > parseFloat(priceAmount);

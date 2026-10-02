@@ -730,6 +730,11 @@
         priceEl.innerHTML = productPriceMarkup(p.amount, cp, cheapV?.title);
         priceEl.dataset.oujiPromoReady = (shortDated || isOujiOpeningPromoActive()) ? '1' : '0';
       }
+      document.querySelector('.product-pair-note')?.remove();
+      if (priceEl && typeof oujiHasPairDeal === 'function' && oujiHasPairDeal(product.tags)) {
+        const d = OUJI_PAIR_DEAL;
+        priceEl.insertAdjacentHTML('afterend', `<p class="product-pair-note">清貨優惠：呢類公仔任揀 ${d.count} 件 $${d.total}（平均每件 $${d.total / d.count}）<small>單件 ${formatPrice(product.priceRange.minVariantPrice.amount)}；買滿 ${d.count} 件自動計算，款式可以混配，毋須優惠碼。</small></p>`);
+      }
       /* Shopify 描述頭嗰段 .short-dated-notice 係畀訂單／後台睇嘅；網站喺價錢
          下面有自己一塊，所以描述入面嗰份剝走，唔好講兩次。 */
       const descHtml = shortDated

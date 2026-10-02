@@ -1532,6 +1532,17 @@ button.product-card__quick-add,
 .product-card__price.product-card__price--season { color: #8f2a19; background: linear-gradient(transparent 58%, rgba(200,69,47,0.30) 58%, rgba(200,69,47,0.30) 92%, transparent 92%); }
 .product-card__per-unit--season { color: #8f2a19; background: rgba(200,69,47,0.12); }
 
+/* 清貨任揀 2 件：品牌頁頂紅色 banner */
+.pair-deal { margin: 0 0 16px; padding: 14px 18px; border-radius: 12px; background: var(--sale, #c8452f); color: #fff; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.pair-deal p { margin: 0; }
+.pair-deal__kicker { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 4px; background: rgba(255,255,255,0.2); }
+.pair-deal__title { font-size: 1.125rem; font-weight: 800; }
+.pair-deal__title b { font-size: 1.5rem; margin: 0 6px; }
+.pair-deal__title span { font-size: 0.875rem; font-weight: 700; opacity: 0.95; }
+.pair-deal__fine { flex-basis: 100%; font-size: 0.75rem; opacity: 0.9; }
+.product-pair-note { margin: 10px 0 0; padding: 10px 12px; border-radius: 8px; background: rgba(200,69,47,0.1); color: #8f2a19; font-size: 0.875rem; font-weight: 700; line-height: 1.5; }
+.product-pair-note small { display: block; font-weight: 500; font-size: 0.75rem; }
+
 /* ----- Brands Page — Dark Smoke Theme ----- */
 .brands-page {
   position: relative;

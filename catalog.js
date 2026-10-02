@@ -1659,6 +1659,12 @@ function brandSection(vendor, items, index) {
     ];
   }
   const [inStock, out] = splitStock(ordered);
+  // 清貨任揀 2 件嘅貨排最前（同價錢嘅擺埋一齊，方便客揀）
+  if (vendor !== '其他') {
+    const dealRank = (p) => (oujiHasPairDeal(p.tags) ? 0 : 1);
+    inStock.sort((a, b) => dealRank(a) - dealRank(b));
+  }
+  const pairDealCount = inStock.filter((p) => oujiHasPairDeal(p.tags)).length;
   /* 每個牌子段落只出頭三行，其餘一撳去佢自己個品牌頁。
 
      點解：護膚有 572 件、33 個牌子。全部一次過鋪出嚟，客要碌足 52 格
@@ -1709,6 +1715,11 @@ function brandSection(vendor, items, index) {
           : `<span class="brand-plate__wordmark">${vendor}</span>`}
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
+      ${pairDealCount ? `<aside class="pair-deal" aria-label="任揀${OUJI_PAIR_DEAL.count}件優惠">
+        <p class="pair-deal__kicker">限時優惠</p>
+        <p class="pair-deal__title">盲盒公仔任揀 ${OUJI_PAIR_DEAL.count} 件 <b>$${OUJI_PAIR_DEAL.total}</b><span>平均每件 $${OUJI_PAIR_DEAL.total / OUJI_PAIR_DEAL.count}</span></p>
+        <p class="pair-deal__fine">帶紅色「任揀${OUJI_PAIR_DEAL.count}件」標籤嘅款式可以隨意配對 · 自動計算，毋須優惠碼 · 售完即止</p>
+      </aside>` : ''}
       <div class="grid-host" data-section="${index}"></div>
       ${showMore ? `<div class="brand-more" data-more="${index}">
         <div class="grid-host brand-more__peek" data-section="peek-${index}"></div>
