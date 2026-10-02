@@ -2498,12 +2498,16 @@ function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount 
   // 孖裝／套裝本身係「促銷」（黃條），唔轉紅（老闆 2026-10-01 更正）；紅色換季優惠條只係減價單件
   const season = oujiIsSeasonProduct(title, tags) && !oujiBundleInfo(title);
   const hasWas = parseFloat(compareAmount) > parseFloat(priceAmount);
-  if (season) {
+  if (season && !isCounterBrandBundle(title, tags)) {
     if ((tags || []).includes('限時') || onSale) {
       const detail = hasWas ? oujiZhe(priceAmount, compareAmount) : '限時特價';
       return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>換季優惠</strong><span>${detail}</span></div>`;
     }
     return '';
+  }
+  // 專櫃套裝唔做促銷：金邊深色牌，唔出黃條／限時
+  if (isCounterBrandBundle(title, tags)) {
+    return '<div class="product-card__bundle-band product-card__bundle-band--prestige"><strong>專櫃</strong><span>尊享套裝</span></div>';
   }
   const saleBadge = '<span class="product-card__badge product-card__badge--sale">限時</span>';
   if ((tags || []).includes('限時')) return saleBadge;
@@ -2525,6 +2529,8 @@ function oujiCardPriceHTML(priceAmount, compareAmount, { range = null, title = '
   const main = range ? `${formatPrice(range.lo)} – ${formatPrice(range.hi)}` : formatPrice(now);
   const bundle = range ? null : oujiBundleInfo(title);
   const hasWas = Number.isFinite(was) && was > now;
+  // 專櫃套裝：照價出，唔加黃色螢光、每件價、慳／OFF 牌
+  if (isCounterBrandBundle(title, tags)) return `<span class="product-card__price">${main}</span>`;
   if (bundle) {
     const chip = bundle.count ? `每件 ${oujiPerUnit(now, bundle.count)}`
       : hasWas ? `慳 $${Math.round(was - now)}` : '';
@@ -2835,6 +2841,7 @@ const CATEGORY_TAXONOMY = {
       sunscreen:   { label: '防曬',     keywords: ['sunscreen', 'suncare', 'sun cream', '防曬', '선크림', '선케어'] },
       spot:        { label: '局部護理', keywords: ['局部護理', '痘痘貼', 'spot'] },
       exfoliator:  { label: '去角質',   keywords: ['去角質', 'peeling', 'exfoliator'] },
+      counter:     { label: '專櫃套裝', keywords: ['專櫃套裝'] },
       kit:         { label: '套裝',     keywords: ['套裝護膚', '套裝', 'kit'] },
     },
   },
@@ -3055,6 +3062,21 @@ function isPremiumBundleProduct(p) {
   return PREMIUM_BUNDLE_BRANDS.test(text) || amount >= 250;
 }
 
+/* 專櫃套裝（老闆 2026-10-02）：雪花秀／Whoo／O HUI／su:m37 呢類專櫃品牌嘅套裝，
+   自成一個分類，唔同平價套裝撈埋；亦唔可以掛「促銷」（促銷係畀平價 QuickDeal 套裝用）。
+   分類收貨設 HK$250 底，擋走品牌下嘅護手霜／髮膜小套裝；商品卡標籤唔設價底，
+   專櫃品牌嘅套裝一律出尊貴牌。商品卡 renderer 只有標題同 tags，brand 睇標題已夠。 */
+const COUNTER_SET_MIN_PRICE = 250;
+function isCounterBrandBundle(title, tags = []) {
+  const text = `${title || ''} ${(tags || []).join(' ')}`;
+  return PREMIUM_BUNDLE_BRANDS.test(text) && (BUNDLE_CJK.test(text) || BUNDLE_EN.test(text));
+}
+function isCounterSet(p) {
+  const amount = Number(p?.priceRange?.minVariantPrice?.amount || 0);
+  return isCounterBrandBundle(p?.title, p?.tags) && amount >= COUNTER_SET_MIN_PRICE;
+}
+window.OUJI_isCounterSet = isCounterSet;
+
 // 跨 script 畀購物袋／catalog.js 用；保留 function name 方便同一頁直接呼叫。
 window.OUJI_isBundleProduct = isBundleProduct;
 window.OUJI_isPremiumBundleProduct = isPremiumBundleProduct;
@@ -3196,8 +3218,9 @@ function subMatch(section, id, p) {
   /* 只將中高階禮盒從潔面／爽膚水／面霜等步驟抽離；普通平價精華／潤膚
      套裝保留原本分類，避免一次過改動成千上萬件正常貨。獨立嘅「套裝」
      入口就收齊有明確套裝標記嘅貨，客可以需要時一次過睇晒。 */
-  if (section === 'skincare' && id === 'kit') return isBundleProduct(p);
-  if (section === 'skincare' && isPremiumBundleProduct(p)) return false;
+  if (section === 'skincare' && id === 'counter') return isCounterSet(p);
+  if (section === 'skincare' && id === 'kit') return isBundleProduct(p) && !isCounterSet(p);
+  if (section === 'skincare' && (isPremiumBundleProduct(p) || isCounterSet(p))) return false;
   if (sub.bucket) return makeupBucket(p) === sub.bucket;
   if (sub.parent) return makeupBucket(p) === sub.parent && sub.title.test(p.title || '');
   if (!matchesKeywords(p, sub.keywords)) return false;
@@ -3591,6 +3614,11 @@ function ensureKitCategoryLinks() {
     kit.dataset.kitCategoryLink = '1';
     if (spot.className) kit.className = spot.className;
     spot.insertAdjacentElement('afterend', kit);
+    const counter = kit.cloneNode(false);
+    counter.href = 'category.html?cat=counter';
+    counter.textContent = '專櫃套裝';
+    counter.dataset.kitCategoryLink = '1';
+    kit.insertAdjacentElement('beforebegin', counter);
   });
 }
 

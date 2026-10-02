@@ -1525,6 +1525,9 @@ button.product-card__quick-add,
 .product-card__per-unit { font-size: 0.6875rem; font-weight: 800; line-height: 1; padding: 3px 6px; border-radius: 2px; color: var(--promo-ink); background: var(--promo-tint); }
 /* 防曬換季優惠（2026-10-01 老闆）：促銷條同價錢高光由黃轉紅，其餘版面跟促銷一樣。
    紅底白字 5.4:1；高光用紅色半透明托住深紅字，細字 AA。 */
+/* 專櫃套裝（2026-10-02 老闆）：唔係促銷，用深墨底＋金字，同黃條分開 */
+.product-card__bundle-band--prestige { background: #1b1814; color: #e3c98f; border-top: 1px solid rgba(227,201,143,0.55); letter-spacing: 0.04em; }
+.product-card__bundle-band--prestige strong { font-weight: 800; border-right-color: rgba(227,201,143,0.55); }
 .product-card__bundle-band--season { background: var(--sale, #c8452f); color: #fff; }
 .product-card__price.product-card__price--season { color: #8f2a19; background: linear-gradient(transparent 58%, rgba(200,69,47,0.30) 58%, rgba(200,69,47,0.30) 92%, transparent 92%); }
 .product-card__per-unit--season { color: #8f2a19; background: rgba(200,69,47,0.12); }
