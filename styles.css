@@ -10612,46 +10612,83 @@ html.is-lite .section--brand-intro::after {
 
 /* ============================================================
    首頁商品格（2026-10-02 老闆）：TIRTIR 本月主打、換季大特賣、防曬清貨、Torriden、短效期
-   一律用首頁原有嘅 section-header（細眉題＋襯線大標題）＋四欄卡；
-   海報係品牌官方廣告相，圓角同產品卡一致。紅色只落喺優惠格嘅眉題同折數。
+   標題沿用首頁 label＋heading-lg；每格一張日韓官方海報＋一條橫掃貨架（桌面箭嘴、手機手指掃）。
+   節奏：優惠格用好淡嘅暖色底、防曬用淡天藍底，形象格保持白，令連續幾格唔會溝埋一嚿。
+   紅色只落喺優惠格眉題同「全場低至 N 折」。
    ============================================================ */
-.home-block__label--sale { color: var(--sale, #c8452f); }
-.home-block__best { margin: 0 0 0 auto; white-space: nowrap; font-size: 0.9375rem; color: var(--text-secondary); }
+.home-block {
+  --rail-gutter: var(--space-2xl);
+  --rail-gap: var(--space-lg);
+  --rail-visible: 5.25;
+  --rail-gaps: 5; /* 見到嘅卡之間有幾多條縫（連最尾露出嗰件） */
+  padding-block: clamp(40px, 5vw, 72px);
+}
+.home-block--warm { background: #fbf4f0; }
+.home-block--sky { background: #eef5fa; }
+.home-block__head {
+  display: flex; align-items: flex-end; flex-wrap: wrap; gap: 14px 28px;
+  margin-bottom: clamp(18px, 2.4vw, 28px);
+}
+.home-block__titles { flex: 1 1 auto; min-width: 0; }
+.home-block__label { display: block; margin-bottom: 10px; }
+.home-block--warm .home-block__label, .home-block--sky .home-block__label { color: var(--sale, #c8452f); }
+.home-block__title { margin: 0; text-wrap: balance; }
+.home-block__best { margin: 0; white-space: nowrap; font-size: 0.9375rem; color: var(--text-secondary); }
 .home-block__best strong {
   font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 3.6vw, 3rem);
   line-height: 1; color: var(--sale, #c8452f); font-variant-numeric: lining-nums; margin: 0 2px;
 }
-.home-poster {
-  position: relative; display: block; margin-bottom: var(--space-xl);
-  border-radius: 16px; overflow: hidden; background: #eef2f3;
+.home-block__tools { display: flex; align-items: center; gap: 18px; }
+.home-block__more {
+  font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none;
+  padding-bottom: 2px; border-bottom: 1px solid currentColor;
 }
+.home-block__more:hover { color: var(--text-primary); }
+.home-rail__nav { display: flex; gap: 8px; }
+.home-rail__btn {
+  width: 40px; height: 40px; padding: 0; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid rgba(29, 43, 51, 0.16); background: var(--bg-secondary, #fff);
+  color: var(--text-primary, #1d2b33); cursor: pointer; transition: border-color 200ms, opacity 200ms;
+}
+.home-rail__btn svg { width: 18px; height: 18px; }
+.home-rail__btn:hover:not(:disabled) { border-color: rgba(29, 43, 51, 0.45); }
+.home-rail__btn:disabled { opacity: 0.32; cursor: default; }
+.home-rail__btn:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 2px; }
+
+.home-poster { display: block; margin-bottom: clamp(18px, 2.4vw, 28px); border-radius: 16px; overflow: hidden; background: #eef2f3; }
 .home-poster img {
-  display: block; width: 100%; height: auto; aspect-ratio: 2.6 / 1; object-fit: cover;
+  display: block; width: 100%; height: auto; aspect-ratio: 3.2 / 1; object-fit: cover;
   transition: transform 600ms var(--ease-out, ease);
 }
-/* Torriden 張相天空佔大半，裁低少少保住人物同草地 */
-.home-block--torriden .home-poster img { object-position: center 70%; }
 .home-poster:hover img { transform: scale(1.015); }
-.home-poster__tag {
-  position: absolute; left: clamp(14px, 2.4vw, 32px); bottom: clamp(14px, 2.4vw, 32px);
-  padding: 10px 16px; border-radius: 999px; background: rgba(255, 255, 255, 0.94);
-  font-size: clamp(0.875rem, 1.3vw, 1rem); font-weight: 600; color: var(--text-primary, #1d2b33);
-  box-shadow: 0 8px 24px -12px rgba(8, 26, 33, 0.45);
+.home-block--tirtir .home-poster img { object-position: center 30%; }
+
+/* 橫掃貨架：卡闊按螢幕計，桌面見到 5 件多少少，提示可以再掃 */
+.home-rail {
+  display: grid; grid-auto-flow: column; gap: var(--rail-gap);
+  grid-auto-columns: calc((min(100vw, var(--max-width)) - 2 * var(--rail-gutter) - var(--rail-gaps) * var(--rail-gap)) / var(--rail-visible));
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding-inline: max(var(--rail-gutter), calc((100% - var(--max-width)) / 2 + var(--rail-gutter)));
+  scroll-padding-inline: max(var(--rail-gutter), calc((100% - var(--max-width)) / 2 + var(--rail-gutter)));
+  padding-bottom: 6px;
 }
-.home-poster__tag b { color: var(--sale, #c8452f); font-size: 1.25em; font-variant-numeric: tabular-nums; }
-.home-block__grid {
-  /* 同 .product-grid 一樣欄數同間距；唔直接用 .product-grid —— 首頁品牌牆程式
-     會揾頁面第一個 .product-grid 填貨（實測會冚成 20 件 Glint 落嚟）。 */
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-2xl) var(--space-lg);
+.home-rail::-webkit-scrollbar { display: none; }
+.home-rail > * { scroll-snap-align: start; min-width: 0; }
+
+@media (max-width: 1024px) {
+  .home-block { --rail-gutter: var(--space-xl); --rail-visible: 4.25; --rail-gaps: 4; }
 }
-/* 4 件一行嘅格去到 3 欄會剩一件孤零零 —— 所以直接由 4 欄跳 2 欄 */
-@media (max-width: 900px) { .home-block__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 768px) {
-  .home-block__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-md); }
-  .home-block .section-header--split { gap: var(--space-sm); margin-bottom: var(--space-lg); }
-  .home-poster { border-radius: 12px; margin-bottom: var(--space-lg); }
-  .home-poster img { aspect-ratio: auto; }
+  .home-block { --rail-gutter: var(--space-md); --rail-gap: 12px; --rail-visible: 2.2; --rail-gaps: 2; padding-block: 36px; }
+  .home-block__head { gap: 6px 16px; margin-bottom: 16px; }
+  .home-block__label { margin-bottom: 6px; }
+  .home-block__tools { width: 100%; justify-content: space-between; }
+  .home-rail__nav { display: none; }
+  .home-poster { border-radius: 12px; margin-bottom: 16px; }
+  .home-poster img { aspect-ratio: 16 / 9; }
+  .home-block--tirtir .home-poster img { object-position: 68% center; }
+  .home-block--torriden .home-poster img { object-position: 72% center; }
+  .home-block--sun .home-poster img { aspect-ratio: 4 / 3; object-position: center top; }
 }
 
 /* ============================================================

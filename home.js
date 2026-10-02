@@ -108,14 +108,15 @@ async function initHome() {
 
     const BLOCKS = {
       // 主打跟官方廣告：氣墊、粉底、遮瑕；迷你裝唔做主角
-      tirtir: { list: popular(live.filter((p) => byVendor('tirtir')(p) && /氣墊|粉底|遮瑕/.test(p.title) && !/迷你|mini/i.test(p.title))), n: 4 },
+      tirtir: { list: popular(live.filter((p) => byVendor('tirtir')(p) && /氣墊|粉底|遮瑕/.test(p.title) && !/迷你|mini/i.test(p.title))), n: 12 },
       // 防曬、Torriden 下面各有自己一格，呢度出其餘減價貨，免得同一批貨出兩次
-      sale: { list: capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !byVendor('torriden')(p)), 2), n: 8,
-        best: deals.length ? ratio(deals[0]) : 1 },
-      sun: { list: capPerBrand(deals.filter(isSun), 1), n: 4 },
-      torriden: { list: deals.filter(byVendor('torriden')), n: 4 },
+      sale: { list: capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !byVendor('torriden')(p)), 3), n: 16,
+        // 「全場低至」唔計短效期貨（短效期本身有自己一格），免得用到期貨嘅 2.6 折做招徠
+        best: Math.min(1, ...deals.filter((p) => !isShort(p)).map(ratio)) },
+      sun: { list: capPerBrand(deals.filter(isSun), 2), n: 12 },
+      torriden: { list: deals.filter(byVendor('torriden')), n: 12 },
       expiring: { list: live.filter(isShort).sort((a, b) =>
-        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))), n: 4 },
+        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))), n: 12 },
     };
     Object.entries(BLOCKS).forEach(([key, b]) => {
       const host = document.querySelector(`[data-home-block="${key}"]`);
@@ -123,9 +124,19 @@ async function initHome() {
       host.querySelector('[data-block-grid]').innerHTML = b.list.slice(0, b.n).map(card).join('');
       const best = host.querySelector('[data-block-best]');
       if (best) best.textContent = zhe(b.best);
-      const tag = host.querySelector('[data-block-tag]');
-      if (tag) tag.textContent = zhe(Math.min(...b.list.map(ratio)));
       host.hidden = false;
+      // 桌面箭嘴：一次掃大約一版；去到頭／尾就變灰
+      const rail = host.querySelector('[data-block-grid]');
+      const prev = host.querySelector('[data-rail-prev]');
+      const next = host.querySelector('[data-rail-next]');
+      const sync = () => {
+        prev.disabled = rail.scrollLeft < 8;
+        next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
+      };
+      prev.addEventListener('click', () => rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: 'smooth' }));
+      next.addEventListener('click', () => rail.scrollBy({ left: rail.clientWidth * 0.8, behavior: 'smooth' }));
+      rail.addEventListener('scroll', sync, { passive: true });
+      requestAnimationFrame(sync);
     });
   })();
 

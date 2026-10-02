@@ -529,94 +529,127 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
     </div>
 
 
-    <!-- ═══════════ 首頁商品格（2026-10-02 老闆重新定）═══════════
-         形象同優惠交錯：TIRTIR 本月主打（正價、官方廣告相）→ 秋季換季大特賣 → 防曬清貨
-         → Torriden 優惠 → 就快到期。海報全部用品牌官方廣告相，唔自己生成；
-         人哋網店自己嘅優惠字（滿額減、贈品）嘅 banner 唔用，免得客以為我哋都有。
-         每格嘅貨同折數由實時目錄計，唔夠貨就成格收起。 -->
-    <section class="section section-float home-block home-block--tirtir" data-home-block="tirtir" aria-labelledby="home-tirtir-title" hidden>
+    <!-- ═══════════ 首頁商品格（2026-10-02 老闆）═══════════
+         形象同優惠交錯：TIRTIR 本月主打（正價）→ 秋季換季大特賣 → 防曬清貨 → Torriden → 短效期。
+         海報一律用日韓品牌官網原圖（TIRTIR 韓國官網、ANESSA 日本官網、Torriden 韓國官網），
+         唔用外國模特兒、唔自己生成；人哋網店自己嘅優惠字 banner 唔用。
+         每格一條橫掃貨架（桌面左右箭嘴，手機手指掃），貨同折數由實時目錄計，唔夠貨成格收起。 -->
+    <section class="home-block home-block--tirtir" data-home-block="tirtir" aria-labelledby="home-tirtir-title" hidden>
       <div class="container">
-        <div class="section-header section-header--split">
-          <div>
-            <span class="label section-header__label">本月主打 · Brand Focus</span>
-            <h2 class="heading-lg section-header__title" id="home-tirtir-title">TIRTIR 氣墊同粉底</h2>
+        <div class="home-block__head">
+          <div class="home-block__titles">
+            <span class="label home-block__label">本月主打 · Brand Focus</span>
+            <h2 class="heading-lg home-block__title" id="home-tirtir-title">TIRTIR 氣墊同粉底</h2>
           </div>
-          <a class="btn--ghost" href="shop.html?brand=TIRTIR">睇晒 TIRTIR</a>
+          
+          <div class="home-block__tools">
+            <a class="home-block__more" href="shop.html?brand=TIRTIR">睇晒 TIRTIR</a>
+            <div class="home-rail__nav">
+              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
         </div>
         <a class="home-poster" href="shop.html?brand=TIRTIR">
           <picture>
-            <source media="(max-width: 768px)" srcset="assets/images/home/brand/tirtir-bebold-960.webp">
-            <img src="assets/images/home/brand/tirtir-bebold.webp" alt="TIRTIR 官方廣告：Mask Fit Red Foundation" width="1920" height="749" loading="lazy" decoding="async">
+            <source media="(max-width: 768px)" srcset="assets/images/home/brand/tirtir-v-1000.webp">
+            <img src="assets/images/home/brand/tirtir-v.webp" alt="TIRTIR 韓國官方廣告：V（金泰亨）Mask Fit 氣墊" width="1920" height="950" loading="lazy" decoding="async">
           </picture>
         </a>
-        <div class="home-block__grid" data-block-grid></div>
       </div>
+      <div class="home-rail" data-block-grid></div>
     </section>
 
-    <section class="section section-float home-block home-block--sale" data-home-block="sale" aria-labelledby="home-sale-title" hidden>
+    <section class="home-block home-block--sale home-block--warm" data-home-block="sale" aria-labelledby="home-sale-title" hidden>
       <div class="container">
-        <div class="section-header section-header--split">
-          <div>
-            <span class="label section-header__label home-block__label--sale">換季優惠 · 限時特價</span>
-            <h2 class="heading-lg section-header__title" id="home-sale-title">秋季換季大特賣</h2>
+        <div class="home-block__head">
+          <div class="home-block__titles">
+            <span class="label home-block__label">換季優惠 · 限時特價</span>
+            <h2 class="heading-lg home-block__title" id="home-sale-title">秋季換季大特賣</h2>
           </div>
           <p class="home-block__best">全場低至 <strong data-block-best></strong> 折</p>
-          
+          <div class="home-block__tools">
+            <a class="home-block__more" href="shop.html">睇晒全部產品</a>
+            <div class="home-rail__nav">
+              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
         </div>
-        <div class="home-block__grid" data-block-grid></div>
       </div>
+      <div class="home-rail" data-block-grid></div>
     </section>
 
-    <section class="section section-float home-block home-block--sun" data-home-block="sun" aria-labelledby="home-sun-title" hidden>
+    <section class="home-block home-block--sun home-block--sky" data-home-block="sun" aria-labelledby="home-sun-title" hidden>
       <div class="container">
-        <div class="section-header section-header--split">
-          <div>
-            <span class="label section-header__label home-block__label--sale">防曬清貨 · Suncare</span>
-            <h2 class="heading-lg section-header__title" id="home-sun-title">防曬換季清貨</h2>
+        <div class="home-block__head">
+          <div class="home-block__titles">
+            <span class="label home-block__label">防曬清貨 · Suncare</span>
+            <h2 class="heading-lg home-block__title" id="home-sun-title">防曬換季清貨</h2>
           </div>
-          <a class="btn--ghost" href="seasonal.html?cat=sun">睇晒防曬優惠</a>
+          
+          <div class="home-block__tools">
+            <a class="home-block__more" href="seasonal.html?cat=sun">睇晒防曬優惠</a>
+            <div class="home-rail__nav">
+              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
         </div>
         <a class="home-poster" href="seasonal.html?cat=sun">
           <picture>
-            <source media="(max-width: 768px)" srcset="assets/images/home/brand/goodal-sun-960.webp">
-            <img src="assets/images/home/brand/goodal-sun.webp" alt="Goodal 香港官方廣告：魚腥草舒緩防曬系列" width="1600" height="600" loading="lazy" decoding="async">
+            <source media="(max-width: 768px)" srcset="assets/images/home/brand/anessa-gold-sq.webp">
+            <img src="assets/images/home/brand/anessa-gold.webp" alt="ANESSA 日本官方廣告：Perfect UV 金樽防曬乳" width="1920" height="773" loading="lazy" decoding="async">
           </picture>
         </a>
-        <div class="home-block__grid" data-block-grid></div>
       </div>
+      <div class="home-rail" data-block-grid></div>
     </section>
 
-    <section class="section section-float home-block home-block--torriden" data-home-block="torriden" aria-labelledby="home-torriden-title" hidden>
+    <section class="home-block home-block--torriden" data-home-block="torriden" aria-labelledby="home-torriden-title" hidden>
       <div class="container">
-        <div class="section-header section-header--split">
-          <div>
-            <span class="label section-header__label home-block__label--sale">主力品牌 · 正價貨都減</span>
-            <h2 class="heading-lg section-header__title" id="home-torriden-title">Torriden 補水系列</h2>
+        <div class="home-block__head">
+          <div class="home-block__titles">
+            <span class="label home-block__label">主力品牌 · 正價貨都減</span>
+            <h2 class="heading-lg home-block__title" id="home-torriden-title">Torriden DIVE-IN 補水</h2>
           </div>
-          <a class="btn--ghost" href="shop.html?brand=Torriden">睇晒 Torriden</a>
+          
+          <div class="home-block__tools">
+            <a class="home-block__more" href="shop.html?brand=Torriden">睇晒 Torriden</a>
+            <div class="home-rail__nav">
+              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
         </div>
         <a class="home-poster" href="shop.html?brand=Torriden">
           <picture>
-            <source media="(max-width: 768px)" srcset="assets/images/home/brand/torriden-field-960.webp">
-            <img src="assets/images/home/brand/torriden-field.webp" alt="Torriden 香港官方廣告" width="1820" height="800" loading="lazy" decoding="async">
+            <source media="(max-width: 768px)" srcset="assets/images/home/brand/torriden-divein-1000.webp">
+            <img src="assets/images/home/brand/torriden-divein.webp" alt="Torriden 韓國官方廣告：DIVE-IN 低分子玻尿酸精華" width="1920" height="860" loading="lazy" decoding="async">
           </picture>
-          <span class="home-poster__tag">Torriden 低至 <b data-block-tag></b> 折</span>
         </a>
-        <div class="home-block__grid" data-block-grid></div>
       </div>
+      <div class="home-rail" data-block-grid></div>
     </section>
 
-    <section class="section section-float home-block home-block--expiring" data-home-block="expiring" aria-labelledby="home-expiring-title" hidden>
+    <section class="home-block home-block--expiring home-block--warm" data-home-block="expiring" aria-labelledby="home-expiring-title" hidden>
       <div class="container">
-        <div class="section-header section-header--split">
-          <div>
-            <span class="label section-header__label home-block__label--sale">就快到期 · 執平貨</span>
-            <h2 class="heading-lg section-header__title" id="home-expiring-title">短效期特價</h2>
+        <div class="home-block__head">
+          <div class="home-block__titles">
+            <span class="label home-block__label">就快到期 · 執平貨</span>
+            <h2 class="heading-lg home-block__title" id="home-expiring-title">短效期特價</h2>
           </div>
-          <a class="btn--ghost" href="short-dated.html">睇晒短效期特價</a>
+          
+          <div class="home-block__tools">
+            <a class="home-block__more" href="short-dated.html">睇晒短效期特價</a>
+            <div class="home-rail__nav">
+              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
         </div>
-        <div class="home-block__grid" data-block-grid></div>
       </div>
+      <div class="home-rail" data-block-grid></div>
     </section>
 
     <!-- 「而家買咩好」同分類海報（彩妝／護膚／隱形眼鏡／K-pop）2026-10-02 老闆話冇特色，拎走；
