@@ -18576,3 +18576,37 @@ body::before { opacity: 0.18; }
 @media (min-width: 701px) and (max-width: 1100px) {
   .midautumn-home__ship-badge { top: 6px; right: 5px; font-size: .48rem; padding: 1px 5px 2px; letter-spacing: .08em; text-indent: .08em; }
 }
+
+/* ===== 門市頁 + 首頁 IG 門市牆 ===== */
+.ig-wall .section-header { margin-bottom: var(--space-lg); }
+.ig-wall .section-header__title { font-size: clamp(1.5rem, 3vw, 2rem); }
+.ig-wall__grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-sm); }
+.ig-wall__card { position: relative; display: block; overflow: hidden; border-radius: 10px; aspect-ratio: 4 / 5; background: var(--primary-lightest); isolation: isolate; }
+.ig-wall__card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.ig-wall__card:hover img { transform: scale(1.05); }
+.ig-wall__card::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(20,34,40,.7), rgba(20,34,40,0) 45%); }
+.ig-wall__badge { display: none; }
+.ig-wall__cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-direction: column; gap: 1px; padding: 10px; color: #fff; }
+.ig-wall__cap strong { font-size: .75rem; font-weight: 600; line-height: 1.3; }
+.ig-wall__cap em { display: none; }
+.ig-wall__cap small { font-size: .6875rem; opacity: .9; }
+.ig-wall__cta { display: flex; justify-content: center; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-lg); }
+@media (max-width: 900px) {
+  .ig-wall__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 calc(var(--space-md) * -1); padding: 0 var(--space-md) var(--space-sm); scrollbar-width: none; }
+  .ig-wall__grid::-webkit-scrollbar { display: none; }
+  .ig-wall__card { flex: 0 0 38%; scroll-snap-align: start; }
+}
+.store-page__grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--space-2xl); align-items: start; max-width: 1080px; margin: 0 auto; }
+.store-page__map iframe { display: block; width: 100%; height: 440px; border: 0; border-radius: 14px; background: var(--primary-lightest); margin-bottom: var(--space-md); }
+.store-page__name { font-family: var(--font-brand); font-size: 1.5rem; color: var(--primary-deep); margin-bottom: var(--space-md); }
+.store-page__facts { display: grid; grid-template-columns: 7.5em 1fr; gap: 10px 12px; margin: 0 0 var(--space-xl); line-height: 1.7; color: var(--text-secondary); }
+.store-page__facts dt { color: var(--text-tertiary); }
+.store-page__facts dd { margin: 0; }
+.store-page__sub { font-size: 1.0625rem; color: var(--primary-deep); margin: var(--space-lg) 0 var(--space-sm); }
+.store-page__route { list-style: none; counter-reset: r; padding: 0; margin: 0; }
+.store-page__route li { counter-increment: r; position: relative; padding: 0 0 var(--space-md) 40px; color: var(--text-secondary); line-height: 1.6; }
+.store-page__route li::before { content: counter(r); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: #fff; font-size: .8125rem; display: grid; place-items: center; }
+.store-page__route strong { display: block; color: var(--text-primary); }
+.store-page__info p { color: var(--text-secondary); line-height: 1.7; }
+.store-page__legal { max-width: 1080px; margin: var(--space-2xl) auto 0; padding-top: var(--space-lg); border-top: 1px solid var(--primary-lighter); font-size: .8125rem; color: var(--text-tertiary); }
+@media (max-width: 800px) { .store-page__grid { grid-template-columns: 1fr; gap: var(--space-xl); } .store-page__map iframe { height: 320px; } }
