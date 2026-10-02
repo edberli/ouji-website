@@ -556,8 +556,8 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
             <img src="assets/images/home/brand/tirtir-v.webp" alt="TIRTIR 韓國官方廣告：V（金泰亨）Mask Fit 氣墊" width="1920" height="950" loading="lazy" decoding="async">
           </picture>
         </a>
+        <div class="home-rail" data-block-grid></div>
       </div>
-      <div class="home-rail" data-block-grid></div>
     </section>
 
     <section class="home-block home-block--sale home-block--warm" data-home-block="sale" aria-labelledby="home-sale-title" hidden>
@@ -576,8 +576,8 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
             </div>
           </div>
         </div>
+        <div class="home-rail" data-block-grid></div>
       </div>
-      <div class="home-rail" data-block-grid></div>
     </section>
 
     <section class="home-block home-block--sun home-block--sky" data-home-block="sun" aria-labelledby="home-sun-title" hidden>
@@ -602,8 +602,8 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
             <img src="assets/images/home/brand/anessa-gold.webp" alt="ANESSA 日本官方廣告：Perfect UV 金樽防曬乳" width="1920" height="773" loading="lazy" decoding="async">
           </picture>
         </a>
+        <div class="home-rail" data-block-grid></div>
       </div>
-      <div class="home-rail" data-block-grid></div>
     </section>
 
     <section class="home-block home-block--torriden" data-home-block="torriden" aria-labelledby="home-torriden-title" hidden>
@@ -628,8 +628,8 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
             <img src="assets/images/home/brand/torriden-divein.webp" alt="Torriden 韓國官方廣告：DIVE-IN 低分子玻尿酸精華" width="1920" height="860" loading="lazy" decoding="async">
           </picture>
         </a>
+        <div class="home-rail" data-block-grid></div>
       </div>
-      <div class="home-rail" data-block-grid></div>
     </section>
 
     <section class="home-block home-block--expiring home-block--warm" data-home-block="expiring" aria-labelledby="home-expiring-title" hidden>
@@ -648,8 +648,30 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
             </div>
           </div>
         </div>
+        <div class="home-rail" data-block-grid></div>
       </div>
-      <div class="home-rail" data-block-grid></div>
+    </section>
+
+    <!-- OUJI 仲有呢啲（2026-10-02 老闆：要畀人知我哋仲有公仔、沐浴、保健品，但唔想首頁臃腫）
+         一格搞掂：一行分類 tab，撳邊個就喺同一條貨架換貨，每個分類出最受歡迎嗰批。 -->
+    <section class="home-block home-block--more" data-home-more aria-labelledby="home-more-title" hidden>
+      <div class="container">
+        <div class="home-block__head">
+          <div class="home-block__titles">
+            <span class="label home-block__label">More at OUJI</span>
+            <h2 class="heading-lg home-block__title" id="home-more-title">OUJI 仲有呢啲</h2>
+          </div>
+          <div class="home-block__tools">
+            <a class="home-block__more" data-more-link href="shop.html">睇晒</a>
+            <div class="home-rail__nav">
+              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="home-tabs home-more__tabs" role="tablist" data-more-tabs></div>
+        <div class="home-rail" data-more-rail></div>
+      </div>
     </section>
 
     <!-- 「而家買咩好」同分類海報（彩妝／護膚／隱形眼鏡／K-pop）2026-10-02 老闆話冇特色，拎走；

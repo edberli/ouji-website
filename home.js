@@ -140,6 +140,61 @@ async function initHome() {
     });
   })();
 
+  /* ----- OUJI 仲有呢啲：其他分類一格 tab 切換（2026-10-02 老闆）----- */
+  (function buildMore() {
+    const host = document.querySelector('[data-home-more]');
+    if (!host || typeof sectionMatch !== 'function') return;
+    const live = products.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
+    const reviews = (p) => ratings?.[p.handle]?.count || 0;
+    const top = (list) => [...list].sort((a, b) => (featured(b) - featured(a)) || (reviews(b) - reviews(a)));
+    // 同一系列（例如 Sanrio「黑白天使造型公仔 4吋」五隻角色）只出一件，貨架先睇到唔同嘢
+    // 剷走英文字（品牌、角色名、型號）淨低中文系列名做 key
+    const seriesKey = (p) => String(p.title || '').replace(/[A-Za-z0-9.&'’+\-]+/g, '').replace(/\s+/g, '') || p.handle;
+    const varied = (list) => {
+      const seen = new Set();
+      return list.filter((p) => { const k = seriesKey(p); if (seen.has(k)) return false; seen.add(k); return true; });
+    };
+    const CATS = [
+      ['toys', '公仔', 'toys.html'], ['bath', '沐浴洗護', 'bath.html'], ['health', '保健品', 'health.html'],
+      ['fragrance', '香氛', 'fragrance.html'], ['lens', '隱形眼鏡', 'lens.html'], ['kpop', 'K-pop 周邊', 'kpop.html'],
+      ['tools', '美妝工具', 'tools.html'],
+    ].map(([id, label, href]) => {
+      const all = top(live.filter((p) => sectionMatch(p, id)));
+      return { id, label, href, all, list: varied(all) };
+    })
+      .filter((c) => c.list.length >= 4);
+    if (!CATS.length) return;
+    const tabs = host.querySelector('[data-more-tabs]');
+    const rail = host.querySelector('[data-more-rail]');
+    const link = host.querySelector('[data-more-link]');
+    tabs.innerHTML = CATS.map((c, i) => `<button type="button" role="tab" class="home-tabs__btn${i ? '' : ' is-on'}" aria-selected="${!i}" data-more="${c.id}">${c.label}</button>`).join('');
+    const prev = host.querySelector('[data-rail-prev]');
+    const next = host.querySelector('[data-rail-next]');
+    const sync = () => {
+      prev.disabled = rail.scrollLeft < 8;
+      next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
+    };
+    const show = (id) => {
+      const c = CATS.find((x) => x.id === id) || CATS[0];
+      tabs.querySelectorAll('[data-more]').forEach((b) => {
+        const on = b.dataset.more === c.id;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+      rail.innerHTML = c.list.slice(0, 12).map(card).join('');
+      rail.scrollLeft = 0;
+      link.href = c.href;
+      link.textContent = `睇晒${c.label}（${c.all.length} 件）`;
+      requestAnimationFrame(sync);
+    };
+    tabs.addEventListener('click', (e) => { const b = e.target.closest('[data-more]'); if (b) show(b.dataset.more); });
+    prev.addEventListener('click', () => rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: 'smooth' }));
+    next.addEventListener('click', () => rail.scrollBy({ left: rail.clientWidth * 0.8, behavior: 'smooth' }));
+    rail.addEventListener('scroll', sync, { passive: true });
+    show(CATS[0].id);
+    host.hidden = false;
+  })();
+
   /* ----- the counts in the about block, from the catalogue itself ----- */
   // The count-up animation reads `data-count` when the block scrolls into
   // view, so setting it is usually enough. Usually — but not if the counter
