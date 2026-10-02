@@ -3067,9 +3067,12 @@ function isPremiumBundleProduct(p) {
    分類收貨設 HK$250 底，擋走品牌下嘅護手霜／髮膜小套裝；商品卡標籤唔設價底，
    專櫃品牌嘅套裝一律出尊貴牌。商品卡 renderer 只有標題同 tags，brand 睇標題已夠。 */
 const COUNTER_SET_MIN_PRICE = 250;
+// 專櫃／高端品牌：雪花秀、Whoo、O HUI、su:m37 ＋ 自然發酵 Jahwangsu（滋陰生）；It's Skin 只限 Prestige／尊貴系列
+const COUNTER_EXTRA_BRANDS = /jahwangsu|自然發酵|滋陰生|(?=.*it'?s\s*skin)(?=.*(?:prestige|尊貴))/i;
 function isCounterBrandBundle(title, tags = []) {
   const text = `${title || ''} ${(tags || []).join(' ')}`;
-  return PREMIUM_BUNDLE_BRANDS.test(text) && (BUNDLE_CJK.test(text) || BUNDLE_EN.test(text));
+  return (PREMIUM_BUNDLE_BRANDS.test(text) || COUNTER_EXTRA_BRANDS.test(text))
+    && (BUNDLE_CJK.test(text) || BUNDLE_EN.test(text));
 }
 function isCounterSet(p) {
   const amount = Number(p?.priceRange?.minVariantPrice?.amount || 0);
