@@ -10614,6 +10614,108 @@ html.is-lite .section--brand-intro::after {
 }
 
 /* ============================================================
+   首頁商品格（2026-10-02 老闆）：TIRTIR 本月主打、換季大特賣、防曬清貨、Torriden、短效期
+   標題沿用首頁 label＋heading-lg；每格一張日韓官方海報＋一條橫掃貨架（桌面箭嘴、手機手指掃）。
+   節奏：優惠格用好淡嘅暖色底、防曬用淡天藍底，形象格保持白，令連續幾格唔會溝埋一嚿。
+   紅色只落喺優惠格眉題同「全場低至 N 折」。
+   ============================================================ */
+.home-block {
+  --rail-gap: var(--space-lg);
+  --rail-visible: 5;
+  --rail-gaps: 4; /* 見到嘅卡之間有幾多條縫 */
+  padding-block: clamp(40px, 5vw, 72px);
+}
+.home-block--warm { background: #fbf4f0; }
+.home-block--sky { background: #eef5fa; }
+.home-block__head {
+  display: flex; align-items: flex-end; flex-wrap: wrap; gap: 14px 28px;
+  margin-bottom: clamp(18px, 2.4vw, 28px);
+}
+.home-block__titles { flex: 1 1 auto; min-width: 0; }
+.home-block__label { display: block; margin-bottom: 10px; }
+.home-block--warm .home-block__label, .home-block--sky .home-block__label { color: var(--sale, #c8452f); }
+.home-block__title { margin: 0; text-wrap: balance; }
+.home-block__best { margin: 0; white-space: nowrap; font-size: 0.9375rem; color: var(--text-secondary); }
+.home-block__best strong {
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 3.6vw, 3rem);
+  line-height: 1; color: var(--sale, #c8452f); font-variant-numeric: lining-nums; margin: 0 2px;
+}
+.home-block__tools { display: flex; align-items: center; gap: 18px; }
+.home-block__more {
+  font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none;
+  padding-bottom: 2px; border-bottom: 1px solid currentColor;
+}
+.home-block__more:hover { color: var(--text-primary); }
+.home-rail__nav { display: flex; gap: 8px; }
+.home-rail__btn {
+  width: 40px; height: 40px; padding: 0; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid rgba(29, 43, 51, 0.16); background: var(--bg-secondary, #fff);
+  color: var(--text-primary, #1d2b33); cursor: pointer; transition: border-color 200ms, opacity 200ms;
+}
+.home-rail__btn svg { width: 18px; height: 18px; }
+.home-rail__btn:hover:not(:disabled) { border-color: rgba(29, 43, 51, 0.45); }
+.home-rail__btn:disabled { opacity: 0.32; cursor: default; }
+.home-rail__btn:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 2px; }
+
+.home-poster { display: block; margin-bottom: clamp(18px, 2.4vw, 28px); border-radius: 16px; overflow: hidden; background: #eef2f3; }
+.home-poster img {
+  display: block; width: 100%; height: auto; aspect-ratio: 3.2 / 1; object-fit: cover;
+  transition: transform 600ms var(--ease-out, ease);
+}
+.home-poster:hover img { transform: scale(1.015); }
+.home-block--tirtir .home-poster img { object-position: center 30%; }
+
+/* 「OUJI 仲有呢啲」：分類 tab 用返首頁雜誌式 home-tabs，同貨架之間留返呼吸 */
+.home-more__tabs { margin-bottom: clamp(16px, 2vw, 24px); }
+
+/* 橫掃貨架：同海報、標題一樣闊（喺 .container 入面），唔再伸出右邊。
+   老闆 2026-10-02：「啲貨向右破壞咗個結構，應該同上面嗰個闊度一樣」。
+   桌面啱啱好五件，其餘用箭嘴掃；手機露出少少下一件提示可以掃。 */
+.home-rail {
+  display: grid; grid-auto-flow: column; gap: var(--rail-gap);
+  grid-auto-columns: calc((100% - var(--rail-gaps) * var(--rail-gap)) / var(--rail-visible));
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding-bottom: 6px;
+}
+.home-rail::-webkit-scrollbar { display: none; }
+.home-rail > * { scroll-snap-align: start; min-width: 0; }
+
+@media (max-width: 1024px) {
+  .home-block { --rail-visible: 4; --rail-gaps: 3; }
+}
+@media (max-width: 768px) {
+  /* 手機一屏見 2.8 件（Olive Young 約 2.5、YesStyle／Shopee 約 3）。老闆 2026-10-02：
+     「啲產品可以儘量縮返細，等人喺同一頁睇更加多嘢」。 */
+  .home-block { --rail-gap: 10px; --rail-visible: 2.8; --rail-gaps: 2; padding-block: 28px; }
+  .home-block__head { gap: 6px 16px; margin-bottom: 16px; }
+  .home-block__label { margin-bottom: 6px; }
+  .home-block__tools { width: 100%; justify-content: space-between; }
+  .home-rail__nav { display: none; }
+  .home-poster { border-radius: 12px; margin-bottom: 16px; }
+  .home-poster img { aspect-ratio: 16 / 9; }
+  .home-block--tirtir .home-poster img { object-position: 68% center; }
+  .home-block--torriden .home-poster img { object-position: 72% center; }
+  .home-block--sun .home-poster img { aspect-ratio: 4 / 3; object-position: center top; }
+  .home-poster img { aspect-ratio: 2 / 1; }
+  .home-block--sun .home-poster img { aspect-ratio: 16 / 9; }
+  /* 貨架入面嘅卡收細：名最多兩行；評分、存貨提示、快速加入、心心喺手機貨架收起 */
+  .home-rail .product-card .product-card__brand { font-size: 0.625rem; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .home-rail .product-card .product-card__name {
+    font-size: 0.75rem; line-height: 1.35; margin-bottom: 4px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .home-rail .card-rating, .home-rail .product-card__stock,
+  .home-rail .product-card__quick-add, .home-rail .product-card__wishlist { display: none; }
+  .home-rail .product-card .product-card__price { font-size: 0.8125rem; }
+  .home-rail .product-card .product-card__compare-price { font-size: 0.6875rem; }
+  .home-rail .product-card .product-card__savings,
+  .home-rail .product-card .product-card__per-unit { font-size: 0.625rem; padding: 2px 4px; }
+  .home-rail .product-card .product-card__bundle-band { font-size: 0.625rem; padding: 4px 6px; gap: 4px; }
+  .home-rail .product-card .product-card__bundle-band strong { padding-right: 4px; }
+  .home-rail .product-card .product-card__badge { top: 6px; left: 6px; padding: 3px 6px; font-size: 0.5625rem; }
+}
+
+/* ============================================================
    首頁主推 tab（熱門口碑／新品／優惠／現貨）
 
    雜誌內頁嘅做法：一行細字 tab、一條幼線、下面一句講明點揀貨。

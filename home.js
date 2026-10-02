@@ -76,6 +76,125 @@ async function initHome() {
     </a>`;
   };
 
+  /* ----- 首頁商品格（2026-10-02 老闆）-----
+     TIRTIR 本月主打（正價形象）→ 換季大特賣 → 防曬清貨 → Torriden 優惠 → 就快到期。
+     折數 = 售價 ÷ 劃線原價；冇劃線唔算優惠。唔夠貨嘅格成格收起。 */
+  (function buildBlocks() {
+    const live = products.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
+    const ratio = (p) => {
+      const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
+      const now = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
+      return cp > now && now > 0 ? now / cp : 1;
+    };
+    const zhe = (r) => `${Math.round(r * 100) / 10}`;
+    const isSun = (p) => typeof isSunscreenProduct === 'function' && isSunscreenProduct(p);
+    const isShort = (p) => typeof isShortDated === 'function' && isShortDated(p);
+    const byVendor = (v) => (p) => String(p.vendor || '').toLowerCase() === v;
+    const deals = live.filter((p) => ratio(p) <= 0.95).sort((a, b) => ratio(a) - ratio(b));
+    // SUNCUT 喺 Shopify 有 SUNCUT／KOSE COSMEPORT／KOSÉ COSMEPORT 三個寫法，當同一個牌
+    const brandKey = (v) => String(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .toLowerCase().replace(/cosmeport|\s+/g, '').replace('suncut', 'kose');
+    const capPerBrand = (list, n) => {
+      const seen = new Map();
+      return list.filter((p) => {
+        const k = brandKey(p.vendor);
+        seen.set(k, (seen.get(k) || 0) + 1);
+        return seen.get(k) <= n;
+      });
+    };
+    // 形象格揀正價熱門：韓國站評價多嘅行先，冇評價就跟推薦分數
+    const reviews = (p) => ratings?.[p.handle]?.count || 0;
+    const popular = (list) => [...list].sort((a, b) => (reviews(b) - reviews(a)) || (featured(b) - featured(a)));
+
+    const BLOCKS = {
+      // 主打跟官方廣告：氣墊、粉底、遮瑕；迷你裝唔做主角
+      tirtir: { list: popular(live.filter((p) => byVendor('tirtir')(p) && /氣墊|粉底|遮瑕/.test(p.title) && !/迷你|mini/i.test(p.title))), n: 12 },
+      // 防曬、Torriden 下面各有自己一格，呢度出其餘減價貨，免得同一批貨出兩次
+      sale: { list: capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !byVendor('torriden')(p)), 3), n: 16,
+        // 「全場低至」唔計短效期貨（短效期本身有自己一格），免得用到期貨嘅 2.6 折做招徠
+        best: Math.min(1, ...deals.filter((p) => !isShort(p)).map(ratio)) },
+      sun: { list: capPerBrand(deals.filter(isSun), 2), n: 12 },
+      torriden: { list: deals.filter(byVendor('torriden')), n: 12 },
+      expiring: { list: live.filter(isShort).sort((a, b) =>
+        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))), n: 12 },
+    };
+    Object.entries(BLOCKS).forEach(([key, b]) => {
+      const host = document.querySelector(`[data-home-block="${key}"]`);
+      if (!host || b.list.length < 3) return;
+      host.querySelector('[data-block-grid]').innerHTML = b.list.slice(0, b.n).map(card).join('');
+      const best = host.querySelector('[data-block-best]');
+      if (best) best.textContent = zhe(b.best);
+      host.hidden = false;
+      // 桌面箭嘴：一次掃大約一版；去到頭／尾就變灰
+      const rail = host.querySelector('[data-block-grid]');
+      const prev = host.querySelector('[data-rail-prev]');
+      const next = host.querySelector('[data-rail-next]');
+      const sync = () => {
+        prev.disabled = rail.scrollLeft < 8;
+        next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
+      };
+      prev.addEventListener('click', () => rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: 'smooth' }));
+      next.addEventListener('click', () => rail.scrollBy({ left: rail.clientWidth * 0.8, behavior: 'smooth' }));
+      rail.addEventListener('scroll', sync, { passive: true });
+      requestAnimationFrame(sync);
+    });
+  })();
+
+  /* ----- OUJI 仲有呢啲：其他分類一格 tab 切換（2026-10-02 老闆）----- */
+  (function buildMore() {
+    const host = document.querySelector('[data-home-more]');
+    if (!host || typeof sectionMatch !== 'function') return;
+    const live = products.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
+    const reviews = (p) => ratings?.[p.handle]?.count || 0;
+    const top = (list) => [...list].sort((a, b) => (featured(b) - featured(a)) || (reviews(b) - reviews(a)));
+    // 同一系列（例如 Sanrio「黑白天使造型公仔 4吋」五隻角色）只出一件，貨架先睇到唔同嘢
+    // 剷走英文字（品牌、角色名、型號）淨低中文系列名做 key
+    const seriesKey = (p) => String(p.title || '').replace(/[A-Za-z0-9.&'’+\-]+/g, '').replace(/\s+/g, '') || p.handle;
+    const varied = (list) => {
+      const seen = new Set();
+      return list.filter((p) => { const k = seriesKey(p); if (seen.has(k)) return false; seen.add(k); return true; });
+    };
+    const CATS = [
+      ['toys', '公仔', 'toys.html'], ['bath', '沐浴洗護', 'bath.html'], ['health', '保健品', 'health.html'],
+      ['fragrance', '香氛', 'fragrance.html'], ['lens', '隱形眼鏡', 'lens.html'], ['kpop', 'K-pop 周邊', 'kpop.html'],
+      ['tools', '美妝工具', 'tools.html'],
+    ].map(([id, label, href]) => {
+      const all = top(live.filter((p) => sectionMatch(p, id)));
+      return { id, label, href, all, list: varied(all) };
+    })
+      .filter((c) => c.list.length >= 4);
+    if (!CATS.length) return;
+    const tabs = host.querySelector('[data-more-tabs]');
+    const rail = host.querySelector('[data-more-rail]');
+    const link = host.querySelector('[data-more-link]');
+    tabs.innerHTML = CATS.map((c, i) => `<button type="button" role="tab" class="home-tabs__btn${i ? '' : ' is-on'}" aria-selected="${!i}" data-more="${c.id}">${c.label}</button>`).join('');
+    const prev = host.querySelector('[data-rail-prev]');
+    const next = host.querySelector('[data-rail-next]');
+    const sync = () => {
+      prev.disabled = rail.scrollLeft < 8;
+      next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
+    };
+    const show = (id) => {
+      const c = CATS.find((x) => x.id === id) || CATS[0];
+      tabs.querySelectorAll('[data-more]').forEach((b) => {
+        const on = b.dataset.more === c.id;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+      rail.innerHTML = c.list.slice(0, 12).map(card).join('');
+      rail.scrollLeft = 0;
+      link.href = c.href;
+      link.textContent = `睇晒${c.label}（${c.all.length} 件）`;
+      requestAnimationFrame(sync);
+    };
+    tabs.addEventListener('click', (e) => { const b = e.target.closest('[data-more]'); if (b) show(b.dataset.more); });
+    prev.addEventListener('click', () => rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: 'smooth' }));
+    next.addEventListener('click', () => rail.scrollBy({ left: rail.clientWidth * 0.8, behavior: 'smooth' }));
+    rail.addEventListener('scroll', sync, { passive: true });
+    show(CATS[0].id);
+    host.hidden = false;
+  })();
+
   /* ----- the counts in the about block, from the catalogue itself ----- */
   // The count-up animation reads `data-count` when the block scrolls into
   // view, so setting it is usually enough. Usually — but not if the counter
