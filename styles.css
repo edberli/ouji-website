@@ -8310,6 +8310,27 @@ body.has-brand-rail .brand-section {
 }
 .brand-plate.is-dark .brand-plate__wordmark { color: #fff; }
 
+/* 角色橫幅：插畫 3:1，右邊角色、左邊淨色位。高度加高（240／150）等角色睇得清楚，
+   圖按高度等比靠右，左邊由 --plate 底色接上，牌名靠左放喺淨色位。 */
+.brand-plate.has-banner {
+  align-items: flex-start;
+  height: 240px;
+  background-image: var(--plate-banner);
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 100%;
+  padding-left: clamp(24px, 6vw, 72px);
+}
+.brand-plate.has-banner .brand-plate__wordmark {
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+@media (max-width: 768px) {
+  .brand-plate.has-banner { height: 150px; padding-left: 20px; }
+  .brand-plate.has-banner .brand-plate__wordmark { font-size: 1.35rem; }
+}
+
 /* `.brand-plate__name`（logo 下面嗰行細英文字）2026-09-02 拆咗 ——
    老闆：「有個 logo，你又有個英文名，其實唔需要咁多，全部就係得 logo。」
    Logo 本身已經寫住個牌子名，多一行等於講兩次，而且喺矮嘅牌上面會撞埋。
@@ -10622,6 +10643,44 @@ html.is-lite .section--brand-intro::after {
     top: auto; height: 132px; bottom: 0;
   }
   .cat-head--shot > .container { padding-bottom: var(--space-md); }
+}
+
+/* ── 公仔總頁：手繪玩具世界（2026-10-03 老闆）──────────────
+   插畫 3:1，右邊角色貨架、左邊奶油黃淨色位放標題。圖左邊緣色 #fdfae2
+   同 --bg 接駁，所以標頭同頁面底色連成一體。公仔頁自己換一套暖色：
+   只喺 main 內覆寫，頂部導覽同其他品類頁唔受影響。 */
+.page-toys main {
+  --bg: #fffbea;
+  --primary: #d9915f;
+  --primary-light: #e4a97f;
+  --primary-lighter: #f0cdb3;
+  --primary-lightest: #fff1e0;
+  --primary-dark: #bf7647;
+  --primary-deep: #7a4a2c;
+}
+.page-toys main { background: var(--bg); }
+.cat-head.cat-head--shot.cat-head--toys {
+  background: #fdfae2 var(--toys-hero, url('assets/brand-banners/toys-hero.webp')) no-repeat right bottom / auto 100%;
+  min-height: clamp(260px, 25vw, 360px);
+}
+.cat-head--toys::before,
+.cat-head--toys::after { display: none; }
+.cat-head.cat-head--shot.cat-head--toys { display: flex; }
+.cat-head--toys .cat-head__row { border-bottom-color: rgba(122, 74, 44, 0.16); }
+.cat-head--toys .cat-head__title { color: #5c3a24; }
+
+@media (max-width: 860px) {
+  .cat-head.cat-head--shot.cat-head--toys { min-height: 240px; }
+}
+@media (max-width: 560px) {
+  /* 窄機：文字喺上，插畫成條坐喺下面（3:1 → 375 寬 = 125 高）。 */
+  .cat-head.cat-head--shot.cat-head--toys {
+    display: block;
+    min-height: 0;
+    padding-bottom: 150px;
+    background-position: right bottom;
+    background-size: auto 150px;
+  }
 }
 
 /* ============================================================

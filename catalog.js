@@ -71,6 +71,10 @@ const BRAND_PLATE = {
   'BRAYE': { tint: '#ebe9e6' },
   'Glint': { tint: '#e9e4dd' },
   '花知曉 Flower Knows': { tint: '#f6e2e6' },
+  /* 公仔品牌用角色插畫橫幅：右邊角色、左邊留淨色位放牌名。
+     tint 取自圖左邊緣色，令圖同底色接駁得無縫。 */
+  '罐頭豬LuLu': { tint: '#fdd7df', banner: 'assets/brand-banners/lulu.webp' },
+  'Chiikawa': { tint: '#fdf8e1', banner: 'assets/brand-banners/chiikawa.webp' },
 };
 
 function brandPlate(vendor) {
@@ -1707,8 +1711,8 @@ function brandSection(vendor, items, index) {
   return `
     <section class="brand-section" id="brand-${index}"
              style="content-visibility:auto;contain-intrinsic-size:auto 760px">
-      <header class="brand-plate${plate.dark ? ' is-dark' : ''}"
-              style="--plate:${plate.tint}">
+      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}"
+              style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}">
         ${logo
           ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
                   style="height:${brandLogoHeight(vendor)}px" loading="lazy" decoding="async">`
