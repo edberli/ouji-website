@@ -89,6 +89,7 @@ async function initHome() {
     const zhe = (r) => `${Math.round(r * 100) / 10}`;
     const isSun = (p) => typeof isSunscreenProduct === 'function' && isSunscreenProduct(p);
     const isShort = (p) => typeof isShortDated === 'function' && isShortDated(p);
+    const isFan = (p) => typeof subMatch === 'function' && subMatch('seasonal', 'fan', p);
     const byVendor = (v) => (p) => String(p.vendor || '').toLowerCase() === v;
     const deals = live.filter((p) => ratio(p) <= 0.95).sort((a, b) => ratio(a) - ratio(b));
     // SUNCUT 喺 Shopify 有 SUNCUT／KOSE COSMEPORT／KOSÉ COSMEPORT 三個寫法，當同一個牌
@@ -110,17 +111,19 @@ async function initHome() {
       // 主打跟官方廣告：氣墊、粉底、遮瑕；迷你裝唔做主角
       tirtir: { list: popular(live.filter((p) => byVendor('tirtir')(p) && /氣墊|粉底|遮瑕/.test(p.title) && !/迷你|mini/i.test(p.title))), n: 12 },
       // 防曬、Torriden 下面各有自己一格，呢度出其餘減價貨，免得同一批貨出兩次
-      sale: { list: capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !byVendor('torriden')(p)), 3), n: 16,
+      sale: { list: capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !isFan(p) && !byVendor('torriden')(p)), 3), n: 16,
         // 「全場低至」唔計短效期貨（短效期本身有自己一格），免得用到期貨嘅 2.6 折做招徠
         best: Math.min(1, ...deals.filter((p) => !isShort(p)).map(ratio)) },
       sun: { list: capPerBrand(deals.filter(isSun), 2), n: 12 },
+      // 風扇自己一格（有冇減價都出），所以下面「秋季換季大特賣」唔再計風扇
+      fan: { list: [...live.filter(isFan)].sort((x, y) => ratio(x) - ratio(y)), n: 12, min: 2 },
       torriden: { list: deals.filter(byVendor('torriden')), n: 12 },
       expiring: { list: live.filter(isShort).sort((a, b) =>
         String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))), n: 12 },
     };
     Object.entries(BLOCKS).forEach(([key, b]) => {
       const host = document.querySelector(`[data-home-block="${key}"]`);
-      if (!host || b.list.length < 3) return;
+      if (!host || b.list.length < (b.min || 3)) return;
       host.querySelector('[data-block-grid]').innerHTML = b.list.slice(0, b.n).map(card).join('');
       const best = host.querySelector('[data-block-best]');
       if (best) best.textContent = zhe(b.best);
