@@ -18,6 +18,8 @@
     }
   },
   "redirects": [
+    {"source": "/bath", "has": [{"type": "query", "key": "cat", "value": "shampoo"}], "destination": "/bath?cat=haircare", "permanent": true},
+    {"source": "/bath", "has": [{"type": "query", "key": "cat", "value": "hair"}], "destination": "/bath?cat=haircare", "permanent": true},
     {"source": "/products/pro-fits-%E8%B6%B3%E8%B8%9D%E8%AD%B7%E5%A5%97-l", "destination": "/products/pro-fits-%E8%B6%B3%E8%B8%9D%E8%AD%B7%E5%A5%97-m?variant=50532292493470", "permanent": true},
     {"source": "/products/pro-fits-%E8%85%B0%E9%83%A8%E8%AD%B7%E5%A5%97-l", "destination": "/products/pro-fits-%E8%85%B0%E9%83%A8%E8%AD%B7%E5%A5%97-m?variant=50532292526238", "permanent": true},
     {"source": "/products/pro-fits-%E8%85%B0%E9%83%A8%E8%AD%B7%E5%A5%97-ll", "destination": "/products/pro-fits-%E8%85%B0%E9%83%A8%E8%AD%B7%E5%A5%97-m?variant=50532292559006", "permanent": true},
