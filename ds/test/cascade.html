@@ -1,0 +1,12 @@
+<!doctype html><html lang="zh-Hant" data-ds="2"><meta charset="utf-8"><title>OUJI cascade safety test</title>
+<link rel="stylesheet" href="../layers.css"><link rel="stylesheet" href="../tokens.css"><link rel="stylesheet" href="../base.css">
+<style>@layer legacy { .o-test-hidden { display:flex!important; } .o-test-motion { animation:o-test-spin 20s linear infinite!important; } @keyframes o-test-spin { to {transform:rotate(360deg)} } }</style>
+<link rel="stylesheet" href="../a11y.css"><h1>層疊保護測試</h1><p id="result">檢查中…</p>
+<div class="o-test-hidden" hidden>呢段內容唔應該顯示。</div><div class="o-test-motion">動態元素</div>
+<script>
+function check(){let hidden=getComputedStyle(document.querySelector('.o-test-hidden')).display==='none';let motion=getComputedStyle(document.querySelector('.o-test-motion')).animationDuration;
+let reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;let collapsed=parseFloat(motion)<.001;
+document.querySelector('#result').textContent=`[hidden] ${hidden?'PASS':'FAIL'} · reduced-motion ${reduced?(collapsed?'PASS':'FAIL'):'請以 prefers-reduced-motion: reduce 重測'} · animation-duration ${motion}`;
+if(!hidden||(reduced&&!collapsed))document.querySelector('#result').setAttribute('role','alert')}
+check();matchMedia('(prefers-reduced-motion:reduce)').addEventListener('change',check);
+</script></html>

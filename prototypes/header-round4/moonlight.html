@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="../../ds/layers.css">
+  <link rel="stylesheet" href="../../ds/a11y.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>月白意境 — OUJI 彩妝</title>
@@ -9,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="common.css">
   <style>
+@layer legacy {
+
     :root { --night: #0a1733; --moon: #f4efe6; --jade: #88aaa1; --lilac: #bcb0ce; --coral: #ca8078; }
     .moon {
       position: relative;
@@ -140,7 +144,9 @@
       .moon__nav { left: 14px; right: 14px; bottom: 20px; overflow-x: auto; }
       .moon__nav button { min-width: 84px; }
     }
-  </style>
+
+}
+</style>
 </head>
 <body>
   <!--

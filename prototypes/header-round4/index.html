@@ -1,10 +1,14 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="../../ds/layers.css">
+  <link rel="stylesheet" href="../../ds/a11y.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>OUJI 彩妝頁頂 — 五方向樣稿</title>
   <style>
+@layer legacy {
+
     html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #fff; }
     #stage { width: 100%; height: 100%; border: 0; display: block; }
     .proto-picker {
@@ -78,7 +82,9 @@
     }
     .proto-picker-replay { padding: 0 10px; font-size: 14px; }
     .proto-picker[data-position="top"] { bottom: auto; top: 24px; }
-  </style>
+
+}
+</style>
 </head>
 <body>
   <iframe id="stage" title="Prototype preview"></iframe>

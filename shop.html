@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="ds/layers.css">
+  <link rel="stylesheet" href="ds/a11y.css">
   <meta charset="UTF-8">
   <!-- Rewritten /products/ and /collections/ URLs sit one level deep;
        keep every relative asset resolving from the site root. -->
@@ -64,7 +66,7 @@
   <!-- BOOT 主視覺專用 pixel 字體；非阻塞載入，避免拖慢首屏。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261002-stores2">
+  <link rel="stylesheet" href="styles.css?v=20261003-wp1b">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -322,7 +324,7 @@
       <div class="container shop-page__content">
         <section id="all-focus" class="skincare-spotlight-section skincare-focus all-focus"
                  aria-labelledby="all-focus-title">
-          <h2 id="all-focus-title" class="sr-only">今週焦點</h2>
+          <h2 id="all-focus-title" class="sr-only">本週焦點</h2>
           <div data-all-focus-carousel></div>
         </section>
 
@@ -492,15 +494,16 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20260927-card-brand-identity"></script>
+  <script src="product-naming.js?v=20261003-wp1b"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261001-suncare7"></script>
+  <script src="ds/purchasable.js?v=20261003-wp1b"></script>
+  <script src="shopify.js?v=20261003-wp1b"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js?v=20261001-lowstock3"></script>
-  <script src="search.js?v=20261001-lowstock3"></script>
-  <script src="script.js?v=20261001-supports"></script>
+  <script src="catalog.js?v=20261003-wp1b"></script>
+  <script src="search.js?v=20261003-wp1b"></script>
+  <script src="script.js?v=20261003-wp1b"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
     /* 購物袋 badge 唔可以阻住產品目錄。返頭客有 cart id 時，getCart 要行
@@ -543,6 +546,7 @@
     /* 品牌入口一早縮窄資料集，唔好將全店千幾件貨交入 initCatalog，砌完
        所有品牌／分類 filter 先靠 checkbox 篩返 50 件。URL matching 同
        catalog.js brandFromUrl 用同一把尺，中文、空格同標點都唔會影響。 */
+    const scopes = [];
     const requestedBrand = params.get('brand');
     if (requestedBrand) {
       const flatBrand = (x) => String(x || '').toLowerCase()
@@ -551,7 +555,9 @@
       const brandHit = products.find((p) => flatBrand(p.vendor) === target)
         || products.find((p) => flatBrand(p.vendor).startsWith(target) && target.length > 2);
       if (brandHit?.vendor) {
-        products = products.filter((p) => p.vendor === brandHit.vendor);
+        const brandScope = (p) => p.vendor === brandHit.vendor;
+        scopes.push(brandScope);
+        products = products.filter(brandScope);
         setFolder(brandHit.vendor, 'Loading brand...');
         document.title = `${brandHit.vendor} — OUJI`;
       }
@@ -571,16 +577,19 @@
       document.title = `${q} — OUJI`;
     }
     if (cat) {
-      products = products.filter((p) =>
-        ['skincare', 'makeup', 'body-care', 'fragrance', 'lifestyle']
-          .some((sec) => matchesKeywords(p, categoryKeywords(sec, cat))));
+      const catScope = (p) => ['skincare', 'makeup', 'body-care', 'fragrance', 'lifestyle']
+        .some((sec) => matchesKeywords(p, categoryKeywords(sec, cat)));
+      scopes.push(catScope);
+      products = products.filter(catScope);
     }
 
     /* 由首頁「想解決咩？」入嚟。呢個唔係貨品類型，係客自己講得出嘅
        煩惱 —— 所以行 matchesConcern（睇埋標題），唔行 categoryKeywords。 */
     const concern = concernById(params.get('concern'));
     if (concern) {
-      products = products.filter((p) => matchesConcern(p, concern));
+      const concernScope = (p) => matchesConcern(p, concern);
+      scopes.push(concernScope);
+      products = products.filter(concernScope);
       setFolder(concern.label, 'Loading picks...');
       document.title = `${concern.label} — OUJI`;
     }
@@ -594,7 +603,8 @@
     if (!products.length) {
       showCategoryEmpty('skincare', cat);
     } else {
-      initCatalog({ section: null, cat, products, group: params.get('group'), folderLabel, searchTerm: q });
+      const scope = scopes.length ? (p) => scopes.every((f) => f(p)) : null;
+      initCatalog({ section: null, cat, products, group: params.get('group'), folderLabel, searchTerm: q, scope });
     }
   });
   </script>

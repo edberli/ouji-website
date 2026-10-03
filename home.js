@@ -20,8 +20,9 @@ async function initHome() {
       .then((d) => d?.profitRank || {})
       .catch(() => ({})),
   ]);
+  const canBuy = window.OUJI_purchasable.isPurchasable;
   const products = (all?.edges || []).map((e) => e.node)
-    .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale);
+    .filter((p) => canBuy(p.variants?.edges?.[0]?.node));
   if (!products.length) return;
 
   const awards = (h) => (typeof awardsFor === 'function' ? awardsFor(h) : []);
@@ -40,8 +41,7 @@ async function initHome() {
        數量報 0 就當冇貨（好多貨嘅存貨政策係「賣完照賣」，
        availableForSale 靠唔住），同 catalog.js 一把尺。 */
     const vs = (p.variants?.edges || []).map((e) => e.node);
-    const inStock = (x) => x.availableForSale
-      && (x.quantityAvailable == null || x.quantityAvailable > 0);
+    const inStock = canBuy;
     /* totalInventory 行先 —— 呢度淨係攞到頭兩個規格，隱形眼鏡一件貨
        有 25 個度數，頭兩個度數斷咗貨就會成件標「售完」。 */
     const soldOut = typeof p.totalInventory === 'number'
@@ -64,7 +64,7 @@ async function initHome() {
         ${soldOut
           ? `<button type="button" class="product-card__restock" data-restock="${p.handle}"
                data-restock-title="${(p.title || '').replace(/"/g, '&quot;')}">想要？通知我補貨</button>`
-          : (one && v
+          : (one && canBuy(v)
             ? `<button type="button" class="product-card__quick-add" data-quick-add="${v.id}">快速加入</button>`
             : '<div class="product-card__quick-add product-card__quick-add--pick">入去揀規格</div>')}
       </div>
@@ -237,7 +237,7 @@ async function initHome() {
    * 咁樣係將滯銷貨叫做暢銷貨，客信一次，第二次就唔信我哋。而且冇必要作：
    *   熱門口碑 = Olive Young 真實評價數（523 件有數，最多一萬個）
    *   新品上架 = Shopify 真實建立日期
-   *   限時優惠 = 真係有原價劃線先入
+   *   特價優惠 = 真係有原價劃線先入
    *   現貨即日發 = 真實庫存深度 ← 庫存多嘅擺呢度，賣點係「唔使等」
    * 清貨最快嘅唔係叫佢做熱賣，係畀個真理由客而家買。 */
   /* 分類卡（CATS）仲用緊佢 —— 之前剷走分類 rail 嗰陣連呢個都剷埋，
@@ -261,8 +261,7 @@ async function initHome() {
      25 個度數，頭兩個斷咗就會成件當冇貨。 */
   const inStock = (p) => (typeof p.totalInventory === 'number'
     ? p.totalInventory > 0
-    : (p.variants?.edges || []).some((e) =>
-        e.node.availableForSale && (e.node.quantityAvailable == null || e.node.quantityAvailable > 0)));
+    : (p.variants?.edges || []).some((e) => window.OUJI_purchasable.isPurchasable(e.node)));
 
   const TABS = [
     { id: 'hot', label: '熱賣', note: '韓國 Olive Young 最多人評價嗰批',
@@ -271,7 +270,7 @@ async function initHome() {
     { id: 'new', label: '新品上架', note: '最近上架',
       pick: (list) => [...list].sort((a, b) =>
         String(b.createdAt || '').localeCompare(String(a.createdAt || ''))) },
-    { id: 'deal', label: '限時優惠', note: '有原價劃線先入呢度',
+    { id: 'deal', label: '特價優惠', note: '有原價劃線先入呢度',
       pick: (list) => list.filter((p) => onSale(p) > 0)
         .sort((a, b) => onSale(b) - onSale(a)) },
   ];

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="../ds/layers.css">
+  <link rel="stylesheet" href="../ds/a11y.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>想搵咩？ — 四個概念</title>
@@ -8,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
+@layer legacy {
+
 /* ═══════════════════════════════════════════════════════════════════
    四個概念，唔係四種排法。之前七個版本全部係「長方形入面放張相加
    幾行字」—— 咁樣分歧嘅係間距同圓角，唔係設計。
@@ -246,6 +250,8 @@ a{text-decoration:none;color:inherit}
 .proto-picker-item[data-active]{color:#fff}
 .proto-picker-divider{width:1px;height:16px;margin:0 4px;background:rgba(255,255,255,.12)}
 .proto-picker-replay{padding:0 10px;font-size:14px}
+
+}
 </style>
 </head>
 <body>

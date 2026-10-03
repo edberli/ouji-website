@@ -177,6 +177,12 @@ function trackBeginCheckout(cart) {
   window.clarity?.('event', 'begin_checkout');
 }
 
+/* 每撳一下就記一次，唔理之後有冇因為未揀取件點而攔住：WP5 改購物袋之前要有
+   最少 14 日嘅撳掣基線（BRIEF WP0）。window.clarity 只喺正式網站先有。 */
+function trackCheckoutClick() {
+  window.clarity?.('event', 'cart_checkout_click');
+}
+
 function ga4CartItems(cart) {
   return (cart?.lines?.edges || []).map((e) => e.node).map((l) => ({
     item_id: l.merchandise?.product?.handle || l.merchandise?.id,
