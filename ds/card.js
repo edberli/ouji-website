@@ -40,10 +40,10 @@ export function renderCard(raw, opts = {}) {
     </div><div class="o-card__info"><span class="o-card__brand">${esc(p.vendor)}</span>
       <a href="${href}" class="o-card__name">${esc(title)}</a>
       ${opts.descriptor?`<span class="o-card__descriptor">${esc(opts.descriptor)}</span>`:live.length===1&&live[0].quantityAvailable>0&&live[0].quantityAvailable<=2?`<span class="o-card__descriptor">只剩 ${fmt(live[0].quantityAvailable)} 件</span>`:''}
-      ${rating?.count>=20?`<span class="o-card__rating" title="${esc(RATING_SOURCE)}">★ ${esc(rating.star)}（${fmt(rating.count)}）· Olive Young</span>`:''}
-      <div class="o-card__price ${sale?'o-card__price--sale':''}">HK$${fmt(paid||price(p.priceRange?.minVariantPrice))}
+      ${rating?.count>=20?`<span class="o-card__rating" title="${esc(RATING_SOURCE)}">★ ${esc(rating.star)} (${fmt(rating.count)})</span>`:''}
+      <div class="o-card__price ${sale?'o-card__price--sale':''}"><span class="o-card__prices"><span class="o-card__paid">HK$${fmt(paid||price(p.priceRange?.minVariantPrice))}</span>
       ${sale?`<del class="o-card__compare">HK$${fmt(compare)}</del>`:''}
-      ${discount?`<span class="o-badge o-badge--sale">${fmt(discount)} 折</span>`:''}</div>
+      </span>${discount?`<span class="o-badge o-badge--sale">${fmt(discount)} 折</span>`:''}</div>
       ${opts.promo?`<span class="o-badge o-badge--promo">${esc(opts.promo)}</span>`:''}
       ${opts.award?`<span class="o-badge o-badge--award">${esc(opts.award)}</span>`:''}
       ${sold?'<a class="o-card__restock" href="'+href+'">想要？通知我補貨</a>':''}

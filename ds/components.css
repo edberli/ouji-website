@@ -34,13 +34,16 @@
   html[data-ds="2"] .o-card__image--alt { position:absolute; inset:0; opacity:0; transition:opacity 240ms var(--o-ease-standard); }
   html[data-ds="2"] .o-card__badge { position:absolute; top:8px; left:8px; z-index:var(--o-z-raised); }
   html[data-ds="2"] .o-card__wishlist { position:absolute; top:4px; right:4px; width:44px; height:44px; border:0; background:transparent; color:var(--o-text); cursor:pointer; font-size:22px; }
-  html[data-ds="2"] .o-card__add { position:absolute; bottom:8px; right:8px; display:grid; place-items:center; width:44px; height:44px; border:1px solid var(--o-line-strong); border-radius:50%; background:var(--o-surface); color:var(--o-text); cursor:pointer; font-size:24px; line-height:1; }
+  html[data-ds="2"] .o-card__add { position:absolute; bottom:8px; right:8px; display:grid; place-items:center; width:44px; height:44px; border:0; border-radius:50%; background:transparent; color:var(--o-text); cursor:pointer; font-size:22px; isolation:isolate; line-height:1; }
+  html[data-ds="2"] .o-card__add::before { content:''; position:absolute; inset:4px; z-index:-1; border:1px solid var(--o-line-strong); border-radius:50%; background:var(--o-surface); }
   html[data-ds="2"] .o-card__info { display:flex; flex-direction:column; align-items:start; gap:4px; padding-block:12px 0; min-width:0; }
   html[data-ds="2"] .o-card__brand { font-size:13px; font-weight:500; color:var(--o-text-2); }
   html[data-ds="2"] .o-card__name { display:-webkit-box; overflow:hidden; -webkit-box-orient:vertical; -webkit-line-clamp:2; color:var(--o-text); font-size:15px; font-weight:500; line-height:1.45; }
   html[data-ds="2"] .o-card__descriptor { color:var(--o-text-3); font-size:13px; }
-  html[data-ds="2"] .o-card__rating { color:var(--o-text-2); font-size:12px; font-variant-numeric:tabular-nums; }
-  html[data-ds="2"] .o-card__price { display:flex; align-items:baseline; flex-wrap:wrap; gap:6px; font-family:Manrope,'Manrope Fallback',sans-serif; font-size:16px; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.4; }
+  html[data-ds="2"] .o-card__rating { white-space:nowrap; color:var(--o-text-2); font-size:12px; font-variant-numeric:tabular-nums; }
+  html[data-ds="2"] .o-card__price { width:100%; max-width:100%; display:flex; align-items:baseline; flex-wrap:wrap; gap:6px; font-family:Manrope,'Manrope Fallback',sans-serif; font-size:16px; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.4; }
+  html[data-ds="2"] .o-card__prices { display:inline-flex; align-items:baseline; gap:6px; white-space:nowrap; }
+  html[data-ds="2"] .o-card__price > .o-badge { flex:none; white-space:nowrap; }
   html[data-ds="2"] .o-card__price--sale { color:var(--o-sale); }
   html[data-ds="2"] .o-card__compare { color:var(--o-text-3); font-size:13px; font-weight:400; }
   html[data-ds="2"] .o-card__restock { font-size:var(--o-fs-sm); text-decoration:underline; text-underline-offset:3px; }
@@ -51,22 +54,43 @@
   html[data-ds="2"] .o-campaign__image { width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--o-r-sm); }
   html[data-ds="2"] .o-campaign__caption { display:flex; align-items:center; gap:12px; min-height:48px; padding:8px; font-size:var(--o-fs-sm); }
   html[data-ds="2"] .o-campaign__caption :last-child { margin-left:auto; color:var(--o-accent-text); white-space:nowrap; }
-  html[data-ds="2"] .o-section-head { display:flex; align-items:end; justify-content:space-between; gap:16px; margin-bottom:24px; color:var(--o-text); }
+  html[data-ds="2"] .o-section-head { display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:16px; margin-bottom:24px; color:var(--o-text); }
   html[data-ds="2"] .o-section-head--lined { border-bottom:1px solid var(--o-line); padding-bottom:24px; }
   html[data-ds="2"] .o-section-head__eyebrow { display:block; margin-bottom:8px; color:var(--o-accent-text); }
   html[data-ds="2"] .o-section-head h2 { font-size:var(--o-fs-2xl); line-height:1.25; }
   html[data-ds="2"] .o-section-head__meta { margin-top:8px; font-size:var(--o-fs-sm); color:var(--o-text-2); }
-  html[data-ds="2"] .o-shelf { display:grid; gap:24px; border-bottom:1px solid var(--o-line-strong); padding-block:24px; min-width:0; }
+  html[data-ds="2"] .o-shelf { display:grid; gap:24px; padding-block:24px; min-width:0; }
   html[data-ds="2"] .o-shelf__lead { color:var(--o-text); }
-  html[data-ds="2"] .o-shelf__row { display:flex; align-items:end; gap:2px; overflow-x:auto; scroll-snap-type:x mandatory; min-width:0; height:220px; }
-  html[data-ds="2"] .o-shelf__item { display:flex; flex:none; align-items:end; height:100%; scroll-snap-align:start; }
-  html[data-ds="2"] .o-shelf__item:nth-of-type(n+14) { display:none; }
-  html[data-ds="2"] .o-shelf__spine { display:flex; flex-direction:column; align-items:center; justify-content:space-between; width:22px; min-height:44px; height:var(--o-spine-height); border:1px solid var(--o-line-strong); border-radius:4px 4px 0 0; padding:8px 2px; background:var(--o-surface); color:var(--o-text); }
-  html[data-ds="2"] .o-shelf__spine-name { font:500 12px/1 'League Spartan','Noto Sans TC',sans-serif; writing-mode:vertical-rl; white-space:nowrap; overflow:hidden; max-height:calc(100% - 18px); }
-  html[data-ds="2"] .o-shelf__spine-count { font:500 11px/1 'League Spartan',sans-serif; font-variant-numeric:tabular-nums; }
-  html[data-ds="2"] .o-shelf__group { align-self:center; margin-inline:12px 8px; color:var(--o-accent-text); writing-mode:vertical-rl; }
+  html[data-ds="2"] .o-shelf__lead .o-numeral { display:block; }
+  html[data-ds="2"] .o-shelf__lead p { margin-top:12px; font-size:14px; white-space:nowrap; }
+  html[data-ds="2"] .o-shelf__body { min-width:0; }
+  html[data-ds="2"] .o-shelf__row { --o-shelf-height:160px; --o-spine-width:28px; overflow-x:auto; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity; scroll-padding-inline:8px; min-width:0; scrollbar-width:thin; scrollbar-color:var(--o-blue-200) transparent; mask-image:linear-gradient(to right,transparent,#000 12px,#000 calc(100% - 16px),transparent); }
+  html[data-ds="2"] .o-shelf__row[data-start="true"] { mask-image:linear-gradient(to right,#000,#000 calc(100% - 16px),transparent); }
+  html[data-ds="2"] .o-shelf__row[data-end="true"] { mask-image:linear-gradient(to right,transparent,#000 12px,#000); }
+  html[data-ds="2"] .o-shelf__row[data-start="true"][data-end="true"] { mask-image:none; }
+  html[data-ds="2"] .o-shelf__track { position:relative; display:flex; gap:24px; width:max-content; min-width:100%; padding:88px 8px 0; }
+  /* A single unbroken ledge for every book and both groups. */
+  html[data-ds="2"] .o-shelf__track::after { content:''; position:absolute; inset:auto 0 36px; height:2px; background:var(--o-blue-800); box-shadow:0 -1px 0 var(--o-white),0 3px 3px rgba(30,48,56,.12); }
+  html[data-ds="2"] .o-shelf__group { position:relative; flex:none; display:grid; grid-template-rows:var(--o-shelf-height) 36px; }
+  html[data-ds="2"] .o-shelf__group + .o-shelf__group::before { content:''; position:absolute; left:-14px; bottom:38px; width:4px; height:52px; border:1px solid var(--o-blue-800); border-radius:2px 2px 0 0; background:var(--o-blue-100); }
+  html[data-ds="2"] .o-shelf__books { display:flex; align-items:end; gap:4px; }
+  html[data-ds="2"] .o-shelf__item { position:relative; flex:none; scroll-snap-align:start; }
+  html[data-ds="2"] .o-shelf__spine { display:flex; flex-direction:column; align-items:center; gap:8px; width:var(--o-spine-width); height:var(--o-spine-height); padding:10px 4px 8px; border:1px solid var(--o-line); border-radius:3px 3px 0 0; background:var(--o-spine-fill,var(--o-surface)); color:var(--o-text); transition:transform 200ms ease-out; }
+  html[data-ds="2"] .o-shelf__spine-name { flex:1; min-height:0; font:500 12px/1.1 'League Spartan','Noto Sans TC',sans-serif; letter-spacing:.04em; writing-mode:vertical-rl; text-orientation:mixed; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  html[data-ds="2"] .o-shelf__spine-count { flex:none; font:500 12px/1 'League Spartan',sans-serif; font-variant-numeric:tabular-nums; }
+  html[data-ds="2"] .o-shelf__label { padding-top:12px; color:var(--o-accent-text); }
+  html[data-ds="2"] .o-shelf__hint { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:12px; color:var(--o-text-3); font-size:12px; }
+  html[data-ds="2"] .o-shelf__hint span { font-size:18px; }
+  html[data-ds="2"] .o-shelf__tooltip { position:absolute; bottom:calc(100% + 14px); left:50%; z-index:var(--o-z-raised); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; width:132px; height:68px; padding:8px 12px; border:1px solid var(--o-line); border-radius:var(--o-r-sm); background:var(--o-surface); color:var(--o-text); box-shadow:var(--o-sh-2); font-size:12px; white-space:nowrap; pointer-events:none; opacity:0; transform:translateX(-50%); transition:opacity 200ms ease-out; }
+  html[data-ds="2"] .o-shelf__group:first-child .o-shelf__item:first-child .o-shelf__tooltip { left:0; transform:none; }
+  html[data-ds="2"] .o-shelf__group:last-child .o-shelf__item:last-child .o-shelf__tooltip { left:auto; right:0; transform:none; }
+  html[data-ds="2"] .o-shelf__tooltip img { max-width:108px; width:auto; height:24px; object-fit:contain; }
+  html[data-ds="2"] .o-shelf__spine:focus-visible { transform:translateY(-6px); }
+  html[data-ds="2"] .o-shelf__spine:focus-visible + .o-shelf__tooltip { opacity:1; }
   html[data-ds="2"] .o-brand { display:flex; flex-direction:column; justify-content:center; align-items:center; gap:12px; min-width:0; aspect-ratio:1; padding:16px; border:1px solid var(--o-line); border-radius:var(--o-r-md); background:var(--o-surface); color:var(--o-text); text-align:center; }
-  html[data-ds="2"] .o-brand__logo { width:120px; height:48px; object-fit:contain; }
+  html[data-ds="2"] .o-brand__optical { display:grid; place-items:center; position:relative; flex:none; width:min(120px,100%); height:48px; overflow:hidden; }
+  html[data-ds="2"] .o-brand__logo { visibility:hidden; position:absolute; width:auto; height:auto; max-width:none; object-fit:contain; }
+  html[data-ds="2"] .o-brand__fallback { font:500 20px/1 'League Spartan',sans-serif; letter-spacing:0; white-space:nowrap; }
   html[data-ds="2"] .o-brand__name { font-size:13px; font-weight:500; }
   html[data-ds="2"] .o-brand__zh,html[data-ds="2"] .o-brand__count { color:var(--o-text-3); font-size:12px; }
   html[data-ds="2"] .o-rail { min-width:0; }
@@ -97,16 +121,21 @@
     html[data-ds="2"] .o-btn--on-dark:hover { background:var(--o-white); }
     html[data-ds="2"] .o-chip:hover { background:var(--o-blue-25); }
     html[data-ds="2"] .o-card__media:hover .o-card__image--alt { opacity:1; }
+    html[data-ds="2"] .o-shelf__spine:hover { transform:translateY(-6px); }
+    html[data-ds="2"] .o-shelf__spine:hover + .o-shelf__tooltip { opacity:1; }
+    html[data-ds="2"] .o-brand:hover { border-color:var(--o-line-strong); }
+    html[data-ds="2"] :is(.o-card__add,.o-card__wishlist):hover { color:var(--o-accent-text); }
   }
   @media (min-width:768px) {
     html[data-ds="2"] .o-campaign__image { aspect-ratio:16/9; }
     html[data-ds="2"] .o-brand { aspect-ratio:4/3; }
     html[data-ds="2"] .o-rail__item { flex-basis:calc((100% - 32px)/3.3); }
-    html[data-ds="2"] .o-shelf { grid-template-columns:auto minmax(0,1fr); align-items:end; }
-    html[data-ds="2"] .o-shelf__row { flex-wrap:wrap; height:auto; overflow:visible; }
-    html[data-ds="2"] .o-shelf__item { height:220px; border-bottom:1px solid var(--o-line-strong); }
-    html[data-ds="2"] .o-shelf__item:nth-of-type(n+14) { display:flex; }
-    html[data-ds="2"] .o-shelf__spine { width:28px; }
+    html[data-ds="2"] .o-shelf { grid-template-columns:240px minmax(0,1fr); align-items:end; gap:32px; }
+    html[data-ds="2"] .o-shelf__lead { padding-bottom:76px; }
+    html[data-ds="2"] .o-shelf__row { --o-shelf-height:204px; --o-spine-width:34px; }
+    html[data-ds="2"] .o-shelf__spine { height:var(--o-spine-height-desktop); }
+    html[data-ds="2"] .o-shelf__spine-name { font-size:13px; }
+    html[data-ds="2"] .o-section-head { margin-bottom:32px; }
     html[data-ds="2"] .o-toast { inset:auto 24px 24px auto; }
     html[data-ds="2"] .o-sheet { max-width:440px; margin:auto; border-radius:var(--o-r-lg); }
     html[data-ds="2"] .o-drawer { position:fixed; inset:0 0 0 auto; max-width:420px; max-height:none; height:100dvh; margin:0; border-radius:var(--o-r-lg) 0 0 var(--o-r-lg); }

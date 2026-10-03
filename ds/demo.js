@@ -1,5 +1,7 @@
 import {loadCounts, RATING_SOURCE} from './counts.js';
 import {renderCard} from './card.js';
+import {renderShelf} from './shelf.js';
+import {normalizeBrandLogos} from './brand-logos.js';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=n=>new Intl.NumberFormat('zh-HK').format(n);
@@ -46,14 +48,9 @@ async function boot(){
  $('#o-brand-meta').textContent=`${counts.format(counts.brandCount)} 個品牌有現貨，按品牌嘅產品深度排列。`;
  $('#o-shelf-total').textContent=fmt(counts.brandCount);
  $('#o-brand-link').textContent=`全部 ${counts.format(counts.brandCount)} 個品牌 →`;
- const groups=['kbeauty','beauty'];
- const all=groups.flatMap(group=>counts.sorted(group));const max=Math.max(...all.map(b=>b.count),1);
- $('#o-shelf-row').innerHTML=groups.map(group=>{
-  const brands=counts.sorted(group);
-  if(!brands.length)return '';
-  return `<li class="o-shelf__group o-latin" aria-hidden="true">${group==='kbeauty'?'K-BEAUTY':'BEAUTY'}</li>`+brands.map(b=>`<li class="o-shelf__item"><a class="o-shelf__spine" href="../shop.html?brand=${encodeURIComponent(b.vendor)}" style="--o-spine-height:${Math.max(24,b.count/max*100).toFixed(2)}%" aria-label="${esc(b.name_en)}，${fmt(b.count)} 件"><span class="o-shelf__spine-name">${esc(b.name_en)}</span><span class="o-shelf__spine-count">${fmt(b.count)}</span></a></li>`).join('');
- }).join('');
- $('#o-brand-tiles').innerHTML=all.slice(0,6).map(b=>`<a class="o-brand" href="../shop.html?brand=${encodeURIComponent(b.vendor)}"><img class="o-brand__logo" src="../${esc(b.logo)}" alt="" loading="lazy"><span class="o-brand__name">${esc(b.name_en)}</span>${b.name_zh?`<span class="o-brand__zh">${esc(b.name_zh)}</span>`:''}<span class="o-brand__count">${fmt(b.count)} 件</span></a>`).join('');
+ const all=renderShelf(counts, $('#o-shelf-row'), $('#o-shelf-list'));
+ $('#o-brand-tiles').innerHTML=all.slice(0,6).map(b=>`<a class="o-brand" href="/shop?brand=${encodeURIComponent(b.vendor)}"><span class="o-brand__optical">${b.logo?`<img class="o-brand__logo" src="../${esc(b.logo)}" alt="" loading="lazy">`:''}<span class="o-brand__fallback">${esc(b.name_en)}</span></span><span class="o-brand__name">${esc(b.name_en)}</span>${b.name_zh?`<span class="o-brand__zh">${esc(b.name_zh)}</span>`:''}<span class="o-brand__count">${fmt(b.count)} 件</span></a>`).join('');
+ normalizeBrandLogos($('#o-brand-tiles'));
  $('#o-cards').addEventListener('click',e=>{
   const button=e.target.closest('button[data-action]');if(!button)return;
   const product=products.find(p=>p.handle===button.closest('[data-handle]')?.dataset.handle);if(!product)return;
@@ -72,6 +69,9 @@ async function boot(){
 }
 document.addEventListener('DOMContentLoaded',()=>{
  boot();
+ const toolbar=$('.o-demo-toolbar-context .o-toolbar');
+ const sentinel=$('.o-demo-toolbar-sentinel');
+ new IntersectionObserver(([entry])=>toolbar.classList.toggle('is-stuck', !entry.isIntersecting && entry.boundingClientRect.top < 0), {threshold:0}).observe(sentinel);
  document.querySelectorAll('.o-chip[aria-pressed]').forEach(chip=>chip.addEventListener('click',()=>chip.setAttribute('aria-pressed',String(chip.getAttribute('aria-pressed')!=='true'))));
  $('#o-toast-demo').onclick=()=>showToast('已記低你嘅選擇');
  $('#o-toast-error-demo').onclick=()=>showToast('暫時加唔到，請再試一次',true);
