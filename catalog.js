@@ -436,8 +436,11 @@ function vendorCounts(products) {
 
 /* 公仔版：來歷唔確定嘅牌子（「（待確認）」、OUJI 自家雜項）一律併入「其他」。老闆 2026-10-03。 */
 const TOYS_MISC_VENDORS = new Set(['（待確認）', '(待確認)', '待確認', 'OUJI']);
+/* 由 ?brand= 入嚟嘅品牌就算得一兩件，都唔可以併入「其他」，否則粒 chip 對唔上。 */
+let PINNED_VENDOR = null;
 function groupedVendor(p, counts) {
   const vendor = mergedVendor(p);
+  if (PINNED_VENDOR && vendor === PINNED_VENDOR) return vendor;
   if (typeof CURRENT_SECTION !== 'undefined' && CURRENT_SECTION === 'toys'
       && TOYS_MISC_VENDORS.has(vendor.trim())) return '其他';
   return vendor === '其他' || (counts.get(vendor) || 0) < MIN_STANDALONE_BRAND_PRODUCTS
@@ -486,7 +489,7 @@ function brandFromUrl(products) {
   return hit ? hit.vendor : null;
 }
 
-function buildFilterSidebar(section, products) {
+function buildFilterSidebar(section, products, pinnedVendor = null) {
   const sidebar = document.querySelector('.filter-sidebar');
   if (!sidebar) return;
   const subs = availableSubs(section, products);
@@ -504,9 +507,9 @@ function buildFilterSidebar(section, products) {
     groups.push(groupBlock('分類',
       subs.map((s) => optionRow('cat', s.id, s.label, s.count)).join(''), true));
   }
-  if (vendors.length > 1) {
+  if (vendors.length > 1 || pinnedVendor) {
     groups.push(groupBlock('品牌',
-      vendors.map((v) => optionRow('vendor', v.vendor, v.vendor, v.count)).join('')));
+      vendors.map((v) => optionRow('vendor', v.vendor, v.vendor, v.count)).join(''), !!pinnedVendor));
   }
   if (buckets.length > 1) {
     groups.push(groupBlock('價格',
@@ -2646,7 +2649,7 @@ function mountSeasonSale(products, section) {
     </div>${deal}</aside>`);
 }
 
-async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '' }) {
+async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '', scope = null }) {
   /* 品牌置頂（見 renderProducts）要知而家喺邊一版。渲染嗰陣攞唔到
      section，所以喺入口記低一次。 */
   CURRENT_SECTION = section || (document.querySelector('[data-shop-catalog]') ? 'all' : null);
@@ -2694,9 +2697,12 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   document.addEventListener('ouji:catalog-refreshed', (e) => {
     const fresh = (e.detail && e.detail.edges) || [];
     if (fresh.length < 100) return;
+    /* ?brand= ?concern= ?cat= 喺 shop.html 入口篩過一次，refresh 一定要再篩，
+       否則品牌頁幾秒後會變返成間鋪 2,000 件（WP0 #1）。 */
     const next = fresh.map((x) => (x && x.node) || x)
       .filter((p) => p && p.handle)
-      .filter(inSection);
+      .filter(inSection)
+      .filter((p) => !scope || scope(p));
     const matching = searchTerm && typeof window.OUJI_searchProductMatch === 'function'
       ? next.filter((p) => window.OUJI_searchProductMatch(p, searchTerm)) : next;
     if (!matching.length && !searchTerm) return;
@@ -2720,7 +2726,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     typeof loadRatings === 'function' ? loadRatings() : null,
   ]);
 
-  buildFilterSidebar(section, products);
+  const urlBrand = brandFromUrl(products);
+  PINNED_VENDOR = urlBrand;
+  buildFilterSidebar(section, products, urlBrand);
   /* URL 入面嘅 ?cat= 當一個已經揀咗嘅篩選處理，唔喺攞資料嗰陣預先篩走 ——
      咁樣分類入口先仲見到晒成套選擇同真件數。側欄冇對應嗰粒掣嘅（細分類
      例如 ?cat=foundation 會被收埋喺「底妝」下面），就落 lockCat，每次
@@ -2734,7 +2742,6 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   }
   // A brand in the URL is a filter like any other, just set before the
   // first draw instead of by a click.
-  const urlBrand = brandFromUrl(products);
   preselectBrand(urlBrand);
   // Say whose page this is. Filtering silently looks like the link went
   // to the wrong place — which is exactly what it used to do.

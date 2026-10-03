@@ -543,6 +543,7 @@
     /* 品牌入口一早縮窄資料集，唔好將全店千幾件貨交入 initCatalog，砌完
        所有品牌／分類 filter 先靠 checkbox 篩返 50 件。URL matching 同
        catalog.js brandFromUrl 用同一把尺，中文、空格同標點都唔會影響。 */
+    const scopes = [];
     const requestedBrand = params.get('brand');
     if (requestedBrand) {
       const flatBrand = (x) => String(x || '').toLowerCase()
@@ -551,7 +552,9 @@
       const brandHit = products.find((p) => flatBrand(p.vendor) === target)
         || products.find((p) => flatBrand(p.vendor).startsWith(target) && target.length > 2);
       if (brandHit?.vendor) {
-        products = products.filter((p) => p.vendor === brandHit.vendor);
+        const brandScope = (p) => p.vendor === brandHit.vendor;
+        scopes.push(brandScope);
+        products = products.filter(brandScope);
         setFolder(brandHit.vendor, 'Loading brand...');
         document.title = `${brandHit.vendor} — OUJI`;
       }
@@ -571,16 +574,19 @@
       document.title = `${q} — OUJI`;
     }
     if (cat) {
-      products = products.filter((p) =>
-        ['skincare', 'makeup', 'body-care', 'fragrance', 'lifestyle']
-          .some((sec) => matchesKeywords(p, categoryKeywords(sec, cat))));
+      const catScope = (p) => ['skincare', 'makeup', 'body-care', 'fragrance', 'lifestyle']
+        .some((sec) => matchesKeywords(p, categoryKeywords(sec, cat)));
+      scopes.push(catScope);
+      products = products.filter(catScope);
     }
 
     /* 由首頁「想解決咩？」入嚟。呢個唔係貨品類型，係客自己講得出嘅
        煩惱 —— 所以行 matchesConcern（睇埋標題），唔行 categoryKeywords。 */
     const concern = concernById(params.get('concern'));
     if (concern) {
-      products = products.filter((p) => matchesConcern(p, concern));
+      const concernScope = (p) => matchesConcern(p, concern);
+      scopes.push(concernScope);
+      products = products.filter(concernScope);
       setFolder(concern.label, 'Loading picks...');
       document.title = `${concern.label} — OUJI`;
     }
@@ -594,7 +600,8 @@
     if (!products.length) {
       showCategoryEmpty('skincare', cat);
     } else {
-      initCatalog({ section: null, cat, products, group: params.get('group'), folderLabel, searchTerm: q });
+      const scope = scopes.length ? (p) => scopes.every((f) => f(p)) : null;
+      initCatalog({ section: null, cat, products, group: params.get('group'), folderLabel, searchTerm: q, scope });
     }
   });
   </script>
