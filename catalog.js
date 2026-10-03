@@ -75,6 +75,8 @@ const BRAND_PLATE = {
      tint 取自圖左邊緣色，令圖同底色接駁得無縫。 */
   '罐頭豬LuLu': { tint: '#fdd7df', banner: 'assets/brand-banners/lulu.webp' },
   'Chiikawa': { tint: '#fdf8e1', banner: 'assets/brand-banners/chiikawa.webp' },
+  'Sanrio': { tint: '#fde7ec', banner: 'assets/brand-banners/sanrio.webp' },
+  '蠟筆小新': { tint: '#fef4dd', banner: 'assets/brand-banners/shinchan.webp' },
 };
 
 function brandPlate(vendor) {
@@ -404,17 +406,32 @@ function availableSubs(section, products) {
 
 const MIN_STANDALONE_BRAND_PRODUCTS = 3;
 
+/* 公仔版牌子歸併：NOL 大細階寫法統一；艾絲樂小兔、線條小狗、黃油小熊係同一個供應商
+   Toyzeroplus，併成一個牌子。計件數同分組都要用同一個名，否則併咗嘅牌子會被當 0 件。 */
+function mergedVendor(p) {
+  let vendor = p.vendor || '其他';
+  if (typeof CURRENT_SECTION !== 'undefined' && CURRENT_SECTION === 'toys') {
+    if (vendor.toUpperCase() === 'NOL CORPORATION') return 'NOL CORPORATION';
+    if (/^(Esther Bunny|Maltese|黃油小熊|Butterbear)/i.test(vendor.trim())) return 'Toyzeroplus';
+  }
+  return vendor;
+}
+
 function vendorCounts(products) {
   const counts = new Map();
   products.forEach((p) => {
-    const vendor = p.vendor || '其他';
+    const vendor = mergedVendor(p);
     counts.set(vendor, (counts.get(vendor) || 0) + 1);
   });
   return counts;
 }
 
+/* 公仔版：來歷唔確定嘅牌子（「（待確認）」、OUJI 自家雜項）一律併入「其他」。老闆 2026-10-03。 */
+const TOYS_MISC_VENDORS = new Set(['（待確認）', '(待確認)', '待確認', 'OUJI']);
 function groupedVendor(p, counts) {
-  const vendor = p.vendor || '其他';
+  const vendor = mergedVendor(p);
+  if (typeof CURRENT_SECTION !== 'undefined' && CURRENT_SECTION === 'toys'
+      && TOYS_MISC_VENDORS.has(vendor.trim())) return '其他';
   return vendor === '其他' || (counts.get(vendor) || 0) < MIN_STANDALONE_BRAND_PRODUCTS
     ? '其他' : vendor;
 }
@@ -2278,14 +2295,18 @@ function renderProducts(container, products, { grouped }) {
      ⚠️ vendor 實際係「吉伊卡哇 Chiikawa」，唔係淨係「Chiikawa」——
      舊版用 indexOf 全等比對，所以 Chiikawa 其實一直冇置頂到。改用包含比對。 */
   const PINNED_VENDORS_BY_SECTION = {
-    toys: ['Chiikawa', 'Sanrio'],
+    /* 有自家插畫橫幅嘅牌子（完善咗嘅）排前；竹林千子喺 pinRank 另外降低。 */
+    toys: ['Chiikawa', '罐頭豬', 'Sanrio', 'Disney', '蠟筆小新', 'Toyzeroplus', 'YELL', 'Niconui', 'NOL'],
     skincare: ['Torriden', 'Skin1004', 'Round Lab'],
   };
   const PINNED_VENDORS = PINNED_VENDORS_BY_SECTION[CURRENT_SECTION] || [];
   const pinRank = (v) => {
     const name = String(v || '').trim().toLowerCase();
     const i = PINNED_VENDORS.findIndex((k) => name.includes(k.toLowerCase()));
-    return i < 0 ? PINNED_VENDORS.length : i;
+    if (i >= 0) return i;
+    /* 公仔版：竹林千子件數多但無角色故事，排落其他牌子後面（只喺「其他」之前）。 */
+    if (CURRENT_SECTION === 'toys' && name.includes('takenoko')) return PINNED_VENDORS.length + 1;
+    return PINNED_VENDORS.length;
   };
   // Sorting calls the comparator many times; score each brand only once.
   const order = [...byVendor.entries()].map(([vendor, items]) => ({
@@ -2302,11 +2323,7 @@ function renderProducts(container, products, { grouped }) {
     .map(({ vendor, items }) => [vendor, items]);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
   SECTION_ITEMS.clear();
-  /* 公仔頁：品牌段之間夾一條手繪插畫（左右交替），只喺 .page-toys，最尾一段後面唔放。 */
-  const toysDivider = document.body.classList.contains('page-toys');
-  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)
-    + (toysDivider && i < order.length - 1
-      ? `<div class="toys-divider toys-divider--${i % 2 ? 'r' : 'l'}" aria-hidden="true"></div>` : '')).join('');
+  container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
   const grids = [...container.querySelectorAll('.grid-host[data-section]')];
   const mountOne = (host) => {
     if (host.dataset.mounted === '1') return;
