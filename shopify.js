@@ -1303,6 +1303,18 @@ async function syncAutomaticGift(cart) {
   return { changed: true, action: 'added' };
 }
 
+async function verifyVariantsAddable(ids) {
+  const P = window.OUJI_purchasable;
+  if (!P) {
+    console.warn('ds/purchasable.js 未載入，加購前冇覆核存貨');
+    return { ok: true, blocked: [], reason: 'unverified' };
+  }
+  return P.verifyAddable(ids, async (list) => {
+    const data = await shopifyFetch(P.VERIFY_QUERY, { ids: list });
+    return data ? data.nodes : null;
+  });
+}
+
 /** 加入商品到購物車 */
 async function addToCart(variantId, quantity = 1, retried = false) {
   /* 示範模式：唔會真係寫入 Shopify，只係記落 sessionStorage，
@@ -1319,7 +1331,14 @@ async function addToCart(variantId, quantity = 1, retried = false) {
     updateCartBadge(n);
     return { cart: { id: 'gid://demo/Cart/preview', totalQuantity: n } };
   }
-  const cartId = await getOrCreateCartId();
+  const [cartId, check] = await Promise.all([
+    getOrCreateCartId(),
+    retried ? { ok: true } : verifyVariantsAddable([variantId]),
+  ]);
+  if (!check.ok) {
+    console.warn('唔加入購物袋：規格已經冇貨', check.blocked);
+    return null;
+  }
   const data = await shopifyFetch(`
     mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!, $country: CountryCode!)
     @inContext(country: $country) {

@@ -486,6 +486,7 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
+  <script src="ds/purchasable.js?v=20261003-wp0"></script>
   <script src="shopify.js?v=20261001-suncare7"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
@@ -934,7 +935,32 @@
         : null;
       const primaryOptionName = product.options?.[0]?.name || 'TYPE';
       const requiresExplicitShade = variants.length > 1 && primaryOptionName !== '度數';
-      let selectedVariantId = (preselected || (!requiresExplicitShade ? variants[0] : null))?.id || null;
+      const P = window.OUJI_purchasable;
+      const buyOpts = { lens: P.isLensProduct(product) };
+      const canBuy = (v) => P.isPurchasable(v, buyOpts);
+      const isPreorderV = (v) => P.isPreorder(v, buyOpts);
+      const defaultVariant = !requiresExplicitShade
+        ? (variants.length > 1 ? (P.firstPurchasable(variants, buyOpts) || variants[0]) : variants[0])
+        : null;
+      let selectedVariantId = (preselected || defaultVariant)?.id || null;
+      /* CTA 永遠跟住「揀咗嗰個規格買唔買得」，唔可以撳完色號就一律重開。 */
+      const syncCta = () => {
+        const cta = document.getElementById('add-to-cart-btn');
+        const v = variants.find((x) => x.id === selectedVariantId) || null;
+        const tag = document.querySelector('[data-preorder-tag]');
+        if (tag) tag.hidden = !(v && isPreorderV(v));
+        if (!cta || cta.classList.contains('btn--sold-out')) return;
+        if (!v) {
+          cta.disabled = true;
+          cta.textContent = primaryOptionName === '尺碼' ? '請先揀尺碼' : '請先揀色號';
+        } else if (!canBuy(v)) {
+          cta.disabled = true;
+          cta.textContent = '呢款暫時缺貨';
+        } else {
+          cta.disabled = false;
+          cta.textContent = '加入購物袋';
+        }
+      };
       /* 低庫存字：跟住揀咗嘅規格，未揀就（單規格）睇自己、（多規格）唔出。
          只認真實數量 1–2；度數隱形眼鏡係預訂制，唔出。 */
       const stockHint = () => {
@@ -973,17 +999,19 @@
         // because its policy is CONTINUE — but the page has to say so
         // before anyone pays, not after.
         const inStock = (v) => (v.quantityAvailable ?? 0) > 0;
+        const selectedId = selectedVariantId;
 
         optionsContainer.innerHTML = `
           <div class="product-info__option-label">${optionName}</div>
           <div class="product-info__variants${isPower ? ' product-info__variants--power' : ''}">
-            ${variants.map((v, i) => {
+            ${variants.map((v) => {
               const optionText = v.title !== 'Default Title' ? v.title : '';
               if (isPower) {
                 const ready = inStock(v);
-                return `<button class="variant-btn power-btn ${ready ? 'is-ready' : 'is-preorder'} ${i === 0 ? 'is-selected' : ''}"
-                  data-variant-id="${v.id}" data-preorder="${ready ? '' : '1'}"
-                  title="${ready ? '現貨' : '預訂 · 約 14 日到貨'}">${optionText}</button>`;
+                const buyable = canBuy(v);
+                return `<button class="variant-btn power-btn ${ready ? 'is-ready' : 'is-preorder'} ${v.id === selectedId ? 'is-selected' : ''}"
+                  data-variant-id="${v.id}" data-preorder="${ready ? '' : '1'}"${buyable ? '' : ' disabled'}
+                  title="${ready ? '現貨' : (buyable ? `${P.PREORDER_LABEL}到貨` : '暫時缺貨')}">${optionText}${!ready && buyable ? '<span class="power-btn__tag">預訂 14 日</span>' : ''}</button>`;
               }
               const vPrice = typeof oujiPromoPriceText === 'function'
                 ? oujiPromoPriceText(v.price.amount)
@@ -992,7 +1020,7 @@
               const shadeThumb = verifiedImage
                 ? `<img class="variant-btn__image" src="${verifiedImage}" alt="${optionText} 商品圖片" loading="lazy">`
                 : '';
-              return `<button class="variant-btn ${shadeThumb ? 'variant-btn--image' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${shadeThumb}<span>${optionText}${optionText ? ' — ' : ''}${vPrice}</span></button>`;
+              return `<button class="variant-btn ${shadeThumb ? 'variant-btn--image' : ''}" data-variant-id="${v.id}" ${!canBuy(v) ? 'disabled style="opacity:0.4"' : ''}>${shadeThumb}<span>${optionText}${optionText ? ' — ' : ''}${vPrice}</span></button>`;
             }).join('')}
           </div>
           ${isPower ? `<div class="power-legend">
@@ -1010,24 +1038,19 @@
           const pre = btn.dataset.preorder === '1';
           note.hidden = false;
           note.className = `power-note ${pre ? 'is-preorder' : 'is-ready'}`;
+          const power = btn.firstChild ? btn.firstChild.textContent : btn.textContent;
           note.textContent = pre
-            ? `${btn.textContent} 冇現貨 —— 落單後我哋幫你叫貨，約 14 日到，可以照落單付款。`
-            : `${btn.textContent} 有現貨，落單即日出貨。`;
+            ? `${power} 冇現貨 —— 落單後我哋幫你叫貨，約 14 日到，可以照落單付款。`
+            : `${power} 有現貨，落單即日出貨。`;
         };
         if (isPower) sayStock(optionsContainer.querySelector('.power-btn.is-selected'));
 
-        // Variant click handler
-        optionsContainer.querySelectorAll('.variant-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
+        const selectVariant = (btn) => {
             optionsContainer.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('is-selected'));
             btn.classList.add('is-selected');
             selectedVariantId = btn.dataset.variantId;
             stockHint();
-            const cartButton = document.getElementById('add-to-cart-btn');
-            if (cartButton && !cartButton.classList.contains('btn--sold-out')) {
-              cartButton.disabled = false;
-              cartButton.textContent = '加入購物袋';
-            }
+            syncCta();
             if (btn.classList.contains('power-btn')) sayStock(btn);
             const v = variants.find(v => v.id === selectedVariantId);
             showVariantImage(v);
@@ -1036,16 +1059,18 @@
               priceEl.innerHTML = productPriceMarkup(v.price.amount, cp2, v.title);
               priceEl.dataset.oujiPromoReady = isOujiOpeningPromoActive() ? '1' : '0';
             }
-          });
+        };
+        optionsContainer.querySelectorAll('.variant-btn').forEach((btn) => {
+          btn.addEventListener('click', () => selectVariant(btn));
         });
 
-        /* 由 Google 購物入嚟嗰陣，直接撳返嗰個色號個掣。借用返上面
-           成套 click 邏輯（選中狀態、價錢、換相、庫存字句），好過喺
-           三處地方各自複製一次。 */
+        /* 由 Google 購物入嚟嗰陣，直接揀返嗰個色號（價錢要同 Google 一致）。
+           唔用 .click()：缺貨色號個掣係 disabled，click() 唔會觸發，
+           以前就係咁樣留低一個「已揀」但其實冇貨嘅 variant id 喺 CTA 度。 */
         if (preselected) {
-          optionsContainer
-            .querySelector(`.variant-btn[data-variant-id="${preselected.id}"]`)
-            ?.click();
+          const pre = optionsContainer
+            .querySelector(`.variant-btn[data-variant-id="${preselected.id}"]`);
+          if (pre) selectVariant(pre);
         }
       } else if (optionsContainer) {
         optionsContainer.style.display = 'none';
@@ -1059,12 +1084,7 @@
          availableForSale（店入面好多貨係「賣完照賣」政策）。
          隱形眼鏡度數係例外 —— 嗰邊本來就係做預訂，頁面已經逐個
          度數寫明「現貨／預訂 約 14 日到貨」，唔應該當佢缺貨封鎖。 */
-      const isLensPower = (product.options?.[0]?.name || '') === '度數';
-      const hasStock = (v) => v.availableForSale
-        && (v.quantityAvailable == null || v.quantityAvailable > 0);
-      const anyStock = isLensPower
-        ? variants.some((v) => v.availableForSale)
-        : variants.some(hasStock);
+      const anyStock = variants.some(canBuy);
       if (addBtn && !anyStock) {
         addBtn.textContent = '暫時缺貨';
         addBtn.disabled = true;
@@ -1078,13 +1098,17 @@
         addBtn.insertAdjacentElement('afterend', ask);
       }
 
-      if (addBtn && anyStock && requiresExplicitShade && !preselected) {
-        addBtn.textContent = primaryOptionName === '尺碼' ? '請先揀尺碼' : '請先揀色號';
-        addBtn.disabled = true;
+      if (addBtn && anyStock && buyOpts.lens) {
+        const actions = addBtn.closest('.product-info__actions');
+        actions?.insertAdjacentHTML('beforebegin',
+          `<p class="product-info__preorder" data-preorder-tag hidden>${P.PREORDER_LABEL}到貨 · 落單後我哋幫你叫貨</p>`);
       }
+      syncCta();
 
       if (addBtn && anyStock) {
         addBtn.addEventListener('click', async () => {
+          const chosenV = variants.find((v) => v.id === selectedVariantId);
+          if (!chosenV || !canBuy(chosenV)) { syncCta(); return; }
           const qtyInput = document.querySelector('.qty-input');
           const qMax = qtyInput ? parseInt(qtyInput.max) || 99 : 99;
           const qty = Math.min(qtyInput ? parseInt(qtyInput.value) || 1 : 1, qMax);
@@ -1095,7 +1119,7 @@
           // 去到購物袋先發現冇 —— 到嗰陣佢多數已經走咗。
           if (!ok) {
             addBtn.textContent = '加唔到，請再試一次';
-            setTimeout(() => { addBtn.textContent = '加入購物袋'; addBtn.disabled = false; }, 2500);
+            setTimeout(syncCta, 2500);
             return;
           }
           if (typeof trackAddToCart === 'function') {
@@ -1103,7 +1127,7 @@
             trackAddToCart(product, qty, chosen?.price?.amount);
           }
           addBtn.textContent = '已加入購物袋 ✓';
-          setTimeout(() => { addBtn.textContent = '加入購物袋'; addBtn.disabled = false; }, 2000);
+          setTimeout(syncCta, 2000);
         });
       }
 

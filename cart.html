@@ -698,6 +698,7 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js"></script>
+  <script src="ds/purchasable.js?v=20261003-wp0"></script>
   <script src="shopify.js?v=20261001-suncare7"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
@@ -1459,7 +1460,7 @@
       ? isPremiumBundleProduct
       : (window.OUJI_isPremiumBundleProduct || (() => false));
     const pool = (all?.edges || []).map((e) => e.node)
-      .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale)
+      .filter((p) => window.OUJI_purchasable.isPurchasable(p.variants?.edges?.[0]?.node))
       .filter((p) => !handles.includes(p.handle))
       .filter((p) => !isPremiumBundle(p));
 
@@ -1730,8 +1731,7 @@
       const now = Date.now();
       pool = (res?.edges || []).map((e) => e.node).filter(isShortDated).map((p) => {
         const expiry = shortDatedExpiry(p);
-        const v = (p.variants?.edges || []).map((x) => x.node)
-          .find((x) => x.availableForSale && (x.quantityAvailable ?? 1) > 0);
+        const v = window.OUJI_purchasable.firstPurchasable(p.variants?.edges);
         return {
           p, expiry, vid: v?.id,
           months: expiry ? (new Date(`${expiry}T23:59:59+08:00`) - now) / MONTH : 99,
@@ -1870,8 +1870,7 @@
         if (!rank(p)) return false;
         /* 冇貨嘅唔好推 —— 加購最激嬲人係撳咗先話冇貨。
            totalInventory 有時係 null，所以再睇埋 variant 嘅 quantityAvailable。 */
-        const v = (p.variants?.edges || []).map((x) => x.node)
-          .find((x) => x.availableForSale && (x.quantityAvailable ?? 0) > 0);
+        const v = window.OUJI_purchasable.firstPurchasable(p.variants?.edges);
         if (!v) return false;
         p.__variantId = v.id;
         p.__price = price;

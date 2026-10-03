@@ -329,8 +329,7 @@ function price(p) {
    所以數量報到係 0 就當冇貨。
    quantityAvailable 係 null 代表嗰件貨根本冇追蹤存貨，唔關佢事。 */
 function variantInStock(v) {
-  if (!v || !v.availableForSale) return false;
-  return v.quantityAvailable == null || v.quantityAvailable > 0;
+  return window.OUJI_purchasable.isPurchasable(v);
 }
 
 function soldOut(p) {
@@ -1572,8 +1571,13 @@ function buildActiveChips(section, sel, lockCat) {
    以前係一個 <div>「快速加入」，包喺成張卡嘅 <a> 入面 —— 冇 handler，
    撳落去只係跟住條連結入產品頁。即係擺明話「一撳即加」，實際上乜都
    冇加，客以為加咗，去到購物袋見到空嘅。 */
-function quickAddControl(p, { isSoldOut, oneVariant, variantId }) {
+function quickAddControl(p, { isSoldOut, oneVariant, variantId, purchasable = true }) {
   if (isSoldOut) {
+    return `<button type="button" class="product-card__restock"
+      data-restock="${p.handle}" data-restock-title="${(p.title || '').replace(/"/g, '&quot;')}"
+      >想要？通知我補貨</button>`;
+  }
+  if (oneVariant && variantId && !purchasable) {
     return `<button type="button" class="product-card__restock"
       data-restock="${p.handle}" data-restock-title="${(p.title || '').replace(/"/g, '&quot;')}"
       >想要？通知我補貨</button>`;
@@ -1643,7 +1647,7 @@ function productCard(p, options = null) {
           data-wish-title="${(p.title || '').replace(/"/g, '&quot;')}">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
-        ${quickAddControl(p, { isSoldOut, oneVariant, variantId: variant?.id })}
+        ${quickAddControl(p, { isSoldOut, oneVariant, variantId: variant?.id, purchasable: variantInStock(variant) })}
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${oujiCardName(p)}</span>

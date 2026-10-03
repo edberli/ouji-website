@@ -293,8 +293,8 @@ async function initMatch() {
       for (const p of face) {
         try {
           const full = await getProduct(p.handle);
-          const v = full?.variants?.edges?.find((x) => x.node.availableForSale);
-          if (v) { await addToCart(v.node.id, 1); ok++; }
+          const v = window.OUJI_purchasable.firstPurchasable(full?.variants?.edges);
+          if (v) { await addToCart(v.id, 1); ok++; }
         } catch (err) { /* one failure should not stop the rest */ }
       }
       addAll.disabled = false;

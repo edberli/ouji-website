@@ -115,7 +115,7 @@ const SM_LIVE_FIELDS = `
   handle title vendor
   priceRange { minVariantPrice { amount } }
   images(first: 1) { edges { node { url } } }
-  variants(first: 1) { edges { node { id availableForSale } } }`;
+  variants(first: 1) { edges { node { id availableForSale quantityAvailable } } }`;
 
 async function smLive(handles) {
   // One request, aliased. `products(query: "handle:...")` looks like it
@@ -136,7 +136,7 @@ async function smLive(handles) {
       vendor: p.vendor,
       image: p.images?.edges?.[0]?.node?.url || '',
       price: p.priceRange?.minVariantPrice?.amount,
-      available: !!v?.availableForSale,
+      available: window.OUJI_purchasable.isPurchasable(v),
       variantId: v?.id,
     });
   });
@@ -1593,8 +1593,8 @@ async function initSkincareMatch(root) {
       const h = ca.dataset.cardAdd;
       let pick = null;
       groups.forEach((g) => g.picks.forEach((p) => { if (p.h === h) pick = p; }));
-      const id = pick?.live?.variantId;
-      if (!id) { ca.textContent = '加唔到'; return; }
+      const id = pick?.live?.available ? pick.live.variantId : null;
+      if (!id) { ca.textContent = '暫時缺貨'; return; }
       ca.disabled = true; ca.textContent = '加緊…';
       let ok = false;
       if (typeof addLinesToCart === 'function') ok = !!(await addLinesToCart([{ merchandiseId: id, quantity: 1 }]));
@@ -1618,6 +1618,7 @@ async function initSkincareMatch(root) {
       const btn = e.target.closest('[data-add]');
       btn.disabled = true; btn.textContent = '加緊…';
       const lines = smShown(groups, sel)
+        .filter((r) => r.live && r.live.available)
         .map((r) => ({ merchandiseId: r.live.variantId, quantity: 1 }))
         .filter((l) => l.merchandiseId);
       let ok = false;

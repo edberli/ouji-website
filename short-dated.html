@@ -365,6 +365,7 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js"></script>
+  <script src="ds/purchasable.js?v=20261003-wp0"></script>
   <script src="shopify.js?v=20261001-suncare7"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261001-supports"></script>
@@ -391,7 +392,7 @@
       const expiry = shortDatedExpiry(p);
       const months = expiry ? (new Date(`${expiry}T23:59:59+08:00`) - now) / MONTH : 99;
       const v = (p.variants?.edges || []).map((x) => x.node);
-      const live = v.find((x) => x.availableForSale && (x.quantityAvailable ?? 1) > 0);
+      const live = window.OUJI_purchasable.firstPurchasable(v);
       const left = v.reduce((n, x) => n + Math.max(0, x.quantityAvailable || 0), 0);
       return { p, expiry, months, live, left };
     }).filter((r) => r.months >= 1)
