@@ -8326,15 +8326,40 @@ body.has-brand-rail .brand-section {
   background-size: auto 100%;
   padding-left: clamp(24px, 6vw, 72px);
 }
-.brand-plate.has-banner .brand-plate__logo { transform-origin: left center; }
+/* 牌名／logo 統一放喺柔白半透明標籤上：logo 各有各嘅底色同外框（Chiikawa 粉紅塊、
+   Sanrio 白邊、LuLu 淺橙），直接貼落去會同插畫打架；標籤令佢哋一致，亦唔會被圖淹沒。
+   闊度封頂橫幅 44%，唔會蓋住右邊嘅角色。行內 height 由 JS 按牌子寫入，呢度要壓住。 */
+.brand-plate.has-banner .brand-plate__logo,
 .brand-plate.has-banner .brand-plate__wordmark {
-  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  box-sizing: border-box;
+  max-width: min(340px, 44%);
+  padding: 12px 20px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 2px 12px rgba(70, 50, 40, 0.08);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.brand-plate.has-banner .brand-plate__logo {
+  height: auto !important;
+  width: auto;
+  max-height: 84px;
+  object-fit: contain;
+  transform: none;
+}
+.brand-plate.has-banner .brand-plate__wordmark {
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
   font-weight: 600;
   letter-spacing: 0.06em;
+  line-height: 1.2;
+  color: var(--text-primary);
 }
 @media (max-width: 768px) {
   .brand-plate.has-banner { height: 150px; --banner-w: 450px; padding-left: 20px; }
-  .brand-plate.has-banner .brand-plate__wordmark { font-size: 1.35rem; }
+  .brand-plate.has-banner .brand-plate__logo { max-height: 56px; }
+  .brand-plate.has-banner .brand-plate__logo,
+  .brand-plate.has-banner .brand-plate__wordmark { padding: 8px 12px; border-radius: 12px; }
+  .brand-plate.has-banner .brand-plate__wordmark { font-size: 1.05rem; letter-spacing: 0.04em; }
 }
 
 /* `.brand-plate__name`（logo 下面嗰行細英文字）2026-09-02 拆咗 ——
