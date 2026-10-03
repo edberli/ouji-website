@@ -3607,6 +3607,16 @@ const BRAND_LOGO = {
      Wayback 又封住，最尾喺 ohmyglow 個品牌頁攞到張 300×300 方形
      logo，剪走白底再去白。呢個係疊字版（1.4:1），入 2:1 卡好靚。 */
   'SO Natural': 'logos/so-natural.png',
+  /* 公仔牌子（2026-10-03）：官方 logo。Chiikawa／Sanrio／蠟筆小新／Disney 取自
+     Wikimedia Commons 官方標誌檔；LuLu、Toyzeroplus 取自 luluthepiggy.com、
+     toyzeroplus.com 頁頭；竹林千子取自 takenoko-kk.com 頁頭。 */
+  'Chiikawa': 'logos/chiikawa.png',
+  'Sanrio': 'logos/sanrio.png',
+  '罐頭豬LuLu': 'logos/lulu-the-piggy.png',
+  '蠟筆小新': 'logos/crayon-shinchan.svg',
+  'Toyzeroplus': 'logos/toyzeroplus.png',
+  'TAKENOKO 竹林千子': 'logos/takenoko.png',
+  'Disney 迪士尼': 'logos/disney.svg',
 };
 
 function brandLogo(vendor) {

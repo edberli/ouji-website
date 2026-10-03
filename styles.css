@@ -8315,19 +8315,25 @@ body.has-brand-rail .brand-section {
 .brand-plate.has-banner {
   align-items: flex-start;
   height: 240px;
-  background-image: var(--plate-banner);
+  --banner-w: 720px; /* 圖 3:1，按高度鋪 → 闊 = 3 × 高 */
+  /* 圖左邊 160px 用底色漸變蓋住，令圖同純色底接駁無縫（唔留色差線）。 */
+  background-image:
+    linear-gradient(90deg, var(--plate) calc(100% - var(--banner-w)),
+                    transparent calc(100% - var(--banner-w) + 160px)),
+    var(--plate-banner);
   background-repeat: no-repeat;
   background-position: right center;
   background-size: auto 100%;
   padding-left: clamp(24px, 6vw, 72px);
 }
+.brand-plate.has-banner .brand-plate__logo { transform-origin: left center; }
 .brand-plate.has-banner .brand-plate__wordmark {
   font-size: clamp(1.6rem, 3.4vw, 2.4rem);
   font-weight: 600;
   letter-spacing: 0.06em;
 }
 @media (max-width: 768px) {
-  .brand-plate.has-banner { height: 150px; padding-left: 20px; }
+  .brand-plate.has-banner { height: 150px; --banner-w: 450px; padding-left: 20px; }
   .brand-plate.has-banner .brand-plate__wordmark { font-size: 1.35rem; }
 }
 

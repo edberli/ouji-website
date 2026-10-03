@@ -77,6 +77,12 @@ const BRAND_PLATE = {
   'Chiikawa': { tint: '#fdf8e1', banner: 'assets/brand-banners/chiikawa.webp' },
   'Sanrio': { tint: '#fde7ec', banner: 'assets/brand-banners/sanrio.webp' },
   '蠟筆小新': { tint: '#fef4dd', banner: 'assets/brand-banners/shinchan.webp' },
+  'Disney 迪士尼': { tint: '#efe6fa' },
+  'Toyzeroplus': { tint: '#caeadb', banner: 'assets/brand-banners/toyzeroplus.webp' },
+  'YELL': { tint: '#cce8f9', banner: 'assets/brand-banners/yell.webp' },
+  'Niconui': { tint: '#fdd5b1', banner: 'assets/brand-banners/niconui.webp' },
+  'NOL CORPORATION': { tint: '#fcd2da', banner: 'assets/brand-banners/nol.webp' },
+  'TAKENOKO 竹林千子': { tint: '#c9d2ad', banner: 'assets/brand-banners/takenoko.webp' },
 };
 
 function brandPlate(vendor) {
@@ -201,6 +207,8 @@ const BRAND_LOGO_H = {
   'AMUSE': 48, 'CLIO': 57, 'TIRTIR': 59, 'BRAYE': 56, 'Heart Percent': 75,
   'Peripera': 36, 'Laka': 60, '2aN': 69, 'dasique': 36,
   '花知曉 Flower Knows': 74,
+  'Chiikawa': 64, 'Sanrio': 70, '罐頭豬LuLu': 84, '蠟筆小新': 64,
+  'Toyzeroplus': 38, 'TAKENOKO 竹林千子': 62, 'Disney 迪士尼': 56,
 };
 
 function brandLogoHeight(vendor) {
