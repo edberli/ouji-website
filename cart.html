@@ -850,6 +850,7 @@
     // Checkout button
     if (checkoutBtn) {
       checkoutBtn.addEventListener('click', async () => {
+        if (typeof trackCheckoutClick === 'function') trackCheckoutClick();
         /* 揀咗自取但未揀去邊間攞 —— 唔好放佢入結帳頁。
            老闆 2026-09-03：「總之自提點嘅話，就一定要揀咗先可以俾佢去結帳頁面」。 */
         const mode = window.OUJI_getShipMode ? window.OUJI_getShipMode() : null;
