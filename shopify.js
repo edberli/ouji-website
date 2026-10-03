@@ -245,7 +245,8 @@ const I18N_PATTERNS = [
   [/^共 (\d+) 項獎$/, '$1 awards'],
   [/^第(\d+)位$/, 'No. $1'],
   [/^([\d,]+) 個物件$/, '$1 items'],
-  [/^韓國站 ([\d,]+) 則$/, '$1 reviews (KR)'],
+  [/^Olive Young ([\d,]+) 則$/, 'Olive Young $1 reviews'],
+  [/^Olive Young Global · ([\d,]+) 則評價$/, 'Olive Young Global · $1 reviews'],
   [/^展開埋其餘 ([\d,]+) 件$/, 'Show $1 more'],
   [/^睇埋其餘 ([\d,]+) 件$/, 'See $1 more'],
   [/^再買 \$([\d,]+) 就免運費$/, 'Add HK$$$1 for free shipping'],
@@ -2532,7 +2533,7 @@ function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount 
   const hasWas = parseFloat(compareAmount) > parseFloat(priceAmount);
   if (season && !isCounterBrandBundle(title, tags)) {
     if ((tags || []).includes('限時') || onSale) {
-      const detail = hasWas ? oujiZhe(priceAmount, compareAmount) : '限時特價';
+      const detail = hasWas ? oujiZhe(priceAmount, compareAmount) : '特價';
       return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>換季優惠</strong><span>${detail}</span></div>`;
     }
     return '';
@@ -2541,7 +2542,7 @@ function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount 
   if (isCounterBrandBundle(title, tags)) {
     return '<div class="product-card__bundle-band product-card__bundle-band--prestige"><strong>專櫃</strong><span>尊享套裝</span></div>';
   }
-  const saleBadge = '<span class="product-card__badge product-card__badge--sale">限時</span>';
+  const saleBadge = '<span class="product-card__badge product-card__badge--sale">特價</span>';
   if ((tags || []).includes('限時')) return saleBadge;
   const b = oujiBundleInfo(title);
   if (b) {

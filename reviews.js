@@ -25,6 +25,9 @@
  *      self-corrects the moment stock changes.
  */
 const RATINGS_URL = 'data/ratings.json';
+/* 同 data/ratings.json 嘅 "source" 一字不差（DECISIONS #2）。卡片位窄，用短名。 */
+const RATING_SOURCE = 'Olive Young Global';
+const RATING_SOURCE_SHORT = 'Olive Young';
 
 let RATINGS_CACHE = null;
 
@@ -60,11 +63,9 @@ function ratingChip(handle) {
   if (!r) return '';
   /* 一定要標明呢啲分數唔係 OUJI 自己收返嚟嘅 —— 喺 OUJI 個 logo 隔籬
      淨係擺一串星同一個數字，客同 Google 都會當係我哋自己嘅評價。
-     但呢度寫「韓國站」而唔係寫個店名：一版「全部產品」有六百幾個卡片，
-     寫足店名等於喺自己個舖度幫人賣咗六百次廣告。講明唔係自己嘅就夠 ——
-     真正引用評價原文嗰度（產品頁評價區）先寫足 Olive Young。 */
+     以前寫「韓國站」，但同產品頁嘅來源名唔一致；2026-10-03 統一用同一個來源。 */
   return `<span class="card-rating">${stars(r.star)}
-    <b>${r.star}</b><span>韓國站 ${r.count.toLocaleString()} 則</span></span>`;
+    <b>${r.star}</b><span>${RATING_SOURCE_SHORT} ${r.count.toLocaleString()} 則</span></span>`;
 }
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g,
@@ -185,7 +186,7 @@ function ratingLine(star, count, jumpTo) {
   el.hidden = false;
   el.innerHTML = `${stars(star)}
     <b class="product-info__rating-num">${star}</b>
-    <span class="product-info__rating-n">Olive Young ${count.toLocaleString()} 則評價</span>`;
+    <span class="product-info__rating-n">${RATING_SOURCE} · ${count.toLocaleString()} 則評價</span>`;
   if (!jumpTo) {
     el.removeAttribute('href');
     el.classList.add('is-static');
@@ -226,9 +227,8 @@ async function initReviews(handle, product) {
     <div class="rv-head">
       <div>
         <span class="label">評價</span>
-        <h2 class="heading-lg">${d.count.toLocaleString()} 位顧客評過</h2>
+        <h2 class="heading-lg">${RATING_SOURCE} · ${d.count.toLocaleString()} 則評價</h2>
       </div>
-      <span class="rv-head__src">評分來自 ${esc(d.source)}</span>
     </div>
 
     <div class="rv-summary">

@@ -1086,13 +1086,13 @@ function buildCategoryFocusSpotlight(config, section, { focusOnly = false, count
       : slide.focus === 'Some By Mi' ? 'some-by-mi'
       : slide.focus === 'Skinfood' ? 'skinfood' : 'romand';
     const focusCopy = focusOnly ? `<span class="all-focus__copy">
-        <span class="all-focus__badge">今週焦點</span>
+        <span class="all-focus__badge">本週焦點</span>
         <span class="all-focus__logo all-focus__logo--${logoStyle}">${wordmark}</span>
         <span class="all-focus__name">${escapeSpotlightAttr(slide.focus)}</span>
         <span class="all-focus__cta">睇${count ? ` ${count} 件` : ''}產品 <span aria-hidden="true">→</span></span>
       </span>` : '';
     return `<article class="skincare-focus__slide" role="group"
-      aria-label="${escapeSpotlightAttr(slide.focus)}，今週焦點">
+      aria-label="${escapeSpotlightAttr(slide.focus)}，本週焦點">
       <a class="skincare-focus__card${focusOnly ? ' all-focus__card' : ''}" href="${href}"
          aria-label="瀏覽 ${escapeSpotlightAttr(slide.focus)} 產品">
         ${image}
@@ -1764,7 +1764,7 @@ function brandSection(vendor, items, index) {
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
       ${pairDealCount ? `<aside class="pair-deal" aria-label="任揀${OUJI_PAIR_DEAL.count}件優惠">
-        <p class="pair-deal__kicker">限時優惠</p>
+        <p class="pair-deal__kicker">特價優惠</p>
         <p class="pair-deal__title">盲盒公仔任揀 ${OUJI_PAIR_DEAL.count} 件 <b>$${OUJI_PAIR_DEAL.total}</b><span>平均每件 $${OUJI_PAIR_DEAL.total / OUJI_PAIR_DEAL.count}</span></p>
         <p class="pair-deal__fine">帶紅色「任揀${OUJI_PAIR_DEAL.count}件」標籤嘅款式可以隨意配對 · 自動計算，毋須優惠碼 · 售完即止</p>
       </aside>` : ''}
@@ -2649,7 +2649,7 @@ function mountSeasonSale(products, section) {
     <img class="season-sale__art" src="assets/images/skincare-category-optimized/sunscreen.webp" alt="" width="512" height="530" decoding="async">
     <div class="season-sale__copy">
       <p class="season-sale__kicker">防曬 · 換季</p>
-      <h2 class="season-sale__title">換季優惠<i>·</i>限時特價</h2>
+      <h2 class="season-sale__title">換季優惠<i>·</i>特價</h2>
       <p class="season-sale__fine">售完即止 · 劃線為連鎖參考原價</p>
     </div>${deal}</aside>`);
 }

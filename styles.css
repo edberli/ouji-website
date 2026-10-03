@@ -9118,6 +9118,9 @@ html.is-lite .cat-card:hover .cat-card__shot {
 .card-rating .stars { font-size: 0.7rem; letter-spacing: 1px; }
 .card-rating b { font-size: 0.75rem; font-weight: 500; color: var(--text-primary); }
 .card-rating span { font-size: 0.6875rem; color: var(--text-tertiary); }
+/* 來源名（Olive Young N 則）要成粒換行，唔好喺數字同「則」中間斷開。 */
+.card-rating { flex-wrap: wrap; row-gap: 0; }
+.card-rating > span:last-child { white-space: nowrap; }
 .product-info__rating.is-static { cursor: default; }
 .product-info__rating.is-static:hover { border-bottom-color: transparent; }
 

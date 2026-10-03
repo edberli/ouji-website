@@ -237,7 +237,7 @@ async function initHome() {
    * 咁樣係將滯銷貨叫做暢銷貨，客信一次，第二次就唔信我哋。而且冇必要作：
    *   熱門口碑 = Olive Young 真實評價數（523 件有數，最多一萬個）
    *   新品上架 = Shopify 真實建立日期
-   *   限時優惠 = 真係有原價劃線先入
+   *   特價優惠 = 真係有原價劃線先入
    *   現貨即日發 = 真實庫存深度 ← 庫存多嘅擺呢度，賣點係「唔使等」
    * 清貨最快嘅唔係叫佢做熱賣，係畀個真理由客而家買。 */
   /* 分類卡（CATS）仲用緊佢 —— 之前剷走分類 rail 嗰陣連呢個都剷埋，
@@ -270,7 +270,7 @@ async function initHome() {
     { id: 'new', label: '新品上架', note: '最近上架',
       pick: (list) => [...list].sort((a, b) =>
         String(b.createdAt || '').localeCompare(String(a.createdAt || ''))) },
-    { id: 'deal', label: '限時優惠', note: '有原價劃線先入呢度',
+    { id: 'deal', label: '特價優惠', note: '有原價劃線先入呢度',
       pick: (list) => list.filter((p) => onSale(p) > 0)
         .sort((a, b) => onSale(b) - onSale(a)) },
   ];
