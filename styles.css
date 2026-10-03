@@ -126,11 +126,16 @@
 /* ----- Reset ----- */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* 作者 CSS 一寫 display 就會蓋過 UA 嘅 [hidden]（PDP 價錢下面粒紅點就係咁嚟）。 */
+[hidden] { display: none !important; }
+
+/* clip 唔會開 scroll container；hidden 會，令全站 position: sticky 失效。 */
 html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -139,6 +144,7 @@ body {
   background: var(--bg-primary);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
   background-image:
     radial-gradient(ellipse at 25% 50%, rgba(240,221,200,0.15) 0%, transparent 55%),
     radial-gradient(ellipse at 75% 25%, rgba(109,163,181,0.06) 0%, transparent 45%),
@@ -5747,7 +5753,8 @@ button.product-card__quick-add,
 .account-quicklinks b { color: var(--primary); font-size: 1rem; font-weight: 400; }
 .account-dashboard__grid { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(260px, .75fr); gap: 24px; align-items: start; }
 .account-dashboard__main, .account-dashboard__side { display: grid; gap: 24px; }
-.account-dashboard__side { position: sticky; top: 104px; }
+/* WP0：html/body 改 overflow-x: clip 之後 sticky 會真係生效；會員側欄可能高過視窗，未重做（WP14）之前維持一直以來嘅實際效果。 */
+.account-dashboard__side { position: relative; }
 .account-dashboard .member-points { margin: 0; }
 .account-panel {
   padding: 26px;

@@ -813,8 +813,9 @@
 .sm .dl__adv .dl__tag { min-height: 36px; padding-top: 6px; padding-bottom: 6px; font-size: 11px; }
 
 /* 底部 XP action bar：貼底、米色 chrome、綠色大掣 */
+/* WP0：sticky 一直被 body overflow-x: hidden 封住；真係貼底會撞手機底部導覽列，維持舊有實際效果。 */
 .sm .dl__bar {
-  position: sticky; bottom: 0; z-index: 4;
+  position: relative; z-index: 4;
   min-height: 76px; margin: 0; padding: 12px clamp(16px, 4vw, 34px);
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   border-top: 1px solid #a9a596; background: #ece9d8;
