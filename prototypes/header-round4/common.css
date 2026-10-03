@@ -1,3 +1,4 @@
+@layer legacy {
 :root {
   --ouji: #2b4c58;
   --ink: #132225;
@@ -151,4 +152,4 @@ img { display: block; }
     transition-duration: .01ms !important;
   }
 }
-
+}

@@ -1,3 +1,4 @@
+@layer legacy {
 :root {
   --ouji: #2b4c58;
   --ink: #11131a;
@@ -279,3 +280,4 @@ img { display: block; }
 .proto-picker-divider { width: 1px; height: 16px; margin: 0 4px; background: rgba(255, 255, 255, 0.12); }
 .proto-picker-replay { padding: 0 10px; font-size: 14px; }
 .proto-picker[data-position="top"] { bottom: auto; top: 24px; }
+}

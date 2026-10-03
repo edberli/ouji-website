@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="ds/layers.css">
+  <link rel="stylesheet" href="ds/a11y.css">
   <meta charset="UTF-8">
   <!-- Rewritten /products/ and /collections/ URLs sit one level deep;
        keep every relative asset resolving from the site root. -->
@@ -72,14 +74,14 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&display=swap"></noscript>
-<link rel="stylesheet" href="styles.css?v=20261002-stores2">
+<link rel="stylesheet" href="styles.css?v=20261003-wp1b">
   <!-- 護膚配方（玻璃版）。skincare-match.css 睇落似殘留，但入面
        仲有幾條 .sm 基礎 rule 生效，唔可以剩係要 modes 嗰張。 -->
   <link rel="stylesheet" href="skincare-match.css">
   <link rel="stylesheet" href="skincare-modes.css">
-  <link rel="stylesheet" href="desktop-category-legacy.css?v=20260920-live" media="(min-width: 960px)">
-  <link rel="stylesheet" href="skincare-desktop-watercolor.css?v=20260921-responsive-v5" media="(min-width: 960px)">
-  <link rel="stylesheet" href="skincare-mobile-paper.css?v=20260921-airy-dividers" media="(max-width: 959px)">
+  <link rel="stylesheet" href="desktop-category-legacy.css?v=20261003-wp1b" media="(min-width: 960px)">
+  <link rel="stylesheet" href="skincare-desktop-watercolor.css?v=20261003-wp1b" media="(min-width: 960px)">
+  <link rel="stylesheet" href="skincare-mobile-paper.css?v=20261003-wp1b" media="(max-width: 959px)">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -653,21 +655,21 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20260927-card-brand-identity"></script>
+  <script src="product-naming.js?v=20261003-wp1b"></script>
   <script src="analytics.js"></script>
-  <script src="ds/purchasable.js?v=20261003-wp0"></script>
-  <script src="shopify.js?v=20261001-suncare7"></script>
+  <script src="ds/purchasable.js?v=20261003-wp1b"></script>
+  <script src="shopify.js?v=20261003-wp1b"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
   <!-- 相紙揀相嘅名單（人手開圖驗過），一定要喺 catalog.js 之前。 -->
   <script src="booth-shots.js"></script>
-  <script src="catalog.js?v=20261001-lowstock3"></script>
+  <script src="catalog.js?v=20261003-wp1b"></script>
   <!-- modes 一定要喺 match 之前：match 會即刻叫 modes 入面啲 render。 -->
   <script src="skincare-modes.js"></script>
   <script src="skincare-match.js"></script>
-  <script src="search.js?v=20261001-lowstock3"></script>
-  <script src="script.js?v=20261001-supports"></script>
+  <script src="search.js?v=20261003-wp1b"></script>
+  <script src="script.js?v=20261003-wp1b"></script>
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
     initPage();

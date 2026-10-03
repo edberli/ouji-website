@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="../../ds/layers.css">
+  <link rel="stylesheet" href="../../ds/a11y.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>韓式連鎖藥妝 — OUJI 彩妝</title>
@@ -9,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="common.css">
   <style>
+@layer legacy {
+
     :root { --lime: #d8ff35; --orange: #ff5b24; --retail-blue: #173e91; }
     .retail {
       background: #f8faf8;
@@ -107,7 +111,9 @@
       .retail__ticket img { width: 58px; height: 68px; }
       .retail__ticket strong { font-size: 25px; }
     }
-  </style>
+
+}
+</style>
 </head>
 <body>
   <!--

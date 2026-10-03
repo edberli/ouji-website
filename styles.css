@@ -1,4 +1,5 @@
-/* ============================================
+@layer legacy {
+/* ==========================
    OUJI — Korean Premium Beauty E-Commerce
    v3.0 — #6da3b5 Teal-Blue + Frosted Glass + Animations
    Shopify-ready structure
@@ -16257,7 +16258,6 @@ body::before { opacity: 0.18; }
   .ship-mode__name { font-size: 0.72rem; }
   .ship-mode__gap { font-size: 0.62rem; }
 }
-}
 
 /* 隱藏嘅限時活動唔可被原有 display 規則重新顯示。 */
 .promo-wrap[hidden],
@@ -18845,3 +18845,4 @@ body::before { opacity: 0.18; }
 .store-page__info p { color: var(--text-secondary); line-height: 1.7; }
 .store-page__legal { max-width: 1080px; margin: var(--space-2xl) auto 0; padding-top: var(--space-lg); border-top: 1px solid var(--primary-lighter); font-size: .8125rem; color: var(--text-tertiary); }
 @media (max-width: 800px) { .store-page__grid { grid-template-columns: 1fr; gap: var(--space-xl); } .store-page__map iframe { height: 320px; } }
+}

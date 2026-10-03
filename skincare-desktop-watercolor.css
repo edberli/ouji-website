@@ -1,3 +1,4 @@
+@layer legacy {
 /* OUJI skincare desktop watercolor layout — desktop-only override. */
 
 @media (min-width: 960px) {
@@ -196,4 +197,5 @@
   #skincare-match {
     display: none !important;
   }
+}
 }

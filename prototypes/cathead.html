@@ -1,9 +1,13 @@
-<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8">
+<!DOCTYPE html><html lang="zh-Hant"><head>
+  <link rel="stylesheet" href="../ds/layers.css">
+  <link rel="stylesheet" href="../ds/a11y.css"><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>分類頁頂 — 五個版本</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet">
 <style>
+@layer legacy {
+
 /* ════════════════════════════════════════════════════════════════
    量過 Olive Young 個護膚分類頁：**第一件貨喺 219px**。
    佢個頂得三樣嘢 —— 倒數優惠條、分類名（16px）、「3797 items ·
@@ -100,6 +104,8 @@ a{text-decoration:none;color:inherit}
 .proto-picker-item[data-active]{color:#fff}
 .proto-picker-divider{width:1px;height:16px;margin:0 4px;background:rgba(255,255,255,.12)}
 .proto-picker-replay{padding:0 10px;font-size:14px}
+
+}
 </style></head><body>
 <div id="stage"></div>
 <nav class="proto-picker" aria-label="Prototype variants">

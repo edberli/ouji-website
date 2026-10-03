@@ -1,3 +1,4 @@
+@layer legacy {
 /*
   護膚配方 — 韓妝雜誌版式
   ==========================================================================
@@ -399,4 +400,5 @@
 
 @media (max-width: 560px) {
   .sm__picks--three { grid-template-columns: repeat(2, 1fr); }
+}
 }

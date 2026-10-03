@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="../../ds/layers.css">
+  <link rel="stylesheet" href="../../ds/a11y.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>雜誌特集 — OUJI 彩妝</title>
@@ -9,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500;700&family=Bodoni+Moda:opsz,wght@6..96,700;6..96,900&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="common.css">
   <style>
+@layer legacy {
+
     :root { --paper: #f1efe8; --red: #a32935; --editorial-blue: #2b4c58; }
     body { background: var(--paper); }
     .editorial {
@@ -164,7 +168,9 @@
       .editorial__index { grid-column: 1 / -1; grid-row: 3; overflow-x: auto; }
       .editorial__index button { min-width: 94px; }
     }
-  </style>
+
+}
+</style>
 </head>
 <body>
   <!--
