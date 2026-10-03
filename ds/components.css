@@ -51,7 +51,7 @@
   html[data-ds="2"] .o-card__swatches { display:flex; gap:4px; max-width:100%; overflow:auto; }
   html[data-ds="2"] .o-card__swatch { flex:none; width:16px; height:16px; border:1px solid var(--o-line-strong); border-radius:50%; }
   html[data-ds="2"] .o-campaign { display:block; min-width:0; padding:8px; border:1px solid var(--o-line); border-radius:var(--o-r-md); background:var(--o-surface); color:var(--o-text); }
-  html[data-ds="2"] .o-campaign__image { width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--o-r-sm); }
+  html[data-ds="2"] .o-campaign__image { width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; border-radius:var(--o-r-sm); }
   html[data-ds="2"] .o-campaign__caption { display:flex; align-items:center; gap:12px; min-height:48px; padding:8px; font-size:var(--o-fs-sm); }
   html[data-ds="2"] .o-campaign__caption :last-child { margin-left:auto; color:var(--o-accent-text); white-space:nowrap; }
   html[data-ds="2"] .o-section-head { display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:16px; margin-bottom:24px; color:var(--o-text); }
