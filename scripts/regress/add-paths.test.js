@@ -52,7 +52,7 @@ test('path 1: PDP shade chips and CTA', () => {
 test('path 1 (lens): quantity-0 power shows a visible pre-order label on the chip and next to the CTA', () => {
   const s = read('product.html');
   assert.match(s, /\$\{buyable \? '' : ' disabled'\}/, 'unavailable powers are disabled');
-  assert.match(s, /power-btn__tag">預訂 14 日<\/span>/);
+  assert.match(s, /power-btn__tag">\$\{P\.PREORDER_LABEL\}<\/span>/);
   assert.match(s, /data-preorder-tag hidden>\$\{P\.PREORDER_LABEL\}到貨/);
   assert.match(s, /if \(tag\) tag\.hidden = !\(v && isPreorderV\(v\)\)/);
 });

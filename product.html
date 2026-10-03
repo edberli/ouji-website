@@ -1014,7 +1014,7 @@
                 const buyable = canBuy(v);
                 return `<button class="variant-btn power-btn ${ready ? 'is-ready' : 'is-preorder'} ${v.id === selectedId ? 'is-selected' : ''}"
                   data-variant-id="${v.id}" data-preorder="${ready ? '' : '1'}"${buyable ? '' : ' disabled'}
-                  title="${ready ? '現貨' : (buyable ? `${P.PREORDER_LABEL}到貨` : '暫時缺貨')}">${optionText}${!ready && buyable ? '<span class="power-btn__tag">預訂 14 日</span>' : ''}</button>`;
+                  title="${ready ? '現貨' : (buyable ? `${P.PREORDER_LABEL}到貨` : '暫時缺貨')}">${optionText}${!ready && buyable ? `<span class="power-btn__tag">${P.PREORDER_LABEL}</span>` : ''}</button>`;
               }
               const vPrice = typeof oujiPromoPriceText === 'function'
                 ? oujiPromoPriceText(v.price.amount)
