@@ -1758,7 +1758,7 @@
           <p class="addon__vendor">${esc(x.p.vendor)}</p>
           <span class="addon__expiry">到期 ${x.expiry.replace(/-0?/g, '.')}</span>
           <h3 class="addon__name"><a href="${href}">${esc(name)}</a></h3>
-          <p class="addon__price">HK$${x.price.toFixed(0)}${x.was > x.price ? `<s class="addon__was">HK$${x.was.toFixed(0)}</s>` : ''}</p>
+          <p class="addon__price">HK$${x.price.toFixed(0)}</p>
           <button class="addon__add" type="button" data-vid="${esc(x.vid)}">加入購物袋</button>
         </article>`;
       }).join('');

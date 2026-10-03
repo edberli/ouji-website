@@ -2457,7 +2457,9 @@ function oujiPromoPriceText(amount) {
 /* 劃線價一定要嚟自售價嗰件變體（同 catalog.js productCard 一把尺）：
    單片 $18 冇折、5片裝 $78 劃線 $90，唔可以標成「$18 ／ $90」。
    列表冇變體價錢，就只喺全部變體同價時先用 compareAtPriceRange。 */
+/* 短效期貨嘅劃線參考價未有老闆定案（DECISIONS #8），卡片一律唔出劃線。 */
 function oujiCardComparePrice(p) {
+  if (isShortDated(p)) return null;
   const p0 = p.priceRange?.minVariantPrice;
   const vs = (p.variants?.edges || []).map((e) => e.node).filter(Boolean);
   if (vs.some((v) => v.price)) {
@@ -2799,9 +2801,9 @@ function productCardHTML(product) {
       ? (product.compareAtPriceRange?.minVariantPrice || null)
       : null;
   }
-  const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
-  const isSoldOut = !variant?.availableForSale;
   const shortDated = isShortDated(product);
+  const isOnSale = !shortDated && comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
+  const isSoldOut = !variant?.availableForSale;
   const expiry = shortDated ? shortDatedExpiry(product) : '';
   const title = oujiCardTitle(product);
 

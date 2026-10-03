@@ -1624,7 +1624,8 @@ function productCard(p, options = null) {
     cp = (_hi != null && parseFloat(_hi) === _lo)
       ? (p.compareAtPriceRange?.minVariantPrice || null) : null;
   }
-  const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount);
+  const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount)
+    && !(typeof isShortDated === 'function' && isShortDated(p));
   const variants = p.variants?.edges || [];
   const variant = variants[0]?.node;
   const isSoldOut = soldOut(p);
