@@ -1470,7 +1470,7 @@ button.product-card__quick-add,
   background: var(--sale, #c8452f);
   flex: none;
 }
-.product-info__stock { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.06em; color: #8f301f; }
+.product-info__stock:not([hidden]) { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.06em; color: #8f301f; }
 .product-info__stock::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--sale, #c8452f); flex: none; }
 .product-info__stock span { font-weight: 400; letter-spacing: 0.02em; color: var(--text-tertiary, #8a8580); }
 
