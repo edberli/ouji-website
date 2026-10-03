@@ -34,7 +34,7 @@ function selectProducts(products,ratings) {
 async function boot(){
  try {
  const [counts,catalog,ratings]=await Promise.all([
-  loadCounts(),fetch('../data/catalog.json').then(r=>r.json()),fetch('../data/ratings.json').then(r=>r.json())
+  loadCounts(),fetch('/data/catalog.json').then(r=>r.json()),fetch('/data/ratings.json').then(r=>r.json())
  ]);
  const products=catalog.v.map(node);const chosen=selectProducts(products,ratings.products);
  $('#o-type-numeral').textContent=fmt(counts.brandCount);
@@ -44,12 +44,12 @@ async function boot(){
  $('#o-toolbar-count').textContent=`${counts.format(counts.productCount)} 件`;
  $('#o-chip-count').textContent=counts.format(counts.categoryCount('護膚'));
  $('#o-rating-legend').textContent=`★ 評分來自 ${ratings.source}`;
- $('#o-cards').innerHTML=chosen.map(p=>`<li class="o-rail__item">${renderCard(p,{ratings:ratings.products,urlPrefix:'../'})}</li>`).join('');
+ $('#o-cards').innerHTML=chosen.map(p=>`<li class="o-rail__item">${renderCard(p,{ratings:ratings.products,urlPrefix:'/'})}</li>`).join('');
  $('#o-brand-meta').textContent=`${counts.format(counts.brandCount)} 個品牌有現貨，按品牌嘅產品深度排列。`;
  $('#o-shelf-total').textContent=fmt(counts.brandCount);
  $('#o-brand-link').textContent=`全部 ${counts.format(counts.brandCount)} 個品牌 →`;
  const all=renderShelf(counts, $('#o-shelf-row'), $('#o-shelf-list'));
- $('#o-brand-tiles').innerHTML=all.slice(0,6).map(b=>`<a class="o-brand" href="/shop?brand=${encodeURIComponent(b.vendor)}"><span class="o-brand__optical">${b.logo?`<img class="o-brand__logo" src="../${esc(b.logo)}" alt="" loading="lazy">`:''}<span class="o-brand__fallback">${esc(b.name_en)}</span></span><span class="o-brand__name">${esc(b.name_en)}</span>${b.name_zh?`<span class="o-brand__zh">${esc(b.name_zh)}</span>`:''}<span class="o-brand__count">${fmt(b.count)} 件</span></a>`).join('');
+ $('#o-brand-tiles').innerHTML=all.slice(0,6).map(b=>`<a class="o-brand" href="/shop?brand=${encodeURIComponent(b.vendor)}"><span class="o-brand__optical">${b.logo?`<img class="o-brand__logo" src="/${esc(b.logo)}" alt="" loading="lazy">`:''}<span class="o-brand__fallback">${esc(b.name_en)}</span></span><span class="o-brand__name">${esc(b.name_en)}</span>${b.name_zh?`<span class="o-brand__zh">${esc(b.name_zh)}</span>`:''}<span class="o-brand__count">${fmt(b.count)} 件</span></a>`).join('');
  normalizeBrandLogos($('#o-brand-tiles'));
  $('#o-cards').addEventListener('click',e=>{
   const button=e.target.closest('button[data-action]');if(!button)return;
