@@ -187,36 +187,130 @@
   }
   .o-town__plaque.is-long .o-town__label { font-size: 7.5cqi; }
   .o-town__anchor:has(.o-town__house) {
-    width: max(96px, 10%);
-    transform: translate(-50%, -59.5%);
+    width: auto;
+    transform: translate(-50%, -50%);
+    animation: o-town-bob 5.6s ease-in-out var(--town-delay, 0ms) infinite;
   }
   .o-town__house {
-    aspect-ratio: 640 / 509;
-    box-shadow: none;
-    filter: drop-shadow(0 3px 4px rgba(34, 52, 60, .18));
-    transform-origin: 50% 0;
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(8px, .8vw, 14px);
+    width: auto;
+    aspect-ratio: auto;
+    min-height: clamp(46px, 4.4vw, 64px);
+    padding: clamp(6px, .55vw, 9px) clamp(12px, 1.1vw, 18px) clamp(6px, .55vw, 9px) clamp(6px, .55vw, 9px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .95);
+    border-radius: 12px;
+    background:
+      radial-gradient(120% 140% at 15% 0%, rgba(255, 255, 255, .7), rgba(255, 255, 255, 0) 55%),
+      rgba(252, 249, 241, .84);
+    -webkit-backdrop-filter: blur(6px) saturate(1.1);
+    backdrop-filter: blur(6px) saturate(1.1);
+    box-shadow:
+      0 0 0 4px rgba(252, 249, 241, .42),
+      0 0 0 5px rgba(43, 76, 88, .10),
+      0 8px 18px -6px rgba(34, 52, 60, .28);
+    color: #22343c;
+    container-type: normal;
+    transition: transform 320ms var(--town-ease), box-shadow 320ms var(--town-ease), background-color 320ms var(--town-ease);
   }
-  .o-town__house:hover,
-  .o-town__house:focus-visible {
-    box-shadow: none;
-    transform: rotate(2deg) translateY(-1px);
-    filter: drop-shadow(0 6px 8px rgba(34, 52, 60, .26));
+  .o-town__house::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(43, 76, 88, .14);
+    border-radius: 9px;
+    pointer-events: none;
   }
-  .o-town__house:active { box-shadow: none; transform: scale(.97); }
-  .o-town__house:focus-visible { outline: 2px solid var(--town-focus); outline-offset: 3px; border-radius: 10px; }
-  .o-town__house:is(.is-on, [aria-pressed='true']) { box-shadow: none; filter: drop-shadow(0 0 0 2px currentColor) drop-shadow(0 3px 4px rgba(34, 52, 60, .2)); }
+  .o-town__badge {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: clamp(32px, 3vw, 44px);
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: var(--sign-tint, #e7f1f4);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .06), inset 0 1px 0 rgba(255, 255, 255, .7);
+    color: var(--sign-tint-ink, #2b4c58);
+    font: 700 clamp(12px, 1vw, 15px)/1 Manrope, sans-serif;
+    font-variant-numeric: tabular-nums;
+    transition: transform 420ms var(--town-ease);
+  }
   .o-town__house .o-town__face {
-    top: 33%;
-    right: 12%;
-    bottom: 10%;
-    left: 12%;
+    position: relative;
+    inset: auto;
+    display: flex;
     flex-direction: column;
-    gap: 3%;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .o-town__house .o-town__label {
+    color: #22343c;
+    font: 700 clamp(14px, 1.25vw, 19px)/1.15 'Noto Serif TC', serif;
+    letter-spacing: .02em;
+    text-shadow: none;
+  }
+  .o-town__house .o-town__number {
+    color: #5a6e76;
+    font: 600 clamp(10px, .78vw, 12px)/1.1 Manrope, 'Noto Sans TC', sans-serif;
+    text-shadow: none;
   }
   .o-town__house .o-town__divider { display: none; }
-  .o-town__house .o-town__label { font-size: 14cqi; }
-  .o-town__house .o-town__number { font-size: 8.5cqi; opacity: .9; }
-  .o-town__house.is-long .o-town__label { font-size: 11.5cqi; }
+  .o-town__go {
+    flex: 0 0 auto;
+    margin-left: clamp(2px, .4vw, 8px);
+    color: #2b4c58;
+    font: 400 clamp(16px, 1.5vw, 24px)/1 Manrope, sans-serif;
+    transition: transform 380ms var(--town-ease), opacity 200ms ease;
+  }
+  .o-town__shine {
+    position: absolute;
+    inset: 0 auto 0 -60%;
+    width: 45%;
+    background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, 0));
+    transform: skewX(-18deg) translateX(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .o-town__house:hover {
+      transform: translateY(-4px);
+      background-color: rgba(255, 253, 248, .95);
+      box-shadow:
+        0 0 0 4px rgba(252, 249, 241, .62),
+        0 0 0 6px color-mix(in srgb, var(--sign-tint, #cfe3f1) 85%, #ffffff),
+        0 16px 26px -10px rgba(34, 52, 60, .36);
+    }
+    .o-town__house:hover .o-town__go { transform: translate(3px, -3px); }
+    .o-town__house:hover .o-town__badge { transform: rotate(-6deg) scale(1.06); }
+    .o-town__house:hover .o-town__shine { animation: o-town-shine 900ms var(--town-ease) 1; }
+  }
+  .o-town__house:active { transform: translateY(-1px) scale(.97); }
+  .o-town__house:focus-visible {
+    outline: 2px solid #2b6176;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 4px rgba(252, 249, 241, .62), 0 8px 18px -6px rgba(34, 52, 60, .28);
+  }
+  .o-town__house:is(.is-on, [aria-pressed='true']) {
+    box-shadow: 0 0 0 4px rgba(252, 249, 241, .62), 0 0 0 6px var(--sign-tint-ink, #2b4c58), 0 8px 18px -6px rgba(34, 52, 60, .28);
+  }
+  @media (max-width: 767px) {
+    .o-town__house { gap: 6px; min-height: 0; padding: 4px 9px 4px 4px; border-radius: 10px; }
+    .o-town__house::before { inset: 2px; border-radius: 8px; }
+    .o-town__badge { width: 24px; border-radius: 6px; font-size: 10px; }
+    .o-town__house .o-town__label { font-size: 13px; }
+    .o-town__house .o-town__number { font-size: 9px; }
+    .o-town__go { display: none; }
+  }
+  @keyframes o-town-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+  @keyframes o-town-shine { from { opacity: 1; transform: skewX(-18deg) translateX(0); } to { opacity: 0; transform: skewX(-18deg) translateX(420%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .o-town__anchor:has(.o-town__house) { animation: none; }
+    .o-town__house, .o-town__go, .o-town__badge { transition: none; }
+    .o-town__house:hover .o-town__shine { animation: none; }
+  }
 
   .o-town.is-revealed .o-town__anchor {
     animation: o-town-house-arrive 480ms var(--town-ease) var(--town-delay, 0ms) both;
