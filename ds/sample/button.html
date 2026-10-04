@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OUJI 分類按鈕示範</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Noto+Serif+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
+<link rel="stylesheet" href="/ds/layers.css">
+<link rel="stylesheet" href="/ds/sample/shop-town-sample.css">
+<style>
+  body { margin: 0; font-family: 'Noto Sans TC', sans-serif; background: #f7f9f9; color: #22343c; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font: 700 20px/1.4 'Noto Sans TC', sans-serif; margin: 0 0 6px; }
+  p { margin: 0 0 24px; font-size: 14px; color: #5a6e76; }
+  .stage { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; padding: 36px 28px; border-radius: 14px;
+    background: url('/assets/images/world/town/street-1600.webp') center 92% / cover; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; padding: 22px 28px; margin-top: 18px; border-radius: 14px;
+    background: linear-gradient(to bottom, rgba(255,255,255,.8), rgba(251,243,225,.96) 9px, rgba(251,243,225,.94)); }
+  .label { font-size: 12px; color: #5a6e76; margin: 26px 0 8px; }
+</style>
+</head>
+<body>
+<main class="wrap o-town" data-shop-town>
+  <h1>下面分類按鈕示範（一粒）</h1>
+  <p>同屋頂四張卡同一款：淺奶油半透明卡、雙線框、淺色方塊入面係水彩圖案、分類名、↗；冇件數。滑鼠移過去會浮起、光掃、圖案方塊輕轉、箭咀飛出。</p>
+  <div class="label">放喺小街下面嘅樣（奶油色街沿）</div>
+  <div class="row">
+    <a class="o-town__control o-town__card o-town__plaque" href="#" style="--sign-tint:#e7def3;--sign-tint-ink:#6a5191" aria-label="美妝工具">
+      <span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-tools.webp" alt="" width="44" height="44"></span>
+      <span class="o-town__label">美妝工具</span><span class="o-town__go" aria-hidden="true">↗</span><span class="o-town__shine" aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="label">對比：屋頂嗰款（放喺插畫上）</div>
+  <div class="stage">
+    <a class="o-town__control o-town__card o-town__house" href="#" style="--sign-tint:#cfe3f1;--sign-tint-ink:#2b5f86" aria-label="護膚">
+      <span class="o-town__badge" aria-hidden="true">01</span><span class="o-town__label">護膚</span><span class="o-town__go" aria-hidden="true">↗</span><span class="o-town__shine" aria-hidden="true"></span>
+    </a>
+    <a class="o-town__control o-town__card o-town__plaque" href="#" style="--sign-tint:#e7def3;--sign-tint-ink:#6a5191" aria-label="美妝工具">
+      <span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-tools.webp" alt="" width="44" height="44"></span>
+      <span class="o-town__label">美妝工具</span><span class="o-town__go" aria-hidden="true">↗</span><span class="o-town__shine" aria-hidden="true"></span>
+    </a>
+  </div>
+</main>
+</body>
+</html>
