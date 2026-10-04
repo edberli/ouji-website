@@ -2647,7 +2647,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
     const on = activeGroup === g.id;
     const label = escapeSpotlightAttr(g.label);
     const classes = `o-town__control o-town__${kind}${g.label.length > 5 || g.id === 'kpop' ? ' is-long' : ''}${on && !g.href && !pending ? ' is-on' : ''}`;
-    const attrs = `class="${classes}" style="--sign-board:url('/assets/images/world/town/board-${board}.webp');--sign-ink:${ink};--town-delay:${delay}ms" data-town-category="${g.id}"
+    const attrs = `class="${classes}" style="--sign-board:url('/assets/images/world/town/${house ? 'hang2' : 'board'}-${board}.webp');--sign-ink:${ink};--town-delay:${delay}ms" data-town-category="${g.id}"
       aria-label="${pending ? label : `${label}，${counts[g.id]} 件產品`}"`;
     const face = `<span class="o-town__face"><span class="o-town__label">${label}</span>
       <span class="o-town__divider" aria-hidden="true"${pending ? ' hidden' : ''}></span>

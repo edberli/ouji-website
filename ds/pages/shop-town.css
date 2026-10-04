@@ -185,12 +185,38 @@
     background: currentColor;
     opacity: .58;
   }
-  .o-town__house.is-long .o-town__label,
   .o-town__plaque.is-long .o-town__label { font-size: 7.5cqi; }
-  .o-town__house .o-town__face { right: 3%; left: 3%; gap: 4%; }
-  .o-town__house .o-town__label { font-size: 10.625cqi; }
-  .o-town__house .o-town__number { font-size: 7.5cqi; }
-  .o-town__house.is-long .o-town__label { font-size: 7.5cqi; }
+  .o-town__anchor:has(.o-town__house) {
+    width: max(96px, 10%);
+    transform: translate(-50%, -59.5%);
+  }
+  .o-town__house {
+    aspect-ratio: 640 / 509;
+    box-shadow: none;
+    filter: drop-shadow(0 3px 4px rgba(34, 52, 60, .18));
+    transform-origin: 50% 0;
+  }
+  .o-town__house:hover,
+  .o-town__house:focus-visible {
+    box-shadow: none;
+    transform: rotate(2deg) translateY(-1px);
+    filter: drop-shadow(0 6px 8px rgba(34, 52, 60, .26));
+  }
+  .o-town__house:active { box-shadow: none; transform: scale(.97); }
+  .o-town__house:focus-visible { outline: 2px solid var(--town-focus); outline-offset: 3px; border-radius: 10px; }
+  .o-town__house:is(.is-on, [aria-pressed='true']) { box-shadow: none; filter: drop-shadow(0 0 0 2px currentColor) drop-shadow(0 3px 4px rgba(34, 52, 60, .2)); }
+  .o-town__house .o-town__face {
+    top: 33%;
+    right: 12%;
+    bottom: 10%;
+    left: 12%;
+    flex-direction: column;
+    gap: 3%;
+  }
+  .o-town__house .o-town__divider { display: none; }
+  .o-town__house .o-town__label { font-size: 14cqi; }
+  .o-town__house .o-town__number { font-size: 8.5cqi; opacity: .9; }
+  .o-town__house.is-long .o-town__label { font-size: 11.5cqi; }
 
   .o-town.is-revealed .o-town__anchor {
     animation: o-town-house-arrive 480ms var(--town-ease) var(--town-delay, 0ms) both;
