@@ -296,29 +296,21 @@
   .o-town__house:is(.is-on, [aria-pressed='true']) {
     box-shadow: 0 0 0 4px rgba(252, 249, 241, .62), 0 0 0 6px var(--sign-tint-ink, #2b4c58), 0 8px 18px -6px rgba(34, 52, 60, .28);
   }
-  .o-town__anchor:has(.o-town__house)::before,
-  .o-town__anchor:has(.o-town__house)::after {
+  .o-town__anchor:has(.o-town__house)::before {
     content: '';
     position: absolute;
-    inset: -2px;
+    inset: -6px;
     z-index: -1;
-    border: 3px solid color-mix(in srgb, var(--halo, #2b4c58) 70%, #ffffff);
-    border-radius: 14px;
-    box-shadow: 0 0 14px 3px color-mix(in srgb, var(--halo, #2b4c58) 30%, transparent), inset 0 0 8px color-mix(in srgb, var(--halo, #2b4c58) 18%, transparent);
-    opacity: 0;
+    border: 2px solid #fff8e8;
+    border-radius: 16px;
     pointer-events: none;
-    animation: o-town-halo 4.8s cubic-bezier(.2, .6, .3, 1) var(--halo-delay, 0s) infinite;
+    animation: o-town-halo 2.2s ease-out var(--halo-delay, 0s) infinite;
   }
-  .o-town__anchor:has(.o-town__house)::after { animation-delay: calc(var(--halo-delay, 0s) + .35s); }
   .o-town__anchor:has(.o-town__house:hover)::before,
-  .o-town__anchor:has(.o-town__house:hover)::after,
-  .o-town__anchor:has(.o-town__house:focus-visible)::before,
-  .o-town__anchor:has(.o-town__house:focus-visible)::after { animation-play-state: paused; opacity: 0; }
+  .o-town__anchor:has(.o-town__house:focus-visible)::before { animation: none; opacity: 0; }
   @keyframes o-town-halo {
-    0% { opacity: 0; transform: scale(.98); }
-    3% { opacity: 1; transform: scale(1.02); }
-    20% { opacity: 0; transform: scale(1.22, 1.6); }
-    100% { opacity: 0; transform: scale(1.22, 1.6); }
+    0% { transform: scale(.92); opacity: .85; }
+    90%, 100% { transform: scale(1.28); opacity: 0; }
   }
   @media (max-width: 767px) {
     .o-town__house { gap: 6px; min-height: 0; padding: 4px 9px 4px 4px; border-radius: 10px; }
@@ -332,8 +324,7 @@
   @keyframes o-town-shine { from { opacity: 1; transform: skewX(-18deg) translateX(0); } to { opacity: 0; transform: skewX(-18deg) translateX(420%); } }
   @media (prefers-reduced-motion: reduce) {
     .o-town__anchor:has(.o-town__house) { animation: none; }
-    .o-town__anchor:has(.o-town__house)::before,
-    .o-town__anchor:has(.o-town__house)::after { animation: none; opacity: .55; transform: none; }
+    .o-town__anchor:has(.o-town__house)::before { animation: none; opacity: 0; }
     .o-town__house, .o-town__go, .o-town__badge { transition: none; }
     .o-town__house:hover .o-town__shine { animation: none; }
   }
