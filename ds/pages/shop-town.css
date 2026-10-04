@@ -14,8 +14,8 @@
     --town-cream: #fbf3e1;
     --town-ease: cubic-bezier(.2, .7, .25, 1);
     --town-scene-height: calc(100vw * 1296 / 3024);
-    --town-street-height: min(var(--town-scene-height), clamp(380px, 33vw, 500px));
-    --town-crop-top: min(calc((var(--town-scene-height) - var(--town-street-height)) * .35), 90px);
+    --town-street-height: min(var(--town-scene-height), max(380px, 33vw));
+    --town-crop-top: calc(var(--town-scene-height) - var(--town-street-height));
     position: relative;
     isolation: isolate;
     min-width: 0;
@@ -185,13 +185,12 @@
     background: currentColor;
     opacity: .58;
   }
-  .o-town__plaque.is-long .o-town__label { font-size: 7.5cqi; }
   .o-town__anchor:has(.o-town__house) {
     width: auto;
     transform: translate(-50%, -50%);
     animation: o-town-bob 5.6s ease-in-out var(--town-delay, 0ms) infinite;
   }
-  .o-town__house {
+  .o-town__card {
     display: inline-flex;
     align-items: center;
     gap: clamp(8px, .8vw, 14px);
@@ -215,7 +214,7 @@
     container-type: normal;
     transition: transform 320ms var(--town-ease), box-shadow 320ms var(--town-ease), background-color 320ms var(--town-ease);
   }
-  .o-town__house::before {
+  .o-town__card::before {
     content: '';
     position: absolute;
     inset: 3px;
@@ -238,7 +237,7 @@
     font-variant-numeric: tabular-nums;
     transition: transform 420ms var(--town-ease);
   }
-  .o-town__house .o-town__face {
+  .o-town__card .o-town__face {
     position: relative;
     inset: auto;
     display: flex;
@@ -246,18 +245,18 @@
     align-items: flex-start;
     gap: 2px;
   }
-  .o-town__house .o-town__label {
+  .o-town__card .o-town__label {
     color: #22343c;
     font: 700 clamp(14px, 1.25vw, 19px)/1.15 'Noto Serif TC', serif;
     letter-spacing: .02em;
     text-shadow: none;
   }
-  .o-town__house .o-town__number {
+  .o-town__card .o-town__number {
     color: #5a6e76;
     font: 600 clamp(10px, .78vw, 12px)/1.1 Manrope, 'Noto Sans TC', sans-serif;
     text-shadow: none;
   }
-  .o-town__house .o-town__divider { display: none; }
+  .o-town__card .o-town__divider { display: none; }
   .o-town__go {
     flex: 0 0 auto;
     margin-left: clamp(2px, .4vw, 8px);
@@ -275,7 +274,7 @@
     pointer-events: none;
   }
   @media (hover: hover) and (pointer: fine) {
-    .o-town__house:hover {
+    .o-town__card:hover {
       transform: translateY(-4px);
       background-color: rgba(255, 253, 248, .95);
       box-shadow:
@@ -283,17 +282,17 @@
         0 0 0 6px color-mix(in srgb, var(--sign-tint, #cfe3f1) 85%, #ffffff),
         0 16px 26px -10px rgba(34, 52, 60, .36);
     }
-    .o-town__house:hover .o-town__go { transform: translate(3px, -3px); }
-    .o-town__house:hover .o-town__badge { transform: rotate(-6deg) scale(1.06); }
-    .o-town__house:hover .o-town__shine { animation: o-town-shine 900ms var(--town-ease) 1; }
+    .o-town__card:hover .o-town__go { transform: translate(3px, -3px); }
+    .o-town__card:hover .o-town__badge { transform: rotate(-6deg) scale(1.06); }
+    .o-town__card:hover .o-town__shine { animation: o-town-shine 900ms var(--town-ease) 1; }
   }
-  .o-town__house:active { transform: translateY(-1px) scale(.97); }
-  .o-town__house:focus-visible {
+  .o-town__card:active { transform: translateY(-1px) scale(.97); }
+  .o-town__card:focus-visible {
     outline: 2px solid #2b6176;
     outline-offset: 4px;
     box-shadow: 0 0 0 4px rgba(252, 249, 241, .62), 0 8px 18px -6px rgba(34, 52, 60, .28);
   }
-  .o-town__house:is(.is-on, [aria-pressed='true']) {
+  .o-town__card:is(.is-on, [aria-pressed='true']) {
     box-shadow: 0 0 0 4px rgba(252, 249, 241, .62), 0 0 0 6px var(--sign-tint-ink, #2b4c58), 0 8px 18px -6px rgba(34, 52, 60, .28);
   }
   .o-town__anchor:has(.o-town__house)::before {
@@ -313,13 +312,20 @@
     90%, 100% { transform: scale(1.28); opacity: 0; }
   }
   @media (max-width: 767px) {
-    .o-town__house { gap: 6px; min-height: 0; padding: 4px 9px 4px 4px; border-radius: 10px; }
-    .o-town__house::before { inset: 2px; border-radius: 8px; }
+    .o-town__card { gap: 6px; min-height: 0; padding: 4px 9px 4px 4px; border-radius: 10px; }
+    .o-town__card::before { inset: 2px; border-radius: 8px; }
     .o-town__badge { width: 24px; border-radius: 6px; font-size: 10px; }
-    .o-town__house .o-town__label { font-size: 13px; }
-    .o-town__house .o-town__number { font-size: 9px; }
+    .o-town__card .o-town__label { font-size: 13px; }
+    .o-town__card .o-town__number { font-size: 9px; }
     .o-town__go { display: none; }
   }
+  .o-town__badge--icon { width: clamp(40px, 3.4vw, 50px); height: clamp(40px, 3.4vw, 50px); padding: 4px; box-sizing: border-box; overflow: hidden; }
+  .o-town__badge--icon .o-town__icon { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; }
+  .o-town__badge--icon { grid-template: 100% / 100%; }
+  .o-town__card .o-town__label { white-space: nowrap; }
+  .o-town__plaque.o-town__card { min-height: clamp(52px, 4.4vw, 62px); padding-right: clamp(12px, 1vw, 16px); }
+  .o-town__plaque .o-town__label { font-size: clamp(14px, 1.05vw, 16px); }
+  .o-town__plaque-slot { flex: 0 0 auto !important; max-width: none !important; }
   @keyframes o-town-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
   @keyframes o-town-shine { from { opacity: 1; transform: skewX(-18deg) translateX(0); } to { opacity: 0; transform: skewX(-18deg) translateX(420%); } }
   @media (prefers-reduced-motion: reduce) {
@@ -339,7 +345,7 @@
     position: relative;
     z-index: 4;
     width: 100%;
-    margin-top: -24px;
+    margin-top: 0;
     padding-top: 7px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .8), rgba(251, 243, 225, .96) 9px, rgba(251, 243, 225, .94));
   }
@@ -357,8 +363,8 @@
   nav.o-town__plaques[data-town-plaques] {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
+    justify-content: safe center;
+    gap: 10px;
     width: 100%;
     margin: 0;
     padding: 6px 14px 10px;
@@ -388,9 +394,6 @@
     gap: 4%;
     justify-content: flex-start;
   }
-  .o-town__plaque .o-town__label { font-size: 9.2cqi; }
-  .o-town__plaque .o-town__number { font-size: 6.8cqi; }
-  .o-town__plaque.is-long .o-town__label { font-size: 7.4cqi; }
   .o-town__roundel {
     position: absolute;
     z-index: 1;
@@ -478,7 +481,7 @@
     .o-town__eyebrow { font-size: 9px; letter-spacing: .08em; }
     .o-town__count { margin-top: 4px; font-size: 10px; }
     .o-town__anchor { width: max(104px, 11%); scroll-snap-align: center; }
-    .o-town__kerb { margin-top: -20px; }
+    .o-town__kerb { margin-top: 0; }
     nav.o-town__plaques[data-town-plaques] {
       justify-content: flex-start;
       gap: 8px;

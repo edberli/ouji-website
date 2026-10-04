@@ -2481,11 +2481,15 @@ const SHOP_GROUPS = [
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
 /* 四塊店舖招牌固定喺街景；所有畫板以同一 3.2:1 比例顯示。 */
 const SHOP_TOWN_HOUSES = {
-  skincare: { x: '32%', y: '24%', board: 'blue', n: '01', tint: '#cfe3f1', tintInk: '#2b5f86' },
-  makeup: { x: '49.5%', y: '31%', board: 'pink', n: '02', tint: '#f6d9dc', tintInk: '#9a4a57' },
-  bath: { x: '64%', y: '30%', board: 'mint', n: '03', tint: '#d3eee4', tintInk: '#2f7563' },
-  seasonal: { x: '83%', y: '28%', board: 'yellow', n: '04', tint: '#f8e7b8', tintInk: '#8a6414' },
+  skincare: { x: '32%', y: '33%', board: 'blue', n: '01', tint: '#cfe3f1', tintInk: '#2b5f86' },
+  makeup: { x: '49.5%', y: '38%', board: 'pink', n: '02', tint: '#f6d9dc', tintInk: '#9a4a57' },
+  bath: { x: '64%', y: '37%', board: 'mint', n: '03', tint: '#d3eee4', tintInk: '#2f7563' },
+  seasonal: { x: '83%', y: '35%', board: 'yellow', n: '04', tint: '#f8e7b8', tintInk: '#8a6414' },
 };
+const SHOP_TOWN_PLAQUE_TINTS = [
+  ['#e7def3', '#6a5191'], ['#f6dccd', '#9a4f2c'], ['#d3eee4', '#2f7563'], ['#f6d9dc', '#9a4a57'],
+  ['#f8e7b8', '#8a6414'], ['#cfe3f1', '#2b5f86'], ['#e7def3', '#6a5191'], ['#f6dccd', '#9a4f2c'],
+];
 const SHOP_TOWN_PLAQUE_BOARDS = [
   'lavender', 'terracotta', 'mint', 'pink', 'yellow', 'blue', 'lavender', 'terracotta',
 ];
@@ -2642,20 +2646,16 @@ function buildShopBootHero(products, activeGroup, pending = false) {
   if (!signs || !plaques) return;
   const counts = shopGroupCounts(products);
 
-  const controlMarkup = (g, { board, ink = '#22343c', house = false, delay = 0, n = '', tint = '', tintInk = '' } = {}) => {
+  const controlMarkup = (g, { house = false, delay = 0, n = '', tint = '#e7f1f4', tintInk = '#2b4c58' } = {}) => {
     const kind = house ? 'house' : 'plaque';
     const on = activeGroup === g.id;
     const label = escapeSpotlightAttr(g.label);
-    const classes = `o-town__control o-town__${kind}${g.label.length > 5 || g.id === 'kpop' ? ' is-long' : ''}${on && !g.href && !pending ? ' is-on' : ''}`;
-    const attrs = `class="${classes}" style="${house ? `--sign-tint:${tint};--sign-tint-ink:${tintInk}` : `--sign-board:url('/assets/images/world/town/board-${board}.webp');--sign-ink:${ink}`};--town-delay:${delay}ms" data-town-category="${g.id}"
-      aria-label="${pending ? label : `${label}，${counts[g.id]} 件產品`}"`;
-    const face = `<span class="o-town__face"><span class="o-town__label">${label}</span>
-      <span class="o-town__divider" aria-hidden="true"${pending ? ' hidden' : ''}></span>
-      <small class="o-town__number"${pending ? ' hidden' : ''}>${pending ? '' : `${counts[g.id]} 件`}</small></span>`;
-    const houseFace = `<span class="o-town__badge" aria-hidden="true">${n}</span><span class="o-town__face"><span class="o-town__label">${label}</span>
-      <small class="o-town__number"${pending ? ' hidden' : ''}>${pending ? '' : `${counts[g.id]} 件`}</small></span><span class="o-town__go" aria-hidden="true">↗</span><span class="o-town__shine" aria-hidden="true"></span>`;
-    const inner = house ? houseFace
-      : `<span class="o-town__roundel"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="34" height="34" decoding="async"></span>${face}`;
+    const classes = `o-town__control o-town__card o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
+    const attrs = `class="${classes}" style="--sign-tint:${tint};--sign-tint-ink:${tintInk};--town-delay:${delay}ms" data-town-category="${g.id}" aria-label="${label}"`;
+    const tile = house
+      ? `<span class="o-town__badge" aria-hidden="true">${n}</span>`
+      : `<span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="44" height="44" decoding="async"></span>`;
+    const inner = `${tile}<span class="o-town__label">${label}</span><span class="o-town__go" aria-hidden="true">↗</span><span class="o-town__shine" aria-hidden="true"></span>`;
     return g.href
       ? `<a ${attrs} href="/${g.href}">${inner}</a>`
       : pending
@@ -2670,9 +2670,8 @@ function buildShopBootHero(products, activeGroup, pending = false) {
       return `<div class="o-town__anchor" style="--town-x:${pos.x};--town-y:${pos.y};--town-delay:${i * 80}ms;--halo:${pos.tintInk};--halo-delay:${(i * 0.45).toFixed(2)}s">${controlMarkup(g, { ...pos, house: true })}</div>`;
     }).join('');
     plaques.innerHTML = SHOP_GROUPS.filter((g) => !SHOP_TOWN_HOUSES[g.id]).map((g, i) => {
-      const board = SHOP_TOWN_PLAQUE_BOARDS[i];
-      const ink = board === 'blue' || board === 'terracotta' ? '#fbf3e1' : '#22343c';
-      return `<div class="o-town__plaque-slot">${controlMarkup(g, { board, ink, delay: i * 40 })}</div>`;
+      const [tint, tintInk] = SHOP_TOWN_PLAQUE_TINTS[i % SHOP_TOWN_PLAQUE_TINTS.length];
+      return `<div class="o-town__plaque-slot">${controlMarkup(g, { tint, tintInk, delay: i * 40 })}</div>`;
     }).join('');
     initShopTown(town);
   } else {
@@ -2684,10 +2683,10 @@ function buildShopBootHero(products, activeGroup, pending = false) {
       if (control.tagName !== tag) {
         const house = SHOP_TOWN_HOUSES[g.id];
         const slot = [...plaques.querySelectorAll('.o-town__plaque-slot')].indexOf(control.parentElement);
-        const board = SHOP_TOWN_PLAQUE_BOARDS[Math.max(0, slot) % SHOP_TOWN_PLAQUE_BOARDS.length];
+        const [tint, tintInk] = SHOP_TOWN_PLAQUE_TINTS[Math.max(0, slot) % SHOP_TOWN_PLAQUE_TINTS.length];
         control.outerHTML = house
           ? controlMarkup(g, { ...house, house: true })
-          : controlMarkup(g, { board, ink: board === 'blue' || board === 'terracotta' ? '#fbf3e1' : '#22343c' });
+          : controlMarkup(g, { tint, tintInk });
         return;
       }
       const number = control.querySelector('.o-town__number');
@@ -2699,7 +2698,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
       if (divider) divider.hidden = pending;
       control.disabled = pending;
       control.setAttribute('aria-disabled', String(pending));
-      control.setAttribute('aria-label', pending ? g.label : `${g.label}，${counts[g.id]} 件產品`);
+      control.setAttribute('aria-label', g.label);
       if (tag === 'BUTTON' && !pending) {
         const on = activeGroup === g.id;
         control.classList.toggle('is-on', on);
