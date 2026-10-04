@@ -307,17 +307,17 @@
     box-shadow: 0 0 14px 3px color-mix(in srgb, var(--halo, #2b4c58) 30%, transparent), inset 0 0 8px color-mix(in srgb, var(--halo, #2b4c58) 18%, transparent);
     opacity: 0;
     pointer-events: none;
-    animation: o-town-halo 2.8s cubic-bezier(.2, .6, .3, 1) var(--town-delay, 0ms) infinite;
+    animation: o-town-halo 4.8s cubic-bezier(.2, .6, .3, 1) var(--halo-delay, 0s) infinite;
   }
-  .o-town__anchor:has(.o-town__house)::after { animation-delay: calc(var(--town-delay, 0ms) + 1.4s); }
+  .o-town__anchor:has(.o-town__house)::after { animation-delay: calc(var(--halo-delay, 0s) + .35s); }
   .o-town__anchor:has(.o-town__house:hover)::before,
   .o-town__anchor:has(.o-town__house:hover)::after,
   .o-town__anchor:has(.o-town__house:focus-visible)::before,
   .o-town__anchor:has(.o-town__house:focus-visible)::after { animation-play-state: paused; opacity: 0; }
   @keyframes o-town-halo {
     0% { opacity: 0; transform: scale(.98); }
-    12% { opacity: 1; transform: scale(1.02); }
-    75% { opacity: 0; transform: scale(1.22, 1.6); }
+    3% { opacity: 1; transform: scale(1.02); }
+    20% { opacity: 0; transform: scale(1.22, 1.6); }
     100% { opacity: 0; transform: scale(1.22, 1.6); }
   }
   @media (max-width: 767px) {

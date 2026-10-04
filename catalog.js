@@ -2667,7 +2667,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
   if (!signs.children.length) {
     signs.innerHTML = SHOP_GROUPS.filter((g) => SHOP_TOWN_HOUSES[g.id]).map((g, i) => {
       const pos = SHOP_TOWN_HOUSES[g.id];
-      return `<div class="o-town__anchor" style="--town-x:${pos.x};--town-y:${pos.y};--town-delay:${i * 80}ms;--halo:${pos.tintInk}">${controlMarkup(g, { ...pos, house: true })}</div>`;
+      return `<div class="o-town__anchor" style="--town-x:${pos.x};--town-y:${pos.y};--town-delay:${i * 80}ms;--halo:${pos.tintInk};--halo-delay:${i * 1.2}s">${controlMarkup(g, { ...pos, house: true })}</div>`;
     }).join('');
     plaques.innerHTML = SHOP_GROUPS.filter((g) => !SHOP_TOWN_HOUSES[g.id]).map((g, i) => {
       const board = SHOP_TOWN_PLAQUE_BOARDS[i];
