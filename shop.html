@@ -274,25 +274,32 @@
 
     <!-- Windows 主視覺保留原有構圖；以下目錄內容改用彩妝／護膚頁層次。 -->
     <section class="o-town" aria-labelledby="shop-boot-title" data-shop-boot data-shop-town>
-      <div class="o-town__title">
-        <span class="o-town__eyebrow">OUJI ALL PRODUCTS</span>
-        <h1 id="shop-boot-title">全部產品</h1>
-        <p class="o-town__count" data-boot-count></p>
-      </div>
       <div class="o-town__street-shell">
         <div class="o-town__viewport" data-town-viewport role="region"
              aria-label="海邊小街四間分類店舖" aria-describedby="shop-town-hint" tabindex="0">
           <div class="o-town__scene">
-            <img class="o-town__image" src="/assets/images/world/town-street-2400.webp"
-                 srcset="/assets/images/world/town-street-1000.webp 1000w, /assets/images/world/town-street-1600.webp 1600w, /assets/images/world/town-street-2400.webp 2400w"
-                 sizes="(max-width: 767px) 794px, 100vw" width="3024" height="1296"
-                 alt="" fetchpriority="high" decoding="async">
+            <img class="o-town__image" src="/assets/images/world/town/street-1600.webp"
+                 srcset="/assets/images/world/town/street-1000.webp 1000w, /assets/images/world/town/street-1600.webp 1600w, /assets/images/world/town/street-2400.webp 2400w"
+                 sizes="(max-width: 767px) 607px, (min-width: 1000px) 1000px, 100vw" width="3024" height="1296"
+                 alt="" fetchpriority="high" loading="eager" decoding="async">
+            <video class="o-town__video" data-town-video muted loop playsinline preload="none"
+                   poster="/assets/images/world/town/street-poster-1920.webp" aria-hidden="true" tabindex="-1"></video>
+            <div class="o-town__title">
+              <span class="o-town__eyebrow">OUJI ALL PRODUCTS</span>
+              <h1 id="shop-boot-title">全部產品</h1>
+              <p class="o-town__count" data-boot-count></p>
+            </div>
             <div class="o-town__signs" data-town-signs aria-label="主要產品分類"></div>
           </div>
         </div>
+        <button class="o-town__motion-toggle" data-town-motion-toggle type="button" aria-label="播放動畫" hidden>
+          <span class="o-town__motion-icon" data-town-motion-icon aria-hidden="true">▶</span>
+        </button>
+        <p class="o-town__hint" id="shop-town-hint">← 左右掃逛小街 →</p>
       </div>
-      <p class="o-town__hint" id="shop-town-hint">← 左右掃，逛勻四間店 →</p>
-      <nav class="o-town__plaques" data-town-plaques aria-label="更多產品分類"></nav>
+      <div class="o-town__kerb">
+        <nav class="o-town__plaques" data-town-plaques aria-label="更多產品分類"></nav>
+      </div>
     </section>
 
     <section class="shop-page" data-shop-catalog aria-label="全部產品目錄">

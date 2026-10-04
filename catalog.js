@@ -2481,10 +2481,10 @@ const SHOP_GROUPS = [
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
 /* 招牌中心固定喺原圖比例內；其餘分類按 SHOP_GROUPS 原次序排街牌。 */
 const SHOP_TOWN_HOUSES = {
-  skincare: { x: '33%', y: '21%' },
-  makeup: { x: '49.5%', y: '33%' },
-  bath: { x: '64%', y: '32%' },
-  seasonal: { x: '84%', y: '29%' },
+  skincare: { x: '33%', y: '23%' },
+  makeup: { x: '49.5%', y: '34%' },
+  bath: { x: '64%', y: '33%' },
+  seasonal: { x: '84%', y: '30%' },
 };
 function inSection(p, id) {
   return sectionMatch(p, id);
@@ -2519,27 +2519,126 @@ function buildShopCategoryLinks() {
 function initShopTown(town) {
   if (town.dataset.townReady) return;
   town.dataset.townReady = 'true';
+  // 產品先入首屏；移動原有節點，令視覺、讀屏同鍵盤順序一致。
+  const content = town.nextElementSibling?.querySelector('.shop-page__content');
+  if (content) {
+    const first = content.firstElementChild;
+    ['.shop-page__filter', '[data-active-filters]', '[data-catalog]'].forEach((selector) => {
+      const node = content.querySelector(selector);
+      if (node && node !== first) content.insertBefore(node, first);
+    });
+  }
   const viewport = town.querySelector('[data-town-viewport]');
   const scene = town.querySelector('.o-town__scene');
   const mobile = window.matchMedia('(max-width: 767px)');
   const positionStreet = () => {
     if (!viewport || !scene) return;
-    // 初次手機畫面以護膚店為中心，之後交返畀客自行掃街。
-    viewport.scrollLeft = mobile.matches
-      ? Math.max(0, scene.clientWidth * 0.33 - viewport.clientWidth / 2) : 0;
+    // 左端同時見到天空標題同護膚店；之後保留客人自行掃街嘅位置。
+    viewport.scrollLeft = 0;
   };
   requestAnimationFrame(positionStreet);
   mobile.addEventListener('change', positionStreet);
   if (!('IntersectionObserver' in window)) {
     town.classList.add('is-revealed');
-    return;
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      town.classList.add('is-revealed');
+      observer.disconnect();
+    }, { threshold: 0.1 });
+    observer.observe(town);
   }
-  const observer = new IntersectionObserver((entries) => {
-    if (!entries.some((entry) => entry.isIntersecting)) return;
-    town.classList.add('is-revealed');
-    observer.disconnect();
-  }, { threshold: 0.1 });
-  observer.observe(town);
+
+  const video = town.querySelector('[data-town-video]');
+  const toggle = town.querySelector('[data-town-motion-toggle]');
+  const icon = toggle?.querySelector('[data-town-motion-icon]');
+  if (!video || !toggle) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const connection = navigator.connection;
+  let loaded = document.readyState === 'complete';
+  let inView = false;
+  let userPaused = false;
+  let failed = false;
+  const motionAllowed = () => !reduced.matches && !connection?.saveData;
+  const syncToggle = () => {
+    toggle.setAttribute('aria-label', video.paused ? '播放動畫' : '暫停動畫');
+    if (icon) icon.textContent = video.paused ? '▶' : 'Ⅱ';
+  };
+  const syncVideo = () => {
+    if (!loaded || failed || !motionAllowed()) {
+      video.pause();
+      town.classList.remove('is-video-playing');
+      toggle.hidden = true;
+      return;
+    }
+    if (!inView || document.hidden || userPaused) {
+      video.pause();
+      return;
+    }
+    // 唔喺 markup 放 source，確保 LCP 靜圖同 window load 之前唔下載影片。
+    if (!video.querySelector('source')) {
+      const size = window.innerWidth < 1280 ? 1280 : 1920;
+      ['webm', 'mp4'].forEach((format) => {
+        const source = document.createElement('source');
+        source.src = `/assets/images/world/town/street-${size}.${format}`;
+        source.type = `video/${format}`;
+        video.appendChild(source);
+      });
+      video.muted = true;
+      video.load();
+    }
+    const playing = video.play();
+    if (playing?.catch) playing.catch((error) => {
+      if (error.name === 'AbortError') return;
+      // 自動播放被瀏覽器拒絕時保留靜圖，仍可手動播放。
+      if (motionAllowed() && inView && !document.hidden && !failed) {
+        userPaused = true;
+        toggle.hidden = false;
+        syncToggle();
+      }
+    });
+  };
+  video.addEventListener('playing', () => {
+    if (!motionAllowed() || document.hidden || !inView || userPaused) {
+      video.pause();
+      return;
+    }
+    town.classList.add('is-video-playing');
+    toggle.hidden = false;
+    syncToggle();
+  });
+  video.addEventListener('pause', syncToggle);
+  video.addEventListener('error', () => {
+    failed = true;
+    syncVideo();
+  });
+  toggle.addEventListener('click', () => {
+    userPaused = !video.paused;
+    syncVideo();
+  });
+  const measureVisibility = () => {
+    const rect = (viewport || scene || town).getBoundingClientRect();
+    inView = rect.bottom > 0 && rect.top < window.innerHeight;
+    syncVideo();
+  };
+  if ('IntersectionObserver' in window) {
+    const visibility = new IntersectionObserver((entries) => {
+      inView = entries.some((entry) => entry.isIntersecting);
+      syncVideo();
+    }, { threshold: 0 });
+    visibility.observe(viewport || scene || town);
+  } else {
+    window.addEventListener('scroll', measureVisibility, { passive: true });
+    window.addEventListener('resize', measureVisibility, { passive: true });
+  }
+  document.addEventListener('visibilitychange', syncVideo);
+  reduced.addEventListener('change', syncVideo);
+  connection?.addEventListener?.('change', syncVideo);
+  if (!loaded) window.addEventListener('load', () => {
+    loaded = true;
+    measureVisibility();
+  }, { once: true });
+  measureVisibility();
 }
 
 function buildShopBootHero(products, activeGroup, pending = false) {
@@ -2548,7 +2647,6 @@ function buildShopBootHero(products, activeGroup, pending = false) {
   const plaques = town?.querySelector('[data-town-plaques]');
   if (!signs || !plaques) return;
   const counts = shopGroupCounts(products);
-  const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
 
   const controlMarkup = (g) => {
     const kind = SHOP_TOWN_HOUSES[g.id] ? 'sign' : 'plaque';
@@ -2557,12 +2655,13 @@ function buildShopBootHero(products, activeGroup, pending = false) {
     const classes = `o-town__control o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
     const attrs = `class="${classes}" data-town-category="${g.id}"
       aria-label="${pending ? label : `${label}，${counts[g.id]} 件產品`}"`;
-    const inner = `<span class="o-town__label">${label}</span>
+    const inner = `${kind === 'plaque' ? `<img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="40" height="40" decoding="async">` : ''}
+      <span class="o-town__face"><span class="o-town__label">${label}</span>
       <small class="o-town__number"${pending ? ' hidden' : ''}>${pending ? '' : `${counts[g.id]} 件`}</small>
-      <span class="o-town__arrow" aria-hidden="true">→</span>`;
+      <span class="o-town__arrow" aria-hidden="true">→</span></span>`;
     // 與原貼紙一致：連結即刻可用；無 href 嘅分類等載完先變篩選按鈕。
     return g.href
-      ? `<a ${attrs} href="${g.href}">${inner}</a>`
+      ? `<a ${attrs} href="/${g.href}">${inner}</a>`
       : pending
         ? `<span ${attrs} aria-disabled="true">${inner}</span>`
         : `<button type="button" ${attrs} data-boot-group="${g.id}"
@@ -2605,7 +2704,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
   const count = document.querySelector('[data-boot-count]');
   if (count) count.textContent = pending
     ? (products.length ? `先顯示 ${products.length} 件 · 其餘載入中` : `${SHOP_GROUPS.length} 個分類 · 揀一類開始`)
-    : `${products.length} 件產品 · ${brands} 個品牌`;
+    : `${products.length.toLocaleString('en-US')} 件產品`;
 }
 
 function syncShopBoot(products, activeGroup, list) {

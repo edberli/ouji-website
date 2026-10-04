@@ -1,4 +1,4 @@
-/* Seaside category town: all styling is isolated to the shop-town section. */
+/* Watercolor street and kerb; catalogue spacing is scoped to its adjacent shop. */
 @layer pages {
   @font-face {
     font-family: 'League Spartan';
@@ -9,73 +9,24 @@
   }
 
   section.o-town[data-shop-boot][data-shop-town] {
-    --town-ink: #293f45;
-    --town-muted: #526a70;
-    --town-board: #f4ead2;
-    --town-enamel: #2b4c58;
-    --town-focus: #2b4c58;
-    --town-ease: cubic-bezier(.2,.7,.25,1);
+    --town-ink: #22343c;
+    --town-focus: #2b6176;
+    --town-ease: cubic-bezier(.2, .7, .25, 1);
     position: relative;
     isolation: isolate;
     min-width: 0;
+    padding: 0;
     color: var(--town-ink);
   }
 
-  .o-town__title {
-    position: absolute;
-    z-index: 3;
-    top: 20%;
-    left: 1%;
-    box-sizing: border-box;
-    width: 18%;
-    max-width: 18%;
-    min-width: 0;
-    padding: clamp(4px, .8vw, 12px);
-    isolation: isolate;
-  }
-
-  .o-town__title::before {
-    position: absolute;
-    z-index: -1;
-    inset: -42% -34%;
-    content: "";
-    pointer-events: none;
-    background: radial-gradient(closest-side, rgba(255, 252, 241, .94) 0%, rgba(255, 252, 241, .86) 45%, rgba(255, 252, 241, .45) 75%, rgba(255, 252, 241, 0) 100%);
-  }
-
-  .o-town__eyebrow {
-    display: block;
-    margin-bottom: 9px;
-    color: #365d65;
-    font: 700 11px/1.4 'League Spartan', 'Noto Sans TC', sans-serif;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-  }
-
-  .o-town__title h1 {
-    color: #263e44;
-    font: 700 clamp(24px, 2.8vw, 44px)/1.25 'Noto Sans TC', sans-serif;
-    letter-spacing: -.035em;
-    text-wrap: balance;
-    overflow-wrap: anywhere;
-  }
-
-  .o-town__count {
-    display: block;
-    margin-top: 10px;
-    color: #314f56;
-    font: 700 clamp(10px, 1vw, 13px)/1.45 Manrope, 'Noto Sans TC', sans-serif;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .o-town [hidden] {
-    display: none !important;
-  }
+  .o-town [hidden] { display: none !important; }
 
   .o-town__street-shell {
     position: relative;
     width: 100%;
-    min-width: 0;
+    /* Include the existing brand heading in the 900px product-start budget. */
+    max-width: 1000px;
+    margin-inline: auto;
   }
 
   .o-town__viewport[data-town-viewport] {
@@ -84,7 +35,14 @@
     overflow: hidden;
   }
 
-  .o-town__viewport[data-town-viewport]:focus-visible {
+  @media (min-width: 1040px) {
+    .o-town__viewport[data-town-viewport] {
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+    }
+  }
+
+  .o-town__viewport:focus-visible {
     outline: 3px solid var(--town-focus);
     outline-offset: -3px;
   }
@@ -95,15 +53,64 @@
     aspect-ratio: 3024 / 1296;
   }
 
-  .o-town__image {
+  .o-town__image,
+  .o-town__video {
     position: absolute;
-    z-index: 0;
     inset: 0;
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center;
+    object-fit: fill;
+    pointer-events: none;
+  }
+
+  .o-town__image { z-index: 0; }
+  .o-town__video {
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 450ms ease;
+  }
+  .o-town.is-video-playing .o-town__video { opacity: 1; }
+
+  .o-town__title {
+    position: absolute;
+    z-index: 3;
+    top: 4%;
+    left: 2%;
+    width: 19%;
+    padding: 5px;
+    isolation: isolate;
+    pointer-events: none;
+  }
+
+  .o-town__title::before {
+    position: absolute;
+    z-index: -1;
+    inset: -35% -22%;
+    content: '';
+    background: radial-gradient(ellipse closest-side, rgba(255, 252, 241, .94), rgba(255, 252, 241, .76) 48%, rgba(255, 252, 241, .25) 78%, transparent);
+  }
+
+  .o-town__eyebrow {
+    display: block;
+    margin: 0 0 5px;
+    color: var(--town-ink);
+    font: 700 10px/1.4 'League Spartan', 'Noto Sans TC', sans-serif;
+    letter-spacing: .13em;
+  }
+
+  .o-town__title h1 {
+    margin: 0;
+    color: var(--town-ink);
+    font: 700 clamp(24px, 3vw, 36px)/1.25 'Noto Sans TC', sans-serif;
+    letter-spacing: -.035em;
+  }
+
+  .o-town__count {
+    margin: 6px 0 0;
+    color: var(--town-ink);
+    font: 600 11px/1.4 Manrope, 'Noto Sans TC', sans-serif;
+    font-variant-numeric: tabular-nums;
   }
 
   .o-town__signs[data-town-signs] {
@@ -115,429 +122,336 @@
 
   .o-town__anchor {
     position: absolute;
-    left: var(--town-x, 50%);
-    top: var(--town-y, 50%);
     z-index: 1;
-    display: block;
-    width: clamp(100px, 11vw, 155px);
-    max-width: calc(14.5% - 8px);
-    opacity: 0;
-    transform: translate(-50%, -50%);
+    left: var(--town-x);
+    top: var(--town-y);
+    width: max(92px, 12%);
+    /* The board centre is 71% down the artwork, below the chains. */
+    transform: translate(-50%, -71%);
+    transform-origin: 50% 0;
     pointer-events: none;
   }
 
-  .o-town__signs > .o-town__anchor:nth-child(1) {
-    --town-x: 33%;
-    --town-y: 21%;
-    --town-delay: 0ms;
-  }
+  .o-town__anchor:is(:hover, :focus-within) { z-index: 4; }
 
-  .o-town__signs > .o-town__anchor:nth-child(2) {
-    --town-x: 49.5%;
-    --town-y: 33%;
-    --town-delay: 80ms;
-  }
-
-  .o-town__signs > .o-town__anchor:nth-child(3) {
-    --town-x: 64%;
-    --town-y: 32%;
-    --town-delay: 160ms;
-  }
-
-  .o-town__signs > .o-town__anchor:nth-child(4) {
-    --town-x: 84%;
-    --town-y: 29%;
-    --town-delay: 240ms;
-  }
-
-  .o-town.is-revealed .o-town__anchor {
-    opacity: 1;
-    pointer-events: auto;
-    animation: o-town-sign-arrive 360ms var(--town-ease) var(--town-delay, 0ms) backwards;
-  }
-
-  .o-town__anchor:is(:hover, :focus-within) {
-    z-index: 4;
-  }
-
-  .o-town__anchor > a.o-town__sign.o-town__control[data-town-category] {
+  .o-town__control {
     position: relative;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    box-shadow: none;
+    color: var(--town-ink);
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 180ms var(--town-ease);
+  }
+
+  .o-town__sign {
+    aspect-ratio: 720 / 486;
+    background-image: url('/assets/images/world/town/sign.webp');
+    transform-origin: 50% 0;
+    pointer-events: auto;
+  }
+
+  .o-town__face {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-rows: auto auto;
+    align-content: center;
     align-items: center;
-    justify-items: center;
-    gap: 5px 8px;
-    width: 100%;
-    min-height: 70px;
-    padding: 12px 8px 10px;
-    overflow: visible;
-    border: 1px solid #584b3d;
-    border-radius: 3px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, .52), rgba(255, 255, 255, 0) 38%), repeating-linear-gradient(0deg, transparent 0 12px, rgba(113, 84, 49, .045) 13px 14px), var(--town-board);
-    box-shadow: 0 3px 7px rgba(35, 49, 49, .25), inset 0 1px 0 rgba(255, 255, 255, .82);
-    color: var(--town-ink);
-    text-align: center;
-    text-decoration: none;
-    transform-origin: 50% 0;
-    transition: transform 150ms var(--town-ease);
+    gap: 2px 4px;
+    min-width: 0;
   }
 
-  .o-town__anchor > a.o-town__sign.o-town__control[data-town-category]::before,
-  .o-town__anchor > a.o-town__sign.o-town__control[data-town-category]::after {
+  .o-town__sign .o-town__face {
     position: absolute;
-    top: -8px;
-    width: 5px;
-    height: 10px;
-    border: 1px solid #584b3d;
-    border-bottom: 0;
-    border-radius: 5px 5px 0 0;
-    content: "";
-    pointer-events: none;
-  }
-
-  .o-town__anchor > a.o-town__sign.o-town__control[data-town-category]::before {
-    left: 28%;
-  }
-
-  .o-town__anchor > a.o-town__sign.o-town__control[data-town-category]::after {
-    right: 28%;
+    inset: 48% 10% 9%;
+    justify-items: center;
+    text-align: center;
   }
 
   .o-town__label {
     grid-column: 1 / -1;
     display: block;
-    max-width: 100%;
-    color: #263e44;
-    font: 700 14px/1.35 'Noto Sans TC', sans-serif;
-    letter-spacing: .025em;
-    overflow-wrap: anywhere;
+    min-width: 0;
+    color: var(--town-ink);
+    font: 700 clamp(12px, 1.2vw, 14px)/1.2 'Noto Sans TC', sans-serif;
   }
 
   .o-town__number {
-    color: #314f56;
-    font: 700 12px/1 Manrope, 'Noto Sans TC', sans-serif;
+    color: var(--town-ink);
+    font: 600 10px/1 Manrope, 'Noto Sans TC', sans-serif;
     font-variant-numeric: tabular-nums;
-  }
-
-  .o-town__arrow {
-    color: #314f56;
-    font: 700 17px/1 Manrope, 'Noto Sans TC', sans-serif;
-  }
-
-  .o-town__sign .o-town__label { grid-row: 1; }
-  .o-town__sign .o-town__number { grid-column: 1; grid-row: 2; }
-  .o-town__sign .o-town__arrow { grid-column: 2; grid-row: 2; }
-
-  .o-town__anchor > a.o-town__sign.o-town__control[data-town-category]:is(:hover, :focus-visible) {
-    animation: o-town-sign-swing 440ms ease-in-out 1;
-    transform: translateY(-4px);
-  }
-
-  .o-town__anchor > a.o-town__sign.o-town__control[data-town-category]:active {
-    animation: none;
-    transform: scale(.97);
-  }
-
-  .o-town__anchor > a.o-town__sign.o-town__control:is(.is-on, [aria-current="true"], [aria-pressed="true"], [aria-selected="true"]) {
-    border-color: #263b40;
-    background-color: #fff1ce;
-    box-shadow: 0 3px 7px rgba(35, 49, 49, .25), inset 0 0 0 2px rgba(255, 255, 255, .84);
-  }
-
-  .o-town__hint {
-    display: none;
-  }
-
-  nav.o-town__plaques[data-town-plaques] {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    width: 100%;
-    margin-top: clamp(18px, 2.4vw, 34px);
-    box-sizing: border-box;
-    padding: 0 clamp(16px, 3vw, 48px) clamp(24px, 3vw, 40px);
-  }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot {
-    display: grid;
-    min-width: 0;
-  }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-    min-height: 64px;
-    padding: 12px 15px;
-    border: 1px solid rgba(255, 255, 255, .9);
-    border-radius: 8px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, .19), rgba(255, 255, 255, 0) 54%), var(--town-enamel);
-    box-shadow: inset 0 0 0 3px var(--town-enamel), inset 0 0 0 4px rgba(255, 255, 255, .68), 0 2px 5px rgba(31, 54, 59, .16);
-    color: #fff;
-    font: 500 14px/1.35 'Noto Sans TC', Manrope, sans-serif;
-    text-align: left;
-    text-decoration: none;
-    width: 100%;
-    transition: transform 220ms var(--town-ease);
-    cursor: pointer;
-  }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control::before {
-    position: absolute;
-    inset: 5px;
-    border: 1px solid rgba(255, 255, 255, .58);
-    border-radius: 4px;
-    content: "";
-    pointer-events: none;
-  }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control .o-town__label {
-    grid-column: 1;
-    grid-row: 1;
-    min-width: 0;
-    color: #fff;
-    font: 700 14px/1.35 'Noto Sans TC', sans-serif;
-  }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control .o-town__number {
-    grid-column: 2;
-    grid-row: 1;
-    color: #fff;
-    font: 700 13px/1 Manrope, 'Noto Sans TC', sans-serif;
     white-space: nowrap;
   }
 
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control .o-town__arrow {
-    grid-column: 3;
-    grid-row: 1;
-    color: #fff;
-    font: 700 18px/1 Manrope, 'Noto Sans TC', sans-serif;
+  .o-town__arrow {
+    color: var(--town-ink);
+    font: 700 13px/1 Manrope, 'Noto Sans TC', sans-serif;
   }
 
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control:is(.is-on, [aria-current="true"], [aria-pressed="true"], [aria-selected="true"]) {
-    background-color: #356270;
-    box-shadow: inset 0 0 0 3px #356270, inset 0 0 0 4px rgba(255, 255, 255, .9), 0 2px 5px rgba(31, 54, 59, .2);
+  .o-town__control::after {
+    position: absolute;
+    inset: 4% 3%;
+    border-radius: 14% / 23%;
+    content: '';
+    pointer-events: none;
+  }
+  .o-town__sign::after { inset: 44% 2% 3%; }
+  .o-town__control:focus-visible { outline: none; }
+  .o-town__control:focus-visible::after {
+    outline: 3px solid var(--town-focus);
+    outline-offset: 3px;
+  }
+  .o-town__control:is(.is-on, [aria-pressed='true'])::after {
+    box-shadow: inset 0 0 0 2px rgba(43, 97, 118, .65);
   }
 
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control:is(:hover, :focus-visible) {
-    z-index: 1;
-    transform: translateY(-2px);
+  .o-town.is-revealed .o-town__anchor {
+    animation: o-town-sign-arrive 600ms ease var(--town-delay, 0ms) backwards;
   }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button).o-town__plaque.o-town__control:active {
+  .o-town__sign:is(:hover, :focus-visible) {
+    transform: translateY(-3px);
+    animation: o-town-sign-swing 600ms ease 1;
+  }
+  .o-town__control:active {
+    animation: none;
     transform: scale(.97);
   }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > span.o-town__plaque.o-town__control {
-    pointer-events: none;
+  .o-town__control[aria-disabled='true'] {
     cursor: default;
-  }
-
-  .o-town__sign:focus-visible,
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button).o-town__plaque.o-town__control:focus-visible {
-    outline: 3px solid var(--town-focus);
-    outline-offset: 4px;
-  }
-
-  nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot {
-    min-width: 0;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: transform 220ms var(--town-ease), opacity 340ms var(--town-ease);
-  }
-
-  .o-town.is-revealed nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot {
-    opacity: 1;
-    transform: translateY(0);
-    animation: o-town-plaque-arrive 340ms var(--town-ease) var(--town-delay, 0ms) backwards;
-  }
-
-  .o-town__street-shell::before,
-  .o-town__street-shell::after {
-    display: none;
-    position: absolute;
-    z-index: 4;
-    inset-block: 0;
-    width: 34px;
-    content: "";
     pointer-events: none;
   }
 
-  .o-town__street-shell::before {
-    left: 0;
-    background: linear-gradient(90deg, rgba(239, 243, 239, .92), rgba(239, 243, 239, 0));
+  .o-town__kerb {
+    position: relative;
+    z-index: 4;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(249, 244, 232, .24), rgba(249, 244, 232, .95) 25%, rgba(249, 244, 232, .88) 72%, rgba(249, 244, 232, 0));
   }
 
-  .o-town__street-shell::after {
-    right: 0;
-    background: linear-gradient(270deg, rgba(239, 243, 239, .92), rgba(239, 243, 239, 0));
+  nav.o-town__plaques[data-town-plaques] {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    height: 84px;
+    margin: 0;
+    padding: 6px 8px;
+    box-sizing: border-box;
+  }
+
+  .o-town__plaque-slot { min-width: 0; }
+  .o-town__plaque {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    align-items: center;
+    gap: 4px;
+    height: 72px;
+    padding: 12px 11px;
+    background-image: url('/assets/images/world/town/plaque.webp');
+    transform-origin: 50% 60%;
+    text-align: left;
+  }
+  .o-town__icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+  .o-town__plaque .o-town__label {
+    font-size: 10px;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+  .o-town__plaque .o-town__number { font-size: 9px; }
+  .o-town__plaque .o-town__arrow { font-size: 11px; }
+  .o-town__plaque:is(:hover, :focus-visible) {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+  .o-town__plaque:active { transform: scale(.97); }
+  .o-town.is-revealed .o-town__plaque-slot {
+    animation: o-town-plaque-arrive 400ms var(--town-ease) var(--town-delay, 0ms) backwards;
+  }
+
+  .o-town__motion-toggle {
+    position: absolute;
+    z-index: 5;
+    bottom: 7px;
+    left: 8px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 252, 241, .9) 45%, rgba(255, 252, 241, 0) 72%);
+    color: var(--town-ink);
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .o-town__motion-toggle:focus-visible {
+    outline: 2px solid var(--town-focus);
+    outline-offset: -5px;
+  }
+  .o-town__hint { display: none; }
+
+  /* Original nodes are reordered by the renderer, including keyboard order. */
+  .o-town[data-shop-town] + [data-shop-catalog] .shop-page__filter {
+    padding-block: 10px;
+    margin-bottom: 12px;
   }
 
   @keyframes o-town-sign-arrive {
-    0% { opacity: 0; transform: translate(-50%, -50%) translateY(-12px) rotate(-2deg); }
-    55% { opacity: 1; transform: translate(-50%, -50%) translateY(-2px) rotate(2deg); }
-    100% { opacity: 1; transform: translate(-50%, -50%); }
+    0% { opacity: 0; transform: translate(-50%, -71%) translateY(-14px) rotate(-3deg); }
+    65% { opacity: 1; transform: translate(-50%, -71%) rotate(2deg); }
+    100% { opacity: 1; transform: translate(-50%, -71%); }
   }
-
+  @keyframes o-town-sign-swing {
+    0%, 100% { transform: translateY(-3px) rotate(0); }
+    25% { transform: translateY(-3px) rotate(-3deg); }
+    70% { transform: translateY(-3px) rotate(3deg); }
+  }
   @keyframes o-town-plaque-arrive {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes o-town-sign-swing {
-    0%, 100% { transform: translateY(-4px) rotate(0deg); }
-    25% { transform: translateY(-4px) rotate(-2deg); }
-    75% { transform: translateY(-4px) rotate(2deg); }
+  @media (min-width: 768px) and (max-width: 900px) {
+    .o-town__plaque { grid-template-columns: 18px minmax(0, 1fr); gap: 2px; padding-inline: 8px; }
+    .o-town__icon { width: 18px; height: 18px; }
+    .o-town__plaque .o-town__arrow { display: none; }
+    .o-town__plaque .o-town__number { grid-column: 1 / -1; }
   }
 
   @media (max-width: 767px) {
-    section.o-town[data-shop-boot][data-shop-town] {
-      padding-block: 22px 30px;
-    }
-
-    .o-town__title {
-      position: relative;
-      top: auto;
-      left: auto;
-      width: auto;
-      max-width: none;
-      margin: 0 18px 18px;
-      padding: 0;
-    }
-
-    .o-town__title::before {
-      display: none;
-    }
-
-    .o-town__eyebrow {
-      margin-bottom: 6px;
-      font-size: 10px;
-    }
-
-    .o-town__title h1 {
-      font-size: clamp(27px, 7vw, 34px);
-      line-height: 1.25;
-    }
-
-    .o-town__count {
-      margin-top: 5px;
-      font-size: 12px;
-    }
-
-    .o-town__street-shell {
-      overflow: hidden;
-    }
-
-    .o-town__street-shell::before,
-    .o-town__street-shell::after {
-      display: block;
-    }
-
-    .o-town__street-shell::before {
-      background: linear-gradient(90deg, rgba(239, 243, 239, .86), rgba(239, 243, 239, 0));
-    }
-
-    .o-town__street-shell::after {
-      background: linear-gradient(270deg, rgba(239, 243, 239, .86), rgba(239, 243, 239, 0));
-    }
-
+    .o-town__street-shell { overflow: hidden; }
     .o-town__viewport[data-town-viewport] {
-      height: 340px;
+      height: max(260px, calc(100vw * .4285714286));
       overflow-x: auto;
       overflow-y: hidden;
       overscroll-behavior-x: contain;
       scroll-snap-type: x proximity;
-      scrollbar-width: thin;
+      scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
     }
-
+    .o-town__viewport::-webkit-scrollbar { display: none; }
     .o-town__scene {
-      width: 793.333333px;
-      min-width: 793.333333px;
-      height: 340px;
-      aspect-ratio: 3024 / 1296;
+      width: max(100%, 606.666667px);
+      min-width: 606.666667px;
+      height: 100%;
+      aspect-ratio: auto;
     }
-
-    .o-town__anchor {
-      width: 116px;
-      max-width: calc(14.5% - 4px);
-      scroll-snap-align: center;
-      scroll-margin-inline: 24px;
-    }
-
-    .o-town__anchor > a.o-town__sign.o-town__control[data-town-category] {
-      min-height: 68px;
-      padding: 11px 7px 9px;
-    }
-
-    .o-town__label {
-      font-size: 14px;
-    }
-
-    .o-town__hint {
-      display: block;
-      margin: 10px 18px 0;
-      color: var(--town-muted);
-      font: 500 12px/1.5 'Noto Sans TC', sans-serif;
-      text-align: center;
-    }
-
-    nav.o-town__plaques[data-town-plaques] {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
-      margin: 16px 16px 0;
+    .o-town__title {
+      top: 12px;
+      left: 18px;
+      width: 128px;
       padding: 0;
-      width: auto;
+      scroll-snap-align: start;
+      scroll-margin-left: 18px;
     }
-
-    nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control {
-      min-height: 58px;
+    .o-town__title h1 { font-size: 24px; }
+    .o-town__eyebrow { font-size: 9px; letter-spacing: .08em; }
+    .o-town__count { margin-top: 4px; font-size: 10px; }
+    .o-town__sign .o-town__label { font-size: 12px; }
+    .o-town__sign .o-town__number { font-size: 9px; }
+    .o-town__sign .o-town__arrow { font-size: 11px; }
+    .o-town__anchor { scroll-snap-align: center; }
+    .o-town__hint {
+      position: absolute;
+      z-index: 5;
+      right: 12px;
+      bottom: 12px;
+      display: block;
+      margin: 0;
+      padding: 4px 8px;
+      border-radius: 12px;
+      background: rgba(255, 252, 241, .85);
+      color: var(--town-ink);
+      font: 500 10px/1.2 'Noto Sans TC', sans-serif;
+      pointer-events: none;
+    }
+    .o-town__street-shell::before,
+    .o-town__street-shell::after,
+    .o-town__kerb::before,
+    .o-town__kerb::after {
+      position: absolute;
+      z-index: 6;
+      inset-block: 0;
+      width: 14px;
+      content: '';
+      pointer-events: none;
+    }
+    .o-town__street-shell::before,
+    .o-town__kerb::before {
+      left: 0;
+      background: linear-gradient(90deg, rgba(249, 244, 232, .75), transparent);
+    }
+    .o-town__street-shell::after,
+    .o-town__kerb::after {
+      right: 0;
+      background: linear-gradient(270deg, rgba(249, 244, 232, .75), transparent);
+    }
+    nav.o-town__plaques[data-town-plaques] {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: 112px;
+      justify-content: start;
       gap: 6px;
-      padding: 10px 11px;
-      border-radius: 7px;
-      font-size: 13px;
+      padding-inline: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 12px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
-
-    nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control .o-town__label {
-      font-size: 13px;
+    .o-town__plaques::-webkit-scrollbar { display: none; }
+    .o-town__plaque-slot { scroll-snap-align: start; }
+    .o-town__plaque { padding-inline: 9px; }
+    .o-town[data-shop-town] + [data-shop-catalog] .shop-page__filter {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 8px;
     }
-
-    nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control .o-town__number {
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-bar__left {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .o-town[data-shop-town] + [data-shop-catalog] .breadcrumb {
+      grid-column: 1 / -1;
+      margin: 0;
+    }
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-bar__count { font-size: 10px; }
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-btn { padding: 9px 10px; }
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-bar__sort select {
+      max-width: 130px;
+      padding-inline: 10px 24px;
       font-size: 12px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .o-town__anchor,
-    nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot {
+    .o-town *, .o-town *::before, .o-town *::after {
       animation: none !important;
       transition: none !important;
+      scroll-behavior: auto !important;
     }
-
-    .o-town__anchor,
-    .o-town__anchor:is(:hover, :focus-within) {
-      opacity: 1;
-      transform: translate(-50%, -50%) !important;
-      pointer-events: auto;
-    }
-
-    .o-town__sign,
-    .o-town__sign:is(:hover, :focus-visible, :active),
-    nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot > :is(a, button, span).o-town__plaque.o-town__control:is(:hover, :focus-visible, :active) {
-      animation: none !important;
-      transition: none !important;
-      transform: none !important;
-      opacity: 1;
-    }
-
-    nav.o-town__plaques[data-town-plaques] > .o-town__plaque-slot {
-      opacity: 1;
-      transform: none !important;
-    }
+    .o-town__control:is(:hover, :focus-visible, :active) { transform: none !important; }
+    .o-town__video { opacity: 0 !important; }
+    .o-town__motion-toggle { display: none !important; }
   }
 }
