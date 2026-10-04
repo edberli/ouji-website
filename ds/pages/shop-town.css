@@ -14,8 +14,8 @@
     --town-cream: #fbf3e1;
     --town-ease: cubic-bezier(.2, .7, .25, 1);
     --town-scene-height: calc(100vw * 1296 / 3024);
-    --town-street-height: min(var(--town-scene-height), max(380px, 33vw));
-    --town-crop-top: calc(var(--town-scene-height) - var(--town-street-height));
+    --town-street-height: calc(var(--town-scene-height) * .9);
+    --town-crop-top: 0px;
     position: relative;
     isolation: isolate;
     min-width: 0;
@@ -345,7 +345,7 @@
     position: relative;
     z-index: 4;
     width: 100%;
-    margin-top: 0;
+    margin-top: -22px;
     padding-top: 7px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .8), rgba(251, 243, 225, .96) 9px, rgba(251, 243, 225, .94));
   }
@@ -455,7 +455,7 @@
   @media (max-width: 767px) {
     .o-town__street-shell { overflow: hidden; }
     .o-town__viewport[data-town-viewport] {
-      height: 260px;
+      height: 242px;
       overflow-x: auto;
       overflow-y: hidden;
       overscroll-behavior-x: contain;
@@ -481,7 +481,7 @@
     .o-town__eyebrow { font-size: 9px; letter-spacing: .08em; }
     .o-town__count { margin-top: 4px; font-size: 10px; }
     .o-town__anchor { width: max(104px, 11%); scroll-snap-align: center; }
-    .o-town__kerb { margin-top: 0; }
+    .o-town__kerb { margin-top: -14px; }
     nav.o-town__plaques[data-town-plaques] {
       justify-content: flex-start;
       gap: 8px;

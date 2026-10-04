@@ -2481,10 +2481,10 @@ const SHOP_GROUPS = [
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
 /* 四塊店舖招牌固定喺街景；所有畫板以同一 3.2:1 比例顯示。 */
 const SHOP_TOWN_HOUSES = {
-  skincare: { x: '32%', y: '33%', board: 'blue', n: '01', tint: '#cfe3f1', tintInk: '#2b5f86' },
-  makeup: { x: '49.5%', y: '38%', board: 'pink', n: '02', tint: '#f6d9dc', tintInk: '#9a4a57' },
-  bath: { x: '64%', y: '37%', board: 'mint', n: '03', tint: '#d3eee4', tintInk: '#2f7563' },
-  seasonal: { x: '83%', y: '35%', board: 'yellow', n: '04', tint: '#f8e7b8', tintInk: '#8a6414' },
+  skincare: { x: '32%', y: '24%', board: 'blue', n: '01', tint: '#cfe3f1', tintInk: '#2b5f86' },
+  makeup: { x: '49.5%', y: '31%', board: 'pink', n: '02', tint: '#f6d9dc', tintInk: '#9a4a57' },
+  bath: { x: '64%', y: '30%', board: 'mint', n: '03', tint: '#d3eee4', tintInk: '#2f7563' },
+  seasonal: { x: '83%', y: '28%', board: 'yellow', n: '04', tint: '#f8e7b8', tintInk: '#8a6414' },
 };
 const SHOP_TOWN_PLAQUE_TINTS = [
   ['#e7def3', '#6a5191'], ['#f6dccd', '#9a4f2c'], ['#d3eee4', '#2f7563'], ['#f6d9dc', '#9a4a57'],
@@ -2655,7 +2655,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
     const tile = house
       ? `<span class="o-town__badge" aria-hidden="true">${n}</span>`
       : `<span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="44" height="44" decoding="async"></span>`;
-    const inner = `${tile}<span class="o-town__label">${label}</span><span class="o-town__go" aria-hidden="true">↗</span><span class="o-town__shine" aria-hidden="true"></span>`;
+    const inner = `${tile}<span class="o-town__label">${label}</span><span class="o-town__shine" aria-hidden="true"></span>`;
     return g.href
       ? `<a ${attrs} href="/${g.href}">${inner}</a>`
       : pending
