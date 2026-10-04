@@ -2479,12 +2479,32 @@ const SHOP_GROUPS = [
 ];
 /* 「其他」＝唔屬上面任何一格。呢個 list 就係用嚟計「剩返啲乜」。 */
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
-/* 招牌中心固定喺原圖比例內；其餘分類按 SHOP_GROUPS 原次序排街牌。 */
+/* 招牌中心固定喺街景；各畫板框取自對應原圖嘅正規化邊界。 */
 const SHOP_TOWN_HOUSES = {
-  skincare: { x: '33%', y: '23%' },
-  makeup: { x: '49.5%', y: '34%' },
-  bath: { x: '64%', y: '33%' },
-  seasonal: { x: '84%', y: '30%' },
+  skincare: {
+    x: '32%', y: '27%', boardFraction: '.71',
+    boardX: '29%', boardY: '31%', boardWidth: '71%', boardHeight: '69%',
+    boardCx: '64.5%', boardCy: '65.5%', signRatio: '640 / 574',
+    signImage: "/assets/images/world/town/sign-blue.webp", ink: "#fbf3e1",
+  },
+  makeup: {
+    x: '49.5%', y: '35%', boardFraction: '.58',
+    boardX: '41%', boardY: '37%', boardWidth: '58%', boardHeight: '63%',
+    boardCx: '70%', boardCy: '68.5%', signRatio: '640 / 611',
+    signImage: "/assets/images/world/town/sign-pink.webp", ink: "#22343c",
+  },
+  bath: {
+    x: '64%', y: '34%', boardFraction: '.71',
+    boardX: '29%', boardY: '31%', boardWidth: '71%', boardHeight: '69%',
+    boardCx: '64.5%', boardCy: '65.5%', signRatio: '640 / 576',
+    signImage: "/assets/images/world/town/sign-mint.webp", ink: "#22343c",
+  },
+  seasonal: {
+    x: '83%', y: '31%', boardFraction: '.47',
+    boardX: '27%', boardY: '34%', boardWidth: '47%', boardHeight: '38%',
+    boardCx: '50.5%', boardCy: '53%', signRatio: '640 / 537',
+    signImage: "/assets/images/world/town/sign-yellow.webp", ink: "#22343c",
+  },
 };
 function inSection(p, id) {
   return sectionMatch(p, id);
@@ -2655,10 +2675,12 @@ function buildShopBootHero(products, activeGroup, pending = false) {
     const classes = `o-town__control o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
     const attrs = `class="${classes}" data-town-category="${g.id}"
       aria-label="${pending ? label : `${label}，${counts[g.id]} 件產品`}"`;
-    const inner = `${kind === 'plaque' ? `<img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="40" height="40" decoding="async">` : ''}
-      <span class="o-town__face"><span class="o-town__label">${label}</span>
+    const face = `<span class="o-town__face"><span class="o-town__label">${label}</span>
       <small class="o-town__number"${pending ? ' hidden' : ''}>${pending ? '' : `${counts[g.id]} 件`}</small>
-      <span class="o-town__arrow" aria-hidden="true">→</span></span>`;
+      ${kind === 'sign' ? `<small class="o-town__arrow" aria-hidden="true"${pending ? ' hidden' : ''}>›</small>` : ''}</span>`;
+    const inner = kind === 'plaque'
+      ? `<span class="o-town__roundel"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="34" height="34" decoding="async"></span>${face}`
+      : face;
     // 與原貼紙一致：連結即刻可用；無 href 嘅分類等載完先變篩選按鈕。
     return g.href
       ? `<a ${attrs} href="/${g.href}">${inner}</a>`
@@ -2671,7 +2693,8 @@ function buildShopBootHero(products, activeGroup, pending = false) {
   if (!signs.children.length) {
     signs.innerHTML = SHOP_GROUPS.filter((g) => SHOP_TOWN_HOUSES[g.id]).map((g, i) => {
       const pos = SHOP_TOWN_HOUSES[g.id];
-      return `<div class="o-town__anchor" style="--town-x:${pos.x};--town-y:${pos.y};--town-delay:${i * 80}ms">${controlMarkup(g)}</div>`;
+      const style = `--sign-ink:${pos.ink || '#fbf3e1'};--town-x:${pos.x};--town-y:${pos.y};--town-delay:${i * 80}ms;--board-fraction:${pos.boardFraction};--board-x:${pos.boardX};--board-y:${pos.boardY};--board-width:${pos.boardWidth};--board-height:${pos.boardHeight};--board-cx:${pos.boardCx};--board-cy:${pos.boardCy};--sign-ratio:${pos.signRatio};--sign-image:url('${pos.signImage}')`;
+      return `<div class="o-town__anchor" style="${style}">${controlMarkup(g)}</div>`;
     }).join('');
     plaques.innerHTML = SHOP_GROUPS.filter((g) => !SHOP_TOWN_HOUSES[g.id]).map((g, i) =>
       `<div class="o-town__plaque-slot" style="--town-delay:${320 + i * 40}ms">${controlMarkup(g)}</div>`
@@ -2692,6 +2715,8 @@ function buildShopBootHero(products, activeGroup, pending = false) {
         number.hidden = pending;
         number.textContent = pending ? '' : `${counts[g.id]} 件`;
       }
+      const arrow = control.querySelector('.o-town__arrow');
+      if (arrow) arrow.hidden = pending;
       control.setAttribute('aria-label', pending ? g.label : `${g.label}，${counts[g.id]} 件產品`);
       if (tag === 'BUTTON') {
         const on = activeGroup === g.id;

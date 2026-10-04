@@ -1,4 +1,4 @@
-/* Watercolor street and kerb; catalogue spacing is scoped to its adjacent shop. */
+/* Painted wood and wrought iron; scene coordinates remain tied to the street. */
 @layer pages {
   @font-face {
     font-family: 'League Spartan';
@@ -11,7 +11,14 @@
   section.o-town[data-shop-boot][data-shop-town] {
     --town-ink: #22343c;
     --town-focus: #2b6176;
+    --town-cream: #fbf3e1;
     --town-ease: cubic-bezier(.2, .7, .25, 1);
+    --town-scene-height: calc(100vw * 1296 / 3024);
+    --town-street-height: min(var(--town-scene-height), clamp(380px, 33vw, 500px));
+    /* 35% above / 65% below; cap the top crop on ultrawide screens so
+       the highest wooden board retains 8px of clearance. */
+    --town-first-board-top: calc(var(--town-scene-height) * .22 - max(70px, 7.6vw) / .71 * 574 / 640 * .69 / 2);
+    --town-crop-top: max(0px, min(calc((var(--town-scene-height) - var(--town-street-height)) * .35), calc(var(--town-first-board-top) - 8px)));
     position: relative;
     isolation: isolate;
     min-width: 0;
@@ -20,41 +27,24 @@
   }
 
   .o-town [hidden] { display: none !important; }
-
-  .o-town__street-shell {
-    position: relative;
-    width: 100%;
-    /* Include the existing brand heading in the 900px product-start budget. */
-    max-width: 1000px;
-    margin-inline: auto;
-  }
-
+  .o-town__street-shell { position: relative; width: 100%; }
   .o-town__viewport[data-town-viewport] {
     position: relative;
     width: 100%;
+    height: var(--town-street-height);
     overflow: hidden;
   }
-
-  @media (min-width: 1040px) {
-    .o-town__viewport[data-town-viewport] {
-      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
-      mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
-    }
-  }
-
   .o-town__viewport:focus-visible {
     outline: 3px solid var(--town-focus);
     outline-offset: -3px;
   }
-
   .o-town__scene {
     position: relative;
     width: 100%;
     aspect-ratio: 3024 / 1296;
+    transform: translateY(calc(-1 * var(--town-crop-top)));
   }
-
-  .o-town__image,
-  .o-town__video {
+  .o-town__image, .o-town__video {
     position: absolute;
     inset: 0;
     display: block;
@@ -63,26 +53,20 @@
     object-fit: fill;
     pointer-events: none;
   }
-
   .o-town__image { z-index: 0; }
-  .o-town__video {
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 450ms ease;
-  }
+  .o-town__video { z-index: 1; opacity: 0; transition: opacity 450ms ease; }
   .o-town.is-video-playing .o-town__video { opacity: 1; }
 
   .o-town__title {
     position: absolute;
     z-index: 3;
-    top: 4%;
+    top: calc(var(--town-crop-top) + 4%);
     left: 2%;
     width: 19%;
     padding: 5px;
     isolation: isolate;
     pointer-events: none;
   }
-
   .o-town__title::before {
     position: absolute;
     z-index: -1;
@@ -90,7 +74,6 @@
     content: '';
     background: radial-gradient(ellipse closest-side, rgba(255, 252, 241, .94), rgba(255, 252, 241, .76) 48%, rgba(255, 252, 241, .25) 78%, transparent);
   }
-
   .o-town__eyebrow {
     display: block;
     margin: 0 0 5px;
@@ -98,42 +81,35 @@
     font: 700 10px/1.4 'League Spartan', 'Noto Sans TC', sans-serif;
     letter-spacing: .13em;
   }
-
   .o-town__title h1 {
     margin: 0;
     color: var(--town-ink);
-    font: 700 clamp(24px, 3vw, 36px)/1.25 'Noto Sans TC', sans-serif;
+    font: 700 clamp(24px, 3vw, 36px)/1.25 'Noto Serif TC', serif;
     letter-spacing: -.035em;
   }
-
   .o-town__count {
     margin: 6px 0 0;
     color: var(--town-ink);
     font: 600 11px/1.4 Manrope, 'Noto Sans TC', sans-serif;
     font-variant-numeric: tabular-nums;
   }
-
   .o-town__signs[data-town-signs] {
     position: absolute;
     z-index: 2;
     inset: 0;
     pointer-events: none;
   }
-
   .o-town__anchor {
     position: absolute;
     z-index: 1;
     left: var(--town-x);
     top: var(--town-y);
-    width: max(92px, 12%);
-    /* The board centre is 71% down the artwork, below the chains. */
-    transform: translate(-50%, -71%);
-    transform-origin: 50% 0;
+    /* Normalize the wooden board, including the smaller yellow artwork. */
+    width: calc(max(70px, 7.6%) / var(--board-fraction));
+    transform: translate(calc(-1 * var(--board-cx)), calc(-1 * var(--board-cy)));
     pointer-events: none;
   }
-
   .o-town__anchor:is(:hover, :focus-within) { z-index: 4; }
-
   .o-town__control {
     position: relative;
     display: block;
@@ -143,148 +119,165 @@
     border: 0;
     background-color: transparent;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-position: center;
+    background-size: contain;
     box-shadow: none;
-    color: var(--town-ink);
+    color: var(--town-cream);
     text-decoration: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     transition: transform 180ms var(--town-ease);
   }
-
   .o-town__sign {
-    aspect-ratio: 720 / 486;
-    background-image: url('/assets/images/world/town/sign.webp');
-    transform-origin: 50% 0;
-    pointer-events: auto;
+    aspect-ratio: var(--sign-ratio);
+    background-image: var(--sign-image);
+    /* The complete artwork swings around the board's upper chain points. */
+    transform-origin: var(--board-cx) var(--board-y);
+    pointer-events: none;
   }
-
   .o-town__face {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-content: center;
     align-items: center;
-    gap: 2px 4px;
+    gap: 4px;
     min-width: 0;
   }
-
   .o-town__sign .o-town__face {
     position: absolute;
-    inset: 48% 10% 9%;
-    justify-items: center;
+    left: var(--board-x);
+    top: var(--board-y);
+    width: var(--board-width);
+    height: var(--board-height);
+    box-sizing: border-box;
+    padding: 8% 3% 3%;
+    border-radius: 45% 45% 14% 14%;
+    justify-content: center;
+    grid-template-columns: auto auto;
     text-align: center;
+    pointer-events: auto;
   }
-
   .o-town__label {
     grid-column: 1 / -1;
     display: block;
     min-width: 0;
-    color: var(--town-ink);
-    font: 700 clamp(12px, 1.2vw, 14px)/1.2 'Noto Sans TC', sans-serif;
+    color: var(--sign-ink, var(--town-cream));
+    font: 700 clamp(12px, 1.3vw, 20px)/1.25 'Noto Serif TC', serif;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .14);
+    white-space: nowrap;
   }
-
   .o-town__number {
-    color: var(--town-ink);
-    font: 600 10px/1 Manrope, 'Noto Sans TC', sans-serif;
+    color: var(--sign-ink, var(--town-cream));
+    opacity: .85;
+    font: 600 clamp(10px, .85vw, 13px)/1.2 Manrope, 'Noto Sans TC', sans-serif;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-
-  .o-town__arrow {
-    color: var(--town-ink);
-    font: 700 13px/1 Manrope, 'Noto Sans TC', sans-serif;
-  }
-
-  .o-town__control::after {
-    position: absolute;
-    inset: 4% 3%;
-    border-radius: 14% / 23%;
-    content: '';
-    pointer-events: none;
-  }
-  .o-town__sign::after { inset: 44% 2% 3%; }
+  .o-town__arrow { color: var(--town-cream); font: 600 14px/1 Manrope, sans-serif; }
   .o-town__control:focus-visible { outline: none; }
-  .o-town__control:focus-visible::after {
-    outline: 3px solid var(--town-focus);
+  .o-town__sign:focus-visible .o-town__face,
+  .o-town__plaque:focus-visible {
+    outline: 2px solid var(--town-cream);
     outline-offset: 3px;
+    box-shadow: 0 0 0 7px #2a2a2a;
   }
-  .o-town__control:is(.is-on, [aria-pressed='true'])::after {
-    box-shadow: inset 0 0 0 2px rgba(43, 97, 118, .65);
+  .o-town__sign:is(.is-on, [aria-pressed='true']) .o-town__face,
+  .o-town__plaque:is(.is-on, [aria-pressed='true']) {
+    box-shadow: inset 0 0 0 2px var(--town-cream);
   }
-
   .o-town.is-revealed .o-town__anchor {
     animation: o-town-sign-arrive 600ms ease var(--town-delay, 0ms) backwards;
   }
-  .o-town__sign:is(:hover, :focus-visible) {
-    transform: translateY(-3px);
-    animation: o-town-sign-swing 600ms ease 1;
+  .o-town.is-revealed .o-town__plaque-slot {
+    animation: o-town-plaque-arrive 400ms var(--town-ease) var(--town-delay, 0ms) backwards;
   }
-  .o-town__control:active {
-    animation: none;
-    transform: scale(.97);
-  }
-  .o-town__control[aria-disabled='true'] {
-    cursor: default;
-    pointer-events: none;
-  }
+  .o-town__sign:is(:hover, :focus-visible) { animation: o-town-sign-swing 700ms ease 1; }
+  .o-town__control:active { animation: none; transform: scale(.97); }
+  .o-town__control[aria-disabled='true'],
+  .o-town__control[aria-disabled='true'] .o-town__face { cursor: default; pointer-events: none; }
 
   .o-town__kerb {
     position: relative;
     z-index: 4;
-    max-width: 1000px;
-    margin: 0 auto;
-    background: linear-gradient(180deg, rgba(249, 244, 232, .24), rgba(249, 244, 232, .95) 25%, rgba(249, 244, 232, .88) 72%, rgba(249, 244, 232, 0));
-  }
-
-  nav.o-town__plaques[data-town-plaques] {
-    display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    align-items: center;
-    gap: 6px;
     width: 100%;
-    height: 84px;
-    margin: 0;
-    padding: 6px 8px;
-    box-sizing: border-box;
+    margin-top: -27px;
   }
-
-  .o-town__plaque-slot { min-width: 0; }
-  .o-town__plaque {
-    display: grid;
-    grid-template-columns: 24px minmax(0, 1fr);
+  .o-town__kerb::before {
+    position: absolute;
+    top: 33px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #2a2a2a;
+    content: '';
+    pointer-events: none;
+  }
+  nav.o-town__plaques[data-town-plaques] {
+    display: flex;
     align-items: center;
-    gap: 4px;
-    height: 72px;
-    padding: 12px 11px;
-    background-image: url('/assets/images/world/town/plaque.webp');
-    transform-origin: 50% 60%;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 9px 12px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 12px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .o-town__plaques::-webkit-scrollbar { display: none; }
+  .o-town__plaque-slot {
+    position: relative;
+    flex: 0 0 166px;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  /* Auto margins center a fitting row and collapse to zero when it must scroll. */
+  .o-town__plaque-slot:first-child { margin-left: auto; }
+  .o-town__plaque-slot:last-child { margin-right: auto; }
+  .o-town__plaque-slot::before {
+    position: absolute;
+    top: -5px;
+    left: 22px;
+    width: 4px;
+    height: calc(100% + 10px);
+    border-radius: 3px;
+    background: #2a2a2a;
+    content: '';
+  }
+  .o-town__plaque {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    aspect-ratio: 600 / 164;
+    padding: 0 16% 0 6%;
+    border-radius: 8px;
+    background-image: url('/assets/images/world/town/arrow.webp');
     text-align: left;
   }
-  .o-town__icon {
-    display: block;
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+  .o-town__roundel {
+    display: grid;
+    place-items: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--town-cream);
   }
-  .o-town__plaque .o-town__label {
-    font-size: 10px;
-    line-height: 1.2;
-    overflow-wrap: anywhere;
-  }
-  .o-town__plaque .o-town__number { font-size: 9px; }
-  .o-town__plaque .o-town__arrow { font-size: 11px; }
-  .o-town__plaque:is(:hover, :focus-visible) {
-    transform: translateY(-3px) rotate(-2deg);
-  }
+  .o-town__icon { display: block; width: 30px; height: 30px; object-fit: contain; }
+  .o-town__plaque .o-town__face { flex: 1; gap: 2px; }
+  .o-town__plaque .o-town__label { font-size: 13px; }
+  .o-town__plaque .o-town__number { font-size: 10px; }
+  .o-town__plaque:is(:hover, :focus-visible) { transform: translate(3px, -2px); }
   .o-town__plaque:active { transform: scale(.97); }
-  .o-town.is-revealed .o-town__plaque-slot {
-    animation: o-town-plaque-arrive 400ms var(--town-ease) var(--town-delay, 0ms) backwards;
-  }
 
   .o-town__motion-toggle {
     position: absolute;
     z-index: 5;
-    bottom: 7px;
+    bottom: 24px;
     left: 8px;
     display: grid;
     place-items: center;
@@ -311,31 +304,23 @@
   }
 
   @keyframes o-town-sign-arrive {
-    0% { opacity: 0; transform: translate(-50%, -71%) translateY(-14px) rotate(-3deg); }
-    65% { opacity: 1; transform: translate(-50%, -71%) rotate(2deg); }
-    100% { opacity: 1; transform: translate(-50%, -71%); }
-  }
-  @keyframes o-town-sign-swing {
-    0%, 100% { transform: translateY(-3px) rotate(0); }
-    25% { transform: translateY(-3px) rotate(-3deg); }
-    70% { transform: translateY(-3px) rotate(3deg); }
+    from { opacity: 0; translate: 0 -14px; }
+    to { opacity: 1; translate: 0 0; }
   }
   @keyframes o-town-plaque-arrive {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
-  @media (min-width: 768px) and (max-width: 900px) {
-    .o-town__plaque { grid-template-columns: 18px minmax(0, 1fr); gap: 2px; padding-inline: 8px; }
-    .o-town__icon { width: 18px; height: 18px; }
-    .o-town__plaque .o-town__arrow { display: none; }
-    .o-town__plaque .o-town__number { grid-column: 1 / -1; }
+  @keyframes o-town-sign-swing {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-2.5deg); }
+    70% { transform: rotate(2.5deg); }
   }
 
   @media (max-width: 767px) {
     .o-town__street-shell { overflow: hidden; }
     .o-town__viewport[data-town-viewport] {
-      height: max(260px, calc(100vw * .4285714286));
+      height: 260px;
       overflow-x: auto;
       overflow-y: hidden;
       overscroll-behavior-x: contain;
@@ -347,8 +332,7 @@
     .o-town__scene {
       width: max(100%, 606.666667px);
       min-width: 606.666667px;
-      height: 100%;
-      aspect-ratio: auto;
+      transform: none;
     }
     .o-town__title {
       top: 12px;
@@ -363,13 +347,12 @@
     .o-town__count { margin-top: 4px; font-size: 10px; }
     .o-town__sign .o-town__label { font-size: 12px; }
     .o-town__sign .o-town__number { font-size: 9px; }
-    .o-town__sign .o-town__arrow { font-size: 11px; }
     .o-town__anchor { scroll-snap-align: center; }
     .o-town__hint {
       position: absolute;
       z-index: 5;
       right: 12px;
-      bottom: 12px;
+      bottom: 28px;
       display: block;
       margin: 0;
       padding: 4px 8px;
@@ -379,45 +362,10 @@
       font: 500 10px/1.2 'Noto Sans TC', sans-serif;
       pointer-events: none;
     }
-    .o-town__street-shell::before,
-    .o-town__street-shell::after,
-    .o-town__kerb::before,
-    .o-town__kerb::after {
-      position: absolute;
-      z-index: 6;
-      inset-block: 0;
-      width: 14px;
-      content: '';
-      pointer-events: none;
-    }
-    .o-town__street-shell::before,
-    .o-town__kerb::before {
-      left: 0;
-      background: linear-gradient(90deg, rgba(249, 244, 232, .75), transparent);
-    }
-    .o-town__street-shell::after,
-    .o-town__kerb::after {
-      right: 0;
-      background: linear-gradient(270deg, rgba(249, 244, 232, .75), transparent);
-    }
-    nav.o-town__plaques[data-town-plaques] {
-      grid-template-columns: none;
-      grid-auto-flow: column;
-      grid-auto-columns: 112px;
-      justify-content: start;
-      gap: 6px;
-      padding-inline: 12px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      overscroll-behavior-x: contain;
-      scroll-snap-type: x proximity;
-      scroll-padding-inline: 12px;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    .o-town__plaques::-webkit-scrollbar { display: none; }
-    .o-town__plaque-slot { scroll-snap-align: start; }
-    .o-town__plaque { padding-inline: 9px; }
+    .o-town__plaque-slot { flex-basis: 168px; }
+    .o-town__plaque { gap: 5px; }
+    .o-town__plaque .o-town__label { font-size: 11px; }
+    .o-town__plaque .o-town__number { font-size: 9px; }
     .o-town[data-shop-town] + [data-shop-catalog] .shop-page__filter {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
