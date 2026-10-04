@@ -2479,21 +2479,13 @@ const SHOP_GROUPS = [
 ];
 /* 「其他」＝唔屬上面任何一格。呢個 list 就係用嚟計「剩返啲乜」。 */
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
-/* 保留原 Windows 主視覺分類貼紙嘅錯落位置；拆 Explorer 只影響下面目錄外框。 */
-const SHOP_STICKER_POS = [
-  { x: '8%',  y: '150px', r: '-5deg', s: 1 },
-  { x: '25%', y: '164px', r: '4deg',  s: 0.95 },
-  { x: '42%', y: '148px', r: '-2deg', s: 1.06 },
-  { x: '58%', y: '162px', r: '5deg',  s: 0.97 },
-  { x: '75%', y: '150px', r: '-4deg', s: 0.93 },
-  { x: '92%', y: '162px', r: '3deg', s: 0.95 },
-  { x: '8%',  y: '24px',  r: '3deg',  s: 0.92 },
-  { x: '25%', y: '36px',  r: '-4deg', s: 0.94 },
-  { x: '42%', y: '22px',  r: '4deg',  s: 0.91 },
-  { x: '58%', y: '36px',  r: '-3deg', s: 0.94 },
-  { x: '75%', y: '24px',  r: '5deg',  s: 0.90 },
-  { x: '92%', y: '34px',  r: '-5deg', s: 0.88 },
-];
+/* 招牌中心固定喺原圖比例內；其餘分類按 SHOP_GROUPS 原次序排街牌。 */
+const SHOP_TOWN_HOUSES = {
+  skincare: { x: '33%', y: '21%' },
+  makeup: { x: '49.5%', y: '33%' },
+  bath: { x: '64%', y: '32%' },
+  seasonal: { x: '84%', y: '29%' },
+};
 function inSection(p, id) {
   return sectionMatch(p, id);
 }
@@ -2524,46 +2516,91 @@ function buildShopCategoryLinks() {
   ).join('');
 }
 
-/* 四格預覽：只用當前 group（或全部）真係有相嗰啲貨，唔重複同一件、
-   唔補生成圖。唔夠四張就出實際有幾多張。 */
-function bootPreview(list) {
-  const seen = new Set();
-  const out = [];
-  for (const p of list) {
-    const url = p.images?.edges?.[0]?.node?.url;
-    if (!url || seen.has(p.handle) || BAD_IMAGE.has(p.title)) continue;
-    seen.add(p.handle);
-    out.push({ url, title: p.title });
-    if (out.length === 4) break;
+function initShopTown(town) {
+  if (town.dataset.townReady) return;
+  town.dataset.townReady = 'true';
+  const viewport = town.querySelector('[data-town-viewport]');
+  const scene = town.querySelector('.o-town__scene');
+  const mobile = window.matchMedia('(max-width: 767px)');
+  const positionStreet = () => {
+    if (!viewport || !scene) return;
+    // 初次手機畫面以護膚店為中心，之後交返畀客自行掃街。
+    viewport.scrollLeft = mobile.matches
+      ? Math.max(0, scene.clientWidth * 0.33 - viewport.clientWidth / 2) : 0;
+  };
+  requestAnimationFrame(positionStreet);
+  mobile.addEventListener('change', positionStreet);
+  if (!('IntersectionObserver' in window)) {
+    town.classList.add('is-revealed');
+    return;
   }
-  return out;
-}
-
-function stickerArt(id) {
-  return `<span class="shop-boot__art shop-boot__art--${id}" aria-hidden="true"><i></i></span>`;
+  const observer = new IntersectionObserver((entries) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+    town.classList.add('is-revealed');
+    observer.disconnect();
+  }, { threshold: 0.1 });
+  observer.observe(town);
 }
 
 function buildShopBootHero(products, activeGroup, pending = false) {
-  const host = document.querySelector('[data-boot-stickers]');
-  if (!host) return;
+  const town = document.querySelector('[data-shop-town]');
+  const signs = town?.querySelector('[data-town-signs]');
+  const plaques = town?.querySelector('[data-town-plaques]');
+  if (!signs || !plaques) return;
   const counts = shopGroupCounts(products);
   const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
 
-  host.innerHTML = SHOP_GROUPS.map((g, i) => {
-    const pos = SHOP_STICKER_POS[i];
+  const controlMarkup = (g) => {
+    const kind = SHOP_TOWN_HOUSES[g.id] ? 'sign' : 'plaque';
     const on = activeGroup === g.id;
-    const style = `--x:${pos.x};--y:${pos.y};--r:${pos.r};--s:${pos.s};--tint:${g.tint}`;
-    const inner = `${stickerArt(g.id)}
-      <b class="shop-boot__label">${g.label}</b>
-      ${pending ? '' : `<small class="shop-boot__n">${counts[g.id]}</small>`}`;
+    const label = escapeSpotlightAttr(g.label);
+    const classes = `o-town__control o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
+    const attrs = `class="${classes}" data-town-category="${g.id}"
+      aria-label="${pending ? label : `${label}，${counts[g.id]} 件產品`}"`;
+    const inner = `<span class="o-town__label">${label}</span>
+      <small class="o-town__number"${pending ? ' hidden' : ''}>${pending ? '' : `${counts[g.id]} 件`}</small>
+      <span class="o-town__arrow" aria-hidden="true">→</span>`;
+    // 與原貼紙一致：連結即刻可用；無 href 嘅分類等載完先變篩選按鈕。
     return g.href
-      ? `<a class="shop-boot__sticker" href="${g.href}" style="${style}" aria-label="${pending ? g.label : `${g.label}，${counts[g.id]} 件產品`}">${inner}</a>`
+      ? `<a ${attrs} href="${g.href}">${inner}</a>`
       : pending
-        ? `<span class="shop-boot__sticker" style="${style}">${inner}</span>`
-      : `<button type="button" class="shop-boot__sticker${on ? ' is-on' : ''}"
-          data-boot-group="${g.id}" aria-pressed="${on ? 'true' : 'false'}"
-          style="${style}" aria-label="${g.label}，${counts[g.id]} 件產品">${inner}</button>`;
-  }).join('');
+        ? `<span ${attrs} aria-disabled="true">${inner}</span>`
+        : `<button type="button" ${attrs} data-boot-group="${g.id}"
+            aria-pressed="${on ? 'true' : 'false'}">${inner}</button>`;
+  };
+
+  if (!signs.children.length) {
+    signs.innerHTML = SHOP_GROUPS.filter((g) => SHOP_TOWN_HOUSES[g.id]).map((g, i) => {
+      const pos = SHOP_TOWN_HOUSES[g.id];
+      return `<div class="o-town__anchor" style="--town-x:${pos.x};--town-y:${pos.y};--town-delay:${i * 80}ms">${controlMarkup(g)}</div>`;
+    }).join('');
+    plaques.innerHTML = SHOP_GROUPS.filter((g) => !SHOP_TOWN_HOUSES[g.id]).map((g, i) =>
+      `<div class="o-town__plaque-slot" style="--town-delay:${320 + i * 40}ms">${controlMarkup(g)}</div>`
+    ).join('');
+    initShopTown(town);
+  } else {
+    // 更新計數時保留 DOM、鍵盤焦點同一次入場動畫；只更換 pending 嘅 span。
+    SHOP_GROUPS.forEach((g) => {
+      const control = town.querySelector(`[data-town-category="${g.id}"]`);
+      if (!control) return;
+      const tag = g.href ? 'A' : pending ? 'SPAN' : 'BUTTON';
+      if (control.tagName !== tag) {
+        control.outerHTML = controlMarkup(g);
+        return;
+      }
+      const number = control.querySelector('.o-town__number');
+      if (number) {
+        number.hidden = pending;
+        number.textContent = pending ? '' : `${counts[g.id]} 件`;
+      }
+      control.setAttribute('aria-label', pending ? g.label : `${g.label}，${counts[g.id]} 件產品`);
+      if (tag === 'BUTTON') {
+        const on = activeGroup === g.id;
+        control.classList.toggle('is-on', on);
+        control.setAttribute('aria-pressed', String(on));
+      }
+    });
+  }
 
   const count = document.querySelector('[data-boot-count]');
   if (count) count.textContent = pending
@@ -2580,17 +2617,10 @@ function syncShopBoot(products, activeGroup, list) {
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
 
-  const photos = document.querySelector('[data-boot-photos]');
-  if (photos) {
-    const shots = bootPreview(list);
-    photos.innerHTML = shots.map((sh) =>
-      `<img src="${sh.url}" alt="" loading="eager" decoding="async"
-            onerror="this.remove()">`).join('');
-  }
   const count = document.querySelector('[data-boot-count]');
   if (count) count.textContent = window.OUJI_CATALOG_PARTIAL
     ? `先顯示 ${list.length} 件 · 其餘載入中`
-    : `${list.length} 件產品 · ${g ? g.label : `${products.length} 件全部產品`}`;
+    : (g ? `${list.length.toLocaleString('en-US')} 件 · ${g.label}` : `${products.length.toLocaleString('en-US')} 件產品`);
 }
 
 /* 由搜尋或者煩惱入嚟嗰陣，資料夾名已經由 shop.html 設咗做「暗沉・痘印」
