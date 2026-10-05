@@ -59,12 +59,10 @@
        客見到嘅就係「白畫面，load 極都 load 唔到」。
        media="print" 令佢唔算 render-blocking，落到就 onload 轉返 all。
        字體未到嗰陣行 fallback（Georgia／system sans），版面照出。 -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap"></noscript>
-  <!-- BOOT 主視覺專用 pixel 字體；非阻塞載入，避免拖慢首屏。 -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap"></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css?v=20261002-stores2">
+  <link rel="stylesheet" href="ds/pages/shop-town.css?v=20261005-town">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -273,48 +271,32 @@
   <main id="main-content" style="padding-top: 96px;">
 
     <!-- Windows 主視覺保留原有構圖；以下目錄內容改用彩妝／護膚頁層次。 -->
-    <section class="shop-boot" aria-labelledby="shop-boot-title" data-shop-boot>
-      <div class="shop-boot__wallpaper" aria-hidden="true">
-        <span class="shop-boot__cloud"></span>
-        <span class="shop-boot__cloud shop-boot__cloud--two"></span>
-      </div>
-
-      <div class="shop-boot__title">
-        <span class="shop-boot__os">OUJI SHOP OS · VERSION 2001</span>
-        <h1 id="shop-boot-title">BOOT YOUR<br>SHOP</h1>
-        <p class="shop-boot__count" data-boot-count></p>
-      </div>
-
-      <div class="shop-boot__window" aria-hidden="true">
-        <div class="shop-boot__bar">
-          <span>ouji_shop.exe</span>
-          <span class="shop-boot__ctrls"><span>_</span><span>□</span><span class="is-close">×</span></span>
+    <section class="o-town" aria-labelledby="shop-boot-title" data-shop-boot data-shop-town>
+      <div class="o-town__street-shell">
+        <div class="o-town__viewport" data-town-viewport role="region"
+             aria-label="海邊小街四間分類店舖" aria-describedby="shop-town-hint" tabindex="0">
+          <div class="o-town__scene">
+            <img class="o-town__image" src="/assets/images/world/town/street-1600.webp"
+                 srcset="/assets/images/world/town/street-1000.webp 1000w, /assets/images/world/town/street-1600.webp 1600w, /assets/images/world/town/street-2400.webp 2400w"
+                 sizes="(max-width: 607px) 607px, 100vw" width="3024" height="1296"
+                 alt="" fetchpriority="high" loading="eager" decoding="async">
+            <video class="o-town__video" data-town-video muted loop playsinline preload="none"
+                   poster="/assets/images/world/town/street-hd-poster-1920.webp" aria-hidden="true" tabindex="-1"></video>
+            <div class="o-town__title">
+              <span class="o-town__eyebrow">OUJI ALL PRODUCTS</span>
+              <h1 id="shop-boot-title">全部產品</h1>
+              <p class="o-town__count" data-boot-count></p>
+            </div>
+            <div class="o-town__signs" data-town-signs aria-label="主要產品分類"></div>
+          </div>
         </div>
-        <div class="shop-boot__photos" data-boot-photos></div>
-        <div class="shop-boot__status"><span data-boot-folder>12 folders ready</span><b>OUJI</b></div>
+        <button class="o-town__motion-toggle" data-town-motion-toggle type="button" aria-label="播放動畫" hidden>
+          <span class="o-town__motion-icon" data-town-motion-icon aria-hidden="true">▶</span>
+        </button>
+        <p class="o-town__hint" id="shop-town-hint">← 左右掃逛小街 →</p>
       </div>
-
-      <div class="shop-boot__disk" aria-hidden="true">
-        <span class="shop-boot__shutter"></span>
-        <span class="shop-boot__disklabel">OUJI<br>ALL BOOT</span>
-        <small class="shop-boot__diskcount" data-boot-disk></small>
-      </div>
-
-      <div class="shop-boot__dialog" aria-hidden="true">
-        <div class="shop-boot__bar">Starting shop.exe</div>
-        <div class="shop-boot__dialogbody">
-          <p data-boot-dialog>Choose your category...</p>
-          <div class="shop-boot__progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <span class="shop-boot__hint">DON'T TURN OFF YOUR STYLE</span>
-        </div>
-      </div>
-
-      <div class="shop-boot__stickers" data-boot-stickers aria-label="全部產品分類"></div>
-
-      <div class="shop-boot__taskbar" aria-hidden="true">
-        <b class="shop-boot__start">start</b>
-        <span class="shop-boot__tab">OUJI all products</span>
-        <time class="shop-boot__clock">20:01</time>
+      <div class="o-town__kerb">
+        <nav class="o-town__plaques" data-town-plaques aria-label="更多產品分類"></nav>
       </div>
     </section>
 
@@ -322,7 +304,7 @@
       <div class="container shop-page__content">
         <section id="all-focus" class="skincare-spotlight-section skincare-focus all-focus"
                  aria-labelledby="all-focus-title">
-          <h2 id="all-focus-title" class="sr-only">今週焦點</h2>
+          <h2 id="all-focus-title" class="sr-only">本週焦點</h2>
           <div data-all-focus-carousel></div>
         </section>
 
@@ -499,7 +481,7 @@
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="catalog.js?v=20261001-lowstock3"></script>
+  <script src="catalog.js?v=20261005-town"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261001-supports"></script>
   <script>

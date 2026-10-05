@@ -2472,20 +2472,20 @@ const SHOP_GROUPS = [
 ];
 /* 「其他」＝唔屬上面任何一格。呢個 list 就係用嚟計「剩返啲乜」。 */
 const SHOP_GROUP_SECTIONS = SHOP_GROUPS.filter((g) => g.id !== 'other').map((g) => g.id);
-/* 保留原 Windows 主視覺分類貼紙嘅錯落位置；拆 Explorer 只影響下面目錄外框。 */
-const SHOP_STICKER_POS = [
-  { x: '8%',  y: '150px', r: '-5deg', s: 1 },
-  { x: '25%', y: '164px', r: '4deg',  s: 0.95 },
-  { x: '42%', y: '148px', r: '-2deg', s: 1.06 },
-  { x: '58%', y: '162px', r: '5deg',  s: 0.97 },
-  { x: '75%', y: '150px', r: '-4deg', s: 0.93 },
-  { x: '92%', y: '162px', r: '3deg', s: 0.95 },
-  { x: '8%',  y: '24px',  r: '3deg',  s: 0.92 },
-  { x: '25%', y: '36px',  r: '-4deg', s: 0.94 },
-  { x: '42%', y: '22px',  r: '4deg',  s: 0.91 },
-  { x: '58%', y: '36px',  r: '-3deg', s: 0.94 },
-  { x: '75%', y: '24px',  r: '5deg',  s: 0.90 },
-  { x: '92%', y: '34px',  r: '-5deg', s: 0.88 },
+/* 四塊店舖招牌固定喺街景；所有畫板以同一 3.2:1 比例顯示。 */
+const SHOP_TOWN_HOUSES = {
+  skincare: { x: '32%', y: '24%', board: 'blue', n: '01', tint: '#cfe3f1', tintInk: '#2b5f86' },
+  makeup: { x: '49.5%', y: '31%', board: 'pink', n: '02', tint: '#f6d9dc', tintInk: '#9a4a57' },
+  bath: { x: '64%', y: '30%', board: 'mint', n: '03', tint: '#d3eee4', tintInk: '#2f7563' },
+  seasonal: { x: '83%', y: '28%', board: 'yellow', n: '04', tint: '#f8e7b8', tintInk: '#8a6414' },
+};
+const SHOP_TOWN_SHORT_LABELS = { supports: '壓力襪' };
+const SHOP_TOWN_PLAQUE_TINTS = [
+  ['#e7def3', '#6a5191'], ['#f6dccd', '#9a4f2c'], ['#d3eee4', '#2f7563'], ['#f6d9dc', '#9a4a57'],
+  ['#f8e7b8', '#8a6414'], ['#cfe3f1', '#2b5f86'], ['#e7def3', '#6a5191'], ['#f6dccd', '#9a4f2c'],
+];
+const SHOP_TOWN_PLAQUE_BOARDS = [
+  'lavender', 'terracotta', 'mint', 'pink', 'yellow', 'blue', 'lavender', 'terracotta',
 ];
 function inSection(p, id) {
   return sectionMatch(p, id);
@@ -2517,51 +2517,199 @@ function buildShopCategoryLinks() {
   ).join('');
 }
 
-/* 四格預覽：只用當前 group（或全部）真係有相嗰啲貨，唔重複同一件、
-   唔補生成圖。唔夠四張就出實際有幾多張。 */
-function bootPreview(list) {
-  const seen = new Set();
-  const out = [];
-  for (const p of list) {
-    const url = p.images?.edges?.[0]?.node?.url;
-    if (!url || seen.has(p.handle) || BAD_IMAGE.has(p.title)) continue;
-    seen.add(p.handle);
-    out.push({ url, title: p.title });
-    if (out.length === 4) break;
+function initShopTown(town) {
+  if (town.dataset.townReady) return;
+  town.dataset.townReady = 'true';
+  const viewport = town.querySelector('[data-town-viewport]');
+  const scene = town.querySelector('.o-town__scene');
+  const mobile = window.matchMedia('(max-width: 767px)');
+  const positionStreet = () => {
+    if (!viewport || !scene) return;
+    // 左端同時見到天空標題同護膚店；之後保留客人自行掃街嘅位置。
+    viewport.scrollLeft = 0;
+  };
+  requestAnimationFrame(positionStreet);
+  mobile.addEventListener('change', positionStreet);
+  if (!('IntersectionObserver' in window)) {
+    town.classList.add('is-revealed');
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      town.classList.add('is-revealed');
+      observer.disconnect();
+    }, { threshold: 0.1 });
+    observer.observe(town);
   }
-  return out;
-}
 
-function stickerArt(id) {
-  return `<span class="shop-boot__art shop-boot__art--${id}" aria-hidden="true"><i></i></span>`;
+  const video = town.querySelector('[data-town-video]');
+  const toggle = town.querySelector('[data-town-motion-toggle]');
+  const icon = toggle?.querySelector('[data-town-motion-icon]');
+  if (!video || !toggle) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const connection = navigator.connection;
+  let loaded = document.readyState === 'complete';
+  let inView = false;
+  let userPaused = false;
+  let failed = false;
+  const motionAllowed = () => !reduced.matches && !connection?.saveData;
+  const syncToggle = () => {
+    toggle.setAttribute('aria-label', video.paused ? '播放動畫' : '暫停動畫');
+    if (icon) icon.textContent = video.paused ? '▶' : 'Ⅱ';
+  };
+  const syncVideo = () => {
+    if (!loaded || failed || !motionAllowed()) {
+      video.pause();
+      town.classList.remove('is-video-playing');
+      toggle.hidden = true;
+      return;
+    }
+    if (!inView || document.hidden || userPaused) {
+      video.pause();
+      return;
+    }
+    // 唔喺 markup 放 source，確保 LCP 靜圖同 window load 之前唔下載影片。
+    if (!video.querySelector('source')) {
+      // 按實際顯示像素（闊度 × 螢幕密度）揀片，Retina 先用大檔；AV1 優先，唔支援就用 H.264。
+      const need = Math.max(window.innerWidth, 607) * Math.min(window.devicePixelRatio || 1, 2);
+      const size = need <= 1400 ? 1280 : need <= 2100 ? 1920 : 2880;
+      [
+        [`street-hd-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
+        [`street-hd-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
+      ].forEach(([file, type]) => {
+        const source = document.createElement('source');
+        source.src = `/assets/images/world/town/${file}`;
+        source.type = type;
+        video.appendChild(source);
+      });
+      video.muted = true;
+      video.load();
+    }
+    const playing = video.play();
+    if (playing?.catch) playing.catch((error) => {
+      if (error.name === 'AbortError') return;
+      // 自動播放被瀏覽器拒絕時保留靜圖，仍可手動播放。
+      if (motionAllowed() && inView && !document.hidden && !failed) {
+        userPaused = true;
+        toggle.hidden = false;
+        syncToggle();
+      }
+    });
+  };
+  video.addEventListener('playing', () => {
+    if (!motionAllowed() || document.hidden || !inView || userPaused) {
+      video.pause();
+      return;
+    }
+    town.classList.add('is-video-playing');
+    toggle.hidden = false;
+    syncToggle();
+  });
+  video.addEventListener('pause', syncToggle);
+  video.addEventListener('error', () => {
+    failed = true;
+    syncVideo();
+  });
+  toggle.addEventListener('click', () => {
+    userPaused = !video.paused;
+    syncVideo();
+  });
+  const measureVisibility = () => {
+    const rect = (viewport || scene || town).getBoundingClientRect();
+    inView = rect.bottom > 0 && rect.top < window.innerHeight;
+    syncVideo();
+  };
+  if ('IntersectionObserver' in window) {
+    const visibility = new IntersectionObserver((entries) => {
+      inView = entries.some((entry) => entry.isIntersecting);
+      syncVideo();
+    }, { threshold: 0 });
+    visibility.observe(viewport || scene || town);
+  } else {
+    window.addEventListener('scroll', measureVisibility, { passive: true });
+    window.addEventListener('resize', measureVisibility, { passive: true });
+  }
+  document.addEventListener('visibilitychange', syncVideo);
+  reduced.addEventListener('change', syncVideo);
+  connection?.addEventListener?.('change', syncVideo);
+  if (!loaded) window.addEventListener('load', () => {
+    loaded = true;
+    measureVisibility();
+  }, { once: true });
+  measureVisibility();
 }
 
 function buildShopBootHero(products, activeGroup, pending = false) {
-  const host = document.querySelector('[data-boot-stickers]');
-  if (!host) return;
+  const town = document.querySelector('[data-shop-town]');
+  const signs = town?.querySelector('[data-town-signs]');
+  const plaques = town?.querySelector('[data-town-plaques]');
+  if (!signs || !plaques) return;
   const counts = shopGroupCounts(products);
-  const brands = new Set(products.map((p) => p.vendor).filter(Boolean)).size;
 
-  host.innerHTML = SHOP_GROUPS.map((g, i) => {
-    const pos = SHOP_STICKER_POS[i];
+  const controlMarkup = (g, { house = false, delay = 0, n = '', tint = '#e7f1f4', tintInk = '#2b4c58' } = {}) => {
+    const kind = house ? 'house' : 'plaque';
     const on = activeGroup === g.id;
-    const style = `--x:${pos.x};--y:${pos.y};--r:${pos.r};--s:${pos.s};--tint:${g.tint}`;
-    const inner = `${stickerArt(g.id)}
-      <b class="shop-boot__label">${g.label}</b>
-      ${pending ? '' : `<small class="shop-boot__n">${counts[g.id]}</small>`}`;
+    const label = escapeSpotlightAttr(SHOP_TOWN_SHORT_LABELS[g.id] || g.label);
+    const classes = `o-town__control o-town__card o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
+    const attrs = `class="${classes}" style="--sign-tint:${tint};--sign-tint-ink:${tintInk};--town-delay:${delay}ms" data-town-category="${g.id}" aria-label="${label}"`;
+    const tile = house
+      ? `<span class="o-town__badge" aria-hidden="true">${n}</span>`
+      : `<span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="44" height="44" decoding="async"></span>`;
+    const inner = `${tile}<span class="o-town__label">${label}</span><span class="o-town__shine" aria-hidden="true"></span>`;
     return g.href
-      ? `<a class="shop-boot__sticker" href="${g.href}" style="${style}" aria-label="${pending ? g.label : `${g.label}，${counts[g.id]} 件產品`}">${inner}</a>`
+      ? `<a ${attrs} href="/${g.href}">${inner}</a>`
       : pending
-        ? `<span class="shop-boot__sticker" style="${style}">${inner}</span>`
-      : `<button type="button" class="shop-boot__sticker${on ? ' is-on' : ''}"
-          data-boot-group="${g.id}" aria-pressed="${on ? 'true' : 'false'}"
-          style="${style}" aria-label="${g.label}，${counts[g.id]} 件產品">${inner}</button>`;
-  }).join('');
+        ? `<button type="button" ${attrs} disabled aria-disabled="true">${inner}</button>`
+        : `<button type="button" ${attrs} data-boot-group="${g.id}"
+            aria-pressed="${on ? 'true' : 'false'}">${inner}</button>`;
+  };
+
+  if (!signs.children.length) {
+    signs.innerHTML = SHOP_GROUPS.filter((g) => SHOP_TOWN_HOUSES[g.id]).map((g, i) => {
+      const pos = SHOP_TOWN_HOUSES[g.id];
+      return `<div class="o-town__anchor" style="--town-x:${pos.x};--town-y:${pos.y};--town-delay:${i * 80}ms;--halo:${pos.tintInk};--halo-delay:${(i * 0.45).toFixed(2)}s">${controlMarkup(g, { ...pos, house: true })}</div>`;
+    }).join('');
+    plaques.innerHTML = SHOP_GROUPS.filter((g) => !SHOP_TOWN_HOUSES[g.id]).map((g, i) => {
+      const [tint, tintInk] = SHOP_TOWN_PLAQUE_TINTS[i % SHOP_TOWN_PLAQUE_TINTS.length];
+      return `<div class="o-town__plaque-slot">${controlMarkup(g, { tint, tintInk, delay: i * 40 })}</div>`;
+    }).join('');
+    initShopTown(town);
+  } else {
+    // 更新計數時保留 DOM、鍵盤焦點同一次入場動畫；解除待載入按鈕。
+    SHOP_GROUPS.forEach((g) => {
+      const control = town.querySelector(`[data-town-category="${g.id}"]`);
+      if (!control) return;
+      const tag = g.href ? 'A' : 'BUTTON';
+      if (control.tagName !== tag) {
+        const house = SHOP_TOWN_HOUSES[g.id];
+        const slot = [...plaques.querySelectorAll('.o-town__plaque-slot')].indexOf(control.parentElement);
+        const [tint, tintInk] = SHOP_TOWN_PLAQUE_TINTS[Math.max(0, slot) % SHOP_TOWN_PLAQUE_TINTS.length];
+        control.outerHTML = house
+          ? controlMarkup(g, { ...house, house: true })
+          : controlMarkup(g, { tint, tintInk });
+        return;
+      }
+      const number = control.querySelector('.o-town__number');
+      const divider = control.querySelector('.o-town__divider');
+      if (number) {
+        number.hidden = pending;
+        number.textContent = pending ? '' : `${counts[g.id]} 件`;
+      }
+      if (divider) divider.hidden = pending;
+      control.disabled = pending;
+      control.setAttribute('aria-disabled', String(pending));
+      control.setAttribute('aria-label', g.label);
+      if (tag === 'BUTTON' && !pending) {
+        const on = activeGroup === g.id;
+        control.classList.toggle('is-on', on);
+        control.setAttribute('aria-pressed', String(on));
+      }
+    });
+  }
 
   const count = document.querySelector('[data-boot-count]');
   if (count) count.textContent = pending
     ? (products.length ? `先顯示 ${products.length} 件 · 其餘載入中` : `${SHOP_GROUPS.length} 個分類 · 揀一類開始`)
-    : `${products.length} 件產品 · ${brands} 個品牌`;
+    : `${products.length.toLocaleString('en-US')} 件產品`;
 }
 
 function syncShopBoot(products, activeGroup, list) {
@@ -2573,17 +2721,10 @@ function syncShopBoot(products, activeGroup, list) {
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
 
-  const photos = document.querySelector('[data-boot-photos]');
-  if (photos) {
-    const shots = bootPreview(list);
-    photos.innerHTML = shots.map((sh) =>
-      `<img src="${sh.url}" alt="" loading="eager" decoding="async"
-            onerror="this.remove()">`).join('');
-  }
   const count = document.querySelector('[data-boot-count]');
   if (count) count.textContent = window.OUJI_CATALOG_PARTIAL
     ? `先顯示 ${list.length} 件 · 其餘載入中`
-    : `${list.length} 件產品 · ${g ? g.label : `${products.length} 件全部產品`}`;
+    : (g ? `${list.length.toLocaleString('en-US')} 件 · ${g.label}` : `${products.length.toLocaleString('en-US')} 件產品`);
 }
 
 /* 由搜尋或者煩惱入嚟嗰陣，資料夾名已經由 shop.html 設咗做「暗沉・痘印」

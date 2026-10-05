@@ -1,0 +1,627 @@
+/* Painted wooden shop boards over the full-bleed watercolor street. */
+
+  @font-face {
+    font-family: 'League Spartan';
+    src: url('/assets/fonts/league-spartan-latin.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 500 700;
+    font-display: swap;
+  }
+
+  section.o-town[data-shop-boot][data-shop-town] {
+    --town-ink: #22343c;
+    --town-focus: #22343c;
+    --town-cream: #fbf3e1;
+    --town-ease: cubic-bezier(.2, .7, .25, 1);
+    --town-scene-height: calc(100vw * 1296 / 3024);
+    --town-street-height: calc(var(--town-scene-height) * .9);
+    --town-crop-top: 0px;
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    padding: 0;
+    color: var(--town-ink);
+  }
+
+  .o-town [hidden] { display: none !important; }
+  .o-town__street-shell { position: relative; width: 100%; }
+  .o-town__viewport[data-town-viewport] {
+    position: relative;
+    width: 100%;
+    height: var(--town-street-height);
+    overflow: hidden;
+  }
+  .o-town__viewport:focus-visible {
+    outline: 3px solid #2b6176;
+    outline-offset: -3px;
+  }
+  .o-town__scene {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3024 / 1296;
+    transform: translateY(calc(-1 * var(--town-crop-top)));
+  }
+  .o-town__image, .o-town__video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+  }
+  .o-town__image { z-index: 0; }
+  .o-town__video { z-index: 1; opacity: 0; transition: opacity 450ms ease; }
+  .o-town.is-video-playing .o-town__video { opacity: 1; }
+
+  .o-town__title {
+    position: absolute;
+    z-index: 3;
+    top: calc(var(--town-crop-top) + 4%);
+    left: 2%;
+    width: 19%;
+    padding: 5px;
+    isolation: isolate;
+    pointer-events: none;
+  }
+  .o-town__title::before {
+    position: absolute;
+    z-index: -1;
+    inset: -35% -22%;
+    content: '';
+    background: radial-gradient(ellipse closest-side, rgba(255, 252, 241, .94), rgba(255, 252, 241, .76) 48%, rgba(255, 252, 241, .25) 78%, transparent);
+  }
+  .o-town__eyebrow {
+    display: block;
+    margin: 0 0 5px;
+    color: var(--town-ink);
+    font: 700 10px/1.4 'League Spartan', 'Noto Sans TC', sans-serif;
+    letter-spacing: .13em;
+  }
+  .o-town__title h1 {
+    margin: 0;
+    color: var(--town-ink);
+    font: 700 clamp(24px, 3vw, 36px)/1.25 'Noto Serif TC', serif;
+    letter-spacing: -.035em;
+  }
+  .o-town__count {
+    margin: 6px 0 0;
+    color: var(--town-ink);
+    font: 600 11px/1.4 Manrope, 'Noto Sans TC', sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .o-town__signs[data-town-signs] {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+  }
+  .o-town__anchor {
+    position: absolute;
+    z-index: 1;
+    left: var(--town-x);
+    top: var(--town-y);
+    width: max(104px, 11%);
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+  }
+  .o-town__anchor:focus-within { z-index: 4; }
+  .o-town__control {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    container-type: inline-size;
+    width: 100%;
+    aspect-ratio: 3.2 / 1;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    background-color: transparent;
+    background-image: var(--sign-board);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    box-shadow: 0 2px 5px rgba(34, 52, 60, .12);
+    color: var(--sign-ink, var(--town-ink));
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 180ms var(--town-ease), box-shadow 180ms var(--town-ease);
+  }
+  .o-town__control:hover,
+  .o-town__control:focus-visible {
+    z-index: 2;
+    transform: translateY(-3px) rotate(1.5deg);
+    box-shadow: 0 7px 13px rgba(34, 52, 60, .25);
+  }
+  .o-town__control:active {
+    transform: scale(.97);
+    box-shadow: 0 2px 5px rgba(34, 52, 60, .18);
+  }
+  .o-town__control:is(.is-on, [aria-pressed='true']) {
+    box-shadow: inset 0 0 0 2px currentColor, 0 2px 5px rgba(34, 52, 60, .12);
+  }
+  .o-town__control:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--town-cream), 0 0 0 4px var(--town-focus), 0 7px 13px rgba(34, 52, 60, .25);
+  }
+  .o-town__control:disabled,
+  .o-town__control[aria-disabled='true'] { cursor: default; }
+  .o-town__control:disabled:hover,
+  .o-town__control[aria-disabled='true']:hover { transform: none; }
+  .o-town__face {
+    position: absolute;
+    top: 0;
+    right: 4%;
+    bottom: 0;
+    left: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .o-town__label {
+    display: block;
+    min-width: 0;
+    color: var(--sign-ink, var(--town-ink));
+    font: 700 10.625cqi/1.1 'Noto Serif TC', serif;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .14);
+    white-space: nowrap;
+  }
+  .o-town__number {
+    flex: 0 0 auto;
+    color: var(--sign-ink, var(--town-ink));
+    font: 700 7.5cqi/1.1 Manrope, 'Noto Sans TC', sans-serif;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .14);
+    white-space: nowrap;
+  }
+  .o-town__divider {
+    flex: 0 0 1px;
+    height: 34%;
+    background: currentColor;
+    opacity: .58;
+  }
+  .o-town__anchor:has(.o-town__house) {
+    width: auto;
+    transform: translate(-50%, -50%);
+    animation: o-town-bob 5.6s ease-in-out var(--town-delay, 0ms) infinite;
+  }
+  .o-town__card {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(8px, .8vw, 14px);
+    width: auto;
+    aspect-ratio: auto;
+    min-height: clamp(46px, 4.4vw, 64px);
+    padding: clamp(6px, .55vw, 9px) clamp(12px, 1.1vw, 18px) clamp(6px, .55vw, 9px) clamp(6px, .55vw, 9px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .95);
+    border-radius: 12px;
+    background:
+      radial-gradient(120% 140% at 15% 0%, rgba(255, 255, 255, .7), rgba(255, 255, 255, 0) 55%),
+      rgba(252, 249, 241, .84);
+    -webkit-backdrop-filter: blur(6px) saturate(1.1);
+    backdrop-filter: blur(6px) saturate(1.1);
+    box-shadow:
+      0 0 0 4px rgba(252, 249, 241, .42),
+      0 0 0 5px rgba(43, 76, 88, .10),
+      0 8px 18px -6px rgba(34, 52, 60, .28);
+    color: #22343c;
+    container-type: normal;
+    transition: transform 320ms var(--town-ease), box-shadow 320ms var(--town-ease), background-color 320ms var(--town-ease);
+  }
+  .o-town__card::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(43, 76, 88, .14);
+    border-radius: 9px;
+    pointer-events: none;
+  }
+  .o-town__badge {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: clamp(32px, 3vw, 44px);
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: var(--sign-tint, #e7f1f4);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .06), inset 0 1px 0 rgba(255, 255, 255, .7);
+    color: var(--sign-tint-ink, #2b4c58);
+    font: 700 clamp(12px, 1vw, 15px)/1 Manrope, sans-serif;
+    font-variant-numeric: tabular-nums;
+    transition: transform 420ms var(--town-ease);
+  }
+  .o-town__card .o-town__face {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .o-town__card .o-town__label {
+    color: #22343c;
+    font: 700 clamp(14px, 1.25vw, 19px)/1.15 'Noto Serif TC', serif;
+    letter-spacing: .02em;
+    text-shadow: none;
+  }
+  .o-town__card .o-town__number {
+    color: #5a6e76;
+    font: 600 clamp(10px, .78vw, 12px)/1.1 Manrope, 'Noto Sans TC', sans-serif;
+    text-shadow: none;
+  }
+  .o-town__card .o-town__divider { display: none; }
+  .o-town__go {
+    flex: 0 0 auto;
+    margin-left: clamp(2px, .4vw, 8px);
+    color: #2b4c58;
+    font: 400 clamp(16px, 1.5vw, 24px)/1 Manrope, sans-serif;
+    transition: transform 380ms var(--town-ease), opacity 200ms ease;
+  }
+  .o-town__shine {
+    position: absolute;
+    inset: 0 auto 0 -60%;
+    width: 45%;
+    background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, 0));
+    transform: skewX(-18deg) translateX(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .o-town__card:hover {
+      transform: translateY(-4px);
+      background-color: rgba(255, 253, 248, .95);
+      box-shadow:
+        0 0 0 4px rgba(252, 249, 241, .62),
+        0 0 0 6px color-mix(in srgb, var(--sign-tint, #cfe3f1) 85%, #ffffff),
+        0 16px 26px -10px rgba(34, 52, 60, .36);
+    }
+    .o-town__card:hover .o-town__go { transform: translate(3px, -3px); }
+    .o-town__card:hover .o-town__badge { transform: rotate(-6deg) scale(1.06); }
+    .o-town__card:hover .o-town__shine { animation: o-town-shine 900ms var(--town-ease) 1; }
+  }
+  .o-town__card:active { transform: translateY(-1px) scale(.97); }
+  .o-town__card:focus-visible {
+    outline: 2px solid #2b6176;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 4px rgba(252, 249, 241, .62), 0 8px 18px -6px rgba(34, 52, 60, .28);
+  }
+  .o-town__card:is(.is-on, [aria-pressed='true']) {
+    box-shadow: 0 0 0 4px rgba(252, 249, 241, .62), 0 0 0 6px var(--sign-tint-ink, #2b4c58), 0 8px 18px -6px rgba(34, 52, 60, .28);
+  }
+  .o-town__anchor:has(.o-town__house)::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    z-index: -1;
+    border: 2px solid #fff8e8;
+    border-radius: 16px;
+    pointer-events: none;
+    animation: o-town-halo 2.2s ease-out var(--halo-delay, 0s) infinite;
+  }
+  .o-town__anchor:has(.o-town__house:hover)::before,
+  .o-town__anchor:has(.o-town__house:focus-visible)::before { animation: none; opacity: 0; }
+  @keyframes o-town-halo {
+    0% { transform: scale(.92); opacity: .85; }
+    90%, 100% { transform: scale(1.28); opacity: 0; }
+  }
+  @media (max-width: 767px) {
+    .o-town__card { gap: 6px; min-height: 0; padding: 4px 9px 4px 4px; border-radius: 10px; }
+    .o-town__card::before { inset: 2px; border-radius: 8px; }
+    .o-town__badge { width: 24px; border-radius: 6px; font-size: 10px; }
+    .o-town__card .o-town__label { font-size: 13px; }
+    .o-town__card .o-town__number { font-size: 9px; }
+    .o-town__go { display: none; }
+  }
+  .o-town__badge--icon { width: clamp(40px, 3.4vw, 50px); height: clamp(40px, 3.4vw, 50px); padding: 4px; box-sizing: border-box; overflow: hidden; }
+  .o-town__badge--icon .o-town__icon { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; }
+  .o-town__badge--icon { grid-template: 100% / 100%; }
+  .o-town__card .o-town__label { white-space: nowrap; }
+  .o-town__plaque.o-town__card { min-height: clamp(52px, 4.4vw, 62px); padding-right: clamp(12px, 1vw, 16px); }
+  .o-town__plaque .o-town__label { font-size: clamp(14px, 1.05vw, 16px); }
+  .o-town__plaque-slot { flex: 0 0 auto !important; max-width: none !important; }
+  @keyframes o-town-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+  @keyframes o-town-shine { from { opacity: 1; transform: skewX(-18deg) translateX(0); } to { opacity: 0; transform: skewX(-18deg) translateX(420%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .o-town__anchor:has(.o-town__house) { animation: none; }
+    .o-town__anchor:has(.o-town__house)::before { animation: none; opacity: 0; }
+    .o-town__house, .o-town__go, .o-town__badge { transition: none; }
+    .o-town__house:hover .o-town__shine { animation: none; }
+  }
+
+  .o-town.is-revealed .o-town__anchor {
+    animation: o-town-house-arrive 480ms var(--town-ease) var(--town-delay, 0ms) both;
+  }
+  .o-town.is-revealed .o-town__plaque-slot {
+    animation: o-town-plaque-arrive 420ms var(--town-ease) var(--town-delay, 0ms) both;
+  }
+  .o-town__kerb {
+    position: relative;
+    z-index: 4;
+    width: 100%;
+    margin-top: -22px;
+    padding-top: 7px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .8), rgba(251, 243, 225, .96) 9px, rgba(251, 243, 225, .94));
+  }
+  .o-town__kerb::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 2px;
+    content: '';
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 1px 3px rgba(34, 52, 60, .12);
+    pointer-events: none;
+  }
+  nav.o-town__plaques[data-town-plaques] {
+    display: flex;
+    align-items: center;
+    justify-content: safe center;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 6px 14px 10px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: visible;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 14px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .o-town__plaques::-webkit-scrollbar { display: none; }
+  .o-town__plaque-slot {
+    position: relative;
+    flex: 0 0 162px;
+    min-width: 0;
+    max-width: 162px;
+    scroll-snap-align: center;
+  }
+  .o-town__plaque {
+    box-shadow: 0 2px 5px rgba(34, 52, 60, .12);
+  }
+  .o-town__plaque .o-town__face {
+    right: 5%;
+    left: 31%;
+    gap: 4%;
+    justify-content: flex-start;
+  }
+  .o-town__roundel {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 6%;
+    display: grid;
+    place-items: center;
+    width: auto;
+    height: 78%;
+    max-width: 44px;
+    max-height: 44px;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    border: 2px solid rgba(255, 255, 255, .78);
+    border-radius: 50%;
+    background: var(--town-cream);
+    box-shadow: 0 2px 5px rgba(34, 52, 60, .16);
+    transform: translateY(-50%);
+  }
+  .o-town__icon { display: block; width: 78%; height: 78%; object-fit: contain; }
+
+  .o-town__motion-toggle {
+    position: absolute;
+    z-index: 5;
+    bottom: 24px;
+    left: 8px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 252, 241, .9) 45%, rgba(255, 252, 241, 0) 72%);
+    color: var(--town-ink);
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .o-town__motion-toggle:focus-visible {
+    outline: 2px solid #2b6176;
+    outline-offset: -5px;
+  }
+  .o-town__hint { display: none; }
+
+  .o-town[data-shop-town] + [data-shop-catalog] .shop-page__filter {
+    padding-block: 10px;
+    margin-bottom: 12px;
+  }
+
+  @keyframes o-town-house-arrive {
+    from { opacity: 0; translate: 0 -6px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  @keyframes o-town-plaque-arrive {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 767px) {
+    .o-town__street-shell { overflow: hidden; }
+    .o-town__viewport[data-town-viewport] {
+      height: 242px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .o-town__viewport::-webkit-scrollbar { display: none; }
+    .o-town__scene {
+      width: max(100%, 606.666667px);
+      min-width: 606.666667px;
+      transform: none;
+    }
+    .o-town__title {
+      top: 12px;
+      left: 18px;
+      width: 128px;
+      padding: 0;
+      scroll-snap-align: start;
+      scroll-margin-left: 18px;
+    }
+    .o-town__title h1 { font-size: 24px; }
+    .o-town__eyebrow { font-size: 9px; letter-spacing: .08em; }
+    .o-town__count { margin-top: 4px; font-size: 10px; }
+    .o-town__anchor { width: max(104px, 11%); scroll-snap-align: center; }
+    .o-town__kerb { margin-top: -14px; }
+    nav.o-town__plaques[data-town-plaques] {
+      justify-content: flex-start;
+      gap: 8px;
+      padding: 6px 16px 10px;
+      scroll-padding-inline: 16px;
+    }
+    .o-town__plaque-slot { flex: 0 0 152px; max-width: 152px; }
+    .o-town__roundel { max-width: 40px; max-height: 40px; }
+    .o-town__hint {
+      position: absolute;
+      z-index: 5;
+      right: 12px;
+      bottom: 28px;
+      display: block;
+      margin: 0;
+      padding: 4px 8px;
+      border-radius: 12px;
+      background: rgba(255, 252, 241, .85);
+      color: var(--town-ink);
+      font: 500 10px/1.2 'Noto Sans TC', sans-serif;
+      pointer-events: none;
+    }
+    .o-town[data-shop-town] + [data-shop-catalog] .shop-page__filter {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 8px;
+    }
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-bar__left {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .o-town[data-shop-town] + [data-shop-catalog] .breadcrumb {
+      grid-column: 1 / -1;
+      margin: 0;
+    }
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-bar__count { font-size: 10px; }
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-btn { padding: 9px 10px; }
+    .o-town[data-shop-town] + [data-shop-catalog] .filter-bar__sort select {
+      max-width: 130px;
+      padding-inline: 10px 24px;
+      font-size: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .o-town *, .o-town *::before, .o-town *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+    .o-town__control:is(:hover, :focus-visible, :active) { transform: none !important; }
+    .o-town__video { opacity: 0 !important; }
+    .o-town__motion-toggle { display: none !important; }
+  }
+
+  /* Mobile: one fixed frame of the four houses (no sideways scrolling), extra sky above for the title,
+     and the eight other categories as an icon-over-label grid that fits without scrolling. */
+  @media (max-width: 767px) {
+    .o-town { --m-sky: 88px; --m-scene-w: calc(100vw / .72); --m-scene-h: calc(var(--m-scene-w) * 1296 / 3024); }
+    .o-town__viewport[data-town-viewport] {
+      height: calc(var(--m-sky) + var(--m-scene-h) * .9);
+      padding-top: var(--m-sky);
+      box-sizing: border-box;
+      overflow: hidden;
+      scroll-snap-type: none;
+      background: linear-gradient(to bottom, #cfe0ec 0%, #b5cee0 55%, #9fbfd6 100%) top / 100% var(--m-sky) no-repeat, #9fbfd6;
+    }
+    .o-town__viewport[data-town-viewport]::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: var(--m-sky);
+      background:
+        radial-gradient(40% 45% at 80% 30%, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 70%),
+        radial-gradient(30% 35% at 58% 18%, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 70%);
+      pointer-events: none;
+    }
+    .o-town__viewport[data-town-viewport]::after {
+      content: '';
+      position: absolute;
+      top: calc(var(--m-sky) - 2px);
+      left: 0;
+      right: 0;
+      z-index: 2;
+      height: 28px;
+      background: linear-gradient(to bottom, #9fbfd6, rgba(159, 191, 214, 0));
+      pointer-events: none;
+    }
+    .o-town__scene {
+      width: var(--m-scene-w);
+      min-width: 0;
+      height: var(--m-scene-h);
+      aspect-ratio: auto;
+      margin-left: calc(var(--m-scene-w) * -.2);
+      transform: none;
+    }
+    .o-town__scene::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 14%;
+      z-index: 1;
+      background: linear-gradient(to bottom, #9fbfd6, rgba(159, 191, 214, 0));
+      pointer-events: none;
+    }
+    .o-town__title {
+      top: calc(-1 * var(--m-sky) + 16px);
+      left: calc(20% + 18px);
+      width: auto;
+    }
+    .o-town__title::before { display: none; }
+    .o-town__title h1 { font-size: 26px; }
+    .o-town__hint { display: none !important; }
+    .o-town__house.o-town__card { gap: 0; padding: 5px 9px; border-radius: 9px; }
+    .o-town__house .o-town__badge { display: none; }
+    .o-town__house .o-town__label { font-size: 12.5px; }
+    .o-town__anchor:has(.o-town__house)::before { inset: -4px; border-radius: 12px; }
+
+    nav.o-town__plaques[data-town-plaques] {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px 8px;
+      padding: 12px 14px 14px;
+      overflow: visible;
+    }
+    .o-town__plaque-slot { max-width: none !important; min-width: 0; }
+    .o-town__plaque.o-town__card {
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      min-height: 0;
+      padding: 8px 4px 9px;
+      border-radius: 12px;
+    }
+    .o-town__plaque .o-town__badge--icon { width: 48px; height: 48px; border-radius: 10px; }
+    .o-town__plaque .o-town__label { font-size: 12.5px; text-align: center; white-space: nowrap; }
+  }
+
