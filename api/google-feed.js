@@ -35,7 +35,7 @@ const SITE = 'https://oujikbeauty.com';
 const PAGE = 60;
 
 const QUERY = `
-query($cursor: String, $n: Int!) @inContext(country: HK) {
+query($cursor: String, $n: Int!) @inContext(country: HK, language: ZH_TW) {
   products(first: $n, after: $cursor, query: "status:active") {
     pageInfo { hasNextPage endCursor }
     edges { node {

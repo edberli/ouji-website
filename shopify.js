@@ -139,15 +139,17 @@ function shopifyCardImageAttrs(url) {
    其餘冇嘅就喺 operation 名後面加一個。
    只喺 shopifyFetch 一個位做 —— 全站十幾條 query 都經佢，逐條改一定會漏。 */
 function withLanguage(query) {
-  if (getLang() !== 'en') return query;
+  // 中文模式都要明確講 ZH_TW：Shopify 開咗英文翻譯之後，冇講明語言就會跟瀏覽器語言，
+  // 英文介面嘅電腦會喺中文頁見到英文產品名同描述（2026-10-05 實測 en-US / en-GB）。
+  const lang = getLang() === 'en' ? 'EN' : 'ZH_TW';
   if (/@inContext\(/.test(query)) {
     return query.replace(/@inContext\(([^)]*)\)/, (m, inner) => (
-      /language\s*:/.test(inner) ? m : `@inContext(${inner.trim()}, language: EN)`
+      /language\s*:/.test(inner) ? m : `@inContext(${inner.trim()}, language: ${lang})`
     ));
   }
   return query.replace(
     /^(\s*(?:query|mutation)\s+\w+(?:\s*\([\s\S]*?\))?)/m,
-    '$1 @inContext(language: EN)'
+    `$1 @inContext(language: ${lang})`
   );
 }
 

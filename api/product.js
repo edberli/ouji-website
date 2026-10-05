@@ -28,7 +28,7 @@ const API = `https://${SHOP}/api/2026-07/graphql.json`;
 const SITE = 'https://oujikbeauty.com';
 
 const QUERY = `
-query($handle: String!) @inContext(country: HK) {
+query($handle: String!) @inContext(country: HK, language: ZH_TW) {
   product(handle: $handle) {
     id handle title description descriptionHtml vendor productType
     images(first: 1) { edges { node { url } } }
