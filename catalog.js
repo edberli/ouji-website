@@ -2486,6 +2486,7 @@ const SHOP_TOWN_HOUSES = {
   bath: { x: '64%', y: '30%', board: 'mint', n: '03', tint: '#d3eee4', tintInk: '#2f7563' },
   seasonal: { x: '83%', y: '28%', board: 'yellow', n: '04', tint: '#f8e7b8', tintInk: '#8a6414' },
 };
+const SHOP_TOWN_SHORT_LABELS = { supports: '壓力襪' };
 const SHOP_TOWN_PLAQUE_TINTS = [
   ['#e7def3', '#6a5191'], ['#f6dccd', '#9a4f2c'], ['#d3eee4', '#2f7563'], ['#f6d9dc', '#9a4a57'],
   ['#f8e7b8', '#8a6414'], ['#cfe3f1', '#2b5f86'], ['#e7def3', '#6a5191'], ['#f6dccd', '#9a4f2c'],
@@ -2654,7 +2655,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
   const controlMarkup = (g, { house = false, delay = 0, n = '', tint = '#e7f1f4', tintInk = '#2b4c58' } = {}) => {
     const kind = house ? 'house' : 'plaque';
     const on = activeGroup === g.id;
-    const label = escapeSpotlightAttr(g.label);
+    const label = escapeSpotlightAttr(SHOP_TOWN_SHORT_LABELS[g.id] || g.label);
     const classes = `o-town__control o-town__card o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
     const attrs = `class="${classes}" style="--sign-tint:${tint};--sign-tint-ink:${tintInk};--town-delay:${delay}ms" data-town-category="${g.id}" aria-label="${label}"`;
     const tile = house
