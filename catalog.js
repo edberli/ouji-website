@@ -2575,11 +2575,16 @@ function initShopTown(town) {
     }
     // 唔喺 markup 放 source，確保 LCP 靜圖同 window load 之前唔下載影片。
     if (!video.querySelector('source')) {
-      const size = window.innerWidth < 1280 ? 1280 : 1920;
-      ['webm', 'mp4'].forEach((format) => {
+      // 按實際顯示像素（闊度 × 螢幕密度）揀片，Retina 先用大檔；AV1 優先，唔支援就用 H.264。
+      const need = Math.max(window.innerWidth, 607) * Math.min(window.devicePixelRatio || 1, 2);
+      const size = need <= 1400 ? 1280 : need <= 2100 ? 1920 : 2880;
+      [
+        [`street-hd-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
+        [`street-hd-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
+      ].forEach(([file, type]) => {
         const source = document.createElement('source');
-        source.src = `/assets/images/world/town/street-${size}.${format}`;
-        source.type = `video/${format}`;
+        source.src = `/assets/images/world/town/${file}`;
+        source.type = type;
         video.appendChild(source);
       });
       video.muted = true;
