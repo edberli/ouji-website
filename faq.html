@@ -39,6 +39,8 @@
        字體未到嗰陣行 fallback（Georgia／system sans），版面照出。 -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css?v=20261002-stores2">
 </head>
@@ -334,13 +336,9 @@
     <div class="container">
       <div class="footer__grid">
         <div class="footer__brand">
-          <div class="footer__logo">OUJI</div>
-          <p class="footer__brand-desc">
-            香港的韓國化妝護膚品專門店。<br>
-            觀塘觀塘道 472–480 號<br>
-            觀塘工業中心一期 地下 B 舖<br>
-            每日 10:00–20:00
-          </p>
+          <a class="footer__logo" href="index.html" aria-label="OUJI 首頁">OUJI</a>
+          <p class="footer__tagline">小小快樂，日日發現。<br><span data-no-i18n>SEOUL BEAUTY · HONG KONG HEART</span></p>
+          <p class="footer__stamp" data-no-i18n>HK · BEAUTY PLAYGROUND</p>
           <div class="footer__social">
             <a href="https://www.instagram.com/ouji_kbeauty/" aria-label="Instagram" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
@@ -353,58 +351,65 @@
             </a>
           </div>
         </div>
-        <div>
-          <h4 class="footer__col-title">選購</h4>
+        <nav class="footer__col" aria-labelledby="footer-shop-title">
+          <h4 class="footer__col-title" id="footer-shop-title" data-no-i18n>Shop</h4>
           <ul class="footer__links">
-            <li><a href="category.html">護膚</a></li>
-            <li><a href="makeup.html">彩妝</a></li>
-            <li><a href="lens.html">隱形眼鏡</a></li>
-            <li><a href="kpop.html">K-pop 周邊</a></li>
-            <li><a href="bath.html">沐浴洗護</a></li>
-            <li><a href="seasonal.html">季節性</a></li>
-            <li><a href="tools.html">美妝工具</a></li>
-            <li><a href="health.html">保健品</a></li>
-            <li><a href="supports.html">護具及壓力襪</a></li>
-            <li><a href="toys.html">公仔</a></li>
-            <li><a href="fragrance.html">香水香氛</a></li>
-            <li><a href="short-dated.html">短效期特價</a></li>
+            <li><a href="shop.html">全部產品</a></li>
             <li><a href="brands.html">所有品牌</a></li>
             <li><a href="awards.html">獲獎產品</a></li>
+            <li><a href="short-dated.html">短效期特價</a></li>
             <li><a href="match.html">妝感配對</a></li>
           </ul>
-        </div>
-        <div>
-          <h4 class="footer__col-title">關於</h4>
+        </nav>
+        <nav class="footer__col" aria-labelledby="footer-about-title">
+          <h4 class="footer__col-title" id="footer-about-title" data-no-i18n>About</h4>
           <ul class="footer__links">
             <li><a href="about.html">關於 OUJI</a></li>
-            <li><a href="stores.html">門市地址</a></li>
             <li><a href="story.html">我們的故事</a></li>
             <li><a href="column.html">靈感專欄</a></li>
-            <li><a href="terms.html">服務條款</a></li>
-            <li><a href="privacy.html">私隱政策</a></li>
           </ul>
-        </div>
-        <div>
-          <h4 class="footer__col-title">客戶服務</h4>
+        </nav>
+        <nav class="footer__col" aria-labelledby="footer-help-title">
+          <h4 class="footer__col-title" id="footer-help-title" data-no-i18n>Help</h4>
           <ul class="footer__links">
             <li><a href="faq.html">常見問題</a></li>
             <li><a href="shipping.html">運送及退換</a></li>
             <li><a href="contact.html">聯絡我們</a></li>
+            <li><a href="account.html">會員登入</a></li>
+            <li><a href="wishlist.html">心願單</a></li>
           </ul>
-        </div>
-              <!-- 芝麻喺 footer 度鞠躬多謝 —— 睇到呢度即係成版睇完，
-        一個收尾嘅動作。 -->
-        <div class="shima shima--bow" aria-hidden="true">
-        <img class="shima__f is-on" src="assets/images/shima/shima-bow1.webp" alt="" loading="lazy" decoding="async">
-        <img class="shima__f" src="assets/images/shima/shima-bow2.webp" alt="" loading="lazy" decoding="async">
-        <img class="shima__f" src="assets/images/shima/shima-bow3.webp" alt="" loading="lazy" decoding="async">
-        <img class="shima__f" src="assets/images/shima/shima-bow4.webp" alt="" loading="lazy" decoding="async">
-        <img class="shima__f" src="assets/images/shima/shima-bow5.webp" alt="" loading="lazy" decoding="async">
-        <img class="shima__f" src="assets/images/shima/shima-bow6.webp" alt="" loading="lazy" decoding="async">
+        </nav>
+        <div class="footer__col footer__visit">
+          <h4 class="footer__col-title" data-no-i18n>Visit us</h4>
+          <p class="footer__brand-desc">
+            香港的韓國化妝護膚品專門店。<br>
+            觀塘觀塘道 472–480 號<br>
+            觀塘工業中心一期 地下 B 舖<br>
+            每日 10:00–20:00
+          </p>
+          <a class="footer__visit-link" href="stores.html">門市地址</a>
         </div>
       </div>
       <div class="footer__bottom">
         <p class="footer__copyright">&copy; 2026 Ouji Limited（香港註冊公司）· 觀塘實體門市 · All rights reserved.</p>
+        <div class="footer__bottom-links">
+          <a href="terms.html">服務條款</a>
+          <a href="privacy.html">私隱政策</a>
+          <span>香港 · HKD $</span>
+          <a class="footer__to-top" href="#">回到頁頂 ↑</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__giant">
+      <span class="footer__giant-word" aria-hidden="true">OUJI</span>
+      <!-- 芝麻坐喺大字 OUJI 上面鞠躬多謝：成版睇完嘅收尾，亦唔會撐高 footer。 -->
+      <div class="shima shima--bow" aria-hidden="true">
+        <img class="shima__f is-on" src="assets/images/shima/shima-bow1.webp" alt="" width="285" height="360" loading="lazy" decoding="async">
+        <img class="shima__f" src="assets/images/shima/shima-bow2.webp" alt="" width="285" height="360" loading="lazy" decoding="async">
+        <img class="shima__f" src="assets/images/shima/shima-bow3.webp" alt="" width="285" height="360" loading="lazy" decoding="async">
+        <img class="shima__f" src="assets/images/shima/shima-bow4.webp" alt="" width="285" height="360" loading="lazy" decoding="async">
+        <img class="shima__f" src="assets/images/shima/shima-bow5.webp" alt="" width="285" height="360" loading="lazy" decoding="async">
+        <img class="shima__f" src="assets/images/shima/shima-bow6.webp" alt="" width="285" height="360" loading="lazy" decoding="async">
       </div>
     </div>
   </footer>

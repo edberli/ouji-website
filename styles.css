@@ -2431,62 +2431,50 @@ button.product-card__quick-add,
 
 /* ----- Footer ----- */
 .footer {
-  /* 原本係 linear-gradient(#1e2120 → #2a2d2a) —— 灰墨綠，唔係藍。
-     跟返老闆指名嗰隻，同參考版本一樣用平色 #2b4c58。 */
-  background: var(--dark-base);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  /* 2026-10-06 老闆：「直情係要用佢（Codex 預覽版）嘅配色、佢嘅設計」——
+     淺藍 #6da3b5 底、白字、頂部圓弧、Klee One 手寫標語、底部白色大字 OUJI。
+     內容（頁面連結、門市資料）跟返我哋網站。 */
+  background: var(--primary);
+  color: #ffffff;
   border-top: none;
-  padding: var(--space-4xl) 0 var(--space-2xl);
+  border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+  padding: 70px 0 0;
   position: relative;
+  overflow: hidden;
 }
 
-.footer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 20% 0%, rgba(231,241,244,0.08) 0%, transparent 55%);
-  pointer-events: none;
-}
+.footer__grid { display: grid; grid-template-columns: 1.2fr .65fr .65fr .65fr 1fr; gap: 35px; padding-bottom: 45px; margin-bottom: 0; position: relative; }
+.footer__logo { display: inline-block; font-family: var(--font-brand); font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: 0.22em; text-transform: uppercase; color: #ffffff; }
+.footer__tagline { margin: 13px 0; font: 600 15px/1.7 'Klee One', 'Noto Serif TC', serif; color: #ffffff; }
+.footer__stamp { margin: 0 0 var(--space-lg); font-size: 9px; letter-spacing: 0.12em; color: #ffffff; }
+.footer__brand-desc { margin: 0 0 12px; max-width: 310px; font-size: 12px; line-height: 1.9; color: #ffffff; }
 
-.footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: var(--space-2xl); margin-bottom: var(--space-4xl); }
-.footer__brand { padding-right: var(--space-2xl); }
-.footer__logo { font-family: var(--font-brand); font-size: 2.5rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #ffffff; margin-bottom: var(--space-md); }
-.footer__brand-desc { font-size: 0.8125rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: var(--space-lg); }
+.footer__social { display: flex; gap: 10px; }
+.footer__social a { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #ffffff80; color: #ffffff; transition: background-color 0.2s var(--ease-out), transform 0.2s var(--ease-out); }
+.footer__social a:hover { background: #ffffff26; transform: translateY(-2px); }
+.footer__social svg { width: 15px; height: 15px; }
 
-.footer__social { display: flex; gap: var(--space-md); }
-.footer__social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.1); color: #ffffff; transition: all 0.3s var(--ease-out); }
-.footer__social a:hover { background: var(--primary); color: #ffffff; transform: translateY(-3px) scale(1.1); box-shadow: 0 6px 20px rgba(99,149,166,0.35); }
-.footer__social svg { width: 16px; height: 16px; }
+.footer__col-title { margin: 0 0 12px; font-family: var(--font-body); font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: #ffffff; }
+.footer__links { display: grid; gap: 8px; justify-items: start; }
+.footer__links li { margin: 0; }
+.footer__links a,
+.footer__visit-link { font-size: 13px; color: #ffffff; text-underline-offset: 3px; }
+.footer__links a:hover,
+.footer__visit-link:hover { text-decoration: underline; }
+.footer__visit-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid #ffffff80; border-radius: 99px; font-size: 12px; }
+.footer__visit-link::after { content: '↗'; }
+.footer__visit-link:hover { text-decoration: none; background: #ffffff1f; }
 
-.footer__col-title { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #ffffff; margin-bottom: var(--space-lg); }
-.footer__links li { margin-bottom: var(--space-sm); }
-.footer__links a {
-  font-size: 0.8125rem;
-  color: rgba(255,255,255,0.75);
-  transition: color var(--duration-fast), transform var(--duration-fast);
-  display: inline-block;
-  position: relative;
-}
-.footer__links a::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--primary-light);
-  transition: width 0.3s var(--ease-out);
-}
-.footer__links a:hover { color: #ffffff; transform: translateX(4px); }
-.footer__links a:hover::after { width: 100%; }
-
-.footer__bottom { display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-2xl); border-top: 1px solid rgba(255,255,255,0.2); }
-.footer__copyright { font-size: 0.75rem; color: rgba(255,255,255,0.65); }
-.footer__bottom-links { display: flex; gap: var(--space-lg); }
+.footer__bottom { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 12px 0 15px; border-top: 1px solid #ffffff50; }
+.footer__copyright { font-size: 11px; letter-spacing: 0.035em; color: #ffffff; }
+.footer__bottom-links { display: flex; flex-wrap: wrap; gap: var(--space-lg); }
 .footer__bottom-links a,
-.footer__bottom-links span { font-size: 0.75rem; color: rgba(255,255,255,0.65); transition: color var(--duration-fast); }
-.footer__bottom-links a:hover { color: #ffffff; }
+.footer__bottom-links span { font-size: 11px; letter-spacing: 0.035em; color: #ffffff; }
+.footer__bottom-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* 底部白色大字 OUJI（Codex 版招牌），芝麻坐喺旁邊。 */
+.footer__giant { position: relative; text-align: center; pointer-events: none; }
+.footer__giant-word { display: block; padding-left: 0.22em; font-family: var(--font-brand); font-weight: 700; font-size: clamp(70px, 21vw, 290px); line-height: 1; letter-spacing: 0.22em; color: #ffffffc2; user-select: none; }
 
 /* ----- Breadcrumb ----- */
 /* ⚠️ 麵包屑啲短連結唔准縮。老闆 2026-08-31 影咗張相：產品名一長，
@@ -3567,7 +3555,7 @@ button.product-card__quick-add,
   .product-grid { grid-template-columns: repeat(3, 1fr); }
   .category-grid { grid-template-columns: repeat(3, 1fr); }
   .footer__grid { grid-template-columns: 1fr 1fr 1fr; }
-  .footer__brand { grid-column: 1 / -1; }
+  .footer__brand, .footer__visit { grid-column: 1 / -1; }
   .cart-layout { grid-template-columns: minmax(0, 1fr) 420px; }
   .hero__floating-images { display: none; }
   .featured-collection__info, .brand-story__content { padding: var(--space-2xl); }
@@ -3674,8 +3662,13 @@ button.product-card__quick-add,
   .cart-summary { padding: var(--space-md); }
 
   .reward { padding: var(--space-md); }
-  .footer__grid { grid-template-columns: 1fr 1fr; }
-  .footer__bottom { flex-direction: column; gap: var(--space-md); text-align: center; }
+  .footer { padding-top: 50px; }
+  .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px 15px; padding-bottom: 30px; }
+  .footer__logo { font-size: 36px; }
+  .footer__bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
+  .footer__bottom-links { justify-content: center; gap: var(--space-md); }
+  .footer__giant-word { font-size: 16vw; text-align: left; padding-left: 16px; }
+  .shima--bow { height: min(17vw, 76px); right: 12px; }
   .newsletter__form { flex-direction: column; border-radius: 14px; }
   .newsletter__input { border-radius: 14px 14px 0 0; border-right: 1px solid rgba(255,255,255,0.2); border-bottom: none; }
   .newsletter__submit { border-radius: 0 0 14px 14px; }
@@ -4913,12 +4906,6 @@ button.product-card__quick-add,
   background: transparent;
   border: none;
   color: #ffffff;
-}
-
-/* ----- Footer warm accent line ----- */
-.footer {
-  border-top: none;
-  border-image: none;
 }
 
 /* ----- Brand Section Header (centered divider style) ----- */
@@ -6336,14 +6323,6 @@ button.product-card__quick-add,
 /* ----- Marquee hover slow-down effect ----- */
 .brand-marquee:hover .brand-marquee__track {
   animation-play-state: paused;
-}
-
-/* ----- Deep Footer Override -----
-   本來係四段漸變，由 #2b4c58 一路沉到近黑。老闆指名要嘅係參考版本嗰隻
-   平色 #2b4c58 —— 漸變到最後果兩段一深，成個 footer 就唔再讀到係「藍」，
-   變返做黑。訂閱區就喺上面貼住，兩格色唔一致好明顯，所以兩格都用平色。 */
-.footer {
-  background: var(--dark-base) !important;
 }
 
 /* ============================================
@@ -15245,33 +15224,20 @@ body::before { opacity: 0.18; }
   margin: 0 auto 20px;
 }
 
-/* Footer 鞠躬。⚠️ 本來 in-flow 擺喺 footer 最上面 —— 老闆：「你搞到
-   section 大咗，你應該擺喺下面嗰啲空白位置㗎嘛」。啱：嗰個擺法將
-   footer 撐高咗 206px。
-   而家絕對定位，塞入最底嗰行本身已經吉咗嘅位：版權喺左（去到 x=263）、
-   條款連結喺右（由 x=1256 開始），中間成 993px 係吉；再落面仲有 48px
-   footer padding。隻貓企喺嗰度，footer 一 px 都冇加高。 */
-/* 老闆：「我想你擺喺『聯絡我們』下面嗰啲空白位置⋯⋯即係嗰個左右平衡。」
-   footer 四欄入面「選購」最長（去到最底），「客戶服務」得三條就完，
-   右下角空咗一大忽。隻貓填返嗰度：左邊有品牌塊、右邊有隻貓，左右
-   先平衡得返。
-   ⚠️ 錨喺 .footer__grid 度，唔係 .footer —— 錨 .footer 會跌落最底
-   嗰條版權線上面，變咗騎住條線（老闆截圖就係咁）。
-   個 grid 高度由最長嗰欄決定，隻貓絕對定位塞入去，footer 唔會加高。 */
-.footer__grid { position: relative; }
+/* Footer 鞠躬（2026-10-06 改位）：老闆以前要求隻貓擺喺空位、唔好撐高 footer。
+   新 footer 底部有大字 OUJI，大字上面右邊本身係吉位，隻貓坐喺度鞠躬，
+   絕對定位錨喺 .footer__giant，footer 唔會因為隻貓加高。 */
 .shima--bow {
   position: absolute;
-  right: 0;
+  right: clamp(12px, 9vw, 150px);
   bottom: 0;
   left: auto;
   transform: none;
   width: auto;
-  height: 176px;
+  height: clamp(76px, 11vw, 160px);
   aspect-ratio: 285 / 360;
   margin: 0;
   pointer-events: none;
-}
-@media (max-width: 640px) {
 }
 
 /* 手機中段嘅芝麻窄帶 —— 老闆：「冇人話一定要擺喺 header 嘅位置⋯⋯
@@ -15321,7 +15287,6 @@ body::before { opacity: 0.18; }
      ⚠️ 版權嗰行去到 x=295，隻貓 92px 高嗰陣由 x=294 開始，啱啱掂到。
      縮到 84px（由 x≈307 開始）就讓開。 */
   /* 手機版四欄變上下疊，最後一欄就係「客戶服務」，右下角一樣係吉位。 */
-  .shima--bow { height: 108px; right: 0; bottom: 0; }
   .shima--empty { width: 150px; height: 182px; }
 }
 
