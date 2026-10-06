@@ -2580,8 +2580,8 @@ function initShopTown(town) {
       const need = Math.max(window.innerWidth, 607) * Math.min(window.devicePixelRatio || 1, 2);
       const size = need <= 1400 ? 1280 : need <= 2100 ? 1920 : 2880;
       [
-        [`street-hd-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
-        [`street-hd-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
+        [`street-hd2-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
+        [`street-hd2-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
       ].forEach(([file, type]) => {
         const source = document.createElement('source');
         source.src = `/assets/images/world/town/${file}`;
