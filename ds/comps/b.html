@@ -1,0 +1,85 @@
+<!--
+Concept B: OUJI 品牌雜誌 — 57 個品牌，一間店。墨黑、奶油紙、螢光黃。
+Signatures: giant count-up; moving logo masthead; rotating campaign cover;
+masked chapter titles; pinned product-photo crossfades; tap-to-turn photo pages;
+quick-add feedback and a real-cart offer progress meter.
+Conversion: visible cover prices and quick-add, deep stocked brand chapters,
+Olive Young ratings, two real stores and tangible HK$99/399/599 thresholds.
+-->
+<!doctype html>
+<html lang="zh-Hant-HK" data-ds="2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f4f1e9">
+  <meta name="description" content="OUJI 品牌雜誌：57 個品牌，一間店。由品牌封面到真實產品，喺香港慢慢揀韓妝。">
+  <title>57 個品牌，一間店。｜OUJI 品牌雜誌</title>
+  <link rel="preload" href="/assets/fonts/league-spartan-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/images/home/brand/tirtir-v-1000.webp" as="image">
+  <link rel="stylesheet" href="/ds/layers.css">
+  <link rel="stylesheet" href="/ds/tokens.css">
+  <link rel="stylesheet" href="/ds/base.css">
+  <link rel="stylesheet" href="/ds/a11y.css">
+  <link rel="stylesheet" href="/ds/comps/b.css">
+  <script src="/ds/purchasable.js" defer></script>
+  <script src="/ds/promotions.js" defer></script>
+  <script src="/shopify.js" defer></script>
+  <script type="module" src="/ds/comps/b.js"></script>
+</head>
+<body class="magazine">
+  <a class="skip-link" href="/ds/comps/b.html#main">跳到內容</a>
+  <div class="announcement"><a href="/shipping.html">買滿 <b>HK$99</b> · 7-Eleven／郵局自取免運 <span aria-hidden="true">↗</span></a></div>
+  <header class="masthead">
+    <a class="wordmark" href="/index.html" aria-label="OUJI 王子首頁"><img src="/assets/wordmark.svg" width="100" height="32" alt="OUJI"></a>
+    <span class="masthead-edition">THE BRAND ISSUE <i>品牌雜誌</i></span>
+    <nav aria-label="主要導覽"><a href="/brands.html">品牌</a><a href="/shop.html">選購 <span>↗</span></a><a href="/cart.html" aria-label="購物袋" class="header-bag">袋 <span id="bag-count">0</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="cover" aria-labelledby="cover-title">
+      <div class="cover-kicker"><span>VOL. 01 / THE ART OF CHOOSING</span><span>香港選物 · 韓國美妝</span></div>
+      <div class="cover-layout">
+        <div class="cover-manifesto">
+          <div class="cover-number-wrap"><span id="brand-number" aria-hidden="true">57</span><span class="cover-stamp">YOUR<br>BEAUTY<br>LIBRARY <span>↗</span></span></div>
+          <h1 id="cover-title"><span class="sr-only">57 </span>個品牌，<br class="desktop-break">一間店。</h1>
+          <p class="cover-deck">唔止識個牌子。<br>今次，逛深一層。</p>
+          <a class="primary-action" href="/ds/comps/b.html#cover-products">選購封面品牌 <span aria-hidden="true">↘</span></a>
+          <a class="manifesto-secondary" href="/ds/comps/b.html#chapters">翻開品牌篇章 ↓</a>
+        </div>
+        <div class="cover-feature-wrap">
+          <div id="cover-feature">
+            <a class="cover-image" href="/shop.html?brand=TIRTIR"><img src="/assets/images/home/brand/tirtir-v-1000.webp" alt="TIRTIR 官方氣墊廣告，V 金泰亨" width="1000" height="495" fetchpriority="high"><span class="cover-image-label">THE COVER / TIRTIR</span></a>
+            <div class="cover-caption"><span>本期封面品牌 · 01 / 02</span><h2>TIRTIR</h2><a href="/shop.html?brand=TIRTIR">逛品牌 ↗</a></div>
+          </div>
+          <div class="cover-controls"><span class="cover-control-hint">一個封面，三件起點。</span><div><button id="cover-prev" type="button" aria-label="上一個封面品牌">←</button><button id="cover-next" type="button" aria-label="下一個封面品牌">→</button></div></div>
+        </div>
+      </div>
+      <div class="logo-band" aria-label="OUJI 美妝品牌"><div id="logo-track" class="logo-track"></div><button id="motion-toggle" type="button" aria-pressed="false" aria-label="暫停動畫">Ⅱ<span>暫停動畫</span></button></div>
+      <div class="cover-shop">
+        <div class="rail-heading"><h2>封面品牌，直接揀。</h2><span>真實產品 · 現貨價錢</span></div>
+        <div id="cover-products" class="product-rail cover-products" aria-busy="true"><p class="loading-copy">正在翻開產品頁…</p></div>
+        <div class="decision-trust"><a href="/ds/comps/b.html#editorial-office">香港 2 間實體店 ↗</a><a href="https://wa.me/85290195092">WhatsApp 9019 5092 ↗</a><span>評分來源：Olive Young</span></div>
+      </div>
+    </section>
+    <section class="contents" aria-labelledby="contents-title"><div><span class="eyebrow">IN THIS ISSUE / 本期目錄</span><h2 id="contents-title">每一個牌子，<br>值得多翻幾頁。</h2></div><nav id="chapter-index" aria-label="跳到品牌篇章"><span>品牌篇章載入中…</span></nav><span class="contents-arrow" aria-hidden="true">↘</span></section>
+    <div id="chapters" aria-label="品牌篇章"></div>
+    <aside class="coast-divider"><img src="/assets/images/world/dirs/vanity-d-1600.webp" alt="OUJI 水彩海邊梳妝台，白貓望向窗邊" width="1600" height="900" loading="lazy"><div><span class="eyebrow">A NOTE FROM OUJI</span><p>留少少時間，<br>畀自己慢慢揀。</p><span>由海邊想像，返到你嘅日常。</span></div></aside>
+    <section class="offers" id="offers" aria-labelledby="offers-title">
+      <div class="section-folio"><span>THE PERKS / 購物附錄</span><span>05</span></div>
+      <h2 id="offers-title" class="reveal">本期優惠<span aria-hidden="true">＊</span></h2>
+      <div class="offer-grid">
+        <a class="offer offer-discount" href="/shop.html"><span class="eyebrow">01 / 購物禮遇</span><p>買滿 HK$399</p><strong><small>減 $</small>20</strong><span>揀埋下一件 ↗</span></a>
+        <a class="offer offer-gift" href="/shop.html?brand=Round%20Lab"><span class="eyebrow">02 / 隨單小禮</span><p>買滿 HK$599</p><strong>送<br>Round Lab</strong><span>白樺樹保濕面霜 · 送完即止 ↗</span></a>
+        <a class="offer offer-clearance" href="/short-dated.html"><span class="eyebrow">03 / 清貨專頁</span><p>指定清貨產品任揀 2 件</p><strong><small>$</small>160</strong><span>睇清貨款式 ↗</span></a>
+      </div>
+      <p class="offer-footnote">滿 HK$99 · 7-Eleven／郵局自取免運。優惠及贈品按購物袋與結賬顯示。</p>
+    </section>
+    <section class="editorial-office" id="editorial-office" aria-labelledby="office-title"><div class="section-folio"><span>COME SAY HELLO / 喺香港見</span><span>06</span></div><div class="office-grid"><div><h2 id="office-title">編輯部<br>地址<span>↗</span></h2><p>兩間實體門市。<br>由螢幕，行到你身邊。</p><a class="office-wa" href="https://wa.me/85290195092">問我哋點揀<br><strong>9019 5092 ↗</strong><small>WhatsApp</small></a></div><div id="stores-list"></div></div></section>
+  </main>
+  <footer class="colophon"><a href="/index.html">OUJI <span>王子</span></a><p>57 個品牌，一間店。<br>THE BRAND ISSUE · HONG KONG</p><a href="/ds/comps/b.html#main">返到封面 ↑</a></footer>
+  <div class="shopping-dock"><a id="bag-button" href="/cart.html"><span>購物袋 <b id="bag-total">HK$0</b></span><span aria-hidden="true">↗</span></a><div class="dock-progress"><span id="threshold-copy">滿 HK$399 減 $20</span><div class="progress-track"><div id="offer-progress"></div></div></div><a class="dock-browse" href="/shop.html">繼續揀 ↗</a></div>
+  <p id="page-status" class="status-toast" role="status" aria-live="polite"></p>
+  <dialog id="variant-dialog"><div class="dialog-top"><span>揀你嘅款式</span><button type="button" data-close-dialog aria-label="關閉款式選擇">×</button></div><div id="variant-content"></div></dialog>
+  <noscript><p class="noscript-message">啟用 JavaScript 即可查看最新產品價錢。亦可<a href="/shop.html">直接選購</a>，或 WhatsApp 9019 5092 查詢。</p></noscript>
+</body>
+</html>

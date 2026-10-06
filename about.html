@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="ds/layers.css">
+  <link rel="stylesheet" href="ds/a11y.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>關於 OUJI — OUJI</title>
@@ -40,7 +42,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261002-stores2">
+  <link rel="stylesheet" href="styles.css?v=20261003-wp1b">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -239,7 +241,7 @@
 
     <section class="section">
       <div class="container" style="max-width: 800px;">
-        <div class="section-header" style="text-align: center; margin-bottom: 48px;">
+        <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
           <!-- 芝麻六格連續動作 —— 同一個動作嘅分解，每 260ms 換一格，
                第六格接返第一格。JS 喺 script.js 嘅 initShimaFrames()。 -->
           <div class="shima-page" aria-hidden="true">
@@ -267,8 +269,8 @@
 
           <h2 style="font-family: var(--font-brand); font-size: 1.25rem; font-weight: 600; color: var(--primary-dark); margin: 40px 0 16px;">為什麼選擇 OUJI</h2>
           <ul style="padding-left: 20px; margin-bottom: 24px;">
-            <li style="margin-bottom: 12px;"><strong>嚴格篩選</strong> — 超過 48 個精選韓國品牌，每一個都經過團隊親自試用</li>
-            <li style="margin-bottom: 12px;"><strong>正貨保證</strong> — 所有產品均由韓國品牌方或官方授權代理直接供貨</li>
+            <li style="margin-bottom: 12px;"><strong>嚴格篩選</strong> — 逐件對條碼上架，核心商品標示質地、妝效同適合膚質</li>
+            <li style="margin-bottom: 12px;"><strong>正貨保證</strong> — 由可靠供應渠道入貨，條碼逐件核對</li>
             <li style="margin-bottom: 12px;"><strong>專業建議</strong> — 我們的團隊持續研究韓國美妝趨勢，為你提供最新護膚資訊</li>
             <li style="margin-bottom: 12px;"><strong>門市體驗</strong> — 觀塘門市提供現場試用及專業諮詢服務</li>
           </ul>
@@ -394,12 +396,13 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20260927-card-brand-identity"></script>
+  <script src="product-naming.js?v=20261003-wp1b"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261005-zhlang"></script>
+  <script src="ds/purchasable.js?v=20261003-wp1b"></script>
+  <script src="shopify.js?v=20261005-zhlang-ds"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
-  <script src="search.js?v=20261001-lowstock3"></script>
-  <script src="script.js?v=20261001-supports"></script>
+  <script src="search.js?v=20261003-wp1b"></script>
+  <script src="script.js?v=20261003-wp1b"></script>
 </body>
 </html>

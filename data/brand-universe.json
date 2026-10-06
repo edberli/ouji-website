@@ -1,0 +1,844 @@
+[
+  {
+    "vendor": "rom&nd",
+    "aliases": [
+      "rom&nd",
+      "ROM&ND"
+    ],
+    "name_en": "ROM&ND",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/romand.svg"
+  },
+  {
+    "vendor": "TIRTIR",
+    "aliases": [
+      "TIRTIR"
+    ],
+    "name_en": "Tirtir",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/tirtir.svg"
+  },
+  {
+    "vendor": "hince",
+    "aliases": [
+      "hince",
+      "HINCE"
+    ],
+    "name_en": "Hince",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/hince.svg"
+  },
+  {
+    "vendor": "CLIO",
+    "aliases": [
+      "CLIO"
+    ],
+    "name_en": "Clio",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/clio.svg"
+  },
+  {
+    "vendor": "AMUSE",
+    "aliases": [
+      "AMUSE"
+    ],
+    "name_en": "Amuse",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/amuse.svg"
+  },
+  {
+    "vendor": "Peripera",
+    "aliases": [
+      "Peripera",
+      "PERIPERA",
+      "peripera"
+    ],
+    "name_en": "Peripera",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/peripera.svg"
+  },
+  {
+    "vendor": "MAYBELLINE",
+    "aliases": [
+      "MAYBELLINE",
+      "Maybelline"
+    ],
+    "name_en": "Maybelline",
+    "name_zh": "",
+    "group": "beauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/maybelline.svg"
+  },
+  {
+    "vendor": "CEZANNE",
+    "aliases": [
+      "CEZANNE"
+    ],
+    "name_en": "Cezanne",
+    "name_zh": "",
+    "group": "beauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/cezanne.svg"
+  },
+  {
+    "vendor": "lilybyred",
+    "aliases": [
+      "lilybyred",
+      "LILYBYRED",
+      "Lilybyred"
+    ],
+    "name_en": "Lilybyred",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/lilybyred.svg"
+  },
+  {
+    "vendor": "fwee",
+    "aliases": [
+      "fwee",
+      "FWEE"
+    ],
+    "name_en": "Fwee",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/fwee.svg"
+  },
+  {
+    "vendor": "Glint",
+    "aliases": [
+      "Glint",
+      "GLINT"
+    ],
+    "name_en": "Glint",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/glint.svg"
+  },
+  {
+    "vendor": "WAKEMAKE",
+    "aliases": [
+      "WAKEMAKE"
+    ],
+    "name_en": "Wakemake",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/wakemake.svg"
+  },
+  {
+    "vendor": "花知曉 Flower Knows",
+    "aliases": [
+      "花知曉 Flower Knows",
+      "FLOWER KNOWS",
+      "Flower Knows"
+    ],
+    "name_en": "Flower Knows",
+    "name_zh": "花知曉",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/flower-knows.svg"
+  },
+  {
+    "vendor": "Laka",
+    "aliases": [
+      "Laka",
+      "LAKA"
+    ],
+    "name_en": "Laka",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/laka.svg"
+  },
+  {
+    "vendor": "Coralhaze",
+    "aliases": [
+      "Coralhaze",
+      "CORALHAZE"
+    ],
+    "name_en": "Coralhaze",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/coralhaze.svg"
+  },
+  {
+    "vendor": "Heart Percent",
+    "aliases": [
+      "Heart Percent",
+      "HEART PERCENT"
+    ],
+    "name_en": "Heart Percent",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/heart-percent.svg"
+  },
+  {
+    "vendor": "UNLEASHIA",
+    "aliases": [
+      "UNLEASHIA"
+    ],
+    "name_en": "Unleashia",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/unleashia.svg"
+  },
+  {
+    "vendor": "2aN",
+    "aliases": [
+      "2aN",
+      "2AN"
+    ],
+    "name_en": "2AN",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/2an.svg"
+  },
+  {
+    "vendor": "BRAYE",
+    "aliases": [
+      "BRAYE"
+    ],
+    "name_en": "Braye",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/braye.svg"
+  },
+  {
+    "vendor": "OOTD",
+    "aliases": [
+      "OOTD"
+    ],
+    "name_en": "Ootd",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/ootd.svg"
+  },
+  {
+    "vendor": "dasique",
+    "aliases": [
+      "dasique",
+      "DASIQUE"
+    ],
+    "name_en": "Dasique",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "彩妝"
+    ],
+    "counted": true,
+    "logo": "logos/dasique.png"
+  },
+  {
+    "vendor": "COSRX",
+    "aliases": [
+      "COSRX"
+    ],
+    "name_en": "Cosrx",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/cosrx.png"
+  },
+  {
+    "vendor": "Torriden",
+    "aliases": [
+      "Torriden",
+      "TORRIDEN"
+    ],
+    "name_en": "Torriden",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/torriden.svg"
+  },
+  {
+    "vendor": "Anua",
+    "aliases": [
+      "Anua",
+      "ANUA"
+    ],
+    "name_en": "Anua",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/anua.png"
+  },
+  {
+    "vendor": "Skin1004",
+    "aliases": [
+      "Skin1004",
+      "SKIN1004"
+    ],
+    "name_en": "Skin1004",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/skin1004.png"
+  },
+  {
+    "vendor": "Abib",
+    "aliases": [
+      "Abib",
+      "ABIB"
+    ],
+    "name_en": "Abib",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/abib.svg"
+  },
+  {
+    "vendor": "Beplain",
+    "aliases": [
+      "Beplain",
+      "BEPLAIN",
+      "beplain"
+    ],
+    "name_en": "Beplain",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/beplain.png"
+  },
+  {
+    "vendor": "Beauty of Joseon",
+    "aliases": [
+      "Beauty of Joseon",
+      "BEAUTY OF JOSEON"
+    ],
+    "name_en": "Beauty Of Joseon",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/beauty-of-joseon.svg"
+  },
+  {
+    "vendor": "Mixsoon",
+    "aliases": [
+      "Mixsoon",
+      "MIXSOON"
+    ],
+    "name_en": "Mixsoon",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/mixsoon.svg"
+  },
+  {
+    "vendor": "Goodal",
+    "aliases": [
+      "Goodal",
+      "GOODAL"
+    ],
+    "name_en": "Goodal",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/goodal.svg"
+  },
+  {
+    "vendor": "Some By Mi",
+    "aliases": [
+      "Some By Mi",
+      "SOME BY MI"
+    ],
+    "name_en": "Some By Mi",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/some-by-mi.svg"
+  },
+  {
+    "vendor": "Round Lab",
+    "aliases": [
+      "Round Lab",
+      "ROUND LAB"
+    ],
+    "name_en": "Round Lab",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/round-lab.svg"
+  },
+  {
+    "vendor": "Bring Green",
+    "aliases": [
+      "Bring Green",
+      "BRING GREEN"
+    ],
+    "name_en": "Bring Green",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/bring-green.svg"
+  },
+  {
+    "vendor": "Purito",
+    "aliases": [
+      "Purito",
+      "PURITO"
+    ],
+    "name_en": "Purito",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/purito.svg"
+  },
+  {
+    "vendor": "Needly",
+    "aliases": [
+      "Needly",
+      "NEEDLY"
+    ],
+    "name_en": "Needly",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/needly.svg"
+  },
+  {
+    "vendor": "Skinfood",
+    "aliases": [
+      "Skinfood",
+      "SKINFOOD"
+    ],
+    "name_en": "Skinfood",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/skinfood.svg"
+  },
+  {
+    "vendor": "April Skin",
+    "aliases": [
+      "April Skin",
+      "APRIL SKIN"
+    ],
+    "name_en": "April Skin",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/april-skin.svg"
+  },
+  {
+    "vendor": "KSECRET",
+    "aliases": [
+      "KSECRET"
+    ],
+    "name_en": "Ksecret",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/ksecret.png"
+  },
+  {
+    "vendor": "ILSO",
+    "aliases": [
+      "ILSO"
+    ],
+    "name_en": "Ilso",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/ilso.svg"
+  },
+  {
+    "vendor": "Haruharu Wonder",
+    "aliases": [
+      "Haruharu Wonder",
+      "HARUHARU WONDER"
+    ],
+    "name_en": "Haruharu Wonder",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/haruharu-wonder.png"
+  },
+  {
+    "vendor": "Dr. Melaxin",
+    "aliases": [
+      "Dr. Melaxin",
+      "DR. MELAXIN"
+    ],
+    "name_en": "Dr. Melaxin",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/dr-melaxin.png"
+  },
+  {
+    "vendor": "VT Cosmetics",
+    "aliases": [
+      "VT Cosmetics",
+      "VT COSMETICS"
+    ],
+    "name_en": "Vt Cosmetics",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/vt-cosmetics.png"
+  },
+  {
+    "vendor": "BOH",
+    "aliases": [
+      "BOH",
+      "BIOHEAL BOH"
+    ],
+    "name_en": "BIOHEAL BOH",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/boh.png"
+  },
+  {
+    "vendor": "TOCOBO",
+    "aliases": [
+      "TOCOBO"
+    ],
+    "name_en": "Tocobo",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/tocobo.svg"
+  },
+  {
+    "vendor": "ma:nyo",
+    "aliases": [
+      "ma:nyo",
+      "MA:NYO"
+    ],
+    "name_en": "Ma:Nyo",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/manyo.png"
+  },
+  {
+    "vendor": "Arencia",
+    "aliases": [
+      "Arencia",
+      "ARENCIA"
+    ],
+    "name_en": "Arencia",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/arencia.png"
+  },
+  {
+    "vendor": "SUNGBOON EDITOR",
+    "aliases": [
+      "SUNGBOON EDITOR"
+    ],
+    "name_en": "Sungboon Editor",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/sungboon-editor.png"
+  },
+  {
+    "vendor": "Dr.Jart+",
+    "aliases": [
+      "Dr.Jart+",
+      "DR.JART+"
+    ],
+    "name_en": "Dr.Jart+",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/dr-jart.svg"
+  },
+  {
+    "vendor": "HEVEBLUE",
+    "aliases": [
+      "HEVEBLUE"
+    ],
+    "name_en": "Heveblue",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/heveblue.png"
+  },
+  {
+    "vendor": "LINDSAY",
+    "aliases": [
+      "LINDSAY"
+    ],
+    "name_en": "Lindsay",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/lindsay.png"
+  },
+  {
+    "vendor": "SO Natural",
+    "aliases": [
+      "SO Natural",
+      "SO NATURAL"
+    ],
+    "name_en": "So Natural",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "護膚"
+    ],
+    "counted": true,
+    "logo": "logos/so-natural.png"
+  },
+  {
+    "vendor": "Lilmoon",
+    "aliases": [
+      "Lilmoon",
+      "LILMOON"
+    ],
+    "name_en": "Lilmoon",
+    "name_zh": "",
+    "group": "beauty",
+    "categories": [
+      "隱形眼鏡"
+    ],
+    "counted": true,
+    "logo": "logos/lilmoon.svg"
+  },
+  {
+    "vendor": "Molak",
+    "aliases": [
+      "Molak",
+      "MOLAK"
+    ],
+    "name_en": "Molak",
+    "name_zh": "",
+    "group": "beauty",
+    "categories": [
+      "隱形眼鏡"
+    ],
+    "counted": true,
+    "logo": "logos/molak.svg"
+  },
+  {
+    "vendor": "N's Collection",
+    "aliases": [
+      "N's Collection",
+      "N'S COLLECTION"
+    ],
+    "name_en": "N'S Collection",
+    "name_zh": "",
+    "group": "beauty",
+    "categories": [
+      "隱形眼鏡"
+    ],
+    "counted": true,
+    "logo": "logos/ns-collection.svg"
+  },
+  {
+    "vendor": "TOPARDS",
+    "aliases": [
+      "TOPARDS"
+    ],
+    "name_en": "Topards",
+    "name_zh": "",
+    "group": "beauty",
+    "categories": [
+      "隱形眼鏡"
+    ],
+    "counted": true,
+    "logo": "logos/topards.svg"
+  },
+  {
+    "vendor": "Feliamo",
+    "aliases": [
+      "Feliamo",
+      "FELIAMO"
+    ],
+    "name_en": "Feliamo",
+    "name_zh": "",
+    "group": "beauty",
+    "categories": [
+      "隱形眼鏡"
+    ],
+    "counted": true,
+    "logo": "logos/feliamo.svg"
+  },
+  {
+    "vendor": "SOLEP",
+    "aliases": [
+      "SOLEP"
+    ],
+    "name_en": "Solep",
+    "name_zh": "",
+    "group": "kbeauty",
+    "categories": [
+      "頭髮護理"
+    ],
+    "counted": true,
+    "logo": "logos/solep.png"
+  }
+]

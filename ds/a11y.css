@@ -1,0 +1,16 @@
+@layer a11y-important {
+  html[data-ds="2"] [hidden] { display:none!important; }
+  @media (prefers-reduced-motion:reduce) {
+    html[data-ds="2"] *,html[data-ds="2"] *::before,html[data-ds="2"] *::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; }
+  }
+  html[data-ds="2"].is-reduced *,html[data-ds="2"].is-reduced *::before,html[data-ds="2"].is-reduced *::after,
+  html[data-ds="2"].is-lite *,html[data-ds="2"].is-lite *::before,html[data-ds="2"].is-lite *::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important; }
+}
+@layer a11y {
+  html[data-ds="2"] .o-sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  @media (forced-colors:active) {
+    html[data-ds="2"] :is(.o-btn,.o-chip,.o-card,.o-brand,.o-shelf__spine,.o-input) { border:1px solid ButtonText; forced-color-adjust:auto; }
+    html[data-ds="2"] :is(button,a,input):focus-visible { outline:2px solid Highlight; outline-offset:3px; }
+    html[data-ds="2"] .o-skeleton { border:1px solid CanvasText; }
+  }
+}

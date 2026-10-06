@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="../../ds/layers.css">
+  <link rel="stylesheet" href="../../ds/a11y.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>貼紙相機 — OUJI 彩妝</title>
@@ -9,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="common.css">
   <style>
+@layer legacy {
+
     :root { --pink: #ff70bd; --blue: #5d73ff; --lime: #cbff48; --yellow: #ffd64d; --silver: #d8d9e5; }
     .booth {
       position: relative;
@@ -242,7 +246,9 @@
       .booth__stickers button b { font-size: 10px; }
       .booth__stickers button small { top: 4px; right: 4px; min-width: 18px; font-size: 7px; }
     }
-  </style>
+
+}
+</style>
 </head>
 <body>
   <!--

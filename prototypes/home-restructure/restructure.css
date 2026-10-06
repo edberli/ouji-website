@@ -1,3 +1,4 @@
+@layer legacy {
 /* ═══════════════════════════════════════════════════════════════
    OUJI 首頁重整 Demo
    ───────────────────────────────────────────────────────────────
@@ -488,4 +489,5 @@ body { padding-bottom: 96px; }
 @media (prefers-reduced-motion: reduce) {
   .pop, .pop-tab { animation: none; }
   .navcat { transition: none; }
+}
 }

@@ -14,3 +14,14 @@ serve.json
 preview-cathead.html
 preview-bg.html
 color-preview.html
+
+# Local research artefacts and build inputs must not ship with the static site.
+*_all.json
+*.log
+/*.py
+
+# Unpublished preview pages and proof captures.
+preview-nav.html
+preview-nav2.html
+preview-promo.html
+ds/proof/

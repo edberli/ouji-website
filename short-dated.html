@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="ds/layers.css">
+  <link rel="stylesheet" href="ds/a11y.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>短效期特價 — OUJI</title>
@@ -40,7 +42,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261002-stores2">
+  <link rel="stylesheet" href="styles.css?v=20261003-wp1b">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -363,11 +365,12 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20260927-card-brand-identity"></script>
+  <script src="product-naming.js?v=20261003-wp1b"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261005-zhlang"></script>
-  <script src="search.js?v=20261001-lowstock3"></script>
-  <script src="script.js?v=20261001-supports"></script>
+  <script src="ds/purchasable.js?v=20261003-wp1b"></script>
+  <script src="shopify.js?v=20261005-zhlang-ds"></script>
+  <script src="search.js?v=20261003-wp1b"></script>
+  <script src="script.js?v=20261003-wp1b"></script>
   <script>
   /* 短效期特價專區（2026-09-12）。貨源係 Shopify「short-dated」系列（tag 短效期），
      每件係獨立產品，冇條碼，件數＝員工 app 記低嗰幾件。
@@ -391,7 +394,7 @@
       const expiry = shortDatedExpiry(p);
       const months = expiry ? (new Date(`${expiry}T23:59:59+08:00`) - now) / MONTH : 99;
       const v = (p.variants?.edges || []).map((x) => x.node);
-      const live = v.find((x) => x.availableForSale && (x.quantityAvailable ?? 1) > 0);
+      const live = window.OUJI_purchasable.firstPurchasable(v);
       const left = v.reduce((n, x) => n + Math.max(0, x.quantityAvailable || 0), 0);
       return { p, expiry, months, live, left };
     }).filter((r) => r.months >= 1)
@@ -413,7 +416,6 @@
     const card = ({ p, expiry, months, live, left }) => {
       const img = p.images?.edges?.[0]?.node;
       const nowP = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
-      const was = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0);
       const name = oujiCardName(p);
       const href = `product.html?handle=${encodeURIComponent(p.handle)}`;
       return `<article class="sd-card">
@@ -425,7 +427,6 @@
         <h3 class="sd-card__name"><a href="${href}">${esc(name)}</a></h3>
         <p class="sd-card__prices">
           <span class="sd-card__now">${formatPrice(nowP)}</span>
-          ${was > nowP ? `<s class="sd-card__was">${formatPrice(was)}</s>` : ''}
         </p>
         <p class="sd-card__left">${live ? `剩約 ${Math.round(months * 10) / 10} 個月到期${left ? ` · 得返 ${left} 件` : ''}` : '已經賣晒'}</p>
         <button class="sd-card__add" type="button" data-vid="${live ? esc(live.id) : ''}" ${live ? '' : 'disabled'}>${live ? '加入購物袋' : '售完'}</button>

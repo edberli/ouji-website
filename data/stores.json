@@ -1,0 +1,22 @@
+[
+  {
+    "name": "德華 TKO",
+    "address": "將軍澳唐俊街 21 號 Papillons Square 地下 6 號舖",
+    "public": false
+  },
+  {
+    "name": "王子油塘 G37",
+    "address": "油塘大本型地下 37 號舖",
+    "public": true
+  },
+  {
+    "name": "朝日館 127",
+    "address": "油塘大本型 1 樓 127 號舖",
+    "public": false
+  },
+  {
+    "name": "王子觀塘",
+    "address": "觀塘道 472–480 號觀塘工業中心一期地下 B 舖",
+    "public": true
+  }
+]

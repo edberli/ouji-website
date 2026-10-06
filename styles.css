@@ -1,4 +1,5 @@
-/* ============================================
+@layer legacy {
+/* ==========================
    OUJI — Korean Premium Beauty E-Commerce
    v3.0 — #6da3b5 Teal-Blue + Frosted Glass + Animations
    Shopify-ready structure
@@ -126,11 +127,16 @@
 /* ----- Reset ----- */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* 作者 CSS 一寫 display 就會蓋過 UA 嘅 [hidden]（PDP 價錢下面粒紅點就係咁嚟）。 */
+[hidden] { display: none !important; }
+
+/* clip 唔會開 scroll container；hidden 會，令全站 position: sticky 失效。 */
 html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -139,6 +145,7 @@ body {
   background: var(--bg-primary);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
   background-image:
     radial-gradient(ellipse at 25% 50%, rgba(240,221,200,0.15) 0%, transparent 55%),
     radial-gradient(ellipse at 75% 25%, rgba(109,163,181,0.06) 0%, transparent 45%),
@@ -5747,7 +5754,8 @@ button.product-card__quick-add,
 .account-quicklinks b { color: var(--primary); font-size: 1rem; font-weight: 400; }
 .account-dashboard__grid { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(260px, .75fr); gap: 24px; align-items: start; }
 .account-dashboard__main, .account-dashboard__side { display: grid; gap: 24px; }
-.account-dashboard__side { position: sticky; top: 104px; }
+/* WP0：html/body 改 overflow-x: clip 之後 sticky 會真係生效；會員側欄可能高過視窗，未重做（WP14）之前維持一直以來嘅實際效果。 */
+.account-dashboard__side { position: relative; }
 .account-dashboard .member-points { margin: 0; }
 .account-panel {
   padding: 26px;
@@ -8719,6 +8727,9 @@ body.has-brand-rail .brand-section {
 }
 .power-note.is-ready { background: rgba(109,163,181,0.09); color: #35637a; }
 .power-note.is-preorder { background: rgba(190,140,60,0.1); color: #8a5f22; }
+.power-btn:disabled { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
+.power-btn__tag { display: block; margin-top: 2px; font-size: 0.625rem; font-weight: 400; letter-spacing: 0; color: #8a5f22; }
+.product-info__preorder { margin: 0 0 10px; padding: 8px 12px; border-radius: 10px; background: rgba(190,140,60,0.1); color: #8a5f22; font-size: 0.8125rem; font-weight: 600; }
 
 @media (max-width: 768px) {
   .product-info__variants--power { grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 6px; }
@@ -9108,6 +9119,9 @@ html.is-lite .cat-card:hover .cat-card__shot {
 .card-rating .stars { font-size: 0.7rem; letter-spacing: 1px; }
 .card-rating b { font-size: 0.75rem; font-weight: 500; color: var(--text-primary); }
 .card-rating span { font-size: 0.6875rem; color: var(--text-tertiary); }
+/* 來源名（Olive Young N 則）要成粒換行，唔好喺數字同「則」中間斷開。 */
+.card-rating { flex-wrap: wrap; row-gap: 0; }
+.card-rating > span:last-child { white-space: nowrap; }
 .product-info__rating.is-static { cursor: default; }
 .product-info__rating.is-static:hover { border-bottom-color: transparent; }
 
@@ -16244,7 +16258,6 @@ body::before { opacity: 0.18; }
   .ship-mode__name { font-size: 0.72rem; }
   .ship-mode__gap { font-size: 0.62rem; }
 }
-}
 
 /* 隱藏嘅限時活動唔可被原有 display 規則重新顯示。 */
 .promo-wrap[hidden],
@@ -18832,3 +18845,4 @@ body::before { opacity: 0.18; }
 .store-page__info p { color: var(--text-secondary); line-height: 1.7; }
 .store-page__legal { max-width: 1080px; margin: var(--space-2xl) auto 0; padding-top: var(--space-lg); border-top: 1px solid var(--primary-lighter); font-size: .8125rem; color: var(--text-tertiary); }
 @media (max-width: 800px) { .store-page__grid { grid-template-columns: 1fr; gap: var(--space-xl); } .store-page__map iframe { height: 320px; } }
+}

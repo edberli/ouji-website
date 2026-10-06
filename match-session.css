@@ -1,3 +1,4 @@
+@layer legacy {
 :root {
   --ink: #271536;
   --ink-2: #3b2350;
@@ -492,4 +493,5 @@ body {
     height: calc(100svh - var(--hdr-h, 64px) - var(--ann-h, 36px) - 64px);
     min-height: 740px;
   }
+}
 }

@@ -1,5 +1,5 @@
 /* Painted wooden shop boards over the full-bleed watercolor street. */
-
+@layer pages {
   @font-face {
     font-family: 'League Spartan';
     src: url('/assets/fonts/league-spartan-latin.woff2') format('woff2');
@@ -14,8 +14,8 @@
     --town-cream: #fbf3e1;
     --town-ease: cubic-bezier(.2, .7, .25, 1);
     --town-scene-height: calc(100vw * 1296 / 3024);
-    --town-street-height: calc(var(--town-scene-height) * .9);
-    --town-crop-top: 0px;
+    --town-street-height: calc(var(--town-scene-height) * .8);
+    --town-crop-top: calc(var(--town-scene-height) * .1);
     position: relative;
     isolation: isolate;
     min-width: 0;
@@ -323,8 +323,8 @@
   .o-town__badge--icon .o-town__icon { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; }
   .o-town__badge--icon { grid-template: 100% / 100%; }
   .o-town__card .o-town__label { white-space: nowrap; }
-  .o-town__plaque.o-town__card { min-height: clamp(52px, 4.4vw, 62px); padding-right: clamp(12px, 1vw, 16px); }
-  .o-town__plaque .o-town__label { font-size: clamp(14px, 1.05vw, 16px); }
+  .o-town__card.o-town__card { min-height: clamp(52px, 4.4vw, 62px); padding-right: clamp(12px, 1vw, 16px); }
+  .o-town__card .o-town__label { font-size: clamp(14px, 1.05vw, 16px); }
   .o-town__plaque-slot { flex: 0 0 auto !important; max-width: none !important; }
   @keyframes o-town-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
   @keyframes o-town-shine { from { opacity: 1; transform: skewX(-18deg) translateX(0); } to { opacity: 0; transform: skewX(-18deg) translateX(420%); } }
@@ -599,9 +599,9 @@
     .o-town__title::before { display: none; }
     .o-town__title h1 { font-size: 26px; }
     .o-town__hint { display: none !important; }
-    .o-town__house.o-town__card { gap: 0; padding: 5px 9px; border-radius: 9px; }
-    .o-town__house .o-town__badge { display: none; }
-    .o-town__house .o-town__label { font-size: 12.5px; }
+    .o-town__house.o-town__card { gap: 4px; min-height: 0; padding: 3px 7px 3px 3px; border-radius: 8px; }
+    .o-town__house .o-town__badge--icon { width: 22px; height: 22px; padding: 1px; border-radius: 5px; }
+    .o-town__house .o-town__label { font-size: 11px; }
     .o-town__anchor:has(.o-town__house)::before { inset: -4px; border-radius: 12px; }
 
     nav.o-town__plaques[data-town-plaques] {
@@ -624,4 +624,4 @@
     .o-town__plaque .o-town__badge--icon { width: 48px; height: 48px; border-radius: 10px; }
     .o-town__plaque .o-town__label { font-size: 12.5px; text-align: center; white-space: nowrap; }
   }
-
+}

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <link rel="stylesheet" href="ds/layers.css">
+  <link rel="stylesheet" href="ds/a11y.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OUJI — 香港最齊 K-Beauty 專門店</title>
+  <title>OUJI — 香港 K-Beauty 專門店</title>
   <meta name="description" content="OUJI 是香港的 K-Beauty 專門店，匯集韓國美妝與護膚品牌。觀塘門市及網上商店。">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -20,14 +22,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OUJI">
   <meta property="og:locale" content="zh_HK">
-  <meta property="og:title" content="OUJI — 香港最齊 K-Beauty 專門店">
+  <meta property="og:title" content="OUJI — 香港 K-Beauty 專門店">
   <meta property="og:description" content="OUJI 是香港的 K-Beauty 專門店，匯集韓國美妝與護膚品牌。觀塘門市及網上商店。">
   <meta property="og:url" content="https://oujikbeauty.com/">
   <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="OUJI — 香港最齊 K-Beauty 專門店">
+  <meta name="twitter:title" content="OUJI — 香港 K-Beauty 專門店">
   <meta name="twitter:description" content="OUJI 是香港的 K-Beauty 專門店，匯集韓國美妝與護膚品牌。觀塘門市及網上商店。">
   <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
 
@@ -51,7 +53,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&family=Klee+One:wght@600&display=swap&text=%E7%B4%94%E6%B7%A8%E6%B0%B4%E5%88%86%E6%BA%AB%E6%9F%94%E5%AE%88%E8%AD%B7%E4%BE%86%E8%87%AA%E7%99%BD%E6%A8%BA%E6%A8%B9%E7%9A%84%E7%B4%94%E6%B7%A8%E6%B0%B4%E5%88%86%E7%82%BA%E8%82%8C%E8%86%9A%E6%B3%A8%E5%85%A5%E6%BA%AB%E6%9F%94%E5%8A%9B%E9%87%8F%E3%80%82%E6%B8%9B" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap&text=GoodSkinDays!" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261002-fan">
+  <link rel="stylesheet" href="styles.css?v=20261003-wp1b">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -423,7 +425,6 @@
              標題由居中改咗做左對齊一行：標題、韓文小字、件數靠右。
              居中標題喺一條淨係向右掃嘅 rail 上面，同下面嘅內容對唔上。 -->
         <h2 class="cat-cards__title">產品分類</h2>
-        <span class="cat-cards__ko" aria-hidden="true">세라믹</span>
       </div>
       <div class="cat-cards" data-home-cats></div>
     </section>
@@ -467,7 +468,7 @@
           <div class="midautumn-home__grid">
             <article class="home-gift-card home-gift-card--campaign" aria-labelledby="home-gift-title">
               <h3 class="visually-hidden" id="home-gift-title">Round Lab 白樺樹保濕面霜購物禮遇</h3>
-              <a class="home-gift-card__art-link" href="shop.html" aria-label="立即選購：買滿 HK$399 減 HK$20；買滿 HK$599 免費送 Round Lab 白樺樹保濕面霜 80ml">
+              <a class="home-gift-card__art-link" href="shop.html" aria-label="立即選購：買滿 HK$399 減 $20；買滿 HK$599 免費送 Round Lab 白樺樹保濕面霜 80ml">
                 <div class="rlb" data-rlb aria-hidden="true">
                   <img class="rlb__bg" src="assets/images/home/round-lab-banner-plate.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
                   <div class="rlb__abs rlb__brand">ROUND LAB<i></i></div>
@@ -475,10 +476,10 @@
                   <div class="rlb__abs rlb__en">BIRCH JUICE MOISTURIZING CREAM</div>
                   <div class="rlb__abs rlb__tags">深層保濕<b>|</b>溫和修護<b>|</b>清爽不黏膩</div>
                   <div class="rlb__abs rlb__slogan"><span>來自白樺樹的純淨水分</span><span>為肌膚注入溫柔力量。</span></div>
-                  <div class="rlb__abs rlb__pill"><svg viewBox="0 0 24 24" fill="none" stroke="#12306b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 8v5l3 2M9 3h6"/></svg>限時優惠</div>
+                  <div class="rlb__abs rlb__pill"><svg viewBox="0 0 24 24" fill="none" stroke="#12306b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 8v5l3 2M9 3h6"/></svg>購物禮遇</div>
                   <div class="rlb__abs rlb__buy">買滿 HK$399</div>
                   <div class="rlb__abs rlb__cut">減</div>
-                  <div class="rlb__abs rlb__amt">HK$20</div>
+                  <div class="rlb__abs rlb__amt">$20</div>
                   <div class="rlb__abs rlb__cta">立即選購<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h17M14 6l6 6-6 6"/></svg></div>
                   <div class="rlb__abs rlb__free">免費送</div>
                   <div class="rlb__abs rlb__b599">買滿 HK$599</div>
@@ -486,7 +487,7 @@
                   <svg class="rlb__abs rlb__gline" viewBox="0 0 120 50" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 44 Q50 34 114 4"/></svg>
                   <div class="rlb__abs rlb__gsd"><span>Good</span><span>Skin</span><span>Days!</span></div>
                 </div>
-                <span class="home-gift-card__mobile-offer" aria-hidden="true">滿 HK$399 減 HK$20 <span>·</span> 滿 HK$599 免費送面霜</span>
+                <span class="home-gift-card__mobile-offer" aria-hidden="true">滿 HK$399 減 $20 <span>·</span> 滿 HK$599 免費送面霜</span>
               </a>
             </article>
             <aside class="midautumn-home__shipping" aria-label="運送及自取">
@@ -521,7 +522,7 @@
 (function(){var b=document.querySelector('[data-rlb]');if(!b||!('IntersectionObserver' in window))return;
 b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){b.classList.add('is-in');io.disconnect();}},{threshold:.25});io.observe(b);var w=document.querySelector('[data-ship-walk]');if(w){var io2=new IntersectionObserver(function(e){if(e[0].isIntersecting){w.classList.add('is-in');io2.disconnect();}},{threshold:.4});io2.observe(w);}})();
 </script>
-<details class="home-gift-terms"><summary>更多優惠詳情</summary><p>買滿 HK$399 自動減 HK$20；合資格商品滿 HK$599（不計運費）即送 Round Lab 白樺樹保濕面霜 80ml 一件。贈品數量有限，送完即止；實際優惠以結帳為準。</p></details>
+<details class="home-gift-terms"><summary>更多優惠詳情</summary><p>買滿 HK$399 自動減 $20；合資格商品滿 HK$599（不計運費）即送 Round Lab 白樺樹保濕面霜 80ml 一件。贈品數量有限，送完即止；實際優惠以結帳為準。</p></details>
         </div>
       </section>
     </div>
@@ -562,7 +563,7 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
       <div class="container">
         <div class="home-block__head">
           <div class="home-block__titles">
-            <span class="label home-block__label">換季優惠 · 限時特價</span>
+            <span class="label home-block__label">換季優惠 · 特價</span>
             <h2 class="heading-lg home-block__title" id="home-sale-title">秋季換季大特賣</h2>
           </div>
           <p class="home-block__best">全場低至 <strong data-block-best></strong> 折</p>
@@ -1068,7 +1069,7 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
           <a class="ig-wall__card" href="https://www.instagram.com/reel/DYeLwnszcKp/" target="_blank" rel="noopener">
             <img src="assets/images/ig/DYeLwnszcKp.webp" alt="OUJI 觀塘門市 Instagram：原來就喺觀塘" loading="lazy" decoding="async">
             <span class="ig-wall__badge">影片</span>
-            <span class="ig-wall__cap"><strong>原來就喺觀塘</strong><em>20 個韓國品牌專櫃，全港最齊</em><small>♥ 2,385</small></span>
+            <span class="ig-wall__cap"><strong>原來就喺觀塘</strong><em>20 個韓國品牌專櫃</em><small>♥ 2,385</small></span>
           </a>
           <a class="ig-wall__card" href="https://www.instagram.com/reel/DVS6bR2Etr9/" target="_blank" rel="noopener">
             <img src="assets/images/ig/DVS6bR2Etr9.webp" alt="OUJI 觀塘門市 Instagram：觀塘地鐵站附近" loading="lazy" decoding="async">
@@ -1115,11 +1116,11 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
              customers, and the shop has none of those. -->
         <div class="stats-grid reveal-blur">
           <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-stat="brands">過百個</span>
-            <span class="stat-card__label">合作品牌</span>
+            <span class="stat-card__number" data-stat="brands">—</span>
+            <span class="stat-card__label">品牌</span>
           </div>
           <div class="stat-card gradient-border">
-            <span class="stat-card__number" data-stat="products">過千款</span>
+            <span class="stat-card__number" data-stat="products">—</span>
             <span class="stat-card__label">在售產品</span>
           </div>
           <div class="stat-card gradient-border">
@@ -1288,15 +1289,16 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20260927-card-brand-identity"></script>
+  <script src="product-naming.js?v=20261003-wp1b"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261005-zhlang"></script>
+  <script src="ds/purchasable.js?v=20261003-wp1b"></script>
+  <script src="shopify.js?v=20261005-zhlang-ds"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="home.js?v=20261002-fan"></script>
-  <script src="search.js?v=20261001-lowstock3"></script>
-  <script src="script.js?v=20261001-supports"></script>
+  <script src="home.js?v=20261003-wp1b"></script>
+  <script src="search.js?v=20261003-wp1b"></script>
+  <script src="script.js?v=20261003-wp1b"></script>
   <script>
     // Brand section toggles (independent per category)
     (function () {

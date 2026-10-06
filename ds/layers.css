@@ -1,0 +1,2 @@
+/* Earlier layers win for !important declarations. Link this before every other sheet. */
+@layer a11y-important, reset, legacy, tokens, base, components, patterns, worlds, pages, utilities, a11y;

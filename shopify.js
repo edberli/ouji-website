@@ -247,7 +247,8 @@ const I18N_PATTERNS = [
   [/^共 (\d+) 項獎$/, '$1 awards'],
   [/^第(\d+)位$/, 'No. $1'],
   [/^([\d,]+) 個物件$/, '$1 items'],
-  [/^韓國站 ([\d,]+) 則$/, '$1 reviews (KR)'],
+  [/^Olive Young ([\d,]+) 則$/, 'Olive Young $1 reviews'],
+  [/^Olive Young Global · ([\d,]+) 則評價$/, 'Olive Young Global · $1 reviews'],
   [/^展開埋其餘 ([\d,]+) 件$/, 'Show $1 more'],
   [/^睇埋其餘 ([\d,]+) 件$/, 'See $1 more'],
   [/^再買 \$([\d,]+) 就免運費$/, 'Add HK$$$1 for free shipping'],
@@ -1305,6 +1306,18 @@ async function syncAutomaticGift(cart) {
   return { changed: true, action: 'added' };
 }
 
+async function verifyVariantsAddable(ids) {
+  const P = window.OUJI_purchasable;
+  if (!P) {
+    console.warn('ds/purchasable.js 未載入，加購前冇覆核存貨');
+    return { ok: true, blocked: [], reason: 'unverified' };
+  }
+  return P.verifyAddable(ids, async (list) => {
+    const data = await shopifyFetch(P.VERIFY_QUERY, { ids: list });
+    return data ? data.nodes : null;
+  });
+}
+
 /** 加入商品到購物車 */
 async function addToCart(variantId, quantity = 1, retried = false) {
   /* 示範模式：唔會真係寫入 Shopify，只係記落 sessionStorage，
@@ -1321,7 +1334,14 @@ async function addToCart(variantId, quantity = 1, retried = false) {
     updateCartBadge(n);
     return { cart: { id: 'gid://demo/Cart/preview', totalQuantity: n } };
   }
-  const cartId = await getOrCreateCartId();
+  const [cartId, check] = await Promise.all([
+    getOrCreateCartId(),
+    retried ? { ok: true } : verifyVariantsAddable([variantId]),
+  ]);
+  if (!check.ok) {
+    console.warn('唔加入購物袋：規格已經冇貨', check.blocked);
+    return null;
+  }
   const data = await shopifyFetch(`
     mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!, $country: CountryCode!)
     @inContext(country: $country) {
@@ -2440,7 +2460,9 @@ function oujiPromoPriceText(amount) {
 /* 劃線價一定要嚟自售價嗰件變體（同 catalog.js productCard 一把尺）：
    單片 $18 冇折、5片裝 $78 劃線 $90，唔可以標成「$18 ／ $90」。
    列表冇變體價錢，就只喺全部變體同價時先用 compareAtPriceRange。 */
+/* 短效期貨嘅劃線參考價未有老闆定案（DECISIONS #8），卡片一律唔出劃線。 */
 function oujiCardComparePrice(p) {
+  if (isShortDated(p)) return null;
   const p0 = p.priceRange?.minVariantPrice;
   const vs = (p.variants?.edges || []).map((e) => e.node).filter(Boolean);
   if (vs.some((v) => v.price)) {
@@ -2513,7 +2535,7 @@ function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount 
   const hasWas = parseFloat(compareAmount) > parseFloat(priceAmount);
   if (season && !isCounterBrandBundle(title, tags)) {
     if ((tags || []).includes('限時') || onSale) {
-      const detail = hasWas ? oujiZhe(priceAmount, compareAmount) : '限時特價';
+      const detail = hasWas ? oujiZhe(priceAmount, compareAmount) : '特價';
       return `<div class="product-card__bundle-band product-card__bundle-band--season"><strong>換季優惠</strong><span>${detail}</span></div>`;
     }
     return '';
@@ -2522,7 +2544,7 @@ function oujiSaleBadgeHTML(title, onSale, priceAmount, tags = [], compareAmount 
   if (isCounterBrandBundle(title, tags)) {
     return '<div class="product-card__bundle-band product-card__bundle-band--prestige"><strong>專櫃</strong><span>尊享套裝</span></div>';
   }
-  const saleBadge = '<span class="product-card__badge product-card__badge--sale">限時</span>';
+  const saleBadge = '<span class="product-card__badge product-card__badge--sale">特價</span>';
   if ((tags || []).includes('限時')) return saleBadge;
   const b = oujiBundleInfo(title);
   if (b) {
@@ -2782,9 +2804,9 @@ function productCardHTML(product) {
       ? (product.compareAtPriceRange?.minVariantPrice || null)
       : null;
   }
-  const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
-  const isSoldOut = !variant?.availableForSale;
   const shortDated = isShortDated(product);
+  const isOnSale = !shortDated && comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
+  const isSoldOut = !variant?.availableForSale;
   const expiry = shortDated ? shortDatedExpiry(product) : '';
   const title = oujiCardTitle(product);
 

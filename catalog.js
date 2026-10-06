@@ -330,8 +330,7 @@ function price(p) {
    所以數量報到係 0 就當冇貨。
    quantityAvailable 係 null 代表嗰件貨根本冇追蹤存貨，唔關佢事。 */
 function variantInStock(v) {
-  if (!v || !v.availableForSale) return false;
-  return v.quantityAvailable == null || v.quantityAvailable > 0;
+  return window.OUJI_purchasable.isPurchasable(v);
 }
 
 function soldOut(p) {
@@ -437,8 +436,11 @@ function vendorCounts(products) {
 
 /* 公仔版：來歷唔確定嘅牌子（「（待確認）」、OUJI 自家雜項）一律併入「其他」。老闆 2026-10-03。 */
 const TOYS_MISC_VENDORS = new Set(['（待確認）', '(待確認)', '待確認', 'OUJI']);
+/* 由 ?brand= 入嚟嘅品牌就算得一兩件，都唔可以併入「其他」，否則粒 chip 對唔上。 */
+let PINNED_VENDOR = null;
 function groupedVendor(p, counts) {
   const vendor = mergedVendor(p);
+  if (PINNED_VENDOR && vendor === PINNED_VENDOR) return vendor;
   if (typeof CURRENT_SECTION !== 'undefined' && CURRENT_SECTION === 'toys'
       && TOYS_MISC_VENDORS.has(vendor.trim())) return '其他';
   return vendor === '其他' || (counts.get(vendor) || 0) < MIN_STANDALONE_BRAND_PRODUCTS
@@ -487,7 +489,7 @@ function brandFromUrl(products) {
   return hit ? hit.vendor : null;
 }
 
-function buildFilterSidebar(section, products) {
+function buildFilterSidebar(section, products, pinnedVendor = null) {
   const sidebar = document.querySelector('.filter-sidebar');
   if (!sidebar) return;
   const subs = availableSubs(section, products);
@@ -505,9 +507,9 @@ function buildFilterSidebar(section, products) {
     groups.push(groupBlock('分類',
       subs.map((s) => optionRow('cat', s.id, s.label, s.count)).join(''), true));
   }
-  if (vendors.length > 1) {
+  if (vendors.length > 1 || pinnedVendor) {
     groups.push(groupBlock('品牌',
-      vendors.map((v) => optionRow('vendor', v.vendor, v.vendor, v.count)).join('')));
+      vendors.map((v) => optionRow('vendor', v.vendor, v.vendor, v.count)).join(''), !!pinnedVendor));
   }
   if (buckets.length > 1) {
     groups.push(groupBlock('價格',
@@ -1085,13 +1087,13 @@ function buildCategoryFocusSpotlight(config, section, { focusOnly = false, count
       : slide.focus === 'Some By Mi' ? 'some-by-mi'
       : slide.focus === 'Skinfood' ? 'skinfood' : 'romand';
     const focusCopy = focusOnly ? `<span class="all-focus__copy">
-        <span class="all-focus__badge">今週焦點</span>
+        <span class="all-focus__badge">本週焦點</span>
         <span class="all-focus__logo all-focus__logo--${logoStyle}">${wordmark}</span>
         <span class="all-focus__name">${escapeSpotlightAttr(slide.focus)}</span>
         <span class="all-focus__cta">睇${count ? ` ${count} 件` : ''}產品 <span aria-hidden="true">→</span></span>
       </span>` : '';
     return `<article class="skincare-focus__slide" role="group"
-      aria-label="${escapeSpotlightAttr(slide.focus)}，今週焦點">
+      aria-label="${escapeSpotlightAttr(slide.focus)}，本週焦點">
       <a class="skincare-focus__card${focusOnly ? ' all-focus__card' : ''}" href="${href}"
          aria-label="瀏覽 ${escapeSpotlightAttr(slide.focus)} 產品">
         ${image}
@@ -1570,8 +1572,13 @@ function buildActiveChips(section, sel, lockCat) {
    以前係一個 <div>「快速加入」，包喺成張卡嘅 <a> 入面 —— 冇 handler，
    撳落去只係跟住條連結入產品頁。即係擺明話「一撳即加」，實際上乜都
    冇加，客以為加咗，去到購物袋見到空嘅。 */
-function quickAddControl(p, { isSoldOut, oneVariant, variantId }) {
+function quickAddControl(p, { isSoldOut, oneVariant, variantId, purchasable = true }) {
   if (isSoldOut) {
+    return `<button type="button" class="product-card__restock"
+      data-restock="${p.handle}" data-restock-title="${(p.title || '').replace(/"/g, '&quot;')}"
+      >想要？通知我補貨</button>`;
+  }
+  if (oneVariant && variantId && !purchasable) {
     return `<button type="button" class="product-card__restock"
       data-restock="${p.handle}" data-restock-title="${(p.title || '').replace(/"/g, '&quot;')}"
       >想要？通知我補貨</button>`;
@@ -1618,7 +1625,8 @@ function productCard(p, options = null) {
     cp = (_hi != null && parseFloat(_hi) === _lo)
       ? (p.compareAtPriceRange?.minVariantPrice || null) : null;
   }
-  const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount);
+  const isOnSale = cp && parseFloat(cp.amount) > parseFloat(p0.amount)
+    && !(typeof isShortDated === 'function' && isShortDated(p));
   const variants = p.variants?.edges || [];
   const variant = variants[0]?.node;
   const isSoldOut = soldOut(p);
@@ -1641,7 +1649,7 @@ function productCard(p, options = null) {
           data-wish-title="${(p.title || '').replace(/"/g, '&quot;')}">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
-        ${quickAddControl(p, { isSoldOut, oneVariant, variantId: variant?.id })}
+        ${quickAddControl(p, { isSoldOut, oneVariant, variantId: variant?.id, purchasable: variantInStock(variant) })}
       </div>
       <span class="product-card__brand">${p.vendor || ''}</span>
       <span class="product-card__name">${oujiCardName(p)}</span>
@@ -1757,7 +1765,7 @@ function brandSection(vendor, items, index) {
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
       ${pairDealCount ? `<aside class="pair-deal" aria-label="任揀${OUJI_PAIR_DEAL.count}件優惠">
-        <p class="pair-deal__kicker">限時優惠</p>
+        <p class="pair-deal__kicker">特價優惠</p>
         <p class="pair-deal__title">盲盒公仔任揀 ${OUJI_PAIR_DEAL.count} 件 <b>$${OUJI_PAIR_DEAL.total}</b><span>平均每件 $${OUJI_PAIR_DEAL.total / OUJI_PAIR_DEAL.count}</span></p>
         <p class="pair-deal__fine">帶紅色「任揀${OUJI_PAIR_DEAL.count}件」標籤嘅款式可以隨意配對 · 自動計算，毋須優惠碼 · 售完即止</p>
       </aside>` : ''}
@@ -2573,8 +2581,8 @@ function initShopTown(town) {
       const need = Math.max(window.innerWidth, 607) * Math.min(window.devicePixelRatio || 1, 2);
       const size = need <= 1400 ? 1280 : need <= 2100 ? 1920 : 2880;
       [
-        [`street-hd-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
-        [`street-hd-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
+        [`street-hd3-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
+        [`street-hd3-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
       ].forEach(([file, type]) => {
         const source = document.createElement('source');
         source.src = `/assets/images/world/town/${file}`;
@@ -2651,9 +2659,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
     const label = escapeSpotlightAttr(SHOP_TOWN_SHORT_LABELS[g.id] || g.label);
     const classes = `o-town__control o-town__card o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
     const attrs = `class="${classes}" style="--sign-tint:${tint};--sign-tint-ink:${tintInk};--town-delay:${delay}ms" data-town-category="${g.id}" aria-label="${label}"`;
-    const tile = house
-      ? `<span class="o-town__badge" aria-hidden="true">${n}</span>`
-      : `<span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="44" height="44" decoding="async"></span>`;
+    const tile = `<span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="44" height="44" decoding="async"></span>`;
     const inner = `${tile}<span class="o-town__label">${label}</span><span class="o-town__shine" aria-hidden="true"></span>`;
     return g.href
       ? `<a ${attrs} href="/${g.href}">${inner}</a>`
@@ -2812,12 +2818,12 @@ function mountSeasonSale(products, section) {
     <img class="season-sale__art" src="assets/images/skincare-category-optimized/sunscreen.webp" alt="" width="512" height="530" decoding="async">
     <div class="season-sale__copy">
       <p class="season-sale__kicker">防曬 · 換季</p>
-      <h2 class="season-sale__title">換季優惠<i>·</i>限時特價</h2>
+      <h2 class="season-sale__title">換季優惠<i>·</i>特價</h2>
       <p class="season-sale__fine">售完即止 · 劃線為連鎖參考原價</p>
     </div>${deal}</aside>`);
 }
 
-async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '' }) {
+async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '', scope = null }) {
   /* 品牌置頂（見 renderProducts）要知而家喺邊一版。渲染嗰陣攞唔到
      section，所以喺入口記低一次。 */
   CURRENT_SECTION = section || (document.querySelector('[data-shop-catalog]') ? 'all' : null);
@@ -2865,9 +2871,12 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   document.addEventListener('ouji:catalog-refreshed', (e) => {
     const fresh = (e.detail && e.detail.edges) || [];
     if (fresh.length < 100) return;
+    /* ?brand= ?concern= ?cat= 喺 shop.html 入口篩過一次，refresh 一定要再篩，
+       否則品牌頁幾秒後會變返成間鋪 2,000 件（WP0 #1）。 */
     const next = fresh.map((x) => (x && x.node) || x)
       .filter((p) => p && p.handle)
-      .filter(inSection);
+      .filter(inSection)
+      .filter((p) => !scope || scope(p));
     const matching = searchTerm && typeof window.OUJI_searchProductMatch === 'function'
       ? next.filter((p) => window.OUJI_searchProductMatch(p, searchTerm)) : next;
     if (!matching.length && !searchTerm) return;
@@ -2891,7 +2900,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     typeof loadRatings === 'function' ? loadRatings() : null,
   ]);
 
-  buildFilterSidebar(section, products);
+  const urlBrand = brandFromUrl(products);
+  PINNED_VENDOR = urlBrand;
+  buildFilterSidebar(section, products, urlBrand);
   /* URL 入面嘅 ?cat= 當一個已經揀咗嘅篩選處理，唔喺攞資料嗰陣預先篩走 ——
      咁樣分類入口先仲見到晒成套選擇同真件數。側欄冇對應嗰粒掣嘅（細分類
      例如 ?cat=foundation 會被收埋喺「底妝」下面），就落 lockCat，每次
@@ -2905,7 +2916,6 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   }
   // A brand in the URL is a filter like any other, just set before the
   // first draw instead of by a click.
-  const urlBrand = brandFromUrl(products);
   preselectBrand(urlBrand);
   // Say whose page this is. Filtering silently looks like the link went
   // to the wrong place — which is exactly what it used to do.
