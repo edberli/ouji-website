@@ -2434,14 +2434,20 @@ button.product-card__quick-add,
   /* 2026-10-06 老闆：「直情係要用佢（Codex 預覽版）嘅配色、佢嘅設計」——
      淺藍 #6da3b5 底、白字、頂部圓弧、Klee One 手寫標語、底部白色大字 OUJI。
      內容（頁面連結、門市資料）跟返我哋網站。 */
-  background: var(--primary);
+  /* 圓弧做喺 ::before：footer 本身底色 = 上面嗰個 section 嘅顏色（--footer-backdrop），
+     咁圓弧兩邊角位就係延續上一格，唔會露出一條白縫。冇設定就透明，即係頁面底色。 */
+  background: var(--footer-backdrop, transparent);
   color: #ffffff;
   border-top: none;
-  border-radius: 50% 50% 0 0 / 30px 30px 0 0;
   padding: 70px 0 0;
   position: relative;
   overflow: hidden;
 }
+.footer::before { content: ''; position: absolute; inset: 0; background: var(--primary); border-radius: 50% 50% 0 0 / 30px 30px 0 0; pointer-events: none; }
+.footer > .container, .footer > .footer__giant { position: relative; z-index: 1; }
+/* 頁尾上面直接係深色全幅 section 嘅頁：首頁會員區（深藍）、妝感配對（深啡舞台）。 */
+body:has(.newsletter--member) .footer { --footer-backdrop: var(--dark-base); }
+body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
 
 .footer__grid { display: grid; grid-template-columns: 1.2fr .65fr .65fr .65fr 1fr; gap: 35px; padding-bottom: 45px; margin-bottom: 0; position: relative; }
 .footer__logo { display: inline-block; font-family: var(--font-brand); font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: 0.22em; text-transform: uppercase; color: #ffffff; }
