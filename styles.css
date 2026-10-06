@@ -2472,7 +2472,7 @@ button.product-card__quick-add,
 .footer__bottom-links span { font-size: 11px; letter-spacing: 0.035em; color: #ffffff; }
 .footer__bottom-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-/* 底部白色大字 OUJI（Codex 版招牌），芝麻坐喺旁邊。 */
+/* 底部白色大字 OUJI（Codex 版招牌）。Codex 版 footer 冇芝麻，老闆 2026-10-06 要求跟返，所以拎走鞠躬動畫。 */
 .footer__giant { position: relative; text-align: center; pointer-events: none; }
 .footer__giant-word { display: block; padding-left: 0.22em; font-family: var(--font-brand); font-weight: 700; font-size: clamp(70px, 21vw, 290px); line-height: 1; letter-spacing: 0.22em; color: #ffffffc2; user-select: none; }
 
@@ -3667,8 +3667,6 @@ button.product-card__quick-add,
   .footer__logo { font-size: 36px; }
   .footer__bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
   .footer__bottom-links { justify-content: center; gap: var(--space-md); }
-  .footer__giant-word { font-size: 16vw; text-align: left; padding-left: 16px; }
-  .shima--bow { height: min(17vw, 76px); right: 12px; }
   .newsletter__form { flex-direction: column; border-radius: 14px; }
   .newsletter__input { border-radius: 14px 14px 0 0; border-right: 1px solid rgba(255,255,255,0.2); border-bottom: none; }
   .newsletter__submit { border-radius: 0 0 14px 14px; }
@@ -15222,22 +15220,6 @@ body::before { opacity: 0.18; }
 .shima--empty {
   width: 150px; height: 182px;
   margin: 0 auto 20px;
-}
-
-/* Footer 鞠躬（2026-10-06 改位）：老闆以前要求隻貓擺喺空位、唔好撐高 footer。
-   新 footer 底部有大字 OUJI，大字上面右邊本身係吉位，隻貓坐喺度鞠躬，
-   絕對定位錨喺 .footer__giant，footer 唔會因為隻貓加高。 */
-.shima--bow {
-  position: absolute;
-  right: clamp(12px, 9vw, 150px);
-  bottom: 0;
-  left: auto;
-  transform: none;
-  width: auto;
-  height: clamp(76px, 11vw, 160px);
-  aspect-ratio: 285 / 360;
-  margin: 0;
-  pointer-events: none;
 }
 
 /* 手機中段嘅芝麻窄帶 —— 老闆：「冇人話一定要擺喺 header 嘅位置⋯⋯
