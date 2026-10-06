@@ -1658,6 +1658,32 @@ const SECTION_ITEMS = new Map();
    否則成版又返去五百幾張卡。 */
 const SECTION_REST = new Map();
 
+/* 公仔系列鍵：同一個角色／系列嘅貨擺埋一齊。由標題抽。
+   優先：括號「系列」字眼 → 已知角色／IP 關鍵字 → 去走型號尾嘅前幾個字。 */
+const SERIES_RULES = [
+  [/黃油小熊|butterbear/i, '黃油小熊'],
+  [/艾絲樂|esther\s*bunny/i, '艾絲樂小兔'],
+  [/線條小狗|maltese/i, '線條小狗'],
+  [/竹林千子|takenoko/i, '竹林千子'],
+  [/LuLu|罐頭豬/i, 'LuLu'],
+  [/吉伊卡哇.*Baby|Baby.*吉伊卡哇/i, 'Chiikawa Baby'],
+  [/吉伊卡哇.*(紫藤|薰衣草|賞花)/i, 'Chiikawa 花系'],
+  [/吉伊卡哇.*(秋田|限定)/i, 'Chiikawa 限定'],
+  [/吉伊卡哇.*扭蛋|吉伊卡哇.*Nyam/i, 'Chiikawa 扭蛋'],
+  [/美樂蒂|My\s*Melody/i, 'Sanrio 美樂蒂'],
+  [/酷洛米|Kuromi/i, 'Sanrio 酷洛米'],
+  [/玉桂狗|Cinnamoroll/i, 'Sanrio 玉桂狗'],
+  [/Hello\s*Kitty|凱蒂/i, 'Sanrio Kitty'],
+  [/布甸狗|Pompompurin/i, 'Sanrio 布甸狗'],
+  [/YELL.*生蠔|小眼睛生蠔|Oyster/i, 'YELL 生蠔'],
+  [/迪士尼|Disney/i, 'Disney'],
+  [/NOL.*入浴|入浴粉/i, 'NOL 入浴粉'],
+];
+function seriesKey(p) {
+  const t = String(p.title || '');
+  for (const [re, k] of SERIES_RULES) if (re.test(t)) return `${p.vendor || ''}::${k}`;
+  return `${p.vendor || ''}::${t.replace(/\s+/g, '').slice(0, 4)}`;
+}
 function brandSection(vendor, items, index) {
   const logo = brandLogo(vendor);
   const plate = brandPlate(vendor);
@@ -1698,6 +1724,21 @@ function brandSection(vendor, items, index) {
         featuredScore(b) - featuredScore(a) || routineStep(a) - routineStep(b)),
       ...dead,
     ];
+    /* 公仔版（老闆 2026-10-06）：同系列一定要擺埋一齊，唔好按分數散開
+       （例如 Toyzero+ 嘅黃油小熊／艾絲樂小兔／線條小狗交錯出現）。
+       系列由標題抽出，系列之間按組內最高分排，組內再按分數。 */
+    if (typeof CURRENT_SECTION !== 'undefined' && CURRENT_SECTION === 'toys') {
+      const best = new Map();
+      ordered.forEach((p) => {
+        const k = seriesKey(p);
+        best.set(k, Math.max(best.get(k) ?? -Infinity, featuredScore(p)));
+      });
+      const first = new Map(); ordered.forEach((p, i) => { const k = seriesKey(p); if (!first.has(k)) first.set(k, i); });
+      ordered = [...ordered].sort((a, b) => {
+        const ka = seriesKey(a), kb = seriesKey(b);
+        return (ka === kb ? 0 : (first.get(ka) - first.get(kb)));
+      });
+    }
   }
   const [inStock, out] = splitStock(ordered);
   // 清貨任揀 2 件嘅貨排最前（同價錢嘅擺埋一齊，方便客揀）
