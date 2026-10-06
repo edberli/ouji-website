@@ -2453,20 +2453,21 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
 .footer__logo { display: inline-block; font-family: var(--font-brand); font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: 0.22em; text-transform: uppercase; color: #ffffff; }
 .footer__tagline { margin: 13px 0; font: 600 15px/1.7 'Klee One', 'Noto Serif TC', serif; color: #ffffff; }
 .footer__stamp { margin: 0 0 var(--space-lg); font-size: 9px; letter-spacing: 0.12em; color: #ffffff; }
-.footer__brand-desc { margin: 0 0 12px; max-width: 310px; font-size: 12px; line-height: 1.9; color: #ffffff; }
+.footer__brand-desc { margin: 0 0 12px; max-width: 310px; font-size: 12px; font-weight: 400; line-height: 1.9; color: #ffffffd1; }
 
 .footer__social { display: flex; gap: 10px; }
 .footer__social a { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #ffffff80; color: #ffffff; transition: background-color 0.2s var(--ease-out), transform 0.2s var(--ease-out); }
 .footer__social a:hover { background: #ffffff26; transform: translateY(-2px); }
 .footer__social svg { width: 15px; height: 15px; }
 
-.footer__col-title { margin: 0 0 12px; font-family: var(--font-body); font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: #ffffff; }
+/* 標題同連結要一眼分到層次（老闆 2026-10-07：「標題和下面一樣大比較難睇」）：標題粗白、連結幼啲淡啲。 */
+.footer__col-title { margin: 0 0 14px; font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; }
 .footer__links { display: grid; gap: 8px; justify-items: start; }
 .footer__links li { margin: 0; }
 .footer__links a,
-.footer__visit-link { font-size: 13px; color: #ffffff; text-underline-offset: 3px; }
+.footer__visit-link { font-size: 13px; font-weight: 400; color: #ffffffd1; text-underline-offset: 3px; }
 .footer__links a:hover,
-.footer__visit-link:hover { text-decoration: underline; }
+.footer__visit-link:hover { color: #ffffff; text-decoration: underline; }
 .footer__visit-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid #ffffff80; border-radius: 99px; font-size: 12px; }
 .footer__visit-link::after { content: '↗'; }
 .footer__visit-link:hover { text-decoration: none; background: #ffffff1f; }
