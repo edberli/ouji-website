@@ -2580,8 +2580,8 @@ function initShopTown(town) {
       const need = Math.max(window.innerWidth, 607) * Math.min(window.devicePixelRatio || 1, 2);
       const size = need <= 1400 ? 1280 : need <= 2100 ? 1920 : 2880;
       [
-        [`street-hd2-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
-        [`street-hd2-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
+        [`street-hd3-${size}.av1.mp4`, 'video/mp4; codecs="av01.0.08M.08"'],
+        [`street-hd3-${size}.mp4`, 'video/mp4; codecs="avc1.640028"'],
       ].forEach(([file, type]) => {
         const source = document.createElement('source');
         source.src = `/assets/images/world/town/${file}`;
@@ -2658,9 +2658,7 @@ function buildShopBootHero(products, activeGroup, pending = false) {
     const label = escapeSpotlightAttr(SHOP_TOWN_SHORT_LABELS[g.id] || g.label);
     const classes = `o-town__control o-town__card o-town__${kind}${on && !g.href && !pending ? ' is-on' : ''}`;
     const attrs = `class="${classes}" style="--sign-tint:${tint};--sign-tint-ink:${tintInk};--town-delay:${delay}ms" data-town-category="${g.id}" aria-label="${label}"`;
-    const tile = house
-      ? `<span class="o-town__badge" aria-hidden="true">${n}</span>`
-      : `<span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="44" height="44" decoding="async"></span>`;
+    const tile = `<span class="o-town__badge o-town__badge--icon" aria-hidden="true"><img class="o-town__icon" src="/assets/images/world/town/icon-${g.id}.webp" alt="" width="44" height="44" decoding="async"></span>`;
     const inner = `${tile}<span class="o-town__label">${label}</span><span class="o-town__shine" aria-hidden="true"></span>`;
     return g.href
       ? `<a ${attrs} href="/${g.href}">${inner}</a>`
