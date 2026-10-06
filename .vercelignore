@@ -14,3 +14,20 @@ serve.json
 preview-cathead.html
 preview-bg.html
 color-preview.html
+
+# 2026-10-06 Vercel Deployment Storage 用滿 10 GB：以下全部唔屬於網站、冇任何頁面／程式引用，
+# 每次部署都佔約 62 MB（成份三分一）。爬蟲原始資料、抓圖 script、log、舊版影片、舊預覽頁。
+*_all.json
+*_variants.json
+*.py
+*.sh
+*.log
+.DS_Store
+.github/
+prototypes/
+preview-nav.html
+preview-nav2.html
+# 小街第一版影片（而家 catalog.js 只揀 street-hd3-${size}）；首頁 loader 用 -hq 版
+assets/images/world/town/street-hd-*
+assets/images/home/ouji-blue-loader-desktop-1s.mp4
+assets/images/home/ouji-blue-loader-mobile-1s.mp4
