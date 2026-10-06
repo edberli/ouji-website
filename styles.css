@@ -2465,14 +2465,14 @@ button.product-card__quick-add,
 .footer__visit-link::after { content: '↗'; }
 .footer__visit-link:hover { text-decoration: none; background: #ffffff1f; }
 
-/* 橫線上面：版權同地區，跟上面欄目靠左對齊；條款同私隱已搬入 About 一欄。
-   「回到頁頂」做成小膠囊坐喺橫線右端，橫線下面淨係大字 OUJI（老闆 2026-10-06：下面保持簡潔）。 */
-.footer__meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; padding: 0 0 22px; }
+/* 橫線上面：版權（條款同私隱已搬入 About 一欄）。
+   橫線下面跟 Codex 版：左邊細細隻地區、右邊細細隻「回到頁頂」，再落就係大字 OUJI（老闆 2026-10-06）。 */
+.footer__meta { padding: 0 0 15px; }
 .footer__copyright { font-size: 11px; letter-spacing: 0.035em; color: #ffffff; }
-.footer__region { font-size: 11px; letter-spacing: 0.035em; color: #ffffffcc; }
-.footer__bottom { position: relative; height: 0; border-top: 1px solid #ffffff50; }
-.footer__to-top { position: absolute; top: 0; right: 0; transform: translateY(-50%); display: inline-flex; align-items: center; padding: 6px 14px; border: 1px solid #ffffff80; border-radius: 99px; background: var(--primary); font-size: 11px; letter-spacing: 0.035em; color: #ffffff; transition: background-color var(--duration-fast); }
-.footer__to-top:hover { background: #ffffff26; }
+.footer__bottom { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 12px 0 0; border-top: 1px solid #ffffff50; }
+.footer__region,
+.footer__to-top { font-size: 11px; letter-spacing: 0.035em; color: #ffffff; }
+.footer__to-top:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* 底部白色大字 OUJI（Codex 版招牌）。Codex 版 footer 冇芝麻，老闆 2026-10-06 要求跟返，所以拎走鞠躬動畫。 */
 .footer__giant { position: relative; margin-top: 36px; text-align: center; pointer-events: none; }
@@ -3667,7 +3667,6 @@ button.product-card__quick-add,
   .footer { padding-top: 50px; }
   .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px 15px; padding-bottom: 30px; }
   .footer__logo { font-size: 36px; }
-  .footer__meta { flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 26px; }
   .footer__giant { margin-top: 28px; }
   .newsletter__form { flex-direction: column; border-radius: 14px; }
   .newsletter__input { border-radius: 14px 14px 0 0; border-right: 1px solid rgba(255,255,255,0.2); border-bottom: none; }
