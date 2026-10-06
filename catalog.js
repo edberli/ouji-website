@@ -316,6 +316,7 @@ const SORTS = {
   'price-desc': (a, b) => price(b) - price(a),
   award: (a, b) => awardWeight(b) - awardWeight(a) || price(b) - price(a),
   'name-asc': (a, b) => (a.title || '').localeCompare(b.title || '', 'zh-Hant'),
+  brand: (a, b) => seasonBrandKey(a).localeCompare(seasonBrandKey(b), 'en'),
 };
 
 function price(p) {
@@ -2764,6 +2765,35 @@ function dealRatio(p) {
   }
   return best;
 }
+/* 防曬頁按牌子排序用嘅牌子名：同一個牌子喺 Shopify 有幾個 vendor 寫法
+   （SUNCUT 掛喺「KOSE COSMEPORT」「KOSÉ COSMEPORT」「SUNCUT」三個名下、PURITO／Purito），
+   唔歸一嘅話同一個牌子會被拆開。 */
+function seasonBrandKey(p) {
+  const v = String(p.vendor || '').trim();
+  if (/^kos[eé]\s*cosmeport$/i.test(v) || /^suncut\b/i.test(String(p.title || ''))) return 'SUNCUT';
+  if (/^skin aqua$/i.test(v)) return 'ROHTO';
+  return v.toUpperCase();
+}
+/* 防曬頁預設「按品牌」時日本牌子擺最前（老闆 2026-10-05：「優先擺嗰啲日本品牌喺上面」）。
+   用 seasonBrandKey 歸一之後嘅名。 */
+const JP_BRAND_KEYS = new Set(['SUNCUT', 'ANESSA', 'BIORÉ', 'BIORE', 'ALLIE', 'ELIXIR', 'FANCL', 'SUNPLAY',
+  'ROHTO', 'CURÉL', 'CUREL', 'OMI', 'HADARIKI', 'SANA', 'AGARISM', 'PRIVACY', 'PARASOLA', 'BCL',
+  'SHISEIDO', 'CEZANNE', 'KANEBO', 'NIVEA', '蠟筆小新']);
+/* 「按品牌」排序：同牌子聚埋；有特價嘅牌子行先（按牌子最大折扣），再按牌子名（英文先、中文後），
+   同牌子內越平越前。jpFirst＝防曬頁，日本牌子成組排先。 */
+function sortByBrand(list, jpFirst) {
+  const best = new Map();
+  list.forEach((p) => {
+    const k = seasonBrandKey(p);
+    best.set(k, Math.min(best.get(k) ?? 1, dealRatio(p)));
+  });
+  const tier = (k) => (jpFirst && !JP_BRAND_KEYS.has(k) ? 1 : 0);
+  return [...list].sort((a, b) => {
+    const ka = seasonBrandKey(a), kb = seasonBrandKey(b);
+    return tier(ka) - tier(kb) || best.get(ka) - best.get(kb) || ka.localeCompare(kb, 'en')
+      || dealRatio(a) - dealRatio(b);
+  });
+}
 // 喺季節性／護膚頁撳「防曬」格（冇帶 ?cat=）都要同直入防曬頁一樣（老闆 2026-10-01：兩邊要統一）
 function isSeasonFilter(section, sel) {
   if (!OUJI_SEASON_SALE_ON || !sel?.cat || sel.cat.size !== 1) return false;
@@ -2912,6 +2942,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
      亂打一個就當冇寫，唔好靜靜哋出一個空清單。 */
   const urlSort = new URLSearchParams(location.search).get('sort');
   if (sortEl && urlSort && SORTS[urlSort]) sortEl.value = urlSort;
+  else if (sortEl && !searchTerm && isSeasonSalePage(section, cat || presetCat)
+    && sortEl.querySelector('option[value="brand"]')) sortEl.value = 'brand';
 
   /* 主視覺同下面目錄分開辨認：移除 Explorer 外框唔應該令 Hero 失去更新。 */
   const bootHost = document.querySelector('[data-shop-boot]');
@@ -2976,9 +3008,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       list = [...list].sort((x, y) =>
         rank(x) - rank(y) || String(x.vendor || '').localeCompare(String(y.vendor || ''), 'zh-Hant') || amt(y) - amt(x));
     }
-    // 防曬頁預設排序：越平（折數越低）越前，冇特價嘅殿後
-    if (seasonNow && sortKey === 'featured' && !searchTerm) {
-      list = [...list].sort((a, b) => dealRatio(a) - dealRatio(b));
+    // 「按品牌」排序；防曬頁預設就係按品牌、日本牌子行先（老闆 2026-10-05）
+    if (!searchTerm && (sortKey === 'brand' || (seasonNow && sortKey === 'featured'))) {
+      list = sortByBrand(list, seasonNow);
     }
 
     // Generic category pages (沐浴、香氛、保健、季節性、工具、公仔、
