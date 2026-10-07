@@ -5,6 +5,7 @@
       "includeFiles": "{product.html,product-naming.js}"
     },
     "api/google-feed.js": {
+      "includeFiles": "data/ads-scope.json",
       "maxDuration": 60
     },
     "api/restock.js": {
