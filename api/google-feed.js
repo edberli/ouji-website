@@ -171,6 +171,23 @@ function localDestinationExclusions(merchantId) {
     + tag('g:excluded_destination', 'Free_local_listings');
 }
 
+/* 付費購物廣告只投 data/ads-scope.json 入面嘅規格（規則見 scripts/build_ads_scope.py）。
+   8/24–10/6 有七成半廣告費燒喺零單嘅平價／非護膚貨。其餘規格只排除
+   Shopping_ads，免費刊登照出。名單讀唔到就唔排除，維持舊行為。 */
+let ADS_SCOPE = null;
+try {
+  ADS_SCOPE = new Set(require('../data/ads-scope.json').variants.map(String));
+} catch (e) {
+  ADS_SCOPE = null;
+}
+
+function adsScope(variantId) {
+  if (!ADS_SCOPE) return '';
+  return ADS_SCOPE.has(variantId)
+    ? tag('g:custom_label_0', 'ads_in')
+    : tag('g:excluded_destination', 'Shopping_ads') + tag('g:custom_label_0', 'ads_out');
+}
+
 function itemsFor(p) {
   /* `__test` 係畀付款測試商品用嘅。一件平價、寫明「唔係真貨」嘅嘢
      流去 Google 購物，輕則被拒、重則拖低成個帳戶嘅信任度。 */
@@ -217,6 +234,7 @@ function itemsFor(p) {
     return '    <item>\n'
       + tag('g:id', merchantId)
       + localDestinationExclusions(merchantId)
+      + adsScope(variantId)
       + (grouped ? tag('g:item_group_id', p.handle) : '')
       + tag('g:title', clean(title).slice(0, 150))
       + tag('g:description', desc)
