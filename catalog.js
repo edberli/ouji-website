@@ -1678,11 +1678,24 @@ const SERIES_RULES = [
   [/YELL.*生蠔|小眼睛生蠔|Oyster/i, 'YELL 生蠔'],
   [/迪士尼|Disney/i, 'Disney'],
   [/NOL.*入浴|入浴粉/i, 'NOL 入浴粉'],
+  [/Niconui|Nico\s*Nui|CRUX/i, 'Niconui'],
+  [/Sanrio Characters.*盲盒|Sanrio.*盲盒/i, 'Sanrio 盲盒'],
+  [/蠟筆小新|Crayon/i, '蠟筆小新'],
+  [/吉伊卡哇|Chiikawa/i, 'Chiikawa'],
+  [/YELL/i, 'YELL'],
 ];
 function seriesKey(p) {
   const t = String(p.title || '');
   for (const [re, k] of SERIES_RULES) if (re.test(t)) return `${p.vendor || ''}::${k}`;
   return `${p.vendor || ''}::${t.replace(/\s+/g, '').slice(0, 4)}`;
+}
+function groupBySeries(list) {
+  const first = new Map();
+  list.forEach((p, i) => { const k = seriesKey(p); if (!first.has(k)) first.set(k, i); });
+  return [...list].sort((a, b) => {
+    const ka = seriesKey(a), kb = seriesKey(b);
+    return ka === kb ? 0 : first.get(ka) - first.get(kb);
+  });
 }
 function brandSection(vendor, items, index) {
   const logo = brandLogo(vendor);
@@ -3026,6 +3039,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       list = [...list].sort((a, b) =>
         window.OUJI_searchProductScore(a, searchTerm) - window.OUJI_searchProductScore(b, searchTerm));
     } else if (cmp) list = [...list].sort(cmp);
+    // 公仔頁（含揀咗品牌／平鋪）：同系列擺埋一齊（老闆 2026-10-06／10-08）
+    if (section === 'toys' && sortKey === 'featured' && !searchTerm) list = groupBySeries(list);
     // 專櫃套裝頁預設排序：按品牌聚埋（老闆 2026-10-02），同品牌內貴嘅先
     if ((lockCat === 'counter' || (sel.cat.size === 1 && sel.cat.has('counter'))) && sortKey === 'featured' && !searchTerm) {
       const amt = (p) => parseFloat(p.priceRange?.minVariantPrice?.amount) || 0;
