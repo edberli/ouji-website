@@ -12,12 +12,14 @@ from shopify_admin import gql
 
 GROUPS = {'防曬', '面膜', '精華', '潔面', '面霜', '爽膚水', '眼霜', '乳液', '套裝護膚', '局部護理', '去角質',
           '護膚', '護膚／手膜', '棉片', '唇部護理', '洗髮護髮', '沐浴', '身體護理', '身體噴霧', '頭髮護理', '沐浴護理', '護手霜'}
+# 類別以外指定加入嘅產品（2026-10-08 Winston：CLIO 三款氣墊試廣告）；售價同淨賺條件照計
+EXTRA_PRODUCTS = {'8817694998686', '8817695096990', '8817695195294'}
 MIN_PRICE, MIN_NET, FEE = 100, 40, 0.955
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'ads-scope.json')
 
 Q = """query($after:String){ products(first:100, after:$after, query:"status:active"){
  pageInfo{hasNextPage endCursor}
- edges{ node{ productType tags variants(first:100){edges{node{ id price inventoryItem{unitCost{amount}} }}} }}}}"""
+ edges{ node{ id productType tags variants(first:100){edges{node{ id price inventoryItem{unitCost{amount}} }}} }}}}"""
 
 def main():
     keep, seen, after = [], 0, None
@@ -28,7 +30,7 @@ def main():
             for v in (x['node'] for x in p['variants']['edges']):
                 seen += 1
                 cost = (v['inventoryItem'] or {}).get('unitCost')
-                if p['productType'] not in GROUPS or not cost:
+                if (p['productType'] not in GROUPS and p['id'].split('/')[-1] not in EXTRA_PRODUCTS) or not cost:
                     continue
                 price = float(v['price'])
                 if price >= MIN_PRICE and price * FEE - float(cost['amount']) >= MIN_NET:
