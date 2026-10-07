@@ -2460,8 +2460,8 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
 .footer__social a:hover { background: #ffffff26; transform: translateY(-2px); }
 .footer__social svg { width: 15px; height: 15px; }
 
-/* 標題同連結要一眼分到層次（老闆 2026-10-07：「標題和下面一樣大比較難睇」）：標題粗白、連結幼啲淡啲。 */
-.footer__col-title { margin: 0 0 14px; font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; }
+/* 標題同連結要一眼分到層次（老闆 2026-10-07：「標題和下面一樣大比較難睇」）：標題粗白加一條半透明幼線、連結幼啲淡啲。 */
+.footer__col-title { margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid #ffffff4d; font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; }
 .footer__links { display: grid; gap: 8px; justify-items: start; }
 .footer__links li { margin: 0; }
 .footer__links a,
