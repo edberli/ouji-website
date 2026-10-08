@@ -445,6 +445,67 @@ function groupedVendor(p, counts) {
     ? '其他' : vendor;
 }
 
+/* 季節性頁（護手霜／唇部護理／身體潤膚）嘅品牌次序按「每件平均淨賺」由高到低，
+   曼秀雷敦（最薄利）強制放最底。老闆 2026-10-08：「賺錢嗰啲擺最頂，曼秀雷敦最底。」
+   數據：Shopify 成本（inventoryItem.unitCost）對售價，2026-10-08 計；名單用 vendor 名包含比對。
+   要更新就重算每個品牌嘅 (售價−成本) 平均，改呢個陣列。 */
+const SEASONAL_PROFIT_ORDER = [
+  'The History of Whoo 后',
+  'Needly',
+  'AGARISM',
+  'K-BEAUTY',
+  'dasique',
+  'AROMATICA',
+  'AMUSE',
+  'VT Cosmetics',
+  'Nature Republic',
+  'Purito',
+  'TIRTIR',
+  'CHWI',
+  'Round Lab',
+  'fwee',
+  'illiyoon',
+  'Kao 花王',
+  'MediFlower',
+  'HETRAS',
+  'Torriden',
+  'KWAILNARA',
+  'Skinfood',
+  'BEYOND',
+  'Kose 高絲',
+  'BOUQUET GARNI',
+  'Roland',
+  'DHC',
+  'Fiancee',
+  'Shiseido 資生堂',
+  'John\'s Blend',
+  'FRUDIA',
+  'Loshi 樂絲',
+  '吉伊卡哇 Chiikawa',
+  '近江兄弟社 Menturm',
+  'Sanrio',
+  'Country & Stream',
+  'SANTAN',
+  '銀喉長尾山雀 Shimaenaga',
+  '角落生物 Sumikko Gurashi',
+  '蠟筆小新',
+  '初音未來 Hatsune Miku',
+  '肌研',
+];
+const SEASONAL_PROFIT_BOTTOM = ['曼秀雷敦'];
+function seasonalProfitActive() {
+  if (typeof CURRENT_SECTION === 'undefined' || CURRENT_SECTION !== 'seasonal') return false;
+  const cat = new URLSearchParams(location.search).get('cat');
+  return cat === 'hand' || cat === 'lip' || cat === 'body';
+}
+function seasonalProfitRank(vendor) {
+  const name = String(vendor || '').trim().toLowerCase();
+  const bottom = SEASONAL_PROFIT_BOTTOM.findIndex((k) => name.includes(k.toLowerCase()));
+  if (bottom >= 0) return SEASONAL_PROFIT_ORDER.length + 1 + bottom;
+  const i = SEASONAL_PROFIT_ORDER.findIndex((k) => name.includes(k.toLowerCase()));
+  return i >= 0 ? i : SEASONAL_PROFIT_ORDER.length;
+}
+
 function vendorsOf(products) {
   const rawCounts = vendorCounts(products);
   const counts = new Map();
@@ -2364,6 +2425,7 @@ function renderProducts(container, products, { grouped }) {
   };
   const PINNED_VENDORS = PINNED_VENDORS_BY_SECTION[CURRENT_SECTION] || [];
   const pinRank = (v) => {
+    if (seasonalProfitActive()) return seasonalProfitRank(v);
     const name = String(v || '').trim().toLowerCase();
     const i = PINNED_VENDORS.findIndex((k) => name.includes(k.toLowerCase()));
     if (i >= 0) return i;
@@ -2378,7 +2440,7 @@ function renderProducts(container, products, { grouped }) {
     tier: tier(items),
     score: brandScore(items),
   })).sort((a, b) =>
-    (a.vendor === '其他') - (b.vendor === '其他')
+    (seasonalProfitActive() ? 0 : (a.vendor === '其他') - (b.vendor === '其他'))
     || a.pin - b.pin
     || a.tier - b.tier
     || b.score - a.score
@@ -2836,7 +2898,9 @@ function groupByBrandFeatured(list) {
   });
   return [...list].sort((a, b) => {
     const ka = seasonBrandKey(a), kb = seasonBrandKey(b);
-    return ka === kb ? 0 : (top.get(kb) - top.get(ka)) || ka.localeCompare(kb, 'en');
+    if (ka === kb) return 0;
+    if (seasonalProfitActive()) return seasonalProfitRank(ka) - seasonalProfitRank(kb) || ka.localeCompare(kb, 'en');
+    return (top.get(kb) - top.get(ka)) || ka.localeCompare(kb, 'en');
   });
 }
 /* 「按品牌」排序：同牌子聚埋；有特價嘅牌子行先（按牌子最大折扣），再按牌子名（英文先、中文後），
