@@ -3011,10 +3011,10 @@ const CATEGORY_TAXONOMY = {
     subs: {
       sun:     { label: '防曬',   keywords: ['防曬'] },
       hand:    { label: '護手霜', keywords: ['護手霜'] },
-      lip:     { label: '唇部護理', keywords: ['唇部護理', '潤唇膏', '護唇膏', '唇部精華', '唇膜', 'lip balm', 'lip care', 'lip mask'] },
+      lip:     { label: '潤唇膏', keywords: ['唇部護理', '潤唇膏', '護唇膏', '唇部精華', '唇膜', 'lip balm', 'lip care', 'lip mask'] },
       /* 老闆 2026-10-08：入冬除咗護手霜，身體潤膚（身體乳、身體霜）都係季節性，要有自己一格。
          判斷行 isBodyLotion（型號＋產品名），唔係靠 keyword——『身體護理』型號仲有磨砂、身體油、唇部磨砂。 */
-      body:    { label: '身體潤膚', keywords: ['身體潤膚'] },
+      body:    { label: '身體乳', keywords: ['身體潤膚', '身體乳'] },
       cooling: { label: '涼感止汗', keywords: ['涼感', '止汗'] },
       fan:     { label: '便攜風扇', keywords: ['便攜風扇', '風扇'] },
     },

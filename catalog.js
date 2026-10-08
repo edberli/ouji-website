@@ -492,7 +492,14 @@ const SEASONAL_PROFIT_ORDER = [
   '初音未來 Hatsune Miku',
   '肌研',
 ];
-const SEASONAL_PROFIT_BOTTOM = ['曼秀雷敦'];
+/* 老闆 2026-10-08 再改：只按利潤排會全部係冷門牌。改為「知名度先、利潤後」：
+   第一梯隊＝香港客認得嘅牌（梯隊內按利潤高→低，曼秀雷敦最薄利放梯隊尾），
+   跟住先係其餘品牌按利潤排，「其他」最後。 */
+const SEASONAL_FAMOUS = [
+  'DHC', 'Kose 高絲', 'Shiseido 資生堂', 'Kao 花王', 'Fiancee', 'John\'s Blend', 'Skinfood',
+  'Nature Republic', 'Torriden', 'Round Lab', 'Loshi 樂絲', '吉伊卡哇 Chiikawa', '近江兄弟社 Menturm',
+  'Sanrio', '蠟筆小新', '角落生物 Sumikko Gurashi', '肌研', '曼秀雷敦',
+];
 function seasonalProfitActive() {
   if (typeof CURRENT_SECTION === 'undefined' || CURRENT_SECTION !== 'seasonal') return false;
   const cat = new URLSearchParams(location.search).get('cat');
@@ -500,10 +507,10 @@ function seasonalProfitActive() {
 }
 function seasonalProfitRank(vendor) {
   const name = String(vendor || '').trim().toLowerCase();
-  const bottom = SEASONAL_PROFIT_BOTTOM.findIndex((k) => name.includes(k.toLowerCase()));
-  if (bottom >= 0) return SEASONAL_PROFIT_ORDER.length + 1 + bottom;
+  const f = SEASONAL_FAMOUS.findIndex((k) => name.includes(k.toLowerCase()));
+  if (f >= 0) return f;
   const i = SEASONAL_PROFIT_ORDER.findIndex((k) => name.includes(k.toLowerCase()));
-  return i >= 0 ? i : SEASONAL_PROFIT_ORDER.length;
+  return SEASONAL_FAMOUS.length + (i >= 0 ? i : SEASONAL_PROFIT_ORDER.length);
 }
 
 function vendorsOf(products) {

@@ -82,8 +82,8 @@ NAV = [
         ('全部季節性用品', 'seasonal.html', ''),
         ('防曬', 'seasonal.html?cat=sun', ''),
         ('護手霜', 'seasonal.html?cat=hand', ''),
-        ('唇部護理', 'seasonal.html?cat=lip', ''),
-        ('身體潤膚', 'seasonal.html?cat=body', ''),
+        ('潤唇膏', 'seasonal.html?cat=lip', ''),
+        ('身體乳', 'seasonal.html?cat=body', ''),
     ]),
     ('公仔', 'toys.html', [
         ('全部公仔', 'toys.html', ''),
