@@ -60,10 +60,15 @@ function inStock(v) {
   return v.quantityAvailable == null || v.quantityAvailable > 0;
 }
 
+/* 頁數上限只係防無限迴圈，唔係用嚟限件數。2026-10-08 實測：舊上限 30 頁
+   （1,800 件）靜靜哋截走咗 468 件 9–10 月新貨。每頁約 0.5 秒，80 頁約 40 秒，
+   仲喺 vercel.json 嘅 maxDuration 60 秒之內。撞到上限會寫 log。 */
+const MAX_PAGES = 80;
+
 async function fetchAll() {
   const out = [];
   let cursor = null;
-  for (let i = 0; i < 30; i += 1) {
+  for (let i = 0; i < MAX_PAGES; i += 1) {
     const r = await fetch(API, {
       method: 'POST',
       headers: {
@@ -80,6 +85,7 @@ async function fetchAll() {
     out.push(...p.edges.map((e) => e.node));
     if (!p.pageInfo.hasNextPage) break;
     cursor = p.pageInfo.endCursor;
+    if (i === MAX_PAGES - 1) console.warn(`google-feed: 撞到 ${MAX_PAGES} 頁上限，${out.length} 件之後被截走`);
   }
   return out;
 }
