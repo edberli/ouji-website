@@ -471,13 +471,14 @@
     const section = params.get('collection') ||
       (pathCollection ? decodeURIComponent(pathCollection) : null) || 'kpop';
     const cat = params.get('cat');
-    const products = await getCategoryProducts({ section, cat });
-    applyCategoryHeading(section, cat);
+    /* 子分類同頁內 chip／分類篩選係同一套：攞晒成個大分類，?cat= 當預選篩選。 */
+    const products = await getCategoryProducts({ section });
+    applyCategoryHeading(section, null);
 
     if (!products.length) {
       showCategoryEmpty(section, cat);
     } else {
-      initCatalog({ section: section, cat, products });
+      initCatalog({ section: section, products, presetCat: cat });
     }
   });
   </script>
