@@ -188,6 +188,18 @@ function adsScope(variantId) {
     : tag('g:excluded_destination', 'Shopping_ads') + tag('g:custom_label_0', 'ads_out');
 }
 
+/* Google 購物封面用邊張圖。好多色號圖只係色板、膏體或者嘴唇試色，做封面
+   客人睇唔出係咩產品（2026-10-08 Winston 指出 hince 氣墊得一嚿膏）。
+   規則：色號圖見到產品本身（樽／管／盒）先用佢做封面，名單喺
+   data/feed-variant-cover.json；其餘一律用產品主圖，色號圖降做第一張附加圖。
+   名單讀唔到就維持舊行為（色號圖做封面）。 */
+let VARIANT_COVER = null;
+try {
+  VARIANT_COVER = new Set(require('../data/feed-variant-cover.json').variants.map(String));
+} catch (e) {
+  VARIANT_COVER = null;
+}
+
 function itemsFor(p) {
   /* `__test` 係畀付款測試商品用嘅。一件平價、寫明「唔係真貨」嘅嘢
      流去 Google 購物，輕則被拒、重則拖低成個帳戶嘅信任度。 */
@@ -209,8 +221,14 @@ function itemsFor(p) {
   const grouped = variants.length > 1;
 
   return variants.map((v) => {
-    const img = v.image?.url || fallbackImg;
+    const variantId = String(v.id).split('/').pop();
+    const ownImg = v.image?.url;
+    const useOwn = ownImg && (!fallbackImg || !VARIANT_COVER
+      || VARIANT_COVER.has(variantId));
+    const img = useOwn ? ownImg : fallbackImg;
     if (!img) return '';   // 冇相 Google 一定拒收，唔好白交
+    const gallery = [...new Set([ownImg, ...extra].filter((u) => u && u !== img))]
+      .slice(0, 10);
     const shade = (v.selectedOptions || [])
       .filter((o) => !/^title$/i.test(o.name) && !/default/i.test(o.value))
       .map((o) => o.value).join(' / ');
@@ -228,7 +246,6 @@ function itemsFor(p) {
        local inventory、另一套欠 price。`ZZ` 係 Shopify provider 實際
        交畀 OUJI Merchant Center 嘅固定前綴，唔係銷售國家代碼。 */
     const productId = String(p.id).split('/').pop();
-    const variantId = String(v.id).split('/').pop();
     const merchantId = `shopify_ZZ_${productId}_${variantId}`;
 
     return '    <item>\n'
@@ -244,7 +261,7 @@ function itemsFor(p) {
       + tag('g:link', `${SITE}/products/${p.handle}`
         + (grouped ? `?variant=${variantId}` : ''))
       + tag('g:image_link', img)
-      + extra.map((u) => tag('g:additional_image_link', u)).join('')
+      + gallery.map((u) => tag('g:additional_image_link', u)).join('')
       /* ⚠️ 唔可以淨係信 availableForSale。好多貨嘅存貨政策係「賣完照賣」，
          賣曬之後 availableForSale 仍然係 true —— 網站本身係用「數量報 0
          就當冇貨」（見 catalog.js）。之前呢度淨係睇 availableForSale，
