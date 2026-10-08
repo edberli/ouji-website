@@ -2825,6 +2825,20 @@ function seasonBrandKey(p) {
 const JP_BRAND_KEYS = new Set(['SUNCUT', 'ANESSA', 'BIORÉ', 'BIORE', 'ALLIE', 'ELIXIR', 'FANCL', 'SUNPLAY',
   'ROHTO', 'CURÉL', 'CUREL', 'OMI', 'HADARIKI', 'SANA', 'AGARISM', 'PRIVACY', 'PARASOLA', 'BCL',
   'SHISEIDO', 'CEZANNE', 'KANEBO', 'NIVEA', '蠟筆小新']);
+/* 平鋪格（揀咗子分類／篩選）嘅預設推薦排序：同品牌擺埋一齊。
+   老闆 2026-10-08：「好多產品推薦排序都係亂嚟嘅，左一個品牌右一個品牌」。
+   品牌之間按牌子最高推薦分數排，品牌內保持推薦次序（穩定排序）。 */
+function groupByBrandFeatured(list) {
+  const top = new Map();
+  list.forEach((p) => {
+    const k = seasonBrandKey(p);
+    top.set(k, Math.max(top.get(k) ?? -Infinity, featuredScore(p)));
+  });
+  return [...list].sort((a, b) => {
+    const ka = seasonBrandKey(a), kb = seasonBrandKey(b);
+    return ka === kb ? 0 : (top.get(kb) - top.get(ka)) || ka.localeCompare(kb, 'en');
+  });
+}
 /* 「按品牌」排序：同牌子聚埋；有特價嘅牌子行先（按牌子最大折扣），再按牌子名（英文先、中文後），
    同牌子內越平越前。jpFirst＝防曬頁，日本牌子成組排先。 */
 function sortByBrand(list, jpFirst) {
@@ -3068,6 +3082,12 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     // first" and getting it inside each brand is not what was asked.
     const grouped = !searchTerm && !filtered && sortKey === 'featured'
       && !seasonNow && vendorsOf(list).length > 1;
+    // 平鋪格（唔係品牌分段）嘅預設推薦排序：同品牌擺埋一齊（老闆 2026-10-08）
+    if (!grouped && !searchTerm && sortKey === 'featured' && !seasonNow
+        && section !== 'toys' && lockCat !== 'counter'
+        && !(sel.cat.size === 1 && sel.cat.has('counter'))) {
+      list = groupByBrandFeatured(list);
+    }
 
     buildCatGate(section, products, sel, lockCat);
     buildQuickTabs(section, scope, sel);

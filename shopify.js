@@ -3012,6 +3012,9 @@ const CATEGORY_TAXONOMY = {
       sun:     { label: '防曬',   keywords: ['防曬'] },
       hand:    { label: '護手霜', keywords: ['護手霜'] },
       lip:     { label: '唇部護理', keywords: ['唇部護理', '潤唇膏', '護唇膏', '唇部精華', '唇膜', 'lip balm', 'lip care', 'lip mask'] },
+      /* 老闆 2026-10-08：入冬除咗護手霜，身體潤膚（身體乳、身體霜）都係季節性，要有自己一格。
+         判斷行 isBodyLotion（型號＋產品名），唔係靠 keyword——『身體護理』型號仲有磨砂、身體油、唇部磨砂。 */
+      body:    { label: '身體潤膚', keywords: ['身體潤膚'] },
       cooling: { label: '涼感止汗', keywords: ['涼感', '止汗'] },
       fan:     { label: '便攜風扇', keywords: ['便攜風扇', '風扇'] },
     },
@@ -3204,8 +3207,23 @@ function isSkincareCategoryMismatch(p) {
   return SKINCARE_FOREIGN_TITLE.test(productHaystackLoose(p));
 }
 
+/* 身體潤膚＝身體乳／身體霜／潤膚乳／潤膚膏。型號係「身體護理」、「身體乳」、「潤膚」，
+   或者（舊貨型號寫面霜）標題明寫身體乳／身體霜。磨砂、身體油、唇部磨砂、噴霧、
+   護手霜（有自己一格）一律唔入。 */
+const BODY_LOTION_TYPES = new Set(['身體護理', '身體乳', '潤膚', '身體潤膚']);
+const BODY_LOTION_TITLE = /身體乳|身體霜|潤膚|body\s*(?:lotion|cream|milk|butter|balm)|moisture\s*balm/i;
+const BODY_LOTION_FORM = /乳|霜|膏|lotion|cream|milk|butter|balm/i;
+const BODY_LOTION_NOT = /磨砂|scrub|唇部|lip\s*scrub|身體油|body\s*oil|噴霧|mist|護手霜|手霜|hand\s*cream/i;
+function isBodyLotion(p) {
+  const title = p.title || '';
+  if (BODY_LOTION_NOT.test(title)) return false;
+  const t = String(p.productType || '').trim();
+  if (t && BODY_LOTION_TYPES.has(t)) return BODY_LOTION_FORM.test(title);
+  return BODY_LOTION_TITLE.test(title);
+}
+
 function isSeasonalCare(p) {
-  return isLipCare(p) || isHandCare(p) || isSunscreenProduct(p);
+  return isLipCare(p) || isHandCare(p) || isSunscreenProduct(p) || isBodyLotion(p);
 }
 
 /* Winston 指定 So Natural FIXX 定妝噴霧要護膚／彩妝兩邊都有。
@@ -3240,6 +3258,7 @@ function supportKind(p) {
    標題＋標籤＋類型（matchesKeywords）。 */
 function subMatch(section, id, p) {
   if (section === 'supports') return supportKind(p) === id;
+  if (section === 'seasonal' && id === 'body') return isBodyLotion(p);
   const sub = CATEGORY_TAXONOMY[section]?.subs?.[id];
   if (!sub) return false;
   /* 只將中高階禮盒從潔面／爽膚水／面霜等步驟抽離；普通平價精華／潤膚
