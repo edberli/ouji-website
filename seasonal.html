@@ -471,13 +471,15 @@
     const section = params.get('collection') ||
       (pathCollection ? decodeURIComponent(pathCollection) : null) || 'seasonal';
     const cat = params.get('cat');
-    const products = await getCategoryProducts({ section, cat });
-    applyCategoryHeading(section, cat);
+    /* 子分類（防曬、護手霜、潤唇膏、身體乳）同「分類」篩選、頂部 chip 係同一套：
+       攞晒成個季節性，?cat= 交畀 initCatalog 當預選篩選，咁樣兩條入口出嚟嘅頁面一樣。 */
+    const products = await getCategoryProducts({ section });
+    applyCategoryHeading(section, null);
 
     if (!products.length) {
       showCategoryEmpty(section, cat);
     } else {
-      initCatalog({ section: section, cat, products });
+      initCatalog({ section: section, products, presetCat: cat });
     }
   });
   </script>

@@ -500,10 +500,11 @@ const SEASONAL_FAMOUS = [
   'Nature Republic', 'Torriden', 'Round Lab', 'Loshi 樂絲', '吉伊卡哇 Chiikawa', '近江兄弟社 Menturm',
   'Sanrio', '蠟筆小新', '角落生物 Sumikko Gurashi', '肌研', '曼秀雷敦',
 ];
+/* 而家子分類（護手霜／潤唇膏／身體乳）同 chip 一樣係側欄篩選，URL 唔一定有 ?cat=，
+   所以由 drawInner 每次畫之前記低「季節性頁正揀緊邊個子分類」。 */
+let SEASONAL_ACTIVE_CAT = null;
 function seasonalProfitActive() {
-  if (typeof CURRENT_SECTION === 'undefined' || CURRENT_SECTION !== 'seasonal') return false;
-  const cat = new URLSearchParams(location.search).get('cat');
-  return cat === 'hand' || cat === 'lip' || cat === 'body';
+  return SEASONAL_ACTIVE_CAT === 'hand' || SEASONAL_ACTIVE_CAT === 'lip' || SEASONAL_ACTIVE_CAT === 'body';
 }
 function seasonalProfitRank(vendor) {
   const name = String(vendor || '').trim().toLowerCase();
@@ -3111,6 +3112,8 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
   function drawInner() {
     const sel = activeFilters();
+    SEASONAL_ACTIVE_CAT = section === 'seasonal'
+      ? (lockCat || (sel.cat.size === 1 ? [...sel.cat][0] : null)) : null;
     const seasonNow = seasonPage || isSeasonFilter(section, sel);
     syncSeasonSale(seasonNow, products, section);
     const sortKey = sortEl?.value || 'featured';
