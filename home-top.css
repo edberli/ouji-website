@@ -345,3 +345,78 @@
 @media (min-width: 901px) {
   .home-top.home-page.home-unified .home-campaign-hero__slide:not(.home-campaign-hero__slide--peach) .home-campaign-hero__copy { top: calc(var(--hdr-h, var(--header-height)) + 2%); }
 }
+
+/* ===== SEOUL BEAUTY 跑馬燈＋行路芝麻 =====
+   原本靠 html[data-motion] 開關動畫；live 冇呢個屬性，改成掛喺 .home-play-strip 自己身上，由 home-top.js 切換。 */
+.home-play-strip { position: relative; isolation: isolate; box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0px; height: 88px; min-height: 88px; flex: 0 0 auto; overflow: hidden; color: var(--primary-deep, #2b4c58); background: rgb(220, 233, 236); border-bottom: 1px solid var(--line, rgba(43, 76, 88, .16)); }
+.home-play-strip__scene { position: absolute; inset: 0px; isolation: isolate; min-width: 0px; overflow: hidden; pointer-events: none; }
+.home-play-strip__marquee { position: absolute; inset: 0px; z-index: 0; display: flex; align-items: center; overflow: hidden; }
+.home-play-strip__marquee-track { display: flex; width: max-content; animation: 48s linear 0s infinite normal none paused home-play-strip-marquee; will-change: transform; }
+.home-play-strip__marquee-group { display: flex; flex: 0 0 auto; align-items: center; gap: 35px; padding-inline-end: 35px; color: var(--primary-deep, #2b4c58); font: 700 clamp(38px, 5.2vw, 72px)/1 var(--brand, "League Spartan", sans-serif); letter-spacing: -0.04em; white-space: nowrap; }
+.home-play-strip__marquee-group i { color: inherit; font: normal 42px/1 var(--hand, serif); }
+.home-play-strip__star { display: block; width: 1em; height: 1em; flex: 0 0 auto; background: currentcolor; mask: url("assets/images/decorative-star.svg") center center / contain no-repeat; }
+.home-play-strip__marquee-outline { color: transparent; -webkit-text-stroke: 1px var(--primary-deep, #2b4c58); }
+.home-play-strip__cat-route { position: absolute; inset: 0px; z-index: 2; transform: translateX(8%); opacity: 1; animation: 32s linear 0s infinite normal none paused home-play-strip-cat-route; }
+.home-play-strip__cat-window { position: absolute; bottom: 0px; left: 0px; display: block; width: 78px; height: 78px; overflow: hidden; }
+.home-play-strip__cat-sprite { position: absolute; top: 0px; left: 0px; display: block; width: 400%; max-width: none; height: 200%; object-fit: fill; transform: translate(0px, 0px); animation: 1.2s steps(1) 0s infinite normal none paused home-play-strip-cat-frames; }
+.home-play-strip__scene * { animation-play-state: paused; }
+.home-play-strip__scene[data-active="true"] * { animation-play-state: running; }
+.home-play-strip__motion { position: absolute; top: 2px; right: 4px; z-index: 5; display: grid; width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0px; place-items: center; border: 0px; border-radius: 50%; color: var(--primary-deep, #2b4c58); background: transparent; cursor: pointer; }
+.home-play-strip__motion > span { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid rgb(120, 152, 165); border-radius: 50%; background: rgba(255, 255, 255, 0.91); font: 700 11px/1 var(--sans, sans-serif); }
+@media (hover: hover) and (pointer: fine) {
+  .home-play-strip__motion:hover > span { background: rgb(255, 255, 255); }
+}
+.home-play-strip[data-motion="off"] .home-play-strip__scene *, .home-play-strip[data-motion="off"] .home-play-strip__scene ::before, .home-play-strip[data-motion="off"] .home-play-strip__scene ::after { animation: auto ease 0s 1 normal none running none !important; }
+.home-play-strip[data-motion="off"] .home-play-strip__marquee-track { transform: translateX(0px) !important; }
+.home-play-strip[data-motion="off"] .home-play-strip__cat-route { transform: translateX(8%) !important; opacity: 1 !important; }
+.home-play-strip[data-motion="off"] .home-play-strip__cat-sprite { transform: translate(0px, 0px) !important; }
+@media (max-width: 760px) {
+  .home-play-strip { height: 88px; min-height: 88px; }
+}
+@media (max-width: 760px) {
+  .home-play-strip__marquee-group { gap: 20px; padding-inline-end: 20px; font-size: 38px; }
+}
+@media (max-width: 760px) {
+  .home-play-strip__marquee-group i { font-size: 26px; }
+}
+@media (max-width: 760px) {
+  .home-play-strip__motion { right: 2px; }
+}
+@media (max-width: 350px) {
+  .home-play-strip__marquee-group { gap: 18px; padding-inline-end: 18px; font-size: 36px; }
+}
+@media (max-width: 350px) {
+  .home-play-strip__marquee-group i { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-play-strip__scene *, .home-play-strip__scene ::before, .home-play-strip__scene ::after { animation: auto ease 0s 1 normal none running none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-play-strip__marquee-track { transform: translateX(0px) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-play-strip__cat-route { transform: translateX(8%) !important; opacity: 1 !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-play-strip__cat-sprite { transform: translate(0px, 0px) !important; }
+}
+.home-page.home-unified .home-play-strip__cat-window { width: 96px; height: 96px; }
+@keyframes home-play-strip-marquee { 
+  100% { transform: translateX(-50%); }
+}
+@keyframes home-play-strip-cat-route { 
+  0% { transform: translateX(8%); opacity: 0; }
+  0.5%, 98% { opacity: 1; }
+  100% { transform: translateX(calc(82% - 75px)); opacity: 0; }
+}
+@keyframes home-play-strip-cat-frames { 
+  0% { transform: translate(0%, 0%); }
+  12.5% { transform: translate(-25%, 0%); }
+  25% { transform: translate(-50%, 0%); }
+  37.5% { transform: translate(-75%, 0%); }
+  50% { transform: translate(0%, -50%); }
+  62.5% { transform: translate(-25%, -50%); }
+  75% { transform: translate(-50%, -50%); }
+  87.5% { transform: translate(-75%, -50%); }
+  100% { transform: translate(0px, 0px); }
+}

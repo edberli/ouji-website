@@ -136,11 +136,77 @@
     update();
   }
 
+  /* SEOUL BEAUTY 跑馬燈：入到畫面先郁；慳數據／減少動態就唔郁；
+     速度跟闊度計，芝麻每秒行 57px、字每秒 27px，闊螢幕唔會特別快。 */
+  function mountStrip(strip) {
+    var scene = strip.querySelector('[data-watercolor-scene]');
+    var route = strip.querySelector('.home-play-strip__cat-route');
+    var group = strip.querySelector('.home-play-strip__marquee-group');
+    var track = strip.querySelector('.home-play-strip__marquee-track');
+    var button = strip.querySelector('[data-strip-motion]');
+    if (!scene) return;
+    var reduced = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+    var connection = navigator.connection;
+    var on = !reduced.matches;
+    var seen = !('IntersectionObserver' in window);
+
+    function allowed() {
+      return on && !reduced.matches && !(connection && connection.saveData) &&
+        !(connection && /^(slow-2g|2g)$/.test(connection.effectiveType || '')) && !document.hidden;
+    }
+    function sync() {
+      scene.dataset.active = String(allowed() && seen);
+      strip.dataset.motion = on ? 'on' : 'off';
+      if (button) {
+        button.setAttribute('aria-pressed', String(on));
+        button.setAttribute('aria-label', on ? '暫停動畫' : '播放動畫');
+        var icon = button.querySelector('span');
+        if (icon) icon.textContent = on ? 'Ⅱ' : '▶';
+      }
+    }
+    function setDuration(el, seconds) {
+      var anim = el.getAnimations ? el.getAnimations()[0] : null;
+      var oldMs = parseFloat(getComputedStyle(el).animationDuration) * 1000;
+      var phase = anim && oldMs > 0 && typeof anim.currentTime === 'number' ? (anim.currentTime % oldMs) / oldMs : null;
+      el.style.animationDuration = seconds + 's';
+      if (anim && phase !== null) anim.currentTime = phase * seconds * 1000;
+    }
+    function size() {
+      if (route) {
+        var distance = route.getBoundingClientRect().width * 0.74 - 75;
+        if (distance > 0) setDuration(route, distance / 57);
+      }
+      if (group && track) {
+        var width = group.getBoundingClientRect().width;
+        if (width > 0) setDuration(track, width / 27);
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        seen = entries[0].isIntersecting; sync();
+      }, { threshold: 0.01 }).observe(scene);
+    }
+    if (button) button.addEventListener('click', function () { on = !on; sync(); });
+    if (reduced.addEventListener) reduced.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    if (typeof ResizeObserver === 'function') {
+      var ro = new ResizeObserver(size);
+      if (route) ro.observe(route);
+      if (group) ro.observe(group);
+    } else {
+      window.addEventListener('resize', size);
+    }
+    size();
+    sync();
+  }
+
   function init() {
     var hero = document.querySelector('.home-top [data-campaign-hero]');
     if (hero) mountHero(hero);
     var cats = document.querySelector('.home-top .home-categories');
     if (cats) mountCategories(cats);
+    var strip = document.querySelector('.home-top .home-play-strip');
+    if (strip) mountStrip(strip);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
