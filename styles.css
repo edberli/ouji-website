@@ -5245,23 +5245,66 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   }
 }
 
-/* 「選購」沿用原本 hamburger drawer；三條線旁邊直接講清係產品目錄。 */
-.mobile-nav__all-products {
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: -4px 0 4px;
-  padding: 15px 16px !important;
-  border: 1px solid rgba(255, 255, 255, 0.24) !important;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.13);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+/* OUJI / INDEX 選單：footer 藍玻璃、編號行、細類目入頁先揀。
+   class 由 script.js prepareMobileShopNav 加上；JS 未行時保留舊抽屜樣式。 */
+.mobile-nav.mobile-nav--index {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 0 28px 28px 0;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 42%),
+    rgba(109, 163, 181, 0.74);
+  backdrop-filter: blur(22px) saturate(1.25);
+  -webkit-backdrop-filter: blur(22px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), 10px 0 44px rgba(34, 70, 84, 0.22);
+  isolation: isolate;
 }
-.mobile-nav__all-products span { display: grid; gap: 4px; }
-.mobile-nav__all-products strong { font-size: 1rem; font-weight: 600; color: #fff; }
-.mobile-nav__all-products small { font-family: var(--font-body); font-size: .6875rem; letter-spacing: .02em; color: rgba(255,255,255,.62); }
-.mobile-nav__all-products svg { width: 19px; height: 19px; flex: 0 0 auto; color: rgba(255,255,255,.72); }
+.mobile-nav--index .mobile-nav__header { margin-bottom: 18px; }
+.mobile-nav--index .mobile-nav__header .header__logo { display: none; }
+.mobile-nav__eyebrow { color: rgba(255, 255, 255, 0.82); font: 500 10px/1 var(--font-sans); letter-spacing: 0.12em; }
+.mobile-nav--index .mobile-nav__close {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16); color: #fff;
+}
+.mobile-nav--index .mobile-nav__links { gap: 0; }
+.mobile-nav--index .mobile-nav__index-row,
+.mobile-nav--index .mobile-nav__links > a.mobile-nav__index-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font: 500 17px/1.35 var(--font-sans);
+  letter-spacing: 0.02em;
+}
+.mobile-nav__index-num { color: rgba(255, 255, 255, 0.62); font-size: 9px; letter-spacing: 0.04em; }
+.mobile-nav--index .mobile-nav__index-group .mobile-nav__chevron { width: 16px; height: 16px; color: rgba(255, 255, 255, 0.75); }
+.mobile-nav--index .mobile-nav__index-group .mobile-nav__sublinks > a {
+  padding: 8px 0 8px 28px;
+  border-bottom: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.875rem;
+}
+.mobile-nav__tagline { margin: 18px 0 0; color: rgba(255, 255, 255, 0.78); font: 400 10px/1.6 var(--font-sans); }
+.mobile-nav__index-foot {
+  position: relative; z-index: 2;
+  display: grid; gap: 2px;
+  margin-top: auto; padding-top: 24px; padding-bottom: 96px;
+  color: rgba(255, 255, 255, 0.82); font: 400 10px/1.5 var(--font-sans);
+}
+.mobile-nav__index-foot strong { color: #fff; font: 600 11px/1.5 var(--font-sans); letter-spacing: 0.02em; }
+.mobile-nav__shima {
+  position: absolute; right: 12px; bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  width: 92px; height: auto; transform: rotate(-5deg); pointer-events: none;
+}
+.mobile-nav__bigword {
+  position: absolute; left: 20px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: -1;
+  color: #fff; opacity: 0.14; font: 700 64px/1 var(--font-display); letter-spacing: 0.04em; pointer-events: none;
+}
 
 /* 護膚、彩妝、美妝工具保留原本分類間距，不加額外底框或粉色裝飾。 */
 @media (max-width: 768px) {

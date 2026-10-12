@@ -786,43 +786,48 @@ function prepareMobileShopNav() {
   nav.setAttribute('aria-label', '產品分類');
   nav.setAttribute('aria-hidden', 'true');
 
-  Array.from(links.children).forEach((child) => {
-    if (child.tagName !== 'A') return;
-    const href = (child.getAttribute('href') || '').toLowerCase();
-    if (/(awards|match|column|brands|account)\.html(?:$|[?#])/.test(href)) child.remove();
-  });
+  /* OUJI / INDEX：一行一個入口，撳落直接入分類頁，細分類喺頁面入面揀。
+     細類目只剩「其他產品」用原本 accordion 收埋。initMobileNav 喺之後先綁
+     關閉同 accordion 事件，所以呢度可以直接重砌內容。 */
+  const chevron = '<svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  const rows = [
+    ['首頁', '/index.html'],
+    ['睇全部產品', '/shop.html'],
+    ['護膚', '/category.html'],
+    ['彩妝', '/makeup.html'],
+    ['季節性', '/seasonal.html'],
+    ['沐浴洗護', '/bath.html'],
+    ['保健品', '/health.html'],
+    ['公仔', '/toys.html'],
+  ];
+  const others = [
+    ['美妝工具', '/tools.html'],
+    ['護具及壓力襪', '/supports.html'],
+    ['香水香氛', '/fragrance.html'],
+    ['隱形眼鏡', '/lens.html'],
+    ['K-pop 周邊', '/kpop.html'],
+  ];
+  const num = (i) => String(i + 1).padStart(2, '0');
+  links.innerHTML = rows.map(([label, href], i) => (
+    `<a class="mobile-nav__index-row" href="${href}"><span class="mobile-nav__index-num">${num(i)}</span><span class="mobile-nav__index-label">${label}</span></a>`
+  )).join('') + `<div class="mobile-nav__group mobile-nav__index-group">
+      <button class="mobile-nav__group-row mobile-nav__index-row" type="button" aria-expanded="false"><span class="mobile-nav__index-num">${num(rows.length)}</span><span class="mobile-nav__index-label">其他產品</span>${chevron}</button>
+      <div class="mobile-nav__sublinks">${others.map(([label, href]) => `<a href="${href}">${label}</a>`).join('')}</div>
+    </div>`;
 
-  if (!links.querySelector('.mobile-nav__all-products')) {
-    const all = document.createElement('a');
-    all.className = 'mobile-nav__all-products';
-    all.href = '/shop.html';
-    all.innerHTML = `<span><strong>睇全部產品</strong><small>瀏覽 OUJI 所有現貨</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
-    links.prepend(all);
+  nav.classList.add('mobile-nav--index');
+  const header = nav.querySelector('.mobile-nav__header');
+  if (header && !header.querySelector('.mobile-nav__eyebrow')) {
+    const eyebrow = document.createElement('span');
+    eyebrow.className = 'mobile-nav__eyebrow';
+    eyebrow.textContent = 'OUJI / INDEX';
+    header.prepend(eyebrow);
   }
-
-  if (!links.querySelector('.mobile-nav__home')) {
-    const home = document.createElement('a');
-    home.className = 'mobile-nav__home';
-    home.href = '/index.html';
-    home.textContent = '首頁';
-    links.querySelector('.mobile-nav__all-products')?.insertAdjacentElement('afterend', home);
-  }
-
-  /* 最多人搵嘅美妝三類用一個柔和焦點區包住，保留原本 accordion 行為。 */
-  if (!links.querySelector('.mobile-nav__beauty-focus')) {
-    const focus = document.createElement('section');
-    focus.className = 'mobile-nav__beauty-focus';
-    focus.setAttribute('aria-label', '護膚彩妝精選分類');
-    const wanted = ['護膚', '彩妝', '季節性', '美妝工具'];
-    const groups = Array.from(links.querySelectorAll(':scope > .mobile-nav__group'));
-    wanted.forEach((label) => {
-      const group = groups.find((item) => item.querySelector('.mobile-nav__group-row span')?.textContent.trim() === label);
-      if (group) focus.appendChild(group);
-    });
-    if (focus.children.length) {
-      const home = links.querySelector('.mobile-nav__home');
-      home?.insertAdjacentElement('afterend', focus);
-    }
+  if (!nav.querySelector('.mobile-nav__index-foot')) {
+    links.insertAdjacentHTML('afterend', `<p class="mobile-nav__tagline">小小快樂，日日發現。 · OUJI</p>
+      <a class="mobile-nav__index-foot" href="/stores.html"><strong>OUJI 觀塘門市</strong><span>觀塘工業中心一期地下 B 舖</span><span>觀塘站 D4 出口 · 10:00–20:00</span></a>
+      <img class="mobile-nav__shima" src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async">
+      <span class="mobile-nav__bigword" aria-hidden="true">OUJI</span>`);
   }
 }
 
