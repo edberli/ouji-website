@@ -329,3 +329,19 @@
 @media (prefers-reduced-motion: reduce) {
   .home-page.home-unified .home-campaign-hero__dot { transition: none; }
 }
+
+/* 同舊 hero 一樣：海報向上伸入透明頁頭後面，未碌之前頂部冇白色頁頭底。
+   頂部加一層淡陰影，白色頁頭字喺淺色海報上面都睇得清；桌面版文案由頁頭底開始排，避開相入面印住嘅字。 */
+.home-top { margin-top: calc(-1 * var(--hdr-h, var(--header-height))); }
+.home-top .home-campaign-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
+  height: calc(var(--hdr-h, var(--header-height)) + 48px);
+  background: linear-gradient(rgba(24, 44, 54, 0.34), rgba(24, 44, 54, 0));
+  pointer-events: none;
+}
+@media (min-width: 901px) {
+  .home-top.home-page.home-unified .home-campaign-hero__slide:not(.home-campaign-hero__slide--peach) .home-campaign-hero__copy { top: calc(var(--hdr-h, var(--header-height)) + 2%); }
+}
