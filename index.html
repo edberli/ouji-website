@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap&text=GoodSkinDays!" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css?v=20261002-fan">
+  <link rel="stylesheet" href="home-top.css?v=20261012-1">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -158,7 +159,8 @@
   </div>
 
   <!-- Header -->
-  <header class="header">
+  <!-- 頂部 hero 而家係淺色海報，頁頭一開始就用實色深字，同其他頁一樣。 -->
+  <header class="header is-scrolled">
     <div class="header__inner">
       <div class="header__left">
         <button class="header__menu-toggle" aria-label="選單">
@@ -346,91 +348,90 @@
 
   <main id="main-content">
 
-    <!-- ===== HERO ===== -->
-    <section class="hero">
-      <!-- 成版首頁本來一個 h1 都冇 —— hero 係純圖輪播，冇文字標題。
-           搜尋引擎同讀屏都當呢版冇主題。加一個唔顯示嘅 h1，唔郁版面。 -->
-      <h1 class="visually-hidden">OUJI —— 香港嘅韓國美妝同護膚專門店</h1>
-      <div class="hero__carousel">
-        <div class="hero__carousel-track">
-          <div class="hero__carousel-slide active"><picture><source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.webp" type="image/webp"><source media="(max-width: 767px)" srcset="assets/images/hero-1-mobile.png"><source srcset="assets/images/hero-1.webp" type="image/webp"><img src="assets/images/hero-1.png" alt="" fetchpriority="high" loading="eager" decoding="async"></picture></div>
-          <div class="hero__carousel-slide"><picture><source media="(max-width: 767px)" data-lazy-srcset="assets/images/hero-2-mobile.webp" type="image/webp"><source media="(max-width: 767px)" data-lazy-srcset="assets/images/hero-2-mobile.png"><source data-lazy-srcset="assets/images/hero-2.webp" type="image/webp"><img data-lazy-src="assets/images/hero-2.png" alt="" loading="lazy" decoding="async"></picture></div>
-          <div class="hero__carousel-slide"><picture><source media="(max-width: 767px)" data-lazy-srcset="assets/images/hero-3-mobile.webp" type="image/webp"><source media="(max-width: 767px)" data-lazy-srcset="assets/images/hero-3-mobile.png"><source data-lazy-srcset="assets/images/hero-3.webp" type="image/webp"><img data-lazy-src="assets/images/hero-3.png" alt="" loading="lazy" decoding="async"></picture></div>
-          <div class="hero__carousel-slide"><picture><source media="(max-width: 767px)" data-lazy-srcset="assets/images/hero-4-mobile.webp" type="image/webp"><source media="(max-width: 767px)" data-lazy-srcset="assets/images/hero-4-mobile.png"><source data-lazy-srcset="assets/images/hero-4.webp" type="image/webp"><img data-lazy-src="assets/images/hero-4.png" alt="" loading="lazy" decoding="async"></picture></div>
+    <!-- ===== 首頁頂部三段（2026-10-12 由設計預覽搬上嚟）：品牌海報、免運門檻、商品分類 =====
+         樣式喺 home-top.css，輪播同分類捲動喺 home-top.js；兩個檔只喺首頁載入。 -->
+    <div class="home-page home-unified home-top" data-campaign-look="ink">
+<section class="home-campaign-hero content-wrap" data-campaign-hero="" aria-label="OUJI 韓妝品牌精選" aria-roledescription="輪播" data-hero-index="0" data-hero-tone="blue">
+    <h1 class="sr-only">OUJI —— 香港嘅韓國美妝同護膚專門店</h1>
+    <div class="home-campaign-hero__track" data-hero-track="" tabindex="0" aria-label="品牌海報，使用上一張／下一張按鈕、圓點或鍵盤方向鍵、Home、End 切換">
+      <article class="home-campaign-hero__slide home-campaign-hero__slide--blue" data-hero-slide="" aria-label="1 / 4 · Coralhaze" aria-roledescription="海報">
+        <picture class="home-campaign-hero__media">
+          <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-1-mobile.webp">
+          <img src="assets/images/hero-campaign/hero-1.webp" alt="Coralhaze 藍色水光背景品牌人物海報" width="1920" height="873" loading="eager" fetchpriority="high" decoding="async">
+        </picture>
+        <div class="home-campaign-hero__copy">
+          <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> Coralhaze</span>
+          <h2 class="home-campaign-hero__title">韓妝嘅風格，<br>有好多種。</h2>
+          <p class="home-campaign-hero__description">韓系美妝，日常一點光。</p>
+          <a class="home-campaign-hero__link" href="shop.html?brand=Coralhaze">逛 Coralhaze <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
         </div>
-        <button class="hero__carousel-arrow hero__carousel-arrow--prev" aria-label="上一張">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-        <button class="hero__carousel-arrow hero__carousel-arrow--next" aria-label="下一張">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </button>
-        <div class="hero__carousel-dots">
-          <button class="hero__carousel-dot active" aria-label="Slide 1"></button>
-          <button class="hero__carousel-dot" aria-label="Slide 2"></button>
-          <button class="hero__carousel-dot" aria-label="Slide 3"></button>
-          <button class="hero__carousel-dot" aria-label="Slide 4"></button>
+        <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="eager" decoding="async"><span>your little<br>beauty shop</span></div>
+      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--red" data-hero-slide="" aria-label="2 / 4 · TIRTIR" aria-roledescription="海報" aria-hidden="true" inert="">
+        <picture class="home-campaign-hero__media">
+          <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-2-mobile.webp">
+          <img src="assets/images/hero-campaign/hero-2.webp" alt="TIRTIR 紅色背景品牌人物海報" width="1920" height="873" loading="lazy" decoding="async">
+        </picture>
+        <div class="home-campaign-hero__copy">
+          <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> TIRTIR</span>
+          <h2 class="home-campaign-hero__title">今日妝感，<br>有自己態度。</h2>
+          <p class="home-campaign-hero__description">由底妝開始，揀你鍾意嘅妝感。</p>
+          <a class="home-campaign-hero__link" href="shop.html?brand=TIRTIR">逛 TIRTIR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
         </div>
+        <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><span>your little<br>beauty shop</span></div>
+      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--peach" data-hero-slide="" aria-label="3 / 4 · dasique" aria-roledescription="海報" aria-hidden="true" inert="">
+        <picture class="home-campaign-hero__media">
+          <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-3-mobile.webp">
+          <img src="assets/images/hero-campaign/hero-3.webp" alt="dasique 杏色背景人物與彩妝海報" width="1920" height="873" loading="lazy" decoding="async">
+        </picture>
+        <div class="home-campaign-hero__copy">
+          <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> dasique</span>
+          <h2 class="home-campaign-hero__title">柔和色彩，<br>一點小可愛。</h2>
+          <p class="home-campaign-hero__description">將日常，染上你鍾意嘅顏色。</p>
+          <a class="home-campaign-hero__link" href="shop.html?brand=dasique">逛 dasique <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+        <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><span>your little<br>beauty shop</span></div>
+      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--sage" data-hero-slide="" aria-label="4 / 4 · Laka" aria-roledescription="海報" aria-hidden="true" inert="">
+        <picture class="home-campaign-hero__media">
+          <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-4-mobile.webp">
+          <img src="assets/images/hero-campaign/hero-4.webp" alt="Laka 綠色背景雙人物品牌海報" width="1920" height="873" loading="lazy" decoding="async">
+        </picture>
+        <div class="home-campaign-hero__copy">
+          <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> Laka</span>
+          <h2 class="home-campaign-hero__title">美嘅樣子，<br>由你決定。</h2>
+          <p class="home-campaign-hero__description">自在玩色，搵到自己嘅風格。</p>
+          <a class="home-campaign-hero__link" href="shop.html?brand=Laka">逛 Laka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+        <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><span>your little<br>beauty shop</span></div>
+      </article>
+    </div>
+    <div class="home-campaign-hero__controls">
+      <span class="home-campaign-hero__caption">韓妝風格，慢慢揀。</span>
+      <div class="home-campaign-hero__navigation" role="group" aria-label="品牌海報導覽">
+        <button type="button" class="home-campaign-hero__arrow home-campaign-hero__arrow--previous" data-hero-prev="" aria-label="上一張品牌海報"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button>
+        <div class="home-campaign-hero__pages" role="group" aria-label="選擇品牌海報"><button type="button" class="home-campaign-hero__page" data-hero-page="0" aria-label="Coralhaze 海報" aria-current="true"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="1" aria-label="TIRTIR 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="2" aria-label="dasique 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="3" aria-label="Laka 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button></div>
+        <button type="button" class="home-campaign-hero__arrow home-campaign-hero__arrow--next" data-hero-next="" aria-label="下一張品牌海報"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button>
       </div>
-      <div class="hero__cursor-glow"></div>
-    </section>
-
-    <!-- ===== MARQUEE ===== -->
-    <div class="marquee">
-      <div class="marquee__inner">
-        <span class="marquee__item">rom&nd</span>
-        <span class="marquee__item">CLIO</span>
-        <span class="marquee__item">hince</span>
-        <span class="marquee__item">TIRTIR</span>
-        <span class="marquee__item">dasique</span>
-        <span class="marquee__item">lilybyred</span>
-        <span class="marquee__item">AMUSE</span>
-        <span class="marquee__item">WAKEMAKE</span>
-        <span class="marquee__item">Peripera</span>
-        <span class="marquee__item">UNLEASHIA</span>
-        <span class="marquee__item">Laka</span>
-        <span class="marquee__item">fwee</span>
-        <span class="marquee__item">MAYBELLINE</span>
-        <span class="marquee__item">2aN</span>
-        <span class="marquee__item">Heart Percent</span>
-        <span class="marquee__item">Coralhaze</span>
-        <span class="marquee__item">BRAYE</span>
-        <span class="marquee__item">Glint</span>
-        <span class="marquee__item">花知曉 Flower Knows</span>
-        <span class="marquee__item">rom&nd</span>
-        <span class="marquee__item">CLIO</span>
-        <span class="marquee__item">hince</span>
-        <span class="marquee__item">TIRTIR</span>
-        <span class="marquee__item">dasique</span>
-        <span class="marquee__item">lilybyred</span>
-        <span class="marquee__item">AMUSE</span>
-        <span class="marquee__item">WAKEMAKE</span>
-        <span class="marquee__item">Peripera</span>
-        <span class="marquee__item">UNLEASHIA</span>
-        <span class="marquee__item">Laka</span>
-        <span class="marquee__item">fwee</span>
-        <span class="marquee__item">MAYBELLINE</span>
-        <span class="marquee__item">2aN</span>
-        <span class="marquee__item">Heart Percent</span>
-        <span class="marquee__item">Coralhaze</span>
-        <span class="marquee__item">BRAYE</span>
-        <span class="marquee__item">Glint</span>
-        <span class="marquee__item">花知曉 Flower Knows</span>
+      <button type="button" data-hero-pause="" class="home-campaign-hero__pause" aria-label="暫停海報輪播" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 6v12M15 6v12"></path></svg></button>
+    </div>
+    <span class="sr-only" data-hero-status="" role="status" aria-live="polite" aria-atomic="true"></span>
+  </section><section class="home-delivery" aria-labelledby="home-delivery-title">
+    <div class="content-wrap home-delivery__inner">
+      <h2 class="sr-only" id="home-delivery-title">免運門檻</h2>
+      <div class="home-delivery__grid" aria-label="三種配送方式的免運門檻">
+        <article class="home-delivery__item" aria-label="7-Eleven／郵局／智郵站自取，滿HK$99免運">
+            <div class="home-delivery__heading"><span class="home-delivery__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 9l3-5h8l3 5v11H5Z"></path><path d="M5 9h14M9 14h6"></path></svg></span><h3 class="home-delivery__method">7-Eleven／郵局</h3></div>
+            <p class="home-delivery__offer"><span class="home-delivery__amount"><span class="home-delivery__qualifier">滿</span> <span class="home-delivery__price">HK$99</span></span><span class="home-delivery__badge">免運</span></p>
+          </article><article class="home-delivery__item" aria-label="順豐站／智能櫃自取，滿HK$250免運">
+            <div class="home-delivery__heading"><span class="home-delivery__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M5 11h14M12 3v18M8 7h1M15 7h1M8 16h1M15 16h1"></path></svg></span><h3 class="home-delivery__method">順豐站／智能櫃</h3></div>
+            <p class="home-delivery__offer"><span class="home-delivery__amount"><span class="home-delivery__qualifier">滿</span> <span class="home-delivery__price">HK$250</span></span><span class="home-delivery__badge">免運</span></p>
+          </article><article class="home-delivery__item" aria-label="順豐派送上門，滿HK$290免運">
+            <div class="home-delivery__heading"><span class="home-delivery__mark home-delivery__mark--van" aria-hidden="true"><img class="home-delivery__van" src="assets/images/shima/delivery-van.webp" width="320" height="320" alt="" loading="lazy" decoding="async"></span><h3 class="home-delivery__method">順豐上門</h3></div>
+            <p class="home-delivery__offer"><span class="home-delivery__amount"><span class="home-delivery__qualifier">滿</span> <span class="home-delivery__price">HK$290</span></span><span class="home-delivery__badge">免運</span></p>
+          </article>
       </div>
     </div>
-
-    <!-- 客一入到嚟最想做嘅係搵嘢，唔係讀我哋自我介紹。
-         呢一格本來排喺第六位，要碌三個螢幕先見到 —— 搬咗上嚟。 -->
-    <section class="section--sm section-float">
-      <div class="container cat-cards__head reveal-blur">
-        <!-- 一行細標題就夠。本來係「分類選購」＋一個好大嘅「探索分類」，
-             兩行字講同一件事，仲要大過下面啲卡本身。
-             標題由居中改咗做左對齊一行：標題、韓文小字、件數靠右。
-             居中標題喺一條淨係向右掃嘅 rail 上面，同下面嘅內容對唔上。 -->
-        <h2 class="cat-cards__title">產品分類</h2>
-        <span class="cat-cards__ko" aria-hidden="true">세라믹</span>
-      </div>
-      <div class="cat-cards" data-home-cats></div>
-    </section>
+  </section><nav class="home-categories" id="home-categories" aria-label="所有商品分類"><div class="content-wrap"><div class="home-categories__heading"><h2 id="home-categories-title">商品分類</h2><span class="home-categories__hint" aria-hidden="true" hidden="">左右滑動</span><a href="shop.html">逛全部</a></div><div class="home-categories__viewport"><div class="home-categories__links" id="home-categories-links" tabindex="0" role="group" aria-label="商品分類"><a class="home-categories__link home-categories__link--primary" href="category.html" aria-label="護膚" title="Torriden DIVE IN微分子玻尿酸精華 DIVE IN Low Molecular Hyaluronic Acid Serum 50ml"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/skincare.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">護膚</span></a><a class="home-categories__link home-categories__link--primary" href="makeup.html" aria-label="彩妝" title="rom&amp;nd 果汁鎖色唇釉 The Juicy Lasting Tint"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/makeup.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">彩妝</span></a><a class="home-categories__link" href="seasonal.html" aria-label="季節選物" title="Bioré UV Aqua Rich 水感防曬凝膠 UV Aqua Rich Watery Gel 70ml"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/seasonal.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">季節選物</span></a><a class="home-categories__link" href="bath.html" aria-label="沐浴" title="AROMATICA 迷迭香頭皮去角質洗髮水 Rosemary Scalp Scaling Shampoo Family Size 400ml"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/bath.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">沐浴</span></a><a class="home-categories__link" href="bath.html?cat=lotion" aria-label="身體護理" title="Purito 乳木果身體乳液 海洋微風 Luminous Moisture Shea Butter Body Lotion Ocean Breeze 300ml"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/bodycare.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">身體護理</span></a><a class="home-categories__link" href="tools.html" aria-label="美容工具" title="STUDIO 17 修容掃套裝 Contouring Brush Set"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/tools.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">美容工具</span></a><a class="home-categories__link" href="fragrance.html" aria-label="香氛" title="Fiancee 身體噴霧 肥皂香味 Body Mist Soap Scent"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/fragrance.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">香氛</span></a><a class="home-categories__link" href="lens.html" aria-label="隱形眼鏡" title="Feliamo 1 Day 日拋彩色隱形眼鏡 Sheer Brown｜10枚/盒"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/lens.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">隱形眼鏡</span></a><a class="home-categories__link" href="kpop.html" aria-label="K-pop" title="TWICE 第4張正規專輯 THIS IS FOR (THIS / IS / FOR Ver., Random 1)"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/kpop.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">K-pop</span></a><a class="home-categories__link" href="toys.html" aria-label="公仔精品" title="Sanrio Cinnamoroll 黑白天使造型公仔 Cinnamoroll Angel Plush, Black and White Series 4吋"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/toys.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">公仔精品</span></a><a class="home-categories__link" href="health.html" aria-label="保健品" title="DHC 維他命C硬膠囊 Vitamin C Capsules 40粒（20日份）"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/health.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">保健品</span></a><a class="home-categories__link" href="supports.html" aria-label="護具及壓力襪" title="Slimwalk 分段壓力長筒襪 Graduated Compression Long Socks S–M／M–L"><span class="home-categories__art" aria-hidden="true"><img class="home-categories__photo home-categories__illustration" src="assets/images/category-watercolor/supports.webp" alt="" loading="lazy" decoding="async"></span><span class="home-categories__label">護具及<wbr>壓力襪</span></a></div></div></div></nav>
+    </div>
 
     <!-- ═══════════ 首頁長駐購物禮遇 ═══════════
          左側列出 Round Lab 贈品條件，右側保留既有運送安排。
@@ -1291,6 +1292,7 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
   <script src="home.js?v=20261002-fan"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261001-supports"></script>
+  <script src="home-top.js?v=20261012-1"></script>
   <script>
     // Brand section toggles (independent per category)
     (function () {
@@ -1317,108 +1319,6 @@ b.classList.add('is-armed');var io=new IntersectionObserver(function(e){if(e[0].
 
       setupSectionToggle('skincareToggle', 'skincareGridView', 'skincareRows');
       setupSectionToggle('makeupToggle', 'makeupGridView', 'makeupRows');
-    })();
-  </script>
-  <script>
-    // Hero Carousel
-    (function () {
-      var slides = document.querySelectorAll('.hero__carousel-slide');
-      var dots = document.querySelectorAll('.hero__carousel-dot');
-      var current = 0;
-      var timer;
-      var navigationRequest = 0;
-
-      function prepareSlide(slide) {
-        var img = slide.querySelector('img');
-        if (!img) return Promise.resolve(false);
-        if (!img.dataset.lazySrc) {
-          return img.complete && img.naturalWidth
-            ? Promise.resolve(true) : (img.__homeSlidePromise || Promise.resolve(false));
-        }
-        if (img.__homeSlidePromise) return img.__homeSlidePromise;
-
-        img.__homeSlidePromise = new Promise(function (resolve) {
-          var settled = false;
-          var timeout = setTimeout(function () { finish(false); }, 15000);
-          function finish(ready) {
-            if (settled) return;
-            settled = true;
-            clearTimeout(timeout);
-            img.removeEventListener('load', onLoad);
-            img.removeEventListener('error', onError);
-            if (ready) {
-              slide.querySelectorAll('source[data-lazy-srcset]').forEach(function (source) {
-                source.removeAttribute('data-lazy-srcset');
-              });
-              img.removeAttribute('data-lazy-src');
-            } else {
-              delete img.__homeSlidePromise;
-            }
-            resolve(ready);
-          }
-          function onLoad() {
-            if (typeof img.decode === 'function') {
-              img.decode().then(function () { finish(true); })
-                .catch(function () { finish(img.naturalWidth > 0); });
-            } else finish(img.naturalWidth > 0);
-          }
-          function onError() { finish(false); }
-
-          img.addEventListener('load', onLoad, { once: true });
-          img.addEventListener('error', onError, { once: true });
-          slide.querySelectorAll('source[data-lazy-srcset]').forEach(function (source) {
-            source.srcset = source.dataset.lazySrcset;
-          });
-          img.fetchPriority = 'high';
-          img.loading = 'eager';
-          img.src = img.dataset.lazySrc;
-          if (img.complete) {
-            if (img.naturalWidth) onLoad();
-            else setTimeout(function () {
-              if (img.complete && !img.naturalWidth) onError();
-            }, 0);
-          }
-        }).then(function (ready) {
-          if (ready) delete img.__homeSlidePromise;
-          return ready;
-        });
-        return img.__homeSlidePromise;
-      }
-
-      function goTo(index) {
-        var target = (index + slides.length) % slides.length;
-        var request = ++navigationRequest;
-        if (target === current) return;
-        prepareSlide(slides[target]).then(function (ready) {
-          if (!ready || request !== navigationRequest) return;
-          slides[current].classList.remove('active');
-          dots[current].classList.remove('active');
-          current = target;
-          slides[current].classList.add('active');
-          dots[current].classList.add('active');
-          // Restart ken burns on new slide
-          var img = slides[current].querySelector('img');
-          img.style.animation = 'none';
-          img.offsetHeight; // reflow
-          img.style.animation = '';
-        });
-      }
-
-      function next() { goTo(current + 1); }
-
-      function startTimer() { timer = setInterval(next, 8000); }
-      function resetTimer() { clearInterval(timer); startTimer(); }
-
-      dots.forEach(function (dot, i) {
-        dot.addEventListener('click', function () { goTo(i); resetTimer(); });
-      });
-
-      var prevBtn = document.querySelector('.hero__carousel-arrow--prev');
-      var nextBtn = document.querySelector('.hero__carousel-arrow--next');
-      if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); resetTimer(); });
-      if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); resetTimer(); });
-
-      startTimer();
     })();
   </script>
   <script>
