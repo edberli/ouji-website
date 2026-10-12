@@ -9342,6 +9342,13 @@ html.is-lite *::after {
 html.is-lite .header.is-scrolled { background: var(--bg-primary); }
 html.is-lite .mobile-bottom-nav { background: rgba(78, 122, 138, 0.94); }
 html.is-lite .mobile-nav { background: rgba(78, 122, 138, 0.94); }
+/* 手機選單（OUJI / INDEX）慢機都唔模糊，但用電腦玻璃版疊喺淺色頁面上嘅實際顏色，
+   唔好轉深：淺藍 74% 疊 #eef3f5 ≈ rgb(142,184,198)，再加返左上淡白反光。 */
+html.is-lite .mobile-nav.mobile-nav--index {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 42%),
+    rgb(142, 184, 198);
+}
 /* 之前呢度寫住深色，所以同一個選單喺慢機上面會變深 —— 老闆見到嘅
    「有時深色有時淺色」就係呢個。三個玻璃面板而家用同一隻藍，
    慢機淨係唔模糊，唔會轉色。 */
