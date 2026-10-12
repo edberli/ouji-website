@@ -825,9 +825,11 @@ function prepareMobileShopNav() {
   }
   if (!nav.querySelector('.mobile-nav__index-foot')) {
     links.insertAdjacentHTML('afterend', `<p class="mobile-nav__tagline">小小快樂，日日發現。 · OUJI</p>
-      <a class="mobile-nav__index-foot" href="/stores.html"><strong>OUJI 觀塘門市</strong><span>觀塘工業中心一期地下 B 舖</span><span>觀塘站 D4 出口 · 10:00–20:00</span></a>
-      <img class="mobile-nav__shima" src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async">
-      <span class="mobile-nav__bigword" aria-hidden="true">OUJI</span>`);
+      <div class="mobile-nav__index-foot">
+        <a class="mobile-nav__store" href="/stores.html"><strong>OUJI 觀塘門市</strong><span>觀塘工業中心一期地下 B 舖</span><span>觀塘站 D4 出口 · 10:00–20:00</span></a>
+        <img class="mobile-nav__shima" src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async">
+        <span class="mobile-nav__bigword" aria-hidden="true">OUJI</span>
+      </div>`);
   }
 }
 
