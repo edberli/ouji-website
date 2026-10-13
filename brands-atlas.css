@@ -266,3 +266,25 @@
 .brand-atlas .atlas-empty { padding: 32px 0; color: #5f7482; }
 .brand-atlas .atlas-search input[type="search"] { border: 0; outline: 0; box-shadow: none; background: transparent; padding: 0; min-height: 0; }
 .brand-atlas .atlas-search:focus-within { outline: 2px solid #4b6377; outline-offset: 2px; }
+
+/* Logo 統一大細（2026-10-13）：每個 logo 先量實際字形範圍（唔計透明／白邊），
+   再按同一個視覺面積縮放；--iw/--ih 係字形顯示大細，--fw/--fh/--fx/--fy 係成張圖要放幾大、移幾多。
+   --logo-s 跟螢幕闊度調，細 mon 一齊縮細，唔會個別被壓扁。 */
+.brand-atlas { --logo-s: 1px; }
+@media (max-width: 899px) { .brand-atlas { --logo-s: 0.85px; } }
+@media (max-width: 639px) { .brand-atlas { --logo-s: 0.72px; } }
+.brand-atlas .atlas-logo-ink { position: relative; display: block; overflow: hidden; flex: none;
+  width: calc(var(--iw) * var(--logo-s)); height: calc(var(--ih) * var(--logo-s)); }
+.brand-atlas .atlas-logo-image .atlas-logo-ink img { position: absolute; max-width: none; object-fit: fill;
+  width: calc(var(--fw) * var(--logo-s)); height: calc(var(--fh) * var(--logo-s));
+  left: calc(var(--fx) * -1 * var(--logo-s)); top: calc(var(--fy) * -1 * var(--logo-s)); }
+/* 每區欄數跟品牌數，最後一行唔會剩一兩格：彩妝 21＝7×3、護膚 30＝6×5、隱形眼鏡 5＝5×1 */
+@media (min-width: 900px) {
+  .atlas-logo-zone--makeup .atlas-logo-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .atlas-logo-zone--lens .atlas-logo-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+@media (min-width: 640px) and (max-width: 899px) {
+  .atlas-logo-zone--makeup .atlas-logo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .atlas-logo-zone--skincare .atlas-logo-grid, .atlas-logo-zone--lens .atlas-logo-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.atlas-logo-zone--lens { background: rgb(240, 236, 246); border-color: rgb(205, 196, 222); }

@@ -2,7 +2,7 @@
    可以搜尋、揀彩妝／護膚、跳字母。
    - 大細楷唔同嘅同一個牌（FANCL／Fancl、Skin1004／SKIN1004）合併做一個，
      用貨最多嗰個寫法。
-   - 「K-BEAUTY」唔係品牌，唔列。 */
+   - 「K-BEAUTY」唔係品牌，唔列；K-pop 歌手名（周邊貨嘅 vendor）都唔列。 */
 (function () {
   var root = document.querySelector('.brand-atlas');
   var groupsHost = root && root.querySelector('[data-atlas-groups]');
@@ -38,12 +38,15 @@
       var key = norm(vendor);
       if (!vendor || SKIP[key] || /待確認/.test(vendor)) return;
       var tags = (p.tags || []).map(norm);
-      var b = map[key] || (map[key] = { spellings: {}, makeup: 0, skincare: 0 });
+      var b = map[key] || (map[key] = { spellings: {}, makeup: 0, skincare: 0, total: 0, kpop: 0 });
+      b.total++;
+      if (tags.indexOf('kpop') > -1 || tags.indexOf('k-pop') > -1) b.kpop++;
       b.spellings[vendor] = (b.spellings[vendor] || 0) + 1;
       if (tags.indexOf('makeup') > -1) b.makeup++;
       if (tags.indexOf('skincare') > -1) b.skincare++;
     });
-    return Object.keys(map).map(function (key) {
+    /* 成個「品牌」全部都係 K-pop 周邊（vendor 係歌手名，例如 IVE、ENHYPEN）就唔列；K-pop 頁有自己入口。 */
+    return Object.keys(map).filter(function (key) { return map[key].kpop < map[key].total; }).map(function (key) {
       var b = map[key];
       var name = Object.keys(b.spellings).sort(function (x, y) { return b.spellings[y] - b.spellings[x]; })[0];
       return { name: name, key: key, makeup: b.makeup > 0, skincare: b.skincare > 0 };
