@@ -420,3 +420,32 @@
   87.5% { transform: translate(-75%, -50%); }
   100% { transform: translate(0px, 0px); }
 }
+
+/* 「好物，有禮。」今期優惠卡（Winston 2026-10-13 設計稿分層 PNG）。
+   手機：設計稿原構圖 3:2；桌面：同一批圖層重新排成橫幅（2620×540，約 1310×270，同原本段落一樣高）。
+   字同價錢印喺圖入面，上面疊透明撳位；優惠一改要重新出圖。 */
+.little-perks { margin-block: 24px 8px; }
+.little-perks__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 28px rgba(70, 96, 114, 0.1);
+  aspect-ratio: 1472 / 964;
+}
+.little-perks__card picture, .little-perks__art { display: block; width: 100%; height: 100%; }
+.little-perks__art { object-fit: cover; }
+.little-perks__hit { position: absolute; overflow: hidden; border-radius: 999px; color: transparent; font-size: 1px; }
+.little-perks__hit:focus-visible { outline: 3px solid #4b6377; outline-offset: 2px; }
+.little-perks__hit--shop { left: 6.8%; top: 84.4%; width: 28%; height: 10.4%; }
+.little-perks__hit--gift { left: 15.4%; top: 73%; width: 22.8%; height: 7%; border-radius: 8px; }
+.little-perks__hit--jar { left: 55%; top: 62%; width: 16%; height: 24%; border-radius: 50%; }
+.little-perks__terms { margin: 8px 2px 0; color: #5f7482; font: 400 12px/1.5 'Manrope', 'Noto Sans TC', sans-serif; }
+@media (min-width: 761px) {
+  /* 桌面版橫幅冇「逛好物」掣：成條橫幅撳落去全部商品，贈品名同面霜去贈品頁。 */
+  .little-perks__card { aspect-ratio: 2620 / 361; border-radius: 24px; }
+  .little-perks__art { transform: scale(1.012); }  /* 圖邊有一條抗鋸齒深線，放大少少畀圓角遮住 */
+  .little-perks__hit--shop { inset: 0; width: auto; height: auto; border-radius: 24px; }
+  .little-perks__hit--gift { left: 54.4%; top: 65.5%; width: 15%; height: 12%; }
+  .little-perks__hit--jar { left: 74%; top: 37%; width: 7.6%; height: 50%; }
+}
+
