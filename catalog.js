@@ -30,7 +30,7 @@ const BRAND_ART = {
   'hince': CDN + 'hince-banner.jpg',
   'fwee': CDN + 'fwee-banner.jpg',
   'MAYBELLINE': CDN + 'maybelline-banner_f5c7307d-576d-4796-b634-3e250ef3e300.jpg',
-  '花知曉 Flower Knows': CDN + 'flowerknows-banner_6c6a0c46-1361-4db5-befd-e7526560c84e.jpg',
+  'Flower Knows': CDN + 'flowerknows-banner_6c6a0c46-1361-4db5-befd-e7526560c84e.jpg',
   'BRAYE': CDN + 'braye-banner.jpg',
   'dasique': CDN + 'dasique-banner_46065717-bfee-49a9-ab6a-6e31808e785f.jpg',
   // No wide art exists for these nine — their sites publish square frames
@@ -70,19 +70,19 @@ const BRAND_PLATE = {
   'Coralhaze': { tint: '#f7ddd4' },
   'BRAYE': { tint: '#ebe9e6' },
   'Glint': { tint: '#e9e4dd' },
-  '花知曉 Flower Knows': { tint: '#f6e2e6' },
+  'Flower Knows': { tint: '#f6e2e6' },
   /* 公仔品牌用角色插畫橫幅：右邊角色、左邊留淨色位放牌名。
      tint 取自圖左邊緣色，令圖同底色接駁得無縫。 */
-  '罐頭豬LuLu': { tint: '#fdd7df', banner: 'assets/brand-banners/lulu.webp' },
+  'TOYZERO+': { tint: '#fdd7df', banner: 'assets/brand-banners/lulu.webp' },
   'Chiikawa': { tint: '#fdf8e1', banner: 'assets/brand-banners/chiikawa.webp' },
   'Sanrio': { tint: '#fde7ec', banner: 'assets/brand-banners/sanrio.webp' },
   '蠟筆小新': { tint: '#fef4dd', banner: 'assets/brand-banners/shinchan.webp' },
   'Disney 迪士尼': { tint: '#efe6fa' },
   'Toyzeroplus': { tint: '#caeadb', banner: 'assets/brand-banners/toyzeroplus.webp' },
   'YELL': { tint: '#cce8f9', banner: 'assets/brand-banners/yell.webp' },
-  'Niconui': { tint: '#fdd5b1', banner: 'assets/brand-banners/niconui.webp' },
-  'NOL CORPORATION': { tint: '#fcd2da', banner: 'assets/brand-banners/nol.webp' },
-  'TAKENOKO 竹林千子': { tint: '#c9d2ad', banner: 'assets/brand-banners/takenoko.webp' },
+  'CRUX': { tint: '#fdd5b1', banner: 'assets/brand-banners/niconui.webp' },
+  'NOL Corporation': { tint: '#fcd2da', banner: 'assets/brand-banners/nol.webp' },
+  'TAKENOKO': { tint: '#c9d2ad', banner: 'assets/brand-banners/takenoko.webp' },
 };
 
 function brandPlate(vendor) {
@@ -110,7 +110,7 @@ const BRAND_CARD_COLOR = {
   'Coralhaze': { bg: '#fbe8e3', ink: '#b66350' },
   'BRAYE': { bg: '#f4e4eb', ink: '#b36b88' },
   'Glint': { bg: '#f3eee3', ink: '#b18b1e' },
-  '花知曉 Flower Knows': { bg: '#fbe8ec', ink: '#b56a7b' },
+  'Flower Knows': { bg: '#fbe8ec', ink: '#b56a7b' },
   'fillimilli': { bg: '#b9dedc', ink: '#33463f' },
   'CEZANNE': { bg: '#f7d1c8', ink: '#b42046' },
   'STUDIO 17': { bg: '#3f4954', ink: '#ffffff', dark: true },
@@ -125,7 +125,7 @@ const BRAND_CARD_COLOR = {
    plates, not a claim that exact official brand-guide HEX values are known. */
 const SKINCARE_CARD_COLOR = {
   'Torriden': { bg: '#ccebea', ink: '#226d70' },
-  'Skin1004': { bg: '#eae4d6', ink: '#3c3429' },
+  'SKIN1004': { bg: '#eae4d6', ink: '#3c3429' },
   'Round Lab': { bg: '#dcecf2', ink: '#1b566e' },
   'Anua': { bg: '#e3efdd', ink: '#426c49' },
   'Beauty of Joseon': { bg: '#eee7d8', ink: '#4d3e30' },
@@ -133,30 +133,30 @@ const SKINCARE_CARD_COLOR = {
   'COSRX': { bg: '#e9ecec', ink: '#282d2e' },
   'VT Cosmetics': { bg: '#dceee4', ink: '#28714d' },
   'Some By Mi': { bg: '#e4eed9', ink: '#3f7245' },
-  'Mixsoon': { bg: '#eee8e1', ink: '#473f36' },
-  'BOH': { bg: '#e4ecf5', ink: '#325474' },
-  'Beplain': { bg: '#e3ecdb', ink: '#436b42' },
+  'mixsoon': { bg: '#eee8e1', ink: '#473f36' },
+  'BIOHEAL BOH': { bg: '#e4ecf5', ink: '#325474' },
+  'beplain': { bg: '#e3ecdb', ink: '#436b42' },
   'Skinfood': { bg: '#f1e6d5', ink: '#75562d' },
   'Goodal': { bg: '#e9efd8', ink: '#697736' },
-  'Purito': { bg: '#e4ece5', ink: '#416c56' },
+  'PURITO SEOUL': { bg: '#e4ece5', ink: '#416c56' },
   'Bring Green': { bg: '#deeddf', ink: '#376f4d' },
   'ma:nyo': { bg: '#e9e5dc', ink: '#38352d' },
-  'SO Natural': { bg: '#f1e3e5', ink: '#734d56' },
-  'Haruharu Wonder': { bg: '#e9e5df', ink: '#3b3732' },
+  'SO\'NATURAL': { bg: '#f1e3e5', ink: '#734d56' },
+  'Haruharu WONDER': { bg: '#e9e5df', ink: '#3b3732' },
   'TOCOBO': { bg: '#e7e5ed', ink: '#554d6b' },
   'SUNGBOON EDITOR': { bg: '#e5e8e7', ink: '#424d4b' },
   'KSECRET': { bg: '#e9e5df', ink: '#4b443c' },
   'Arencia': { bg: '#ede4df', ink: '#735248' },
   'Needly': { bg: '#e0ebed', ink: '#4d6970' },
   'Dr. Melaxin': { bg: '#e9e8eb', ink: '#55505e' },
-  'April Skin': { bg: '#f1e1d7', ink: '#9a5a43' },
+  'APRILSKIN': { bg: '#f1e1d7', ink: '#9a5a43' },
   'LINDSAY': { bg: '#efe8df', ink: '#5d534a' },
   'OOTD': { bg: '#e9e2d9', ink: '#574d42' },
   'AKARAN': { bg: '#e0efeb', ink: '#3b6b61' },
   'ongredients': { bg: '#e3eee5', ink: '#486f55' },
-  'NUMBUZIN': { bg: '#eeeae3', ink: '#3d3935' },
-  'The History of Whoo 后': { bg: '#eee3d2', ink: '#765c3d' },
-  "d'Alba Piedmont": { bg: '#f2e9d9', ink: '#80643e' },
+  'numbuzin': { bg: '#eeeae3', ink: '#3d3935' },
+  'The History of Whoo': { bg: '#eee3d2', ink: '#765c3d' },
+  "d'Alba": { bg: '#f2e9d9', ink: '#80643e' },
   "It's Skin": { bg: '#efe4e7', ink: '#76525d' },
   'NACIFIC': { bg: '#e8ebe1', ink: '#526449' },
   'MENOKIN': { bg: '#f1e3e8', ink: '#8c536d' },
@@ -184,10 +184,10 @@ function brandCardColor(vendor, section) {
 /* Small-screen wordmarks contain very different amounts of transparent space.
    Tune the visible mark, not the image box, for the sticky navigation. */
 const BRAND_NAV_LOGO_SCALE = {
-  'Skin1004': .9, 'Round Lab': .95, 'Beauty of Joseon': .9,
-  'VT Cosmetics': .82, 'Some By Mi': .9, 'Mixsoon': .88,
+  'SKIN1004': .9, 'Round Lab': .95, 'Beauty of Joseon': .9,
+  'VT Cosmetics': .82, 'Some By Mi': .9, 'mixsoon': .88,
   'Torriden': .84, 'Anua': .74, 'Abib': .62, 'COSRX': .78,
-  'BOH': .78, 'Beplain': .84, 'Dr.Jart+': .78,
+  'BIOHEAL BOH': .78, 'beplain': .84, 'Dr.Jart+': .78,
 };
 
 /* BRAND_LOGO 同 brandLogo() 搬咗去 shopify.js。
@@ -206,9 +206,9 @@ const BRAND_LOGO_H = {
   'UNLEASHIA': 52, 'lilybyred': 78, 'rom&nd': 69, 'MAYBELLINE': 53,
   'AMUSE': 48, 'CLIO': 57, 'TIRTIR': 59, 'BRAYE': 56, 'Heart Percent': 75,
   'Peripera': 36, 'Laka': 60, '2aN': 69, 'dasique': 36,
-  '花知曉 Flower Knows': 74,
-  'Chiikawa': 64, 'Sanrio': 70, '罐頭豬LuLu': 84, '蠟筆小新': 64,
-  'Toyzeroplus': 38, 'TAKENOKO 竹林千子': 62, 'Disney 迪士尼': 56,
+  'Flower Knows': 74,
+  'Chiikawa': 64, 'Sanrio': 70, 'TOYZERO+': 84, '蠟筆小新': 64,
+  'Toyzeroplus': 38, 'TAKENOKO': 62, 'Disney 迪士尼': 56,
 };
 
 function brandLogoHeight(vendor) {
@@ -420,7 +420,7 @@ const MIN_STANDALONE_BRAND_PRODUCTS = 3;
 function mergedVendor(p) {
   let vendor = p.vendor || '其他';
   if (typeof CURRENT_SECTION !== 'undefined' && CURRENT_SECTION === 'toys') {
-    if (vendor.toUpperCase() === 'NOL CORPORATION') return 'NOL CORPORATION';
+    if (vendor.toUpperCase() === 'NOL CORPORATION') return 'NOL Corporation';
     if (/^(Esther Bunny|Maltese|黃油小熊|Butterbear)/i.test(vendor.trim())) return 'Toyzeroplus';
   }
   return vendor;
@@ -450,7 +450,7 @@ function groupedVendor(p, counts) {
    數據：Shopify 成本（inventoryItem.unitCost）對售價，2026-10-08 計；名單用 vendor 名包含比對。
    要更新就重算每個品牌嘅 (售價−成本) 平均，改呢個陣列。 */
 const SEASONAL_PROFIT_ORDER = [
-  'The History of Whoo 后',
+  'The History of Whoo',
   'Needly',
   'AGARISM',
   'K-BEAUTY',
@@ -459,46 +459,46 @@ const SEASONAL_PROFIT_ORDER = [
   'AMUSE',
   'VT Cosmetics',
   'Nature Republic',
-  'Purito',
+  'PURITO SEOUL',
   'TIRTIR',
   'CHWI',
   'Round Lab',
   'fwee',
   'illiyoon',
-  'Kao 花王',
+  'Kao',
   'MediFlower',
   'HETRAS',
   'Torriden',
   'KWAILNARA',
   'Skinfood',
   'BEYOND',
-  'Kose 高絲',
+  'KOSÉ',
   'BOUQUET GARNI',
   'Roland',
   'DHC',
   'Fiancee',
-  'Shiseido 資生堂',
+  'SHISEIDO',
   'John\'s Blend',
   'FRUDIA',
-  'Loshi 樂絲',
+  'Loshi',
   '吉伊卡哇 Chiikawa',
-  '近江兄弟社 Menturm',
+  'Menturm',
   'Sanrio',
   'Country & Stream',
   'SANTAN',
   '銀喉長尾山雀 Shimaenaga',
-  '角落生物 Sumikko Gurashi',
+  'San-X',
   '蠟筆小新',
-  '初音未來 Hatsune Miku',
-  '肌研',
+  'SANTAN',
+  'Hada Labo',
 ];
 /* 老闆 2026-10-08 再改：只按利潤排會全部係冷門牌。改為「知名度先、利潤後」：
    第一梯隊＝香港客認得嘅牌（梯隊內按利潤高→低，曼秀雷敦最薄利放梯隊尾），
    跟住先係其餘品牌按利潤排，「其他」最後。 */
 const SEASONAL_FAMOUS = [
-  'DHC', 'Kose 高絲', 'Shiseido 資生堂', 'Kao 花王', 'Fiancee', 'John\'s Blend', 'Skinfood',
-  'Nature Republic', 'Torriden', 'Round Lab', 'Loshi 樂絲', '吉伊卡哇 Chiikawa', '近江兄弟社 Menturm',
-  'Sanrio', '蠟筆小新', '角落生物 Sumikko Gurashi', '肌研', '曼秀雷敦',
+  'DHC', 'KOSÉ', 'SHISEIDO', 'Kao', 'Fiancee', 'John\'s Blend', 'Skinfood',
+  'Nature Republic', 'Torriden', 'Round Lab', 'Loshi', '吉伊卡哇 Chiikawa', 'Menturm',
+  'Sanrio', '蠟筆小新', 'San-X', 'Hada Labo', 'Mentholatum',
 ];
 /* 而家子分類（護手霜／潤唇膏／身體乳）同 chip 一樣係側欄篩選，URL 唔一定有 ?cat=，
    所以由 drawInner 每次畫之前記低「季節性頁正揀緊邊個子分類」。 */
@@ -544,7 +544,7 @@ function optionRow(group, value, label, count) {
  *
  * Matched loosely because a link is typed by a human and a vendor is
  * typed by whoever loaded the sheet: "rom&nd" arrives url-encoded,
- * "N's Collection" has an apostrophe, "(G)I-DLE" has brackets.
+ * "N's Collection" has an apostrophe, "i-dle" has brackets.
  */
 function brandFromUrl(products) {
   const want = new URLSearchParams(location.search).get('brand');
@@ -891,27 +891,27 @@ const BRAND_SPOTLIGHTS = {
   all: {
     label: '熱門品牌', page: 'shop.html',
     slides: [
-      { art: 'all-slide-1.webp', focusArt: 'assets/brand-carousel/all-focus-round-lab-v1.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'rom&nd', 'hince', 'TIRTIR'] },
-      { art: 'all-slide-2.webp', focusArt: 'assets/brand-carousel/all-focus-some-by-mi-v2.webp', focus: 'Some By Mi', brands: ['Mixsoon', 'Goodal', 'TIRTIR', 'Beplain', 'Bring Green', 'AMUSE', 'LINDSAY', 'lilybyred'] },
-      { art: 'all-slide-3.webp', focusArt: 'assets/brand-carousel/all-focus-skinfood-v1.webp', focus: 'Skinfood', brands: ['hince', 'MAYBELLINE', 'Beauty of Joseon', 'CLIO', 'dasique', 'Needly', 'WAKEMAKE', 'April Skin'] },
-      { art: 'all-slide-4.webp', focusArt: 'assets/brand-carousel/all-focus-romand-v1.webp', focus: 'rom&nd', brands: ['Purito', 'rom&nd', 'KSECRET', 'BOH', 'Laka', 'TOCOBO', 'SO Natural', 'ma:nyo'] },
+      { art: 'all-slide-1.webp', focusArt: 'assets/brand-carousel/all-focus-round-lab-v1.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'SKIN1004', 'rom&nd', 'hince', 'TIRTIR'] },
+      { art: 'all-slide-2.webp', focusArt: 'assets/brand-carousel/all-focus-some-by-mi-v2.webp', focus: 'Some By Mi', brands: ['mixsoon', 'Goodal', 'TIRTIR', 'beplain', 'Bring Green', 'AMUSE', 'LINDSAY', 'lilybyred'] },
+      { art: 'all-slide-3.webp', focusArt: 'assets/brand-carousel/all-focus-skinfood-v1.webp', focus: 'Skinfood', brands: ['hince', 'MAYBELLINE', 'Beauty of Joseon', 'CLIO', 'dasique', 'Needly', 'WAKEMAKE', 'APRILSKIN'] },
+      { art: 'all-slide-4.webp', focusArt: 'assets/brand-carousel/all-focus-romand-v1.webp', focus: 'rom&nd', brands: ['PURITO SEOUL', 'rom&nd', 'KSECRET', 'BIOHEAL BOH', 'Laka', 'TOCOBO', 'SO\'NATURAL', 'ma:nyo'] },
     ],
   },
   makeup: {
     label: '熱門彩妝品牌', page: 'makeup.html',
     slides: [
       { art: 'makeup-slide-1.webp', focusArt: 'assets/brand-carousel/makeup-focus-hince-v1.webp', focus: 'hince', brands: ['AMUSE', 'TIRTIR', 'lilybyred', 'hince', 'CLIO', 'MAYBELLINE', 'dasique', 'WAKEMAKE'] },
-      { art: 'makeup-slide-2.webp', focusArt: 'assets/brand-carousel/makeup-focus-romand-v1.webp', focus: 'rom&nd', brands: ['rom&nd', 'Laka', 'UNLEASHIA', 'SO Natural', 'fwee', 'Heart Percent', 'Peripera', '2aN'] },
-      { art: 'makeup-slide-3.webp', focusArt: 'assets/brand-carousel/makeup-focus-amuse-v1.webp', focus: 'AMUSE', brands: ['花知曉 Flower Knows', 'Coralhaze', 'BRAYE', 'Glint'] },
+      { art: 'makeup-slide-2.webp', focusArt: 'assets/brand-carousel/makeup-focus-romand-v1.webp', focus: 'rom&nd', brands: ['rom&nd', 'Laka', 'UNLEASHIA', 'SO\'NATURAL', 'fwee', 'Heart Percent', 'Peripera', '2aN'] },
+      { art: 'makeup-slide-3.webp', focusArt: 'assets/brand-carousel/makeup-focus-amuse-v1.webp', focus: 'AMUSE', brands: ['Flower Knows', 'Coralhaze', 'BRAYE', 'Glint'] },
     ],
   },
   skincare: {
     label: '熱門護膚品牌', page: 'category.html',
     slides: [
-      { art: 'skincare-slide-1.webp', focusArt: 'assets/brand-carousel/skincare-focus-round-lab-v4.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'Skin1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
-      { art: 'skincare-slide-4.webp', focusArt: 'assets/brand-carousel/skincare-focus-torriden-v4.webp', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO Natural', 'HEVEBLUE'] },
-      { art: 'skincare-slide-2.webp', focusArt: 'assets/brand-carousel/skincare-focus-anua-v4.webp', focus: 'Anua', brands: ['VT Cosmetics', 'Mixsoon', 'Goodal', 'Beplain', 'Bring Green', 'LINDSAY', 'Needly', 'April Skin'] },
-      { art: 'skincare-slide-3.webp', focusArt: 'assets/brand-carousel/skincare-focus-cosrx-v4.webp', focus: 'COSRX', brands: ['Purito', 'KSECRET', 'BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu Wonder'] },
+      { art: 'skincare-slide-1.webp', focusArt: 'assets/brand-carousel/skincare-focus-round-lab-v4.webp', focus: 'Round Lab', brands: ['Anua', 'Abib', 'COSRX', 'Torriden', 'SKIN1004', 'Some By Mi', 'Skinfood', 'Beauty of Joseon'] },
+      { art: 'skincare-slide-4.webp', focusArt: 'assets/brand-carousel/skincare-focus-torriden-v4.webp', focus: 'Torriden', brands: ['Dr. Melaxin', 'SUNGBOON EDITOR', 'TIRTIR', 'Dr.Jart+', 'SO\'NATURAL', 'HEVEBLUE'] },
+      { art: 'skincare-slide-2.webp', focusArt: 'assets/brand-carousel/skincare-focus-anua-v4.webp', focus: 'Anua', brands: ['VT Cosmetics', 'mixsoon', 'Goodal', 'beplain', 'Bring Green', 'LINDSAY', 'Needly', 'APRILSKIN'] },
+      { art: 'skincare-slide-3.webp', focusArt: 'assets/brand-carousel/skincare-focus-cosrx-v4.webp', focus: 'COSRX', brands: ['PURITO SEOUL', 'KSECRET', 'BIOHEAL BOH', 'TOCOBO', 'ma:nyo', 'ILSO', 'Arencia', 'Haruharu WONDER'] },
     ],
   },
 };
@@ -1747,7 +1747,7 @@ const SERIES_RULES = [
   [/YELL.*生蠔|小眼睛生蠔|Oyster/i, 'YELL 生蠔'],
   [/迪士尼|Disney/i, 'Disney'],
   [/NOL.*入浴|入浴粉/i, 'NOL 入浴粉'],
-  [/Niconui|Nico\s*Nui|CRUX/i, 'Niconui'],
+  [/Niconui|Nico\s*Nui|CRUX/i, 'CRUX'],
   [/Sanrio Characters.*盲盒|Sanrio.*盲盒/i, 'Sanrio 盲盒'],
   [/蠟筆小新|Crayon/i, '蠟筆小新'],
   [/吉伊卡哇|Chiikawa/i, 'Chiikawa'],
@@ -2428,8 +2428,8 @@ function renderProducts(container, products, { grouped }) {
      舊版用 indexOf 全等比對，所以 Chiikawa 其實一直冇置頂到。改用包含比對。 */
   const PINNED_VENDORS_BY_SECTION = {
     /* 有自家插畫橫幅嘅牌子（完善咗嘅）排前；竹林千子喺 pinRank 另外降低。 */
-    toys: ['Chiikawa', '罐頭豬', 'Sanrio', 'Disney', '蠟筆小新', 'Toyzeroplus', 'YELL', 'Niconui', 'NOL'],
-    skincare: ['Torriden', 'Skin1004', 'Round Lab'],
+    toys: ['Chiikawa', '罐頭豬', 'Sanrio', 'Disney', '蠟筆小新', 'Toyzeroplus', 'YELL', 'CRUX', 'NOL'],
+    skincare: ['Torriden', 'SKIN1004', 'Round Lab'],
   };
   const PINNED_VENDORS = PINNED_VENDORS_BY_SECTION[CURRENT_SECTION] || [];
   const pinRank = (v) => {

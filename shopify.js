@@ -2926,7 +2926,7 @@ const CATEGORY_TAXONOMY = {
       straykids: { label: 'Stray Kids', keywords: ['stray kids'] },
       enhypen: { label: 'ENHYPEN', keywords: ['enhypen'] },
       lesserafim: { label: 'LE SSERAFIM', keywords: ['le sserafim'] },
-      gidle: { label: '(G)I-DLE', keywords: ['(g)i-dle', 'gidle', 'yuqi'] },
+      gidle: { label: 'i-dle', keywords: ['(g)i-dle', 'gidle', 'yuqi'] },
       twice: { label: 'TWICE', keywords: ['twice'] },
       txt: { label: 'TXT', keywords: ['tomorrow x together', 'yeonjun'] },
       album: { label: '專輯', keywords: ['專輯'], axis: 'format' },
@@ -3565,7 +3565,7 @@ const BRAND_LOGO = {
   'CLIO': 'logos/clio.svg', 'dasique': 'logos/dasique.png',
   'TIRTIR': 'logos/tirtir.svg', 'MAYBELLINE': 'logos/maybelline.svg',
   'UNLEASHIA': 'logos/unleashia.svg', 'rom&nd': 'logos/romand.svg',
-  'Laka': 'logos/laka.svg', '花知曉 Flower Knows': 'logos/flower-knows.svg',
+  'Laka': 'logos/laka.svg', 'Flower Knows': 'logos/flower-knows.svg',
   'fwee': 'logos/fwee.svg', 'Heart Percent': 'logos/heart-percent.svg',
   'Peripera': 'logos/peripera.png', '2aN': 'logos/2an.svg',
   'BRAYE': 'logos/braye.svg', 'Coralhaze': 'logos/coralhaze.svg',
@@ -3574,11 +3574,11 @@ const BRAND_LOGO = {
   'Abib': 'logos/abib.svg', 'Anua': 'logos/anua.png',
   'Arencia': 'logos/arencia.png',
   'Beauty of Joseon': 'logos/beauty-of-joseon.svg',
-  'Beplain': 'logos/beplain.png', 'Bring Green': 'logos/bring-green.svg',
+  'beplain': 'logos/beplain.png', 'Bring Green': 'logos/bring-green.svg',
   'COSRX': 'logos/cosrx.png', 'Goodal': 'logos/goodal.svg',
-  'Mixsoon': 'logos/mixsoon.svg', 'Needly': 'logos/needly.svg',
-  'OOTD': 'logos/ootd.svg', 'Purito': 'logos/purito.svg',
-  'Round Lab': 'logos/round-lab.svg', 'Skin1004': 'logos/skin1004.png',
+  'mixsoon': 'logos/mixsoon.svg', 'Needly': 'logos/needly.svg',
+  'OOTD': 'logos/ootd.svg', 'PURITO SEOUL': 'logos/purito.svg',
+  'Round Lab': 'logos/round-lab.svg', 'SKIN1004': 'logos/skin1004.png',
   'Skinfood': 'logos/skinfood.svg', 'Some By Mi': 'logos/some-by-mi.svg',
   'Torriden': 'logos/torriden.svg',
   /* 由品牌官網攞返嚟（2026-08-14）：aprilskin.com、ksecret.co.kr。
@@ -3589,9 +3589,9 @@ const BRAND_LOGO = {
        Dr. Melaxin    — drmelaxin.us Shopify main_logo_black2.png
      四個都係透明底。brand-grid__logo 落咗 brightness(0) invert(1)，
      白底圖會變成一嚿白方格，所以之後換檔一定要保住 alpha。 */
-  'April Skin': 'logos/april-skin.svg',
+  'APRILSKIN': 'logos/april-skin.svg',
   'KSECRET': 'logos/ksecret.png',
-  'Haruharu Wonder': 'logos/haruharu-wonder.png',
+  'Haruharu WONDER': 'logos/haruharu-wonder.png',
   'ILSO': 'logos/ilso.svg',
   'Dr. Melaxin': 'logos/dr-melaxin.png',
   /* 隱形眼鏡（2026-08-14）。五個都係日本 T-Garden 系嘅牌子，官網
@@ -3622,21 +3622,21 @@ const BRAND_LOGO = {
   'ma:nyo': 'logos/manyo.png',
   'SUNGBOON EDITOR': 'logos/sungboon-editor.png',
   'HEVEBLUE': 'logos/heveblue.png',
-  'BOH': 'logos/boh.png',
+  'BIOHEAL BOH': 'logos/boh.png',
   'Dr.Jart+': 'logos/dr-jart.svg',
   /* SO Natural：佢自己個韓國站 sonatural.co.kr 喺呢部機連唔通，
      Wayback 又封住，最尾喺 ohmyglow 個品牌頁攞到張 300×300 方形
      logo，剪走白底再去白。呢個係疊字版（1.4:1），入 2:1 卡好靚。 */
-  'SO Natural': 'logos/so-natural.png',
+  'SO\'NATURAL': 'logos/so-natural.png',
   /* 公仔牌子（2026-10-03）：官方 logo。Chiikawa／Sanrio／蠟筆小新／Disney 取自
      Wikimedia Commons 官方標誌檔；LuLu、Toyzeroplus 取自 luluthepiggy.com、
      toyzeroplus.com 頁頭；竹林千子取自 takenoko-kk.com 頁頭。 */
   'Chiikawa': 'logos/chiikawa.png',
   'Sanrio': 'logos/sanrio.png',
-  '罐頭豬LuLu': 'logos/lulu-the-piggy.png',
+  'TOYZERO+': 'logos/lulu-the-piggy.png',
   '蠟筆小新': 'logos/crayon-shinchan.svg',
   'Toyzeroplus': 'logos/toyzeroplus.png',
-  'TAKENOKO 竹林千子': 'logos/takenoko.png',
+  'TAKENOKO': 'logos/takenoko.png',
   'Disney 迪士尼': 'logos/disney.svg',
 };
 
@@ -3657,7 +3657,7 @@ function brandLogo(vendor) {
 const BRAND_KV = {
   'VT Cosmetics': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/vt-cosmetics.jpg',
   'LINDSAY': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/lindsay.jpg',
-  'BOH': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/boh.jpg',
+  'BIOHEAL BOH': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/boh.jpg',
   'TOCOBO': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/tocobo.png',
   'SUNGBOON EDITOR': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/sungboon-editor.jpg',
   'SOLEP': 'https://cdn.shopify.com/s/files/1/0765/3405/5070/files/solep.jpg',
