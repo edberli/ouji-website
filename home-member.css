@@ -105,9 +105,9 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
    手機唔郁（.home-member-scene__card 喺手機 display: contents，同 Codex 版一模一樣）。 */
 #ouji-member .home-member-scene__card { display: contents; }
 @media (min-width:761px) {
-  /* 插畫唔再 cover 成條（闊 mon 會裁走芝麻隻腳）：原比例 500px 高靠右，左邊用插畫左緣抽色（天→遠山→海→石欄→地磚）延伸，地平線同插畫對齊 54.7% */
+  /* 插畫唔再 cover 成條（闊 mon 會裁走芝麻隻腳）：原比例 500px 高靠右，左邊用插畫左緣抽色（淡入只 96px，收喺卡底，唔好淡化帆船）（天→遠山→海→石欄→地磚）延伸，地平線同插畫對齊 54.7% */
   #ouji-member { background: linear-gradient(90deg,rgba(247,243,239,.5),rgba(247,243,239,0) 35%), linear-gradient(180deg,#bcdefc 0,#c8e4fb 18%,#dcecfb 33%,#e3eefa 44%,#cfdeee 49%,#c4d6ea 54.5%,#94c6ea 54.8%,#a2cdec 66%,#b9d8ee 69.4%,#efe7df 69.8%,#ebe3dc 79%,#f7f2ec 80.5%,#f7f3ef 100%); }
-  #ouji-member .home-member-scene__art { inset: 0 0 0 auto; width: auto; height: 100%; aspect-ratio: 1672 / 941; -webkit-mask-image: linear-gradient(90deg,transparent,#000 320px); mask-image: linear-gradient(90deg,transparent,#000 320px); }
+  #ouji-member .home-member-scene__art { inset: 0 0 0 auto; width: auto; height: 100%; aspect-ratio: 1672 / 941; -webkit-mask-image: linear-gradient(90deg,transparent,#000 96px); mask-image: linear-gradient(90deg,transparent,#000 96px); }
   #ouji-member .home-member-scene__art img { object-fit: contain; }
   #ouji-member .home-member-scene__inner { display: flex; align-items: center; height: 500px; min-height: 0; padding-block: 26px 50px; }
   #ouji-member .home-member-scene__card {
