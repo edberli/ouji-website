@@ -163,7 +163,8 @@
       variantsRow = '<span class="lc__variants is-empty" aria-hidden="true"></span>';
       cta = `<button type="button" class="lc__cta lc__cta--restock" data-restock="${esc(p.handle)}" data-restock-title="${esc(p.title)}">${cp('想要？通知我補貨', 'Notify me when back')}</button>`;
     } else if (w) {
-      variantsRow = `<button type="button" class="lc__variants" data-lc-open="${esc(p.handle)}"><span>${w.label(opt.count)}${lowText ? ` <span class="lc__low">· ${lowText}</span>` : ''}</span><span class="lc__more">${w.all} ›</span></button>`;
+      // 色號行淨係講有幾多款；揀色號只有「選擇色號」一粒掣（Winston 2026-10-14：「查看全部色號」同「選擇色號」功能重疊）
+      variantsRow = `<span class="lc__variants is-info"><span>${w.label(opt.count)}</span>${lowText ? `<span class="lc__low">${lowText}</span>` : ''}</span>`;
       cta = `<button type="button" class="lc__cta" data-lc-open="${esc(p.handle)}">${w.cta}${ICON.plus}</button>`;
     } else {
       variantsRow = lowText ? `<span class="lc__variants is-empty"><span class="lc__low">${lowText}</span></span>` : '<span class="lc__variants is-empty" aria-hidden="true"></span>';

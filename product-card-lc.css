@@ -76,10 +76,10 @@
 .lc__award--prestige { background: #1b1814; color: #e3c98f; }
 .lc__award--prestige svg { fill: #e3c98f; }
 
-/* 色號行：左邊「N 色可選」，右邊「查看全部色號 ›」；單一款式留返個位（低庫存就喺度寫「最後一件」） */
+/* 色號行：左邊「N 色可選」（淨係資料，揀色號用下面粒掣）；右邊低庫存先寫「最後一件／最後兩件」；單一款式留返個位 */
 .lc__variants { display: flex; flex: none; align-items: center; justify-content: space-between; gap: 2cqi; width: 100%; height: max(5.68cqi, 14px); margin-top: max(3.41cqi, 7px); padding: 0; border: 0; background: none; color: var(--lc-var-ink); font: 700 max(3.84cqi, 10.5px)/1 var(--lc-f); text-align: left; white-space: nowrap; cursor: pointer; }
 .lc__variants .lc__more { overflow: hidden; color: var(--lc-link); font: 500 max(3.14cqi, 10px)/1 var(--lc-f); text-overflow: ellipsis; }
-.lc__variants.is-empty { cursor: inherit; }
+.lc__variants.is-empty, .lc__variants.is-info { cursor: inherit; }
 .lc__low { color: var(--lc-chip-ink); font-weight: 700; }
 
 .lc__cta { display: flex; flex: none; align-items: center; justify-content: center; gap: 2.95cqi; width: 100%; height: max(12.59cqi, 34px); margin-top: max(3.41cqi, 8px); padding: 0 3cqi; border: 0; border-radius: 999px; background: var(--lc-cta); color: #fff; font: 500 max(4.26cqi, 12.5px)/1 var(--lc-f); letter-spacing: .03em; white-space: nowrap; cursor: pointer; transition: background-color .18s ease-out; }
