@@ -53,6 +53,7 @@ query GetProducts($first: Int!, $after: String)""" + IN_CONTEXT + """ {
         images(first: 2) { edges { node { url altText } } }
         totalInventory
         variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+        options { name optionValues { name } }
       }
     }
   }

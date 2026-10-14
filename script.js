@@ -631,7 +631,7 @@ function initQuickAdd() {
       e.preventDefault();
       e.stopPropagation();
       if (add.disabled) return;
-      const label = add.textContent;
+      const label = add.innerHTML;
       add.disabled = true;
       add.textContent = '加緊…';
       try {
@@ -640,7 +640,7 @@ function initQuickAdd() {
       } catch (err) {
         add.textContent = '加唔到，再試';
       }
-      setTimeout(() => { add.textContent = label; add.disabled = false; }, 1800);
+      setTimeout(() => { add.innerHTML = label; add.disabled = false; }, 1800);
       return;
     }
 

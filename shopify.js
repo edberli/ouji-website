@@ -457,6 +457,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
                 images(first: 2) { edges { node { url altText } } }
                 totalInventory
                 variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+                options { name optionValues { name } }
               }
             }
           }
@@ -478,6 +479,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
             images(first: 2) { edges { node { url altText } } }
             totalInventory
             variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+                options { name optionValues { name } }
           }
         }
       }
@@ -529,7 +531,8 @@ const MEM_CACHE = new Map();
    五分鐘，令人以為修復冇生效。 */
 /* v10：2026-09-18 大批產品換咗真封面。舊 cache 仲留住 OUJI 佔位圖，
    所以升版本迫所有客即刻掉走舊快照，唔使等 TTL。 */
-const CACHE_VERSION = 10;
+/* 11：2026-10-14 列表 query 加 options（產品頁新卡寫「N 色可選」）。 */
+const CACHE_VERSION = 11;
 /* 語言要入 key —— 唔係嘅話切換語言之後會攞到上一個語言嘅快取，
    客會見到中英夾雜嘅目錄。 */
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${getLang()}:${name}`;

@@ -1671,6 +1671,9 @@ function unitPriceRange(product) {
 }
 
 function productCard(p, options = null) {
+  /* 產品頁新卡（2026-10-14 Winston 叫上 live）：載入咗 product-card-lc.js 嘅頁面先轉用新卡，
+     其他頁（首頁、產品內頁、購物袋）照用呢張舊卡。 */
+  if (typeof window.lcProductCard === 'function') return window.lcProductCard(p, options);
   const eager = !!(options && typeof options === 'object' && options.eager);
   const priority = !!(options && typeof options === 'object' && options.priority);
   const image = p.images?.edges?.[0]?.node;
@@ -1726,6 +1729,9 @@ const SECTION_ITEMS = new Map();
 /* 未展開嗰批貨。撳「仲有 N 件」先至砌落 DOM —— 唔係一開始就鋪晒，
    否則成版又返去五百幾張卡。 */
 const SECTION_REST = new Map();
+/* 有「展開埋其餘 N 件」嘅牌子：暫時缺貨嗰格要等客撳展開、有貨嘅全部出齊之後，先喺段落最尾出現。
+   以前一開頁就喺展開掣下面打開晒，客見到「有貨 → 展開掣 → 缺貨貨品」，好似夾硬出缺貨貨（Winston 2026-10-14 報）。 */
+const SECTION_OUT = new Map();
 
 /* 公仔系列鍵：同一個角色／系列嘅貨擺埋一齊。由標題抽。
    優先：括號「系列」字眼 → 已知角色／IP 關鍵字 → 去走型號尾嘅前幾個字。 */
@@ -1863,6 +1869,7 @@ function brandSection(vendor, items, index) {
   SECTION_ITEMS.set(String(index), showMore ? shown : inStock);
   if (showMore && peek.length) SECTION_ITEMS.set(`peek-${index}`, peek);
   if (showMore) SECTION_REST.set(String(index), inStock.slice(rows));
+  if (showMore && out.length) SECTION_OUT.set(String(index), out);
   // A colour field, the brand's own logo, and its name. Photography was
   // tried twice and abandoned: nineteen brands shoot nineteen ways, half
   // of them burn their own wordmark into the frame, and nine publish
@@ -1894,7 +1901,7 @@ function brandSection(vendor, items, index) {
             <path d="M6 9l6 6 6-6"/></svg>
         </button>
       </div>` : ''}
-      ${soldOutBlock(out, index)}
+      ${showMore ? '' : soldOutBlock(out, index)}
     </section>`;
 }
 
@@ -2456,6 +2463,7 @@ function renderProducts(container, products, { grouped }) {
     .map(({ vendor, items }) => [vendor, items]);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
   SECTION_ITEMS.clear();
+  SECTION_OUT.clear();
   container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
   const grids = [...container.querySelectorAll('.grid-host[data-section]')];
   const mountOne = (host) => {
@@ -2538,6 +2546,9 @@ function renderProducts(container, products, { grouped }) {
       mountGrid(host, rest, { all: true });
     }
     SECTION_REST.delete(id);
+    const out = SECTION_OUT.get(id);
+    if (out && out.length && sec) sec.insertAdjacentHTML('beforeend', soldOutBlock(out, id));
+    SECTION_OUT.delete(id);
     syncGridWindows();
     /* 品牌列跟版行嗰個高亮，係靠一份快取住嘅段落位置。展開之後下面
        所有段落都會落低幾千 px，唔通知佢重新度，成條 rail 就會一直
