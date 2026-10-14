@@ -5,7 +5,7 @@
      所以價錢行外層唔准用「price」字，售價本身先用 lc__pricenow。
    - 心心（data-wish）、單一款式「加入購物袋」（data-quick-add）、缺貨「通知我補貨」（data-restock）
      全部行 script.js 原本嘅委派 handler，呢度唔另外寫。
-   - 多款式撳「選擇色號」→ 彈出畫面：用 getProduct()（有快取）攞完整變體同色號相；加入購物袋用原本 addToCart()。
+   - 多款式撳相上「選色・N色 ⊕」→ 彈出畫面：用 getProduct()（有快取）攞完整變體同色號相；加入購物袋用原本 addToCart()。
    - 只有載入咗呢個檔嘅產品頁先會轉用新卡（catalog.js productCard 見到 window.lcProductCard 先轉）。 */
 (function () {
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -44,10 +44,10 @@
   }
   function words(w) {
     switch (w) {
-      case 'style': return { label: (n) => (n ? cp(`${n} 款可選`, `${n} styles`) : cp('多款可選', 'More styles')), all: cp('查看全部款式', 'All styles'), cta: cp('選擇款式', 'Choose style'), unit: cp('款式', 'Style') };
-      case 'spec': return { label: () => cp('多規格可選', 'More sizes'), all: cp('查看全部規格', 'All sizes'), cta: cp('選擇規格', 'Choose size'), unit: cp('規格', 'Size') };
-      case 'power': return { label: (n) => (n ? cp(`${n} 個度數`, `${n} powers`) : cp('多個度數', 'More powers')), all: cp('查看全部度數', 'All powers'), cta: cp('選擇度數', 'Choose power'), unit: cp('度數', 'Power') };
-      default: return { label: (n) => (n ? cp(`${n} 色可選`, `${n} shades`) : cp('多色可選', 'More shades')), all: cp('查看全部色號', 'All shades'), cta: cp('選擇色號', 'Choose shade'), unit: cp('色號', 'Shade') };
+      case 'style': return { label: (n) => (n ? cp(`${n} 款可選`, `${n} styles`) : cp('多款可選', 'More styles')), pick: (n) => (n ? cp(`選款・${n}款`, `${n} styles`) : cp('選款', 'Styles')), cta: cp('選擇款式', 'Choose style'), unit: cp('款式', 'Style') };
+      case 'spec': return { label: () => cp('多規格可選', 'More sizes'), pick: () => cp('選規格', 'Sizes'), cta: cp('選擇規格', 'Choose size'), unit: cp('規格', 'Size') };
+      case 'power': return { label: (n) => (n ? cp(`${n} 個度數`, `${n} powers`) : cp('多個度數', 'More powers')), pick: () => cp('選度數', 'Powers'), cta: cp('選擇度數', 'Choose power'), unit: cp('度數', 'Power') };
+      default: return { label: (n) => (n ? cp(`${n} 色可選`, `${n} shades`) : cp('多色可選', 'More shades')), pick: (n) => (n ? cp(`選色・${n}色`, `${n} shades`) : cp('選色', 'Shades')), cta: cp('選擇色號', 'Choose shade'), unit: cp('色號', 'Shade') };
     }
   }
   function optionInfo(p) {
@@ -157,21 +157,15 @@
         : `src="${esc(image.url)}"`} alt="${esc(image.altText || p.title)}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${priority ? ' fetchpriority="high"' : ''}>`
       : '';
     const wishOn = typeof isInWishlist === 'function' && isInWishlist(p.id);
-    let variantsRow;
-    let cta;
+    /* 粒掣放喺相右下角（Winston 2026-10-14 mock）：多款「選色・N色」開揀色畫面；單一款式「加入」；缺貨「到貨通知我」。
+       色號數同揀色入口合埋一粒，唔再另外有色號行同大掣，張卡輕身啲、矮啲。 */
+    let pick = '';
     if (isSoldOut) {
-      variantsRow = '<span class="lc__variants is-empty" aria-hidden="true"></span>';
-      cta = `<button type="button" class="lc__cta lc__cta--restock" data-restock="${esc(p.handle)}" data-restock-title="${esc(p.title)}">${cp('想要？通知我補貨', 'Notify me when back')}</button>`;
+      pick = `<button type="button" class="lc__pick lc__pick--restock" data-restock="${esc(p.handle)}" data-restock-title="${esc(p.title)}">${cp('到貨通知我', 'Notify me')}</button>`;
     } else if (w) {
-      // 色號行淨係講有幾多款；揀色號只有「選擇色號」一粒掣（Winston 2026-10-14：「查看全部色號」同「選擇色號」功能重疊）
-      variantsRow = `<span class="lc__variants is-info"><span>${w.label(opt.count)}</span>${lowText ? `<span class="lc__low">${lowText}</span>` : ''}</span>`;
-      cta = `<button type="button" class="lc__cta" data-lc-open="${esc(p.handle)}">${w.cta}${ICON.plus}</button>`;
-    } else {
-      variantsRow = lowText ? `<span class="lc__variants is-empty"><span class="lc__low">${lowText}</span></span>` : '<span class="lc__variants is-empty" aria-hidden="true"></span>';
-      const vid = vn[0]?.id;
-      cta = vid
-        ? `<button type="button" class="lc__cta" data-quick-add="${esc(vid)}">${cp('加入購物袋', 'Add to bag')}${ICON.plus}</button>`
-        : `<span class="lc__cta">${cp('查看產品', 'View product')}</span>`;
+      pick = `<button type="button" class="lc__pick" data-lc-open="${esc(p.handle)}" aria-label="${w.cta}">${w.pick(opt.count)}${ICON.plus}</button>`;
+    } else if (vn[0]?.id) {
+      pick = `<button type="button" class="lc__pick" data-quick-add="${esc(vn[0].id)}" aria-label="${cp('加入購物袋', 'Add to bag')}">${cp('加入', 'Add')}${ICON.plus}</button>`;
     }
     return `
     <a href="${esc(href)}" class="product-card lc${p._oujiOtherBrandStart ? ' product-card--other-brand-start' : ''}">
@@ -183,15 +177,14 @@
           ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
           <button type="button" class="product-card__wishlist${wishOn ? ' is-active' : ''}" aria-label="${cp('加入願望清單', 'Add to wishlist')}"
             data-wish="${esc(p.id)}" data-wish-handle="${esc(p.handle)}" data-wish-title="${esc(p.title)}">${ICON.heart}</button>
+          ${pick}
         </div>
         <span class="lc__body">
           <span class="lc__brand">${esc(vendor)}</span>
           <span class="lc__name"><span class="lc__title">${esc(title)}</span></span>
           ${ratingHTML(p.handle)}
           <span class="lc__deal"><span class="lc__nums${onSale ? ' is-sale' : ''}">${onSale ? `<s class="lc__was">${money(compare)}</s>` : ''}<strong class="lc__pricenow">${money(price)}</strong>${from ? `<small class="lc__from">${cp('起', 'from')}</small>` : ''}</span>${chip ? `<em class="lc__chip">${esc(chip)}</em>` : ''}</span>
-          ${barHTML(p, offer, price)}
-          ${variantsRow}
-          ${cta}
+          <span class="lc__awardrow">${barHTML(p, offer, price)}${lowText ? `<span class="lc__low">${lowText}</span>` : ''}</span>
         </span>
       </span>
     </a>`;
@@ -460,7 +453,7 @@
     paint();
   }
 
-  // 撳「選擇色號」或者「查看全部色號 ›」：攔住張卡條連結，開彈出畫面
+  // 撳相上「選色・N色 ⊕」：攔住張卡條連結，開彈出畫面
   document.addEventListener('click', (e) => {
     const t = e.target.closest && e.target.closest('[data-lc-open]');
     if (!t) return;
