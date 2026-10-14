@@ -105,8 +105,10 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
    手機唔郁（.home-member-scene__card 喺手機 display: contents，同 Codex 版一模一樣）。 */
 #ouji-member .home-member-scene__card { display: contents; }
 @media (min-width:761px) {
-  #ouji-member .home-member-scene__art img { object-position: center 70%; }
-  #ouji-member .home-member-scene__art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg,rgba(228,241,248,.55),rgba(228,241,248,.2) 40%,transparent 60%); }
+  /* 插畫唔再 cover 成條（闊 mon 會裁走芝麻隻腳）：原比例 500px 高靠右，左邊用插畫左緣抽色（天→遠山→海→石欄→地磚）延伸，地平線同插畫對齊 54.7% */
+  #ouji-member { background: linear-gradient(90deg,rgba(247,243,239,.5),rgba(247,243,239,0) 35%), linear-gradient(180deg,#bcdefc 0,#c8e4fb 18%,#dcecfb 33%,#e3eefa 44%,#cfdeee 49%,#c4d6ea 54.5%,#94c6ea 54.8%,#a2cdec 66%,#b9d8ee 69.4%,#efe7df 69.8%,#ebe3dc 79%,#f7f2ec 80.5%,#f7f3ef 100%); }
+  #ouji-member .home-member-scene__art { inset: 0 0 0 auto; width: auto; height: 100%; aspect-ratio: 1672 / 941; -webkit-mask-image: linear-gradient(90deg,transparent,#000 320px); mask-image: linear-gradient(90deg,transparent,#000 320px); }
+  #ouji-member .home-member-scene__art img { object-fit: contain; }
   #ouji-member .home-member-scene__inner { display: flex; align-items: center; height: 500px; min-height: 0; padding-block: 26px 50px; }
   #ouji-member .home-member-scene__card {
     display: block; width: min(560px, 52%); padding: 24px 32px 20px;
@@ -141,6 +143,8 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
   #ouji-member .home-member-scene__join:hover { background: #2a4450; }
 }
 @media (min-width:761px) and (max-width:1100px) {
+  /* 窄桌面插畫比畫面闊：向右推走部分鋪面，芝麻唔會縮入卡底 */
+  #ouji-member .home-member-scene__art { right: calc(-1 * clamp(0px, (1000px - 100vw) * .55, 140px)); }
   #ouji-member .home-member-scene__card { width: min(500px, 62%); padding: 20px 24px 16px; }
   #ouji-member .home-member-scene__heading { display: block; }
   #ouji-member .home-member-scene__title { font-size: 32px; }
@@ -149,4 +153,8 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
   #ouji-member .home-member-scene__gift-value strong { font-size: 52px; }
   #ouji-member .home-member-scene__description { display: none; }
   #ouji-member .home-member-scene__benefit-copy strong { font-size: 14px; }
+}
+@media (min-width:1441px) {
+  /* 超過 1440：插畫跟內容框右邊，兩邊淡入延伸色，唔再隨畫面放大 */
+  #ouji-member .home-member-scene__art { right: calc((100% - 1440px) / 2); -webkit-mask-image: linear-gradient(90deg,transparent,#000 320px,#000 calc(100% - 120px),transparent); mask-image: linear-gradient(90deg,transparent,#000 320px,#000 calc(100% - 120px),transparent); }
 }
