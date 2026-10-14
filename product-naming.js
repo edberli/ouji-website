@@ -213,5 +213,22 @@
     return clean(`${parts.brand} ${parts.chinese}`);
   }
 
-  return { display, cardTitle, cardChinese: (product) => cardParts(product).chinese };
+  /* Meta description for a product page: the price leads, because it is the
+     first thing a shopper scans for in a search result; the product's own
+     copy fills the rest of the ~150 characters Google shows. Shared so the
+     server (api/product.js) and the browser (analytics.js) write the same
+     words — a mismatch makes Google pick one at random. */
+  function seoDescription(product) {
+    const lo = Number(product?.priceRange?.minVariantPrice?.amount);
+    const hi = Number(product?.priceRange?.maxVariantPrice?.amount);
+    const money = (n) => `HK$${Number.isInteger(n) ? n : n.toFixed(1)}`;
+    const price = lo > 0 ? `${money(lo)}${hi > lo ? ' 起' : ''}｜` : '';
+    const raw = String(product?.description || '').replace(/\s+/g, ' ').trim();
+    const body = raw
+      || `${product?.vendor || 'OUJI'} ${product?.title || ''}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
+    const room = Math.max(60, 150 - price.length);
+    return price + (body.length > room ? `${body.slice(0, room)}…` : body);
+  }
+
+  return { display, cardTitle, cardChinese: (product) => cardParts(product).chinese, seoDescription };
 });

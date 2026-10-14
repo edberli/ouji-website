@@ -61,6 +61,20 @@
       "destination": "/shipping",
       "permanent": true
     },
+    {"source": "/collections/skincare", "destination": "/category", "permanent": true},
+    {"source": "/collections/makeup", "destination": "/makeup", "permanent": true},
+    {"source": "/collections/kpop", "destination": "/kpop", "permanent": true},
+    {"source": "/collections/lens", "destination": "/lens", "permanent": true},
+    {"source": "/collections/tools", "destination": "/tools", "permanent": true},
+    {"source": "/collections/bath", "destination": "/bath", "permanent": true},
+    {"source": "/collections/supports", "destination": "/supports", "permanent": true},
+    {"source": "/collections/health", "destination": "/health", "permanent": true},
+    {"source": "/collections/seasonal", "destination": "/seasonal", "permanent": true},
+    {"source": "/collections/toys", "destination": "/toys", "permanent": true},
+    {"source": "/collections/fragrance", "destination": "/fragrance", "permanent": true},
+    {"source": "/collections/short-dated", "destination": "/short-dated", "permanent": true},
+    {"source": "/bodycare", "destination": "/bath", "permanent": true},
+    {"source": "/lifestyle", "destination": "/tools", "permanent": true},
     {
       "source": "/products/awards",
       "has": [
