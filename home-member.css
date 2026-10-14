@@ -155,6 +155,7 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
   #ouji-member .home-member-scene__benefit-copy strong { font-size: 14px; }
 }
 @media (min-width:1441px) {
-  /* 超過 1440：插畫跟內容框右邊，兩邊淡入延伸色，唔再隨畫面放大 */
-  #ouji-member .home-member-scene__art { right: calc((100% - 1440px) / 2); -webkit-mask-image: linear-gradient(90deg,transparent,#000 320px,#000 calc(100% - 120px),transparent); mask-image: linear-gradient(90deg,transparent,#000 320px,#000 calc(100% - 120px),transparent); }
+  /* 超過 1440：成個場景收做 1440 闊圓角畫框置中，兩邊係頁面底色，唔再用色帶硬拉闊（2026-10-14 Winston 話闊 mon 兩邊怪）；
+     底部留 30px 畀頁尾圓弧疊上嚟，唔會切到畫框 */
+  #ouji-member { max-width: 1440px; margin: 0 auto 30px; border-radius: 28px; }
 }
