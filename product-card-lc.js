@@ -83,6 +83,7 @@
     if (onSale) return { kind: 'discount', label: cp('限時優惠', 'Limited offer'), tone: 'sale' };
     return null;
   }
+  const AWARD_SHORT = { OLIVE_YOUNG: 'Olive Young', GLOWPICK: 'Glowpick', HWAHAE: 'Hwahae', ALLURE_RC: 'Allure', ALLURE_BOB: 'Allure', COSME: '@cosme' };
   function awardOf(handle) {
     if (typeof topAward !== 'function' || typeof AWARD_BODIES === 'undefined') return null;
     const a = topAward(handle);
@@ -90,8 +91,13 @@
     if (!body) return null;
     const parts = String(body.name).split(' ');
     const last = parts.pop();
-    // 年份另外包住：手機窄卡收起年份（相上得獎章已經有）
-    return { html: (parts.length ? esc(parts.join(' ')) + ' ' : '') + `${esc(last)}<span class="lc__yr">&nbsp;·&nbsp;${a.year}</span>`, title: `${body.name} ${a.year}` };
+    // 年份另外包住：手機窄卡收起年份（相上得獎章已經有）。
+    // 首頁細卡（139px 或以下）放唔落全名，轉用短名（lc__aws），唔准截字（Winston 唔要「Allure Best of Beau…」）
+    const short = AWARD_SHORT[a.body] || String(body.name).replace(/\s*Awards?$/i, '');
+    return {
+      html: `<span class="lc__awl">${parts.length ? esc(parts.join(' ')) + ' ' : ''}${esc(last)}</span><span class="lc__aws">${esc(short)}</span><span class="lc__yr">&nbsp;·&nbsp;${a.year}</span>`,
+      title: `${body.name} ${a.year}`,
+    };
   }
   /* 獲獎條個位：特別優惠（到期／任揀／換季／專櫃／限時 tag／孖裝套裝）先出；冇就出獎項；再冇先出一般減價「限時優惠」 */
   function barHTML(p, offer, price) {
@@ -99,6 +105,8 @@
       let text = esc(o.label);
       if (o.kind === 'bundle' && o.count) text += `&nbsp;· ${cp('每件', 'each')}&nbsp;HK$${amt(price / o.count)}`;
       if (o.kind === 'pair') text = text.replace(/^任揀 (\d+) 件/, '任揀&nbsp;$1&nbsp;件');
+      // 首頁細卡收起「HK」兩隻字先放得落（孖裝 · 每件 $37.5），唔准截字
+      text = text.replace(/HK\$/g, '<span class="lc__hk">HK</span>$');
       return `<span class="lc__award lc__award--${o.tone}">${o.kind === 'expiry' ? ICON.clock : ICON.tag}<span>${text}</span></span>`;
     };
     if (offer && offer.kind !== 'discount') return offerBar(offer);
