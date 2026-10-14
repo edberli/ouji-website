@@ -1,6 +1,45 @@
 # SEO：現況、已修好嘅嘢、仲欠乜
 
-**最後更新 2026-09-04。**
+**最後更新 2026-10-15。**
+
+## 2026-10-15：分類頁、品牌頁可以俾 Google 收錄
+
+**起因**：Search Console 近 3 個月 1,560 次點擊、5.53 萬次曝光、平均排名 8，
+但熱門字全部係「ouji／ouji 王子／王子藥妝」呢類品牌字。「觀塘韓國化妝品」
+119 次曝光得 10 次點擊；「CLIO 香港」「韓國防曬」呢類字冇一版接得住。
+
+**根因**：子分類同品牌頁全部係同一個靜態模板加參數（`/makeup?cat=lip`、
+`/shop?brand=CLIO`），而模板 `<head>` 寫死 canonical 指返上一層，等於叫
+Google 唔好收錄。sitemap 亦冇呢啲網址，連 25 篇專欄文章同 7 個分類頁都漏咗。
+
+**做法**（全部喺前端，冇加 serverless／middleware）：
+
+| 項目 | 喺邊 |
+|---|---|
+| 12 個列表模板唔再寫死 canonical／og:url | `category／makeup／kpop／lens／tools／bath／supports／health／seasonal／toys／fragrance／shop.html` |
+| 按網址即場寫 canonical（只留 `cat`／`brand`，剔走 utm／fbclid）、標題、描述、CollectionPage＋ItemList＋BreadcrumbList | `catalog.js` `applyListingSeo()` |
+| 其他 JS 唔再將標題覆蓋返「名 — OUJI」 | `listingDocTitle()`（catalog.js）；`applyCategoryHeading`、`syncShopPage` 用佢 |
+| 兩格重複嘅子分類 canonical 指去主嗰格 | `LISTING_ALIAS`：沐浴潔面→護膚潔面、護膚防曬→季節性防曬、季節性身體乳→沐浴身體乳 |
+| 品牌頁大標題（H1）由「全部產品」改做品牌名 | `applyListingSeo()` |
+| sitemap 加 68 個子分類、206 個品牌頁、25 篇文章、7 個漏咗嘅分類頁；剔走 /bodycare、/lifestyle 兩個轉址頁 | `scripts/build_sitemap.py` ＋ `scripts/listing_urls.js` |
+| `/collections/<分類>`、`/bodycare`、`/lifestyle` 改 308 去正確頁 | `vercel.json` |
+| 首頁 Organization／WebSite、門市頁 Store 結構化資料 | `index.html`、`stores.html` |
+| 產品頁 meta description 價錢行先（「HK$138｜…」） | `product-naming.js` `seoDescription()`，`api/product.js` 同 `analytics.js` 共用 |
+| 相關產品等舊連結 `product.html?handle=` 改指 `/products/…` | `product.html`、`shopify.js`、`short-dated.html` |
+
+**點解唔喺伺服器出**：Vercel 靜態檔優先過 `rewrites`（官方文件寫明），
+`/shop?brand=X` 根本去唔到 serverless，要用 Routing Middleware 先截到；
+而 project 係 Hobby plan（2026-10-15 經 Vercel API 讀到），middleware／function
+用量有上限，分類頁人流大，唔值得冒爆額風險。Google 會執行 JS，canonical 喺 raw HTML
+冇寫、只喺 JS 寫一次，冇衝突訊號。
+
+**sitemap 網址 = canonical**：`scripts/listing_urls.js` 喺 Node 沙盒載入成個
+`shopify.js`，直接行 `sectionMatch`／`subMatch`，同前端一套規則；至少 2 件
+有貨先入 sitemap。`LISTING_PAGES`／`LISTING_ALIAS` 喺 catalog.js 同
+listing_urls.js 各有一份，改一邊要改埋另一邊。
+
+**仲未做**：Google 商家檔案（要老闆用自己帳戶認領／驗證）；油塘兩間鋪
+冇喺網站門市頁出現；多色號產品未有 ProductGroup（暫時 AggregateOffer）。
 
 ## 已經有嘅
 

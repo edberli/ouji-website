@@ -2803,7 +2803,7 @@ function productCardHTML(product) {
 
   return `
     <article class="product-card" data-product-id="${product.id}"${shortDated ? ' data-short-dated' : ''}>
-      <a href="product.html?handle=${product.handle}" class="product-card__image-link">
+      <a href="/products/${product.handle}" class="product-card__image-link">
         <div class="product-card__image-wrap">
           ${image ? `<img ${shopifyCardImageAttrs(image.url)} alt="${productImageAlt(image, title)}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
           ${isSoldOut ? '<span class="product-card__badge product-card__badge--sold-out">暫時缺貨</span>' : ''}
@@ -2812,7 +2812,7 @@ function productCardHTML(product) {
         </div>
       </a>
       <div class="product-card__info">
-        <a href="product.html?handle=${product.handle}" class="product-card__title">${title}</a>
+        <a href="/products/${product.handle}" class="product-card__title">${title}</a>
         <div class="product-card__prices">
           ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { range: unitPriceRange(product), title: product.title, tags: product.tags })}
         </div>
@@ -3464,7 +3464,8 @@ function applyCategoryHeading(section, cat) {
     }
   }
 
-  document.title = `${label} — OUJI`;
+  /* SEO 標題（catalog.js applyListingSeo）寫咗就唔好覆蓋返做淨名。 */
+  document.title = typeof listingDocTitle === 'function' ? listingDocTitle(label) : `${label} — OUJI`;
 }
 
 /** Friendly state for a category that currently has no products. */

@@ -312,7 +312,7 @@
                 <h3>Round Lab 白樺樹保濕面霜 80ml</h3>
                 <p class="product-gift-card__threshold">合資格商品滿 <b>HK$599</b> 即送一支</p>
                 <small class="product-gift-card__value">價值 <b>HK$148</b></small>
-                <a class="product-gift-card__link" href="product.html?handle=round-lab-round-lab-80ml-0221">查看產品詳情</a>
+                <a class="product-gift-card__link" href="/products/round-lab-round-lab-80ml-0221">查看產品詳情</a>
                 <p class="product-gift-card__terms">不計運費；數量有限，送完即止，以結帳為準。</p>
               </div>
             </article>
@@ -1147,7 +1147,7 @@
             const img = p.images?.edges?.[0]?.node;
             const pr = p.priceRange?.minVariantPrice;
             return `
-              <a href="product.html?handle=${encodeURIComponent(p.handle)}" class="product-card">
+              <a href="/products/${encodeURIComponent(p.handle)}" class="product-card">
                 <div class="product-card__image-wrap">
                   ${img ? `<img class="product-card__image" ${shopifyCardImageAttrs(img.url)} alt="${productImageAlt(img, p.title)}" loading="lazy">` : ''}
                   <div class="product-card__quick-add product-card__quick-add--pick">入去睇</div>

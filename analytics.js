@@ -395,12 +395,14 @@ function applyProductSeo(product) {
   if (!product) return;
   const url = `https://oujikbeauty.com/products/${product.handle}`;
   const title = window.OUJI_productNaming?.display(product).seoTitle || product.title;
-  /* 描述取產品自己嘅文案頭 150 字；冇就用品牌做 fallback，
-     總之唔可以 807 版一模一樣。 */
+  /* 描述：價錢行先，再接產品自己嘅文案；冇文案就用品牌做 fallback，
+     總之唔可以 807 版一模一樣。同 api/product.js 共用 product-naming.js。 */
   const raw = (product.description || '').replace(/\s+/g, ' ').trim();
-  const desc = raw
-    ? raw.slice(0, 150) + (raw.length > 150 ? '…' : '')
-    : `${product.vendor || 'OUJI'} ${product.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
+  const desc = window.OUJI_productNaming?.seoDescription
+    ? window.OUJI_productNaming.seoDescription(product)
+    : (raw
+      ? raw.slice(0, 150) + (raw.length > 150 ? '…' : '')
+      : `${product.vendor || 'OUJI'} ${product.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`);
   const image = product.images?.edges?.[0]?.node?.url;
 
   document.title = title;

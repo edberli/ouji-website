@@ -133,9 +133,9 @@ function buildHead(p) {
   const url = `${SITE}/products/${p.handle}`;
   const title = naming.display(p).seoTitle;
   const raw = (p.description || '').replace(/\s+/g, ' ').trim();
-  const desc = raw
-    ? raw.slice(0, 150) + (raw.length > 150 ? '…' : '')
-    : `${p.vendor || 'OUJI'} ${p.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
+  /* 價錢行先（product-naming.js seoDescription），同 analytics.js 一樣。 */
+  const desc = naming.seoDescription(p);
+  const fallback = `${p.vendor || 'OUJI'} ${p.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
   const image = p.images?.edges?.[0]?.node?.url || `${SITE}/og-image.jpg`;
   const variants = (p.variants?.edges || []).map((e) => e.node);
   const v = variants[0];
@@ -154,7 +154,7 @@ function buildHead(p) {
        欄位未填」，成因就係兩件貨 Shopify description 得返空字串，呢度
        見到空就唔出呢個欄。而家有 fallback：貨源自己冇文案就用返
        meta description 嗰句（品牌 + 貨名），保證呢個欄永遠有嘢。 */
-    description: raw ? raw.slice(0, 500) : desc,
+    description: raw ? raw.slice(0, 500) : fallback,
     /* 多色號唔可以將第一個色號嘅 SKU／GTIN扮成全產品識別碼；
        單變體先放頂層，多變體留畀下一輪 ProductGroup。 */
     sku: variants.length === 1 ? (v?.sku || undefined) : undefined,

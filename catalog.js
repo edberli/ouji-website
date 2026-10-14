@@ -2860,6 +2860,217 @@ function syncShopBoot(products, activeGroup, list) {
     : (g ? `${list.length.toLocaleString('en-US')} 件 · ${g.label}` : `${products.length.toLocaleString('en-US')} 件產品`);
 }
 
+/* ============================================
+   分類／品牌頁嘅 SEO：canonical、標題、描述、結構化資料
+   ============================================
+   分類頁同品牌頁都係同一個靜態 HTML 加 ?cat=／?brand=。2026-10-15 之前
+   <head> 寫死 canonical 指返上一層（/makeup?cat=lip → /makeup、
+   /shop?brand=CLIO → /shop），等於同 Google 講「唔好收錄呢版」——
+   Search Console 近 3 個月啲點擊幾乎全部係搜「OUJI」個名，「CLIO 香港」
+   「韓國防曬」呢類搜尋冇一版接得住。
+
+   而家靜態 HTML 唔再寫 canonical／og:url，由呢度按網址即場寫，只保留
+   brand／cat（utm、fbclid、sort 全部唔要）。冇用 Vercel middleware 喺
+   伺服器出：靜態檔優先過 rewrite，要 middleware 先截到，而 project 係
+   Hobby 額度、分類頁人流大；Google 會執行 JS，讀得到呢度寫嘅值。
+   ⚠️ 網址格式要同 scripts/listing_urls.js（sitemap）一模一樣。 */
+const LISTING_ORIGIN = 'https://oujikbeauty.com';
+const LISTING_PAGES = {
+  skincare: '/category', makeup: '/makeup', kpop: '/kpop', lens: '/lens',
+  tools: '/tools', bath: '/bath', supports: '/supports', health: '/health',
+  seasonal: '/seasonal', toys: '/toys', fragrance: '/fragrance',
+};
+/* 同一樣嘢喺兩格都有（老闆定：潔面＝護膚＋沐浴、防曬主分類係季節性），
+   canonical 指去主嗰格，免得兩版爭同一個搜尋字。 */
+const LISTING_ALIAS = {
+  'bath:cleanser': 'skincare:cleanser',
+  'skincare:sunscreen': 'seasonal:sun',
+  'seasonal:body': 'bath:lotion',
+};
+/* 靜態 <title> 喺任何 JS 郁佢之前記低：冇揀子分類／品牌嗰陣用返佢。 */
+const STATIC_DOC_TITLE = document.title;
+let LISTING_TITLE = null;
+
+/* 頁面狀態同網址一致（即係 Google 見到嗰個狀態）就用 SEO 標題；
+   客自己撳篩選、或者用緊英文介面，就照舊「名 — OUJI」（英文字典識譯）。 */
+function listingDocTitle(label) {
+  const plain = `${label} — OUJI`;
+  if (!LISTING_TITLE || !LISTING_TITLE.labels.includes(label)) return plain;
+  try { if (localStorage.getItem('ouji:lang') === 'en') return plain; } catch (e) { /* 私隱模式 */ }
+  return LISTING_TITLE.title;
+}
+
+/* 子分類喺搜尋結果用嘅字眼，即係客真係會打嘅字。護膚貨源以韓國為主；
+   彩妝同防曬有 CEZANNE、ANESSA 呢類日本牌，所以寫「日韓」；
+   隱形眼鏡嘅子分類本身就係品牌。 */
+function listingKeyword(section, cat, label) {
+  if (section === 'skincare') return `韓國${label}`;
+  if (section === 'makeup' || (section === 'seasonal' && cat === 'sun')) return `日韓${label}`;
+  if (section === 'lens') return `${label} 隱形眼鏡`;
+  if (section === 'kpop') {
+    return CATEGORY_TAXONOMY.kpop?.subs?.[cat]?.axis === 'format'
+      ? `K-pop ${label}` : `${label} 專輯・周邊`;
+  }
+  return label;
+}
+
+function setHeadTag(selector, create, attr, value) {
+  let el = document.head.querySelector(selector);
+  if (!el) {
+    el = create();
+    document.head.appendChild(el);
+  }
+  el.setAttribute(attr, value);
+}
+
+function listingMoney(n) {
+  return `HK$${Number.isInteger(n) ? n : n.toFixed(1)}`;
+}
+
+/* 出現最多嘅幾個值，例如品牌最多嘅三個 productType、子分類最多嘅四個品牌。 */
+function listingTop(items, key, n) {
+  const count = new Map();
+  items.forEach((p) => {
+    const v = String(key(p) || '').trim();
+    if (v) count.set(v, (count.get(v) || 0) + 1);
+  });
+  return [...count.entries()].sort((a, b) => b[1] - a[1]).slice(0, n).map(([v]) => v);
+}
+
+function applyListingSeo({ section, cat, brand, products, searchTerm }) {
+  try {
+    const params = new URLSearchParams(location.search);
+    const sectionLabel = section ? categoryLabel(section, null) : '';
+    const subLabel = section && cat && CATEGORY_TAXONOMY[section]?.subs?.[cat]
+      ? categoryLabel(section, cat) : '';
+    /* 搜尋、煩惱、分組、排序呢啲都只係 /shop 嘅篩選，唔係獨立一版。 */
+    const kind = brand ? 'brand' : subLabel ? 'sub' : section ? 'section' : 'shop';
+    const path = kind === 'brand' ? '/shop' : (LISTING_PAGES[section] || '/shop');
+    const [aliasSection, aliasCat] = (kind === 'sub' && LISTING_ALIAS[`${section}:${cat}`] || '').split(':');
+    const canonical = kind === 'brand'
+      ? `${LISTING_ORIGIN}/shop?brand=${encodeURIComponent(brand)}`
+      : kind === 'sub'
+        ? (aliasCat
+          ? `${LISTING_ORIGIN}${LISTING_PAGES[aliasSection]}?cat=${encodeURIComponent(aliasCat)}`
+          : `${LISTING_ORIGIN}${path}?cat=${encodeURIComponent(cat)}`)
+        : `${LISTING_ORIGIN}${path}`;
+
+    let items = products || [];
+    if (kind === 'brand') items = items.filter((p) => p.vendor === brand);
+    else if (kind === 'sub' && typeof subMatch === 'function') {
+      items = items.filter((p) => subMatch(section, cat, p));
+    }
+    const live = items.filter((p) => !soldOut(p));
+    const n = live.length;
+    const prices = live.map((p) => Number(p.priceRange?.minVariantPrice?.amount))
+      .filter((v) => v > 0);
+    const from = prices.length ? `，${listingMoney(Math.min(...prices))} 起` : '';
+    const ship = '網店送貨，或者觀塘門市自取。';
+
+    let title = STATIC_DOC_TITLE;
+    let desc = null;
+    let name = sectionLabel || '全部產品';
+    let labels = [name];
+    if (kind === 'brand') {
+      const types = listingTop(live.length ? live : items, (p) => p.productType, 3);
+      title = `${brand} 香港有售${types.length ? `｜${types.join('・')}` : ''} — OUJI`;
+      const naming = window.OUJI_productNaming;
+      const picks = live.slice(0, 3)
+        .map((p) => String(naming?.cardChinese ? naming.cardChinese(p) : p.title).slice(0, 18))
+        .filter(Boolean);
+      desc = n
+        ? `${brand} 香港有售：OUJI 現有 ${n} 款 ${brand} 產品${picks.length ? `，包括${picks.join('、')}` : ''}${from}。${ship}`
+        : `${brand} 香港有售：OUJI 香港 K-Beauty 專門店。${ship}`;
+      name = brand;
+      /* 品牌頁嘅資料夾名、麵包屑都係品牌名，syncShopPage 會再寫一次標題。 */
+      labels = [brand];
+      /* 全部產品頁個大標題（H1）本來喺品牌頁都寫住「全部產品」：客撳 CLIO
+         入嚟見唔到 CLIO 兩個字，Google 見到嘅主標題亦唔係品牌。 */
+      const h1 = document.getElementById('shop-boot-title');
+      if (h1) h1.textContent = brand;
+    } else if (kind === 'sub') {
+      const word = listingKeyword(section, cat, subLabel);
+      title = `${word}｜香港有售${n > 1 ? ` ${n} 款` : ''} — OUJI`;
+      /* 隱形眼鏡、K-pop 嘅子分類本身就係品牌／組合，唔好再講「有 Molak 等品牌」。 */
+      const flat = (s) => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+      const brands = listingTop(live, (p) => p.vendor, 4).filter((v) => flat(v) !== flat(subLabel));
+      const what = /^[A-Za-z0-9]/.test(subLabel) ? ` ${subLabel}` : subLabel;
+      desc = n
+        ? `${word}香港有售：OUJI 現有 ${n} 款${what}${brands.length ? `，有 ${brands.join('、')} 等品牌` : ''}${from}。${ship}`
+        : `${word}：OUJI 香港 K-Beauty 專門店。${ship}`;
+      name = word;
+      /* 部分分類頁淨係用大分類名做標題（applyCategoryHeading(section, null)），兩個都認。 */
+      labels = [subLabel, sectionLabel];
+    } else if (kind === 'section' && location.pathname.replace(/\.html$/, '') !== path) {
+      /* category.html?collection=makeup 呢類借用另一版模板，靜態標題係人哋嘅。 */
+      title = `${sectionLabel} — OUJI`;
+    }
+    LISTING_TITLE = { labels, title };
+    document.title = listingDocTitle(labels[0]);
+
+    setHeadTag('link[rel="canonical"]', () => Object.assign(document.createElement('link'), { rel: 'canonical' }),
+      'href', canonical);
+    setHeadTag('meta[property="og:url"]', () => {
+      const m = document.createElement('meta');
+      m.setAttribute('property', 'og:url');
+      return m;
+    }, 'content', canonical);
+    if (kind === 'brand' || kind === 'sub') {
+      ['meta[property="og:title"]', 'meta[name="twitter:title"]'].forEach((sel) => {
+        const m = document.head.querySelector(sel);
+        if (m) m.setAttribute('content', title);
+      });
+      ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']
+        .forEach((sel) => {
+          const m = document.head.querySelector(sel);
+          if (m) m.setAttribute('content', desc);
+        });
+    }
+
+    /* 站內搜尋結果唔係一版內容，唔出結構化資料（canonical 已經指返 /shop）。 */
+    if (kind === 'shop' && (searchTerm || params.get('q') || params.get('concern'))) return;
+
+    const crumbs = [{ name: '首頁', item: `${LISTING_ORIGIN}/` }];
+    if (kind === 'brand') crumbs.push({ name: '品牌', item: `${LISTING_ORIGIN}/brands` });
+    if (kind === 'sub') crumbs.push({ name: sectionLabel, item: `${LISTING_ORIGIN}${path}` });
+    crumbs.push({ name: kind === 'brand' ? brand : kind === 'sub' ? subLabel : name, item: canonical });
+
+    const metaDesc = desc || document.head.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+    const data = {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title.replace(/ — OUJI$/, ''),
+      url: canonical,
+      description: metaDesc || undefined,
+      inLanguage: 'zh-HK',
+      isPartOf: { '@type': 'WebSite', name: 'OUJI', url: `${LISTING_ORIGIN}/` },
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })),
+      },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: n,
+        itemListElement: live.slice(0, 24).map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${LISTING_ORIGIN}/products/${p.handle}`,
+          name: String(p.title || '').slice(0, 150),
+        })),
+      },
+    };
+    document.getElementById('ouji-listing-schema')?.remove();
+    const s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.id = 'ouji-listing-schema';
+    s.textContent = JSON.stringify(data);
+    document.head.appendChild(s);
+  } catch (err) {
+    /* SEO 寫唔到都唔可以拖冧個目錄。 */
+    if (window.console) console.warn('[OUJI] listing SEO 寫唔到：', err);
+  }
+}
+
 /* 由搜尋或者煩惱入嚟嗰陣，資料夾名已經由 shop.html 設咗做「暗沉・痘印」
    之類。冇揀 group 就唔可以夾硬寫返「全部產品」—— 客會以為篩選冇生效。 */
 let SHOP_BASE_LABEL = '全部產品';
@@ -2874,7 +3085,7 @@ function syncShopPage(activeGroup, shown) {
   if (say) say.textContent = `${name}，顯示 ${shown} 件產品`;
   const crumb = document.querySelector('[data-shop-catalog] .breadcrumb span:last-child');
   if (crumb && !crumb.classList.contains('breadcrumb__sep')) crumb.textContent = name;
-  document.title = `${name} — OUJI`;
+  document.title = listingDocTitle(name);
 }
 
 /* 防曬頁（seasonal.html?cat=sun、category.html?cat=sunscreen）：換季優惠 banner ＋ 特價貨排前面。
@@ -3071,8 +3282,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     }
     const tail = document.querySelector('.breadcrumb span:last-child');
     if (tail && !tail.classList.contains('breadcrumb__sep')) tail.textContent = urlBrand;
-    document.title = `${urlBrand} — OUJI`;
   }
+  /* canonical、標題、描述、結構化資料（包括上面品牌嗰個標題）一次過寫。 */
+  applyListingSeo({ section, cat: presetCat || cat, brand: urlBrand, products, searchTerm });
 
   const countEl = document.querySelector('.filter-bar__count');
   const sortEl = document.querySelector('.filter-bar__sort select');

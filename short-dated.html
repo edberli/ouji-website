@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>短效期特價 — OUJI</title>
+  <title>短效期特價｜韓妝護膚 5 折起 — OUJI</title>
   <meta name="description" content="OUJI 短效期特價：快到期門市實貨，剩 1–3 個月 5 折、3–6 個月 7 折，每件寫明到期日。">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -14,14 +14,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OUJI">
   <meta property="og:locale" content="zh_HK">
-  <meta property="og:title" content="短效期特價 — OUJI">
+  <meta property="og:title" content="短效期特價｜韓妝護膚 5 折起 — OUJI">
   <meta property="og:description" content="OUJI 短效期特價：快到期門市實貨，剩 1–3 個月 5 折、3–6 個月 7 折，每件寫明到期日。">
   <meta property="og:url" content="https://oujikbeauty.com/short-dated">
   <meta property="og:image" content="https://oujikbeauty.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="短效期特價 — OUJI">
+  <meta name="twitter:title" content="短效期特價｜韓妝護膚 5 折起 — OUJI">
   <meta name="twitter:description" content="OUJI 短效期特價：快到期門市實貨，剩 1–3 個月 5 折、3–6 個月 7 折，每件寫明到期日。">
   <meta name="twitter:image" content="https://oujikbeauty.com/og-image.jpg">
 
@@ -413,7 +413,7 @@
       const nowP = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
       const was = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0);
       const name = oujiCardName(p);
-      const href = `product.html?handle=${encodeURIComponent(p.handle)}`;
+      const href = `/products/${encodeURIComponent(p.handle)}`;
       return `<article class="sd-card">
         <a class="sd-card__media" href="${href}">
           ${img ? `<img src="${esc(img.url)}" alt="${esc(name)}" loading="lazy">` : ''}
