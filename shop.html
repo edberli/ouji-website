@@ -572,6 +572,22 @@
       document.title = `${concern.label} — OUJI`;
     }
 
+    /* 首頁「換季美妝精選」→「睇晒換季優惠」入嚟：只出有劃線減價（95 折或以下）嘅貨。
+       同首頁貨架一把尺（home.js ratio）；放入 scopes，背景對完數都唔會彈返全部產品。
+       排序跟目錄預設（推薦），唔另外排。 */
+    if (params.get('sort') === 'deal') {
+      const off = (p) => {
+        const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
+        const now = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
+        return cp > now && now > 0 ? 1 - now / cp : 0;
+      };
+      const dealScope = (p) => off(p) >= 0.05;
+      scopes.push(dealScope);
+      products = products.filter(dealScope);
+      setFolder('換季優惠', 'Loading offers...');
+      document.title = '換季優惠 — OUJI';
+    }
+
     // 首頁「睇晒新貨」入嚟：最新上架行先
     if (params.get('sort') === 'new') {
       products = [...products].sort((a, b) =>

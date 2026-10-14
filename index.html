@@ -59,6 +59,10 @@
   <link rel="stylesheet" href="home-top.css?v=20261013-2">
   <link rel="stylesheet" href="home-member.css?v=20261013-2">
   <link rel="stylesheet" href="home-instagram.css?v=20261013-1">
+  <!-- 首頁新設計段落（Codex）：樣式、新產品卡；手寫字 Klee One 只攞「明星同款」「玩妝靈感」「按需要」標題用到嘅字 -->
+  <link rel="stylesheet" href="home-codex.css?v=20261015-1">
+  <link rel="stylesheet" href="product-card-lc.css?v=20261015-1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&display=swap&text=aceiklmorsty%E2%99%A1%E3%80%82%E4%B8%80%E4%BB%B6%E4%BF%9D%E5%90%8C%E5%94%87%E5%A6%9D%E5%B8%B8%E5%BA%95%E5%BD%A9%E6%83%B3%E6%84%9F%E6%8F%80%E6%90%B5%E6%94%AF%E6%97%A5%E6%98%8E%E6%98%9F%E6%AC%BE%E6%AD%A5%E6%BF%95%E7%8E%A9%E7%94%A8%E7%B2%BE%E8%89%B2%E8%8F%AF%E8%A3%9C%E9%9D%88%E9%A9%9F%E9%BD%8A%EF%BC%8C" media="print" onload="this.media='all'">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -479,418 +483,101 @@
     </section>
 
 
-    <!-- ═══════════ 首頁商品格（2026-10-02 老闆）═══════════
-         形象同優惠交錯：TIRTIR 本月主打（正價）→ 秋季換季大特賣 → 防曬清貨 → Torriden → 短效期。
-         海報一律用日韓品牌官網原圖（TIRTIR 韓國官網、ANESSA 日本官網、Torriden 韓國官網），
-         唔用外國模特兒、唔自己生成；人哋網店自己嘅優惠字 banner 唔用。
-         每格一條橫掃貨架（桌面左右箭嘴，手機手指掃），貨同折數由實時目錄計，唔夠貨成格收起。 -->
-    <section class="home-block home-block--tirtir" data-home-block="tirtir" aria-labelledby="home-tirtir-title" hidden>
-      <div class="container">
-        <div class="home-block__head">
-          <div class="home-block__titles">
-            <span class="label home-block__label">本月主打 · Brand Focus</span>
-            <h2 class="heading-lg home-block__title" id="home-tirtir-title">TIRTIR 氣墊同粉底</h2>
-          </div>
-          
-          <div class="home-block__tools">
-            <a class="home-block__more" href="shop.html?brand=TIRTIR">睇晒 TIRTIR</a>
-            <div class="home-rail__nav">
-              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <a class="home-poster" href="shop.html?brand=TIRTIR">
-          <picture>
-            <source media="(max-width: 768px)" srcset="assets/images/home/brand/tirtir-v-1000.webp">
-            <img src="assets/images/home/brand/tirtir-v.webp" alt="TIRTIR 韓國官方廣告：V（金泰亨）Mask Fit 氣墊" width="1920" height="950" loading="lazy" decoding="async">
-          </picture>
-        </a>
-        <div class="home-rail" data-block-grid></div>
-      </div>
-    </section>
+    <!-- ═══════════ 首頁新設計段落（Codex 設計，Winston 2026-10-15 批「照建議嘅取捨開始搬」）═══════════
+         美妝精選 → 美妝品牌 → 妝感，同護膚（TIRTIR／Torriden）→ 獲獎好物 → 按需要選購 → 換季美妝精選
+         → 明星同款，一齊用。→ 好物，啱價（防曬清貨／短效期特價）→ 美妝以外 →（OUJI SKIN CAT）→ 玩妝靈感。
+         取代咗：舊 TIRTIR／秋季換季大特賣／防曬換季清貨／Keep 住涼爽／Torriden／短效期特價／更多精選產品、
+         品牌 logo 跑馬燈、得獎產品、妝感配對。
+         樣式：home-codex.css（全部包喺 .home-codex，由 Codex 預覽逐條抽出）。
+         貨架：home.js 用實時目錄＋新卡（product-card-lc.js）填，唔夠貨成格收起；
+         分頁、品牌自動捲、芝麻短片：home-codex.js。 -->
+    <div class="home-codex">
+<section aria-labelledby="home-beauty-picks-title" class="home-beauty-picks home-commerce commerce-feature"><div class="content-wrap">
+<header class="curation-head"><div><span class="commerce-kicker">OUJI SELECT</span><h2 id="home-beauty-picks-title">美妝精選</h2></div><span aria-hidden="true" class="curation-sticker"><img alt="" decoding="async" height="640" loading="lazy" sizes="76px" src="assets/images/home-codex/mascot-v4/06-shopping-640.webp" srcset="assets/images/home-codex/mascot-v4/06-shopping-320.webp 320w, assets/images/home-codex/mascot-v4/06-shopping-640.webp 640w" width="640"/></span><a class="commerce-more" href="shop.html">逛全部商品</a></header>
+<div class="home-beauty-picks__body"><a aria-label="查看 hince Raw Glow Gel Tint 果凍唇釉" class="beauty-muse" data-codex-brand="hince" data-codex-muse="hince-raw-glow-gel-tint" href="/products/hince-raw-glow-gel-tint">
+<picture><img alt="hince Raw Glow Gel Tint 模特兒妝容與同系列唇釉" decoding="async" height="1440" loading="lazy" sizes="(max-width:760px) 36vw, 30vw" src="assets/images/home-codex/brand-photography/hince-raw-glow-model-800.webp" srcset="assets/images/home-codex/brand-photography/hince-raw-glow-model-400.webp 400w, assets/images/home-codex/brand-photography/hince-raw-glow-model-800.webp 800w" width="1200"/></picture>
+<div class="beauty-muse__caption"><span>hince / THE GLOW EDIT</span><h3>Raw Glow Gel Tint</h3><span class="text-link">探索果凍唇釉</span></div>
+</a><div class="home-beauty-picks__products">
+<div aria-label="美妝精選商品；可左右滑動" class="commerce-rail" data-codex-rail="beauty" data-handles="romand-juicy-lasting-tint,torriden-torriden-50ml-1647,dasique-eyeshadow-palette,skin1004-skin1004-100ml-0663,romand-glasting-color-gloss,anua-anua-pdrn-11-100-30ml-6667,hince-second-skin-mesh-matte-cushion,torriden-torriden-10-2865" role="region" tabindex="0"></div>
+<div class="commerce-foot"><span>左右滑動，睇更多美妝</span></div>
+</div></div>
+</div></section>
+<section aria-labelledby="home-brand-rail-title" class="home-brand-rail"><div class="content-wrap">
+<header class="home-brand-rail__heading home-brand-rail__heading--has-stats"><div class="home-brand-rail__title"><span class="home-brand-rail__kicker">THE BRAND LINEUP / 美妝品牌</span><h2 id="home-brand-rail-title">熟悉品牌，新嘅小發現。</h2></div>
+<dl aria-label="OUJI 品牌、商品與獲獎產品數量" class="home-brand-rail__stats"><div class="home-brand-rail__stat"><dt>合作品牌</dt><dd data-codex-stat="brands">283<small>個</small></dd></div><div class="home-brand-rail__stat"><dt>在售產品</dt><dd data-codex-stat="products">2,219<small>款</small></dd></div><div class="home-brand-rail__stat"><dt>獲獎產品</dt><dd data-codex-stat="awards">70<small>款</small></dd></div></dl><a class="home-brand-rail__all" href="brands.html">全部<br/>品牌</a></header>
+<div class="home-brand-rail__track" id="home-brand-track"><div aria-label="美妝品牌第一行，可左右滑動或用方向鍵瀏覽" class="home-brand-rail__row" id="home-brand-row-0" role="group" tabindex="0"><div class="home-brand-rail__group"><a aria-label="瀏覽 Torriden 商品" class="home-brand-rail__item" href="shop.html?brand=Torriden"><strong>Torriden</strong></a><a aria-label="瀏覽 SKIN1004 商品" class="home-brand-rail__item" href="shop.html?brand=SKIN1004"><strong>SKIN1004</strong></a><a aria-label="瀏覽 dasique 商品" class="home-brand-rail__item" href="shop.html?brand=dasique"><strong>dasique</strong></a><a aria-label="瀏覽 Round Lab 商品" class="home-brand-rail__item" href="shop.html?brand=Round%20Lab"><strong>Round Lab</strong></a><a aria-label="瀏覽 hince 商品" class="home-brand-rail__item" href="shop.html?brand=hince"><strong>hince</strong></a><a aria-label="瀏覽 COSRX 商品" class="home-brand-rail__item" href="shop.html?brand=COSRX"><strong>COSRX</strong></a><a aria-label="瀏覽 AMUSE 商品" class="home-brand-rail__item" href="shop.html?brand=AMUSE"><strong>AMUSE</strong></a><a aria-label="瀏覽 Peripera 商品" class="home-brand-rail__item" href="shop.html?brand=Peripera"><strong>Peripera</strong></a><a aria-label="瀏覽 lilybyred 商品" class="home-brand-rail__item" href="shop.html?brand=lilybyred"><strong>lilybyred</strong></a><a aria-label="瀏覽 mixsoon 商品" class="home-brand-rail__item" href="shop.html?brand=mixsoon"><strong>mixsoon</strong></a><a aria-label="瀏覽 Goodal 商品" class="home-brand-rail__item" href="shop.html?brand=Goodal"><strong>Goodal</strong></a><a aria-label="瀏覽 Laka 商品" class="home-brand-rail__item" href="shop.html?brand=Laka"><strong>Laka</strong></a><a aria-label="瀏覽 Bring Green 商品" class="home-brand-rail__item" href="shop.html?brand=Bring%20Green"><strong>Bring Green</strong></a><a aria-label="瀏覽 PURITO SEOUL 商品" class="home-brand-rail__item" href="shop.html?brand=PURITO%20SEOUL"><strong>PURITO SEOUL</strong></a><a aria-label="瀏覽 Needly 商品" class="home-brand-rail__item" href="shop.html?brand=Needly"><strong>Needly</strong></a><a aria-label="瀏覽 Skinfood 商品" class="home-brand-rail__item" href="shop.html?brand=Skinfood"><strong>Skinfood</strong></a><a aria-label="瀏覽 APRILSKIN 商品" class="home-brand-rail__item" href="shop.html?brand=APRILSKIN"><strong>APRILSKIN</strong></a><a aria-label="瀏覽 MAYBELLINE 商品" class="home-brand-rail__item" href="shop.html?brand=MAYBELLINE"><strong>MAYBELLINE</strong></a><a aria-label="瀏覽 Flower Knows 商品" class="home-brand-rail__item" href="shop.html?brand=Flower%20Knows"><strong>Flower Knows</strong></a><a aria-label="瀏覽 Dr. Melaxin 商品" class="home-brand-rail__item" href="shop.html?brand=Dr.%20Melaxin"><strong>Dr. Melaxin</strong></a><a aria-label="瀏覽 BIOHEAL BOH 商品" class="home-brand-rail__item" href="shop.html?brand=BIOHEAL%20BOH"><strong>BIOHEAL BOH</strong></a><a aria-label="瀏覽 ma:nyo 商品" class="home-brand-rail__item" href="shop.html?brand=ma%3Anyo"><strong>ma:nyo</strong></a><a aria-label="瀏覽 SUNGBOON EDITOR 商品" class="home-brand-rail__item" href="shop.html?brand=SUNGBOON%20EDITOR"><strong>SUNGBOON EDITOR</strong></a><a aria-label="瀏覽 LINDSAY 商品" class="home-brand-rail__item" href="shop.html?brand=LINDSAY"><strong>LINDSAY</strong></a><a aria-label="瀏覽 OOTD 商品" class="home-brand-rail__item" href="shop.html?brand=OOTD"><strong>OOTD</strong></a></div><div aria-hidden="true" class="home-brand-rail__group"><a aria-hidden="true" aria-label="瀏覽 Torriden 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Torriden" tabindex="-1"><strong>Torriden</strong></a><a aria-hidden="true" aria-label="瀏覽 SKIN1004 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=SKIN1004" tabindex="-1"><strong>SKIN1004</strong></a><a aria-hidden="true" aria-label="瀏覽 dasique 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=dasique" tabindex="-1"><strong>dasique</strong></a><a aria-hidden="true" aria-label="瀏覽 Round Lab 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Round%20Lab" tabindex="-1"><strong>Round Lab</strong></a><a aria-hidden="true" aria-label="瀏覽 hince 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=hince" tabindex="-1"><strong>hince</strong></a><a aria-hidden="true" aria-label="瀏覽 COSRX 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=COSRX" tabindex="-1"><strong>COSRX</strong></a><a aria-hidden="true" aria-label="瀏覽 AMUSE 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=AMUSE" tabindex="-1"><strong>AMUSE</strong></a><a aria-hidden="true" aria-label="瀏覽 Peripera 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Peripera" tabindex="-1"><strong>Peripera</strong></a><a aria-hidden="true" aria-label="瀏覽 lilybyred 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=lilybyred" tabindex="-1"><strong>lilybyred</strong></a><a aria-hidden="true" aria-label="瀏覽 mixsoon 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=mixsoon" tabindex="-1"><strong>mixsoon</strong></a><a aria-hidden="true" aria-label="瀏覽 Goodal 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Goodal" tabindex="-1"><strong>Goodal</strong></a><a aria-hidden="true" aria-label="瀏覽 Laka 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Laka" tabindex="-1"><strong>Laka</strong></a><a aria-hidden="true" aria-label="瀏覽 Bring Green 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Bring%20Green" tabindex="-1"><strong>Bring Green</strong></a><a aria-hidden="true" aria-label="瀏覽 PURITO SEOUL 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=PURITO%20SEOUL" tabindex="-1"><strong>PURITO SEOUL</strong></a><a aria-hidden="true" aria-label="瀏覽 Needly 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Needly" tabindex="-1"><strong>Needly</strong></a><a aria-hidden="true" aria-label="瀏覽 Skinfood 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Skinfood" tabindex="-1"><strong>Skinfood</strong></a><a aria-hidden="true" aria-label="瀏覽 APRILSKIN 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=APRILSKIN" tabindex="-1"><strong>APRILSKIN</strong></a><a aria-hidden="true" aria-label="瀏覽 MAYBELLINE 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=MAYBELLINE" tabindex="-1"><strong>MAYBELLINE</strong></a><a aria-hidden="true" aria-label="瀏覽 Flower Knows 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Flower%20Knows" tabindex="-1"><strong>Flower Knows</strong></a><a aria-hidden="true" aria-label="瀏覽 Dr. Melaxin 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Dr.%20Melaxin" tabindex="-1"><strong>Dr. Melaxin</strong></a><a aria-hidden="true" aria-label="瀏覽 BIOHEAL BOH 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=BIOHEAL%20BOH" tabindex="-1"><strong>BIOHEAL BOH</strong></a><a aria-hidden="true" aria-label="瀏覽 ma:nyo 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=ma%3Anyo" tabindex="-1"><strong>ma:nyo</strong></a><a aria-hidden="true" aria-label="瀏覽 SUNGBOON EDITOR 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=SUNGBOON%20EDITOR" tabindex="-1"><strong>SUNGBOON EDITOR</strong></a><a aria-hidden="true" aria-label="瀏覽 LINDSAY 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=LINDSAY" tabindex="-1"><strong>LINDSAY</strong></a><a aria-hidden="true" aria-label="瀏覽 OOTD 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=OOTD" tabindex="-1"><strong>OOTD</strong></a></div></div><div aria-label="美妝品牌第二行，可左右滑動或用方向鍵瀏覽" class="home-brand-rail__row" id="home-brand-row-1" role="group" tabindex="0"><div class="home-brand-rail__group"><a aria-label="瀏覽 Anua 商品" class="home-brand-rail__item" href="shop.html?brand=Anua"><strong>Anua</strong></a><a aria-label="瀏覽 rom&amp;nd 商品" class="home-brand-rail__item" href="shop.html?brand=rom%26nd"><strong>rom&amp;nd</strong></a><a aria-label="瀏覽 CLIO 商品" class="home-brand-rail__item" href="shop.html?brand=CLIO"><strong>CLIO</strong></a><a aria-label="瀏覽 Beauty of Joseon 商品" class="home-brand-rail__item" href="shop.html?brand=Beauty%20of%20Joseon"><strong>Beauty of Joseon</strong></a><a aria-label="瀏覽 WAKEMAKE 商品" class="home-brand-rail__item" href="shop.html?brand=WAKEMAKE"><strong>WAKEMAKE</strong></a><a aria-label="瀏覽 TIRTIR 商品" class="home-brand-rail__item" href="shop.html?brand=TIRTIR"><strong>TIRTIR</strong></a><a aria-label="瀏覽 Abib 商品" class="home-brand-rail__item" href="shop.html?brand=Abib"><strong>Abib</strong></a><a aria-label="瀏覽 beplain 商品" class="home-brand-rail__item" href="shop.html?brand=beplain"><strong>beplain</strong></a><a aria-label="瀏覽 fwee 商品" class="home-brand-rail__item" href="shop.html?brand=fwee"><strong>fwee</strong></a><a aria-label="瀏覽 Glint 商品" class="home-brand-rail__item" href="shop.html?brand=Glint"><strong>Glint</strong></a><a aria-label="瀏覽 Some By Mi 商品" class="home-brand-rail__item" href="shop.html?brand=Some%20By%20Mi"><strong>Some By Mi</strong></a><a aria-label="瀏覽 Coralhaze 商品" class="home-brand-rail__item" href="shop.html?brand=Coralhaze"><strong>Coralhaze</strong></a><a aria-label="瀏覽 Heart Percent 商品" class="home-brand-rail__item" href="shop.html?brand=Heart%20Percent"><strong>Heart Percent</strong></a><a aria-label="瀏覽 UNLEASHIA 商品" class="home-brand-rail__item" href="shop.html?brand=UNLEASHIA"><strong>UNLEASHIA</strong></a><a aria-label="瀏覽 2aN 商品" class="home-brand-rail__item" href="shop.html?brand=2aN"><strong>2aN</strong></a><a aria-label="瀏覽 BRAYE 商品" class="home-brand-rail__item" href="shop.html?brand=BRAYE"><strong>BRAYE</strong></a><a aria-label="瀏覽 KSECRET 商品" class="home-brand-rail__item" href="shop.html?brand=KSECRET"><strong>KSECRET</strong></a><a aria-label="瀏覽 ILSO 商品" class="home-brand-rail__item" href="shop.html?brand=ILSO"><strong>ILSO</strong></a><a aria-label="瀏覽 Haruharu WONDER 商品" class="home-brand-rail__item" href="shop.html?brand=Haruharu%20WONDER"><strong>Haruharu WONDER</strong></a><a aria-label="瀏覽 VT Cosmetics 商品" class="home-brand-rail__item" href="shop.html?brand=VT%20Cosmetics"><strong>VT Cosmetics</strong></a><a aria-label="瀏覽 TOCOBO 商品" class="home-brand-rail__item" href="shop.html?brand=TOCOBO"><strong>TOCOBO</strong></a><a aria-label="瀏覽 Arencia 商品" class="home-brand-rail__item" href="shop.html?brand=Arencia"><strong>Arencia</strong></a><a aria-label="瀏覽 Dr.Jart+ 商品" class="home-brand-rail__item" href="shop.html?brand=Dr.Jart%2B"><strong>Dr.Jart+</strong></a><a aria-label="瀏覽 SO'NATURAL 商品" class="home-brand-rail__item" href="shop.html?brand=SO%27NATURAL"><strong>SO'NATURAL</strong></a></div><div aria-hidden="true" class="home-brand-rail__group"><a aria-hidden="true" aria-label="瀏覽 Anua 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Anua" tabindex="-1"><strong>Anua</strong></a><a aria-hidden="true" aria-label="瀏覽 rom&amp;nd 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=rom%26nd" tabindex="-1"><strong>rom&amp;nd</strong></a><a aria-hidden="true" aria-label="瀏覽 CLIO 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=CLIO" tabindex="-1"><strong>CLIO</strong></a><a aria-hidden="true" aria-label="瀏覽 Beauty of Joseon 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Beauty%20of%20Joseon" tabindex="-1"><strong>Beauty of Joseon</strong></a><a aria-hidden="true" aria-label="瀏覽 WAKEMAKE 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=WAKEMAKE" tabindex="-1"><strong>WAKEMAKE</strong></a><a aria-hidden="true" aria-label="瀏覽 TIRTIR 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=TIRTIR" tabindex="-1"><strong>TIRTIR</strong></a><a aria-hidden="true" aria-label="瀏覽 Abib 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Abib" tabindex="-1"><strong>Abib</strong></a><a aria-hidden="true" aria-label="瀏覽 beplain 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=beplain" tabindex="-1"><strong>beplain</strong></a><a aria-hidden="true" aria-label="瀏覽 fwee 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=fwee" tabindex="-1"><strong>fwee</strong></a><a aria-hidden="true" aria-label="瀏覽 Glint 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Glint" tabindex="-1"><strong>Glint</strong></a><a aria-hidden="true" aria-label="瀏覽 Some By Mi 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Some%20By%20Mi" tabindex="-1"><strong>Some By Mi</strong></a><a aria-hidden="true" aria-label="瀏覽 Coralhaze 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Coralhaze" tabindex="-1"><strong>Coralhaze</strong></a><a aria-hidden="true" aria-label="瀏覽 Heart Percent 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Heart%20Percent" tabindex="-1"><strong>Heart Percent</strong></a><a aria-hidden="true" aria-label="瀏覽 UNLEASHIA 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=UNLEASHIA" tabindex="-1"><strong>UNLEASHIA</strong></a><a aria-hidden="true" aria-label="瀏覽 2aN 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=2aN" tabindex="-1"><strong>2aN</strong></a><a aria-hidden="true" aria-label="瀏覽 BRAYE 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=BRAYE" tabindex="-1"><strong>BRAYE</strong></a><a aria-hidden="true" aria-label="瀏覽 KSECRET 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=KSECRET" tabindex="-1"><strong>KSECRET</strong></a><a aria-hidden="true" aria-label="瀏覽 ILSO 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=ILSO" tabindex="-1"><strong>ILSO</strong></a><a aria-hidden="true" aria-label="瀏覽 Haruharu WONDER 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Haruharu%20WONDER" tabindex="-1"><strong>Haruharu WONDER</strong></a><a aria-hidden="true" aria-label="瀏覽 VT Cosmetics 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=VT%20Cosmetics" tabindex="-1"><strong>VT Cosmetics</strong></a><a aria-hidden="true" aria-label="瀏覽 TOCOBO 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=TOCOBO" tabindex="-1"><strong>TOCOBO</strong></a><a aria-hidden="true" aria-label="瀏覽 Arencia 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Arencia" tabindex="-1"><strong>Arencia</strong></a><a aria-hidden="true" aria-label="瀏覽 Dr.Jart+ 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=Dr.Jart%2B" tabindex="-1"><strong>Dr.Jart+</strong></a><a aria-hidden="true" aria-label="瀏覽 SO'NATURAL 商品" class="home-brand-rail__item" data-brand-clone="" href="shop.html?brand=SO%27NATURAL" tabindex="-1"><strong>SO'NATURAL</strong></a></div></div></div>
+</div><div aria-hidden="true" class="home-brand-rail__wave"></div></section>
+<section aria-labelledby="home-brand-edits-title" class="home-brand-edits content-wrap" data-brand-edit-active="tirtir">
+<header class="curation-head"><div><span class="commerce-kicker">THE K-BEAUTY EDIT</span><h2 id="home-brand-edits-title">妝感，同護膚。</h2></div><p>TIRTIR 底妝 · Torriden 補水</p></header>
+<div aria-label="韓妝品牌專題" class="home-brand-edits__tabs" hidden=""><button aria-label="TIRTIR" class="brand-logo-tab" data-brand-edit-tab="tirtir" id="brand-edit-tirtir-tab" tabindex="-1" type="button"><img alt="" class="brand-logo-tab__logo" decoding="async" height="90" loading="eager" src="assets/images/home-codex/live-brand-logos/tirtir-chapter.svg" width="260"/></button><button aria-label="Torriden" class="brand-logo-tab" data-brand-edit-tab="torriden" id="brand-edit-torriden-tab" tabindex="-1" type="button"><img alt="" class="brand-logo-tab__logo" decoding="async" height="90" loading="eager" src="assets/images/home-codex/live-brand-logos/torriden.svg" width="260"/></button></div>
+<div aria-label="韓妝品牌專題" class="home-brand-edits__grid" role="region">
+<section aria-label="TIRTIR" class="home-commerce home-commerce--tirtir home-commerce--brand commerce-feature commerce-feature--brand" data-brand-edit="tirtir" id="brand-edit-tirtir-panel"><div aria-hidden="true" class="home-brand-edits__chapter-logo"><img alt="" decoding="async" height="90" loading="eager" src="assets/images/home-codex/live-brand-logos/tirtir-chapter.svg" width="260"/></div><div class="content-wrap">
+<a aria-label="逛 TIRTIR" class="commerce-poster" href="shop.html?brand=TIRTIR"><img alt="TIRTIR 韓國官方廣告：V 與 Mask Fit 氣墊" decoding="async" height="950" loading="lazy" sizes="(max-width:760px) calc(100vw - 60px), calc((100vw - 100px) / 2)" src="assets/images/home-codex/commerce/tirtir-v.webp" srcset="assets/images/home-codex/commerce/tirtir-v-1000.webp 1000w, assets/images/home-codex/commerce/tirtir-v.webp 1920w" width="1920"/></a><div aria-label="TIRTIR 氣墊同粉底商品；可左右滑動" class="commerce-rail" data-codex-rail="tirtir" data-handles="tirtir-mask-fit-red-cushion,tirtir-mask-fit-pink-cushion,tirtir-mask-fit-ai-filter-cushion,tirtir-mask-fit-aura-cushion,tirtir-mask-fit-crystal-mesh-cushion,tirtir-mask-fit-cool-sun-cushion,tirtir-mask-fit-red-foundation,tirtir-glide-hide-blurring-concealer" role="region" tabindex="0"></div><div class="commerce-foot"><span>左右滑動，睇更多好物</span></div>
+</div></section>
+<section aria-label="Torriden" class="home-commerce home-commerce--torriden home-commerce--brand commerce-feature commerce-feature--brand" data-brand-edit="torriden" id="brand-edit-torriden-panel"><div aria-hidden="true" class="home-brand-edits__chapter-logo"><img alt="" decoding="async" height="90" loading="eager" src="assets/images/home-codex/live-brand-logos/torriden.svg" width="260"/></div><div class="content-wrap">
+<a aria-label="逛 Torriden" class="commerce-poster commerce-poster--torriden-model" href="shop.html?brand=Torriden"><span class="commerce-poster__campaign-copy"><small>Torriden with CORTIS</small><strong>DIVE<br/>IN.</strong><span>日常補水，一點水光。</span></span><span class="commerce-poster__portrait"><img alt="Torriden 官方 CORTIS DIVE IN 品牌模特兒合照" decoding="async" height="5782" loading="lazy" src="assets/images/home-codex/commerce/torriden-cortis-campaign.webp" width="900"/></span></a><div aria-label="Torriden DIVE-IN 補水商品；可左右滑動" class="commerce-rail" data-codex-rail="torriden" data-handles="torriden-torriden-dive-in-100ml-0183,torriden-torriden-dive-in-80-9446,torriden-torriden-60ml-0268,torriden-torriden-10-2865,torriden-torriden-dive-in-5072,torriden-torriden-dive-in-80ml-1660,torriden-torriden-dive-in-150ml-0404,torriden-torriden-150ml-2-5096" role="region" tabindex="0"></div><div class="commerce-foot"><span>左右滑動，睇更多好物</span></div>
+</div></section>
+</div>
+</section>
+<section aria-labelledby="home-award-picks-title" class="home-award-picks home-award-picks--gateway"><div class="home-award-picks__gateway"><header class="home-award-picks__introduction"><span class="home-award-picks__kicker">THE AWARD EDIT / 獲獎好物</span><h2 id="home-award-picks-title">口碑獲獎，<span>值得一試。</span></h2><p class="home-award-picks__intro">美妝大賞・編輯之選・用家口碑</p><p class="home-award-picks__totals"><span><b data-codex-award-total="bodies">6</b> 項美妝獎項</span><span><b data-codex-award-total="products">70</b> 款得獎好物</span></p><img alt="" aria-hidden="true" class="home-award-picks__mascot" decoding="async" height="350" loading="lazy" src="assets/images/home-codex/mascot-v4/15-awards-320.webp" width="320"/></header><nav aria-label="全部美妝獎項" class="home-award-picks__programs"><a aria-label="Olive Young Awards：35 款獲獎好物" class="home-award-picks__program home-award-picks__program--oliveyoung" href="awards.html?body=OLIVE_YOUNG"><span class="home-award-picks__logo-holder"><img alt="Olive Young" class="home-award-picks__program-logo" decoding="async" height="38" loading="lazy" src="assets/images/home-codex/awards/olive-organizer-official.svg" width="120"/></span><strong class="home-award-picks__program-title">OLIVE YOUNG AWARDS</strong><span class="home-award-picks__program-count" data-codex-award-count="OLIVE_YOUNG">35 款好物 <svg aria-hidden="true" class="lucide lucide-arrow-up-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a><a aria-label="Glowpick Awards：35 款獲獎好物" class="home-award-picks__program home-award-picks__program--glowpick" href="awards.html?body=GLOWPICK"><span class="home-award-picks__logo-holder"><img alt="Glowpick" class="home-award-picks__program-logo" decoding="async" height="38" loading="lazy" src="assets/images/home-codex/awards/glowpick-organizer-official.svg" width="120"/></span><strong class="home-award-picks__program-title">GLOWPICK AWARDS</strong><span class="home-award-picks__program-count" data-codex-award-count="GLOWPICK">35 款好物 <svg aria-hidden="true" class="lucide lucide-arrow-up-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a><a aria-label="화해 Hwahae Awards：14 款獲獎好物" class="home-award-picks__program home-award-picks__program--hwahae" href="awards.html?body=HWAHAE"><span class="home-award-picks__logo-holder"><img alt="Hwahae" class="home-award-picks__program-logo" decoding="async" height="38" loading="lazy" src="assets/images/home-codex/awards/hwahae-organizer-official.svg" width="120"/></span><strong class="home-award-picks__program-title">HWAHAE AWARDS</strong><span class="home-award-picks__program-count" data-codex-award-count="HWAHAE">14 款好物 <svg aria-hidden="true" class="lucide lucide-arrow-up-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a><a aria-label="@cosme Best Cosmetics Award：1 款獲獎好物" class="home-award-picks__program home-award-picks__program--cosme" href="awards.html?body=COSME"><span class="home-award-picks__logo-holder"><img alt="@cosme" class="home-award-picks__program-logo" decoding="async" height="38" loading="lazy" src="assets/images/home-codex/awards/cosme-organizer-official.svg" width="120"/></span><strong class="home-award-picks__program-title">BEST COSMETICS</strong><span class="home-award-picks__program-count" data-codex-award-count="COSME">1 款好物 <svg aria-hidden="true" class="lucide lucide-arrow-up-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a><a aria-label="Allure Best of Beauty：2 款獲獎好物" class="home-award-picks__program home-award-picks__program--allure-beauty" href="awards.html?body=ALLURE_BOB"><span class="home-award-picks__logo-holder"><img alt="Allure" class="home-award-picks__program-logo" decoding="async" height="38" loading="lazy" src="assets/images/home-codex/awards/allure-organizer-official.svg" width="120"/></span><strong class="home-award-picks__program-title">BEST OF BEAUTY</strong><span class="home-award-picks__program-count" data-codex-award-count="ALLURE_BOB">2 款好物 <svg aria-hidden="true" class="lucide lucide-arrow-up-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a><a aria-label="Allure Readers' Choice Awards：1 款獲獎好物" class="home-award-picks__program home-award-picks__program--allure-readers" href="awards.html?body=ALLURE_RC"><span class="home-award-picks__logo-holder"><img alt="Allure" class="home-award-picks__program-logo" decoding="async" height="38" loading="lazy" src="assets/images/home-codex/awards/allure-organizer-official.svg" width="120"/></span><strong class="home-award-picks__program-title">READERS’ CHOICE</strong><span class="home-award-picks__program-count" data-codex-award-count="ALLURE_RC">1 款好物 <svg aria-hidden="true" class="lucide lucide-arrow-up-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a></nav><footer class="home-award-picks__gateway-footer"><a class="home-award-picks__explore" href="awards.html">睇全部獲獎好物 <svg aria-hidden="true" class="lucide lucide-arrow-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a></footer></div></section>
+<section class="need-studio content-wrap" id="need-studio"><div class="need-heading"><div><span class="joy-kicker">NEEDS EDIT / 按需要選購</span><h2>按需要，揀啱美妝。</h2></div><div><p>唔使先記住品牌名。<br/>從一個小需要開始，再定自己的預算。</p><a class="text-link" href="match.html">幫我縮窄選擇</a></div></div><div class="need-cards"><a class="need-card" href="makeup.html?cat=lip" style="--need-i:0"><span class="need-card__index">01 / MY LITTLE NEED</span><img alt="" decoding="async" height="512" loading="lazy" src="assets/images/home-codex/watercolor/makeup-category-optimized/lip.webp" width="512"/><div><h3>想搵一支日常唇妝</h3></div><p>唇釉、唇膏、唇蜜。先揀款，再睇色號。</p></a><a class="need-card" href="makeup.html?cat=foundation" style="--need-i:1"><span class="need-card__index">02 / MY LITTLE NEED</span><img alt="" decoding="async" height="512" loading="lazy" src="assets/images/home-codex/watercolor/makeup-category-optimized/base.webp" width="512"/><div><h3>想揀底妝</h3></div><p>氣墊、粉底、遮瑕，看看自己喜歡嘅質感。</p></a><a class="need-card" href="category.html?cat=serum" style="--need-i:2"><span class="need-card__index">03 / MY LITTLE NEED</span><img alt="" decoding="async" height="512" loading="lazy" src="assets/images/home-codex/watercolor/skincare-category-optimized/serum.webp" width="512"/><div><h3>補一件精華</h3></div><p>唔同品牌同價錢，看看自己要嘅精華。</p></a><a class="need-card" href="category.html?cat=moisturizer" style="--need-i:3"><span class="need-card__index">04 / MY LITTLE NEED</span><img alt="" decoding="async" height="512" loading="lazy" src="assets/images/home-codex/watercolor/skincare-category-optimized/moisturizer.webp" width="512"/><div><h3>想搵保濕步驟</h3></div><p>面霜、乳液，放返入自己的日常。</p></a></div></section>
+<section aria-labelledby="commerce-sale" class="home-commerce home-commerce--sale commerce-feature commerce-feature--sale"><div class="content-wrap">
+<header class="curation-head"><div class="commerce-heading"><span class="commerce-kicker">THE BEAUTY EDIT / 換季精選</span><h2 id="commerce-sale">換季美妝精選</h2><p>唇妝、底妝、護膚，揀返今季想用嘅。</p></div><a class="commerce-more" href="shop.html?sort=deal">睇晒換季優惠</a></header>
+<div class="commerce-feature__body">
+<div class="commerce-feature__spotlight"><a aria-label="查看 CLIO Crystal Glam Tint" class="beauty-muse cx-muse" data-codex-brand="CLIO" data-codex-muse="clio-crystal-glam-tint" href="/products/clio-crystal-glam-tint"><picture><img alt="CLIO Crystal Glam Tint 模特兒妝容與同系列唇釉" decoding="async" loading="lazy" src="assets/images/home-codex/brand-photography/clio-crystal-glam-model.webp"/></picture><div class="beauty-muse__caption"><span>CLIO / 換季精選</span><h3>Crystal Glam Tint</h3><span class="text-link">探索水晶亮澤唇釉</span></div></a></div>
+<div class="commerce-feature__lineup"><div aria-label="秋季換季大特賣商品；可左右滑動" class="commerce-rail" data-codex-rail="sale" role="region" tabindex="0"></div><div class="commerce-foot"><span>左右滑動，睇更多好物</span></div></div>
+</div>
+</div></section>
+<section class="lc-picks content-wrap"><div class="joy-heading"><div><span class="joy-kicker">OUJI PICKS / 明星同款</span><h2>明星同款，一齊用。</h2></div><a class="text-link" href="shop.html">逛全部商品</a></div>
+<div class="lc-picks__row"><article class="lc-pick">
+<div class="lc-pick__hook"><img alt="IVE 員瑛 × AMUSE JEL-FIT TINT 廣告" loading="lazy" src="assets/images/home-codex/picks/wonyoung-hook.jpg"/><span class="lc-pick__chip">明星同款</span></div>
+<h3>員瑛同款奶油唇</h3><p>AMUSE 唇釉系列</p>
+<div class="lc-pick__cards" data-codex-rail="pick-0" data-handles="amuse-dew-tint,amuse-jelfit-tint,amuse-bebe-tint"></div>
+<a class="lc-pick__more" href="shop.html?brand=AMUSE">查看更多 AMUSE<span aria-hidden="true">›</span></a>
+</article><article class="lc-pick">
+<div class="lc-pick__hook"><img alt="CORTIS 同 Torriden 積雪草精華" loading="lazy" src="assets/images/home-codex/picks/cortis-hook.jpg"/><span class="lc-pick__chip">明星同款</span></div>
+<h3>CORTIS 同款穩定肌</h3><p>Torriden Balanceful 積雪草系列</p>
+<div class="lc-pick__cards" data-codex-rail="pick-1" data-handles="torriden-torriden-cica-60-0831,torriden-torriden-80ml-0985,torriden-torriden-50ml-0978"></div>
+<a class="lc-pick__more" href="shop.html?q=%E7%A9%8D%E9%9B%AA%E8%8D%89">查看更多積雪草系列<span aria-hidden="true">›</span></a>
+</article><article class="lc-pick">
+<div class="lc-pick__hook"><img alt="秀智 × Anua PDRN 精華宣傳照" loading="lazy" src="assets/images/home-codex/picks/suzy-hook.jpg"/><span class="lc-pick__chip">明星同款</span></div>
+<h3>秀智同款水光肌</h3><p>Anua PDRN 系列</p>
+<div class="lc-pick__cards" data-codex-rail="pick-2" data-handles="anua-anua-pdrn-11-100-30ml-6667,anua-anua-pdrn-100ml-3331,anua-anua-pdrn-30ml-3348"></div>
+<a class="lc-pick__more" href="shop.html?q=PDRN">查看更多 Anua PDRN<span aria-hidden="true">›</span></a>
+</article></div></section>
+<section aria-labelledby="home-offers-title" class="home-offers home-commerce commerce-feature commerce-feature--offers" data-offer-campaign="sun">
+<div class="content-wrap">
+<header class="home-offers__header home-offers__header--finds">
+<div class="home-offers__intro"><span class="home-offers__kicker">THE GOOD FINDS / 好物優惠</span><span class="offer-finds__eyebrow">清貨・特價專區 <svg aria-hidden="true" class="lucide lucide-tag" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" fill="currentColor" r=".5"></circle></svg></span><h2 class="home-offers__title" id="home-offers-title">好物，啱價。</h2><p class="home-offers__copy">防曬清貨・短效期特價</p></div>
+<div aria-label="貓咪芝麻俯身伸手拎起美妝好物，逐件放入粉紅色購物籃，再開心望住你笑" class="offer-finds__scene" role="img">
+<div class="offer-finds__film" data-motion="idle">
+<img alt="" class="offer-finds__poster" decoding="async" height="512" loading="lazy" src="assets/images/home-codex/offer-finds/shima-collect-watercolor-v3-poster.webp" width="512"/>
+<video aria-hidden="true" class="offer-finds__video" data-src="assets/images/home-codex/offer-finds/shima-collect-watercolor-v3.mp4" height="512" loop="" muted="" playsinline="" preload="none" width="512"></video>
+</div>
+</div>
+</header>
+<div class="home-offers__tabs" hidden=""><button class="home-offers__tab offer-category-tab" data-campaign="sun" id="home-offers-sun-tab" tabindex="-1" type="button"><span class="offer-category-tab__label">防曬清貨</span></button><button class="home-offers__tab offer-category-tab" data-campaign="expiring" id="home-offers-expiring-tab" tabindex="-1" type="button"><span class="offer-category-tab__label">短效期特價</span></button></div>
+<div class="home-offers__grid"><section aria-label="防曬清貨" class="home-offers__panel commerce-feature--brand" data-offer-category="sun" id="home-offers-sun-panel">
+<div aria-hidden="true" class="home-offers__chapter-label">防曬清貨</div>
+<div class="home-offers__chapter-content">
+<h3 class="sr-only">日常防曬，換季優惠。</h3>
+<a class="commerce-poster" href="seasonal.html?cat=sun"><img alt="防曬夏日宣傳海報｜SUNCUT" decoding="async" height="1490" loading="lazy" src="assets/images/home-codex/commerce/suncut-summer.webp" width="3000"/></a>
+<div aria-label="防曬清貨商品；可左右滑動" class="commerce-rail" data-codex-rail="sun" role="region" tabindex="0"></div>
+<div class="commerce-foot"><p>日常防曬，好價清貨。</p><a class="commerce-more" href="seasonal.html?cat=sun">查看全部防曬清貨 →</a></div>
+</div>
+</section><section aria-label="短效期特價" class="home-offers__panel commerce-feature--brand" data-offer-category="expiring" id="home-offers-expiring-panel">
+<div aria-hidden="true" class="home-offers__chapter-label">短效期特價</div>
+<div class="home-offers__chapter-content">
+<a class="commerce-poster home-offers__expiry-poster" href="short-dated.html"><div class="home-offers__expiry-copy"><span class="home-offers__expiry-kicker" data-codex-expiry-kicker="">APRILSKIN</span><h3>短效期精選。</h3><p>到期日逐件列清楚；短效期商品不疊加其他折扣。</p></div><img alt="" class="home-offers__expiry-img" data-codex-expiry-img="" decoding="async" loading="lazy"/></a>
+<div aria-label="短效期特價商品；可左右滑動" class="commerce-rail" data-codex-rail="expiring" role="region" tabindex="0"></div>
+<div class="commerce-foot"><p>到期日逐件列清楚；短效期商品不疊加其他折扣。</p><a class="commerce-more" href="short-dated.html">查看全部短效期特價 →</a></div>
+</div>
+</section></div>
+</div>
+</section>
+<section aria-labelledby="home-lifestyle-title" class="home-lifestyle home-commerce commerce-feature"><div class="home-lifestyle__inner"><header class="home-lifestyle__heading"><span class="home-lifestyle__kicker">THE LITTLE EXTRAS / 日常選物</span><h2 id="home-lifestyle-title">美妝以外，仲有小驚喜。</h2></header><div aria-label="日常選物分類" aria-orientation="horizontal" class="home-lifestyle__tabs home-lifestyle__mobile-tabs" role="tablist"><button aria-controls="home-lifestyle-care-seasonal-panel" aria-selected="true" class="home-lifestyle__tab" data-key="seasonal" id="home-lifestyle-mobile-seasonal-tab" role="tab" tabindex="0" type="button"><span>季節性</span></button><button aria-controls="home-lifestyle-care-bath-panel" aria-selected="false" class="home-lifestyle__tab" data-key="bath" id="home-lifestyle-mobile-bath-tab" role="tab" tabindex="-1" type="button"><span>沐浴</span></button><button aria-controls="home-lifestyle-care-bodycare-panel" aria-selected="false" class="home-lifestyle__tab" data-key="bodycare" id="home-lifestyle-mobile-bodycare-tab" role="tab" tabindex="-1" type="button"><span>身體護理</span></button><button aria-controls="home-lifestyle-extras-toys-panel" aria-selected="false" class="home-lifestyle__tab" data-key="toys" id="home-lifestyle-mobile-toys-tab" role="tab" tabindex="-1" type="button"><span>公仔</span></button><button aria-controls="home-lifestyle-extras-fragrance-panel" aria-selected="false" class="home-lifestyle__tab" data-key="fragrance" id="home-lifestyle-mobile-fragrance-tab" role="tab" tabindex="-1" type="button"><span>香氛</span></button><button aria-controls="home-lifestyle-extras-kpop-panel" aria-selected="false" class="home-lifestyle__tab" data-key="kpop" id="home-lifestyle-mobile-kpop-tab" role="tab" tabindex="-1" type="button"><span>K-pop</span></button></div><div class="home-lifestyle__grid"><section aria-label="肌膚與身體日常" class="home-lifestyle__chapter" data-activekey="seasonal" data-lifestyle-chapter="care"><div aria-label="護理分類" aria-orientation="horizontal" class="home-lifestyle__tabs" data-activekey="seasonal" role="tablist"><button aria-controls="home-lifestyle-care-seasonal-panel" aria-selected="true" class="home-lifestyle__tab" data-key="seasonal" id="home-lifestyle-care-seasonal-tab" role="tab" tabindex="0" type="button"><span>季節性</span></button><button aria-controls="home-lifestyle-care-bath-panel" aria-selected="false" class="home-lifestyle__tab" data-key="bath" id="home-lifestyle-care-bath-tab" role="tab" tabindex="-1" type="button"><span>沐浴</span></button><button aria-controls="home-lifestyle-care-bodycare-panel" aria-selected="false" class="home-lifestyle__tab" data-key="bodycare" id="home-lifestyle-care-bodycare-tab" role="tab" tabindex="-1" type="button"><span>身體護理</span></button></div><div class="home-lifestyle__panels"><section aria-hidden="false" aria-labelledby="home-lifestyle-care-seasonal-tab" class="home-lifestyle__panel" data-category="seasonal" id="home-lifestyle-care-seasonal-panel" role="tabpanel" tabindex="0"><div aria-label="季節性精選商品預覽" class="home-lifestyle__poster"><svg aria-hidden="true" class="home-lifestyle__poster-lines" preserveaspectratio="none" viewbox="0 0 360 170"><path d="M-14 126C57 61 89 176 162 111S270 35 380 78"></path><path d="M-18 145C47 93 90 190 171 130S291 58 377 97"></path></svg><div class="home-lifestyle__poster-copy"><h3>當季，小小照顧。</h3><p>潤唇、護手，同當季小物。</p><a href="seasonal.html">探索季節性 <span aria-hidden="true">↗</span></a></div><div aria-hidden="true" class="home-lifestyle__poster-art" data-codex-poster="seasonal"></div></div><div aria-label="季節性商品，可左右滑動" class="commerce-rail home-lifestyle__rail" data-codex-rail="life-seasonal" data-handles="amuse-sanrio-lip-balm,torriden-torriden-2-0312,tirtir-waterism-glow-melting-balm,frudia-鮮果滋潤護手霜-乳木果油,chwi-純素護手霜-50ml-daenamu,aromatica-柔和護手霜-木蘭-檀香-30ml" role="region" tabindex="0"></div><div class="home-lifestyle__foot"><span>季節性 · OUJI 日常選物</span><a href="seasonal.html">查看全部季節性 <span aria-hidden="true">→</span></a></div></section><section aria-hidden="true" aria-labelledby="home-lifestyle-care-bath-tab" class="home-lifestyle__panel" data-category="bath" hidden="" id="home-lifestyle-care-bath-panel" role="tabpanel" tabindex="0"><div aria-label="沐浴精選商品預覽" class="home-lifestyle__poster"><svg aria-hidden="true" class="home-lifestyle__poster-lines" preserveaspectratio="none" viewbox="0 0 360 170"><path d="M-14 126C57 61 89 176 162 111S270 35 380 78"></path><path d="M-18 145C47 93 90 190 171 130S291 58 377 97"></path></svg><div class="home-lifestyle__poster-copy"><h3>慢慢沖涼，鬆一口氣。</h3><p>沐浴露同日常洗護。</p><a href="bath.html">探索沐浴 <span aria-hidden="true">↗</span></a></div><div aria-hidden="true" class="home-lifestyle__poster-art" data-codex-poster="bath"></div></div><div aria-label="沐浴商品，可左右滑動" class="commerce-rail home-lifestyle__rail" data-codex-rail="life-bath" data-handles="plu-香水溫泉磨砂沐浴露-花香皂,botanist-植物性沐浴露-溫和呵護型-490ml-洋梨-白百合香-ボタニカルボディーソープ-マイルドケア,bouquet-garni-沐浴露-520ml-櫻花,nard-沐浴露-lavender-musk,hetras-hotel-therapy-香氛沐浴露-1013ml-no-2-花店-flower-park,some-by-mi-somebymi-150ml-1104" role="region" tabindex="0"></div><div class="home-lifestyle__foot"><span>沐浴 · OUJI 日常選物</span><a href="bath.html">查看全部沐浴 <span aria-hidden="true">→</span></a></div></section><section aria-hidden="true" aria-labelledby="home-lifestyle-care-bodycare-tab" class="home-lifestyle__panel" data-category="bodycare" hidden="" id="home-lifestyle-care-bodycare-panel" role="tabpanel" tabindex="0"><div aria-label="身體護理精選商品預覽" class="home-lifestyle__poster"><svg aria-hidden="true" class="home-lifestyle__poster-lines" preserveaspectratio="none" viewbox="0 0 360 170"><path d="M-14 126C57 61 89 176 162 111S270 35 380 78"></path><path d="M-18 145C47 93 90 190 171 130S291 58 377 97"></path></svg><div class="home-lifestyle__poster-copy"><h3>由手心到全身。</h3><p>身體乳同護理小物，照顧日常。</p><a href="bath.html?cat=lotion">探索身體護理 <span aria-hidden="true">↗</span></a></div><div aria-hidden="true" class="home-lifestyle__poster-art" data-codex-poster="bodycare"></div></div><div aria-label="身體護理商品，可左右滑動" class="commerce-rail home-lifestyle__rail" data-codex-rail="life-bodycare" data-handles="purito-purito-seoul-300ml-3805,some-by-mi-somebymi-aha-bha-pha-30-days-miracle-400g-0725,purito-purito-seoul-300ml-3799,aromatica-serene身體乳液-薰衣草-馬鬱蘭-300ml,bouquet-garni-身體乳-520ml-清潔肥皂,amuse-vegan-hand-cream" role="region" tabindex="0"></div><div class="home-lifestyle__foot"><span>身體護理 · OUJI 日常選物</span><a href="bath.html?cat=lotion">查看全部身體護理 <span aria-hidden="true">→</span></a></div></section></div></section><section aria-label="生活小物與收藏" class="home-lifestyle__chapter" data-activekey="toys" data-lifestyle-chapter="extras"><div aria-label="生活選物分類" aria-orientation="horizontal" class="home-lifestyle__tabs" data-activekey="toys" role="tablist"><button aria-controls="home-lifestyle-extras-toys-panel" aria-selected="true" class="home-lifestyle__tab" data-key="toys" id="home-lifestyle-extras-toys-tab" role="tab" tabindex="0" type="button"><span>公仔</span></button><button aria-controls="home-lifestyle-extras-fragrance-panel" aria-selected="false" class="home-lifestyle__tab" data-key="fragrance" id="home-lifestyle-extras-fragrance-tab" role="tab" tabindex="-1" type="button"><span>香氛</span></button><button aria-controls="home-lifestyle-extras-kpop-panel" aria-selected="false" class="home-lifestyle__tab" data-key="kpop" id="home-lifestyle-extras-kpop-tab" role="tab" tabindex="-1" type="button"><span>K-pop</span></button></div><div class="home-lifestyle__panels"><section aria-hidden="false" aria-labelledby="home-lifestyle-extras-toys-tab" class="home-lifestyle__panel" data-category="toys" id="home-lifestyle-extras-toys-panel" role="tabpanel" tabindex="0"><div aria-label="公仔精選商品預覽" class="home-lifestyle__poster"><svg aria-hidden="true" class="home-lifestyle__poster-lines" preserveaspectratio="none" viewbox="0 0 360 170"><path d="M-14 126C57 61 89 176 162 111S270 35 380 78"></path><path d="M-18 145C47 93 90 190 171 130S291 58 377 97"></path></svg><div class="home-lifestyle__poster-copy"><h3>可愛，放喺身邊。</h3><p>公仔、盲盒同角色小物。</p><a href="toys.html">探索公仔 <span aria-hidden="true">↗</span></a></div><div aria-hidden="true" class="home-lifestyle__poster-art" data-codex-poster="toys"></div></div><div aria-label="公仔商品，可左右滑動" class="commerce-rail home-lifestyle__rail" data-codex-rail="life-toys" data-handles="cinnamoroll-4吋天使造型公仔-sanrio-characters-黑白天使系列,hello-kitty-4吋天使造型公仔-sanrio-characters-黑白天使系列,my-melody-4吋天使造型公仔-sanrio-characters-黑白天使系列,hangyodon-4吋天使造型公仔-sanrio-characters-黑白天使系列,kuromi-4吋天使造型公仔-sanrio-characters-黑白天使系列,美樂蒂發光入浴球" role="region" tabindex="0"></div><div class="home-lifestyle__foot"><span>公仔 · OUJI 日常選物</span><a href="toys.html">查看全部公仔 <span aria-hidden="true">→</span></a></div></section><section aria-hidden="true" aria-labelledby="home-lifestyle-extras-fragrance-tab" class="home-lifestyle__panel" data-category="fragrance" hidden="" id="home-lifestyle-extras-fragrance-panel" role="tabpanel" tabindex="0"><div aria-label="香氛精選商品預覽" class="home-lifestyle__poster"><svg aria-hidden="true" class="home-lifestyle__poster-lines" preserveaspectratio="none" viewbox="0 0 360 170"><path d="M-14 126C57 61 89 176 162 111S270 35 380 78"></path><path d="M-18 145C47 93 90 190 171 130S291 58 377 97"></path></svg><div class="home-lifestyle__poster-copy"><h3>日常，留一點香。</h3><p>香水、身體噴霧同衣物香氛。</p><a href="fragrance.html">探索香氛 <span aria-hidden="true">↗</span></a></div><div aria-hidden="true" class="home-lifestyle__poster-art" data-codex-poster="fragrance"></div></div><div aria-label="香氛商品，可左右滑動" class="commerce-rail home-lifestyle__rail" data-codex-rail="life-fragrance" data-handles="flowerknows-the-sweetie-bear-perfume,lovisia-chiikawa身體噴霧-白茶,fiancee-身體噴霧-肥皂香味,rooftop-oasis-淡香水-森林香氣-30ml,yoi-blue-淡香水-無花果-30ml,lovisia-chiikawa身體噴霧-金木犀" role="region" tabindex="0"></div><div class="home-lifestyle__foot"><span>香氛 · OUJI 日常選物</span><a href="fragrance.html">查看全部香氛 <span aria-hidden="true">→</span></a></div></section><section aria-hidden="true" aria-labelledby="home-lifestyle-extras-kpop-tab" class="home-lifestyle__panel" data-category="kpop" hidden="" id="home-lifestyle-extras-kpop-panel" role="tabpanel" tabindex="0"><div aria-label="K-pop精選商品預覽" class="home-lifestyle__poster"><svg aria-hidden="true" class="home-lifestyle__poster-lines" preserveaspectratio="none" viewbox="0 0 360 170"><path d="M-14 126C57 61 89 176 162 111S270 35 380 78"></path><path d="M-18 145C47 93 90 190 171 130S291 58 377 97"></path></svg><div class="home-lifestyle__poster-copy"><h3>鍾意嘅舞台，收藏起。</h3><p>專輯、寫真，同一點心動。</p><a href="kpop.html">探索K-pop <span aria-hidden="true">↗</span></a></div><div aria-hidden="true" class="home-lifestyle__poster-art" data-codex-poster="kpop"></div></div><div aria-label="K-pop商品，可左右滑動" class="commerce-rail home-lifestyle__rail" data-codex-rail="life-kpop" data-handles="kpop-twice-4th-full-album-this-is-for-7462,kpop-seventeen-5th-full-album-happy-burstday-white-ver-1657,kpop-g-i-dle-2nd-full-album-2-0-ver-gray-8240,kpop-illit-3rd-mini-album-bomb-member-specific-ver-3129,kpop-seventeen-unit-photobook-s-coups-x-mingyu-set-of-2-9451,kpop-illit-3rd-mini-album-bomb-magic-bomb-ver-blue-3112" role="region" tabindex="0"></div><div class="home-lifestyle__foot"><span>K-pop · OUJI 日常選物</span><a href="kpop.html">查看全部K-pop <span aria-hidden="true">→</span></a></div></section></div></section></div></div></section>
+    </div>
 
-    <section class="home-block home-block--sale home-block--warm" data-home-block="sale" aria-labelledby="home-sale-title" hidden>
-      <div class="container">
-        <div class="home-block__head">
-          <div class="home-block__titles">
-            <span class="label home-block__label">換季優惠 · 限時特價</span>
-            <h2 class="heading-lg home-block__title" id="home-sale-title">秋季換季大特賣</h2>
-          </div>
-          <p class="home-block__best">全場低至 <strong data-block-best></strong> 折</p>
-          <div class="home-block__tools">
-            <a class="home-block__more" href="shop.html">睇晒全部產品</a>
-            <div class="home-rail__nav">
-              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <div class="home-rail" data-block-grid></div>
-      </div>
-    </section>
-
-    <section class="home-block home-block--sun home-block--sky" data-home-block="sun" aria-labelledby="home-sun-title" hidden>
-      <div class="container">
-        <div class="home-block__head">
-          <div class="home-block__titles">
-            <span class="label home-block__label">防曬清貨 · Suncare</span>
-            <h2 class="heading-lg home-block__title" id="home-sun-title">防曬換季清貨</h2>
-          </div>
-          
-          <div class="home-block__tools">
-            <a class="home-block__more" href="seasonal.html?cat=sun">睇晒防曬優惠</a>
-            <div class="home-rail__nav">
-              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <a class="home-poster" href="seasonal.html?cat=sun">
-          <picture>
-            <source media="(max-width: 768px)" srcset="assets/images/home/brand/anessa-gold-sq.webp">
-            <img src="assets/images/home/brand/anessa-gold.webp" alt="ANESSA 日本官方廣告：Perfect UV 金樽防曬乳" width="1920" height="773" loading="lazy" decoding="async">
-          </picture>
-        </a>
-        <div class="home-rail" data-block-grid></div>
-      </div>
-    </section>
-
-    <!-- 秋老虎 · Keep 住涼爽（2026-10-02 老闆：風扇自己一格，唔好撈埋換季大特賣，否則人哋睇唔到）
-         風扇得幾款，所以左邊官方海報（MASCLUB 日本官網）、右邊貨，唔出一條得三件嘅長貨架。 -->
-    <section class="home-block home-block--fan" data-home-block="fan" aria-labelledby="home-fan-title" hidden>
-      <div class="container">
-        <div class="home-block__head">
-          <div class="home-block__titles">
-            <span class="label home-block__label">秋老虎 · Stay Cool</span>
-            <h2 class="heading-lg home-block__title" id="home-fan-title">Keep 住涼爽</h2>
-          </div>
-          <div class="home-block__tools">
-            <a class="home-block__more" href="seasonal.html?cat=fan">睇晒便攜風扇</a>
-            <div class="home-rail__nav">
-              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <div class="home-block__split">
-          <a class="home-poster" href="seasonal.html?cat=fan">
-            <img src="assets/images/home/brand/masclub-fan.webp" alt="MASCLUB 日本官方廣告：手持風扇夏対策" width="1020" height="510" loading="lazy" decoding="async">
-          </a>
-          <div class="home-rail" data-block-grid></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="home-block home-block--torriden" data-home-block="torriden" aria-labelledby="home-torriden-title" hidden>
-      <div class="container">
-        <div class="home-block__head">
-          <div class="home-block__titles">
-            <span class="label home-block__label">主力品牌 · 正價貨都減</span>
-            <h2 class="heading-lg home-block__title" id="home-torriden-title">Torriden DIVE-IN 補水</h2>
-          </div>
-          
-          <div class="home-block__tools">
-            <a class="home-block__more" href="shop.html?brand=Torriden">睇晒 Torriden</a>
-            <div class="home-rail__nav">
-              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <a class="home-poster" href="shop.html?brand=Torriden">
-          <picture>
-            <source media="(max-width: 768px)" srcset="assets/images/home/brand/torriden-divein-1000.webp">
-            <img src="assets/images/home/brand/torriden-divein.webp" alt="Torriden 韓國官方廣告：DIVE-IN 低分子玻尿酸精華" width="1920" height="860" loading="lazy" decoding="async">
-          </picture>
-        </a>
-        <div class="home-rail" data-block-grid></div>
-      </div>
-    </section>
-
-    <section class="home-block home-block--expiring home-block--warm" data-home-block="expiring" aria-labelledby="home-expiring-title" hidden>
-      <div class="container">
-        <div class="home-block__head">
-          <div class="home-block__titles">
-            <span class="label home-block__label">就快到期 · 執平貨</span>
-            <h2 class="heading-lg home-block__title" id="home-expiring-title">短效期特價</h2>
-          </div>
-          
-          <div class="home-block__tools">
-            <a class="home-block__more" href="short-dated.html">睇晒短效期特價</a>
-            <div class="home-rail__nav">
-              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <div class="home-rail" data-block-grid></div>
-      </div>
-    </section>
-
-    <!-- 更多精選產品（標題 2026-10-02 老闆定；原本「OUJI 仲有呢啲」唔得）（2026-10-02 老闆：要畀人知我哋仲有公仔、沐浴、保健品，但唔想首頁臃腫）
-         一格搞掂：一行分類 tab，撳邊個就喺同一條貨架換貨，每個分類出最受歡迎嗰批。 -->
-    <section class="home-block home-block--more" data-home-more aria-labelledby="home-more-title" hidden>
-      <div class="container">
-        <div class="home-block__head">
-          <div class="home-block__titles">
-            <span class="label home-block__label">More Picks</span>
-            <h2 class="heading-lg home-block__title" id="home-more-title">更多精選產品</h2>
-          </div>
-          <div class="home-block__tools">
-            <a class="home-block__more" data-more-link href="shop.html">睇晒</a>
-            <div class="home-rail__nav">
-              <button type="button" class="home-rail__btn" data-rail-prev aria-label="上一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="home-rail__btn" data-rail-next aria-label="下一組"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <div class="home-tabs home-more__tabs" role="tablist" data-more-tabs></div>
-        <div class="home-rail" data-more-rail></div>
-      </div>
-    </section>
-
-    <!-- 「而家買咩好」同分類海報（彩妝／護膚／隱形眼鏡／K-pop）2026-10-02 老闆話冇特色，拎走；
-         短效期貨併入上面換季大特賣嘅 tab。 -->
-    <!-- 品牌牆擺喺「而家買咩好」下面：客啱啱睇完頭幾行貨，
-         「你哋有邊啲牌子」就變返有用。
-         試過拆兩條插入各自嗰行貨嘅頭頂（彩妝一條、護膚一條），
-         老闆睇完話兩截冇一幅咁好睇 —— 合併返一幅。 -->
-    <section class="brand-marquees">
-      <!-- 2026-08-23：呢格同品牌頁一樣改咗 —— 之前係深藍底＋白色 logo
-           （`filter: brightness(0) invert(1)`），35 個牌子嘅招牌色全部被
-           抹走。而家改做同一個 XP Explorer 窗：白底、原色 logo。
-           走馬燈本身留住，嗰個動感就係呢格嘅性格。煙霧片唔再畫。 -->
-      <div class="container">
-        <!-- 剷走咗 eyebrow「合作品牌」（標題自己講得晒，多一行細字只係
-             推低咗個標題）同埋原本嗰句說明 —— 嗰句寫住「最具人氣與口碑」，
-             我哋冇銷量／口碑數據，唔講得。 -->
-        <div class="section-header reveal-blur">
-          <h2 class="heading-lg section-header__title">Our Brands</h2>
-        </div>
-      </div>
-
-      <div class="bxp bxp--marquee">
-        <div class="bxp__bar">
-          <span class="bxp__ico"></span>
-          <span class="bxp__name">品牌 — 我哋入嘅牌子</span>
-          <span class="bxp__ctl"><i></i><i></i><i class="is-x"></i></span>
-        </div>
-        <div class="bxp__menu"><span>檔案(F)</span><span>編輯(E)</span><span>檢視(V)</span><span>說明(H)</span></div>
-        <div class="bxp__body">
-
-      <!-- ── 彩妝品牌 ── -->
-      <div class="brand-marquees__section">
-        <div class="container">
-          <div class="brand-marquees__section-header">
-            <div class="brand-section-title">
-              <p class="brand-marquees__label">彩妝品牌</p>
-            </div>
-            <button class="brand-section-toggle" id="makeupToggle">
-              <span class="brand-section-toggle__text">瀏覽全部 · 19 品牌</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Marquee rows (collapse when grid opens) -->
-        <div class="brand-marquees__rows" id="makeupRows">
-
-        <!-- Makeup Row 1 (reverse) -->
-        <div class="brand-marquee brand-marquee--reverse">
-          <div class="brand-marquee__track">
-            <a href="shop.html?brand=TIRTIR" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=rom%26nd" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=dasique" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=hince" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=fwee" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=AMUSE" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=lilybyred" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Glint" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=CLIO" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Peripera" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="shop.html?brand=TIRTIR" class="brand-marquee__item"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=rom%26nd" class="brand-marquee__item"><img src="logos/romand.svg" alt="rom&nd" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=dasique" class="brand-marquee__item"><img src="logos/dasique.png" alt="dasique" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=hince" class="brand-marquee__item"><img src="logos/hince.svg" alt="hince" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=fwee" class="brand-marquee__item"><img src="logos/fwee.svg" alt="fwee" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=AMUSE" class="brand-marquee__item"><img src="logos/amuse.svg" alt="AMUSE" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=lilybyred" class="brand-marquee__item"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Glint" class="brand-marquee__item"><img src="logos/glint.svg" alt="GLINT" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=CLIO" class="brand-marquee__item"><img src="logos/clio.svg" alt="CLIO" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Peripera" class="brand-marquee__item"><img src="logos/peripera.svg" alt="peripera" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-          </div>
-        </div>
-
-        <!-- Makeup Row 2 (fast) -->
-        <div class="brand-marquee brand-marquee--fast">
-          <div class="brand-marquee__track">
-            <a href="shop.html?brand=WAKEMAKE" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Flower%20Knows" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=MAYBELLINE" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Laka" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=2aN" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=BRAYE" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=UNLEASHIA" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Heart%20Percent" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Coralhaze" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="shop.html?brand=WAKEMAKE" class="brand-marquee__item"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Flower%20Knows" class="brand-marquee__item"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=MAYBELLINE" class="brand-marquee__item"><img src="logos/maybelline.svg" alt="Maybelline New York" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Laka" class="brand-marquee__item"><img src="logos/laka.svg" alt="Laka Global" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=2aN" class="brand-marquee__item"><img src="logos/2an.svg" alt="2aN" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=BRAYE" class="brand-marquee__item"><img src="logos/braye.svg" alt="BRAYE" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=UNLEASHIA" class="brand-marquee__item"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Heart%20Percent" class="brand-marquee__item"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Coralhaze" class="brand-marquee__item"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-          </div>
-        </div>
-
-        </div><!-- end brand-marquees__rows (makeup) -->
-
-        <!-- Makeup grid (hidden by default) -->
-        <div class="brand-marquees__grid-view" id="makeupGridView">
-          <div class="container">
-            <div class="brand-grid">
-              <a href="shop.html?brand=TIRTIR" class="brand-grid__card" data-category="makeup"><img src="logos/tirtir.svg" alt="TIRTIR" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">TIRTIR</span></a>
-              <a href="shop.html?brand=rom%26nd" class="brand-grid__card" data-category="makeup"><img src="logos/romand.svg" alt="rom&nd" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">rom&amp;nd</span></a>
-              <a href="shop.html?brand=dasique" class="brand-grid__card" data-category="makeup"><img src="logos/dasique.png" alt="dasique" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">dasique</span></a>
-              <a href="shop.html?brand=hince" class="brand-grid__card" data-category="makeup"><img src="logos/hince.svg" alt="hince" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">hince</span></a>
-              <a href="shop.html?brand=fwee" class="brand-grid__card" data-category="makeup"><img src="logos/fwee.svg" alt="fwee" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">fwee</span></a>
-              <a href="shop.html?brand=AMUSE" class="brand-grid__card" data-category="makeup"><img src="logos/amuse.svg" alt="AMUSE" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">AMUSE</span></a>
-              <a href="shop.html?brand=lilybyred" class="brand-grid__card" data-category="makeup"><img src="logos/lilybyred.svg" alt="Lilybyred" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">lilybyred</span></a>
-              <a href="shop.html?brand=Glint" class="brand-grid__card" data-category="makeup"><img src="logos/glint.svg" alt="GLINT" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">GLINT</span></a>
-              <a href="shop.html?brand=CLIO" class="brand-grid__card" data-category="makeup"><img src="logos/clio.svg" alt="CLIO" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">CLIO</span></a>
-              <a href="shop.html?brand=Peripera" class="brand-grid__card" data-category="makeup"><img src="logos/peripera.svg" alt="peripera" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">peripera</span></a>
-              <a href="shop.html?brand=WAKEMAKE" class="brand-grid__card" data-category="makeup"><img src="logos/wakemake.svg" alt="WAKEMAKE" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">WAKEMAKE</span></a>
-              <a href="shop.html?brand=Flower%20Knows" class="brand-grid__card" data-category="makeup"><img src="logos/flower-knows.svg" alt="Flower Knows" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Flower Knows</span></a>
-              <a href="shop.html?brand=MAYBELLINE" class="brand-grid__card" data-category="makeup"><img src="logos/maybelline.svg" alt="Maybelline" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Maybelline</span></a>
-              <a href="shop.html?brand=Laka" class="brand-grid__card" data-category="makeup"><img src="logos/laka.svg" alt="LAKA" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">LAKA</span></a>
-              <a href="shop.html?brand=2aN" class="brand-grid__card" data-category="makeup"><img src="logos/2an.svg" alt="2aN" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">2aN</span></a>
-              <a href="shop.html?brand=BRAYE" class="brand-grid__card" data-category="makeup"><img src="logos/braye.svg" alt="BRAYE" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">BRAYE</span></a>
-              <a href="shop.html?brand=UNLEASHIA" class="brand-grid__card" data-category="makeup"><img src="logos/unleashia.svg" alt="UNLEASHIA" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">UNLEASHIA</span></a>
-              <a href="shop.html?brand=Heart%20Percent" class="brand-grid__card" data-category="makeup"><img src="logos/heart-percent.svg" alt="Heart Percent" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Heart Percent</span></a>
-              <a href="shop.html?brand=Coralhaze" class="brand-grid__card" data-category="makeup"><img src="logos/coralhaze.svg" alt="Coralhaze" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Coralhaze</span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── 護膚品牌 ── -->
-      <div class="brand-marquees__section">
-        <div class="container">
-          <div class="brand-marquees__section-header">
-            <div class="brand-section-title">
-              <p class="brand-marquees__label">護膚品牌</p>
-            </div>
-            <button class="brand-section-toggle" id="skincareToggle">
-              <span class="brand-section-toggle__text">瀏覽全部 · 22 品牌</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="brand-section-toggle__icon"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Marquee rows (collapse when grid opens) -->
-        <div class="brand-marquees__rows" id="skincareRows">
-
-        <!-- Skincare Row 1 (forward) -->
-        <div class="brand-marquee">
-          <div class="brand-marquee__track">
-            <a href="shop.html?brand=Torriden" class="brand-marquee__item"><img src="logos/torriden.svg" alt="Torriden" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Anua" class="brand-marquee__item"><img src="logos/anua.png" alt="ANUA" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Abib" class="brand-marquee__item"><img src="logos/abib.svg" alt="Abib" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Round%20Lab" class="brand-marquee__item"><img src="logos/round-lab.svg" alt="Round Lab" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=SKIN1004" class="brand-marquee__item"><img src="logos/skin1004.png" alt="SKIN1004" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Beauty%20of%20Joseon" class="brand-marquee__item"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=beplain" class="brand-marquee__item"><img src="logos/beplain.png" alt="beplain" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Bring%20Green" class="brand-marquee__item"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=COSRX" class="brand-marquee__item"><img src="logos/cosrx.png" alt="COSRX" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Goodal" class="brand-marquee__item"><img src="logos/goodal.svg" alt="goodal" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="shop.html?brand=Torriden" class="brand-marquee__item"><img src="logos/torriden.svg" alt="Torriden" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Anua" class="brand-marquee__item"><img src="logos/anua.png" alt="ANUA" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Abib" class="brand-marquee__item"><img src="logos/abib.svg" alt="Abib" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Round%20Lab" class="brand-marquee__item"><img src="logos/round-lab.svg" alt="Round Lab" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=SKIN1004" class="brand-marquee__item"><img src="logos/skin1004.png" alt="SKIN1004" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Beauty%20of%20Joseon" class="brand-marquee__item"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=beplain" class="brand-marquee__item"><img src="logos/beplain.png" alt="beplain" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Bring%20Green" class="brand-marquee__item"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=COSRX" class="brand-marquee__item"><img src="logos/cosrx.png" alt="COSRX" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Goodal" class="brand-marquee__item"><img src="logos/goodal.svg" alt="goodal" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            </div>
-        </div>
-
-        <!-- Skincare Row 2 (reverse fast) -->
-        <div class="brand-marquee brand-marquee--reverse brand-marquee--fast">
-          <div class="brand-marquee__track">
-            <a href="shop.html?brand=mixsoon" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Needly" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=OOTD" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=PURITO%20SEOUL" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Skinfood" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Some%20By%20Mi" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <!-- duplicate for seamless loop -->
-            <a href="shop.html?brand=mixsoon" class="brand-marquee__item"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Needly" class="brand-marquee__item"><img src="logos/needly.svg" alt="NEEDLY" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=OOTD" class="brand-marquee__item"><img src="logos/ootd.svg" alt="OOTD" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=PURITO%20SEOUL" class="brand-marquee__item"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Skinfood" class="brand-marquee__item"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            <a href="shop.html?brand=Some%20By%20Mi" class="brand-marquee__item"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-marquee__logo" loading="lazy" decoding="async"></a>
-            </div>
-        </div>
-
-        </div><!-- end brand-marquees__rows (skincare) -->
-
-        <!-- Skincare grid (hidden by default) -->
-        <div class="brand-marquees__grid-view" id="skincareGridView">
-          <div class="container">
-            <div class="brand-grid">
-              <a href="shop.html?brand=Torriden" class="brand-grid__card" data-category="skincare"><img src="logos/torriden.svg" alt="Torriden" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Torriden</span></a>
-              <a href="shop.html?brand=Anua" class="brand-grid__card" data-category="skincare"><img src="logos/anua.png" alt="ANUA" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">ANUA</span></a>
-              <a href="shop.html?brand=Abib" class="brand-grid__card" data-category="skincare"><img src="logos/abib.svg" alt="Abib" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Abib</span></a>
-              <a href="shop.html?brand=Round%20Lab" class="brand-grid__card" data-category="skincare"><img src="logos/round-lab.svg" alt="Round Lab" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Round Lab</span></a>
-              <a href="shop.html?brand=SKIN1004" class="brand-grid__card" data-category="skincare"><img src="logos/skin1004.png" alt="SKIN1004" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">SKIN1004</span></a>
-              <a href="shop.html?brand=Beauty%20of%20Joseon" class="brand-grid__card" data-category="skincare"><img src="logos/beauty-of-joseon.svg" alt="Beauty of Joseon" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Beauty of Joseon</span></a>
-              <a href="shop.html?brand=beplain" class="brand-grid__card" data-category="skincare"><img src="logos/beplain.png" alt="beplain" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Beplain</span></a>
-              <a href="shop.html?brand=Bring%20Green" class="brand-grid__card" data-category="skincare"><img src="logos/bring-green.svg" alt="Bring Green" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Bring Green</span></a>
-              <a href="shop.html?brand=COSRX" class="brand-grid__card" data-category="skincare"><img src="logos/cosrx.png" alt="COSRX" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">COSRX</span></a>
-              <a href="shop.html?brand=Goodal" class="brand-grid__card" data-category="skincare"><img src="logos/goodal.svg" alt="goodal" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">goodal</span></a>
-              <a href="shop.html?brand=mixsoon" class="brand-grid__card" data-category="skincare"><img src="logos/mixsoon.svg" alt="MIXSOON" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">MIXSOON</span></a>
-              <a href="shop.html?brand=Needly" class="brand-grid__card" data-category="skincare"><img src="logos/needly.svg" alt="NEEDLY" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">NEEDLY</span></a>
-              <a href="shop.html?brand=OOTD" class="brand-grid__card" data-category="skincare"><img src="logos/ootd.svg" alt="OOTD" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">OOTD</span></a>
-              <a href="shop.html?brand=PURITO%20SEOUL" class="brand-grid__card" data-category="skincare"><img src="logos/purito.svg" alt="PURITO SEOUL" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">PURITO</span></a>
-              <a href="shop.html?brand=Skinfood" class="brand-grid__card" data-category="skincare"><img src="logos/skinfood.svg" alt="Skinfood" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Skinfood</span></a>
-              <a href="shop.html?brand=Some%20By%20Mi" class="brand-grid__card" data-category="skincare"><img src="logos/some-by-mi.svg" alt="SOME BY MI" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">SOME BY MI</span></a>
-                          <a href="shop.html?brand=APRILSKIN" class="brand-grid__card" data-category="skincare"><img src="logos/april-skin.svg" alt="APRILSKIN" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">April Skin</span></a>
-              <a href="shop.html?brand=KSECRET" class="brand-grid__card" data-category="skincare"><img src="logos/ksecret.png" alt="KSECRET" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">KSECRET</span></a>
-              <a href="shop.html?brand=Haruharu%20WONDER" class="brand-grid__card" data-category="skincare"><img src="logos/haruharu-wonder.png" alt="haruharu wonder" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Haruharu Wonder</span></a>
-              <a href="shop.html?brand=Dr.%20Melaxin" class="brand-grid__card" data-category="skincare"><img src="logos/dr-melaxin.png" alt="Dr.Melaxin" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">Dr. Melaxin</span></a>
-              <a href="shop.html?brand=ILSO" class="brand-grid__card" data-category="skincare"><img src="logos/ilso.svg" alt="ilso" class="brand-grid__logo" loading="lazy" decoding="async"><span class="brand-grid__name">ILSO</span></a>
-              <!-- Arencia 拎走咗：Shopify 得個牌子名，一件貨都冇上。
-                   撳落去會去到一版空白嘅結果，好過唔好擺。logo 檔留喺
-                   logos/arencia.png，有貨嗰日加返一行就得。 -->
-              <!-- 隱形眼鏡同 SOLEP 冇擺入呢格 —— 呢格係「護膚品牌」，
-                   放鏡片入去係擺錯位。佢哋喺 brands.html 有獨立一格，
-                   catalog.js 嘅 BRAND_LOGO 亦都認得，shop 頁一樣出到 logo。 -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-        </div><!-- /.bxp__body -->
-        <div class="bxp__status">
-          <span>41 個品牌</span>
-          <span>彩妝 19 · 護膚 22</span>
-          <span class="bxp__status-end">OUJI / HK</span>
-        </div>
-      </div><!-- /.bxp -->
-
-    </section>
-
-    <!-- 由煩惱搵起。分類頁按貨品類型切，呢格按客自己講得出嘅煩惱切。
-         ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。 -->
     <!-- 由煩惱搵起。分類頁按貨品類型切，呢格按客自己講得出嘅煩惱切。
          ⚠️ 唔可以講療效 —— 每格淨係揀貨畀客自己揀。
          入面成個 XP 助手由 home.js 用 live 目錄砌（件數要真）。
@@ -910,101 +597,10 @@
       </ul>
     </section>
 
-
-    <!-- 獲獎產品 -->
-    <section class="home-awards">
-      <div class="container">
-        <div class="home-awards__head">
-          <h2 class="home-awards__title">得獎產品</h2>
-          <p class="home-awards__desc">
-            Olive Young、Glowpick、화해、Allure、@cosme —— 我哋賣緊嘅
-            <b data-award-products>38</b> 件產品，合共攞過
-            <b data-award-total>89</b> 項獎。
-          </p>
-        </div>
-        <div class="won-row" data-home-awards></div>
-        <a href="awards.html" class="home-awards__cta">睇晒全部得獎產品</a>
-      </div>
-    </section>
-
-    <!-- 妝感配對 —— 呢格唔另外設計一套：直接攞 /match 個 stage 拉矮。
-         三格由左到右填滿：文字＋色板疊喺左、模特兒中、揀明星右，冇空位。
-         成個 section 都係嗰個世界（全寬深色），唔係喺米色頁上面浮一張深色卡。
-         唔 show 晒：色板同步驟名擺得，四段描述、產品、價錢留返入面先出。 -->
-    <section class="home-match mstage">
-      <div class="mstage__bg"></div>
-      <div class="mstage__scrim"></div>
-      <div class="container">
-        <div class="mstage__inner">
-          <div class="mstage__copy">
-            <span class="mstage__eyebrow">妝感配對</span>
-            <!-- 標題用返明星個名：具體、同張相對得上，亦都係客心入面搜嗰個詞。
-                 「由呢四件開始」直接指住下面四塊色板，同時拆走「化個妝要買十件嘢」嘅心理關口。
-                 換咗第二個妝就要一齊換個名同件數。 -->
-            <h2 class="mstage__title">想化張員瑛個妝？<br>由呢四件開始。</h2>
-            <!-- 呢句要短到一眼掃得晒。之前寫成流程講解（45 字、三行），冇人會逐句睇。
-                 「AI」指嘅係：拆妝分析（睇相定色調同質地）＋ 自動由 200+ 件貨配對，
-                 唔係話 AI 睇客本人張相 —— 嗰個功能已經拆咗。 -->
-            <p class="mstage__sub">四步復刻，AI 即時配好現貨色號。</p>
-            <div class="mstage__cta">
-              <a href="match.html" class="btn btn--primary">開始配對</a>
-              <small>27 個妝感 · 14 個明星仿妝</small>
-            </div>
-            <!-- 色板同顏色係真數據：由推薦產品嘅實際色號計出嚟，唔係裝飾。
-                 呢四隻係「清透花瓣水光」嗰個妝嘅值。四段描述唔擺 —— 嗰啲係入去嘅理由。 -->
-            <div class="mstage__chart">
-              <span class="mstage__chart-k">相中個妝嘅實際色板</span>
-              <div class="mstage__steps">
-                <span class="mstage__step"><i class="mswatch mswatch--base" style="--swatch:#e4c1ae"></i><b>底妝</b></span>
-                <span class="mstage__step"><i class="mswatch mswatch--eyes" style="--swatch:#e3a2a7"></i><b>眼影</b></span>
-                <span class="mstage__step"><i class="mswatch mswatch--cheeks" style="--swatch:#e290a2"></i><b>胭脂</b></span>
-                <span class="mstage__step"><i class="mswatch mswatch--lips" style="--swatch:#e290a2"></i><b>唇妝</b></span>
-              </div>
-            </div>
-          </div>
-          <div class="mstage__stage">
-            <img class="mstage__model" src="assets/looks/band-model.webp" alt="張員瑛 Wonyoung 清透花瓣水光" width="489" height="620" loading="lazy" decoding="async">
-          </div>
-          <aside class="mstage__album">
-            <span class="mstage__album-kicker">OUJI Look Album</span>
-            <b class="mstage__album-title">揀你想仿嘅明星</b>
-            <div class="mstage__rows">
-              <a class="mrow" href="match.html?look=wonyoung-innisfree-2025-04-16">
-                <img src="assets/looks/celeb-wonyoung-thumb.webp" alt="" width="46" height="54" loading="lazy" decoding="async">
-                <span><b>張員瑛 Wonyoung</b><em>清透花瓣水光</em></span>
-                <i aria-hidden="true">›</i>
-              </a>
-              <a class="mrow" href="match.html?look=jennie-chanel-2024-07-03">
-                <img src="assets/looks/celeb-jennie-thumb.webp" alt="" width="46" height="54" loading="lazy" decoding="async">
-                <span><b>Jennie</b><em>低飽和貓系裸玫瑰</em></span>
-                <i aria-hidden="true">›</i>
-              </a>
-              <a class="mrow" href="match.html?look=iu-palette-2024-12-17">
-                <img src="assets/looks/celeb-iu-thumb.webp" alt="" width="46" height="54" loading="lazy" decoding="async">
-                <span><b>IU 李知恩</b><em>暖橙珊瑚緞唇</em></span>
-                <i aria-hidden="true">›</i>
-              </a>
-              <a class="mrow" href="match.html?look=jisoo-dior-2022-01-18">
-                <img src="assets/looks/celeb-jisoo-thumb.webp" alt="" width="46" height="54" loading="lazy" decoding="async">
-                <span><b>Jisoo 金智秀</b><em>經典暖棕紅唇</em></span>
-                <i aria-hidden="true">›</i>
-              </a>
-              <a class="mrow" href="match.html?look=sana-prada-2024-08-09">
-                <img src="assets/looks/celeb-sana-thumb.webp" alt="" width="46" height="54" loading="lazy" decoding="async">
-                <span><b>Sana 湊崎紗夏</b><em>柔粉好氣色</em></span>
-                <i aria-hidden="true">›</i>
-              </a>
-              <a class="mrow" href="match.html?look=sakura-photocall-2024-10-18">
-                <img src="assets/looks/celeb-sakura-thumb.webp" alt="" width="46" height="54" loading="lazy" decoding="async">
-                <span><b>Sakura 宮脇咲良</b><em>娃娃感蜜桃亮眼</em></span>
-                <i aria-hidden="true">›</i>
-              </a>
-            </div>
-          </aside>
-        </div>
-        <p class="mstage__credit">相中：張員瑛 Wonyoung · 清透花瓣水光 —— 相片 K-POPIT 케이팝잇，CC BY 3.0。妝感係針對指定相片做視覺拆解，唔代表藝人本人用過呢啲產品。</p>
-      </div>
-    </section>
+    <!-- 玩妝靈感（取代舊「妝感配對」，連去 /match） -->
+    <div class="home-codex">
+<section class="joy-explore joy-explore--single content-wrap"><a class="joy-feature joy-feature--looks" href="match.html"><span class="joy-kicker">COLOR STORIES / 玩妝靈感</span><div><h2>玩色彩。<br/>搵靈感。</h2></div><p>看看造型概念，再選自己的色號。</p><img alt="芝麻轉身照鏡玩彩妝" decoding="async" height="640" loading="lazy" sizes="(max-width:760px) 180px, 280px" src="assets/images/home-codex/mascot-v2/08-makeup-640.webp" srcset="assets/images/home-codex/mascot-v2/08-makeup-320.webp 320w, assets/images/home-codex/mascot-v2/08-makeup-640.webp 640w" width="640"/><span class="feature-note">make a little<br/>color story ♡</span></a></section>
+    </div>
 
 
 
@@ -1172,38 +768,12 @@
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
-  <script src="home.js?v=20261002-fan"></script>
+  <script src="product-card-lc.js?v=20261015-1"></script>
+  <script src="home.js?v=20261015-1"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261001-supports"></script>
   <script src="home-top.js?v=20261013-1"></script>
-  <script>
-    // Brand section toggles (independent per category)
-    (function () {
-      function setupSectionToggle(toggleId, gridId, rowsId) {
-        var toggle = document.getElementById(toggleId);
-        var gridView = document.getElementById(gridId);
-        var rows = document.getElementById(rowsId);
-        if (!toggle || !gridView) return;
-
-        var section = toggle.closest('.brand-marquees__section');
-
-        toggle.addEventListener('click', function () {
-          var isOpen = gridView.classList.toggle('open');
-          if (section) section.classList.toggle('brand-marquees__section--grid-open', isOpen);
-          toggle.classList.toggle('active', isOpen);
-          toggle.querySelector('.brand-section-toggle__text').textContent = isOpen ? '收起' : '瀏覽全部';
-          if (isOpen) {
-            setTimeout(function () {
-              section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-          }
-        });
-      }
-
-      setupSectionToggle('skincareToggle', 'skincareGridView', 'skincareRows');
-      setupSectionToggle('makeupToggle', 'makeupGridView', 'makeupRows');
-    })();
-  </script>
+  <script src="home-codex.js?v=20261015-1"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // Cart badge updates independently; do not hold up the homepage shelves.

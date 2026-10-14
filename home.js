@@ -76,127 +76,183 @@ async function initHome() {
     </a>`;
   };
 
-  /* ----- 首頁商品格（2026-10-02 老闆）-----
-     TIRTIR 本月主打（正價形象）→ 換季大特賣 → 防曬清貨 → Torriden 優惠 → 就快到期。
-     折數 = 售價 ÷ 劃線原價；冇劃線唔算優惠。唔夠貨嘅格成格收起。 */
-  (function buildBlocks() {
-    const live = products.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
+  /* ----- 首頁新設計段落（Codex 設計，Winston 2026-10-15 批「照建議嘅取捨開始搬」）-----
+     貨架一律用新卡（product-card-lc.js），外面包 Codex 白框（.cx-slot，唔准叫 product-card：
+     分析會將外框當多一張卡計曝光）。揀貨規矩沿用 2026-10-02 老闆定嘅：
+       換季美妝精選 = 有劃線減價嘅貨（每牌最多 3 件，唔計防曬、短效期、風扇、Torriden）；
+       防曬清貨 = 減價防曬（每牌最多 2 件）；短效期特價 = 到期日最近行先；
+       TIRTIR／Torriden 係形象格：海報對應嘅貨（Codex 揀）行先，再補正價熱門。
+     Codex／Winston 揀好嘅貨（美妝精選、明星同款、美妝以外）照次序先出，冇貨就由同類補。
+     唔夠貨嘅貨架成格收起（連分頁掣）；背景對完數會用齊貨再砌一次。
+     分頁、品牌自動捲、芝麻短片、名行數對齊喺 home-codex.js。 */
+  const buildCodex = (list) => {
+    if (!document.querySelector('.home-codex') || typeof window.lcProductCard !== 'function') return;
+    const live = list.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
+    const byHandle = new Map(live.map((p) => [p.handle, p]));
     const ratio = (p) => {
       const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
       const now = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
       return cp > now && now > 0 ? now / cp : 1;
     };
-    const zhe = (r) => `${Math.round(r * 100) / 10}`;
     const isSun = (p) => typeof isSunscreenProduct === 'function' && isSunscreenProduct(p);
     const isShort = (p) => typeof isShortDated === 'function' && isShortDated(p);
-    const isFan = (p) => typeof subMatch === 'function' && subMatch('seasonal', 'fan', p);
+    const inSection = (p, s) => typeof sectionMatch === 'function' && sectionMatch(p, s);
+    const inSub = (s, id, p) => typeof subMatch === 'function' && subMatch(s, id, p);
+    const isFan = (p) => inSub('seasonal', 'fan', p);
     const byVendor = (v) => (p) => String(p.vendor || '').toLowerCase() === v;
     const deals = live.filter((p) => ratio(p) <= 0.95).sort((a, b) => ratio(a) - ratio(b));
     // SUNCUT 喺 Shopify 有 SUNCUT／KOSE COSMEPORT／KOSÉ COSMEPORT 三個寫法，當同一個牌
     const brandKey = (v) => String(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
       .toLowerCase().replace(/cosmeport|\s+/g, '').replace('suncut', 'kose');
-    const capPerBrand = (list, n) => {
+    const capPerBrand = (items, n) => {
       const seen = new Map();
-      return list.filter((p) => {
+      return items.filter((p) => {
         const k = brandKey(p.vendor);
         seen.set(k, (seen.get(k) || 0) + 1);
         return seen.get(k) <= n;
       });
     };
+    const reviews = (p) => ratings?.[p.handle]?.count || 0;
     // 形象格揀正價熱門：韓國站評價多嘅行先，冇評價就跟推薦分數
-    const reviews = (p) => ratings?.[p.handle]?.count || 0;
-    const popular = (list) => [...list].sort((a, b) => (reviews(b) - reviews(a)) || (featured(b) - featured(a)));
-
-    const BLOCKS = {
-      // 主打跟官方廣告：氣墊、粉底、遮瑕；迷你裝唔做主角
-      tirtir: { list: popular(live.filter((p) => byVendor('tirtir')(p) && /氣墊|粉底|遮瑕/.test(p.title) && !/迷你|mini/i.test(p.title))), n: 12 },
-      // 防曬、Torriden 下面各有自己一格，呢度出其餘減價貨，免得同一批貨出兩次
-      sale: { list: capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !isFan(p) && !byVendor('torriden')(p)), 3), n: 16,
-        // 「全場低至」唔計短效期貨（短效期本身有自己一格），免得用到期貨嘅 2.6 折做招徠
-        best: Math.min(1, ...deals.filter((p) => !isShort(p)).map(ratio)) },
-      sun: { list: capPerBrand(deals.filter(isSun), 2), n: 12 },
-      // 風扇自己一格（有冇減價都出），所以下面「秋季換季大特賣」唔再計風扇
-      fan: { list: [...live.filter(isFan)].sort((x, y) => ratio(x) - ratio(y)), n: 12, min: 2 },
-      torriden: { list: deals.filter(byVendor('torriden')), n: 12 },
-      expiring: { list: live.filter(isShort).sort((a, b) =>
-        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))), n: 12 },
-    };
-    Object.entries(BLOCKS).forEach(([key, b]) => {
-      const host = document.querySelector(`[data-home-block="${key}"]`);
-      if (!host || b.list.length < (b.min || 3)) return;
-      host.querySelector('[data-block-grid]').innerHTML = b.list.slice(0, b.n).map(card).join('');
-      const best = host.querySelector('[data-block-best]');
-      if (best) best.textContent = zhe(b.best);
-      host.hidden = false;
-      // 桌面箭嘴：一次掃大約一版；去到頭／尾就變灰
-      const rail = host.querySelector('[data-block-grid]');
-      const prev = host.querySelector('[data-rail-prev]');
-      const next = host.querySelector('[data-rail-next]');
-      const sync = () => {
-        prev.disabled = rail.scrollLeft < 8;
-        next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
-      };
-      prev.addEventListener('click', () => rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: 'smooth' }));
-      next.addEventListener('click', () => rail.scrollBy({ left: rail.clientWidth * 0.8, behavior: 'smooth' }));
-      rail.addEventListener('scroll', sync, { passive: true });
-      requestAnimationFrame(sync);
-    });
-  })();
-
-  /* ----- OUJI 仲有呢啲：其他分類一格 tab 切換（2026-10-02 老闆）----- */
-  (function buildMore() {
-    const host = document.querySelector('[data-home-more]');
-    if (!host || typeof sectionMatch !== 'function') return;
-    const live = products.filter((p) => (typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true));
-    const reviews = (p) => ratings?.[p.handle]?.count || 0;
-    const top = (list) => [...list].sort((a, b) => (featured(b) - featured(a)) || (reviews(b) - reviews(a)));
-    // 同一系列（例如 Sanrio「黑白天使造型公仔 4吋」五隻角色）只出一件，貨架先睇到唔同嘢
-    // 剷走英文字（品牌、角色名、型號）淨低中文系列名做 key
-    const seriesKey = (p) => String(p.title || '').replace(/[A-Za-z0-9.&'’+\-]+/g, '').replace(/\s+/g, '') || p.handle;
-    const varied = (list) => {
+    const popular = (items) => [...items].sort((a, b) => (reviews(b) - reviews(a)) || (featured(b) - featured(a)));
+    const top = (items) => [...items].sort((a, b) => (featured(b) - featured(a)) || (reviews(b) - reviews(a)));
+    // 揀好嘅貨照次序先出（冇貨就跳過），之後由同類補
+    const curated = (handles, fallback) => {
+      const out = [];
       const seen = new Set();
-      return list.filter((p) => { const k = seriesKey(p); if (seen.has(k)) return false; seen.add(k); return true; });
+      const add = (p) => { if (p && !seen.has(p.handle)) { seen.add(p.handle); out.push(p); } };
+      handles.forEach((h) => add(byHandle.get(h)));
+      fallback.forEach(add);
+      return out;
     };
-    const CATS = [
-      ['toys', '公仔', 'toys.html'], ['bath', '沐浴洗護', 'bath.html'], ['health', '保健品', 'health.html'],
-      ['fragrance', '香氛', 'fragrance.html'], ['lens', '隱形眼鏡', 'lens.html'], ['kpop', 'K-pop 周邊', 'kpop.html'],
-      ['tools', '美妝工具', 'tools.html'],
-    ].map(([id, label, href]) => {
-      const all = top(live.filter((p) => sectionMatch(p, id)));
-      return { id, label, href, all, list: varied(all) };
-    })
-      .filter((c) => c.list.length >= 4);
-    if (!CATS.length) return;
-    const tabs = host.querySelector('[data-more-tabs]');
-    const rail = host.querySelector('[data-more-rail]');
-    const link = host.querySelector('[data-more-link]');
-    tabs.innerHTML = CATS.map((c, i) => `<button type="button" role="tab" class="home-tabs__btn${i ? '' : ' is-on'}" aria-selected="${!i}" data-more="${c.id}">${c.label}</button>`).join('');
-    const prev = host.querySelector('[data-rail-prev]');
-    const next = host.querySelector('[data-rail-next]');
-    const sync = () => {
-      prev.disabled = rail.scrollLeft < 8;
-      next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
+    const RAILS = {
+      beauty: (h) => curated(h, top(live.filter((p) => inSection(p, 'makeup') || inSection(p, 'skincare')))),
+      tirtir: (h) => curated(h, popular(live.filter((p) => byVendor('tirtir')(p) && /氣墊|粉底|遮瑕/.test(p.title) && !/迷你|mini/i.test(p.title)))),
+      torriden: (h) => curated(h, popular(live.filter(byVendor('torriden')))),
+      sale: () => capPerBrand(deals.filter((p) => !isShort(p) && !isSun(p) && !isFan(p) && !byVendor('torriden')(p)), 3),
+      sun: () => capPerBrand(deals.filter(isSun), 2),
+      expiring: () => live.filter(isShort).sort((a, b) =>
+        String(shortDatedExpiry(a)).localeCompare(String(shortDatedExpiry(b)))),
+      'pick-0': (h) => curated(h, popular(live.filter((p) => byVendor('amuse')(p) && /唇|tint/i.test(p.title)))),
+      'pick-1': (h) => curated(h, popular(live.filter((p) => byVendor('torriden')(p) && /積雪草|cica/i.test(p.title)))),
+      'pick-2': (h) => curated(h, popular(live.filter((p) => byVendor('anua')(p) && /pdrn/i.test(p.title)))),
+      'life-seasonal': (h) => curated(h, top(live.filter((p) => inSection(p, 'seasonal') && !isSun(p) && !isFan(p)))),
+      'life-bath': (h) => curated(h, top(live.filter((p) => inSub('bath', 'body', p) || inSub('bath', 'haircare', p)))),
+      'life-bodycare': (h) => curated(h, top(live.filter((p) => inSub('bath', 'lotion', p) || inSub('seasonal', 'body', p)))),
+      'life-toys': (h) => curated(h, top(live.filter((p) => inSection(p, 'toys')))),
+      'life-fragrance': (h) => curated(h, top(live.filter((p) => inSection(p, 'fragrance')))),
+      'life-kpop': (h) => curated(h, top(live.filter((p) => inSection(p, 'kpop')))),
     };
-    const show = (id) => {
-      const c = CATS.find((x) => x.id === id) || CATS[0];
-      tabs.querySelectorAll('[data-more]').forEach((b) => {
-        const on = b.dataset.more === c.id;
-        b.classList.toggle('is-on', on);
-        b.setAttribute('aria-selected', String(on));
-      });
-      rail.innerHTML = c.list.slice(0, 12).map(card).join('');
-      rail.scrollLeft = 0;
-      link.href = c.href;
-      link.textContent = `睇晒${c.label}（${c.all.length} 件）`;
-      requestAnimationFrame(sync);
+    // 收起／打返開：hidden 之外加 inline display:none（Codex 樣式有啲 display 會蓋過 hidden）
+    const setEmpty = (el, empty) => {
+      if (!el) return;
+      el.hidden = empty;
+      el.style.display = empty ? 'none' : '';
+      el.toggleAttribute('data-codex-empty', empty);
     };
-    tabs.addEventListener('click', (e) => { const b = e.target.closest('[data-more]'); if (b) show(b.dataset.more); });
-    prev.addEventListener('click', () => rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: 'smooth' }));
-    next.addEventListener('click', () => rail.scrollBy({ left: rail.clientWidth * 0.8, behavior: 'smooth' }));
-    rail.addEventListener('scroll', sync, { passive: true });
-    show(CATS[0].id);
-    host.hidden = false;
-  })();
+    const img = (p, w) => {
+      const im = p.images?.edges?.[0]?.node;
+      if (!im?.url) return null;
+      return { ...im, src: typeof shopifyImageUrl === 'function' ? shopifyImageUrl(im.url, w) : im.url };
+    };
+    const filled = new Map();
+    document.querySelectorAll('.home-codex [data-codex-rail]').forEach((rail) => {
+      const key = rail.dataset.codexRail;
+      if (!RAILS[key]) return;
+      const pick = key.startsWith('pick-');
+      const handles = (rail.dataset.handles || '').split(',').filter(Boolean);
+      const items = RAILS[key](handles).slice(0, pick ? 3 : key.startsWith('life-') ? 6 : 8);
+      const ok = items.length >= (pick ? 2 : 3);
+      const keep = rail.scrollLeft;
+      rail.innerHTML = ok
+        ? items.map((p) => (pick ? window.lcProductCard(p) : `<article class="cx-slot">${window.lcProductCard(p)}</article>`)).join('')
+        : '';
+      rail.scrollLeft = keep;
+      filled.set(key, ok ? items : []);
+      const host = pick ? rail.closest('.lc-pick')
+        : key.startsWith('life-') ? rail.closest('.home-lifestyle__panel')
+          : rail.closest('[data-brand-edit], [data-offer-category]') || rail.closest('section');
+      setEmpty(host, !ok);
+    });
+    const empty = (key) => !filled.get(key)?.length;
+    // 分頁掣跟住格收起
+    ['tirtir', 'torriden'].forEach((k) => setEmpty(document.querySelector(`.home-codex [data-brand-edit-tab="${k}"]`), empty(k)));
+    setEmpty(document.querySelector('.home-codex .home-brand-edits'), empty('tirtir') && empty('torriden'));
+    ['sun', 'expiring'].forEach((k) => setEmpty(document.querySelector(`.home-codex .home-offers__tab[data-campaign="${k}"]`), empty(k)));
+    setEmpty(document.querySelector('.home-codex .home-offers'), empty('sun') && empty('expiring'));
+    setEmpty(document.querySelector('.home-codex .lc-picks'), ['pick-0', 'pick-1', 'pick-2'].every(empty));
+    const lifeKeys = ['seasonal', 'bath', 'bodycare', 'toys', 'fragrance', 'kpop'];
+    lifeKeys.forEach((k) => document.querySelectorAll(`.home-codex .home-lifestyle__tab[data-key="${k}"]`)
+      .forEach((tab) => setEmpty(tab, empty(`life-${k}`))));
+    document.querySelectorAll('.home-codex [data-lifestyle-chapter]').forEach((ch) => {
+      setEmpty(ch, [...ch.querySelectorAll('.home-lifestyle__panel[data-category]')]
+        .every((panel) => empty(`life-${panel.dataset.category}`)));
+    });
+    setEmpty(document.querySelector('.home-codex .home-lifestyle'), lifeKeys.every((k) => empty(`life-${k}`)));
+
+    // 美妝以外海報：用嗰格頭兩件貨嘅相
+    document.querySelectorAll('.home-codex [data-codex-poster]').forEach((art) => {
+      art.innerHTML = (filled.get(`life-${art.dataset.codexPoster}`) || []).slice(0, 2).map((p, i) => {
+        const im = img(p, 700);
+        return im ? `<img class="home-lifestyle__poster-image home-lifestyle__poster-image--${i + 1}" src="${im.src}" width="${im.width || 800}" height="${im.height || 800}" alt="" loading="lazy" decoding="async">` : '';
+      }).join('');
+    });
+
+    // 短效期海報：到期日最近嗰件貨嘅相同品牌
+    const soon = (filled.get('expiring') || []).find((p) => img(p, 600));
+    const expImg = document.querySelector('.home-codex [data-codex-expiry-img]');
+    if (expImg && soon) {
+      const im = img(soon, 600);
+      expImg.src = im.src;
+      expImg.alt = im.altText || soon.title || '';
+      const kicker = document.querySelector('.home-codex [data-codex-expiry-kicker]');
+      if (kicker) kicker.textContent = soon.vendor ? String(soon.vendor).toUpperCase() : '短效期精選';
+    }
+
+    // HINCE／CLIO 大格：主角冇貨就改去品牌頁，格照留（唔好令版面爛）
+    document.querySelectorAll('.home-codex [data-codex-muse]').forEach((a) => {
+      const h = a.dataset.codexMuse;
+      a.href = byHandle.has(h) ? `/products/${h}` : `shop.html?brand=${encodeURIComponent(a.dataset.codexBrand || '')}`;
+    });
+
+    // 美妝品牌：數字用實時目錄；冇貨嘅品牌唔出（連循環嗰組）
+    const stat = (k, n) => document.querySelectorAll(`.home-codex [data-codex-stat="${k}"]`).forEach((dd) => {
+      const t = [...dd.childNodes].find((x) => x.nodeType === 3 && x.nodeValue.trim());
+      if (t) t.nodeValue = n.toLocaleString('en-HK');
+    });
+    const won = live.filter((p) => awards(p.handle).length);
+    stat('brands', new Set(live.map((p) => p.vendor).filter(Boolean)).size);
+    stat('products', live.length);
+    stat('awards', won.length);
+    const vendors = new Set(live.map((p) => String(p.vendor || '').trim().toLowerCase()));
+    document.querySelectorAll('.home-codex .home-brand-rail__item').forEach((a) => {
+      const name = new URL(a.getAttribute('href'), location.href).searchParams.get('brand') || '';
+      a.style.display = vendors.has(name.trim().toLowerCase()) ? '' : 'none';
+    });
+
+    // 獲獎好物：每個獎項幾多款有貨嘅得獎好物；一件都冇嘅獎項唔出
+    const perBody = {};
+    won.forEach((p) => new Set(awards(p.handle).map((x) => x.body)).forEach((b) => { perBody[b] = (perBody[b] || 0) + 1; }));
+    document.querySelectorAll('.home-codex [data-codex-award-count]').forEach((el) => {
+      const n = perBody[el.dataset.codexAwardCount] || 0;
+      const t = [...el.childNodes].find((x) => x.nodeType === 3 && x.nodeValue.trim());
+      if (t) t.nodeValue = `${n} 款好物`;
+      const tile = el.closest('a');
+      if (tile) tile.style.display = n ? '' : 'none';
+    });
+    const total = (k, n) => document.querySelectorAll(`.home-codex [data-codex-award-total="${k}"]`).forEach((b) => { b.textContent = n; });
+    total('bodies', Object.values(perBody).filter(Boolean).length);
+    total('products', won.length);
+
+    document.dispatchEvent(new CustomEvent('ouji:codex-filled'));
+  };
+  buildCodex(products);
+  // 背景對完數（或者第一版只係頭 250 件）：用齊貨再砌一次
+  document.addEventListener('ouji:catalog-refreshed', (e) => {
+    const fresh = (e.detail?.edges || []).map((x) => x.node)
+      .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale);
+    if (fresh.length) buildCodex(fresh);
+  }, { once: true });
 
   /* ----- the counts in the about block, from the catalogue itself ----- */
   // The count-up animation reads `data-count` when the block scrolls into
@@ -559,44 +615,6 @@ async function initHome() {
         </span>
       </a>`;
     }).join('');
-  }
-
-  /* ----- 獲獎產品 ----- */
-  const won = document.querySelector('[data-home-awards]');
-  if (won && typeof AWARDS === 'object') {
-    /* 由 6 件加到 12 件 —— 呢排而家係向右碌嘅，唔再係一行剛剛好塞滿
-       六格，多出嚟嗰啲就係碌落去嘅理由。全店有 38 件得過獎。 */
-    const rows = products
-      .filter((p) => awards(p.handle).length)
-      .sort((a, b) => weight(b) - weight(a))
-      .slice(0, 12);
-    const total = Object.values(AWARDS).reduce((n, l) => n + l.length, 0);
-    document.querySelectorAll('[data-award-total]').forEach((e) => { e.textContent = total; });
-    document.querySelectorAll('[data-award-products]').forEach((e) => {
-      e.textContent = Object.keys(AWARDS).length;
-    });
-    won.innerHTML = rows.map((p) => {
-      const img = p.images?.edges?.[0]?.node;
-      const a = topAward(p.handle);
-      return `<a class="won-card" href="/products/${p.handle}">
-        <span class="won-card__media">
-          ${img ? `<img ${shopifyCardImageAttrs(img.url)} alt="${p.title}" loading="lazy">` : ''}
-          ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
-        </span>
-        <span class="won-card__brand">${p.vendor || ''}</span>
-        <span class="won-card__title">${oujiCardName(p)}</span>
-        <span class="won-card__award">${awardLabel(a)}${
-          awards(p.handle).length > 1 ? ` · 共 ${awards(p.handle).length} 項獎` : ''}</span>
-      </a>`;
-    }).join('');
-
-    /* 碌到最右就收起個淡出，唔係最後嗰張卡會一路半透明。 */
-    const endWatch = () => {
-      won.classList.toggle('is-scroll-end',
-        won.scrollLeft + won.clientWidth >= won.scrollWidth - 4);
-    };
-    won.addEventListener('scroll', endWatch, { passive: true });
-    endWatch();
   }
 
   /* ----- 新品速遞 -----

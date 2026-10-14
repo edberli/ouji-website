@@ -595,6 +595,17 @@
           </div>`).join('');
       }
     }
+    // 首頁「獲獎好物」逐個獎項撳入嚟（?body=OLIVE_YOUNG 等）：預先揀好嗰個評審機構
+    const wantBody = new URLSearchParams(location.search).get('body');
+    const preset = wantBody && legend && [...legend.querySelectorAll('.awards-filter[data-body]')]
+      .find((el) => el.dataset.body === wantBody);
+    if (preset) {
+      onlyBody = wantBody;
+      legend.querySelectorAll('.awards-filter[data-body]').forEach((el) => {
+        el.classList.toggle('is-active', el === preset);
+        el.setAttribute('aria-pressed', el === preset ? 'true' : 'false');
+      });
+    }
     render();
   });
   </script>
