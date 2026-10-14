@@ -895,6 +895,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://oujikbeauty.com/shop?brand=capsule%20serum</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://oujikbeauty.com/shop?brand=Cell%20Fusion%20C</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
@@ -15848,6 +15854,18 @@
   </url>
   <url>
     <loc>https://oujikbeauty.com/products/emplir-極緻修護美髮精華-premium-hair-essence-210ml</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://oujikbeauty.com/products/capsule-serum-晶亮修護維他命c精華-vitamin-c-serum-30ml</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://oujikbeauty.com/products/capsule-serum-極光雪白穀胱精華-glutathione-serum-30ml</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
