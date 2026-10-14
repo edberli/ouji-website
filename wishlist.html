@@ -43,6 +43,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css?v=20261002-stores2">
+  <link rel="stylesheet" href="product-card-lc.css?v=20261014-lc6">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -267,7 +268,8 @@
     <!-- Wishlist Items -->
     <section class="section" id="wishlist-content" style="display: none;">
       <div class="container">
-        <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em; margin-bottom: var(--space-2xl); text-align: center;">心願單</h1>
+        <h1 class="heading-xl" style="font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.15em; margin-bottom: 8px; text-align: center;">心願單</h1>
+        <p id="wishlist-meta" style="margin: 0 auto var(--space-2xl); max-width: 32em; color: var(--text-tertiary); font-size: 14px; line-height: 1.7; text-align: center;"></p>
         <div class="product-grid" id="wishlist-grid"></div>
       </div>
     </section>
@@ -383,90 +385,63 @@
   <script src="shopify.js?v=20261005-zhlang"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
+  <script src="awards.js"></script>
+  <script src="product-card-lc.js?v=20261014-lc6"></script>
+  <script src="catalog.js?v=20261014-lc1"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261001-supports"></script>
   <script>
-  document.addEventListener('DOMContentLoaded', async () => {
-    await initPage();
-    // 未登入：顯示登入提示
-    if (!isLoggedIn()) {
-      document.getElementById('wishlist-empty').style.display = '';
-      document.getElementById('wishlist-content').style.display = 'none';
-      document.getElementById('wishlist-empty-msg').innerHTML = '登入帳戶即可使用心願單功能，<br>儲存你喜愛的產品，跨裝置同步。';
-      const actionBtn = document.getElementById('wishlist-empty-action');
-      actionBtn.textContent = window.OUJI_copy('登入 / 註冊', 'Log in / Sign up');
-      // customerLogin() builds a PKCE URL at click time, so the href is
-      // only the fallback — but '#' made 開新分頁 land back on this page.
-      actionBtn.href = 'account.html';
-      actionBtn.addEventListener('click', (e) => { e.preventDefault(); customerLogin(); });
-      return;
-    }
-    renderWishlist();
-  });
+  /* 心願清單頁（Winston 2026-10-14：唔使登入都用得，下下要登入會降低使用率）。
+     清單記喺客自己部機（shopify.js getWishlist），有登入就同會員帳戶同步。
+     卡用產品頁同一款新卡（product-card-lc.js）：每件貨按 handle 喺產品目錄（getAllProducts，
+     先讀快照）攞返最新價錢、存貨、優惠；目錄冇先逐件 getProduct。撳心心取消即刻由清單消失。 */
+  let wishProducts = null;
 
-  function renderWishlist() {
+  async function loadWishProducts(handles) {
+    if (!wishProducts) {
+      wishProducts = new Map();
+      try { ((await getAllProducts())?.edges || []).forEach((e) => e?.node && wishProducts.set(e.node.handle, e.node)); } catch (e) {}
+    }
+    for (const h of handles) {
+      if (wishProducts.has(h)) continue;
+      try { const p = await getProduct(h); if (p) wishProducts.set(h, p); } catch (e) { /* 可能已下架 */ }
+    }
+  }
+
+  let renderToken = 0;
+  async function renderWishlist() {
+    const token = ++renderToken;
     const items = getWishlist();
     const emptyEl = document.getElementById('wishlist-empty');
     const contentEl = document.getElementById('wishlist-content');
     const gridEl = document.getElementById('wishlist-grid');
-
+    const metaEl = document.getElementById('wishlist-meta');
     if (!items.length) {
       emptyEl.style.display = '';
       contentEl.style.display = 'none';
       return;
     }
-
     emptyEl.style.display = 'none';
     contentEl.style.display = '';
-
-    gridEl.innerHTML = items.map(product => {
-      const image = product.images?.edges?.[0]?.node;
-      const price = product.priceRange?.minVariantPrice;
-      /* 劃線價一定要嚟自「同一件變體」。單用 compareAtPriceRange.minVariantPrice
-         配 priceRange.minVariantPrice 係比緊兩件唔同變體 —— 單片 $18 冇折、
-         5片裝 $78 劃線 $90，就會標成「$18 ／ $90」。冇變體價錢就當冇折。 */
-            const _vn = (product.variants?.edges || []).map((e) => e.node).filter(Boolean);
-            const _cheap = _vn.find((v) => parseFloat(v.price?.amount) === parseFloat(price?.amount));
-            let comparePrice = _cheap ? _cheap.compareAtPrice : null;
-            if (!_vn.some((v) => v.price)) {
-              const _lo = parseFloat(price?.amount || 0);
-              const _hi = product.priceRange?.maxVariantPrice?.amount;
-              comparePrice = (_hi != null && parseFloat(_hi) === _lo)
-                ? (product.compareAtPriceRange?.minVariantPrice || null) : null;
-            }
-      const isOnSale = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
-
-      return `
-        <article class="product-card" data-product-id="${product.id}">
-          <a href="product.html?handle=${product.handle}" class="product-card__image-link">
-            <div class="product-card__image-wrap">
-              ${image ? `<img src="${image.url}" alt="${image.altText || product.title}" loading="lazy">` : '<div class="product-card__no-image"></div>'}
-            </div>
-          </a>
-          <div class="product-card__info">
-            <a href="product.html?handle=${product.handle}" class="product-card__title">${oujiCardTitle(product)}</a>
-            <div class="product-card__prices">
-              ${oujiCardPriceHTML(price.amount, isOnSale ? comparePrice.amount : null, { title: product.title })}
-            </div>
-            <button class="product-card__wishlist-btn is-active"
-              onclick="removeAndRefresh(event, '${product.id}')"
-              aria-label="從心願單移除">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-            </button>
-          </div>
-        </article>
-      `;
-    }).join('');
+    const handles = items.map((p) => p.handle).filter(Boolean);
+    // 評分（★ 4.6｜則評價｜Olive Young）同產品頁一樣由 reviews.js 載入
+    await Promise.all([loadWishProducts(handles), typeof loadRatings === 'function' ? loadRatings().catch(() => null) : null]);
+    if (token !== renderToken) return;
+    const products = handles.map((h) => wishProducts.get(h)).filter(Boolean);
+    gridEl.innerHTML = products.map((p) => window.lcProductCard(p)).join('');
+    const count = window.OUJI_copy(`${products.length} 件收藏`, `${products.length} saved`);
+    metaEl.innerHTML = isLoggedIn()
+      ? count
+      : `${count}・${window.OUJI_copy('記喺呢部裝置', 'Saved on this device')}。<a href="account.html" id="wishlist-login" style="color: inherit; text-decoration: underline;">${window.OUJI_copy('登入', 'Log in')}</a>${window.OUJI_copy('之後換部機都睇得返', ' to see them on any device')}`;
+    document.getElementById('wishlist-login')?.addEventListener('click', (e) => { e.preventDefault(); customerLogin(); });
   }
 
-  window.removeAndRefresh = function(e, productId) {
-    e.preventDefault();
-    e.stopPropagation();
-    removeFromWishlist(productId);
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initPage();
     renderWishlist();
-  };
+    // 撳心心取消、或者登入後同步返雲端嘅清單，都即刻更新
+    document.addEventListener('ouji:wishlist-changed', () => renderWishlist());
+  });
   </script>
 </body>
 </html>

@@ -659,8 +659,9 @@ function initQuickAdd() {
       } else {
         addToWishlist({ id, handle: wish.dataset.wishHandle, title: wish.dataset.wishTitle });
       }
-      // addToWishlist 未登入會彈登入流程，嗰陣個心心唔應該扮咗做加咗
+      // 唔使登入都加得（記喺本機）；照實際結果亮心心
       wish.classList.toggle('is-active', isInWishlist(id));
+      wish.setAttribute('aria-pressed', isInWishlist(id) ? 'true' : 'false');
       return;
     }
 

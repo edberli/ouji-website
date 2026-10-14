@@ -175,7 +175,7 @@
           ${p._oujiOtherBrandStart ? `<span class="product-card__mini-brand">${esc(p._oujiOtherBrandStart)}</span>` : ''}
           ${isSoldOut ? `<span class="product-card__badge product-card__badge--sold-out">${cp('暫時缺貨', 'Out of stock')}</span>` : ''}
           ${typeof awardRibbon === 'function' ? awardRibbon(p.handle) : ''}
-          <button type="button" class="product-card__wishlist${wishOn ? ' is-active' : ''}" aria-label="${cp('加入願望清單', 'Add to wishlist')}"
+          <button type="button" class="product-card__wishlist${wishOn ? ' is-active' : ''}" aria-label="${cp('加入心願清單', 'Add to wishlist')}" aria-pressed="${wishOn ? 'true' : 'false'}"
             data-wish="${esc(p.id)}" data-wish-handle="${esc(p.handle)}" data-wish-title="${esc(p.title)}">${ICON.heart}</button>
           ${pick}
         </div>

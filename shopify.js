@@ -2113,29 +2113,38 @@ async function ensureLoggedIn() {
 
 // ─────────────────────────────────────────────
 // 心願單（本地 + 會員同步）
+// 唔使登入：記喺客自己部機（localStorage）。Winston 2026-10-14：「下下都要登入，
+// 就會降低使用率」。有登入先順手同步去會員帳戶，換部機都睇得返。
+// 每項只記 id／handle／title／加入時間；心願單頁按 handle 攞返最新價錢同存貨，
+// 唔將成件貨（描述、全部圖）塞入 localStorage —— 加多幾件就會爆 5MB 上限。
 // ─────────────────────────────────────────────
 
 function getWishlist() {
-  return JSON.parse(localStorage.getItem('ouji_wishlist') || '[]');
+  try {
+    const list = JSON.parse(localStorage.getItem('ouji_wishlist') || '[]');
+    return Array.isArray(list) ? list.filter((p) => p && p.id) : [];
+  } catch (e) { return []; }
+}
+
+function wishEntry(product) {
+  return { id: product.id, handle: product.handle, title: product.title, at: product.at || Date.now() };
+}
+
+function saveWishlist(list) {
+  try { localStorage.setItem('ouji_wishlist', JSON.stringify(list)); } catch (e) { /* 私隱模式／爆額：照樣當加咗呢一頁 */ }
+  updateWishlistBadge();
+  document.dispatchEvent(new CustomEvent('ouji:wishlist-changed'));
+  if (isLoggedIn()) syncWishlistToShopify();
 }
 
 function addToWishlist(product) {
-  if (!isLoggedIn()) { customerLogin(); return; }
   const list = getWishlist();
-  if (!list.find(p => p.id === product.id)) {
-    list.push(product);
-    localStorage.setItem('ouji_wishlist', JSON.stringify(list));
-  }
-  updateWishlistBadge();
-  syncWishlistToShopify();
+  if (!list.find(p => p.id === product.id)) list.unshift(wishEntry(product));
+  saveWishlist(list);
 }
 
 function removeFromWishlist(productId) {
-  if (!isLoggedIn()) { customerLogin(); return; }
-  const list = getWishlist().filter(p => p.id !== productId);
-  localStorage.setItem('ouji_wishlist', JSON.stringify(list));
-  updateWishlistBadge();
-  syncWishlistToShopify();
+  saveWishlist(getWishlist().filter(p => p.id !== productId));
 }
 
 function isInWishlist(productId) {
@@ -2219,18 +2228,19 @@ async function loadWishlistFromShopify() {
     const missing = remoteHandles.filter(h => !localHandles.has(h));
     if (missing.length === 0 && localList.length === remoteHandles.length) return;
 
-    // 抓取缺少嘅商品資料
+    // 抓取缺少嘅商品資料（只記 id／handle／title，同本機加嘅一樣）
     for (const handle of missing) {
       try {
         const product = await getProduct(handle);
         if (product) {
-          localList.push(product);
+          localList.push(wishEntry(product));
         }
       } catch (e) { /* 商品可能已下架 */ }
     }
 
-    localStorage.setItem('ouji_wishlist', JSON.stringify(localList));
+    try { localStorage.setItem('ouji_wishlist', JSON.stringify(localList)); } catch (e) {}
     updateWishlistBadge();
+    document.dispatchEvent(new CustomEvent('ouji:wishlist-changed'));
 
     // 如果本地有遠端冇嘅，反向同步
     const allHandles = localList.map(p => p.handle).filter(Boolean);
