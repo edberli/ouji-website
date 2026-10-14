@@ -107,13 +107,13 @@
     if (offer) return offerBar(offer);
     return '<span class="lc__award is-empty" aria-hidden="true"></span>';
   }
-  /* 評分：★ 4.6 ｜ 369 則評價 ｜ 韓國站（卡上寫「韓國站」唔寫店名，原因見 reviews.js ratingChip） */
+  /* 評分：★ 4.6 ｜ 369 則評價 ｜ Olive Young（Winston 2026-10-14 定：寫 Olive Young，唔寫「韓國站」） */
   function ratingHTML(handle) {
     const r = typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE ? RATINGS_CACHE[handle] : null;
     if (!r) return '<span class="lc__rating" aria-hidden="true"></span>';
     return `<span class="lc__rating"><span class="lc__score"><span class="lc__star" aria-hidden="true">★</span>${Number(r.star).toFixed(1)}</span>`
       + `<i aria-hidden="true"></i><span>${Number(r.count).toLocaleString('en-US')}<span class="lc__cw"> ${cp('則評價', 'reviews')}</span></span>`
-      + `<i aria-hidden="true"></i><span class="lc__src">${cp('韓國站', 'Korea')}</span></span>`;
+      + `<i aria-hidden="true"></i><span class="lc__src">Olive Young</span></span>`;
   }
 
   const CARD_DATA = new Map();

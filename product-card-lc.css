@@ -46,7 +46,7 @@
 .lc__name { display: block; flex: none; height: calc(max(7.39cqi, 17px) * var(--lc-lines, 2)); margin-top: 1.42cqi; overflow: hidden; }
 .lc__title { color: var(--lc-ink); font: 700 max(5.8cqi, 12.5px)/max(7.39cqi, 17px) var(--lc-f); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 
-/* 評分：★ 4.6 ｜ 369 則評價 ｜ 韓國站 */
+/* 評分：★ 4.6 ｜ 369 則評價 ｜ Olive Young */
 .lc__rating { display: flex; flex: none; align-items: center; gap: 2.55cqi; height: max(5.11cqi, 14px); margin-top: max(1.53cqi, 4px); overflow: hidden; color: var(--lc-rate-2); font: 500 max(3.5cqi, 10px)/max(5.11cqi, 14px) var(--lc-f); white-space: nowrap; }
 .lc__rating .lc__score { display: inline-flex; align-items: center; gap: 1.25cqi; color: var(--lc-rate); font-weight: 600; }
 .lc__rating .lc__star { color: var(--lc-gold); font-size: max(4.25cqi, 11.5px); line-height: 1; }
@@ -92,9 +92,10 @@
 @media (prefers-reduced-motion: reduce) { .lc__cta { transition: none; } }
 
 /* 手機一行兩張（卡闊大約 160px，同網站原本一樣）：細字用最細字級、間距收窄，價錢細牌照樣一行；
-   獲獎條唔寫年份（相上得獎章已經寫咗年份），名留兩行位 */
+   獲獎條唔寫年份（相上得獎章已經寫咗年份）；評分收起「則評價」三隻字（★ 4.7｜3,684｜Olive Young） */
 @container lc (max-width: 199px) {
   .lc__rating { gap: 4px; }
+  .lc__rating .lc__cw { display: none; }
   .lc__rating .lc__score { gap: 2px; }
   .lc__deal { gap: 5px; }
   .lc__nums { gap: 5px; }
@@ -107,9 +108,8 @@
   .lc__award .lc__yr { display: none; }
   .lc__variants { gap: 4px; }
 }
-/* 細手機（320px，卡闊大約 140px）：評分唔寫「則評價」兩隻字（照寫韓國站，標明唔係自己嘅評價） */
+/* 細手機（320px，卡闊大約 140px）：價錢再細少少 */
 @container lc (max-width: 149px) {
-  .lc__rating .lc__cw { display: none; }
   .lc__was { font-size: 9.5px; }
   .lc__pricenow { font-size: 12.5px; }
   .lc__chip { padding: 0 3px; font-size: 9px; }
