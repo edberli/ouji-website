@@ -2966,7 +2966,7 @@ function mountSeasonSale(products, section) {
     </div>${deal}</aside>`);
 }
 
-async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '' }) {
+async function initCatalog({ section, cat, products, presetCat = null, group = null, folderLabel = null, searchTerm = '', scope = null }) {
   /* 品牌置頂（見 renderProducts）要知而家喺邊一版。渲染嗰陣攞唔到
      section，所以喺入口記低一次。 */
   CURRENT_SECTION = section || (document.querySelector('[data-shop-catalog]') ? 'all' : null);
@@ -3016,7 +3016,10 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     if (fresh.length < 100) return;
     const next = fresh.map((x) => (x && x.node) || x)
       .filter((p) => p && p.handle)
-      .filter(inSection);
+      .filter(inSection)
+      /* 頁面喺攞資料嗰陣自己縮窄過（品牌／煩惱／?cat=），背景對數都要跟返
+         同一條規則，否則全店目錄會蓋走品牌頁。 */
+      .filter((p) => typeof scope !== 'function' || scope(p));
     const matching = searchTerm && typeof window.OUJI_searchProductMatch === 'function'
       ? next.filter((p) => window.OUJI_searchProductMatch(p, searchTerm)) : next;
     if (!matching.length && !searchTerm) return;
