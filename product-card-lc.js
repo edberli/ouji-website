@@ -317,6 +317,10 @@
     if (sh) return;
     const host = document.createElement('div');
     host.id = 'lc-sheet-host';
+    /* 網站 CSS 會將 body 下面嘅 div 設做 position:relative; z-index:1，咁彈出畫面就會俾底部導覽列（z-index 2000）
+       遮住底部兩粒掣。個 host 自己要攞最高層。 */
+    host.style.setProperty('position', 'relative', 'important');
+    host.style.setProperty('z-index', '2147483647', 'important');
     document.body.append(host);
     const root = host.attachShadow({ mode: 'open' });
     root.innerHTML = `<style>${SHEET_CSS}</style><div class="sh"></div><div class="toast" role="status" hidden></div>`;
