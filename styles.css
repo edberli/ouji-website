@@ -148,6 +148,13 @@ body {
     radial-gradient(ellipse at 50% 85%, rgba(249,239,228,0.12) 0%, transparent 50%);
   background-attachment: fixed;
 }
+/* 桌面：body 自己唔准俾滑鼠碌。html 同 body 都係 overflow-x: hidden，body 因此變咗一個識碌嘅盒；
+   瀏覽器擴充功能（例如貨幣換算）喺 footer 後面塞嘢、凸出 body 外，碌到底就會再碌多 18px，
+   footer 下面露出一條米白（Winston 2026-10-15 指出白邊；喺佢部 Chrome 連埋擴充功能重現到）。
+   頁面本身照碌（碌嘅係成個視窗，唔係 body）。手機唔加：iOS Safari 對 body overflow 有自己一套。 */
+@media (min-width: 769px) {
+  body { overflow-y: hidden; }
+}
 
 /* Frosted noise texture overlay */
 body::before {
