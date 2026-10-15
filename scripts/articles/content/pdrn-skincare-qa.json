@@ -1,0 +1,89 @@
+{
+  "slug": "pdrn-skincare-qa",
+  "category": "問答",
+  "kicker": "問答 · PDRN",
+  "date": "2026-10-15",
+  "read_minutes": 5,
+  "title": "PDRN 護膚品係咩？三文魚精華值唔值得買",
+  "title_html": "PDRN 護膚品係咩？<span class=\"ax-nw\">三文魚精華</span><span class=\"ax-nw\">值唔值得買</span>",
+  "seo_title": "PDRN 護膚品係咩？三文魚精華值唔值得買（問答）",
+  "description": "PDRN 係咩？護膚品標示嘅 PDRN 通常由三文魚 DNA 提取，但植物、米同螺旋藻都有。OUJI 逐問逐答，分清楚護膚品同診所注射，再教你睇 Anua、VT Cosmetics、mixsoon 嘅產品頁。",
+  "dek": "PDRN 喺護膚品入面成日見到，但來源同用途唔一樣。我哋由來源講起，分清楚診所療程同搽喺面嘅護膚品，最後教你點睇產品頁。",
+  "cover": {
+    "type": "product",
+    "handle": "anua-anua-pdrn-11-100-30ml-6667",
+    "stamp": "PDRN 精華 · ★ 4.8 · 563 則評價"
+  },
+  "related": ["toner-pad-how-to-use", "k-beauty-under-100"],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "p", "html": "<strong>直接答：</strong>PDRN 係護膚品入面常見嘅成分名。護膚品上標示嘅 PDRN，<strong>通常由三文魚 DNA 提取</strong>，所以坊間好多人叫佢做「三文魚精華」。不過 PDRN 來源唔一定係三文魚，有啲品牌用植物、米或者螺旋藻。" },
+        { "type": "callout", "html": "一句答案：PDRN 係護膚成分，搽喺面嘅護膚品講保濕同膚感，唔等於診所注射療程。值唔值得買，要睇來源、質地、評價同價錢。" },
+        { "type": "toc" }
+      ],
+      "note": "淨係見到「PDRN」三個字未夠，睇清楚產品頁寫咩來源、用途同適合咩膚質。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "what", "label": "What is PDRN · 認識成分", "title": "PDRN 係咩？來源可以唔同" },
+        { "type": "p", "html": "PDRN 係一類由 DNA 片段組成嘅成分。護膚品上標示嘅，常見係由三文魚 DNA 提取。Anua PDRN 水光乳霜嘅產品頁，就寫明係「源自三文魚DNA嘅 PDRN」。" },
+        { "type": "p", "html": "不過睇產品頁，來源未必一樣。VT PDRN R5 緊緻安瓶寫係植物性 PDRN；VT PDRN 日常面膜寫源自韓國人參；mixsoon PDRN 膠原蛋白潔面乳寫係米萃取 PDRN；SOME BY MI 螺旋藻 PDRN 修復精華就用螺旋藻做來源。即係話，見到 PDRN 三個字，唔等於一定係三文魚。" }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "clinic", "label": "Clinic vs skincare · 分清楚", "title": "診所注射同搽喺面嘅護膚品，唔係同一樣嘢" },
+        { "type": "p", "html": "網上成日見到「PDRN 注射」同「PDRN 精華」一齊講，好易混淆。<strong>診所注射係醫療程序</strong>，要由醫護人員評估同處理。我哋賣嘅係搽喺面嘅護膚品，唔係醫療服務，亦唔可以代替注射。" },
+        { "type": "p", "html": "搽喺面嘅護膚品，講嘅係保濕、水潤同膚感。例如 Anua PDRN 水光乳霜產品頁寫有助活化肌膚，回復健康光澤；VT PDRN 面霜就主打提亮光澤同彈性。" },
+        { "type": "disclaimer", "html": "本文只講搽喺面嘅護膚品，唔係醫療建議。想了解注射療程，要問醫護人員。" }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "buy", "label": "How to choose · 點揀", "title": "值唔值得買？睇呢五樣" },
+        { "type": "p", "html": "值唔值得買冇標準答案，要睇你想要咩、膚質點，再睇預算。下面五樣，可以逐樣對返自己。" },
+        { "type": "list", "items": [
+          "<strong>來源</strong>：睇產品頁寫明係三文魚、植物、米定係螺旋藻。",
+          "<strong>用途</strong>：精華、面霜、爽膚水、面膜、潔面各有用途。想補水分，揀水潤型嘅；想要質感厚啲，揀面霜。",
+          "<strong>膚質</strong>：敏感肌就睇有冇寫適合敏感肌。例如 VT PDRN 面霜寫無香精配方，敏感肌適用。",
+          "<strong>評價</strong>：評分高唔等於一定啱你，要睇評價數夠唔夠多。例如 VT PDRN 微針精華評分 4.9，但只有 28 則評價，參考性會細啲。",
+          "<strong>價錢</strong>：同容量一齊睇。Anua PDRN 膠囊水光精華同 VT PDRN R5 緊緻安瓶都係 30ml，價錢分別係 HK$145 同 HK$158，相差 HK$13。"
+        ] },
+        { "type": "p", "html": "如果想試，可以先揀細支，例如 30ml，用過覺得啱，先考慮大支。想睇 Anua PDRN 系列點樣行，可以睇 <a href=\"/articles/suzy-anua-pdrn\">Anua PDRN 系列點樣行</a>。" }
+      ]
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "pdrn",
+      "items": [
+        { "handle": "anua-anua-pdrn-11-100-30ml-6667", "kind": "PDRN 精華", "unit": "30ml", "why": "PDRN、透明質酸同膠原蛋白三種成分組成產品頁所講嘅「三重活膚複合物」，有助維持肌膚天然保濕屏障，令膚質保持水潤明亮。", "fit": ["想補水", "膚感水潤"] },
+        { "handle": "anua-anua-pdrn-11-100-60ml-8135", "kind": "PDRN 面霜", "unit": "60ml", "why": "產品頁寫明源自三文魚 DNA 嘅 PDRN，質地輕盈，每日早晚都可以用，日間記得加防曬。", "fit": ["三文魚來源", "早晚都用"] },
+        { "handle": "vt-cosmetics-vt-pdrn-r5-30-0515", "kind": "植物 PDRN 安瓶", "unit": "30ml", "why": "產品頁寫係植物性 PDRN，微酸性乳狀安瓶，質地輕盈易吸收，寫明敏感肌都可以日常用。", "fit": ["植物來源", "敏感肌"] },
+        { "handle": "anua-anua-pdrn-30ml-3348", "kind": "PDRN 膠囊噴霧", "unit": "30ml", "why": "噴霧型，含 PDRN、透明質酸同膠原蛋白，產品頁寫為皮膚補充水分，令膚質睇起嚟更水潤有光澤。", "fit": ["隨身補水", "噴霧"] },
+        { "handle": "vt-cosmetics-vt-pdrn-30-0379", "kind": "PDRN 面膜", "unit": "30片", "why": "產品頁寫植物性 PDRN 源自韓國人參，面膜布貼合力強，質地輕薄唔黏笠，寫明敏感肌都可以日常用。", "fit": ["植物來源", "日常護理"] }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "faq", "label": "Q&A · 常見問題", "title": "買之前先問嗰幾條" },
+        { "type": "faq", "items": [
+          { "q": "三文魚精華同 PDRN 係咩關係？", "a": "坊間講「三文魚精華」，多數係指含 PDRN 嘅產品。不過 PDRN 來源可以唔同，要以產品頁寫明嘅來源為準。" },
+          { "q": "PDRN 護膚品可唔可以代替診所注射？", "a": "唔可以。診所注射係醫療程序，要由醫護人員評估同處理。搽喺面嘅護膚品講保濕、水潤同膚感，唔係醫療服務。" },
+          { "q": "敏感肌可唔可以用 PDRN 產品？", "a": "睇產品頁寫咩。例如 VT PDRN R5 緊緻安瓶寫敏感肌都可以日常用，VT PDRN 面霜寫無香精配方，敏感肌適用。首次用，建議先喺小範圍位置試一試。" }
+        ] },
+        { "type": "sources", "items": [
+          { "title": "OUJI 網店產品頁（產品描述、成分同用法）" },
+          { "title": "Olive Young Global 產品評分及評價數" },
+          { "title": "Olive Young Awards 2025、Hwahae Awards 2025 得獎資料（見產品頁）" }
+        ] }
+      ]
+    }
+  ]
+}

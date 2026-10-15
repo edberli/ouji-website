@@ -1,0 +1,96 @@
+{
+  "slug": "jennie-cat-nude-rose-makeup",
+  "category": "明星妝感",
+  "kicker": "拆妝 No.02 · Jennie",
+  "date": "2026-10-15",
+  "read_minutes": 6,
+  "title": "Jennie 貓系裸玫瑰妝教學：4 步拆解，同效果產品香港買得到",
+  "title_html": "Jennie <span class=\"ax-nw\">貓系裸玫瑰妝教學</span>：<span class=\"ax-nw\">4 步拆解</span>，<span class=\"ax-nw\">同效果產品</span><span class=\"ax-nw\">香港買得到</span>",
+  "seo_title": "Jennie妝容教學：貓系裸玫瑰妝 4 步拆解＋產品",
+  "description": "用一張 Jennie 2024 年 7 月相拆妝，逐步講底妝、眼線、頰彩同唇色嘅手法，再配 TIRTIR、CLIO 同 dasique 店內做得出相近效果嘅產品。",
+  "dek": "我哋揀咗一張 Jennie 2024 年 7 月嘅相，逐個部位拆：底妝遮瑕中等、眼線向外平拉、頰彩低位斜掃、唇色中心實啲，再由店內揀做得出相近效果嘅產品。",
+  "cover": {
+    "type": "photo",
+    "src": "/assets/articles/celeb-jennie.webp",
+    "alt": "Jennie 2024 年 7 月相片",
+    "credit": "相片：<a href=\"https://commons.wikimedia.org/wiki/File:Jennie_Kim_2024_(facecrop).png\" target=\"_blank\" rel=\"noopener\">티비텐 / TenAsia／Wikimedia Commons</a>，<a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\" rel=\"noopener\">CC BY 3.0</a>，經裁切"
+  },
+  "related": [
+    "wonyoung-glass-petal-makeup",
+    "iu-coral-satin-lip-makeup",
+    "jisoo-warm-brown-makeup",
+    "winter-y2k-cool-liner-makeup",
+    "sana-soft-pink-makeup",
+    "sakura-doll-peach-makeup"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "disclaimer", "html": "呢篇係針對指定相片做嘅視覺拆妝。推薦嘅產品係用嚟重現相中效果，唔代表 Jennie 本人用過。" },
+        { "type": "p", "html": "Jennie 呢張相嘅妝，重點係「低」。整個妝都偏低飽和，冇一樣特別搶眼。拆落嚟就係中等遮瑕、帶緞光嘅底妝，加上啡灰色眼尾、裸玫瑰低位頰彩，同埋粉珊瑚唇色。" },
+        { "type": "p", "html": "容易做失敗嘅係胭脂同唇色。一重就跳出嚟，妝感即刻變濃。所以下面每一步揀嘅都係可以逐層疊嘅產品，唔啱就停。" },
+        { "type": "toc" }
+      ],
+      "note": "成個妝關鍵係克制，少一層，好過多一層。"
+    },
+    { "type": "sec", "id": "steps", "label": "Recipe · 拆妝步驟", "title": "四個部位，逐步做" },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "no": "01",
+          "title": "底妝：自然緞光，中等遮瑕",
+          "html": "底妝要有緞光，遮瑕中等，T 區乾淨，面頰留返柔光。TIRTIR 迷你氣墊同正裝配方、遮瑕力一樣，體積細一半，印薄薄一層就夠。hince 粉底液薄塗已經勻，唔使為咗遮瑕搽到成塊面似面具。",
+          "products": ["tirtir-mask-fit-red-cushion-mini", "hince-second-skin-foundation"]
+        },
+        {
+          "no": "02",
+          "title": "眼妝：眼線平拉，啡灰收眼尾",
+          "html": "內眼線要畫完整，用 CLIO 眼線筆 04 深棕色沿睫毛根填滿。外眼尾改用 lilybyred 啞光啡色眼線液筆，向外平拉，唔向上挑。啡灰陰影集中掃喺眼尾，邊界化開。睫毛膏主要刷外半邊，內半邊輕輕刷就夠。",
+          "products": ["clio-sharp-so-simple-pencil-liner", "lilybyred-survival-penliner", "lilybyred-survival-colorcara"]
+        },
+        {
+          "no": "03",
+          "title": "頰彩：裸玫瑰低位斜掃，融入修容",
+          "html": "頰彩放喺蘋果肌下面嘅低位，順住輪廓斜掃，同修容融合，唔做出明顯粉紅色塊。rom&amp;nd 勝過臉頰腮紅粉質綿密、顯色慢，逐層疊到啱為止。dasique 混色腮紅盤顯色好控，唔會一下太紅。",
+          "products": ["romand-better-than-cheek", "dasique-blending-mood-cheek"]
+        },
+        {
+          "no": "04",
+          "title": "唇妝：粉珊瑚帶光澤，中心實、邊緣淡",
+          "html": "唇線柔化，但唇峰要留住。中心先上粉珊瑚色，向外推開，中心顏色實啲，邊緣自然淡。rom&amp;nd 果汁鎖色唇釉有果汁水光，似咬咗一啖水果，唔係一層厚膠，#08 Pink Pumpkin 偏粉。dasique 晨露光澤唇釉 #03 珊瑚糖偏珊瑚，中等顯色，唔會有明顯唇線。想粉啲揀前者，想暖啲揀後者。",
+          "products": ["romand-juicy-lasting-tint", "dasique-juicy-dewy-glow-tint"]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "callout", "html": "一句記住：底妝留光，眼線平拉，胭脂低位要散，唇色中心實、邊緣淡。每一步寧願少，唔夠先加。" },
+        { "type": "sec", "id": "shades", "label": "Shades · 色號參考", "title": "照住相入面嘅色系揀色號" },
+        { "type": "table", "head": ["部位", "產品", "色號參考"], "rows": [
+          ["內眼線", "<a href=\"/products/clio-sharp-so-simple-pencil-liner\">CLIO 眼線筆</a>", "04 深棕色"],
+          ["外眼尾", "<a href=\"/products/lilybyred-survival-penliner\">lilybyred 眼線液筆</a>", "02 Matt Brown"],
+          ["睫毛", "<a href=\"/products/lilybyred-survival-colorcara\">lilybyred 睫毛膏</a>", "04 Mocha Brown"],
+          ["頰彩", "<a href=\"/products/romand-better-than-cheek\">rom&amp;nd 腮紅</a>", "N02 Vine Nude"],
+          ["頰彩", "<a href=\"/products/dasique-blending-mood-cheek\">dasique 腮紅盤</a>", "#15 玫瑰奶茶"],
+          ["唇釉", "<a href=\"/products/romand-juicy-lasting-tint\">rom&amp;nd 唇釉</a>", "#08 Pink Pumpkin"],
+          ["唇釉", "<a href=\"/products/dasique-juicy-dewy-glow-tint\">dasique 唇釉</a>", "#03 珊瑚糖"]
+        ] },
+        { "type": "p", "html": "色號係按相入面嘅色系揀，實際顏色以產品頁色板為準。底妝色號要按自己膚色揀，唔使跟相。想睇更多唇釉，可以去 <a href=\"/makeup?cat=liptint\">唇釉分類</a>。" },
+        { "type": "sec", "id": "faq", "label": "Q&A · 常見問題", "title": "照住做之前" },
+        { "type": "faq", "items": [
+          { "q": "裸玫瑰同粉玫瑰有咩分別？", "a": "裸玫瑰顏色淡、近膚色，掃落去唔會見到粉紅色塊；粉玫瑰就偏粉，一掃就見得到。呢個妝揀 Vine Nude 呢類淡色，逐層疊會更易控。" },
+          { "q": "內眼線同外眼尾，要用唔同眼線咩？", "a": "會分開用。內眼線用 CLIO 眼線筆 04 深棕色，沿睫毛根填滿；外眼尾用 lilybyred 啞光啡色眼線液筆，向外平拉。" },
+          { "q": "唇色點樣先唔會成個嘴都實？", "a": "只點中心，然後向外推開，唇線唔使沿住畫。中心顏色實、邊緣淡，唔夠色先再疊一層。" }
+        ] },
+        { "type": "sources", "items": [
+          { "title": "Wikimedia Commons：Jennie Kim 2024 (facecrop)（作者 티비텐 / TenAsia，CC BY 3.0）", "url": "https://commons.wikimedia.org/wiki/File:Jennie_Kim_2024_(facecrop).png" },
+          { "title": "產品色號及質地描述：OUJI 網店產品頁" }
+        ] }
+      ],
+      "note": "唇峰要留返少少原本嘅唇形，唔好全部抹散。"
+    }
+  ]
+}

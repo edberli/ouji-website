@@ -1,0 +1,71 @@
+{
+  "slug": "wonyoung-glass-petal-makeup",
+  "category": "明星妝感",
+  "kicker": "拆妝 No.01 · 張員瑛",
+  "date": "2026-10-15",
+  "read_minutes": 6,
+  "title": "張員瑛清透花瓣水光妝：5 步拆解，同效果產品香港買得到",
+  "title_html": "張員瑛<span class=\"ax-nw\">清透花瓣水光妝</span>：<span class=\"ax-nw\">5 步拆解</span>，<span class=\"ax-nw\">同效果產品</span><span class=\"ax-nw\">香港買得到</span>",
+  "seo_title": "張員瑛妝容教學：清透花瓣水光妝 5 步拆解＋同效果產品",
+  "description": "用一張張員瑛活動相拆妝：薄透水光底、粉米色眼影、花瓣粉頰、柔霧漸層唇。逐步講手法，再配 OUJI 店內做得出同樣效果嘅氣墊、眼影、胭脂同唇釉。",
+  "dek": "我哋揀咗一張張員瑛 2025 年 4 月嘅活動相，逐個部位拆：底妝幾薄、眼影咩色、胭脂掃喺邊、唇妝點樣做出漸層，再由店內揀做得出同樣效果嘅產品。",
+  "cover": {
+    "type": "photo",
+    "src": "/assets/articles/celeb-wonyoung.webp",
+    "alt": "張員瑛 2025 年 4 月 16 日活動相片",
+    "credit": "相片：<a href=\"https://commons.wikimedia.org/wiki/File:Jang_Won-young_of_Ive,_April_16,_2025.png\" target=\"_blank\" rel=\"noopener\">K-POPIT 케이팝잇／Wikimedia Commons</a>，<a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\" rel=\"noopener\">CC BY 3.0</a>，經裁切"
+  },
+  "related": ["olive-young-sunscreen-ranking"],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "disclaimer", "html": "呢篇係針對指定相片做嘅視覺拆妝。推薦嘅產品係用嚟重現相中效果，唔代表張員瑛本人用過。" },
+        { "type": "p", "html": "張員瑛嘅妝成日俾人話「好乾淨」。拆落嚟其實唔係冇化，係每一步都控制咗份量：底妝薄到見到皮膚、眼妝用低飽和嘅粉米色、胭脂完全化開冇邊界，唇妝就中間深、邊緣淡。" },
+        { "type": "p", "html": "重點係<strong>幼細，而唔係顯色</strong>。所以下面每一步，揀產品都係揀「可以一層層疊」嗰類，而唔係一掃就好濃嗰類。" },
+        { "type": "toc" }
+      ],
+      "note": "成個妝最易錯就係胭脂太重。寧願少，唔夠先再加一層。"
+    },
+    { "type": "sec", "id": "steps", "label": "Recipe · 拆妝步驟", "title": "五個部位，逐步做" },
+    {
+      "type": "steps",
+      "items": [
+        { "no": "01", "title": "底妝：薄透水光，光位喺鼻樑同眼下", "html": "相中底妝屬自然水光，遮瑕度低至中，皮膚紋理仲見到。用氣墊薄薄印一層就夠，暗瘡印或者黑眼圈先局部補。光位集中喺鼻樑、眼下同蘋果肌，第五步再加強。", "products": ["clio-kill-cover-high-glow-cushion", "tirtir-mask-fit-red-cushion-mini"] },
+        { "no": "02", "title": "眼妝：粉米色打底，啡灰幼眼線", "html": "眼皮用粉米色打底，唔好用太深嘅啡。眼線揀啡灰色，畫幼，眼尾微微拉長就停。下眼瞼中間點少少珠光做臥蠶亮點，睫毛要根根分明，唔好黐埋一嚿。", "products": ["dasique-eyeshadow-palette", "2an-better-me-eye-palette", "lilybyred-starry-eyes-gel-eyeliner"] },
+        { "no": "03", "title": "頰彩：低飽和冷粉，由眼下向外掃", "html": "胭脂揀低飽和嘅冷粉色，位置喺眼下對落少少，向耳邊方向輕掃。邊界要完全化開，睇落似皮膚本身透出嚟嘅血色。", "products": ["peripera-pure-blushed-sunshine-cheek", "2an-dual-cheek", "dasique-blending-mood-cheek"] },
+        { "no": "04", "title": "唇妝：粉玫瑰漸層，唇峰留少少光", "html": "先喺唇中間點粉玫瑰色唇釉，用手指向外推開，邊緣自然淡出，唔使畫唇線。最後唇峰保留少少水光，唔好成個嘴都好亮。", "products": ["romand-juicy-lasting-tint", "hince-raw-glow-gel-tint"] },
+        { "no": "05", "title": "光位：香檳粉色，點喺高位", "html": "高光唔係成塊掃，係點喺鼻樑、眼下三角位同蘋果肌最高點。揀細珠光或者膏狀，近睇都唔會見到閃粉顆粒。", "products": ["hince-true-dimension-radiance-balm", "2an-pure-glash-highlighter"] }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "callout", "html": "記住四個字：薄、透、粉、柔。每一步都寧願少，唔夠先加。" },
+        { "type": "sec", "id": "shades", "label": "Shades · 色號參考", "title": "想照住揀色號，可以由呢幾隻開始" },
+        { "type": "table", "head": ["部位", "產品", "色號參考"], "rows": [
+          ["眼影", "<a href=\"/products/dasique-eyeshadow-palette\">dasique 眼影盤</a>", "#26 櫻花盤（粉）／#13 香芋奶茶（米）"],
+          ["眼影", "<a href=\"/products/2an-better-me-eye-palette\">2aN 眼影盤</a>", "#13 Sand Pink"],
+          ["臥蠶", "<a href=\"/products/lilybyred-starry-eyes-gel-eyeliner\">lilybyred 啫喱眼線筆</a>", "04 Gold Pink／17 Sheer Pink"],
+          ["胭脂", "<a href=\"/products/peripera-pure-blushed-sunshine-cheek\">Peripera 胭脂</a>", "01 微笑粉紅"],
+          ["胭脂", "<a href=\"/products/2an-dual-cheek\">2aN 雙色胭脂</a>", "#06 Pink Petal"],
+          ["唇釉", "<a href=\"/products/romand-juicy-lasting-tint\">rom&amp;nd 果汁鎖色唇釉</a>", "#14 Almond Rose"],
+          ["唇釉", "<a href=\"/products/hince-raw-glow-gel-tint\">hince 啫喱唇釉</a>", "R002 RAW ROSE"],
+          ["高光", "<a href=\"/products/hince-true-dimension-radiance-balm\">hince 光澤膏</a>", "TP005 SHELLY PINK"]
+        ] },
+        { "type": "p", "html": "色號係按色系揀，實際顏色以產品頁色板為準。氣墊色號就要按自己膚色揀，唔使跟相。" },
+        { "type": "sec", "id": "faq", "label": "Q&A · 常見問題", "title": "照住做之前" },
+        { "type": "faq", "items": [
+          { "q": "冇眼影盤，可唔可以只用一隻色？", "a": "可以。用接近膚色嘅粉米色掃成個眼窩，再用啡灰眼線收邊，已經有七成效果。" },
+          { "q": "油性皮膚做水光底會唔會好油？", "a": "水光感集中喺光位就得，T 字部位可以薄薄撲少少碎粉，保留鼻樑同眼下嘅光澤。" },
+          { "q": "唇釉點樣先唔會成個嘴都好濃？", "a": "只點喺唇中間，用手指拍開，唔好直接沿住唇線塗。顏色不夠先再疊一層。" }
+        ] },
+        { "type": "sources", "items": [
+          { "title": "Wikimedia Commons：Jang Won-young of Ive, April 16, 2025（作者 K-POPIT 케이팝잇，CC BY 3.0）", "url": "https://commons.wikimedia.org/wiki/File:Jang_Won-young_of_Ive,_April_16,_2025.png" },
+          { "title": "產品色號及質地描述：OUJI 網店產品頁" }
+        ] }
+      ],
+      "note": "相入面嘅唇峰水光好細，只係一點點，唔好成個嘴都塗亮。"
+    }
+  ]
+}

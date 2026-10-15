@@ -1,0 +1,268 @@
+{
+  "slug": "olive-young-awards-2025-winners",
+  "category": "選物清單",
+  "kicker": "得獎特集 · 2026 秋",
+  "date": "2026-10-15",
+  "read_minutes": 6,
+  "title": "Olive Young Awards 2025 得獎產品：香港邊度買？OUJI 有貨清單",
+  "title_html": "<span class=\"ax-nw\">Olive Young Awards 2025</span> <span class=\"ax-nw\">得獎產品</span>：<span class=\"ax-nw\">香港邊度買？</span><span class=\"ax-nw\">OUJI 有貨清單</span>",
+  "seo_title": "Olive Young 香港必買：2025 大獎得獎產品有貨清單",
+  "description": "OUJI 而家有貨嘅 Olive Young Awards 2025 得獎產品，逐件列明得咩獎、攞嘅係邊個類別同名次，包括 Round Lab 1025 爽膚水、dasique 眼影盤同 rom&nd 唇釉。",
+  "dek": "2025 年 Olive Young 得獎名單入面，我哋只留返 OUJI 而家賣緊嗰款，分護膚同防曬、眼妝、唇同底妝三組，逐件寫明得咩獎、攞咗邊個類別嘅名次。",
+  "cover": {
+    "type": "product",
+    "handle": "round-lab-round-lab-1025-200ml-4731",
+    "stamp": "Olive Young Awards 2025 得獎"
+  },
+  "related": [
+    "olive-young-sunscreen-ranking",
+    "korean-lip-tint-ranking",
+    "korean-cushion-ranking",
+    "k-beauty-under-100",
+    "ouji-webstore-bestsellers"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "method",
+          "label": "點樣揀",
+          "html": "只列 <strong>Olive Young 官方公布</strong>嘅 2025 年得獎，而且<strong>得獎款式就係我哋而家賣緊嗰款</strong>。同系列其他版本、其他尺寸嘅得獎，即使睇落好似同一條線，今次一律唔計。核對得獎紀錄之後，有幾件得獎屬於同系列其他版本，所以未列入。得獎資料以官方公布為準，價錢以產品頁為準。"
+        },
+        {
+          "type": "p",
+          "html": "Olive Young Awards 係韓國 Olive Young 嘅年度得獎名單，按類別列名次。買得獎產品唔使盲撞，但要知得獎嘅係邊一支，所以每件都寫清楚年份、類別同名次。"
+        },
+        {
+          "type": "toc"
+        }
+      ],
+      "note": "Round Lab 1025 爽膚水喺 2023、2024、2025 年都攞過爽膚水冠軍，想揀一支就先揀佢。"
+    },
+    {
+      "type": "sec",
+      "id": "skin",
+      "label": "Catalogue · 護膚同防曬",
+      "title": "護膚同防曬：爽膚水、眼霜套裝、精華、防曬"
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "skin",
+      "items": [
+        {
+          "handle": "round-lab-round-lab-1025-200ml-4731",
+          "kind": "爽膚水",
+          "why": "Olive Young Awards 2025 爽膚水冠軍，2023、2024 年都係爽膚水冠軍。",
+          "fit": [
+            "洗面後即用",
+            "日常補水"
+          ]
+        },
+        {
+          "handle": "boh-boh-probioderm-3d-25ml-2-3957",
+          "kind": "眼霜套裝",
+          "unit": "25ml × 2",
+          "why": "Olive Young Awards 2025 Slow Aging 得獎。得獎紀錄寫明得獎嘅係套裝入面嘅面霜。",
+          "fit": [
+            "眼周同全臉",
+            "一次過護理"
+          ]
+        },
+        {
+          "handle": "torriden-torriden-50ml-1647",
+          "kind": "精華",
+          "why": "Olive Young Awards 2025 精華冠軍，2023 年係精華第 3 名。評價數得 47 則，參考時留意。",
+          "fit": [
+            "補水",
+            "配方溫和"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-spf50-pa-50ml-1814",
+          "kind": "防曬霜",
+          "why": "Olive Young Awards 2025 防曬冠軍。產品頁寫係精華質地，清爽快吸收，SPF50+ PA++++。",
+          "fit": [
+            "質地清爽",
+            "想保濕"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sec",
+      "id": "eye",
+      "label": "Catalogue · 眼妝",
+      "title": "眼影同眉筆：三款得獎，揀盤先睇色"
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "eye",
+      "items": [
+        {
+          "handle": "dasique-eyeshadow-palette",
+          "kind": "眼影盤",
+          "why": "Olive Young Awards 2025 眼影盤第 2 名，2023、2024 年都係第 2 名。",
+          "fit": [
+            "一盤九色",
+            "新手易上手"
+          ]
+        },
+        {
+          "handle": "wakemake-soft-blurring-eye-palette",
+          "kind": "眼影盤",
+          "unit": "16 色",
+          "why": "Olive Young Awards 2025 眼影盤冠軍，2023 年彩妝冠軍，2024 年眼影盤冠軍。",
+          "fit": [
+            "由返工到派對",
+            "啞光珠光閃片齊"
+          ]
+        },
+        {
+          "handle": "clio-kill-brow-auto-hard-pencil",
+          "kind": "眉筆",
+          "why": "Olive Young Awards 2025 眼妝第 3 名，韓國 화해 Hwahae Awards 2025 眉部產品第 2 名。",
+          "fit": [
+            "眉形易畫",
+            "附連削筆器"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sec",
+      "id": "lip",
+      "label": "Catalogue · 唇同底妝",
+      "title": "唇釉、氣墊同唇頰泥：五款得獎"
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "lip",
+      "items": [
+        {
+          "handle": "peripera-ink-mood-glowytint",
+          "kind": "唇釉",
+          "why": "Olive Young Awards 2025 唇釉第 3 名。產品頁話貼合力強，唔易暈染。",
+          "fit": [
+            "日常用",
+            "唔易暈染"
+          ]
+        },
+        {
+          "handle": "romand-juicy-lasting-tint",
+          "kind": "唇釉",
+          "why": "Olive Young Awards 2025 唇釉冠軍，2023、2024 年都係唇妝冠軍。",
+          "fit": [
+            "鎖色",
+            "果汁水光"
+          ]
+        },
+        {
+          "handle": "clio-kill-cover-founwear-cushion",
+          "kind": "氣墊粉底",
+          "unit": "附補充裝",
+          "why": "Olive Young Awards 2025 氣墊粉底第 2 名，2023 年係氣墊粉底冠軍。",
+          "fit": [
+            "半啞光",
+            "想遮瑕"
+          ]
+        },
+        {
+          "handle": "hince-second-skin-mesh-matte-cushion",
+          "kind": "氣墊粉底",
+          "why": "Olive Young Awards 2025 氣墊粉底第 3 名，Glowpick Awards 2025 啞光氣墊第 2 名。",
+          "fit": [
+            "霧面收尾",
+            "出油位"
+          ]
+        },
+        {
+          "handle": "fwee-lip-cheek-blurry-pudding-pot",
+          "kind": "唇頰泥",
+          "why": "Olive Young Awards 2025 修容冠軍，2024 年修容亦有得獎。不過喺 Olive Young Global 只得 4 則評價，樣本太細，卡上唔顯示星數。",
+          "fit": [
+            "唇同臉兩用",
+            "柔霧收尾"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "callout",
+          "html": "先睇用途，再睇得獎：補水揀爽膚水同精華，遮瑕揀氣墊，顏色揀唇釉同眼影盤。"
+        },
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to choose · 點揀",
+          "title": "得獎係起點，用途先係揀嘢標準"
+        },
+        {
+          "type": "p",
+          "html": "買得獎產品，要先睇清楚得獎紀錄寫嘅係邊一款。例如 BOH 眼霜套裝，得獎嘅係套裝入面嘅面霜，買之前要分得清你想要嘅係面霜定係眼霜。"
+        },
+        {
+          "type": "p",
+          "html": "護膚同防曬嘅得獎，要睇日常用唔用得上。爽膚水同精華係每日補水用嘅；防曬係日間出街用，要搽夠份量先至有包裝寫嘅效果。"
+        },
+        {
+          "type": "p",
+          "html": "彩妝方面，眼影盤揀色調，唔好淨係睇盤面好唔好睇。唇釉同氣墊都有唔同色號，要睇產品頁嘅色板，<a href=\"/makeup?cat=liptint\">唇釉可以睇我哋嘅唇釉分類</a>。"
+        }
+      ],
+      "note": "防曬想睇晒店內所有款式，可以去 <a href=\"/seasonal?cat=sun\">防曬專區</a>。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "買之前常見嘅問題"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "Olive Young Awards 係咩？",
+              "a": "係韓國 Olive Young 公布嘅年度得獎名單，按類別列出名次。今次用嘅係 2025 年官方公布嘅結果。"
+            },
+            {
+              "q": "得獎產品一定好用嗎？",
+              "a": "唔一定。得獎代表喺嗰個類別排得前，適唔適合你，仍然要睇膚質同用途。"
+            },
+            {
+              "q": "得獎款同我哋賣嗰款一樣嗎？",
+              "a": "我哋只列得獎款式就係而家賣緊嗰款嘅產品。同系列其他版本、其他尺寸嘅得獎，今次一律唔計入。"
+            },
+            {
+              "q": "Olive Young 評分同得獎有咩分別？",
+              "a": "評分係顧客俾嘅星數，評價數係寫過評價嘅人數；得獎係官方公布嘅名次。三樣數據各自講唔同嘢，所以我哋分開列。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "Olive Young Awards 2025 官方公布結果（各類別）"
+            },
+            {
+              "title": "Olive Young Global 產品頁（評分及評價數）"
+            },
+            {
+              "title": "OUJI 網店產品頁（價錢、規格、有貨）"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "slug": "korean-sheet-mask-ranking",
+  "category": "排行榜",
+  "kicker": "面膜特集 · 2026 秋",
+  "date": "2026-10-15",
+  "read_minutes": 6,
+  "title": "韓國面膜推介：Olive Young 評分最高 10 個系列，香港有貨",
+  "title_html": "韓國面膜推介：<span class=\"ax-nw\">Olive Young</span> <span class=\"ax-nw\">評分最高</span> <span class=\"ax-nw\">10 個系列，</span><span class=\"ax-nw\">香港有貨</span>",
+  "seo_title": "韓國面膜推薦 2026：Olive Young 評分最高 10 個系列",
+  "description": "OUJI 店內面膜逐個系列對返 Olive Young 評分同評價數：Abib 口香糖面膜、Round Lab 1025 獨島、Torriden、Beauty of Joseon，附單片同盒裝點揀。",
+  "dek": "我哋將 OUJI 有貨嘅面膜，逐個系列對返 Olive Young Global 嘅評分同評價數，揀出評分最穩陣嘅 10 個系列，再講清楚單片同盒裝點揀、邊款啱咩膚況。",
+  "cover": {
+    "type": "product",
+    "handle": "abib-abib-10-3736",
+    "stamp": "No.1 · ★ 4.9 · 282 則評價"
+  },
+  "related": [
+    "olive-young-sunscreen-ranking",
+    "korean-lip-tint-ranking",
+    "korean-cushion-ranking"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "method",
+          "label": "點樣排",
+          "html": "只計 OUJI 而家有貨、喺 Olive Young Global 有 50 則以上評價嘅面膜。同一系列唔同味道或者唔同包裝，喺 Olive Young 通常共用同一個評分，所以我哋當一個系列計，唔會一個牌子佔晒十個位。分數按評價數加權，價錢以產品頁為準。"
+        },
+        {
+          "type": "p",
+          "html": "面膜好易「買多咗」：一盒十片、單片又平，見到就拎。與其每次憑包裝揀，不如先睇用過嘅人點評。下面十個系列，全部喺 Olive Young Global 有幾百至過千則評價。"
+        },
+        {
+          "type": "toc"
+        }
+      ],
+      "note": "想試新系列，先買單片；用開覺得啱，再轉盒裝會抵啲。"
+    },
+    {
+      "type": "sec",
+      "id": "top10",
+      "label": "Catalogue · 十強",
+      "title": "評分最穩陣嘅 10 個面膜系列"
+    },
+    {
+      "type": "catalog",
+      "feature_first": true,
+      "id_prefix": "no",
+      "items": [
+        {
+          "handle": "abib-abib-10-3736",
+          "kind": "片裝面膜",
+          "unit": "27ml × 10 片",
+          "why": "Abib 口香糖面膜系列。呢款係魚腥草味，加咗尿囊素、泛醇同透明質酸鈉，面膜紙係貼面微纖維。同系列仲有維他命、膠原蛋白、積雪草苷等款。",
+          "fit": [
+            "易泛紅",
+            "日常補水"
+          ]
+        },
+        {
+          "handle": "abib-abib-5731",
+          "kind": "片裝面膜",
+          "unit": "1 片",
+          "why": "Abib 弱酸性面膜系列，係十強入面評價最多嘅片裝系列之一。單片 HK$18，有魚腥草、蜂蜜、復活草等款，啱用嚟試。",
+          "fit": [
+            "想先試",
+            "溫和"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-1025-30-x-10-0710",
+          "kind": "水凝膠面膜",
+          "unit": "30ml × 10 片",
+          "why": "8 種透明質酸加 8 種氨基酸，凝膠面膜接觸精華後變透明，敷落有冰感。用法寫明靜敷約 10 分鐘。",
+          "fit": [
+            "攰嘅時候",
+            "想有冰感"
+          ]
+        },
+        {
+          "handle": "skin1004-skin1004-25ml-x-5-0502",
+          "kind": "安瓶面膜",
+          "unit": "25ml × 5 片",
+          "why": "積雪草、甘油同洋甘菊，產品寫明適合一般、混合同油性肌膚。5 片裝 HK$79，亦有 HK$18 單片。",
+          "fit": [
+            "混合油性",
+            "舒緩補水"
+          ]
+        },
+        {
+          "handle": "torriden-torriden-10-5690",
+          "kind": "片裝面膜",
+          "unit": "10 片",
+          "why": "5 種積雪草萃取，TENCEL 混合纖維面膜紙，產品寫明適合敏感肌。10 片 HK$95，計落每片 HK$9.5。",
+          "fit": [
+            "敏感肌",
+            "抵用"
+          ]
+        },
+        {
+          "handle": "torriden-torriden-10-2194",
+          "kind": "安瓶面膜",
+          "unit": "10 片",
+          "why": "同牌子嘅維他命版本，5 種維他命成分，主打提亮同保濕，產品寫明配方溫和。",
+          "fit": [
+            "膚色暗啞",
+            "想有光澤"
+          ]
+        },
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-10-6021",
+          "kind": "片裝面膜",
+          "unit": "10 片",
+          "why": "綠茶、艾草萃取配三種透明質酸，面膜紙輕薄，產品寫明敷住期間唔易移位。亦有 HK$18 單片。",
+          "fit": [
+            "乾燥",
+            "想貼面"
+          ]
+        },
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-140ml-6986",
+          "kind": "沖洗式面膜",
+          "unit": "140ml",
+          "why": "十強入面唯一一款沖洗式，1,283 則評價係全榜最多。高嶺土配紅豆萃取，溫和去角質同時吸走多餘皮脂，產品寫明用後唔會繃緊。",
+          "fit": [
+            "T 字出油",
+            "毛孔"
+          ]
+        },
+        {
+          "handle": "some-by-mi-somebymi-1-1456",
+          "kind": "片裝面膜",
+          "unit": "1 片",
+          "why": "維他命 C 加甘草酸二鉀，純素認證，獨立包裝。HK$15 係十強入面最平嘅一片。",
+          "fit": [
+            "預算有限",
+            "膚色暗啞"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-27-x-10-5728",
+          "kind": "片裝面膜",
+          "unit": "27ml × 10 片",
+          "why": "松葉萃取加五種積雪草成分，雙波浪面膜紙，敷落有冰涼感。純素、無香料。",
+          "fit": [
+            "無香料",
+            "舒緩"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "callout",
+          "html": "唔知揀邊款：日常補水揀第 1 或第 3 名；想先試平價單片揀第 2 或第 9 名；T 字出油就加一支第 8 名嘅沖洗式。"
+        },
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to choose · 點揀",
+          "title": "單片定盒裝？睇你用幾密"
+        },
+        {
+          "type": "p",
+          "html": "一個禮拜敷兩三次，盒裝會抵好多：例如 Torriden 5D 積雪草 10 片 HK$95，每片 HK$9.5；單片多數 HK$15 至 HK$18。未試過嘅系列，就先買一兩片，啱先轉盒裝。"
+        },
+        {
+          "type": "p",
+          "html": "膚況方面：容易泛紅，睇名入面有魚腥草、積雪草嘅；膚色暗啞，睇維他命嗰幾款；T 字出油同毛孔，用沖洗式泥膜。想睇晒店內所有面膜，可以去 <a href=\"/category?cat=mask\">面膜專區</a>。"
+        }
+      ],
+      "note": "片裝面膜敷完唔使即刻洗面，輕拍餘下精華就得，之後照用乳液或者面霜。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "compare",
+          "label": "Index · 比較表",
+          "title": "十個系列一次過比較"
+        },
+        {
+          "type": "compare",
+          "handles": [
+            "abib-abib-10-3736",
+            "abib-abib-5731",
+            "round-lab-round-lab-1025-30-x-10-0710",
+            "skin1004-skin1004-25ml-x-5-0502",
+            "torriden-torriden-10-5690",
+            "torriden-torriden-10-2194",
+            "beauty-of-joseon-beauty-of-joseon-10-6021",
+            "beauty-of-joseon-beauty-of-joseon-140ml-6986",
+            "some-by-mi-somebymi-1-1456",
+            "round-lab-round-lab-27-x-10-5728"
+          ],
+          "kinds": [
+            "片裝 10 片",
+            "片裝 1 片",
+            "水凝膠 10 片",
+            "安瓶 5 片",
+            "片裝 10 片",
+            "安瓶 10 片",
+            "片裝 10 片",
+            "沖洗式 140ml",
+            "片裝 1 片",
+            "片裝 10 片"
+          ]
+        },
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "買面膜之前最多人問"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "面膜敷幾耐先啱？",
+              "a": "跟返產品寫嘅時間，例如 Round Lab 1025 獨島水凝膠寫約 10 分鐘、Some By Mi 寫 10 至 20 分鐘。敷到面膜乾晒先除，反而會吸走皮膚水分。"
+            },
+            {
+              "q": "敷完面膜要唔要洗面？",
+              "a": "片裝面膜一般唔使，輕拍餘下精華至吸收就得。沖洗式泥膜就要照產品指示沖走。"
+            },
+            {
+              "q": "點解同一個系列唔同味道評分一樣？",
+              "a": "Olive Young 好多時將同一系列嘅唔同款放喺同一個產品頁，評分係成頁一齊計，所以我哋當一個系列排。"
+            },
+            {
+              "q": "評分係邊度嚟？",
+              "a": "評分同評價數嚟自 Olive Young Global 產品頁，2026 年 10 月擷取。價錢以 OUJI 產品頁為準。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "Olive Young Global 產品評分及評價數（2026 年 10 月擷取）"
+            },
+            {
+              "title": "產品成分、規格及用法：OUJI 網店產品頁"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

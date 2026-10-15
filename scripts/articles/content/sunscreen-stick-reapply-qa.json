@@ -1,0 +1,87 @@
+{
+  "slug": "sunscreen-stick-reapply-qa",
+  "category": "問答",
+  "kicker": "問答 · 防曬棒",
+  "date": "2026-10-15",
+  "read_minutes": 4,
+  "title": "防曬棒有冇用？點樣補搽先夠",
+  "title_html": "防曬棒有冇用？<span class=\"ax-nw\">點樣補搽先夠</span>",
+  "seo_title": "防曬棒有冇用？點樣補搽先夠（韓國防曬棒問答）",
+  "description": "防曬棒有冇用？點補搽先夠？OUJI 逐條答：SPF 數字點睇、出門前點打底、日間點補搽，再睇 TOCOBO、Round Lab、SKIN1004 等五支防曬棒嘅質地差異。",
+  "dek": "防曬棒啱日間補搽。我哋講清楚打底同補搽嘅做法，再揀五支質地唔同嘅防曬棒，附上點揀。",
+  "cover": {
+    "type": "product",
+    "handle": "round-lab-round-lab-spf50-pa-50ml-4459",
+    "stamp": "防曬棒 · ★ 4.8 · 1,078 則評價"
+  },
+  "related": ["olive-young-sunscreen-ranking", "travel-mini-kbeauty-packing"],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "p", "html": "防曬棒<strong>有用</strong>，但主要係<strong>日間補搽</strong>用。出門前先用防曬霜或者防曬乳打底，防曬棒留返中途補搽，會比較穩陣。" },
+        { "type": "callout", "html": "一句答案：防曬棒有用，前提係搽夠份量，再加定時補搽。" },
+        { "type": "toc" }
+      ],
+      "note": "常見嘅問題係搽得唔夠。包裝上嘅 SPF 數字，要搽夠份量先至可以接近。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "useful", "label": "Answer · 有冇用", "title": "防曬棒有冇用？關鍵係點樣用" },
+        { "type": "p", "html": "防曬棒嘅好處係方便。Beauty of Joseon 艾草控油防曬棒產品頁寫明設計唔使手塗，衞生方便，日間補搽就好簡單。" },
+        { "type": "p", "html": "不過防曬棒都要搽夠份量先有用。包裝上嘅 SPF，係用<strong>每平方厘米 2 毫克</strong>嘅份量測出嚟。搽少咗，實際保護會低過包裝寫嘅數字。" }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "reapply", "label": "How to reapply · 點補搽", "title": "出門前打底，日間用棒補" },
+        { "type": "list", "items": [
+          "<strong>出門前</strong>：用防曬霜或者防曬乳搽勻面同頸，呢層係打底。",
+          "<strong>日間中途</strong>：需要時用防曬棒補。Round Lab 白樺樹防曬棒產品頁寫明，特別係流汗或者曝曬後要補搽。",
+          "<strong>游水、流汗或者擦過汗之後</strong>：就算係防水防汗款，例如 TOCOBO 維他命防水防曬棒，都最好重新補搽，唔好當一次搽咗就成日有效。"
+        ] },
+        { "type": "p", "html": "補搽嗰陣，順住面同頸慢慢推開，推勻要搽嘅位置，唔好只推額頭同鼻。" }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "pick", "label": "How to choose · 點揀", "title": "揀防曬棒，先睇質地" },
+        { "type": "p", "html": "防曬棒嘅質地差好遠。TOCOBO 棉花柔滑防曬棒寫尾段有粉狀啞緻收尾，主打唔泛油光；TOCOBO 積雪草清涼防曬棒迷你裝搽落有即時清涼降溫感；Beauty of Joseon 艾草控油防曬棒含控油矽粉，用後呈霧面效果。" },
+        { "type": "p", "html": "油性或者容易出汗，就睇控油、防汗款；想要清涼感，就揀 balm 質地嘅清涼款；經常要隨身補搽，就揀迷你裝。想睇更多防曬款式，可以看 <a href=\"/articles/olive-young-sunscreen-ranking\">Olive Young 防曬排行榜</a>；想睇晒店內防曬，去 <a href=\"/seasonal?cat=sun\">防曬專區</a>。" }
+      ],
+      "note": "揀之前先諗清楚自己要咩：唔泛油、清涼，定係隨身補搽。"
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "stick",
+      "items": [
+        { "handle": "round-lab-round-lab-spf50-pa-50ml-4459", "kind": "防曬棒", "why": "補水款，產品頁寫加入產自韓國涼爽地區嘅白樺樹液，質感清爽唔油膩，易疊塗，塗抹時有清涼感。", "fit": ["要補水", "易疊塗"] },
+        { "handle": "tocobo-tocobo-spf50-pa-0041", "kind": "防曬棒", "unit": "19g", "why": "質地軟身好推開，尾段有粉狀啞緻收尾，主打唔泛油光，屬 Vegan 配方。", "fit": ["怕油光", "想啞緻"] },
+        { "handle": "skin1004-skin1004-20g-0214", "kind": "化學防曬棒", "unit": "20g", "why": "順滑易推，搽完有保濕感，妝感啞緻絲滑。產品頁寫配方加入積雪草萃取同透明質酸。", "fit": ["想保濕", "妝感啞緻"] },
+        { "handle": "tocobo-tocobo-cica-spf50-pa-3226", "kind": "迷你防曬棒", "unit": "11g", "why": "Balm 質地，搽落有即時清涼降溫感，迷你裝方便隨身補搽。", "fit": ["隨身補搽", "想清涼"] },
+        { "handle": "beauty-of-joseon-beauty-of-joseon-18g-spf50-pa-6884", "kind": "控油防曬棒", "unit": "18g", "why": "含控油矽粉，用後呈霧面效果，產品頁寫防水防汗，設計唔使手塗。", "fit": ["易出油", "怕出汗"] }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "faq", "label": "Q&A · 常見問題", "title": "防曬棒幾條常問嘅問題" },
+        { "type": "faq", "items": [
+          { "q": "防曬棒會唔會保護唔夠？", "a": "防曬棒本身唔係問題，常見嘅問題係搽唔夠份量。搽夠份量，再加埋定時補搽，先至會接近包裝上寫嘅 SPF 數字。" },
+          { "q": "防曬棒要搽幾多先夠？", "a": "包裝上嘅 SPF，係用每平方厘米 2 毫克嘅份量測出嚟。搽少咗，實際保護會低過包裝寫嘅數字。要搽勻整個要防曬嘅位置，唔好只搽一小點。" },
+          { "q": "點樣補搽先夠？", "a": "出門前先用霜或乳打底，之後流汗、曝曬、擦過汗或者游完水，就用防曬棒重新補搽。補搽時順住面同頸慢慢推勻。" },
+          { "q": "PA++++ 係咩意思？", "a": "PA 係 UVA 防護嘅分級，加號越多防護越高，PA++++ 係最高一級。" }
+        ] },
+        { "type": "sources", "items": [
+          { "title": "OUJI 網店產品頁（防曬棒產品描述、用法同價錢）" },
+          { "title": "Olive Young Global 產品評分及評價數" },
+          { "title": "SPF 測試份量：每平方厘米 2 毫克（SPF 測試標準）" }
+        ] }
+      ]
+    }
+  ]
+}

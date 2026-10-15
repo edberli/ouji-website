@@ -1,0 +1,238 @@
+{
+  "slug": "k-beauty-under-100",
+  "category": "選物清單",
+  "kicker": "平價專題 · 2026 秋",
+  "date": "2026-10-15",
+  "read_minutes": 5,
+  "title": "HK$100 以下韓妝必買：評分最高 12 件",
+  "title_html": "<span class=\"ax-nw\">HK$100 以下</span>韓妝<span class=\"ax-nw\">必買</span>：<span class=\"ax-nw\">評分最高 12 件</span>",
+  "seo_title": "HK$100 以下韓妝推薦 2026：評分最高 12 件",
+  "description": "HK$100 以下、Olive Young 評價有 300 則以上嘅韓妝，按加權評分排出最高嘅 12 件，包括 SKIN1004 積雪草精華、Round Lab 1025 系列潔面同 Abib 面膜，逐件附價錢同評分。",
+  "dek": "唔使揀到眼花。我哋先篩走 HK$100 以上同評價未夠 300 則嘅產品，再按加權評分由高排到低，逐件列價錢同評分。",
+  "cover": {
+    "type": "product",
+    "handle": "skin1004-skin1004-30ml-0618",
+    "stamp": "No.1 · ★ 4.8 · 6,848 則評價"
+  },
+  "related": [
+    "olive-young-awards-2025-winners",
+    "ouji-webstore-bestsellers",
+    "korean-sheet-mask-ranking"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "method",
+          "label": "點樣排",
+          "html": "只計 <strong>HK$100 以下</strong>、Olive Young 評價有 <strong>300 則以上</strong>嘅韓妝。排序用加權評分，評價少嘅產品唔會因為幾個五星就衝上頭。價錢以產品頁為準。"
+        },
+        {
+          "type": "p",
+          "html": "HK$100 以下嘅韓妝太多，睇標價好難分好壞。所以我哋睇評價數，評價夠多先至有參考價值，再按加權分數排序。"
+        },
+        {
+          "type": "p",
+          "html": "<strong>有一個情況要講清楚</strong>：Abib 面膜有五款評分同評價數完全一樣（4.8 星、587 則），排序分唔出先後。名單只可以取三款，所以列咗蜂蜜、魚腥草、復活草三款，水庫補水同穀胱甘肽未入榜。"
+        },
+        {
+          "type": "toc"
+        }
+      ],
+      "note": "面膜想睇晒分類，去 <a href=\"/category?cat=mask\">面膜分類</a>；防曬就去 <a href=\"/seasonal?cat=sun\">防曬專區</a>。"
+    },
+    {
+      "type": "sec",
+      "id": "list",
+      "label": "Catalogue · 十二件",
+      "title": "HK$100 以下評分最高 12 件，由第一名排起"
+    },
+    {
+      "type": "catalog",
+      "numbered": true,
+      "feature_first": true,
+      "id_prefix": "no",
+      "items": [
+        {
+          "handle": "skin1004-skin1004-30ml-0618",
+          "kind": "精華",
+          "fit": [
+            "容易泛紅",
+            "乾燥肌"
+          ],
+          "why": "評價數喺呢 12 件入面最多。產品頁話有助舒緩泛紅，特別推薦畀乾燥同幼嫩肌膚。"
+        },
+        {
+          "handle": "round-lab-round-lab-1025-200ml-4731",
+          "kind": "爽膚水",
+          "fit": [
+            "洗面後即用",
+            "日常補水"
+          ],
+          "why": "2023 至 2025 年連續三年拎 Olive Young Awards 爽膚水冠軍。"
+        },
+        {
+          "handle": "anua-anua-150ml-4427",
+          "kind": "潔面泡沫",
+          "fit": [
+            "控油",
+            "毛孔位"
+          ],
+          "why": "產品頁寫含魚腥草粉助控油，泡沫又加咗三種透明質酸，話洗完唔繃緊。"
+        },
+        {
+          "handle": "round-lab-round-lab-1025-150ml-9044",
+          "kind": "潔面泡沫",
+          "fit": [
+            "所有膚質",
+            "洗後清爽"
+          ],
+          "why": "產品頁寫弱酸性配方，用胺基酸界面活性劑，洗後清爽唔乾燥。"
+        },
+        {
+          "handle": "round-lab-round-lab-1025-150-1120",
+          "kind": "潔面凝膠",
+          "fit": [
+            "敏感肌",
+            "無香料"
+          ],
+          "why": "產品頁寫低 pH、無香料，話敏感肌都啱用。"
+        },
+        {
+          "handle": "round-lab-round-lab-1025-150ml-8364",
+          "kind": "潔面乳",
+          "fit": [
+            "弱酸性",
+            "無香料"
+          ],
+          "why": "產品頁寫低酸性，pH 5.0 至 6.0，配方無香料。"
+        },
+        {
+          "handle": "clio-crystal-glam-tint",
+          "kind": "唇釉",
+          "fit": [
+            "蜜糖光澤",
+            "想保濕"
+          ],
+          "why": "產品頁寫一抹即現蜜糖光澤，又話賦予雙唇保濕力。"
+        },
+        {
+          "handle": "skin1004-centella-skin1004-125ml-1127",
+          "kind": "潔面泡沫",
+          "fit": [
+            "容易敏感",
+            "一般膚質"
+          ],
+          "why": "產品頁寫 pH 5，洗後唔會乾燥繃緊，適合一般同容易敏感嘅膚質。"
+        },
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-b5-spf50-pa-50ml-0277",
+          "kind": "防曬乳",
+          "fit": [
+            "油性肌",
+            "混合肌"
+          ],
+          "why": "產品頁寫超輕盈水狀質地，含米籽水同維他命 B5，適合油性同混合性肌膚。"
+        },
+        {
+          "handle": "abib-abib-1-3344",
+          "kind": "面膜",
+          "unit": "1片",
+          "fit": [
+            "想補水",
+            "滋潤護理"
+          ],
+          "why": "產品頁寫用蜂蜜萃取，配蜂膠同蜂王漿相關成分，為肌膚提供滋潤護理。"
+        },
+        {
+          "handle": "abib-abib-5731",
+          "kind": "面膜",
+          "unit": "1片",
+          "fit": [
+            "容易泛紅",
+            "想舒緩"
+          ],
+          "why": "產品頁寫為容易泛紅嘅肌膚提供溫和舒緩護理，用魚腥草萃取。"
+        },
+        {
+          "handle": "abib-abib-3431",
+          "kind": "面膜",
+          "unit": "1片",
+          "fit": [
+            "乾燥肌",
+            "保濕"
+          ],
+          "why": "產品頁寫為乾燥肌膚提供保濕護理，用復活草萃取配甘油。"
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "callout",
+          "html": "想一件先試，揀第 1 名 SKIN1004 積雪草精華（HK$49），評價數喺呢 12 件入面最多；想潔面，名單入面 Round Lab 1025 系列有三款。"
+        },
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to choose · 點揀",
+          "title": "先睇膚質，再睇價錢"
+        },
+        {
+          "type": "p",
+          "html": "潔面揀膚質：容易敏感就揀產品頁寫明啱敏感肌嗰款，例如 1025 潔面凝膠同 SKIN1004 安瓶潔面泡沫；容易出油就留意 Anua 魚腥草泡沫，產品頁話有助控油。"
+        },
+        {
+          "type": "p",
+          "html": "精華同面膜按用途揀：SKIN1004 積雪草精華產品頁特別推薦畀乾燥同幼嫩肌膚；Abib 面膜有 1 片同 5 片裝，蜂蜜補水、魚腥草舒緩、復活草保濕，想試可以先買一片。想平啲，Abib 面膜每片 HK$18，係名單入面最平嘅一款；想評價數多啲，SKIN1004 積雪草精華嘅評價數喺呢 12 件入面最多。"
+        },
+        {
+          "type": "p",
+          "html": "防曬揀 Beauty of Joseon 水感清爽保濕防曬霜，產品頁話超輕盈水狀質地，適合油性同混合性肌膚。"
+        }
+      ],
+      "note": "想睇全部得獎紀錄，可以去 <a href=\"/articles/olive-young-awards-2025-winners\">Olive Young Awards 2025 得獎名單</a>。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "買之前常見嘅問題"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "評價數點睇先靠譜？",
+              "a": "評價數少，幾個五星就可以拉高評分，所以我哋要求每件都有 300 則以上評價先入名單。"
+            },
+            {
+              "q": "Abib 面膜邊款好？",
+              "a": "五款評分同評價數一樣，數據分唔出高低。想補水揀蜂蜜，想舒緩泛紅揀魚腥草，乾燥肌揀復活草，按產品頁寫嘅用途揀。"
+            },
+            {
+              "q": "敏感肌可以揀邊款？",
+              "a": "產品頁寫明啱敏感肌嘅有 Round Lab 1025 獨島潔面凝膠（無香料），以及 SKIN1004 安瓶潔面泡沫（適合容易敏感嘅膚質）。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "Olive Young Global 產品頁（評分及評價數）"
+            },
+            {
+              "title": "OUJI 網店產品頁（價錢、規格、有貨）"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
