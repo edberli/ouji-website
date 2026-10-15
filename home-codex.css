@@ -401,7 +401,7 @@
 .home-codex.home-codex.home-codex .feature-note { left: 22px; bottom: 20px; font-size: 15px; }
 .home-codex.home-codex.home-codex .joy-heading { align-items: flex-end; gap: 16px; margin-bottom: 14px; }
 .home-codex.home-codex.home-codex .joy-heading h2 { margin-top: 5px; color: var(--unified-ink); font: 500 clamp(30px, 3vw, 36px)/1.16 var(--serif); }
-/* 美妝小筆記：Codex 筆記卡框（OUJI NOTE 編號、READ A LITTLE 尾標、手機左右掃），卡面係韓國品牌官方明星海報＋芝麻貼圖（Winston 2026-10-15；貼圖係網站 .shima 六格動畫盒，要靠 aspect-ratio 撐高，唔可以 height:auto）；
+/* 美妝小筆記：Codex 筆記卡框（OUJI NOTE 編號、READ A LITTLE 尾標、手機左右掃），卡面係韓國品牌官方明星海報＋芝麻貼圖（Winston 2026-10-15；貼圖係而家首頁嘅白色水彩芝麻加白剪紙邊；位置係會員區正上面）；
    卡由 scripts/articles/build.js 寫入 index.html，最尾一張係目錄卡。標題／摘要嘅 max-height 唔好拎走：line-clamp 唔會縮細 grid 計行高用嘅內容高度。 */
 .home-codex.home-codex.home-codex .joy-notes { padding-block: 22px 34px; }
 .home-codex.home-codex.home-codex .joy-note-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; min-width: 0; }
@@ -414,14 +414,14 @@
 .home-codex.home-codex.home-codex .note-poster { position: relative; display: block; margin-top: 12px; aspect-ratio: 4 / 3; }
 .home-codex.home-codex.home-codex .note-poster__img { display: block; width: 100%; height: 100%; border-radius: 6px; background: #edf3f4; object-fit: cover; }
 .home-codex.home-codex.home-codex .note-poster__tag { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 999px; color: var(--unified-ink); background: rgba(255, 255, 255, .92); box-shadow: 0 2px 6px rgba(43, 76, 88, .12); font: 700 11px/1.3 var(--sans); letter-spacing: .02em; }
-.home-codex.home-codex.home-codex .note-sticker { position: absolute; right: -12px; bottom: -16px; width: 31%; aspect-ratio: 3 / 4; rotate: 6deg; filter: drop-shadow(0 4px 6px rgba(43, 76, 88, .2)); pointer-events: none; transition: transform .5s var(--ease-out); }
+.home-codex.home-codex.home-codex .note-sticker { position: absolute; right: -12px; bottom: -18px; width: 33%; height: auto; rotate: 6deg; filter: drop-shadow(0 5px 9px rgba(43, 76, 88, .28)); pointer-events: none; transition: transform .5s var(--ease-out); }
 .home-codex.home-codex.home-codex .joy-note:hover .note-sticker { transform: rotate(-9deg) translateY(-4px) scale(1.05); }
 .home-codex.home-codex.home-codex .joy-note h3 { display: -webkit-box; max-height: 2.8em; margin: 18px 0 5px; overflow: hidden; color: var(--unified-ink); font: 600 17px/1.4 var(--serif); font-variant-numeric: lining-nums; text-wrap: balance; word-break: keep-all; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .home-codex.home-codex.home-codex .note-nw { white-space: nowrap; }
 .home-codex.home-codex.home-codex .joy-note p { display: -webkit-box; max-height: 3em; margin: 0 0 12px; overflow: hidden; color: var(--unified-muted); font-size: 12px; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .home-codex.home-codex.home-codex .note-bottom { margin-top: auto; padding-top: 12px; border-top: 1px solid #dce9ec; font-weight: 500; letter-spacing: .06em; }
 .home-codex.home-codex.home-codex .joy-note--index { display: none; background: #edf3f4; }
-.home-codex.home-codex.home-codex .note-sticker-hero { display: block; width: 88%; max-width: 200px; aspect-ratio: 6 / 5; margin: auto auto 0; rotate: -4deg; filter: drop-shadow(0 6px 10px rgba(43, 76, 88, .18)); transition: transform .5s var(--ease-out); }
+.home-codex.home-codex.home-codex .note-sticker-hero { display: block; width: 82%; max-width: 220px; height: auto; margin: auto auto 0; rotate: -4deg; filter: drop-shadow(0 6px 10px rgba(43, 76, 88, .2)); transition: transform .5s var(--ease-out); }
 .home-codex.home-codex.home-codex .joy-note--index:hover .note-sticker-hero { transform: rotate(8deg) translateY(-4px); }
 .home-codex.home-codex.home-codex .joy-note--index .note-bottom { justify-content: flex-start; gap: 6px; color: var(--unified-ink); font-weight: 600; letter-spacing: .02em; }
 .home-codex.home-codex.home-codex .joy-note--index .note-hand { color: var(--unified-muted); font: 600 15px/1.45 var(--hand); text-wrap: balance; }

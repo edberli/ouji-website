@@ -407,7 +407,8 @@ function updateColumn(all) {
 
 /* ---------- 首頁「美妝小筆記」（index.html） ----------
    Codex 首頁原本嘅筆記卡（OUJI NOTE 編號、READ A LITTLE 尾標、手機左右掃），
-   卡面改用韓國品牌官方明星海報＋芝麻貼圖（Winston 2026-10-15：插畫唔顯眼；貼圖要用網站最新畫風 shima 六格，唔係 App 舊貼圖）。
+   卡面改用韓國品牌官方明星海報＋芝麻貼圖（Winston 2026-10-15：插畫唔顯眼；貼圖要用而家首頁嘅白色水彩芝麻，唔係 App／shima 舊畫風）。
+   位置：Codex 預覽原位，會員區正上面。
    home-notes.json 每張卡寫：文章 slug、海報（assets/images/home-codex/notes/posters/<poster>-480|720.webp，
    一律品牌韓國官網原圖，來源記喺 scripts/articles/home-notes-sources.md）、對焦位、海報標籤、芝麻貼圖、
    一句摘要（約 20 字、完整一句）、可選短標題。海報同貼圖唔准重複；海報品牌要喺文章入面出現。
@@ -428,11 +429,12 @@ function shortTitle(spec) {
 /* 「Olive Young」呢類兩個字以上嘅英文名唔准斷開兩行 */
 const keepLatin = (html) => html.replace(/[A-Za-z0-9][A-Za-z0-9&’'.-]*(?:\s+[A-Za-z][A-Za-z0-9&’'.-]*)+/g, (m) => `<span class="note-nw">${m}</span>`);
 
-/* 芝麻貼圖用網站最新畫風嗰套六格動畫（assets/images/shima/shima-<名>1–6.webp，script.js initShimaFrames 自動播） */
+/* 芝麻貼圖：而家首頁用緊嘅白色水彩芝麻（藍絲帶，Codex mascot-v2／v4 原圖）加白色剪紙邊，
+   輸出喺 assets/images/home-codex/notes/stickers/<名>.webp。唔准用 App 有名牌嗰套舊貼圖，亦唔准鏡像。 */
 function sticker(name, cls) {
-  const frames = [1, 2, 3, 4, 5, 6].map((k) => `/assets/images/shima/shima-${name}${k}.webp`);
-  for (const f of frames) if (!fs.existsSync(path.join(ROOT, f))) throw new Error(`搵唔到芝麻貼圖：${f}`);
-  return `<span class="shima ${cls}" aria-hidden="true">${frames.map((f, i) => `<img class="shima__f${i ? '' : ' is-on'}" src="${f}" alt="" loading="lazy" decoding="async">`).join('')}</span>`;
+  const f = `${NOTES_IMG}/stickers/${name}.webp`;
+  if (!fs.existsSync(path.join(ROOT, f))) throw new Error(`搵唔到芝麻貼圖：${f}`);
+  return `<img class="${cls}" src="${f}" alt="" loading="lazy" decoding="async">`;
 }
 
 function updateHome(all) {
@@ -471,7 +473,7 @@ function updateHome(all) {
   cards.push(`
       <a class="joy-note joy-note--index" href="/column">
         <span class="note-top"><span>OUJI NOTES / 目錄</span><span class="note-meta">${total} 篇</span></span>
-        ${sticker(conf.index_sticker || 'column', 'note-sticker-hero')}
+        ${sticker(conf.index_sticker || 'journal', 'note-sticker-hero')}
         <h3>仲有 ${total - picks.length} 篇筆記。</h3>
         <p class="note-hand">五個分類，慢慢揭 ♡</p>
         <span class="note-bottom">睇全部筆記 ${ARROW_RIGHT}</span>
