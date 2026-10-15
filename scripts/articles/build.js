@@ -573,7 +573,33 @@ function updateColumn(all) {
   const latest = entries[0].iso.slice(5).replace('-', '.');
   const by = Object.fromEntries(SECTIONS.map((s) => [s.key, entries.filter((e) => e.section === s.key)]));
   const { picks } = homeNotePicks(all);
+  let html = fs.readFileSync(file, 'utf8');
+  /* 結構化資料：CollectionPage＋全部文章 ItemList＋麵包屑。描述直接用 <head> 嗰句 meta description（唯一出處） */
+  const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1];
+  if (!desc) throw new Error('column.html 冇 meta description');
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage', '@id': `${SITE}/column#page`, url: `${SITE}/column`, name: 'OUJI 靈感專欄',
+        description: desc.replace(/&amp;/g, '&'), inLanguage: 'zh-Hant-HK',
+        isPartOf: { '@type': 'WebSite', name: 'OUJI', url: `${SITE}/` },
+        mainEntity: {
+          '@type': 'ItemList', numberOfItems: total,
+          itemListElement: entries.map((e, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/articles/${e.slug}`, name: e.title })),
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: '靈感專欄', item: `${SITE}/column` },
+        ],
+      },
+    ],
+  };
   const main = `
+<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>
 <section class="cl-hero" aria-labelledby="cl-title">
   <div class="cl-wrap">
     <div class="cl-hero__copy">
@@ -623,7 +649,6 @@ function updateColumn(all) {
   </div>
 </section>
 `;
-  let html = fs.readFileSync(file, 'utf8');
   const re = /(<!-- AX-COLUMN:START[^>]*-->)[\s\S]*?(\n\s*<!-- AX-COLUMN:END -->)/;
   if (!re.test(html)) throw new Error('column.html 搵唔到 AX-COLUMN 標記');
   /* 收走頭尾空行：唔收嘅話每跑一次 END 標記前面就多一行空行 */
