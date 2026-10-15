@@ -592,7 +592,9 @@ function buildLxSidebar(sidebar, section, products, subs, vendors, awarded) {
         vendors.map((v) => `<option value="${lxEsc(v.vendor)}">${lxEsc(v.vendor)}（${v.count}）</option>`).join('')}</select></label>
       <label class="lx-field"><span>分類</span><select data-lx-nav><option value="/shop">所有分類</option>${
         LX_SECTIONS.map(([id, label, href]) => `<option value="${href}"${id === section ? ' selected' : ''}>${label}</option>`).join('')}</select></label>
-      <label class="lx-field"><span>細分類</span><select data-lx-pick="cat"${subOptions && subs.length > 1 ? '' : ' disabled'}><option value="">全部類型</option>${subOptions}</select></label>
+      ${section
+        ? `<label class="lx-field"><span>細分類</span><select data-lx-pick="cat"${subOptions && subs.length > 1 ? '' : ' disabled'}><option value="">全部類型</option>${subOptions}</select></label>`
+        : '<label class="lx-field"><span>細分類</span><select data-lx-sub><option value="">全部類型</option></select></label>'}
       <label class="lx-field"><span>關鍵字</span><input type="search" data-lx-q placeholder="商品、品牌、條碼或 SKU" autocomplete="off" enterkeyhint="search"></label>
       <div class="lx-range" data-lx-range>
         <div class="lx-range__head"><span>價錢</span><output class="lx-range__value" data-lx-range-value>不限</output></div>
@@ -614,6 +616,76 @@ function buildLxSidebar(sidebar, section, products, subs, vendors, awarded) {
   </div>`);
   bindLxSidebar(sidebar);
   lxDockSidebar(sidebar);
+  lxStickSidebar(sidebar);
+  /* 全部產品頁嘅細分類要逐個分類計，二千幾件貨要成百毫秒 —— 唔阻首屏，閒時先砌；客一撳就即刻砌。 */
+  const subSel = sidebar.querySelector('[data-lx-sub]');
+  if (subSel) {
+    const fill = () => lxFillSubs(subSel, products);
+    ['pointerdown', 'focus', 'keydown'].forEach((ev) => subSel.addEventListener(ev, fill, { once: true }));
+    if ('requestIdleCallback' in window) requestIdleCallback(fill, { timeout: 4000 });
+    else setTimeout(fill, 2500);
+  }
+}
+
+/** 全部產品頁「細分類」：每個主分類一組（同分類頁格仔一樣嘅 live 分類），揀咗就喺呢版即場篩。 */
+function lxFillSubs(select, products) {
+  if (select.dataset.filled) return;
+  select.dataset.filled = '1';
+  const groups = LX_SECTIONS.map(([sec, label]) => {
+    const inSec = typeof sectionMatch === 'function' ? products.filter((p) => sectionMatch(p, sec)) : [];
+    const subs = inSec.length ? availableSubs(sec, inSec) : [];
+    if (!subs.length) return '';
+    return `<optgroup label="${label}">${subs.map((x) =>
+      `<option value="${sec}:${lxEsc(x.id)}">${lxEsc(x.label)}（${x.count}）</option>`).join('')}</optgroup>`;
+  }).join('');
+  const keep = select.value;
+  select.insertAdjacentHTML('beforeend', groups);
+  select.value = keep;
+}
+
+/* 篩選欄跟住捲：全站 html/body 有 overflow-x（防橫向溢出），原生 position:sticky 會失效
+   （品牌條都係同一個原因改用 threshold），所以用 JS：捲過頂就 fixed，去到產品底就停喺版尾。 */
+function lxStickSidebar(sidebar) {
+  if (sidebar.dataset.lxStick) return;
+  sidebar.dataset.lxStick = '1';
+  const layout = document.querySelector('.lx-layout');
+  if (!layout) return;
+  const mq = window.matchMedia('(min-width: 1081px)');
+  let raf = 0;
+  const topGap = () => {
+    const root = getComputedStyle(document.documentElement);
+    const ann = parseFloat(root.getPropertyValue('--ann-h')) || 36;
+    const hdr = parseFloat(root.getPropertyValue('--hdr-h'))
+      || parseFloat(root.getPropertyValue('--header-height')) || 64;
+    return ann + hdr + 16;
+  };
+  const sync = () => {
+    raf = 0;
+    if (!mq.matches || sidebar.parentElement !== layout) {
+      sidebar.classList.remove('is-lx-fixed', 'is-lx-bottom');
+      return;
+    }
+    const top = topGap();
+    const box = layout.getBoundingClientRect();
+    const cs = getComputedStyle(layout);
+    const padTop = parseFloat(cs.paddingTop) || 0;
+    const colW = parseFloat(cs.gridTemplateColumns) || 240;
+    sidebar.style.setProperty('--lx-side-top', `${top}px`);
+    sidebar.style.setProperty('--lx-side-left', `${Math.round(box.left)}px`);
+    sidebar.style.setProperty('--lx-side-w', `${colW}px`);
+    let state = '';
+    if (box.top + padTop < top) {
+      state = box.bottom - sidebar.offsetHeight < top ? 'bottom' : 'fixed';
+    }
+    sidebar.classList.toggle('is-lx-fixed', state === 'fixed');
+    sidebar.classList.toggle('is-lx-bottom', state === 'bottom');
+  };
+  const queue = () => { if (!raf) raf = requestAnimationFrame(sync); };
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  document.addEventListener('ouji:layout-changed', queue);
+  mq.addEventListener('change', queue);
+  sync();
 }
 
 function bindLxSidebar(sidebar) {
@@ -743,6 +815,10 @@ function resetLxFilters(which) {
     const st = side.querySelector('[data-lx-stock]');
     if (st) st.checked = false;
   }
+  if (!which || which === 'sub') {
+    const sub = side.querySelector('[data-lx-sub]');
+    if (sub) sub.value = '';
+  }
 }
 
 /** 每次畫之前令下拉顯示返而家真正篩緊嘅嘢（分類格、chip、網址都會改 checkbox）。 */
@@ -827,7 +903,7 @@ function buildFilterSidebar(section, products) {
 
 function activeFilters() {
   const sel = { cat: new Set(), vendor: new Set(), price: new Set(), flag: new Set(),
-    range: null, q: '', stock: false };
+    range: null, q: '', stock: false, sub: '' };
   document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked')
     .forEach((el) => sel[el.dataset.group]?.add(el.value));
   // 8856 版面：價錢拉桿、關鍵字、只看可選購
@@ -838,6 +914,7 @@ function activeFilters() {
   }
   sel.q = (document.querySelector('.filter-sidebar [data-lx-q]')?.value || '').trim();
   sel.stock = !!document.querySelector('.filter-sidebar [data-lx-stock]')?.checked;
+  sel.sub = document.querySelector('.filter-sidebar [data-lx-sub]')?.value || '';
   return sel;
 }
 
@@ -856,6 +933,13 @@ function applyFilters(section, products, sel) {
       if (v < sel.range[0] || v > sel.range[1]) return false;
     }
     if (sel.stock && soldOut(p)) return false;
+    if (sel.sub) {
+      const cut = sel.sub.indexOf(':');
+      const sec = sel.sub.slice(0, cut);
+      const id = sel.sub.slice(cut + 1);
+      if (typeof sectionMatch === 'function' && !sectionMatch(p, sec)) return false;
+      if (!subMatch(sec, id, p)) return false;
+    }
     if (sel.q && !lxQueryMatch(p, sel.q)) return false;
     if (sel.flag.has('award') && !(typeof awardsFor === 'function'
         && awardsFor(p.handle).length)) return false;
@@ -1889,6 +1973,12 @@ function buildActiveChips(section, sel, lockCat) {
       HK$${sel.range[0]} – HK$${sel.range[1]}<span aria-hidden="true">×</span></button>`);
   if (sel.q) chips.push(`<button class="filter-chip" data-lx-unset="q">
       「${lxEsc(sel.q)}」<span aria-hidden="true">×</span></button>`);
+  if (sel.sub) {
+    const opt = document.querySelector(`.filter-sidebar [data-lx-sub] option[value="${CSS.escape(sel.sub)}"]`);
+    const name = (opt?.textContent || sel.sub).replace(/（\d+）$/, '');
+    chips.push(`<button class="filter-chip" data-lx-unset="sub">
+      ${lxEsc(name)}<span aria-hidden="true">×</span></button>`);
+  }
   if (sel.stock) chips.push(`<button class="filter-chip" data-lx-unset="stock">
       只看可選購<span aria-hidden="true">×</span></button>`);
   host.innerHTML = chips.length
@@ -3641,7 +3731,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     // Clearline 品牌導覽，所以 `cat` 唔再令個 grid 攤平。真正用戶篩選、
     // URL brand、lockCat 同非推薦排序仍然照舊用 flat grid。
     const filtered = lockCat || sel.cat.size || sel.vendor.size
-      || sel.price.size || sel.flag.size || sel.range || sel.q || sel.stock;
+      || sel.price.size || sel.flag.size || sel.range || sel.q || sel.stock || sel.sub;
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
     const grouped = !searchTerm && !filtered && sortKey === 'featured'

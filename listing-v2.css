@@ -81,7 +81,7 @@
 .lx-picks { margin: 18px 0 0; }
 .lx-picks__heading { margin: 0 0 10px; color: var(--lx-ink); font: 500 14px/1.4 var(--font-body); letter-spacing: -.02em; }
 .lx-picks__track { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.lx-pick { position: relative; display: block; aspect-ratio: 2.117 / 1; overflow: hidden; border-radius: 12px; color: #244c59; text-decoration: none; }
+.lx-pick { position: relative; display: block; aspect-ratio: 2.117 / 1; overflow: hidden; border-radius: 12px; background: #e6eff1; color: #244c59; text-decoration: none; }
 .lx-pick img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .lx-pick__copy { position: absolute; inset: 0 auto 0 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 10px 12px; }
 .lx-pick__brand { font: 600 clamp(18px, 1.9vw, 27px)/1.04 var(--font-display); letter-spacing: -.045em; }
@@ -162,6 +162,22 @@ body:not(.has-brand-rail) .lx-brandhead { display: none; }
 @media (max-width: 1080px) { .filter-sidebar .lx-side__head { display: none; } }
 .filter-sidebar .lx-fields { padding: 18px 24px 24px; }
 
+/* ----- 品牌專區：照用 live Clearline 品牌條（跟住捲、跟版高亮），樣跟 8856：白底條、每個牌一粒圓角掣 ----- */
+.lx-page .brand-rail-dock { height: 60px; margin: 0 0 18px; }
+.lx-page .brand-rail.brand-rail--clearline { height: 60px; gap: 8px; padding: 8px 10px; border: 0; border-radius: 14px; background: rgba(250, 252, 251, .96); box-shadow: 0 5px 14px rgba(36, 65, 73, .055); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.lx-page .brand-rail--clearline .brand-rail__item { flex: 0 0 auto; width: auto; min-width: 94px; max-width: 170px; height: 44px; padding: 0 18px; border: 1px solid #e3ecec; border-radius: 999px; background: #fff; scroll-snap-align: start; }
+.lx-page .brand-rail--clearline .brand-rail__item::before { display: none; }
+.lx-page .brand-rail--clearline .brand-rail__item.is-current { border-color: rgba(78, 132, 151, .66); background: #e8f1f2; box-shadow: inset 0 -2px 0 rgba(78, 132, 151, .38); }
+.lx-page .brand-rail--clearline .brand-rail__logo { width: 96px; height: 24px; opacity: 1; }
+.lx-page .brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo { transform: none; }
+.lx-page .brand-rail--clearline .brand-rail__fallback { color: var(--lx-ink); font-size: 11px; font-weight: 500; letter-spacing: .02em; opacity: 1; }
+@media (max-width: 768px) {
+  .lx-page .brand-rail-dock { height: 58px; margin-bottom: 14px; }
+  .lx-page .brand-rail.brand-rail--clearline { height: 58px; gap: 6px; padding: 7px; }
+  .lx-page .brand-rail--clearline .brand-rail__item { min-width: 88px; height: 44px; padding: 0 14px; }
+  .lx-page .brand-rail--clearline .brand-rail__logo { width: 80px; height: 20px; }
+}
+
 /* ----- 品牌條（live 原本嘅 Clearline 牌，幼身版）----- */
 .lx-page .brand-plate { height: 88px; gap: 0; padding: 0 32px; margin-bottom: 18px; }
 .lx-page .brand-plate__logo { height: calc(var(--logo-h, 58px) * .5) !important; transform: none; }
@@ -178,10 +194,14 @@ body:not(.has-brand-rail) .lx-brandhead { display: none; }
 
 /* ============ 桌面 1081px 以上：篩選欄常駐左邊 ============ */
 @media (min-width: 1081px) {
-  .lx-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: start; gap: 28px; }
+  .lx-layout { position: relative; display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: start; gap: 28px; }
+  .lx-results { grid-column: 2; }
   .lx-filter-btn { display: none; }
-  /* live 抽屜係 position:fixed＋毛玻璃；桌面變返一張普通白卡，跟住捲（sticky）。 */
-  .lx-layout > .filter-sidebar { position: sticky; inset: 112px auto auto auto; z-index: 1; display: block; width: auto; height: auto; max-height: calc(100vh - 124px); overflow-y: auto; padding: 18px 18px 20px; border: 1px solid #e1ebec; border-radius: 18px; background: #fff; box-shadow: none; transform: none; transition: none; backdrop-filter: none; -webkit-backdrop-filter: none; scrollbar-width: thin; }
+  /* live 抽屜係 position:fixed＋毛玻璃；桌面變返一張普通白卡。跟住捲由 catalog.js lxStickSidebar 加 class
+     （全站 html/body 有 overflow-x，原生 sticky 唔郁）。 */
+  .lx-layout > .filter-sidebar { position: relative; inset: auto; z-index: 1; display: block; width: auto; height: auto; overflow-y: auto; padding: 18px 18px 20px; border: 1px solid #e1ebec; border-radius: 18px; background: #fff; box-shadow: none; transform: none; transition: none; backdrop-filter: none; -webkit-backdrop-filter: none; scrollbar-width: thin; }
+  .lx-layout > .filter-sidebar.is-lx-fixed { position: fixed; top: var(--lx-side-top, 116px); left: var(--lx-side-left, 0); width: var(--lx-side-w, 240px); max-height: calc(100vh - var(--lx-side-top, 116px) - 16px); }
+  .lx-layout > .filter-sidebar.is-lx-bottom { position: absolute; top: auto; bottom: 0; left: 0; width: var(--lx-side-w, 240px); }
   .lx-layout > .filter-sidebar .filter-sidebar__header, .lx-layout > .filter-sidebar .filter-sidebar__actions { display: none; }
   .lx-layout > .filter-sidebar .filter-sidebar__body { overflow: visible; }
   .lx-layout > .filter-sidebar .lx-fields { padding: 0; }
