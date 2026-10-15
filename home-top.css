@@ -178,6 +178,16 @@
 .home-page.home-unified .home-campaign-hero__media { display: block; grid-area: 1 / 1; position: relative; min-width: 0px; aspect-ratio: 1920 / 873; align-self: stretch; }
 .home-page.home-unified .home-campaign-hero__media::after { content: ""; position: absolute; inset: 0px; pointer-events: none; background: none; }
 .home-page.home-unified .home-campaign-hero__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+/* 桌面海報限高（Winston 2026-10-15）：一般手提電腦闊度最高係螢幕 70%，第一屏見到免運條同分類。
+   只喺闊高比 ≤ 1.81 先限：呢個比例最多裁走 15%，四張圖嘅字同人樣都保得住（逐張揀咗裁剪位）。
+   超闊屏（闊高比 > 1.81）用返原本全幅，唔裁 —— Winston：「超寬屏嗰時就用返原本嗰個」。 */
+@media (min-width: 761px) and (max-aspect-ratio: 181/100) {
+  .home-page.home-unified .home-campaign-hero__media { width: 100%; max-height: clamp(460px, 70vh, 740px); }
+  .home-page.home-unified .home-campaign-hero__slide--blue .home-campaign-hero__media img,
+  .home-page.home-unified .home-campaign-hero__slide--red .home-campaign-hero__media img,
+  .home-page.home-unified .home-campaign-hero__slide--sage .home-campaign-hero__media img { object-position: 50% 0%; }
+  .home-page.home-unified .home-campaign-hero__slide--peach .home-campaign-hero__media img { object-position: 50% 70%; }
+}
 .home-page.home-unified .home-campaign-hero__copy { grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center; position: absolute; z-index: 2; top: 5%; left: 7%; width: 34%; min-width: 0px; padding: 0px; }
 .home-page.home-unified .home-campaign-hero__eyebrow { font: 600 10px/1.5 var(--sans); letter-spacing: 0.08em; opacity: 0.78; }
 .home-page.home-unified .home-campaign-hero__eyebrow > span { padding-inline: 3px; }
