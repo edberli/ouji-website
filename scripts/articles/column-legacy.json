@@ -37,13 +37,13 @@
     "slug": "glow-pick-spring-2026",
     "section": "ranking",
     "html": "<a href=\"/articles/glow-pick-spring-2026\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n            <article class=\"column-card column-card--ranking\" data-category=\"ranking\">\n              <div class=\"column-card__image-wrap\">\n                <span class=\"column-card__rank-badge\">TOP</span>\n                <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n              </div>\n              <div class=\"column-card__body\">\n                <span class=\"column-card__tag\">榜單速報</span>\n                <h3 class=\"column-card__title\">Glow Pick 2026 春季護膚榜單出爐：今季韓國女生都在用什麼？</h3>\n                <p class=\"column-card__excerpt\">韓國最大美妝評分平台 Glow Pick 公佈了 2026 年春季最新排行榜。從精華液到防曬霜，我們整理了最值得關注的 TOP 10 產品。</p>\n                <div class=\"column-card__meta\">\n                  <span>2026 年 4 月 2 日</span>\n                  <span class=\"column-card__read-time\">\n                    <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                    6 分鐘\n                  </span>\n                </div>\n              </div>\n            </article>\n            </a>",
-    "image_handle": "2an-pure-glash-highlighter"
+    "image_handle": "some-by-mi-somebymi-70-0671"
   },
   {
     "slug": "glow-pick-serum-ranking",
     "section": "ranking",
     "html": "<a href=\"/articles/glow-pick-serum-ranking\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n            <article class=\"column-card column-card--ranking\" data-category=\"ranking\">\n              <div class=\"column-card__image-wrap\">\n                <span class=\"column-card__rank-badge\">TOP</span>\n                <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n              </div>\n              <div class=\"column-card__body\">\n                <span class=\"column-card__tag\">Glow Pick 榜單</span>\n                <h3 class=\"column-card__title\">Glow Pick 精華液年度排行：這 5 款精華穩居前十</h3>\n                <p class=\"column-card__excerpt\">從 Torriden DIVE-IN 到 COSRX 蝸牛精華，細看哪些精華液連續多季獲得韓國消費者最高評分，以及它們受歡迎的真正原因。</p>\n                <div class=\"column-card__meta\">\n                  <span>2026 年 3 月 28 日</span>\n                  <span class=\"column-card__read-time\">\n                    <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                    5 分鐘\n                  </span>\n                </div>\n              </div>\n            </article>\n            </a>",
-    "image_handle": "skin1004-skin1004-30ml-0618"
+    "image_handle": "beauty-of-joseon-beauty-of-joseon-30ml-6139"
   },
   {
     "slug": "olive-young-sunscreen-ranking",
@@ -55,7 +55,7 @@
     "slug": "hwahae-ingredient-ranking",
     "section": "ranking",
     "html": "<a href=\"/articles/hwahae-ingredient-ranking\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n            <article class=\"column-card column-card--ranking\" data-category=\"ranking\">\n              <div class=\"column-card__image-wrap\">\n                <span class=\"column-card__rank-badge\">TOP</span>\n                <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n              </div>\n              <div class=\"column-card__body\">\n                <span class=\"column-card__tag\">Hwahae 榜單</span>\n                <h3 class=\"column-card__title\">Hwahae 成分排行榜：2026 年最受關注的護膚成分 TOP 8</h3>\n                <p class=\"column-card__excerpt\">韓國成分分析平台化解（Hwahae）公佈年度數據，積雪草穩坐第一，而多肽和益生菌相關成分的搜尋量大幅攀升。</p>\n                <div class=\"column-card__meta\">\n                  <span>2026 年 3 月 12 日</span>\n                  <span class=\"column-card__read-time\">\n                    <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                    5 分鐘\n                  </span>\n                </div>\n              </div>\n            </article>\n            </a>",
-    "image_handle": "peripera-ink-mood-glowytint"
+    "image_handle": "skin1004-skin1004-50ml-1752"
   },
   {
     "slug": "lipstick-ranking-spring",
@@ -67,19 +67,21 @@
     "slug": "glow-pick-cleanser-ranking",
     "section": "ranking",
     "html": "<a href=\"/articles/glow-pick-cleanser-ranking\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n            <article class=\"column-card column-card--ranking\" data-category=\"ranking\">\n              <div class=\"column-card__image-wrap\">\n                <span class=\"column-card__rank-badge\">TOP</span>\n                <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n              </div>\n              <div class=\"column-card__body\">\n                <span class=\"column-card__tag\">Glow Pick 榜單</span>\n                <h3 class=\"column-card__title\">Glow Pick 潔面產品排行：溫和潔面時代來臨</h3>\n                <p class=\"column-card__excerpt\">低 pH 值、胺基酸系潔面乳佔據榜單前五。韓國消費者不再追求「洗到乾淨」，而是要求洗完後肌膚零緊繃感。</p>\n                <div class=\"column-card__meta\">\n                  <span>2026 年 2 月 25 日</span>\n                  <span class=\"column-card__read-time\">\n                    <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                    4 分鐘\n                  </span>\n                </div>\n              </div>\n            </article>\n            </a>",
-    "image_handle": "anua-anua-150ml-4427"
+    "image_handle": "cosrx-cosrx-ph-150ml-0511"
   },
   {
     "slug": "glow-pick-spring-2025",
+    "undated": "舊文寫嘅「12 月 31 日」係年尾預設日，真發佈日查唔到，目錄唔顯示日期",
     "section": "ranking",
     "html": "<a href=\"/articles/glow-pick-spring-2025\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n              <article class=\"column-card column-card--ranking\" data-category=\"ranking\">\n                <div class=\"column-card__image-wrap\">\n                  <span class=\"column-card__rank-badge\">TOP</span>\n                  <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n                </div>\n                <div class=\"column-card__body\">\n                  <span class=\"column-card__tag\">Glow Pick 年度榜單</span>\n                  <h3 class=\"column-card__title\">Glow Pick 2025 年度護膚榜單：哪些產品主宰了整個 2025 年？</h3>\n                  <p class=\"column-card__excerpt\">回顧 2025 年全年銷量和評分數據，盤點在 Glow Pick 平台霸榜全年的護膚明星產品，以及 2025 年最重要的美妝趨勢。</p>\n                  <div class=\"column-card__meta\">\n                    <span>2025 年 12 月 31 日</span>\n                    <span class=\"column-card__read-time\">\n                      <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                      8 分鐘\n                    </span>\n                  </div>\n                </div>\n              </article>\n            </a>",
-    "image_handle": "dasique-blending-mood-cheek"
+    "image_handle": "beauty-of-joseon-beauty-of-joseon-spf50-pa-50ml-5508"
   },
   {
     "slug": "glow-pick-spring-2024",
+    "undated": "舊文寫嘅「12 月 31 日」係年尾預設日，真發佈日查唔到，目錄唔顯示日期",
     "section": "ranking",
     "html": "<a href=\"/articles/glow-pick-spring-2024\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n              <article class=\"column-card column-card--ranking\" data-category=\"ranking\">\n                <div class=\"column-card__image-wrap\">\n                  <span class=\"column-card__rank-badge\">TOP</span>\n                  <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n                </div>\n                <div class=\"column-card__body\">\n                  <span class=\"column-card__tag\">Glow Pick 年度榜單</span>\n                  <h3 class=\"column-card__title\">Glow Pick 2024 年度護膚榜單：COSRX 與 Torriden 的雙雄爭霸</h3>\n                  <p class=\"column-card__excerpt\">2024 年的韓國護膚品市場百花齊放。看看哪些品牌和產品在 Glow Pick 年度評選中勝出，以及「玻璃肌」熱潮如何改變消費者的選購習慣。</p>\n                  <div class=\"column-card__meta\">\n                    <span>2024 年 12 月 31 日</span>\n                    <span class=\"column-card__read-time\">\n                      <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                      7 分鐘\n                    </span>\n                  </div>\n                </div>\n              </article>\n            </a>",
-    "image_handle": "clio-kill-lash-superproof-mascara"
+    "image_handle": "cosrx-cosrx-0009"
   },
   {
     "slug": "sensitive-skin-guide",
@@ -103,7 +105,7 @@
     "slug": "5min-makeup",
     "section": "tutorial",
     "html": "<a href=\"/articles/5min-makeup\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n            <article class=\"column-card\" data-category=\"tutorial\">\n              <div class=\"column-card__image-wrap\">\n                <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n              </div>\n              <div class=\"column-card__body\">\n                <span class=\"column-card__tag\">彩妝教學</span>\n                <h3 class=\"column-card__title\">韓國女生的 5 分鐘出門妝：日常裸妝教學</h3>\n                <p class=\"column-card__excerpt\">學會韓國女生的減法彩妝哲學。只用 4 個產品就能打造自然精緻感：輕薄底妝、自然眉毛、微光眼影加水潤唇彩，簡單又好看。</p>\n                <div class=\"column-card__meta\">\n                  <span>2026 年 3 月 10 日</span>\n                  <span class=\"column-card__read-time\">\n                    <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                    5 分鐘\n                  </span>\n                </div>\n              </div>\n            </article>\n            </a>",
-    "image_handle": "clio-crystal-glam-tint"
+    "image_handle": "laka-fixi-brow-cara"
   },
   {
     "slug": "sunscreen-amount-guide",
@@ -139,7 +141,7 @@
     "slug": "probiotics-skincare",
     "section": "ingredient",
     "html": "<a href=\"/articles/probiotics-skincare\" style=\"text-decoration:none;color:inherit;display:block;height:100%;\">\n            <article class=\"column-card\" data-category=\"ingredient\">\n              <div class=\"column-card__image-wrap\">\n                <img class=\"column-card__image\" src=\"https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n              </div>\n              <div class=\"column-card__body\">\n                <span class=\"column-card__tag\">趨勢成分</span>\n                <h3 class=\"column-card__title\">益生菌護膚：你的皮膚微生態為什麼很重要？</h3>\n                <p class=\"column-card__excerpt\">皮膚表面住著數以億計的微生物，它們與肌膚健康息息相關。韓國品牌率先將益生菌（Probiotics）和後生元（Postbiotics）應用到護膚品中的科學原理。</p>\n                <span class=\"column-card__ingredient-tag\">Probiotics</span>\n                <div class=\"column-card__meta\">\n                  <span>2026 年 3 月 6 日</span>\n                  <span class=\"column-card__read-time\">\n                    <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n                    7 分鐘\n                  </span>\n                </div>\n              </div>\n            </article>\n            </a>",
-    "image_handle": "boh-boh-probioderm-3d-25ml-2-3957"
+    "image_handle": "mixsoon-mixsoon-30ml-1880"
   },
   {
     "slug": "hyaluronic-vs-pga",
