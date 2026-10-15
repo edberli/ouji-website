@@ -175,17 +175,9 @@
 .home-page.home-unified .home-campaign-hero__slide--red { --hero-paper: #86110e; --hero-ink: #fff7ef; }
 .home-page.home-unified .home-campaign-hero__slide--peach { --hero-paper: #e6c8a9; --hero-ink: #564233; }
 .home-page.home-unified .home-campaign-hero__slide--sage { --hero-paper: #b4c4b2; --hero-ink: #304b3d; }
-.home-page.home-unified .home-campaign-hero__media { display: block; grid-area: 1 / 1; position: relative; min-width: 0px; width: 100%; aspect-ratio: 1920 / 873; max-height: clamp(460px, 70vh, 740px); align-self: stretch; }
+.home-page.home-unified .home-campaign-hero__media { display: block; grid-area: 1 / 1; position: relative; min-width: 0px; aspect-ratio: 1920 / 873; align-self: stretch; }
 .home-page.home-unified .home-campaign-hero__media::after { content: ""; position: absolute; inset: 0px; pointer-events: none; background: none; }
 .home-page.home-unified .home-campaign-hero__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center center; }
-/* 桌面海報限高（Winston 2026-10-15：「成個屏幕都佔晒」）：最高係螢幕高度 70%，第一屏見到免運條同分類。
-   限高之後闊螢幕會裁走上下，每張圖揀返裁剪位，保住人面同圖入面嘅品牌字（Coralhaze 下面行字、dasique logo）。 */
-@media (min-width: 761px) {
-  .home-page.home-unified .home-campaign-hero__slide--blue .home-campaign-hero__media img { object-position: 50% 0%; }
-  .home-page.home-unified .home-campaign-hero__slide--red .home-campaign-hero__media img { object-position: 50% 0%; }
-  .home-page.home-unified .home-campaign-hero__slide--peach .home-campaign-hero__media img { object-position: 50% 70%; }
-  .home-page.home-unified .home-campaign-hero__slide--sage .home-campaign-hero__media img { object-position: 50% 30%; }
-}
 .home-page.home-unified .home-campaign-hero__copy { grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center; position: absolute; z-index: 2; top: 5%; left: 7%; width: 34%; min-width: 0px; padding: 0px; }
 .home-page.home-unified .home-campaign-hero__eyebrow { font: 600 10px/1.5 var(--sans); letter-spacing: 0.08em; opacity: 0.78; }
 .home-page.home-unified .home-campaign-hero__eyebrow > span { padding-inline: 3px; }
@@ -302,7 +294,7 @@
   .home-page.home-unified .home-campaign-hero__track { border: 0px; border-radius: 0px; box-shadow: none; }
 }
 @media (max-width: 760px) {
-  .home-page.home-unified .home-campaign-hero__media { aspect-ratio: 3 / 4; max-height: none; }
+  .home-page.home-unified .home-campaign-hero__media { aspect-ratio: 3 / 4; }
 }
 @media (max-width: 760px) {
   .home-page.home-unified .home-campaign-hero__media img { object-fit: cover; }
