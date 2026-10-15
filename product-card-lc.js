@@ -476,23 +476,47 @@
     openSheet(t.dataset.lcOpen, t);
   });
 
-  /* 桌面 hover 換第二張相：第一次用滑鼠移上先載（手指撳唔會載，唔食多一倍流量），載好先淡入。
-     逐次睇 pointerType，唔喺載入時判斷裝置（平板接滑鼠、轉視窗大細都照用得）。 */
+  /* 桌面 hover 換第二張相（2026-10-16）。
+     第一次見到滑鼠郁（pointerType = mouse）先開始預載：張卡就快捲入畫面就載第二張相，hover 嗰下即刻換，冇等下載。
+     手機／平板用手指唔會觸發，唔食多一倍流量。逐次睇 pointerType，唔喺載入時判斷裝置（平板接滑鼠都用得）。 */
   {
-    document.addEventListener('pointerover', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      const wrap = e.target.closest && e.target.closest('.lc .product-card__image-wrap[data-lc-alt]');
-      if (!wrap) return;
+    const loadAlt = (wrap) => {
       const url = wrap.dataset.lcAlt;
-      wrap.removeAttribute('data-lc-alt');
       const main = wrap.querySelector('.product-card__image');
-      if (!main) return;
+      wrap.removeAttribute('data-lc-alt');
+      if (!url || !main) return;
       main.insertAdjacentHTML('afterend', `<img class="product-card__image lc__alt" ${typeof shopifyResponsiveImageAttrs === 'function'
         ? shopifyResponsiveImageAttrs(url, { srcWidth: 480, widths: [320, 480, 640, 800], sizes: '(max-width: 1024px) 34vw, 320px' })
         : `src="${esc(url)}"`} alt="" aria-hidden="true" decoding="async">`);
       const altImg = main.nextElementSibling;
       const ready = () => altImg.classList.add('is-ready');
       if (altImg.complete && altImg.naturalWidth) ready(); else altImg.addEventListener('load', ready, { once: true });
+    };
+    const SEL = '.lc .product-card__image-wrap[data-lc-alt]';
+    let io = null;
+    const watchNew = () => document.querySelectorAll(`${SEL}:not([data-lc-watch])`).forEach((w) => { w.setAttribute('data-lc-watch', ''); io.observe(w); });
+    const startPreload = () => {
+      if (io || !('IntersectionObserver' in window)) return;
+      io = new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        if (en.target.dataset.lcAlt) loadAlt(en.target);
+      }), { rootMargin: '400px 0px' });
+      watchNew();
+      // 篩選、換分類、載多啲會重畫張卡，新卡都要睇住
+      let queued = false;
+      new MutationObserver(() => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => { queued = false; watchNew(); });
+      }).observe(document.body, { childList: true, subtree: true });
+    };
+    document.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') startPreload(); }, { passive: true });
+    document.addEventListener('pointerover', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      startPreload();
+      const wrap = e.target.closest && e.target.closest(SEL);
+      if (wrap) loadAlt(wrap);
     }, { passive: true });
   }
 
