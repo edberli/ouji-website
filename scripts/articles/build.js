@@ -405,6 +405,74 @@ function updateColumn(all) {
   console.log('✓ 更新咗 column.html');
 }
 
+/* ---------- 首頁「美妝小筆記」（index.html） ----------
+   承繼 Codex 首頁原本嘅筆記卡：OUJI NOTE 編號、芝麻插畫、READ A LITTLE 尾標、
+   手機左右掃。揀邊幾篇寫喺 home-notes.json；最尾一張係目錄卡（數埋全部文章）。
+   art: "sesame" 用分類芝麻插畫；"cover" 用文章封面（明星相要寫出處）。只喺全量生成時更新。 */
+const NOTE_ART = { 明星妝感: '10-compare', 明星同款: '10-compare', 排行榜: '15-awards', 護膚攻略: '07-skincare', 問答: '12-help', 成分解碼: '11-search', 選物清單: '06-shopping' };
+const ARROW_UP_RIGHT = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>';
+
+/* 「Jennie 貓系裸玫瑰妝教學：4 步拆解，同效果產品香港買得到」→ 冒號後第一個逗號之前 */
+function shortTitle(spec) {
+  const s = stripText(spec.title_html || spec.title);
+  const colon = s.indexOf('：');
+  const comma = colon >= 0 ? s.indexOf('，', colon) : -1;
+  return comma > 0 ? s.slice(0, comma) : s;
+}
+
+function noteArt(id) {
+  const src = (w) => `/assets/images/home-codex/notes/${id}-${w}.webp`;
+  return `<img src="${src(240)}" srcset="${src(240)} 240w, ${src(360)} 360w" sizes="(max-width: 760px) 94px, 112px" width="240" height="240" alt="" loading="lazy" decoding="async">`;
+}
+
+function noteCover(spec) {
+  const c = spec.cover || {};
+  if (c.type === 'photo') return `<span class="joy-note__cover joy-note__cover--photo"><img src="${esc(c.src)}" alt="" loading="lazy" decoding="async"></span>`;
+  return `<span class="joy-note__cover"><img src="${esc(cdn(product(c.handle).img, 360))}" alt="" loading="lazy" decoding="async"></span>`;
+}
+
+function updateHome(all) {
+  const file = path.join(ROOT, 'index.html');
+  const conf = JSON.parse(fs.readFileSync(path.join(__dirname, 'home-notes.json'), 'utf8'));
+  const picks = conf.slugs.map((slug) => {
+    const s = all.find((x) => x.slug === slug);
+    if (!s) throw new Error(`home-notes.json 搵唔到文章：${slug}`);
+    return s;
+  });
+  const total = fs.readdirSync(OUT).filter((f) => f.endsWith('.html')).length;
+  const cards = picks.map((s, i) => {
+    const credit = conf.art === 'cover' && s.cover && s.cover.type === 'photo' && s.cover.credit ? stripText(s.cover.credit) : '';
+    return `
+      <a class="joy-note" href="/articles/${s.slug}">
+        <span class="note-top"><span>OUJI NOTE / ${String(i + 1).padStart(2, '0')}</span><span class="note-meta">${esc(s.category)} · ${s.read_minutes || 5} 分鐘</span></span>
+        ${conf.art === 'cover' ? noteCover(s) : noteArt(NOTE_ART[s.category] || '14-journal')}
+        <h3>${esc(shortTitle(s))}</h3>
+        <p>${esc(s.dek)}</p>
+        <span class="note-bottom">${credit ? esc(credit) : 'READ A LITTLE, CHOOSE A LITTLE BETTER'}</span>
+      </a>`;
+  });
+  cards.push(`
+      <a class="joy-note joy-note--index" href="/column">
+        <span class="note-top"><span>OUJI NOTES / 目錄</span><span class="note-meta">${total} 篇</span></span>
+        ${noteArt('14-journal')}
+        <h3>仲有 ${total - picks.length} 篇筆記</h3>
+        <p>由明星妝感到成分解碼，五個分類慢慢揭。</p>
+        <span class="note-bottom">睇全部筆記 →</span>
+      </a>`);
+  const section = `
+<section class="joy-notes content-wrap" aria-labelledby="home-notes-title">
+  <div class="joy-heading"><div><span class="joy-kicker">OUJI NOTES / 靈感專欄</span><h2 id="home-notes-title">美妝小筆記。</h2></div><a class="text-link" href="/column">全部 ${total} 篇 ${ARROW_UP_RIGHT}</a></div>
+  <div class="joy-note-grid${conf.art === 'cover' ? ' joy-note-grid--cover' : ''}" role="region" aria-label="美妝小筆記；可左右滑動" tabindex="0">${cards.join('')}
+  </div>
+</section>`;
+  let html = fs.readFileSync(file, 'utf8');
+  const re = /(<!-- AX-HOME-NOTES:START[^>]*-->)[\s\S]*?(\n\s*<!-- AX-HOME-NOTES:END -->)/;
+  if (!re.test(html)) throw new Error('index.html 搵唔到 AX-HOME-NOTES 標記');
+  html = html.replace(re, `$1${section}$2`);
+  fs.writeFileSync(file, html);
+  console.log(`✓ 更新咗 index.html 美妝小筆記（${picks.length} 篇＋目錄，共 ${total} 篇）`);
+}
+
 function main() {
   const args = process.argv.slice(2);
   const check = args.includes('--check');
@@ -422,7 +490,7 @@ function main() {
     n += 1;
     console.log(`${check ? '✓ 檢查' : '✓ 寫咗'} articles/${spec.slug}.html（${Math.round(html.length / 1024)} KB）`);
   }
-  if (!check && !only.length) updateColumn(all);
+  if (!check && !only.length) { updateColumn(all); updateHome(all); }
   console.log(`${n} 篇`);
 }
 
