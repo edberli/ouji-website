@@ -2484,9 +2484,11 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
 .footer__to-top { font-size: 11px; letter-spacing: 0.035em; color: #ffffff; }
 .footer__to-top:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-/* 底部白色大字 OUJI（Codex 版招牌）。Codex 版 footer 冇芝麻，老闆 2026-10-06 要求跟返，所以拎走鞠躬動畫。 */
-.footer__giant { position: relative; margin-top: 36px; text-align: center; pointer-events: none; }
-.footer__giant-word { display: block; padding-left: 0.22em; font-family: var(--font-brand); font-weight: 700; font-size: clamp(70px, 21vw, 290px); line-height: 1; letter-spacing: 0.22em; color: #ffffffc2; user-select: none; }
+/* 底部白色大字 OUJI（Codex 版招牌）。Codex 版 footer 冇芝麻，老闆 2026-10-06 要求跟返，所以拎走鞠躬動畫。
+   桌面縮到大約一半、淡到 40% 白（Winston 2026-10-15：原本 290px 太大，佔 footer 四成高）；
+   手機唔郁，大細同顏色喺下面 768px 嗰段寫返原本數值。 */
+.footer__giant { position: relative; margin-top: 24px; text-align: center; pointer-events: none; }
+.footer__giant-word { display: block; padding-left: 0.22em; font-family: var(--font-brand); font-weight: 700; font-size: clamp(64px, 10vw, 180px); line-height: 1; letter-spacing: 0.22em; color: rgba(255, 255, 255, 0.4); user-select: none; }
 
 /* ----- Breadcrumb ----- */
 /* ⚠️ 麵包屑啲短連結唔准縮。老闆 2026-08-31 影咗張相：產品名一長，
@@ -3678,6 +3680,7 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px 15px; padding-bottom: 30px; }
   .footer__logo { font-size: 36px; }
   .footer__giant { margin-top: 28px; }
+  .footer__giant-word { font-size: clamp(70px, 21vw, 290px); color: #ffffffc2; }
   .newsletter__form { flex-direction: column; border-radius: 14px; }
   .newsletter__input { border-radius: 14px 14px 0 0; border-right: 1px solid rgba(255,255,255,0.2); border-bottom: none; }
   .newsletter__submit { border-radius: 0 0 14px 14px; }
