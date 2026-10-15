@@ -8,7 +8,7 @@
   --lc-ink: #132129; --lc-brand: #6f8790; --lc-rate: #444b51; --lc-rate-2: #56636d; --lc-src: #5f6d78; --lc-sep: #d3d9dd;
   --lc-tile: #eef2f3; --lc-was: #6e7d87; --lc-sale: #bd3a27; --lc-chip-bg: #fdebea; --lc-chip-ink: #b23423;
   --lc-award-bg: #26343e; --lc-award-ink: #fff; --lc-gold: #c8a159; --lc-link: #637487; --lc-var-ink: #101c24;
-  --lc-cta: #617a8b; --lc-cta-hover: #536a7a; --lc-name: #284653;
+  --lc-cta: #617a8b; --lc-cta-hover: #536a7a; --lc-name: #284653; --lc-pick-dot: #4e8497; --lc-pick-dot-hover: #43788a;
   --lc-f: "Manrope", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif;
   container: lc / inline-size;
   display: block; min-width: 0; width: 100%; max-width: 440px; margin-inline: auto;
@@ -89,16 +89,21 @@
 
 .lc__low { flex: none; color: var(--lc-chip-ink); font: 500 clamp(10px, 3.4cqi, 11px)/1 var(--lc-f); }
 
-/* 相右下角粒掣：「選色・3色 ⊕」開揀色畫面；單一款式「加入 ⊕」；缺貨「到貨通知我」。白底，唔搶相 */
+/* 相右下角粒掣：「選色・3色 ⊕」開揀色畫面；單一款式「加入 ⊕」；缺貨「到貨通知我」。
+   白底黑字唔搶相；⊕ 係品牌藍實心圓＋白加號，淺色相上面都睇得到（Winston 2026-10-16 揀 C 版）。
+   藍用深一級 #4e8497：主色 #6da3b5 配白色加號對比唔夠 */
 .lc__pick {
   position: absolute; right: min(2.4cqi, 8.45px); bottom: min(2.4cqi, 8.45px); z-index: 3;
   display: inline-flex; align-items: center; gap: min(1.6cqi, 5.63px); height: clamp(32px, 11.6cqi, 36px); max-width: calc(100% - min(4.8cqi, 16.9px));
   padding: 0 clamp(7px, 2.2cqi, 7.74px) 0 clamp(11px, 3.6cqi, 12.67px); border: 0; border-radius: 999px;
-  background: rgba(255, 255, 255, .96); color: var(--lc-ink); box-shadow: 0 2px 10px rgba(19, 33, 41, .16);
+  background: rgba(255, 255, 255, .96); color: var(--lc-ink); box-shadow: 0 3px 12px rgba(19, 33, 41, .2);
   font: 500 clamp(12px, 4.3cqi, 13px)/1 var(--lc-f); letter-spacing: .02em; white-space: nowrap; cursor: pointer;
 }
 .lc__pick svg { flex: none; width: clamp(17px, 6cqi, 19px); height: clamp(17px, 6cqi, 19px); fill: none; stroke: currentColor; stroke-width: 1.6; }
+.lc__pick svg circle { fill: var(--lc-pick-dot); stroke: var(--lc-pick-dot); }
+.lc__pick svg path { stroke: #fff; stroke-width: 2; }
 .lc__pick:hover { background: #fff; }
+.lc__pick:hover svg circle { fill: var(--lc-pick-dot-hover); stroke: var(--lc-pick-dot-hover); }
 .lc__pick:disabled { cursor: default; }
 .lc__pick--restock { padding-right: clamp(11px, 3.6cqi, 12.67px); color: var(--lc-cta); }
 .lc__pick:focus-visible, .lc .product-card__wishlist:focus-visible { outline: 2px solid var(--lc-ink); outline-offset: 2px; }
