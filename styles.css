@@ -9287,55 +9287,27 @@ html.is-lite .cat-card:hover .cat-card__shot {
 }
 .header__mega-group { display: flex; flex-direction: column; counter-increment: mega-row; }
 
-/* 芝麻穿牆：紙箱倒吊貓喺面板右邊中間（05–07 行，冇箭嘴嘅位）打爛面板衝出嚟——
-   後面一個爆開嘅深色洞、裂紋向面板入面散、外面幾粒玻璃碎片。Winston 2026-10-15。
+/* 芝麻：紙箱倒吊貓擺喺面板入面右邊中間（05–07 行，冇箭嘴嘅位），壓住分隔線、少少陰影出立體感。
+   Winston 2026-10-16：唔要洞、裂紋、碎片（「太刻意」），亦唔好跨出面板邊。
    面板有 overflow-y 會切走伸出去嘅嘢，所以掛喺父層 .header__nav-item--mega，跟面板一齊淡入。
    元素由 script.js initMegaMenu 加。 */
-.header__mega-burst {
+.header__mega-shima {
   position: absolute;
-  top: calc(100% + 10px + 236px);
-  left: calc(min(340px, 90vw) - 82px);
+  top: calc(100% + 10px + 250px);
+  left: calc(min(340px, 90vw) - 130px);
   z-index: 101;
-  width: 150px;
-  height: 150px;
+  width: 112px;
+  max-width: none; /* 全站 img 有 max-width: 100%，會跟「全部產品」連結闊度縮到 62px */
+  height: auto;
   pointer-events: none;
+  filter: drop-shadow(0 8px 12px rgba(20, 48, 60, 0.25));
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--duration-normal) var(--ease-out),
               visibility var(--duration-normal);
 }
-.header__nav-item--mega:hover .header__mega-burst,
-.header__nav-item--mega:focus-within .header__mega-burst { opacity: 1; visibility: visible; }
-.header__mega-burst__hole {
-  position: absolute;
-  left: 22px;
-  top: 30px;
-  width: 104px;
-  height: 92px;
-  background: radial-gradient(ellipse at 50% 45%, #1d3b47 0%, #2a5462 60%, #3d6d7c 100%);
-  clip-path: polygon(8% 30%, 22% 8%, 40% 18%, 55% 2%, 70% 16%, 92% 10%, 86% 34%, 100% 52%, 84% 66%, 94% 88%, 68% 82%, 52% 100%, 36% 84%, 14% 94%, 18% 70%, 0% 58%, 12% 46%);
-}
-.header__mega-burst__hole::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.35); }
-.header__mega-burst__crack {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.7);
-  stroke-width: 1.2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-.header__mega-burst__crack .shard { fill: rgba(190, 224, 234, 0.9); stroke: rgba(255, 255, 255, 0.9); stroke-width: 0.8; }
-.header__mega-burst img {
-  position: absolute;
-  left: 14px;
-  top: -14px;
-  width: 126px;
-  height: auto;
-  transform: rotate(-8deg);
-  filter: drop-shadow(0 10px 14px rgba(20, 48, 60, 0.35));
-}
+.header__nav-item--mega:hover .header__mega-shima,
+.header__nav-item--mega:focus-within .header__mega-shima { opacity: 1; visibility: visible; }
 
 .header__mega-row {
   display: flex;
