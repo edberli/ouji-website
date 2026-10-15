@@ -408,7 +408,7 @@ function updateColumn(all) {
 /* ---------- 首頁「美妝小筆記」（index.html） ----------
    承繼 Codex 首頁原本嘅筆記卡：OUJI NOTE 編號、芝麻插畫、READ A LITTLE 尾標、
    手機左右掃。揀邊幾篇寫喺 home-notes.json；最尾一張係目錄卡（數埋全部文章）。
-   每張卡嘅插畫同一句摘要（約 20 字、完整一句）寫喺 home-notes.json，插畫唔准重複；
+   每張卡嘅插畫、一句摘要（約 20 字、完整一句），同桌面放得落一行嘅短標題（可選）寫喺 home-notes.json，插畫唔准重複；
    冇寫就按分類揀插畫、摘要用 dek 第一句。art: "cover" 改用文章封面（明星相要寫出處）。只喺全量生成時更新。 */
 const NOTE_ART = { 明星妝感: '10-compare', 明星同款: '10-compare', 排行榜: '15-awards', 護膚攻略: '07-skincare', 問答: '12-help', 成分解碼: '11-search', 選物清單: '06-shopping' };
 const ARROW_RIGHT = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
@@ -443,18 +443,19 @@ function updateHome(all) {
   const picks = conf.notes.map((n) => {
     const s = all.find((x) => x.slug === n.slug);
     if (!s) throw new Error(`home-notes.json 搵唔到文章：${n.slug}`);
-    return { s, art: n.art || NOTE_ART[s.category] || '14-journal', excerpt: n.excerpt || `${String(s.dek).split('。')[0]}。` };
+    const title = n.title ? (/[。？！]$/.test(n.title) ? n.title : `${n.title}。`) : shortTitle(s);
+    return { s, title, art: n.art || NOTE_ART[s.category] || '14-journal', excerpt: n.excerpt || `${String(s.dek).split('。')[0]}。` };
   });
   const arts = picks.map((x) => x.art);
   if (new Set(arts).size !== arts.length) throw new Error(`home-notes.json 插畫重複：${arts.join('、')}`);
   const total = fs.readdirSync(OUT).filter((f) => f.endsWith('.html')).length;
-  const cards = picks.map(({ s, art, excerpt }, i) => {
+  const cards = picks.map(({ s, title, art, excerpt }, i) => {
     const credit = conf.art === 'cover' && s.cover && s.cover.type === 'photo' && s.cover.credit ? stripText(s.cover.credit) : '';
     return `
       <a class="joy-note" href="/articles/${s.slug}">
         <span class="note-top"><span>OUJI NOTE / ${String(i + 1).padStart(2, '0')}</span><span class="note-meta">${esc(s.category)} · ${s.read_minutes || 5} 分鐘</span></span>
         ${conf.art === 'cover' ? noteCover(s) : noteArt(art)}
-        <h3>${keepLatin(esc(shortTitle(s)))}</h3>
+        <h3>${keepLatin(esc(title))}</h3>
         <p>${esc(excerpt)}</p>
         <span class="note-bottom">${credit ? esc(credit) : 'READ A LITTLE, CHOOSE A LITTLE BETTER'}</span>
       </a>`;
@@ -464,7 +465,7 @@ function updateHome(all) {
         <span class="note-top"><span>OUJI NOTES / 目錄</span><span class="note-meta">${total} 篇</span></span>
         ${noteArt('14-journal')}
         <h3>仲有 ${total - picks.length} 篇筆記。</h3>
-        <p class="note-hand">由明星妝感到成分解碼，慢慢揭 ♡</p>
+        <p class="note-hand">五個分類，慢慢揭 ♡</p>
         <span class="note-bottom">睇全部筆記 ${ARROW_RIGHT}</span>
       </a>`);
   const section = `

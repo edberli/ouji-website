@@ -419,7 +419,7 @@
 .home-codex.home-codex.home-codex .note-bottom { margin-top: auto; padding-top: 12px; border-top: 1px solid #dce9ec; font-weight: 500; letter-spacing: .06em; }
 .home-codex.home-codex.home-codex .joy-note--index { background: #edf3f4; }
 .home-codex.home-codex.home-codex .joy-note--index .note-bottom { justify-content: flex-start; gap: 6px; color: var(--unified-ink); font-weight: 600; letter-spacing: .02em; }
-.home-codex.home-codex.home-codex .joy-note--index .note-hand { color: var(--primary-dark); font: 600 15px/1.45 var(--hand); }
+.home-codex.home-codex.home-codex .joy-note--index .note-hand { color: var(--unified-muted); font: 600 15px/1.45 var(--hand); text-wrap: balance; }
 .home-codex.home-codex.home-codex .joy-note__cover { display: block; align-self: center; width: 92px; height: 112px; margin-top: 8px; overflow: hidden; border-radius: 999px 999px 6px 6px; background: #edf3f4; }
 .home-codex.home-codex.home-codex .joy-note__cover img { width: 100%; height: 100%; padding: 8px; object-fit: contain; mix-blend-mode: multiply; }
 .home-codex.home-codex.home-codex .joy-note__cover--photo img { padding: 0; object-fit: cover; mix-blend-mode: normal; }
