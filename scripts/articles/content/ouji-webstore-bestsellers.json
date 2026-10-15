@@ -6,7 +6,7 @@
   "read_minutes": 5,
   "title": "OUJI 網店近 60 日熱賣 10 件：香港客人實際買咗咩",
   "title_html": "<span class=\"ax-nw\">OUJI 網店近 60 日</span><span class=\"ax-nw\">熱賣 10 件</span>：香港客人實際買咗咩",
-  "seo_title": "韓妝熱賣推介：OUJI 網店近 60 日 10 件",
+  "seo_title": "韓妝熱賣推薦 2026：OUJI 網店近 60 日 10 件",
   "description": "OUJI 網店 2026 年 8 月中至 10 月中嘅實際訂單排出熱賣 10 件，包括 Round Lab 白樺樹面霜、Torriden 精華同 numbuzin 棉片，逐件附價錢、膚質同用途參考。",
   "dek": "今次唔用評分排名，用嘅係 OUJI 網店真實訂單次序，由第一名排到第十名。熱賣唔等於啱你，所以每件都附上膚質同用途參考。",
   "cover": {
@@ -58,21 +58,30 @@
           "handle": "round-lab-round-lab-80ml-0221",
           "kind": "面霜",
           "unit": "80ml",
-          "fit": ["乾性肌", "質地輕盈"],
+          "fit": [
+            "乾性肌",
+            "質地輕盈"
+          ],
           "why": "網店熱賣第 1 名。HK$148，Olive Young 評分 4.9（9 則評價）；產品頁話質地輕盈，適合乾性、混合性同敏感性等多種膚質。"
         },
         {
           "handle": "skinfood-skinfood-100g-3754",
           "kind": "沖洗式面膜",
           "unit": "100g",
-          "fit": ["去死皮", "沖洗式"],
+          "fit": [
+            "去死皮",
+            "沖洗式"
+          ],
           "why": "網店熱賣第 2 名。HK$89，Olive Young 評分 4.8（10 則評價）；產品頁寫含有機黑糖粒，溫和帶走死皮同表皮積垢。"
         },
         {
           "handle": "ootd-ootd-80-2884",
           "kind": "痘痘貼",
           "unit": "80片",
-          "fit": ["局部位置", "敷過夜"],
+          "fit": [
+            "局部位置",
+            "敷過夜"
+          ],
           "why": "網店熱賣第 3 名。HK$88，Olive Young 評分 5，但只得 1 則評價；產品頁話係水膠體貼片，可以敷過夜。"
         },
         {
@@ -80,49 +89,70 @@
           "kind": "面膜",
           "unit": "10片",
           "award": false,
-          "fit": ["日常保濕", "配方溫和"],
+          "fit": [
+            "日常保濕",
+            "配方溫和"
+          ],
           "why": "網店熱賣第 4 名。HK$95，Olive Young 評分 5，但只得 1 則評價；產品頁寫水感精華分層補水，柔軟貼膚。"
         },
         {
           "handle": "menokin-30秒速效泡沫面膜95ml-藍色保濕",
           "kind": "泡沫面膜",
           "unit": "95ml",
-          "fit": ["速效", "藍色保濕"],
+          "fit": [
+            "速效",
+            "藍色保濕"
+          ],
           "why": "網店熱賣第 5 名。HK$142，暫時未有 Olive Young 評分；產品頁寫藍色保濕版，韓國製造。"
         },
         {
           "handle": "mediheal-玫瑰-pdrn-精華面膜-healthy-glow-毛孔亮肌-24ml-x-10片-mediheal-rose-pdrn-essential-mask-healthy-glow",
           "kind": "精華面膜",
           "unit": "10片",
-          "fit": ["10 片裝", "毛孔亮肌"],
+          "fit": [
+            "10 片裝",
+            "毛孔亮肌"
+          ],
           "why": "網店熱賣第 6 名。HK$88，暫時未有 Olive Young 評分；產品頁寫 Healthy Glow 毛孔亮肌版，24ml × 10 片。"
         },
         {
           "handle": "april-skin-april-skin-200ml-9623",
           "kind": "潔面泡沫",
           "unit": "200ml",
-          "fit": ["乾燥肌", "敏感肌"],
+          "fit": [
+            "乾燥肌",
+            "敏感肌"
+          ],
           "why": "網店熱賣第 7 名。HK$108，暫時未有 Olive Young 評分；產品頁寫 pH 5.5 水凝質地，適合乾燥、敏感同暗沉膚質。"
         },
         {
           "handle": "sungboon-editor-deep-collagen-cream-in-serum-30ml-4820",
           "kind": "精華霜",
           "unit": "30ml",
-          "fit": ["精華同面霜之間", "乾性肌"],
+          "fit": [
+            "精華同面霜之間",
+            "乾性肌"
+          ],
           "why": "網店熱賣第 8 名。HK$125，暫時未有 Olive Young 評分；產品頁話質地介乎精華同面霜之間，低敏配方，乾性同敏感肌都用得。"
         },
         {
           "handle": "torriden-torriden-dive-in-200ml-2018",
           "kind": "精華液",
           "unit": "200ml",
-          "fit": ["補水", "神經醯胺"],
+          "fit": [
+            "補水",
+            "神經醯胺"
+          ],
           "why": "網店熱賣第 9 名。HK$98，暫時未有 Olive Young 評分；產品頁寫加入神經醯胺 NP，配方溫和，敏感肌都適用。"
         },
         {
           "handle": "numbuzin-no-4零毛孔水煮蛋棉片70片",
           "kind": "棉片",
           "unit": "70片 190ml",
-          "fit": ["一盒 70 片", "韓國製造"],
+          "fit": [
+            "一盒 70 片",
+            "韓國製造"
+          ],
           "why": "網店熱賣第 10 名。HK$118，暫時未有 Olive Young 評分；產品頁只寫韓國製造，資料比較簡單，揀之前睇清楚產品頁。"
         }
       ]
@@ -176,7 +206,18 @@
         "torriden-torriden-dive-in-200ml-2018",
         "numbuzin-no-4零毛孔水煮蛋棉片70片"
       ],
-      "kinds": ["面霜", "沖洗式面膜", "痘痘貼", "面膜", "泡沫面膜", "精華面膜", "潔面泡沫", "精華霜", "精華液", "棉片"]
+      "kinds": [
+        "面霜",
+        "沖洗式面膜",
+        "痘痘貼",
+        "面膜",
+        "泡沫面膜",
+        "精華面膜",
+        "潔面泡沫",
+        "精華霜",
+        "精華液",
+        "棉片"
+      ]
     },
     {
       "type": "flow",
