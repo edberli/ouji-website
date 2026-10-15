@@ -1,8 +1,21 @@
 {
-  "art": "sesame",
+  "art": "cover",
   "notes": [
-    { "slug": "jennie-cat-nude-rose-makeup", "art": "10-compare", "excerpt": "底妝、眼線、頰彩、唇色，逐個位拆。" },
-    { "slug": "korean-sheet-mask-ranking", "art": "15-awards", "title": "韓國面膜推介：評分最高 10 個系列。", "excerpt": "十個系列對返評分，單片定盒裝一次講清。" },
-    { "slug": "dark-circles-eye-care-guide", "art": "07-skincare", "excerpt": "晚上做眼部護理，日間先遮瑕。" }
+    {
+      "slug": "jennie-cat-nude-rose-makeup",
+      "art": "10-compare",
+      "excerpt": "底妝、眼線、頰彩、唇色，逐個位拆。"
+    },
+    {
+      "slug": "korean-sheet-mask-ranking",
+      "art": "15-awards",
+      "title": "韓國面膜推介：評分最高 10 個系列。",
+      "excerpt": "十個系列對返評分，單片定盒裝一次講清。"
+    },
+    {
+      "slug": "dark-circles-eye-care-guide",
+      "art": "07-skincare",
+      "excerpt": "晚上做眼部護理，日間先遮瑕。"
+    }
   ]
 }
