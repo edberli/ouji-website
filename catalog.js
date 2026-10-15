@@ -621,7 +621,12 @@ function bindLxSidebar(sidebar) {
   sidebar.dataset.lxBound = '1';
   sidebar.addEventListener('change', (e) => {
     const t = e.target;
-    if (t.matches('[data-lx-pick]')) {
+    if (t.matches('[data-lx-q]')) {
+      /* 關鍵字失焦都會出原生 change；字冇變就唔好重畫 —— 否則 chip 喺撳落去嗰刻被重砌，
+         個 click 會唔見咗（實測撳「×」清唔到關鍵字）。 */
+      if (t.value === (t.dataset.lxLast || '')) { e.stopPropagation(); return; }
+      t.dataset.lxLast = t.value;
+    } else if (t.matches('[data-lx-pick]')) {
       // 下拉只係面：改返底下嗰排 checkbox，之後照行 catalog 自己嘅 change → draw()。
       sidebar.querySelectorAll(`.lx-engine input[data-group="${t.dataset.lxPick}"]`)
         .forEach((el) => { el.checked = !!t.value && el.value === t.value; });
@@ -651,9 +656,30 @@ function bindLxSidebar(sidebar) {
 
 /* 1081px 以上篩選欄常駐左邊（listing-v2.css 用 media query 排位），要解除 live 抽屜嘅 inert；
    細過就變返 live 抽屜，由「篩選與排序」掣打開。 */
+/* 抽屜要擺返 main 外面：live 嘅 main 有 z-index:1，抽屜喺入面會畀遮罩（.filter-overlay）蓋住撳唔到。
+   1081px 以上就搬入 .lx-layout 做左欄。 */
+function lxPlaceSidebar(sidebar) {
+  const layout = document.querySelector('.lx-layout');
+  if (!layout || !sidebar) return;
+  if (window.matchMedia('(min-width: 1081px)').matches) {
+    if (sidebar.parentElement !== layout) layout.prepend(sidebar);
+  } else if (sidebar.parentElement === layout) {
+    const overlay = document.querySelector('.filter-overlay');
+    if (overlay) overlay.after(sidebar);
+    else document.body.append(sidebar);
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.querySelector('.lx-layout > .filter-sidebar');
+  if (!sidebar) return;
+  lxPlaceSidebar(sidebar);
+  window.matchMedia('(min-width: 1081px)').addEventListener('change', () => lxPlaceSidebar(sidebar));
+});
+
 function lxDockSidebar(sidebar) {
   const mq = window.matchMedia('(min-width: 1081px)');
   const apply = () => {
+    lxPlaceSidebar(sidebar);
     if (mq.matches) {
       sidebar.classList.remove('is-open');
       sidebar.inert = false;
@@ -702,7 +728,7 @@ function resetLxFilters(which) {
   if (!side) return;
   if (!which || which === 'q') {
     const q = side.querySelector('[data-lx-q]');
-    if (q) q.value = '';
+    if (q) { q.value = ''; q.dataset.lxLast = ''; }
   }
   if (!which || which === 'range') {
     const lo = side.querySelector('[data-lx-min]');
@@ -2794,7 +2820,8 @@ function renderProducts(container, products, { grouped }) {
   }, { signal: SECTION_MORE_ABORT.signal });
   // 三十幾格全部掛好先至計一次 —— 每格計一次即係計三十幾次
   syncGridWindows();
-  if (['skincare', 'makeup', 'all'].includes(CURRENT_SECTION)) {
+  /* 8856 版面冇咗「所有品牌」相格，全部頁一律用 Clearline 品牌條做「品牌專區」。 */
+  if (!isLxPage() && ['skincare', 'makeup', 'all'].includes(CURRENT_SECTION)) {
     bindCategoryBrandNavigation(order, CURRENT_SECTION);
   } else buildBrandRail(order);
 }
