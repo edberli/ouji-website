@@ -1,0 +1,101 @@
+{
+  "slug": "dark-circles-eye-care-guide",
+  "category": "護膚攻略",
+  "kicker": "護膚攻略 · 黑眼圈",
+  "date": "2026-10-15",
+  "read_minutes": 6,
+  "title": "黑眼圈點遮？眼部護理同遮瑕分開做",
+  "title_html": "黑眼圈點遮？<span class=\"ax-nw\">眼部護理</span>同<span class=\"ax-nw\">遮瑕</span><span class=\"ax-nw\">分開做</span>",
+  "seo_title": "黑眼圈點遮？眼霜眼膜＋遮瑕推介（香港）",
+  "description": "黑眼圈成因唔同，護理同遮瑕要分開做。晚上用 Beauty of Joseon 眼部精華同 Abib 眼膜，日間先用 TIRTIR 遮瑕，附店內推介同評分。",
+  "dek": "黑眼圈係護理同遮蓋兩件事。護理係照顧眼周肌膚狀態，遮瑕係即時蓋住。我哋將兩者分開：晚上做眼部護理、想加強就用眼膜，日間先遮瑕，咁先唔會將遮瑕當成護理。",
+  "cover": {
+    "type": "product",
+    "handle": "beauty-of-joseon-beauty-of-joseon-30ml-6146",
+    "stamp": "Olive Young 評分 4.7 · 2,886 則評價"
+  },
+  "related": ["makeup-melting-fix-guide", "pores-blackheads-guide", "dull-skin-brightening-guide"],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "p", "html": "黑眼圈成因有好多種，包括遺傳、眼周皮膚薄、眼周暗沉，或者熬夜之後浮腫。成因唔同，處理方法都唔同，所以唔可以一支遮瑕或者一支眼霜就包晒。" },
+        { "type": "p", "html": "眼周皮膚薄，又經常郁，所以要輕拍、唔好大力擦。遮瑕亦要薄薄一層，厚咗就會卡入紋位。護理同遮瑕各有分工，唔好用其中一樣代替另一樣。" },
+        { "type": "toc" }
+      ],
+      "note": "眼部護理係長線嘅事，遮瑕只可以即時遮蓋。唔好期望一兩日就完全冇黑眼圈。"
+    },
+    { "type": "sec", "id": "steps", "label": "Routine · 護理同遮瑕分開", "title": "晚上護理、日間遮瑕，四步各自安排" },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "no": "01",
+          "title": "晚上：眼部精華先做護理",
+          "html": "潔面、爽膚之後，取適量 Beauty of Joseon 人參視黃醛修復亮眼精華，用無名指輕拍眼周至吸收。產品頁寫明質地清爽、易吸收，有助改善眼周皺紋外觀，幫助提亮同保濕眼周肌膚。",
+          "products": ["beauty-of-joseon-beauty-of-joseon-30ml-6146"]
+        },
+        {
+          "no": "02",
+          "title": "想加強：每星期一次眼膜",
+          "html": "眼膜係加強護理，唔係每次都要用。Abib PDRN 啫喱眼膜產品頁寫明針對眼部浮腫、細紋同黑眼圈，注入 PDRN、視黃醇、膠原蛋白同咖啡因，60 片裝適合日常使用。BOH 膠原重塑眼膜就主打 4 種膠原蛋白配膠原蛋白膠囊，獨立眼膜設計，敷 15 至 20 分鐘後撕走，再將餘下精華輕拍至吸收。兩款揀一款，睇眼周狀態而定。",
+          "products": ["abib-abib-pdrn-a-2283", "boh-boh-probioderm-60-8129"]
+        },
+        {
+          "no": "03",
+          "title": "日間：眼周護理之後先遮瑕",
+          "html": "眼周護理完成，等吸收之後先遮瑕。TIRTIR 柔焦遮瑕產品頁寫明遮到但唔會卡紋，質地柔焦、淡化紋理，易推開，唔會推花底妝。WAKEMAKE 輕透無瑕遮瑕膏主打高遮蓋，自帶 SPF30 PA++，一支做遮瑕同防曬。想薄身貼紋就揀 TIRTIR，想遮實啲就揀 WAKEMAKE，色號跟自己膚色揀。想鎖住遮瑕之後嘅妝，可以睇<a href=\"/articles/makeup-melting-fix-guide\">溶妝定妝方法</a>。",
+          "products": ["tirtir-glide-hide-blurring-concealer", "wakemake-defining-cover-concealer"]
+        },
+        {
+          "no": "04",
+          "title": "夜晚：想加強細紋，再加一支眼霜",
+          "html": "如果想再加強細紋或者眼袋困擾，可以加 K-SECRET 首爾1988視黃醛脂質體眼霜。產品頁寫明有助改善眼袋同皺紋外觀，適合所有膚質，尤其熟齡肌。潔面同爽膚後，取適量均勻塗眼周，輕輕拍打至吸收。視黃醛係維他命 A 類成分，第一次用先隔晚用一次，睇下皮膚有冇反應。",
+          "products": ["ksecret-ksecret-1988-4-30ml-0577"]
+        }
+      ]
+    },
+    { "type": "sec", "id": "picks", "label": "Catalogue · 眼部同遮瑕推介", "title": "7 件眼霜同遮瑕，按需要揀" },
+    {
+      "type": "catalog",
+      "feature_first": false,
+      "numbered": false,
+      "items": [
+        { "handle": "boh-boh-probioderm-3d-25ml-2-3957", "kind": "眼霜套裝", "why": "PROBIODERM™ 三重乳酸菌複合成分，一套包眼霜同面霜；套裝入面嘅面霜拿過 Olive Young Awards 2025 Slow Aging 獎項。Olive Young 評分 4.8，1,401 則評價。", "fit": ["眼周同全臉", "一次搞掂"], "unit": "25ml × 2 套裝" },
+        { "handle": "skin1004-skin1004-probio-cica-20ml-0313", "kind": "益生菌眼霜", "why": "發酵積雪草同補骨脂酚（植物性視黃醇），產品頁寫明有助改善細紋，令膚質睇落更平滑，適合乾性至一般膚質。", "fit": ["細紋", "乾性至一般"], "unit": "20ml × 2 孖裝" },
+        { "handle": "cosrx-cosrx-25ml-1070", "kind": "蝸牛肽眼霜", "why": "雙重功能，質地清爽唔厚重，保濕同時快速吸收，產品頁寫明有助提亮眼周外觀。Olive Young 評分 4.7，417 則評價。", "fit": ["質地清爽", "提亮眼周"] },
+        { "handle": "purito-purito-seoul-30ml-0156", "kind": "積雪草眼霜", "why": "含積雪草萃取，產品頁寫明有助即時紓緩眼周肌膚，改善眼周浮腫外觀；配搭胜肽同透明質酸鈉，幫助肌膚保持水分。", "fit": ["眼周浮腫", "想紓緩"] },
+        { "handle": "torriden-torriden-cellmazing-30ml-1999", "kind": "膠原眼霜", "why": "5 種大小分子膠原蛋白、胜肽同視黃醇，產品頁寫明溫和改善眼周細紋同黑眼圈，吸收順滑。", "fit": ["細紋", "想緊緻"] },
+        { "handle": "tirtir-glide-hide-blurring-concealer", "kind": "柔焦遮瑕", "why": "遮到但唔會卡紋，質地柔焦淡化紋理，易推開唔推花底妝；色號由 0.5N 到 8W，深膚色都揀到。", "fit": ["唔卡紋", "色號多"] },
+        { "handle": "wakemake-defining-cover-concealer", "kind": "輕透遮瑕膏", "why": "輕薄貼膚，主打高遮蓋，產品頁寫明遮到黑眼圈都唔會卡紋；自帶 SPF30 PA++，四個色階可揀。Olive Young 評分 4.6，253 則評價。", "fit": ["遮得實", "日間防曬"] }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "callout", "html": "<strong>一句記住</strong>：晚上護理、想加強先加眼膜、日間先遮瑕，三件事分開做。" },
+        { "type": "sec", "id": "mistakes", "label": "Watch out · 常見錯誤", "title": "眼周易做錯嘅 4 件事" },
+        {
+          "type": "list",
+          "items": [
+            "<strong>大力擦、用力揉</strong>：眼周皮膚薄，眼霜同眼膜精華都要輕拍至吸收，唔好拉扯。",
+            "<strong>遮瑕當護理</strong>：遮瑕係即時遮蓋，眼霜、眼膜先係眼周護理，兩樣分開做，唔可以互相代替。",
+            "<strong>遮瑕太厚</strong>：一次塗太厚，會積喺紋位入面，睇落更明顯；薄薄一層，唔夠先加。",
+            "<strong>眼膜敷太耐</strong>：BOH 眼膜產品頁寫明敷 15 至 20 分鐘後撕走，敷得耐唔代表效果更好，跟足包裝指示先穩陣。"
+          ]
+        },
+        { "type": "sec", "id": "faq", "label": "Q&A · 常見問題", "title": "買之前成日有人問" },
+        {
+          "type": "faq",
+          "items": [
+            { "q": "黑眼圈係咪一定要用眼霜？", "a": "唔一定。遺傳同眼皮薄引起嘅黑眼圈，護理主要係令眼周睇落更滋潤，未必可以改變底色；想即時遮，就用遮瑕。" },
+            { "q": "眼霜同遮瑕可唔可以一齊用？", "a": "可以，但要分先後：先眼霜，等吸收之後先上遮瑕，兩樣分開做。" },
+            { "q": "TIRTIR 同 WAKEMAKE 遮瑕揀邊個？", "a": "想薄身、唔卡紋、淡化紋理，揀 TIRTIR 柔焦遮瑕；想主打高遮蓋，順便防曬，就揀 WAKEMAKE 輕透無瑕遮瑕膏（SPF30 PA++）。" },
+            { "q": "眼膜每日用得唔得？", "a": "Abib 產品頁寫明 60 片裝適合日常使用；BOH 就係日常密集護理，敷 15 至 20 分鐘。用前睇清楚包裝指示，眼周有不適就停用。" }
+          ]
+        },
+        { "type": "sources", "items": [ { "title": "OUJI 網店產品頁：產品介紹、用法、得獎資料，以及 Olive Young 評分同評價數" } ] }
+      ]
+    }
+  ]
+}

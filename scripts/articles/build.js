@@ -54,7 +54,9 @@ function product(handle) {
   const lo = Number(p.priceRange?.minVariantPrice?.amount);
   const was = Number(p.compareAtPriceRange?.minVariantPrice?.amount);
   const r = ratings[handle];
-  const awards = (AWARDS[handle] || []).slice()
+  /* 印章只用「得獎嘅就係呢一款」嘅紀錄：note 寫住同系列、迷你裝、新版、
+     套裝包含、入選清單嗰啲，得獎嘅唔係我哋賣緊嘅規格，卡上唔可以當自己得獎。 */
+  const awards = (AWARDS[handle] || []).filter((a) => !/同系列|迷你|新版|套裝包含|入選|MD’s Pick/.test(a.note || ''))
     .sort((a, b) => (b.year - a.year) || ((a.rank || 9) - (b.rank || 9)));
   const img = p.images?.edges?.[0]?.node?.url || '';
   return {
@@ -118,7 +120,7 @@ function card(item, i, opts) {
           ${award ? `<span class="ax-stamp">${esc(award)}</span>` : ''}
           ${item.why ? `<p class="ax-card__why">${item.why}</p>` : ''}
           ${item.fit && item.fit.length ? `<div class="ax-fit">${item.fit.map((f) => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
-          <div class="ax-card__foot"><span class="ax-price"><span data-ax-price>${money(p.price)}</span>${p.was ? `<s>${money(p.was)}</s>` : ''}${item.unit ? `<small>${esc(item.unit)}</small>` : ''}</span><a class="ax-go" href="${p.url}">睇產品 →</a></div>
+          <div class="ax-card__foot"><span class="ax-price"><span data-ax-price>${money(p.price)}</span>${item.unit ? `<small>${esc(item.unit)}</small>` : ''}</span><a class="ax-go" href="${p.url}">睇產品 →</a></div>
         </div>
       </article>`;
 }
@@ -350,6 +352,58 @@ ${ch.scripts}
 `;
 }
 
+/* ---------- 靈感專欄目錄頁（column.html） ----------
+   每個分類段落入面嘅卡全部由呢度生成：有 content/*.json 嘅文章用新卡；
+   未翻新嘅舊文用 column-legacy.json 入面原本嗰張卡。 */
+const SECTION_OF = { 明星妝感: 'celeb', 明星同款: 'celeb', 排行榜: 'ranking', 護膚攻略: 'tutorial', 問答: 'tutorial', 成分解碼: 'ingredient', 選物清單: 'picks' };
+const CLOCK = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+
+function columnCard(spec, section) {
+  const photo = spec.cover && spec.cover.type === 'photo';
+  const img = photo ? spec.cover.src : cdn(product(spec.cover.handle).img, 600);
+  const shown = spec.updated && spec.updated !== spec.date ? spec.updated : spec.date;
+  const d = new Date(`${shown}T00:00:00+08:00`);
+  return `
+            <a href="/articles/${spec.slug}" style="text-decoration:none;color:inherit;display:block;height:100%;">
+            <article class="column-card" data-category="${section}">
+              <div class="column-card__image-wrap">
+                <img class="column-card__image" src="${esc(img)}" alt="" loading="lazy" decoding="async">
+              </div>
+              <div class="column-card__body">
+                <span class="column-card__tag">${esc(spec.category)}</span>
+                <h3 class="column-card__title">${esc(stripText(spec.title_html || spec.title))}</h3>
+                <p class="column-card__excerpt">${esc(spec.dek)}</p>
+                <div class="column-card__meta">
+                  <span>${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日</span>
+                  <span class="column-card__read-time">
+                    ${CLOCK}
+                    ${spec.read_minutes || 5} 分鐘
+                  </span>
+                </div>
+              </div>
+            </article>
+            </a>`;
+}
+
+function updateColumn(all) {
+  const file = path.join(ROOT, 'column.html');
+  let html = fs.readFileSync(file, 'utf8');
+  const legacy = JSON.parse(fs.readFileSync(path.join(__dirname, 'column-legacy.json'), 'utf8'));
+  const have = new Set(all.map((s) => s.slug));
+  const sorted = all.slice().sort((a, b) => String(b.updated || b.date).localeCompare(String(a.updated || a.date)) || a.slug.localeCompare(b.slug));
+  for (const section of ['celeb', 'ranking', 'tutorial', 'ingredient', 'picks']) {
+    const cards = sorted.filter((s) => SECTION_OF[s.category] === section).map((s) => columnCard(s, section));
+    for (const c of legacy) if (c.section === section && !have.has(c.slug)) cards.push(`\n            ${c.html}`);
+    const re = new RegExp(`(<!-- AX-CARDS:${section}:START[^>]*-->)[\\s\\S]*?(\\n\\s*<!-- AX-CARDS:${section}:END -->)`);
+    if (!re.test(html)) throw new Error(`column.html 搵唔到 AX-CARDS:${section} 標記`);
+    html = html.replace(re, `$1${cards.join('\n')}$2`);
+    const secRe = new RegExp(`(<div class="column-section" data-section="${section}">[\\s\\S]*?<span class="column-section__count">)\\d+ 篇文章(</span>)`);
+    html = html.replace(secRe, `$1${cards.length} 篇文章$2`);
+  }
+  fs.writeFileSync(file, html);
+  console.log('✓ 更新咗 column.html');
+}
+
 function main() {
   const args = process.argv.slice(2);
   const check = args.includes('--check');
@@ -367,6 +421,7 @@ function main() {
     n += 1;
     console.log(`${check ? '✓ 檢查' : '✓ 寫咗'} articles/${spec.slug}.html（${Math.round(html.length / 1024)} KB）`);
   }
+  if (!check && !only.length) updateColumn(all);
   console.log(`${n} 篇`);
 }
 

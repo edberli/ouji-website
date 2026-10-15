@@ -1,0 +1,228 @@
+{
+  "slug": "ouji-webstore-bestsellers",
+  "category": "排行榜",
+  "kicker": "網店熱賣 · 2026 秋",
+  "date": "2026-10-15",
+  "read_minutes": 5,
+  "title": "OUJI 網店近 60 日熱賣 10 件：香港客人實際買咗咩",
+  "title_html": "<span class=\"ax-nw\">OUJI 網店近 60 日</span><span class=\"ax-nw\">熱賣 10 件</span>：香港客人實際買咗咩",
+  "seo_title": "韓妝熱賣推介：OUJI 網店近 60 日 10 件",
+  "description": "OUJI 網店 2026 年 8 月中至 10 月中嘅實際訂單排出熱賣 10 件，包括 Round Lab 白樺樹面霜、Torriden 精華同 numbuzin 棉片，逐件附價錢、膚質同用途參考。",
+  "dek": "今次唔用評分排名，用嘅係 OUJI 網店真實訂單次序，由第一名排到第十名。熱賣唔等於啱你，所以每件都附上膚質同用途參考。",
+  "cover": {
+    "type": "product",
+    "handle": "round-lab-round-lab-80ml-0221",
+    "stamp": "網店熱賣 No.1"
+  },
+  "related": [
+    "k-beauty-under-100",
+    "olive-young-awards-2025-winners",
+    "olive-young-sunscreen-ranking"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "method",
+          "label": "點樣排",
+          "html": "數據嚟自 <strong>OUJI 網店訂單</strong>，範圍係 <strong>2026 年 8 月中至 10 月中（近 60 日）</strong>。只按實際買入次序排名，唔列銷量數字。Olive Young 評分只係參考，同呢個排名唔係同一套數據。"
+        },
+        {
+          "type": "p",
+          "html": "網上好多人睇熱賣榜，想知道香港客人實際揀咗乜。我哋只睇 OUJI 自己網店嘅訂單次序，唔係睇廣告，亦唔係睇評分。"
+        },
+        {
+          "type": "p",
+          "html": "<strong>要留意範圍</strong>：呢個榜只反映 OUJI 網店嘅訂單，唔代表全香港，亦唔係 Olive Young 嘅榜。"
+        },
+        {
+          "type": "toc"
+        }
+      ],
+      "note": "熱賣榜第一名係白樺樹補水面霜。熱賣唔等於啱你，揀前先睇膚質同用途。"
+    },
+    {
+      "type": "sec",
+      "id": "top10",
+      "label": "Catalogue · 十強",
+      "title": "網店熱賣 10 件，由第一名排起"
+    },
+    {
+      "type": "catalog",
+      "numbered": true,
+      "feature_first": true,
+      "id_prefix": "no",
+      "items": [
+        {
+          "handle": "round-lab-round-lab-80ml-0221",
+          "kind": "面霜",
+          "unit": "80ml",
+          "fit": ["乾性肌", "質地輕盈"],
+          "why": "網店熱賣第 1 名。HK$148，Olive Young 評分 4.9（9 則評價）；產品頁話質地輕盈，適合乾性、混合性同敏感性等多種膚質。"
+        },
+        {
+          "handle": "skinfood-skinfood-100g-3754",
+          "kind": "沖洗式面膜",
+          "unit": "100g",
+          "fit": ["去死皮", "沖洗式"],
+          "why": "網店熱賣第 2 名。HK$89，Olive Young 評分 4.8（10 則評價）；產品頁寫含有機黑糖粒，溫和帶走死皮同表皮積垢。"
+        },
+        {
+          "handle": "ootd-ootd-80-2884",
+          "kind": "痘痘貼",
+          "unit": "80片",
+          "fit": ["局部位置", "敷過夜"],
+          "why": "網店熱賣第 3 名。HK$88，Olive Young 評分 5，但只得 1 則評價；產品頁話係水膠體貼片，可以敷過夜。"
+        },
+        {
+          "handle": "torriden-torriden-10-2865",
+          "kind": "面膜",
+          "unit": "10片",
+          "award": false,
+          "fit": ["日常保濕", "配方溫和"],
+          "why": "網店熱賣第 4 名。HK$95，Olive Young 評分 5，但只得 1 則評價；產品頁寫水感精華分層補水，柔軟貼膚。"
+        },
+        {
+          "handle": "menokin-30秒速效泡沫面膜95ml-藍色保濕",
+          "kind": "泡沫面膜",
+          "unit": "95ml",
+          "fit": ["速效", "藍色保濕"],
+          "why": "網店熱賣第 5 名。HK$142，暫時未有 Olive Young 評分；產品頁寫藍色保濕版，韓國製造。"
+        },
+        {
+          "handle": "mediheal-玫瑰-pdrn-精華面膜-healthy-glow-毛孔亮肌-24ml-x-10片-mediheal-rose-pdrn-essential-mask-healthy-glow",
+          "kind": "精華面膜",
+          "unit": "10片",
+          "fit": ["10 片裝", "毛孔亮肌"],
+          "why": "網店熱賣第 6 名。HK$88，暫時未有 Olive Young 評分；產品頁寫 Healthy Glow 毛孔亮肌版，24ml × 10 片。"
+        },
+        {
+          "handle": "april-skin-april-skin-200ml-9623",
+          "kind": "潔面泡沫",
+          "unit": "200ml",
+          "fit": ["乾燥肌", "敏感肌"],
+          "why": "網店熱賣第 7 名。HK$108，暫時未有 Olive Young 評分；產品頁寫 pH 5.5 水凝質地，適合乾燥、敏感同暗沉膚質。"
+        },
+        {
+          "handle": "sungboon-editor-deep-collagen-cream-in-serum-30ml-4820",
+          "kind": "精華霜",
+          "unit": "30ml",
+          "fit": ["精華同面霜之間", "乾性肌"],
+          "why": "網店熱賣第 8 名。HK$125，暫時未有 Olive Young 評分；產品頁話質地介乎精華同面霜之間，低敏配方，乾性同敏感肌都用得。"
+        },
+        {
+          "handle": "torriden-torriden-dive-in-200ml-2018",
+          "kind": "精華液",
+          "unit": "200ml",
+          "fit": ["補水", "神經醯胺"],
+          "why": "網店熱賣第 9 名。HK$98，暫時未有 Olive Young 評分；產品頁寫加入神經醯胺 NP，配方溫和，敏感肌都適用。"
+        },
+        {
+          "handle": "numbuzin-no-4零毛孔水煮蛋棉片70片",
+          "kind": "棉片",
+          "unit": "70片 190ml",
+          "fit": ["一盒 70 片", "韓國製造"],
+          "why": "網店熱賣第 10 名。HK$118，暫時未有 Olive Young 評分；產品頁只寫韓國製造，資料比較簡單，揀之前睇清楚產品頁。"
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "callout",
+          "html": "熱賣唔等於啱你：乾性肌可以先睇第 1 同第 8 名，敏感肌就留意第 7 同第 9 名嘅產品頁用途。"
+        },
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to choose · 點揀",
+          "title": "先睇膚質，再睇熱賣次序"
+        },
+        {
+          "type": "p",
+          "html": "<strong>乾性肌</strong>：第 1 名白樺樹補水面霜係質地輕盈嘅保濕霜，產品頁話適合乾性、混合性同敏感性膚質；第 8 名精華霜寫乾性同敏感肌都用得。"
+        },
+        {
+          "type": "p",
+          "html": "<strong>面膜類</strong>：第 2、第 4、第 5、第 6 名都係面膜，但形式唔同。黑糖係沖洗式面膜，MENOKIN 係泡沫面膜，MEDIHEAL 係 10 片裝精華面膜，揀之前睇清楚用法。想睇晒面膜，去 <a href=\"/category?cat=mask\">面膜分類</a>。"
+        },
+        {
+          "type": "p",
+          "html": "<strong>想試 Torriden</strong>：第 4 名係 10 片裝面膜，第 9 名係 200ml 精華液，兩款都係 Torriden，包裝要睇清 ml 同片數。HK$100 以下嘅推介，可以睇 <a href=\"/articles/k-beauty-under-100\">HK$100 以下韓妝</a>。"
+        }
+      ],
+      "note": "第 3 同第 4 名都只得 1 則評價，參考價值有限。"
+    },
+    {
+      "type": "sec",
+      "id": "compare",
+      "label": "Index · 比較表",
+      "title": "十件一次過比較"
+    },
+    {
+      "type": "compare",
+      "numbered": true,
+      "handles": [
+        "round-lab-round-lab-80ml-0221",
+        "skinfood-skinfood-100g-3754",
+        "ootd-ootd-80-2884",
+        "torriden-torriden-10-2865",
+        "menokin-30秒速效泡沫面膜95ml-藍色保濕",
+        "mediheal-玫瑰-pdrn-精華面膜-healthy-glow-毛孔亮肌-24ml-x-10片-mediheal-rose-pdrn-essential-mask-healthy-glow",
+        "april-skin-april-skin-200ml-9623",
+        "sungboon-editor-deep-collagen-cream-in-serum-30ml-4820",
+        "torriden-torriden-dive-in-200ml-2018",
+        "numbuzin-no-4零毛孔水煮蛋棉片70片"
+      ],
+      "kinds": ["面霜", "沖洗式面膜", "痘痘貼", "面膜", "泡沫面膜", "精華面膜", "潔面泡沫", "精華霜", "精華液", "棉片"]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "熱賣榜常見問題"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "熱賣榜係點計出嚟？",
+              "a": "按 OUJI 網店 2026 年 8 月中至 10 月中嘅訂單次序排名，只列名次，唔列銷量數字。"
+            },
+            {
+              "q": "熱賣嘅一定好用？",
+              "a": "唔一定。買嘅人多，唔代表啱你。揀之前睇膚質同產品頁寫嘅用途，會比單睇排名準。"
+            },
+            {
+              "q": "熱賣榜同 Olive Young 評分一樣嗎？",
+              "a": "唔一樣。熱賣榜來自 OUJI 網店訂單，Olive Young 評分係 Olive Young 嘅顧客評價，兩組數據要分開睇。"
+            },
+            {
+              "q": "評分 5 但只得 1 則評價，可以信嗎？",
+              "a": "樣本太細，參考價值有限。今次名單入面 OOTD 痘痘貼同 Torriden 10 片裝面膜都係咁，睇評價數先決定信幾多。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "OUJI 網店訂單（2026 年 8 月中至 10 月中，近 60 日）"
+            },
+            {
+              "title": "Olive Young Global 產品頁（評分及評價數）"
+            },
+            {
+              "title": "OUJI 網店產品頁（價錢、規格）"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

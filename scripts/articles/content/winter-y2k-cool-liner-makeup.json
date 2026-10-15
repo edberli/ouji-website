@@ -1,0 +1,75 @@
+{
+  "slug": "winter-y2k-cool-liner-makeup",
+  "category": "明星妝感",
+  "kicker": "拆妝 No.05 · Winter",
+  "date": "2026-10-15",
+  "read_minutes": 5,
+  "title": "Winter 金旼炡冷白 Y2K 幼眼線妝拆解：4 步重現，同效果產品香港買得到",
+  "title_html": "Winter 金旼炡<span class=\"ax-nw\">冷白 Y2K 幼眼線妝</span>拆解：<span class=\"ax-nw\">4 步重現</span>，<span class=\"ax-nw\">同效果產品</span><span class=\"ax-nw\">香港買得到</span>",
+  "seo_title": "Winter 金旼炡妝容教學：Y2K 幼眼線 4 步拆解",
+  "description": "用 Winter 一張 2023 年 11 月嘅相拆妝：明亮緞光底、幼而貼睫毛根嘅眼線、淡冷粉頰同玫瑰莓紅唇。逐步講手法，再配 CLIO、2aN 同 hince 嘅近似效果產品，揀返啱自己嘅色號。",
+  "dek": "我哋揀咗 Winter 一張 2023 年 11 月嘅相，逐個部位拆：底妝幾厚、眼線幾幼、胭脂掃喺邊、唇色點樣由中心淡到邊緣，再揀店內做得出近似效果嘅產品。",
+  "cover": {
+    "type": "photo",
+    "src": "/assets/articles/celeb-winter.webp",
+    "alt": "Winter 2023 年 11 月 24 日相片",
+    "credit": "相片：<a href=\"https://commons.wikimedia.org/wiki/File:Aespa%27s_Winter_8.jpg\" target=\"_blank\" rel=\"noopener\">K-POPIT 케이팝잇／Wikimedia Commons</a>，<a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\" rel=\"noopener\">CC BY 3.0</a>，經裁切"
+  },
+  "related": ["wonyoung-glass-petal-makeup", "jennie-cat-nude-rose-makeup", "iu-coral-satin-lip-makeup", "jisoo-warm-brown-makeup", "sana-soft-pink-makeup", "sakura-doll-peach-makeup"],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "disclaimer", "html": "呢篇係針對指定相片做嘅視覺拆妝。推薦嘅產品係用嚟重現相中效果，唔代表 Winter 本人用過。" },
+        { "type": "p", "html": "Winter 呢張相嘅妝，重點係<strong>幼</strong>，唔係濃。底妝係明亮緞光、中遮瑕，有遮到嘢但唔厚；眼妝只係淡淡一層中性色，眼線畫得幼，貼住睫毛根，唔做上揚嘅翼形；頰色係淡冷粉，由內向外掃；唇色係玫瑰莓紅，中心較實，邊緣輕柔化。" },
+        { "type": "p", "html": "眼線好易做過火。好多人一畫眼線就想拉長、向上翹，但呢個妝唔係咁做。線要細、貼住睫毛根，眼尾停喺自然位就收。成個妝可以慢慢疊，唔使一次到位。" },
+        { "type": "toc" }
+      ],
+      "note": "眼線好易畫過火。先畫幼，唔夠先補，唔好一次加粗。"
+    },
+    { "type": "sec", "id": "steps", "label": "Recipe · 拆妝步驟", "title": "冷白 Y2K 妝四個部位，逐步照住做" },
+    {
+      "type": "steps",
+      "items": [
+        { "no": "01", "title": "底妝：明亮緞光，中遮瑕", "html": "用氣墊或者粉底液，先薄薄印一層。目標係中遮瑕，即係遮到一部分，但仍然睇到皮膚本身。遮唔到嘅位先局部補，唔好全臉疊厚。", "products": ["clio-kill-cover-high-glow-cushion", "tirtir-mask-fit-red-cushion-mini", "hince-second-skin-foundation"] },
+        { "no": "02", "title": "眼妝：中性淡影，幼眼線貼睫毛根", "html": "眼皮只係淡淡一層中性色，唔使加深。眼線用幼細嘅筆，由眼頭沿住睫毛根畫到眼尾，眼尾停喺自然位，唔好向上挑。線要細，唔夠先再補。", "products": ["clio-sharp-so-simple-pen-liner", "clio-sharp-so-simple-pencil-liner", "lilybyred-survival-penliner"] },
+        { "no": "03", "title": "頰彩：淡冷粉，由內向外掃", "html": "胭脂揀淡冷粉色，由臉頰中間開始向外掃，邊界要化開，唔好有一條明顯色界。顏色淡，就一層一層慢慢疊。", "products": ["2an-dual-cheek", "peripera-pure-blushed-sunshine-cheek", "dasique-blending-mood-cheek"] },
+        { "no": "04", "title": "唇妝：玫瑰莓紅，中心實、邊緣淡", "html": "先喺唇中心點玫瑰莓紅色唇釉，用指尖由中心向外推開，越近唇邊越淡，唔使另外畫唇線。照住咁做，就會有相中中心較實、邊緣輕柔化嗰種層次。", "products": ["romand-juicy-lasting-tint", "hince-raw-glow-gel-tint", "dasique-juicy-dewy-glow-tint"] }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "callout", "html": "記住一句：眼線要幼，唇中心實、邊緣淡，其餘都寧願少。" },
+        { "type": "sec", "id": "shades", "label": "Shades · 色號參考", "title": "幼眼線、腮紅同唇釉，色號點揀" },
+        { "type": "table", "head": ["部位", "產品", "色號參考"], "rows": [
+          ["底妝", "<a href=\"/products/clio-kill-cover-high-glow-cushion\">CLIO 網光亮肌氣墊</a>", "21C 亮膚色／21N 象牙色／23N 自然色"],
+          ["底妝", "<a href=\"/products/tirtir-mask-fit-red-cushion-mini\">TIRTIR 紅色迷你氣墊</a>", "17C PORCELAIN／21N IVORY／23N SAND"],
+          ["底妝", "<a href=\"/products/hince-second-skin-foundation\">hince Second Skin 粉底液</a>", "22 BEIGE（米）"],
+          ["眼線", "<a href=\"/products/clio-sharp-so-simple-pen-liner\">CLIO 極細防水眼線液</a>", "02 啡"],
+          ["眼線", "<a href=\"/products/clio-sharp-so-simple-pencil-liner\">CLIO 防水極細眼線筆</a>", "04 深棕色／06 香草米色"],
+          ["眼線", "<a href=\"/products/lilybyred-survival-penliner\">lilybyred 生存眼線液筆</a>", "02 Matt Brown"],
+          ["頰彩", "<a href=\"/products/2an-dual-cheek\">2aN 雙色胭脂</a>", "#06 Pink Petal／#16 Pink Tension"],
+          ["頰彩", "<a href=\"/products/peripera-pure-blushed-sunshine-cheek\">Peripera 微笑腮紅</a>", "01 微笑粉紅"],
+          ["頰彩", "<a href=\"/products/dasique-blending-mood-cheek\">dasique 混色腮紅盤</a>", "#15 玫瑰奶茶／#19 莓果牛奶"],
+          ["唇", "<a href=\"/products/romand-juicy-lasting-tint\">rom&amp;nd 果汁鎖色唇釉</a>", "#14 Almond Rose／#08 Pink Pumpkin"],
+          ["唇", "<a href=\"/products/hince-raw-glow-gel-tint\">hince 果凍唇釉</a>", "R016 RAW BERRY／R002 RAW ROSE"],
+          ["唇", "<a href=\"/products/dasique-juicy-dewy-glow-tint\">dasique 晨露光澤唇釉</a>", "#06 玫瑰露"]
+        ] },
+        { "type": "p", "html": "色號只係參考，實際顏色以產品頁色板為準。底妝色號要按自己膚色揀，唔使跟相。想睇 CLIO 全部產品，可以去 <a href=\"/shop?brand=CLIO\">CLIO 品牌頁</a>；想揀唇釉，可以去 <a href=\"/makeup?cat=liptint\">唇釉分類</a>。" },
+        { "type": "sec", "id": "faq", "label": "Q&A · 常見問題", "title": "幼眼線同中遮瑕點做，常見問題" },
+        { "type": "faq", "items": [
+          { "q": "幼眼線點畫，先唔會似畫咗個翼？", "a": "由眼頭沿住睫毛根畫，眼尾停喺自然位，唔向上拉。先畫幼，唔夠先補，會比較好控制。" },
+          { "q": "中遮瑕底妝點做，先唔會成塊面好厚？", "a": "薄薄印一層，遮唔到嘅位先局部補，唔好全臉重複疊。" },
+          { "q": "淡冷粉胭脂點掃，先唔會太紅？", "a": "揀淡色，由少量開始，逐層疊，邊界化開。顏色唔夠先加。" },
+          { "q": "唇釉點樣先唔會成個嘴都係色？", "a": "只點喺唇中心，用指尖由中心向外推開，唔好沿住唇線塗。邊緣會自然淡出。" }
+        ] },
+        { "type": "sources", "items": [
+          { "title": "Wikimedia Commons：Winter 2023 年 11 月 24 日相片（作者 K-POPIT 케이팝잇，CC BY 3.0）", "url": "https://commons.wikimedia.org/wiki/File:Aespa%27s_Winter_8.jpg" },
+          { "title": "產品色號及質地描述：OUJI 網店產品頁" }
+        ] }
+      ],
+      "note": "揀眼線留意名寫咗極細嗰款，會更啱呢個妝。"
+    }
+  ]
+}
