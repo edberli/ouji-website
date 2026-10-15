@@ -20,6 +20,8 @@
 .home-codex h2, .home-codex h3, .home-codex p { margin-top: 0; }
 .home-codex h2, .home-codex h3 { font-weight: 500; }
 :where(.home-codex) ::selection { color: var(--ink); background: var(--brand-tint); }
+/* 首頁統一內容線（Winston 2026-10-15：段落有闊有窄要統一）：每段外框左右邊都用呢個闊度——兩邊留 --page-gutter、最闊 1440。
+   獲獎好物、美妝以外、好物有禮（home-top.css）、會員卡（home-member.css）都跟呢條線；成條色帶可以去到盡，但入面內容要對返呢條線。 */
 .home-codex .content-wrap { width: min(calc(100% - 2 * var(--page-gutter)), var(--content-width)); margin-inline: auto; }
 .home-codex .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 :where(.home-codex) :focus-visible { outline: 2px solid #397f93; outline-offset: 3px; }
@@ -822,7 +824,7 @@
 .home-codex :is(.product-grid, .commerce-rail) { align-items: stretch; }
 .home-codex :is(.product-grid, .commerce-rail) > .cx-slot { display: flex !important; flex-direction: column !important; align-self: stretch; min-inline-size: 0; margin-block-start: 0 !important; translate: none !important; transform: translateY(0) !important; }
 .home-codex.home-codex.home-codex .home-lifestyle { --extras-ink: #263d42; --lifestyle-seasonal: #d9c5b5; --lifestyle-bath: #bdd2cf; --lifestyle-bodycare: #c8d2bf; --lifestyle-toys: #e0c1c5; --lifestyle-fragrance: #cec5d9; --lifestyle-kpop: #c1d0de; position: relative; min-width: 0; padding: clamp(38px, 5vw, 64px) 0 44px; overflow: hidden; color: var(--extras-ink); background: #fbfaf7; border: 0; }
-.home-codex.home-codex.home-codex .home-lifestyle__inner { box-sizing: border-box; width: min(91%, 1320px); margin-inline: auto; }
+.home-codex.home-codex.home-codex .home-lifestyle__inner { box-sizing: border-box; width: min(calc(100% - 2 * var(--page-gutter)), var(--content-width)); margin-inline: auto; }
 .home-codex.home-codex.home-codex .home-lifestyle__heading { margin: 0 0 25px; }
 .home-codex.home-codex.home-codex .home-lifestyle__kicker { display: block; color: #536c70; font: 600 10px/1.5 var(--sans); letter-spacing: .12em; }
 .home-codex.home-codex.home-codex .home-lifestyle__heading h2 { margin: 8px 0 0; color: var(--extras-ink); font: 700 clamp(27px, 3.6vw, 44px)/1.18 var(--sans); letter-spacing: -.035em; }
@@ -890,7 +892,6 @@
 }
 @media (max-width: 760px) {
 .home-codex.home-codex.home-codex .home-lifestyle { padding: 34px 0 28px; }
-.home-codex.home-codex.home-codex .home-lifestyle__inner { width: min(100% - 28px, 600px); }
 .home-codex.home-codex.home-codex .home-lifestyle__heading { margin-bottom: 19px; }
 .home-codex.home-codex.home-codex .home-lifestyle__kicker { font-size: 9px; }
 .home-codex.home-codex.home-codex .home-lifestyle__heading h2 { font-size: clamp(25px, 7.1vw, 32px); }
@@ -922,7 +923,7 @@
 }
 .home-codex.home-codex.home-codex .home-award-picks { box-sizing: border-box; min-width: 0; color: #2b4c58; }
 .home-codex.home-codex.home-codex .home-award-picks * { box-sizing: border-box; }
-.home-codex.home-codex.home-codex .home-award-picks { position: relative; width: calc(100% - 2 * clamp(14px,4.45vw,64px)); max-width: 1312px; margin: 36px auto; padding: 0; border: 1px solid #dbe3e2; border-radius: 24px; color: #2b4c58; background: #f6f3eb; overflow: hidden; }
+.home-codex.home-codex.home-codex .home-award-picks { position: relative; width: min(calc(100% - 2 * var(--page-gutter)), var(--content-width)); max-width: none; margin: 36px auto; padding: 0; border: 1px solid #dbe3e2; border-radius: 24px; color: #2b4c58; background: #f6f3eb; overflow: hidden; }
 .home-codex.home-codex.home-codex .home-award-picks, .home-codex.home-codex.home-codex .home-award-picks * { box-sizing: border-box; }
 .home-codex.home-codex.home-codex .home-award-picks__gateway { padding: 32px 36px 28px; }
 .home-codex.home-codex.home-codex .home-award-picks__introduction { position: relative; min-height: 150px; padding-right: 175px; }
