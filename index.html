@@ -61,6 +61,7 @@
   <link rel="stylesheet" href="home-instagram.css?v=20261013-1">
   <!-- 首頁新設計段落（Codex）：樣式、新產品卡；手寫字 Klee One 只攞「明星同款」「玩妝靈感」「按需要」標題用到嘅字 -->
   <link rel="stylesheet" href="home-codex.css?v=20261015-1">
+  <link rel="stylesheet" href="home-good-finds.css?v=20261015-1">
   <link rel="stylesheet" href="product-card-lc.css?v=20261015-1">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&display=swap&text=aceiklmorsty%E2%99%A1%E3%80%82%E4%B8%80%E4%BB%B6%E4%BF%9D%E5%90%8C%E5%94%87%E5%A6%9D%E5%B8%B8%E5%BA%95%E5%BD%A9%E6%83%B3%E6%84%9F%E6%8F%80%E6%90%B5%E6%94%AF%E6%97%A5%E6%98%8E%E6%98%9F%E6%AC%BE%E6%AD%A5%E6%BF%95%E7%8E%A9%E7%94%A8%E7%B2%BE%E8%89%B2%E8%8F%AF%E8%A3%9C%E9%9D%88%E9%A9%9F%E9%BD%8A%EF%BC%8C" media="print" onload="this.media='all'">
 </head>
@@ -548,14 +549,26 @@
 <section aria-labelledby="home-offers-title" class="home-offers home-commerce commerce-feature commerce-feature--offers" data-offer-campaign="sun">
 <div class="content-wrap">
 <header class="home-offers__header home-offers__header--finds">
-<div class="home-offers__intro"><span class="home-offers__kicker">THE GOOD FINDS / 好物優惠</span><span class="offer-finds__eyebrow">清貨・特價專區 <svg aria-hidden="true" class="lucide lucide-tag" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" fill="currentColor" r=".5"></circle></svg></span><h2 class="home-offers__title" id="home-offers-title">好物，啱價。</h2><p class="home-offers__copy">防曬清貨・短效期特價</p></div>
-<div aria-label="貓咪芝麻俯身伸手拎起美妝好物，逐件放入粉紅色購物籃，再開心望住你笑" class="offer-finds__scene" role="img">
+        <span class="offer-finds__side-note" aria-hidden="true">OUJI FINDS · SPECIAL PRICE</span>
+        <div class="home-offers__intro">
+          <span class="home-offers__kicker"><span class="offer-finds__desktop-only">OUJI GOOD FINDS</span><span class="offer-finds__mobile-only">THE GOOD FINDS / 好物優惠</span></span>
+          <span class="offer-finds__eyebrow"><span class="offer-finds__desktop-only">清貨・特價專區</span><span class="offer-finds__mobile-only"><span data-finds-discount>清貨・特價專區</span></span><svg class="offer-finds__eyebrow-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 3H4a1 1 0 0 0-1 1v5a2 2 0 0 0 .59 1.41l9 9a2 2 0 0 0 2.82 0l4.18-4.18a2 2 0 0 0 0-2.82l-9-9A2 2 0 0 0 9 3Z"/><circle cx="6.5" cy="6.5" r=".5" fill="currentColor"/></svg></span>
+          <h2 class="home-offers__title" id="home-offers-title"><span>好物，</span><em>啱價。</em></h2>
+          <p class="home-offers__copy">防曬清貨<span class="offer-finds__desktop-only"> ／ </span><span class="offer-finds__mobile-only">・</span>短效期特價</p>
+          <button class="offer-finds__shop" type="button" data-finds-shop>即睇優惠 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
+        </div>
+        <div class="offer-finds__art">
+          <span class="offer-finds__sale-word" aria-hidden="true">SALE</span>
+          <div class="offer-finds__ticket"><span>SPECIAL PRICE</span><strong>特價</strong><small data-finds-discount>好物平啲買</small></div>
+          <div aria-label="貓咪芝麻俯身伸手拎起美妝好物，逐件放入粉紅色購物籃，再開心望住你笑" class="offer-finds__scene" role="img">
 <div class="offer-finds__film" data-motion="idle">
 <img alt="" class="offer-finds__poster" decoding="async" height="512" loading="lazy" src="assets/images/home-codex/offer-finds/shima-collect-watercolor-v3-poster.webp" width="512"/>
 <video aria-hidden="true" class="offer-finds__video" data-src="assets/images/home-codex/offer-finds/shima-collect-watercolor-v3.mp4" height="512" loop="" muted="" playsinline="" preload="none" width="512"></video>
 </div>
 </div>
-</header>
+          <svg class="offer-finds__spark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 2c0 12-6 18-18 18 12 0 18 6 18 18 0-12 6-18 18-18-12 0-18-6-18-18Z" stroke="currentColor" stroke-width="1.2"/></svg>
+        </div>
+      </header>
 <div class="home-offers__tabs" hidden=""><button class="home-offers__tab offer-category-tab" data-campaign="sun" id="home-offers-sun-tab" tabindex="-1" type="button"><span class="offer-category-tab__label">防曬清貨</span></button><button class="home-offers__tab offer-category-tab" data-campaign="expiring" id="home-offers-expiring-tab" tabindex="-1" type="button"><span class="offer-category-tab__label">短效期特價</span></button></div>
 <div class="home-offers__grid"><section aria-label="防曬清貨" class="home-offers__panel commerce-feature--brand" data-offer-category="sun" id="home-offers-sun-panel">
 <div aria-hidden="true" class="home-offers__chapter-label">防曬清貨</div>
@@ -769,11 +782,11 @@
   <script src="reviews.js"></script>
   <script src="awards.js"></script>
   <script src="product-card-lc.js?v=20261015-1"></script>
-  <script src="home.js?v=20261015-1"></script>
+  <script src="home.js?v=20261015-good-finds"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261001-supports"></script>
   <script src="home-top.js?v=20261013-1"></script>
-  <script src="home-codex.js?v=20261015-1"></script>
+  <script src="home-codex.js?v=20261015-good-finds"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // Cart badge updates independently; do not hold up the homepage shelves.

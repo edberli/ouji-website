@@ -512,6 +512,16 @@
         setActive: (key) => { offers.dataset.offerCampaign = key; },
       });
       mountFilm(offers);
+      const shopButton = offers.querySelector('[data-finds-shop]');
+      shopButton?.addEventListener('click', () => {
+        const panel = grid?.querySelector('.home-offers__panel:not([hidden]):not([data-codex-empty])');
+        if (!panel) return;
+        const headerBottom = document.querySelector('header.header')?.getBoundingClientRect().bottom || 0;
+        window.scrollTo({
+          top: window.scrollY + panel.getBoundingClientRect().top - Math.max(0, headerBottom) - 16,
+          behavior: reducedMotion?.matches ? 'auto' : 'smooth',
+        });
+      });
     }
 
     const life = root.querySelector('.home-codex .home-lifestyle');

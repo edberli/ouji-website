@@ -198,6 +198,20 @@ async function initHome() {
       }).join('');
     });
 
+    // 橫幅折數只計有貨變體，售價同劃線價必須屬於同一款；向上取至一位小數。
+    const findsRatios = live.filter((p) => isSun(p) || isShort(p)).flatMap((p) =>
+      (p.variants?.edges || []).map((e) => e.node).filter((v) => v?.availableForSale
+        && (v.quantityAvailable == null || v.quantityAvailable > 0)).map((v) => {
+        const price = Number(v.price?.amount), compare = Number(v.compareAtPrice?.amount);
+        return price > 0 && compare > price ? price / compare : 1;
+      })).filter((r) => r < 1);
+    const findsZhe = findsRatios.length ? Math.ceil(Math.min(...findsRatios) * 100 - 1e-9) / 10 : null;
+    document.querySelectorAll('.home-codex .home-offers__header--finds [data-finds-discount]').forEach((label) => {
+      label.innerHTML = findsZhe != null && findsZhe < 10
+        ? `<span class="offer-finds__discount-prefix">精選低至</span> <span class="offer-finds__discount-amount"><b class="offer-finds__discount-number">${findsZhe}</b> 折</span>`
+        : label.tagName === 'SMALL' ? '好物平啲買' : '清貨・特價專區';
+    });
+
     // 短效期海報（ChatGPT 水彩底圖）：「低至幾折」跟全部短效期貨實時計；冇折就寫「到期前好價」
     const expTitle = document.querySelector('.home-codex [data-codex-expiry-title]');
     if (expTitle) {
