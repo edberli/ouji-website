@@ -568,12 +568,15 @@ const LX_SECTIONS = [
   ['health', '保健品', '/health'], ['supports', '護具及壓力襪', '/supports'],
 ];
 let LX_CEIL = 0;
+/* 全部產品頁係分批載入（先出第一批，背景對數完先有全部），側欄選項要跟住最新嗰批。 */
+let LX_PRODUCTS = [];
 const lxEsc = (v) => String(v ?? '').replace(/[&<>"']/g, (ch) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[ch]);
 
 function buildLxSidebar(sidebar, section, products, subs, vendors, awarded) {
   /* 拉桿上限：呢版最貴嗰件，向上執到 100（同 8856 預覽一樣）。 */
+  LX_PRODUCTS = products;
   const top = products.reduce((m, p) => Math.max(m, price(p) || 0), 0);
   LX_CEIL = Math.max(100, Math.ceil(top / 100) * 100);
   const sortEl = document.querySelector('.filter-bar__sort select');
@@ -620,17 +623,61 @@ function buildLxSidebar(sidebar, section, products, subs, vendors, awarded) {
   /* 全部產品頁嘅細分類要逐個分類計，二千幾件貨要成百毫秒 —— 唔阻首屏，閒時先砌；客一撳就即刻砌。 */
   const subSel = sidebar.querySelector('[data-lx-sub]');
   if (subSel) {
-    const fill = () => lxFillSubs(subSel, products);
+    const fill = () => lxFillSubs(subSel);
     ['pointerdown', 'focus', 'keydown'].forEach((ev) => subSel.addEventListener(ev, fill, { once: true }));
     if ('requestIdleCallback' in window) requestIdleCallback(fill, { timeout: 4000 });
     else setTimeout(fill, 2500);
   }
 }
 
+/** 背景對數攞到全店之後：品牌下拉、價錢上限、細分類跟返全部貨（揀咗嘅保留）。 */
+function lxRefreshSidebar(products) {
+  const side = document.querySelector('.filter-sidebar');
+  if (!side || !side.querySelector('.lx-fields')) return;
+  LX_PRODUCTS = products;
+  const vendors = vendorsOf(products);
+  const vSel = side.querySelector('[data-lx-pick="vendor"]');
+  if (vSel) {
+    const keep = vSel.value;
+    vSel.innerHTML = '<option value="">所有品牌</option>' + vendors.map((v) =>
+      `<option value="${lxEsc(v.vendor)}">${lxEsc(v.vendor)}（${v.count}）</option>`).join('');
+    vSel.value = vendors.some((v) => v.vendor === keep) ? keep : '';
+  }
+  const engine = side.querySelector('.lx-engine');
+  if (engine) {
+    const have = new Set([...engine.querySelectorAll('input[data-group="vendor"]')].map((i) => i.value));
+    engine.insertAdjacentHTML('beforeend', vendors.filter((v) => !have.has(v.vendor))
+      .map((v) => optionRow('vendor', lxEsc(v.vendor), lxEsc(v.vendor), v.count)).join(''));
+  }
+  const top = products.reduce((m, p) => Math.max(m, price(p) || 0), 0);
+  const ceil = Math.max(100, Math.ceil(top / 100) * 100);
+  const box = side.querySelector('[data-lx-range]');
+  if (box && ceil !== LX_CEIL) {
+    const lo = box.querySelector('[data-lx-min]');
+    const hi = box.querySelector('[data-lx-max]');
+    const wasOpen = Number(hi.value) >= LX_CEIL;
+    lo.max = hi.max = String(ceil);
+    LX_CEIL = ceil;
+    if (wasOpen) hi.value = String(ceil);
+    const scale = box.querySelector('.lx-range__scale span:last-child');
+    if (scale) scale.textContent = `HK$${ceil}`;
+    lxRangePaint(box);
+  }
+  const sub = side.querySelector('[data-lx-sub]');
+  if (sub && sub.dataset.filled) {
+    const keep = sub.value;
+    sub.querySelectorAll('optgroup').forEach((g) => g.remove());
+    delete sub.dataset.filled;
+    lxFillSubs(sub);
+    sub.value = [...sub.options].some((o) => o.value === keep) ? keep : '';
+  }
+}
+
 /** 全部產品頁「細分類」：每個主分類一組（同分類頁格仔一樣嘅 live 分類），揀咗就喺呢版即場篩。 */
-function lxFillSubs(select, products) {
+function lxFillSubs(select) {
   if (select.dataset.filled) return;
   select.dataset.filled = '1';
+  const products = LX_PRODUCTS;
   const groups = LX_SECTIONS.map(([sec, label]) => {
     const inSec = typeof sectionMatch === 'function' ? products.filter((p) => sectionMatch(p, sec)) : [];
     const subs = inSec.length ? availableSubs(sec, inSec) : [];
@@ -3594,6 +3641,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
       && matching.every((p, i) => JSON.stringify(p) === JSON.stringify(products[i]));
     if (same) return;
     products = matching;
+    if (isLxPage()) lxRefreshSidebar(products);
     if (document.querySelector('[data-shop-boot]')) {
       buildShopBootHero(products, document.querySelector('[data-boot-group].is-on')?.dataset.bootGroup || null);
     }
