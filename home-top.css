@@ -432,7 +432,10 @@
 /* 「好物，有禮。」今期優惠卡（Winston 2026-10-13 設計稿分層 PNG）。
    手機：設計稿原構圖 3:2；桌面：同一批圖層重新排成橫幅（2620×540，約 1310×270，同原本段落一樣高）。
    字同價錢印喺圖入面，上面疊透明撳位；優惠一改要重新出圖。 */
-.little-perks { margin-block: 24px 8px; }
+/* 闊度跟首頁統一內容線（同 home-codex.css .content-wrap：兩邊留 page-gutter、最闊 1440），唔再用 .container 嘅 48px 內距（Winston 2026-10-15） */
+.little-perks { --perks-gutter: clamp(18px, 4.5vw, 68px); width: min(calc(100% - 2 * var(--perks-gutter)), 1440px); max-width: none; margin-block: 24px 8px; padding-inline: 0; }
+@media (max-width: 700px) { .little-perks { --perks-gutter: 20px; } }
+@media (max-width: 360px) { .little-perks { --perks-gutter: 16px; } }
 .little-perks__card {
   position: relative;
   overflow: hidden;

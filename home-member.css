@@ -8,7 +8,7 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
 #ouji-member { position: relative; isolation: isolate; width: 100%; margin: 0; overflow: hidden; background: #fbf9f5; color: #2b4c58; font-family: var(--font-body); }
 #ouji-member .home-member-scene__art { position: absolute; inset: 0; z-index: 0; display: block; pointer-events: none; }
 #ouji-member .home-member-scene__art img { display: block; width: 100%; max-width: none; height: 100%; object-fit: cover; object-position: center; }
-#ouji-member .home-member-scene__inner { position: relative; z-index: 1; display: grid; grid-template-rows: auto minmax(100px,1fr) auto; width: 100%; max-width: 1440px; min-height: 640px; margin-inline: auto; padding: 40px clamp(28px,5vw,68px); }
+#ouji-member .home-member-scene__inner { position: relative; z-index: 1; display: grid; grid-template-rows: auto minmax(100px,1fr) auto; width: 100%; max-width: 1576px; min-height: 640px; margin-inline: auto; padding: 40px clamp(18px,4.5vw,68px); }
 #ouji-member .home-member-scene__heading { grid-row: 1; max-width: min(440px,48%); min-width: 0; }
 #ouji-member .home-member-scene__eyebrow { margin: 0; color: #54727c; font: 500 11px/1.4 var(--font-body); letter-spacing: .045em; }
 #ouji-member .home-member-scene__title { margin: 10px 0 0; color: #2b4c58; font: 500 clamp(40px,3.8vw,54px)/1.06 var(--font-display); letter-spacing: -.025em; }
@@ -157,10 +157,11 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
 @media (min-width:1441px) {
   /* 超過 1440：圓角畫框置中，兩邊係頁面底色（2026-10-14 Winston 話闊 mon 用色帶硬拉闊好怪）；底部留 30px 畀頁尾圓弧疊上嚟。
      2026-10-15 改用 5:1 超闊插畫（member-scene-ultra.webp，左右延伸、冇加植物）：畫框高度照舊 500px，只係左右多咗插畫。
-     中間 1440 佈局一定同 1440 屏一模一樣（Winston：當佢左右冇嘢咁做）：卡照舊喺置中 1440 入面，插畫對齊到原圖喺 1440 嘅位置——
-     原圖喺超闊圖 x 1128–2407／3654，500px 高時中心喺 1220px，要對正 1440 容器 996px → left = 50% − 944px。
-     原圖左邊只得 944px 延伸，所以畫框最闊 1888px（再闊左邊會冇圖） */
-  #ouji-member { max-width: clamp(1440px, calc(100% - 64px), 1888px); margin: 0 auto 30px; border-radius: 28px; }
-  #ouji-member .home-member-scene__art { inset: 0 auto 0 calc(50% - 944px); aspect-ratio: 3654 / 724; -webkit-mask-image: none; mask-image: none; }
+     中間佈局同 1440 屏一樣（Winston：當佢左右冇嘢咁做）；卡對齊首頁統一內容線（同其他段左邊一條線，Winston 2026-10-15）：
+     內容區 = 1440 + 兩邊 page-gutter，所以畫框最少要咁闊（1576），否則卡會比其他段縮入。
+     插畫跟住卡：1440 屏時原圖左邊喺卡右邊 487px；原圖喺超闊圖 500px 高時由 779px 開始 → left = 50% − 720 + 487 − 779 = 50% − 1012px。
+     原圖左邊延伸只得咁多，畫框最闊 2016px（再闊左邊會冇圖） */
+  #ouji-member { max-width: max(min(100%, 1576px), min(calc(100% - 64px), 2016px)); margin: 0 auto 30px; border-radius: 28px; }
+  #ouji-member .home-member-scene__art { inset: 0 auto 0 calc(50% - 1012px); aspect-ratio: 3654 / 724; -webkit-mask-image: none; mask-image: none; }
   #ouji-member .home-member-scene__art img { object-fit: cover; }
 }
