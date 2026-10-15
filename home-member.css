@@ -155,7 +155,11 @@ body:has(#ouji-member) .footer { margin-top: -30px; }
   #ouji-member .home-member-scene__benefit-copy strong { font-size: 14px; }
 }
 @media (min-width:1441px) {
-  /* 超過 1440：成個場景收做 1440 闊圓角畫框置中，兩邊係頁面底色，唔再用色帶硬拉闊（2026-10-14 Winston 話闊 mon 兩邊怪）；
-     底部留 30px 畀頁尾圓弧疊上嚟，唔會切到畫框 */
-  #ouji-member { max-width: 1440px; margin: 0 auto 30px; border-radius: 28px; }
+  /* 超過 1440：圓角畫框置中，兩邊係頁面底色（2026-10-14 Winston 話闊 mon 用色帶硬拉闊好怪）；底部留 30px 畀頁尾圓弧疊上嚟。
+     2026-10-15 改用 5:1 超闊插畫（member-scene-ultra.webp，左右延伸、冇加植物）：畫框高度照舊 500px，闊度跟屏幕拉長到 2520px（500×5），
+     插畫 cover 填滿唔再靠右淡入；資訊卡跟返畫框左邊，唔再收喺中間 1440 */
+  #ouji-member { max-width: clamp(1440px, calc(100% - 64px), 2520px); margin: 0 auto 30px; border-radius: 28px; }
+  #ouji-member .home-member-scene__art { inset: 0; width: 100%; aspect-ratio: auto; -webkit-mask-image: none; mask-image: none; }
+  #ouji-member .home-member-scene__art img { object-fit: cover; object-position: 50% center; }
+  #ouji-member .home-member-scene__inner { max-width: none; padding-inline: 64px; }
 }
