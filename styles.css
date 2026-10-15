@@ -131,6 +131,9 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  /* 網頁以外（碌到底再彈、內容唔夠一版高）露出嚟嘅顏色 = footer 同一隻藍。
+     冇呢句就係 body 嘅米白，footer 下面會閃出一條白線（Winston 2026-10-15 指出）。 */
+  background-color: var(--primary);
 }
 
 body {
@@ -5253,10 +5256,14 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   .mobile-bottom-nav__badge { background: #e8637a; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.18); }
   .mobile-bottom-nav__wishlist-badge { background: var(--primary); }
 
-  /* Body clearance so content isn't hidden behind the bar（膠囊＋下面空位＋10px 透氣） */
+  /* Body clearance so content isn't hidden behind the bar（膠囊＋下面空位＋10px 透氣）。
+     有 footer 嘅頁，呢段預留位改放喺 footer 入面：footer 嘅藍色一路去到螢幕底，
+     唔會喺膠囊兩邊同下面露出一段米白（膠囊浮起之後先見到，Winston 2026-10-15 指出白線）。 */
   body {
     padding-bottom: calc(56px + var(--tabbar-gap) + 10px);
   }
+  body:has(> .footer) { padding-bottom: 0; }
+  body:has(> .footer) > .footer { padding-bottom: calc(56px + var(--tabbar-gap) + 10px); }
 }
 
 /* /match（明星妝感配對）：配對畫面計到膠囊頂為止，跟住就係 footer。
