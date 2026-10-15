@@ -736,27 +736,29 @@ function initMobileBottomNav() {
   };
 
   bar.setAttribute('aria-label', '主要導覽');
+  /* 每格都係「icon 位＋字」：icon 位（__symbol）揀中先填淡白膠囊（Codex 圓角版，Winston 2026-10-15 批）。 */
+  const label = (text) => `<span class="mobile-bottom-nav__label">${text}</span>`;
   bar.innerHTML = `
     <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__menu-btn" aria-label="產品分類" aria-haspopup="true" aria-expanded="false">
-      ${icon.catalogue}<span>分類</span>
+      <span class="mobile-bottom-nav__symbol" aria-hidden="true">${icon.catalogue}</span>${label('分類')}
     </button>
     <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__discover-btn" aria-label="精選品牌、新品、得獎產品同美妝專欄" aria-haspopup="dialog" aria-expanded="false">
-      ${icon.discover}<span>精選</span>
+      <span class="mobile-bottom-nav__symbol" aria-hidden="true">${icon.discover}</span>${label('精選')}
     </button>
     <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__item--assist" aria-label="幫我揀：妝感同護膚配對" aria-haspopup="dialog" aria-expanded="false">
-      <span class="mobile-bottom-nav__assist-icon">${icon.assist}</span><span>幫我揀</span>
+      <span class="mobile-bottom-nav__symbol mobile-bottom-nav__assist-icon" aria-hidden="true">${icon.assist}</span>${label('幫我揀')}
     </button>
     <a href="/cart.html" class="mobile-bottom-nav__item" aria-label="購物袋">
-      <span class="mobile-bottom-nav__icon-wrap">${icon.bag}<span class="mobile-bottom-nav__badge" style="display:none;">0</span></span>
-      <span>購物袋</span>
+      <span class="mobile-bottom-nav__symbol" aria-hidden="true">${icon.bag}<span class="mobile-bottom-nav__badge" style="display:none;">0</span></span>${label('購物袋')}
     </a>
     <a href="/account.html" class="mobile-bottom-nav__item mobile-bottom-nav__item--me" aria-label="我的：心願清單、訂單同會員資料">
-      <img class="mobile-bottom-nav__face" src="/assets/images/shima/shima-face.webp" alt="" width="128" height="128" loading="lazy" decoding="async">
-      <span>我的</span>
+      <span class="mobile-bottom-nav__symbol" aria-hidden="true"><img class="mobile-bottom-nav__face" src="/assets/images/shima/shima-face.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>${label('我的')}
     </a>`;
 
-  /* 現在所在頁：首頁冇 tab，因為 logo 先係首頁入口。 */
-  const path = location.pathname.toLowerCase();
+  /* 現在所在頁：首頁冇 tab，因為 logo 先係首頁入口。
+     網站開咗 cleanUrls（/shop.html 會轉去 /shop），以前淨係認 .html 結尾，所以一直冇一格亮。
+     而家先拎走 .html 同尾斜線，兩種網址都認到。 */
+  const path = location.pathname.toLowerCase().replace(/\.html$/, '').replace(/\/+$/, '');
   const mark = (selector) => {
     const item = bar.querySelector(selector);
     if (!item) return;
@@ -764,14 +766,14 @@ function initMobileBottomNav() {
     item.dataset.current = 'true';
     if (item.tagName === 'A') item.setAttribute('aria-current', 'page');
   };
-  if (/\/(match)\.html$/.test(path)
-      || (/\/(category)\.html$/.test(path) && location.hash === '#skincare-match')) {
+  if (/\/match$/.test(path)
+      || (/\/category$/.test(path) && location.hash === '#skincare-match')) {
     mark('.mobile-bottom-nav__item--assist');
   }
-  else if (/\/(cart)\.html$/.test(path)) mark('[href="/cart.html"]');
-  else if (/\/(account|wishlist)\.html$/.test(path)) mark('.mobile-bottom-nav__item--me');
-  else if (/\/articles\/|\/(awards|column|brands)\.html$/.test(path)) mark('.mobile-bottom-nav__discover-btn');
-  else if (/\/(shop|category|makeup|lens|kpop|bath|health|seasonal|tools|fragrance|product)\.html$/.test(path)) mark('.mobile-bottom-nav__menu-btn');
+  else if (/\/cart$/.test(path)) mark('[href="/cart.html"]');
+  else if (/\/(account|wishlist)$/.test(path)) mark('.mobile-bottom-nav__item--me');
+  else if (/\/articles\/|\/(awards|column|brands)$/.test(path)) mark('.mobile-bottom-nav__discover-btn');
+  else if (/\/(shop|category|makeup|lens|kpop|bath|health|seasonal|tools|fragrance|product)$/.test(path)) mark('.mobile-bottom-nav__menu-btn');
 
   prepareMobileShopNav();
   initDiscoverSheet(bar.querySelector('.mobile-bottom-nav__discover-btn'));

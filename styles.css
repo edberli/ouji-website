@@ -5104,107 +5104,108 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   /* 手機主要操作已經全部落到底欄；頂部只留 OUJI logo 同搜尋。 */
   .header__menu-toggle { display: none !important; }
 
-  /* Bottom nav bar */
+  /* 底欄（Codex 圓角版，Winston 2026-10-15 批）：頂兩角圓 18px、高 56px。
+     揀中嗰格（所在頁，或者打開咗嗰張選單）icon 底填一粒淡白膠囊；
+     「幫我揀」平時唔加底，免得同揀中嗰格一齊亮，客分唔到自己喺邊。 */
   .mobile-bottom-nav {
-    display: flex;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 2000;
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    border-radius: 18px 18px 0 0;
     /* 同側邊抽屜、下拉選單一模一樣嗰隻半透明藍玻璃 */
     background: linear-gradient(180deg,
       rgba(89, 139, 156, 0.7) 0%,
       rgba(72, 115, 131, 0.68) 100%);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 -8px 32px rgba(40, 80, 110, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    justify-content: space-around;
-    align-items: stretch;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18),
+                0 -8px 32px rgba(40, 80, 110, 0.25);
   }
 
   .mobile-bottom-nav__item {
+    box-sizing: border-box;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    flex: 1;
+    gap: 2px;
+    width: 100%;
     min-width: 0;
-    min-height: 60px;
-    padding: 8px 2px 7px;
-    color: rgba(255, 255, 255, 0.75);
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-size: 0.625rem;
-    letter-spacing: 0.035em;
+    height: 56px;
+    padding: 0;
     border: none;
+    border-radius: 10px;
     background: none;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: var(--font-body);
+    font-size: 10px;
+    text-decoration: none;
     cursor: pointer;
-    position: relative;
-    transition: color 0.18s, transform 0.18s var(--ease-out);
+    transition: color 120ms ease;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .mobile-bottom-nav__item svg {
-    width: 22px;
-    height: 22px;
-  }
-
   .mobile-bottom-nav__item:hover,
-  .mobile-bottom-nav__item.active {
-    color: #ffffff;
-  }
+  .mobile-bottom-nav__item.active { color: #ffffff; }
+  .mobile-bottom-nav__item:focus-visible { outline: 2px solid #ffffff; outline-offset: -5px; }
 
-  .mobile-bottom-nav__item:active { transform: translateY(1px); }
-
-  .mobile-bottom-nav__item.active::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 4px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    transform: translateX(-50%);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
-  }
-
-  /* Option A exact asset — 放大 sample 同 live nav 直接讀同一個 SVG。 */
-  .mobile-bottom-nav__item--assist { color: rgba(255, 255, 255, 0.96); }
-  .mobile-bottom-nav__assist-icon {
+  /* icon 位 44×28：揀中先填淡白膠囊，撳落再深少少 */
+  .mobile-bottom-nav__symbol {
     position: relative;
     display: grid;
     place-items: center;
-    width: 24px;
-    height: 22px;
-    margin: 0;
-    overflow: visible;
-    color: rgba(255, 255, 255, .98);
-    animation: assistSettle 520ms var(--ease-out) both;
+    flex-shrink: 0;
+    width: 44px;
+    height: 28px;
+    border-radius: 14px;
+    transition: background-color 120ms ease;
   }
-  .ouji-shade-match-mark {
-    width: 24px;
-    height: 22px;
-    display: block;
-    object-fit: contain;
+  .mobile-bottom-nav__item.active .mobile-bottom-nav__symbol { background: rgba(255, 255, 255, 0.16); }
+  .mobile-bottom-nav__item:active .mobile-bottom-nav__symbol { background: rgba(255, 255, 255, 0.22); }
+
+  .mobile-bottom-nav__item svg {
+    width: 21px;
+    height: 21px;
   }
 
-  .mobile-bottom-nav__item--assist:hover .mobile-bottom-nav__assist-icon,
-  .mobile-bottom-nav__item--assist.active .mobile-bottom-nav__assist-icon {
-    transform: translateY(-1px);
-    filter: drop-shadow(0 2px 4px rgba(27, 65, 79, .34));
+  .mobile-bottom-nav__label {
+    font-weight: 500;
+    line-height: 14px;
+    letter-spacing: 0.015em;
+    white-space: nowrap;
+  }
+  .mobile-bottom-nav__item.active .mobile-bottom-nav__label { font-weight: 650; }
+
+  /* 打開咗分類／精選／幫我揀其中一張：膠囊跟住打開嗰格，所在頁嗰格暫時熄 */
+  .mobile-bottom-nav:has([aria-expanded="true"]) .mobile-bottom-nav__item.active:not([aria-expanded="true"]) { color: rgba(255, 255, 255, 0.75); }
+  .mobile-bottom-nav:has([aria-expanded="true"]) .mobile-bottom-nav__item.active:not([aria-expanded="true"]) .mobile-bottom-nav__symbol { background: none; }
+  .mobile-bottom-nav:has([aria-expanded="true"]) .mobile-bottom-nav__item.active:not([aria-expanded="true"]) .mobile-bottom-nav__label { font-weight: 500; }
+
+  /* 「幫我揀」：icon 同放大 sample 讀同一個 SVG（Option A），唔准用 CSS 重砌。
+     字色同其他格一樣，揀中先變白 —— 平時亮住會似一直揀中咗。 */
+  .mobile-bottom-nav__assist-icon { animation: assistSettle 520ms var(--ease-out) both; }
+  .ouji-shade-match-mark {
+    display: block;
+    width: 30px;
+    height: 26px;
+    object-fit: contain;
   }
 
   @keyframes assistSettle {
     from { opacity: 0; transform: translateY(5px) scale(.9); }
     to { opacity: 1; transform: none; }
   }
-  /* Icon wrapper for badge positioning */
+
+  /* 舊 markup（JS 未行時嘅 fallback）用嚟包 icon 同數字 */
   .mobile-bottom-nav__icon-wrap {
     position: relative;
     display: flex;
@@ -5212,36 +5213,32 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
     justify-content: center;
   }
 
+  /* 數字貼 icon 右上角；購物袋 icon 本身唔變色 */
   .mobile-bottom-nav__badge,
   .mobile-bottom-nav__wishlist-badge {
+    box-sizing: border-box;
     position: absolute;
-    top: -5px;
-    right: -9px;
-    min-width: 16px;
-    height: 16px;
-    color: white;
-    font-size: 0.6rem;
-    font-weight: 700;
+    top: -3px;
+    left: 27px;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 4px;
     border-radius: 8px;
+    color: white;
+    font-size: 9.5px;
+    font-weight: 650;
+    line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 4px;
-    line-height: 1;
     white-space: nowrap;
   }
-  .mobile-bottom-nav__badge { background: #e8637a; }
-  .mobile-bottom-nav__wishlist-badge { background: var(--primary);
-    line-height: 1;
-  }
-
-  /* Mobile nav icon color when has items */
-  .mobile-bottom-nav__item.has-items[aria-label="購物袋"] svg { stroke: #e8637a; }
-  .mobile-bottom-nav__item.has-items[aria-label="願望清單"] svg { stroke: var(--primary); fill: var(--primary); }
+  .mobile-bottom-nav__badge { background: #e8637a; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.18); }
+  .mobile-bottom-nav__wishlist-badge { background: var(--primary); }
 
   /* Body clearance so content isn't hidden behind the bar */
   body {
-    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -5360,7 +5357,7 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
     position: absolute;
     left: 10px;
     right: 10px;
-    bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 9px);
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 9px);
     max-height: calc(100dvh - 94px - env(safe-area-inset-bottom, 0px));
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -5483,7 +5480,7 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
     position: absolute;
     left: 10px;
     right: 10px;
-    bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 9px);
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 9px);
     padding: 8px 10px 12px;
     border: 1px solid rgba(255,255,255,.22);
     border-radius: 22px;
@@ -15257,11 +15254,14 @@ body::before { opacity: 0.18; }
    圓形裁切 ＋ 一圈半透明白邊，喺半透明藍玻璃上面先分得開。 */
 @media (max-width: 768px) {
   .mobile-bottom-nav__face {
-    width: 22px; height: 22px;
+    box-sizing: border-box;
+    display: block;
+    width: 25px; height: 25px;
+    padding: 1px;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: contain;
     background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.55);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
   }
 }
 
