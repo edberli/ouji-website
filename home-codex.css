@@ -5,6 +5,9 @@
    - 貨架白框叫 .cx-slot（唔准叫 product-card：分析會重複計曝光、hover 會雙重浮起）。卡入面一律由 product-card-lc.css 負責。
    要改樣式就改呢個檔。 */
 .home-codex { --brand: "League Spartan", sans-serif; --brand-tint: #e7f1f4; --content-width: 1440px; --ease-out: cubic-bezier(.23, 1, .32, 1); --hand: "Klee One", "Noto Serif TC", serif; --ink: #1e3038; --ink-soft: #4a5e66; --line: rgba(43, 76, 88, .16); --page-gutter: clamp(18px, 4.5vw, 68px); --paper: #f7f9f9; --primary-dark: #4e8497; --primary-deep: #2b4c58; --sans: "Manrope", "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif; --serif: "Cormorant Garamond", "Noto Serif TC", Georgia, serif; --unified-ink: #2b4c58; --unified-muted: #63777d; --unified-paper: #fbf9f5; --unified-rule: rgba(43, 76, 88, .16); }
+/* 首頁內容區底色：預覽成個首頁（.home-page.joy-world）係米色 #fbf9f5，冇自己底色嘅段（品牌雙卡、按需要、明星同款、門市 IG、玩色彩、小筆記）
+   都係透出呢個米色；live 之前透出 body 嘅灰藍 #f7f9f9，同預覽唔夾（Winston 2026-10-15）。只限首頁（呢個檔淨係 index.html 載入）。 */
+#main-content:has(> .home-codex) { background: #fbf9f5; }
 @media (max-width: 700px) { .home-codex { --page-gutter: 20px; } }
 @media (max-width: 360px) { .home-codex { --page-gutter: 16px; } }
 :where(.home-codex) * { box-sizing: border-box; }
