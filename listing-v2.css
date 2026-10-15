@@ -13,7 +13,7 @@
   padding-bottom: 64px;
   color: var(--lx-ink);
 }
-.lx-page .container { max-width: 1440px; padding-inline: 65px; }
+.lx-page .container { max-width: 1440px; padding-inline: clamp(20px, 4.5vw, 65px); }
 
 /* ----- 頂部一條：左邊麵包屑，右邊購物保障（只係點綴，要短） ----- */
 .lx-topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; margin: 12px 0 10px; padding: 0 18px; border-radius: 12px; background: rgba(255, 255, 255, .7); box-shadow: 0 1px 2px rgba(31, 67, 80, .04); }
@@ -51,6 +51,8 @@
 .lx-opening--compact .lx-opening__scene { height: 100px; }
 .lx-opening--compact .lx-opening__scene::before { width: 100px; height: 100px; }
 .lx-opening--compact .lx-opening__art { width: 120px; height: 120px; }
+/* 品牌頁／搜尋／換季優惠嗰啲已經係揀咗嘅清單，唔再出「品牌精選」（同 8856 一樣）。 */
+.lx-opening--compact ~ .lx-picks { display: none; }
 
 /* ----- 按分類選購：無框圓底圖示（桌面一行過，平板六格，手機四格） ----- */
 .lx-catnav { margin: 0 0 15px; color: #244a56; }
