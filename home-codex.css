@@ -645,9 +645,22 @@
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy > span { font:500 clamp(8px,.75vw,11px)/1.5 var(--sans); white-space:nowrap; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__portrait { display:block; position:relative; min-width:0; overflow:hidden; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster .commerce-poster__portrait img { position:absolute; display:block; width:130.435%; max-width:none; height:auto !important; left:-15.217%; top:-360%; border-radius:0; }
+/* Torriden 海報（桌面，Winston 2026-10-15「要優化」）：字板底色跟相片嘅天藍、相片左邊淡入，冇咗中間條硬邊；
+   相片裁窄少少，避開原圖卡邊同右下角暗位；字分三層（品牌合作／大標題／副題）再加「逛 Torriden」入口。手機版不變。 */
+@media (min-width: 761px) {
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster.commerce-poster--torriden-model { background: linear-gradient(90deg, #eef9fc 0%, #dcf2f9 58%, #c9eef7 100%); }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy { gap: 10px; padding: clamp(18px, 2.2vw, 34px); }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy small { font: 700 11px/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy strong { font-size: clamp(40px, 3.7vw, 58px); }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy > span { font: 500 13px/1.55 var(--sans); white-space: normal; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__cta { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; margin-top: 4px; padding-bottom: 3px; border-bottom: 1px solid currentColor; font: 700 13px/1.4 var(--sans); letter-spacing: .02em; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__portrait { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%); mask-image: linear-gradient(90deg, transparent 0, #000 12%); }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster .commerce-poster__portrait img { width: 138.46%; left: -18.46%; top: -382.7%; }
+}
 @media (max-width: 760px) {
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy { padding:14px 10px 14px 16px; gap:10px; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy strong { font-size:38px; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__cta { display: none; }
 }
 @media (min-width: 761px) {
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .home-brand-edits__tabs { display: none !important; }
@@ -710,12 +723,14 @@
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .commerce-foot { grid-area: foot; display: flex !important; align-items: start; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; margin: 0; color: var(--offer-ink); font-size: 10px; line-height: 1.5; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .commerce-foot p { flex: 1 1 120px; margin: 0; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .commerce-more { flex: 0 0 auto; margin: 0; padding: 0; border: 0; color: var(--offer-ink); background: transparent; font-size: 10px; line-height: 1.5; }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-poster { display: grid; grid-template-columns: 1.25fr 1fr; align-items: center; gap: 12px; padding: 18px 22px; color: #473754; background: radial-gradient(ellipse at 92% 25%, #fff 0, #f7f3fb 40%, #e7dff1 100%); text-decoration: none; }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy { position: relative; z-index: 1; min-width: 0; }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy > span { font: 600 10px/1.4 var(--sans); letter-spacing: .08em; }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy h3 { margin: 8px 0; font: 500 clamp(18px, 2vw, 25px)/1.3 var(--serif); }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy p { margin: 0; font: 400 10px/1.6 var(--sans); }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-poster .home-offers__expiry-img { width: 100%; height: 100%; min-height: 0; object-fit: contain; mix-blend-mode: multiply; }
+/* 短效期海報（Winston 2026-10-15：叫 ChatGPT 出靚圖介紹短效期優惠，「低至幾折」用網頁字疊、跟實時貨計）。底圖：ouji-20261015-0955-短效期海報底圖.png */
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-poster { display: block; padding: 0; color: #4a2f63; background: #f4eef9; text-decoration: none; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; width: 47%; height: 100%; min-width: 0; padding: clamp(14px, 2.2vw, 30px); }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy > span { color: #8a5aa0; font: 700 11px/1.4 var(--sans); letter-spacing: .12em; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy h3 { margin: 6px 0 8px; color: #4a2f63; font: 800 clamp(22px, 2.2vw, 32px)/1.1 var(--sans); letter-spacing: -.02em; white-space: nowrap; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy h3 b { margin: 0 2px; color: #b4417a; font-size: 1.55em; letter-spacing: -.04em; font-variant-numeric: lining-nums; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy p { margin: 0; color: #5f4c70; font: 500 12px/1.55 var(--sans); }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-poster > .home-offers__expiry-art { position: absolute; inset: 0; object-position: right center; }
 @media (min-width: 761px) {
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__tabs { display: none !important; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: clamp(16px, 2vw, 24px); }
@@ -733,8 +748,9 @@
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .commerce-poster { aspect-ratio: 1920 / 860; border-radius: 22px; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .commerce-rail { gap: 9px; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .commerce-rail > .cx-slot { flex-basis: 45.5%; }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-poster { gap: 10px; padding: 12px 14px; }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy h3 { margin: 5px 0; font-size: 18px; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy { width: 46%; padding: 12px 8px 12px 14px; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy p { font-size: 10.5px; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-offers[data-offer-campaign] .home-offers__expiry-copy h3 { margin: 4px 0 6px; font-size: 18px; }
 }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds { --finds-ink: #963c52; position: relative; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) 168px; align-items: center; gap: 16px; width: 100%; min-width: 0; height: 172px; min-height: 172px; aspect-ratio: auto; margin: 0 0 22px; padding: 18px 32px; overflow: hidden; isolation: isolate; border: 1.5px solid #edbacb; border-radius: 24px; background: #fbe3eb url("assets/images/home-codex/offer-finds/good-finds-blush-background-v1.webp") center / cover no-repeat; }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__intro { display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 2; min-width: 0; }
@@ -750,6 +766,25 @@
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .offer-finds__video { opacity: 0; }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .offer-finds__film.is-showing-video .offer-finds__video { opacity: 1; }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .offer-finds__film.is-showing-video .offer-finds__poster { opacity: 0; }
+/*「好物，啱價」橫幅（Winston 2026-10-15「要優化設計」）：桌面中間空位放兩格實時「低至幾折」，撳入對應專頁。
+   數字由 home.js 跟實時貨計，冇折嗰格唔出。細過 1024px 位唔夠，唔出（手機版不變）。 */
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deals { display: none; }
+@media (min-width: 1024px) {
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds { grid-template-columns: auto minmax(0, 1fr) 168px; column-gap: 28px; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deals { display: flex; justify-content: center; align-items: center; gap: 14px; min-width: 0; position: relative; z-index: 2; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deals[hidden] { display: none; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal { display: grid; grid-template-columns: auto auto; column-gap: 20px; align-items: center; padding: 13px 16px 13px 22px; border: 1px solid rgba(189, 82, 111, .16); border-radius: 18px; background: rgba(255, 255, 255, .74); box-shadow: 0 6px 18px rgba(150, 60, 82, .08); color: var(--finds-ink); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(150, 60, 82, .14); }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal:focus-visible { outline: 2px solid var(--finds-ink); outline-offset: 3px; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-label { grid-column: 1; font: 700 12px/1.3 var(--sans); letter-spacing: .08em; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-value { grid-column: 1; margin-top: 2px; font: 700 14px/1.1 var(--sans); white-space: nowrap; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-value b { margin: 0 2px; font: 800 34px/1 var(--sans); letter-spacing: -.03em; font-variant-numeric: lining-nums; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-go { grid-column: 2; grid-row: 1 / span 2; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #bd526f; color: #fff; font: 600 16px/1 var(--sans); }
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal { transition: none; }
+.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal:hover { transform: none; }
+}
 @media (max-width: 760px) {
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds { grid-template-columns: minmax(0, 1fr) 110px; gap: 8px; height: 150px; min-height: 150px; padding: 16px 18px; border-radius: 22px; background-position: center; }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__kicker { font-size: 9px; letter-spacing: .045em; }
