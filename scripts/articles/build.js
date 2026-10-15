@@ -69,8 +69,9 @@ function product(handle) {
     img,
     price: lo,
     was: was > lo ? was : null,
-    star: r ? r.star : null,
-    count: r ? r.count : null,
+    /* 評價少過 20 則嘅分數唔具代表性（試過 1 則評價 5 星），卡上唔出 */
+    star: r && r.count >= 20 ? r.star : null,
+    count: r && r.count >= 20 ? r.count : null,
     award: awards.length ? awardLabel(awards[0]) : null,
     inStock: typeof p.totalInventory === 'number' ? p.totalInventory > 0 : true,
   };
