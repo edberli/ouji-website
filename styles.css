@@ -5104,9 +5104,14 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   /* 手機主要操作已經全部落到底欄；頂部只留 OUJI logo 同搜尋。 */
   .header__menu-toggle { display: none !important; }
 
-  /* 底欄（Codex 圓角版，Winston 2026-10-15 批）：頂兩角圓 18px、高 56px。
+  /* 底欄：Codex 圓角版改做浮起膠囊（Winston 2026-10-15 批）。
+     貼住螢幕底嘅話，iPhone 螢幕圓角會切走左右下角，返主畫面條橫條仲會壓住啲字；
+     所以膠囊左右留 12px、離底 --tabbar-gap，四角都圓，高 56px。
      揀中嗰格（所在頁，或者打開咗嗰張選單）icon 底填一粒淡白膠囊；
-     「幫我揀」平時唔加底，免得同揀中嗰格一齊亮，客分唔到自己喺邊。 */
+     「幫我揀」平時唔加底，免得同揀中嗰格一齊亮，客分唔到自己喺邊。
+     nav 本身透明、高度包埋膠囊下面嘅空位（/match 嘅 React 會量佢高度去扣返畫面），
+     玻璃膠囊畫喺 ::before；透明位唔食撳，後面啲嘢照撳得到。 */
+  :root { --tabbar-gap: max(16px, calc(env(safe-area-inset-bottom, 0px) - 10px)); }
   .mobile-bottom-nav {
     box-sizing: border-box;
     display: grid;
@@ -5117,17 +5122,28 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
     left: 0;
     right: 0;
     z-index: 2000;
-    height: calc(56px + env(safe-area-inset-bottom, 0px));
-    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
-    border-radius: 18px 18px 0 0;
+    height: calc(56px + var(--tabbar-gap));
+    padding: 0 calc(max(12px, env(safe-area-inset-right, 0px)) + 6px) var(--tabbar-gap) calc(max(12px, env(safe-area-inset-left, 0px)) + 6px);
+    pointer-events: none;
+  }
+  .mobile-bottom-nav::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: max(12px, env(safe-area-inset-left, 0px));
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: var(--tabbar-gap);
+    height: 56px;
+    border-radius: 28px;
     /* 同側邊抽屜、下拉選單一模一樣嗰隻半透明藍玻璃 */
     background: linear-gradient(180deg,
       rgba(89, 139, 156, 0.7) 0%,
       rgba(72, 115, 131, 0.68) 100%);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18),
-                0 -8px 32px rgba(40, 80, 110, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22),
+                0 10px 28px rgba(28, 60, 74, 0.24),
+                0 2px 6px rgba(28, 60, 74, 0.12);
   }
 
   .mobile-bottom-nav__item {
@@ -5150,6 +5166,7 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
     font-size: 10px;
     text-decoration: none;
     cursor: pointer;
+    pointer-events: auto;
     transition: color 120ms ease;
     -webkit-tap-highlight-color: transparent;
   }
@@ -5236,9 +5253,19 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   .mobile-bottom-nav__badge { background: #e8637a; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.18); }
   .mobile-bottom-nav__wishlist-badge { background: var(--primary); }
 
-  /* Body clearance so content isn't hidden behind the bar */
+  /* Body clearance so content isn't hidden behind the bar（膠囊＋下面空位＋10px 透氣） */
   body {
-    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(56px + var(--tabbar-gap) + 10px);
+  }
+}
+
+/* /match（明星妝感配對）：配對畫面計到膠囊頂為止，跟住就係 footer。
+   膠囊浮起之後，footer 個青色頂會喺膠囊後面同兩邊露出嚟，似多咗一層殼貼住螢幕角；
+   所以喺配對畫面下面補返一段同畫面底一樣嘅深色，footer 要碌落先見到。 */
+@media (max-width: 760px) {
+  #main-content > #root[data-embedded] {
+    padding-bottom: calc(56px + var(--tabbar-gap));
+    background: #241a15;
   }
 }
 
@@ -5355,10 +5382,10 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
 
   .discover-sheet__panel {
     position: absolute;
-    left: 10px;
-    right: 10px;
-    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 9px);
-    max-height: calc(100dvh - 94px - env(safe-area-inset-bottom, 0px));
+    left: 12px;
+    right: 12px;
+    bottom: calc(56px + var(--tabbar-gap) + 9px);
+    max-height: calc(100dvh - 56px - var(--tabbar-gap) - 34px);
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: 8px 10px 12px;
@@ -5478,9 +5505,9 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   .assist-sheet.is-open { display: block; }
   .assist-sheet__panel {
     position: absolute;
-    left: 10px;
-    right: 10px;
-    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 9px);
+    left: 12px;
+    right: 12px;
+    bottom: calc(56px + var(--tabbar-gap) + 9px);
     padding: 8px 10px 12px;
     border: 1px solid rgba(255,255,255,.22);
     border-radius: 22px;
@@ -9337,7 +9364,7 @@ html.is-lite *::after {
 }
 
 html.is-lite .header.is-scrolled { background: var(--bg-primary); }
-html.is-lite .mobile-bottom-nav { background: rgba(78, 122, 138, 0.94); }
+html.is-lite .mobile-bottom-nav::before { background: rgba(78, 122, 138, 0.94); }
 html.is-lite .mobile-nav { background: rgba(78, 122, 138, 0.94); }
 /* 手機選單（OUJI / INDEX）慢機都保留玻璃：打開時背後頁面鎖住唔碌，
    模糊只計一次，唔會卡。所以唔跟上面全站熄 backdrop-filter。 */
