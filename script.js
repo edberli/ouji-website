@@ -1037,14 +1037,33 @@ function initMegaMenu() {
   const mega = document.querySelector('.header__mega');
   if (!mega) return;
 
-  /* 防曬係常用季節商品，導覽放喺彩妝之後，護膚仍保留原位。 */
+  /* 跟手機 OUJI / INDEX 嘅邏輯（Winston 2026-10-15）：一行一個入口，撳落直接入分類頁；
+     淨係護膚同彩妝保留細類展開，其他分類唔展示細類。
+     手機將少用嘅收入「其他產品」；桌面有位，Winston 叫直接逐個列出，唔使「其他產品」。
+     首頁、睇全部產品都唔使列：桌面左上角 OUJI 標誌係首頁，頂欄「全部產品」本身就入全部產品。HTML 入面舊嘅十一組照留做 JS 未行時嘅後備。 */
   const groups = Array.from(mega.querySelectorAll(':scope > .header__mega-group'));
   const groupByLabel = (label) => groups.find((group) => (
     group.querySelector('.header__mega-row span')?.textContent.trim() === label
   ));
+  const skincare = groupByLabel('護膚');
   const makeup = groupByLabel('彩妝');
-  const seasonal = groupByLabel('季節性');
-  if (makeup && seasonal) makeup.insertAdjacentElement('afterend', seasonal);
+  if (skincare && makeup) {
+    const link = (label, href) => (
+      `<div class="header__mega-group"><a class="header__mega-row header__mega-row--link" href="${href}"><span>${label}</span></a></div>`
+    );
+    mega.replaceChildren(skincare, makeup);
+    mega.insertAdjacentHTML('beforeend', [
+      link('季節性', '/seasonal.html'),
+      link('沐浴洗護', '/bath.html'),
+      link('保健品', '/health.html'),
+      link('公仔', '/toys.html'),
+      link('美妝工具', '/tools.html'),
+      link('護具及壓力襪', '/supports.html'),
+      link('香水香氛', '/fragrance.html'),
+      link('隱形眼鏡', '/lens.html'),
+      link('K-pop 周邊', '/kpop.html'),
+    ].join(''));
+  }
 
   /* 「隱形眼鏡」同「K-pop 周邊」係直接連結，冇下拉。以前連佢哋都當
      成摺疊掣，落咗 preventDefault，結果撳極都唔會去到嗰版。 */
