@@ -1,0 +1,250 @@
+{
+  "slug": "olive-young-sunscreen-ranking",
+  "category": "排行榜",
+  "kicker": "防曬特集 · 2026 秋",
+  "date": "2026-03-20",
+  "updated": "2026-10-15",
+  "read_minutes": 6,
+  "title": "韓國防曬點揀？Olive Young 評分最高 10 支，香港有貨",
+  "title_html": "韓國防曬點揀？<span class=\"ax-nw\">Olive Young</span> <span class=\"ax-nw\">評分最高</span> <span class=\"ax-nw\">10 支，</span><span class=\"ax-nw\">香港有貨</span>",
+  "seo_title": "韓國防曬推介 2026：Olive Young 評分最高 10 支（香港有貨）",
+  "description": "OUJI 店內 159 支防曬逐支對返 Olive Young Global 評分同評價數，揀出最穩陣嘅 10 支：SKIN1004、Purito、Beauty of Joseon、Round Lab⋯⋯附質地、價錢比較同點揀。",
+  "dek": "我哋將 OUJI 而家有貨嘅 159 支防曬，逐支對返 Olive Young Global 嘅評分同評價數，揀出評分最穩陣嘅 10 支，再按質地同膚質講清楚點揀。",
+  "cover": {
+    "type": "product",
+    "handle": "skin1004-skin1004-2-50ml-0122",
+    "stamp": "No.1 · ★ 4.9 · 10,161 則評價"
+  },
+  "related": [
+    "sunscreen-amount-guide",
+    "sensitive-skin-guide",
+    "seasonal-skincare-transition"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "method",
+          "label": "點樣排",
+          "html": "只計 OUJI 而家有貨、喺 Olive Young Global 有 50 則以上評價嘅防曬（共 35 支）。分數按評價數加權：評價少嘅唔會因為幾個五星就衝上頭。得獎資料只列官方公布、而且係我哋賣緊嗰款。價錢以產品頁為準。"
+        },
+        {
+          "type": "p",
+          "html": "香港冬天都有紫外線，防曬唔係夏天先要搽。問題係貨架上防曬太多，單睇包裝好難分。我哋索性用數據揀：唔睇廣告，睇幾千個用過嘅人點評分。"
+        },
+        {
+          "type": "toc"
+        }
+      ],
+      "note": "第 1 名係孖裝，HK$165 有兩支，計落每支 HK$82.5。"
+    },
+    {
+      "type": "sec",
+      "id": "top10",
+      "label": "Catalogue · 十強",
+      "title": "評分最穩陣嘅 10 支"
+    },
+    {
+      "type": "catalog",
+      "feature_first": true,
+      "id_prefix": "no",
+      "items": [
+        {
+          "handle": "skin1004-skin1004-2-50ml-0122",
+          "kind": "防曬精華",
+          "unit": "50ml × 2 孖裝",
+          "why": "全榜評價數最多，10,161 則仍然企到 4.9 星，係最多人試過嘅一支。精華質地，孖裝計落每支好抵。",
+          "fit": [
+            "想防曬薄身",
+            "日日用"
+          ]
+        },
+        {
+          "handle": "purito-purito-seoul-60ml-2600",
+          "kind": "防曬乳",
+          "why": "過千則評價 4.9 星。60ml 比一般 50ml 多少少，日日搽嘅人用得耐啲。",
+          "fit": [
+            "想大支裝",
+            "日日用"
+          ]
+        },
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-spf50-pa-50ml-5508",
+          "kind": "防曬霜",
+          "why": "米糠加益生菌，產品名寫明溫和保濕。1,348 則評價 4.8 星，評價數喺十強排第二。",
+          "fit": [
+            "偏乾",
+            "想保濕"
+          ]
+        },
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-b5-spf50-pa-50ml-0277",
+          "kind": "防曬霜",
+          "why": "同一條線嘅清爽版，加咗維他命 B5。HK$89 係十強入面最平嘅一支。",
+          "fit": [
+            "怕笠",
+            "混合肌"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-spf50-pa-50ml-4459",
+          "kind": "防曬棒",
+          "why": "十強入面評價最多嘅防曬棒。擰開直接碌，日間補搽唔使洗手。",
+          "fit": [
+            "要補搽",
+            "帶出街"
+          ]
+        },
+        {
+          "handle": "goodal-goodal-1125",
+          "kind": "防曬霜",
+          "why": "魚腥草系列，產品名寫明舒緩保濕。Olive Young 自己嘅年度獎攞過防曬第 3 名。",
+          "fit": [
+            "易泛紅",
+            "想舒緩"
+          ]
+        },
+        {
+          "handle": "skin1004-skin1004-50ml-0573",
+          "kind": "防曬安瓶",
+          "why": "同第 1 名同一個牌子，呢支主打光感，想化妝前有少少光澤可以揀佢。",
+          "fit": [
+            "想有光澤",
+            "化妝前"
+          ]
+        },
+        {
+          "handle": "tocobo-tocobo-spf50-pa-0041",
+          "kind": "防曬棒",
+          "why": "同樣係 19g 防曬棒，HK$98，比第 5 名平 HK$40。",
+          "fit": [
+            "要補搽",
+            "預算有限"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-spf-50-pa-50ml-8523",
+          "kind": "防曬霜",
+          "why": "白樺樹系列嘅清爽版本，170 則評價 4.9 星。",
+          "fit": [
+            "怕笠",
+            "夏天用"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-spf50-pa-50ml-1814",
+          "kind": "防曬霜",
+          "why": "評價數未夠多，所以加權後排第十；但佢係 Olive Young Awards 2025 防曬類冠軍。",
+          "fit": [
+            "偏乾",
+            "想保濕"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "callout",
+          "html": "想一支包晒：日日用揀第 1 名；怕笠揀第 4 名；要補搽，加一支第 5 或者第 8 名。"
+        },
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to choose · 點揀",
+          "title": "先諗質地，再諗膚質"
+        },
+        {
+          "type": "p",
+          "html": "防曬霜同防曬乳最適合出門前打底；防曬精華同安瓶質地最薄，怕厚重嘅人會鍾意；防曬棒就留返日間補搽用。"
+        },
+        {
+          "type": "p",
+          "html": "偏乾嘅，揀產品名寫明保濕嘅，例如第 3 同第 10 名；怕笠就睇寫住清爽嗰幾支，例如第 4 同第 9 名。想睇晒店內所有防曬，可以去 <a href=\"/seasonal?cat=sun\">防曬專區</a>。"
+        }
+      ],
+      "note": "要補搽？第 5 同第 8 名都係 19g 防曬棒，價錢差 HK$40。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "compare",
+          "label": "Index · 比較表",
+          "title": "十支一次過比較"
+        },
+        {
+          "type": "compare",
+          "handles": [
+            "skin1004-skin1004-2-50ml-0122",
+            "purito-purito-seoul-60ml-2600",
+            "beauty-of-joseon-beauty-of-joseon-spf50-pa-50ml-5508",
+            "beauty-of-joseon-beauty-of-joseon-b5-spf50-pa-50ml-0277",
+            "round-lab-round-lab-spf50-pa-50ml-4459",
+            "goodal-goodal-1125",
+            "skin1004-skin1004-50ml-0573",
+            "tocobo-tocobo-spf50-pa-0041",
+            "round-lab-round-lab-spf-50-pa-50ml-8523",
+            "round-lab-round-lab-spf50-pa-50ml-1814"
+          ],
+          "kinds": [
+            "防曬精華（孖裝）",
+            "防曬乳",
+            "防曬霜",
+            "防曬霜",
+            "防曬棒",
+            "防曬霜",
+            "防曬安瓶",
+            "防曬棒",
+            "防曬霜",
+            "防曬霜"
+          ]
+        },
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "買之前最多人問"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "防曬要搽幾多先夠？",
+              "a": "包裝上嘅 SPF，係用每平方厘米 2 毫克嘅份量測出嚟。搽少咗，實際保護會低過包裝寫嘅數字。份量點量，可以睇我哋嘅<a href=\"/articles/sunscreen-amount-guide\">防曬份量指南</a>。"
+            },
+            {
+              "q": "防曬棒夠唔夠用？",
+              "a": "防曬棒方便補搽，但好難搽夠測試份量。出門前用霜或者乳打底，日間再用防曬棒補，會穩陣啲。"
+            },
+            {
+              "q": "PA++++ 係咩意思？",
+              "a": "PA 係日本同韓國用嘅 UVA 防護分級，加號越多代表防護越高，PA++++ 係最高一級。"
+            },
+            {
+              "q": "評分係邊度嚟？",
+              "a": "評分同評價數嚟自 Olive Young Global 嘅產品頁，2026 年 10 月擷取；得獎資料嚟自 Olive Young Awards 2025 官方公布嘅結果。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "Olive Young Global 產品評分及評價數（2026 年 10 月擷取）"
+            },
+            {
+              "title": "Olive Young Awards 2025 官方公布結果（防曬類）"
+            },
+            {
+              "title": "ISO 24444:2019（SPF 人體測試方法，測試份量 2 mg/cm²）"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
