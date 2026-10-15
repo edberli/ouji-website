@@ -153,8 +153,8 @@
     const name = (typeof oujiCardName === 'function' ? oujiCardName(p) : '') || p.title || '';
     // 品牌已經喺上一行，名唔再重複品牌（2026-10-15 Winston 嫌兩行粗黑字）
     // 聯名（「Torriden × Ganadi …」）保留品牌，唔係就變咗「× Ganadi …」
-    const rest = vendor && name.toLowerCase().startsWith(vendor.toLowerCase()) ? name.slice(vendor.length).trim() : '';
-    const title = rest && !/^(×|x\s|&|\+)/i.test(rest) ? rest : name;
+    const rest = (vendor && name.toLowerCase().startsWith(vendor.toLowerCase()) ? name.slice(vendor.length).trim() : name) || name;
+    const title = vendor && /^(×|x\s|&|\+)/i.test(rest) ? `${vendor} ${rest}` : rest;
     const href = `/products/${p.handle}`;
     const lowText = !isSoldOut && typeof oujiLowStockText === 'function' && (p.options?.[0]?.name || '') !== '度數'
       ? oujiLowStockText(p.totalInventory) : '';
