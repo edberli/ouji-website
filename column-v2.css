@@ -1,0 +1,187 @@
+/* 靈感專欄目錄頁（/column）v2：跟首頁 Codex unified 嘅世界（Winston 2026-10-16「以主頁嗰種風格同設計作為主導」）。
+   同首頁共用：顏色 token、Cormorant Garamond／Noto Serif TC 標題（收「。」）、kicker 小標、白卡細邊、
+   白色水彩芝麻、美妝小筆記海報卡（.joy-note，同 index.html 同一份 markup，由 scripts/articles/build.js 生成）。
+   成個 <main> 嘅內容都係 build.js 寫入 column.html 嘅 AX-COLUMN 標記之間，唔好人手改。
+   桌面：精選三欄、分類四欄直卡（全部出晒）；手機：精選左右掃、分類一列列細卡（字左相右），
+   「全部」每段先出 4 張，其餘撳「睇晒 N 篇」。卡圖滿版定縮細、明星標籤由 build.js 讀 column-cards.json 決定。 */
+
+.cl {
+  --cl-ink: #2b4c58;
+  --cl-ink-deep: #1e3038;
+  --cl-muted: #63777d;
+  --cl-label: #71868b;
+  --cl-accent: #4e8497;
+  --cl-rule: rgba(43, 76, 88, .16);
+  --cl-hair: #dce9ec;
+  --cl-tint: #edf3f4;
+  --cl-paper: #f7f9f9;
+  --cl-band: #fbf9f5;
+  --cl-card: #fff;
+  --cl-serif: "Cormorant Garamond", "Noto Serif TC", Georgia, serif;
+  --cl-sans: "Manrope", "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+  --cl-num: "League Spartan", "Manrope", sans-serif;
+  --cl-hand: "Klee One", "Noto Serif TC", serif;
+  --cl-gutter: clamp(18px, 4.5vw, 68px);
+  --cl-ease: cubic-bezier(.23, 1, .32, 1);
+  color: var(--cl-ink);
+  background: var(--cl-paper);
+  font-family: var(--cl-sans);
+}
+.cl ::selection { background: #cfe2e8; color: var(--cl-ink-deep); }
+.cl-wrap { width: min(calc(100% - 2 * var(--cl-gutter)), 1440px); margin-inline: auto; }
+
+/* ---------- 共用：小標＋襯線標題（同首頁 joy-heading） ---------- */
+.cl-kicker { display: block; color: var(--cl-ink); font: 600 10px/1.6 var(--cl-sans); letter-spacing: .1em; }
+.cl-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 16px; }
+.cl-head h2 { margin: 5px 0 0; color: var(--cl-ink); font: 500 clamp(30px, 3vw, 36px)/1.16 var(--cl-serif); letter-spacing: -.01em; text-wrap: balance; }
+.cl-head__aside { flex: 0 0 auto; color: var(--cl-muted); font: 600 12px/1.4 var(--cl-sans); white-space: nowrap; }
+.cl-head__aside b { color: var(--cl-ink); font: 600 18px/1 var(--cl-num); margin-right: 3px; }
+.cl-head__main { display: flex; align-items: flex-end; gap: 14px; min-width: 0; }
+/* 每段一隻白色水彩芝麻（Codex mascot 原圖加剪紙白邊，唔准鏡像） */
+.cl-head__sesame { flex: 0 0 auto; width: auto; height: 78px; margin-bottom: -2px; rotate: -4deg; filter: drop-shadow(0 5px 9px rgba(43, 76, 88, .2)); }
+
+/* ---------- 開頭：標題＋數字＋芝麻 ---------- */
+.cl-hero { padding-block: 36px 30px; }
+.cl-hero .cl-wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; }
+.cl-hero h1 { margin: 8px 0 0; color: var(--cl-ink); font: 500 clamp(44px, 4.6vw, 66px)/1.08 var(--cl-serif); letter-spacing: -.02em; }
+.cl-hero__intro { max-width: 46ch; margin: 14px 0 0; color: var(--cl-muted); font: 400 14px/1.75 var(--cl-sans); }
+.cl-stats { display: flex; flex-wrap: wrap; gap: 0; margin: 22px 0 0; padding: 0; border-top: 1px solid var(--cl-rule); }
+.cl-stat { min-width: 128px; padding: 12px 22px 0 0; margin: 0 22px 0 0; border-right: 1px solid var(--cl-rule); }
+.cl-stat:last-child { border-right: 0; }
+.cl-stat dt { color: var(--cl-label); font: 600 10px/1.4 var(--cl-sans); letter-spacing: .08em; }
+.cl-stat dd { margin: 4px 0 0; color: var(--cl-ink); font: 500 34px/1 var(--cl-num); font-variant-numeric: lining-nums tabular-nums; }
+.cl-stat dd small { margin-left: 3px; color: var(--cl-muted); font: 600 12px/1 var(--cl-sans); }
+.cl-hero__art { width: clamp(180px, 19vw, 270px); height: auto; margin-right: clamp(0px, 3vw, 48px); filter: drop-shadow(0 10px 18px rgba(43, 76, 88, .12)); }
+
+/* ---------- 段落帶（同首頁一樣：上面一條細線、帶狀底色交替） ---------- */
+.cl-band { padding-block: 30px 36px; border-top: 1px solid var(--cl-rule); }
+.cl-band--paper { background: var(--cl-band); }
+
+/* ---------- 今期精選：同首頁「美妝小筆記」同一款海報卡 ---------- */
+.cl .joy-note-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; min-width: 0; }
+.cl .joy-note { display: flex; flex-direction: column; min-width: 0; padding: 13px 14px 12px; border: 1px solid rgba(43, 76, 88, .14); border-radius: 9px; color: var(--cl-ink); background: var(--cl-card); box-shadow: 0 3px 10px rgba(43, 76, 88, .05); text-decoration: none; transition: transform .4s var(--cl-ease), box-shadow .4s var(--cl-ease); }
+.cl .joy-note:hover { transform: translateY(-5px); box-shadow: 0 14px 26px rgba(43, 76, 88, .1); }
+.cl .joy-note:focus-visible, .cl-card:focus-visible, .cl-tab:focus-visible, .cl-more:focus-visible { outline: 2px solid var(--cl-accent); outline-offset: 3px; }
+.cl .note-top, .cl .note-bottom { display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--cl-label); font: 600 10px/1.35 var(--cl-sans); letter-spacing: .1em; }
+.cl .note-top { padding-bottom: 10px; border-bottom: 1px solid var(--cl-hair); }
+.cl .note-meta { color: var(--cl-accent); letter-spacing: .04em; white-space: nowrap; }
+.cl .note-poster { position: relative; display: block; margin-top: 12px; aspect-ratio: 4 / 3; }
+.cl .note-poster__img { display: block; width: 100%; height: 100%; border-radius: 6px; background: var(--cl-tint); object-fit: cover; }
+.cl .note-poster__tag { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 999px; color: var(--cl-ink); background: rgba(255, 255, 255, .92); box-shadow: 0 2px 6px rgba(43, 76, 88, .12); font: 700 11px/1.3 var(--cl-sans); letter-spacing: .02em; }
+.cl .note-sticker { position: absolute; right: -12px; bottom: -18px; width: 33%; height: auto; rotate: 6deg; filter: drop-shadow(0 5px 9px rgba(43, 76, 88, .28)); pointer-events: none; transition: transform .5s var(--cl-ease); }
+.cl .joy-note:hover .note-sticker { transform: rotate(-9deg) translateY(-4px) scale(1.05); }
+.cl .joy-note h3 { display: -webkit-box; max-height: 2.8em; margin: 18px 0 5px; overflow: hidden; color: var(--cl-ink); font: 600 17px/1.4 var(--cl-serif); font-variant-numeric: lining-nums; text-wrap: balance; word-break: keep-all; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.cl .note-nw { white-space: nowrap; }
+.cl .joy-note p { display: -webkit-box; max-height: 3em; margin: 0 0 12px; overflow: hidden; color: var(--cl-muted); font-size: 12px; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.cl .note-bottom { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--cl-hair); font-weight: 500; letter-spacing: .06em; }
+.cl .joy-note--index { display: none; }
+
+/* ---------- 分類掣（同首頁品牌專題 tab 一樣：白底細邊、揀中係深青） ---------- */
+.cl-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.cl-tab { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 7px 14px; border: 1px solid var(--cl-rule); border-radius: 7px; color: var(--cl-ink); background: var(--cl-card); font: 600 13px/1.3 var(--cl-sans); cursor: pointer; transition: background-color .18s ease, border-color .18s ease, color .18s ease; }
+.cl-tab b { color: var(--cl-muted); font: 600 12px/1 var(--cl-num); }
+.cl-tab:hover { border-color: var(--cl-ink); }
+.cl-tab[aria-pressed="true"] { border-color: var(--cl-ink); color: #fff; background: var(--cl-ink); }
+.cl-tab[aria-pressed="true"] b { color: #cfe2e8; }
+.cl-tabs-band { padding-block: 22px 4px; border-top: 1px solid var(--cl-rule); }
+
+/* ---------- 分類段同文章卡 ---------- */
+.cl-section { padding-block: 26px 34px; }
+.cl-section + .cl-section { border-top: 1px solid var(--cl-rule); }
+.cl-section[hidden] { display: none; }
+.cl-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.cl-card { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto 1fr auto; grid-template-areas: "top" "img" "title" "text" "foot"; min-width: 0; padding: 12px 12px 11px; border: 1px solid rgba(43, 76, 88, .14); border-radius: 9px; color: var(--cl-ink); background: var(--cl-card); box-shadow: 0 3px 10px rgba(43, 76, 88, .05); text-decoration: none; transition: transform .4s var(--cl-ease), box-shadow .4s var(--cl-ease); }
+.cl-card:hover { transform: translateY(-4px); box-shadow: 0 12px 22px rgba(43, 76, 88, .09); }
+.cl-card__top { grid-area: top; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 9px; border-bottom: 1px solid var(--cl-hair); color: var(--cl-label); font: 600 10px/1.35 var(--cl-sans); letter-spacing: .08em; }
+.cl-card__top span:last-child { color: var(--cl-accent); letter-spacing: .03em; white-space: nowrap; }
+.cl-card__img { grid-area: img; display: block; margin-top: 10px; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 6px; background: var(--cl-tint); }
+.cl-card__img img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transition: transform .6s var(--cl-ease); }
+.cl-card__img--contain img { padding: 9%; object-fit: contain; mix-blend-mode: multiply; }
+/* 明星段：相上白色標籤（同首頁海報卡 note-poster__tag 一樣） */
+.cl-card__tag { grid-area: img; z-index: 1; align-self: start; justify-self: start; max-width: calc(100% - 16px); margin: 18px 0 0 8px; padding: 4px 9px; overflow: hidden; border-radius: 999px; color: var(--cl-ink); background: rgba(255, 255, 255, .92); box-shadow: 0 2px 6px rgba(43, 76, 88, .12); font: 700 11px/1.3 var(--cl-sans); letter-spacing: .02em; white-space: nowrap; text-overflow: ellipsis; }
+.cl-card:hover .cl-card__img img { transform: scale(1.03); }
+/* 中文標題正常逐字斷行（keep-all 會令「Sakura 宮脇咲良…」成段跌落下一行再被截）；英文名由 build.js 包 .note-nw 唔斷開 */
+.cl-card h3 { grid-area: title; display: -webkit-box; max-height: 2.8em; margin: 12px 0 5px; overflow: hidden; color: var(--cl-ink); font: 600 16px/1.4 var(--cl-serif); font-variant-numeric: lining-nums; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.cl-card p { grid-area: text; align-self: start; display: -webkit-box; max-height: 3em; margin: 0 0 10px; overflow: hidden; color: var(--cl-muted); font-size: 12px; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.cl-card__foot { grid-area: foot; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-top: 9px; border-top: 1px solid var(--cl-hair); color: var(--cl-label); font: 500 11px/1.35 var(--cl-sans); }
+.cl-card__foot svg { flex: 0 0 auto; color: var(--cl-ink); }
+.cl-more { display: none; }
+
+/* ---------- 結尾：去逛 ---------- */
+.cl-end { padding-block: 34px 56px; border-top: 1px solid var(--cl-rule); background: var(--cl-band); }
+.cl-end .cl-wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.cl-end p { margin: 6px 0 0; color: var(--cl-muted); font: 400 13px/1.6 var(--cl-sans); }
+.cl-end h2 { margin: 5px 0 0; color: var(--cl-ink); font: 500 clamp(26px, 2.6vw, 32px)/1.2 var(--cl-serif); }
+.cl-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 8px 16px; border: 1px solid var(--cl-ink); border-radius: 7px; color: #fff; background: var(--cl-ink); font: 600 13px/1.3 var(--cl-sans); text-decoration: none; transition: background-color .18s ease; }
+.cl-btn:hover { background: var(--cl-ink-deep); }
+.cl-btn--ghost { color: var(--cl-ink); background: var(--cl-card); }
+.cl-btn--ghost:hover { color: #fff; background: var(--cl-ink); }
+.cl-end__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ---------- 闊屏細啲：分類三欄 ---------- */
+@media (max-width: 1180px) {
+  .cl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- 平板 ---------- */
+@media (min-width: 761px) and (max-width: 980px) {
+  .cl .joy-note-grid { gap: 12px; }
+  .cl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- 手機：精選左右掃；分類一列列細卡（字左相右） ---------- */
+@media (max-width: 760px) {
+  .cl-hero { padding-block: 22px 18px; }
+  .cl-hero .cl-wrap { grid-template-columns: minmax(0, 1fr) 112px; align-items: start; gap: 8px; }
+  .cl-hero h1 { font-size: 40px; }
+  .cl-hero__intro { grid-column: 1 / -1; margin-top: 10px; font-size: 13px; }
+  .cl-hero__copy { display: contents; }
+  .cl-hero .cl-kicker, .cl-hero__title { grid-column: 1; }
+  .cl-hero__art { grid-column: 2; grid-row: 1 / span 2; align-self: end; width: 112px; margin: 0; }
+  .cl-stats { grid-column: 1 / -1; }
+  .cl-stats { margin-top: 14px; }
+  .cl-stat { min-width: 0; flex: 1 1 0; padding: 10px 10px 0 0; margin: 0 10px 0 0; }
+  .cl-stat dd { font-size: 26px; }
+
+  .cl-band { padding-block: 22px 24px; }
+  .cl-head { margin-bottom: 10px; }
+  .cl-head h2 { font-size: 28px; }
+  .cl .joy-note-grid { grid-auto-flow: column; grid-auto-columns: min(78%, 300px); grid-template-columns: none; gap: 12px; padding: 3px 5px 14px 0; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #9bb5bd #e8eeee; }
+  .cl .joy-note { padding: 11px; scroll-snap-align: start; }
+  .cl .joy-note:hover { transform: none; box-shadow: 0 3px 10px rgba(43, 76, 88, .05); }
+  .cl .joy-note:hover .note-sticker { transform: none; }
+  .cl .note-sticker { right: -8px; bottom: -12px; width: 30%; }
+  .cl .joy-note h3 { margin: 16px 0 5px; font-size: 16px; }
+  .cl .joy-note p { margin: 0 0 10px; }
+
+  .cl-tabs-band { padding-block: 16px 0; }
+  .cl-tabs { flex-wrap: nowrap; margin-inline: calc(-1 * var(--cl-gutter)); padding: 0 var(--cl-gutter) 6px; overflow-x: auto; scrollbar-width: none; }
+  .cl-tabs::-webkit-scrollbar { display: none; }
+  .cl-tab { flex: 0 0 auto; min-height: 38px; padding: 6px 12px; font-size: 12px; }
+
+  .cl-section { padding-block: 20px 24px; }
+  .cl-head__main { gap: 10px; }
+  .cl-head__sesame { height: 58px; }
+  .cl-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  /* 「全部」每段先出 4 張；揀咗分類或者撳「睇晒」（.is-open）先出晒 */
+  .cl-section:not(.is-open) .cl-grid > .cl-card:nth-child(n+5) { display: none; }
+  .cl-card { grid-template-columns: minmax(0, 1fr) 104px; grid-template-rows: repeat(5, auto); grid-template-areas: "top top" "tag img" "title img" "text img" "foot img"; column-gap: 12px; align-items: start; padding: 10px 11px; }
+  .cl-card:hover { transform: none; }
+  .cl-card__img { width: 104px; height: 104px; margin-top: 10px; aspect-ratio: 1; }
+  .cl-card__tag { grid-area: tag; max-width: 100%; margin: 10px 0 0; padding: 2px 8px; color: var(--cl-accent); background: var(--cl-tint); box-shadow: none; font-size: 10.5px; }
+  .cl-card h3 { margin: 10px 0 4px; font-size: 15px; }
+  .cl-card__tag + h3 { margin-top: 5px; }
+  .cl-card p { margin: 0 0 6px; }
+  .cl-card__foot { padding-top: 7px; }
+  .cl-more { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; min-height: 44px; margin-top: 12px; padding: 8px 14px; border: 1px solid var(--cl-rule); border-radius: 7px; color: var(--cl-ink); background: var(--cl-card); font: 600 13px/1.3 var(--cl-sans); cursor: pointer; }
+  .cl-more svg { rotate: 90deg; }
+  .cl-section.is-open .cl-more { display: none; }
+
+  .cl-end { padding-block: 26px 40px; }
+  .cl-end .cl-wrap { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cl .joy-note, .cl .note-sticker, .cl-card, .cl-card__img img { transition: none; }
+  .cl .joy-note:hover, .cl .joy-note:hover .note-sticker, .cl-card:hover, .cl-card:hover .cl-card__img img { transform: none; }
+}

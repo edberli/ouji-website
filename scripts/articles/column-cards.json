@@ -1,0 +1,33 @@
+{
+  "_說明": [
+    "靈感專欄目錄卡（column.html）嘅顯示資料，由 scripts/articles/build.js 讀；只影響目錄卡，唔改文章頁。",
+    "img：卡圖（站內路徑），handle：改用呢件產品嘅主圖（要喺 data/catalog.json）。冇寫就用文章封面／column-legacy.json 嗰張。",
+    "fit：cover＝滿版（生活相、模特兒相、有色底產品相）；contain＝白底去背產品相，縮細放淺色底。冇寫：產品相預設 contain、相片預設 cover。",
+    "    產品主圖係咪白底要量：四邊像素 min(RGB)≥232 嘅比例 ≥0.85 先當白底（2026-10-16 用 PIL 量，透明 PNG 要先疊白底再量）。",
+    "tag：明星段相上白色標籤。代言文寫「明星 × 品牌」，要同文章入面核實咗嘅關係一致；妝感拆解唔係代言，只寫「名 · 妝名」，唔准寫成「× 品牌」。",
+    "明星相（Wikimedia CC 相）嘅卡圖係 assets/images/column/cards/ 入面重新裁過、淨係見人嘅版本（臉約佔六成高，睇到妝）；原圖同出處留喺文章頁。"
+  ],
+  "cards": {
+    "wonyoung-glass-petal-makeup": { "img": "/assets/images/column/cards/wonyoung-glass-petal-makeup.webp", "tag": "張員瑛 · 花瓣水光妝" },
+    "jennie-cat-nude-rose-makeup": { "img": "/assets/images/column/cards/jennie-cat-nude-rose-makeup.webp", "tag": "Jennie · 貓系裸玫瑰" },
+    "iu-coral-satin-lip-makeup": { "img": "/assets/images/column/cards/iu-coral-satin-lip-makeup.webp", "tag": "IU · 珊瑚緞唇" },
+    "jisoo-warm-brown-makeup": { "img": "/assets/images/column/cards/jisoo-warm-brown-makeup.webp", "tag": "Jisoo · 經典暖棕" },
+    "winter-y2k-cool-liner-makeup": { "img": "/assets/images/column/cards/winter-y2k-cool-liner-makeup.webp", "tag": "Winter · Y2K 幼眼線" },
+    "sana-soft-pink-makeup": { "img": "/assets/images/column/cards/sana-soft-pink-makeup.webp", "tag": "Sana · 柔粉好氣色" },
+    "sakura-doll-peach-makeup": { "img": "/assets/images/column/cards/sakura-doll-peach-makeup.webp", "tag": "Sakura · 蜜桃亮眼" },
+    "wonyoung-amuse-lip": { "tag": "張員瑛 × AMUSE" },
+    "suzy-anua-pdrn": { "tag": "秀智 × Anua" },
+    "cortis-torriden-cica": { "tag": "CORTIS × Torriden" },
+    "sunghoon-hince-base": { "tag": "成訓 × hince" },
+    "hyeri-beplain-mungbean": { "tag": "惠利 × beplain" },
+
+    "k-beauty-under-100": { "handle": "beauty-of-joseon-beauty-of-joseon-b5-spf50-pa-50ml-0277" },
+    "glow-pick-serum-ranking": { "fit": "cover" },
+    "sunscreen-stick-reapply-qa": { "fit": "cover" },
+    "sensitive-skin-guide": { "fit": "cover" },
+    "oily-skin-hydration": { "fit": "cover" },
+    "olive-young-awards-2025-winners": { "fit": "cover" },
+    "ouji-webstore-bestsellers": { "fit": "cover" },
+    "cica-centella-guide": { "fit": "cover" }
+  }
+}

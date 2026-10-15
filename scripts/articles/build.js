@@ -353,58 +353,6 @@ ${ch.scripts}
 `;
 }
 
-/* ---------- 靈感專欄目錄頁（column.html） ----------
-   每個分類段落入面嘅卡全部由呢度生成：有 content/*.json 嘅文章用新卡；
-   未翻新嘅舊文用 column-legacy.json 入面原本嗰張卡。 */
-const SECTION_OF = { 明星妝感: 'celeb', 明星同款: 'celeb', 排行榜: 'ranking', 護膚攻略: 'tutorial', 問答: 'tutorial', 成分解碼: 'ingredient', 選物清單: 'picks' };
-const CLOCK = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
-
-function columnCard(spec, section) {
-  const photo = spec.cover && spec.cover.type === 'photo';
-  const img = photo ? spec.cover.src : cdn(product(spec.cover.handle).img, 600);
-  const shown = spec.updated && spec.updated !== spec.date ? spec.updated : spec.date;
-  const d = new Date(`${shown}T00:00:00+08:00`);
-  return `
-            <a href="/articles/${spec.slug}" style="text-decoration:none;color:inherit;display:block;height:100%;">
-            <article class="column-card" data-category="${section}">
-              <div class="column-card__image-wrap">
-                <img class="column-card__image" src="${esc(img)}" alt="" loading="lazy" decoding="async">
-              </div>
-              <div class="column-card__body">
-                <span class="column-card__tag">${esc(spec.category)}</span>
-                <h3 class="column-card__title">${esc(stripText(spec.title_html || spec.title))}</h3>
-                <p class="column-card__excerpt">${esc(spec.dek)}</p>
-                <div class="column-card__meta">
-                  <span>${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日</span>
-                  <span class="column-card__read-time">
-                    ${CLOCK}
-                    ${spec.read_minutes || 5} 分鐘
-                  </span>
-                </div>
-              </div>
-            </article>
-            </a>`;
-}
-
-function updateColumn(all) {
-  const file = path.join(ROOT, 'column.html');
-  let html = fs.readFileSync(file, 'utf8');
-  const legacy = JSON.parse(fs.readFileSync(path.join(__dirname, 'column-legacy.json'), 'utf8'));
-  const have = new Set(all.map((s) => s.slug));
-  const sorted = all.slice().sort((a, b) => String(b.updated || b.date).localeCompare(String(a.updated || a.date)) || a.slug.localeCompare(b.slug));
-  for (const section of ['celeb', 'ranking', 'tutorial', 'ingredient', 'picks']) {
-    const cards = sorted.filter((s) => SECTION_OF[s.category] === section).map((s) => columnCard(s, section));
-    for (const c of legacy) if (c.section === section && !have.has(c.slug)) cards.push(`\n            ${c.html}`);
-    const re = new RegExp(`(<!-- AX-CARDS:${section}:START[^>]*-->)[\\s\\S]*?(\\n\\s*<!-- AX-CARDS:${section}:END -->)`);
-    if (!re.test(html)) throw new Error(`column.html 搵唔到 AX-CARDS:${section} 標記`);
-    html = html.replace(re, `$1${cards.join('\n')}$2`);
-    const secRe = new RegExp(`(<div class="column-section" data-section="${section}">[\\s\\S]*?<span class="column-section__count">)\\d+ 篇文章(</span>)`);
-    html = html.replace(secRe, `$1${cards.length} 篇文章$2`);
-  }
-  fs.writeFileSync(file, html);
-  console.log('✓ 更新咗 column.html');
-}
-
 /* ---------- 首頁「美妝小筆記」（index.html） ----------
    Codex 首頁原本嘅筆記卡（OUJI NOTE 編號、READ A LITTLE 尾標、手機左右掃），
    卡面改用韓國品牌官方明星海報＋芝麻貼圖（Winston 2026-10-15：插畫唔顯眼；貼圖要用而家首頁嘅白色水彩芝麻，唔係 App／shima 舊畫風）。
@@ -418,8 +366,8 @@ const ARROW_UP_RIGHT = '<svg aria-hidden="true" width="16" height="16" viewBox="
 const NOTES_IMG = '/assets/images/home-codex/notes';
 
 /* 「Jennie 貓系裸玫瑰妝教學：4 步拆解，同效果產品香港買得到」→ 冒號後第一個逗號之前 */
-function shortTitle(spec) {
-  const s = stripText(spec.title_html || spec.title);
+function shortTitle(spec) { return shortTitleText(stripText(spec.title_html || spec.title)); }
+function shortTitleText(s) {
   const colon = s.indexOf('：');
   const comma = colon >= 0 ? s.indexOf('，', colon) : -1;
   const t = comma > 0 ? s.slice(0, comma) : s;
@@ -434,11 +382,23 @@ const keepLatin = (html) => html.replace(/[A-Za-z0-9][A-Za-z0-9&’'.-]*(?:\s+[A
 function sticker(name, cls) {
   const f = `${NOTES_IMG}/stickers/${name}.webp`;
   if (!fs.existsSync(path.join(ROOT, f))) throw new Error(`搵唔到芝麻貼圖：${f}`);
-  return `<img class="${cls}" src="${f}" alt="" loading="lazy" decoding="async">`;
+  const [w, h] = webpSize(path.join(ROOT, f));
+  return `<img class="${cls}" src="${f}" width="${w}" height="${h}" alt="" loading="lazy" decoding="async">`;
 }
 
-function updateHome(all) {
-  const file = path.join(ROOT, 'index.html');
+/* WebP 原圖尺寸（寫入 width／height，載入時唔會跳位） */
+function webpSize(file) {
+  const b = fs.readFileSync(file);
+  if (b.toString('ascii', 0, 4) !== 'RIFF' || b.toString('ascii', 8, 12) !== 'WEBP') throw new Error(`唔係 WebP：${file}`);
+  const chunk = b.toString('ascii', 12, 16);
+  if (chunk === 'VP8X') return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];
+  if (chunk === 'VP8 ') return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+  if (chunk === 'VP8L') { const n = b.readUInt32LE(21); return [1 + (n & 0x3fff), 1 + ((n >> 14) & 0x3fff)]; }
+  throw new Error(`讀唔到 WebP 尺寸：${file}`);
+}
+
+/* home-notes.json 揀咗嘅三篇（首頁美妝小筆記同專欄頁今期精選共用） */
+function homeNotePicks(all) {
   const conf = JSON.parse(fs.readFileSync(path.join(__dirname, 'home-notes.json'), 'utf8'));
   const picks = conf.notes.map((n) => {
     const s = all.find((x) => x.slug === n.slug);
@@ -454,8 +414,11 @@ function updateHome(all) {
     const v = picks.map((x) => x[k]);
     if (new Set(v).size !== v.length) throw new Error(`home-notes.json ${k} 重複：${v.join('、')}`);
   }
-  const total = fs.readdirSync(OUT).filter((f) => f.endsWith('.html')).length;
-  const cards = picks.map((n, i) => {
+  return { conf, picks };
+}
+
+/* 海報筆記卡：首頁 index.html 同 column.html 同一份 markup */
+function posterNoteCard(n, i) {
     const src = (w) => `${NOTES_IMG}/posters/${n.poster}-${w}.webp`;
     return `
       <a class="joy-note" href="/articles/${n.s.slug}">
@@ -469,7 +432,13 @@ function updateHome(all) {
         <p>${esc(n.excerpt)}</p>
         <span class="note-bottom">READ A LITTLE, CHOOSE A LITTLE BETTER</span>
       </a>`;
-  });
+}
+
+function updateHome(all) {
+  const file = path.join(ROOT, 'index.html');
+  const { conf, picks } = homeNotePicks(all);
+  const total = fs.readdirSync(OUT).filter((f) => f.endsWith('.html')).length;
+  const cards = picks.map(posterNoteCard);
   cards.push(`
       <a class="joy-note joy-note--index" href="/column">
         <span class="note-top"><span>OUJI NOTES / 目錄</span><span class="note-meta">${total} 篇</span></span>
@@ -487,9 +456,181 @@ function updateHome(all) {
   let html = fs.readFileSync(file, 'utf8');
   const re = /(<!-- AX-HOME-NOTES:START[^>]*-->)[\s\S]*?(\n\s*<!-- AX-HOME-NOTES:END -->)/;
   if (!re.test(html)) throw new Error('index.html 搵唔到 AX-HOME-NOTES 標記');
-  html = html.replace(re, `$1${section}$2`);
+  /* 用 function 替換：內容有「HK$100」呢類字，字串替換會將「$1」當成第一組 */
+  html = html.replace(re, (_, a, b) => `${a}${section}${b}`);
   fs.writeFileSync(file, html);
   console.log(`✓ 更新咗 index.html 美妝小筆記（${picks.length} 篇＋目錄，共 ${total} 篇）`);
+}
+
+/* ---------- 靈感專欄目錄頁（column.html） ----------
+   Winston 2026-10-16：成頁跟首頁風格（Codex unified）。<main> 嘅內容全部由呢度寫入
+   column.html 嘅 <!-- AX-COLUMN:START/END --> 之間；樣式喺 column-v2.css。
+   開頭（標題＋數字＋白色水彩芝麻）→ 今期精選（同首頁美妝小筆記同一款海報卡）→ 分類掣
+   → 五個分類段 → 結尾去逛。有 content/*.json 嘅文章用 spec；未翻新嘅舊文用 column-legacy.json
+   （由舊卡 HTML 抽返標題、摘要、日期；圖用 image_src 或者 image_handle 嘅產品相）。 */
+const SECTION_OF = { 明星妝感: 'celeb', 明星同款: 'celeb', 排行榜: 'ranking', 護膚攻略: 'tutorial', 問答: 'tutorial', 成分解碼: 'ingredient', 選物清單: 'picks' };
+const SECTIONS = [
+  { key: 'celeb', kicker: 'CELEBRITY LOOKS / 明星妝感', title: '明星同款・妝感。', tab: '明星妝感', sesame: 'makeup' },
+  { key: 'ranking', kicker: 'THE RANKINGS / 榜單速報', title: '榜單速報。', tab: '榜單速報', sesame: 'awards' },
+  { key: 'tutorial', kicker: 'HOW-TO / 護膚教學', title: '護膚教學。', tab: '護膚教學', sesame: 'skincare' },
+  { key: 'ingredient', kicker: 'INGREDIENTS / 成分解碼', title: '成分解碼。', tab: '成分解碼', sesame: 'search' },
+  { key: 'picks', kicker: 'SHOPPING LISTS / 選物清單', title: '選物清單。', tab: '選物清單', sesame: 'shopping' },
+];
+/* 手機「全部」每段先出幾多張，其餘撳「睇晒 N 篇」先出 */
+const MOBILE_PREVIEW = 4;
+const dotDate = (iso) => iso.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$1.$2.$3');
+
+function specEntry(spec) {
+  const c = spec.cover || {};
+  const photo = c.type === 'photo';
+  return {
+    slug: spec.slug, section: SECTION_OF[spec.category], tag: spec.category, read: spec.read_minutes || 5,
+    iso: spec.updated && spec.updated !== spec.date ? spec.updated : spec.date,
+    title: shortTitle(spec), excerpt: spec.dek,
+    img: photo ? c.src : cdn(product(c.handle).img, 600), product: !photo,
+  };
+}
+
+function legacyEntry(c) {
+  const h = c.html || '';
+  const pick = (re) => { const m = h.match(re); return m ? stripText(m[1]) : ''; };
+  /* undated：舊文寫嘅係預設日（例如年尾 12 月 31 日），查唔到真發佈日就唔顯示、排喺段尾 */
+  const dateTxt = c.undated ? '' : (c.date || pick(/class="column-card__meta">\s*<span>([^<]+)<\/span>/));
+  const m = dateTxt.match(/(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+  if (!m && !c.undated) throw new Error(`column-legacy.json ${c.slug} 讀唔到日期（真係查唔到就寫 undated 同原因）`);
+  let img = c.image_src;
+  let isProduct = false;
+  if (c.image_handle) { img = cdn(product(c.image_handle).img, 600); isProduct = true; }
+  if (!img) throw new Error(`column-legacy.json ${c.slug} 冇圖（加 image_src 或 image_handle）`);
+  return {
+    slug: c.slug, section: c.section,
+    tag: c.tag || pick(/class="column-card__tag">([\s\S]*?)<\/span>/),
+    read: c.read || Number((h.match(/<\/svg>\s*(\d+)/) || [])[1]) || 5,
+    iso: m ? `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}` : '',
+    title: shortTitleText(c.title || pick(/class="column-card__title">([\s\S]*?)<\/h3>/)),
+    excerpt: c.excerpt || pick(/class="column-card__excerpt">([\s\S]*?)<\/p>/),
+    img, product: isProduct,
+  };
+}
+
+/* 目錄卡：卡頂同首頁筆記卡一樣「OUJI NOTE / 段內編號 · 分鐘」；明星段相上有白色標籤；
+   白底產品相（fit contain）縮細放淺色底，其他相滿版。 */
+function indexCard(e, i) {
+  return `
+          <a class="cl-card" href="/articles/${e.slug}">
+            <span class="cl-card__top"><span>OUJI NOTE / ${String(i + 1).padStart(2, '0')}</span><span>${e.read} 分鐘</span></span>
+            <span class="cl-card__img${e.fit === 'contain' ? ' cl-card__img--contain' : ''}"><img src="${esc(e.img)}" alt="" loading="lazy" decoding="async"></span>${e.celeb ? `
+            <span class="cl-card__tag">${esc(e.celeb)}</span>` : ''}
+            <h3>${keepLatin(esc(e.title))}</h3>
+            <p>${esc(e.excerpt)}</p>
+            <span class="cl-card__foot">${e.iso ? `<time datetime="${e.iso}">${dotDate(e.iso)}</time>` : '<span>OUJI NOTES</span>'}${ARROW_RIGHT}</span>
+          </a>`;
+}
+
+/* column-cards.json：目錄卡嘅換圖、滿版／縮細、明星標籤（說明寫喺檔頭） */
+function applyCardOverrides(entries) {
+  const conf = JSON.parse(fs.readFileSync(path.join(__dirname, 'column-cards.json'), 'utf8')).cards;
+  const bySlug = new Map(entries.map((e) => [e.slug, e]));
+  for (const [slug, o] of Object.entries(conf)) {
+    const e = bySlug.get(slug);
+    if (!e) throw new Error(`column-cards.json 搵唔到文章：${slug}`);
+    if (o.handle) { e.img = cdn(product(o.handle).img, 600); e.product = true; }
+    if (o.img) {
+      if (!fs.existsSync(path.join(ROOT, o.img))) throw new Error(`column-cards.json ${slug} 搵唔到圖：${o.img}`);
+      e.img = o.img; e.product = false;
+    }
+    if (o.fit && !['cover', 'contain'].includes(o.fit)) throw new Error(`column-cards.json ${slug} fit 只可以係 cover／contain`);
+    if (o.fit) e.fit = o.fit;
+    if (o.tag) e.celeb = o.tag;
+  }
+  for (const e of entries) {
+    e.fit = e.fit || (e.product ? 'contain' : 'cover');
+    if (e.section === 'celeb' && !e.celeb) throw new Error(`${e.slug} 係明星段，要喺 column-cards.json 寫 tag`);
+  }
+  const seen = new Map();
+  const dup = [];
+  for (const e of entries) {
+    const k = e.img.split('?')[0];
+    if (seen.has(k)) dup.push(`${e.slug} 同 ${seen.get(k)}`);
+    else seen.set(k, e.slug);
+  }
+  if (dup.length) throw new Error(`目錄卡圖重複（喺 column-cards.json 換一張）：${dup.join('；')}`);
+}
+
+function updateColumn(all) {
+  const file = path.join(ROOT, 'column.html');
+  const legacy = JSON.parse(fs.readFileSync(path.join(__dirname, 'column-legacy.json'), 'utf8'));
+  const have = new Set(all.map((s) => s.slug));
+  const entries = [...all.map(specEntry), ...legacy.filter((c) => !have.has(c.slug)).map(legacyEntry)];
+  for (const e of entries) {
+    if (!e.section) throw new Error(`${e.slug} 唔知屬邊個分類`);
+    if (!fs.existsSync(path.join(OUT, `${e.slug}.html`))) throw new Error(`${e.slug} 冇文章頁`);
+  }
+  applyCardOverrides(entries);
+  /* 新到舊；冇日期（undated）嘅排最尾 */
+  entries.sort((a, b) => b.iso.localeCompare(a.iso) || a.slug.localeCompare(b.slug));
+  const total = entries.length;
+  const latest = entries[0].iso.slice(5).replace('-', '.');
+  const by = Object.fromEntries(SECTIONS.map((s) => [s.key, entries.filter((e) => e.section === s.key)]));
+  const { picks } = homeNotePicks(all);
+  const main = `
+<section class="cl-hero" aria-labelledby="cl-title">
+  <div class="cl-wrap">
+    <div class="cl-hero__copy">
+      <span class="cl-kicker">OUJI NOTES / 靈感專欄</span>
+      <h1 class="cl-hero__title" id="cl-title">靈感專欄。</h1>
+      <p class="cl-hero__intro">明星妝感、評分排行、護膚教學同成分解碼。代言關係逐條核實出處，推介嘅產品都喺店內有得揀。</p>
+      <dl class="cl-stats">
+        <div class="cl-stat"><dt>文章</dt><dd>${total}<small>篇</small></dd></div>
+        <div class="cl-stat"><dt>分類</dt><dd>${SECTIONS.length}<small>個</small></dd></div>
+        <div class="cl-stat"><dt>最近更新</dt><dd>${latest}</dd></div>
+      </dl>
+    </div>
+    <img class="cl-hero__art" src="/assets/images/column/sesame-journal.webp" width="480" height="447" alt="" decoding="async">
+  </div>
+</section>
+<section class="cl-band cl-band--paper cl-featured" aria-labelledby="cl-featured-title">
+  <div class="cl-wrap">
+    <div class="cl-head"><div><span class="cl-kicker">FEATURED NOTES / 今期精選</span><h2 id="cl-featured-title">今期精選。</h2></div></div>
+    <div class="joy-note-grid" role="region" aria-label="今期精選；可左右滑動" tabindex="0">${picks.map(posterNoteCard).join('')}
+    </div>
+  </div>
+</section>
+<div class="cl-tabs-band">
+  <div class="cl-wrap">
+    <div class="cl-tabs" role="toolbar" aria-label="文章分類">
+      <button class="cl-tab" type="button" data-filter="all" aria-pressed="true">全部<b>${total}</b></button>${SECTIONS.map((s) => `
+      <button class="cl-tab" type="button" data-filter="${s.key}" aria-pressed="false">${s.tab}<b>${by[s.key].length}</b></button>`).join('')}
+    </div>
+  </div>
+</div>${SECTIONS.map((s) => {
+    const list = by[s.key];
+    const more = list.length > MOBILE_PREVIEW ? `
+    <button class="cl-more" type="button" aria-expanded="false" aria-controls="cl-grid-${s.key}">睇晒 ${list.length} 篇${ARROW_RIGHT}</button>` : '';
+    return `
+<section class="cl-section" data-section="${s.key}" aria-labelledby="cl-sec-${s.key}">
+  <div class="cl-wrap">
+    <div class="cl-head"><div class="cl-head__main">${sticker(s.sesame, 'cl-head__sesame')}<div><span class="cl-kicker">${s.kicker}</span><h2 id="cl-sec-${s.key}">${s.title}</h2></div></div><span class="cl-head__aside"><b>${list.length}</b>篇</span></div>
+    <div class="cl-grid" id="cl-grid-${s.key}">${list.map(indexCard).join('')}
+    </div>${more}
+  </div>
+</section>`;
+  }).join('')}
+<section class="cl-end" aria-labelledby="cl-end-title">
+  <div class="cl-wrap">
+    <div><span class="cl-kicker">AFTER READING / 睇完去揀</span><h2 id="cl-end-title">睇完，去揀啱自己嗰件。</h2><p>文章入面嘅產品，可以喺網店或者觀塘門市揀。</p></div>
+    <div class="cl-end__actions"><a class="cl-btn" href="/shop">逛全部產品 ${ARROW_RIGHT}</a><a class="cl-btn cl-btn--ghost" href="/stores">門市地址</a></div>
+  </div>
+</section>
+`;
+  let html = fs.readFileSync(file, 'utf8');
+  const re = /(<!-- AX-COLUMN:START[^>]*-->)[\s\S]*?(\n\s*<!-- AX-COLUMN:END -->)/;
+  if (!re.test(html)) throw new Error('column.html 搵唔到 AX-COLUMN 標記');
+  /* 收走頭尾空行：唔收嘅話每跑一次 END 標記前面就多一行空行 */
+  html = html.replace(re, (_, a, b) => `${a}${main.trimEnd()}
+${b.trimStart()}`);
+  fs.writeFileSync(file, html);
+  console.log(`✓ 更新咗 column.html（${total} 篇：${SECTIONS.map((s) => `${s.tab} ${by[s.key].length}`).join('、')}）`);
 }
 
 function main() {
