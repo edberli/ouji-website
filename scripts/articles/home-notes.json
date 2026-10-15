@@ -1,8 +1,8 @@
 {
   "art": "sesame",
-  "slugs": [
-    "jennie-cat-nude-rose-makeup",
-    "korean-sheet-mask-ranking",
-    "makeup-melting-fix-guide"
+  "notes": [
+    { "slug": "jennie-cat-nude-rose-makeup", "art": "10-compare", "excerpt": "底妝、眼線、頰彩、唇色，逐個位拆。" },
+    { "slug": "korean-sheet-mask-ranking", "art": "15-awards", "excerpt": "十個系列對返評分，單片定盒裝一次講清。" },
+    { "slug": "makeup-melting-fix-guide", "art": "11-search", "excerpt": "油、汗、摩擦逐個位處理，最後鎖妝。" }
   ]
 }

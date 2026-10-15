@@ -408,8 +408,10 @@ function updateColumn(all) {
 /* ---------- 首頁「美妝小筆記」（index.html） ----------
    承繼 Codex 首頁原本嘅筆記卡：OUJI NOTE 編號、芝麻插畫、READ A LITTLE 尾標、
    手機左右掃。揀邊幾篇寫喺 home-notes.json；最尾一張係目錄卡（數埋全部文章）。
-   art: "sesame" 用分類芝麻插畫；"cover" 用文章封面（明星相要寫出處）。只喺全量生成時更新。 */
+   每張卡嘅插畫同一句摘要（約 20 字、完整一句）寫喺 home-notes.json，插畫唔准重複；
+   冇寫就按分類揀插畫、摘要用 dek 第一句。art: "cover" 改用文章封面（明星相要寫出處）。只喺全量生成時更新。 */
 const NOTE_ART = { 明星妝感: '10-compare', 明星同款: '10-compare', 排行榜: '15-awards', 護膚攻略: '07-skincare', 問答: '12-help', 成分解碼: '11-search', 選物清單: '06-shopping' };
+const ARROW_RIGHT = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
 const ARROW_UP_RIGHT = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>';
 
 /* 「Jennie 貓系裸玫瑰妝教學：4 步拆解，同效果產品香港買得到」→ 冒號後第一個逗號之前 */
@@ -417,8 +419,12 @@ function shortTitle(spec) {
   const s = stripText(spec.title_html || spec.title);
   const colon = s.indexOf('：');
   const comma = colon >= 0 ? s.indexOf('，', colon) : -1;
-  return comma > 0 ? s.slice(0, comma) : s;
+  const t = comma > 0 ? s.slice(0, comma) : s;
+  return /[。？！]$/.test(t) ? t : `${t}。`;
 }
+
+/* 「Olive Young」呢類兩個字以上嘅英文名唔准斷開兩行 */
+const keepLatin = (html) => html.replace(/[A-Za-z0-9][A-Za-z0-9&’'.-]*(?:\s+[A-Za-z][A-Za-z0-9&’'.-]*)+/g, (m) => `<span class="note-nw">${m}</span>`);
 
 function noteArt(id) {
   const src = (w) => `/assets/images/home-codex/notes/${id}-${w}.webp`;
@@ -434,20 +440,22 @@ function noteCover(spec) {
 function updateHome(all) {
   const file = path.join(ROOT, 'index.html');
   const conf = JSON.parse(fs.readFileSync(path.join(__dirname, 'home-notes.json'), 'utf8'));
-  const picks = conf.slugs.map((slug) => {
-    const s = all.find((x) => x.slug === slug);
-    if (!s) throw new Error(`home-notes.json 搵唔到文章：${slug}`);
-    return s;
+  const picks = conf.notes.map((n) => {
+    const s = all.find((x) => x.slug === n.slug);
+    if (!s) throw new Error(`home-notes.json 搵唔到文章：${n.slug}`);
+    return { s, art: n.art || NOTE_ART[s.category] || '14-journal', excerpt: n.excerpt || `${String(s.dek).split('。')[0]}。` };
   });
+  const arts = picks.map((x) => x.art);
+  if (new Set(arts).size !== arts.length) throw new Error(`home-notes.json 插畫重複：${arts.join('、')}`);
   const total = fs.readdirSync(OUT).filter((f) => f.endsWith('.html')).length;
-  const cards = picks.map((s, i) => {
+  const cards = picks.map(({ s, art, excerpt }, i) => {
     const credit = conf.art === 'cover' && s.cover && s.cover.type === 'photo' && s.cover.credit ? stripText(s.cover.credit) : '';
     return `
       <a class="joy-note" href="/articles/${s.slug}">
         <span class="note-top"><span>OUJI NOTE / ${String(i + 1).padStart(2, '0')}</span><span class="note-meta">${esc(s.category)} · ${s.read_minutes || 5} 分鐘</span></span>
-        ${conf.art === 'cover' ? noteCover(s) : noteArt(NOTE_ART[s.category] || '14-journal')}
-        <h3>${esc(shortTitle(s))}</h3>
-        <p>${esc(s.dek)}</p>
+        ${conf.art === 'cover' ? noteCover(s) : noteArt(art)}
+        <h3>${keepLatin(esc(shortTitle(s)))}</h3>
+        <p>${esc(excerpt)}</p>
         <span class="note-bottom">${credit ? esc(credit) : 'READ A LITTLE, CHOOSE A LITTLE BETTER'}</span>
       </a>`;
   });
@@ -455,13 +463,13 @@ function updateHome(all) {
       <a class="joy-note joy-note--index" href="/column">
         <span class="note-top"><span>OUJI NOTES / 目錄</span><span class="note-meta">${total} 篇</span></span>
         ${noteArt('14-journal')}
-        <h3>仲有 ${total - picks.length} 篇筆記</h3>
-        <p>由明星妝感到成分解碼，五個分類慢慢揭。</p>
-        <span class="note-bottom">睇全部筆記 →</span>
+        <h3>仲有 ${total - picks.length} 篇筆記。</h3>
+        <p class="note-hand">由明星妝感到成分解碼，慢慢揭 ♡</p>
+        <span class="note-bottom">睇全部筆記 ${ARROW_RIGHT}</span>
       </a>`);
   const section = `
 <section class="joy-notes content-wrap" aria-labelledby="home-notes-title">
-  <div class="joy-heading"><div><span class="joy-kicker">OUJI NOTES / 靈感專欄</span><h2 id="home-notes-title">美妝小筆記。</h2></div><a class="text-link" href="/column">全部 ${total} 篇 ${ARROW_UP_RIGHT}</a></div>
+  <div class="joy-heading"><div><span class="joy-kicker">OUJI NOTES / 美妝小筆記</span><h2 id="home-notes-title">美妝小筆記。</h2></div><a class="text-link" href="/column">全部 ${total} 篇 ${ARROW_UP_RIGHT}</a></div>
   <div class="joy-note-grid${conf.art === 'cover' ? ' joy-note-grid--cover' : ''}" role="region" aria-label="美妝小筆記；可左右滑動" tabindex="0">${cards.join('')}
   </div>
 </section>`;
