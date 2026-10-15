@@ -29,6 +29,11 @@
 .product-card.lc:hover .product-card__image-wrap { box-shadow: none; }
 .lc .product-card__image-wrap::after { content: none; display: none; }
 .lc .product-card__image { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lc .lc__alt { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .28s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .product-card.lc:hover .lc__alt.is-ready { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .lc .lc__alt { transition: none; } }
 .lc .award-ribbon { top: 10px; bottom: auto; }
 .lc .product-card__badge--sold-out ~ .award-ribbon { display: none; }
 /* 心心：畫出嚟 30px，但撳位用 ::before 四邊各擴 10px（方形，約 50px；斜角撳偏都計），手指撳偏少少都算撳中心心，
