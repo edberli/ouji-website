@@ -405,6 +405,93 @@ function updateColumn(all) {
   console.log('✓ 更新咗 column.html');
 }
 
+/* ---------- 首頁「美妝小筆記」（index.html） ----------
+   Codex 首頁原本嘅筆記卡（OUJI NOTE 編號、READ A LITTLE 尾標、手機左右掃），
+   卡面改用韓國品牌官方明星海報＋芝麻貼圖（Winston 2026-10-15：插畫唔顯眼；貼圖要用而家首頁嘅白色水彩芝麻，唔係 App／shima 舊畫風）。
+   位置：Codex 預覽原位，會員區正上面。
+   home-notes.json 每張卡寫：文章 slug、海報（assets/images/home-codex/notes/posters/<poster>-480|720.webp，
+   一律品牌韓國官網原圖，來源記喺 scripts/articles/home-notes-sources.md）、對焦位、海報標籤、芝麻貼圖、
+   一句摘要（約 20 字、完整一句）、可選短標題。海報同貼圖唔准重複；海報品牌要喺文章入面出現。
+   最尾一張係目錄卡（數埋全部文章）。只喺全量生成時更新。 */
+const ARROW_RIGHT = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+const ARROW_UP_RIGHT = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>';
+const NOTES_IMG = '/assets/images/home-codex/notes';
+
+/* 「Jennie 貓系裸玫瑰妝教學：4 步拆解，同效果產品香港買得到」→ 冒號後第一個逗號之前 */
+function shortTitle(spec) {
+  const s = stripText(spec.title_html || spec.title);
+  const colon = s.indexOf('：');
+  const comma = colon >= 0 ? s.indexOf('，', colon) : -1;
+  const t = comma > 0 ? s.slice(0, comma) : s;
+  return /[。？！]$/.test(t) ? t : `${t}。`;
+}
+
+/* 「Olive Young」呢類兩個字以上嘅英文名唔准斷開兩行 */
+const keepLatin = (html) => html.replace(/[A-Za-z0-9][A-Za-z0-9&’'.-]*(?:\s+[A-Za-z][A-Za-z0-9&’'.-]*)+/g, (m) => `<span class="note-nw">${m}</span>`);
+
+/* 芝麻貼圖：而家首頁用緊嘅白色水彩芝麻（藍絲帶，Codex mascot-v2／v4 原圖）加白色剪紙邊，
+   輸出喺 assets/images/home-codex/notes/stickers/<名>.webp。唔准用 App 有名牌嗰套舊貼圖，亦唔准鏡像。 */
+function sticker(name, cls) {
+  const f = `${NOTES_IMG}/stickers/${name}.webp`;
+  if (!fs.existsSync(path.join(ROOT, f))) throw new Error(`搵唔到芝麻貼圖：${f}`);
+  return `<img class="${cls}" src="${f}" alt="" loading="lazy" decoding="async">`;
+}
+
+function updateHome(all) {
+  const file = path.join(ROOT, 'index.html');
+  const conf = JSON.parse(fs.readFileSync(path.join(__dirname, 'home-notes.json'), 'utf8'));
+  const picks = conf.notes.map((n) => {
+    const s = all.find((x) => x.slug === n.slug);
+    if (!s) throw new Error(`home-notes.json 搵唔到文章：${n.slug}`);
+    for (const k of ['poster', 'sticker', 'tag', 'alt']) if (!n[k]) throw new Error(`home-notes.json ${n.slug} 冇寫 ${k}`);
+    for (const w of [480, 720]) {
+      if (!fs.existsSync(path.join(ROOT, `${NOTES_IMG}/posters/${n.poster}-${w}.webp`))) throw new Error(`搵唔到海報：${n.poster}-${w}.webp`);
+    }
+    const title = n.title ? (/[。？！]$/.test(n.title) ? n.title : `${n.title}。`) : shortTitle(s);
+    return { ...n, s, title, excerpt: n.excerpt || `${String(s.dek).split('。')[0]}。` };
+  });
+  for (const k of ['poster', 'sticker']) {
+    const v = picks.map((x) => x[k]);
+    if (new Set(v).size !== v.length) throw new Error(`home-notes.json ${k} 重複：${v.join('、')}`);
+  }
+  const total = fs.readdirSync(OUT).filter((f) => f.endsWith('.html')).length;
+  const cards = picks.map((n, i) => {
+    const src = (w) => `${NOTES_IMG}/posters/${n.poster}-${w}.webp`;
+    return `
+      <a class="joy-note" href="/articles/${n.s.slug}">
+        <span class="note-top"><span>OUJI NOTE / ${String(i + 1).padStart(2, '0')}</span><span class="note-meta">${esc(n.s.category)} · ${n.s.read_minutes || 5} 分鐘</span></span>
+        <span class="note-poster">
+          <img class="note-poster__img" src="${src(720)}" srcset="${src(480)} 480w, ${src(720)} 720w" sizes="(max-width: 760px) 80vw, 360px" width="720" height="540" alt="${esc(n.alt)}" loading="lazy" decoding="async"${n.focus ? ` style="object-position: ${esc(n.focus)}"` : ''}>
+          <span class="note-poster__tag">${esc(n.tag)}</span>
+          ${sticker(n.sticker, 'note-sticker')}
+        </span>
+        <h3>${keepLatin(esc(n.title))}</h3>
+        <p>${esc(n.excerpt)}</p>
+        <span class="note-bottom">READ A LITTLE, CHOOSE A LITTLE BETTER</span>
+      </a>`;
+  });
+  cards.push(`
+      <a class="joy-note joy-note--index" href="/column">
+        <span class="note-top"><span>OUJI NOTES / 目錄</span><span class="note-meta">${total} 篇</span></span>
+        ${sticker(conf.index_sticker || 'journal', 'note-sticker-hero')}
+        <h3>仲有 ${total - picks.length} 篇筆記。</h3>
+        <p class="note-hand">五個分類，慢慢揭 ♡</p>
+        <span class="note-bottom">睇全部筆記 ${ARROW_RIGHT}</span>
+      </a>`);
+  const section = `
+<section class="joy-notes content-wrap" aria-labelledby="home-notes-title">
+  <div class="joy-heading"><div><span class="joy-kicker">OUJI NOTES / 美妝小筆記</span><h2 id="home-notes-title">美妝小筆記。</h2></div><a class="text-link" href="/column">全部 ${total} 篇 ${ARROW_UP_RIGHT}</a></div>
+  <div class="joy-note-grid" role="region" aria-label="美妝小筆記；可左右滑動" tabindex="0">${cards.join('')}
+  </div>
+</section>`;
+  let html = fs.readFileSync(file, 'utf8');
+  const re = /(<!-- AX-HOME-NOTES:START[^>]*-->)[\s\S]*?(\n\s*<!-- AX-HOME-NOTES:END -->)/;
+  if (!re.test(html)) throw new Error('index.html 搵唔到 AX-HOME-NOTES 標記');
+  html = html.replace(re, `$1${section}$2`);
+  fs.writeFileSync(file, html);
+  console.log(`✓ 更新咗 index.html 美妝小筆記（${picks.length} 篇＋目錄，共 ${total} 篇）`);
+}
+
 function main() {
   const args = process.argv.slice(2);
   const check = args.includes('--check');
@@ -422,7 +509,7 @@ function main() {
     n += 1;
     console.log(`${check ? '✓ 檢查' : '✓ 寫咗'} articles/${spec.slug}.html（${Math.round(html.length / 1024)} KB）`);
   }
-  if (!check && !only.length) updateColumn(all);
+  if (!check && !only.length) { updateColumn(all); updateHome(all); }
   console.log(`${n} 篇`);
 }
 
