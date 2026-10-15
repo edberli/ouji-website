@@ -9278,12 +9278,27 @@ html.is-lite .cat-card:hover .cat-card__shot {
 .header__mega::before {
   content: 'OUJI / INDEX';
   display: block;
-  margin-bottom: 8px;
+  /* 眉題行加高到 58px，右邊留位畀芝麻（.header__mega-shima），唔會壓住「護膚」個箭嘴。
+     面板係直向 flex，展開彩妝超高時會壓扁呢行，所以要 flex: none */
+  flex: none;
+  height: 58px;
+  padding-top: 6px;
   color: rgba(255, 255, 255, 0.82);
   font: 500 10px/1 var(--font-body);
   letter-spacing: 0.12em;
 }
 .header__mega-group { display: flex; flex-direction: column; counter-increment: mega-row; }
+/* 芝麻（紙箱倒吊貓）擺右上角，好似由「全部產品」跌落嚟。Winston 2026-10-15 揀 A 位：
+   擺底會超出 620px 上限要碌，隻貓被切。img 由 script.js initMegaMenu 加。 */
+.header__mega-shima {
+  position: absolute;
+  top: 6px;
+  right: 18px;
+  z-index: 2;
+  width: 84px;
+  height: auto;
+  pointer-events: none;
+}
 
 .header__mega-row {
   display: flex;
