@@ -454,7 +454,8 @@
       if (token !== openToken) return;
       if (ok) {
         closeSheet();
-        toast(cp(`已加入購物袋：${card.title}（${v.name}）`, `Added to bag: ${card.title} (${v.name})`));
+        // 有購物袋側欄／芝麻提示（cart-drawer.js）就唔再出呢行字，免得重複
+        if (!window.OUJI_cartFeedback) toast(cp(`已加入購物袋：${card.title}（${v.name}）`, `Added to bag: ${card.title} (${v.name})`));
       } else {
         paint();
         toast(cp('加唔到，請再試一次', 'Could not add. Please try again.'));

@@ -3707,3 +3707,13 @@ if (document.readyState === 'loading') {
 } else {
   ensureKitCategoryLinks();
 }
+
+/* 購物袋側欄（電腦）＋芝麻加入提示（手機）。所有載 shopify.js 嘅頁都有；
+   購物袋頁本身唔使。詳見 cart-drawer.js 頂註釋。 */
+(function loadCartDrawer() {
+  if (/\/cart(\.html)?$/.test(location.pathname)) return;
+  const s = document.createElement('script');
+  s.src = '/cart-drawer.js?v=20261015-1';
+  s.defer = true;
+  document.head.appendChild(s);
+})();
