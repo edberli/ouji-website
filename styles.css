@@ -9278,26 +9278,63 @@ html.is-lite .cat-card:hover .cat-card__shot {
 .header__mega::before {
   content: 'OUJI / INDEX';
   display: block;
-  /* 眉題行加高到 58px，右邊留位畀芝麻（.header__mega-shima），唔會壓住「護膚」個箭嘴。
-     面板係直向 flex，展開彩妝超高時會壓扁呢行，所以要 flex: none */
+  /* 面板係直向 flex，展開彩妝超高時會壓扁呢行，所以要 flex: none */
   flex: none;
-  height: 58px;
-  padding-top: 6px;
+  margin-bottom: 8px;
   color: rgba(255, 255, 255, 0.82);
   font: 500 10px/1 var(--font-body);
   letter-spacing: 0.12em;
 }
 .header__mega-group { display: flex; flex-direction: column; counter-increment: mega-row; }
-/* 芝麻（紙箱倒吊貓）擺右上角，好似由「全部產品」跌落嚟。Winston 2026-10-15 揀 A 位：
-   擺底會超出 620px 上限要碌，隻貓被切。img 由 script.js initMegaMenu 加。 */
-.header__mega-shima {
+
+/* 芝麻穿牆：紙箱倒吊貓喺面板右邊中間（05–07 行，冇箭嘴嘅位）打爛面板衝出嚟——
+   後面一個爆開嘅深色洞、裂紋向面板入面散、外面幾粒玻璃碎片。Winston 2026-10-15。
+   面板有 overflow-y 會切走伸出去嘅嘢，所以掛喺父層 .header__nav-item--mega，跟面板一齊淡入。
+   元素由 script.js initMegaMenu 加。 */
+.header__mega-burst {
   position: absolute;
-  top: 6px;
-  right: 18px;
-  z-index: 2;
-  width: 84px;
-  height: auto;
+  top: calc(100% + 10px + 236px);
+  left: calc(min(340px, 90vw) - 82px);
+  z-index: 101;
+  width: 150px;
+  height: 150px;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--duration-normal) var(--ease-out),
+              visibility var(--duration-normal);
+}
+.header__nav-item--mega:hover .header__mega-burst,
+.header__nav-item--mega:focus-within .header__mega-burst { opacity: 1; visibility: visible; }
+.header__mega-burst__hole {
+  position: absolute;
+  left: 22px;
+  top: 30px;
+  width: 104px;
+  height: 92px;
+  background: radial-gradient(ellipse at 50% 45%, #1d3b47 0%, #2a5462 60%, #3d6d7c 100%);
+  clip-path: polygon(8% 30%, 22% 8%, 40% 18%, 55% 2%, 70% 16%, 92% 10%, 86% 34%, 100% 52%, 84% 66%, 94% 88%, 68% 82%, 52% 100%, 36% 84%, 14% 94%, 18% 70%, 0% 58%, 12% 46%);
+}
+.header__mega-burst__hole::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.35); }
+.header__mega-burst__crack {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.header__mega-burst__crack .shard { fill: rgba(190, 224, 234, 0.9); stroke: rgba(255, 255, 255, 0.9); stroke-width: 0.8; }
+.header__mega-burst img {
+  position: absolute;
+  left: 14px;
+  top: -14px;
+  width: 126px;
+  height: auto;
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 10px 14px rgba(20, 48, 60, 0.35));
 }
 
 .header__mega-row {

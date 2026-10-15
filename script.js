@@ -1063,7 +1063,8 @@ function initMegaMenu() {
       link('隱形眼鏡', '/lens.html'),
       link('K-pop 周邊', '/kpop.html'),
     ].join(''));
-    mega.insertAdjacentHTML('afterbegin', '<img class="header__mega-shima" src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async">');
+    /* 芝麻穿牆（樣式見 styles.css .header__mega-burst）：掛喺父層，唔會俾面板嘅 overflow 切走 */
+    mega.closest('.header__nav-item--mega')?.insertAdjacentHTML('beforeend', `<span class="header__mega-burst" aria-hidden="true"><span class="header__mega-burst__hole"></span><svg class="header__mega-burst__crack" viewBox="0 0 150 150"><path d="M30 60 L14 52 L-4 58 L-22 50"/><path d="M28 78 L10 84 L-6 80 L-30 92"/><path d="M34 100 L20 112 L8 110 L-8 126"/><path d="M42 40 L34 22 L22 14"/><path d="M48 116 L44 134 L30 146"/><path class="shard" d="M132 44 L146 36 L140 52 Z"/><path class="shard" d="M138 100 L150 108 L136 112 Z"/><path class="shard" d="M122 124 L130 140 L116 134 Z"/><path class="shard" d="M118 22 L124 8 L130 20 Z"/></svg><img src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async"></span>`);
   }
 
   /* 「隱形眼鏡」同「K-pop 周邊」係直接連結，冇下拉。以前連佢哋都當
