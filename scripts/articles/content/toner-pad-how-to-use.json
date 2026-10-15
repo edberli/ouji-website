@@ -1,0 +1,95 @@
+{
+  "slug": "toner-pad-how-to-use",
+  "category": "問答",
+  "kicker": "問答 · 爽膚棉片",
+  "date": "2026-10-15",
+  "read_minutes": 4,
+  "title": "爽膚水棉片點用？擦拭定濕敷，3 種用法",
+  "title_html": "爽膚水棉片點用？<span class=\"ax-nw\">擦拭定濕敷</span>，<span class=\"ax-nw\">3 種用法</span>",
+  "seo_title": "爽膚水棉片點用？擦拭、濕敷、迷你面膜 3 種用法",
+  "description": "爽膚水棉片點用？OUJI 講三種常見用法：擦拭全臉、局部濕敷、當迷你面膜，再揀六款棉片講清楚點用，包括 Skinfood、SOME BY MI、Round Lab。",
+  "dek": "棉片唔止用嚟擦拭。我哋將擦拭、局部濕敷同迷你面膜三種用法拆開講，再揀六款產品，示範點用同點揀。",
+  "cover": {
+    "type": "product",
+    "handle": "skinfood-skinfood-60-2201",
+    "stamp": "2023 棉片冠軍 · ★ 4.8 · 511 則評價"
+  },
+  "related": ["pdrn-skincare-qa", "k-beauty-under-100"],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "p", "html": "爽膚水棉片常見嘅用法係<strong>潔面後擦拭全臉</strong>，代替倒爽膚水。有啲位置需要特別照顧，就將棉片<strong>局部濕敷</strong>幾分鐘。想加強嘅話，可以整塊敷上面，當<strong>迷你面膜</strong>用。" },
+        { "type": "callout", "html": "一句答案：日常擦拭全臉；乾燥、泛紅或者想照顧嘅位置局部敷；想加強先當迷你面膜用。" },
+        { "type": "toc" }
+      ],
+      "note": "用棉片要輕輕順住膚紋滑，唔好用力搓。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "wipe", "label": "Usage 1 · 擦拭", "title": "用法一：潔面後擦拭全臉" },
+        { "type": "p", "html": "潔面後，取一片棉片，順住膚紋輕輕擦拭全臉，避開眼周同唇。擦完可以用手掌輕拍，等剩餘精華吸收。" },
+        { "type": "p", "html": "有啲棉片有凹凸面，要跟產品頁用法。例如 SOME BY MI 三重酸舒緩棉片，產品頁寫先用凹凸面輕擦 T 字位同鼻位，再用平滑面輕抹全面，避開眼唇位置。" }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "compress", "label": "Usage 2 · 局部濕敷", "title": "用法二：局部濕敷，敷幾分鐘" },
+        { "type": "p", "html": "有啲位置乾燥、泛紅，或者想特別照顧，就將棉片貼喺嗰個位置，敷幾分鐘。除下後輕拍，等剩餘精華吸收。" },
+        { "type": "p", "html": "敷幾耐要跟產品頁。多數寫 5 至 10 分鐘，例如 Skinfood 純素胡蘿蔔素鎮靜棉片，就寫敷喺面頰或者需要舒緩嘅位置 5 至 10 分鐘。" }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "mask", "label": "Usage 3 · 迷你面膜", "title": "用法三：整塊敷，當迷你面膜" },
+        { "type": "p", "html": "想加強保濕或者舒緩，可以將整塊棉片敷喺面上，當迷你面膜用。Skinfood 純米亮膚爽膚棉產品頁寫敷於需護理部位 10 至 20 分鐘，取下後輕拍剩餘精華助吸收。" },
+        { "type": "p", "html": "Skinfood 薯仔積雪草舒緩棉片就寫明，可以作為擦拭或者迷你面膜使用，一片兩用。" }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "h3", "text": "揀棉片，睇用途、質地同片數" },
+        { "type": "list", "items": [
+          "<strong>用途</strong>：睇產品頁寫嘅重點，例如舒緩、保濕，定係去角質。",
+          "<strong>去角質款</strong>：例如 Round Lab 1025 獨島去角質清潔棉片，產品頁寫溫和去角質，用法要跟產品頁，唔好自己加密次數。",
+          "<strong>敏感肌</strong>：睇有冇寫適合敏感肌。例如 Skinfood 純素胡蘿蔔素鎮靜棉片寫純素、適合敏感肌使用。",
+          "<strong>片數同價錢</strong>：要計每片價錢。Skinfood 純米亮膚爽膚棉 30 片售 HK$62，平均每片約 HK$2.07；Round Lab 1025 獨島 70 片售 HK$148，平均每片約 HK$2.11。"
+        ] },
+        { "type": "p", "html": "想睇晒店內棉片，可以去 <a href=\"/category?cat=pad\">棉片分類</a>。" }
+      ]
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "pad",
+      "items": [
+        { "handle": "some-by-mi-somebymi-70-0671", "kind": "三重酸棉片", "unit": "70片", "why": "加入 AHA、BHA、PHA 溫和去角質，棉片有凹凸面，產品頁寫先用凹凸面擦 T 字位同鼻位，再用平滑面抹全面，避開眼唇。", "fit": ["擦拭", "T 字位"] },
+        { "handle": "anua-anua-77-70-0559", "kind": "魚腥草棉片", "unit": "70片", "why": "壓花面有助帶走老廢角質同雜質，產品頁寫用壓花面順住紋理擦拭，再用另一面輕抹一次。", "fit": ["擦拭", "壓花面"] },
+        { "handle": "round-lab-round-lab-1025-70-9247", "kind": "獨島去角質棉片", "unit": "70片", "why": "溫和去角質，無香料，產品頁寫適合敏感肌、乾性同所有膚質；用法係抹勻全面，再輕拍剩餘精華。", "fit": ["去角質", "無香料"] },
+        { "handle": "skinfood-skinfood-60-2201", "kind": "胡蘿蔔素棉片", "unit": "60片", "why": "厚身鬆餅紋理棉片，減少摩擦，產品頁寫適合敏感肌，可以敷喺面頰或者需要舒緩嘅位置。", "fit": ["局部敷", "敏感肌"] },
+        { "handle": "skinfood-skinfood-6014", "kind": "積雪草棉片", "why": "產品頁寫專為泛紅、刺激、發熱等敏感肌膚而設，可以作為日常擦拭或者迷你面膜使用。", "fit": ["迷你面膜", "敏感肌"] },
+        { "handle": "skinfood-skinfood-30-8421", "kind": "純米亮膚棉", "unit": "30片", "why": "用米萃取做主打，產品頁寫敷喺需護理部位 10 至 20 分鐘，取下後可以直接擦拭全臉。", "fit": ["迷你面膜", "擦拭全臉"] }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        { "type": "sec", "id": "faq", "label": "Q&A · 常見問題", "title": "用棉片之前先問" },
+        { "type": "faq", "items": [
+          { "q": "爽膚棉片同爽膚水有咩分別？", "a": "爽膚水係液體，要倒喺手掌或者棉上先用得。棉片已經浸透精華，擦拭時唔使再倒，方便好多。" },
+          { "q": "每日都可以用棉片嗎？", "a": "睇產品。例如 Torriden 積雪草舒緩急救棉片寫明係每日用嘅爽膚棉；去角質款就要跟產品頁用法，唔好自己加密。" },
+          { "q": "敏感肌可以用嗎？", "a": "睇產品頁有冇寫適合敏感肌。例如 Skinfood 純素胡蘿蔔素鎮靜棉片寫明純素、適合敏感肌使用。第一次用，建議先喺小範圍位置試一試。" }
+        ] },
+        { "type": "sources", "items": [
+          { "title": "OUJI 網店產品頁（棉片用法、產品描述同價錢）" },
+          { "title": "Olive Young Global 產品評分及評價數" },
+          { "title": "Olive Young Awards 2023、2024，Glowpick Awards 2025 得獎資料（見產品頁）" }
+        ] }
+      ]
+    }
+  ]
+}
