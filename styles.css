@@ -9220,7 +9220,7 @@ html.is-lite .cat-card:hover .cat-card__shot {
   max-height: min(70vh, 620px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 18px 22px 20px;
+  padding: 20px 24px 18px;
   margin-top: 10px;
   border-radius: 24px;
   /* 藍玻璃，但**冇**手機抽屜咁通透。本來同抽屜一樣 0.62–0.7，換咗花花
@@ -9273,41 +9273,50 @@ html.is-lite .cat-card:hover .cat-card__shot {
   transform: translateY(0);
 }
 
-/* 由呢度落去係摺疊列，同 .mobile-nav__group 嗰套刻意一模一樣。
-   兩邊行同一個視覺語言，改一邊就要記住改埋另一邊。 */
-.header__mega::before {
-  content: 'OUJI / INDEX';
-  display: block;
-  /* 面板係直向 flex，展開彩妝超高時會壓扁呢行，所以要 flex: none */
+/* 雜誌目錄排版（Winston 2026-10-16：「簡單、簡潔嘅選單，但要有雜誌嘅品牌感」，唔要任何圖）：
+   刊頭細字 → 斜體襯線「Index」大標題 → 一粗一幼雙細線 → 斜體襯線編號嘅分類 → 底部品牌口號。
+   刊頭同底部由 script.js initMegaMenu 加；芝麻已拎走（擺喺選單「好奇怪」）。
+   面板係直向 flex，展開彩妝超高時會壓扁呢幾行，所以全部 flex: none。 */
+.header__mega-masthead {
   flex: none;
-  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.8);
+  font: 500 9.5px/1 var(--font-body);
+  letter-spacing: 0.16em;
+}
+.header__mega-title {
+  flex: none;
+  margin: 12px 0 0;
+  color: #fff;
+  font: italic 400 34px/1 var(--font-display);
+  letter-spacing: 0.01em;
+}
+.header__mega-title small {
+  margin-left: 10px;
   color: rgba(255, 255, 255, 0.82);
-  font: 500 10px/1 var(--font-body);
+  font: normal 500 12px/1 var(--font-body);
   letter-spacing: 0.12em;
+  vertical-align: middle;
+}
+.header__mega-rule {
+  flex: none;
+  height: 4px;
+  margin: 14px 0 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+.header__mega-colophon {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font: 500 9px/1 var(--font-body);
+  letter-spacing: 0.16em;
 }
 .header__mega-group { display: flex; flex-direction: column; counter-increment: mega-row; }
-
-/* 芝麻：紙箱倒吊貓擺喺面板入面右邊中間（05–07 行，冇箭嘴嘅位），壓住分隔線、少少陰影出立體感。
-   Winston 2026-10-16：唔要洞、裂紋、碎片（「太刻意」），亦唔好跨出面板邊。
-   面板有 overflow-y 會切走伸出去嘅嘢，所以掛喺父層 .header__nav-item--mega，跟面板一齊淡入。
-   元素由 script.js initMegaMenu 加。 */
-.header__mega-shima {
-  position: absolute;
-  top: calc(100% + 10px + 250px);
-  left: calc(min(340px, 90vw) - 130px);
-  z-index: 101;
-  width: 112px;
-  max-width: none; /* 全站 img 有 max-width: 100%，會跟「全部產品」連結闊度縮到 62px */
-  height: auto;
-  pointer-events: none;
-  filter: drop-shadow(0 8px 12px rgba(20, 48, 60, 0.25));
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--duration-normal) var(--ease-out),
-              visibility var(--duration-normal);
-}
-.header__nav-item--mega:hover .header__mega-shima,
-.header__nav-item--mega:focus-within .header__mega-shima { opacity: 1; visibility: visible; }
 
 .header__mega-row {
   display: flex;
@@ -9315,10 +9324,10 @@ html.is-lite .cat-card:hover .cat-card__shot {
   justify-content: space-between;
   width: 100%;
   gap: 6px;
-  min-height: 46px;
-  padding: 10px 0;
+  min-height: 41px;
+  padding: 8px 0;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   background: none;
   font: 500 16px/1.35 var(--font-body);
   letter-spacing: 0.02em;
@@ -9329,16 +9338,20 @@ html.is-lite .cat-card:hover .cat-card__shot {
 }
 .header__mega-row:hover { color: white; }
 .header__mega-row::after { display: none !important; }
-/* 編號：同手機選單一樣 01、02…，細灰字 */
+/* 編號：01、02… 用斜體襯線，似雜誌目錄頁碼；指住嗰行編號變白、分類名向右移少少 */
 .header__mega-row::before {
   content: counter(mega-row, decimal-leading-zero);
   flex: none;
-  width: 22px;
+  width: 30px;
   color: rgba(255, 255, 255, 0.62);
-  font: 500 9px/1 var(--font-body);
-  letter-spacing: 0.04em;
+  font: italic 400 15px/1 var(--font-display);
+  letter-spacing: 0;
+  transition: color var(--duration-fast);
 }
-.header__mega-row > span { flex: 1 1 auto; min-width: 0; }
+.header__mega-row:hover::before { color: #fff; }
+.header__mega-row > span { flex: 1 1 auto; min-width: 0; transition: transform 0.22s var(--ease-out); }
+.header__mega-row:hover > span,
+.header__mega-row[aria-expanded="true"] > span { transform: translateX(6px); }
 
 /* 隱形眼鏡、K-pop 周邊 —— 項目太少，摺埋淨係多一下手續。成行就係連結。
    要一堆 !important 係因為 .header__nav a 嗰組規則（頂欄用嘅細字、
@@ -9351,7 +9364,7 @@ a.header__mega-row--link {
   font-weight: 500 !important;
   letter-spacing: 0.02em !important;
   text-transform: none !important;
-  padding: 10px 0 !important;
+  padding: 8px 0 !important;
   color: rgba(255, 255, 255, 0.92) !important;
 }
 a.header__mega-row--link:hover { color: white !important; }
@@ -9382,7 +9395,7 @@ a.header__mega-row--link:hover { color: white !important; }
   font-family: var(--font-body) !important;
   letter-spacing: 0.02em !important;
   text-transform: none !important;
-  padding: 8px 0 8px 28px !important;
+  padding: 8px 0 8px 36px !important; /* 對齊分類名（編號 30px＋間距 6px） */
   font-size: 0.875rem !important;
   font-weight: 400 !important;
   color: rgba(255, 255, 255, 0.86) !important;
@@ -9401,7 +9414,7 @@ a.header__mega-row--link:hover { color: white !important; }
   border-bottom: 0;
 }
 .header__mega-sub > a.header__mega-subitem {
-  padding-left: 40px !important;
+  padding-left: 48px !important;
   font-size: 0.8125rem !important;
   color: rgba(255, 255, 255, 0.82) !important;
 }

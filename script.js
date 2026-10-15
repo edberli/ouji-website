@@ -1063,8 +1063,10 @@ function initMegaMenu() {
       link('隱形眼鏡', '/lens.html'),
       link('K-pop 周邊', '/kpop.html'),
     ].join(''));
-    /* 芝麻（樣式見 styles.css .header__mega-shima）：掛喺父層，唔會俾面板嘅 overflow 切走 */
-    mega.closest('.header__nav-item--mega')?.insertAdjacentHTML('beforeend', '<img class="header__mega-shima" src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async">');
+    /* 雜誌目錄刊頭同底部口號（樣式見 styles.css .header__mega-masthead 等） */
+    const count = mega.querySelectorAll(':scope > .header__mega-group').length;
+    mega.insertAdjacentHTML('afterbegin', `<div class="header__mega-masthead" aria-hidden="true"><span>OUJI / INDEX</span><span>${count} CATEGORIES</span></div><p class="header__mega-title" aria-hidden="true">Index<small>全部產品</small></p><div class="header__mega-rule" aria-hidden="true"></div>`);
+    mega.insertAdjacentHTML('beforeend', '<div class="header__mega-colophon" aria-hidden="true"><span>SEOUL BEAUTY</span><span>HONG KONG HEART</span></div>');
   }
 
   /* 「隱形眼鏡」同「K-pop 周邊」係直接連結，冇下拉。以前連佢哋都當
