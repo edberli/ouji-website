@@ -1,13 +1,14 @@
 /* 產品頁新產品卡（Winston 2026-10-14 叫上 live；同日批咗輕身版）。設計跟佢張 CLIO 參考圖，再按佢張 mock 減重：
    相（右下角白色「選色・N色 ⊕」掣、左上得獎章）→ 品牌 → 名 → ★ 評分｜則評價｜Olive Young → 劃線價＋特價＋細牌一行
    → 獲獎／優惠短條（右邊低庫存字）。冇色號行、冇大掣。
-   冇白色卡底，相同字直接坐喺頁面底色。尺寸用 cqi 跟卡闊縮放（參考圖卡闊 352px 時量出嚟），細字有最細字級。
+   冇白色卡底，相同字直接坐喺頁面底色。尺寸用 cqi 跟卡闊縮放，細字有最細字級；
+   上限跟 Codex 商品頁預覽（名 15px、價錢 15px、評分 11.5px 幼字），桌面闊卡唔再放大（Winston 2026-10-15 嫌粗大）。
    只喺載入咗呢個檔嘅產品頁生效；首頁、產品內頁唔受影響。 */
 .product-card.lc {
-  --lc-ink: #132129; --lc-brand: #637486; --lc-rate: #444b51; --lc-rate-2: #56636d; --lc-src: #5f6d78; --lc-sep: #d3d9dd;
+  --lc-ink: #132129; --lc-brand: #6f8790; --lc-rate: #444b51; --lc-rate-2: #56636d; --lc-src: #5f6d78; --lc-sep: #d3d9dd;
   --lc-tile: #eef2f3; --lc-was: #6e7d87; --lc-sale: #bd3a27; --lc-chip-bg: #fdebea; --lc-chip-ink: #b23423;
   --lc-award-bg: #26343e; --lc-award-ink: #fff; --lc-gold: #c8a159; --lc-link: #637487; --lc-var-ink: #101c24;
-  --lc-cta: #617a8b; --lc-cta-hover: #536a7a; --lc-name: #2a3843;
+  --lc-cta: #617a8b; --lc-cta-hover: #536a7a; --lc-name: #284653;
   --lc-f: "Manrope", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif;
   container: lc / inline-size;
   display: block; min-width: 0; width: 100%; max-width: 440px; margin-inline: auto;
@@ -47,35 +48,35 @@
 
 /* 文字：每行固定高度，冇嗰樣資料就留返個位，同一行卡對齊 */
 .lc__body { display: flex; flex: 1 1 auto; flex-direction: column; padding: 0 min(0.2cqi, 0.7px); }
-.lc__brand { display: block; height: clamp(14px, 5.11cqi, 17.99px); margin-top: clamp(4px, 1.92cqi, 6.76px); overflow: hidden; color: var(--lc-brand); font: 500 clamp(10.5px, 3.84cqi, 13.52px)/clamp(14px, 5.11cqi, 17.99px) var(--lc-f); letter-spacing: .02em; white-space: nowrap; text-overflow: ellipsis; }
+.lc__brand { display: block; height: clamp(14px, 5.11cqi, 15px); margin-top: clamp(4px, 1.92cqi, 6.76px); overflow: hidden; color: var(--lc-brand); font: 500 clamp(10.5px, 3.84cqi, 11px)/clamp(14px, 5.11cqi, 15px) var(--lc-f); letter-spacing: .045em; white-space: nowrap; text-overflow: ellipsis; }
 /* 中文字只用 400／500：Noto Sans TC 只載入咗呢兩級，叫 600／700 會變瀏覽器假粗體（筆劃糊）。2026-10-15 */
 /* 名：同一行卡有兩行名先留兩行位（--lc-lines 由 product-card-lc.js 按每一行計），成行一行名就唔留空位 */
-.lc__name { display: block; flex: none; height: calc(clamp(18px, 8.12cqi, 28.6px) * var(--lc-lines, 2)); margin-top: min(1.42cqi, 5px); overflow: hidden; }
-.lc__title { color: var(--lc-name); font: 500 clamp(12.5px, 5.8cqi, 20.42px)/clamp(18px, 8.12cqi, 28.6px) var(--lc-f); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.lc__name { display: block; flex: none; height: calc(clamp(18px, 8.12cqi, 22.5px) * var(--lc-lines, 2)); margin-top: min(1.42cqi, 4px); overflow: hidden; }
+.lc__title { color: var(--lc-name); font: 500 clamp(12.5px, 5.8cqi, 15px)/clamp(18px, 8.12cqi, 22.5px) var(--lc-f); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 
 /* 評分：★ 4.6 ｜ 369 則評價 ｜ Olive Young */
-.lc__rating { display: flex; flex: none; align-items: center; gap: min(2.55cqi, 8.98px); height: clamp(14px, 5.11cqi, 17.99px); margin-top: clamp(4px, 1.53cqi, 5.39px); overflow: hidden; color: var(--lc-rate-2); font: 500 clamp(10px, 3.5cqi, 12.32px)/clamp(14px, 5.11cqi, 17.99px) var(--lc-f); white-space: nowrap; }
-.lc__rating .lc__score { display: inline-flex; align-items: center; gap: min(1.25cqi, 4.4px); color: var(--lc-rate); font-weight: 600; }
-.lc__rating .lc__star { color: var(--lc-gold); font-size: clamp(11.5px, 4.25cqi, 14.96px); line-height: 1; }
+.lc__rating { display: flex; flex: none; align-items: center; gap: min(2.55cqi, 8.98px); height: clamp(14px, 5.11cqi, 17.25px); margin-top: clamp(4px, 1.53cqi, 4px); overflow: hidden; color: var(--lc-rate-2); font: 400 clamp(10px, 3.5cqi, 11.5px)/clamp(14px, 5.11cqi, 17.25px) var(--lc-f); white-space: nowrap; }
+.lc__rating .lc__score { display: inline-flex; align-items: center; gap: min(1.25cqi, 4.4px); color: var(--lc-rate); font-weight: 500; }
+.lc__rating .lc__star { color: var(--lc-gold); font-size: clamp(11.5px, 4.25cqi, 13px); line-height: 1; }
 .lc__rating i { flex: none; width: 1px; height: min(3.4cqi, 11.97px); min-height: 10px; background: var(--lc-sep); }
 .lc__rating .lc__src { color: var(--lc-src); }
 
 /* 價錢：劃線原價、特價、細牌同一行（class 唔可以有「price」字，分析程式會攞第一個「price」做售價） */
-.lc__deal { display: flex; flex: none; align-items: center; gap: min(3.75cqi, 13.2px); height: clamp(19px, 7.39cqi, 26.01px); margin-top: clamp(6px, 2.67cqi, 9.4px); overflow: hidden; white-space: nowrap; }
-.lc__nums { display: flex; flex: none; align-items: center; gap: min(3.86cqi, 13.59px); }
-.lc__was { color: var(--lc-was); font: 500 clamp(11px, 4.97cqi, 17.49px)/1 var(--lc-f); font-variant-numeric: tabular-nums; text-decoration: line-through; }
-.lc__pricenow { color: var(--lc-name); font: 600 clamp(14.5px, 6.82cqi, 24.01px)/1 var(--lc-f); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.lc__deal { display: flex; flex: none; align-items: center; gap: min(3.75cqi, 8px); height: clamp(19px, 7.39cqi, 21px); margin-top: clamp(6px, 2.67cqi, 6px); overflow: hidden; white-space: nowrap; }
+.lc__nums { display: flex; flex: none; align-items: center; gap: min(3.86cqi, 6px); }
+.lc__was { color: var(--lc-was); font: 400 clamp(11px, 4.97cqi, 11px)/1 var(--lc-f); font-variant-numeric: tabular-nums; text-decoration: line-through; }
+.lc__pricenow { color: var(--lc-name); font: 600 clamp(14.5px, 6.82cqi, 15px)/1 var(--lc-f); letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .lc__nums.is-sale .lc__pricenow { color: var(--lc-sale); }
-.lc__from { margin-left: max(-2.6cqi, -9.15px); color: inherit; font: 500 clamp(10px, 3.41cqi, 12px)/1 var(--lc-f); }
+.lc__from { margin-left: max(-2.6cqi, -4px); color: inherit; font: 500 clamp(10px, 3.41cqi, 11px)/1 var(--lc-f); }
 .lc__nums.is-sale .lc__from { color: var(--lc-sale); }
-.lc__chip { display: flex; flex: none; align-items: center; height: clamp(18px, 7.36cqi, 25.91px); padding: 0 clamp(4.5px, 2.6cqi, 9.15px); border-radius: clamp(4px, 1.7cqi, 5.98px); background: var(--lc-chip-bg); color: var(--lc-chip-ink); font: 500 clamp(10.5px, 3.84cqi, 13.52px)/1 var(--lc-f); font-style: normal; }
+.lc__chip { display: flex; flex: none; align-items: center; height: clamp(18px, 7.36cqi, 20px); padding: 0 clamp(4.5px, 2.6cqi, 6px); border-radius: clamp(4px, 1.7cqi, 5px); background: var(--lc-chip-bg); color: var(--lc-chip-ink); font: 500 clamp(10.5px, 3.84cqi, 11px)/1 var(--lc-f); font-style: normal; }
 
 /* 獲獎條：深藍灰底白字白獎盃（Winston 2026-10-14 指定），跟字長嘅短條（唔拉滿闊度，冇咁重）。
    同一個位都用嚟出優惠；冇就留返個位，同一行卡照對齊。右邊低庫存寫「最後一件／最後兩件」 */
-.lc__awardrow { display: flex; flex: none; align-items: center; justify-content: space-between; gap: 6px; height: clamp(24px, 9.52cqi, 33.51px); margin-top: clamp(6px, 2.73cqi, 9.61px); }
-.lc__award { display: inline-flex; flex: 0 1 auto; align-items: center; gap: min(3.18cqi, 11.19px); min-width: 0; height: 100%; padding: 0 min(3.6cqi, 12.67px) 0 min(3.18cqi, 11.19px); overflow: hidden; border-radius: clamp(6px, 2.13cqi, 7.5px); background: var(--lc-award-bg); color: var(--lc-award-ink); font: 500 clamp(10.5px, 3.92cqi, 13.8px)/1.2 var(--lc-f); white-space: nowrap; }
+.lc__awardrow { display: flex; flex: none; align-items: center; justify-content: space-between; gap: 6px; height: clamp(24px, 9.52cqi, 26px); margin-top: clamp(6px, 2.73cqi, 8px); }
+.lc__award { display: inline-flex; flex: 0 1 auto; align-items: center; gap: min(3.18cqi, 6px); min-width: 0; height: 100%; padding: 0 min(3.6cqi, 9px) 0 min(3.18cqi, 8px); overflow: hidden; border-radius: clamp(6px, 2.13cqi, 6px); background: var(--lc-award-bg); color: var(--lc-award-ink); font: 500 clamp(10.5px, 3.92cqi, 11.5px)/1.2 var(--lc-f); white-space: nowrap; }
 .lc__award.is-empty { visibility: hidden; }
-.lc__award svg { flex: none; width: clamp(14px, 5.97cqi, 21.01px); height: clamp(14px, 5.97cqi, 21.01px); fill: currentColor; }
+.lc__award svg { flex: none; width: clamp(14px, 5.97cqi, 15px); height: clamp(14px, 5.97cqi, 15px); fill: currentColor; }
 .lc__award > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .lc__award .lc__aws { display: none; }
 /* 優惠：紅＝限時／換季／任揀／到期；黃＝孖裝／套裝；深色＝專櫃套裝 */
@@ -86,17 +87,17 @@
 .lc__award--prestige { background: #1b1814; color: #e3c98f; }
 .lc__award--prestige svg { fill: #e3c98f; }
 
-.lc__low { flex: none; color: var(--lc-chip-ink); font: 500 clamp(10px, 3.4cqi, 11.97px)/1 var(--lc-f); }
+.lc__low { flex: none; color: var(--lc-chip-ink); font: 500 clamp(10px, 3.4cqi, 11px)/1 var(--lc-f); }
 
 /* 相右下角粒掣：「選色・3色 ⊕」開揀色畫面；單一款式「加入 ⊕」；缺貨「到貨通知我」。白底，唔搶相 */
 .lc__pick {
   position: absolute; right: min(2.4cqi, 8.45px); bottom: min(2.4cqi, 8.45px); z-index: 3;
-  display: inline-flex; align-items: center; gap: min(1.6cqi, 5.63px); height: clamp(32px, 11.6cqi, 40.83px); max-width: calc(100% - min(4.8cqi, 16.9px));
+  display: inline-flex; align-items: center; gap: min(1.6cqi, 5.63px); height: clamp(32px, 11.6cqi, 36px); max-width: calc(100% - min(4.8cqi, 16.9px));
   padding: 0 clamp(7px, 2.2cqi, 7.74px) 0 clamp(11px, 3.6cqi, 12.67px); border: 0; border-radius: 999px;
   background: rgba(255, 255, 255, .96); color: var(--lc-ink); box-shadow: 0 2px 10px rgba(19, 33, 41, .16);
-  font: 500 clamp(12px, 4.3cqi, 15.14px)/1 var(--lc-f); letter-spacing: .02em; white-space: nowrap; cursor: pointer;
+  font: 500 clamp(12px, 4.3cqi, 13px)/1 var(--lc-f); letter-spacing: .02em; white-space: nowrap; cursor: pointer;
 }
-.lc__pick svg { flex: none; width: clamp(17px, 6cqi, 21.12px); height: clamp(17px, 6cqi, 21.12px); fill: none; stroke: currentColor; stroke-width: 1.6; }
+.lc__pick svg { flex: none; width: clamp(17px, 6cqi, 19px); height: clamp(17px, 6cqi, 19px); fill: none; stroke: currentColor; stroke-width: 1.6; }
 .lc__pick:hover { background: #fff; }
 .lc__pick:disabled { cursor: default; }
 .lc__pick--restock { padding-right: clamp(11px, 3.6cqi, 12.67px); color: var(--lc-cta); }
