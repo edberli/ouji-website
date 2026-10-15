@@ -1,0 +1,363 @@
+{
+  "slug": "retinol-guide",
+  "category": "成分解碼",
+  "kicker": "成分解碼 · A 醇",
+  "date": "2026-04-02",
+  "updated": "2026-10-16",
+  "read_minutes": 6,
+  "title": "韓國 A 醇推薦：視黃醇定視黃醛？新手由邊支開始（香港有貨）",
+  "title_html": "韓國 A 醇推薦：<span class=\"ax-nw\">視黃醇定視黃醛？</span><span class=\"ax-nw\">新手由邊支開始</span>（香港有貨）",
+  "seo_title": "韓國 A 醇推薦 2026：視黃醇、視黃醛點揀（香港有貨）",
+  "description": "韓國 A 醇點揀？分清視黃醇（Retinol）、視黃醛（Retinal）同補骨脂酚，教新手點樣夜晚、隔晚開始，日間點防曬。附 COSRX、SOME BY MI、Beauty of Joseon 等 8 件 Olive Young 高評分產品，香港有貨。",
+  "dek": "A 醇唔係一種成分，係一個家族。我哋先分清視黃醇、視黃醛同補骨脂酚，再講新手點樣由低濃度、夜晚開始，最後列出 8 件有貨嘅韓國 A 醇產品。",
+  "cover": {
+    "type": "product",
+    "handle": "some-by-mi-somebymi-30ml-2668",
+    "stamp": "A 醇精華 · ★ 4.7 · 743 則評價"
+  },
+  "related": [
+    "dark-circles-eye-care-guide",
+    "dull-skin-brightening-guide"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "note": "見到「A 醇」兩個字，先睇清楚係視黃醇、視黃醛定補骨脂酚，同埋有冇寫濃度。",
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>直接答：</strong>A 醇係維他命 A 家族嘅統稱。韓國護膚品常見嘅係<strong>視黃醇（Retinol）</strong>同<strong>視黃醛（Retinal）</strong>；好多產品亦會加<strong>補骨脂酚（Bakuchiol）</strong>，但佢係植物成分，唔屬 A 醇。新手揀有寫明低濃度嘅產品，淨係夜晚用，第二朝一定要防曬。"
+        },
+        {
+          "type": "callout",
+          "html": "一句答案：新手由寫明 0.1% 嘅視黃醇開始，夜晚用、隔晚用起，日頭做足防曬；用慣先考慮視黃醛。"
+        },
+        {
+          "type": "toc"
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "what",
+          "label": "What is A 醇 · 認識成分",
+          "title": "A 醇係咩？視黃醇、視黃醛、補骨脂酚點分"
+        },
+        {
+          "type": "p",
+          "html": "美國皮膚科學會（AAD）講，「類視黃醇」（retinoids）係一大類由維他命 A 衍生嘅護膚成分嘅統稱，視黃醇係其中一種，喺一般護膚品度好常見。身體會將視黃醇轉做視黃醛，再轉做視黃酸先發揮作用；視黃醛即係少咗一步。"
+        },
+        {
+          "type": "table",
+          "head": [
+            "成分（標籤上見到）",
+            "係咪 A 醇",
+            "新手點睇"
+          ],
+          "rows": [
+            [
+              "視黃醇<br>Retinol",
+              "係",
+              "常見；揀有寫濃度、濃度低嘅開始"
+            ],
+            [
+              "視黃醛<br>Retinal",
+              "係",
+              "比視黃醇少一步轉化；用慣 A 醇先考慮"
+            ],
+            [
+              "視黃醇酯<br>Retinyl Palmitate 等",
+              "係",
+              "身體儲存維他命 A 嘅形式之一"
+            ],
+            [
+              "補骨脂酚<br>Bakuchiol",
+              "唔係",
+              "由補骨脂種子提取嘅植物成分；想避開 A 醇可以先試"
+            ],
+            [
+              "A 酸（處方藥）<br>Tretinoin 等",
+              "係",
+              "屬藥物，要經醫生處方，唔好自己買嚟用"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "html": "留意：AAD 提到，非處方產品唔一定要喺包裝寫明視黃醇濃度，佢哋建議由搵得到最低濃度嘅開始。所以有寫明濃度嘅產品（例如 COSRX 同 Purito 都寫 0.1%），新手會易揀啲。"
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "note": "眼周皮膚薄，面部用嘅 A 醇唔好照搬去眼周，揀專門嘅眼霜。",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "choose",
+          "label": "How to choose · 點揀",
+          "title": "韓國 A 醇點揀？睇呢四樣"
+        },
+        {
+          "type": "list",
+          "items": [
+            "<strong>成分：</strong>新手先揀視黃醇；用慣先揀視黃醛。補骨脂酚唔係 A 醇，想避開 A 醇可以考慮。",
+            "<strong>濃度：</strong>揀有寫明濃度、濃度低嘅。K-SECRET 寫嘅「2%」「4%」係「視黃醛脂質體」嘅比例，唔好同「0.1% 視黃醇」直接比較。",
+            "<strong>部位：</strong>眼周皮膚薄，揀專門畀眼周用嘅眼霜或者眼部精華。",
+            "<strong>膚質：</strong>本身好乾、好敏感或者成日泛紅，AAD 建議先問皮膚科醫生；深色皮膚受刺激之後亦較易留印，要多留意。"
+          ]
+        },
+        {
+          "type": "p",
+          "html": "想睇埋其他韓國熱門成分，可以睇 <a href=\"/articles/niacinamide-guide\">菸鹼醯胺</a> 同 <a href=\"/articles/peptides-guide\">多肽</a> 兩篇。"
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "face",
+          "label": "Face · 面部",
+          "title": "面部 A 醇推薦：新手由 0.1% 開始"
+        },
+        {
+          "type": "p",
+          "html": "下面 4 件係面部用，全部香港有貨。評分係 Olive Young 評分；價錢會調整，以產品頁為準。"
+        }
+      ]
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "face",
+      "items": [
+        {
+          "handle": "cosrx-cosrx-0-1-20ml-4781",
+          "kind": "面霜",
+          "why": "產品頁寫明含 0.1% 純視黃醇、低刺激配方，適合第一次用視黃醇嘅人。20ml 細支，先試吓啱唔啱。",
+          "fit": [
+            "A 醇新手",
+            "寫明 0.1%"
+          ]
+        },
+        {
+          "handle": "some-by-mi-somebymi-30ml-2668",
+          "kind": "精華",
+          "why": "一支有視黃醇（0.1%）、視黃醛同補骨脂酚，再加菸鹼醯胺同積雪草。產品頁建議頭一兩個星期每晚少少份量，超敏感肌隔日用。",
+          "fit": [
+            "精華質地",
+            "視黃醇＋視黃醛"
+          ]
+        },
+        {
+          "handle": "purito-purito-seoul-30ml-3065",
+          "kind": "局部護理",
+          "why": "0.1% 視黃醇（1,000 ppm）加補骨脂酚同透明質酸，搽喺重點位置。產品頁建議隔日用一次，再慢慢加次數。",
+          "fit": [
+            "重點位置",
+            "隔日開始"
+          ]
+        },
+        {
+          "handle": "ksecret-k-secret-seoul-1988-serum-retinal-liposome-2-black-g-0508",
+          "kind": "精華",
+          "why": "主角係視黃醛脂質體（2%），再加黑人參萃取、補骨脂酚同菸鹼醯胺。產品頁寫晚上用豌豆大小份量，之後再搽面霜。",
+          "fit": [
+            "用慣 A 醇",
+            "視黃醛"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "eye",
+          "label": "Eye & gentle · 眼周同替代",
+          "title": "眼周 A 醇同溫和替代：眼霜、補骨脂酚"
+        },
+        {
+          "type": "p",
+          "html": "眼周用專門眼部產品。想先避開 A 醇，可以揀補骨脂酚，例如最後嗰支 SKIN1004。"
+        }
+      ]
+    },
+    {
+      "type": "catalog",
+      "numbered": false,
+      "id_prefix": "eye",
+      "items": [
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-30ml-6146",
+          "kind": "眼部精華",
+          "why": "人參加視黃醛（Retinal）嘅眼部精華，質地清爽易吸收。呢篇 8 件入面 Olive Young 評價數最多，有 2,886 則。",
+          "fit": [
+            "眼周",
+            "評價數最多"
+          ]
+        },
+        {
+          "handle": "ksecret-ksecret-1988-4-30ml-0577",
+          "kind": "眼霜",
+          "why": "視黃醛脂質體（4%）配發酵豆萃取，再加補骨脂酚、維他命 C、E 同 3 種胜肽，搽喺眼周。",
+          "fit": [
+            "眼周",
+            "熟齡肌"
+          ]
+        },
+        {
+          "handle": "some-by-mi-somebymi-30ml-2583",
+          "kind": "眼霜",
+          "why": "有視黃醇同視黃醛，可以搽眼周、額頭、唇周同頸；產品頁寫係低敏配方。",
+          "fit": [
+            "眼周同頸",
+            "視黃醇＋視黃醛"
+          ]
+        },
+        {
+          "handle": "skin1004-skin1004-probio-cica-20ml-0313",
+          "kind": "眼霜",
+          "unit": "20ml × 2",
+          "why": "唔係 A 醇：主角係補骨脂酚加發酵積雪草，產品頁寫適合乾性至一般膚質。想先避開 A 醇，可以由呢支開始。",
+          "fit": [
+            "補骨脂酚",
+            "乾至一般膚質"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to use · 新手用法",
+          "title": "A 醇點用？新手五步"
+        }
+      ]
+    },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "no": "01",
+          "title": "夜晚潔面，等皮膚乾晒",
+          "html": "AAD 提到 A 醇類會令皮膚對陽光敏感啲，建議淨係夜晚用。潔面、爽膚之後，等皮膚乾晒先搽。",
+          "products": []
+        },
+        {
+          "no": "02",
+          "title": "豌豆大小，薄薄搽全面",
+          "html": "K-SECRET 精華產品頁寫明晚上取豌豆大小份量塗全面。份量唔係越多越好。",
+          "products": [
+            "ksecret-k-secret-seoul-1988-serum-retinal-liposome-2-black-g-0508",
+            "cosrx-cosrx-0-1-20ml-4781"
+          ]
+        },
+        {
+          "no": "03",
+          "title": "隔晚開始，慢慢加",
+          "html": "跟返產品頁建議：Purito 寫隔日用一次，再逐步增加；SOME BY MI 精華寫頭一兩個星期每晚少少份量，超敏感肌隔日用。新手可以先隔晚。",
+          "products": [
+            "purito-purito-seoul-30ml-3065",
+            "some-by-mi-somebymi-30ml-2668"
+          ]
+        },
+        {
+          "no": "04",
+          "title": "之後搽返保濕",
+          "html": "K-SECRET 精華產品頁建議，搽完再塗面霜加強補濕。",
+          "products": []
+        },
+        {
+          "no": "05",
+          "title": "第二朝一定防曬",
+          "html": "AAD 建議用 A 醇類期間，日間一定要做足防曬：搽防曬、戴闊邊帽、行陰涼位。防曬點揀，可以睇 <a href=\"/seasonal?cat=sun\">防曬分類</a>。",
+          "products": []
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "note": "甩皮、泛紅、刺痛持續，就停用同問皮膚科醫生。",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "mistakes",
+          "label": "Mistakes · 常見錯誤",
+          "title": "用 A 醇常見錯誤"
+        },
+        {
+          "type": "list",
+          "items": [
+            "<strong>日頭唔防曬：</strong>A 醇類令皮膚對陽光敏感，第二朝一定要防曬。",
+            "<strong>一開始就每晚用、用好多：</strong>由隔晚、豌豆大小份量開始。",
+            "<strong>同一晚疊用酸類：</strong>開頭幾個星期，盡量唔好同一晚再用 AHA、BHA 呢類去角質產品，減少刺激。",
+            "<strong>皮膚已經紅、痕、甩皮仲照搽：</strong>先停用；情況持續就問皮膚科醫生。",
+            "<strong>當補骨脂酚係 A 醇：</strong>佢係植物成分，唔屬 A 醇，兩樣唔好混為一談。"
+          ]
+        },
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "A 醇常見問題"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "A 醇同視黃醇係咪一樣？",
+              "a": "唔完全一樣。A 醇係維他命 A 家族嘅統稱；視黃醇（Retinol）係常見嗰種，視黃醛（Retinal）都屬同一家族。補骨脂酚（Bakuchiol）就唔係 A 醇。"
+            },
+            {
+              "q": "A 醇可以日頭用嗎？",
+              "a": "建議淨係夜晚用。AAD 提到 A 醇類會令皮膚對陽光更敏感，日間要做足防曬。"
+            },
+            {
+              "q": "敏感肌可以用 A 醇嗎？",
+              "a": "可以由低濃度、隔晚開始，留意皮膚反應。本身好乾、成日泛紅或者有皮膚問題，先問皮膚科醫生；想避開 A 醇，可以考慮補骨脂酚產品。"
+            },
+            {
+              "q": "孕婦可以用 A 醇嗎？",
+              "a": "懷孕、備孕或者用緊處方藥，用任何 A 醇產品之前都要先問醫生。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "American Academy of Dermatology：Retinoid or retinol?",
+              "url": "https://www.aad.org/public/everyday-care/skin-care-secrets/anti-aging/retinoid-retinol"
+            },
+            {
+              "title": "Wikipedia：Retinol（視黃醇轉做視黃醛、視黃酸）",
+              "url": "https://en.wikipedia.org/wiki/Retinol"
+            },
+            {
+              "title": "Wikipedia：Bakuchiol（補骨脂酚，由補骨脂種子提取）",
+              "url": "https://en.wikipedia.org/wiki/Bakuchiol"
+            },
+            {
+              "title": "COSRX 視黃醇 0.1% 面霜產品頁",
+              "url": "/products/cosrx-cosrx-0-1-20ml-4781"
+            },
+            {
+              "title": "Purito 視黃醇局部護理霜產品頁",
+              "url": "/products/purito-purito-seoul-30ml-3065"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
