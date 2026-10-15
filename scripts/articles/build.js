@@ -406,13 +406,15 @@ function updateColumn(all) {
 }
 
 /* ---------- 首頁「美妝小筆記」（index.html） ----------
-   承繼 Codex 首頁原本嘅筆記卡：OUJI NOTE 編號、芝麻插畫、READ A LITTLE 尾標、
-   手機左右掃。揀邊幾篇寫喺 home-notes.json；最尾一張係目錄卡（數埋全部文章）。
-   每張卡嘅插畫、一句摘要（約 20 字、完整一句），同桌面放得落一行嘅短標題（可選）寫喺 home-notes.json，插畫唔准重複；
-   冇寫就按分類揀插畫、摘要用 dek 第一句。art: "cover" 改用文章封面（明星相要寫出處）。只喺全量生成時更新。 */
-const NOTE_ART = { 明星妝感: '10-compare', 明星同款: '10-compare', 排行榜: '15-awards', 護膚攻略: '07-skincare', 問答: '12-help', 成分解碼: '11-search', 選物清單: '06-shopping' };
+   Codex 首頁原本嘅筆記卡（OUJI NOTE 編號、READ A LITTLE 尾標、手機左右掃），
+   卡面改用韓國品牌官方明星海報＋芝麻貼圖（Winston 2026-10-15：插畫唔顯眼）。
+   home-notes.json 每張卡寫：文章 slug、海報（assets/images/home-codex/notes/posters/<poster>-480|720.webp，
+   一律品牌韓國官網原圖，來源記喺 scripts/articles/home-notes-sources.md）、對焦位、海報標籤、芝麻貼圖、
+   一句摘要（約 20 字、完整一句）、可選短標題。海報同貼圖唔准重複；海報品牌要喺文章入面出現。
+   最尾一張係目錄卡（數埋全部文章）。只喺全量生成時更新。 */
 const ARROW_RIGHT = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
 const ARROW_UP_RIGHT = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>';
+const NOTES_IMG = '/assets/images/home-codex/notes';
 
 /* 「Jennie 貓系裸玫瑰妝教學：4 步拆解，同效果產品香港買得到」→ 冒號後第一個逗號之前 */
 function shortTitle(spec) {
@@ -426,16 +428,7 @@ function shortTitle(spec) {
 /* 「Olive Young」呢類兩個字以上嘅英文名唔准斷開兩行 */
 const keepLatin = (html) => html.replace(/[A-Za-z0-9][A-Za-z0-9&’'.-]*(?:\s+[A-Za-z][A-Za-z0-9&’'.-]*)+/g, (m) => `<span class="note-nw">${m}</span>`);
 
-function noteArt(id) {
-  const src = (w) => `/assets/images/home-codex/notes/${id}-${w}.webp`;
-  return `<img src="${src(240)}" srcset="${src(240)} 240w, ${src(360)} 360w" sizes="(max-width: 760px) 94px, 112px" width="240" height="240" alt="" loading="lazy" decoding="async">`;
-}
-
-function noteCover(spec) {
-  const c = spec.cover || {};
-  if (c.type === 'photo') return `<span class="joy-note__cover joy-note__cover--photo"><img src="${esc(c.src)}" alt="" loading="lazy" decoding="async"></span>`;
-  return `<span class="joy-note__cover"><img src="${esc(cdn(product(c.handle).img, 360))}" alt="" loading="lazy" decoding="async"></span>`;
-}
+const sticker = (name, cls) => `<img class="${cls}" src="${NOTES_IMG}/stickers/${name}.webp" alt="" loading="lazy" decoding="async">`;
 
 function updateHome(all) {
   const file = path.join(ROOT, 'index.html');
@@ -443,27 +436,37 @@ function updateHome(all) {
   const picks = conf.notes.map((n) => {
     const s = all.find((x) => x.slug === n.slug);
     if (!s) throw new Error(`home-notes.json 搵唔到文章：${n.slug}`);
+    for (const k of ['poster', 'sticker', 'tag', 'alt']) if (!n[k]) throw new Error(`home-notes.json ${n.slug} 冇寫 ${k}`);
+    for (const w of [480, 720]) {
+      if (!fs.existsSync(path.join(ROOT, `${NOTES_IMG}/posters/${n.poster}-${w}.webp`))) throw new Error(`搵唔到海報：${n.poster}-${w}.webp`);
+    }
     const title = n.title ? (/[。？！]$/.test(n.title) ? n.title : `${n.title}。`) : shortTitle(s);
-    return { s, title, art: n.art || NOTE_ART[s.category] || '14-journal', excerpt: n.excerpt || `${String(s.dek).split('。')[0]}。` };
+    return { ...n, s, title, excerpt: n.excerpt || `${String(s.dek).split('。')[0]}。` };
   });
-  const arts = picks.map((x) => x.art);
-  if (new Set(arts).size !== arts.length) throw new Error(`home-notes.json 插畫重複：${arts.join('、')}`);
+  for (const k of ['poster', 'sticker']) {
+    const v = picks.map((x) => x[k]);
+    if (new Set(v).size !== v.length) throw new Error(`home-notes.json ${k} 重複：${v.join('、')}`);
+  }
   const total = fs.readdirSync(OUT).filter((f) => f.endsWith('.html')).length;
-  const cards = picks.map(({ s, title, art, excerpt }, i) => {
-    const credit = conf.art === 'cover' && s.cover && s.cover.type === 'photo' && s.cover.credit ? stripText(s.cover.credit) : '';
+  const cards = picks.map((n, i) => {
+    const src = (w) => `${NOTES_IMG}/posters/${n.poster}-${w}.webp`;
     return `
-      <a class="joy-note" href="/articles/${s.slug}">
-        <span class="note-top"><span>OUJI NOTE / ${String(i + 1).padStart(2, '0')}</span><span class="note-meta">${esc(s.category)} · ${s.read_minutes || 5} 分鐘</span></span>
-        ${conf.art === 'cover' ? noteCover(s) : noteArt(art)}
-        <h3>${keepLatin(esc(title))}</h3>
-        <p>${esc(excerpt)}</p>
-        <span class="note-bottom">${credit ? esc(credit) : 'READ A LITTLE, CHOOSE A LITTLE BETTER'}</span>
+      <a class="joy-note" href="/articles/${n.s.slug}">
+        <span class="note-top"><span>OUJI NOTE / ${String(i + 1).padStart(2, '0')}</span><span class="note-meta">${esc(n.s.category)} · ${n.s.read_minutes || 5} 分鐘</span></span>
+        <span class="note-poster">
+          <img class="note-poster__img" src="${src(720)}" srcset="${src(480)} 480w, ${src(720)} 720w" sizes="(max-width: 760px) 80vw, 360px" width="720" height="540" alt="${esc(n.alt)}" loading="lazy" decoding="async"${n.focus ? ` style="object-position: ${esc(n.focus)}"` : ''}>
+          <span class="note-poster__tag">${esc(n.tag)}</span>
+          ${sticker(n.sticker, 'note-sticker')}
+        </span>
+        <h3>${keepLatin(esc(n.title))}</h3>
+        <p>${esc(n.excerpt)}</p>
+        <span class="note-bottom">READ A LITTLE, CHOOSE A LITTLE BETTER</span>
       </a>`;
   });
   cards.push(`
       <a class="joy-note joy-note--index" href="/column">
         <span class="note-top"><span>OUJI NOTES / 目錄</span><span class="note-meta">${total} 篇</span></span>
-        ${noteArt('14-journal')}
+        ${sticker(conf.index_sticker || 'lrep', 'note-sticker-hero')}
         <h3>仲有 ${total - picks.length} 篇筆記。</h3>
         <p class="note-hand">五個分類，慢慢揭 ♡</p>
         <span class="note-bottom">睇全部筆記 ${ARROW_RIGHT}</span>
@@ -471,7 +474,7 @@ function updateHome(all) {
   const section = `
 <section class="joy-notes content-wrap" aria-labelledby="home-notes-title">
   <div class="joy-heading"><div><span class="joy-kicker">OUJI NOTES / 美妝小筆記</span><h2 id="home-notes-title">美妝小筆記。</h2></div><a class="text-link" href="/column">全部 ${total} 篇 ${ARROW_UP_RIGHT}</a></div>
-  <div class="joy-note-grid${conf.art === 'cover' ? ' joy-note-grid--cover' : ''}" role="region" aria-label="美妝小筆記；可左右滑動" tabindex="0">${cards.join('')}
+  <div class="joy-note-grid" role="region" aria-label="美妝小筆記；可左右滑動" tabindex="0">${cards.join('')}
   </div>
 </section>`;
   let html = fs.readFileSync(file, 'utf8');
