@@ -206,24 +206,6 @@ async function initHome() {
       expTitle.innerHTML = r <= 0.95 ? `低至 <b data-codex-expiry-zhe>${Math.round(r * 100) / 10}</b> 折` : '到期前好價';
     }
 
-    //「好物，啱價」橫幅中間兩格：各自「低至幾折」（全部有劃線嘅防曬減價貨／全部短效期貨），冇折就唔出
-    const dealsBox = document.querySelector('.home-codex [data-codex-deals]');
-    if (dealsBox) {
-      const pools = { sun: deals.filter(isSun), expiring: live.filter(isShort) };
-      let shown = 0;
-      dealsBox.querySelectorAll('[data-codex-deal]').forEach((a) => {
-        const pool = pools[a.dataset.codexDeal] || [];
-        const r = pool.length ? Math.min(...pool.map(ratio)) : 1;
-        const ok = r <= 0.95;
-        a.style.display = ok ? '' : 'none';
-        if (ok) {
-          a.querySelector('[data-codex-deal-zhe]').textContent = String(Math.round(r * 100) / 10);
-          shown += 1;
-        }
-      });
-      dealsBox.hidden = !shown;
-    }
-
     // HINCE／CLIO 大格：主角冇貨就改去品牌頁，格照留（唔好令版面爛）
     document.querySelectorAll('.home-codex [data-codex-muse]').forEach((a) => {
       const h = a.dataset.codexMuse;

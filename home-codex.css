@@ -766,25 +766,6 @@
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .offer-finds__video { opacity: 0; }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .offer-finds__film.is-showing-video .offer-finds__video { opacity: 1; }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .offer-finds__film.is-showing-video .offer-finds__poster { opacity: 0; }
-/*「好物，啱價」橫幅（Winston 2026-10-15「要優化設計」）：桌面中間空位放兩格實時「低至幾折」，撳入對應專頁。
-   數字由 home.js 跟實時貨計，冇折嗰格唔出。細過 1024px 位唔夠，唔出（手機版不變）。 */
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deals { display: none; }
-@media (min-width: 1024px) {
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds { grid-template-columns: auto minmax(0, 1fr) 168px; column-gap: 28px; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deals { display: flex; justify-content: center; align-items: center; gap: 14px; min-width: 0; position: relative; z-index: 2; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deals[hidden] { display: none; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal { display: grid; grid-template-columns: auto auto; column-gap: 20px; align-items: center; padding: 13px 16px 13px 22px; border: 1px solid rgba(189, 82, 111, .16); border-radius: 18px; background: rgba(255, 255, 255, .74); box-shadow: 0 6px 18px rgba(150, 60, 82, .08); color: var(--finds-ink); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(150, 60, 82, .14); }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal:focus-visible { outline: 2px solid var(--finds-ink); outline-offset: 3px; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-label { grid-column: 1; font: 700 12px/1.3 var(--sans); letter-spacing: .08em; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-value { grid-column: 1; margin-top: 2px; font: 700 14px/1.1 var(--sans); white-space: nowrap; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-value b { margin: 0 2px; font: 800 34px/1 var(--sans); letter-spacing: -.03em; font-variant-numeric: lining-nums; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal-go { grid-column: 2; grid-row: 1 / span 2; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #bd526f; color: #fff; font: 600 16px/1 var(--sans); }
-}
-@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal { transition: none; }
-.home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__deal:hover { transform: none; }
-}
 @media (max-width: 760px) {
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds { grid-template-columns: minmax(0, 1fr) 110px; gap: 8px; height: 150px; min-height: 150px; padding: 16px 18px; border-radius: 22px; background-position: center; }
 .home-codex.home-codex.home-codex .home-offers.commerce-feature--offers .home-offers__header--finds .home-offers__kicker { font-size: 9px; letter-spacing: .045em; }
