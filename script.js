@@ -1063,7 +1063,8 @@ function initMegaMenu() {
       link('隱形眼鏡', '/lens.html'),
       link('K-pop 周邊', '/kpop.html'),
     ].join(''));
-    mega.insertAdjacentHTML('afterbegin', '<img class="header__mega-shima" src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async">');
+    /* 芝麻（樣式見 styles.css .header__mega-shima）：掛喺父層，唔會俾面板嘅 overflow 切走 */
+    mega.closest('.header__nav-item--mega')?.insertAdjacentHTML('beforeend', '<img class="header__mega-shima" src="/assets/images/shima/menu-box.webp" alt="" width="320" height="320" loading="lazy" decoding="async">');
   }
 
   /* 「隱形眼鏡」同「K-pop 周邊」係直接連結，冇下拉。以前連佢哋都當
