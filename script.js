@@ -1038,8 +1038,9 @@ function initMegaMenu() {
   if (!mega) return;
 
   /* 跟手機 OUJI / INDEX 嘅邏輯（Winston 2026-10-15）：一行一個入口，撳落直接入分類頁；
-     淨係護膚同彩妝保留細類展開，其他分類唔展示細類，少用嘅收埋入「其他產品」。
-     首頁唔使列：桌面左上角 OUJI 標誌已經係首頁。HTML 入面舊嘅十一組照留做 JS 未行時嘅後備。 */
+     淨係護膚同彩妝保留細類展開，其他分類唔展示細類。
+     手機將少用嘅收入「其他產品」；桌面有位，Winston 叫直接逐個列出，唔使「其他產品」。
+     首頁、睇全部產品都唔使列：桌面左上角 OUJI 標誌係首頁，頂欄「全部產品」本身就入全部產品。HTML 入面舊嘅十一組照留做 JS 未行時嘅後備。 */
   const groups = Array.from(mega.querySelectorAll(':scope > .header__mega-group'));
   const groupByLabel = (label) => groups.find((group) => (
     group.querySelector('.header__mega-row span')?.textContent.trim() === label
@@ -1047,25 +1048,20 @@ function initMegaMenu() {
   const skincare = groupByLabel('護膚');
   const makeup = groupByLabel('彩妝');
   if (skincare && makeup) {
-    const chevron = '<svg class="header__mega-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
     const link = (label, href) => (
       `<div class="header__mega-group"><a class="header__mega-row header__mega-row--link" href="${href}"><span>${label}</span></a></div>`
     );
-    const others = [
-      ['美妝工具', '/tools.html'],
-      ['護具及壓力襪', '/supports.html'],
-      ['香水香氛', '/fragrance.html'],
-      ['隱形眼鏡', '/lens.html'],
-      ['K-pop 周邊', '/kpop.html'],
-    ];
-    mega.innerHTML = link('睇全部產品', '/shop.html');
-    mega.append(skincare, makeup);
+    mega.replaceChildren(skincare, makeup);
     mega.insertAdjacentHTML('beforeend', [
       link('季節性', '/seasonal.html'),
       link('沐浴洗護', '/bath.html'),
       link('保健品', '/health.html'),
       link('公仔', '/toys.html'),
-      `<div class="header__mega-group header__mega-group--others"><button class="header__mega-row" type="button" aria-expanded="false"><span>其他產品</span>${chevron}</button><div class="header__mega-sub">${others.map(([label, href]) => `<a href="${href}">${label}</a>`).join('')}</div></div>`,
+      link('美妝工具', '/tools.html'),
+      link('護具及壓力襪', '/supports.html'),
+      link('香水香氛', '/fragrance.html'),
+      link('隱形眼鏡', '/lens.html'),
+      link('K-pop 周邊', '/kpop.html'),
     ].join(''));
   }
 
