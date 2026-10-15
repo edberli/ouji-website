@@ -281,266 +281,87 @@
 
   <!-- Filter Sidebar -->
   <div class="filter-overlay"></div>
-  <aside class="filter-sidebar">
-    <div class="filter-sidebar__header">
-      <span class="filter-sidebar__title">篩選</span>
-      <button class="filter-sidebar__close" aria-label="關閉篩選">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-  </aside>
 
-  <main id="main-content" style="padding-top: 96px;">
-
-    <!-- 分類頁頂。
-         量過 Olive Young 個護膚分類頁：第一件貨喺 219px，佢個頂得
-         分類名（16px）＋「3797 items · filter · sort」。冇大標題、
-         冇說明句、冇 hero。我哋本來係大襯線標題 ＋ 件數 ＋ 兩行說明
-         ＋ 一塊玻璃 —— 手機第一件貨喺 900px，差四倍。
-         老闆睇完五個版本揀咗「入口」：冇標題塊，子分類本身就係個頭。
-         啲 tile 由 catalog.js 砌（要件數同每格一張真貨相）。 -->
-    <!-- 護膚頁頂：水光房貼紙相機。原本嗰行入口 tile 喺呢版換成一間首爾
-         「水光貼紙相機」—— 銀藍機身、透明精華水珠、凝膠泡泡、四格真
-         產品相紙，加八張按產品輪廓剪出嚟嘅分類貼紙。
-
-         八張貼紙係真 <button>，DOM 同鍵盤次序固定
-         潔面 → 爽膚水 → 棉片 → 精華液 → 乳液 → 面膜 → 眼部護理 → 防曬，
-         唔跟視覺上嘅高低大細亂序。裝飾全部 aria-hidden ＋
-         pointer-events:none，讀屏唔會讀多次啲產品。
-
-         件數、相紙四張相、選中狀態全部由 catalog.js 嘅
-         buildSkincareBooth() 用 Storefront 真資料填 —— 呢度一個數都唔准寫死。 -->
-    <section class="skincare-booth skincare-booth--legacy-desktop" data-skincare-booth-legacy aria-labelledby="skincare-booth-title">
-      <div class="skincare-booth__flash" aria-hidden="true"></div>
-
-      <div class="skincare-booth__title">
-        <h1 id="skincare-booth-title">OUJI<br><span>DEW CLUB</span></h1>
-        <p class="skincare-booth__meta" data-skincare-booth-meta>護膚</p>
-      </div>
-
-      <!-- 相紙。四個 <img> 一開始就喺度（淨係冇 src），等 aspect-ratio
-           撐住格位，圖遲到都唔會跳版。 -->
-      <div class="skincare-booth__strip" aria-hidden="true">
-        <div class="skincare-booth__frames">
-          <img alt="" loading="lazy" decoding="async">
-          <img alt="" loading="lazy" decoding="async">
-          <img alt="" loading="lazy" decoding="async">
-          <img alt="" loading="lazy" decoding="async">
-        </div>
-        <span data-skincare-booth-caption></span>
-      </div>
-
-      <div class="skincare-booth__art" aria-hidden="true">
-        <div class="skincare-booth__orb"><span>DROP<br>YOUR<br>ROUTINE!</span></div>
-        <span class="skincare-booth__gel skincare-booth__gel--a"></span>
-        <span class="skincare-booth__gel skincare-booth__gel--b"></span>
-        <span class="skincare-booth__gel skincare-booth__gel--c"></span>
-        <span class="skincare-booth__bubble skincare-booth__bubble--a"></span>
-        <span class="skincare-booth__bubble skincare-booth__bubble--b"></span>
-        <span class="skincare-booth__splash">SPLASH!</span>
-        <span class="skincare-booth__glow">GLOW MODE</span>
-      </div>
-
-      <div class="skincare-booth__cats" data-cat-gate aria-label="護膚分類">
-        <button type="button" class="skincare-booth__cat" data-quick="cleanser" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#70e5ff">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="m20 9 36 7-8 47-37-7Z" fill="var(--cat-tint)"/><path d="m16 55 32 6-2 9-32-6Z" fill="#fff"/><path d="M30 10 44 3l8 12" fill="#fff"/><path d="M23 30c8-6 18-2 20 6-5 8-15 10-23 5Z" fill="#fff"/></g><circle cx="35" cy="34" r="3" fill="currentColor"/><circle cx="46" cy="25" r="4" fill="#fff" stroke="currentColor" stroke-width="2.5"/><path d="m57 36 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#7de7e0" stroke="currentColor" stroke-width="2"/></svg>
-          <b>潔面</b><small data-skincare-booth-n="cleanser"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="toner" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#b8ff62">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="M28 6h18v8H28Z" fill="#fff"/><path d="M31 14h12v7l7 9v36H22V30l9-9Z" fill="var(--cat-tint)"/><path d="M26 38h20v20H26Z" fill="#fff"/></g><path d="M33 31c4-7 8-7 10 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M31 45h10M31 50h7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="53" cy="20" r="4" fill="#63e7ff" stroke="currentColor" stroke-width="2"/></svg>
-          <b>爽膚水</b><small data-skincare-booth-n="toner"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="pad" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#fff06a">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8"><ellipse cx="35" cy="21" rx="25" ry="12" fill="#fff"/><path d="M10 21v34c0 7 11 13 25 13s25-6 25-13V21c0 7-11 13-25 13S10 28 10 21Z" fill="var(--cat-tint)"/><ellipse cx="35" cy="21" rx="20" ry="8" fill="#fff"/><path d="M17 48c11 5 25 5 36 0" fill="none" stroke-linecap="round"/></g><path d="M22 18c8-3 17-3 25 0M24 22c7-2 14-2 22 0M26 26c6-1 12-1 18 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m57 7 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#fff06a" stroke="currentColor" stroke-width="2"/></svg>
-          <b>棉片</b><small data-skincare-booth-n="pad"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="serum" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#ff82c9">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="M30 3h18v8H30Z" fill="#11131a"/><path d="M34 11h10v8H34Z" fill="#fff"/><path d="M24 19h30l4 48H20Z" fill="var(--cat-tint)"/><path d="M26 37h25v24H26Z" fill="#fff"/></g><path d="M39 25c5 7 7 10 7 14a7 7 0 1 1-14 0c0-4 2-7 7-14Z" fill="#7de7e0" stroke="currentColor" stroke-width="2.4"/><path d="M31 46h16M31 51h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <b>精華液</b><small data-skincare-booth-n="serum"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="moisturizer" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#c8a6ff">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="M16 27h40l4 11H12Z" fill="#fff"/><path d="M13 38h46l-4 29H17Z" fill="var(--cat-tint)"/><path d="M19 47h34v13H19Z" fill="#fff"/></g><path d="M26 25c-3-7 10-6 7-16 10 5 16 10 10 17" fill="#fff" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 53c7-5 12 5 19 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-          <b>乳液</b><small data-skincare-booth-n="moisturizer"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="mask" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#ff987c">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><path d="M16 5h40l7 13-5 52H14L9 18Z" fill="var(--cat-tint)" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M17 14h38l-3 48H20Z" fill="#fff" stroke="currentColor" stroke-width="2.4"/><path d="M26 29c0-7 4-11 10-11s10 4 10 11v13c0 10-5 16-10 16s-10-6-10-16Z" fill="#e8f7ed" stroke="currentColor" stroke-width="2.2"/><ellipse cx="31" cy="34" rx="3.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="41" cy="34" rx="3.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M33 48c2-1 4-1 6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m56 8 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#ff82c9" stroke="currentColor" stroke-width="2"/></svg>
-          <b>面膜</b><small data-skincare-booth-n="mask"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="eye" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#77c8ff">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><path d="M8 18c9-5 18-5 27 1-3 12-10 20-23 23-4-8-5-16-4-24Z" fill="#7de7e0" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M64 18c-9-5-18-5-27 1 3 12 10 20 23 23 4-8 5-16 4-24Z" fill="#7de7e0" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M15 22c6-2 11-1 16 2M57 22c-6-2-11-1-16 2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M21 49c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9Zm30 0c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9Z" fill="var(--cat-tint)" stroke="currentColor" stroke-width="2.6"/><path d="m21 53 1.5 3.5L26 58l-3.5 1.5L21 63l-1.5-3.5L16 58l3.5-1.5Z" fill="#fff"/></svg>
-          <b>眼部護理</b><small data-skincare-booth-n="eye"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="sunscreen" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#ffce4f">
-          <svg class="skincare-booth__icon" viewBox="0 0 72 76" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"><path d="m20 12 34 6-9 45-34-6Z" fill="var(--cat-tint)"/><path d="m14 55 31 6-2 9-31-6Z" fill="#fff"/><path d="M24 28h22l-4 22H20Z" fill="#fff"/></g><circle cx="34" cy="38" r="6" fill="#fff06a" stroke="currentColor" stroke-width="2"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M34 27v4M34 45v4M23 38h4M41 38h4M26 30l3 3M39 43l3 3M42 30l-3 3M29 43l-3 3"/></g><path d="m57 7 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#ff82c9" stroke="currentColor" stroke-width="2"/></svg>
-          <b>防曬</b><small data-skincare-booth-n="sunscreen"></small>
-        </button>
-      </div>
-    </section>
-
-    <section class="skincare-booth skincare-booth--mobile" data-skincare-booth aria-labelledby="skincare-booth-title">
-      <picture>
-        <source media="(min-width: 960px)" srcset="assets/images/skincare-desktop-airy-3x1-v5.webp" width="2172" height="724">
-        <img class="skincare-booth__watercolor" src="assets/images/skincare-mobile-airy-v1.webp"
-             alt="低飽和水彩海邊 OUJI 護膚店與芝麻貓"
-             width="1448" height="1086" loading="eager" decoding="async" fetchpriority="high">
-      </picture>
-      <div class="skincare-booth__flash" aria-hidden="true"></div>
-
-      <div class="skincare-booth__title">
-        <h1 id="skincare-booth-title">OUJI<br><span>DEW CLUB</span></h1>
-        <p class="skincare-booth__meta" data-skincare-booth-meta>護膚</p>
-      </div>
-
-      <!-- 相紙。四個 <img> 一開始就喺度（淨係冇 src），等 aspect-ratio
-           撐住格位，圖遲到都唔會跳版。 -->
-      <div class="skincare-booth__strip" aria-hidden="true">
-        <div class="skincare-booth__frames">
-          <img alt="" loading="lazy" decoding="async">
-          <img alt="" loading="lazy" decoding="async">
-          <img alt="" loading="lazy" decoding="async">
-          <img alt="" loading="lazy" decoding="async">
-        </div>
-        <span data-skincare-booth-caption></span>
-      </div>
-
-      <div class="skincare-booth__art" aria-hidden="true">
-        <div class="skincare-booth__orb"><span>DROP<br>YOUR<br>ROUTINE!</span></div>
-        <span class="skincare-booth__gel skincare-booth__gel--a"></span>
-        <span class="skincare-booth__gel skincare-booth__gel--b"></span>
-        <span class="skincare-booth__gel skincare-booth__gel--c"></span>
-        <span class="skincare-booth__bubble skincare-booth__bubble--a"></span>
-        <span class="skincare-booth__bubble skincare-booth__bubble--b"></span>
-        <span class="skincare-booth__splash">SPLASH!</span>
-        <span class="skincare-booth__glow">GLOW MODE</span>
-      </div>
-
-      <div class="skincare-booth__cats" data-cat-gate aria-label="護膚分類">
-        <button type="button" class="skincare-booth__cat" data-quick="cleanser" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#70e5ff">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/cleanser.webp" alt="" width="512" height="435">
-          <b>潔面</b><small data-skincare-booth-n="cleanser"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="toner" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#b8ff62">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/toner.webp" alt="" width="512" height="430">
-          <b>爽膚水</b><small data-skincare-booth-n="toner"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="pad" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#fff06a">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/pad.webp" alt="" width="512" height="342">
-          <b>棉片</b><small data-skincare-booth-n="pad"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="serum" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#ff82c9">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/serum.webp" alt="" width="512" height="524">
-          <b>精華液</b><small data-skincare-booth-n="serum"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="moisturizer" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#c8a6ff">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/moisturizer.webp" alt="" width="512" height="427">
-          <b>乳液</b><small data-skincare-booth-n="moisturizer"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="mask" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#ff987c">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/mask.webp" alt="" width="512" height="485">
-          <b>面膜</b><small data-skincare-booth-n="mask"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="eye" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#77c8ff">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/eye.webp" alt="" width="512" height="342">
-          <b>眼部護理</b><small data-skincare-booth-n="eye"></small>
-        </button>
-        <button type="button" class="skincare-booth__cat" data-quick="sunscreen" data-booth-sticker
-          aria-pressed="false" style="--cat-tint:#ffce4f">
-          <img class="skincare-booth__icon" src="assets/images/skincare-category-optimized/sunscreen.webp" alt="" width="512" height="530">
-          <b>防曬</b><small data-skincare-booth-n="sunscreen"></small>
-        </button>
-      </div>
-    </section>
-
+  <main id="main-content" class="lx-page" style="padding-top: 96px;">
+    <!-- 2026-10-16 全部產品／分類頁改 8856 版面（listing-v2.css）。產品卡、品牌分段、排序、篩選邏輯照用 catalog.js。 -->
     <div class="container">
-      <!-- 護膚配方，貼住分類 tile 下面。
-           試過擺喺第一個品牌區之後（客未見過一件貨就見到一份問卷，
-           擺頁頂太早），但老闆要佢喺分類下面 —— 揀完類別跟住就係
-           「唔知揀邊支」，兩件事連住講先順。
-           摺埋咗，撳開先載 attrs.json／ingredients.json（加埋 350KB），
-           唔應該逼每個入護膚頁嘅人都食。 -->
-      <section class="sm" id="skincare-match" data-skincare-match aria-label="護膚配方"></section>
-    </div>
-
-    <!-- Breadcrumb & Filter Bar -->
-    <div class="container">
-      <!-- 子分類 pill 剷咗：頁頂嘅入口 tile 已經做緊同一件事
-           （同一批子分類、同一個件數、同一個 data-quick）。
-           留兩份係重複導覽，客要諗「呢兩行有咩分別」。 -->
-
-      <!-- 護膚焦點同熱門品牌刻意拆開：焦點圖之後會逐張替換，品牌入口
-           就保持一行獨立 carousel，唔再將兩種訊息壓喺同一張 artwork 入面。 -->
-      <section id="skincare-focus" class="skincare-spotlight-section skincare-focus"
-               aria-labelledby="skincare-focus-title">
-        <h2 id="skincare-focus-title" class="sr-only">今週焦點</h2>
-        <div data-skincare-focus-carousel></div>
-      </section>
-
-      <section id="skincare-brands" class="skincare-spotlight-section skincare-brands"
-               aria-labelledby="skincare-brands-title">
-        <div class="skincare-spotlight__heading">
-          <h2 id="skincare-brands-title" class="skincare-spotlight__title">所有護膚品牌</h2>
-        </div>
-        <div data-skincare-brands-carousel></div>
-      </section>
-
-      <aside class="promo-slim promo-slim--evergreen" aria-label="購物禮遇">
-        <img class="promo-slim__jar" src="assets/images/home/gift-cream.webp"
-             alt="" width="208" height="260" loading="lazy" decoding="async">
-        <p class="promo-slim__head"><b>購物禮遇</b><span>OUJI BENEFITS</span></p>
-        <ul class="promo-slim__list">
-          <li><b>滿 HK$99</b><span>7-Eleven／郵局自取免運</span></li>
-          <li><b>滿 HK$250／290</b><span>順豐站／上門免運</span></li>
-          <li><b>滿 HK$599</b><span>送 Round Lab 面霜 · 送完即止</span></li>
+      <div class="lx-topbar">
+        <nav class="breadcrumb lx-crumb" aria-label="目前位置"><a href="/">首頁</a><span class="breadcrumb__sep">›</span><a href="/shop">全部產品</a><span class="breadcrumb__sep">›</span><span>護膚</span></nav>
+        <ul class="lx-trust" aria-label="購物保障">
+          <li title="觀塘實體門市 · 每日 10:00–20:00"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg><span>觀塘實體門市</span></li>
+          <li title="7-11／郵局／順豐站自取"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span>7-11／順豐自取</span></li>
+          <li title="預計 1–2 個工作天送到"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg><span>1–2 工作天送到</span></li>
         </ul>
-      </aside>
-      <div class="filter-bar">
-        <div class="filter-bar__left">
-          <nav class="breadcrumb breadcrumb--inline" aria-label="目前位置">
-            <a href="index.html">首頁</a>
-            <span class="breadcrumb__sep">/</span>
-            <span>護膚</span>
-          </nav>
-          <button class="filter-btn" data-filter-toggle>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M7 12h10M9 18h6"/></svg>
-            篩選
-          </button>
-          <span class="filter-bar__count"></span>
-        </div>
-        <div class="filter-bar__sort">
-          <select aria-label="排序">
-            <option value="featured">排序：推薦</option>
-            <option value="brand">按品牌</option>
-              <option value="new">最新上架</option>
-            <option value="price-asc">價格：由低至高</option>
-            <option value="price-desc">價格：由高至低</option>
-            <option value="award">得獎優先</option>
-            <option value="name-asc">名稱 A–Z</option>
-          </select>
-        </div>
       </div>
 
+      <header class="lx-opening" data-season-anchor>
+        <div class="lx-opening__copy">
+          <span class="lx-opening__eyebrow">OUJI · SKINCARE</span>
+          <h1>護膚</h1>
+          <p>由潔面到防曬，照顧肌膚每一步。</p>
+        </div>
+        <div class="lx-opening__scene" aria-hidden="true">
+          <span class="lx-opening__sig">a little joy.</span>
+          <img class="lx-opening__art" src="/assets/images/listing/mascot/07-skincare-640.webp" srcset="/assets/images/listing/mascot/07-skincare-320.webp 320w, /assets/images/listing/mascot/07-skincare-640.webp 640w" sizes="(max-width: 760px) 116px, 170px" width="640" height="640" alt="" decoding="async" fetchpriority="high">
+          <span class="lx-opening__spark">✧</span>
+        </div>
+        <a class="lx-opening__help" href="/match">未有方向？幫我揀 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </header>
+
+      <section class="lx-catnav lx-catnav--switch" aria-labelledby="lx-catnav-title">
+        <h2 class="lx-catnav__heading" id="lx-catnav-title">按分類選購</h2>
+        <nav class="lx-catnav__grid" aria-label="商品分類">
+          <a class="lx-catnav__card" href="/category" aria-current="page"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/skincare.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">護膚</span></a>
+          <a class="lx-catnav__card" href="/makeup"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/makeup.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">彩妝</span></a>
+          <a class="lx-catnav__card" href="/seasonal"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/seasonal.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">季節性</span></a>
+          <a class="lx-catnav__card" href="/bath"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/bath.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">沐浴洗護</span></a>
+          <a class="lx-catnav__card" href="/tools"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/tools.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">美妝工具</span></a>
+          <a class="lx-catnav__card" href="/fragrance"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/fragrance.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">香水香氛</span></a>
+          <a class="lx-catnav__card" href="/lens"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/lens.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">隱形眼鏡</span></a>
+          <a class="lx-catnav__card" href="/kpop"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/kpop.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">K-pop 周邊</span></a>
+          <a class="lx-catnav__card" href="/toys"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/toys.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">公仔</span></a>
+          <a class="lx-catnav__card" href="/health"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/health.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">保健品</span></a>
+          <a class="lx-catnav__card" href="/supports"><span class="lx-catnav__art"><img src="/assets/images/listing/cat/supports.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="lx-catnav__label">護具及壓力襪</span></a>
+        </nav>
+        <a class="lx-catnav__all" href="/shop">查看全部產品</a>
+      </section>
+      <nav class="lx-subcats" data-cat-gate aria-label="護膚細分類"></nav>
+      <section class="sm" id="skincare-match" data-skincare-match aria-label="護膚配方"></section>
+
+      <div class="lx-toolbar">
+        <p class="lx-toolbar__count"><strong data-lx-count>&nbsp;</strong> 件商品</p>
+        <div class="lx-toolbar__tools">
+          <button type="button" class="lx-filter-btn" data-filter-toggle><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg> 篩選與排序</button>
+          <label class="lx-sort filter-bar__sort"><span>排序</span>
+              <select aria-label="排序">
+                <option value="featured">推薦</option>
+                <option value="brand">按品牌</option>
+                <option value="new">最新上架</option>
+                <option value="price-asc">價格：由低至高</option>
+                <option value="price-desc">價格：由高至低</option>
+                <option value="award">得獎優先</option>
+                <option value="name-asc">名稱 A–Z</option>
+              </select>
+          </label>
+        </div>
+      </div>
       <div class="active-filters" data-active-filters></div>
 
-      <!-- Product Grid -->
-      <div class="catalog reveal-stagger" data-catalog></div>
-
-
-
+      <div class="lx-layout">
+        <aside class="filter-sidebar" id="filter-sidebar" aria-label="篩選商品" aria-hidden="true" inert>
+          <div class="filter-sidebar__header">
+            <span class="filter-sidebar__title">篩選</span>
+            <button class="filter-sidebar__close" aria-label="關閉篩選">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </aside>
+        <div class="lx-results">
+          <div class="lx-brandhead"><h2>品牌專區</h2><a href="/brands">查看更多品牌 ›</a></div>
+          <div class="brand-strip" data-brand-strip></div>
+          <div class="catalog reveal-stagger" data-catalog></div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -658,7 +479,7 @@
   <!-- 相紙揀相嘅名單（人手開圖驗過），一定要喺 catalog.js 之前。 -->
   <script src="booth-shots.js"></script>
   <script src="product-card-lc.js?v=20261016-hoverswap3"></script>
-  <script src="catalog.js?v=20261014-lc1"></script>
+  <script src="catalog.js?v=20261016-lx1"></script>
   <!-- modes 一定要喺 match 之前：match 會即刻叫 modes 入面啲 render。 -->
   <script src="skincare-modes.js"></script>
   <script src="skincare-match.js"></script>
