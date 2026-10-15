@@ -902,12 +902,13 @@
 .home-codex.home-codex.home-codex .home-lifestyle__chapter > .home-lifestyle__tabs { display: none; }
 .home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs { display: flex; overflow: hidden; border-radius: 26px 26px 0 0; }
 .home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab { --folder-tail: 8px; min-height: 48px; padding-inline: 0; font-size: clamp(11.5px, 3.15vw, 13px); background: linear-gradient(to bottom, rgb(255 255 255 / .12), transparent 72%), var(--tab-paper); z-index: 1; }
-.home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(1) { z-index: 7; flex-grow: 1.1; }
+/* 六個標籤一樣闊（2026-10-15 標籤改晒兩個字：當季／沐浴／潤膚／公仔／香氛／K-pop，唔再按舊名「季節性」「身體護理」加闊） */
+.home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(1) { z-index: 7; }
 .home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(2) { z-index: 6; }
-.home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(3) { z-index: 5; flex-grow: 1.4; }
+.home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(3) { z-index: 5; }
 .home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(4) { z-index: 4; }
 .home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(5) { z-index: 3; }
-.home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(6) { z-index: 2; flex-grow: 1.1; }
+.home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab:nth-child(6) { z-index: 2; }
 .home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab[aria-selected="true"] { z-index: 8; }
 .home-codex.home-codex.home-codex .home-lifestyle__mobile-tabs > .home-lifestyle__tab::before { -webkit-mask-size: calc(100% - 16px) 100%, 17px 100%; mask-size: calc(100% - 16px) 100%, 17px 100%; }
 .home-codex.home-codex.home-codex .home-lifestyle__tab { --folder-tail: 20px; min-height: 54px; padding: 6px 4px 7px; font-size: 14px; }
