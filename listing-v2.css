@@ -1,0 +1,289 @@
+/* ============================================================
+   全部產品＋11 個分類頁（2026-10-16 Winston 揀咗 8856 預覽上 live）
+   頁頭卡、按分類選購、品牌精選、細分類相格、篩選欄卡、四欄產品格。
+   產品卡（product-card-lc.*）、品牌條（Clearline）、品牌分段同排序邏輯照用 live 原本嗰套，呢度唔郁。
+   只喺 main.lx-page 入面生效。
+   ============================================================ */
+.lx-page {
+  --lx-ink: #1e3038;
+  --lx-ink-soft: #5b7480;
+  --lx-teal: #2e697c;
+  --lx-rule: rgba(43, 76, 88, .16);
+  --lx-hand: 'Klee One', 'Noto Serif TC', serif;
+  padding-bottom: 64px;
+  color: var(--lx-ink);
+}
+.lx-page .container { max-width: 1440px; padding-inline: clamp(20px, 4.5vw, 65px); }
+
+/* ----- 頂部一條：左邊麵包屑，右邊購物保障（只係點綴，要短） ----- */
+.lx-topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; margin: 12px 0 10px; padding: 0 18px; border-radius: 12px; background: rgba(255, 255, 255, .7); box-shadow: 0 1px 2px rgba(31, 67, 80, .04); }
+.lx-crumb { display: flex; flex-wrap: nowrap; align-items: center; gap: 10px; margin: 0; padding: 0; white-space: nowrap; color: var(--lx-ink-soft); font-size: 12px; }
+.lx-crumb a { display: inline-flex; align-items: center; min-height: 40px; color: var(--lx-ink-soft); text-decoration: none; }
+.lx-crumb a:hover { color: var(--lx-teal); text-decoration: underline; text-underline-offset: 3px; }
+/* applyCategoryHeading 會插入「/」分隔，統一顯示做「›」。 */
+.lx-crumb .breadcrumb__sep { font-size: 0; }
+.lx-crumb .breadcrumb__sep::before { content: "›"; color: #9fb2b8; font-size: 12px; }
+.lx-trust { display: flex; align-items: center; margin: 0; padding: 0; list-style: none; }
+.lx-trust li { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 5px; color: var(--lx-ink-soft); font-size: 12px; white-space: nowrap; font-variant-numeric: lining-nums; }
+.lx-trust li + li::before { content: "·"; margin: 0 12px; color: #9fb2b8; }
+.lx-trust svg { flex: 0 0 auto; width: 14px; height: 14px; color: #6b8791; }
+
+/* ----- 頁頭卡（細細個、克制；芝麻＋a little joy） ----- */
+.lx-opening { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) 230px auto; align-items: center; gap: 22px; min-height: 202px; margin: 10px 0 20px; padding: 24px 32px; border: 1px solid #d1e1e4; border-radius: 22px; background: #eaf2f3; }
+.lx-opening::before { content: ""; position: absolute; z-index: -1; right: 20px; top: -230px; width: 440px; height: 440px; border: 1px solid #ffffffb8; border-radius: 50%; }
+.lx-opening--makeup { background: #f5eeed; border-color: #e8dad8; }
+.lx-opening__copy { position: relative; z-index: 1; min-width: 0; }
+.lx-opening__eyebrow { display: block; color: #477285; font-size: 10px; font-weight: 700; line-height: 1.25; letter-spacing: .17em; text-transform: uppercase; }
+.lx-opening h1 { margin: 9px 0 12px; color: #244b59; font: 500 clamp(32px, 4vw, 54px)/1.15 var(--font-display); letter-spacing: -.035em; }
+.lx-opening p { margin: 0; color: #4c626a; font-size: 14px; line-height: 1.6; }
+.lx-opening__short { display: none; }
+.lx-opening__scene { position: relative; width: 230px; height: 160px; }
+.lx-opening__scene::before { content: ""; position: absolute; right: 0; bottom: 0; width: 144px; height: 144px; border-radius: 50%; background: #ffffff91; }
+.lx-opening__art { position: absolute; right: 7px; bottom: -9px; width: 170px; height: 170px; object-fit: contain; }
+.lx-opening__sig { position: absolute; left: -12px; top: 12px; z-index: 1; color: #477285; font: italic 22px/1.1 Georgia, serif; transform: rotate(-9deg); }
+.lx-opening__spark { position: absolute; right: -1px; top: 10px; color: #477285; font-size: 27px; }
+.lx-opening__help { align-self: end; display: flex; align-items: center; gap: 6px; min-height: 44px; color: var(--lx-ink); font-size: 12px; text-decoration: none; white-space: nowrap; }
+.lx-opening__help svg { width: 15px; height: 15px; }
+.lx-opening__help:hover { text-decoration: underline; }
+/* 品牌頁／搜尋結果：頁頭細一級，貨品早啲出。 */
+.lx-opening--compact { min-height: 140px; padding-block: 16px; }
+.lx-opening--compact h1 { font-size: 36px; }
+.lx-opening--compact .lx-opening__scene { height: 100px; }
+.lx-opening--compact .lx-opening__scene::before { width: 100px; height: 100px; }
+.lx-opening--compact .lx-opening__art { width: 120px; height: 120px; }
+/* 品牌頁／搜尋／換季優惠嗰啲已經係揀咗嘅清單，唔再出「品牌精選」（同 8856 一樣）。 */
+.lx-opening--compact ~ .lx-picks { display: none; }
+
+/* ----- 按分類選購：無框圓底圖示（桌面一行過，平板六格，手機四格） ----- */
+.lx-catnav { margin: 0 0 15px; color: #244a56; }
+.lx-catnav__heading { margin: 0 0 12px; color: #315b68; font: 500 18px/1.4 var(--lx-hand); }
+.lx-catnav--switch { margin-bottom: 12px; padding: 2px 0 6px; border-block: 1px solid #d3e1e3; }
+.lx-catnav--switch .lx-catnav__heading { margin: 12px 0; }
+.lx-catnav__grid { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 12px 6px; }
+.lx-catnav__card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 104px; border-radius: 10px; color: #244a56; text-align: center; text-decoration: none; }
+.lx-catnav__card:focus-visible { outline: 2px solid #4a7f8f; outline-offset: 2px; }
+.lx-catnav__art { position: relative; isolation: isolate; display: grid; place-items: center; width: 64px; height: 64px; flex: 0 0 64px; }
+.lx-catnav__art::before { content: ""; position: absolute; z-index: -1; left: 0; bottom: 0; width: 60px; height: 60px; border-radius: 50%; background: #e3eeef; }
+.lx-catnav__card:nth-child(3n+2) .lx-catnav__art::before { background: #f0e5e2; }
+.lx-catnav__card:nth-child(3n) .lx-catnav__art::before { background: #e7ebe1; }
+.lx-catnav__art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.lx-catnav__label { width: 100%; font-size: 14px; font-weight: 500; line-height: 1.35; text-wrap: balance; }
+.lx-catnav__card[aria-current="page"] .lx-catnav__art::before { box-shadow: inset 0 0 0 2px #5b8c99; }
+.lx-catnav__card[aria-current="page"] .lx-catnav__label { color: #1f4855; font-weight: 700; }
+.lx-catnav__all { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; padding: 0 10px; border-radius: 6px; color: var(--lx-teal); font-size: .82rem; font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .lx-catnav__art img { transition: transform .25s cubic-bezier(.2, .8, .2, 1); }
+  .lx-catnav__card:hover .lx-catnav__art img { transform: translateY(-3px); }
+  .lx-catnav__card:hover .lx-catnav__label { color: var(--lx-teal); }
+}
+
+/* ----- 品牌精選（全部產品頁）：四張品牌相，一行過 ----- */
+.lx-picks { margin: 18px 0 0; }
+.lx-picks__heading { margin: 0 0 10px; color: var(--lx-ink); font: 500 14px/1.4 var(--font-body); letter-spacing: -.02em; }
+.lx-picks__track { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.lx-pick { position: relative; display: block; aspect-ratio: 2.117 / 1; overflow: hidden; border-radius: 12px; color: #244c59; text-decoration: none; }
+.lx-pick img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lx-pick__copy { position: absolute; inset: 0 auto 0 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 10px 12px; }
+.lx-pick__brand { font: 600 clamp(18px, 1.9vw, 27px)/1.04 var(--font-display); letter-spacing: -.045em; }
+.lx-pick__cta { display: flex; align-items: center; gap: 6px; margin-top: 8px; padding-bottom: 3px; border-bottom: 1px solid currentColor; font-size: 10px; }
+
+/* ----- 細分類相格（每格一張真貨相＋名＋件數；第一格「全部」） ----- */
+.lx-page .lx-subcats { display: flex; gap: 12px; margin: 4px 0 14px; padding: 2px 2px 6px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+.lx-page .lx-subcats:empty { display: none; }
+.lx-page .lx-subcats::-webkit-scrollbar { display: none; }
+.lx-tile { display: flex; flex: 0 0 116px; flex-direction: column; align-items: center; gap: 5px; padding: 8px 8px 10px; border: 1px solid #dbe8e9; border-radius: 14px; background: #fff; color: #244a56; font: inherit; text-align: center; text-decoration: none; cursor: pointer; scroll-snap-align: start; transition: border-color 120ms ease, box-shadow 120ms ease; }
+.lx-tile__shot { display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 10px; background: #f1f5f5; }
+.lx-tile__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lx-tile--all .lx-tile__shot { background: #e3eeef; }
+.lx-tile--all .lx-tile__shot img { padding: 14%; object-fit: contain; }
+.lx-tile__label { margin-top: 2px; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.lx-tile__count { color: var(--lx-ink-soft); font-size: 11px; font-variant-numeric: lining-nums tabular-nums; }
+.lx-tile:hover { border-color: #9dbac3; }
+.lx-tile:focus-visible { outline: 2px solid var(--lx-teal); outline-offset: 2px; }
+.lx-tile.is-on { border-color: var(--lx-teal); box-shadow: inset 0 0 0 1.5px var(--lx-teal); background: #f3f8f8; }
+.lx-tile.is-on .lx-tile__label { color: #1f4855; }
+
+/* 護膚配方（幫我揀入口）保留喺護膚頁。 */
+.lx-page .sm { margin: 6px 0 4px; }
+
+/* ----- 件數＋排序 ----- */
+.lx-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; margin: 18px 0 0; padding: 12px 0; border-block: 1px solid var(--lx-rule); }
+.lx-toolbar__count { margin: 0; font-size: 13px; }
+.lx-toolbar__count strong { font: 600 19px/1.2 var(--font-body); font-variant-numeric: tabular-nums; }
+.lx-toolbar__tools { display: flex; align-items: center; gap: 8px; }
+.lx-filter-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1px solid #6da3b5; border-radius: 999px; background: rgba(255, 255, 255, .565); color: #2b4c58; font: 700 13px/1.2 var(--font-body); letter-spacing: .015em; cursor: pointer; }
+.lx-filter-btn svg { width: 16px; height: 16px; }
+.lx-sort { display: flex; align-items: center; gap: 8px; font-size: 10px; }
+.lx-sort select { min-height: 44px; padding: 0 22px 0 4px; border: 0; border-bottom: 1px solid var(--lx-rule); border-radius: 0; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e3038' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 2px center / 14px; color: var(--lx-ink); font: 13px var(--font-body); appearance: none; -webkit-appearance: none; cursor: pointer; }
+.lx-page .active-filters:not(:empty) { margin: 0; padding: 8px 0; gap: 8px; }
+
+/* ----- 篩選欄＋產品 ----- */
+.lx-layout { padding-top: 22px; }
+.lx-brandhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
+.lx-brandhead h2 { margin: 0; font: 600 15px/1.2 var(--font-body); letter-spacing: -.025em; }
+.lx-brandhead a { color: var(--lx-teal); font-size: 13px; text-decoration: none; }
+.lx-brandhead a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* 品牌條只喺品牌分段時出現（篩選／排序後係一格過），冇條就唔好留個標題。 */
+body:not(.has-brand-rail) .lx-brandhead { display: none; }
+
+/* 篩選欄內容（桌面係卡、手機平板係抽屜，同一份 HTML） */
+.lx-side__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 14px; padding-bottom: 12px; border-bottom: 1px solid #e8eff0; }
+.lx-side__head h2 { margin: 0; color: #1f4350; font: 600 20px/1.25 var(--font-display); }
+.lx-side__clear { padding: 0; border: 0; background: none; color: var(--lx-teal); font: 13px var(--font-body); cursor: pointer; }
+.lx-side__clear:hover { text-decoration: underline; text-underline-offset: 3px; }
+.lx-fields { display: grid; gap: 15px; }
+.lx-field { display: grid; gap: 6px; color: #4a5e66; font-size: 12px; }
+.lx-field select, .lx-field input { width: 100%; min-height: 44px; border: 1px solid var(--lx-rule); background: #fff; color: var(--lx-ink); font: 13px var(--font-body); }
+.lx-field select { padding: 10px 30px 10px 10px; border-radius: 12px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e3038' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center / 14px; appearance: none; -webkit-appearance: none; cursor: pointer; }
+.lx-field select:disabled { color: #8a9ca2; cursor: default; }
+.lx-field input { padding: 7px 9px; border-radius: 0; }
+.lx-check { display: flex; align-items: center; gap: 8px; min-height: 26px; color: #4a5e66; font-size: 13px; cursor: pointer; }
+.lx-check input { width: 20px; height: 20px; margin: 3px; accent-color: var(--lx-teal); }
+.lx-engine { display: none; }
+
+/* 價錢拉桿：兩粒掣，拉緊即時出數，放手先篩。 */
+.lx-range { display: grid; gap: 8px; }
+.lx-range__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; color: #4a5e66; font-size: 12px; }
+.lx-range__value { color: var(--lx-ink); font-size: 13px; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.lx-range__track { position: relative; height: 44px; }
+.lx-range__track::before, .lx-range__track::after { content: ""; position: absolute; top: 50%; height: 4px; border-radius: 2px; transform: translateY(-50%); }
+.lx-range__track::before { left: 0; right: 0; background: #dbe8e9; }
+.lx-range__track::after { left: var(--lo, 0%); right: calc(100% - var(--hi, 100%)); background: #397f93; }
+.lx-range__track input[type="range"] { position: absolute; inset: 0; z-index: 1; width: 100%; height: 44px; margin: 0; background: transparent; pointer-events: none; -webkit-appearance: none; appearance: none; }
+.lx-range__track input[type="range"]::-webkit-slider-runnable-track { height: 44px; background: transparent; }
+.lx-range__track input[type="range"]::-moz-range-track { height: 44px; background: transparent; }
+.lx-range__track input[type="range"]::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: 10px; border: 2px solid #397f93; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(32, 72, 84, .25); cursor: grab; pointer-events: auto; -webkit-appearance: none; appearance: none; }
+.lx-range__track input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; border: 2px solid #397f93; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(32, 72, 84, .25); cursor: grab; pointer-events: auto; }
+.lx-range__track input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 3px solid rgba(57, 127, 147, .35); outline-offset: 2px; }
+.lx-range__track input[type="range"]:active::-webkit-slider-thumb { cursor: grabbing; }
+.lx-range__scale { display: flex; justify-content: space-between; color: #4a5e66; font-size: 10px; font-variant-numeric: lining-nums; }
+
+/* 抽屜（1080px 或以下）：用返 live 抽屜，頂部已經有「篩選」同關閉掣，自己個標題行就收埋。 */
+@media (max-width: 1080px) { .filter-sidebar .lx-side__head { display: none; } }
+.filter-sidebar .lx-fields { padding: 18px 24px 24px; }
+
+/* ----- 品牌條（live 原本嘅 Clearline 牌，幼身版）----- */
+.lx-page .brand-plate { height: 88px; gap: 0; padding: 0 32px; margin-bottom: 18px; }
+.lx-page .brand-plate__logo { height: calc(var(--logo-h, 58px) * .5) !important; transform: none; }
+.lx-page .brand-plate__wordmark { font-size: 1.25rem; line-height: 1.2; text-align: center; }
+.lx-page .brand-plate.has-banner { height: 120px; --banner-w: 360px; }
+.lx-page .brand-plate.has-banner .brand-plate__logo { height: auto !important; max-height: 56px; }
+
+/* ----- 產品格：手機以外一律一行四張（Winston 指定） ----- */
+.lx-page .catalog .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 42px 22px; }
+/* 「N 則評價」：live 張卡 200px 以下會收起「則評價」。761px 以上照出（Winston：加埋唔會好攞位置）。 */
+@media (min-width: 761px) {
+  .lx-page .lc__rating .lc__cw { display: inline; }
+}
+
+/* ============ 桌面 1081px 以上：篩選欄常駐左邊 ============ */
+@media (min-width: 1081px) {
+  .lx-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: start; gap: 28px; }
+  .lx-filter-btn { display: none; }
+  /* live 抽屜係 position:fixed＋毛玻璃；桌面變返一張普通白卡，跟住捲（sticky）。 */
+  .lx-layout > .filter-sidebar { position: sticky; inset: 112px auto auto auto; z-index: 1; display: block; width: auto; height: auto; max-height: calc(100vh - 124px); overflow-y: auto; padding: 18px 18px 20px; border: 1px solid #e1ebec; border-radius: 18px; background: #fff; box-shadow: none; transform: none; transition: none; backdrop-filter: none; -webkit-backdrop-filter: none; scrollbar-width: thin; }
+  .lx-layout > .filter-sidebar .filter-sidebar__header, .lx-layout > .filter-sidebar .filter-sidebar__actions { display: none; }
+  .lx-layout > .filter-sidebar .filter-sidebar__body { overflow: visible; }
+  .lx-layout > .filter-sidebar .lx-fields { padding: 0; }
+  .lx-results { min-width: 0; }
+}
+
+/* ============ 平板 1080px 或以下 ============ */
+@media (max-width: 1080px) {
+  .lx-opening { grid-template-columns: minmax(0, 1fr) 200px; }
+  .lx-opening__help { display: none; }
+}
+/* 1051–1240：一行十一格每格得八十幾 px，「護具及壓力襪」14px 會斷兩行，細一號。 */
+@media (min-width: 1051px) and (max-width: 1240px) {
+  .lx-catnav__label { font-size: 13px; }
+}
+@media (max-width: 1050px) {
+  .lx-catnav__grid { grid-auto-flow: row; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+
+/* ============ 手機 760px 或以下 ============ */
+@media (max-width: 760px) {
+  .lx-page .container { padding-inline: 20px; }
+  .lx-topbar { min-height: 34px; margin: 8px 0; padding: 0 12px; }
+  .lx-crumb { display: none; }
+  .lx-trust { width: 100%; overflow: hidden; }
+  .lx-trust li { gap: 4px; font-size: 11.5px; }
+  .lx-trust li + li::before { margin: 0 8px; }
+  .lx-trust svg { width: 13px; height: 13px; }
+
+  .lx-opening { grid-template-columns: minmax(0, 1fr) 106px; gap: 5px; min-height: 148px; margin: 4px 0 14px; padding: 19px 16px; border-radius: 17px; }
+  .lx-opening__eyebrow { font-size: 8px; letter-spacing: .1em; }
+  .lx-opening h1 { margin: 7px 0 9px; font-size: 32px; }
+  .lx-opening p { max-width: 18em; font-size: 11px; line-height: 1.7; }
+  .lx-opening__long { display: none; }
+  .lx-opening__short { display: inline; }
+  .lx-opening__scene { width: 106px; height: 112px; }
+  .lx-opening__scene::before { width: 100px; height: 100px; }
+  .lx-opening__art { right: -8px; bottom: -4px; width: 116px; height: 116px; }
+  .lx-opening__sig { left: -7px; top: -1px; font-size: 15px; }
+  .lx-opening__spark { right: -8px; top: 19px; font-size: 19px; }
+  .lx-opening--compact { min-height: 116px; padding-block: 10px; }
+  .lx-opening--compact h1 { font-size: 29px; }
+  .lx-opening--compact .lx-opening__scene { height: 90px; }
+  .lx-opening--compact .lx-opening__art { width: 100px; height: 100px; }
+  .lx-opening--compact .lx-opening__sig { display: none; }
+
+  .lx-catnav__grid { gap: 10px 4px; }
+  .lx-catnav__card { min-height: 74px; gap: 6px; }
+  .lx-catnav__art { width: 48px; height: 48px; flex-basis: 48px; }
+  .lx-catnav__art::before { width: 45px; height: 45px; }
+  .lx-catnav__label { font-size: 13px; }
+
+  .lx-picks { margin-top: 14px; }
+  .lx-picks__heading { margin-bottom: 7px; font-size: 12px; }
+  .lx-picks__track { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .lx-picks__track::-webkit-scrollbar { display: none; }
+  .lx-pick { flex: 0 0 68%; scroll-snap-align: start; }
+  .lx-pick__copy { padding: 12px; }
+  .lx-pick__brand { font-size: 22px; }
+
+  .lx-toolbar { gap: 6px; min-height: 56px; margin-top: 12px; padding: 8px 0; }
+  .lx-toolbar__count { flex: 0 0 auto; font-size: 12px; }
+  .lx-toolbar__tools { flex: 1; justify-content: flex-end; }
+  .lx-filter-btn { padding: 8px 12px; font-size: 12px; }
+  .lx-sort > span { display: none; }
+  .lx-sort select { max-width: 96px; font-size: 12px; }
+  .lx-page .active-filters:not(:empty) { padding: 6px 0; }
+  .lx-layout { padding-top: 14px; }
+
+  .lx-page .brand-plate { height: 64px; padding: 0 20px; margin-bottom: 12px; }
+  .lx-page .brand-plate__logo { height: calc(var(--logo-h, 58px) * .4) !important; }
+  .lx-page .brand-plate__wordmark { font-size: 1.05rem; }
+  .lx-page .brand-plate.has-banner { height: 88px; --banner-w: 264px; padding-left: 16px; }
+  .lx-page .brand-plate.has-banner .brand-plate__logo { max-height: 40px; }
+}
+@media (min-width: 601px) and (max-width: 760px) {
+  .lx-catnav__card { min-height: 92px; }
+  .lx-catnav__art { width: 56px; height: 56px; flex-basis: 56px; }
+  .lx-catnav__art::before { width: 52px; height: 52px; }
+  .lx-catnav__label { font-size: 14px; }
+}
+@media (max-width: 700px) {
+  .lx-page .catalog .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 27px 11px; }
+}
+@media (max-width: 600px) {
+  .lx-catnav__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lx-page .lx-subcats { gap: 8px; margin-bottom: 12px; }
+  .lx-tile { flex-basis: 86px; padding: 6px 6px 8px; border-radius: 12px; }
+  .lx-tile__label { font-size: 13px; }
+}
+/* 400px 或以下（大部分 iPhone）：保障淨係留門市同自取，唔轉兩行。 */
+@media (max-width: 400px) {
+  .lx-trust li:nth-child(3) { display: none; }
+}
+@media (max-width: 360px) {
+  .lx-sort { display: none; }
+  .lx-catnav__label { font-size: 12px; }
+  .lx-catnav__art { width: 44px; height: 44px; flex-basis: 44px; }
+  .lx-catnav__art::before { width: 41px; height: 41px; }
+  .lx-opening { grid-template-columns: minmax(0, 1fr) 90px; padding-inline: 12px; }
+  .lx-opening__scene { width: 90px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lx-catnav__art img { transition: none; }
+}

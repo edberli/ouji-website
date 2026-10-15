@@ -556,11 +556,234 @@ function brandFromUrl(products) {
   return hit ? hit.vendor : null;
 }
 
+/* ===== 全部產品／分類頁 8856 版面（2026-10-16，listing-v2.css）=====
+   頁面係 main.lx-page。篩選照用側欄 checkbox 做底（activeFilters 只讀佢哋），
+   畫面上換成 8856 嘅下拉、關鍵字、價錢拉桿；揀咗就同步返去 checkbox，
+   所以分類格、chip、清除全部、網址 ?brand= 呢啲舊路照行。 */
+const isLxPage = () => !!document.querySelector('main.lx-page');
+const LX_SECTIONS = [
+  ['skincare', '護膚', '/category'], ['makeup', '彩妝', '/makeup'], ['seasonal', '季節性', '/seasonal'],
+  ['bath', '沐浴洗護', '/bath'], ['tools', '美妝工具', '/tools'], ['fragrance', '香水香氛', '/fragrance'],
+  ['lens', '隱形眼鏡', '/lens'], ['kpop', 'K-pop 周邊', '/kpop'], ['toys', '公仔', '/toys'],
+  ['health', '保健品', '/health'], ['supports', '護具及壓力襪', '/supports'],
+];
+let LX_CEIL = 0;
+const lxEsc = (v) => String(v ?? '').replace(/[&<>"']/g, (ch) => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+})[ch]);
+
+function buildLxSidebar(sidebar, section, products, subs, vendors, awarded) {
+  /* 拉桿上限：呢版最貴嗰件，向上執到 100（同 8856 預覽一樣）。 */
+  const top = products.reduce((m, p) => Math.max(m, price(p) || 0), 0);
+  LX_CEIL = Math.max(100, Math.ceil(top / 100) * 100);
+  const sortEl = document.querySelector('.filter-bar__sort select');
+  const engine = [
+    ...subs.map((x) => optionRow('cat', lxEsc(x.id), lxEsc(x.label), x.count)),
+    ...vendors.map((v) => optionRow('vendor', lxEsc(v.vendor), lxEsc(v.vendor), v.count)),
+  ].join('');
+  const subOptions = section ? subs.map((x) =>
+    `<option value="${lxEsc(x.id)}">${lxEsc(x.label)}（${x.count}）</option>`).join('') : '';
+  sidebar.querySelectorAll('.filter-sidebar__body, .filter-group, .filter-sidebar__actions')
+    .forEach((n) => n.remove());
+  sidebar.insertAdjacentHTML('beforeend', `<div class="filter-sidebar__body">
+    <div class="lx-fields">
+      <div class="lx-side__head"><h2>篩選商品</h2><button type="button" class="lx-side__clear" data-filter-clear>清除全部</button></div>
+      <label class="lx-field"><span>品牌</span><select data-lx-pick="vendor"><option value="">所有品牌</option>${
+        vendors.map((v) => `<option value="${lxEsc(v.vendor)}">${lxEsc(v.vendor)}（${v.count}）</option>`).join('')}</select></label>
+      <label class="lx-field"><span>分類</span><select data-lx-nav><option value="/shop">所有分類</option>${
+        LX_SECTIONS.map(([id, label, href]) => `<option value="${href}"${id === section ? ' selected' : ''}>${label}</option>`).join('')}</select></label>
+      <label class="lx-field"><span>細分類</span><select data-lx-pick="cat"${subOptions && subs.length > 1 ? '' : ' disabled'}><option value="">全部類型</option>${subOptions}</select></label>
+      <label class="lx-field"><span>關鍵字</span><input type="search" data-lx-q placeholder="商品、品牌、條碼或 SKU" autocomplete="off" enterkeyhint="search"></label>
+      <div class="lx-range" data-lx-range>
+        <div class="lx-range__head"><span>價錢</span><output class="lx-range__value" data-lx-range-value>不限</output></div>
+        <div class="lx-range__track" style="--lo:0%;--hi:100%">
+          <input type="range" min="0" max="${LX_CEIL}" step="10" value="0" aria-label="最低價格（HK$）" data-lx-min>
+          <input type="range" min="0" max="${LX_CEIL}" step="10" value="${LX_CEIL}" aria-label="最高價格（HK$）" data-lx-max>
+        </div>
+        <div class="lx-range__scale" aria-hidden="true"><span>HK$0</span><span>HK$${LX_CEIL}</span></div>
+      </div>
+      <label class="lx-check"><input type="checkbox" data-lx-stock> 只看可選購款式</label>
+      ${awarded ? '<label class="lx-check"><input type="checkbox" data-group="flag" value="award"> 只看得獎產品</label>' : ''}
+      ${sortEl ? `<label class="lx-field"><span>排序</span><select data-lx-sort>${sortEl.innerHTML}</select></label>` : ''}
+      <div class="lx-engine" aria-hidden="true">${engine}</div>
+    </div>
+  </div>
+  <div class="filter-sidebar__actions">
+    <button class="btn btn--primary btn--full btn--sm" data-filter-done>顯示產品</button>
+    <button class="btn btn--ghost btn--full btn--sm" data-filter-clear>清除篩選</button>
+  </div>`);
+  bindLxSidebar(sidebar);
+  lxDockSidebar(sidebar);
+}
+
+function bindLxSidebar(sidebar) {
+  if (sidebar.dataset.lxBound) return;
+  sidebar.dataset.lxBound = '1';
+  sidebar.addEventListener('change', (e) => {
+    const t = e.target;
+    if (t.matches('[data-lx-q]')) {
+      /* 關鍵字失焦都會出原生 change；字冇變就唔好重畫 —— 否則 chip 喺撳落去嗰刻被重砌，
+         個 click 會唔見咗（實測撳「×」清唔到關鍵字）。 */
+      if (t.value === (t.dataset.lxLast || '')) { e.stopPropagation(); return; }
+      t.dataset.lxLast = t.value;
+    } else if (t.matches('[data-lx-pick]')) {
+      // 下拉只係面：改返底下嗰排 checkbox，之後照行 catalog 自己嘅 change → draw()。
+      sidebar.querySelectorAll(`.lx-engine input[data-group="${t.dataset.lxPick}"]`)
+        .forEach((el) => { el.checked = !!t.value && el.value === t.value; });
+    } else if (t.matches('[data-lx-nav]')) {
+      e.stopPropagation();
+      if (t.value && t.value !== location.pathname) location.href = t.value;
+    } else if (t.matches('[data-lx-sort]')) {
+      e.stopPropagation();
+      const main = document.querySelector('.filter-bar__sort select');
+      if (main && main.value !== t.value) {
+        main.value = t.value;
+        main.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+  });
+  let qTimer = 0;
+  sidebar.addEventListener('input', (e) => {
+    const t = e.target;
+    if (t.matches('[data-lx-q]')) {
+      clearTimeout(qTimer);
+      qTimer = setTimeout(() => t.dispatchEvent(new Event('change', { bubbles: true })), 250);
+    } else if (t.type === 'range' && t.closest('[data-lx-range]')) {
+      lxRangeInput(t);
+    }
+  });
+}
+
+/* 1081px 以上篩選欄常駐左邊（listing-v2.css 用 media query 排位），要解除 live 抽屜嘅 inert；
+   細過就變返 live 抽屜，由「篩選與排序」掣打開。 */
+/* 抽屜要擺返 main 外面：live 嘅 main 有 z-index:1，抽屜喺入面會畀遮罩（.filter-overlay）蓋住撳唔到。
+   1081px 以上就搬入 .lx-layout 做左欄。 */
+function lxPlaceSidebar(sidebar) {
+  const layout = document.querySelector('.lx-layout');
+  if (!layout || !sidebar) return;
+  if (window.matchMedia('(min-width: 1081px)').matches) {
+    if (sidebar.parentElement !== layout) layout.prepend(sidebar);
+  } else if (sidebar.parentElement === layout) {
+    const overlay = document.querySelector('.filter-overlay');
+    if (overlay) overlay.after(sidebar);
+    else document.body.append(sidebar);
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.querySelector('.lx-layout > .filter-sidebar');
+  if (!sidebar) return;
+  lxPlaceSidebar(sidebar);
+  window.matchMedia('(min-width: 1081px)').addEventListener('change', () => lxPlaceSidebar(sidebar));
+});
+
+function lxDockSidebar(sidebar) {
+  const mq = window.matchMedia('(min-width: 1081px)');
+  const apply = () => {
+    lxPlaceSidebar(sidebar);
+    if (mq.matches) {
+      sidebar.classList.remove('is-open');
+      sidebar.inert = false;
+      sidebar.removeAttribute('aria-hidden');
+      document.querySelector('.filter-overlay')?.classList.remove('is-visible');
+      if (document.body.style.overflow === 'hidden') document.body.style.overflow = '';
+    } else if (!sidebar.classList.contains('is-open')) {
+      sidebar.inert = true;
+      sidebar.setAttribute('aria-hidden', 'true');
+    }
+  };
+  apply();
+  if (!sidebar.dataset.lxDock) {
+    sidebar.dataset.lxDock = '1';
+    mq.addEventListener('change', apply);
+  }
+}
+
+function lxRangeInput(input) {
+  const box = input.closest('[data-lx-range]');
+  const min = box.querySelector('[data-lx-min]');
+  const max = box.querySelector('[data-lx-max]');
+  const step = 10;
+  // 兩粒掣唔准交叉
+  if (Number(min.value) > Number(max.value) - step) {
+    if (input === min) min.value = String(Math.max(0, Number(max.value) - step));
+    else max.value = String(Math.min(LX_CEIL, Number(min.value) + step));
+  }
+  lxRangePaint(box);
+}
+
+function lxRangePaint(box) {
+  if (!box) return;
+  const lo = Number(box.querySelector('[data-lx-min]').value);
+  const hi = Number(box.querySelector('[data-lx-max]').value);
+  const track = box.querySelector('.lx-range__track');
+  track.style.setProperty('--lo', `${(lo / LX_CEIL) * 100}%`);
+  track.style.setProperty('--hi', `${(hi / LX_CEIL) * 100}%`);
+  box.querySelector('[data-lx-range-value]').textContent =
+    lo === 0 && hi === LX_CEIL ? '不限' : `HK$${lo} – HK$${hi}`;
+}
+
+/** 清除拉桿／關鍵字／只看可選購（checkbox 嗰啲由「清除全部」自己剔走）。 */
+function resetLxFilters(which) {
+  const side = document.querySelector('.filter-sidebar');
+  if (!side) return;
+  if (!which || which === 'q') {
+    const q = side.querySelector('[data-lx-q]');
+    if (q) { q.value = ''; q.dataset.lxLast = ''; }
+  }
+  if (!which || which === 'range') {
+    const lo = side.querySelector('[data-lx-min]');
+    const hi = side.querySelector('[data-lx-max]');
+    if (lo && hi) {
+      lo.value = '0';
+      hi.value = String(LX_CEIL);
+      lxRangePaint(lo.closest('[data-lx-range]'));
+    }
+  }
+  if (!which || which === 'stock') {
+    const st = side.querySelector('[data-lx-stock]');
+    if (st) st.checked = false;
+  }
+}
+
+/** 每次畫之前令下拉顯示返而家真正篩緊嘅嘢（分類格、chip、網址都會改 checkbox）。 */
+function syncLxSidebar(sel) {
+  const side = document.querySelector('.filter-sidebar');
+  if (!side || !side.querySelector('.lx-fields')) return;
+  const pick = (group, set) => {
+    const box = side.querySelector(`[data-lx-pick="${group}"]`);
+    if (!box) return;
+    const want = set.size === 1 ? [...set][0] : '';
+    box.value = [...box.options].some((o) => o.value === want) ? want : '';
+  };
+  pick('vendor', sel.vendor);
+  pick('cat', sel.cat);
+  const main = document.querySelector('.filter-bar__sort select');
+  const mirror = side.querySelector('[data-lx-sort]');
+  if (main && mirror) mirror.value = main.value;
+}
+
+function lxQueryMatch(p, q) {
+  if (typeof window.OUJI_searchProductMatch === 'function' && window.OUJI_searchProductMatch(p, q)) return true;
+  const flat = (x) => String(x || '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+  const needle = flat(q);
+  if (!needle) return true;
+  const hay = [p.title, p.vendor, p.handle, p.productType,
+    ...(p.variants?.edges || []).flatMap((e) => [e.node?.sku, e.node?.barcode, e.node?.title])]
+    .map(flat).join(' ');
+  return hay.includes(needle);
+}
+
 function buildFilterSidebar(section, products) {
   const sidebar = document.querySelector('.filter-sidebar');
   if (!sidebar) return;
   const subs = availableSubs(section, products);
   const vendors = vendorsOf(products);
+  if (isLxPage()) {
+    const awardedN = products.filter((p) => typeof awardsFor === 'function'
+      && awardsFor(p.handle).length).length;
+    buildLxSidebar(sidebar, section, products, subs, vendors, awardedN);
+    return;
+  }
   const buckets = PRICE_BUCKETS
     .map((b) => ({ ...b, count: products.filter((p) => b.test(price(p))).length }))
     .filter((b) => b.count);
@@ -603,9 +826,18 @@ function buildFilterSidebar(section, products) {
 }
 
 function activeFilters() {
-  const sel = { cat: new Set(), vendor: new Set(), price: new Set(), flag: new Set() };
+  const sel = { cat: new Set(), vendor: new Set(), price: new Set(), flag: new Set(),
+    range: null, q: '', stock: false };
   document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked')
     .forEach((el) => sel[el.dataset.group]?.add(el.value));
+  // 8856 版面：價錢拉桿、關鍵字、只看可選購
+  const lo = document.querySelector('.filter-sidebar [data-lx-min]');
+  const hi = document.querySelector('.filter-sidebar [data-lx-max]');
+  if (lo && hi && (Number(lo.value) > 0 || Number(hi.value) < LX_CEIL)) {
+    sel.range = [Number(lo.value), Number(hi.value)];
+  }
+  sel.q = (document.querySelector('.filter-sidebar [data-lx-q]')?.value || '').trim();
+  sel.stock = !!document.querySelector('.filter-sidebar [data-lx-stock]')?.checked;
   return sel;
 }
 
@@ -619,6 +851,12 @@ function preselectBrand(vendor) {
 function applyFilters(section, products, sel) {
   const counts = vendorCounts(products);
   return products.filter((p) => {
+    if (sel.range) {
+      const v = price(p);
+      if (v < sel.range[0] || v > sel.range[1]) return false;
+    }
+    if (sel.stock && soldOut(p)) return false;
+    if (sel.q && !lxQueryMatch(p, sel.q)) return false;
     if (sel.flag.has('award') && !(typeof awardsFor === 'function'
         && awardsFor(p.handle).length)) return false;
     if (sel.vendor.size && !sel.vendor.has(groupedVendor(p, counts))) return false;
@@ -826,7 +1064,8 @@ function buildCatGate(section, products, sel, lockCat) {
   const host = document.querySelector('[data-cat-gate]');
   if (!host) return;
   const subs = availableSubs(section, products);
-  if (subs.length < 3) { host.innerHTML = ''; return; }
+  const lx = host.classList.contains('lx-subcats');
+  if (subs.length < (lx ? 2 : 3)) { host.innerHTML = ''; return; }
   const used = new Set();
   const shot = (id) => {
     // 每格一張唔同嘅相 —— 兩格出同一支貨會令人以為我哋得嗰幾件
@@ -839,6 +1078,22 @@ function buildCatGate(section, products, sel, lockCat) {
     return hit.images.edges[0].node.url + '&width=260';
   };
   const active = sel.cat;
+  if (lx) {
+    /* 8856 細分類相格：第一格「全部」用分類圖，其餘每格一張真貨相。用連結（href 係 ?cat= 頁）。 */
+    const base = LISTING_PAGES[section] || location.pathname;
+    const none = !active.size && !lockCat;
+    host.innerHTML = `<a class="lx-tile lx-tile--all${none ? ' is-on' : ''}" href="${base}" data-quick=""${none ? ' aria-current="true"' : ''}>
+        <span class="lx-tile__shot"><img src="/assets/images/listing/cat/${lxEsc(section)}.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
+        <span class="lx-tile__label">全部</span><span class="lx-tile__count">${products.length} 件</span></a>`
+      + subs.map((sub) => {
+        const u = shot(sub.id);
+        const on = active.has(sub.id) || lockCat === sub.id;
+        return `<a class="lx-tile${on ? ' is-on' : ''}" href="${base}?cat=${encodeURIComponent(sub.id)}" data-quick="${lxEsc(sub.id)}"${on ? ' aria-current="true"' : ''}>
+          <span class="lx-tile__shot">${u ? `<img src="${u}" alt="" loading="lazy" decoding="async">` : ''}</span>
+          <span class="lx-tile__label">${sub.label}</span><span class="lx-tile__count">${sub.count} 件</span></a>`;
+      }).join('');
+    return;
+  }
   host.innerHTML = subs.map((sub) => {
     const u = shot(sub.id);
     return `<button type="button" class="cat-gate__tile${active.has(sub.id) ? ' is-on' : ''}"
@@ -1630,6 +1885,12 @@ function buildActiveChips(section, sel, lockCat) {
     chips.unshift(`<button class="filter-chip" data-unset-lock="1">
       ${label('cat', lockCat)}<span aria-hidden="true">×</span></button>`);
   }
+  if (sel.range) chips.push(`<button class="filter-chip" data-lx-unset="range">
+      HK$${sel.range[0]} – HK$${sel.range[1]}<span aria-hidden="true">×</span></button>`);
+  if (sel.q) chips.push(`<button class="filter-chip" data-lx-unset="q">
+      「${lxEsc(sel.q)}」<span aria-hidden="true">×</span></button>`);
+  if (sel.stock) chips.push(`<button class="filter-chip" data-lx-unset="stock">
+      只看可選購<span aria-hidden="true">×</span></button>`);
   host.innerHTML = chips.length
     ? chips.join('') + '<button class="filter-chip filter-chip--clear" data-filter-clear>清除全部</button>'
     : '';
@@ -1882,7 +2143,7 @@ function brandSection(vendor, items, index) {
               style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}">
         ${logo
           ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
-                  style="height:${brandLogoHeight(vendor)}px" loading="lazy" decoding="async">`
+                  style="--logo-h:${brandLogoHeight(vendor)}px;height:${brandLogoHeight(vendor)}px" loading="lazy" decoding="async">`
           : `<span class="brand-plate__wordmark">${vendor}</span>`}
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
@@ -2231,6 +2492,8 @@ function clearGridWindows() {
 }
 
 function gridCols(host) {
+  // 8856 版面：手機以外一律一行四張（Winston 2026-10-16），700px 或以下兩張。
+  if (isLxPage()) return window.matchMedia('(max-width: 700px)').matches ? 2 : 4;
   if (window.matchMedia('(min-width: 1025px)').matches) return 4;
   if (window.matchMedia('(min-width: 769px)').matches) return 3;
   return 2;
@@ -2557,7 +2820,8 @@ function renderProducts(container, products, { grouped }) {
   }, { signal: SECTION_MORE_ABORT.signal });
   // 三十幾格全部掛好先至計一次 —— 每格計一次即係計三十幾次
   syncGridWindows();
-  if (['skincare', 'makeup', 'all'].includes(CURRENT_SECTION)) {
+  /* 8856 版面冇咗「所有品牌」相格，全部頁一律用 Clearline 品牌條做「品牌專區」。 */
+  if (!isLxPage() && ['skincare', 'makeup', 'all'].includes(CURRENT_SECTION)) {
     bindCategoryBrandNavigation(order, CURRENT_SECTION);
   } else buildBrandRail(order);
 }
@@ -3162,7 +3426,7 @@ function mountSeasonSale(products, section) {
   // 護膚頁（category.html）傳入嘅係成個護膚目錄，折數只計防曬
   if (section === 'skincare' && typeof subMatch === 'function') products = products.filter((p) => subMatch('skincare', 'sunscreen', p));
   document.querySelector('.season-sale')?.remove();
-  const anchor = document.querySelector('.breadcrumb');
+  const anchor = document.querySelector('[data-season-anchor]') || document.querySelector('.breadcrumb');
   if (!anchor) return;
   const best = products.reduce((m, p) => Math.min(m, dealRatio(p)), 1);
   const zhe = Math.round(best * 100) / 10;
@@ -3377,7 +3641,7 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     // Clearline 品牌導覽，所以 `cat` 唔再令個 grid 攤平。真正用戶篩選、
     // URL brand、lockCat 同非推薦排序仍然照舊用 flat grid。
     const filtered = lockCat || sel.cat.size || sel.vendor.size
-      || sel.price.size || sel.flag.size;
+      || sel.price.size || sel.flag.size || sel.range || sel.q || sel.stock;
     // Brand sections only survive the default order — asking for "cheapest
     // first" and getting it inside each brand is not what was asked.
     const grouped = !searchTerm && !filtered && sortKey === 'featured'
@@ -3401,7 +3665,10 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     }
     prepareBrandRailSlot();
     buildActiveChips(section, sel, lockCat);
+    syncLxSidebar(sel);
     if (countEl) countEl.textContent = `顯示 ${list.length} 件產品`;
+    const lxCount = document.querySelector('[data-lx-count]');
+    if (lxCount) lxCount.textContent = list.length.toLocaleString('en-US');
     const done = document.querySelector('[data-filter-done]');
     if (done) done.textContent = `顯示 ${list.length} 件產品`;
 
@@ -3471,9 +3738,12 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   }
 
   document.addEventListener('click', (e) => {
+    const lxUnset = e.target.closest('[data-lx-unset]');
+    if (lxUnset) { resetLxFilters(lxUnset.dataset.lxUnset); return draw(); }
     const clear = e.target.closest('[data-filter-clear]');
     if (clear) {
       boxes().forEach((el) => { el.checked = false; });
+      resetLxFilters();
       lockCat = null;   // 細分類唔喺 checkbox 度，唔清佢就清唔乾淨
       expandedMakeupParent = null;
       return draw();
@@ -3482,6 +3752,11 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     // so it drives the same checkboxes rather than keeping its own state.
     const tab = e.target.closest('[data-quick]');
     if (tab) {
+      /* 8856 細分類格係連結（Google 跟得到 ?cat= 頁），撳就照舊即場篩；⌘／Ctrl 撳開新分頁唔攔。 */
+      if (tab.tagName === 'A') {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+      }
       // 貼紙牆冇「全部」嗰格，所以再撳一次選中嗰張就係解除 —— 唔係
       // 咁樣揀完一格就返唔到轉頭。pill 嗰行有「全部」，照舊。
       const isBooth = tab.hasAttribute('data-booth-sticker') || tab.hasAttribute('data-booth-sub');
