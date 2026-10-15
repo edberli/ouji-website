@@ -226,6 +226,15 @@ async function initHome() {
       a.href = byHandle.has(h) ? `/products/${h}` : `shop.html?brand=${encodeURIComponent(a.dataset.codexBrand || '')}`;
     });
 
+    // YOUR SHELF 護膚架：價錢跟實時目錄；冇貨就唔出價、改去品牌頁（格照留，唔好令版面爛）
+    document.querySelectorAll('.home-codex [data-shelf-handle]').forEach((a) => {
+      const p = byHandle.get(a.dataset.shelfHandle);
+      a.href = p ? `/products/${p.handle}` : `shop.html?brand=${encodeURIComponent(a.dataset.shelfBrand || '')}`;
+      const price = a.querySelector('[data-shelf-price]');
+      const amount = Number(p?.priceRange?.minVariantPrice?.amount);
+      if (price) price.textContent = amount > 0 ? `HK$${+amount.toFixed(2)}` : '';
+    });
+
     // 美妝品牌：數字用實時目錄；冇貨嘅品牌唔出（連循環嗰組）
     const stat = (k, n) => document.querySelectorAll(`.home-codex [data-codex-stat="${k}"]`).forEach((dd) => {
       const t = [...dd.childNodes].find((x) => x.nodeType === 3 && x.nodeValue.trim());
