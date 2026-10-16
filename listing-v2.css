@@ -164,18 +164,15 @@ body:not(.has-brand-rail) .lx-brandhead { display: none; }
 
 /* ----- 品牌專區：照用 live Clearline 品牌條（跟住捲、跟版高亮），樣跟 8856：白底條、每個牌一粒圓角掣 ----- */
 .lx-page .brand-rail-dock { height: 60px; margin: 0 0 18px; }
-.lx-page .brand-rail.brand-rail--clearline { height: 60px; gap: 8px; padding: 8px 10px; border: 0; border-radius: 14px; background: rgba(250, 252, 251, .96); box-shadow: 0 5px 14px rgba(36, 65, 73, .055); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-.lx-page .brand-rail--clearline .brand-rail__item { flex: 0 0 auto; width: auto; min-width: 94px; max-width: 170px; height: 44px; padding: 0 18px; border: 1px solid #e3ecec; border-radius: 999px; background: #fff; scroll-snap-align: start; }
+.lx-page .brand-rail.brand-rail--clearline { box-sizing: border-box; height: 60px; gap: 8px; padding: 8px 10px; border: 0; border-radius: 20px; background: rgba(250, 252, 251, .96); box-shadow: 0 5px 14px rgba(36, 65, 73, .055); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.lx-page .brand-rail--clearline .brand-rail__item { box-sizing: border-box; flex: 0 0 102px; width: 102px; min-width: 102px; max-width: 102px; height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: #fff; scroll-snap-align: start; }
 .lx-page .brand-rail--clearline .brand-rail__item::before { display: none; }
-.lx-page .brand-rail--clearline .brand-rail__item.is-current { border-color: rgba(78, 132, 151, .66); background: #e8f1f2; box-shadow: inset 0 -2px 0 rgba(78, 132, 151, .38); }
-.lx-page .brand-rail--clearline .brand-rail__logo { width: 96px; height: 24px; opacity: 1; }
-.lx-page .brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo { transform: none; }
-.lx-page .brand-rail--clearline .brand-rail__fallback { color: var(--lx-ink); font-size: 11px; font-weight: 500; letter-spacing: .02em; opacity: 1; }
+.lx-page .brand-rail--clearline .brand-rail__item.is-current { border: 0; background: #e8f1f2; box-shadow: inset 0 -2px 0 rgba(78, 132, 151, .38); }
+.lx-page .brand-rail--clearline .brand-rail__logo { display: block; width: 78px; max-width: 78px; height: 23px; max-height: 23px; object-fit: contain; opacity: 1; transform: none; }
+.lx-page .brand-rail--clearline .brand-rail__fallback { max-width: 78px; overflow: hidden; color: var(--lx-ink); font-size: 11px; font-weight: 500; letter-spacing: .02em; opacity: 1; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 768px) {
   .lx-page .brand-rail-dock { height: 58px; margin-bottom: 14px; }
   .lx-page .brand-rail.brand-rail--clearline { height: 58px; gap: 6px; padding: 7px; }
-  .lx-page .brand-rail--clearline .brand-rail__item { min-width: 88px; height: 44px; padding: 0 14px; }
-  .lx-page .brand-rail--clearline .brand-rail__logo { width: 80px; height: 20px; }
 }
 
 /* ----- 品牌條（live 原本嘅 Clearline 牌，幼身版）----- */
