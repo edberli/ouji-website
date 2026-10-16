@@ -112,7 +112,8 @@ async function initHome() {
         return seen.get(k) <= n;
       });
     };
-    const reviews = (p) => ratings?.[p.handle]?.count || 0;
+    // 只計 Olive Young：@cosme／YesStyle 評分淨係用嚟顯示，唔參與揀貨（數字唔可以跨平台比）
+    const reviews = (p) => (ratings?.[p.handle]?.src && ratings[p.handle].src !== 'oy' ? 0 : ratings?.[p.handle]?.count) || 0;
     // 形象格揀正價熱門：韓國站評價多嘅行先，冇評價就跟推薦分數
     const popular = (items) => [...items].sort((a, b) => (reviews(b) - reviews(a)) || (featured(b) - featured(a)));
     const top = (items) => [...items].sort((a, b) => (featured(b) - featured(a)) || (reviews(b) - reviews(a)));
@@ -324,7 +325,8 @@ async function initHome() {
   }
 
   let RATINGS = ratings;
-  const reviewCount = (p) => RATINGS?.[p.handle]?.count || 0;
+  // 「熱賣」寫明係 Olive Young 最多人評價 —— 新加嘅 @cosme／YesStyle 評分唔計入
+  const reviewCount = (p) => (RATINGS?.[p.handle]?.src && RATINGS[p.handle].src !== 'oy' ? 0 : RATINGS?.[p.handle]?.count) || 0;
   const onSale = (p) => {
     const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
     const p0 = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);

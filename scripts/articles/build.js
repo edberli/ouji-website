@@ -35,7 +35,9 @@ const hash = (s) => crypto.createHash('sha1').update(s).digest('hex').slice(0, 8
 /* ---------- 資料 ---------- */
 const naming = require(path.join(ROOT, 'product-naming.js'));
 const catalog = new Map(JSON.parse(read('data/catalog.json')).v.map((e) => e.node || e).map((p) => [p.handle, p]));
-const ratings = JSON.parse(read('data/ratings.json')).products || {};
+const ratingsAll = JSON.parse(read('data/ratings.json')).products || {};
+// 文章寫明「Olive Young 評分」：@cosme（7 分制）／YesStyle 嘅分唔准混入
+const ratings = Object.fromEntries(Object.entries(ratingsAll).filter(([, r]) => !r.src || r.src === 'oy'));
 const awardsCtx = { window: {}, document: { addEventListener() {} } };
 vm.createContext(awardsCtx);
 vm.runInContext(read('awards.js'), awardsCtx);

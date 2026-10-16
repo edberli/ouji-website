@@ -9,7 +9,9 @@ const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
 const catalog = new Map(JSON.parse(fs.readFileSync(path.join(ROOT, 'data/catalog.json'), 'utf8')).v.map((e) => e.node || e).map((p) => [p.handle, p]));
-const ratings = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/ratings.json'), 'utf8')).products || {};
+const ratingsAll = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/ratings.json'), 'utf8')).products || {};
+// 文章寫明「Olive Young 評分」：@cosme（7 分制）／YesStyle 嘅分唔准混入
+const ratings = Object.fromEntries(Object.entries(ratingsAll).filter(([, r]) => !r.src || r.src === 'oy'));
 
 const BAD = /治療|根治|消炎|醫學證實|臨床證實|去斑|美白|神器|完美|史上|天花板|必買神物|零瑕疵|逆天|！！|療效|醫生推薦|藥用|殺菌|抗菌|排毒|速效|即時見效|保證/g;
 const strip = (s) => String(s || '').replace(/<[^>]+>/g, '');

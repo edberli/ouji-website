@@ -263,7 +263,10 @@ fetch('featured.json')
 function popScore(p) {
   const r = typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE
     ? RATINGS_CACHE[p.handle] : null;
-  if (!r || !r.count) return 0;
+  /* 只計 Olive Young。2026-10-16 加咗 @cosme／YesStyle 評分做顯示，但三個平台
+     嘅評論數唔可以直接比（@cosme 一件貨動輒幾萬則），混埋計會令「推薦」排序
+     靜靜哋大執位。要唔要將新來源計入人氣，係另一個決定。 */
+  if (!r || !r.count || (r.src && r.src !== 'oy')) return 0;
   return (Math.log10(r.count + 1) / 4) * ((r.star || 4) / 5) * 100;
 }
 
@@ -2802,6 +2805,7 @@ function renderProducts(container, products, { grouped }) {
   const brandFame = (pool) => {
     const total = pool.reduce((n, p) => n
       + ((typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE
+        && !(RATINGS_CACHE[p.handle]?.src && RATINGS_CACHE[p.handle].src !== 'oy')   // 只計 Olive Young，理由見 popScore
         ? RATINGS_CACHE[p.handle]?.count : 0) || 0), 0);
     return Math.min(Math.log10(total + 1) / 5, 1) * 100;
   };
