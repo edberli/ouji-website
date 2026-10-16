@@ -68,6 +68,7 @@
 .lc__rating { display: flex; flex: none; align-items: center; gap: min(2.55cqi, 8.98px); height: clamp(14px, 5.11cqi, 17.25px); margin-top: clamp(4px, 1.53cqi, 4px); overflow: hidden; color: var(--lc-rate-2); font: 400 clamp(10px, 3.5cqi, 11.5px)/clamp(14px, 5.11cqi, 17.25px) var(--lc-f); white-space: nowrap; }
 .lc__rating .lc__score { display: inline-flex; align-items: center; gap: min(1.25cqi, 4.4px); color: var(--lc-rate); font-weight: 500; }
 .lc__rating .lc__star { color: var(--lc-gold); font-size: clamp(11.5px, 4.25cqi, 13px); line-height: 1; }
+.lc__rating .lc__max { margin-left: -1px; font-size: .82em; font-weight: 400; color: var(--lc-rate-2); }
 .lc__rating i { flex: none; width: 1px; height: min(3.4cqi, 11.97px); min-height: 10px; background: var(--lc-sep); }
 .lc__rating .lc__src { color: var(--lc-src); }
 

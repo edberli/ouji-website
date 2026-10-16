@@ -26,6 +26,21 @@
  */
 const RATINGS_URL = 'data/ratings.json';
 
+/* 評分唔止一個來源：韓國貨引 Olive Young，日本貨引 @cosme，兩邊都冇
+   先引 YesStyle。每件貨嘅 `src` 寫明出處（冇寫就係 Olive Young —— 舊資料
+   全部係），`max` 係嗰個來源嘅滿分。@cosme 係 7 分制，唔換算做 5 分：
+   換算咗嘅數字對方網站搵唔到，客人查唔返，等於作數。所以照原分數顯示，
+   並且寫明「/7」。 */
+const RATING_SOURCES = {
+  oy: { name: 'Olive Young', who: 'Olive Young 顧客' },
+  cosme: { name: '@cosme', who: '@cosme 會員' },
+  ys: { name: 'YesStyle', who: 'YesStyle 顧客' },
+};
+const ratingSrc = (r) => RATING_SOURCES[r?.src] || { name: r?.srcName || 'Olive Young', who: `${r?.srcName || 'Olive Young'} 顧客` };
+const ratingMax = (r) => Number(r?.max) || 5;
+/** 分數文字：5 分制照舊「4.7」；其他滿分寫埋「/7」，免得 5.2 分（7 分制）俾人當 5 分制睇。 */
+const ratingNum = (star, max) => (max === 5 ? `${star}` : `${star}<small class="rating-max">/${max}</small>`);
+
 let RATINGS_CACHE = null;
 
 /** 一件產品一個檔。全部夾埋係 800 KB —— 冇理由為咗睇一支唇釉
@@ -63,18 +78,19 @@ function ratingChip(handle) {
      但呢度寫「韓國站」而唔係寫個店名：一版「全部產品」有六百幾個卡片，
      寫足店名等於喺自己個舖度幫人賣咗六百次廣告。講明唔係自己嘅就夠 ——
      真正引用評價原文嗰度（產品頁評價區）先寫足 Olive Young。 */
-  return `<span class="card-rating">${stars(r.star)}
-    <b>${r.star}</b><span>韓國站 ${r.count.toLocaleString()} 則</span></span>`;
+  const label = r.src && r.src !== 'oy' ? ratingSrc(r).name : '韓國站';
+  return `<span class="card-rating">${stars(r.star, ratingMax(r))}
+    <b>${ratingNum(r.star, ratingMax(r))}</b><span>${label} ${r.count.toLocaleString()} 則</span></span>`;
 }
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g,
   (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 /** 實心／空心星，半星唔用圖 —— 用一條裁剪嘅實心星疊上去。 */
-function stars(value) {
-  const pct = Math.max(0, Math.min(100, (value / 5) * 100));
+function stars(value, max = 5) {
+  const pct = Math.max(0, Math.min(100, (value / max) * 100));
   const row = (cls) => `<span class="stars__row stars__row--${cls}">★★★★★</span>`;
-  return `<span class="stars" role="img" aria-label="5 星中 ${value} 星">
+  return `<span class="stars" role="img" aria-label="${max} 分中 ${value} 分">
     ${row('bg')}<span class="stars__fill" style="width:${pct}%">${row('fg')}</span>
   </span>`;
 }
@@ -156,14 +172,14 @@ function sellableShades(product) {
   return live.length ? live : [...shadeOption.values];
 }
 
-function reviewCard(r, showShade) {
+function reviewCard(r, showShade, max = 5) {
   const attrs = (r.attrs || [])
     .map((a) => `<span class="rv-card__attr">${esc(a.name)} <b>${a.score}</b></span>`).join('');
   // 譯文行先、原文收喺 details 入面 —— 讀得明係頭等大事，
   // 但要查證嘅人一撳就見到原文，唔使離開個頁。
   return `<article class="rv-card">
     <header class="rv-card__head">
-      ${stars(r.star)}
+      ${stars(r.star, max)}
       <span class="rv-card__who">${esc(r.who)}</span>
       <time class="rv-card__date">${esc(r.date)}</time>
     </header>
@@ -179,13 +195,14 @@ function reviewCard(r, showShade) {
 
 /* 標題下面嗰行分數。人未捲落去之前就見到 —— 呢個係大部分人喺產品頁
    上面唯一會搵嘅一樣嘢。有評價原文先撳得，冇就淨係顯示唔畀撳。 */
-function ratingLine(star, count, jumpTo) {
+function ratingLine(star, count, jumpTo, r = null) {
   const el = document.querySelector('[data-rating-jump]');
   if (!el) return;
+  const max = ratingMax(r);
   el.hidden = false;
-  el.innerHTML = `${stars(star)}
-    <b class="product-info__rating-num">${star}</b>
-    <span class="product-info__rating-n">Olive Young ${count.toLocaleString()} 則評價</span>`;
+  el.innerHTML = `${stars(star, max)}
+    <b class="product-info__rating-num">${ratingNum(star, max)}</b>
+    <span class="product-info__rating-n">${esc(ratingSrc(r).name)} ${count.toLocaleString()} 則評價</span>`;
   if (!jumpTo) {
     el.removeAttribute('href');
     el.classList.add('is-static');
@@ -205,7 +222,7 @@ async function initReviews(handle, product) {
   if (!d || !d.count) {
     // 得分數冇評價原文 —— 出返標題下面嗰行就算，唔好開個空嘅評價區。
     const r = (await loadRatings())[handle];
-    if (r) ratingLine(r.star, r.count, null);
+    if (r) ratingLine(r.star, r.count, null, r);
     return;
   }
   if (!host) return;
@@ -215,9 +232,13 @@ async function initReviews(handle, product) {
     ? d.reviews.filter((r) => !r.shade || shades.some((v) => sameShade(v, r.shade)))
     : d.reviews;
 
-  ratingLine(d.star, d.count, host);
+  const idx = (await loadRatings())[handle] || {};
+  const src = { src: d.src || idx.src, srcName: d.source, max: d.max || idx.max };
+  const top = ratingMax(src);
+  ratingLine(d.star, d.count, host, src);
 
-  const max = Math.max(...d.dist.map((x) => x.count));
+  const dist = d.dist || [];
+  const max = Math.max(0, ...dist.map((x) => x.count));
   const regions = Object.entries(d.byRegion || {})
     .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(' · ');
 
@@ -233,11 +254,11 @@ async function initReviews(handle, product) {
 
     <div class="rv-summary">
       <div class="rv-score">
-        <span class="rv-score__num">${d.star}</span>
-        ${stars(d.star)}
+        <span class="rv-score__num">${ratingNum(d.star, top)}</span>
+        ${stars(d.star, top)}
         ${regions ? `<span class="rv-score__meta">${regions}</span>` : ''}
       </div>
-      <div class="rv-dist">${d.dist.map((x) => distBar(x, max)).join('')}</div>
+      ${dist.length ? `<div class="rv-dist">${dist.map((x) => distBar(x, max)).join('')}</div>` : ''}
       <div class="rv-attrs">
         ${(d.attrs || []).map((a) => `<div class="rv-attr">
           <span class="rv-attr__name">${esc(a.name)}</span>
@@ -249,5 +270,5 @@ async function initReviews(handle, product) {
     </div>
 
     ${shown.length ? `<p class="rv-note">${esc(d.note || '')}</p>
-    <div class="rv-list">${shown.map((r) => reviewCard(r, !!shades)).join('')}</div>` : ''}`;
+    <div class="rv-list">${shown.map((r) => reviewCard(r, !!shades, top)).join('')}</div>` : ''}`;
 }

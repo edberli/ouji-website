@@ -119,9 +119,12 @@
   function ratingHTML(handle) {
     const r = typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE ? RATINGS_CACHE[handle] : null;
     if (!r) return '<span class="lc__rating" aria-hidden="true"></span>';
-    return `<span class="lc__rating"><span class="lc__score"><span class="lc__star" aria-hidden="true">★</span>${Number(r.star).toFixed(1)}</span>`
+    /* 日本貨嘅評分嚟自 @cosme（7 分制）：照原分數寫，加「/7」，唔換算做 5 分制。 */
+    const max = Number(r.max) || 5;
+    const src = typeof ratingSrc === 'function' ? ratingSrc(r).name : 'Olive Young';
+    return `<span class="lc__rating"><span class="lc__score"><span class="lc__star" aria-hidden="true">★</span>${Number(r.star).toFixed(1)}${max === 5 ? '' : `<small class="lc__max">/${max}</small>`}</span>`
       + `<i aria-hidden="true"></i><span>${Number(r.count).toLocaleString('en-US')}<span class="lc__cw"> ${cp('則評價', 'reviews')}</span></span>`
-      + `<i aria-hidden="true"></i><span class="lc__src">Olive Young</span></span>`;
+      + `<i aria-hidden="true"></i><span class="lc__src">${esc(src)}</span></span>`;
   }
 
   const CARD_DATA = new Map();

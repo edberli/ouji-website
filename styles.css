@@ -9116,6 +9116,8 @@ html.is-lite .cat-card:hover .cat-card__shot {
 .product-info__rating[hidden] { display: none; }
 .product-info__rating .stars { font-size: 0.9rem; }
 .product-info__rating-num { font-size: 0.875rem; font-weight: 500; color: var(--text-primary); }
+/* 非 5 分制來源（@cosme 7 分制）喺分數後面細細隻字寫「/7」 */
+.rating-max { margin-left: 1px; font-size: 0.72em; font-weight: 400; color: var(--text-secondary, inherit); letter-spacing: 0; }
 .product-info__rating-n { font-size: 0.8125rem; color: var(--text-tertiary); }
 
 /* 星 —— 一行灰底，一行金色裁到百分比，半星就唔使另外整圖 */

@@ -264,7 +264,7 @@ function popScore(p) {
   const r = typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE
     ? RATINGS_CACHE[p.handle] : null;
   if (!r || !r.count) return 0;
-  return (Math.log10(r.count + 1) / 4) * ((r.star || 4) / 5) * 100;
+  return (Math.log10(r.count + 1) / 4) * ((r.star || 4) / (Number(r.max) || 5)) * 100;
 }
 
 /* "推薦" 係預設排序，所以佢要有意思。老闆 2026-09-02：
