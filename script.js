@@ -912,7 +912,7 @@ function initAssistSheet(btn) {
       </header>
       <div class="assist-sheet__choices">
         <a class="assist-choice assist-choice--makeup" href="/match.html">
-          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/looks/celeb-wonyoung.webp" alt="" decoding="async"></span>
+          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/looks/celeb-wonyoung.webp" alt="" loading="lazy" decoding="async"></span>
           <span class="assist-choice__glint assist-choice__glint--one" aria-hidden="true">✦</span>
           <span class="assist-choice__glint assist-choice__glint--two" aria-hidden="true">✦</span>
           <span class="assist-choice__content">
@@ -925,7 +925,7 @@ function initAssistSheet(btn) {
         <a class="assist-choice assist-choice--skin" href="/category.html#skincare-match">
           <span class="assist-choice__bubble assist-choice__bubble--one" aria-hidden="true"></span>
           <span class="assist-choice__bubble assist-choice__bubble--two" aria-hidden="true"></span>
-          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/images/shima/shima-skincare.webp" alt="" decoding="async"></span>
+          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/images/shima/shima-skincare.webp" alt="" loading="lazy" decoding="async"></span>
           <span class="assist-choice__content">
             <span class="assist-choice__eyebrow">芝麻護膚配方</span>
             <strong>唔知塊面而家<br>最需要啲乜？</strong>
