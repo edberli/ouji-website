@@ -1,0 +1,28 @@
+/* Brand section headings only. Pill navigation and product cards keep their
+   existing sizes; each original wordmark retains its own proportions. */
+.lx-page .brand-plate--identity {
+  color: var(--plate-ink, #171717);
+  border: 0;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 4%);
+}
+
+.lx-page .brand-plate--identity .brand-plate__logo {
+  width: var(--mark-width, 160px);
+  max-width: calc(100% - 24px);
+  height: auto !important;
+  max-height: var(--mark-max-height, 52px);
+  object-fit: contain;
+  transform: none;
+  mix-blend-mode: var(--mark-blend, normal);
+}
+
+.lx-page .brand-plate--identity .brand-plate__wordmark {
+  color: var(--plate-ink, #171717);
+}
+
+@media (max-width: 760px) {
+  .lx-page .brand-plate--identity .brand-plate__logo {
+    width: calc(var(--mark-width, 160px) * .8);
+    max-height: calc(var(--mark-max-height, 52px) * .8);
+  }
+}
