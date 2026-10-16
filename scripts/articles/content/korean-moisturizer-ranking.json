@@ -1,0 +1,267 @@
+{
+  "slug": "korean-moisturizer-ranking",
+  "category": "排行榜",
+  "kicker": "排行榜 · 面霜",
+  "date": "2026-10-16",
+  "read_minutes": 6,
+  "title": "韓國面霜推介：Olive Young 評分最高 10 款，香港有貨",
+  "title_html": "韓國面霜推介：<span class=\"ax-nw\">Olive Young</span> <span class=\"ax-nw\">評分最高</span> <span class=\"ax-nw\">10 款，</span><span class=\"ax-nw\">香港有貨</span>",
+  "seo_title": "韓國面霜推介 2026：Olive Young 評分十強（香港有貨）",
+  "description": "OUJI 店內 25 支有貨面霜逐支對返 Olive Young Global 評分同評價數，排出加權評分最高嘅 10 款：SKIN1004、Round Lab、Torriden、COSRX、Anua，附質地、成分同點揀。",
+  "dek": "我哋將 OUJI 而家有貨嘅 25 支面霜，逐支對返 Olive Young Global 嘅評分同評價數，按評價數加權排出十強，再按質地同成分講清楚你應該揀邊支。",
+  "cover": {
+    "type": "product",
+    "handle": "skin1004-skin1004-75ml-1134",
+    "stamp": "No.1 · ★ 4.8 · 1,430 則評價"
+  },
+  "related": [
+    "dull-skin-brightening-guide",
+    "pores-blackheads-guide"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "method",
+          "label": "點樣排",
+          "html": "只計 OUJI 而家有貨、喺 Olive Young Global 有 50 則以上評價嘅面霜（共 25 支）。分數按評價數加權：評價少嘅唔會因為幾個五星就衝上頭。同一系列唔重複上榜。得獎資料只列官方公布、而且係我哋賣緊嗰款。價錢以產品頁為準。"
+        },
+        {
+          "type": "p",
+          "html": "十月轉涼，室內冷氣又吹到皮膚緊，護膚最後嗰步好易隨便搽一支就算。面霜難揀唔係因為選擇少，而係唔知道自己要厚身滋潤定清爽水感。我哋索性用數據排一次：唔睇廣告，睇幾千個用過嘅人點評分。"
+        },
+        {
+          "type": "toc"
+        }
+      ],
+      "note": "第 3 名 Torriden 而家減緊價，實際價錢以產品卡為準。"
+    },
+    {
+      "type": "sec",
+      "id": "top10",
+      "label": "Catalogue · 十強",
+      "title": "Olive Young 評分十強"
+    },
+    {
+      "type": "catalog",
+      "feature_first": true,
+      "id_prefix": "no",
+      "items": [
+        {
+          "handle": "skin1004-skin1004-75ml-1134",
+          "kind": "舒緩 gel 面霜",
+          "unit": "75ml",
+          "why": "全榜評價數最多，1,430 則仍然企到 4.8 星。積雪草、海藻糖同神經醯胺 NP，產品頁寫明非黏膩，適合一般同敏感性膚質。",
+          "fit": [
+            "易泛紅",
+            "想舒緩"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-1025-80ml-0245",
+          "kind": "深層保濕霜",
+          "unit": "80ml",
+          "why": "三重透明質酸配五重神經醯胺，產品頁寫明深海海水含 72 種礦物，質地不黏笠。",
+          "fit": [
+            "偏乾",
+            "秋冬"
+          ]
+        },
+        {
+          "handle": "torriden-torriden-dive-in-80ml-1660",
+          "kind": "保濕乳霜",
+          "unit": "80ml",
+          "why": "5D 複合低分子透明質酸，產品頁寫明用後唔會繃緊、質地輕盈。而家係十強入面最平嘅一支。",
+          "fit": [
+            "想補水",
+            "預算有限"
+          ]
+        },
+        {
+          "handle": "skin1004-skin1004-50ml-1769",
+          "kind": "豐潤乳霜",
+          "unit": "50ml",
+          "why": "發酵積雪草、乳木果油同神經醯胺 NP，產品頁寫明適合乾性、中性及混合性肌膚。",
+          "fit": [
+            "偏乾",
+            "想厚身滋潤"
+          ]
+        },
+        {
+          "handle": "cosrx-cosrx-92-all-in-one-100g-0016",
+          "kind": "多效面霜",
+          "unit": "100g",
+          "why": "含 92% 蝸牛黏液，100g 大支裝，產品頁寫明適合敏感肌及乾性肌膚。",
+          "fit": [
+            "容量大",
+            "耐用"
+          ]
+        },
+        {
+          "handle": "mixsoon-mixsoon-50ml-0661",
+          "kind": "滋潤乳霜",
+          "unit": "50ml",
+          "why": "發酵大豆萃取做核心，另有大麥、石榴同梨萃取。產品頁寫明質感豐富但唔油膩。",
+          "fit": [
+            "怕厚重",
+            "日常用"
+          ]
+        },
+        {
+          "handle": "anua-anua-pdrn-11-100-60ml-8135",
+          "kind": "水光乳霜",
+          "unit": "60ml",
+          "why": "PDRN 加 10 種透明質酸同低分子膠原蛋白，滴管設計。喺 Hwahae Awards 2025 上半年「最佳新產品」獎排所屬類別第 1（Hwahae 官方公布）。",
+          "fit": [
+            "想要光澤",
+            "化妝前"
+          ]
+        },
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-100ml-6993",
+          "kind": "凝露面霜",
+          "unit": "100ml",
+          "why": "gel 狀 100ml，紅豆加胜肽，產品頁寫明適合油性同混合性肌膚。",
+          "fit": [
+            "怕笠",
+            "出油"
+          ]
+        },
+        {
+          "handle": "ma-nyo-ma-nyo-bifida-80ml-0560",
+          "kind": "屏障面霜",
+          "unit": "80ml",
+          "why": "雙歧桿菌發酵萃取加脂質體微囊技術，配方另有神經醯胺、泛醇同玻尿酸。",
+          "fit": [
+            "想顧屏障",
+            "敏感"
+          ]
+        },
+        {
+          "handle": "some-by-mi-somebymi-60ml-4224",
+          "kind": "修護乳霜",
+          "unit": "60g",
+          "why": "700,000 ppm 積雪草加 10,000 ppm 茶樹葉油，產品頁寫明不含 20 種有害成分。",
+          "fit": [
+            "想舒緩",
+            "顧屏障"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "callout",
+          "html": "一支搞掂晒：怕笠揀第 8 名；秋冬偏乾揀第 2 名；想慳錢就第 3 名（而家十強入面最平）。"
+        },
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to choose · 點揀",
+          "title": "先睇質地，再睇成分"
+        },
+        {
+          "type": "p",
+          "html": "質地係第一關。gel 或者凝露，例如第 1 同第 8 名，推開快，怕笠嘅人比較受落；乳霜，例如第 4 同第 10 名，保水力強啲，風大或者成日坐冷氣房就啱用。"
+        },
+        {
+          "type": "p",
+          "html": "成分可以咁睇：皮膚容易泛紅或者屏障弱，睇有冇神經醯胺，例如第 1、2、4 名；想補水，睇透明質酸，例如第 2、3、7 名；出油多但照樣覺得乾，就由第 8 名呢類 gel 質地入手。"
+        },
+        {
+          "type": "p",
+          "html": "想睇晒店內所有面霜，可以去 <a href=\"/category?cat=moisturizer\">乳液／面霜分類</a>；如果主要係敏感或者乾身，睇埋 <a href=\"/articles/sensitive-skin-guide\">敏感肌護膚指南</a>。"
+        }
+      ],
+      "note": "同一系列唔會重複上榜：Round Lab 1025 有水潤版同輕盈版，Olive Young 係同一條評價，所以十強只計一次。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "compare",
+          "label": "Index · 比較表",
+          "title": "十款一次過比較"
+        },
+        {
+          "type": "compare",
+          "handles": [
+            "skin1004-skin1004-75ml-1134",
+            "round-lab-round-lab-1025-80ml-0245",
+            "torriden-torriden-dive-in-80ml-1660",
+            "skin1004-skin1004-50ml-1769",
+            "cosrx-cosrx-92-all-in-one-100g-0016",
+            "mixsoon-mixsoon-50ml-0661",
+            "anua-anua-pdrn-11-100-60ml-8135",
+            "beauty-of-joseon-beauty-of-joseon-100ml-6993",
+            "ma-nyo-ma-nyo-bifida-80ml-0560",
+            "some-by-mi-somebymi-60ml-4224"
+          ],
+          "kinds": [
+            "舒緩 gel 面霜",
+            "深層保濕霜",
+            "保濕乳霜",
+            "豐潤乳霜",
+            "多效面霜",
+            "滋潤乳霜",
+            "水光乳霜",
+            "凝露面霜",
+            "屏障面霜",
+            "修護乳霜"
+          ]
+        },
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "買面霜前常見問題"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "面霜同乳液有咩分別？",
+              "a": "面霜質地通常較厚，滋潤力強啲，適合偏乾或者夜晚用；乳液較輕，日間或者唔想有厚重感嘅人揀。實際都要睇你自己嘅膚質。"
+            },
+            {
+              "q": "厚搽面霜會唔會令人長暗瘡？",
+              "a": "要睇膚質同質地。油性或者混合性肌膚可以由 gel 質地開始，例如第 8 名（產品頁寫明適合油性同混合性肌膚）；長期有暗瘡問題，就問皮膚科醫生。"
+            },
+            {
+              "q": "夜晚一定要用面霜？",
+              "a": "唔一定。美國皮膚科學會建議沐浴或者潔面之後，趁皮膚仲少少濕就塗保濕品，日間覺得乾再補。同一支日夜晚都用得。"
+            },
+            {
+              "q": "評分同評價數喺邊度睇？",
+              "a": "全部嚟自 Olive Young Global 嘅產品頁，2026 年 10 月擷取；得獎資料嚟自 Hwahae Awards 2025 官方公布。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "Olive Young Global 產品評分及評價數（2026 年 10 月擷取）"
+            },
+            {
+              "title": "美國皮膚科學會：Dermatologists' top tips for relieving dry skin",
+              "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/dermatologists-tips-relieve-dry-skin"
+            },
+            {
+              "title": "Hwahae 官方：2025 Hwahae Awards 得獎結果",
+              "url": "https://www.hwahae.co.kr/awards/home/2025"
+            },
+            {
+              "title": "Hwahae 官方新聞稿：2025 上半年 Hwahae Awards 公布（Anua PDRN 保濕霜入選）",
+              "url": "https://blog.hwahae.co.kr/all/newsroom/news/14955"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
