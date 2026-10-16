@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'OUJI Section Label';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('assets/fonts/noto-sans-tc-other-600.woff2') format('woff2');
+  unicode-range: U+4ED6, U+5176;
+}
+
 /* Brand section headings only. Pill navigation and product cards keep their
    existing sizes; each original wordmark retains its own proportions. */
 .lx-page .brand-plate--identity {
@@ -20,9 +29,20 @@
   color: var(--plate-ink, #171717);
 }
 
+.lx-page .brand-plate--other .brand-plate__wordmark {
+  font-family: 'OUJI Section Label', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: .12em;
+}
+
 @media (max-width: 760px) {
   .lx-page .brand-plate--identity .brand-plate__logo {
     width: calc(var(--mark-width, 160px) * .8);
     max-height: calc(var(--mark-max-height, 52px) * .8);
+  }
+  .lx-page .brand-plate--other .brand-plate__wordmark {
+    font-size: 24px;
   }
 }
