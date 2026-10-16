@@ -20,7 +20,7 @@ body {
   overflow: hidden;
   color: var(--ink);
   background: var(--ink);
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
 }
 button, a { font: inherit; }
 button { color: inherit; }

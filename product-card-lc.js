@@ -249,7 +249,7 @@
   const SHEET_CSS = `
 :host { all: initial; }
 .sh { --ink: #1e3038; --ink-2: #4a5e66; --muted: #6f8590; --line: rgba(30, 48, 56, .1); --sale: #bd3a27; --sale-tint: #fdebea; --sale-ink: #b23423; --cta: #617a8b; --sel: #2b4c58;
-  --f: "Manrope", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif;
+  --f: "Manrope", "PingFang TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
   position: fixed; inset: 0; z-index: 2147483000; display: none; color: var(--ink); font: 400 16px/1.5 var(--f); -webkit-font-smoothing: antialiased; }
 .sh.is-open { display: block; }
 * { box-sizing: border-box; }
@@ -298,7 +298,7 @@
 .sh__lb-img { display: block; max-width: min(92vw, 760px); max-height: 74vh; border-radius: 14px; background: #fff; object-fit: contain; }
 .sh__lb-cap { max-width: min(92vw, 760px); margin: 0; color: #fff; font: 600 14px/1.45 var(--f); text-align: center; }
 .sh__lb-close { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); right: 14px; display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .16); color: #fff; font: 400 26px/1 var(--f); cursor: pointer; }
-.toast { position: fixed; z-index: 2147483001; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 92px); max-width: calc(100vw - 32px); padding: 12px 18px; border-radius: 12px; background: rgba(30, 48, 56, .94); color: #fff; font: 600 14px/1.4 "Manrope", "Noto Sans TC", sans-serif; transform: translateX(-50%); box-shadow: 0 8px 24px rgba(15, 25, 32, .24); animation: fade .2s ease-out; }
+.toast { position: fixed; z-index: 2147483001; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 92px); max-width: calc(100vw - 32px); padding: 12px 18px; border-radius: 12px; background: rgba(30, 48, 56, .94); color: #fff; font: 600 14px/1.4 "Manrope", "PingFang TC", "Microsoft JhengHei", sans-serif; transform: translateX(-50%); box-shadow: 0 8px 24px rgba(15, 25, 32, .24); animation: fade .2s ease-out; }
 .toast[hidden] { display: none; }
 @media (min-width: 761px) {
   .sh__panel { left: 50%; right: auto; top: 50%; bottom: auto; width: min(560px, calc(100vw - 48px)); max-height: 80vh; border-radius: 22px; transform: translate(-50%, -50%); animation: pop .2s ease-out; }

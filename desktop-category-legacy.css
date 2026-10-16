@@ -32,7 +32,7 @@
 }
 .makeup-booth__title h1 {
   margin: 0;
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: clamp(50px, 6vw, 76px);
   font-weight: 400;
   line-height: .82;
@@ -47,7 +47,7 @@
   padding: 6px 10px;
   background: var(--booth-ink);
   color: #fff;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: .06em;
@@ -90,7 +90,7 @@
   top: 43px;
   transform: rotate(2deg);
   color: var(--booth-pink);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: clamp(30px, 4vw, 55px);
   line-height: .78;
   -webkit-text-stroke: 1.5px var(--booth-ink);
@@ -104,7 +104,7 @@
   padding: 5px 8px;
   background: var(--booth-ink);
   color: #fff;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 9px;
   letter-spacing: .08em;
   -webkit-text-stroke: 0;
@@ -127,7 +127,7 @@
   border: 2px solid var(--booth-ink);
   border-radius: 50% 42% 48% 45%;
   background: var(--booth-yellow);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 20px;
   transform: rotate(9deg);
   box-shadow: 3px 4px 0 rgba(17,19,26,.24);
@@ -211,7 +211,7 @@
   border: 0;
   background: transparent;
   color: var(--booth-ink);
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-weight: 900;
   cursor: pointer;
   transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--sticker-scale));
@@ -401,7 +401,7 @@
 .skincare-booth__title h1 {
   margin: 0;
   color: var(--skin-blue);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: clamp(50px, 5.5vw, 74px);
   font-weight: 400;
   letter-spacing: 0;
@@ -416,7 +416,7 @@
   padding: 5px 9px;
   background: var(--skin-ink);
   color: #fff;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 10px;
   font-weight: 900;
 }
@@ -474,7 +474,7 @@
 }
 .skincare-booth__orb span {
   color: #fff;
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 25px;
   line-height: .8;
   text-align: center;
@@ -506,7 +506,7 @@
   padding: 6px 10px;
   border: 2px solid var(--skin-ink);
   box-shadow: 3px 4px 0 rgba(17,19,26,.22);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
 }
 .skincare-booth__splash { left: 67%; top: 202px; background: var(--skin-yellow); font-size: 18px; transform: rotate(8deg); }
 .skincare-booth__glow {
@@ -552,7 +552,7 @@
   border: 0;
   background: transparent;
   color: var(--skin-ink);
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   cursor: pointer;
   transform: rotate(var(--tilt)) scale(var(--scale));
   transform-origin: 50% 80%;
@@ -752,7 +752,7 @@
     border: 0;
     background: transparent;
     color: var(--skin-ink);
-    font-family: "Noto Sans TC", sans-serif;
+    font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
     cursor: pointer;
     transform: rotate(var(--tilt)) scale(var(--scale));
     transform-origin: 50% 80%;
@@ -858,7 +858,7 @@
     border-radius: 0;
     background: transparent;
     color: var(--booth-ink);
-    font-family: "Noto Sans TC", sans-serif;
+    font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
     font-weight: 900;
     cursor: pointer;
     transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--sticker-scale));

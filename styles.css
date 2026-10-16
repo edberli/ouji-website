@@ -102,9 +102,9 @@
      內文（--font-body）留返無襯線：整版襯線體喺細字度會糊，
      手機睇尤其累眼。襯線負責標題同品牌感，內文負責睇得清楚。 */
   --font-display: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
-  /* Manrope 行先出英文同數字，中文自動跌落 Noto Sans TC。
+  /* Manrope 行先出英文同數字，中文自動跌落系統字（iPhone／Mac 蘋方、Windows 正黑體、Android Noto）。2026-10-16 Winston 批准唔再載 Noto Sans TC 網頁字型（全部產品頁慳約 2MB）。
      兩隻字嘅字面大細夾得埋，中英夾雜嗰行唔會一高一矮。 */
-  --font-body: 'Manrope', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --font-body: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   /* ⚠️ --font-brand 唔准跟住主題改。OUJI 個字樣係品牌識別，
      換咗字體就係換咗個 logo。頁首、頁尾、載入畫面嗰個 OUJI
      一律用返 League Spartan。 */
@@ -9478,7 +9478,7 @@ html.is-lite .section--brand-intro::after {
 }
 
 /* ============================================
-   產品字體：英文 Manrope × 中文 Noto Sans TC
+   產品字體：英文 Manrope × 中文系統字（蘋方／正黑體）
 
    一度試過將產品名同價錢都轉襯線，老闆覺得唔啱，改用呢套。
    襯線淨係留返畀大標題（--font-display）。
@@ -11426,7 +11426,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 }
 .makeup-booth__title h1 {
   margin: 0;
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: clamp(50px, 6vw, 76px);
   font-weight: 400;
   line-height: .82;
@@ -11441,7 +11441,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   padding: 6px 10px;
   background: var(--booth-ink);
   color: #fff;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: .06em;
@@ -11484,7 +11484,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   top: 43px;
   transform: rotate(2deg);
   color: var(--booth-pink);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: clamp(30px, 4vw, 55px);
   line-height: .78;
   -webkit-text-stroke: 1.5px var(--booth-ink);
@@ -11498,7 +11498,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   padding: 5px 8px;
   background: var(--booth-ink);
   color: #fff;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 9px;
   letter-spacing: .08em;
   -webkit-text-stroke: 0;
@@ -11521,7 +11521,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   border: 2px solid var(--booth-ink);
   border-radius: 50% 42% 48% 45%;
   background: var(--booth-yellow);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 20px;
   transform: rotate(9deg);
   box-shadow: 3px 4px 0 rgba(17,19,26,.24);
@@ -11605,7 +11605,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   border: 0;
   background: transparent;
   color: var(--booth-ink);
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-weight: 900;
   cursor: pointer;
   transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--sticker-scale));
@@ -11922,7 +11922,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 .skincare-booth__title h1 {
   margin: 0;
   color: var(--skin-blue);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: clamp(50px, 5.5vw, 74px);
   font-weight: 400;
   letter-spacing: 0;
@@ -11937,7 +11937,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   padding: 5px 9px;
   background: var(--skin-ink);
   color: #fff;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 10px;
   font-weight: 900;
 }
@@ -11995,7 +11995,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
 }
 .skincare-booth__orb span {
   color: #fff;
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 25px;
   line-height: .8;
   text-align: center;
@@ -12027,7 +12027,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   padding: 6px 10px;
   border: 2px solid var(--skin-ink);
   box-shadow: 3px 4px 0 rgba(17,19,26,.22);
-  font-family: "Bagel Fat One", "Noto Sans TC", sans-serif;
+  font-family: "Bagel Fat One", "PingFang TC", "Microsoft JhengHei", sans-serif;
 }
 .skincare-booth__splash { left: 67%; top: 202px; background: var(--skin-yellow); font-size: 18px; transform: rotate(8deg); }
 .skincare-booth__glow {
@@ -12073,7 +12073,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   border: 0;
   background: transparent;
   color: var(--skin-ink);
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   cursor: pointer;
   transform: rotate(var(--tilt)) scale(var(--scale));
   transform-origin: 50% 80%;
@@ -12467,7 +12467,7 @@ html.is-lite .home-tabs__btn::after { transition: none; }
   border-radius: 999px;
   background: #fff;
   color: var(--booth-ink, #11131a);
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -13088,8 +13088,8 @@ body::before { opacity: 0.18; }
   --boot-lime: #caff34;
   --boot-yellow: #ffed59;
   --boot-silver: #ece9d8;
-  --boot-pixel: 'Pixelify Sans', 'Noto Sans TC', sans-serif;
-  --boot-mono: 'VT323', 'Noto Sans TC', monospace;
+  --boot-pixel: 'Pixelify Sans', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --boot-mono: 'VT323', 'PingFang TC', 'Microsoft JhengHei', monospace;
 }
 
 /* ---------- BOOT hero ---------- */
@@ -13212,7 +13212,7 @@ body::before { opacity: 0.18; }
   display: grid; width: 120px; padding: 0; border: 0;
   text-decoration: none;
   background: transparent; color: var(--boot-ink); cursor: pointer;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   filter: drop-shadow(5px 6px 0 rgba(17,20,28,.18));
   transform: translateX(-50%) rotate(var(--r)) scale(var(--s));
   transition: transform 150ms ease, filter 150ms ease;
@@ -13639,8 +13639,8 @@ body::before { opacity: 0.18; }
   --skin-cat-pink: #ff67b3;
   --skin-cat-yellow: #fff06a;
   --skin-cat-ink: #10131b;
-  --skin-cat-pixel: 'Pixelify Sans', 'Noto Sans TC', sans-serif;
-  --skin-cat-mono: 'VT323', 'Noto Sans TC', monospace;
+  --skin-cat-pixel: 'Pixelify Sans', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --skin-cat-mono: 'VT323', 'PingFang TC', 'Microsoft JhengHei', monospace;
   --skin-cat-out: cubic-bezier(.22, 1, .36, 1);
 
   position: relative;
@@ -14787,7 +14787,7 @@ body::before { opacity: 0.18; }
      所以客一眼掃落去見到嘅金色，就係佢慳到嘅數。 */
   background: linear-gradient(158deg, #2b4c58 0%, #35606f 54%, #2b4c58 100%);
   padding: clamp(30px, 4.6cqw, 56px) 0;
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #fff;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #fff;
 }
 /* 內容跟返全站嘅框，同上下兩格對齊 */
 .promo__grid {
@@ -16689,7 +16689,7 @@ body::before { opacity: 0.18; }
   background: transparent;
   box-shadow: none;
   color: #315c7c;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-weight: 700;
   transform: none;
   transform-origin: 50% 80%;
@@ -18766,7 +18766,7 @@ body::before { opacity: 0.18; }
 }
 
 /* ===== Round Lab 首頁橫幅（HTML 版，取代整張 PNG）===== */
-.rlb{position:relative;width:100%;aspect-ratio:1672/941;container-type:inline-size;overflow:hidden;background:linear-gradient(#c9e4f8,#a6cdee);color:var(--rlb-ink);--rlb-ink:#12306b;--rlb-blue:#1c4fa8;--rlb-cream:#fdf0c8;--rlb-butter:#fbe9a6;--rlb-script:#2e6fd0;--rlb-serif:"Noto Serif TC","Songti TC",serif;--rlb-sans:"Noto Sans TC","PingFang TC",sans-serif;--rlb-hand:"Klee One","Kaiti TC",cursive;--rlb-latin:"Caveat","Snell Roundhand",cursive;font-family:var(--rlb-sans);line-height:normal;letter-spacing:normal;text-align:left}
+.rlb{position:relative;width:100%;aspect-ratio:1672/941;container-type:inline-size;overflow:hidden;background:linear-gradient(#c9e4f8,#a6cdee);color:var(--rlb-ink);--rlb-ink:#12306b;--rlb-blue:#1c4fa8;--rlb-cream:#fdf0c8;--rlb-butter:#fbe9a6;--rlb-script:#2e6fd0;--rlb-serif:"Noto Serif TC","Songti TC",serif;--rlb-sans:"PingFang TC", "Microsoft JhengHei",sans-serif;--rlb-hand:"Klee One","Kaiti TC",cursive;--rlb-latin:"Caveat","Snell Roundhand",cursive;font-family:var(--rlb-sans);line-height:normal;letter-spacing:normal;text-align:left}
 .rlb__bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .rlb__abs{position:absolute;white-space:nowrap}
 

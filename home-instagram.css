@@ -5,7 +5,7 @@
 .home-ig {
   --content-width: 1440px;
   --page-gutter: clamp(18px, 4.5vw, 68px);
-  --sans: 'Manrope', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sans: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, sans-serif;
   font-family: var(--sans);
 }
 @media (max-width: 760px) { .home-ig { --page-gutter: 20px; } }

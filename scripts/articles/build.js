@@ -318,7 +318,7 @@ function page(spec, all, ch, cssV, jsV) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <!-- 字體唔可以 render-blocking（見 styles.css 嘅說明）：media=print，落到先轉 all。 -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;600;700&family=League+Spartan:wght@800&family=Manrope:wght@600;700;800&family=Klee+One:wght@600&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=League+Spartan:wght@800&family=Manrope:wght@600;700;800&family=Klee+One:wght@600&display=swap" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="${ch.styles}">
   <link rel="stylesheet" href="/articles/article-v2.css?v=${cssV}">
 </head>

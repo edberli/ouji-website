@@ -28,7 +28,7 @@
   --s4: 32px; --s5: 48px; --s6: 64px; --s7: 96px;
 
   --serif: "Cormorant Garamond", "Noto Serif TC", serif;
-  --sans:  "Noto Sans TC", Manrope, -apple-system, system-ui, sans-serif;
+  --sans:  "PingFang TC", "Microsoft JhengHei", Manrope, -apple-system, system-ui, sans-serif;
 
   --ctl-h: 96px;
 }

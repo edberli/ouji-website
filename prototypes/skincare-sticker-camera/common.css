@@ -3,7 +3,7 @@
   --ink: #11131a;
   --line: #dfe5e6;
   --muted: #687578;
-  --sans: "Noto Sans TC", sans-serif;
+  --sans: "PingFang TC", "Microsoft JhengHei", sans-serif;
 }
 
 * { box-sizing: border-box; }

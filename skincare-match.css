@@ -63,7 +63,7 @@
   width: auto;
   background: none;
   color: var(--sm-raw);
-  font-family: 'Noto Sans TC', var(--font-body);
+  font-family: 'PingFang TC', 'Microsoft JhengHei', var(--font-body);
 }
 
 /* The masthead face. Loaded only here so the rest of the shop is untouched. */

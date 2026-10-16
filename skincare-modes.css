@@ -748,7 +748,7 @@
 }
 .dl__h1 {
   margin: 0; color: #163e95; letter-spacing: -.04em;
-  font: 900 clamp(25px, 4vw, 38px)/1.15 'Arial Black', Tahoma, 'Noto Sans TC', sans-serif;
+  font: 900 clamp(25px, 4vw, 38px)/1.15 'Arial Black', Tahoma, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 .dl__intro { margin: 8px 0 0; color: #65718a; font-size: 13px; line-height: 1.55; }
 .sm .dl__form > .dl__q,
@@ -997,7 +997,7 @@
   .dl__cat-strip span { display: block; min-width: 0; }
   .dl__cat-strip b {
     display: block; color: var(--sm-yellow);
-    font: 900 20px/1 'Arial Black', Tahoma, 'Noto Sans TC', sans-serif;
+    font: 900 20px/1 'Arial Black', Tahoma, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   }
   .dl__head { padding: 22px 16px 14px; }
   .dl__h1 { font-size: 25px; }
@@ -1214,7 +1214,7 @@
 .sm .ed__kicker { font-size: 10px; font-weight: 800; letter-spacing: .12em; color: #5b6d92; }
 .sm .ed__h2 {
   margin: 7px 0 6px; color: #173e91;
-  font: 900 clamp(24px, 4vw, 36px)/1.15 'Arial Black', Tahoma, 'Noto Sans TC', sans-serif;
+  font: 900 clamp(24px, 4vw, 36px)/1.15 'Arial Black', Tahoma, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 .sm .ed__read { margin: 0; font-family: inherit; font-size: 12px; line-height: 1.55; color: #46546c; }
 .sm .ed__hint {
