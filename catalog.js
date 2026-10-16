@@ -86,6 +86,11 @@ const BRAND_PLATE = {
 };
 
 function brandPlate(vendor) {
+  // Skincare owns its brand identities; the navigation rail keeps its
+  // independently calibrated artwork and all other categories stay unchanged.
+  if (CURRENT_SECTION === 'skincare' && window.OUJI_SKINCARE_BRAND_HEADERS?.[vendor]) {
+    return window.OUJI_SKINCARE_BRAND_HEADERS[vendor];
+  }
   return BRAND_PLATE[vendor] || { tint: '#eeeae3' };
 }
 
@@ -2171,8 +2176,8 @@ function groupBySeries(list) {
   });
 }
 function brandSection(vendor, items, index) {
-  const logo = brandLogo(vendor);
   const plate = brandPlate(vendor);
+  const logo = plate.logo || brandLogo(vendor);
   /* 牌子入面**照分數排**，唔再照護膚程序排。
 
      程序排法（潔面→爽膚水→精華→⋯）本來係服務「已經揀咗呢個牌子、
@@ -2268,19 +2273,15 @@ function brandSection(vendor, items, index) {
   if (showMore && peek.length) SECTION_ITEMS.set(`peek-${index}`, peek);
   if (showMore) SECTION_REST.set(String(index), inStock.slice(rows));
   if (showMore && out.length) SECTION_OUT.set(String(index), out);
-  // A colour field, the brand's own logo, and its name. Photography was
-  // tried twice and abandoned: nineteen brands shoot nineteen ways, half
-  // of them burn their own wordmark into the frame, and nine publish
-  // nothing wider than a square — no crop makes that set look like one
-  // thing. A plate cannot crop, cannot clash, and never misrepresents.
+  // Keep brand artwork separate from navigation sizing and product imagery.
   return `
     <section class="brand-section" id="brand-${index}"
              style="content-visibility:auto;contain-intrinsic-size:auto 760px">
-      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}"
-              style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}">
+      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}${plate.identity ? ' brand-plate--identity' : ''}"
+              style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}${plate.identity ? `;--mark-width:${plate.width || 160}px;--mark-max-height:${plate.maxHeight || 52}px;--plate-ink:${plate.ink || '#171717'};--mark-blend:${plate.blend || 'normal'}` : ''}">
         ${logo
           ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
-                  style="--logo-h:${brandLogoHeight(vendor)}px;height:${brandLogoHeight(vendor)}px" loading="lazy" decoding="async">`
+                  style="--logo-h:${brandLogoHeight(vendor)}px;height:${brandLogoHeight(vendor)}px${plate.filter ? `;filter:${plate.filter}` : ''}" loading="lazy" decoding="async">`
           : `<span class="brand-plate__wordmark">${vendor}</span>`}
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
