@@ -112,9 +112,9 @@ async function initHome() {
         return seen.get(k) <= n;
       });
     };
-    // 只計 Olive Young：@cosme／YesStyle 評分淨係用嚟顯示，唔參與揀貨（數字唔可以跨平台比）
-    const reviews = (p) => (ratings?.[p.handle]?.src && ratings[p.handle].src !== 'oy' ? 0 : ratings?.[p.handle]?.count) || 0;
-    // 形象格揀正價熱門：韓國站評價多嘅行先，冇評價就跟推薦分數
+    // Olive Young／@cosme／YesStyle 評論數都計（Winston 2026-10-16）
+    const reviews = (p) => ratings?.[p.handle]?.count || 0;
+    // 形象格揀正價熱門：日韓網站評價多嘅行先，冇評價就跟推薦分數
     const popular = (items) => [...items].sort((a, b) => (reviews(b) - reviews(a)) || (featured(b) - featured(a)));
     const top = (items) => [...items].sort((a, b) => (featured(b) - featured(a)) || (reviews(b) - reviews(a)));
     // 揀好嘅貨照次序先出（冇貨就跳過），之後由同類補
@@ -312,7 +312,7 @@ async function initHome() {
    *
    * ⚠️ 四個都要講得出根據。老闆本來想將庫存多嘅貨標做「熱賣」嚟清貨 ——
    * 咁樣係將滯銷貨叫做暢銷貨，客信一次，第二次就唔信我哋。而且冇必要作：
-   *   熱門口碑 = Olive Young 真實評價數（523 件有數，最多一萬個）
+   *   熱門口碑 = Olive Young／@cosme／YesStyle 真實評價數（2026-10-16 起三個來源都計）
    *   新品上架 = Shopify 真實建立日期
    *   限時優惠 = 真係有原價劃線先入
    *   現貨即日發 = 真實庫存深度 ← 庫存多嘅擺呢度，賣點係「唔使等」
@@ -325,8 +325,8 @@ async function initHome() {
   }
 
   let RATINGS = ratings;
-  // 「熱賣」寫明係 Olive Young 最多人評價 —— 新加嘅 @cosme／YesStyle 評分唔計入
-  const reviewCount = (p) => (RATINGS?.[p.handle]?.src && RATINGS[p.handle].src !== 'oy' ? 0 : RATINGS?.[p.handle]?.count) || 0;
+  // 「熱賣」＝ Olive Young／@cosme／YesStyle 最多人評價（Winston 2026-10-16 叫三個都計）
+  const reviewCount = (p) => RATINGS?.[p.handle]?.count || 0;
   const onSale = (p) => {
     const cp = parseFloat(oujiCardComparePrice(p)?.amount || 0);
     const p0 = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
@@ -343,7 +343,7 @@ async function initHome() {
         e.node.availableForSale && (e.node.quantityAvailable == null || e.node.quantityAvailable > 0)));
 
   const TABS = [
-    { id: 'hot', label: '熱賣', note: '韓國 Olive Young 最多人評價嗰批',
+    { id: 'hot', label: '熱賣', note: '日韓網站最多人評價嗰批',
       pick: (list) => list.filter((p) => reviewCount(p) >= 50)
         .sort((a, b) => reviewCount(b) - reviewCount(a)) },
     { id: 'new', label: '新品上架', note: '最近上架',
@@ -375,9 +375,10 @@ async function initHome() {
         const cp = oujiCardComparePrice(p);
         const p0 = p.priceRange?.minVariantPrice;
         if (t.id === 'hot') {
-          return r?.count
-            ? `Olive Young ${r.count.toLocaleString()} 則評價${r.star ? ` · ${r.star}★` : ''}`
-            : '';
+          if (!r?.count) return '';
+          const src = typeof ratingSrc === 'function' ? ratingSrc(r).name : 'Olive Young';
+          const max = Number(r.max) || 5;
+          return `${src} ${r.count.toLocaleString()} 則評價${r.star ? ` · ${r.star}${max === 5 ? '' : `/${max}`}★` : ''}`;
         }
         if (t.id === 'deal') {
           const off = cp && parseFloat(cp.amount) > parseFloat(p0.amount)

@@ -19,8 +19,10 @@ Winston 原話：韓國貨用 Olive Young，日本貨用 @cosme，兩邊都冇�
 ## 邊度用、邊度唔用
 
 - 顯示（產品卡、產品頁標題下、評價區）：三個來源都用，`reviews.js` 嘅 `RATING_SOURCES` 決定字眼。
-- 揀貨同排序（`catalog.js` popScore／品牌名氣、`home.js` 熱賣 tab）：**只計 Olive Young**。
-  跨平台評論數唔可比，而且「熱賣」寫明係 Olive Young 最多人評價。要唔要計入係另一個決定。
+- 揀貨同排序（`catalog.js` popScore／品牌名氣、`home.js` 熱賣 tab 同熱門格）：**三個來源都計**
+  （Winston 2026-10-16「計」；之前一版只計 Olive Young，superseded）。
+  @cosme 評得嚴，排序內部按百分位對齊換算（`RANK_STAR`：4.0→4.5、4.9→4.67、5.6→4.8），
+  評論數 log 封頂 1；呢個換算只用嚟排先後，網站顯示照寫原分。熱賣文案改做「日韓網站最多人評價嗰批」。
 - 專欄腳本（`scripts/articles/*`）寫死「Olive Young 評分」，載入時剔走其他來源。
 - 舊 `scripts/merge_reviews.py` 只會清 Olive Young 嘅檔，唔會再 rmtree 成個資料夾。
 
