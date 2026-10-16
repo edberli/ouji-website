@@ -252,22 +252,26 @@ fetch('featured.json')
   .then((d) => { if (d?.profitRank) PROFIT_RANK = d.profitRank; })
   .catch(() => {});
 
-/* 人氣分：Olive Young 嘅真實評分同評論數（`data/ratings.json`，547 件有數）。
+/* 人氣分：真實評分同評論數（`data/ratings.json`：Olive Young、@cosme、YesStyle）。
    評論數係我哋而家手上唯一一個真正嘅「幾多人買過／試過」訊號 ——
    網店自己得四張單，砌唔出銷量榜。
 
    用 log 唔用直線：最高嗰件有 10,161 條評論，中位數係 117 條。
    直線計法會令一件貨重過另一件 87 倍，成版都係嗰一件。真正嘅分別係
    「一千幾百人試過」同「得十個人試過」，唔係「一萬」同「一千」。
-   log10(count+1)/4 → 0–1，再乘星數比例，出 0–100。中位 48、p90 68。 */
+   log10(count+1)/4 → 0–1（封頂 1），再乘星數比例，出 0–100。
+
+   Winston 2026-10-16：@cosme／YesStyle 都計入人氣。@cosme 係 7 分制而且評得嚴
+   （2026-10-16 量：Olive Young p10/中位/p90 = 4.5/4.7/4.8；@cosme = 4.0/4.9/5.6），
+   直接除 7 會令日本貨成排食虧兩成。排序內部按百分位對齊換算成 Olive Young
+   嘅尺（4.0→4.5、4.9→4.67、5.6→4.8）；呢個數只用嚟排先後，網站照寫原分。 */
+const RANK_STAR = { cosme: (s) => Math.min(5, 4.5 + (s - 4) * 0.19) };
 function popScore(p) {
   const r = typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE
     ? RATINGS_CACHE[p.handle] : null;
-  /* 只計 Olive Young。2026-10-16 加咗 @cosme／YesStyle 評分做顯示，但三個平台
-     嘅評論數唔可以直接比（@cosme 一件貨動輒幾萬則），混埋計會令「推薦」排序
-     靜靜哋大執位。要唔要將新來源計入人氣，係另一個決定。 */
-  if (!r || !r.count || (r.src && r.src !== 'oy')) return 0;
-  return (Math.log10(r.count + 1) / 4) * ((r.star || 4) / 5) * 100;
+  if (!r || !r.count) return 0;
+  const star = r.star ? (RANK_STAR[r.src] || ((s) => s))(r.star) : 4;
+  return Math.min(Math.log10(r.count + 1) / 4, 1) * (star / 5) * 100;
 }
 
 /* "推薦" 係預設排序，所以佢要有意思。老闆 2026-09-02：
@@ -278,7 +282,7 @@ function popScore(p) {
    嗰啲，唔係最多人買嗰啲 —— 客唔知我哋賺幾多，佢只知邊件有人試過。
 
    而家三個訊號夾埋，人氣佔最大比重：
-     人氣 ×3   → 0–294，Olive Young 真評論數
+     人氣 ×3   → 0–300，Olive Young／@cosme／YesStyle 真評論數
      獎項 ×8   → 一個 2025 年第一位大約 72 分，係「有話題」嘅硬證據
      毛利 ×1.5 → 0–150，舖頭自己嘅需要，留返做同分時嘅推手
    有真銷量之後，銷量應該取代人氣做主項。 */
@@ -2805,7 +2809,6 @@ function renderProducts(container, products, { grouped }) {
   const brandFame = (pool) => {
     const total = pool.reduce((n, p) => n
       + ((typeof RATINGS_CACHE !== 'undefined' && RATINGS_CACHE
-        && !(RATINGS_CACHE[p.handle]?.src && RATINGS_CACHE[p.handle].src !== 'oy')   // 只計 Olive Young，理由見 popScore
         ? RATINGS_CACHE[p.handle]?.count : 0) || 0), 0);
     return Math.min(Math.log10(total + 1) / 5, 1) * 100;
   };
