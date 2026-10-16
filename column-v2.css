@@ -18,7 +18,7 @@
   --cl-band: #fbf9f5;
   --cl-card: #fff;
   --cl-serif: "Cormorant Garamond", "Noto Serif TC", Georgia, serif;
-  --cl-sans: "Manrope", "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+  --cl-sans: "Manrope", "PingFang TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
   --cl-num: "League Spartan", "Manrope", sans-serif;
   --cl-hand: "Klee One", "Noto Serif TC", serif;
   --cl-gutter: clamp(18px, 4.5vw, 68px);

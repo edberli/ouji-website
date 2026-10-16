@@ -14,9 +14,9 @@
        客見到嘅就係「白畫面，load 極都 load 唔到」。
        media="print" 令佢唔算 render-blocking，落到就 onload 轉返 all。
        字體未到嗰陣行 fallback（Georgia／system sans），版面照出。 -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=League+Spartan:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=League+Spartan:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=League+Spartan:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=League+Spartan:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=League+Spartan:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=League+Spartan:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@400;600;700&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css">
 <style>
 /* ============================================================
@@ -41,13 +41,13 @@
   background: rgba(230, 235, 237, 0.9);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(43, 76, 88, 0.14);
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 .pv__bar h1 {
   margin: 0; font-family: 'League Spartan', sans-serif;
   font-size: 0.9375rem; font-weight: 700; letter-spacing: 0.16em; color: #2b4c58;
 }
-.pv__bar h1 b { font-family: 'Manrope', 'Noto Sans TC', sans-serif; font-weight: 500; letter-spacing: 0.04em; color: #4a6570; margin-left: 10px; }
+.pv__bar h1 b { font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; font-weight: 500; letter-spacing: 0.04em; color: #4a6570; margin-left: 10px; }
 .pv__jump { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
 .pv__jump a, .pv__vp button {
   font: inherit; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
@@ -61,7 +61,7 @@
 
 .pv__wrap { max-width: 1320px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
 .pv__intro {
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   max-width: 64ch; margin: 36px 0 10px; color: #3d565f; font-size: 0.9375rem; line-height: 1.8;
 }
 .pv__intro strong { color: #2b4c58; }
@@ -83,7 +83,7 @@
 .pv__name {
   margin: 0; font-family: 'Noto Serif TC', serif; font-size: 1.375rem; font-weight: 600; color: #1e3038; letter-spacing: 0.02em;
 }
-.pv__why { font-family: 'Manrope', 'Noto Sans TC', sans-serif; font-size: 0.8125rem; color: #4a6570; }
+.pv__why { font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; font-size: 0.8125rem; color: #4a6570; }
 
 /* 桌面／手機切換係即時換，唔做闊度動畫 —— 動 max-width 會逼瀏覽器
    成頁重算版面，喺手機度會窒。 */
@@ -99,7 +99,7 @@
   display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start;
   margin-top: 14px; padding: 16px 20px;
   background: rgba(255, 255, 255, 0.66); border: 1px solid rgba(43, 76, 88, 0.1); border-radius: 12px;
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif; font-size: 0.875rem; line-height: 1.7; color: #3d565f;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; font-size: 0.875rem; line-height: 1.7; color: #3d565f;
 }
 .pv__verdict dt {
   font-weight: 700; color: #2b4c58; letter-spacing: 0.06em; font-size: 0.75rem;
@@ -123,7 +123,7 @@
   background: #2b4c58;
   color: #fff;
   padding: clamp(34px, 5.4cqw, 62px) clamp(20px, 5cqw, 64px) clamp(30px, 4.4cqw, 52px);
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 .pA__inner { position: relative; z-index: 1; }
 
@@ -161,7 +161,7 @@
   font-size: clamp(1.6rem, 3.1cqw, 2.375rem); line-height: 1.15; color: #fff; letter-spacing: -0.01em;
 }
 .pA__amount small {
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif; font-size: 0.6875rem; font-weight: 700;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; font-size: 0.6875rem; font-weight: 700;
   letter-spacing: 0.16em; color: #9cc3d1; align-self: center;
 }
 .pA__gain {
@@ -215,7 +215,7 @@
   position: relative; overflow: hidden;
   background: linear-gradient(158deg, #eef5f8 0%, #dfeef3 58%, #d3e6ed 100%);
   padding: clamp(30px, 4.6cqw, 56px) clamp(20px, 5cqw, 60px);
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #23434e;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #23434e;
 }
 .pB__grid { display: grid; gap: clamp(24px, 3.4cqw, 46px); align-items: center; }
 @container (min-width: 760px) { .pB__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
@@ -283,7 +283,7 @@
   --ar-hair: #b6d0d9; --ar-soft: #4d707c; --ar-hover: #dbeaf0;
   background: var(--ar-ground); color: var(--ar-ink);
   padding: clamp(28px, 4.2cqw, 54px) clamp(20px, 5cqw, 62px) clamp(24px, 3.4cqw, 42px);
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 .pC__masthead {
   display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; flex-wrap: wrap;
@@ -353,7 +353,7 @@
   position: relative; overflow: hidden;
   background: linear-gradient(165deg, #eaf3f6 0%, #dbecf2 100%);
   padding: clamp(30px, 4.4cqw, 54px) clamp(20px, 5cqw, 58px) clamp(26px, 3.6cqw, 46px);
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif; color: #22414c;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #22414c;
 }
 .pD__lead { position: relative; z-index: 1; max-width: 30ch; }
 .pD__title {
@@ -462,7 +462,7 @@
   position: relative; overflow: hidden;
   background: linear-gradient(152deg, #eaf4f8 0%, #dfeef4 44%, #cfe3ec 100%);
   color: var(--e-ink);
-  font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+  font-family: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   padding: clamp(18px, 2.6cqw, 32px) clamp(18px, 3cqw, 40px) 0;
 }
 .pE__grid { display: grid; gap: clamp(14px, 2.2cqw, 30px); align-items: center; }

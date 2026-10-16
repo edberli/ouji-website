@@ -9,7 +9,7 @@
   --lc-tile: #eef2f3; --lc-was: #6e7d87; --lc-sale: #bd3a27; --lc-chip-bg: #fdebea; --lc-chip-ink: #b23423;
   --lc-award-bg: #26343e; --lc-award-ink: #fff; --lc-gold: #c8a159; --lc-link: #637487; --lc-var-ink: #101c24;
   --lc-cta: #617a8b; --lc-cta-hover: #536a7a; --lc-name: #284653; --lc-pick-dot: #4e8497; --lc-pick-dot-hover: #43788a;
-  --lc-f: "Manrope", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif;
+  --lc-f: "Manrope", "PingFang TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
   container: lc / inline-size;
   display: block; min-width: 0; width: 100%; max-width: 440px; margin-inline: auto;
   color: var(--lc-ink); font: 400 14px/1.4 var(--lc-f); text-align: left; text-decoration: none;
@@ -59,7 +59,7 @@
 /* 文字：每行固定高度，冇嗰樣資料就留返個位，同一行卡對齊 */
 .lc__body { display: flex; flex: 1 1 auto; flex-direction: column; padding: 0 min(0.2cqi, 0.7px); }
 .lc__brand { display: block; height: clamp(14px, 5.11cqi, 15px); margin-top: clamp(4px, 1.92cqi, 6.76px); overflow: hidden; color: var(--lc-brand); font: 500 clamp(10.5px, 3.84cqi, 11px)/clamp(14px, 5.11cqi, 15px) var(--lc-f); letter-spacing: .045em; white-space: nowrap; text-overflow: ellipsis; }
-/* 中文字只用 400／500：Noto Sans TC 只載入咗呢兩級，叫 600／700 會變瀏覽器假粗體（筆劃糊）。2026-10-15 */
+/* 中文字只用 400／500（2026-10-15 定；當時 Noto Sans TC 只載兩級。10-16 起中文用系統字，字重照留唔郁）。 */
 /* 名：同一行卡有兩行名先留兩行位（--lc-lines 由 product-card-lc.js 按每一行計），成行一行名就唔留空位 */
 .lc__name { display: block; flex: none; height: calc(clamp(18px, 8.12cqi, 22.5px) * var(--lc-lines, 2)); margin-top: min(1.42cqi, 4px); overflow: hidden; }
 .lc__title { color: var(--lc-name); font: 500 clamp(12.5px, 5.8cqi, 15px)/clamp(18px, 8.12cqi, 22.5px) var(--lc-f); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }

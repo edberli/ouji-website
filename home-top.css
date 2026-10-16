@@ -4,7 +4,7 @@
 .home-top {
   --content-width: 1440px;
   --page-gutter: clamp(18px, 4.5vw, 68px);
-  --sans: 'Manrope', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sans: 'Manrope', 'PingFang TC', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, sans-serif;
   font-family: var(--sans);
 }
 @media (max-width: 760px) { .home-top { --page-gutter: 20px; } }
@@ -450,7 +450,7 @@
 .little-perks__hit--shop { left: 6.8%; top: 84.4%; width: 28%; height: 10.4%; }
 .little-perks__hit--gift { left: 15.4%; top: 73%; width: 22.8%; height: 7%; border-radius: 8px; }
 .little-perks__hit--jar { left: 55%; top: 62%; width: 16%; height: 24%; border-radius: 50%; }
-.little-perks__terms { margin: 8px 2px 0; color: #5f7482; font: 400 12px/1.5 'Manrope', 'Noto Sans TC', sans-serif; }
+.little-perks__terms { margin: 8px 2px 0; color: #5f7482; font: 400 12px/1.5 'Manrope', 'PingFang TC', 'Microsoft JhengHei', sans-serif; }
 @media (min-width: 761px) {
   /* 桌面版橫幅冇「逛好物」掣：成條橫幅撳落去全部商品，贈品名同面霜去贈品頁。 */
   .little-perks__card { aspect-ratio: 2620 / 361; border-radius: 24px; }

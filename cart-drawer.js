@@ -39,7 +39,7 @@
   };
 
   const CSS = `
-.ocd { --ocd-canvas:#fbf9f5; --ocd-ink:#2b4c58; --ocd-text:#1e3038; --ocd-muted:#5c727a; --ocd-line:#dce5e5; --ocd-paper:#fffdf9; --ocd-teal:#4e8497; --ocd-red:#ac5d56; --ocd-sans:"Manrope","Noto Sans TC",-apple-system,BlinkMacSystemFont,sans-serif; --ocd-serif:"Cormorant Garamond","Noto Serif TC",Georgia,serif; }
+.ocd { --ocd-canvas:#fbf9f5; --ocd-ink:#2b4c58; --ocd-text:#1e3038; --ocd-muted:#5c727a; --ocd-line:#dce5e5; --ocd-paper:#fffdf9; --ocd-teal:#4e8497; --ocd-red:#ac5d56; --ocd-sans:"Manrope","PingFang TC", "Microsoft JhengHei",-apple-system,BlinkMacSystemFont,sans-serif; --ocd-serif:"Cormorant Garamond","Noto Serif TC",Georgia,serif; }
 dialog.ocd { position:fixed; inset:0 0 0 auto; width:min(430px, calc(100vw - 18px)); max-width:none; height:100dvh; max-height:100dvh; margin:0; padding:24px 24px 0; border:0; border-left:1px solid var(--ocd-line); background:var(--ocd-canvas); color:var(--ocd-text); font-family:var(--ocd-sans); box-shadow:-18px 0 48px rgba(30,48,56,.12); overflow:hidden; }
 dialog.ocd[open] { display:flex; flex-direction:column; animation:ocd-in .42s cubic-bezier(.16,1,.3,1); }
 dialog.ocd::backdrop { background:rgba(30,48,56,.32); backdrop-filter:blur(3px); }
@@ -113,7 +113,7 @@ dialog.ocd::backdrop { background:rgba(30,48,56,.32); backdrop-filter:blur(3px);
 .ocd-sesame { position:fixed; z-index:2001; right:8px; bottom:calc(56px + var(--tabbar-gap, 16px) + 12px); display:flex; align-items:flex-end; color:#2b4c58; text-decoration:none; transform-origin:78% 100%; animation:ocd-pop .56s cubic-bezier(.34,1.56,.64,1) both; }
 .ocd-sesame[hidden] { display:none; }
 .ocd-sesame img { display:block; width:118px; height:auto; }
-.ocd-sesame__bubble { position:relative; z-index:1; margin:0 -18px 62px 0; padding:10px 15px 11px; border-radius:18px 18px 4px 18px; background:#fff; box-shadow:0 6px 18px rgba(43,76,88,.16); font:600 14px/1.35 "Manrope","Noto Sans TC",sans-serif; white-space:nowrap; animation:ocd-bubble .38s .18s cubic-bezier(.16,1,.3,1) both; }
+.ocd-sesame__bubble { position:relative; z-index:1; margin:0 -18px 62px 0; padding:10px 15px 11px; border-radius:18px 18px 4px 18px; background:#fff; box-shadow:0 6px 18px rgba(43,76,88,.16); font:600 14px/1.35 "Manrope","PingFang TC", "Microsoft JhengHei",sans-serif; white-space:nowrap; animation:ocd-bubble .38s .18s cubic-bezier(.16,1,.3,1) both; }
 .ocd-sesame__bubble small { display:block; margin-top:2px; color:#4e8497; font-size:11px; font-weight:500; }
 @keyframes ocd-pop { 0% { opacity:0; transform:translateY(28px) scale(.6) rotate(-8deg); } 60% { opacity:1; transform:translateY(-4px) scale(1.04) rotate(2deg); } 100% { opacity:1; transform:none; } }
 @keyframes ocd-bubble { from { opacity:0; transform:translateY(6px) scale(.9); } to { opacity:1; transform:none; } }

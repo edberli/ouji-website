@@ -4,7 +4,7 @@
   --muted: #6c797b;
   --line: #dfe5e6;
   --page: #ffffff;
-  --sans: "Noto Sans TC", system-ui, sans-serif;
+  --sans: "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }

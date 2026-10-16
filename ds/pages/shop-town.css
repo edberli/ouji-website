@@ -75,7 +75,7 @@
     display: block;
     margin: 0 0 5px;
     color: var(--town-ink);
-    font: 700 10px/1.4 'League Spartan', 'Noto Sans TC', sans-serif;
+    font: 700 10px/1.4 'League Spartan', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
     letter-spacing: .13em;
   }
   .o-town__title h1 {
@@ -87,7 +87,7 @@
   .o-town__count {
     margin: 6px 0 0;
     color: var(--town-ink);
-    font: 600 11px/1.4 Manrope, 'Noto Sans TC', sans-serif;
+    font: 600 11px/1.4 Manrope, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
     font-variant-numeric: tabular-nums;
   }
 
@@ -174,7 +174,7 @@
   .o-town__number {
     flex: 0 0 auto;
     color: var(--sign-ink, var(--town-ink));
-    font: 700 7.5cqi/1.1 Manrope, 'Noto Sans TC', sans-serif;
+    font: 700 7.5cqi/1.1 Manrope, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
     font-variant-numeric: tabular-nums;
     text-shadow: 0 1px 1px rgba(0, 0, 0, .14);
     white-space: nowrap;
@@ -253,7 +253,7 @@
   }
   .o-town__card .o-town__number {
     color: #5a6e76;
-    font: 600 clamp(10px, .78vw, 12px)/1.1 Manrope, 'Noto Sans TC', sans-serif;
+    font: 600 clamp(10px, .78vw, 12px)/1.1 Manrope, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
     text-shadow: none;
   }
   .o-town__card .o-town__divider { display: none; }
@@ -501,7 +501,7 @@
       border-radius: 12px;
       background: rgba(255, 252, 241, .85);
       color: var(--town-ink);
-      font: 500 10px/1.2 'Noto Sans TC', sans-serif;
+      font: 500 10px/1.2 'PingFang TC', 'Microsoft JhengHei', sans-serif;
       pointer-events: none;
     }
     .o-town[data-shop-town] + [data-shop-catalog] .shop-page__filter {
