@@ -165,11 +165,78 @@ body:not(.has-brand-rail) .lx-brandhead { display: none; }
 /* ----- 品牌專區：照用 live Clearline 品牌條（跟住捲、跟版高亮），樣跟 8856：白底條、每個牌一粒圓角掣 ----- */
 .lx-page .brand-rail-dock { height: 60px; margin: 0 0 18px; }
 .lx-page .brand-rail.brand-rail--clearline { box-sizing: border-box; height: 60px; gap: 8px; padding: 8px 10px; border: 0; border-radius: 20px; background: rgba(250, 252, 251, .96); box-shadow: 0 5px 14px rgba(36, 65, 73, .055); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-.lx-page .brand-rail--clearline .brand-rail__item { box-sizing: border-box; flex: 0 0 102px; width: 102px; min-width: 102px; max-width: 102px; height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: #fff; scroll-snap-align: start; }
+.lx-page .brand-rail--clearline .brand-rail__item { box-sizing: border-box; display: flex; justify-content: center; overflow: hidden; flex: 0 0 102px; width: 102px; min-width: 102px; max-width: 102px; height: 44px; padding: 0 8px; border: 0; border-radius: 999px; background: #fff; scroll-snap-align: start; }
 .lx-page .brand-rail--clearline .brand-rail__item::before { display: none; }
 .lx-page .brand-rail--clearline .brand-rail__item.is-current { border: 0; background: #e8f1f2; box-shadow: inset 0 -2px 0 rgba(78, 132, 151, .38); }
-.lx-page .brand-rail--clearline .brand-rail__logo { display: block; width: 78px; max-width: 78px; height: 23px; max-height: 23px; object-fit: contain; opacity: 1; transform: none; }
-.lx-page .brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo { transform: none; }
+.lx-page .brand-rail--clearline .brand-rail__logo,
+.lx-page .brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo { display: block; flex: none; width: var(--rail-logo-w, 78px); max-width: none; height: var(--rail-logo-h, 23px); max-height: none; object-fit: contain; opacity: 1; transform: translate(var(--rail-logo-x, 0px), var(--rail-logo-y, 0px)); }
+/* Optical logo calibration: visible marks are balanced within the same 102×44 pill.
+   Source artwork, colour and proportions stay intact; large image canvases compensate
+   for baked-in whitespace. Keep the same calibration in active and inactive states. */
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/lilybyred.svg"] { --rail-logo-w: 150.91px; --rail-logo-h: 37.73px; --rail-logo-x: 0.07px; --rail-logo-y: -2.73px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/amuse.svg"] { --rail-logo-w: 118.02px; --rail-logo-h: 29.51px; --rail-logo-x: 0.35px; --rail-logo-y: 0.17px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/hince.svg"] { --rail-logo-w: 162.67px; --rail-logo-h: 40.67px; --rail-logo-x: -0.32px; --rail-logo-y: -0.64px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/wakemake.svg"] { --rail-logo-w: 115.92px; --rail-logo-h: 28.98px; --rail-logo-x: 0.23px; --rail-logo-y: -0.91px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/clio.svg"] { --rail-logo-w: 113.09px; --rail-logo-h: 28.27px; --rail-logo-x: -0.11px; --rail-logo-y: -0.83px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/dasique.png"] { --rail-logo-w: 71.84px; --rail-logo-h: 23.75px; --rail-logo-x: 0.30px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/tirtir.svg"] { --rail-logo-w: 138.14px; --rail-logo-h: 34.54px; --rail-logo-x: 0.20px; --rail-logo-y: -0.40px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/maybelline.svg"] { --rail-logo-w: 137.99px; --rail-logo-h: 34.50px; --rail-logo-x: -0.20px; --rail-logo-y: -1.95px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/unleashia.svg"] { --rail-logo-w: 128.59px; --rail-logo-h: 32.15px; --rail-logo-x: -0.44px; --rail-logo-y: -1.32px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/romand.svg"] { --rail-logo-w: 148.21px; --rail-logo-h: 37.05px; --rail-logo-x: -0.14px; --rail-logo-y: -0.29px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/laka.svg"] { --rail-logo-w: 136.04px; --rail-logo-h: 34.01px; --rail-logo-x: -0.66px; --rail-logo-y: 0.20px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/flower-knows.svg"] { --rail-logo-w: 158.55px; --rail-logo-h: 39.64px; --rail-logo-x: -0.23px; --rail-logo-y: -2.09px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/fwee.svg"] { --rail-logo-w: 161.84px; --rail-logo-h: 40.46px; --rail-logo-x: 0.16px; --rail-logo-y: -0.63px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/heart-percent.svg"] { --rail-logo-w: 150.97px; --rail-logo-h: 37.74px; --rail-logo-x: -0.22px; --rail-logo-y: -1.92px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/peripera.png"] { --rail-logo-w: 66.55px; --rail-logo-h: 22.63px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/2an.svg"] { --rail-logo-w: 150.90px; --rail-logo-h: 37.73px; --rail-logo-x: 0.44px; --rail-logo-y: 0.07px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/braye.svg"] { --rail-logo-w: 136.95px; --rail-logo-h: 34.24px; --rail-logo-x: -0.27px; --rail-logo-y: -0.47px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/coralhaze.svg"] { --rail-logo-w: 145.75px; --rail-logo-h: 36.44px; --rail-logo-x: -0.14px; --rail-logo-y: -0.93px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/glint.svg"] { --rail-logo-w: 129.72px; --rail-logo-h: 32.43px; --rail-logo-x: -0.19px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/abib.svg"] { --rail-logo-w: 53.00px; --rail-logo-h: 16.47px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/anua.png"] { --rail-logo-w: 87.18px; --rail-logo-h: 20.09px; --rail-logo-x: 1.02px; --rail-logo-y: -0.43px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/arencia.png"] { --rail-logo-w: 69.00px; --rail-logo-h: 15.67px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/beauty-of-joseon.svg"] { --rail-logo-w: 144.20px; --rail-logo-h: 36.05px; --rail-logo-x: 0.00px; --rail-logo-y: -0.49px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/beplain.png"] { --rail-logo-w: 63.00px; --rail-logo-h: 18.00px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/bring-green.svg"] { --rail-logo-w: 132.95px; --rail-logo-h: 33.24px; --rail-logo-x: 0.13px; --rail-logo-y: -1.49px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/cosrx.png"] { --rail-logo-w: 63.00px; --rail-logo-h: 12.99px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/goodal.svg"] { --rail-logo-w: 135.93px; --rail-logo-h: 33.98px; --rail-logo-x: -0.07px; --rail-logo-y: -1.79px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/mixsoon.svg"] { --rail-logo-w: 138.71px; --rail-logo-h: 34.68px; --rail-logo-x: 0.00px; --rail-logo-y: -0.54px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/needly.svg"] { --rail-logo-w: 131.00px; --rail-logo-h: 32.75px; --rail-logo-x: -0.58px; --rail-logo-y: -0.38px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/ootd.svg"] { --rail-logo-w: 120.59px; --rail-logo-h: 30.15px; --rail-logo-x: 0.00px; --rail-logo-y: 0.18px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/purito.svg"] { --rail-logo-w: 135.63px; --rail-logo-h: 33.91px; --rail-logo-x: -0.20px; --rail-logo-y: -2.58px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/round-lab.svg"] { --rail-logo-w: 135.73px; --rail-logo-h: 33.93px; --rail-logo-x: -0.13px; --rail-logo-y: -0.93px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/skin1004.png"] { --rail-logo-w: 84.00px; --rail-logo-h: 12.88px; --rail-logo-x: 0.00px; --rail-logo-y: -0.28px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/skinfood.svg"] { --rail-logo-w: 148.15px; --rail-logo-h: 37.04px; --rail-logo-x: -0.29px; --rail-logo-y: -0.58px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/some-by-mi.svg"] { --rail-logo-w: 139.18px; --rail-logo-h: 34.80px; --rail-logo-x: 0.27px; --rail-logo-y: -2.04px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/torriden.svg"] { --rail-logo-w: 67.00px; --rail-logo-h: 12.80px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/april-skin.svg"] { --rail-logo-w: 82.00px; --rail-logo-h: 10.50px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/ksecret.png"] { --rail-logo-w: 75.38px; --rail-logo-h: 16.50px; --rail-logo-x: -0.19px; --rail-logo-y: -0.19px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/haruharu-wonder.png"] { --rail-logo-w: 84.00px; --rail-logo-h: 8.40px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/ilso.svg"] { --rail-logo-w: 43.00px; --rail-logo-h: 20.70px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/dr-melaxin.png"] { --rail-logo-w: 75.00px; --rail-logo-h: 12.37px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/lilmoon.svg"] { --rail-logo-w: 64.96px; --rail-logo-h: 16.76px; --rail-logo-x: 0.00px; --rail-logo-y: 0.06px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/molak.svg"] { --rail-logo-w: 73.00px; --rail-logo-h: 19.01px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/ns-collection.svg"] { --rail-logo-w: 84.50px; --rail-logo-h: 6.76px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/topards.svg"] { --rail-logo-w: 81.00px; --rail-logo-h: 18.90px; --rail-logo-x: 0.00px; --rail-logo-y: -0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/feliamo.svg"] { --rail-logo-w: 76.00px; --rail-logo-h: 22.80px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/solep.png"] { --rail-logo-w: 51.00px; --rail-logo-h: 19.24px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/vt-cosmetics.png"] { --rail-logo-w: 82.00px; --rail-logo-h: 12.93px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/lindsay.png"] { --rail-logo-w: 74.00px; --rail-logo-h: 19.54px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/tocobo.svg"] { --rail-logo-w: 77.00px; --rail-logo-h: 13.89px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/manyo.png"] { --rail-logo-w: 62.00px; --rail-logo-h: 14.55px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/sungboon-editor.png"] { --rail-logo-w: 86.47px; --rail-logo-h: 24.71px; --rail-logo-x: 0.00px; --rail-logo-y: 0.15px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/heveblue.png"] { --rail-logo-w: 21.01px; --rail-logo-h: 32.00px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/boh.png"] { --rail-logo-w: 49.71px; --rail-logo-h: 20.88px; --rail-logo-x: -0.06px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/dr-jart.svg"] { --rail-logo-w: 67.00px; --rail-logo-h: 13.32px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/so-natural.png"] { --rail-logo-w: 41.11px; --rail-logo-h: 28.69px; --rail-logo-x: -0.08px; --rail-logo-y: -0.08px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/chiikawa.png"] { --rail-logo-w: 78.46px; --rail-logo-h: 21.94px; --rail-logo-x: 0.08px; --rail-logo-y: -0.08px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/sanrio.png"] { --rail-logo-w: 64.00px; --rail-logo-h: 17.52px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/lulu-the-piggy.png"] { --rail-logo-w: 56.68px; --rail-logo-h: 30.15px; --rail-logo-x: -0.11px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/crayon-shinchan.svg"] { --rail-logo-w: 81.00px; --rail-logo-h: 13.92px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/toyzeroplus.png"] { --rail-logo-w: 79.08px; --rail-logo-h: 12.05px; --rail-logo-x: -0.08px; --rail-logo-y: -0.08px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/takenoko.png"] { --rail-logo-w: 64.49px; --rail-logo-h: 25.00px; --rail-logo-x: 1.70px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[src$="/disney.svg"] { --rail-logo-w: 68.00px; --rail-logo-h: 19.52px; --rail-logo-x: 0.00px; --rail-logo-y: 0.00px; }
+.lx-page .brand-rail--clearline .brand-rail__logo[hidden] { display: none; }
 .lx-page .brand-rail--clearline .brand-rail__fallback { max-width: 78px; overflow: hidden; color: var(--lx-ink); font-size: 11px; font-weight: 500; letter-spacing: .02em; opacity: 1; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 768px) {
   .lx-page .brand-rail-dock { height: 58px; margin-bottom: 14px; }
