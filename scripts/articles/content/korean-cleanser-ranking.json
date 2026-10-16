@@ -1,0 +1,267 @@
+{
+  "slug": "korean-cleanser-ranking",
+  "category": "排行榜",
+  "kicker": "排行榜 · 洗面奶",
+  "date": "2026-10-16",
+  "read_minutes": 6,
+  "title": "韓國洗面奶推介：Olive Young 評分最高 10 款，香港有貨",
+  "title_html": "韓國洗面奶推介：<span class=\"ax-nw\">Olive Young</span> <span class=\"ax-nw\">評分最高</span> <span class=\"ax-nw\">10 款，</span><span class=\"ax-nw\">香港有貨</span>",
+  "seo_title": "韓國洗面奶推介：Olive Young 評分十強（香港有貨）",
+  "description": "OUJI 店內 39 件有貨潔面產品，抽出 10 款日常洗面乳、泡沫同凝膠，按 Olive Young 評分同評價數加權排名：Anua、Round Lab、SKIN1004，附成分、點揀同點用。",
+  "dek": "我哋將 OUJI 有貨、而且喺 Olive Young Global 有 50 則以上評價嘅 39 件潔面產品入面嘅日常洗面乳、泡沫同凝膠，逐支對返評分同評價數，按加權分排十強，再講清楚你應該揀邊支、點用先唔會繃緊。",
+  "cover": {
+    "type": "product",
+    "handle": "round-lab-round-lab-1025-150ml-9044",
+    "stamp": "No.2 · ★ 4.8 · 1,786 則評價"
+  },
+  "related": [
+    "pores-blackheads-guide",
+    "korean-moisturizer-ranking"
+  ],
+  "body": [
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "method",
+          "label": "點樣排",
+          "html": "只計 OUJI 而家有貨、喺 Olive Young Global 有 50 則以上評價嘅潔面產品（共 39 件），再收窄做日常洗面乳、潔面泡沫同潔面凝膠；卸妝油、卸妝膏同獨立嘅去角質產品唔入榜。分數按評價數加權：評價少嘅唔會因為幾個五星就衝上頭。同一系列唔重複上榜。價錢以產品頁為準。"
+        },
+        {
+          "type": "p",
+          "html": "洗面係護膚第一步，但都係最易被跳過嘅一步：用錯咗，後面幾層都白做。韓國洗面奶選擇多到睇花眼，你真正要分清楚嘅其實只有一樣——你係想洗走一日嘅油同汗，定係連化淡妝都要一齊清。今篇我哋用 Olive Young 幾千個用家嘅評分，將日常洗面產品排一次。"
+        },
+        {
+          "type": "toc"
+        }
+      ],
+      "note": "表內每張卡都係 OUJI 而家有貨嗰個型號，容量同價格以產品卡為準。"
+    },
+    {
+      "type": "sec",
+      "id": "top10",
+      "label": "Catalogue · 十強",
+      "title": "Olive Young 評分十強"
+    },
+    {
+      "type": "catalog",
+      "feature_first": true,
+      "id_prefix": "no",
+      "items": [
+        {
+          "handle": "anua-anua-150ml-4427",
+          "kind": "魚腥草潔面泡沫",
+          "unit": "150ml",
+          "why": "全榜評價數最多，2,589 則仍然企到 4.8 星。3,000ppm 魚腥草粉配 0.5% BHA，產品頁寫明泡沫加入三種透明質酸，洗完唔繃緊。",
+          "fit": [
+            "出油多",
+            "想清毛孔"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-1025-150ml-9044",
+          "kind": "獨島潔面泡泡",
+          "unit": "150ml",
+          "why": "弱酸性配方，胺基酸界面活性劑配深海海水礦物，產品頁寫明洗後清爽唔乾燥，適合所有膚質。",
+          "fit": [
+            "全場適用",
+            "怕繃緊"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-1025-150-1120",
+          "kind": "獨島潔面凝膠",
+          "unit": "150ml",
+          "why": "低 pH 配方，8 種透明質酸加深海水，產品頁寫明無香料、敏感肌適用。而家係十強入面最平嗰支。",
+          "fit": [
+            "敏感肌",
+            "慳錢"
+          ]
+        },
+        {
+          "handle": "skin1004-centella-skin1004-125ml-1127",
+          "kind": "積雪草安瓶泡沫",
+          "unit": "125ml",
+          "why": "pH 5 配方，椰子來源界面活性劑配檸檬酸，產品頁寫明適合一般同容易敏感嘅膚質，洗後保持水潤。",
+          "fit": [
+            "易泛紅",
+            "日常用"
+          ]
+        },
+        {
+          "handle": "beauty-of-joseon-beauty-of-joseon-200ml-2172",
+          "kind": "青梅潔面乳",
+          "unit": "200ml",
+          "why": "pH 平衡配方，梅子同綠豆萃取，200ml 大容量，產品頁寫明深層清潔同時支援水潤屏障。",
+          "fit": [
+            "容量大",
+            "耐用"
+          ]
+        },
+        {
+          "handle": "cosrx-cosrx-ph-150ml-0511",
+          "kind": "低 pH 早安潔面啫喱",
+          "unit": "150ml",
+          "why": "弱酸性啫喱質地，產品頁寫明潔淨同時唔抽乾水分，適合所有膚質。",
+          "fit": [
+            "啱新手",
+            "四季通用"
+          ]
+        },
+        {
+          "handle": "mixsoon-mixsoon-2024-150ml-2214",
+          "kind": "積雪草潔面泡沫",
+          "unit": "150ml",
+          "why": "積雪草萃取做核心，產品頁寫明適合所有膚質，尤其膚況唔穩嘅時候用，洗完皮膚保持柔軟水潤。",
+          "fit": [
+            "膚況不穩",
+            "想舒緩"
+          ]
+        },
+        {
+          "handle": "haruharu-wonder-haruharu-wonder-aha-100ml-1783",
+          "kind": "三重 AHA 潔面啫喱",
+          "unit": "100ml",
+          "why": "酒石酸、扁桃酸、檸檬酸各 500ppm，低 pH 加椰油基甜菜鹼，產品頁寫明清潔毛孔同時維持皮膚 pH 平衡。",
+          "fit": [
+            "想溫和去角質",
+            "出油"
+          ]
+        },
+        {
+          "handle": "round-lab-round-lab-150ml-0238",
+          "kind": "白樺樹保濕潔面啫喱",
+          "unit": "150ml",
+          "why": "十強入面 Olive Young 星數最高嗰支，4.9 星。弱酸性維持 pH 5–6，10,000ppm 樺樹汁配維他命透明質酸同 NMF，無香料配方。",
+          "fit": [
+            "星數最高",
+            "想保濕"
+          ]
+        },
+        {
+          "handle": "torriden-torriden-dive-in-150ml-0404",
+          "kind": "8D 玻尿酸保濕洗面乳",
+          "unit": "150ml",
+          "why": "8D 複合低分子透明質酸，產品頁寫明清除防曬同毛孔油脂之餘唔會過度抽乾水分，質地柔滑豐盈。",
+          "fit": [
+            "想補水",
+            "日常用"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "callout",
+          "html": "一支搞掂晒：出油多揀第 1；怕繃緊或者想慳錢揀第 3；皮膚容易敏感揀第 4；想溫和去角質揀第 8。"
+        },
+        {
+          "type": "sec",
+          "id": "how",
+          "label": "How to choose · 點揀",
+          "title": "點揀韓國洗面奶：先睇要清咩"
+        },
+        {
+          "type": "p",
+          "html": "日日只係防曬加淡妝，泡沫或者凝膠已經夠用，第 2、3、6 名都係弱酸性或者低 pH 配方，產品頁都寫明洗完唔抽乾水分。如果化濃妝或者戴防水防曬，就唔好淨靠一支洗面乳，可以去 <a href=\"/category?cat=cleanser\">潔面分類</a> 睇埋雙重潔面嘅組合。"
+        },
+        {
+          "type": "p",
+          "html": "成分睇兩樣就夠。想清毛孔，睇有冇 BHA，即水楊酸——水楊酸喺水裡面溶解度低，同水溶性嘅果酸唔同，第 1 名係 0.5%、第 8 名就係三種果酸各 500ppm。想保水，睇透明質酸，第 3、9、10 都有。容易泛紅或者敏感，就由無香料、pH 5 上下嘅配方入手，第 3、4、9 名都係。"
+        },
+        {
+          "type": "p",
+          "html": "用法一樣會影響效果。美國皮膚科學會建議用溫水濕面，潔面產品只用手指輕輕打圈，唔好用力搓，沖完用毛巾輕印乾而唔係抹乾；早晚各洗一次，大汗或者戴完口罩就洗多一次。毛孔、黑頭同暗瘡嘅日常處理，可以睇 <a href=\"/articles/pores-blackheads-guide\">毛孔黑頭點算</a> 同 <a href=\"/articles/acne-skin-routine\">暗瘡肌韓式護膚法</a>。"
+        }
+      ],
+      "note": "同一系列唔重複上榜：Beauty of Joseon 青梅潔面乳 100ml 同 200ml、Round Lab 1025 凝膠同潔面乳，喺 Olive Young 係同一條評價，十強各計一次。"
+    },
+    {
+      "type": "flow",
+      "blocks": [
+        {
+          "type": "sec",
+          "id": "compare",
+          "label": "Index · 比較表",
+          "title": "十款一次過比較"
+        },
+        {
+          "type": "compare",
+          "handles": [
+            "anua-anua-150ml-4427",
+            "round-lab-round-lab-1025-150ml-9044",
+            "round-lab-round-lab-1025-150-1120",
+            "skin1004-centella-skin1004-125ml-1127",
+            "beauty-of-joseon-beauty-of-joseon-200ml-2172",
+            "cosrx-cosrx-ph-150ml-0511",
+            "mixsoon-mixsoon-2024-150ml-2214",
+            "haruharu-wonder-haruharu-wonder-aha-100ml-1783",
+            "round-lab-round-lab-150ml-0238",
+            "torriden-torriden-dive-in-150ml-0404"
+          ],
+          "kinds": [
+            "魚腥草潔面泡沫",
+            "獨島潔面泡泡",
+            "獨島潔面凝膠",
+            "積雪草安瓶泡沫",
+            "青梅潔面乳",
+            "低 pH 早安潔面啫喱",
+            "積雪草潔面泡沫",
+            "三重 AHA 潔面啫喱",
+            "白樺樹保濕潔面啫喱",
+            "8D 玻尿酸保濕洗面乳"
+          ]
+        },
+        {
+          "type": "sec",
+          "id": "faq",
+          "label": "Q&A · 常見問題",
+          "title": "買洗面奶前常見問題"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "韓國洗面奶有咩特別？",
+              "a": "好多韓國品牌會將積雪草、魚腥草、發酵植物萃取放喺主線，配低 pH 或者弱酸性配方，第 1、4、7 名嘅產品頁都寫明呢啲成分。不過用得舒唔舒服，睇質地同 pH 會比睇國籍實際。"
+            },
+            {
+              "q": "洗完面繃緊係咩原因？",
+              "a": "多數係清潔力過度或者水太熱。美國皮膚科學會建議用溫水、只用手指輕輕打圈，沖完輕印乾。換咗溫和配方仍然繃，或者皮膚長期唔舒服，就問皮膚科醫生。"
+            },
+            {
+              "q": "暗瘡肌應該用強啲嘅潔面？",
+              "a": "美國皮膚科學會建議暗瘡肌用溫和非致痘嘅潔面產品，手指輕輕打圈，唔好用力擦。有暗瘡問題、或者用緊處方藥，就問醫生先。"
+            },
+            {
+              "q": "同一支可以日夜晚都用？",
+              "a": "可以，潔面唔分日夜。美國皮膚科學會建議早晚各洗一次，出汗多就盡快洗。如果洗完覺得乾或者緊，就減返次數，唔好加力度。"
+            }
+          ]
+        },
+        {
+          "type": "sources",
+          "items": [
+            {
+              "title": "Olive Young Global 產品評分及評價數（2026 年 10 月擷取）"
+            },
+            {
+              "title": "美國皮膚科學會：Face washing 101",
+              "url": "https://www.aad.org/public/everyday-care/skin-care-basics/care/face-washing-101"
+            },
+            {
+              "title": "美國皮膚科學會：10 skin care habits that can worsen acne",
+              "url": "https://www.aad.org/public/diseases/acne/skin-care/habits-stop"
+            },
+            {
+              "title": "Wikipedia：Salicylic acid（水楊酸，BHA）",
+              "url": "https://en.wikipedia.org/wiki/Salicylic_acid"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
