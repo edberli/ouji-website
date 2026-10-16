@@ -19,6 +19,7 @@
     }
   },
   "redirects": [
+    {"source": "/products/clio-pro-eye-palette-air-03-mute-library", "destination": "/products/clio-pro-eye-palette-stardust?variant=67437737345182", "permanent": true},
     {"source": "/bath", "has": [{"type": "query", "key": "cat", "value": "shampoo"}], "destination": "/bath?cat=haircare", "permanent": true},
     {"source": "/bath", "has": [{"type": "query", "key": "cat", "value": "hair"}], "destination": "/bath?cat=haircare", "permanent": true},
     {"source": "/products/pro-fits-%E8%B6%B3%E8%B8%9D%E8%AD%B7%E5%A5%97-l", "destination": "/products/pro-fits-%E8%B6%B3%E8%B8%9D%E8%AD%B7%E5%A5%97-m?variant=50532292493470", "permanent": true},
