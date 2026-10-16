@@ -58,7 +58,9 @@ async function descriptions(handles) {
   const AWARDS = vm.runInContext('AWARDS', ctx);
   const BODIES = vm.runInContext('AWARD_BODIES', ctx);
   const naming = require(path.join(ROOT, 'product-naming.js'));
-  const ratings = JSON.parse(read('data/ratings.json')).products || {};
+  const ratingsAll = JSON.parse(read('data/ratings.json')).products || {};
+  // 文章寫明「Olive Young 評分」：@cosme（7 分制）／YesStyle 嘅分唔准混入
+  const ratings = Object.fromEntries(Object.entries(ratingsAll).filter(([, r]) => !r.src || r.src === 'oy'));
   let prods = JSON.parse(read('data/catalog.json')).v.map((e) => e.node || e);
 
   const sub = opt('sub'); const type = opt('type'); const award = opt('award'); const handles = opt('handles'); const text = opt('text');

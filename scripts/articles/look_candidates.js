@@ -18,7 +18,9 @@ const looks = window.OUJI_LOOK_DATABASE.references;
 const db = window.OUJI_PRODUCT_DATABASE.products;
 const live = new Map(JSON.parse(fs.readFileSync(path.join(ROOT, 'data/catalog.json'), 'utf8')).v
   .map((e) => e.node || e).map((p) => [p.handle, p]));
-const ratings = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/ratings.json'), 'utf8')).products || {};
+const ratingsAll = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/ratings.json'), 'utf8')).products || {};
+// 文章寫明「Olive Young 評分」：@cosme（7 分制）／YesStyle 嘅分唔准混入
+const ratings = Object.fromEntries(Object.entries(ratingsAll).filter(([, r]) => !r.src || r.src === 'oy'));
 
 const id = process.argv[2];
 const per = Number(process.argv[3] || 4);

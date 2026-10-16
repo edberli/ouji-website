@@ -21,7 +21,6 @@ import glob
 import json
 import os
 import re
-import shutil
 
 SRC = "/Volumes/core/Projects/OUJI/Website-and-Design/ouji-oy"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,8 +81,17 @@ def main():
         print("\n（dry run，加 --write 先會寫落 data/reviews.json）")
         return
     # 一件產品一個檔：入一版產品頁淨係攞嗰件嘅，唔使拖埋成個目錄。
-    shutil.rmtree(SITE, ignore_errors=True)
-    os.makedirs(SITE)
+    # 只清 Olive Young 嘅檔：2026-10-16 起 data/reviews 仲有 @cosme／YesStyle
+    # （src 欄寫明），成個資料夾 rmtree 會連佢哋一齊冇咗。
+    os.makedirs(SITE, exist_ok=True)
+    for name in os.listdir(SITE):
+        fp = os.path.join(SITE, name)
+        try:
+            if json.load(open(fp)).get('src', 'oy') != 'oy':
+                continue
+        except (OSError, ValueError):
+            pass
+        os.remove(fp)
     for handle, v in out.items():
         with open(os.path.join(SITE, f"{handle}.json"), "w") as f:
             json.dump(v, f, ensure_ascii=False, separators=(",", ":"))
@@ -91,6 +99,8 @@ def main():
     # 索引標明邊件有原文 —— 冇嘅連 request 都唔使發。
     idx = json.load(open(INDEX))
     for h, v in idx["products"].items():
+        if v.get("src", "oy") != "oy":      # 其他來源由 tools/merge.py 管，唔郁
+            continue
         v.pop("text", None)
         if h in out:
             v["text"] = 1
