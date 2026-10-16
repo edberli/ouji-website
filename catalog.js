@@ -2284,7 +2284,7 @@ function brandSection(vendor, items, index) {
   return `
     <section class="brand-section" id="brand-${index}"
              style="content-visibility:auto;contain-intrinsic-size:auto 760px">
-      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}${plate.identity ? ' brand-plate--identity' : ''}"
+      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}${plate.identity ? ' brand-plate--identity' : ''}${CURRENT_SECTION === 'skincare' && vendor === '其他' ? ' brand-plate--other' : ''}"
               style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}${plate.identity ? `;--mark-width:${plate.width || 160}px;--mark-max-height:${plate.maxHeight || 52}px;--plate-ink:${plate.ink || '#171717'};--mark-blend:${plate.blend || 'normal'}` : ''}">
         ${logo
           ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
