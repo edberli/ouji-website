@@ -2636,7 +2636,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .pdp__wrap { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 16px 28px; }
 
 /* 麵包屑：細、灰，產品名縮到一行 */
-.pdp-crumbs { gap: 6px; padding: 10px 0 12px; color: var(--bag-muted); font-size: 12px; line-height: 1.5; }
+.pdp-crumbs { gap: 6px; padding: 8px 0 9px; color: var(--bag-muted); font-size: 12px; line-height: 1.5; }
 .pdp-crumbs a { color: var(--bag-muted); text-decoration: none; }
 .pdp-crumbs .breadcrumb__sep { color: #b9c7cc; }
 
@@ -2654,14 +2654,14 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .pdp-stage__zoom { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgb(46 58 64 / .16); color: var(--bag-teal); cursor: zoom-in; }
 .pdp-stage__zoom svg { width: 22px; height: 22px; stroke-width: 1.8; }
 .pdp-stage__nav { display: none; }
-.pdp-thumbs { display: flex; gap: 8px; padding: 10px 16px 2px; overflow-x: auto; scrollbar-width: none; }
+.pdp-thumbs { display: flex; gap: 7px; padding: 8px 16px 0; overflow-x: auto; scrollbar-width: none; }
 .pdp-thumbs::-webkit-scrollbar { display: none; }
-.pdp-thumb { flex: 0 0 56px; width: 56px; height: 56px; padding: 0; overflow: hidden; border: 1px solid var(--bag-line); border-radius: 8px; background: #fff; cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease; }
+.pdp-thumb { flex: 0 0 50px; width: 50px; height: 50px; padding: 0; overflow: hidden; border: 1px solid var(--bag-line); border-radius: 8px; background: #fff; cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease; }
 .pdp-thumb img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .pdp-thumb.is-active { border-color: var(--bag-teal); box-shadow: inset 0 0 0 1px var(--bag-teal); }
 
 /* 2 · 品牌、名、評分、價錢 */
-.pdp-buy { min-width: 0; padding-top: 16px; }
+.pdp-buy { min-width: 0; padding-top: 13px; }
 .pdp-id .product-info__brand { display: inline-block; font: 700 13px/1.4 var(--font-body); letter-spacing: .02em; }
 .pdp-id .product-info__brand a { color: var(--bag-teal); text-decoration: none; }
 .pdp-id .product-info__name { margin: 4px 0 0; color: var(--bag-ink); font: 700 20px/1.4 var(--font-body); letter-spacing: .01em; text-wrap: pretty; }
@@ -2717,7 +2717,9 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .variant-btn--image { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 5px; min-height: 0; padding: 0; border: 0; background: none; text-align: center; }
 .variant-btn__pic { position: relative; display: block; aspect-ratio: 1 / 1; overflow: hidden; border: 1px solid var(--bag-line); border-radius: 10px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
 .variant-btn__image { display: block; width: 100%; height: 100%; object-fit: cover; }
-.variant-btn__ph { display: grid; place-items: center; width: 100%; height: 100%; background: var(--bag-tint); color: var(--bag-teal); font-size: 13px; font-weight: 700; }
+/* 未有色號相（老闆規矩：搵唔到官方相先出色號編號格）：白底虛線框＋大編號，睇得出係刻意嘅色號卡，唔似爛圖 */
+.variant-btn__ph { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 9px; background: #fff; box-shadow: inset 0 0 0 1px #c9d9df; color: var(--bag-teal); font-size: 18px; font-weight: 700; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.variant-btn__pic:has(> .variant-btn__ph) { border-style: dashed; border-color: #b9cfd7; }
 .variant-btn--image .variant-btn__name { display: -webkit-box; overflow: hidden; color: var(--bag-ink); font-size: 11.5px; line-height: 1.3; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
 .variant-btn--image.is-selected { border: 0; background: none; box-shadow: none; }
 .variant-btn--image.is-selected .variant-btn__pic { border-color: var(--bag-teal); box-shadow: 0 0 0 2px var(--bag-teal); }
@@ -2742,7 +2744,9 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 /* 4 · 數量、加入購物袋、心願（桌面喺購買欄一行；手機加入購物袋由底部購物條代撳，見下面 .pdp-dock） */
 .pdp-actions { display: flex; align-items: center; gap: 8px; }
 .pdp-wish { display: grid; flex: 0 0 auto; place-items: center; width: 46px; height: 46px; padding: 0; border: 1px solid var(--bag-control); border-radius: 50%; background: #fff; color: var(--bag-teal); cursor: pointer; transition: border-color .15s ease, color .15s ease; }
-.pdp-wish svg { width: 21px; height: 21px; }
+.pdp-wish svg { width: 21px; height: 21px; flex: none; }
+/* 字只喺手機出（膠囊「♡ 加入願望清單」）；桌面淨係圓形心心，字留畀讀屏 */
+.pdp-wish__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pdp-wish.is-active { border-color: #efc7c0; color: #bd3a27; }
 .pdp-wish.is-active svg { fill: currentColor; }
 .pdp-qty { display: flex; flex: 0 0 auto; align-items: center; height: 46px; border: 1px solid var(--bag-control); border-radius: 10px; background: #fff; }
@@ -2936,9 +2940,11 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
 
 /* ---- 手機（≤768px）：購物條浮喺底部導航上面（同購物袋合計條同一個位、同一張白卡）；購買欄入面留數量＋心願 ---- */
 @media (max-width: 768px) {
-  .pdp-actions { margin-top: 16px; }
+  .pdp-actions { gap: 10px; margin-top: 16px; }
   .pdp-actions :is(.pdp-add, .pdp-restock) { display: none; }
-  .pdp-wish { order: 2; margin-left: auto; }
+  .pdp-wish { display: inline-flex; order: 2; align-items: center; gap: 6px; width: auto; padding: 0 16px 0 14px; border-radius: 999px; }
+  .pdp-wish__label { position: static; width: auto; height: auto; overflow: visible; clip: auto; color: var(--bag-teal); font: 600 14px/1 var(--font-body); }
+  .pdp-wish.is-active .pdp-wish__label { color: #bd3a27; }
   .pdp-dock { right: max(12px, env(safe-area-inset-right, 0px)); bottom: calc(56px + var(--tabbar-gap, 16px) + 8px); left: max(12px, env(safe-area-inset-left, 0px)); z-index: 1500; display: block; animation: none; }
   /* 條條同底部導航之間嘅空隙鋪返底色，唔好見到內容喺隙入面穿過（漸變只喺最頂 12px） */
   .pdp-dock::before { content: ""; position: absolute; z-index: -1; top: -12px; right: calc(-1 * max(12px, env(safe-area-inset-right, 0px))); bottom: calc(-1 * (56px + var(--tabbar-gap, 16px) + 8px)); left: calc(-1 * max(12px, env(safe-area-inset-left, 0px))); background: linear-gradient(rgb(247 250 252 / 0), var(--bag-ground) 12px); pointer-events: none; }

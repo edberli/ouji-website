@@ -257,9 +257,10 @@
       OWN-WORLD：冷調灰白底 #F7FAFC；淺青 #ECF3F6 只標重點（運送門檻、評分總結）；白卡只畀要成組讀嘅嘢；
         錢同連結青藍 #36728A；唯一實色係全圓「加入購物袋」#5289A2；暖色只畀 7-11 推薦自取；一套無襯線字；圓角 8–12。
       STORY：見到貨同價 → 睇清楚每個色（細相、放大鏡）→ 加入購物袋 → 知運費門檻同贈品 → 想再了解就落去睇詳細資料、成分、評價、推薦。
-      FIRST VIEWPORT：手機＝成闊方形主圖（左右掃、張數、放大鏡）→ 品牌、名、評分、價錢；底部浮起購物條（左價錢、右加入購物袋，同購物袋合計條一樣）。
+      FIRST VIEWPORT：手機＝成闊方形主圖（左右掃、張數、放大鏡）＋細相 → 品牌、名；價錢喺底部購物條一直見到（左價錢、右加入購物袋，同購物袋合計條一樣），碌少少就到評分、價錢、色號格。
         桌面＝左邊相（直排細相＋大相，跟住捲）、右邊 440px 購買欄（名、價、色號格、數量＋加入購物袋、運送同贈品）；落去詳細資料左字右圖、評價左總結右評語。
       FORM：同購物袋同一套「卡＋帶」語言；手機似 app，桌面按闊螢幕重新排（唔係手機拉闊）。
+        SEED：冇擲 —— 視覺世界由老闆指定（首頁 Codex＋新購物袋），參考＝live 購物袋頁；手機運送卡淺青、桌面白卡同購物袋配送方式一樣。
       FINISH：unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->
     <div class="pdp__wrap">
 
@@ -306,6 +307,7 @@
           <div class="pdp-actions" data-pdp-actions>
             <button type="button" class="product-info__wishlist-btn pdp-wish" aria-label="加入願望清單" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span class="pdp-wish__label" data-pdp-wish-label>加入願望清單</span>
             </button>
             <div class="product-info__quantity pdp-qty">
               <button type="button" class="qty-btn" data-action="decrease" aria-label="減少數量"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
@@ -536,6 +538,7 @@
   <script src="reviews.js?v=20261017-pdp"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261017-pdp"></script>
+  <script src="awards.js"></script>
   <script src="product-card-lc.js?v=20261016-hoverswap3"></script>
   <script>
   /**
@@ -1480,10 +1483,12 @@
       // Wishlist button
       const wishBtn = document.querySelector('.product-info__wishlist-btn');
       if (wishBtn) {
+        const wishLabel = wishBtn.querySelector('[data-pdp-wish-label]');
         const paintWish = () => {
           const on = isInWishlist(product.id);
           wishBtn.classList.toggle('is-active', on);
           wishBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+          if (wishLabel) wishLabel.textContent = on ? '已加入願望清單' : '加入願望清單';
         };
         paintWish();
         wishBtn.addEventListener('click', () => {
