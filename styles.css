@@ -3266,18 +3266,29 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-perks__row p { flex: 1; margin: 0; }
 .bag-perks__row strong { color: var(--bag-teal); }
 .bag-perks__row span { color: var(--bag-muted); font-size: 12px; }
-.bag-gift { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
+/* 滿額贈品卡（2026-10-17 A 方案）：貨名做標題、條件＋價值一行、細進度條（同湊單卡同一款）、仲差幾多。 */
+.bag-gift { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 0 14px; align-items: center; padding: 14px 16px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
 .bag-gift.is-won { box-shadow: inset 0 0 0 1.5px var(--bag-teal), var(--bag-shadow); }
-.bag-gift__image { grid-row: span 2; display: block; width: 64px; height: 64px; overflow: hidden; border-radius: 10px; background: var(--bag-tint); }
+.bag-gift__image { position: relative; display: block; width: 76px; height: 76px; overflow: hidden; border-radius: 12px; background: var(--bag-tint); }
 .bag-gift__image img { width: 100%; height: 100%; object-fit: cover; }
+.bag-gift__tag { position: absolute; left: 6px; bottom: 6px; padding: 1px 7px; border-radius: 999px; background: var(--bag-teal); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; line-height: 1.6; }
 .bag-gift__copy { min-width: 0; }
-.bag-gift__title { margin: 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 15px; font-weight: 700; line-height: 1.35; }
-.bag-gift__threshold, .bag-gift__amount { color: var(--bag-teal); }
-.bag-gift__name { margin: 2px 0 0; color: var(--bag-muted); font-size: 12px; line-height: 1.4; }
-.bag-gift__status { margin: 4px 0 0; font-size: 12.5px; line-height: 1.4; }
+.bag-gift__name { display: block; color: var(--bag-ink); font-size: 15px; font-weight: 700; line-height: 1.35; text-decoration: none; }
+/* 中文唔好喺「白樺樹補水面霜」中間斷；英文照空格斷，唔好撐出卡外 */
+.bag-gift__name span { word-break: keep-all; }
+.bag-gift__name span:first-child { white-space: nowrap; }
+.bag-gift__name:hover { text-decoration: underline; text-underline-offset: 3px; }
+.bag-gift__meta { margin: 3px 0 0; color: var(--bag-muted); font-size: 12.5px; line-height: 1.45; }
+.bag-gift__meta b, .bag-gift__status b { color: var(--bag-teal); font-weight: 700; font-variant-numeric: tabular-nums; }
+.bag-gift__bar { height: 6px; margin: 10px 0 0; overflow: hidden; border-radius: 999px; background: var(--bag-track); }
+.bag-gift__bar span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--bag-brand); transition: width .6s cubic-bezier(.16, 1, .3, 1); }
+.bag-gift.is-won .bag-gift__bar span { background: var(--bag-teal); }
+.bag-gift__status { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 7px 0 0; color: var(--bag-ink); font-size: 13px; line-height: 1.4; }
 .bag-gift__status:empty { display: none; }
-.bag-gift__terms { grid-column: 2; margin: 0; color: var(--bag-muted); font-size: 11.5px; }
-.bag-gift__terms a { color: var(--bag-teal); }
+.bag-gift__status small { color: var(--bag-muted); font-size: 11.5px; white-space: nowrap; }
+.bag-gift__ok { display: inline-flex; align-items: center; gap: 5px; color: var(--bag-teal-ink); font-weight: 700; }
+.bag-gift__ok svg { flex: none; width: 16px; height: 16px; padding: 2px; border-radius: 50%; background: var(--bag-teal); color: #fff; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+@media (prefers-reduced-motion: reduce) { .bag-gift__bar span { transition: none; } }
 
 /* 標題連 icon，右邊細字 */
 .bag-section-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 26px 0 10px; }
