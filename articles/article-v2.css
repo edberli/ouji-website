@@ -133,6 +133,39 @@
   .ax-card--hero .ax-card__img { aspect-ratio: auto; min-height: 320px; }
 }
 
+/* 排行榜名次章（2026-10-17 Winston：名次唔夠明顯、冇攞獎感覺）
+   1–3 名：掛喺卡角嘅花結獎章（冠／亞／季）；4 名後：印章式大數字。只用本頁墨色、印章色、水洗藍。 */
+.ax-card--ranked { position: relative; --rank-w: 62px; }
+.ax-card--medal { --rank-w: 80px; }
+.ax-card--champ { --rank-w: 96px; }
+.ax-card--ranked .ax-strip { padding-left: calc(var(--rank-w) + 24px); min-height: 56px; align-content: center; }
+.ax-rank { position: absolute; z-index: 2; top: 8px; left: 12px; width: var(--rank-w); pointer-events: none; color: var(--ax-ink); forced-color-adjust: none; }
+.ax-rank__art { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 4px 6px rgba(43, 76, 88, .22)); }
+.ax-rank__edge { fill: var(--medal-edge, transparent); }
+.ax-rank__rosette { fill: var(--medal); }
+.ax-rank__ring { fill: none; stroke: var(--medal-ink); stroke-width: 1.4; opacity: .7; }
+.ax-rank__tail--a { fill: var(--tail-a); }
+.ax-rank__tail--b { fill: var(--tail-b); }
+.ax-card--medal .ax-rank__no, .ax-card--medal .ax-rank__place { position: absolute; left: 0; right: 0; text-align: center; color: var(--medal-ink); }
+.ax-card--medal .ax-rank__no { top: calc(var(--rank-w) * .155); font: 800 calc(var(--rank-w) * .38)/1 var(--ax-f-num); font-variant-numeric: tabular-nums; }
+.ax-card--medal .ax-rank__place { top: calc(var(--rank-w) * .55); font: 700 calc(var(--rank-w) * .15)/1 var(--ax-f-display); letter-spacing: .14em; text-indent: .14em; }
+.ax-rank--1 { --medal: var(--ax-stamp); --medal-ink: var(--ax-card); --tail-a: var(--ax-stamp); --tail-b: var(--ax-ink); }
+.ax-rank--2 { --medal: var(--ax-ink); --medal-ink: var(--ax-card); --tail-a: var(--ax-ink); --tail-b: var(--ax-stamp); }
+.ax-rank--3 { --medal: var(--ax-wash); --medal-edge: var(--ax-ink); --medal-ink: var(--ax-ink); --tail-a: var(--ax-ink); --tail-b: var(--ax-stamp); }
+.ax-rank--3 .ax-rank__ring { opacity: 1; }
+.ax-rank--n { top: 9px; aspect-ratio: 1; border-radius: 50%; background: var(--ax-card); border: 1.5px solid var(--ax-ink);
+  display: grid; place-content: center; text-align: center; box-shadow: 0 3px 8px rgba(43, 76, 88, .14); }
+.ax-rank--n::before { content: ""; position: absolute; inset: 4px; border-radius: 50%; border: 1px dashed var(--ax-stamp); }
+.ax-rank--n .ax-rank__pre { font: 700 10px/1 var(--ax-f-label); letter-spacing: .14em; color: var(--ax-stamp); }
+.ax-rank--n .ax-rank__no { font: 800 27px/1 var(--ax-f-num); margin-top: 3px; font-variant-numeric: tabular-nums; }
+@media (min-width: 760px) {
+  .ax-card--ranked { --rank-w: 66px; }
+  .ax-card--medal { --rank-w: 90px; }
+  .ax-card--champ { --rank-w: 108px; }
+  .ax-card--ranked.ax-card--hero { --rank-w: 118px; }
+  .ax-card--ranked .ax-rank { left: 16px; }
+}
+
 /* ---------- 妝容步驟 ---------- */
 .ax-steps { margin: 20px 0 8px; display: grid; gap: 28px; }
 .ax-step { display: grid; gap: 12px; padding-top: 18px; border-top: 1px solid var(--ax-hair); }
