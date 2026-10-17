@@ -774,9 +774,14 @@
         // Once the descriptions gained 優點 / 用法 / 主要成分 headings, the
         // flattened text ran them together — "…做好準備。優點 改善膚質同膚色
         // 令暗…" — which reads as one broken sentence at the top of the page.
-        const intro = descHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/);
-        const plain = intro
-          ? new DOMParser().parseFromString(intro[1], 'text/html').body.textContent.trim()
+        // 第一段只係產品名（例如「CLIO 水晶亮澤唇釉」）就跳去下一段，唔好喺購買欄再寫一次個名。
+        // api/product.js introText() 用同一套規則，伺服器同瀏覽器出嘅字一樣，唔會跳。
+        const norm = (t) => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+        const titleKey = norm(product.title);
+        const paras = [...descHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].slice(0, 6)
+          .map((m) => new DOMParser().parseFromString(m[1].replace(/<br\s*\/?>/gi, ' '), 'text/html').body.textContent.replace(/\s+/g, ' ').trim());
+        const plain = paras.length
+          ? (paras.find((t) => norm(t).length >= 6 && !titleKey.includes(norm(t))) || '')
           : (product.description || '');
         desc.textContent = plain.length > 200 ? plain.substring(0, 200) + '…' : plain;
       }
@@ -900,12 +905,14 @@
         }
       };
       function verifiedVariantImageUrl(variant) {
-        const url = variantImageUrl(variant);
         const approved = verifiedVariantImages[variant?.id];
-        if (!url || !approved?.imageUrl
-          || canonicalVariantAssetUrl(approved.imageUrl) !== canonicalVariantAssetUrl(url)) return '';
-        return ['lip-swatch', 'arm-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'cheek-swatch', 'complexion-swatch', 'product-size']
-          .includes(approved.presentation) ? url : '';
+        if (!approved?.imageUrl || !['lip-swatch', 'arm-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'cheek-swatch', 'complexion-swatch', 'product-size']
+          .includes(approved.presentation)) return '';
+        const want = canonicalVariantAssetUrl(approved.imageUrl);
+        const url = variantImageUrl(variant);
+        if (url && canonicalVariantAssetUrl(url) === want) return url;
+        /* 色號主相俾人換咗但核實過嗰張仲喺相簿：照用核實嗰張（同新版 product.html 一樣，2026-10-17） */
+        return images.find((img) => canonicalVariantAssetUrl(img.url) === want)?.url || '';
       }
 
       // Show a verified shade image only after the shopper picks that shade.

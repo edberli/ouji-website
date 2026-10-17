@@ -282,7 +282,7 @@ async function initReviews(handle, product) {
     .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(' · ');
 
   /* 2026-10-17 產品頁重做：標題唔再加「評價」小標（標題自己講得清楚）；
-     桌面左邊總結（跟住捲）、右邊評語；評語先出 4 則，其餘撳「顯示全部」先攤開（資料一則都冇少）。 */
+     桌面評語喺左、總結喺右（同成版一樣欄位，跟住捲）；AI 評價重點由 product-guide.js 加喺總結下面；評語先出 4 則，其餘撳「顯示全部」先攤開（資料一則都冇少）。 */
   const cp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
   const SHOW = 4;
   host.hidden = false;
