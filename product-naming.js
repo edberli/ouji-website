@@ -191,7 +191,8 @@
     }
     let chinese = brand ? clean(primary.slice(brand.length).replace(/^[\s-]+/, '')) : primary;
     if (!HAN.test(chinese)) return { brand: '', chinese: primary };
-    const specification = clean(names.specification);
+    /* 卡上已經有「X月X日到期」標籤，名唔使再寫「短效期・到期 YYYY-MM-DD」（產品頁照留） */
+    const specification = clean(String(names.specification || '').replace(/短效期[・·]?\s*到期\s*\d{4}-\d{2}-\d{2}/g, ''));
     const measurement = cardMeasurement(names.subtitle);
     const cardSpecs = [];
     const appendSpec = (value) => {

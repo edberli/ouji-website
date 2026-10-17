@@ -578,7 +578,7 @@ async function fetchAllPages({ collectionHandle, pageSize = 250, max = 2000, fir
     if (!page?.pageInfo?.hasNextPage || !edges.length) break;
     after = page.pageInfo.endCursor;
   }
-  return out;
+  return dropExpiredEdges(out);
 }
 
 /* ---------- 目錄快照 ----------
@@ -632,7 +632,7 @@ async function readSnapshot() {
     const { at, v } = await r.json();
     if (!Array.isArray(v) || v.length < 100) return null;
     if (!at || Date.now() - at > SNAPSHOT_MAX_AGE) return null;
-    return v;
+    return dropExpiredEdges(v);
   } catch (e) {
     return null;
   }
@@ -678,8 +678,8 @@ async function getAllProducts({ collectionHandle, pageSize = 250, max = 5000, pr
   if (progressive && !collectionHandle) {
     try {
       const first = await getProducts({ first: pageSize, after: null });
-      const edges = first?.edges || [];
-      if (!first?.pageInfo || !edges.length) throw new Error('Empty first catalogue page');
+      const edges = dropExpiredEdges(first?.edges);
+      if (!first?.pageInfo || !(first?.edges || []).length) throw new Error('Empty first catalogue page');
       if (!first.pageInfo.hasNextPage) {
         cacheWrite(key, edges);
         return { edges };
@@ -759,7 +759,14 @@ async function getProduct(handle) {
       }
     }
   `, { handle });
-  return data?.product;
+  /* 過咗到期日嘅短效期貨：產品頁照開得（舊連結唔好 404），但唔准再加入購物袋 */
+  const product = data?.product;
+  if (product && isExpiredShortDated(product)) {
+    (product.variants?.edges || []).forEach((e) => { if (e?.node) { e.node.availableForSale = false; e.node.quantityAvailable = 0; } });
+    product.availableForSale = false;
+    product.totalInventory = 0;
+  }
+  return product;
 }
 
 /** 預存商品資料到 sessionStorage（供 product.html 即時讀取） */
@@ -2430,6 +2437,20 @@ function shortDatedExpiry(product) {
   const tag = (product?.tags || []).find((t) => /^到期-\d{4}-\d{2}-\d{2}$/.test(t));
   const hit = tag ? tag.slice(3) : ((product?.title || '').match(/到期\s*(\d{4}-\d{2}-\d{2})/) || [])[1];
   return hit || '';
+}
+
+/* 短效期貨過咗到期日（香港時間）就唔再出：2026-10-17 首頁仲出緊 10-16 到期嘅泥膜。
+   到期當日照賣；Shopify 落架之前，網站先自己收起。 */
+function isExpiredShortDated(product) {
+  if (!isShortDated(product)) return false;
+  const exp = shortDatedExpiry(product);
+  if (!exp) return false;
+  const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
+  return exp < today;
+}
+
+function dropExpiredEdges(edges) {
+  return (edges || []).filter((e) => !isExpiredShortDated(e?.node || e));
 }
 
 /* 標題喺 Shopify 帶住「【短效期・到期 YYYY-MM-DD】」（訂單、執貨單都見到到期日），
