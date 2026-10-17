@@ -1065,7 +1065,7 @@ function initMegaMenu() {
     ].join(''));
     /* 雜誌目錄刊頭同底部口號（樣式見 styles.css .header__mega-masthead 等） */
     const count = mega.querySelectorAll(':scope > .header__mega-group').length;
-    mega.insertAdjacentHTML('afterbegin', `<div class="header__mega-masthead" aria-hidden="true"><span>OUJI / INDEX</span><span>${count} CATEGORIES</span></div><p class="header__mega-title" aria-hidden="true">Index<small>全部產品</small></p><div class="header__mega-rule" aria-hidden="true"></div>`);
+    mega.insertAdjacentHTML('afterbegin', `<div class="header__mega-masthead" aria-hidden="true"><span>OUJI / INDEX</span><span>${count} CATEGORIES</span></div><div class="header__mega-rule" aria-hidden="true"></div>`);
     mega.insertAdjacentHTML('beforeend', '<div class="header__mega-colophon" aria-hidden="true"><span>SEOUL BEAUTY</span><span>HONG KONG HEART</span></div>');
   }
 
