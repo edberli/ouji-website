@@ -3414,6 +3414,14 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-goal__bar span { display: block; height: 100%; border-radius: inherit; background: var(--bag-brand); }
 .bag-goal__count { flex: 0 0 auto; color: var(--bag-muted); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .bag-goal__sub { margin: 6px 0 0; color: var(--bag-muted); font-size: 12px; line-height: 1.5; text-wrap: pretty; }
+.bag-goal__perks { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.bag-goal__perks li { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px 0 4px; border: 1px dashed #b9cfd7; border-radius: 999px; color: var(--bag-muted); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.bag-goal__perks i { display: grid; place-items: center; width: 18px; height: 18px; border: 1.5px solid #b9cfd7; border-radius: 50%; }
+.bag-goal__perks i svg { width: 12px; height: 12px; stroke-width: 3; }
+.bag-goal__perks li.is-won { border: 0; background: #fff; color: var(--bag-teal); box-shadow: 0 1px 2px rgb(46 58 64 / .06); }
+.bag-goal__perks li.is-won i { border: 0; background: var(--bag-teal); color: #fff; }
+.bag-goal__perks li.is-next { border-color: var(--bag-teal); color: var(--bag-teal-ink); }
+.bag-goal__perks li.is-next i { border-color: var(--bag-teal); }
 .bag-goal.is-done .bag-goal__title { align-items: center; font-size: 16px; }
 .bag-goal.is-done .bag-goal__title svg { flex: 0 0 18px; width: 18px; height: 18px; stroke-width: 2.4; }
 .bag-goal.is-done .bag-goal__sub { margin-top: 2px; }
@@ -3611,13 +3619,15 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-summary__rows dd { flex: 0 0 auto; margin: 0; color: var(--bag-ink); }
 .bag-summary__rows .is-saving dd { color: var(--bag-teal); font-weight: 600; }
 .bag-summary__rows s { margin-right: 6px; color: var(--bag-muted); font-weight: 400; }
-.bag-summary__total { display: flex; align-items: center; gap: 8px; margin: 0 -16px; padding: 16px; background: var(--bag-teal); color: #fff; }
+.bag-summary__total { display: flex; align-items: center; gap: 8px; margin: 0 -16px; padding: 16px 16px 8px; background: var(--bag-teal); color: #fff; }
 .bag-summary__total > span { font-size: 16px; font-weight: 700; }
 .bag-summary__total em { padding: 3px 9px; border-radius: 999px; background: #fff; color: var(--bag-teal); font-size: 12px; font-style: normal; font-weight: 700; white-space: nowrap; }
 .bag-summary__total strong { margin-left: auto; color: #fff; font-size: 28px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
+.bag-summary__secure { display: flex; align-items: flex-start; gap: 5px; margin: 0 -16px; padding: 0 16px 14px; background: var(--bag-teal); color: rgb(255 255 255 / .88); font-size: 11.5px; line-height: 1.5; }
+.bag-summary__secure svg { flex: 0 0 13px; width: 13px; height: 13px; margin-top: 2px; stroke-width: 2; }
 .bag-summary__promo { display: flex; align-items: center; gap: 6px; margin: 0 -16px; padding: 10px 16px 0; color: var(--bag-muted); font-size: 12.5px; }
 .bag-summary__promo svg { flex: 0 0 16px; width: 16px; height: 16px; color: var(--bag-brand); }
-.cart-summary__checkout { padding-top: 14px; }
+.cart-summary__checkout { padding: 14px 0 16px; }
 /* 19px 粗字屬「大字」，白字喺 #5289A2（3.85:1）過到 WCAG AA。 */
 .bag-page .bag-go { gap: 8px; width: 100%; min-height: 54px; padding: 0 18px; border-radius: 999px; background: var(--bag-brand); box-shadow: none; color: #fff; font: 700 19px var(--font-body); letter-spacing: .04em; text-transform: none; }
 .bag-page .bag-go::before { display: none; }
@@ -3649,8 +3659,12 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
   .bag-bar__go.is-busy::after { content: ""; position: absolute; right: 18px; width: 16px; height: 16px; border: 2px solid rgb(255 255 255 / .4); border-top-color: #fff; border-radius: 50%; animation: btn-spin 600ms linear infinite; }
   /* 合計條代替咗摘要入面粒掣（條出咗先收，萬一 script 出錯都仲有掣撳）。footer 底要讓多條條嘅位。 */
   .page-bag.has-bag-bar .cart-summary__checkout .bag-go, .page-bag.has-bag-bar .bag-go__perks { display: none; }
-  .page-bag.has-bag-bar .cart-summary__checkout { padding-top: 0; }
-  body.page-bag.has-bag-bar > .footer { padding-bottom: calc(56px + var(--tabbar-gap, 16px) + 10px + 84px); }
+  .page-bag.has-bag-bar .cart-summary__checkout { padding: 0 0 2px; }
+  /* 手機購物袋要似 app（Winston 2026-10-15「唔使做 footer」、10-17 再講）：
+     唔出 footer、「繼續選購」同「完成你嘅護膚程序」；body 自己留返導航（＋合計條）嘅位。 */
+  body.page-bag > .footer, .bag-continue, .bag-next { display: none; }
+  html body.page-bag { padding-bottom: calc(56px + var(--tabbar-gap, 16px) + 16px); }
+  html body.page-bag.has-bag-bar { padding-bottom: calc(56px + var(--tabbar-gap, 16px) + 8px + 84px); }
 }
 
 /* 桌面 ≥769px（Winston 2026-10-17「同做埋桌面版」）：按闊螢幕重新排，唔係將手機拉闊。
@@ -3690,7 +3704,8 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
   .bag-ship__name { font-size: 14px; }
   .sfp__list { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 340px; }
   .bag-summary { padding: 20px 20px 0; }
-  .bag-summary__total { margin: 0 -20px; padding: 18px 20px; }
+  .bag-summary__total { margin: 0 -20px; padding: 18px 20px 8px; }
+  .bag-summary__secure { margin: 0 -20px; padding: 0 20px 16px; }
   .bag-summary__total strong { font-size: 32px; }
   .bag-summary__promo { margin: 0 -20px; padding: 10px 20px 0; }
   .cart-empty { max-width: 520px; margin: 24px auto 0; }
@@ -3704,7 +3719,7 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 @keyframes bag-rise { from { opacity: .35; transform: translateY(6px); } }
 .bag-goal[data-moment="reached"] .bag-goal__sticker { transform-origin: 50% 100%; animation: bag-hop .9s cubic-bezier(.3, 1.2, .5, 1) .15s both; }
 @keyframes bag-hop { 0% { transform: none; } 35% { transform: translateY(-12px) rotate(-4deg); } 62% { transform: translateY(0) rotate(1deg); } 80% { transform: translateY(-3px); } 100% { transform: none; } }
-.bag-ship.is-fresh .bag-ship__check { animation: bag-pop .4s cubic-bezier(.3, 1.5, .5, 1) both; }
+.bag-ship.is-fresh .bag-ship__check, .bag-goal__perks li.is-fresh i { animation: bag-pop .4s cubic-bezier(.3, 1.5, .5, 1) .2s both; }
 @keyframes bag-pop { from { opacity: .3; transform: scale(.4); } }
 
 :is(.bag-page, .bag-bar) :is(a, button, summary, select, input):focus-visible { outline: 2px solid var(--bag-teal); outline-offset: 2px; }
@@ -3717,7 +3732,7 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bag-ship { transition: none; }
-  :is(.bag-goal__bar span, .bag-goal__sticker, .bag-goal__title, .bag-ship__check) { animation: none !important; }
+  :is(.bag-goal__bar span, .bag-goal__sticker, .bag-goal__title, .bag-ship__check, .bag-goal__perks i) { animation: none !important; }
   .sfp.is-shake { animation: none; }
 }
 
@@ -15314,73 +15329,6 @@ body::before { opacity: 0.18; }
 @media (max-width: 640px) {
   .cat-head .shima-corner > img, .cat-head .shima-corner .shima { height: 76px; }
   .cat-head__desc { padding-right: 82px; }
-}
-
-/* 購物袋結帳前：用付款標準建立信心，但唔將第三方平台品牌當主角。 */
-/* 2026-10-17 新版購物袋：坐喺訂單摘要白卡最底，上面一條幼線分隔。 */
-.payment-security {
-  margin-top: 14px;
-  padding: 12px 0 16px;
-  border: 0;
-  border-top: 1px solid var(--bag-line, #e3eaed);
-  border-radius: 0;
-  background: transparent;
-}
-.payment-security__heading { display: flex; align-items: center; gap: 10px; }
-.payment-security__heading svg {
-  width: 19px; height: 19px; flex: none; fill: none;
-  stroke: var(--primary-dark); stroke-width: 1.6;
-  stroke-linecap: round; stroke-linejoin: round;
-}
-.payment-security__heading > div { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-.payment-security__heading strong { font-size: 0.875rem; font-weight: 650; color: var(--text-primary); }
-.payment-security__heading span { font-size: 0.6875rem; color: var(--text-secondary); }
-.payment-methods {
-  display: block;
-  padding: 12px 0 0;
-}
-.pay-marks {
-  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px;
-  margin: 0; padding: 0; list-style: none;
-}
-.pay-mark {
-  height: 38px; min-width: 0; padding: 0 5px;
-  display: flex; align-items: center; justify-content: center;
-  border: 1px solid #d8e1e4; border-radius: 6px; background: #fff;
-  box-shadow: 0 1px 2px rgba(43,76,88,.03);
-}
-.pay-mark b { line-height: 1; white-space: nowrap; }
-.pay-mark--apple b { font-size: 0.75rem; color: #111; }
-.pay-mark--google b { font-size: 0.6875rem; color: #5f6368; }
-.pay-mark--google b i { font-style: normal; color: #4285f4; }
-.pay-mark--visa b { font-size: 0.875rem; font-style: italic; letter-spacing: -.05em; color: #172b85; }
-.pay-mark--mastercard > i { position: relative; width: 28px; height: 18px; }
-.pay-mark--mastercard > i::before,
-.pay-mark--mastercard > i::after { content: ''; position: absolute; top: 0; width: 18px; height: 18px; border-radius: 50%; }
-.pay-mark--mastercard > i::before { left: 0; background: #eb001b; }
-.pay-mark--mastercard > i::after { right: 0; background: #f79e1b; opacity: .9; }
-.pay-mark--amex { background: #fff; border-color: #d8e1e4; }
-.pay-mark--amex b { font-size: 0.4rem; line-height: .92; letter-spacing: .04em; color: #1677a8; text-align: center; }
-.pay-mark--unionpay { gap: 4px; }
-.pay-mark--unionpay > i {
-  width: 17px; height: 13px; border-radius: 3px; transform: skew(-10deg);
-  background: linear-gradient(90deg,#d9272e 0 33%,#1677a8 33% 66%,#129b72 66%);
-}
-.pay-mark--unionpay b { font-size: 0.5625rem; color: #1d4f5f; }
-.merchant-trust {
-  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-  gap: 5px 8px; margin-top: 11px; padding-top: 10px;
-  border-top: 1px solid var(--border-light);
-  font-size: 0.625rem; line-height: 1.5; color: var(--text-secondary);
-}
-.merchant-trust i { font-style: normal; color: var(--text-tertiary); }
-.merchant-trust a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 480px) {
-  .payment-security { padding: 12px 0 14px; }
-  .payment-security__heading > div { display: block; }
-  .payment-security__heading span { display: block; margin-top: 3px; }
-  .pay-marks { grid-template-columns: repeat(3, 1fr); }
-  .pay-mark { height: 40px; }
 }
 
 /* 主要瀏覽頁（護膚／彩妝／全部產品）唔用靜態貼圖，用六格連續動作。
