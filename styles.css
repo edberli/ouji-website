@@ -3470,8 +3470,9 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 }
 
 /* 桌面 ≥769px（Winston 2026-10-17「同做埋桌面版」）：按闊螢幕重新排，唔係將手機拉闊。
-   左欄照手機由上而下讀（目標 → 貨品 → 加購 → 贈禮 → 配送方式 → 短效期）；
-   右欄摘要＋結帳掣跟住捲（JS，見 bagStickSide()），所以唔使手機嗰條合計條。 */
+   左欄：目標 → 貨品 → 配送方式 → 順手加購 → 短效期（Winston 2026-10-17：兩個加購唔好夾住配送，擺埋一齊；
+   揀咗「配送擺上面」）。只用 order 改桌面次序，HTML 次序（手機）冇郁。
+   右欄贈禮＋摘要＋結帳掣跟住捲，所以唔使手機嗰條合計條。 */
 @media (min-width: 769px) {
   .bag-page { padding-bottom: 72px; }
   .bag-head { min-height: 76px; }
@@ -3483,6 +3484,8 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
   .bag-layout > .bag-goal { grid-row: 1 / span 2; }
   .bag-layout > .bag-reward { grid-column: 2; grid-row: 1; margin-top: 0; }
   .bag-layout > .bag-side { grid-column: 2; grid-row: 2 / span 12; margin-top: 16px; }
+  .bag-layout > .bag-delivery { order: 1; }
+  .bag-layout > [data-addon], .bag-layout > [data-sd-addon] { order: 2; }
   .bag-goal { padding: 18px 24px 16px; }
   .bag-goal__title { min-height: 70px; padding-right: 160px; font-size: 19px; }
   .bag-goal__title strong { font-size: 28px; }
@@ -14545,17 +14548,6 @@ body::before { opacity: 0.18; }
 }
 .shima__f.is-on { opacity: 1; }
 
-/* 收銀芝麻放喺商品清單之後，避開每件商品右側嘅價錢。 */
-.shima--cash {
-  width: 110px;
-  height: 125px;
-  margin: 8px 0 0 auto;
-  pointer-events: none;
-}
-@media (max-width: 640px) {
-  /* 手機單欄空位唔夠；收起裝飾，價錢同加購內容先行。 */
-  .shima--cash { display: none; }
-}
 @keyframes sfpShake {
   0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
   40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
