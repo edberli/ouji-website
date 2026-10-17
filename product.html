@@ -321,45 +321,25 @@
           <div class="ing-panel" data-ing-panel hidden></div>
 
           <section class="pdp-perks" aria-label="購物優惠及運送安排">
-            <!-- 運送與自取：資訊卡，唔係揀配送方式（Winston 2026-10-17：「唔使放返購物車嘅設計」）。
-                 用首頁「免運門檻」帶嘅漸變、幼線同 icon；手機逐行，桌面三欄＋門市一行。 -->
-            <div class="pdp-ship">
-              <div class="pdp-ship__head">
-                <h2 class="pdp-ship__title">運送與自取</h2>
-                <span class="pdp-ship__note" aria-hidden="true">Your order, our care ♡</span>
-                <div class="shima pdp-ship__shima" aria-hidden="true">
-                  <img class="shima__f is-on" src="assets/images/home/shima-pack1.webp" alt="" width="294" height="360" loading="lazy" decoding="async">
-                  <img class="shima__f" src="assets/images/home/shima-pack2.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
-                  <img class="shima__f" src="assets/images/home/shima-pack3.webp" alt="" width="293" height="360" loading="lazy" decoding="async">
-                  <img class="shima__f" src="assets/images/home/shima-pack4.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
-                  <img class="shima__f" src="assets/images/home/shima-pack5.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
-                  <img class="shima__f" src="assets/images/home/shima-pack6.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
-                </div>
-              </div>
-              <p class="pdp-ship__eta"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>一般下單後約 1–3 個工作天送達</p>
+            <!-- 運送與自取：簡單一條（Winston 2026-10-17 參考圖：三格＋幼線，「簡簡單單…唔使好華麗」），
+                 淨係特登突出 7-11 滿 $99 自取免運；送達日數同門市自取寫喺下面一行細字。 -->
+            <div class="pdp-ship" role="group" aria-labelledby="pdp-ship-title">
+              <h2 class="pdp-ship__title" id="pdp-ship-title">運送與自取</h2>
               <ul class="pdp-ship__ways">
-                <li class="pdp-ship__way is-pick">
-                  <span class="pdp-ship__mark pdp-ship__mark--seven" aria-hidden="true"><img src="assets/images/brand/seven-eleven-2021.svg" width="21" height="28" alt="" decoding="async"></span>
-                  <span class="pdp-ship__name">7-Eleven／<wbr>郵局自取<em class="pdp-ship__tag">推薦</em></span>
-                  <span class="pdp-ship__deal">滿 <b>HK$99</b> 自取免運</span>
+                <li class="pdp-ship__way is-key">
+                  <span class="pdp-ship__mark" aria-hidden="true"><img src="assets/images/brand/seven-eleven-2021.svg" width="21" height="28" alt="" decoding="async"></span>
+                  <span class="pdp-ship__text"><span class="pdp-ship__name">7-Eleven／郵局</span><span class="pdp-ship__deal">滿 <b>$99</b> 自取免運</span></span>
                 </li>
                 <li class="pdp-ship__way">
                   <span class="pdp-ship__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 11h14M12 3v18M8 7h1M15 7h1M8 16h1M15 16h1"/></svg></span>
-                  <span class="pdp-ship__name">順豐站／<wbr>智能櫃</span>
-                  <span class="pdp-ship__deal">滿 <b>HK$250</b> 免運</span>
+                  <span class="pdp-ship__text"><span class="pdp-ship__name">順豐站／智能櫃</span><span class="pdp-ship__deal">滿 <b>$250</b> 免運</span></span>
                 </li>
                 <li class="pdp-ship__way">
-                  <span class="pdp-ship__mark pdp-ship__mark--van" aria-hidden="true"><img src="assets/images/shima/delivery-van.webp" width="320" height="320" alt="" loading="lazy" decoding="async"></span>
-                  <span class="pdp-ship__name">順豐送貨到屋企</span>
-                  <span class="pdp-ship__deal">滿 <b>HK$290</b> 免運</span>
-                </li>
-                <li class="pdp-ship__way">
-                  <span class="pdp-ship__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10.5 5.5 5h13l1.5 5.5"/><path d="M5 10.5V19h14v-8.5"/><path d="M4 10.5a2.67 2.67 0 0 0 5.33 0 2.67 2.67 0 0 0 5.34 0 2.67 2.67 0 0 0 5.33 0"/><path d="M10 19v-4.5h4V19"/></svg></span>
-                  <span class="pdp-ship__name">觀塘門市自取<small>備妥後通知取貨</small></span>
-                  <span class="pdp-ship__deal"><b>免費</b></span>
+                  <span class="pdp-ship__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6.5h11v9H3zM14 9.5h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
+                  <span class="pdp-ship__text"><span class="pdp-ship__name">順豐送貨到屋企</span><span class="pdp-ship__deal">滿 <b>$290</b> 免運</span></span>
                 </li>
               </ul>
-              <a class="pdp-ship__more" href="shipping.html">運送及退換詳情<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></a>
+              <p class="pdp-ship__foot"><span>預計 1–3 個工作天送達・觀塘門市免費自取</span><a class="pdp-ship__more" href="shipping.html">運送詳情 ›</a></p>
             </div>
 
             <article class="pdp-gift" aria-label="Round Lab 滿額贈禮">

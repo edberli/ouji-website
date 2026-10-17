@@ -2776,36 +2776,25 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .ing-chip--clean { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-tint-line); }
 .ing-chip--warn { background: #f6eceb; color: #9a4f49; }
 
-/* 6 · 運送與自取：資訊卡，唔係揀配送方式（Winston 2026-10-17：「呢度唔係購物車，唔使放返購物車嘅設計」）。
-   用首頁「免運門檻」帶（home-top.css .home-delivery）嘅漸變、幼線同 icon：7-11 標誌、櫃、芝麻送貨車、門市。
-   手機逐行讀（方式｜門檻）；桌面三欄幼線分隔、門市一行（同首頁桌面嗰條帶一樣）。冇 hover／揀中狀態 —— 純資訊。
-   芝麻包貨仔企喺卡角，「Your order, our care ♡」係佢嘅對白；暖色只畀 7-11「推薦」。 */
+/* 6 · 運送與自取：簡單一條（Winston 2026-10-17 畀參考圖：「簡簡單單咪得囉…唔使好華麗」；之前嗰張大卡被指「咁大嚿」）。
+   淺青底、圓角 10、三格幼線分隔、線 icon；淨係特登突出 7-11「滿 $99 自取免運」（青藍、$99 大啲），其餘灰藍。
+   手機格窄，icon 喺上面；桌面 icon 喺左邊（同參考圖一樣）。下面一行細字：送達日數、門市自取、運送詳情。 */
 .pdp-perks { display: grid; gap: 10px; margin-top: 22px; }
-.pdp-ship { position: relative; padding: 14px 16px 12px; border: 1px solid rgb(109 163 181 / .2); border-radius: 12px; background: linear-gradient(105deg, #eef6f8 0%, #f4f2f8 54%, #faf0f3 100%); }
-.pdp-ship__head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; min-height: 30px; padding-right: 58px; }
-.pdp-ship__title { margin: 0; color: var(--bag-ink); font: 700 15px/1.35 var(--font-body); letter-spacing: 0; white-space: nowrap; }
-.pdp-ship__note { position: relative; margin-left: auto; padding: 3px 10px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgb(46 58 64 / .08); color: var(--bag-teal); font-size: 11px; font-weight: 600; line-height: 1.45; white-space: nowrap; }
-.pdp-ship__note::after { content: ""; position: absolute; top: 50%; right: -3px; width: 8px; height: 8px; margin-top: -4px; border-radius: 1px; background: #fff; transform: rotate(45deg); }
-/* 全站 .shima 係 position: relative（喺後面），呢度要高一級先浮得上卡角 */
-.pdp-ship .pdp-ship__shima { position: absolute; top: -18px; right: 8px; width: 54px; height: 66px; }
-.pdp-ship__eta { display: flex; align-items: center; gap: 6px; margin: 3px 0 0; color: #4b6a76; font-size: 12px; line-height: 1.5; }
-.pdp-ship__eta svg { flex: 0 0 14px; width: 14px; height: 14px; color: #6b98a8; stroke-width: 1.8; }
-.pdp-ship__ways { margin: 8px 0 0; padding: 0; list-style: none; }
-.pdp-ship__way { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 48px; padding: 8px 0; }
-.pdp-ship__way + .pdp-ship__way { border-top: 1px solid rgb(109 163 181 / .2); }
-.pdp-ship__mark { display: grid; place-items: center; width: 30px; height: 30px; color: #6b98a8; }
-.pdp-ship__mark svg { width: 21px; height: 21px; stroke-width: 1.5; }
-.pdp-ship__mark--seven { width: 28px; height: 28px; border: 1px solid #f0dcc6; border-radius: 8px; background: #fff; }
-.pdp-ship__mark--seven img { display: block; width: 15px; height: 20px; object-fit: contain; }
-.pdp-ship__mark--van img { display: block; width: 40px; height: 40px; max-width: none; object-fit: contain; }
-/* 長名只喺「／」後面斷（HTML 有 <wbr>），唔好斷開「郵局」 */
-.pdp-ship__name { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; color: #345561; font-size: 13.5px; font-weight: 600; line-height: 1.35; word-break: keep-all; }
-.pdp-ship__name small { flex-basis: 100%; color: var(--bag-muted); font-size: 11.5px; font-weight: 400; }
-.pdp-ship__tag { padding: 0 7px; border-radius: 999px; background: var(--bag-warm); box-shadow: inset 0 0 0 1px var(--bag-warm-line); color: var(--bag-warm-ink); font-size: 10.5px; font-style: normal; font-weight: 700; line-height: 1.65; }
-.pdp-ship__deal { display: flex; align-items: baseline; gap: 4px; color: #4b6a76; font-size: 11.5px; white-space: nowrap; }
-.pdp-ship__deal b { color: #315f71; font-size: 16px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
-.pdp-ship__more { display: inline-flex; align-items: center; gap: 1px; margin-top: 4px; color: var(--bag-teal); font-size: 12.5px; font-weight: 600; text-decoration: none; }
-.pdp-ship__more svg { width: 14px; height: 14px; stroke-width: 2; }
+.pdp-ship__title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pdp-ship__ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 10px 2px; border-radius: 10px; background: var(--bag-tint); list-style: none; }
+.pdp-ship__way { display: grid; justify-items: center; align-content: start; gap: 4px; min-width: 0; padding: 0 4px; text-align: center; }
+.pdp-ship__way + .pdp-ship__way { border-left: 1px solid var(--bag-tint-line); }
+.pdp-ship__mark { display: grid; place-items: center; height: 22px; color: #6b98a8; }
+.pdp-ship__mark svg { width: 20px; height: 20px; stroke-width: 1.5; }
+.pdp-ship__mark img { display: block; width: 15px; height: 20px; object-fit: contain; }
+.pdp-ship__text { display: grid; gap: 1px; min-width: 0; }
+.pdp-ship__name { color: #345561; font-size: 11.5px; font-weight: 600; line-height: 1.35; white-space: nowrap; }
+.pdp-ship__deal { color: var(--bag-muted); font-size: 11.5px; line-height: 1.35; white-space: nowrap; }
+.pdp-ship__deal b { color: #345561; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
+.pdp-ship__way.is-key .pdp-ship__deal { color: var(--bag-teal); font-weight: 600; }
+.pdp-ship__way.is-key .pdp-ship__deal b { color: var(--bag-teal); font-size: 14px; }
+.pdp-ship__foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 6px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.5; }
+.pdp-ship__more { margin-left: auto; color: var(--bag-teal); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .pdp-gift { display: grid; grid-template-columns: 60px minmax(0, 1fr); align-items: center; gap: 2px 12px; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
 .pdp-gift__img { grid-row: span 2; width: 60px; height: 60px; border-radius: 10px; background: var(--bag-tint); object-fit: cover; }
 .pdp-gift__copy { min-width: 0; }
@@ -2968,8 +2957,9 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
 }
 @media (max-width: 360px) {
   .pdp-dock__add { padding: 0 10px; font-size: 16px; letter-spacing: .02em; }
-  /* 細手機：門檻金額分兩行（「滿 HK$99」／「自取免運」），留位畀方式名，唔好斷字 */
-  .pdp-ship__deal { flex-wrap: wrap; justify-content: flex-end; max-width: 92px; row-gap: 0; text-align: right; }
+  /* 細手機：三格好窄，字細半號 */
+  .pdp-ship__name, .pdp-ship__deal { font-size: 10.5px; }
+  .pdp-ship__way.is-key .pdp-ship__deal b { font-size: 13px; }
   .pdp-dock__sum { padding-right: 10px; }
   .product-info__variants--swatch { gap: 10px 6px; }
 }
@@ -2999,23 +2989,14 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-restock { order: 2; min-height: 54px; }
   .pdp-actions.is-sold-out .pdp-add { order: 1; }
   .product-info__short-desc { margin-top: 20px; font-size: 15px; }
-  /* 桌面運送卡：三種方式並排、幼線分隔（同首頁桌面「免運門檻」帶一樣），門市自取自己一行 */
+  /* 桌面：同參考圖一樣 icon 喺左、兩行字喺右 */
   .pdp-perks { gap: 12px; margin-top: 24px; }
-  .pdp-ship { padding: 16px 18px 14px; }
-  .pdp-ship__ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 12px; }
-  .pdp-ship__way { grid-template-columns: minmax(0, 1fr); align-content: start; justify-items: center; gap: 5px; min-height: 0; padding: 4px 8px 12px; text-align: center; }
-  .pdp-ship__way + .pdp-ship__way { border-top: 0; border-left: 1px solid rgb(109 163 181 / .22); }
-  .pdp-ship__name { justify-content: center; font-size: 13px; }
-  .pdp-ship__way:last-child { grid-column: 1 / -1; grid-template-columns: 30px minmax(0, 1fr) auto; justify-items: start; gap: 10px; padding: 10px 2px 2px; border-top: 1px solid rgb(109 163 181 / .22); border-left: 0; text-align: left; }
-  .pdp-ship__way:last-child .pdp-ship__name { justify-content: flex-start; }
-  .pdp-ship__way:last-child .pdp-ship__deal { justify-self: end; }
-  /* 三欄嘅 icon／名／金額各自企同一條線（7-11 多咗「推薦」都唔會令佢個金額低過人）；唔支援 subgrid 就照上面排 */
-  @supports (grid-template-rows: subgrid) {
-    .pdp-ship__ways { grid-template-rows: repeat(4, auto); }
-    .pdp-ship__way:not(:last-child) { grid-row: 1 / span 3; grid-template-rows: subgrid; row-gap: 5px; }
-    .pdp-ship__way:not(:last-child) .pdp-ship__name { align-self: start; }
-    .pdp-ship__way:last-child { grid-row: 4; }
-  }
+  .pdp-ship__ways { padding: 12px 4px; }
+  .pdp-ship__way { grid-template-columns: auto minmax(0, auto); justify-content: center; justify-items: start; align-items: center; column-gap: 8px; text-align: left; }
+  .pdp-ship__mark { height: auto; }
+  .pdp-ship__mark svg { width: 22px; height: 22px; }
+  .pdp-ship__mark img { width: 17px; height: 23px; }
+  .pdp-ship__name, .pdp-ship__deal, .pdp-ship__foot { font-size: 12px; }
   .pdp-section { margin-top: 56px; }
   .pdp-h2 { margin-bottom: 16px; font-size: 22px; }
   .pdp-h2 svg { flex-basis: 24px; width: 24px; height: 24px; }
