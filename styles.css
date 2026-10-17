@@ -2713,14 +2713,14 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .variant-btn.is-selected { border-color: var(--bag-teal); background: var(--bag-tint); box-shadow: inset 0 0 0 1px var(--bag-teal); color: var(--bag-teal-ink); }
 .variant-btn:disabled { border-style: dashed; background: #f4f7f8; color: #8b999e; cursor: not-allowed; }
 /* 有已核實色號相：一格一個色（相＋名），手機一行四格、桌面六格 */
-.product-info__variants--swatch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 8px; }
+.product-info__variants--swatch { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px 6px; } /* 手機一行五粒（Winston：四粒太大嚿、浪費位） */
 .variant-btn--image { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 5px; min-height: 0; padding: 0; border: 0; background: none; text-align: center; }
 .variant-btn__pic { position: relative; display: block; aspect-ratio: 1 / 1; overflow: hidden; border: 1px solid var(--bag-line); border-radius: 10px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
 .variant-btn__image { display: block; width: 100%; height: 100%; object-fit: cover; }
 /* 未有色號相（老闆規矩：搵唔到官方相先出色號編號格）：白底虛線框＋大編號，睇得出係刻意嘅色號卡，唔似爛圖 */
-.variant-btn__ph { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 9px; background: #fff; box-shadow: inset 0 0 0 1px #c9d9df; color: var(--bag-teal); font-size: 18px; font-weight: 700; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.variant-btn__ph { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 9px; background: #fff; box-shadow: inset 0 0 0 1px #c9d9df; color: var(--bag-teal); font-size: 15px; font-weight: 700; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
 .variant-btn__pic:has(> .variant-btn__ph) { border-style: dashed; border-color: #b9cfd7; }
-.variant-btn--image .variant-btn__name { display: -webkit-box; overflow: hidden; color: var(--bag-ink); font-size: 11.5px; line-height: 1.3; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+.variant-btn--image .variant-btn__name { display: -webkit-box; overflow: hidden; color: var(--bag-ink); font-size: 11px; line-height: 1.3; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
 .variant-btn--image.is-selected { border: 0; background: none; box-shadow: none; }
 .variant-btn--image.is-selected .variant-btn__pic { border-color: var(--bag-teal); box-shadow: 0 0 0 2px var(--bag-teal); }
 .variant-btn--image.is-selected .variant-btn__pic::after { content: ""; position: absolute; top: 5px; right: 5px; width: 18px; height: 18px; border-radius: 50%; background: var(--bag-teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 12px no-repeat; }
@@ -2851,13 +2851,18 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .pdp-info__body { display: grid; gap: 12px; }
 .pdp-info__story { display: grid; gap: 12px; min-width: 0; }
 .pdp-info__sub { margin: 0 2px 10px; color: var(--bag-ink); font: 700 15px/1.4 var(--font-body); letter-spacing: 0; }
-.pdp-facts { padding: 2px 16px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
-.pdp-facts__kicker { margin: 12px 0 0; color: var(--bag-teal); font: 700 12px/1.4 var(--font-body); letter-spacing: .08em; }
+/* 手機／平板：重點拆做幾張左右滑嘅卡，唔使碌好耐先見到產品圖（2026-10-17 Winston）；桌面（≥1024）合返一張跟住捲 */
+.pdp-facts { padding: 0; }
+.pdp-facts__kicker { margin: 0; color: var(--bag-teal); font: 700 12px/1.4 var(--font-body); letter-spacing: .08em; }
 .pdp-facts__hook { margin: 4px 0 0; color: var(--bag-ink); font-size: 15px; font-weight: 700; line-height: 1.55; text-wrap: pretty; }
 /* 一律細字標籤喺上、內容喺下（中英文一樣）；短資料排做小格，長資料一行一樣，幼線分隔 */
-.pdp-facts__rows { margin: 8px 0 0; }
-.pdp-facts__rows > * { padding: 12px 0; border-top: 1px solid var(--bag-line); }
-.pdp-facts__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 12px 14px; }
+.pdp-facts__rows { display: grid; grid-auto-flow: column; grid-auto-columns: 86%; gap: 10px; margin: 10px -16px 0; padding: 0 16px 6px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
+.pdp-facts__rows::-webkit-scrollbar { display: none; }
+.pdp-facts__rows:has(> :only-child) { grid-auto-columns: 100%; }
+.pdp-facts__page { min-width: 0; padding: 2px 16px 12px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); scroll-snap-align: start; }
+.pdp-facts__pt { margin: 12px 0 2px; color: var(--bag-teal-ink); font: 700 13px/1.4 var(--font-body); letter-spacing: 0; }
+.pdp-facts__page > :not(.pdp-facts__pt) { padding: 11px 0; border-top: 1px solid var(--bag-line); }
+.pdp-facts__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); gap: 12px 12px; }
 .pdp-facts__grid--feel, .pdp-facts__grid--spec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .pdp-facts__cell, .pdp-facts__row { display: grid; gap: 4px; margin: 0; min-width: 0; }
 .pdp-facts__cell dt, .pdp-facts__row dt { color: var(--bag-muted); font-size: 12px; font-weight: 600; line-height: 1.45; }
@@ -2865,7 +2870,7 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .pdp-facts__cell dd { font-weight: 600; }
 .pdp-facts__inline { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
 .pdp-facts__text { margin: 0; color: var(--bag-ink); font-size: 14px; line-height: 1.7; }
-.pdp-facts__note { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--bag-line); color: var(--bag-muted); font-size: 11.5px; line-height: 1.6; }
+.pdp-facts__note { margin: 8px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.6; }
 .pdp-facts .ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .pdp-guide__label { margin: 0 0 8px; color: var(--bag-muted); font: 700 12px/1.4 var(--font-body); letter-spacing: .04em; }
 .pdp-guide__skins { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
@@ -3025,7 +3030,7 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-ship__name, .pdp-ship__deal { font-size: 10.5px; }
   .pdp-ship__way.is-key .pdp-ship__deal b { font-size: 13px; }
   .pdp-dock__sum { padding-right: 10px; }
-  .product-info__variants--swatch { gap: 10px 6px; }
+  .product-info__variants--swatch { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 6px; }
 }
 
 /* ---- 桌面（≥769px）：兩欄 ---- */
@@ -3093,7 +3098,10 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   /* 產品資料同上面一樣兩欄（左 1fr 對住相簿、右 440 對住購買欄）：介紹喺左、重點卡喺右跟住捲 */
   .pdp-info__body { grid-template-columns: minmax(0, 1fr) 440px; column-gap: 56px; align-items: start; }
   .pdp-info__story { grid-row: 1; grid-column: 1; gap: 16px; }
-  .pdp-facts { grid-row: 1; grid-column: 2; padding: 4px 22px 18px; will-change: transform; }
+  .pdp-facts { grid-row: 1; grid-column: 2; padding: 18px 22px 18px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); will-change: transform; }
+  .pdp-facts__rows { display: block; margin: 6px 0 0; padding: 0; overflow: visible; }
+  .pdp-facts__page { padding: 0; background: none; box-shadow: none; }
+  .pdp-facts__note { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--bag-line); }
   .pdp-facts__hook { font-size: 16px; }
   /* 評價同上面兩段一樣欄位：評語喺左（1fr）、分數總結＋AI 重點喺右（440，跟住捲）——成版由頂到底同一條線 */
   .rv-layout { display: grid; grid-template-columns: minmax(0, 1fr) 440px; align-items: start; column-gap: 56px; }
