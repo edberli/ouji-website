@@ -508,6 +508,7 @@ a.little-perks__cv:hover .little-perks__go { background: #22384a; color: #fff; b
 .little-perks__row--thr .little-perks__row-k { display: flex; align-items: center; gap: 6px; color: #fff; font: 700 13px/1 'Manrope', 'PingFang TC', sans-serif; letter-spacing: 0; text-transform: none; }
 .little-perks__row--thr .little-perks__row-k svg { width: 18px; height: 18px; fill: #fff; }
 .little-perks__row--thr .little-perks__row-h { font: 700 20px/1.15 'Manrope', 'PingFang TC', sans-serif; color: #fff; letter-spacing: 0; margin-top: 6px; }
+html[lang="en"] .little-perks__row--thr .little-perks__row-h { font-size: 17px; } /* 英文「Hot on Threads」20px 會撞到右邊四張縮圖 */
 .little-perks__row--thr .little-perks__row-s { color: #a1a1a6; font-weight: 500; }
 .little-perks__faces { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: flex; }
 .little-perks__faces span { display: block; margin-left: -8px; border-radius: 12px; }
