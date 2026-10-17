@@ -3718,7 +3718,7 @@ if (document.readyState === 'loading') {
 (function loadCartDrawer() {
   if (/\/cart(\.html)?$/.test(location.pathname)) return;
   const s = document.createElement('script');
-  s.src = '/cart-drawer.js?v=20261017-2';
+  s.src = '/cart-drawer.js?v=20261017-3';
   s.defer = true;
   document.head.appendChild(s);
 })();

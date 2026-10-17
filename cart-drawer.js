@@ -72,54 +72,38 @@ dialog.ocd::backdrop { background:rgba(30,48,56,.32); backdrop-filter:blur(3px);
 .ocd-qty button:disabled { color:#b4c2c7; cursor:default; }
 .ocd-qty output { min-width:22px; text-align:center; font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; }
 .ocd-line__remove { position:absolute; top:10px; right:-8px; display:grid; place-items:center; width:38px; height:38px; padding:0; border:0; border-radius:50%; background:transparent; color:#74858b; cursor:pointer; }
-.ocd-nudge { display:grid; gap:16px; margin-top:16px; }
-.ocd-offer { position:relative; overflow:hidden; padding:14px 16px 12px; border-radius:12px; background:var(--ocd-tint); }
-.ocd-offer__title { display:flex; flex-wrap:wrap; align-content:center; align-items:baseline; gap:0 6px; min-height:56px; margin:0; padding-right:100px; color:var(--ocd-teal); font-size:16px; font-weight:700; line-height:1.35; }
-.ocd-offer__title strong { font-size:22px; letter-spacing:-.01em; font-variant-numeric:lining-nums tabular-nums; }
-.ocd-offer[data-tone="reached"] .ocd-offer__title { align-items:center; font-size:15px; }
-.ocd-offer[data-tone="reached"] .ocd-offer__title svg { flex:0 0 18px; stroke-width:2.4; }
-.ocd-offer__art { position:absolute; top:6px; right:10px; width:100px; height:64px; pointer-events:none; }
-.ocd-offer__badge { position:absolute; left:0; top:9px; display:grid; place-items:center; width:50px; height:50px; overflow:hidden; border:3px solid #fff; border-radius:50%; background:#fff; box-shadow:0 4px 12px rgb(46 58 64 / .1); color:var(--ocd-teal); transform:rotate(-6deg); }
-.ocd-offer__badge img { width:100%; height:100%; object-fit:cover; }
-.ocd-offer__coupon { display:grid; justify-items:center; font-size:10px; font-weight:700; line-height:1.1; }
-.ocd-offer__coupon strong { font-size:15px; letter-spacing:-.01em; }
-.ocd-offer__cat { position:absolute; right:0; bottom:-2px; width:62px; height:auto; filter:drop-shadow(0 3px 6px rgb(46 58 64 / .12)); }
-.ocd-offer__meter { display:flex; align-items:center; gap:12px; margin-top:8px; }
-.ocd-offer__bar { flex:1; height:7px; overflow:hidden; border-radius:999px; background:var(--ocd-track); }
+.ocd-nudge { display:grid; gap:12px; margin-top:12px; }
+/* 側欄要簡潔（Winston 2026-10-17）：湊單淨係一行字＋一條 bar，已攞到嘅一行細剔；加購一行；底部一行小計＋掣。
+   湊單卡嘅芝麻貼圖、目標圖、剔號膠囊留返喺購物袋頁。 */
+.ocd-offer { padding:12px 14px; border-radius:10px; background:var(--ocd-tint); }
+.ocd-offer__head { display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.ocd-offer__title { margin:0; color:var(--ocd-teal); font-size:14px; font-weight:700; line-height:1.4; }
+.ocd-offer__title strong { font-size:16px; font-variant-numeric:lining-nums tabular-nums; }
+.ocd-offer[data-tone="reached"] .ocd-offer__title { display:flex; align-items:center; gap:6px; }
+.ocd-offer[data-tone="reached"] .ocd-offer__title svg { width:16px; height:16px; stroke-width:2.6; }
+.ocd-offer__count { flex:0 0 auto; color:var(--ocd-muted); font-size:12px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.ocd-offer__bar { height:6px; margin-top:8px; overflow:hidden; border-radius:999px; background:var(--ocd-track); }
 .ocd-offer__bar span { display:block; height:100%; border-radius:inherit; background:var(--ocd-brand); transition:width .6s cubic-bezier(.16,1,.3,1); }
-.ocd-offer__count { flex:0 0 auto; color:var(--ocd-muted); font-size:12.5px; font-variant-numeric:tabular-nums; white-space:nowrap; }
-.ocd-offer__sub { margin:6px 0 0; color:var(--ocd-muted); font-size:12px; line-height:1.5; }
-.ocd-offer__perks { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 0; padding:0; list-style:none; }
-.ocd-offer__perks li { display:inline-flex; align-items:center; gap:5px; height:26px; padding:0 10px 0 4px; border:1px dashed var(--ocd-tint-line); border-radius:999px; color:var(--ocd-muted); font-size:12px; font-weight:600; white-space:nowrap; }
-.ocd-offer__perks i { display:grid; place-items:center; width:18px; height:18px; border:1.5px solid var(--ocd-tint-line); border-radius:50%; }
-.ocd-offer__perks i svg { width:12px; height:12px; stroke-width:3; }
-.ocd-offer__perks li.is-won { border:0; background:#fff; color:var(--ocd-teal); box-shadow:0 1px 2px rgb(46 58 64 / .06); }
-.ocd-offer__perks li.is-won i { border:0; background:var(--ocd-teal); color:#fff; }
-.ocd-offer__perks li.is-next { border-color:var(--ocd-teal); color:var(--ocd-teal-ink); }
-.ocd-offer__perks li.is-next i { border-color:var(--ocd-teal); }
-.ocd-pick h3 { margin:0 0 8px; color:var(--ocd-teal); font:700 15px/1.3 var(--ocd-sans); }
-.ocd-pick__item { display:grid; grid-template-columns:64px minmax(0,1fr) auto; align-items:center; gap:12px; padding:10px 12px 10px 10px; border-radius:10px; background:var(--ocd-surface); box-shadow:var(--ocd-shadow); }
-.ocd-pick__img { display:block; width:64px; height:64px; overflow:hidden; border-radius:6px; background:var(--ocd-surface); }
+.ocd-offer__won { display:flex; align-items:center; gap:4px; margin:8px 0 0; color:var(--ocd-teal); font-size:12px; font-weight:600; }
+.ocd-offer__won svg { width:14px; height:14px; stroke-width:2.6; }
+.ocd-pick h3 { margin:0 0 6px; color:var(--ocd-muted); font:600 12px/1.4 var(--ocd-sans); }
+.ocd-pick__item { display:grid; grid-template-columns:48px minmax(0,1fr) auto; align-items:center; gap:10px; padding:8px 10px 8px 8px; border-radius:10px; background:var(--ocd-surface); box-shadow:var(--ocd-shadow); }
+.ocd-pick__img { display:block; width:48px; height:48px; overflow:hidden; border-radius:6px; background:var(--ocd-surface); }
 .ocd-pick__img img { width:100%; height:100%; object-fit:contain; }
-.ocd-pick__copy { display:grid; gap:2px; min-width:0; }
-.ocd-pick__vendor { overflow:hidden; color:#3d4a50; font-size:10.5px; font-weight:600; letter-spacing:.03em; text-transform:uppercase; white-space:nowrap; text-overflow:ellipsis; }
-.ocd-pick__name { display:-webkit-box; overflow:hidden; color:var(--ocd-muted); font-size:12.5px; line-height:1.4; text-decoration:none; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
-.ocd-pick__why { margin-top:2px; color:var(--ocd-teal); font-size:11px; font-weight:700; line-height:1.4; }
-.ocd-pick__buy { display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-.ocd-pick__buy strong { color:var(--ocd-teal); font-size:14px; font-weight:600; font-variant-numeric:lining-nums tabular-nums; }
+.ocd-pick__copy { display:grid; gap:1px; min-width:0; }
+.ocd-pick__name { overflow:hidden; color:var(--ocd-ink); font-size:13px; line-height:1.4; text-decoration:none; white-space:nowrap; text-overflow:ellipsis; }
+.ocd-pick__meta { overflow:hidden; color:var(--ocd-muted); font-size:12px; line-height:1.4; white-space:nowrap; text-overflow:ellipsis; }
+.ocd-pick__meta b { color:var(--ocd-teal); font-weight:700; }
 .ocd-pick__buy button { position:relative; display:grid; place-items:center; width:32px; height:32px; padding:0; border:0; border-radius:50%; background:var(--ocd-brand); color:#fff; cursor:pointer; }
 .ocd-pick__buy button::after { content:""; position:absolute; inset:-6px; }
 .ocd-pick__buy button svg { width:16px; height:16px; stroke-width:2.4; }
 .ocd-pick__buy button:disabled { opacity:.5; cursor:default; }
 .ocd__foot { flex:0 0 auto; padding:14px 0 max(16px, env(safe-area-inset-bottom)); border-top:1px solid var(--ocd-line); background:var(--ocd-ground); }
-.ocd__row { display:flex; align-items:baseline; justify-content:space-between; gap:12px; color:var(--ocd-muted); font-size:13.5px; font-variant-numeric:tabular-nums; }
-.ocd__row strong { color:var(--ocd-ink); font-size:14px; font-weight:600; }
-.ocd__row--minor { margin-top:6px; }
-.ocd__row--minor strong { color:var(--ocd-teal); }
-.ocd__total { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:10px; padding:12px 16px; border-radius:10px; background:var(--ocd-teal); color:#fff; }
-.ocd__total span { font-size:14px; font-weight:700; }
-.ocd__total strong { font-size:26px; font-weight:700; letter-spacing:-.01em; font-variant-numeric:lining-nums tabular-nums; }
-.ocd__note { margin:10px 0 12px; color:var(--ocd-muted); font-size:12px; line-height:1.6; }
+.ocd__sum { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.ocd__sum span { display:grid; gap:1px; color:var(--ocd-ink); font-size:14px; font-weight:600; }
+.ocd__sum small { color:var(--ocd-muted); font-size:11.5px; font-weight:400; }
+.ocd__sum small b { color:var(--ocd-teal); font-weight:600; }
+.ocd__sum strong { color:var(--ocd-teal); font-size:24px; font-weight:700; letter-spacing:-.01em; font-variant-numeric:lining-nums tabular-nums; }
 .ocd__cta { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:52px; border-radius:999px; background:var(--ocd-brand); color:#fff; font:700 18px var(--ocd-sans); letter-spacing:.04em; text-decoration:none; }
 .ocd__cta svg { width:20px; height:20px; stroke-width:2.2; }
 .ocd__continue { display:block; width:100%; min-height:44px; margin-top:6px; border:0; background:none; color:var(--ocd-muted); font:13px var(--ocd-sans); cursor:pointer; }
@@ -213,23 +197,16 @@ dialog.ocd::backdrop { background:rgba(30,48,56,.32); backdrop-filter:blur(3px);
     dialog.addEventListener('close', () => document.documentElement.style.removeProperty('overflow'));
     return dialog;
   }
-  /* 湊單卡跟購物袋頁一樣：再買幾多、進度、規則一行、卡底剔號（攞到打剔、下一個青藍框）。
+  /* 側欄淨係講下一個優惠差幾多（一行字＋一條 bar），已減咗就加一行細剔。
      側欄未揀配送方式，所以只計「滿 $399 減 $20」同「折實滿 $599 送面霜」。 */
   function offerMarkup(state) {
     const giftIn = state.lines.some(isGiftLine);
     const saved = state.subtotal >= DISCOUNT.threshold;
     const gifted = giftIn || state.net >= GIFT.threshold;
     const tone = !saved ? 'saving' : !gifted ? 'gift' : 'reached';
-    const badge = tone === 'saving'
-      ? `<span class="ocd-offer__coupon">${t(`減<strong>$${DISCOUNT.amount}</strong>`, `<strong>$${DISCOUNT.amount}</strong>off`)}</span>`
-      : `<img src="${GIFT.image}" alt="" decoding="async">`;
-    const art = `<span class="ocd-offer__art" aria-hidden="true"><span class="ocd-offer__badge">${badge}</span><img class="ocd-offer__cat" src="${MASCOT_DIR}06-shopping-sticker-280.webp" width="280" height="256" alt="" decoding="async"></span>`;
-    const perk = (won, next, zh, en) => `<li class="${won ? 'is-won' : next ? 'is-next' : ''}"><i aria-hidden="true">${won ? icon.tick : ''}</i>${esc(t(zh, en))}</li>`;
-    const perks = `<ul class="ocd-offer__perks" aria-label="${esc(t('優惠達成情況', 'Rewards so far'))}">${perk(saved, tone === 'saving', `減 $${DISCOUNT.amount}`, `$${DISCOUNT.amount} off`)}${perk(gifted, tone === 'gift', '送面霜', 'Free cream')}</ul>`;
+    const label = esc(t('優惠進度', 'Offer progress'));
     if (tone === 'reached') {
-      return `<section class="ocd-offer" data-tone="reached" aria-label="${esc(t('優惠進度', 'Offer progress'))}">${art}
-        <p class="ocd-offer__title">${icon.check}<span>${esc(t('即減、送面霜都有齊', 'HK$20 off and the free cream — all yours'))}</span></p>
-        <p class="ocd-offer__sub">${esc(t('Round Lab 白樺樹保濕面霜送完即止。', 'Round Lab birch cream, while stocks last.'))}</p>${perks}</section>`;
+      return `<section class="ocd-offer" data-tone="reached" aria-label="${label}"><p class="ocd-offer__title">${icon.check}${esc(t('即減、送面霜都有齊', 'HK$20 off and the free cream — all yours'))}</p></section>`;
     }
     const now = tone === 'saving' ? state.subtotal : state.net;
     const target = tone === 'saving' ? DISCOUNT.threshold : GIFT.threshold;
@@ -238,13 +215,9 @@ dialog.ocd::backdrop { background:rgba(30,48,56,.32); backdrop-filter:blur(3px);
     const title = tone === 'saving'
       ? t(`再買 <strong>${money(gap)}</strong> 即減 ${money(DISCOUNT.amount)}`, `Add <strong>${money(gap)}</strong> more to save ${money(DISCOUNT.amount)}`)
       : t(`再買 <strong>${money(gap)}</strong> 送面霜`, `Add <strong>${money(gap)}</strong> more for a free cream`);
-    const sub = tone === 'saving'
-      ? t(`商品小計滿 ${money(DISCOUNT.threshold)} 即減`, `${money(DISCOUNT.amount)} off goods over ${money(DISCOUNT.threshold)}`)
-      : t(`折後滿 ${money(GIFT.threshold)} 送面霜`, `Free cream over ${money(GIFT.threshold)} after discounts`);
-    return `<section class="ocd-offer" data-tone="${tone}" aria-label="${esc(t('優惠進度', 'Offer progress'))}">${art}
-      <p class="ocd-offer__title">${title}</p>
-      <div class="ocd-offer__meter"><div class="ocd-offer__bar" aria-hidden="true"><span style="width:${pct.toFixed(1)}%"></span></div><span class="ocd-offer__count">${money(now)} / ${money(target)}</span></div>
-      <p class="ocd-offer__sub">${esc(sub)}</p>${perks}</section>`;
+    const won = saved ? `<p class="ocd-offer__won">${icon.tick}${esc(t(`已減 ${money(DISCOUNT.amount)}`, `${money(DISCOUNT.amount)} off applied`))}</p>` : '';
+    return `<section class="ocd-offer" data-tone="${tone}" aria-label="${label}"><div class="ocd-offer__head"><p class="ocd-offer__title">${title}</p><span class="ocd-offer__count">${money(now)} / ${money(target)}</span></div>
+      <div class="ocd-offer__bar" aria-hidden="true"><span style="width:${pct.toFixed(1)}%"></span></div>${won}</section>`;
   }
   function pickMarkup(p, state) {
     if (!p) return '';
@@ -254,9 +227,9 @@ dialog.ocd::backdrop { background:rgba(30,48,56,.32); backdrop-filter:blur(3px);
     const href = `/products/${encodeURIComponent(p.handle)}`;
     return `<section class="ocd-pick" aria-labelledby="ocd-pick-title"><h3 id="ocd-pick-title">${esc(t('順手帶埋', 'Add a little extra'))}</h3>
       <article class="ocd-pick__item">
-        <a class="ocd-pick__img" href="${href}" tabindex="-1" aria-hidden="true"><img src="${esc(p.__img)}" alt="" width="64" height="64" loading="lazy" decoding="async"></a>
-        <div class="ocd-pick__copy"><span class="ocd-pick__vendor">${esc(p.vendor)}</span><a class="ocd-pick__name" href="${href}">${esc(p.title)}</a>${why ? `<span class="ocd-pick__why">${esc(why)}</span>` : ''}</div>
-        <div class="ocd-pick__buy"><strong>${money(p.__price)}</strong><button type="button" data-ocd-addon="${esc(p.__variantId)}" aria-label="${esc(t(`加購 ${p.title}，${money(p.__price)}`, `Add ${p.title}, ${money(p.__price)}`))}">${icon.plus}</button></div>
+        <a class="ocd-pick__img" href="${href}" tabindex="-1" aria-hidden="true"><img src="${esc(p.__img)}" alt="" width="48" height="48" loading="lazy" decoding="async"></a>
+        <div class="ocd-pick__copy"><a class="ocd-pick__name" href="${href}">${esc(p.title)}</a><span class="ocd-pick__meta">${money(p.__price)}${why ? ` · <b>${esc(why)}</b>` : ''}</span></div>
+        <div class="ocd-pick__buy"><button type="button" data-ocd-addon="${esc(p.__variantId)}" aria-label="${esc(t(`加購 ${p.title}，${money(p.__price)}`, `Add ${p.title}, ${money(p.__price)}`))}">${icon.plus}</button></div>
       </article></section>`;
   }
   function lineMarkup(l) {
@@ -299,10 +272,9 @@ dialog.ocd::backdrop { background:rgba(30,48,56,.32); backdrop-filter:blur(3px);
       if (pickItem) pickItem.remove(); else img.remove();
     }, { once: true }));
     const hasDiscount = state.discount > 0;
-    foot.innerHTML = `<div class="ocd__row"><span>${esc(t('商品小計', 'Subtotal'))}</span><strong>${money(state.subtotal)}</strong></div>
-      ${hasDiscount ? `<div class="ocd__row ocd__row--minor"><span>${esc(t('已套用商品優惠', 'Discount applied'))}</span><strong>−${money(state.discount)}</strong></div>` : ''}
-      <div class="ocd__total"><span>${esc(hasDiscount ? t('折後商品小計', 'After discount') : t('商品小計', 'Subtotal'))}</span><strong>${money(state.net)}</strong></div>
-      <p class="ocd__note">${esc(t('下一步揀配送或自提，再核對運費。', 'Choose delivery or pickup next; shipping is shown there.'))}</p>
+    foot.innerHTML = `<div class="ocd__sum"><span>${esc(t('商品小計', 'Subtotal'))}<small>${hasDiscount
+        ? t(`已減 <b>${money(state.discount)}</b>・未計運費`, `<b>${money(state.discount)}</b> off · before shipping`)
+        : esc(t('未計運費，下一步揀配送', 'Before shipping — choose delivery next'))}</small></span><strong>${money(state.net)}</strong></div>
       <a class="ocd__cta" href="/cart.html">${esc(t('揀配送及結帳', 'Delivery & checkout'))} ${icon.arrow}</a>
       <button class="ocd__continue" type="button" data-ocd-close>${esc(t('繼續選購', 'Keep shopping'))}</button>`;
   }
