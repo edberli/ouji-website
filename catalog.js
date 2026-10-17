@@ -2769,6 +2769,16 @@ function mountGrid(host, items, { all = false } = {}) {
 /* 而家渲染緊邊一版分類（'toys'／'makeup'／…）。由 initCatalog 寫入。 */
 let CURRENT_SECTION = null;
 
+// Makeup owns one brand order for both the rail and all brand-grouped views.
+// Missing/new brands fall just before「其他」; other categories keep their rules.
+function makeupBrandRank(vendor) {
+  const order = window.OUJI_MAKEUP_BRAND_ORDER;
+  if (CURRENT_SECTION !== 'makeup' || !Array.isArray(order)) return 0;
+  const name = String(vendor || '').trim().toLowerCase();
+  const rank = order.findIndex((v) => v.toLowerCase() === name);
+  return rank >= 0 ? rank : order.indexOf('其他');
+}
+
 function renderProducts(container, products, { grouped }) {
   clearGridWindows();
   const token = ++RENDER_TOKEN;
@@ -2861,11 +2871,13 @@ function renderProducts(container, products, { grouped }) {
   // Sorting calls the comparator many times; score each brand only once.
   const order = [...byVendor.entries()].map(([vendor, items]) => ({
     vendor, items,
+    displayRank: makeupBrandRank(vendor),
     pin: pinRank(vendor),
     tier: tier(items),
     score: brandScore(items),
   })).sort((a, b) =>
-    (seasonalProfitActive() ? 0 : (a.vendor === '其他') - (b.vendor === '其他'))
+    a.displayRank - b.displayRank
+    || (seasonalProfitActive() ? 0 : (a.vendor === '其他') - (b.vendor === '其他'))
     || a.pin - b.pin
     || a.tier - b.tier
     || b.score - a.score
@@ -3541,7 +3553,8 @@ function groupByBrandFeatured(list) {
     const ka = seasonBrandKey(a), kb = seasonBrandKey(b);
     if (ka === kb) return 0;
     if (seasonalProfitActive()) return seasonalProfitRank(ka) - seasonalProfitRank(kb) || ka.localeCompare(kb, 'en');
-    return (top.get(kb) - top.get(ka)) || ka.localeCompare(kb, 'en');
+    return makeupBrandRank(ka) - makeupBrandRank(kb)
+      || (top.get(kb) - top.get(ka)) || ka.localeCompare(kb, 'en');
   });
 }
 /* 「按品牌」排序：同牌子聚埋；有特價嘅牌子行先（按牌子最大折扣），再按牌子名（英文先、中文後），
@@ -3555,7 +3568,8 @@ function sortByBrand(list, jpFirst) {
   const tier = (k) => (jpFirst && !JP_BRAND_KEYS.has(k) ? 1 : 0);
   return [...list].sort((a, b) => {
     const ka = seasonBrandKey(a), kb = seasonBrandKey(b);
-    return tier(ka) - tier(kb) || best.get(ka) - best.get(kb) || ka.localeCompare(kb, 'en')
+    return makeupBrandRank(ka) - makeupBrandRank(kb)
+      || tier(ka) - tier(kb) || best.get(ka) - best.get(kb) || ka.localeCompare(kb, 'en')
       || dealRatio(a) - dealRatio(b);
   });
 }
