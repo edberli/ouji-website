@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "functions": {
     "api/product.js": {
-      "includeFiles": "{product.html,product-naming.js}"
+      "includeFiles": "{product.html,product-classic.html,product-naming.js}"
     },
     "api/google-feed.js": {
       "includeFiles": "data/ads-scope.json",
@@ -310,6 +310,10 @@
     {
       "source": "/products/:handle",
       "destination": "/api/product?handle=:handle"
+    },
+    {
+      "source": "/classic/:handle",
+      "destination": "/api/product?handle=:handle&tpl=classic"
     },
     {
       "source": "/collections/:handle",

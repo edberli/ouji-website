@@ -78,8 +78,33 @@ async function loadRatings() {
 
 /* 中英切換（網站英文模式）；用 rvCp 唔用 cp，因為產品頁 inline script 都有 cp */
 const rvCp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+/* 評價說明（data/reviews 嘅 note）得幾款固定句式：英文版逐句對應，有一句對唔到就成段照出中文 */
+const RV_NOTE_EN = [
+  [/^以下評價由日本\s*(.+?)\s*會員撰寫，OUJI 原文引用、只加中文翻譯，冇改動內容，亦冇刪走負評。$/, (m) => `These reviews were written by ${m[1]} members in Japan. OUJI quotes them as written and only adds a Chinese translation — nothing edited, no negative reviews removed.`],
+  [/^以下評價由\s*(.+?)\s*顧客撰寫，OUJI 原文引用、只加中文翻譯，冇改動內容，亦冇刪走負評。$/, (m) => `These reviews were written by ${m[1]} customers. OUJI quotes them as written and only adds a Chinese translation — nothing edited, no negative reviews removed.`],
+  [/^(.+?)\s*用\s*(\d+)\s*分制評分，分數照原樣顯示。$/, (m) => `${m[1]} uses a ${m[2]}-point scale; scores are shown as given.`],
+  [/^只顯示我哋有貨嘅色號，同價錢有關嘅評價唔會收錄（兩邊售價唔同）。$/, () => 'Only shades we stock are shown. Reviews about price are left out, as prices differ between the two shops.'],
+];
+function rvNoteEN(note) {
+  const parts = String(note || '').split(/(?<=。)/).map((x) => x.trim()).filter(Boolean);
+  const out = [];
+  for (const p of parts) {
+    const hit = RV_NOTE_EN.map(([re, fn]) => { const m = p.match(re); return m ? fn(m) : null; }).find(Boolean);
+    if (!hit) return note;
+    out.push(hit);
+  }
+  return out.join(' ');
+}
 /* 評分項目英文名（評價資料入面係中文或者英文） */
 const RV_ATTR_EN = { 質地: 'Texture', 持久度: 'Longevity', 顯色度: 'Pigmentation', 保濕度: 'Moisturizing', 吸收快: 'Absorbs quickly', 防曬力: 'Sun protection', 低刺激: 'Low irritation', 香味: 'Scent', 服貼度: 'Adhesion', 延展度: 'Spreadability', 清潔力: 'Cleansing power', 舒緩敏感肌: 'Soothes sensitive skin', 柔順頭髮: 'Smooths hair', 易推勻: 'Easy to blend', 妝效: 'Finish', 遮瑕力: 'Coverage', 自然效果: 'Natural result', 易用: 'Easy to use', 防水: 'Waterproof', 定妝力: 'Setting power', 清新感: 'Freshness', 味道: 'Scent', 豐盈度: 'Volume', 捲翹度: 'Curl', 抵用: 'Value' };
+/* 來源網站有啲評分項目係英文（Olive Young 舊資料），中文版譯返做網站其他產品已經用緊嘅叫法 */
+const RV_ATTR_ZH = {
+  Moisturizing: '保濕度', 'Low irritant': '低刺激', 'Absorbs quickly': '吸收快', Adhesion: '服貼度', Stretch: '延展度',
+  'Effective cleansing': '清潔力', 'Soothe sensitive skin': '舒緩敏感肌', 'Easy to blend': '易推勻', Coverage: '遮瑕力',
+  Finish: '妝效', Waterproof: '防水', Volume: '豐盈度', Curling: '捲翹度', 'Natural result': '自然效果', 'Easy to use': '易用', Affordable: '抵用',
+};
+const rvAttrName = (name) => rvCp(RV_ATTR_ZH[name] || name, RV_ATTR_EN[name] || name);
+const RV_LANG_EN = { 英文: 'English', 日文: 'Japanese', 其他: 'other language', 韓文: 'Korean', 西班牙文: 'Spanish', 中文: 'Chinese', 法文: 'French', 俄文: 'Russian', 越南文: 'Vietnamese', 意大利文: 'Italian', 德文: 'German', 葡萄牙文: 'Portuguese', 希臘文: 'Greek', 希伯來文: 'Hebrew', 阿拉伯文: 'Arabic', 波蘭文: 'Polish', 保加利亞文: 'Bulgarian' };
 
 function ratingChip(handle) {
   const r = RATINGS_CACHE?.[handle];
@@ -185,9 +210,12 @@ function sellableShades(product) {
 
 function reviewCard(r, showShade, max = 5) {
   const attrs = (r.attrs || [])
-    .map((a) => `<span class="rv-card__attr">${esc(a.name)} <b>${a.score}</b></span>`).join('');
+    .map((a) => `<span class="rv-card__attr">${esc(rvAttrName(a.name))} <b>${a.score}</b></span>`).join('');
   // 譯文行先、原文收喺 details 入面 —— 讀得明係頭等大事，
   // 但要查證嘅人一撳就見到原文，唔使離開個頁。
+  // 英文版：原文本身係英文就直接出原文（唔使睇中文翻譯）。
+  const enOrig = typeof getLang === 'function' && getLang() === 'en' && r.lang === '英文';
+  const body = enOrig ? r.text : (r.zh || r.text);
   return `<article class="rv-card">
     <header class="rv-card__head">
       ${stars(r.star, max)}
@@ -195,10 +223,10 @@ function reviewCard(r, showShade, max = 5) {
       <time class="rv-card__date">${esc(r.date)}</time>
     </header>
     ${showShade && r.shade ? `<span class="rv-card__shade">${esc(r.shade)}</span>` : ''}
-    <p class="rv-card__text">${esc(r.zh || r.text).replace(/\n+/g, '<br>')}</p>
+    <p class="rv-card__text">${esc(body).replace(/\n+/g, '<br>')}</p>
     ${attrs ? `<div class="rv-card__attrs">${attrs}</div>` : ''}
-    ${r.zh ? `<details class="rv-card__src">
-      <summary>原文（${esc(r.lang || '')}）</summary>
+    ${r.zh && !enOrig ? `<details class="rv-card__src">
+      <summary>${esc(rvCp(`原文（${r.lang || ''}）`, `Original (${RV_LANG_EN[r.lang] || r.lang || ''})`))}</summary>
       <p>${esc(r.text).replace(/\n+/g, '<br>')}</p>
     </details>` : ''}
   </article>`;
@@ -275,14 +303,14 @@ async function initReviews(handle, product) {
           ${dist.length ? `<div class="rv-dist">${dist.map((x) => distBar(x, max)).join('')}</div>` : ''}
           ${(d.attrs || []).length ? `<div class="rv-attrs">
             ${(d.attrs || []).map((a) => `<div class="rv-attr">
-              <span class="rv-attr__name">${esc(cp(a.name, RV_ATTR_EN[a.name] || a.name))}</span>
+              <span class="rv-attr__name">${esc(rvAttrName(a.name))}</span>
               <span class="rv-attr__track"><span class="rv-attr__bar"
                 style="width:${(a.avg / 5) * 100}%"></span></span>
               <span class="rv-attr__num">${a.avg}</span>
             </div>`).join('')}
           </div>` : ''}
         </div>
-        ${shown.length && d.note ? `<p class="rv-note">${esc(d.note)}</p>` : ''}
+        ${shown.length && d.note ? `<p class="rv-note">${esc(cp(d.note, rvNoteEN(d.note)))}</p>` : ''}
       </aside>
 
       ${shown.length ? `<div class="rv-main">

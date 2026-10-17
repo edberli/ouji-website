@@ -2793,6 +2793,8 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .pdp-ship__deal b { color: #345561; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
 .pdp-ship__way.is-key .pdp-ship__deal { color: var(--bag-teal); font-weight: 600; }
 .pdp-ship__way.is-key .pdp-ship__deal b { color: var(--bag-teal); font-size: 14px; }
+/* 英文字長過中文一倍，三格要准斷行（中文照一行） */
+html[lang="en"] .pdp-ship__name, html[lang="en"] .pdp-ship__deal { white-space: normal; text-wrap: balance; }
 .pdp-ship__foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 6px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.5; }
 .pdp-ship__more { margin-left: auto; color: var(--bag-teal); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .pdp-gift { display: grid; grid-template-columns: 60px minmax(0, 1fr); align-items: center; gap: 2px 12px; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
@@ -2802,6 +2804,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 /* 門檻同價值各自成粒唔拆開：位唔夠就成粒落下一行 */
 .pdp-gift__threshold, .pdp-gift__value { display: inline-block; margin: 0 10px 0 0; color: var(--bag-muted); font-size: 12.5px; line-height: 1.5; white-space: nowrap; }
 .pdp-gift__threshold b, .pdp-gift__value b { color: var(--bag-teal); font-weight: 700; }
+html[lang="en"] .pdp-gift__threshold { white-space: normal; }
 .pdp-gift__terms { margin: 3px 0 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.45; }
 .pdp-gift__link { display: inline-flex; grid-column: 2; align-items: center; gap: 1px; width: fit-content; color: var(--bag-teal); font-size: 12.5px; font-weight: 600; text-decoration: none; }
 .pdp-gift__link svg { width: 14px; height: 14px; stroke-width: 2; }
@@ -2899,6 +2902,9 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .pdp-guide__bars { display: grid; gap: 6px; margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--bag-tint-line); }
 .pdp-guide__bars div { display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: center; gap: 8px; }
 .pdp-guide__bars dt { overflow: hidden; color: var(--bag-muted); font-size: 12.5px; white-space: nowrap; text-overflow: ellipsis; }
+/* 英文評分名長（Pigmentation、Soothes sensitive skin），欄闊啲、准斷行，唔好截字 */
+html[lang="en"] .pdp-guide__bars div { grid-template-columns: 108px minmax(0, 1fr); }
+html[lang="en"] .pdp-guide__bars dt { white-space: normal; line-height: 1.3; }
 .pdp-guide__bars dd { display: grid; grid-template-columns: minmax(0, 1fr) 28px; align-items: center; gap: 8px; margin: 0; }
 .pdp-guide__bar { height: 6px; overflow: hidden; border-radius: 999px; background: #fff; }
 .pdp-guide__bar i { display: block; height: 100%; border-radius: inherit; background: var(--bag-teal); }
@@ -2925,6 +2931,7 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .rv-dist__pct { text-align: right; }
 .rv-attrs { display: grid; grid-column: 1 / -1; gap: 6px; padding-top: 12px; border-top: 1px solid var(--bag-tint-line); }
 .rv-attr { display: grid; grid-template-columns: 56px minmax(0, 1fr) 30px; align-items: center; gap: 8px; color: var(--bag-ink); font-size: 12.5px; }
+html[lang="en"] .rv-attr { grid-template-columns: 104px minmax(0, 1fr) 30px; line-height: 1.3; }
 .rv-attr__bar { background: var(--bag-teal); }
 .rv-attr__num { color: var(--bag-teal); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
 .rv-note { margin: 10px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.6; }

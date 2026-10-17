@@ -190,17 +190,10 @@
     return cells.join('');
   }
 
-  /* 來源網站有啲評分項目係英文（Olive Young 舊資料），呢段譯返做網站其他產品已經用緊嘅中文叫法 */
-  const ATTR_ZH = {
-    Moisturizing: '保濕度', 'Low irritant': '低刺激', 'Absorbs quickly': '吸收快', Adhesion: '服貼度', Stretch: '延展度',
-    'Effective cleansing': '清潔力', 'Soothe sensitive skin': '舒緩敏感肌', 'Easy to blend': '易推勻', Coverage: '遮瑕力',
-    Finish: '妝效', Waterproof: '防水', Volume: '豐盈度', Curling: '捲翹度', 'Natural result': '自然效果', 'Easy to use': '易用', Affordable: '抵用',
-  };
-
   function voiceHTML(hl, revAttrs, revSrc) {
     const en = isEN();
     const bars = (revAttrs || []).filter((x) => x && x.name && x.avg)
-      .map((x) => ({ ...x, name: en ? ((typeof RV_ATTR_EN === 'object' && RV_ATTR_EN[x.name]) || x.name) : (ATTR_ZH[x.name] || x.name) }));
+      .map((x) => ({ ...x, name: typeof rvAttrName === 'function' ? rvAttrName(x.name) : x.name })); // 評分項目名：reviews.js 中英對照
     /* 英文版：有英文重點（t_en）先出，冇就淨係出評分 */
     const pick = (list) => (list || []).map((p) => ({ ...p, t: en ? p.t_en : p.t })).filter((p) => p.t);
     const pros = pick(hl?.pros);

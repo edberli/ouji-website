@@ -6,6 +6,27 @@
        keep every relative asset resolving from the site root. -->
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 2026-10-17 新產品頁先上手機版：桌面（≥769px）暫時轉去舊版 /classic/<handle>
+       （product-classic.html，入面會即刻將網址還原做 /products/<handle>）。
+       要擺喺 viewport 後面先量得啱闊度；先 stop 再轉，下面嘅 script（analytics 等）唔會行兩次。
+       搜尋器唔轉，佢哋照睇新版。桌面都轉新版嗰陣刪呢段同 product-classic.html。 -->
+  <script>
+    (function () {
+      try {
+        if (screen.width < 769 || !matchMedia('(min-width: 769px)').matches) return;
+        if (/bot|crawl|spider|slurp/i.test(navigator.userAgent)) return;
+        var q = new URLSearchParams(location.search);
+        if (q.get('pdp') === 'new') return; // 桌面想睇新版（驗收用）：?pdp=new
+        var m = location.pathname.match(/^\/products\/([^/?#]+)/);
+        var h = m ? m[1] : encodeURIComponent(q.get('handle') || '');
+        if (!h) return;
+        q.delete('handle');
+        var qs = q.toString();
+        if (window.stop) window.stop();
+        location.replace('/classic/' + h + (qs ? '?' + qs : '') + location.hash);
+      } catch (e) {}
+    })();
+  </script>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
