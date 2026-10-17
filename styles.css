@@ -2664,7 +2664,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .pdp-buy { min-width: 0; padding-top: 13px; }
 .pdp-id .product-info__brand { display: inline-block; font: 700 13px/1.4 var(--font-body); letter-spacing: .02em; }
 .pdp-id .product-info__brand a { color: var(--bag-teal); text-decoration: none; }
-.pdp-id .product-info__name { margin: 4px 0 0; color: var(--bag-ink); font: 700 20px/1.4 var(--font-body); letter-spacing: .01em; text-wrap: pretty; }
+.pdp-id .product-info__name { margin: 4px 0 0; color: var(--bag-ink); font: 600 20px/1.4 var(--font-body); letter-spacing: 0; text-wrap: pretty; }
 .product-info__subtitle { margin: 3px 0 0; color: var(--bag-muted); font-size: 13px; line-height: 1.5; }
 .product-info__specification { width: fit-content; margin: 8px 0 0; padding: 1px 9px; border: 1px solid var(--bag-line); border-radius: 999px; background: #fff; color: var(--bag-muted); font-size: 12px; line-height: 1.7; }
 .product-info__rating { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 7px; width: fit-content; margin-top: 10px; color: var(--bag-ink); font-size: 13px; line-height: 1.4; text-decoration: none; }
@@ -2674,10 +2674,10 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .product-info__rating-n { color: var(--bag-muted); text-decoration: underline; text-decoration-color: #c6d6dc; text-underline-offset: 3px; }
 .product-info__rating.is-static .product-info__rating-n { text-decoration: none; }
 
-.pdp-price { margin-top: 14px; }
-.product-info__price { color: var(--bag-teal); font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
+.pdp-price { margin-top: 10px; }
+.product-info__price { color: var(--bag-teal); font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
 .pp { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
-.pp__now { color: var(--bag-teal); font-size: 26px; font-weight: 700; }
+.pp__now { color: var(--bag-teal); font-size: 22px; font-weight: 600; }
 .pp__was { color: var(--bag-muted); font-size: 14px; font-weight: 400; letter-spacing: 0; }
 .pp__unit { display: block; margin-top: 3px; color: var(--bag-muted); font-size: 12.5px; font-weight: 500; letter-spacing: 0; }
 .product-info__stock { margin: 6px 0 0; color: #9a4f49; font-size: 12.5px; font-weight: 600; }
@@ -2688,7 +2688,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .sd-price { display: grid; gap: 5px; }
 .sd-price__tier { width: fit-content; padding: 1px 9px; border-radius: 999px; background: #f6eceb; color: #9a4f49; font-size: 12px; font-weight: 700; line-height: 1.7; letter-spacing: 0; }
 .sd-price__row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
-.sd-price__now { color: var(--bag-teal); font-size: 26px; font-weight: 700; }
+.sd-price__now { color: var(--bag-teal); font-size: 22px; font-weight: 600; }
 .sd-price__was { color: var(--bag-muted); font-size: 14px; font-weight: 400; letter-spacing: 0; }
 .sd-notice { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
 .sd-notice__date { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0; color: var(--bag-muted); font-size: 13px; }
@@ -2714,16 +2714,16 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .variant-btn__state { color: var(--bag-muted); font-size: 11px; font-weight: 500; }
 .variant-btn.is-selected { border-color: var(--bag-teal); background: var(--bag-tint); box-shadow: inset 0 0 0 1px var(--bag-teal); color: var(--bag-teal-ink); }
 .variant-btn:disabled { border-style: dashed; background: #f4f7f8; color: #8b999e; cursor: not-allowed; }
-/* 色號：細圓粒（跟 Fenty／Rare Beauty 做法），手機一行七粒、桌面八粒；名同價錢只喺上面寫一次（2026-10-18 Winston：色號格太大嚿、浪費位） */
+/* 色號：細圓粒（跟 Fenty／Rare Beauty 做法），手機 40px 一行七粒、桌面 36px 一行十粒；名同價錢只喺上面寫一次（2026-10-18 Winston：色號格太大嚿、浪費位） */
 .product-info__variants--swatch { display: flex; flex-wrap: wrap; gap: 10px; }
 .variant-btn--image { position: relative; display: block; width: 40px; height: 40px; min-height: 0; padding: 0; border: 0; border-radius: 50%; background: none; }
 .variant-btn__pic { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 1px rgb(30 48 56 / .08); transition: box-shadow .15s ease; }
 .variant-btn__image { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* 未有色號相（老闆規矩：搵唔到官方相先出色號編號）：虛線圓圈＋編號 */
-.variant-btn__ph { display: grid; place-items: center; width: 100%; height: 100%; border: 1px dashed #b9cfd7; border-radius: 50%; color: var(--bag-teal); font-size: 11px; font-weight: 700; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+/* 未有色號相（老闆規矩：搵唔到官方相先出色號編號）：淺藍實底圓粒＋編號，同有相嗰啲一樣節奏 */
+.variant-btn__ph { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: var(--bag-tint); box-shadow: inset 0 0 0 1px #d5e3e9; color: var(--bag-teal); font-size: 11px; font-weight: 600; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .variant-btn--image .variant-btn__name, .variant-btn--image .variant-btn__price, .variant-btn--image .variant-btn__state { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .variant-btn--image.is-selected { border: 0; background: none; box-shadow: none; }
-.variant-btn--image.is-selected .variant-btn__pic { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--bag-teal); }
+.variant-btn--image.is-selected .variant-btn__pic { box-shadow: 0 0 0 2px var(--bag-bg, #F7FAFC), 0 0 0 3.5px var(--bag-teal); }
 .variant-btn--image:disabled { border: 0; background: none; }
 .variant-btn--image:disabled .variant-btn__pic { opacity: .45; }
 .variant-btn--image:disabled .variant-btn__pic::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top right, transparent calc(50% - .75px), rgb(90 106 112 / .7) 50%, transparent calc(50% + .75px)); }
@@ -2766,7 +2766,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .pdp-actions.is-sold-out .pdp-qty { display: none; }
 
 /* 5 · 簡介、成分 */
-.product-info__short-desc { display: -webkit-box; margin: 18px 0 0; overflow: hidden; color: #3d4b51; font-size: 14.5px; line-height: 1.75; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } /* 最多三行，全文喺下面產品介紹 */
+.product-info__short-desc { display: -webkit-box; margin: 16px 0 0; overflow: hidden; color: var(--bag-muted); font-size: 14px; line-height: 1.7; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 2; } /* 淡色、最多兩行，全文喺下面產品介紹 */
 .ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .ing-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: var(--bag-tint); color: var(--bag-teal-ink); font-size: 12.5px; font-weight: 600; line-height: 1.5; }
 .ing-chip--clean { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-tint-line); }
@@ -2793,8 +2793,8 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 html[lang="en"] .pdp-ship__name, html[lang="en"] .pdp-ship__deal { white-space: normal; text-wrap: balance; }
 .pdp-ship__foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 6px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.5; }
 .pdp-ship__more { margin-left: auto; color: var(--bag-teal); font-weight: 600; text-decoration: none; white-space: nowrap; }
-.pdp-gift { display: grid; grid-template-columns: 60px minmax(0, 1fr); align-items: center; gap: 2px 12px; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
-.pdp-gift__img { grid-row: span 2; width: 60px; height: 60px; border-radius: 10px; background: var(--bag-tint); object-fit: cover; }
+.pdp-gift { display: grid; grid-template-columns: 52px minmax(0, 1fr); align-items: center; gap: 2px 12px; padding: 16px 2px; border-top: 1px solid var(--bag-line); }
+.pdp-gift__img { grid-row: span 2; width: 52px; height: 52px; border-radius: 10px; background: var(--bag-tint); object-fit: cover; }
 .pdp-gift__copy { min-width: 0; }
 .pdp-gift__title { margin: 0; color: var(--bag-ink); font: 700 14px/1.4 var(--font-body); letter-spacing: 0; }
 /* 門檻同價值各自成粒唔拆開：位唔夠就成粒落下一行 */
@@ -2851,25 +2851,25 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
    卡入面係固定次序嘅資料行（左標籤右內容、幼線分隔），冇料嗰行唔出，但張卡同位置唔變；介紹固定係文字 → 影片 → 長圖。 */
 /* 一律細字標籤喺上、內容喺下（中英文一樣）；短資料排做小格，長資料一行一樣，幼線分隔 */
 /* 產品重點：摺疊清單（2026-10-18，跟 Rare Beauty／Glossier）：冇卡冇陰影，靠幼線同留白分段；「重點」預設打開 */
-.pdp-acc { margin-top: 24px; }
+.pdp-acc { margin-top: 0; }
 .pdp-acc__list { border-top: 1px solid var(--bag-line); }
 .pdp-acc__item { border-bottom: 1px solid var(--bag-line); }
-.pdp-acc__sum { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; padding: 0 2px; color: var(--bag-ink); font-size: 15px; font-weight: 600; list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.pdp-acc__sum { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 0 2px; color: var(--bag-ink); font-size: 14px; font-weight: 700; letter-spacing: .03em; list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .pdp-acc__sum::-webkit-details-marker { display: none; }
 .pdp-acc__sum i { position: relative; flex: none; width: 12px; height: 12px; }
 .pdp-acc__sum i::before, .pdp-acc__sum i::after { content: ""; position: absolute; top: 5.25px; left: 0; width: 12px; height: 1.5px; border-radius: 1px; background: var(--bag-teal); transition: transform .2s ease; }
 .pdp-acc__sum i::after { transform: rotate(90deg); }
 .pdp-acc__item[open] > .pdp-acc__sum i::after { transform: rotate(0deg); }
-.pdp-acc__body { padding: 0 2px 18px; }
+.pdp-acc__body { padding: 0 2px 20px; }
 .pdp-acc .pdp-acc__body > * + * { margin-top: 18px; }
-.pdp-acc__hook { margin: 0; color: var(--bag-ink); font-size: 15px; font-weight: 600; line-height: 1.55; text-wrap: pretty; }
+.pdp-acc__hook { margin: 2px 0 0; color: var(--bag-ink); font-size: 15px; font-weight: 500; line-height: 1.55; text-wrap: pretty; }
 .pdp-acc__note { margin: 10px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.6; }
 .pdp-acc .ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 /* 項目標題已經講咗嘅，入面唔使再寫一次 */
 .pdp-acc .pdp-facts__row--skin > dt, .pdp-acc .pdp-facts__row--use > dt, .pdp-acc .pdp-facts__row--care > dt { display: none; }
 .pdp-facts__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); gap: 12px 12px; }
 .pdp-facts__grid--feel, .pdp-facts__grid--spec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.pdp-facts__grid--basic:has(> :nth-child(3)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pdp-facts__grid--basic { grid-template-columns: repeat(3, minmax(0, 1fr)); } /* 件件一樣三欄，欄線對齊 */
 .pdp-facts__skinlines { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .pdp-facts__skinlines li { display: grid; grid-template-columns: 14px auto minmax(0, 1fr); align-items: center; gap: 5px; font-size: 13.5px; line-height: 1.5; }
 .pdp-facts__skinlines svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
@@ -3059,7 +3059,7 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-id .product-info__name { font-size: 24px; line-height: 1.38; }
   .product-info__subtitle { font-size: 14px; }
   .pdp-price { margin-top: 16px; }
-  .product-info__price, .pp__now, .sd-price__now { font-size: 30px; }
+  .product-info__price, .pp__now, .sd-price__now { font-size: 24px; }
   .pp__was, .sd-price__was { font-size: 15px; }
   .pdp-actions { margin-top: 22px; }
   .pdp-wish { order: 3; width: 52px; height: 52px; }
@@ -3104,12 +3104,24 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-stage__nav--next { right: 14px; }
   .pdp-stage:hover .pdp-stage__nav:not(:disabled), .pdp-stage__nav:focus-visible { opacity: 1; }
   .pdp-stage__nav:disabled { opacity: 0 !important; pointer-events: none; }
-  .pdp-id .product-info__name { font-size: 28px; line-height: 1.35; }
-  .product-info__price, .pp__now, .sd-price__now { font-size: 32px; }
+  .pdp-id .product-info__name { font-size: 28px; font-weight: 600; line-height: 1.35; }
+  .product-info__price, .pp__now, .sd-price__now { font-size: 26px; }
   /* 產品資料同上面一樣兩欄（左 1fr 對住相簿、右 440 對住購買欄）：介紹喺左、重點卡喺右跟住捲 */
   /* 評價同上面兩段一樣欄位：評語喺左（1fr）、分數總結＋AI 重點喺右（440，跟住捲）——成版由頂到底同一條線 */
   /* 產品介紹：置中一條閱讀欄（文字同長圖一樣闊），唔再左右分 */
   .pdp-story { max-width: 860px; margin-right: auto; margin-left: auto; }
+  /* 文字唔放大白卡：640px 閱讀欄、16px；長圖照 860 */
+  .pdp-story .pdp-h2 { max-width: 640px; margin-right: auto; margin-bottom: 20px; margin-left: auto; }
+  .pdp-story .pdp-details__text { padding: 0; background: none; box-shadow: none; }
+  .pdp-story .product-description { max-width: 640px; margin: 0 auto; font-size: 16px; line-height: 1.85; }
+  /* 購買欄頂同大相頂對齊；購買區同資訊區拉開 */
+  .pdp-buy { padding-top: 0; }
+  .pdp-id .product-info__brand { line-height: 1; }
+  .pdp-options { margin-top: 24px; }
+  .pdp-perks { margin-top: 28px; }
+  /* 桌面色號 36px，一行十粒 */
+  .product-info__variants--swatch { gap: 8px; }
+  .variant-btn--image { width: 36px; height: 36px; }
   .pdp-story__body { gap: 16px; }
   .rv-layout { display: grid; grid-template-columns: minmax(0, 1fr) 440px; align-items: start; column-gap: 56px; }
   .rv-aside { grid-row: 1; grid-column: 2; will-change: transform; }
@@ -3126,7 +3138,7 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-thumb:not(.is-active):hover { border-color: #b9cfd7; }
   .pdp-ship__more:hover { color: var(--bag-teal-ink); }
   .variant-btn:not(:disabled):not(.is-selected):not(.variant-btn--image):hover { border-color: #b9cfd7; }
-  .variant-btn--image:not(:disabled):not(.is-selected):hover .variant-btn__pic { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #b9cfd7; }
+  .variant-btn--image:not(:disabled):not(.is-selected):hover .variant-btn__pic { box-shadow: 0 0 0 2px var(--bag-bg, #F7FAFC), 0 0 0 3.5px #b9cfd7; }
   .detail-more:hover, .rv-more:hover { border-color: #b9cfd7; color: var(--bag-teal); }
   .pdp-crumbs a:hover, .pdp-gift__link:hover, .sd-notice__more:hover { color: var(--bag-teal-ink); }
   .product-info__rating:hover .product-info__rating-n { color: var(--bag-teal); text-decoration-color: currentColor; }
