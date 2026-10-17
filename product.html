@@ -50,12 +50,13 @@
   <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261016-megamag">
+  <link rel="stylesheet" href="styles.css?v=20261017-pdp">
+  <link rel="stylesheet" href="product-card-lc.css?v=20261016-image-frame1">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
   </style>
 </head>
-<body>
+<body class="page-pdp">
   <a href="#main-content" class="skip-link">跳到主要內容</a>
 
   <!-- Announcement Bar -->
@@ -250,11 +251,20 @@
     </div>
   </nav>
 
-  <main id="main-content" style="padding-top: 96px;">
-    <div class="container">
+  <main id="main-content" class="pdp" style="padding-top: 96px;">
+    <!-- 產品頁設計約定（2026-10-17 重做，跟新購物袋 styles.css「Cart（購物袋）」同首頁 Codex）
+      THESIS：產品頁係一個「試色櫃位」——貨、價錢、揀色同加入購物袋喺同一個視線範圍；唔再係「相＋一長串掣＋一大段字」直落。
+      OWN-WORLD：冷調灰白底 #F7FAFC；淺青 #ECF3F6 只標重點（運送門檻、評分總結）；白卡只畀要成組讀嘅嘢；
+        錢同連結青藍 #36728A；唯一實色係全圓「加入購物袋」#5289A2；暖色只畀 7-11 推薦自取；一套無襯線字；圓角 8–12。
+      STORY：見到貨同價 → 睇清楚每個色（細相、放大鏡）→ 加入購物袋 → 知運費門檻同贈品 → 想再了解就落去睇詳細資料、成分、評價、推薦。
+      FIRST VIEWPORT：手機＝成闊方形主圖（左右掃、張數、放大鏡）→ 品牌、名、評分、價錢；底部浮起購物條（左價錢、右加入購物袋，同購物袋合計條一樣）。
+        桌面＝左邊相（直排細相＋大相，跟住捲）、右邊 440px 購買欄（名、價、色號格、數量＋加入購物袋、運送同贈品）；落去詳細資料左字右圖、評價左總結右評語。
+      FORM：同購物袋同一套「卡＋帶」語言；手機似 app，桌面按闊螢幕重新排（唔係手機拉闊）。
+      FINISH：unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->
+    <div class="pdp__wrap">
 
       <!-- Breadcrumb -->
-      <nav class="breadcrumb">
+      <nav class="breadcrumb pdp-crumbs" aria-label="位置">
         <a href="index.html">首頁</a>
         <span class="breadcrumb__sep">/</span>
         <a href="category.html">護膚</a>
@@ -262,73 +272,84 @@
         <span></span>
       </nav>
 
-      <!-- Product Detail -->
-      <div class="product-detail">
-        <!-- Gallery -->
-        <div class="product-gallery">
-          <div class="product-gallery__main"></div>
-          <div class="product-gallery__thumbs"></div>
+      <!-- 上半：相（左）＋購買欄（右）。手機由上而下。 -->
+      <div class="product-detail pdp-hero">
+        <div class="pdp-gallery" data-pdp-gallery>
+          <div class="pdp-stage is-loading" data-pdp-stage>
+            <div class="pdp-stage__track" data-pdp-track aria-label="產品圖片"></div>
+            <button type="button" class="pdp-stage__nav pdp-stage__nav--prev" data-pdp-step="-1" aria-label="上一張相" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5.5-6.5 6.5 6.5 6.5"/></svg></button>
+            <button type="button" class="pdp-stage__nav pdp-stage__nav--next" data-pdp-step="1" aria-label="下一張相" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></button>
+            <span class="pdp-stage__count" data-pdp-count hidden></span>
+            <button type="button" class="pdp-stage__zoom" data-pdp-zoom aria-label="放大睇相" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.4 15.4 5.1 5.1M10.5 7.9v5.2M7.9 10.5h5.2"/></svg></button>
+          </div>
+          <div class="pdp-thumbs" data-pdp-thumbs hidden></div>
         </div>
 
-        <!-- Product Info -->
-        <div class="product-info">
-          <span class="product-info__brand"></span>
-          <h1 class="product-info__name"></h1>
-          <p class="product-info__subtitle" hidden></p>
-          <p class="product-info__specification" hidden></p>
-          <!-- 評分摘要 —— 有評價先出，撳一下捲落去成段評價 -->
-          <a class="product-info__rating" data-rating-jump href="#reviews" hidden></a>
-          <div class="product-info__price"></div>
+        <div class="product-info pdp-buy">
+          <div class="pdp-id">
+            <span class="product-info__brand"></span>
+            <h1 class="product-info__name"></h1>
+            <p class="product-info__subtitle" hidden></p>
+            <p class="product-info__specification" hidden></p>
+            <!-- 評分摘要 —— 有評價先出，撳一下捲落去成段評價 -->
+            <a class="product-info__rating" data-rating-jump href="#reviews" hidden></a>
+          </div>
 
-          <div class="product-info__divider"></div>
+          <div class="pdp-price">
+            <div class="product-info__price"></div>
+          </div>
+
+          <!-- 色號／款式／尺碼／度數（JS 砌） -->
+          <div class="product-info__options pdp-options" id="pdp-options"></div>
+
+          <!-- 數量＋加入購物袋＋心願。手機呢度只出數量同心願，加入購物袋由底部購物條（.pdp-dock）代撳 -->
+          <div class="pdp-actions" data-pdp-actions>
+            <button type="button" class="product-info__wishlist-btn pdp-wish" aria-label="加入願望清單" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <div class="product-info__quantity pdp-qty">
+              <button type="button" class="qty-btn" data-action="decrease" aria-label="減少數量"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+              <input type="number" class="qty-input" value="1" min="1" max="99" inputmode="numeric" aria-label="數量">
+              <button type="button" class="qty-btn" data-action="increase" aria-label="增加數量"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+            <button type="button" class="pdp-add" id="add-to-cart-btn">加入購物袋</button>
+          </div>
 
           <p class="product-info__short-desc"></p>
           <div class="ing-panel" data-ing-panel hidden></div>
 
-          <!-- Variant Options (generated by JS) -->
-          <div class="product-info__options"></div>
-
-          <!-- Quantity -->
-          <div class="product-info__option-label" style="margin-bottom: var(--space-sm);">數量</div>
-          <div class="product-info__quantity">
-            <button class="qty-btn" data-action="decrease">−</button>
-            <input type="number" class="qty-input" value="1" min="1" max="99">
-            <button class="qty-btn" data-action="increase">+</button>
-          </div>
-
-          <!-- Actions -->
-          <div class="product-info__actions">
-            <button class="btn btn--primary" id="add-to-cart-btn">加入購物袋</button>
-            <button class="product-info__wishlist-btn" aria-label="加入願望清單">
-              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            </button>
-          </div>
-
-          <section class="midautumn-product-benefits" aria-label="購物優惠及運送安排">
-            <article class="product-gift-card" aria-label="Round Lab 滿額贈禮">
-              <img class="product-gift-card__scene" src="assets/images/home/gift-cream-scene.webp" alt="Round Lab 白樺樹保濕面霜 80ml 產品照片" width="1644" height="957" loading="lazy" decoding="async">
-              <div class="product-gift-card__copy">
-                <p class="product-gift-card__eyebrow">SHOPPING GIFT</p>
-                <h3>Round Lab 白樺樹保濕面霜 80ml</h3>
-                <p class="product-gift-card__threshold">合資格商品滿 <b>HK$599</b> 即送一支</p>
-                <small class="product-gift-card__value">價值 <b>HK$148</b></small>
-                <a class="product-gift-card__link" href="/products/round-lab-round-lab-80ml-0221">查看產品詳情</a>
-                <p class="product-gift-card__terms">不計運費；數量有限，送完即止，以結帳為準。</p>
+          <section class="pdp-perks" aria-label="購物優惠及運送安排">
+            <div class="pdp-ship">
+              <div class="pdp-ship__head">
+                <h2 class="pdp-ship__title">運送與自取</h2>
+                <span class="pdp-ship__note" aria-hidden="true">Your order, our care ♡</span>
               </div>
-            </article>
-            <aside class="midautumn-home__shipping midautumn-home__shipping--three-up" aria-label="運送及自取">
-              <div class="midautumn-home__shipping-head">
-                <span class="midautumn-home__label">OUJI DELIVERY</span>
-                <h3>運送與自取</h3>
-                <span class="midautumn-home__shipping-note" aria-hidden="true">Your order<br>Our care ♡</span>
-              </div>
-              <ul>
-                <li><a href="shipping.html"><span class="ship-mode__seven-logo midautumn-home__seven-logo" aria-hidden="true"><b>7</b><span>ELEVEN</span></span><span class="midautumn-home__ship-copy"><strong><span>滿 <b>HK$99</b></span><em>自取免運</em></strong><small>7-Eleven／郵局自取</small></span><svg class="midautumn-home__chevron midautumn-home__chevron--check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></a></li>
-                <li><a href="shipping.html"><span class="midautumn-home__ship-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M12 3v18M5 12h14M8 8h1M15 16h1"/></svg></span><span class="midautumn-home__ship-copy"><strong><span>滿 <b>HK$250</b></span><em>免運</em></strong><small>順豐站／智能櫃</small></span><svg class="midautumn-home__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a></li>
-                <li><a href="shipping.html"><span class="midautumn-home__ship-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-7 9 7v9H3v-9Z"/><path d="M9 20v-6h6v6"/></svg></span><span class="midautumn-home__ship-copy"><strong><span>滿 <b>HK$290</b></span><em>免運</em></strong><small>順豐送貨到屋企</small></span><svg class="midautumn-home__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a></li>
+              <ul class="pdp-ship__tiles">
+                <li><a class="pdp-ship__tile is-pick" href="shipping.html">
+                  <span class="pdp-ship__ribbon">推薦自取</span>
+                  <span class="pdp-ship__logo" aria-hidden="true"><img src="assets/images/brand/seven-eleven-2021.svg" width="21" height="28" alt="" decoding="async"></span>
+                  <span class="pdp-ship__amt">滿 <b>HK$99</b></span>
+                  <span class="pdp-ship__what">自取免運</span>
+                  <span class="pdp-ship__sub">7-Eleven／郵局自取</span>
+                </a></li>
+                <li><a class="pdp-ship__tile" href="shipping.html">
+                  <span class="pdp-ship__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M12 3v18M5 12h14M8 8h1M15 16h1"/></svg></span>
+                  <span class="pdp-ship__amt">滿 <b>HK$250</b></span>
+                  <span class="pdp-ship__what">免運</span>
+                  <span class="pdp-ship__sub">順豐站／智能櫃</span>
+                </a></li>
+                <li><a class="pdp-ship__tile" href="shipping.html">
+                  <span class="pdp-ship__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-7 9 7v9H3v-9Z"/><path d="M9 20v-6h6v6"/></svg></span>
+                  <span class="pdp-ship__amt">滿 <b>HK$290</b></span>
+                  <span class="pdp-ship__what">免運</span>
+                  <span class="pdp-ship__sub">順豐送貨到屋企</span>
+                </a></li>
               </ul>
-              <p><span>一般下單後約 1–3 個工作天送達</span><span>觀塘門市免費自取，備妥後通知取貨</span></p>
-              <div class="shima midautumn-home__mascot" aria-hidden="true">
+              <ul class="pdp-ship__facts">
+                <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>一般下單後約 1–3 個工作天送達</span></li>
+                <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 5.5 5h13l1.5 5.5"/><path d="M5 10.5V19h14v-8.5"/><path d="M4 10.5a2.67 2.67 0 0 0 5.33 0 2.67 2.67 0 0 0 5.34 0 2.67 2.67 0 0 0 5.33 0"/><path d="M10 19v-4.5h4V19"/></svg><span>觀塘門市免費自取，備妥後通知取貨</span></li>
+              </ul>
+              <div class="shima pdp-ship__shima" aria-hidden="true">
                 <img class="shima__f is-on" src="assets/images/home/shima-pack1.webp" alt="" width="294" height="360" loading="lazy" decoding="async">
                 <img class="shima__f" src="assets/images/home/shima-pack2.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
                 <img class="shima__f" src="assets/images/home/shima-pack3.webp" alt="" width="293" height="360" loading="lazy" decoding="async">
@@ -336,43 +357,71 @@
                 <img class="shima__f" src="assets/images/home/shima-pack5.webp" alt="" width="311" height="360" loading="lazy" decoding="async">
                 <img class="shima__f" src="assets/images/home/shima-pack6.webp" alt="" width="278" height="360" loading="lazy" decoding="async">
               </div>
-            </aside>
-          </section>
+            </div>
 
+            <article class="pdp-gift" aria-label="Round Lab 滿額贈禮">
+              <img class="pdp-gift__img" src="assets/images/cart/gift-cream-192.webp" alt="Round Lab 白樺樹保濕面霜 80ml 產品照片" width="192" height="192" loading="lazy" decoding="async">
+              <div class="pdp-gift__copy">
+                <h3 class="pdp-gift__title">Round Lab 白樺樹保濕面霜 80ml</h3>
+                <p class="pdp-gift__threshold">合資格商品滿 <b>HK$599</b> 即送一支</p>
+                <p class="pdp-gift__value">價值 <b>HK$148</b></p>
+                <p class="pdp-gift__terms">不計運費；數量有限，送完即止，以結帳為準。</p>
+              </div>
+              <a class="pdp-gift__link" href="/products/round-lab-round-lab-80ml-0221">查看產品詳情<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></a>
+            </article>
+          </section>
         </div>
       </div>
 
-      <section class="product-videos" data-product-videos hidden aria-label="產品影片"></section>
+      <section class="product-videos pdp-section" data-product-videos hidden aria-label="產品影片"></section>
 
-      <!-- Product Description — full width under the buy box, so the long
-           detail strips read at their intended size -->
-      <div class="product-tabs product-tabs--full">
-        <div class="product-tabs__nav">
-          <button class="product-tabs__tab is-active" data-tab="tab-details">詳細資料</button>
-        </div>
-        <div class="product-tabs__content">
-          <div class="product-tabs__panel is-active" id="tab-details">
+      <!-- 詳細資料：桌面左字右長圖（長圖由 JS 搬去右欄），手機上字下圖 -->
+      <section class="pdp-section pdp-details" id="details" aria-labelledby="pdp-details-title">
+        <h2 class="pdp-h2" id="pdp-details-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20Z"/><path d="M14 3.5V8h4M10 12h5M10 15.5h5"/></svg>詳細資料</h2>
+        <div class="pdp-details__body">
+          <div class="pdp-details__text">
             <div class="body-md product-description"></div>
           </div>
+          <div class="pdp-details__media" data-pdp-media hidden></div>
         </div>
-      </div>
+      </section>
 
-      <!-- 評價 —— 由 data/reviews.json 填，冇資料就成塊唔出現 -->
-      <section class="reviews" id="reviews" data-reviews hidden></section>
+      <!-- 評價 —— 由 data/reviews 填，冇資料就成塊唔出現 -->
+      <section class="reviews pdp-section" id="reviews" data-reviews hidden></section>
 
       <!-- Related Products -->
-      <section class="section--sm" data-related-products hidden style="border-top: 1px solid var(--border-light);">
-        <div class="section-header section-header--split reveal" style="margin-bottom: var(--space-2xl);">
-          <div>
-            <span class="label section-header__label">你可能也喜歡</span>
-            <h2 class="heading-lg section-header__title">相關推薦</h2>
-          </div>
-        </div>
-        <div class="product-grid reveal-stagger"></div>
+      <section class="pdp-section pdp-related" data-related-products hidden aria-labelledby="pdp-related-title">
+        <h2 class="pdp-h2" id="pdp-related-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.4-7.5-10A4.5 4.5 0 0 1 12 7.6a4.5 4.5 0 0 1 7.5 2.9c0 5.6-7.5 10-7.5 10Z"/></svg>你可能也喜歡</h2>
+        <div class="pdp-related__grid"></div>
       </section>
 
     </div>
+
   </main>
+
+  <!-- 放大鏡同購物條放喺 main 外面：main 有 position:relative＋z-index:1，入面嘅 fixed 層會被 footer 蓋過（同購物袋 .bag-bar 一樣做法） -->
+  <!-- 放大鏡：撳主圖右下角（或者主圖）開；撳任何位置或者 Esc 關 -->
+  <div class="pdp-lightbox" data-pdp-lightbox hidden role="dialog" aria-modal="true" aria-label="放大睇相">
+    <img class="pdp-lightbox__img" data-pdp-lb-img alt="">
+    <button type="button" class="pdp-lightbox__close" data-pdp-lb-close aria-label="關閉放大圖"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <button type="button" class="pdp-lightbox__nav pdp-lightbox__nav--prev" data-pdp-lb-step="-1" aria-label="上一張相"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5.5-6.5 6.5 6.5 6.5"/></svg></button>
+    <button type="button" class="pdp-lightbox__nav pdp-lightbox__nav--next" data-pdp-lb-step="1" aria-label="下一張相"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></button>
+    <p class="pdp-lightbox__cap" data-pdp-lb-cap></p>
+  </div>
+
+  <!-- 購物條：手機一直浮喺底部導航上面（同購物袋合計條一樣：左價錢、右加入購物袋）；
+       桌面購買欄捲走之後先喺底部浮起。撳掣＝撳購買欄入面真嘅掣（同一套加入購物袋／補貨邏輯）。 -->
+  <div class="pdp-dock" data-pdp-dock hidden>
+    <div class="pdp-dock__in">
+      <img class="pdp-dock__img" data-pdp-dock-img alt="" width="48" height="48">
+      <p class="pdp-dock__name" data-pdp-dock-name></p>
+      <div class="pdp-dock__sum">
+        <p class="pdp-dock__meta" data-pdp-dock-meta></p>
+        <div class="pdp-dock__price" data-pdp-dock-price></div>
+      </div>
+      <button type="button" class="pdp-dock__add" data-pdp-dock-add>加入購物袋</button>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -482,11 +531,12 @@
 
   <script src="product-naming.js?v=20261017-sdname"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
-  <script src="shopify.js?v=20261017-expired"></script>
+  <script src="shopify.js?v=20261017-pdp-expired"></script>
   <script src="ingredients.js"></script>
-  <script src="reviews.js"></script>
+  <script src="reviews.js?v=20261017-pdp"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
-  <script src="script.js?v=20261016-megamag"></script>
+  <script src="script.js?v=20261017-pdp"></script>
+  <script src="product-card-lc.js?v=20261016-hoverswap3"></script>
   <script>
   /**
    * The brands' detail strips run to tens of thousands of pixels — the
@@ -511,7 +561,7 @@
       block.classList.add('is-collapsed');
 
       const chevron = (d) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"'
-        + ` stroke-width="1.6"><path d="${d}"/></svg>`;
+        + ` stroke-width="1.6" aria-hidden="true"><path d="${d}"/></svg>`;
 
       const more = document.createElement('button');
       more.className = 'detail-more';
@@ -573,6 +623,271 @@
     setTimeout(settle, 2500);
   }
 
+  /* 桌面「跟住捲」：全站 html／body 都係 overflow-x: hidden（見 styles.css Reset），原生 sticky 唔郁，
+     所以同購物袋 bagStickSide() 一樣用 transform：一欄喺佢個區域入面跟住視窗行，到區域底就停。
+     只喺 ≥1024px 生效；欄本身高過視窗就唔郁（唔係會遮住下半）。 */
+  function pdpStick(el, area, gap = 20) {
+    if (!el || !area || el.dataset.pdpStick) return;
+    el.dataset.pdpStick = '1';
+    const wide = window.matchMedia('(min-width: 1024px)');
+    const header = document.querySelector('.header');
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (!wide.matches || !area.offsetParent) { el.style.transform = ''; return; }
+      const box = area.getBoundingClientRect();
+      const top = Math.max(16, (header ? header.getBoundingClientRect().bottom : 96) + gap);
+      const h = el.offsetHeight;
+      if (h + top + 16 > window.innerHeight) { el.style.transform = ''; return; }
+      const shift = Math.max(0, Math.min(top - box.top, box.height - h));
+      el.style.transform = shift > 0.5 ? `translate3d(0, ${Math.round(shift)}px, 0)` : '';
+    };
+    const ask = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', ask, { passive: true });
+    window.addEventListener('resize', ask);
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(ask);
+      ro.observe(area);
+      ro.observe(el);
+    }
+    ask();
+  }
+
+  /* 相簿：左右掃（scroll-snap）、細相、張數、放大鏡。揀色號時跳去嗰個色嘅已核實相。 */
+  function createGallery(root) {
+    const stage = root.querySelector('[data-pdp-stage]');
+    const track = root.querySelector('[data-pdp-track]');
+    const thumbs = root.querySelector('[data-pdp-thumbs]');
+    const count = root.querySelector('[data-pdp-count]');
+    const zoomBtn = root.querySelector('[data-pdp-zoom]');
+    const navs = [...root.querySelectorAll('[data-pdp-step]')];
+    const lb = document.querySelector('[data-pdp-lightbox]');
+    const lbImg = lb?.querySelector('[data-pdp-lb-img]');
+    const lbCap = lb?.querySelector('[data-pdp-lb-cap]');
+    const cp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+    const pathOf = (url) => {
+      try { return decodeURIComponent(new URL(url, location.origin).pathname); } catch (_) { return String(url || '').split('?')[0]; }
+    };
+    const state = { images: [], index: 0, cover: null, variantName: '', lbIndex: 0 };
+
+    const slideImg = (i) => track.children[i]?.querySelector('img');
+    const imgAttrs = (url, i, alt) => {
+      const attrs = typeof shopifyResponsiveImageAttrs === 'function'
+        ? shopifyResponsiveImageAttrs(url, { srcWidth: 1200, widths: [600, 900, 1200], sizes: '(max-width: 1023px) 100vw, 620px' })
+        : `src="${url}"`;
+      return `${attrs} alt="${alt}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"`;
+    };
+
+    function paint() {
+      const n = state.images.length;
+      if (count) { count.textContent = `${state.index + 1} / ${n}`; count.hidden = n < 2; }
+      thumbs?.querySelectorAll('.pdp-thumb').forEach((t, i) => {
+        const on = i === state.index;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-current', on ? 'true' : 'false');
+      });
+      navs.forEach((b) => { b.hidden = n < 2; b.disabled = (b.dataset.pdpStep === '-1' ? state.index === 0 : state.index >= n - 1); });
+    }
+
+    function goTo(i, smooth = true) {
+      const n = state.images.length;
+      if (!n) return;
+      const target = Math.max(0, Math.min(n - 1, i));
+      // 隔籬一張先滑過去；跳好多張（撳細相、揀色號）就直接到，唔好成串相喺眼前飛過
+      const near = Math.abs(target - Math.round(track.scrollLeft / (track.clientWidth || 1))) <= 1;
+      state.index = target;
+      // 跳過去之前先叫嗰張（同隔籬）即刻載入：lazy 相未入畫面唔會載，一跳過去會閃白
+      [target - 1, target, target + 1].forEach((k) => { const im = slideImg(k); if (im) im.loading = 'eager'; });
+      const left = state.index * track.clientWidth;
+      if (Math.abs(track.scrollLeft - left) > 2) {
+        track.scrollTo({ left, behavior: smooth && near && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'auto' });
+      }
+      revealThumb(state.index);
+      paint();
+    }
+
+    /* 細相欄自己捲去揀中嗰張（唔用 scrollIntoView：佢會連成頁一齊捲） */
+    function revealThumb(i) {
+      const th = thumbs?.children[i];
+      if (!th || thumbs.hidden) return;
+      const r = th.getBoundingClientRect(); const box = thumbs.getBoundingClientRect();
+      if (getComputedStyle(thumbs).flexDirection === 'column') {
+        if (r.top < box.top) thumbs.scrollTop += r.top - box.top - 6;
+        else if (r.bottom > box.bottom) thumbs.scrollTop += r.bottom - box.bottom + 6;
+      } else if (r.left < box.left) thumbs.scrollLeft += r.left - box.left - 16;
+      else if (r.right > box.right) thumbs.scrollLeft += r.right - box.right + 16;
+    }
+
+    let scrollRaf = 0;
+    track.addEventListener('scroll', () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => {
+        scrollRaf = 0;
+        const w = track.clientWidth || 1;
+        const i = Math.round(track.scrollLeft / w);
+        if (i !== state.index) { state.index = i; revealThumb(i); paint(); }
+      });
+    }, { passive: true });
+
+    navs.forEach((b) => b.addEventListener('click', () => goTo(state.index + Number(b.dataset.pdpStep))));
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(state.index + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(state.index - 1); }
+    });
+
+    function render(images, productTitle) {
+      state.images = images.slice();
+      state.cover = images[0] || null;
+      state.variantName = '';
+      stage.classList.remove('is-loading');
+      if (!images.length) { track.innerHTML = ''; if (thumbs) thumbs.hidden = true; if (zoomBtn) zoomBtn.hidden = true; paint(); return; }
+      const altOf = (img, i) => (typeof productImageAlt === 'function' ? productImageAlt(img, productTitle, i) : (img.altText || productTitle));
+      track.innerHTML = images.map((img, i) => `<figure class="pdp-slide"><img ${imgAttrs(img.url, i, altOf(img, i))}></figure>`).join('');
+      if (thumbs) {
+        thumbs.innerHTML = images.map((img, i) => `<button type="button" class="pdp-thumb" data-i="${i}" aria-label="${cp(`第 ${i + 1} 張相`, `Image ${i + 1}`)}"><img src="${typeof shopifyImageUrl === 'function' ? shopifyImageUrl(img.url, 180) : img.url}" alt="" loading="lazy" decoding="async"></button>`).join('');
+        thumbs.hidden = images.length < 2;
+        thumbs.querySelectorAll('.pdp-thumb').forEach((b) => b.addEventListener('click', () => goTo(Number(b.dataset.i))));
+      }
+      if (zoomBtn) zoomBtn.hidden = false;
+      state.index = 0;
+      track.scrollLeft = 0;
+      paint();
+    }
+
+    /* 揀色號：有已核實色號相 → 喺相簿入面搵返嗰張；唔喺相簿（舊匯入）就暫時換第一張。
+       冇核實相 → 返封面（唔好留住上一個色嘅相，費事似係新揀嗰隻色）。 */
+    function showVariant(url, name) {
+      const coverImg = slideImg(0);
+      if (coverImg && state.cover && coverImg.dataset.variant) {
+        coverImg.outerHTML = `<img ${imgAttrs(state.cover.url, 0, coverImg.alt)}>`;
+      }
+      state.images[0] = state.cover || state.images[0];
+      state.variantName = url ? (name || '') : '';
+      if (!url) { goTo(0); return; }
+      const want = pathOf(url);
+      const hit = state.images.findIndex((img) => pathOf(img.url) === want);
+      if (hit >= 0) { goTo(hit); return; }
+      const first = slideImg(0);
+      if (first) {
+        first.removeAttribute('srcset');
+        first.src = typeof shopifyImageUrl === 'function' ? shopifyImageUrl(url, 1200) : url;
+        first.dataset.variant = '1';
+      }
+      state.images[0] = { url, altText: name };
+      goTo(0);
+    }
+
+    // 放大鏡
+    function lbShow(i) {
+      const n = state.images.length;
+      if (!lb || !n) return;
+      state.lbIndex = (i + n) % n;
+      const img = state.images[state.lbIndex];
+      lbImg.src = typeof shopifyImageUrl === 'function' ? shopifyImageUrl(img.url, 1200) : img.url;
+      lbImg.alt = slideImg(state.lbIndex)?.alt || '';
+      const shade = state.lbIndex === state.index && state.variantName ? state.variantName : '';
+      lbCap.textContent = shade || (n > 1 ? `${state.lbIndex + 1} / ${n}` : '');
+      lb.querySelectorAll('[data-pdp-lb-step]').forEach((b) => { b.hidden = n < 2; });
+    }
+    function lbOpen() {
+      if (!lb || !state.images.length) return;
+      lbShow(state.index);
+      lb.hidden = false;
+      document.documentElement.classList.add('pdp-lb-open');
+      lb.querySelector('[data-pdp-lb-close]')?.focus();
+    }
+    function lbClose() {
+      if (!lb || lb.hidden) return;
+      lb.hidden = true;
+      document.documentElement.classList.remove('pdp-lb-open');
+      if (state.lbIndex !== state.index) goTo(state.lbIndex, false);
+      zoomBtn?.focus();
+    }
+    zoomBtn?.addEventListener('click', lbOpen);
+    track.addEventListener('click', (e) => { if (e.target.closest('.pdp-slide')) lbOpen(); });
+    lb?.addEventListener('click', (e) => {
+      const step = e.target.closest('[data-pdp-lb-step]');
+      if (step) { e.stopPropagation(); lbShow(state.lbIndex + Number(step.dataset.pdpLbStep)); return; }
+      lbClose();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (!lb || lb.hidden) return;
+      if (e.key === 'Escape') lbClose();
+      if (e.key === 'ArrowRight') lbShow(state.lbIndex + 1);
+      if (e.key === 'ArrowLeft') lbShow(state.lbIndex - 1);
+    });
+    // 手機喺放大圖左右掃
+    let sx = null;
+    lb?.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    lb?.addEventListener('touchend', (e) => {
+      if (sx == null) return;
+      const dx = e.changedTouches[0].clientX - sx; sx = null;
+      if (Math.abs(dx) > 50) { lbShow(state.lbIndex + (dx < 0 ? 1 : -1)); }
+    }, { passive: true });
+    window.addEventListener('resize', () => { track.scrollLeft = state.index * track.clientWidth; });
+
+    return { render, showVariant, goTo };
+  }
+
+  /* 購物條：手機一直出（價錢＋加入購物袋）；桌面購買欄捲咗上去先出（相、名、價錢、加入購物袋）。
+     照抄主掣嘅字同狀態；撳就等於撳主掣（缺貨就撳補貨掣），所以加入購物袋、追蹤、補貨全部行返同一套。 */
+  function initDock(product) {
+    const dock = document.querySelector('[data-pdp-dock]');
+    const actions = document.querySelector('[data-pdp-actions]');
+    const main = document.getElementById('add-to-cart-btn');
+    if (!dock || !actions || !main || dock.dataset.ready) return;
+    dock.dataset.ready = '1';
+    const btn = dock.querySelector('[data-pdp-dock-add]');
+    const phone = window.matchMedia('(max-width: 768px)');
+    const sync = () => {
+      const ask = document.querySelector('.pdp-restock');
+      const soldOut = main.classList.contains('btn--sold-out');
+      btn.textContent = soldOut && ask ? ask.textContent : main.textContent;
+      btn.disabled = soldOut ? !ask || ask.disabled : main.disabled;
+      btn.classList.toggle('is-blocked', main.classList.contains('is-blocked'));
+      btn.classList.toggle('is-restock', soldOut);
+      btn.classList.toggle('is-done', main.classList.contains('is-done'));
+      const price = document.querySelector('.product-info__price');
+      dock.querySelector('[data-pdp-dock-price]').innerHTML = soldOut
+        ? `<span class="pdp-dock__out">${main.textContent}</span>` : (price ? price.innerHTML : '');
+      const picked = document.querySelector('[data-pdp-picked]');
+      const spec = document.querySelector('.product-info__specification');
+      dock.querySelector('[data-pdp-dock-meta]').textContent = (picked && !picked.hidden && picked.textContent)
+        || (spec && !spec.hidden ? spec.textContent : '');
+    };
+    dock.querySelector('[data-pdp-dock-name]').textContent = document.querySelector('.product-info__name')?.textContent || product.title;
+    const cover = product.images?.edges?.[0]?.node?.url;
+    const img = dock.querySelector('[data-pdp-dock-img]');
+    if (cover && img) img.src = typeof shopifyImageUrl === 'function' ? shopifyImageUrl(cover, 120) : cover;
+    if (img) img.hidden = !cover;
+    btn.addEventListener('click', () => {
+      if (main.classList.contains('btn--sold-out')) { document.querySelector('.pdp-restock')?.click(); return; }
+      main.click();
+    });
+    // 淨係睇購物條、價錢同色號格；芝麻動畫每 260ms 換格，唔好連佢都睇
+    const mo = new MutationObserver(sync);
+    [actions, document.querySelector('.pdp-price'), document.querySelector('.pdp-options')].filter(Boolean).forEach((el) => mo.observe(el,
+      { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class', 'disabled', 'hidden'] }));
+    sync();
+    let past = false;
+    const show = () => {
+      const on = phone.matches || (past && !atFooter);
+      dock.hidden = !on;
+      document.documentElement.classList.toggle('pdp-dock-on', on && !phone.matches);
+      document.body.classList.toggle('has-pdp-bar', phone.matches);
+    };
+    new IntersectionObserver(([e]) => {
+      past = !e.isIntersecting && e.boundingClientRect.bottom < 0;
+      show();
+    }).observe(actions);
+    // 桌面碌到 footer 就收起，唔好遮住 footer 啲連結（手機 footer 自己留咗購物條嘅位）
+    let atFooter = false;
+    const footer = document.querySelector('.footer');
+    if (footer) new IntersectionObserver(([e]) => { atFooter = e.isIntersecting; show(); }).observe(footer);
+    phone.addEventListener?.('change', show);
+    show();
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
 
@@ -592,9 +907,10 @@
       handle = alias.handle;
     }
     const productDetail = document.querySelector('.product-detail');
-
-    const galleryMain = document.querySelector('.product-gallery__main');
-    const relatedEsc = (value) => String(value ?? '').replace(/[&<>\"]/g,
+    const stage = document.querySelector('[data-pdp-stage]');
+    const gallery = createGallery(document.querySelector('[data-pdp-gallery]'));
+    const cp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+    const pdpEsc = (value) => String(value ?? '').replace(/[&<>\"]/g,
       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     // Friendly empty / not-found / error state (mirrors the cart empty state)
@@ -611,7 +927,7 @@
         '<div class="product-state__icon"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>' +
         '<h1 class="product-state__title">' + title + '</h1>' +
         '<p class="product-state__text">' + text + '</p>' +
-        '<a href="category.html" class="btn btn--primary">瀏覽所有產品</a>';
+        '<a href="category.html" class="product-state__btn">瀏覽所有產品</a>';
       container.appendChild(wrap);
     }
 
@@ -619,9 +935,6 @@
       showProductState('找不到產品', '這個產品連結似乎不完整。瀏覽我們的完整系列，找到屬於你的韓系美膚好物。');
       return;
     }
-
-    // Show a loading skeleton on the gallery while we fetch
-    if (galleryMain) galleryMain.classList.add('is-loading');
 
     // Variant images are deny-by-default.  This allowlist is built only from
     // reviewed official/source evidence; a Shopify association alone is not proof.
@@ -633,10 +946,15 @@
       console.warn('[OUJI] verified variant image manifest unavailable', error);
     }
 
+    // 第二次 render（背景對到新資料）會重新綁 click —— 用 AbortController 拆走上一輪嘅 listener，唔好疊兩份。
+    let renderRun = null;
+
     // Render product data into the page
     async function renderProduct(product) {
       if (!product) return;
-      if (galleryMain) galleryMain.classList.remove('is-loading');
+      renderRun?.abort();
+      renderRun = new AbortController();
+      const run = renderRun.signal;
 
       // Update page title
       const naming = window.OUJI_productNaming?.display(product);
@@ -689,10 +1007,9 @@
         const unit = packN && parseInt(packN[1], 10) > 1
           ? `<span class="pp__unit">平均每片 ${formatPrice(parseFloat(amount) / parseInt(packN[1], 10))}</span>`
           : '';
-        if (!onSale) return formatPrice(amount) + unit;
-        /* 原價細粒喺左、特價大粒紅色喺右 —— 由左至右讀落去先感覺到減幅。 */
-        return `<span class="pp"><s class="pp__was">${formatPrice(compareAt.amount)}</s>`
-          + `<strong class="pp__now">${formatPrice(amount)}</strong></span>${unit}`;
+        if (!onSale) return `<span class="pp"><strong class="pp__now">${formatPrice(amount)}</strong></span>` + unit;
+        /* 原價細粒喺左、特價大粒喺右 —— 由左至右讀落去先感覺到減幅。 */
+        return `<span class="pp"><strong class="pp__now">${formatPrice(amount)}</strong><s class="pp__was">${formatPrice(compareAt.amount)}</s></span>${unit}`;
       };
 
       // The brand was dead text. Somebody who likes this serum wants the
@@ -722,11 +1039,12 @@
            要搵返「價錢＝最平嗰個」嗰件變體，用佢自己嘅劃線價同名。 */
         const vlist = product.variants?.edges?.map((e) => e.node) ?? [];
         const cheapV = vlist.find((v) => parseFloat(v.price?.amount) === parseFloat(p.amount));
-        const cp = cheapV ? cheapV.compareAtPrice : product.compareAtPriceRange?.minVariantPrice;
-        priceEl.innerHTML = productPriceMarkup(p.amount, cp, cheapV?.title);
+        const cp0 = cheapV ? cheapV.compareAtPrice : product.compareAtPriceRange?.minVariantPrice;
+        priceEl.innerHTML = productPriceMarkup(p.amount, cp0, cheapV?.title);
         priceEl.dataset.oujiPromoReady = (shortDated || isOujiOpeningPromoActive()) ? '1' : '0';
       }
       document.querySelector('.product-pair-note')?.remove();
+      document.querySelector('.sd-notice')?.remove();
       if (priceEl && typeof oujiHasPairDeal === 'function' && oujiHasPairDeal(product.tags)) {
         const d = OUJI_PAIR_DEAL;
         priceEl.insertAdjacentHTML('afterend', `<p class="product-pair-note">清貨優惠：呢類公仔任揀 ${d.count} 件 $${d.total}（平均每件 $${d.total / d.count}）<small>單件 ${formatPrice(product.priceRange.minVariantPrice.amount)}；買滿 ${d.count} 件自動計算，款式可以混配，毋須優惠碼。</small></p>`);
@@ -768,6 +1086,7 @@
           ? new DOMParser().parseFromString(intro[1], 'text/html').body.textContent.trim()
           : (product.description || '');
         desc.textContent = plain.length > 200 ? plain.substring(0, 200) + '…' : plain;
+        desc.hidden = !plain;
       }
 
       // 成分速覽：主打成分同要留意嘅成分。冇資料就唔出，唔會出個空框。
@@ -792,13 +1111,26 @@
         });
       }
 
-      // Fill detailed description tab with full description
+      // Fill detailed description with full description. 長圖（.product-detail-images）
+      // 搬去右欄：桌面左字右圖，手機照舊上字下圖。
       const fullDesc = document.querySelector('.product-description');
+      const media = document.querySelector('[data-pdp-media]');
+      const details = document.querySelector('.pdp-details');
+      if (media) media.replaceChildren();
       if (fullDesc && descHtml) {
         fullDesc.innerHTML = descHtml;
       } else if (fullDesc && product.description) {
         fullDesc.innerHTML = `<p>${product.description}</p>`;
       }
+      const strips = fullDesc?.querySelector('.product-detail-images');
+      if (strips && media) {
+        media.append(strips);
+        media.hidden = false;
+      } else if (media) {
+        media.hidden = true;
+      }
+      details?.classList.toggle('has-media', !!strips);
+      if (details) details.hidden = !(fullDesc && fullDesc.textContent.trim()) && !strips;
       collapseDetailStrips();
 
       // Product videos live in Shopify media, not in the images connection.
@@ -807,6 +1139,8 @@
         videoSection.replaceChildren();
         const videos = (product.media?.nodes || []).filter((media) =>
           media.mediaContentType === 'EXTERNAL_VIDEO' || media.mediaContentType === 'VIDEO');
+        const row = document.createElement('div');
+        row.className = 'product-videos__row';
         for (const media of videos) {
           const card = document.createElement('article');
           card.className = 'product-videos__card';
@@ -849,32 +1183,20 @@
           const label = document.createElement('p');
           label.textContent = media.alt || `${product.title} 影片`;
           card.append(frame, label);
-          videoSection.append(card);
+          row.append(card);
         }
-        if (videoSection.childElementCount) {
+        if (row.childElementCount) {
           const heading = document.createElement('h2');
-          heading.textContent = '產品影片';
-          videoSection.prepend(heading);
+          heading.className = 'pdp-h2';
+          heading.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m10.5 9.5 4 2.5-4 2.5Z"/></svg>產品影片';
+          videoSection.append(heading, row);
         }
-        videoSection.hidden = !videoSection.childElementCount;
+        videoSection.hidden = !row.childElementCount;
       }
 
       // Update images
       const images = product.images?.edges?.map(e => e.node) ?? [];
-      const mainImgWrap = document.querySelector('.product-gallery__main');
-      const thumbsContainer = document.querySelector('.product-gallery__thumbs');
-
-      if (images.length > 0 && mainImgWrap) {
-        mainImgWrap.innerHTML = `<img src="${shopifyImageUrl(images[0].url, 1200)}" alt="${productImageAlt(images[0], product.title)}">`;
-
-        if (thumbsContainer) {
-          thumbsContainer.innerHTML = images.map((img, i) => `
-            <button class="product-gallery__thumb ${i === 0 ? 'is-active' : ''}" onclick="document.querySelector('.product-gallery__main img').src='${shopifyImageUrl(img.url, 1200)}'; document.querySelectorAll('.product-gallery__thumb').forEach(t=>t.classList.remove('is-active')); this.classList.add('is-active');">
-              <img src="${shopifyImageUrl(img.url, 180)}" alt="${productImageAlt(img, product.title, i)}" loading="lazy">
-            </button>
-          `).join('');
-        }
-      }
+      gallery.render(images, product.title);
 
       // A variant association is not automatically proof that the picture is
       // shade-specific. Old imports attached gallery/model/line-up images to
@@ -898,17 +1220,11 @@
       }
 
       // Show a verified shade image only after the shopper picks that shade.
+      // If the newly selected shade has no verified image, return to the
+      // product cover (gallery.showVariant handles both).
       function showVariantImage(variant) {
-        const url = verifiedVariantImageUrl(variant);
-        const mainImg = document.querySelector('.product-gallery__main img');
-        // If the newly selected shade has no verified image, return to the
-        // product cover. Keeping the previous shade image here would make it
-        // look as if that old shade belonged to the new text-only option.
-        const displayUrl = url || images[0]?.url || '';
-        if (mainImg && displayUrl) mainImg.src = displayUrl;
-        document.querySelectorAll('.product-gallery__thumb').forEach(t => {
-          t.classList.toggle('is-active', t.querySelector('img')?.src === displayUrl);
-        });
+        const label = variant && variant.title !== 'Default Title' ? variant.title : '';
+        gallery.showVariant(verifiedVariantImageUrl(variant), label);
       }
 
       // Handle variants
@@ -954,6 +1270,23 @@
       };
       stockHint();
 
+      const addBtn = document.getElementById('add-to-cart-btn');
+      const actions = document.querySelector('[data-pdp-actions]');
+      /* 未揀色號：掣照寫「請先揀色號」，但撳落去會捲返去色號格提一提（手機購物條離色號格好遠）。 */
+      const block = (on, text) => {
+        if (!addBtn) return;
+        addBtn.classList.toggle('is-blocked', on);
+        if (on) { addBtn.setAttribute('aria-disabled', 'true'); addBtn.textContent = text; }
+        else addBtn.removeAttribute('aria-disabled');
+      };
+      const nudgeOptions = () => {
+        if (!optionsContainer) return;
+        optionsContainer.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        optionsContainer.classList.remove('is-nudge');
+        void optionsContainer.offsetWidth;
+        optionsContainer.classList.add('is-nudge');
+      };
+
       if (variants.length > 1 && optionsContainer) {
         const optionName = primaryOptionName;
         // Lenses are chosen by a number, not browsed. Twenty-five buttons
@@ -966,26 +1299,41 @@
         // because its policy is CONTINUE — but the page has to say so
         // before anyone pays, not after.
         const inStock = (v) => (v.quantityAvailable ?? 0) > 0;
+        /* 每個掣嘅價錢：全部同價就喺上面價錢講一次（揀咗照跟住變），唔好每粒重複；唔同價先逐粒寫。 */
+        const priceVaries = new Set(variants.map((v) => Number(v.price.amount))).size > 1;
+        const shots = variants.map((v) => (isPower ? '' : verifiedVariantImageUrl(v)));
+        const swatchMode = shots.some(Boolean);
+        const unitWord = isPower ? cp('個度數', 'powers') : /色/.test(optionName) ? cp('色', 'shades') : /款/.test(optionName) ? cp('款', 'styles') : /尺碼|尺寸|size/i.test(optionName) ? cp('個尺碼', 'sizes') : cp('個選擇', 'options');
+        const thumbUrl = (url) => (typeof shopifyImageUrl === 'function' ? shopifyImageUrl(url, 240) : url);
 
         optionsContainer.innerHTML = `
-          <div class="product-info__option-label">${optionName}</div>
-          <div class="product-info__variants${isPower ? ' product-info__variants--power' : ''}">
+          <div class="pdp-opt__head">
+            <span class="product-info__option-label">${pdpEsc(optionName)}</span>
+            <span class="pdp-opt__count">${variants.length} ${unitWord}</span>
+            <span class="pdp-opt__picked" data-pdp-picked hidden></span>
+          </div>
+          <div class="product-info__variants${isPower ? ' product-info__variants--power' : swatchMode ? ' product-info__variants--swatch' : ' product-info__variants--chips'}">
             ${variants.map((v, i) => {
               const optionText = v.title !== 'Default Title' ? v.title : '';
               if (isPower) {
                 const ready = inStock(v);
-                return `<button class="variant-btn power-btn ${ready ? 'is-ready' : 'is-preorder'} ${i === 0 ? 'is-selected' : ''}"
-                  data-variant-id="${v.id}" data-preorder="${ready ? '' : '1'}"
-                  title="${ready ? '現貨' : '預訂 · 約 14 日到貨'}">${optionText}</button>`;
+                return `<button type="button" class="variant-btn power-btn ${ready ? 'is-ready' : 'is-preorder'} ${i === 0 ? 'is-selected' : ''}${optionText.length > 6 ? ' is-wide' : ''}"
+                  data-variant-id="${v.id}" data-preorder="${ready ? '' : '1'}" aria-pressed="${i === 0}"
+                  title="${ready ? '現貨' : '預訂 · 約 14 日到貨'}">${pdpEsc(optionText)}</button>`;
               }
               const vPrice = typeof oujiPromoPriceText === 'function'
                 ? oujiPromoPriceText(v.price.amount)
                 : formatPrice(v.price.amount);
-              const verifiedImage = verifiedVariantImageUrl(v);
-              const shadeThumb = verifiedImage
-                ? `<img class="variant-btn__image" src="${verifiedImage}" alt="${optionText} 商品圖片" loading="lazy">`
-                : '';
-              return `<button class="variant-btn ${shadeThumb ? 'variant-btn--image' : ''}" data-variant-id="${v.id}" ${!v.availableForSale ? 'disabled style="opacity:0.4"' : ''}>${shadeThumb}<span>${optionText}${optionText ? ' — ' : ''}${vPrice}</span></button>`;
+              const priceTag = priceVaries ? `<span class="variant-btn__price">${vPrice}</span>` : '';
+              const off = !v.availableForSale;
+              const soldTag = off ? `<span class="variant-btn__state">${cp('缺貨', 'Sold out')}</span>` : '';
+              if (swatchMode) {
+                const pic = shots[i]
+                  ? `<img class="variant-btn__image" src="${thumbUrl(shots[i])}" alt="${pdpEsc(optionText)} 商品圖片" loading="lazy" decoding="async">`
+                  : `<span class="variant-btn__ph" aria-hidden="true">${pdpEsc(String(optionText).split(' ')[0])}</span>`;
+                return `<button type="button" class="variant-btn variant-btn--image" data-variant-id="${v.id}" aria-pressed="false" ${off ? 'disabled' : ''}><span class="variant-btn__pic">${pic}</span><span class="variant-btn__name">${pdpEsc(optionText)}</span>${priceTag}${soldTag}</button>`;
+              }
+              return `<button type="button" class="variant-btn" data-variant-id="${v.id}" aria-pressed="false" ${off ? 'disabled' : ''}><span class="variant-btn__name">${pdpEsc(optionText)}</span>${priceTag}${soldTag}</button>`;
             }).join('')}
           </div>
           ${isPower ? `<div class="power-legend">
@@ -994,6 +1342,14 @@
           </div>
           <p class="power-note" data-power-note hidden></p>` : ''}
         `;
+
+        const picked = optionsContainer.querySelector('[data-pdp-picked]');
+        const sayPicked = (v) => {
+          if (!picked) return;
+          const t = v && v.title !== 'Default Title' ? v.title : '';
+          picked.textContent = t ? cp(`已揀：${t}`, `Selected: ${t}`) : '';
+          picked.hidden = !t;
+        };
 
         // Say it again next to the chosen power: the legend explains the
         // colours, this says what the one you picked actually means.
@@ -1007,29 +1363,36 @@
             ? `${btn.textContent} 冇現貨 —— 落單後我哋幫你叫貨，約 14 日到，可以照落單付款。`
             : `${btn.textContent} 有現貨，落單即日出貨。`;
         };
-        if (isPower) sayStock(optionsContainer.querySelector('.power-btn.is-selected'));
+        if (isPower) {
+          sayStock(optionsContainer.querySelector('.power-btn.is-selected'));
+          sayPicked(variants[0]);
+        }
 
         // Variant click handler
         optionsContainer.querySelectorAll('.variant-btn').forEach(btn => {
           btn.addEventListener('click', () => {
-            optionsContainer.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('is-selected'));
+            optionsContainer.querySelectorAll('.variant-btn').forEach(b => { b.classList.remove('is-selected'); b.setAttribute('aria-pressed', 'false'); });
             btn.classList.add('is-selected');
+            btn.setAttribute('aria-pressed', 'true');
+            optionsContainer.classList.remove('is-nudge');
             selectedVariantId = btn.dataset.variantId;
             stockHint();
             const cartButton = document.getElementById('add-to-cart-btn');
             if (cartButton && !cartButton.classList.contains('btn--sold-out')) {
+              block(false);
               cartButton.disabled = false;
               cartButton.textContent = '加入購物袋';
             }
             if (btn.classList.contains('power-btn')) sayStock(btn);
             const v = variants.find(v => v.id === selectedVariantId);
+            sayPicked(v);
             showVariantImage(v);
             if (v && priceEl) {
               const cp2 = v.compareAtPrice;
               priceEl.innerHTML = productPriceMarkup(v.price.amount, cp2, v.title);
               priceEl.dataset.oujiPromoReady = isOujiOpeningPromoActive() ? '1' : '0';
             }
-          });
+          }, { signal: run });
         });
 
         /* 由 Google 購物入嚟嗰陣，直接撳返嗰個色號個掣。借用返上面
@@ -1041,13 +1404,13 @@
             ?.click();
         }
       } else if (optionsContainer) {
-        optionsContainer.style.display = 'none';
+        optionsContainer.innerHTML = '';
+        optionsContainer.hidden = true;
       }
 
       /* 缺貨就唔好扮做買得。以前個掣照著，客揀完、撳完、去到結帳
          先畀 Shopify 話佢知售罄 —— 白行一轉之餘，仲要係喺畀錢嗰一步
          先話佢知。而家喺呢度就攔住，順便問佢想唔想我哋補返貨。 */
-      const addBtn = document.getElementById('add-to-cart-btn');
       /* 同 catalog.js 一樣：數量報 0 就當冇貨，唔好淨係信
          availableForSale（店入面好多貨係「賣完照賣」政策）。
          隱形眼鏡度數係例外 —— 嗰邊本來就係做預訂，頁面已經逐個
@@ -1058,13 +1421,23 @@
       const anyStock = isLensPower
         ? variants.some((v) => v.availableForSale)
         : variants.some(hasStock);
+      // 重畫（背景對到新資料）先清返上一輪嘅狀態，免得缺貨／加緊嘅樣留低
+      if (addBtn) {
+        addBtn.classList.remove('btn--sold-out', 'is-done', 'is-busy');
+        addBtn.disabled = false;
+        addBtn.textContent = '加入購物袋';
+        block(false);
+      }
+      document.querySelector('.pdp-restock')?.remove();
+      actions?.classList.toggle('is-sold-out', !anyStock);
       if (addBtn && !anyStock) {
+        block(false);
         addBtn.textContent = '暫時缺貨';
         addBtn.disabled = true;
         addBtn.classList.add('btn--sold-out');
         const ask = document.createElement('button');
         ask.type = 'button';
-        ask.className = 'btn btn--secondary product-info__restock';
+        ask.className = 'pdp-restock product-info__restock';
         ask.textContent = '想要？通知我補貨';
         ask.dataset.restock = product.handle;
         ask.dataset.restockTitle = product.title || '';
@@ -1072,18 +1445,21 @@
       }
 
       if (addBtn && anyStock && requiresExplicitShade && !preselected) {
-        addBtn.textContent = primaryOptionName === '尺碼' ? '請先揀尺碼' : '請先揀色號';
-        addBtn.disabled = true;
+        block(true, primaryOptionName === '尺碼' ? '請先揀尺碼' : '請先揀色號');
       }
 
       if (addBtn && anyStock) {
         addBtn.addEventListener('click', async () => {
+          if (addBtn.classList.contains('is-blocked')) { nudgeOptions(); return; }
+          if (addBtn.disabled) return;
           const qtyInput = document.querySelector('.qty-input');
           const qMax = qtyInput ? parseInt(qtyInput.max) || 99 : 99;
           const qty = Math.min(qtyInput ? parseInt(qtyInput.value) || 1 : 1, qMax);
           addBtn.textContent = '加入中...';
           addBtn.disabled = true;
+          addBtn.classList.add('is-busy');
           const ok = await addToCart(selectedVariantId, qty);
+          addBtn.classList.remove('is-busy');
           // 加唔到就要照講。之前一律顯示「已加入購物袋 ✓」，客信咗，
           // 去到購物袋先發現冇 —— 到嗰陣佢多數已經走咗。
           if (!ok) {
@@ -1096,35 +1472,42 @@
             trackAddToCart(product, qty, chosen?.price?.amount);
           }
           addBtn.textContent = '已加入購物袋 ✓';
-          setTimeout(() => { addBtn.textContent = '加入購物袋'; addBtn.disabled = false; }, 2000);
-        });
+          addBtn.classList.add('is-done');
+          setTimeout(() => { addBtn.textContent = '加入購物袋'; addBtn.disabled = false; addBtn.classList.remove('is-done'); }, 2000);
+        }, { signal: run });
       }
 
       // Wishlist button
       const wishBtn = document.querySelector('.product-info__wishlist-btn');
       if (wishBtn) {
-        if (isInWishlist(product.id)) {
-          wishBtn.classList.add('is-active');
-          wishBtn.querySelector('svg').style.fill = 'currentColor';
-        }
+        const paintWish = () => {
+          const on = isInWishlist(product.id);
+          wishBtn.classList.toggle('is-active', on);
+          wishBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        };
+        paintWish();
         wishBtn.addEventListener('click', () => {
           if (isInWishlist(product.id)) {
             removeFromWishlist(product.id);
-            wishBtn.classList.remove('is-active');
-            wishBtn.querySelector('svg').style.fill = 'none';
           } else {
             addToWishlist(product);
-            wishBtn.classList.add('is-active');
-            wishBtn.querySelector('svg').style.fill = 'currentColor';
           }
-        });
+          paintWish();
+        }, { signal: run });
       }
 
       // Show product detail immediately (don't wait for related products)
       if (productDetail) productDetail.style.opacity = '1';
+      initDock(product);
+      pdpStick(document.querySelector('[data-pdp-gallery]'), productDetail);
 
       // 評價自己 fetch 一個細 JSON，唔好阻住個頁出。
-      initReviews(handle, product);
+      initReviews(handle, product).then(() => {
+        pdpStick(document.querySelector('.rv-aside'), document.querySelector('.rv-layout'));
+      });
+      if (details?.classList.contains('has-media')) {
+        pdpStick(document.querySelector('.pdp-details__text'), document.querySelector('.pdp-details__body'));
+      }
       /* 如客人仲未揀私隱選項，trackViewItem 會停住；analytics.js 喺客接受後
          用呢份資料補返首個產品瀏覽，唔會因為尊重選擇而永久漏一格。 */
       window.OUJI_currentProduct = product;
@@ -1133,29 +1516,19 @@
       if (typeof injectProductSchema === 'function') injectProductSchema(product);
 
       // Load same-product-type recommendations in background.
+      // 卡用返全站產品頁嗰張新卡（product-card-lc.js）：手機一行兩張、桌面一行四張。
       try {
         const related = typeof getProductRecommendations === 'function'
           ? await getProductRecommendations(product, 4)
           : [];
         const relatedSection = document.querySelector('[data-related-products]');
-        const relatedGrid = relatedSection?.querySelector('.product-grid');
+        const relatedGrid = relatedSection?.querySelector('.pdp-related__grid');
         if (relatedGrid && related.length > 0) {
+          if (typeof loadRatings === 'function') await loadRatings();
           relatedSection.hidden = false;
-          relatedGrid.innerHTML = related.map(p => {
-            const img = p.images?.edges?.[0]?.node;
-            const pr = p.priceRange?.minVariantPrice;
-            return `
-              <a href="/products/${encodeURIComponent(p.handle)}" class="product-card">
-                <div class="product-card__image-wrap">
-                  ${img ? `<img class="product-card__image" ${shopifyCardImageAttrs(img.url)} alt="${productImageAlt(img, p.title)}" loading="lazy">` : ''}
-                  <div class="product-card__quick-add product-card__quick-add--pick">入去睇</div>
-                </div>
-                <span class="product-card__brand">${relatedEsc(p.vendor)}</span>
-                <span class="product-card__name">${relatedEsc(oujiCardName(p))}</span>
-                <span class="product-card__price">${pr ? formatPrice(pr.amount) : ''}</span>
-              </a>
-            `;
-          }).join('');
+          relatedGrid.innerHTML = related.map((p) => (typeof window.lcProductCard === 'function'
+            ? window.lcProductCard(p)
+            : `<a href="/products/${encodeURIComponent(p.handle)}" class="product-card"><span class="product-card__name">${pdpEsc(p.title)}</span></a>`)).join('');
         }
       } catch (e) {
         console.error('Failed to load related products:', e);
@@ -1187,13 +1560,13 @@
           cacheProduct(product);
           await renderProduct(product);
         } else {
-          if (galleryMain) galleryMain.classList.remove('is-loading');
+          stage?.classList.remove('is-loading');
           showProductState('找不到產品', '這個產品可能已售罄或下架。瀏覽我們的完整系列，發掘更多精選好物。');
         }
       }
     } catch (err) {
       console.error('Failed to load product:', err);
-      if (galleryMain) galleryMain.classList.remove('is-loading');
+      stage?.classList.remove('is-loading');
       showProductState('載入時發生問題', '產品資料暫時無法載入，請稍後再試，或瀏覽其他精選產品。');
     }
 

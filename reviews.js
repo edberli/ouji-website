@@ -242,33 +242,50 @@ async function initReviews(handle, product) {
   const regions = Object.entries(d.byRegion || {})
     .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(' · ');
 
+  /* 2026-10-17 產品頁重做：標題唔再加「評價」小標（標題自己講得清楚）；
+     桌面左邊總結（跟住捲）、右邊評語；評語先出 4 則，其餘撳「顯示全部」先攤開（資料一則都冇少）。 */
+  const cp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+  const SHOW = 4;
   host.hidden = false;
   host.innerHTML = `
     <div class="rv-head">
-      <div>
-        <span class="label">評價</span>
-        <h2 class="heading-lg">${d.count.toLocaleString()} 位顧客評過</h2>
-      </div>
+      <h2 class="pdp-h2 rv-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.6 2.5 5.1 5.6.8-4 4 .9 5.6-5-2.6-5 2.6.9-5.6-4-4 5.6-.8Z"/></svg>${d.count.toLocaleString()} 位顧客評過</h2>
       <span class="rv-head__src">評分來自 ${esc(d.source)}</span>
     </div>
 
-    <div class="rv-summary">
-      <div class="rv-score">
-        <span class="rv-score__num">${ratingNum(d.star, top)}</span>
-        ${stars(d.star, top)}
-        ${regions ? `<span class="rv-score__meta">${regions}</span>` : ''}
-      </div>
-      ${dist.length ? `<div class="rv-dist">${dist.map((x) => distBar(x, max)).join('')}</div>` : ''}
-      <div class="rv-attrs">
-        ${(d.attrs || []).map((a) => `<div class="rv-attr">
-          <span class="rv-attr__name">${esc(a.name)}</span>
-          <span class="rv-attr__track"><span class="rv-attr__bar"
-            style="width:${(a.avg / 5) * 100}%"></span></span>
-          <span class="rv-attr__num">${a.avg}</span>
-        </div>`).join('')}
-      </div>
-    </div>
+    <div class="rv-layout">
+      <aside class="rv-aside">
+        <div class="rv-summary">
+          <div class="rv-score">
+            <span class="rv-score__num">${ratingNum(d.star, top)}</span>
+            ${stars(d.star, top)}
+            ${regions ? `<span class="rv-score__meta">${regions}</span>` : ''}
+          </div>
+          ${dist.length ? `<div class="rv-dist">${dist.map((x) => distBar(x, max)).join('')}</div>` : ''}
+          ${(d.attrs || []).length ? `<div class="rv-attrs">
+            ${(d.attrs || []).map((a) => `<div class="rv-attr">
+              <span class="rv-attr__name">${esc(a.name)}</span>
+              <span class="rv-attr__track"><span class="rv-attr__bar"
+                style="width:${(a.avg / 5) * 100}%"></span></span>
+              <span class="rv-attr__num">${a.avg}</span>
+            </div>`).join('')}
+          </div>` : ''}
+        </div>
+        ${shown.length && d.note ? `<p class="rv-note">${esc(d.note)}</p>` : ''}
+      </aside>
 
-    ${shown.length ? `<p class="rv-note">${esc(d.note || '')}</p>
-    <div class="rv-list">${shown.map((r) => reviewCard(r, !!shades, top)).join('')}</div>` : ''}`;
+      ${shown.length ? `<div class="rv-main">
+        <div class="rv-list${shown.length > SHOW ? ' is-capped' : ''}">${shown.map((r) => reviewCard(r, !!shades, top)).join('')}</div>
+        ${shown.length > SHOW ? `<button type="button" class="rv-more" data-rv-more aria-expanded="false">${cp(`顯示全部 ${shown.length} 則評價`, `Show all ${shown.length} reviews`)}</button>` : ''}
+      </div>` : ''}
+    </div>`;
+
+  const more = host.querySelector('[data-rv-more]');
+  more?.addEventListener('click', () => {
+    const list = host.querySelector('.rv-list');
+    const open = list.classList.toggle('is-capped') === false;
+    more.setAttribute('aria-expanded', String(open));
+    more.textContent = open ? cp('收起評價', 'Show fewer') : cp(`顯示全部 ${shown.length} 則評價`, `Show all ${shown.length} reviews`);
+    if (!open) host.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  });
 }
