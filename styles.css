@@ -3392,6 +3392,8 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .cart-empty > p { margin: 0 0 16px; color: var(--bag-muted); font-size: 14px; line-height: 1.8; }
 .cart-empty > p:last-child { margin-bottom: 0; }
 .cart-empty .shima--empty { width: 120px; height: 146px; margin-bottom: 12px; }
+.cart-empty .btn { min-height: 50px; padding: 0 28px; border-radius: 999px; background: var(--bag-brand); box-shadow: none; font: 700 17px var(--font-body); letter-spacing: .04em; text-transform: none; }
+.cart-empty .btn::before { display: none; }
 
 /* 1 · 湊單目標卡：成頁第一個顏色 */
 .bag-goal { position: relative; overflow: hidden; margin-top: 2px; padding: 14px 16px 12px; border-radius: 12px; background: var(--bag-tint); }
@@ -3423,7 +3425,6 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-line__image { display: block; width: 84px; height: 84px; overflow: hidden; border-radius: 8px; background: #fff; }
 .bag-line__image img { width: 100%; height: 100%; object-fit: contain; }
 .bag-line__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.bag-line__brand { margin: 0; padding-right: 30px; overflow: hidden; color: var(--bag-muted); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; text-overflow: ellipsis; }
 .bag-line__title { margin: 0; padding-right: 30px; font-family: var(--font-body); font-size: 14.5px; font-weight: 400; line-height: 1.38; }
 .bag-line__title a { display: -webkit-box; overflow: hidden; color: var(--bag-ink); text-decoration: none; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .bag-line__variant { margin: 0; color: var(--bag-muted); font-size: 13px; line-height: 1.4; }
@@ -3450,8 +3451,9 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-band__title { margin: 0; color: var(--bag-teal); font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.3; }
 .bag-band__more { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; padding: 4px 0; border: 0; background: none; color: var(--bag-muted); font: 500 13px var(--font-body); text-decoration: none; cursor: pointer; }
 .bag-band__more svg { width: 16px; height: 16px; }
-.bag-band__sub { flex: 1 1 100%; margin: 0; color: var(--bag-muted); font-size: 13px; line-height: 1.5; text-wrap: pretty; }
+.bag-band__sub { flex: 1 1 100%; margin: 0; color: var(--bag-muted); font-size: 13px; line-height: 1.5; text-wrap: balance; }
 .bag-band__gap { color: var(--bag-teal); font-weight: 700; }
+.bag-band__goal { white-space: nowrap; }
 .bag-band__row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((min(100vw, 560px) - 40px) / 3.5); gap: 8px; margin-top: 12px; padding: 0 16px 2px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-padding-inline: 16px; scrollbar-width: none; }
 .bag-band__row::-webkit-scrollbar { display: none; }
 /* 「睇多啲」：唔跳去 shop 頁，喺度攤開做格仔 */
@@ -3488,8 +3490,7 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-gift__image { grid-row: span 2; display: block; width: 64px; height: 64px; overflow: hidden; border-radius: 10px; background: var(--bag-tint); }
 .bag-gift__image img { width: 100%; height: 100%; object-fit: cover; }
 .bag-gift__copy { min-width: 0; }
-.bag-gift__eyebrow { margin: 0; color: var(--bag-teal); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
-.bag-gift__title { margin: 1px 0 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 15px; font-weight: 700; line-height: 1.35; }
+.bag-gift__title { margin: 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 15px; font-weight: 700; line-height: 1.35; }
 .bag-gift__threshold, .bag-gift__amount { color: var(--bag-teal); }
 .bag-gift__name { margin: 2px 0 0; color: var(--bag-muted); font-size: 12px; line-height: 1.4; }
 .bag-gift__status { margin: 4px 0 0; font-size: 12.5px; line-height: 1.4; }
@@ -3558,8 +3559,6 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .sfp__logo img { display: block; width: 22px; height: 30px; object-fit: contain; }
 .sfp__logo svg { width: 24px; height: 24px; stroke-width: 1.6; }
 .sfp__text { min-width: 0; }
-.sfp__service { margin: 0 0 1px; color: var(--bag-muted); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; }
-.sfp__service:empty, .sfp--chosen .sfp__service { display: none; }
 .sfp__heading { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 15px; font-weight: 700; line-height: 1.35; }
 .sfp__chip { padding: 2px 8px; border-radius: 999px; background: var(--bag-chip); color: var(--bag-chip-ink); font-size: 11.5px; font-weight: 700; line-height: 1.5; white-space: nowrap; }
 .sfp__detail { margin: 3px 0 0; color: var(--bag-muted); font-size: 13px; line-height: 1.45; }
@@ -3581,6 +3580,18 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .sfp__item em { color: var(--bag-muted); font-size: 12px; font-style: normal; }
 .sfp__item.is-on { border-color: var(--bag-teal); background: var(--bag-tint); }
 .sfp__more { padding: 6px 2px; color: var(--bag-muted); font-size: 12px; }
+/* 揀好點（未撳更改）：成張卡淨係得已揀網點＋兩格事實，四格同細字收起（參考圖）；撳「更改」先再攤開。 */
+.bag-choose:has(.sfp--chosen:not(.is-editing)) :is(.bag-ship-tiles, .bag-ship-detail) { display: none; }
+.bag-choose:has(.sfp--chosen:not(.is-editing)) .sfp { margin-top: 0; padding-top: 2px; border-top: 0; }
+.sfp.is-editing .sfp__facts { display: none; }
+.sfp__facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--bag-line); list-style: none; }
+.sfp__facts li { display: flex; align-items: flex-start; gap: 7px; min-width: 0; padding: 0 8px; }
+.sfp__facts li:first-child { padding-left: 0; }
+.sfp__facts li + li { border-left: 1px solid var(--bag-line); }
+.sfp__facts svg { flex: 0 0 22px; width: 22px; height: 22px; margin-top: 1px; color: var(--bag-teal); stroke-width: 1.6; }
+.sfp__facts span { display: grid; gap: 2px; min-width: 0; }
+.sfp__facts strong { color: var(--bag-ink); font-size: 13px; font-weight: 700; line-height: 1.35; }
+.sfp__facts small { color: var(--bag-muted); font-size: 11.5px; line-height: 1.4; }
 
 /* 6 · 訂單摘要：白卡；合計要一眼見到（Winston 2026-10-17）：實色青藍（白字 5.34:1），已慳用白膠囊 */
 .bag-side { margin-top: 22px; }
@@ -3599,6 +3610,7 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-summary__rows dt { min-width: 0; }
 .bag-summary__rows dd { flex: 0 0 auto; margin: 0; color: var(--bag-ink); }
 .bag-summary__rows .is-saving dd { color: var(--bag-teal); font-weight: 600; }
+.bag-summary__rows s { margin-right: 6px; color: var(--bag-muted); font-weight: 400; }
 .bag-summary__total { display: flex; align-items: center; gap: 8px; margin: 0 -16px; padding: 16px; background: var(--bag-teal); color: #fff; }
 .bag-summary__total > span { font-size: 16px; font-weight: 700; }
 .bag-summary__total em { padding: 3px 9px; border-radius: 999px; background: #fff; color: var(--bag-teal); font-size: 12px; font-style: normal; font-weight: 700; white-space: nowrap; }
@@ -3618,7 +3630,11 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
    左：合計（青藍）＋已攞到嘅優惠；右：唯一實色掣。 */
 .bag-bar { display: none; }
 @media (max-width: 768px) {
-  .bag-bar { position: fixed; z-index: 1500; right: max(12px, env(safe-area-inset-right, 0px)); bottom: calc(56px + var(--tabbar-gap, 16px) + 8px); left: max(12px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; padding: 9px 9px 9px 16px; border-radius: 18px; background: #fff; box-shadow: 0 10px 28px rgb(28 60 74 / .16), 0 1px 3px rgb(28 60 74 / .08); }
+  .bag-bar { position: fixed; z-index: 1500; right: max(12px, env(safe-area-inset-right, 0px)); bottom: calc(56px + var(--tabbar-gap, 16px) + 8px); left: max(12px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; padding: 9px 9px 9px 16px; }
+  /* 合計條同底部導航之間嘅空隙鋪返底色，唔好見到內容喺隙入面穿過（漸變只喺最頂 12px）；
+     白卡畫喺 ::after —— 負 z-index 嘅層會蓋過條條自己個背景，所以卡唔可以用 .bag-bar 本身嘅 background。 */
+  .bag-bar::before { content: ""; position: absolute; z-index: -2; top: -12px; right: calc(-1 * max(12px, env(safe-area-inset-right, 0px))); bottom: calc(-1 * (56px + var(--tabbar-gap, 16px) + 8px)); left: calc(-1 * max(12px, env(safe-area-inset-left, 0px))); background: linear-gradient(rgb(247 250 252 / 0), var(--bag-ground) 12px); pointer-events: none; }
+  .bag-bar::after { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: 18px; background: #fff; box-shadow: 0 10px 28px rgb(28 60 74 / .16), 0 1px 3px rgb(28 60 74 / .08); pointer-events: none; }
   .bag-bar__total { display: grid; flex: 0 1 auto; gap: 1px; min-width: 0; max-width: 46%; padding: 0 14px 0 0; border: 0; border-right: 1px solid var(--bag-line); background: none; color: var(--bag-ink); text-align: left; cursor: pointer; }
   .bag-bar__total small { color: var(--bag-muted); font-size: 12px; }
   .bag-bar__total strong { color: var(--bag-teal); font-size: 22px; font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }

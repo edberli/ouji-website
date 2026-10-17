@@ -383,7 +383,6 @@
                 <img src="assets/images/cart/gift-cream-192.webp" alt="Round Lab 白樺樹保濕面霜 80ml 產品照片" width="192" height="192" loading="lazy" decoding="async">
               </a>
               <div class="bag-gift__copy">
-                <p class="bag-gift__eyebrow">滿額贈禮</p>
                 <h3 class="bag-gift__title" data-gift-title>滿 <span class="bag-gift__threshold">HK$599</span> 呢樽免費送</h3>
                 <p class="bag-gift__name">ROUND LAB 白樺樹保濕面霜 · 80ml</p>
                 <p class="bag-gift__status" data-gift-status></p>
@@ -417,13 +416,14 @@
                 <div class="sfp__card">
                   <span class="sfp__logo" data-sfp-logo aria-hidden="true"></span>
                   <div class="sfp__text">
-                    <p class="sfp__service" data-sfp-sublabel></p>
                     <h3 class="sfp__heading"><span data-sfp-heading>想喺邊度攞貨？</span><span class="sfp__chip" data-sfp-chip hidden>推薦自取</span></h3>
                     <p class="sfp__detail" data-sfp-detail>揀一個方便你嘅取件點。</p>
                     <p class="sfp__hours" data-sfp-hours hidden></p>
                   </div>
-                  <button type="button" class="sfp__change" data-sfp-change hidden aria-label="更改取件點">更改<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+                  <button type="button" class="sfp__change" data-sfp-change hidden aria-label="更改取件點或配送方式">更改<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
                 </div>
+                <!-- 揀好點之後：四格收起（撳「更改」先再出），呢度講埋運費同幾耐到（參考圖）。 -->
+                <ul class="sfp__facts" data-sfp-facts hidden></ul>
                 <div class="sfp__pickers">
                   <select class="sfp__start" data-sfp-start aria-label="選擇取件點大區" disabled><option value="">載入大區中…</option></select>
                   <button type="button" class="sfp__retry" data-sfp-retry hidden>重試載入取件點</button>
@@ -771,7 +771,7 @@
     setText('[data-sd-sub]', 'Near-expiry store stock at 50% or 30% off · expiry shown · no returns');
     setTail('[data-sd-all]', 'See all');
     setTail('[data-sfp-change]', 'Change');
-    setLabel('[data-sfp-change]', 'Change pickup point');
+    setLabel('[data-sfp-change]', 'Change pickup point or delivery');
     setLabel('.bag-head__back', 'Continue shopping');
     setLabel('[data-bag-goal]', 'Reward progress');
     setLabel('.bag-goods', 'Items in your bag');
@@ -970,6 +970,8 @@
       // Show empty cart state
       cartEmpty.style.display = '';
       cartLayout.style.display = 'none';
+      /* 空袋卡自己有「探索產品」，下面嗰條「繼續選購」唔使再吊住。 */
+      document.querySelector('.bag-continue')?.setAttribute('hidden', '');
       return;
     }
 
@@ -1075,7 +1077,6 @@
         <article class="bag-line${isAutoGift ? ' is-gift' : ''}" data-line-id="${line.id}" data-line-handle="${merch.product.handle}">
           <a class="bag-line__image" href="${href}" tabindex="-1" aria-hidden="true">${img ? `<img src="${img.url}${img.url.includes('?') ? '&' : '?'}width=240" alt="" width="168" height="168" decoding="async">` : ''}</a>
           <div class="bag-line__body">
-            <p class="bag-line__brand">${isAutoGift ? window.OUJI_cartCopy('滿額贈品 · ', 'Spend & get gift · ') : ''}${merch.product.vendor || ''}</p>
             <h3 class="bag-line__title" data-no-i18n><a href="${href}">${title}</a></h3>
             ${options || unitNote ? `<p class="bag-line__variant">${options ? `<span>${options}</span>` : ''}${unitNote}</p>` : ''}
             ${isAutoGift ? '' : stockCapNote(line, cap)}
@@ -1474,7 +1475,12 @@
     const saved = discount + waived;
     const giftIn = (inCart || []).includes(window.OUJI_COMMERCE?.promotion?.gift?.handle);
     const set = (sel, text) => document.querySelectorAll(sel).forEach((el) => { el.textContent = text; });
-    set('[data-shipping]', shipping === 0 ? cc('免費', 'Free') : bagMoney(shipping));
+    /* 免咗運費就劃走原價、青藍字寫「免運費」（參考圖）；門市自取本身冇運費，寫「免費」。 */
+    document.querySelectorAll('[data-shipping]').forEach((el) => {
+      el.innerHTML = shipping > 0 ? bagMoney(shipping)
+        : method.fee > 0 ? `<s>${bagMoney(method.fee)}</s>${cc('免運費', 'Free')}` : cc('免費', 'Free');
+      el.closest('div')?.classList.toggle('is-saving', shipping === 0);
+    });
     set('[data-total]', bagMoney(total));
     set('[data-bag-bar-amount]', bagMoney(total));
     set('[data-shipping-method]', cc(`・${bagShipName(mode)}`, ` · ${bagShipName(mode)}`));
@@ -1485,6 +1491,14 @@
     }
     const giftRow = document.querySelector('[data-gift-row]');
     if (giftRow) giftRow.hidden = !giftIn;
+    /* 折扣啱啱好係常設「滿 $399 減 $20」就直接寫明；有其他折扣（會員獎賞、活動）就照寫「折扣」。 */
+    const discLabel = document.querySelector('[data-discount-label]');
+    if (discLabel) {
+      const promoOn = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive();
+      const isSave = !promoOn && Math.abs(discount - BAG_SAVE.amount) < 0.01 && gross + 0.001 >= BAG_SAVE.threshold;
+      discLabel.textContent = isSave
+        ? cc(`滿 HK$${BAG_SAVE.threshold} 即減`, `HK$${BAG_SAVE.amount} off over HK$${BAG_SAVE.threshold}`) : cc('折扣', 'Discount');
+    }
     const perks = [];
     if (discount >= 0.01) perks.push(cc(`已享即減 ${bagMoney(discount)}`, `${bagMoney(discount)} off`));
     if (waived) perks.push(cc('免運費', 'free shipping'));
@@ -1498,6 +1512,7 @@
     }
     const barTotal = document.querySelector('[data-bag-bar-total]');
     if (barTotal) barTotal.setAttribute('aria-label', cc(`查看訂單摘要，合計 ${bagMoney(total)}`, `View order summary, total ${bagMoney(total)}`));
+    window.OUJI_paintPickFacts?.();
     paintBagCTA();
   }
 
@@ -2197,7 +2212,8 @@
          唔可以講「啱啱夠」，呃完客下次唔信。 */
       /* 「差幾多錢」要一眼睇到：個金額用 .bag-band__gap 粗身青藍字，
          唔係同其他字一樣灰濛濛（2026-09-17 老闆要求）。 */
-      const goalZh = next ? next.label : '';
+      /* 目標名唔准喺中間斷行（試過「白／樺樹面霜」）。 */
+      const goalZh = next ? `<span class="bag-band__goal">${next.label}</span>` : '';
       const goalEn = next ? `${next.up ? 'to upgrade to ' : 'for '}${next.en}` : '';
       const gapHtml = `<b class="bag-band__gap">${money(gap)}</b>`;
       sub.innerHTML = window.OUJI_cartCopy(
@@ -2295,9 +2311,9 @@
       sec.classList.toggle('is-expanded', expanded);
       if (more) {
         more.hidden = scored.length <= 8;
-        more.textContent = expanded
-          ? window.OUJI_cartCopy('收埋', 'Show fewer')
-          : window.OUJI_cartCopy('睇多啲', 'See more');
+        more.innerHTML = expanded
+          ? `${window.OUJI_cartCopy('收埋', 'Show fewer')}${bagSvg('<path d="M18 15l-6-6-6 6"/>')}`
+          : `${window.OUJI_cartCopy('睇多啲', 'See more')}${bagSvg('<path d="M9 18l6-6-6-6"/>')}`;
         more.setAttribute('aria-expanded', String(expanded));
       }
       sec.hidden = false;
@@ -2345,7 +2361,6 @@
     const qEl = root.querySelector('[data-sfp-q]');
     const listEl = root.querySelector('[data-sfp-list]');
     const countEl = root.querySelector('[data-sfp-count]');
-    const labelEl = root.querySelector('[data-sfp-sublabel]');
     const hintEl = root.querySelector('[data-sfp-hint]');
     const startEl = root.querySelector('[data-sfp-start]');
     const KEY = 'ouji:sfPoint';
@@ -2367,7 +2382,6 @@
       root.classList.remove('is-editing');
       root.classList.toggle('sfp--info', !o.src);
       if (!o.src) {
-        labelEl.textContent = mode === 'shop' ? window.OUJI_cartCopy('門市取貨', 'Store pickup') : window.OUJI_cartCopy('送到你手上', 'Delivered to you');
         root.querySelector('[data-sfp-heading]').textContent = o.label || o.name;
         root.querySelector('[data-sfp-detail]').textContent = mode === 'shop'
           ? '觀塘觀塘道 472–480 號，觀塘工業中心一期地下 B 舖。每日 10:00–20:00。收到可取貨通知後，帶同訂單資料到店領取。'
@@ -2384,7 +2398,6 @@
         return;
       }
       paintChosen();
-      if (labelEl) labelEl.textContent = window.OUJI_cartShipDisplay(mode, o.label || o.name);
       if (hintEl) hintEl.textContent = o.hint || '要喺呢度揀定去邊個點攞貨';
       if (src !== o.src) {          // 換咗名單 → 之前揀嗰個已經唔啱用
         /* 例外：一開頁第一次行到呢度（src 仲係 null），而 localStorage 嗰個點
@@ -2438,6 +2451,30 @@
       if (kind === '7-Eleven') return `7-Eleven ${code.replace(/^7-11\s*/, '')}`;
       return kind && code.includes(kind) ? code : [kind, code].filter(Boolean).join(' · ');
     }
+    /* 揀好點之後兩格事實：運費（已享免運／差幾多）、送到邊同幾耐到（由 OUJI_SHIP.sub 攞工作天）。
+       一開頁未有貨價（OUJI_netGoods）就唔畫，等 paintBagTotals() 計完再叫。 */
+    function paintPickFacts() {
+      const box = root.querySelector('[data-sfp-facts]');
+      if (!box) return;
+      const mode = window.OUJI_getShipMode?.();
+      const o = (window.OUJI_SHIP || {})[mode];
+      if (!chosen || !o?.src || window.OUJI_netGoods == null) { box.hidden = true; return; }
+      const cc = window.OUJI_cartCopy;
+      const net = Number(window.OUJI_netGoods) || 0;
+      const free = net >= o.free;
+      const gap = Math.max(0, Math.ceil(o.free - net - 0.001));
+      const days = (String(o.sub || '').match(/\d[\d–-]*\s*個工作天/) || [''])[0];
+      const daysEn = days ? days.replace(/\s*個工作天/, ' working days') : '';
+      const place = { '7-Eleven': '7-11', 郵政局: '郵局', 自助櫃: '智能櫃' }[chosen.kind] || chosen.kind;
+      const placeEn = { '7-Eleven': '7-Eleven', 郵政局: 'the post office', 智郵站: 'the iPostal station', 順豐站: 'the SF Station', 自助櫃: 'the SF locker' }[chosen.kind] || chosen.kind;
+      const gift = '<path d="M3 8.5h18v4H3zM4.5 12.5h15V21h-15zM12 8.5V21M12 8.5c-1.6-3.6-6.3-4.4-6.3-1.6 0 1.5 2.6 1.6 6.3 1.6zm0 0c1.6-3.6 6.3-4.4 6.3-1.6 0 1.5-2.6 1.6-6.3 1.6z"/>';
+      const clock = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
+      box.innerHTML = `<li>${bagSvg(gift)}<span><strong>${free ? cc('已享免運費', 'Free shipping') : cc(`差 HK$${gap} 免運`, `HK$${gap} to free shipping`)}</strong><small>${free
+          ? cc(`已滿 HK$${o.free}`, `Over HK$${o.free}`) : cc(`運費 HK$${o.fee}・滿 HK$${o.free} 免運`, `HK$${o.fee} · free over HK$${o.free}`)}</small></span></li>`
+        + (days ? `<li>${bagSvg(clock)}<span><strong>${cc(`送到 ${place}`, `To ${placeEn}`)}</strong><small>${cc(days, daysEn)}</small></span></li>` : '');
+      box.hidden = false;
+    }
+    window.OUJI_paintPickFacts = paintPickFacts;
     function paintChosen() {
       const cc = window.OUJI_cartCopy;
       root.classList.toggle('sfp--chosen', !!chosen);
@@ -2455,6 +2492,7 @@
       hours.textContent = chosen?.hours || '';
       hours.hidden = !chosen?.hours;
       root.querySelector('[data-sfp-change]').hidden = !chosen;
+      paintPickFacts();
       root.querySelector('[data-sfp-status]').textContent = chosen
         ? cc('✓ 已選取件點', '✓ Pickup point selected') : cc('選好取件點，就可以繼續結賬', 'Choose a pickup point to continue to checkout');
       window.OUJI_paintBagCTA?.();
