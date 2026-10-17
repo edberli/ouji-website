@@ -2,12 +2,13 @@
    Each mark is optically sized, preserving its own proportions and details.
    Sources, colour interpretation and asset limitations: docs/makeup-brand-headers.md.
    Navigation artwork, product cards and other categories are independent. */
-/* Curated 2026-10-17: HK Google Trends beauty searches inform Korean-brand
+/* Curated 2026-10-17: checked brand aliases inform the HK search reference;
+   sparse data does not establish exact ranks. rom&nd leads this curated
    order; owner overrides put WAKEMAKE lower and nail brands last.
    This is a frozen merchandising order, not a live popularity leaderboard.
    Sources and sparse-data limits: docs/makeup-brand-order.md. */
 window.OUJI_MAKEUP_BRAND_ORDER = Object.freeze([
-  'Peripera', 'OBgE', 'rom&nd', 'CLIO', 'fwee', 'dasique', '2aN',
+  'rom&nd', 'Peripera', 'OBgE', 'CLIO', 'fwee', 'dasique', '2aN',
   'lilybyred', 'hince', 'Laka', 'TIRTIR', 'Heart Percent',
   'AMUSE', 'Glint', 'UNLEASHIA', "SO'NATURAL", 'KSECRET', 'Coralhaze', 'BRAYE', 'CORINGCO',
   'WAKEMAKE',
