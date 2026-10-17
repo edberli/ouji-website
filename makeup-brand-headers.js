@@ -3,17 +3,17 @@
    Sources, colour interpretation and asset limitations: docs/makeup-brand-headers.md.
    Navigation artwork, product cards and other categories are independent. */
 /* Curated 2026-10-17: HK Google Trends beauty searches inform Korean-brand
-   order; owner overrides put WAKEMAKE lower and MAYBELLINE last.
+   order; owner overrides put WAKEMAKE lower and nail brands last.
    This is a frozen merchandising order, not a live popularity leaderboard.
    Sources and sparse-data limits: docs/makeup-brand-order.md. */
 window.OUJI_MAKEUP_BRAND_ORDER = Object.freeze([
   'Peripera', 'OBgE', 'rom&nd', 'CLIO', 'fwee', 'dasique', '2aN',
-  'lilybyred', 'ohora', 'hince', 'Laka', 'TIRTIR', 'Heart Percent',
+  'lilybyred', 'hince', 'Laka', 'TIRTIR', 'Heart Percent',
   'AMUSE', 'Glint', 'UNLEASHIA', "SO'NATURAL", 'KSECRET', 'Coralhaze', 'BRAYE', 'CORINGCO',
   'WAKEMAKE',
   'Flower Knows', 'CEZANNE', 'Kiss Me', 'SANA', 'Love Liner', 'K-Palette', 'BCL', "AN' BLESS", 'miru miru',
   'fillimilli', 'STUDIO 17', 'ROSY ROSA', 'MAPEPE',
-  'Beauty World', 'Felicera', '其他', 'MAYBELLINE',
+  'Beauty World', 'Felicera', '其他', 'MAYBELLINE', 'ohora',
 ]);
 
 window.OUJI_MAKEUP_BRAND_HEADERS = {

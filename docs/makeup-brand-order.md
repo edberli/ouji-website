@@ -8,7 +8,11 @@ existing rules. Other category pages retain their existing brand rules.
 ## Owner requirements
 
 - Korean cosmetic brands first, informed by popularity.
-- Japanese brands and beauty-tool brands later; Maybelline last.
+- Japanese brands and beauty-tool brands later; Maybelline last among
+  non-nail brands.
+- Latest owner override: nail products go below all other makeup/tool brands.
+  The current nail-brand range is ohora, so its section and rail item are last,
+  after Maybelline. This supersedes the earlier Maybelline-last-overall rule.
 - rom&nd belongs near the front, rather than being demoted by catalogue depth.
 - WAKEMAKE is deliberately lower for the owner's commercial reason. No margin
   figures were queried, inferred or changed for this display update.
@@ -56,10 +60,11 @@ site in `../evidence/brand-order-20261017/google-trends-*.json`.
 
 | Group | Order |
 |---|---|
-| Korean cosmetics and nails | Peripera, OBgE, rom&nd, CLIO, fwee, dasique, 2aN, lilybyred, ohora, hince, Laka, TIRTIR, Heart Percent, AMUSE, Glint, UNLEASHIA, SO'NATURAL, KSECRET, Coralhaze, BRAYE, CORINGCO, WAKEMAKE |
+| Korean cosmetics | Peripera, OBgE, rom&nd, CLIO, fwee, dasique, 2aN, lilybyred, hince, Laka, TIRTIR, Heart Percent, AMUSE, Glint, UNLEASHIA, SO'NATURAL, KSECRET, Coralhaze, BRAYE, CORINGCO, WAKEMAKE |
 | Other cosmetic brands | Flower Knows, CEZANNE, Kiss Me, SANA, Love Liner, K-Palette, BCL, AN' BLESS, miru miru |
 | Tools and accessories | fillimilli, STUDIO 17, ROSY ROSA, MAPEPE, Beauty World, Felicera |
 | Tail | 其他, MAYBELLINE |
+| Nails — final section | ohora |
 
 Group classification is merchandising, not manufacturing origin. Official
 company/brand sources were checked for ambiguous labels. Flower Knows is
