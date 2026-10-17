@@ -386,7 +386,7 @@
           <aside class="pdp-facts" data-pdp-guide hidden aria-label="產品重點">
             <p class="pdp-facts__kicker">重點</p>
             <p class="pdp-facts__hook" data-pdp-guide-hook hidden></p>
-            <dl class="pdp-facts__rows" data-pdp-guide-body></dl>
+            <div class="pdp-facts__rows" data-pdp-guide-body></div>
             <p class="pdp-facts__note">資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。</p>
           </aside>
           <div class="pdp-info__story">
@@ -571,7 +571,13 @@
       // Strip count is the reliable signal: scrollHeight reads 0 while the
       // description sits in a tab that has not been shown yet.
       const strips = block.querySelectorAll('img').length;
-      if (strips < 4 && block.scrollHeight < 1400) return;
+      if (strips < 4 && block.scrollHeight < 1400) {
+        if (!block.dataset.watchGrow && window.ResizeObserver) {
+          block.dataset.watchGrow = '1';
+          new ResizeObserver(() => { if (!block.dataset.collapsible && block.scrollHeight >= 1400) settle(); }).observe(block);
+        }
+        return;
+      }
       block.dataset.collapsible = '1';
       block.classList.add('is-collapsed');
 
@@ -1118,7 +1124,29 @@
       } else if (fullDesc && product.description) {
         fullDesc.innerHTML = `<p>${product.description}</p>`;
       }
-      const strips = fullDesc?.querySelector('.product-detail-images');
+      // 規格行同「用法」搬入重點卡，喺描述度刪走（同一樣資料唔出兩次）
+      const facts = typeof takeFacts === 'function' ? takeFacts(fullDesc, product) : null;
+      // 產品圖一律放埋一齊：有啲貨（例如 CLIO 水晶亮澤唇釉）啲長圖夾喺描述文字入面，
+      // 冇收埋就成版拉到好長；同其他貨一樣搬去「產品圖」，太長就收起。
+      let strips = fullDesc?.querySelector('.product-detail-images');
+      const loose = [...(fullDesc?.querySelectorAll('img') || [])].filter((img) => !img.closest('.product-detail-images')
+        && !(Number(img.getAttribute('width')) > 0 && Number(img.getAttribute('width')) < 160));
+      if (loose.length) {
+        if (!strips) {
+          strips = document.createElement('div');
+          strips.className = 'product-detail-images';
+        }
+        loose.forEach((img) => strips.append(img));
+        fullDesc.querySelectorAll('p, div, span').forEach((el) => {
+          if (!el.textContent.trim() && !el.querySelector('img, video, iframe')) el.remove();
+        });
+        // 搬走圖之後剩低喺段尾嘅 <br>
+        [...fullDesc.querySelectorAll('br')].reverse().forEach((br) => {
+          let n = br.nextSibling;
+          while (n && n.nodeType === 3 && !n.textContent.trim()) n = n.nextSibling;
+          if (!n) br.remove();
+        });
+      }
       if (strips && media) {
         media.append(strips);
         media.hidden = false;
@@ -1127,8 +1155,8 @@
       }
       collapseDetailStrips();
 
-      // 重點卡（product-guide.js）：自己載資料，唔阻住個頁出
-      if (typeof renderGuide === 'function') renderGuide(product, descHtml);
+      // 重點卡（product-guide.js）：第一下即刻出，護膚標籤同成分載完再補
+      if (typeof renderGuide === 'function') renderGuide(product, facts);
 
       // Product videos live in Shopify media, not in the images connection.
       const videoSection = document.querySelector('[data-product-videos]');
@@ -1505,6 +1533,7 @@
 
       // 評價自己 fetch 一個細 JSON，唔好阻住個頁出。
       initReviews(handle, product).then(() => {
+        if (typeof renderReviewAI === 'function') renderReviewAI(product); // AI 評價重點擺喺評價總結下面
         pdpStick(document.querySelector('.rv-aside'), document.querySelector('.rv-layout'));
       });
       pdpStick(document.querySelector('.pdp-facts'), document.querySelector('.pdp-info__body'));

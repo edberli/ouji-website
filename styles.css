@@ -2854,20 +2854,17 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .pdp-facts { padding: 2px 16px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
 .pdp-facts__kicker { margin: 12px 0 0; color: var(--bag-teal); font: 700 12px/1.4 var(--font-body); letter-spacing: .08em; }
 .pdp-facts__hook { margin: 4px 0 0; color: var(--bag-ink); font-size: 15px; font-weight: 700; line-height: 1.55; text-wrap: pretty; }
+/* 一律細字標籤喺上、內容喺下（中英文一樣）；短資料排做小格，長資料一行一樣，幼線分隔 */
 .pdp-facts__rows { margin: 8px 0 0; }
-.pdp-facts__row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 11px 0; border-top: 1px solid var(--bag-line); }
-/* 英文標籤長（Key ingredients、How to use），改做標籤喺上、內容喺下，內容先有全闊（護膚步驟同 AI 重點唔會擠爆） */
-html[lang="en"] .pdp-facts__row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-.pdp-facts__row dt { padding-top: 1px; color: var(--bag-muted); font-size: 12.5px; font-weight: 600; line-height: 1.55; }
-.pdp-facts__row dd { min-width: 0; margin: 0; color: var(--bag-ink); font-size: 14px; line-height: 1.6; }
-.pdp-facts__sep { margin: 0 6px; color: var(--bag-muted); font-style: normal; }
+.pdp-facts__rows > * { padding: 12px 0; border-top: 1px solid var(--bag-line); }
+.pdp-facts__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 12px 14px; }
+.pdp-facts__grid--feel, .pdp-facts__grid--spec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pdp-facts__cell, .pdp-facts__row { display: grid; gap: 4px; margin: 0; min-width: 0; }
+.pdp-facts__cell dt, .pdp-facts__row dt { color: var(--bag-muted); font-size: 12px; font-weight: 600; line-height: 1.45; }
+.pdp-facts__cell dd, .pdp-facts__row dd { min-width: 0; margin: 0; color: var(--bag-ink); font-size: 14px; line-height: 1.6; }
+.pdp-facts__cell dd { font-weight: 600; }
 .pdp-facts__inline { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
 .pdp-facts__text { margin: 0; color: var(--bag-ink); font-size: 14px; line-height: 1.7; }
-.pdp-facts__score { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; color: var(--bag-ink); text-decoration: none; }
-.pdp-facts__score b { color: var(--bag-ink); font-size: 15px; font-variant-numeric: tabular-nums; }
-.pdp-facts__score span { color: var(--bag-teal); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgb(54 114 138 / .35); }
-.pdp-facts__score[data-static] { pointer-events: none; }
-.pdp-facts__score[data-static] span { color: var(--bag-muted); text-decoration: none; }
 .pdp-facts__note { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--bag-line); color: var(--bag-muted); font-size: 11.5px; line-height: 1.6; }
 .pdp-facts .ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .pdp-guide__label { margin: 0 0 8px; color: var(--bag-muted); font: 700 12px/1.4 var(--font-body); letter-spacing: .04em; }
@@ -2896,8 +2893,8 @@ html[lang="en"] .pdp-facts__row { grid-template-columns: minmax(0, 1fr); gap: 6p
 .pdp-guide__tips { display: grid; gap: 6px; margin: 0; padding: 0; color: var(--bag-ink); font-size: 13.5px; line-height: 1.65; list-style: none; }
 .pdp-guide__tips li { position: relative; padding-left: 14px; }
 .pdp-guide__tips li::before { content: ""; position: absolute; top: .72em; left: 2px; width: 5px; height: 5px; border-radius: 50%; background: var(--bag-teal); }
-/* 顧客點睇：分數一行；有 AI 評價重點就用淺青底框住（成張卡最搶眼嗰樣）；評分項目用淺灰軌 */
-.pdp-guide__voice { margin-top: 10px; padding: 12px 14px; border-radius: 10px; background: var(--bag-tint); }
+/* AI 幫你睇評價（renderReviewAI）：擺喺評價區總結下面，淺青底 */
+.pdp-guide__voice { margin-top: 12px; padding: 14px 16px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
 .pdp-guide__voice .pdp-guide__label { margin-bottom: 8px; }
 .pdp-guide__label--ai { display: flex; align-items: center; gap: 5px; color: var(--bag-teal-ink); }
 .pdp-guide__label--ai svg { flex: none; width: 16px; height: 16px; fill: none; stroke: var(--bag-teal); stroke-width: 1.7; stroke-linejoin: round; }
@@ -2910,16 +2907,6 @@ html[lang="en"] .pdp-facts__row { grid-template-columns: minmax(0, 1fr); gap: 6p
 .pdp-guide__pros small, .pdp-guide__cons small { color: var(--bag-muted); font-size: 11.5px; font-weight: 400; white-space: nowrap; }
 .pdp-guide__fitline { margin: 10px 0 0; color: var(--bag-ink); font-size: 13.5px; line-height: 1.6; }
 .pdp-guide__fitline b { color: var(--bag-teal-ink); }
-.pdp-guide__bars { display: grid; gap: 6px; margin: 10px 0 0; }
-.pdp-guide__bars div { display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: center; gap: 8px; }
-.pdp-guide__bars dt { overflow: hidden; color: var(--bag-muted); font-size: 12.5px; white-space: nowrap; text-overflow: ellipsis; }
-/* 英文評分名長（Pigmentation、Soothes sensitive skin），欄闊啲、准斷行，唔好截字 */
-html[lang="en"] .pdp-guide__bars div { grid-template-columns: 108px minmax(0, 1fr); }
-html[lang="en"] .pdp-guide__bars dt { white-space: normal; line-height: 1.3; }
-.pdp-guide__bars dd { display: grid; grid-template-columns: minmax(0, 1fr) 28px; align-items: center; gap: 8px; margin: 0; }
-.pdp-guide__bar { height: 6px; overflow: hidden; border-radius: 999px; background: var(--bag-track); }
-.pdp-guide__bar i { display: block; height: 100%; border-radius: inherit; background: var(--bag-teal); }
-.pdp-guide__bars b { color: var(--bag-teal); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
 .pdp-guide__basis { margin: 10px 0 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.5; }
 
 /* 評價：標題同出處一行；總結淺青卡（大分數＋星級分佈＋屬性）；評語白卡，先出 4 則 */
@@ -3108,11 +3095,10 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-info__story { grid-row: 1; grid-column: 1; gap: 16px; }
   .pdp-facts { grid-row: 1; grid-column: 2; padding: 4px 22px 18px; will-change: transform; }
   .pdp-facts__hook { font-size: 16px; }
-  .pdp-facts__row { grid-template-columns: 72px minmax(0, 1fr); gap: 14px; padding: 12px 0; }
-  html[lang="en"] .pdp-facts__row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-  .rv-layout { display: grid; grid-template-columns: 340px minmax(0, 1fr); align-items: start; gap: 28px; }
-  .rv-aside { will-change: transform; }
-  .rv-main { margin-top: 0; }
+  /* 評價同上面兩段一樣欄位：評語喺左（1fr）、分數總結＋AI 重點喺右（440，跟住捲）——成版由頂到底同一條線 */
+  .rv-layout { display: grid; grid-template-columns: minmax(0, 1fr) 440px; align-items: start; column-gap: 56px; }
+  .rv-aside { grid-row: 1; grid-column: 2; will-change: transform; }
+  .rv-main { grid-row: 1; grid-column: 1; margin-top: 0; }
   .rv-list { display: block; columns: 2; column-gap: 14px; }
   .rv-list .rv-card { margin-bottom: 14px; break-inside: avoid; }
   .rv-more { width: auto; min-width: 240px; margin: 4px auto 0; padding: 0 24px; }
