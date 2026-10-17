@@ -27,6 +27,10 @@ const OUJI_COMMERCE = Object.freeze({
       lineAttribute: '_ouji_auto_gift',
     }),
   }),
+  /* 常設「滿 $399 減 $20（購物禮遇）」：Shopify 自動折扣，按商品小計（未折）計。
+     購物袋頁湊單目標同電腦側欄都讀呢度；改 Shopify 嗰條折扣要同步改。
+     2026-10-15 用 Storefront 真購物車核實：$343 冇減、$441 減 $20。 */
+  spendSave: Object.freeze({ threshold: 399, amount: 20 }),
 });
 window.OUJI_COMMERCE = OUJI_COMMERCE;
 
@@ -3714,7 +3718,7 @@ if (document.readyState === 'loading') {
 (function loadCartDrawer() {
   if (/\/cart(\.html)?$/.test(location.pathname)) return;
   const s = document.createElement('script');
-  s.src = '/cart-drawer.js?v=20261015-1';
+  s.src = '/cart-drawer.js?v=20261017-1';
   s.defer = true;
   document.head.appendChild(s);
 })();

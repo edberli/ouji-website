@@ -47,10 +47,9 @@
   <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261016-megamag">
+  <link rel="stylesheet" href="styles.css?v=20261017-bag">
   <style>
-    .cart-summary__title { margin-bottom: 12px; }
-    .cart-member-points { margin: 0 0 18px; border: 1px solid #d8e4e5; border-radius: 11px; background: #f7faf9; color: #244650; }
+    .cart-member-points { margin: 12px 0 6px; border: 1px solid #d8e4e5; border-radius: 11px; background: #f7faf9; color: #244650; }
     .cart-member-points__summary { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 43px; padding: 7px 11px; list-style: none; cursor: pointer; }
     .cart-member-points__summary::-webkit-details-marker { display: none; }
     .cart-member-points__summary:focus-visible { outline: 2px solid #3b7280; outline-offset: 2px; border-radius: 10px; }
@@ -99,7 +98,7 @@
   .cart-cap-notice { margin: 0 0 12px; padding: 10px 14px; font-size: 0.8125rem; font-weight: 600; color: #8f301f; background: #fdf3f0; border-radius: 8px; line-height: 1.6; }
 </style>
 </head>
-<body>
+<body class="page-bag">
   <a href="#main-content" class="skip-link">跳到主要內容</a>
 
   <!-- Announcement Bar -->
@@ -296,17 +295,17 @@
 
   <main id="main-content" style="padding-top: 96px;">
     <div class="container">
-      <div class="cart-page">
+      <!-- 購物袋新版（2026-10-17 Winston 睇完預覽 ouji-cart-drawer-review 之後話「live」，手機同桌面一齊上）。
+           次序跟佢揀嘅參考圖：湊單目標 → 貨品 → 順手加購 → 滿額贈禮 → 配送方式 → 訂單摘要 → 短效期特價。
+           桌面：左欄由上而下讀，右欄（訂單摘要＋結帳）跟住捲；手機：單欄，底部多一條合計＋結帳。
+           ⚠️ 所有 data-* 掛鈎同 id 照舊保留 —— 下面幾段 script（積分、贈品同步、取件點、加購）全部靠佢哋。 -->
+      <div class="cart-page bag-page">
 
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb">
-          <a href="index.html">首頁</a>
-          <span class="breadcrumb__sep">/</span>
-          <span>購物袋</span>
-        </nav>
+        <header class="bag-head">
+          <a class="bag-head__back" href="shop.html" aria-label="返回繼續選購"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></a>
+          <h1 class="bag-head__title">購物袋<span class="bag-head__count" data-bag-count hidden></span></h1>
+        </header>
 
-        <h1 class="cart-page__title">購物袋</h1>
-        <!-- Empty Cart State (shown when cart is empty) -->
         <!-- 載入中／讀取失敗：唔好預設顯示「空」，否則角標有數但畫面話空（2026-10-01 客投訴） -->
         <div class="cart-empty" id="cart-loading" role="status"><p>正在載入購物袋…</p></div>
         <div class="cart-empty" id="cart-error" hidden><p>暫時讀取唔到你嘅購物袋，貨品仍然保留。<br>請再試一次。</p><button type="button" class="btn btn--primary" onclick="location.reload()">重新載入</button></div>
@@ -325,179 +324,107 @@
           <a href="category.html" class="btn btn--primary">探索產品</a>
         </div>
 
-        <!-- Cart Layout (shown when cart has items) -->
-        <div class="cart-layout" id="cart-layout" style="display: none;">
-          <!-- Cart Items -->
-          <div class="cart-column">
-            <div class="cart-items"></div>
-            <div class="shima shima--cash" aria-hidden="true">
-              <img class="shima__f is-on" src="assets/images/home/shima-cash1.webp" alt="" width="299" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash2.webp" alt="" width="304" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash3.webp" alt="" width="303" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash4.webp" alt="" width="250" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash5.webp" alt="" width="323" height="340" loading="lazy" decoding="async">
-              <img class="shima__f" src="assets/images/home/shima-cash6.webp" alt="" width="247" height="340" loading="lazy" decoding="async">
-            </div>
-            <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
-            <div data-cart-notes></div>
+        <!-- 購物袋內容（有貨先顯示）。全部係同一層，桌面用 grid 將訂單摘要擺右欄；
+             手機就照 DOM 次序由上而下，短效期特價自然排喺訂單摘要之後（2026-09-17 老闆定）。 -->
+        <div class="bag-layout" id="cart-layout" style="display: none;">
 
-            <!-- 加購：左欄本來成版空白，而右欄啱啱先講咗「再買 $X 就免運費」。
-                 順住嗰句擺一行細嘢喺度，客唔使返去逛都加得。
-                 揀咩貨嘅根據見下面 ADDON_RANK 嗰段註釋（POS 真實籃數據）。 -->
-            <section class="addon" data-addon hidden>
-              <div class="addon__head">
-                <h2 class="addon__title">加多件？</h2>
-                <p class="addon__sub" data-addon-sub></p>
-              </div>
-              <div class="addon__grid" data-addon-grid></div>
-              <!-- 「睇多啲」：唔夠啱用唔使跳去 shop 頁，喺度展開同一個價位嘅貨。
-                   折疊 4 件、展開 12 件，排序同一套（見 addonSection()）。 -->
-              <button class="addon__all addon__more" type="button" data-addon-more hidden></button>
-            </section>
+          <!-- 1 · 湊單目標：下一個優惠仲差幾多（所選運送方式免運 → 滿 $399 減 $20 → 送面霜），
+               由 renderReward() → paintBagGoal() 畫。 -->
+          <section class="bag-goal" data-bag-goal hidden aria-label="優惠進度"></section>
 
-            <!-- 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
-                 只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。
-                 2026-09-17 老闆指正：桌面版次序＝加多件 → 短效期（唔係調轉），
-                 兩個都留喺左欄，唔好跌到成頁最底。
-                 手機單欄時再用 CSS order 推去訂單摘要之後（見 styles.css）。 -->
-            <section class="addon addon--sd" data-sd-addon hidden>
-              <div class="addon__head">
-                <h2 class="addon__title">搭埋呢啲短效期特價</h2>
-                <p class="addon__sub">門市快到期實貨，5 折或 7 折 · 寫明到期日 · 唔設退換</p>
-              </div>
-              <div class="addon__grid" data-sd-addon-grid></div>
-              <a class="addon__all" href="short-dated.html">睇晒全部短效期特價 →</a>
-            </section>
-
+          <!-- 2 · 貨品 -->
+          <section class="cart-items bag-goods" aria-label="購物袋商品"></section>
+          <!-- 芝麻喺收銀處等緊你（六格連續分解圖）。手機單欄空位唔夠就收起。 -->
+          <div class="shima shima--cash" aria-hidden="true">
+            <img class="shima__f is-on" src="assets/images/home/shima-cash1.webp" alt="" width="299" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash2.webp" alt="" width="304" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash3.webp" alt="" width="303" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash4.webp" alt="" width="250" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash5.webp" alt="" width="323" height="340" loading="lazy" decoding="async">
+            <img class="shima__f" src="assets/images/home/shima-cash6.webp" alt="" width="247" height="340" loading="lazy" decoding="async">
           </div>
+          <!-- 唔啱一齊用嘅組合，貼喺清單下面 —— 改得切嘅位置 -->
+          <div data-cart-notes></div>
 
-          <!-- Cart Summary -->
-          <div class="cart-summary">
-            <h2 class="cart-summary__title">訂單摘要</h2>
+          <!-- 3 · 順手加購：一行橫掃，揀咩貨嘅根據見下面 ADDON_TYPE 嗰段註釋（POS 真實籃數據）。
+               「睇多啲」唔跳去 shop 頁，喺度展開同一個價位嘅貨（2026-09-17 老闆要求）。 -->
+          <section class="bag-band" data-addon hidden aria-labelledby="bag-addon-title">
+            <div class="bag-band__head">
+              <h2 class="bag-band__title" id="bag-addon-title">順手加購</h2>
+              <button class="bag-band__more" type="button" data-addon-more hidden></button>
+              <p class="bag-band__sub" data-addon-sub></p>
+            </div>
+            <div class="bag-band__row" data-addon-grid></div>
+          </section>
 
-            <details class="cart-member-points">
-              <summary class="cart-member-points__summary">
-                <span class="cart-member-points__brand"><svg class="cart-member-points__crown" aria-hidden="true" viewBox="0 0 24 19"><path d="M2 5.2l5.4 4.3L12 2l4.6 7.5L22 5.2 20 15H4z"/><circle cx="2" cy="4.4" r="1.8"/><circle cx="12" cy="1.8" r="1.8"/><circle cx="22" cy="4.4" r="1.8"/><rect x="4" y="16.2" width="16" height="2.6" rx="1.1"/></svg>OUJI MEMBER</span>
-                <span class="cart-member-points__earned"><span data-points-earned-label>今單</span><strong>+<b data-cart-member-points>0</b><small>Points</small></strong></span>
-                <span class="cart-member-points__toggle"><span class="cart-member-points__toggle-label" data-member-expand-label>積分獎賞</span><span class="cart-member-points__toggle-label-mobile" data-member-mobile-label aria-hidden="true">詳情</span><span class="cart-member-points__chevron" aria-hidden="true">⌄</span></span>
-              </summary>
-              <div class="cart-member-points__body">
-                <div class="cart-member-points__top">
-                  <span>會員積分及獎賞</span>
-                  <a class="cart-member-points__link" href="account.html" data-member-detail-link>積分詳情 →</a>
-                </div>
-                <div class="cart-member-points__stats">
-                  <div class="cart-member-points__stat">
-                    <span data-points-balance-label>現有積分</span>
-                    <strong data-member-balance>登入查看</strong>
-                  </div>
-                  <div class="cart-member-points__stat">
-                    <span data-points-remaining-label>距離獎賞</span>
-                    <strong data-member-remaining>—</strong>
-                  </div>
-                </div>
-                <p class="cart-member-points__foot" data-cart-member-description>今單積分將於付款後翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入或免費加入</a></span></p>
-                <div class="cart-member-coupon" data-member-coupon data-state="locked" hidden>
-                  <span class="cart-member-coupon__amount" data-coupon-amount>HK$10</span>
-                  <span class="cart-member-coupon__copy" data-coupon-copy></span>
-                </div>
-                <div class="cart-member-redeem" data-member-redeem hidden>
-                  <strong data-member-redeem-heading>使用 OUJI 獎賞</strong>
-                  <label for="member-reward-points" data-member-reward-label>今張單使用幾多分？</label>
-                  <select id="member-reward-points" data-member-reward-points></select>
-                  <button type="button" data-member-redeem-button>使用積分</button>
-                  <p data-member-redeem-status role="status"></p>
+          <!-- 4 · 滿額贈禮（面霜屬常設優惠）＋活動期內先出嘅中秋卡，由 renderReward() 控制 -->
+          <section class="bag-reward" data-reward hidden aria-label="滿額優惠">
+            <section class="cart-moon-promo" data-cart-moon-promo hidden aria-label="中秋限定滿額優惠">
+              <img class="cart-moon-promo__art" src="assets/images/home/midautumn-lunar-rabbit-v4.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+              <div class="cart-moon-promo__head"><span>OUJI MID-AUTUMN · 9.23–27</span><strong>好禮，逐級解鎖。</strong></div>
+              <div class="cart-moon-promo__progress">
+                <div class="cart-moon-promo__progress-top"><strong data-cart-promo-status aria-live="polite"></strong><span><span class="visually-hidden" data-cart-promo-basis>商品小計</span><b data-cart-promo-total>HK$0 / HK$299</b></span></div>
+                <div class="cart-moon-promo__meter" data-cart-promo-track role="progressbar" aria-label="中秋優惠進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                  <span class="cart-moon-promo__water" data-cart-promo-fill></span>
                 </div>
               </div>
-            </details>
-
-            <div data-summary-split></div>
-            <div class="cart-summary__row">
-              <span>小計</span>
-              <span data-subtotal>HK$0</span>
-            </div>
-            <div class="cart-summary__row cart-summary__row--save" data-discount-row hidden>
-              <span data-discount-label>折扣</span>
-              <span data-discount>−HK$0</span>
-            </div>
-            <div class="cart-summary__row">
-              <span>運費</span>
-              <span data-shipping>HK$0</span>
-            </div>
-
-            <div class="cart-summary__divider"></div>
-
-            <div class="cart-summary__row cart-summary__total">
-              <span>合計</span>
-              <span data-total>HK$0</span>
-            </div>
-            <!-- 免運門檻最高 $290；商品合計滿 $599 送面霜。 -->
-            <div class="reward reward--focused" data-reward hidden>
-              <section class="cart-moon-promo" data-cart-moon-promo hidden aria-label="中秋限定滿額優惠">
-                <img class="cart-moon-promo__art" src="assets/images/home/midautumn-lunar-rabbit-v4.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-                <div class="cart-moon-promo__head"><span>OUJI MID-AUTUMN · 9.23–27</span><strong>好禮，逐級解鎖。</strong></div>
-                <div class="cart-moon-promo__progress">
-                  <div class="cart-moon-promo__progress-top"><strong data-cart-promo-status aria-live="polite"></strong><span><span class="visually-hidden" data-cart-promo-basis>商品小計</span><b data-cart-promo-total>HK$0 / HK$299</b></span></div>
-                  <div class="cart-moon-promo__meter" data-cart-promo-track role="progressbar" aria-label="中秋優惠進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <span class="cart-moon-promo__water" data-cart-promo-fill></span>
-                  </div>
-                </div>
-                <ul class="cart-moon-promo__tiers" aria-label="中秋優惠達標情況">
-                  <li data-cart-promo-tier="299"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $299</small><b>減 $20</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
-                  <li data-cart-promo-tier="499"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $499</small><b>減 $40</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
-                  <li data-cart-promo-tier="699"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $699</small><b>減 $60</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
-                  <li data-cart-promo-tier="599" data-cart-promo-gift><span class="cart-moon-promo__check" aria-hidden="true">✓</span><img src="assets/images/home/gift-cream-cutout.png" alt="" width="1254" height="1254" loading="lazy" decoding="async"><span><small>折實 $599</small><b>送面霜</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
-                </ul>
-                <p class="cart-moon-promo__terms">即減只享最高一級、不累加 · 面霜（Round Lab 80ml）送完即止 · 以結帳為準</p>
-              </section>
-              <div class="reward__brief" aria-live="polite">
-                <!-- 老闆 2026-09-24：呢張卡係「今單攞到咩」清單 —— 已享嘅即減、送面霜、運費，每樣一行。 -->
-                <div class="reward__card">
-                <div data-reward-perks></div>
-                <div class="reward__row reward__ship">
-                  <svg class="reward__icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 6.5A1.5 1.5 0 0 1 4 5h9a1.5 1.5 0 0 1 1.5 1.5V9h3.2c.5 0 .9.2 1.2.6l2.3 3c.2.3.3.6.3.9v2.5a1 1 0 0 1-1 1h-1.1a2.6 2.6 0 0 0-5.1 0H9.6a2.6 2.6 0 0 0-5.1 0H4A1.5 1.5 0 0 1 2.5 15.5z"/><circle cx="7" cy="17.4" r="1.7"/><circle cx="17" cy="17.4" r="1.7"/></svg>
-                  <div class="reward__copy reward__ship-copy">
-                    <p class="reward__line" data-reward-line></p>
-                    <p class="reward__cost" data-reward-cost></p>
-                    <div class="reward__track" data-reward-track role="progressbar" aria-label="所選運送方式免運進度" aria-valuemin="0" aria-valuemax="100"><div class="reward__fill" data-reward-fill></div></div>
-                  </div>
-                  <a class="reward__go" href="shop.html" data-reward-cta hidden aria-label="繼續選購">›</a>
-                </div>
-                </div>
-                <section class="reward-gift" data-reward-gift aria-label="購物滿額贈品">
-                  <a class="reward-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
-                    <img src="assets/images/home/gift-cream-scene.webp" alt="Round Lab 白樺樹保濕面霜 80ml 產品照片" width="1644" height="957" decoding="async">
-                  </a>
-                  <div class="reward-gift__copy">
-                    <p class="reward-gift__eyebrow">滿額贈禮</p>
-                    <h3 class="reward-gift__title" data-gift-title>滿 <span class="reward-gift__threshold-amount">HK$599</span><br>呢樽免費送</h3>
-                    <p class="reward-gift__name">ROUND LAB 白樺樹保濕面霜 · 80ml</p>
-                    <p class="reward-gift__status" data-gift-status></p>
-                    <p class="reward-gift__terms">送完即止 · <a href="/products/round-lab-round-lab-80ml-0221">睇吓呢份禮物 ↗</a></p>
-                  </div>
-                </section>
+              <ul class="cart-moon-promo__tiers" aria-label="中秋優惠達標情況">
+                <li data-cart-promo-tier="299"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $299</small><b>減 $20</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
+                <li data-cart-promo-tier="499"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $499</small><b>減 $40</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
+                <li data-cart-promo-tier="699"><span class="cart-moon-promo__check" aria-hidden="true">✓</span><span><small>滿 $699</small><b>減 $60</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
+                <li data-cart-promo-tier="599" data-cart-promo-gift><span class="cart-moon-promo__check" aria-hidden="true">✓</span><img src="assets/images/home/gift-cream-cutout.png" alt="" width="1254" height="1254" loading="lazy" decoding="async"><span><small>折實 $599</small><b>送面霜</b></span><em class="visually-hidden" data-cart-promo-state>未達成</em></li>
+              </ul>
+              <p class="cart-moon-promo__terms">即減只享最高一級、不累加 · 面霜（Round Lab 80ml）送完即止 · 以結帳為準</p>
+            </section>
+            <!-- 活動期內「今單已攞到」嘅即減／贈品，逐行列出（平日冇嘢就收起）。 -->
+            <div class="bag-perks" data-reward-perks aria-live="polite"></div>
+            <section class="bag-gift" data-reward-gift aria-label="購物滿額贈品">
+              <a class="bag-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
+                <img src="assets/images/cart/gift-cream-192.webp" alt="Round Lab 白樺樹保濕面霜 80ml 產品照片" width="192" height="192" loading="lazy" decoding="async">
+              </a>
+              <div class="bag-gift__copy">
+                <h3 class="bag-gift__title" data-gift-title>滿 <span class="bag-gift__threshold">HK$599</span> 呢樽免費送</h3>
+                <p class="bag-gift__name">ROUND LAB 白樺樹保濕面霜 · 80ml</p>
+                <p class="bag-gift__status" data-gift-status></p>
               </div>
+              <p class="bag-gift__terms"><span data-gift-terms>送完即止</span> · <a href="/products/round-lab-round-lab-80ml-0221" data-gift-link>睇吓呢份禮物 ↗</a></p>
+            </section>
+          </section>
 
-              <!-- 運送方式（2026-09-02）。三級門檻，成本越高門檻越高：
-                   $99 自取（EC-GET $13）／$250 順豐站（$16）／$290 順豐上門（$31）。
-                   ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
-                   唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
-              <div class="ship-mode" data-ship>
-                <div class="ship-mode__top"><p class="ship-mode__head">點收貨？</p><span class="ship-mode__region"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>香港</span></div>
-                <div data-ship-opts></div>
-                <!-- 取件點揀選（順豐站／智郵站／郵政局共用同一個面板）。
-                     ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
-                     extension），所以揀自提點要喺我哋自己個購物袋頁做，
-                     揀完寫落 cart attributes，跟住張單過去 Shopify，
-                     鋪頭喺訂單詳情就見到網點碼同地址。
-                     資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
-                     已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。 -->
-                <div class="sfp sfp--steps sfp--inline" data-sfp>
-                  <p class="sfp__err" data-sfp-err hidden role="alert"></p>
-                  <div class="sfp__steps" aria-label="第二步：選擇取件點"><span>✓</span>收貨方式<i aria-hidden="true"></i><span>2</span>選擇取件點</div>
-                  <p class="sfp__service" data-sfp-sublabel></p>
-                  <h3 class="sfp__heading" data-sfp-heading>想喺邊度攞貨？</h3>
-                  <p class="sfp__detail" data-sfp-detail>揀一個方便你嘅取件點。</p>
+          <!-- 5 · 配送方式（2026-09-02）。三級門檻，成本越高門檻越高：
+               $99 自取（EC-GET $13）／$250 順豐站（$16）／$290 順豐上門（$31）。
+               ⚠️ 老闆明確要求：每個選項自己寫住自己嗰條門檻，
+               唔准用「滿 $99 免運費」呢種寫法 —— 會令客以為包送上門。 -->
+          <section class="bag-delivery" data-ship aria-labelledby="bag-delivery-title">
+            <div class="bag-section-head">
+              <h2 class="bag-h2" id="bag-delivery-title"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>配送方式</h2>
+              <small data-ship-note>免運按折後商品金額計</small>
+            </div>
+            <div class="bag-surface bag-choose">
+              <div data-ship-opts></div>
+              <!-- 取件點揀選（順豐站／智郵站／郵政局共用同一個面板）。
+                   ⚠️ Shopify 自己個結帳頁改唔到（唔係 Plus、冇 checkout
+                   extension），所以揀自提點要喺我哋自己個購物袋頁做，
+                   揀完寫落 cart attributes，跟住張單過去 Shopify，
+                   鋪頭喺訂單詳情就見到網點碼同地址。
+                   資料源：順豐官方 PDF 名單（順豐站 ＋ 自助櫃），
+                   已經剔走「只供住戶／員工使用」嗰啲 —— 客揀咗都入唔到去。
+                   揀好之後摺成一張卡（標誌、網點、地址、更改），跟參考圖。 -->
+              <div class="sfp" data-sfp>
+                <p class="sfp__err" data-sfp-err hidden role="alert"></p>
+                <div class="sfp__steps" aria-label="第二步：選擇取件點"><span>✓</span>收貨方式<i aria-hidden="true"></i><span>2</span>選擇取件點</div>
+                <div class="sfp__card">
+                  <span class="sfp__logo" data-sfp-logo aria-hidden="true"></span>
+                  <div class="sfp__text">
+                    <h3 class="sfp__heading"><span data-sfp-heading>想喺邊度攞貨？</span><span class="sfp__chip" data-sfp-chip hidden>推薦自取</span></h3>
+                    <p class="sfp__detail" data-sfp-detail>揀一個方便你嘅取件點。</p>
+                    <p class="sfp__hours" data-sfp-hours hidden></p>
+                  </div>
+                  <button type="button" class="sfp__change" data-sfp-change hidden aria-label="更改取件點或配送方式">更改<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+                </div>
+                <!-- 揀好點之後：四格收起（撳「更改」先再出），呢度講埋運費同幾耐到（參考圖）。 -->
+                <ul class="sfp__facts" data-sfp-facts hidden></ul>
+                <div class="sfp__pickers">
                   <select class="sfp__start" data-sfp-start aria-label="選擇取件點大區" disabled><option value="">載入大區中…</option></select>
                   <button type="button" class="sfp__retry" data-sfp-retry hidden>重試載入取件點</button>
                   <p class="sfp__status" data-sfp-status aria-live="polite">選好取件點，就可以繼續結賬</p>
@@ -516,62 +443,122 @@
                   </div>
                 </div>
               </div>
-
             </div>
+          </section>
 
+          <!-- 6 · 訂單摘要＋結帳。桌面喺右欄跟住捲（全站 body 有 overflow-x，原生 sticky 唔郁，
+               見 bagStickSide()）；手機排喺配送方式之後，結帳掣改由底部合計條代撳。 -->
+          <aside class="bag-side" aria-label="訂單摘要同結帳">
+            <div class="cart-summary bag-summary">
+              <h2 class="bag-h2 bag-summary__title" id="bag-summary-title" tabindex="-1">訂單摘要</h2>
 
-            <div class="cart-summary__promo">
-              <input type="text" placeholder="優惠碼">
-              <button type="button">套用</button>
-            </div>
-
-            <!-- 芝麻喺收銀處等緊你。結帳係最易走人嗰一步，
-                 有個人喺度會冇咁似同一部機講嘢。
-                 六格連續分解圖，同首頁打包裹嗰隻同一套做法。 -->
-
-
-            <div class="cart-summary__checkout">
-              <button class="btn btn--primary btn--full">前往結帳</button>
-            </div>
-
-            <section class="payment-security" aria-labelledby="payment-security-title">
-              <div class="payment-security__heading">
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <rect x="5" y="10" width="14" height="11" rx="2"></rect>
-                  <path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v2"></path>
-                </svg>
-                <div>
-                  <strong id="payment-security-title">安全加密付款</strong>
-                  <span>付款資料經安全支付系統處理</span>
+              <details class="cart-member-points">
+                <summary class="cart-member-points__summary">
+                  <span class="cart-member-points__brand"><svg class="cart-member-points__crown" aria-hidden="true" viewBox="0 0 24 19"><path d="M2 5.2l5.4 4.3L12 2l4.6 7.5L22 5.2 20 15H4z"/><circle cx="2" cy="4.4" r="1.8"/><circle cx="12" cy="1.8" r="1.8"/><circle cx="22" cy="4.4" r="1.8"/><rect x="4" y="16.2" width="16" height="2.6" rx="1.1"/></svg>OUJI MEMBER</span>
+                  <span class="cart-member-points__earned"><span data-points-earned-label>今單</span><strong>+<b data-cart-member-points>0</b><small>Points</small></strong></span>
+                  <span class="cart-member-points__toggle"><span class="cart-member-points__toggle-label" data-member-expand-label>積分獎賞</span><span class="cart-member-points__toggle-label-mobile" data-member-mobile-label aria-hidden="true">詳情</span><span class="cart-member-points__chevron" aria-hidden="true">⌄</span></span>
+                </summary>
+                <div class="cart-member-points__body">
+                  <div class="cart-member-points__top">
+                    <span>會員積分及獎賞</span>
+                    <a class="cart-member-points__link" href="account.html" data-member-detail-link>積分詳情 →</a>
+                  </div>
+                  <div class="cart-member-points__stats">
+                    <div class="cart-member-points__stat">
+                      <span data-points-balance-label>現有積分</span>
+                      <strong data-member-balance>登入查看</strong>
+                    </div>
+                    <div class="cart-member-points__stat">
+                      <span data-points-remaining-label>距離獎賞</span>
+                      <strong data-member-remaining>—</strong>
+                    </div>
+                  </div>
+                  <p class="cart-member-points__foot" data-cart-member-description>今單積分將於付款後翌日上午 10 點可用。<span data-cart-member-auth><a href="account.html">登入或免費加入</a></span></p>
+                  <div class="cart-member-coupon" data-member-coupon data-state="locked" hidden>
+                    <span class="cart-member-coupon__amount" data-coupon-amount>HK$10</span>
+                    <span class="cart-member-coupon__copy" data-coupon-copy></span>
+                  </div>
+                  <div class="cart-member-redeem" data-member-redeem hidden>
+                    <strong data-member-redeem-heading>使用 OUJI 獎賞</strong>
+                    <label for="member-reward-points" data-member-reward-label>今張單使用幾多分？</label>
+                    <select id="member-reward-points" data-member-reward-points></select>
+                    <button type="button" data-member-redeem-button>使用積分</button>
+                    <p data-member-redeem-status role="status"></p>
+                  </div>
                 </div>
+              </details>
+
+              <div data-summary-split></div>
+              <dl class="bag-summary__rows">
+                <div><dt>小計<span data-bag-count-sub></span></dt><dd data-subtotal>HK$0</dd></div>
+                <div class="is-saving" data-discount-row hidden><dt data-discount-label>折扣</dt><dd data-discount>−HK$0</dd></div>
+                <div><dt>運費<span data-shipping-method></span></dt><dd data-shipping>HK$0</dd></div>
+                <div class="is-saving" data-gift-row hidden><dt data-gift-row-label>贈品・Round Lab 白樺樹保濕面霜</dt><dd data-gift-row-value>免費</dd></div>
+              </dl>
+              <!-- 合計要一眼見到（Winston 2026-10-17）：實色青藍底、白字，已慳嘅數用白色膠囊。 -->
+              <div class="bag-summary__total">
+                <span>合計</span><em data-saved hidden></em><strong data-total>HK$0</strong>
               </div>
-              <div class="payment-methods" aria-label="可用付款方式">
-                <ul class="pay-marks">
-                <li class="pay-mark pay-mark--apple" aria-label="Apple Pay"><b aria-hidden="true"> Pay</b></li>
-                <li class="pay-mark pay-mark--google" aria-label="Google Pay"><b aria-hidden="true"><i>G</i> Pay</b></li>
-                <li class="pay-mark pay-mark--visa" aria-label="Visa"><b aria-hidden="true">VISA</b></li>
-                <li class="pay-mark pay-mark--mastercard" aria-label="Mastercard"><i aria-hidden="true"></i></li>
-                <li class="pay-mark pay-mark--amex" aria-label="American Express"><b aria-hidden="true">AMERICAN<br>EXPRESS</b></li>
-                <li class="pay-mark pay-mark--unionpay" aria-label="銀聯 UnionPay"><i aria-hidden="true"></i><b aria-hidden="true">銀聯</b></li>
-                </ul>
+              <!-- 以前呢度有個優惠碼輸入格，但從來冇駁到任何程式（撳「套用」冇反應）。
+                   Shopify 結帳頁本身有優惠碼欄，所以改做一句講清楚去邊度入。 -->
+              <p class="bag-summary__promo" data-promo-hint><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 8.5V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3.5a2.5 2.5 0 0 0 0-5zM13 5v2M13 11v2M13 17v2"/></svg><span>有優惠碼？喺結帳頁輸入</span></p>
+
+              <!-- 芝麻喺收銀處等緊你：見上面 .shima--cash。結帳係最易走人嗰一步。 -->
+              <div class="cart-summary__checkout">
+                <button class="btn btn--primary btn--full bag-go" type="button">前往結帳</button>
+                <p class="bag-go__perks" data-bag-perks hidden></p>
               </div>
-              <div class="merchant-trust" aria-label="商戶服務保障">
-                <span>香港實體門市</span><i aria-hidden="true">·</i>
-                <span>訂單可追蹤</span><i aria-hidden="true">·</i>
-                <span>門市自取</span><i aria-hidden="true">·</i>
-                <a href="shipping.html">退換貨政策</a>
-              </div>
-            </section>
-          </div>
+
+              <section class="payment-security" aria-labelledby="payment-security-title">
+                <div class="payment-security__heading">
+                  <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <rect x="5" y="10" width="14" height="11" rx="2"></rect>
+                    <path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v2"></path>
+                  </svg>
+                  <div>
+                    <strong id="payment-security-title">安全加密付款</strong>
+                    <span>付款資料經安全支付系統處理</span>
+                  </div>
+                </div>
+                <div class="payment-methods" aria-label="可用付款方式">
+                  <ul class="pay-marks">
+                  <li class="pay-mark pay-mark--apple" aria-label="Apple Pay"><b aria-hidden="true"> Pay</b></li>
+                  <li class="pay-mark pay-mark--google" aria-label="Google Pay"><b aria-hidden="true"><i>G</i> Pay</b></li>
+                  <li class="pay-mark pay-mark--visa" aria-label="Visa"><b aria-hidden="true">VISA</b></li>
+                  <li class="pay-mark pay-mark--mastercard" aria-label="Mastercard"><i aria-hidden="true"></i></li>
+                  <li class="pay-mark pay-mark--amex" aria-label="American Express"><b aria-hidden="true">AMERICAN<br>EXPRESS</b></li>
+                  <li class="pay-mark pay-mark--unionpay" aria-label="銀聯 UnionPay"><i aria-hidden="true"></i><b aria-hidden="true">銀聯</b></li>
+                  </ul>
+                </div>
+                <div class="merchant-trust" aria-label="商戶服務保障">
+                  <span>香港實體門市</span><i aria-hidden="true">·</i>
+                  <span>訂單可追蹤</span><i aria-hidden="true">·</i>
+                  <span>門市自取</span><i aria-hidden="true">·</i>
+                  <a href="shipping.html">退換貨政策</a>
+                </div>
+              </section>
+            </div>
+          </aside>
+
+          <!-- 7 · 短效期特價加購（2026-09-12 老闆要）：唔係硬性要搭正價貨先買得，
+               只係客買緊正價貨嗰陣順手提一句。價錢已經係最終價，唔疊 88 折。
+               2026-09-17 老闆指正：桌面版次序＝加多件 → 短效期（唔係調轉），
+               兩個都留喺左欄，唔好跌到成頁最底；手機就排喺訂單摘要之後。 -->
+          <section class="bag-band bag-band--sd" data-sd-addon hidden aria-labelledby="bag-sd-title">
+            <div class="bag-band__head">
+              <h2 class="bag-band__title" id="bag-sd-title">搭埋呢啲短效期特價</h2>
+              <a class="bag-band__more" href="short-dated.html" data-sd-all>睇晒全部<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></a>
+              <p class="bag-band__sub" data-sd-sub>門市快到期實貨，5 折或 7 折 · 寫明到期日 · 唔設退換</p>
+            </div>
+            <div class="bag-band__row" data-sd-addon-grid></div>
+          </section>
 
         </div>
 
-        <div style="margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid var(--border-light);">
-          <a href="category.html" class="btn--ghost" style="display: inline-flex; align-items: center;">繼續選購</a>
-        </div>
+        <p class="bag-continue"><a href="category.html" class="btn--ghost">繼續選購</a></p>
 
         <!-- 完成程序：由購物袋內容計出嚟，唔係寫死嘅樣板 -->
-        <section class="section--sm" data-next-steps hidden>
+        <section class="section--sm bag-next" data-next-steps hidden>
           <div class="section-header section-header--split" style="margin-bottom: var(--space-2xl);">
             <div>
               <span class="label section-header__label">完成你嘅護膚程序</span>
@@ -584,6 +571,16 @@
       </div>
     </div>
   </main>
+
+  <!-- 手機底部合計條（參考圖）：左邊合計同已攞到嘅優惠，右邊結帳掣。
+       數字同掣都係鏡像 —— 真正嘅結帳掣喺訂單摘要入面（.cart-summary__checkout .btn），
+       撳呢度等於撳佢，揀自提點檢查、預備結帳全部照行嗰邊。 -->
+  <div class="bag-bar" data-bag-bar hidden>
+    <button class="bag-bar__total" type="button" data-bag-bar-total>
+      <small>合計</small><strong data-bag-bar-amount>HK$0</strong><span data-bag-bar-perks></span>
+    </button>
+    <button class="bag-bar__go" type="button" data-bag-bar-go><span data-bag-bar-label>前往結帳</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -692,7 +689,7 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261005-zhlang"></script>
+  <script src="shopify.js?v=20261017-bag"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
@@ -756,6 +753,30 @@
       unionpay.textContent = 'UnionPay';
       unionpay.closest('.pay-mark--unionpay')?.setAttribute('aria-label', 'UnionPay');
     }
+    /* 新版購物袋（2026-10-17）嘅固定字：有 icon 嘅標題只換最後嗰段字，唔好洗走 svg。 */
+    const setTail = (selector, value) => {
+      const el = document.querySelector(selector);
+      const node = el && [...el.childNodes].reverse().find((n) => n.nodeType === 3 && n.textContent.trim());
+      if (node) node.textContent = value;
+    };
+    const setLabel = (selector, value) => document.querySelector(selector)?.setAttribute('aria-label', value);
+    setText('#bag-addon-title', 'Add-ons');
+    setTail('#bag-delivery-title', 'Delivery');
+    setText('[data-ship-note]', 'Free shipping is based on the discounted goods total');
+    setText('[data-gift-row-label]', 'Gift · Round Lab birch cream');
+    setText('[data-gift-row-value]', 'Free');
+    setText('[data-promo-hint] span', 'Have a code? Enter it at checkout');
+    setText('[data-gift-terms]', 'While stocks last');
+    setText('[data-gift-link]', 'See the gift ↗');
+    setText('[data-sd-sub]', 'Near-expiry store stock at 50% or 30% off · expiry shown · no returns');
+    setTail('[data-sd-all]', 'See all');
+    setTail('[data-sfp-change]', 'Change');
+    setLabel('[data-sfp-change]', 'Change pickup point or delivery');
+    setLabel('.bag-head__back', 'Continue shopping');
+    setLabel('[data-bag-goal]', 'Reward progress');
+    setLabel('.bag-goods', 'Items in your bag');
+    setLabel('.bag-side', 'Order summary and checkout');
+    setLabel('[data-reward]', 'Spend rewards');
   }
 
   /* 積分要即刻見到，唔可以等網絡。上次攞到嘅數字會用當時嘅 access
@@ -900,6 +921,26 @@
          所以一定要喺 pageshow 度收拾。
          順手 reload：去過結帳嗰陣購物袋可能已經換咗新 cart，
          舊畫面嘅數量同金額未必啱。 */
+      /* 手機底部合計條：撳「前往結帳」＝撳訂單摘要入面呢粒真掣（揀點檢查、預備結帳全部照行）；
+         撳合計就捲去訂單摘要。真掣轉圈（is-busy）嗰陣條上面粒掣跟住轉。 */
+      const barGo = document.querySelector('[data-bag-bar-go]');
+      const barTotal = document.querySelector('[data-bag-bar-total]');
+      if (barGo) {
+        barGo.addEventListener('click', () => { if (!barGo.classList.contains('is-busy')) checkoutBtn.click(); });
+        if (window.MutationObserver) {
+          new MutationObserver(() => window.OUJI_paintBagCTA?.())
+            .observe(checkoutBtn, { attributes: true, attributeFilter: ['class'] });
+        }
+      }
+      if (barTotal) {
+        barTotal.addEventListener('click', () => {
+          const title = document.getElementById('bag-summary-title');
+          if (!title) return;
+          title.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          title.focus({ preventScroll: true });
+        });
+      }
+
       /* 一開頁就喺背景預備。等一陣先開始，唔好同購物袋本身嘅載入搶頻寬。 */
       if (typeof prewarmCheckout === 'function') prewarmCheckout({ delay: 1500 });
       /* 返到呢個分頁：可能喺第二個分頁改過購物袋，手上嗰條預備好嘅作廢重做。 */
@@ -929,6 +970,8 @@
       // Show empty cart state
       cartEmpty.style.display = '';
       cartLayout.style.display = 'none';
+      /* 空袋卡自己有「探索產品」，下面嗰條「繼續選購」唔使再吊住。 */
+      document.querySelector('.bag-continue')?.setAttribute('hidden', '');
       return;
     }
 
@@ -1021,27 +1064,44 @@
       const options = merch.selectedOptions
         ?.filter((o) => o.name !== 'Title' && !placeholder(o.value))
         .map((o) => o.value).join(' / ');
+      /* 新版（參考圖）：相、牌子、名、規格，底下左邊青藍色行價、右邊數量；垃圾桶擺右上角。
+         「−」去到 1 件就停（移除交返垃圾桶，唔好一撳就冇咗件貨）。 */
+      const href = `product.html?handle=${merch.product.handle}`;
+      const title = merch.product.title;
+      const titleAttr = String(title).replace(/"/g, '&quot;');
+      const unit = parseFloat(merch.price?.amount);
+      const unitNote = line.quantity > 1 && unit > 0
+        ? `<span class="bag-line__unit">${window.OUJI_cartCopy(`每件 ${formatPrice(unit)}`, `${formatPrice(unit)} each`)}</span>` : '';
+      const atCap = cap != null && line.quantity >= cap;
       return `
-        <div class="cart-item" data-line-id="${line.id}">
-          <div class="cart-item__image">
-            ${img ? `<img src="${img.url}" alt="${merch.product.title}">` : ''}
-          </div>
-          <div class="cart-item__details">
-            <span class="cart-item__brand">${isAutoGift ? window.OUJI_cartCopy('滿額贈品 · ', 'Spend & get gift · ') : ''}${merch.product.vendor || ''}</span>
-            <h3 class="cart-item__name"><a href="product.html?handle=${merch.product.handle}">${merch.product.title}</a></h3>
-            ${options ? `<span class="cart-item__variant">${options}</span>` : ''}
-            ${isAutoGift ? `<div class="cart-item__quantity"><strong>${window.OUJI_cartCopy('免費贈送 · 1 件', 'Free gift · 1 item')}</strong></div>` : `<div class="cart-item__quantity">
-              <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity - 1})" style="width:32px;height:32px;font-size:0.875rem;">−</button>
-              <input type="number" class="qty-input" value="${line.quantity}" min="1" max="${cap == null ? 99 : Math.max(1, cap)}" style="width:44px;height:32px;font-size:0.8125rem;" onchange="changeQty('${line.id}', this.value)">
-              <button class="qty-btn" onclick="changeQty('${line.id}', ${line.quantity + 1})" style="width:32px;height:32px;font-size:0.875rem;"${cap != null && line.quantity >= cap ? ' disabled aria-disabled="true"' : ''}>+</button>
-              <button class="cart-item__remove" onclick="removeLine('${line.id}')">移除</button>
-            </div>`}
+        <article class="bag-line${isAutoGift ? ' is-gift' : ''}" data-line-id="${line.id}" data-line-handle="${merch.product.handle}">
+          <a class="bag-line__image" href="${href}" tabindex="-1" aria-hidden="true">${img ? `<img src="${img.url}${img.url.includes('?') ? '&' : '?'}width=240" alt="" width="168" height="168" decoding="async">` : ''}</a>
+          <div class="bag-line__body">
+            <h3 class="bag-line__title" data-no-i18n><a href="${href}">${title}</a></h3>
+            ${options || unitNote ? `<p class="bag-line__variant">${options ? `<span>${options}</span>` : ''}${unitNote}</p>` : ''}
             ${isAutoGift ? '' : stockCapNote(line, cap)}
+            <div class="bag-line__foot">
+              <strong class="bag-line__price">${formatPrice(line.cost.totalAmount.amount)}</strong>
+              ${isAutoGift ? `<span class="bag-line__gift">${window.OUJI_cartCopy('免費贈送 · 1 件', 'Free gift · 1 item')}</span>` : `<div class="bag-qty" role="group" aria-label="${titleAttr} ${window.OUJI_cartCopy('數量', 'quantity')}">
+                <button type="button" onclick="changeQty('${line.id}', ${line.quantity - 1})" aria-label="${window.OUJI_cartCopy('減少數量', 'Decrease quantity')}"${line.quantity <= 1 ? ' disabled' : ''}><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+                <input type="number" class="bag-qty__input" value="${line.quantity}" min="1" max="${cap == null ? 99 : Math.max(1, cap)}" inputmode="numeric" aria-label="${window.OUJI_cartCopy('數量', 'Quantity')}" onchange="changeQty('${line.id}', this.value)">
+                <button type="button" onclick="changeQty('${line.id}', ${line.quantity + 1})" aria-label="${window.OUJI_cartCopy('增加數量', 'Increase quantity')}"${atCap ? ' disabled' : ''}><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+              </div>`}
+            </div>
           </div>
-          <div class="cart-item__price">${formatPrice(line.cost.totalAmount.amount)}</div>
-        </div>
+          ${isAutoGift ? '' : `<button class="bag-line__remove" type="button" onclick="removeLine('${line.id}')" aria-label="${window.OUJI_cartCopy('移除', 'Remove')} ${titleAttr}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 12a2 2 0 0 0 2 1.8h7a2 2 0 0 0 2-1.8l1-12M9 7V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V7"/></svg></button>`}
+        </article>
       `;
     }).join('');
+    /* 標題「購物袋 N件」同小計「（N 件）」：贈品都係袋入面嘅貨，一齊數。 */
+    const pieces = lines.reduce((n, l) => n + (Number(l.quantity) || 0), 0);
+    const countEl = document.querySelector('[data-bag-count]');
+    if (countEl) {
+      countEl.textContent = window.OUJI_cartCopy(`${pieces}件`, `${pieces} ${pieces === 1 ? 'item' : 'items'}`);
+      countEl.hidden = !pieces;
+    }
+    const countSub = document.querySelector('[data-bag-count-sub]');
+    if (countSub) countSub.textContent = window.OUJI_cartCopy(`（${pieces} 件）`, ` (${pieces})`);
 
     // 買精華嘅人係喺度砌緊一套護膚，唔係買緊一件貨。同一套仲差邊幾步，
     // 就係佢最想知、亦都係最抬得起單價嘅嘢。
@@ -1108,6 +1168,13 @@
       .filter((e) => e.node.attributes?.some((a) => a.key === '_ouji_auto_gift' && a.value === '1')
         && e.node.cost?.totalAmount?.amount != null && Number(e.node.cost.totalAmount.amount) === 0)
       .map((e) => e.node.merchandise.product?.handle).filter(Boolean));
+    /* 手機底部合計條有貨先出；桌面右欄開始跟住捲。 */
+    const bagBar = document.querySelector('[data-bag-bar]');
+    if (bagBar) {
+      bagBar.hidden = false;
+      document.body.classList.add('has-bag-bar');
+    }
+    bagStickSide();
 
     async function memberApi(path, body) {
       const token = localStorage.getItem('customer_access_token');
@@ -1283,11 +1350,278 @@
    */
   const GIFT = window.OUJI_COMMERCE?.promotion?.gift?.threshold || 599;
 
+  /* ───── 新版購物袋：湊單目標卡、摘要細節、手機合計條（2026-10-17）──────────
+     數全部嚟自 renderReward(net, gross, inCart) 同 OUJI_SHIP，唔自己估價：
+       net＝折實貨價（唔含運費）、gross＝商品小計（未折）、inCart＝袋入面嘅 $0 贈品 handle。
+     目標次序：所選運送方式免運 → 滿 $399 減 $20（睇未折小計）→ 折實滿 $599 送面霜 → 全部有齊。
+     換運送方式、加減數量都會經 renderReward 重畫，所以呢度唔使自己聽事件。 */
+  const BAG_SAVE = window.OUJI_COMMERCE?.spendSave || { threshold: 399, amount: 20 };
+  /* 格仔上面嘅短名（參考圖）；寫入訂單嘅「運送方式」仍然係 OUJI_SHIP[mode].name，唔好改。 */
+  const BAG_SHIP = {
+    post: { zh: '7-11 自取', en: '7-Eleven pickup', sub: '郵局、智郵站', subEn: 'Post office too' },
+    sfp: { zh: '順豐站', en: 'SF Station', sub: '智能櫃', subEn: 'Smart locker' },
+    sfd: { zh: '順豐上門', en: 'SF delivery', sub: '送到府', subEn: 'To your door' },
+    shop: { zh: '門市自取', en: 'Store pickup', sub: '觀塘', subEn: 'Kwun Tong' },
+  };
+  const bagSvg = (d) => `<svg aria-hidden="true" viewBox="0 0 24 24">${d}</svg>`;
+  const BAG_ICON = {
+    check: bagSvg('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+    truck: bagSvg('<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>'),
+    locker: bagSvg('<rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M4 12h16M12 3.5v17M9.5 8h.01M14.5 8h.01M9.5 16h.01M14.5 16h.01"/>'),
+    store: bagSvg('<path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0M5.5 12.5V20h13v-7.5M10 20v-4.5h4V20"/>'),
+    post: bagSvg('<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/>'),
+    pin: bagSvg('<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>'),
+  };
+  const BAG_SEVEN = '<img src="assets/images/brand/seven-eleven-2021.svg" width="21" height="28" alt="" decoding="async">';
+  const BAG_STICKER = '<img class="bag-goal__sticker" src="assets/images/home-codex/mascot-v4/06-shopping-sticker-280.webp" width="280" height="256" alt="" decoding="async">';
+  const bagShipName = (mode) => window.OUJI_cartCopy(BAG_SHIP[mode]?.zh || window.OUJI_SHIP[mode]?.name || '', BAG_SHIP[mode]?.en || '');
+  const bagShipGlyph = (mode) => mode === 'post' ? BAG_SEVEN : mode === 'sfp' ? BAG_ICON.locker : mode === 'shop' ? BAG_ICON.store : BAG_ICON.truck;
+  const bagGap = (target, have) => Math.max(0, Math.ceil((target - have) * 100 - 0.001) / 100);
+  const bagMoney = (v) => formatPrice(v);
+
+  function bagNextGoal(net, gross, inCart, promoActive) {
+    const cc = window.OUJI_cartCopy;
+    const mode = window.OUJI_getShipMode?.() || 'post';
+    const method = window.OUJI_SHIP[mode];
+    const name = bagShipName(mode);
+    /* 中秋活動期內，滿額即減由中秋卡講，呢度唔再重複（亦唔知兩條會唔會疊）。 */
+    const save = promoActive ? null : BAG_SAVE;
+    const pickup = method.fee === 0;
+    if (!pickup && net < method.free) {
+      return { key: `ship:${mode}`, rank: 0, tone: 'ship', mode, gap: bagGap(method.free, net), now: net, target: method.free,
+        zh: '即免運費', en: 'for free shipping',
+        sub: cc(`${name}・折後滿 HK$${method.free} 免運`, `${name} · free over HK$${method.free} after discounts`) };
+    }
+    const shipZh = pickup ? '門市自取' : '免運費';
+    const shipEn = pickup ? 'store pickup' : 'free shipping';
+    if (save && gross + 0.001 < save.threshold) {
+      return { key: 'saving', rank: 1, tone: 'saving', mode, gap: bagGap(save.threshold, gross), now: gross, target: save.threshold,
+        zh: `即減 HK$${save.amount}`, en: `to save HK$${save.amount}`,
+        sub: cc(`${pickup ? '門市免費自取' : '已享免運費'}・商品小計滿 HK$${save.threshold} 即減`,
+          `${pickup ? 'Free store pickup' : 'Free shipping'} · HK$${save.amount} off goods over HK$${save.threshold}`) };
+    }
+    const giftHandle = window.OUJI_COMMERCE?.promotion?.gift?.handle;
+    if (net + 0.001 < GIFT && !(inCart || []).includes(giftHandle)) {
+      return { key: 'gift', rank: 2, tone: 'gift', mode, gap: bagGap(GIFT, net), now: net, target: GIFT,
+        zh: '送面霜', en: 'for a free cream',
+        sub: cc(`${save ? `已享即減 HK$${save.amount}・${shipZh}` : pickup ? '門市免費自取' : '已享免運費'}・折後滿 HK$${GIFT} 送面霜`,
+          `${save ? `HK$${save.amount} off and ${shipEn}` : pickup ? 'Free store pickup' : 'Free shipping'} · free cream over HK$${GIFT} after discounts`) };
+    }
+    return { key: 'reached', rank: 3, tone: 'reached', mode, done: true,
+      title: cc(save ? `${pickup ? '門市自取' : '免運'}、即減、送面霜都有齊` : `${pickup ? '門市自取' : '免運'}、送面霜都有齊`,
+        save ? `${pickup ? 'Store pickup' : 'Free shipping'}, HK$${save.amount} off and the free cream` : `${pickup ? 'Store pickup' : 'Free shipping'} and the free cream`),
+      sub: cc('Round Lab 白樺樹保濕面霜送完即止。', 'Round Lab birch cream, while stocks last.') };
+  }
+
+  /* 動態只畀「變咗」嘅嘢（預覽同一套）：條 bar 由上次嘅位置推前；升咗一級（例如啱啱夠免運），
+     標題升起、芝麻跳一下。加購／改數量會 reload，所以上次嘅狀態放 sessionStorage，一分鐘內有效。 */
+  let bagGoalLast = null;
+  function paintBagGoal(goal) {
+    const host = document.querySelector('[data-bag-goal]');
+    if (!host || !goal) return;
+    const cc = window.OUJI_cartCopy;
+    const pct = goal.done ? 100 : Math.max(0, Math.min(100, goal.now / goal.target * 100));
+    const sig = `${goal.key}|${goal.mode}|${goal.gap ?? ''}|${pct.toFixed(1)}|${cc('zh', 'en')}`;
+    /* 一開頁 renderReward 會行兩次（小計 observer），一樣嘅畫面唔好重畫，費事打斷動畫。 */
+    if (host.dataset.sig === sig && !host.hidden) return;
+    let prev = bagGoalLast;
+    if (!prev) {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('ouji:bag-goal') || 'null');
+        if (saved && Date.now() - saved.t < 60000) prev = saved;
+      } catch (e) {}
+    }
+    const from = prev && prev.key === goal.key && Math.abs(prev.pct - pct) > 0.5 ? prev.pct : null;
+    const reached = !!prev && goal.rank > prev.rank;
+    bagGoalLast = { key: goal.key, rank: goal.rank, pct, t: Date.now() };
+    try { sessionStorage.setItem('ouji:bag-goal', JSON.stringify(bagGoalLast)); } catch (e) {}
+
+    const photo = goal.tone === 'gift' || goal.tone === 'reached';
+    const badge = photo
+      ? '<img src="assets/images/cart/gift-cream-192.webp" width="192" height="192" alt="" decoding="async">'
+      : goal.tone === 'saving'
+        ? cc(`<span class="bag-goal__coupon">減<strong>$${BAG_SAVE.amount}</strong></span>`, `<span class="bag-goal__coupon"><strong>$${BAG_SAVE.amount}</strong>off</span>`)
+        : bagShipGlyph(goal.mode);
+    const art = `<span class="bag-goal__art" aria-hidden="true"><span class="bag-goal__badge${photo ? ' is-photo' : ''}">${badge}</span>${BAG_STICKER}</span>`;
+    host.dataset.tone = goal.tone;
+    host.classList.toggle('is-done', !!goal.done);
+    if (reached) host.dataset.moment = 'reached'; else delete host.dataset.moment;
+    if (goal.done) {
+      host.innerHTML = `${art}<p class="bag-goal__title">${BAG_ICON.check}<span>${goal.title}</span></p><p class="bag-goal__sub">${goal.sub}</p>`;
+    } else {
+      const amount = bagMoney(goal.gap);
+      const label = cc(`再買 ${amount} ${goal.zh}`, `Add ${amount} more ${goal.en}`);
+      const width = `width:${pct.toFixed(1)}%`;
+      const fill = from !== null ? ` class="is-moving" style="--from:${from.toFixed(1)}%;${width}"` : ` style="${width}"`;
+      host.innerHTML = `${art}
+        <p class="bag-goal__title">${cc(`再買 <strong>${amount}</strong> ${goal.zh}`, `Add <strong>${amount}</strong> more ${goal.en}`)}</p>
+        <div class="bag-goal__meter"><div class="bag-goal__bar" role="progressbar" aria-label="${cc('優惠進度', 'Reward progress')}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}" aria-valuetext="${label}"><span${fill}></span></div><span class="bag-goal__count">${bagMoney(goal.now)} / ${bagMoney(goal.target)}</span></div>
+        <p class="bag-goal__sub">${goal.sub}</p>`;
+    }
+    host.dataset.sig = sig;
+    host.hidden = false;
+  }
+
+  /* 摘要：運費・方式、合計、已慳（折扣＋免咗嘅運費）、贈品行；手機合計條同桌面掣下面嗰行「已享…」。
+     運費規則同 renderCart 一樣：折實貨價 ≥ 門檻就 $0（門市自取本身 $0）。 */
+  function paintBagTotals(net, gross, inCart) {
+    const cc = window.OUJI_cartCopy;
+    const mode = window.OUJI_getShipMode?.() || 'post';
+    const method = window.OUJI_SHIP[mode];
+    const shipping = net >= method.free ? 0 : method.fee;
+    const total = Math.round((net + shipping) * 100) / 100;
+    const discount = Math.max(0, Math.round((gross - net) * 100) / 100);
+    const waived = method.fee > 0 && shipping === 0 ? method.fee : 0;
+    const saved = discount + waived;
+    const giftIn = (inCart || []).includes(window.OUJI_COMMERCE?.promotion?.gift?.handle);
+    const set = (sel, text) => document.querySelectorAll(sel).forEach((el) => { el.textContent = text; });
+    /* 免咗運費就劃走原價、青藍字寫「免運費」（參考圖）；門市自取本身冇運費，寫「免費」。 */
+    document.querySelectorAll('[data-shipping]').forEach((el) => {
+      el.innerHTML = shipping > 0 ? bagMoney(shipping)
+        : method.fee > 0 ? `<s>${bagMoney(method.fee)}</s>${cc('免運費', 'Free')}` : cc('免費', 'Free');
+      el.closest('div')?.classList.toggle('is-saving', shipping === 0);
+    });
+    set('[data-total]', bagMoney(total));
+    set('[data-bag-bar-amount]', bagMoney(total));
+    set('[data-shipping-method]', cc(`・${bagShipName(mode)}`, ` · ${bagShipName(mode)}`));
+    const savedEl = document.querySelector('[data-saved]');
+    if (savedEl) {
+      savedEl.hidden = saved < 0.01;
+      savedEl.textContent = cc(`已慳 ${bagMoney(saved)}`, `Saved ${bagMoney(saved)}`);
+    }
+    const giftRow = document.querySelector('[data-gift-row]');
+    if (giftRow) giftRow.hidden = !giftIn;
+    /* 折扣啱啱好係常設「滿 $399 減 $20」就直接寫明；有其他折扣（會員獎賞、活動）就照寫「折扣」。 */
+    const discLabel = document.querySelector('[data-discount-label]');
+    if (discLabel) {
+      const promoOn = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive();
+      const isSave = !promoOn && Math.abs(discount - BAG_SAVE.amount) < 0.01 && gross + 0.001 >= BAG_SAVE.threshold;
+      discLabel.textContent = isSave
+        ? cc(`滿 HK$${BAG_SAVE.threshold} 即減`, `HK$${BAG_SAVE.amount} off over HK$${BAG_SAVE.threshold}`) : cc('折扣', 'Discount');
+    }
+    const perks = [];
+    if (discount >= 0.01) perks.push(cc(`已享即減 ${bagMoney(discount)}`, `${bagMoney(discount)} off`));
+    if (waived) perks.push(cc('免運費', 'free shipping'));
+    if (giftIn) perks.push(cc('送面霜', 'free cream'));
+    const perkText = perks.join(cc('・', ' · '));
+    set('[data-bag-bar-perks]', perkText);
+    const sidePerks = document.querySelector('[data-bag-perks]');
+    if (sidePerks) {
+      sidePerks.hidden = !perkText;
+      sidePerks.innerHTML = perkText ? `${BAG_ICON.check}<span>${perkText}</span>` : '';
+    }
+    const barTotal = document.querySelector('[data-bag-bar-total]');
+    if (barTotal) barTotal.setAttribute('aria-label', cc(`查看訂單摘要，合計 ${bagMoney(total)}`, `View order summary, total ${bagMoney(total)}`));
+    window.OUJI_paintPickFacts?.();
+    paintBagCTA();
+  }
+
+  /* 手機合計條粒掣：自取類未揀點就寫「先揀取件點」（撳落去照行真掣嘅檢查，會捲去揀點面板）；
+     真掣轉緊圈就跟住轉。 */
+  function paintBagCTA() {
+    const go = document.querySelector('[data-bag-bar-go]');
+    const label = document.querySelector('[data-bag-bar-label]');
+    if (!go || !label) return;
+    const cc = window.OUJI_cartCopy;
+    const real = document.querySelector('.cart-summary__checkout .btn');
+    const busy = !!real?.classList.contains('is-busy');
+    const mode = window.OUJI_getShipMode?.() || 'post';
+    const needsPoint = !!window.OUJI_SHIP?.[mode]?.src && !(window.OUJI_getPickupPoint && window.OUJI_getPickupPoint());
+    go.classList.toggle('is-busy', busy);
+    go.classList.toggle('is-pick', needsPoint && !busy);
+    if (busy) go.setAttribute('aria-busy', 'true'); else go.removeAttribute('aria-busy');
+    label.textContent = busy ? cc('正在開啟結帳…', 'Opening checkout…')
+      : needsPoint ? cc('先揀取件點', 'Pick a point') : cc('前往結帳', 'Go to checkout');
+  }
+  window.OUJI_paintBagCTA = paintBagCTA;
+
+  /* 桌面右欄跟住捲。全站 html／body 有 overflow-x，原生 position: sticky 唔郁（分類頁都係咁），
+     所以用 transform 推：欄頂貼住頁頭下面；欄高過畫面就捲到欄底見到先停；去到內容尾就唔再推。 */
+  function bagStickSide() {
+    const layout = document.querySelector('.bag-layout');
+    const side = layout?.querySelector('.bag-side');
+    if (!layout || !side) return;
+    const wide = window.matchMedia('(min-width: 769px)');
+    const header = document.querySelector('.header');
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (!wide.matches || !layout.offsetParent) { side.style.transform = ''; return; }
+      const box = layout.getBoundingClientRect();
+      const top = Math.max(16, (header ? header.getBoundingClientRect().bottom : 96) + 20);
+      const h = side.offsetHeight;
+      const target = Math.min(top, window.innerHeight - 20 - h);
+      const shift = Math.max(0, Math.min(target - box.top, box.height - h));
+      side.style.transform = shift > 0.5 ? `translate3d(0, ${Math.round(shift)}px, 0)` : '';
+    };
+    const ask = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', ask, { passive: true });
+    window.addEventListener('resize', ask);
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(ask);
+      ro.observe(layout);
+      ro.observe(side);
+    }
+    ask();
+  }
+
+  /* 加購／短效期兩行卡共用（參考圖）：相、牌子、名、（一件就夠嗰張先有嘅提示）、價錢＋圓形「＋」。
+     圖片經 Shopify CDN 攞 300px，唔好喺細卡度落成張 1200px 原圖。 */
+  const bagEsc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const bagThumb = (url, w) => !url || !/cdn\.shopify\.com|\/cdn\/shop\//.test(url) ? url : `${url}${url.includes('?') ? '&' : '?'}width=${w}`;
+  function bagCard({ href, img, vendor, name, price, was, expiry, hit, vid }) {
+    const cc = window.OUJI_cartCopy;
+    return `<article class="bag-card">
+      <a class="bag-card__image" href="${href}" tabindex="-1" aria-hidden="true"><img src="${bagEsc(bagThumb(img, 300))}" alt="" width="200" height="200" loading="lazy" decoding="async"></a>
+      ${expiry ? `<span class="bag-card__expiry">${cc(`到期 ${bagEsc(expiry)}`, `Exp. ${bagEsc(expiry)}`)}</span>` : ''}
+      <p class="bag-card__vendor">${bagEsc(vendor)}</p>
+      <h3 class="bag-card__name" data-no-i18n><a href="${href}">${bagEsc(name)}</a></h3>
+      ${hit ? `<p class="bag-card__hit">${bagEsc(hit)}</p>` : ''}
+      <div class="bag-card__foot"><span class="bag-card__price">${price}${was ? `<s>${was}</s>` : ''}</span><button class="bag-card__add" type="button" data-vid="${bagEsc(vid)}" aria-label="${cc(`加入購物袋：${bagEsc(name)}，${price}`, `Add to bag: ${bagEsc(name)}, ${price}`)}">${bagSvg('<path d="M12 5v14M5 12h14"/>')}</button></div>
+    </article>`;
+  }
+  /* 撳「＋」：轉圈 → 打剔 → reload（合計、免運進度、運費全部會變，renderCart 冇 export，
+     reload 最穩陣）。addToCart 失敗會回 null（唔一定拋錯），兩種都要還原粒掣。 */
+  async function bagAddClick(e) {
+    const btn = e.target.closest('.bag-card__add');
+    if (!btn || btn.disabled) return;
+    const cc = window.OUJI_cartCopy;
+    const label = btn.getAttribute('aria-label');
+    btn.disabled = true;
+    btn.classList.add('is-busy');
+    btn.setAttribute('aria-label', cc('加緊…', 'Adding…'));
+    const ok = await addToCart(btn.dataset.vid, 1).catch((err) => { console.warn('bag add', err); return null; });
+    btn.classList.remove('is-busy');
+    if (ok) {
+      btn.classList.add('is-done');
+      btn.innerHTML = BAG_ICON.check;
+      btn.setAttribute('aria-label', cc('加咗 ✓', 'Added ✓'));
+      setTimeout(() => location.reload(), 700);
+    } else {
+      btn.disabled = false;
+      btn.setAttribute('aria-label', label);
+    }
+  }
+  /* 有啲目錄圖 Shopify 轉唔到 AVIF／WebP，瀏覽器攞到嘅係 404（2026-10-17 量到：Nudie Glow 嗰批
+     39 張頭圖有 10 張係咁）。爛圖嗰張卡直接拎走，成行冇卡就收埋成條帶。 */
+  function bagDropBrokenCard(e) {
+    const img = e.target;
+    if (!img || img.tagName !== 'IMG') return;
+    const card = img.closest('.bag-card');
+    const row = card?.parentElement;
+    card?.remove();
+    if (row && !row.children.length) row.closest('.bag-band')?.setAttribute('hidden', '');
+  }
+
   function renderReward(net, gross, inCart) {
     window.OUJI_rewardState = { net, gross, inCart };
+    /* 摘要細節（運費、合計、已慳）同手機合計條：換運送方式都經呢度重畫（見下面 paint()）。 */
+    paintBagTotals(net, gross, inCart);
     const host = document.querySelector('[data-reward]');
     if (!host) return;
     host.hidden = net <= 0;
+    const goalHost = document.querySelector('[data-bag-goal]');
+    if (goalHost && host.hidden) goalHost.hidden = true;
     if (host.hidden) return;
     const promoCard = host.querySelector('[data-cart-moon-promo]');
     const promo = window.OUJI_COMMERCE?.promotion;
@@ -1351,61 +1685,34 @@
           cost: window.OUJI_cartCopy('隨單附送', 'Included'),
         });
       }
-      perks.innerHTML = rows.map((r) => `<div class="reward__row"><svg class="reward__icon" aria-hidden="true" viewBox="0 0 24 24">${r.icon}</svg><div class="reward__copy"><p class="reward__line">${r.line}</p><p class="reward__cost">${r.cost}</p></div></div>`).join('');
+      perks.innerHTML = rows.map((r) => `<div class="bag-perks__row"><svg aria-hidden="true" viewBox="0 0 24 24">${r.icon}</svg><p>${r.line}</p><span>${r.cost}</span></div>`).join('');
+      perks.hidden = !rows.length;
     }
-    const mode = window.OUJI_getShipMode?.() || 'post';
-    const method = window.OUJI_SHIP[mode];
-    const met = method.fee === 0 || net >= method.free;
-    const gap = Math.max(0, Math.ceil((method.free - net) * 100 - 0.001) / 100);
+    /* 所選運送方式免運差額已經搬咗去最頂嘅湊單目標卡（paintBagGoal），呢度只畫贈品卡。 */
+    paintBagGoal(bagNextGoal(net, gross, inCart, promoActive));
     const money = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
-    const methodName = window.OUJI_cartShipDisplay(mode, method.name);
-    const line = host.querySelector('[data-reward-line]');
-    line.innerHTML = window.OUJI_cartCopy(
-      method.fee === 0 ? '門市免費自取'
-        : met ? (method.label || method.name) + ' 免運費'
-        : '再買 <strong>HK$' + money(gap) + '</strong> 免運費',
-      method.fee === 0 ? '✓ Free store pickup, no minimum spend'
-        : met ? '✓ ' + methodName + ' free shipping applied'
-        : 'Add <strong>HK$' + money(gap) + '</strong> more for free shipping with ' + methodName
-    );
-    host.querySelector('[data-reward-cost]').textContent = method.fee === 0
-      ? window.OUJI_cartCopy('10:00–20:00', '10:00–20:00')
-      : met
-      ? window.OUJI_cartCopy('滿 HK$' + method.free, 'Over HK$' + method.free)
-      : window.OUJI_cartCopy('滿 HK$' + method.free + ' 免運', 'Free over HK$' + method.free);
-    const track = host.querySelector('[data-reward-track]');
-    track.hidden = met;
-    const pct = Math.min(100, Math.max(0, net / method.free * 100));
-    track.setAttribute('aria-valuenow', String(Math.round(pct)));
-    track.setAttribute('aria-valuetext', window.OUJI_cartCopy(
-      '再買 HK$' + money(gap) + ' 即享所選方式免運',
-      'Add HK$' + money(gap) + ' more for free shipping with the selected method'
-    ));
-    host.querySelector('[data-reward-fill]').style.width = pct + '%';
-    host.querySelector('[data-reward-cta]').hidden = met;
     const gift = window.OUJI_COMMERCE?.promotion?.gift;
     const giftLine = host.querySelector('[data-reward-gift]');
     giftLine.hidden = promoActive;
     const giftTitleAmount = document.createElement('span');
-    giftTitleAmount.className = 'reward-gift__threshold-amount';
+    giftTitleAmount.className = 'bag-gift__threshold';
     giftTitleAmount.textContent = 'HK$' + GIFT;
     host.querySelector('[data-gift-title]').replaceChildren(
       document.createTextNode(window.OUJI_cartCopy('滿 ', 'Spend ')),
       giftTitleAmount,
-      document.createElement('br'),
-      document.createTextNode(window.OUJI_cartCopy('呢樽免費送', 'This gift is free')));
-    host.querySelector('[data-gift-status]').textContent = (inCart || []).includes(gift?.handle)
+      document.createTextNode(window.OUJI_cartCopy(' 呢樽免費送', ' — this gift is free')));
+    const giftStatus = host.querySelector('[data-gift-status]');
+    const inBag = (inCart || []).includes(gift?.handle);
+    giftLine.classList.toggle('is-won', inBag || net >= GIFT);
+    giftStatus.textContent = inBag
       ? window.OUJI_cartCopy('✓ 贈品已加入購物袋', '✓ Gift added to bag')
       : net >= GIFT ? window.OUJI_cartCopy('已達贈品門檻；請以購物袋實際贈品為準', 'Gift threshold reached; actual gifts in bag apply')
-      : window.OUJI_cartCopy(
-        '再買 HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100) + ' 即送',
-        'Add HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100) + ' more to get this gift'
-      );
-    if (net < GIFT && !(inCart || []).includes(gift?.handle)) {
+      : '';
+    if (net < GIFT && !inBag) {
       const amount = document.createElement('strong');
-      amount.className = 'reward-gift__amount';
+      amount.className = 'bag-gift__amount';
       amount.textContent = 'HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100);
-      host.querySelector('[data-gift-status]').replaceChildren(
+      giftStatus.replaceChildren(
         document.createTextNode(window.OUJI_cartCopy('再買 ', 'Add ')), amount,
         document.createTextNode(window.OUJI_cartCopy(' 即送', ' more to get this gift'))
       );
@@ -1416,7 +1723,7 @@
   /* 買到現貨上限就講一句，唔好等客撳唔到「+」先猜。 */
   function stockCapNote(line, cap) {
     if (cap == null || line.quantity < cap) return '';
-    return `<p class="cart-item__split">${window.OUJI_cartCopy(
+    return `<p class="bag-line__note">${window.OUJI_cartCopy(
       `已達現貨上限（${cap} 件）`, `Maximum in stock (${cap})`)}</p>`;
   }
 
@@ -1541,9 +1848,9 @@
       /* label＝客見到嘅名（2026-09-24 老闆：「／」唔好睇，改用「·」）；
          name 係寫入訂單「運送方式」屬性、鋪頭執單睇嘅，唔好改。 */
       post: { fee: 15, free: 99,  name: '7-Eleven／郵局', label: '7-Eleven · 郵局', src: 'data/pickup-points.json', match: '7-Eleven',
-              sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天', hint: '要揀定去邊間 7-Eleven 或郵局攞貨' },
+              sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天', subEn: '812 7-Eleven stores, post offices and iPostal stations · 2 working days', hint: '要揀定去邊間 7-Eleven 或郵局攞貨' },
       sfp:  { fee: 16, free: 250, name: '順豐站／智能櫃', label: '順豐站 · 智能櫃', src: 'assets/data/sf-points.json', match: '順豐站',
-              sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', hint: '要揀定去邊個順豐站或智能櫃攞貨' },
+              sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', subEn: '428 SF points · 1–2 working days · held for 3 days', hint: '要揀定去邊個順豐站或智能櫃攞貨' },
       sfd:  { fee: 31, free: 290, name: '順豐派送上門',        src: null, match: '順豐派送',
               sub: '送到門口 · 1–2 個工作天' },
       shop: { fee: 0,  free: 0,   name: '觀塘門市自取',        src: null,
@@ -1562,19 +1869,9 @@
 
     /* 2026-09-24 老闆 mockup：四個方式一行排晒（原本分「自取／送到手」兩組直排，
        手機成嚿 600px 高）。每格自己寫住自己嘅運費同「再買 $X 免運」——
-       門檻唔同，唔可以寫一句總述。順豐唔用佢哋個 logo，用返我哋自己嘅線條 icon。 */
+       門檻唔同，唔可以寫一句總述。順豐唔用佢哋個 logo，用返我哋自己嘅線條 icon。
+       格仔短名同 icon 喺上面 BAG_SHIP／bagShipGlyph（2026-10-17 新版）。 */
     const ORDER = ['post', 'sfp', 'sfd', 'shop'];
-    const TILE = {
-      post: { label: '7-Eleven<br>郵局', sub: '自取 · 平郵' },
-      sfp:  { label: '順豐站<br>智能櫃', sub: '網點多 · 方便' },
-      sfd:  { label: '順豐上門', sub: '直送到府' },
-      shop: { label: '觀塘<br>自取', sub: '門市自取 · 即日' },
-    };
-    const ICON = {
-      sfp: '<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M4 12h16M12 3.5v17M9.5 8h.01M14.5 8h.01M9.5 16h.01M14.5 16h.01"/></svg>',
-      sfd: '<svg viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7M6 9.5V20h12V9.5M10 20v-5.5h4V20"/></svg>',
-      shop: '<svg viewBox="0 0 24 24"><path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0M5.5 12.5V20h13v-7.5M10 20v-4.5h4V20"/></svg>',
-    };
 
     /* ⛔ 唔好再試 cartSelectedDeliveryOptionsUpdate 去預先幫客揀運送方式。
        2026-09-03 實測（live cart）兩件事：
@@ -1596,40 +1893,54 @@
       return Number(window.OUJI_netGoods) || 0;
     }
 
+    let lastPainted = null;      // 啱啱換咗方式，新揀嗰格個剔先彈一下（見 .bag-ship.is-fresh）
     function paint() {
       const S = window.OUJI_SHIP;
       const n = net();
-      let html = '<div class="ship-mode__grid">';
+      const cc = window.OUJI_cartCopy;
+      const fresh = lastPainted !== null && lastPainted !== mode;
+      /* 2026-10-17 新版（參考圖）：四格一行，標誌 → 名 → 細字 → 運費 → 差幾多免運；
+         7-11 用返佢個標誌加「推薦自取」暖色帶，揀中嗰格用青藍邊加剔。 */
+      let html = '<div class="bag-ship-tiles" role="radiogroup" aria-labelledby="bag-delivery-title">';
       for (const k of ORDER) {
         const o = S[k];
-        const t = TILE[k];
+        const t = BAG_SHIP[k];
         const on = mode === k;
-        /* 金額行＋門檻行分開兩行，四格高度由 grid 拉齊（唔再逐格自己長高）。 */
-        let fee, gapLine;
+        /* 金額行＋門檻行分開兩行；四格用 subgrid 對齊，邊格斷行都唔會將個價推高推低。 */
+        let fee, note, status, statusEn;
         if (o.fee === 0) {
-          fee = '<span class="ship-mode__free">免費</span>';
-          gapLine = '<span class="ship-mode__gap is-met">毋須湊單</span>';
+          fee = `<span class="bag-ship__free">${cc('免運費', 'Free')}</span>`;
+          note = cc('毋須湊單', 'No minimum');
+          status = '免運費'; statusEn = 'free';
         } else if (n >= o.free) {
-          fee = `<span class="ship-mode__free">免費</span><s class="ship-mode__was">$${o.fee}</s>`;
-          gapLine = `<span class="ship-mode__gap is-met">滿$${o.free} ✓</span>`;
+          fee = `<span class="bag-ship__free">${cc('免運費', 'Free')}</span><s>$${o.fee}</s>`;
+          note = cc(`已滿$${o.free}`, `Over $${o.free}`);
+          status = `已滿 $${o.free}，免運費`; statusEn = `over $${o.free}, free`;
         } else {
-          fee = `<span class="ship-mode__price">HK$${o.fee}</span>`;
-          gapLine = `<span class="ship-mode__gap">差$${Math.ceil(o.free - n - 0.001)}免運</span>`;
+          const gap = Math.ceil(o.free - n - 0.001);
+          fee = `<span class="bag-ship__price">$${o.fee}</span>`;
+          note = cc(`差$${gap}<wbr>免運`, `$${gap} to go`);
+          status = `運費 $${o.fee}，差 $${gap} 免運`; statusEn = `$${o.fee}, $${gap} more for free shipping`;
         }
         const isPost = k === 'post';
-        const icon = isPost
-          ? '<span class="ship-mode__seven-logo" aria-hidden="true"><b>7</b></span>'
-          : `<span class="ship-mode__icon" aria-hidden="true">${ICON[k]}</span>`;
-        html += `<label class="ship-mode__opt${on ? ' is-on' : ''}${isPost ? ' ship-mode__opt--recommended' : ''}" data-mode="${k}">
-          <input type="radio" name="ouji-ship" value="${k}"${on ? ' checked' : ''}>
-          ${isPost ? '<span class="ship-mode__recommended">推薦自取</span>' : ''}
-          <span class="ship-mode__dot"></span>
-          ${icon}
-          <span class="ship-mode__name">${t.label}</span>
-          <span class="ship-mode__fee"><span>${fee}</span>${gapLine}</span>
+        const name = cc(t.zh, t.en);
+        const glyph = isPost ? `<span class="bag-ship__logo">${BAG_SEVEN}</span>` : bagShipGlyph(k);
+        html += `<label class="bag-ship${on ? ' is-on' : ''}${on && fresh ? ' is-fresh' : ''}${isPost ? ' is-pick' : ''}" data-mode="${k}">
+          <input type="radio" name="ouji-ship" value="${k}"${on ? ' checked' : ''} aria-label="${cc(`${t.zh}${isPost ? '（推薦）' : ''}，${status}`, `${t.en}${isPost ? ' (recommended)' : ''}, ${statusEn}`)}">
+          ${isPost ? `<span class="bag-ship__ribbon" aria-hidden="true">${cc('推薦自取', 'Recommended')}</span>` : ''}
+          <span class="bag-ship__top" aria-hidden="true"><span class="bag-ship__icon">${glyph}</span>${on ? `<span class="bag-ship__check">${BAG_ICON.check}</span>` : ''}</span>
+          <strong class="bag-ship__name" aria-hidden="true">${name}</strong>
+          <span class="bag-ship__sub" aria-hidden="true">${cc(t.sub, t.subEn)}</span>
+          <span class="bag-ship__fee" aria-hidden="true">${fee}</span>
+          <span class="bag-ship__note" aria-hidden="true">${note}</span>
         </label>`;
       }
       html += '</div>';
+      lastPainted = mode;
+      /* 要揀取件點嗰兩種，講埋有幾多個點、幾耐到（門市／上門由下面資料卡講）。 */
+      const chosen = S[mode];
+      const detail = chosen?.src ? cc(chosen.sub || '', chosen.subEn || '') : '';
+      if (detail) html += `<p class="bag-ship-detail">${BAG_ICON.pin}<span>${detail}</span></p>`;
       // Keep the same picker node and its event listeners when radio options repaint.
       const picker = document.querySelector('[data-sfp]');
       if (picker) picker.remove();
@@ -1660,15 +1971,8 @@
         const currentCart = await getCart();
         trackAddShippingInfo(currentCart, window.OUJI_SHIP[mode].name);
       }
-      /* 運費同合計要即刻跟住變 —— 唔重畫成個購物袋，只補呢兩格。 */
-      const S = window.OUJI_SHIP[mode], n = net();
-      const ship = n >= S.free ? 0 : S.fee;
-      const shipEl = document.querySelector('[data-shipping]');
-      const fmt = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
-      if (shipEl) shipEl.textContent = ship === 0 ? '免費' : `HK$${fmt(ship)}`;
-      /* 合計都要跟住郁 —— 之前淨係改運費嗰格，揀完 $30 上門合計都唔變。 */
-      const totEl2 = document.querySelector('[data-total]');
-      if (totEl2) totEl2.textContent = `HK$${fmt(Math.round((n + ship) * 100) / 100)}`;
+      /* 運費同合計已經喺上面 paint() → renderReward() → paintBagTotals() 即刻跟住變
+         （摘要、手機合計條同一份數），唔使再喺度逐格補。 */
       /* 加購嗰行講緊「再買 $X 就免運費」，而每個運送方式門檻都唔同
          （$99／$199／$290／門市自取冇門檻）—— 換方式一定要重算。
          加購自己嗰個 observer 只盯小計，換方式唔會觸發到。 */
@@ -1714,8 +2018,6 @@
     const grid = document.querySelector('[data-sd-addon-grid]');
     if (!sec || !grid || typeof isShortDated !== 'function') return;
     const MONTH = 30.4 * 86400000;
-    const esc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     let pool = null;
 
     async function loadPool() {
@@ -1739,41 +2041,27 @@
 
     async function paint() {
       const items = await loadPool();
-      const inCart = new Set([...document.querySelectorAll('.cart-item__name a')]
-        .map((a) => new URLSearchParams(a.search).get('handle')).filter(Boolean));
+      const inCart = new Set([...document.querySelectorAll('[data-line-handle]')]
+        .map((el) => el.dataset.lineHandle).filter(Boolean));
+      /* 一行橫掃（三張半一屏），所以由 4 張加到 8 張；平嘅排先。 */
       const picked = items.filter((x) => !inCart.has(x.p.handle))
-        .sort((a, b) => a.price - b.price).slice(0, 4);
+        .sort((a, b) => a.price - b.price).slice(0, 8);
       if (!picked.length) { sec.hidden = true; return; }
-      grid.innerHTML = picked.map((x) => {
-        const href = `product.html?handle=${encodeURIComponent(x.p.handle)}`;
-        const name = shortDatedDisplayTitle(x.p.title);
-        return `<article class="addon__card">
-          <a class="addon__media" href="${href}"><img src="${esc(x.img)}" alt="${esc(name)}" loading="lazy"></a>
-          <p class="addon__vendor">${esc(x.p.vendor)}</p>
-          <span class="addon__expiry">到期 ${x.expiry.replace(/-0?/g, '.')}</span>
-          <h3 class="addon__name"><a href="${href}">${esc(name)}</a></h3>
-          <p class="addon__price">HK$${x.price.toFixed(0)}${x.was > x.price ? `<s class="addon__was">HK$${x.was.toFixed(0)}</s>` : ''}</p>
-          <button class="addon__add" type="button" data-vid="${esc(x.vid)}">加入購物袋</button>
-        </article>`;
-      }).join('');
+      grid.innerHTML = picked.map((x) => bagCard({
+        href: `product.html?handle=${encodeURIComponent(x.p.handle)}`,
+        img: x.img,
+        vendor: x.p.vendor,
+        name: shortDatedDisplayTitle(x.p.title),
+        price: `HK$${x.price.toFixed(0)}`,
+        was: x.was > x.price ? `HK$${x.was.toFixed(0)}` : '',
+        expiry: x.expiry.replace(/-0?/g, '.'),
+        vid: x.vid,
+      })).join('');
       sec.hidden = false;
     }
 
-    grid.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.addon__add');
-      if (!btn || btn.disabled) return;
-      btn.disabled = true;
-      const was = btn.textContent;
-      btn.textContent = '加緊…';
-      const ok = await addToCart(btn.dataset.vid, 1);
-      if (ok) {
-        btn.textContent = '加咗 ✓';
-        setTimeout(() => location.reload(), 700);
-      } else {
-        btn.textContent = was;
-        btn.disabled = false;
-      }
-    });
+    grid.addEventListener('click', bagAddClick);
+    grid.addEventListener('error', bagDropBrokenCard, true);
 
     window.OUJI_repaintShortDated = () => paint().catch((e) => {
       console.warn('short-dated addon', e);
@@ -1786,7 +2074,7 @@
     const grid = document.querySelector('[data-addon-grid]');
     const sub = document.querySelector('[data-addon-sub]');
     if (!sec || !grid) return;
-    /* 「睇多啲」狀態：折疊＝4 件、展開＝12 件。
+    /* 「睇多啲」狀態：折疊＝一行 8 件、展開＝格仔 16 件（2026-10-17 新版；以前 4／12）。
        展開只係將同一套計分之後面嗰批顯示出嚟，唔會偷偷推貴貨 ——
        2026-09-17 老闆要求：爭 $100 就畀佢睇多啲 $100 左右嘅，爭 $40 就睇 $40 左右。 */
     const more = document.querySelector('[data-addon-more]');
@@ -1883,8 +2171,8 @@
 
       /* 購物袋已經有嘅唔好再推。用 handle 而唔係 title ——
          同名唔同色號／唔同 size 會撞，會推返客啱啱加咗嗰件。 */
-      const inCart = new Set([...document.querySelectorAll('.cart-item__name a')]
-        .map((a) => new URLSearchParams(a.search).get('handle')).filter(Boolean));
+      const inCart = new Set([...document.querySelectorAll('[data-line-handle]')]
+        .map((el) => el.dataset.lineHandle).filter(Boolean));
 
       /* ── 下一個 level 係邊個？ ─────────────────────────────────────
          加購最有力嘅理由唔係「順手買多件」，而係「爭幾多就去到下一個 level」。
@@ -1900,10 +2188,13 @@
            一律講「升級到⋯」——由自取升級做順豐站／送上門，係升級唔係慳錢。 */
         { at: S.sfp?.free, label: '升級到順豐站 · 智能櫃免運費', en: 'free SF station / locker delivery', up: 1, badge: '加咗順豐站免運', badgeEn: 'Add for free SF station' },
         { at: S.sfd?.free, label: '升級到順豐送上門免運費', en: 'free home delivery', up: 1, badge: '加咗送上門免運', badgeEn: 'Add for free home delivery' },
+        /* 活動期內用活動嘅即減級數；平日用常設「滿 $399 減 $20」（睇未折小計），
+           同最頂嘅湊單目標卡讀同一份設定（OUJI_COMMERCE.spendSave）。 */
         ...(midAutumnActive ? (PROMO.tiers || []).map(({ threshold, saving }) => ({
           at: threshold, label: `減 $${saving}`, en: `$${saving} off`,
           badge: `加咗減 $${saving}`, badgeEn: `Add for $${saving} off`, basis: 'gross',
-        })) : []),
+        })) : [{ at: BAG_SAVE.threshold, label: `減 $${BAG_SAVE.amount}`, en: `$${BAG_SAVE.amount} off`,
+          badge: `加咗減 $${BAG_SAVE.amount}`, badgeEn: `Add for $${BAG_SAVE.amount} off`, basis: 'gross' }]),
         { at: PROMO.gift?.threshold || 599, label: '送 Round Lab 白樺樹面霜', en: 'a free Round Lab cream', badge: '加咗送面霜', badgeEn: 'Add for a free cream' },
       ].filter((l) => Number(l.at) > 0);
 
@@ -1919,11 +2210,12 @@
 
       /* 文案跟住差額轉：差額細過最平嗰件 → 加咩都夠；大過兩件最貴 →
          唔可以講「啱啱夠」，呃完客下次唔信。 */
-      /* 「差幾多錢」要一眼睇到：個金額用 .addon__gap 上磚紅色 ＋ 淡底，
+      /* 「差幾多錢」要一眼睇到：個金額用 .bag-band__gap 粗身青藍字，
          唔係同其他字一樣灰濛濛（2026-09-17 老闆要求）。 */
-      const goalZh = next ? next.label : '';
+      /* 目標名唔准喺中間斷行（試過「白／樺樹面霜」）。 */
+      const goalZh = next ? `<span class="bag-band__goal">${next.label}</span>` : '';
       const goalEn = next ? `${next.up ? 'to upgrade to ' : 'for '}${next.en}` : '';
-      const gapHtml = `<b class="addon__gap">${money(gap)}</b>`;
+      const gapHtml = `<b class="bag-band__gap">${money(gap)}</b>`;
       sub.innerHTML = window.OUJI_cartCopy(
         !next
           ? '好多人順手加埋呢啲'
@@ -1960,7 +2252,8 @@
         .map((p) => ({ p, s: rank(p) + fillScore(p.__price) }))
         .sort((a, b) => b.s - a.s || a.p.__price - b.p.__price);
 
-      const want = expanded ? 12 : 4;
+      /* 一行橫掃三張半一屏，所以平時 8 張；「睇多啲」攤開做格仔，16 張。 */
+      const want = expanded ? 16 : 8;
 
       /* 分散：同一個牌子最多一格（單一牌子自己有好多 SKU）。
          面膜係指定主力，可以佔三格；其他類型最多兩格 ——
@@ -2003,23 +2296,25 @@
           ? window.OUJI_cartCopy('加 2 件啱啱夠', '2 of these cover it')
           : '';
 
-      grid.innerHTML = picked.map((p) => {
-        const note = noteOf(p);
-        return `<article class="addon__card">
-          <a class="addon__media" href="product.html?handle=${encodeURIComponent(p.handle)}">
-            <img src="${p.__img}" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy">
-          </a>
-          <p class="addon__vendor">${p.vendor || ''}</p>
-          <h3 class="addon__name"><a href="product.html?handle=${encodeURIComponent(p.handle)}">${trimVendor(p.title, p.vendor)}</a></h3>
-          <p class="addon__price">${money(p.__price)}${note ? `<span class="addon__hit">${note}</span>` : ''}</p>
-          <button class="addon__add" type="button" data-vid="${p.__variantId}">${window.OUJI_cartCopy('加入購物袋', 'Add to bag')}</button>
-        </article>`;
-      }).join('');
+      /* 有提示嗰張（一件就夠／兩件啱啱夠）擺第一張，橫掃唔使搵。 */
+      const lead = hitOne || pairOne;
+      const shown = lead ? [lead, ...picked.filter((p) => p !== lead)] : picked;
+      grid.innerHTML = shown.map((p) => bagCard({
+        href: `product.html?handle=${encodeURIComponent(p.handle)}`,
+        img: p.__img,
+        vendor: p.vendor || '',
+        name: trimVendor(p.title, p.vendor),
+        price: money(p.__price),
+        hit: noteOf(p),
+        vid: p.__variantId,
+      })).join('');
+      sec.classList.toggle('is-expanded', expanded);
       if (more) {
-        more.hidden = scored.length <= 4;
-        more.textContent = expanded
-          ? window.OUJI_cartCopy('收埋 ↑', 'Show fewer ↑')
-          : window.OUJI_cartCopy('睇多啲同價位嘅貨 →', 'See more in this price range →');
+        more.hidden = scored.length <= 8;
+        more.innerHTML = expanded
+          ? `${window.OUJI_cartCopy('收埋', 'Show fewer')}${bagSvg('<path d="M18 15l-6-6-6 6"/>')}`
+          : `${window.OUJI_cartCopy('睇多啲', 'See more')}${bagSvg('<path d="M9 18l6-6-6-6"/>')}`;
+        more.setAttribute('aria-expanded', String(expanded));
       }
       sec.hidden = false;
     }
@@ -2029,24 +2324,9 @@
       paint().catch((e) => console.warn('addon more', e));
     });
 
-    grid.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.addon__add');
-      if (!btn || btn.disabled) return;
-      btn.disabled = true;
-      const was = btn.textContent;
-      btn.textContent = window.OUJI_cartCopy('加緊…', 'Adding…');
-      try {
-        await addToCart(btn.dataset.vid, 1);
-        btn.textContent = window.OUJI_cartCopy('加咗 ✓', 'Added ✓');
-        /* 加完要成版重畫（合計、免運進度、運費都會變）。
-           renderCart 冇 export，所以行返最穩陣嗰條路。 */
-        setTimeout(() => location.reload(), 700);
-      } catch (err) {
-        console.warn('addon add', err);
-        btn.textContent = was;
-        btn.disabled = false;
-      }
-    });
+    /* 加完要成版重畫（合計、免運進度、運費都會變），見 bagAddClick()。 */
+    grid.addEventListener('click', bagAddClick);
+    grid.addEventListener('error', bagDropBrokenCard, true);
 
     /* 等購物袋畫完先算「差幾多免運」—— 冇數就計唔到。 */
     const kick = () => paint().catch((e) => console.warn('addon', e));
@@ -2081,7 +2361,6 @@
     const qEl = root.querySelector('[data-sfp-q]');
     const listEl = root.querySelector('[data-sfp-list]');
     const countEl = root.querySelector('[data-sfp-count]');
-    const labelEl = root.querySelector('[data-sfp-sublabel]');
     const hintEl = root.querySelector('[data-sfp-hint]');
     const startEl = root.querySelector('[data-sfp-start]');
     const KEY = 'ouji:sfPoint';
@@ -2100,19 +2379,25 @@
       const o = (window.OUJI_SHIP || {})[mode];
       if (!o) { root.hidden = true; return; }
       root.hidden = false;
+      root.classList.remove('is-editing');
       root.classList.toggle('sfp--info', !o.src);
       if (!o.src) {
-        labelEl.textContent = mode === 'shop' ? '門市取貨' : '送到你手上';
         root.querySelector('[data-sfp-heading]').textContent = o.label || o.name;
         root.querySelector('[data-sfp-detail]').textContent = mode === 'shop'
           ? '觀塘觀塘道 472–480 號，觀塘工業中心一期地下 B 舖。每日 10:00–20:00。收到可取貨通知後，帶同訂單資料到店領取。'
           : '結賬時填寫收件地址及聯絡電話，由順豐派送上門。運費 HK$31，折實滿 HK$290 免運費。';
+        /* 資料卡：門市用舖面 icon、上門用貨車；冇取件點可以揀，「更改」同推薦標籤收起。 */
+        const logo = root.querySelector('[data-sfp-logo]');
+        if (logo) { logo.innerHTML = bagShipGlyph(mode); logo.classList.remove('is-seven'); }
+        root.querySelector('[data-sfp-chip]').hidden = true;
+        root.querySelector('[data-sfp-hours]').hidden = true;
+        root.querySelector('[data-sfp-change]').hidden = true;
         panel.hidden = true;
         startEl.value = '';
+        window.OUJI_paintBagCTA?.();
         return;
       }
       paintChosen();
-      if (labelEl) labelEl.textContent = o.label || o.name;
       if (hintEl) hintEl.textContent = o.hint || '要喺呢度揀定去邊個點攞貨';
       if (src !== o.src) {          // 換咗名單 → 之前揀嗰個已經唔啱用
         /* 例外：一開頁第一次行到呢度（src 仲係 null），而 localStorage 嗰個點
@@ -2158,12 +2443,59 @@
     /* 俾「前往結帳」查：自取類運送方式一定要揀咗點先放行 */
     window.OUJI_getPickupPoint = () => chosen;
 
+    /* 揀好點就摺成參考圖嗰張卡：標誌（7-Eleven 用佢個標誌，郵局／智郵站用信封，順豐用櫃）、
+       網點名、地址、營業時間，右邊「更改」重新打開揀點 —— 揀好新嗰個先換，唔會中途清走舊嗰個。
+       網點名：7-Eleven 碼頭本身有「7-11」就剝走；碼已經寫咗類型（「香港仔郵政局」）就唔再重複。 */
+    function pointName(p) {
+      const kind = String(p?.kind || ''), code = String(p?.code || '');
+      if (kind === '7-Eleven') return `7-Eleven ${code.replace(/^7-11\s*/, '')}`;
+      return kind && code.includes(kind) ? code : [kind, code].filter(Boolean).join(' · ');
+    }
+    /* 揀好點之後兩格事實：運費（已享免運／差幾多）、送到邊同幾耐到（由 OUJI_SHIP.sub 攞工作天）。
+       一開頁未有貨價（OUJI_netGoods）就唔畫，等 paintBagTotals() 計完再叫。 */
+    function paintPickFacts() {
+      const box = root.querySelector('[data-sfp-facts]');
+      if (!box) return;
+      const mode = window.OUJI_getShipMode?.();
+      const o = (window.OUJI_SHIP || {})[mode];
+      if (!chosen || !o?.src || window.OUJI_netGoods == null) { box.hidden = true; return; }
+      const cc = window.OUJI_cartCopy;
+      const net = Number(window.OUJI_netGoods) || 0;
+      const free = net >= o.free;
+      const gap = Math.max(0, Math.ceil(o.free - net - 0.001));
+      const days = (String(o.sub || '').match(/\d[\d–-]*\s*個工作天/) || [''])[0];
+      const daysEn = days ? days.replace(/\s*個工作天/, ' working days') : '';
+      const place = { '7-Eleven': '7-11', 郵政局: '郵局', 自助櫃: '智能櫃' }[chosen.kind] || chosen.kind;
+      const placeEn = { '7-Eleven': '7-Eleven', 郵政局: 'the post office', 智郵站: 'the iPostal station', 順豐站: 'the SF Station', 自助櫃: 'the SF locker' }[chosen.kind] || chosen.kind;
+      const gift = '<path d="M3 8.5h18v4H3zM4.5 12.5h15V21h-15zM12 8.5V21M12 8.5c-1.6-3.6-6.3-4.4-6.3-1.6 0 1.5 2.6 1.6 6.3 1.6zm0 0c1.6-3.6 6.3-4.4 6.3-1.6 0 1.5-2.6 1.6-6.3 1.6z"/>';
+      const clock = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
+      box.innerHTML = `<li>${bagSvg(gift)}<span><strong>${free ? cc('已享免運費', 'Free shipping') : cc(`差 HK$${gap} 免運`, `HK$${gap} to free shipping`)}</strong><small>${free
+          ? cc(`已滿 HK$${o.free}`, `Over HK$${o.free}`) : cc(`運費 HK$${o.fee}・滿 HK$${o.free} 免運`, `HK$${o.fee} · free over HK$${o.free}`)}</small></span></li>`
+        + (days ? `<li>${bagSvg(clock)}<span><strong>${cc(`送到 ${place}`, `To ${placeEn}`)}</strong><small>${cc(days, daysEn)}</small></span></li>` : '');
+      box.hidden = false;
+    }
+    window.OUJI_paintPickFacts = paintPickFacts;
     function paintChosen() {
+      const cc = window.OUJI_cartCopy;
       root.classList.toggle('sfp--chosen', !!chosen);
-      root.querySelector('[data-sfp-heading]').textContent = chosen ? '✓ ' + chosen.kind + ' ' + chosen.code : '選擇取件點';
+      const seven = chosen?.kind === '7-Eleven';
+      const logo = root.querySelector('[data-sfp-logo]');
+      if (logo) {
+        logo.innerHTML = !chosen ? BAG_ICON.pin : seven ? BAG_SEVEN : /郵/.test(chosen.kind || '') ? BAG_ICON.post : BAG_ICON.locker;
+        logo.classList.toggle('is-seven', seven);
+      }
+      root.querySelector('[data-sfp-heading]').textContent = chosen ? pointName(chosen) : cc('選擇取件點', 'Choose a pickup point');
+      root.querySelector('[data-sfp-chip]').hidden = !(chosen && window.OUJI_getShipMode?.() === 'post');
       root.querySelector('[data-sfp-detail]').textContent = chosen
-        ? `${chosen.address}${chosen.hours ? ' · ' + chosen.hours : ''}` : '揀一個方便你嘅取件點。';
-      root.querySelector('[data-sfp-status]').textContent = chosen ? '✓ 已選取件點' : '選好取件點，就可以繼續結賬';
+        ? chosen.address : cc('揀一個方便你嘅取件點。', 'Pick the point that suits you.');
+      const hours = root.querySelector('[data-sfp-hours]');
+      hours.textContent = chosen?.hours || '';
+      hours.hidden = !chosen?.hours;
+      root.querySelector('[data-sfp-change]').hidden = !chosen;
+      paintPickFacts();
+      root.querySelector('[data-sfp-status]').textContent = chosen
+        ? cc('✓ 已選取件點', '✓ Pickup point selected') : cc('選好取件點，就可以繼續結賬', 'Choose a pickup point to continue to checkout');
+      window.OUJI_paintBagCTA?.();
     }
 
     function showLoadError() {
@@ -2238,6 +2570,10 @@
       startEl.innerHTML = '<option value="">載入分區中…</option>';
       load().catch(showLoadError);
     });
+    root.querySelector('[data-sfp-change]').addEventListener('click', () => {
+      root.classList.add('is-editing');
+      startEl.focus();
+    });
     startEl.addEventListener('change', () => {
       regionEl.value = startEl.value;
       fillDistricts();
@@ -2255,6 +2591,7 @@
       chosen = points.find((p) => p.code === btn.dataset.code) || null;
       savedSrc = src;
       try { localStorage.setItem(KEY, JSON.stringify(chosen)); localStorage.setItem(SRC_KEY, src || ''); } catch (err) {}
+      root.classList.remove('is-editing');
       paintChosen();
       render();
       panel.setAttribute('hidden', '');

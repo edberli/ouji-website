@@ -3357,71 +3357,369 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
 .product-tabs__panel { display: none; }
 .product-tabs__panel.is-active { display: block; }
 
-/* ----- Cart ----- */
-.cart-page { padding: var(--space-3xl) 0 var(--space-5xl); }
-.cart-page__title { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 300; margin-bottom: var(--space-2xl); }
-.cart-empty { padding: var(--space-2xl) 0; text-align: center; }
-.cart-empty > p { color: var(--text-tertiary); margin-bottom: 32px; line-height: 1.8; }
+/* ----- Cart（購物袋）----- */
+/* 2026-10-17 新版，Winston 睇完預覽（ouji-cart-drawer-review）話「live」；手機同桌面一齊換。
+   成頁一套表面規則，唔逐件執：
+   · 底色：冷調灰白 #F7FAFC（佢貼嘅配色筆記：唔用米白，跟 OUJI 藍灰行冷調）。
+   · 淺青 #ECF3F6 只標三樣最重要嘅嘢：湊單目標卡、順手加購帶、（加深做實色嘅）合計。
+   · 白卡只用喺要成組讀嘅位：加購卡、配送方式、滿額贈禮、訂單摘要；貨品直接擺喺底色上面。
+   · 錢同連結用青藍字；唯一實色係結帳掣同「＋」嘅藍 #5289A2；暖色只畀 7-11「推薦自取」。
+   · 一套無襯線字，粗幼分層級。圓角：控件 8、卡 8–12，掣同膠囊全圓。
+   次序同結構見 cart.html 頂嘅註釋；舊版散喺成份檔嘅購物袋規則已經全部拎走。 */
+.page-bag {
+  --bag-ground: #f7fafc; --bag-surface: #fff; --bag-ink: #2e3a40; --bag-muted: #5a6a70; --bag-line: #e3eaed; --bag-control: #d6e0e4;
+  --bag-teal: #36728a; --bag-teal-ink: #2b6977; --bag-brand: #5289a2; --bag-brand-hover: #477c94; --bag-tint: #ecf3f6; --bag-track: #d2e3e9;
+  --bag-warm: #fff5eb; --bag-warm-line: #f2c79c; --bag-warm-ink: #b8560b; --bag-chip: #fbe8d6; --bag-chip-ink: #9c5a1a;
+  --bag-shadow: 0 1px 2px rgb(46 58 64 / .04), 0 6px 18px rgb(46 58 64 / .05);
+}
+body.page-bag { background: var(--bag-ground); background-image: none; }
+/* 呢頁有好多元素用 hidden 開關，下面又會幫佢哋設 display —— 統一以 hidden 為準。 */
+:is(.bag-page, .bag-bar) [hidden], .bag-bar[hidden] { display: none !important; }
+/* icon 一律線條；用 :where() 唔加權重，會員皇冠、付款鎖頭嗰啲自己嘅規則照贏。 */
+:where(.bag-page, .bag-bar) svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.bag-page { width: 100%; max-width: 1180px; margin: 0 auto; padding-bottom: 28px; color: var(--bag-ink); accent-color: var(--bag-teal); }
+.bag-page ::selection { background: #cfe4eb; color: var(--bag-ink); }
 
-/* 右欄 400px 睇落夠闊，但入面有兩層 padding（.cart-summary 48 ＋ .reward 24），
-   運送選項嗰啲卡實際只剩 254px —— 比 375px 手機仲窄，等於完全冇用到桌面嘅位。
-   1440 下左欄本來就有 880px 淨係擺一列產品，好空。所以右欄攞返啲位。 */
-.cart-layout { display: grid; grid-template-columns: minmax(0, 1fr) 520px; column-gap: var(--space-3xl); row-gap: var(--space-2xl); align-items: start; }
-.cart-column { min-width: 0; }
-.cart-items { border-top: 1px solid var(--border-light); }
+/* 頁頭：返回、購物袋＋件數 */
+.bag-head { display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; align-items: center; min-height: 54px; }
+.bag-head__back { display: grid; place-items: center; width: 40px; height: 40px; margin-left: -10px; border-radius: 50%; color: var(--bag-ink); }
+.bag-head__back svg { width: 22px; height: 22px; stroke-width: 1.6; }
+.bag-head__title { margin: 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 20px; font-weight: 700; line-height: 1.3; letter-spacing: .02em; text-align: center; }
+.bag-head__count { margin-left: 6px; color: var(--bag-muted); font-size: 13px; font-weight: 400; letter-spacing: 0; }
 
-.cart-item {
-  display: grid;
-  grid-template-columns: 100px 1fr auto;
-  gap: var(--space-xl);
-  padding: var(--space-xl) 0;
-  border-bottom: 1px solid var(--border-light);
-  align-items: center;
-  transition: all var(--duration-normal);
+/* 載入中／讀取失敗／空袋 */
+.cart-empty { margin-top: 8px; padding: 28px 18px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); text-align: center; }
+.cart-empty > p { margin: 0 0 16px; color: var(--bag-muted); font-size: 14px; line-height: 1.8; }
+.cart-empty > p:last-child { margin-bottom: 0; }
+.cart-empty .shima--empty { width: 120px; height: 146px; margin-bottom: 12px; }
+.cart-empty .btn { min-height: 50px; padding: 0 28px; border-radius: 999px; background: var(--bag-brand); box-shadow: none; font: 700 17px var(--font-body); letter-spacing: .04em; text-transform: none; }
+.cart-empty .btn::before { display: none; }
+
+/* 1 · 湊單目標卡：成頁第一個顏色 */
+.bag-goal { position: relative; overflow: hidden; margin-top: 2px; padding: 14px 16px 12px; border-radius: 12px; background: var(--bag-tint); }
+.bag-goal__title { display: flex; flex-wrap: wrap; align-content: center; align-items: baseline; gap: 0 6px; min-height: 56px; margin: 0; padding-right: 100px; color: var(--bag-teal); font-size: 17px; font-weight: 700; line-height: 1.35; }
+.bag-goal__title strong { font-size: 23px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
+/* 右上角（Winston 2026-10-17）：芝麻貼圖（白剪紙邊、唔准鏡像）＋今個目標攞到咩嘅圖 ——
+   送面霜就係面霜相、即減就係「減$20」券、免運就係所選方式嘅標誌。 */
+.bag-goal__art { position: absolute; top: 6px; right: 10px; width: 100px; height: 64px; pointer-events: none; }
+.bag-goal__badge { position: absolute; left: 0; top: 9px; display: grid; place-items: center; width: 50px; height: 50px; overflow: hidden; border: 3px solid #fff; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgb(46 58 64 / .1); color: var(--bag-teal); transform: rotate(-6deg); }
+.bag-goal__badge.is-photo img { width: 100%; height: 100%; object-fit: cover; }
+.bag-goal__badge:not(.is-photo) img { width: 22px; height: 30px; object-fit: contain; }
+.bag-goal__badge svg { width: 24px; height: 24px; }
+.bag-goal__coupon { display: grid; justify-items: center; color: var(--bag-teal); font-size: 10px; font-weight: 700; line-height: 1.1; }
+.bag-goal__coupon strong { font-size: 15px; letter-spacing: -.01em; }
+.bag-goal__sticker { position: absolute; right: 0; bottom: -2px; width: 62px; height: auto; filter: drop-shadow(0 3px 6px rgb(46 58 64 / .12)); }
+.bag-goal__meter { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.bag-goal__bar { flex: 1; height: 7px; overflow: hidden; border-radius: 999px; background: var(--bag-track); }
+.bag-goal__bar span { display: block; height: 100%; border-radius: inherit; background: var(--bag-brand); }
+.bag-goal__count { flex: 0 0 auto; color: var(--bag-muted); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bag-goal__sub { margin: 6px 0 0; color: var(--bag-muted); font-size: 12px; line-height: 1.5; text-wrap: pretty; }
+.bag-goal.is-done .bag-goal__title { align-items: center; font-size: 16px; }
+.bag-goal.is-done .bag-goal__title svg { flex: 0 0 18px; width: 18px; height: 18px; stroke-width: 2.4; }
+.bag-goal.is-done .bag-goal__sub { margin-top: 2px; }
+
+/* 2 · 貨品：直接擺喺底色，幼線分隔；垃圾桶右上角 */
+.bag-goods { margin-top: 4px; }
+.bag-line { position: relative; display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 14px 0; }
+.bag-line + .bag-line { border-top: 1px solid var(--bag-line); }
+.bag-line__image { display: block; width: 84px; height: 84px; overflow: hidden; border-radius: 8px; background: #fff; }
+.bag-line__image img { width: 100%; height: 100%; object-fit: contain; }
+.bag-line__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.bag-line__title { margin: 0; padding-right: 30px; font-family: var(--font-body); font-size: 14.5px; font-weight: 400; line-height: 1.38; }
+.bag-line__title a { display: -webkit-box; overflow: hidden; color: var(--bag-ink); text-decoration: none; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.bag-line__variant { margin: 0; color: var(--bag-muted); font-size: 13px; line-height: 1.4; }
+.bag-line__unit { margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--bag-line); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bag-line__unit:first-child { margin-left: 0; padding-left: 0; border-left: 0; }
+.bag-line__note { margin: 1px 0 0; color: #9a4f49; font-size: 11.5px; line-height: 1.5; }
+.bag-line__foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 4px; }
+.bag-line__price { color: var(--bag-teal); font-size: 20px; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.bag-line__gift { color: var(--bag-teal-ink); font-size: 12.5px; font-weight: 600; }
+.bag-qty { display: flex; align-items: center; height: 36px; border: 1px solid var(--bag-control); border-radius: 8px; background: #fff; }
+.bag-qty button { display: grid; place-items: center; width: 38px; height: 34px; padding: 0; border: 0; background: none; color: var(--bag-ink); cursor: pointer; }
+.bag-qty button svg { width: 16px; height: 16px; }
+.bag-qty button:disabled { color: #b4c2c7; cursor: default; }
+/* 16px：iPhone 撳入細過 16px 嘅輸入格會自動放大成頁。 */
+.bag-qty__input { width: 32px; height: 34px; padding: 0; border: 0; background: transparent; color: var(--bag-ink); font: 600 16px/1 var(--font-body); font-variant-numeric: tabular-nums; text-align: center; -moz-appearance: textfield; appearance: textfield; }
+.bag-qty__input::-webkit-outer-spin-button, .bag-qty__input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
+.bag-line__remove { position: absolute; top: 10px; right: -8px; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #74858b; cursor: pointer; }
+.bag-line__remove svg { width: 18px; height: 18px; stroke-width: 1.6; }
+
+/* 3 · 順手加購／短效期：全闊淺青帶，一屏三張半白卡（嗰半張話畀人知仲有得掃），圓形「＋」。
+   375–390px 擺足四張，三位數價錢同 28px「＋」就擠唔落。 */
+.bag-band { margin: 18px -16px 0; padding: 18px 0; background: var(--bag-tint); }
+.bag-band__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 0 16px; }
+.bag-band__title { margin: 0; color: var(--bag-teal); font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.3; }
+.bag-band__more { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; padding: 4px 0; border: 0; background: none; color: var(--bag-muted); font: 500 13px var(--font-body); text-decoration: none; cursor: pointer; }
+.bag-band__more svg { width: 16px; height: 16px; }
+.bag-band__sub { flex: 1 1 100%; margin: 0; color: var(--bag-muted); font-size: 13px; line-height: 1.5; text-wrap: balance; }
+.bag-band__gap { color: var(--bag-teal); font-weight: 700; }
+.bag-band__goal { white-space: nowrap; }
+.bag-band__row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((min(100vw, 560px) - 40px) / 3.5); gap: 8px; margin-top: 12px; padding: 0 16px 2px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-padding-inline: 16px; scrollbar-width: none; }
+.bag-band__row::-webkit-scrollbar { display: none; }
+/* 「睇多啲」：唔跳去 shop 頁，喺度攤開做格仔 */
+.bag-band.is-expanded .bag-band__row { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-columns: auto; overflow: visible; }
+.bag-card { position: relative; display: flex; flex-direction: column; min-width: 0; padding: 7px 7px 8px; border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgb(46 58 64 / .05); scroll-snap-align: start; }
+.bag-card__image { display: block; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 6px; background: #fff; }
+.bag-card__image img { width: 100%; height: 100%; object-fit: contain; }
+/* 到期日寫喺相下面一行，唔貼相角（產品卡規矩：相上面唔加標籤）。 */
+.bag-card__expiry { margin: 7px 0 -5px; color: #9a4f49; font-size: 10.5px; font-weight: 700; }
+.bag-card__vendor { margin: 7px 0 1px; overflow: hidden; color: #3d4a50; font-size: 10.5px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; white-space: nowrap; text-overflow: ellipsis; }
+.bag-card__name { margin: 0; font-family: var(--font-body); font-size: 12px; font-weight: 400; line-height: 1.35; }
+.bag-card__name a { display: -webkit-box; min-height: calc(1em * 1.35 * 2); overflow: hidden; color: var(--bag-muted); text-decoration: none; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.bag-card__hit { margin: 2px 0 0; overflow: hidden; color: var(--bag-teal); font-size: 10.5px; font-weight: 700; white-space: nowrap; text-overflow: ellipsis; }
+.bag-card__foot { display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-top: auto; padding-top: 6px; }
+.bag-card__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 4px; min-width: 0; color: var(--bag-teal); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bag-card__price s { color: var(--bag-muted); font-size: 10.5px; font-weight: 400; }
+.bag-card__add { position: relative; display: grid; flex: 0 0 28px; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: var(--bag-brand); color: #fff; cursor: pointer; }
+.bag-card__add::after { content: ""; position: absolute; inset: -8px; }
+.bag-card__add svg { width: 16px; height: 16px; stroke-width: 2.4; }
+.bag-card__add.is-busy svg { opacity: 0; }
+.bag-card__add.is-busy::before { content: ""; position: absolute; inset: 7px; border: 2px solid rgb(255 255 255 / .4); border-top-color: #fff; border-radius: 50%; animation: btn-spin 600ms linear infinite; }
+.bag-card__add.is-done { background: var(--bag-teal); }
+
+/* 4 · 滿額贈禮（＋活動期內嘅中秋卡同「今單已攞到」） */
+.bag-reward { margin-top: 18px; }
+.bag-perks { display: grid; gap: 6px; margin-bottom: 10px; }
+.bag-perks__row { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 10px; background: var(--bag-surface); box-shadow: var(--bag-shadow); font-size: 13px; }
+.bag-perks__row svg { flex: 0 0 20px; width: 20px; height: 20px; fill: var(--bag-teal); stroke: none; }
+.bag-perks__row p { flex: 1; margin: 0; }
+.bag-perks__row strong { color: var(--bag-teal); }
+.bag-perks__row span { color: var(--bag-muted); font-size: 12px; }
+.bag-gift { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
+.bag-gift.is-won { box-shadow: inset 0 0 0 1.5px var(--bag-teal), var(--bag-shadow); }
+.bag-gift__image { grid-row: span 2; display: block; width: 64px; height: 64px; overflow: hidden; border-radius: 10px; background: var(--bag-tint); }
+.bag-gift__image img { width: 100%; height: 100%; object-fit: cover; }
+.bag-gift__copy { min-width: 0; }
+.bag-gift__title { margin: 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 15px; font-weight: 700; line-height: 1.35; }
+.bag-gift__threshold, .bag-gift__amount { color: var(--bag-teal); }
+.bag-gift__name { margin: 2px 0 0; color: var(--bag-muted); font-size: 12px; line-height: 1.4; }
+.bag-gift__status { margin: 4px 0 0; font-size: 12.5px; line-height: 1.4; }
+.bag-gift__status:empty { display: none; }
+.bag-gift__terms { grid-column: 2; margin: 0; color: var(--bag-muted); font-size: 11.5px; }
+.bag-gift__terms a { color: var(--bag-teal); }
+
+/* 標題連 icon，右邊細字 */
+.bag-section-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 26px 0 10px; }
+.bag-h2 { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 18px; font-weight: 700; line-height: 1.35; letter-spacing: 0; }
+.bag-h2 svg { width: 22px; height: 22px; color: var(--bag-teal); stroke-width: 1.6; }
+.bag-section-head small { color: var(--bag-muted); font-size: 12px; text-align: right; }
+.bag-surface { border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
+
+/* 5 · 配送方式：四格一行，下面講所選方式，再落去揀取件點 */
+.bag-choose { padding: 14px 12px; }
+.bag-ship-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding-top: 10px; }
+.bag-ship { position: relative; display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 12px 7px 10px; border: 1px solid var(--bag-line); border-radius: 10px; background: #fff; cursor: pointer; transition: border-color .2s ease, background-color .2s ease; }
+.bag-ship input { position: absolute; opacity: 0; pointer-events: none; }
+.bag-ship.is-on { border-color: var(--bag-teal); background: var(--bag-tint); box-shadow: inset 0 0 0 1px var(--bag-teal); }
+/* 淨係鍵盤先有框：手指撳中嗰格已經有 2px 青藍邊，唔好再多一圈。 */
+.bag-ship:has(input:focus-visible) { outline: 2px solid var(--bag-teal); outline-offset: 2px; }
+.bag-ship__top { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 34px; margin-bottom: 8px; }
+.bag-ship__icon { display: grid; place-items: center; width: 34px; height: 34px; color: var(--bag-teal); }
+.bag-ship__icon svg { width: 23px; height: 23px; stroke-width: 1.6; }
+.bag-ship__check { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--bag-teal); color: #fff; }
+.bag-ship__check svg { width: 11px; height: 11px; stroke-width: 3; }
+/* 推薦自取（7-11）：暖色邊同絲帶跟佢個標誌嘅橙；揀中照用青藍邊加剔。 */
+.bag-ship.is-pick { border-color: var(--bag-warm-line); background: #fffaf4; }
+.bag-ship.is-pick.is-on { border-color: var(--bag-teal); background: var(--bag-warm); box-shadow: inset 0 0 0 1px var(--bag-teal), 0 4px 12px rgb(184 86 11 / .12); }
+.bag-ship__ribbon { position: absolute; top: -9px; left: 50%; z-index: 1; padding: 2px 8px; border-radius: 999px; background: var(--bag-warm-ink); color: #fff; font-size: 10px; font-weight: 700; line-height: 1.4; letter-spacing: .04em; white-space: nowrap; transform: translateX(-50%); }
+.bag-ship__logo { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #f0dcc6; border-radius: 9px; background: #fff; }
+.bag-ship__logo img { display: block; width: 21px; height: 28px; object-fit: contain; }
+.bag-ship__name { color: var(--bag-ink); font-size: 13px; font-weight: 600; line-height: 1.3; white-space: nowrap; }
+.bag-ship__sub { margin-top: 2px; color: var(--bag-muted); font-size: 12px; line-height: 1.35; word-break: keep-all; overflow-wrap: anywhere; }
+.bag-ship__fee { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 4px; margin-top: auto; padding-top: 10px; color: var(--bag-ink); font-size: 14px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.bag-ship__free { color: var(--bag-teal); }
+.bag-ship__fee s { color: var(--bag-muted); font-size: 11px; font-weight: 400; }
+.bag-ship__note { margin-top: 3px; color: var(--bag-muted); font-size: 12px; line-height: 1.35; word-break: keep-all; }
+.bag-ship.is-on .bag-ship__note { color: var(--bag-teal-ink); font-weight: 600; }
+/* 四格嘅各部分共用同一排（subgrid）：邊格細字斷咗兩行，運費都唔會高高低低。
+   唔支援 subgrid 嘅舊機就照用 flex，窄螢幕預留兩行。 */
+@supports (grid-template-rows: subgrid) {
+  .bag-ship-tiles { grid-template-rows: repeat(5, auto); row-gap: 0; }
+  .bag-ship { display: grid; grid-row: span 5; grid-template-rows: subgrid; justify-items: start; }
+  .bag-ship__fee { margin-top: 0; }
+}
+@supports not (grid-template-rows: subgrid) {
+  @media (max-width: 399px) { .bag-ship__note { min-height: calc(12px * 1.35 * 2); } }
+}
+.bag-ship-detail { display: flex; align-items: flex-start; gap: 6px; margin: 12px 2px 0; color: var(--bag-muted); font-size: 12px; line-height: 1.55; }
+.bag-ship-detail svg { flex: 0 0 14px; width: 14px; height: 14px; margin-top: 3px; color: var(--bag-teal); stroke-width: 2; }
+
+/* 取件點：一次一步；揀好就摺成一張卡（標誌、網點、推薦自取、地址、更改） */
+.sfp { margin: 14px 0 0; padding: 14px 2px 0; border-top: 1px solid var(--bag-line); }
+.sfp.is-shake { animation: sfpShake 420ms var(--ease-out); }
+.sfp__err { margin: 0 0 10px; padding: 10px 12px; border-radius: 8px; background: #fdecea; color: #a4302a; font-size: 13px; font-weight: 700; line-height: 1.5; }
+.sfp__steps { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; color: var(--bag-muted); font-size: 12px; }
+.sfp__steps span { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--bag-tint); color: var(--bag-teal); font-size: 11px; font-weight: 700; }
+.sfp__steps span:first-child { background: var(--bag-teal); color: #fff; }
+.sfp__steps i { flex: 0 0 18px; height: 1px; background: var(--bag-control); }
+.sfp--info .sfp__steps, .sfp--chosen:not(.is-editing) .sfp__steps { display: none; }
+.sfp__card { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.sfp__logo { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--bag-line); border-radius: 10px; background: #fff; color: var(--bag-teal); }
+.sfp__logo.is-seven { border-color: #f0dcc6; }
+.sfp__logo img { display: block; width: 22px; height: 30px; object-fit: contain; }
+.sfp__logo svg { width: 24px; height: 24px; stroke-width: 1.6; }
+.sfp__text { min-width: 0; }
+.sfp__heading { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; color: var(--bag-ink); font-family: var(--font-body); font-size: 15px; font-weight: 700; line-height: 1.35; }
+.sfp__chip { padding: 2px 8px; border-radius: 999px; background: var(--bag-chip); color: var(--bag-chip-ink); font-size: 11.5px; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+.sfp__detail { margin: 3px 0 0; color: var(--bag-muted); font-size: 13px; line-height: 1.45; }
+.sfp__hours { margin: 2px 0 0; color: var(--bag-muted); font-size: 12.5px; }
+.sfp__change { display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 2px 0 8px; border: 0; background: none; color: var(--bag-teal); font: 600 14px var(--font-body); white-space: nowrap; cursor: pointer; }
+.sfp__change svg { width: 16px; height: 16px; }
+.sfp__pickers { margin-top: 12px; }
+.sfp--info .sfp__pickers, .sfp--chosen:not(.is-editing) .sfp__pickers { display: none; }
+.sfp__start, .sfp__filters select, .sfp__q { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid var(--bag-control); border-radius: 8px; background-color: #fff; color: var(--bag-ink); font: 16px var(--font-body); }
+.sfp__q::placeholder { color: #66767c; }
+.sfp__retry { margin-top: 8px; min-height: 40px; padding: 0 14px; border: 1px solid var(--bag-control); border-radius: 8px; background: #fff; color: var(--bag-teal); font: 600 14px var(--font-body); cursor: pointer; }
+.sfp__status { margin: 8px 0 0; color: var(--bag-muted); font-size: 12px; }
+.sfp__panel { margin-top: 10px; }
+.sfp__filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 8px; }
+.sfp__count { margin: 8px 0 0; color: var(--bag-muted); font-size: 12px; }
+.sfp__list { display: grid; gap: 6px; max-height: 260px; margin: 8px 0 0; padding: 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; scrollbar-width: thin; scrollbar-color: #c4d4d9 transparent; }
+.sfp__item { display: grid; gap: 2px; width: 100%; padding: 10px 12px; border: 1px solid var(--bag-line); border-radius: 8px; background: #fff; color: var(--bag-ink); font: 12.5px/1.45 var(--font-body); text-align: left; cursor: pointer; }
+.sfp__item b { font-size: 13px; }
+.sfp__item em { color: var(--bag-muted); font-size: 12px; font-style: normal; }
+.sfp__item.is-on { border-color: var(--bag-teal); background: var(--bag-tint); }
+.sfp__more { padding: 6px 2px; color: var(--bag-muted); font-size: 12px; }
+/* 揀好點（未撳更改）：成張卡淨係得已揀網點＋兩格事實，四格同細字收起（參考圖）；撳「更改」先再攤開。 */
+.bag-choose:has(.sfp--chosen:not(.is-editing)) :is(.bag-ship-tiles, .bag-ship-detail) { display: none; }
+.bag-choose:has(.sfp--chosen:not(.is-editing)) .sfp { margin-top: 0; padding-top: 2px; border-top: 0; }
+.sfp.is-editing .sfp__facts { display: none; }
+.sfp__facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--bag-line); list-style: none; }
+.sfp__facts li { display: flex; align-items: flex-start; gap: 7px; min-width: 0; padding: 0 8px; }
+.sfp__facts li:first-child { padding-left: 0; }
+.sfp__facts li + li { border-left: 1px solid var(--bag-line); }
+.sfp__facts svg { flex: 0 0 22px; width: 22px; height: 22px; margin-top: 1px; color: var(--bag-teal); stroke-width: 1.6; }
+.sfp__facts span { display: grid; gap: 2px; min-width: 0; }
+.sfp__facts strong { color: var(--bag-ink); font-size: 13px; font-weight: 700; line-height: 1.35; }
+.sfp__facts small { color: var(--bag-muted); font-size: 11.5px; line-height: 1.4; }
+
+/* 6 · 訂單摘要：白卡；合計要一眼見到（Winston 2026-10-17）：實色青藍（白字 5.34:1），已慳用白膠囊 */
+.bag-side { margin-top: 22px; }
+.bag-summary { overflow: hidden; container-type: inline-size; padding: 16px 16px 0; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
+/* 會員積分嗰行（皇冠、今單積分、詳情）：卡內闊度窄過 300px（例如 1024 桌面右欄）就用手機短版，唔好擠埋一齊。 */
+@container (max-width: 300px) {
+  .bag-summary .cart-member-points__summary { gap: 6px; padding-inline: 9px; }
+  .bag-summary .cart-member-points__brand { gap: 5px; font-size: .58rem; letter-spacing: .06em; }
+  .bag-summary .cart-member-points__toggle-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .bag-summary .cart-member-points__toggle-label-mobile { display: inline; font-size: .65rem; }
+}
+.bag-summary__title { scroll-margin-top: 120px; }
+.bag-summary__title:focus { outline: none; }
+.bag-summary__rows { margin: 0; padding: 10px 0 12px; }
+.bag-summary__rows > div { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; color: var(--bag-muted); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.bag-summary__rows dt { min-width: 0; }
+.bag-summary__rows dd { flex: 0 0 auto; margin: 0; color: var(--bag-ink); }
+.bag-summary__rows .is-saving dd { color: var(--bag-teal); font-weight: 600; }
+.bag-summary__rows s { margin-right: 6px; color: var(--bag-muted); font-weight: 400; }
+.bag-summary__total { display: flex; align-items: center; gap: 8px; margin: 0 -16px; padding: 16px; background: var(--bag-teal); color: #fff; }
+.bag-summary__total > span { font-size: 16px; font-weight: 700; }
+.bag-summary__total em { padding: 3px 9px; border-radius: 999px; background: #fff; color: var(--bag-teal); font-size: 12px; font-style: normal; font-weight: 700; white-space: nowrap; }
+.bag-summary__total strong { margin-left: auto; color: #fff; font-size: 28px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
+.bag-summary__promo { display: flex; align-items: center; gap: 6px; margin: 0 -16px; padding: 10px 16px 0; color: var(--bag-muted); font-size: 12.5px; }
+.bag-summary__promo svg { flex: 0 0 16px; width: 16px; height: 16px; color: var(--bag-brand); }
+.cart-summary__checkout { padding-top: 14px; }
+/* 19px 粗字屬「大字」，白字喺 #5289A2（3.85:1）過到 WCAG AA。 */
+.bag-page .bag-go { gap: 8px; width: 100%; min-height: 54px; padding: 0 18px; border-radius: 999px; background: var(--bag-brand); box-shadow: none; color: #fff; font: 700 19px var(--font-body); letter-spacing: .04em; text-transform: none; }
+.bag-page .bag-go::before { display: none; }
+.bag-go__perks { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 10px 0 0; color: var(--bag-teal); font-size: 13px; font-weight: 600; text-align: center; }
+.bag-go__perks svg { flex: 0 0 16px; width: 16px; height: 16px; stroke-width: 2.4; }
+
+.bag-continue { margin: 28px 0 0; padding-top: 20px; border-top: 1px solid var(--bag-line); }
+
+/* 手機底部合計條（參考圖）：跟底部導航一樣浮起嘅圓角卡，擺喺膠囊上面。
+   左：合計（青藍）＋已攞到嘅優惠；右：唯一實色掣。 */
+.bag-bar { display: none; }
+@media (max-width: 768px) {
+  .bag-bar { position: fixed; z-index: 1500; right: max(12px, env(safe-area-inset-right, 0px)); bottom: calc(56px + var(--tabbar-gap, 16px) + 8px); left: max(12px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; padding: 9px 9px 9px 16px; }
+  /* 合計條同底部導航之間嘅空隙鋪返底色，唔好見到內容喺隙入面穿過（漸變只喺最頂 12px）；
+     白卡畫喺 ::after —— 負 z-index 嘅層會蓋過條條自己個背景，所以卡唔可以用 .bag-bar 本身嘅 background。 */
+  .bag-bar::before { content: ""; position: absolute; z-index: -2; top: -12px; right: calc(-1 * max(12px, env(safe-area-inset-right, 0px))); bottom: calc(-1 * (56px + var(--tabbar-gap, 16px) + 8px)); left: calc(-1 * max(12px, env(safe-area-inset-left, 0px))); background: linear-gradient(rgb(247 250 252 / 0), var(--bag-ground) 12px); pointer-events: none; }
+  .bag-bar::after { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: 18px; background: #fff; box-shadow: 0 10px 28px rgb(28 60 74 / .16), 0 1px 3px rgb(28 60 74 / .08); pointer-events: none; }
+  .bag-bar__total { display: grid; flex: 0 1 auto; gap: 1px; min-width: 0; max-width: 46%; padding: 0 14px 0 0; border: 0; border-right: 1px solid var(--bag-line); background: none; color: var(--bag-ink); text-align: left; cursor: pointer; }
+  .bag-bar__total small { color: var(--bag-muted); font-size: 12px; }
+  .bag-bar__total strong { color: var(--bag-teal); font-size: 22px; font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .bag-bar__total span { overflow: hidden; color: var(--bag-muted); font-size: 11.5px; white-space: nowrap; text-overflow: ellipsis; }
+  .bag-bar__total span:empty { display: none; }
+  .bag-bar__go { position: relative; display: inline-flex; flex: 1; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 50px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--bag-brand); color: #fff; font: 700 19px var(--font-body); letter-spacing: .04em; cursor: pointer; }
+  .bag-bar__go span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .bag-bar__go svg { flex: 0 0 20px; width: 20px; height: 20px; stroke-width: 2.2; }
+  .bag-bar__go.is-pick svg { display: none; }
+  .bag-bar__go.is-busy { cursor: progress; }
+  .bag-bar__go.is-busy svg { opacity: 0; }
+  .bag-bar__go.is-busy::after { content: ""; position: absolute; right: 18px; width: 16px; height: 16px; border: 2px solid rgb(255 255 255 / .4); border-top-color: #fff; border-radius: 50%; animation: btn-spin 600ms linear infinite; }
+  /* 合計條代替咗摘要入面粒掣（條出咗先收，萬一 script 出錯都仲有掣撳）。footer 底要讓多條條嘅位。 */
+  .page-bag.has-bag-bar .cart-summary__checkout .bag-go, .page-bag.has-bag-bar .bag-go__perks { display: none; }
+  .page-bag.has-bag-bar .cart-summary__checkout { padding-top: 0; }
+  body.page-bag.has-bag-bar > .footer { padding-bottom: calc(56px + var(--tabbar-gap, 16px) + 10px + 84px); }
 }
 
-.cart-item:hover { background: rgba(255,255,255,0.3); border-radius: 12px; padding-left: var(--space-md); padding-right: var(--space-md); }
-
-.cart-item__image { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 16px rgba(109,163,181,0.06); }
-.cart-item__image img { width: 100%; height: 100%; object-fit: cover; }
-.cart-item__brand { font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; }
-.cart-item__name { font-size: 0.9375rem; font-weight: 400; margin-bottom: 4px; }
-.cart-item__variant { font-size: 0.8125rem; color: var(--text-tertiary); margin-bottom: var(--space-md); }
-.cart-item__quantity { display: flex; align-items: center; }
-.cart-item__remove { font-size: 0.75rem; color: var(--text-tertiary); text-decoration: underline; margin-left: var(--space-md); transition: color var(--duration-fast); }
-.cart-item__remove:hover { color: var(--primary-dark); }
-.cart-item__price { font-size: 0.9375rem; font-weight: 600; text-align: right; white-space: nowrap; color: var(--primary-dark); }
-
-.cart-summary {
-  /* ⚠️ grid item 預設 min-width:auto —— 佢會撐到夠位裝入面最闊嗰嚿嘢，
-     縮唔細。實測：自提點面板 min-content 321px ＋ 兩邊 padding，
-     令成條 grid 欄喺 375px 手機變咗 419px，成版右邊俾切走。
-     min-width:0 之後 grid 先至肯縮，入面啲嘢自己處理換行。 */
-  min-width: 0;
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--glass-border);
-  padding: var(--space-xl);
-  border-radius: 20px;
-  position: sticky;
-  top: calc(var(--header-height) + 40px + var(--space-xl));
-  box-shadow: 0 12px 40px rgba(109,163,181,0.08);
+/* 桌面 ≥769px（Winston 2026-10-17「同做埋桌面版」）：按闊螢幕重新排，唔係將手機拉闊。
+   左欄照手機由上而下讀（目標 → 貨品 → 加購 → 贈禮 → 配送方式 → 短效期）；
+   右欄摘要＋結帳掣跟住捲（JS，見 bagStickSide()），所以唔使手機嗰條合計條。 */
+@media (min-width: 769px) {
+  .bag-page { padding-bottom: 72px; }
+  .bag-head { min-height: 76px; }
+  .bag-head__title { font-size: 26px; }
+  .bag-layout { display: grid; grid-template-columns: minmax(0, 1fr) clamp(320px, 31vw, 360px); column-gap: 28px; align-items: start; }
+  .bag-layout > * { grid-column: 1; min-width: 0; }
+  .bag-layout > .bag-side { grid-column: 2; grid-row: 1 / span 12; margin-top: 0; will-change: transform; }
+  .bag-goal { padding: 18px 24px 16px; }
+  .bag-goal__title { min-height: 70px; padding-right: 160px; font-size: 19px; }
+  .bag-goal__title strong { font-size: 28px; }
+  .bag-goal__art { top: 6px; right: 20px; width: 150px; height: 88px; }
+  .bag-goal__badge { top: 12px; width: 66px; height: 66px; }
+  .bag-goal__badge:not(.is-photo) img { width: 28px; height: 38px; }
+  .bag-goal__coupon { font-size: 12px; }
+  .bag-goal__coupon strong { font-size: 20px; }
+  .bag-goal__sticker { width: 88px; }
+  .bag-goal__sub { font-size: 13px; }
+  .bag-goods { margin-top: 8px; }
+  .bag-line { grid-template-columns: 104px minmax(0, 1fr); gap: 18px; padding: 18px 0; }
+  .bag-line__image { width: 104px; height: 104px; }
+  .bag-line__title { font-size: 16px; }
+  .bag-band { margin: 22px 0 0; padding: 20px 0; border-radius: 12px; }
+  .bag-band__head { padding: 0 20px; }
+  .bag-band__row { grid-auto-columns: 140px; gap: 12px; margin-top: 14px; padding: 0 20px 2px; scroll-padding-inline: 20px; }
+  .bag-band.is-expanded .bag-band__row { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+  .bag-card__name { font-size: 12.5px; }
+  .bag-reward { margin-top: 22px; }
+  .bag-section-head { margin-top: 30px; }
+  .bag-choose { padding: 18px 16px; }
+  .bag-ship-tiles { gap: 10px; }
+  .bag-ship { padding: 14px 12px 12px; }
+  .bag-ship__name { font-size: 14px; }
+  .sfp__list { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 340px; }
+  .bag-summary { padding: 20px 20px 0; }
+  .bag-summary__total { margin: 0 -20px; padding: 18px 20px; }
+  .bag-summary__total strong { font-size: 32px; }
+  .bag-summary__promo { margin: 0 -20px; padding: 10px 20px 0; }
+  .cart-empty { max-width: 520px; margin: 24px auto 0; }
 }
 
-.cart-summary__title { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: var(--space-xl); padding-bottom: var(--space-md); border-bottom: 1px solid var(--border-light); }
-.cart-summary__row { display: flex; justify-content: space-between; margin-bottom: var(--space-md); font-size: 0.875rem; }
-.cart-summary__row span:first-child { color: var(--text-secondary); }
-.cart-summary__divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-light), transparent); margin: var(--space-lg) 0; }
-.cart-summary__total { font-size: 1rem; font-weight: 600; }
-.cart-summary__total span:first-child { color: var(--text-primary) !important; }
-.cart-summary__total span:last-child { color: #2a6a78; font-size: 1.75rem; font-weight: 700; letter-spacing: -.01em; }
+/* 動態只有一下，只畀「變咗」嘅嘢（見 paintBagGoal()）：條 bar 由上次嘅位置推前；
+   啱啱升咗一級，標題升起、芝麻跳一下；新揀嗰格配送方式個剔彈出嚟。 */
+.bag-goal__bar span.is-moving { animation: bag-fill .8s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes bag-fill { from { width: var(--from); } }
+.bag-goal[data-moment="reached"] .bag-goal__title { animation: bag-rise .5s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes bag-rise { from { opacity: .35; transform: translateY(6px); } }
+.bag-goal[data-moment="reached"] .bag-goal__sticker { transform-origin: 50% 100%; animation: bag-hop .9s cubic-bezier(.3, 1.2, .5, 1) .15s both; }
+@keyframes bag-hop { 0% { transform: none; } 35% { transform: translateY(-12px) rotate(-4deg); } 62% { transform: translateY(0) rotate(1deg); } 80% { transform: translateY(-3px); } 100% { transform: none; } }
+.bag-ship.is-fresh .bag-ship__check { animation: bag-pop .4s cubic-bezier(.3, 1.5, .5, 1) both; }
+@keyframes bag-pop { from { opacity: .3; transform: scale(.4); } }
 
-.cart-summary__promo { margin-top: var(--space-lg); display: flex; border-radius: 12px; overflow: hidden; }
-.cart-summary__promo input { flex: 1; padding: 12px 16px; border: 1px solid var(--border-light); border-right: none; font-size: 0.8125rem; outline: none; background: rgba(255,255,255,0.5); border-radius: 12px 0 0 12px; }
-.cart-summary__promo button { padding: 12px 20px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: var(--action-primary); color: white; border: none; border-radius: 0 12px 12px 0; }
-.cart-summary__checkout { margin-top: var(--space-xl); }
-.cart-summary__note { margin-top: var(--space-md); font-size: 0.75rem; color: var(--text-tertiary); text-align: center; }
+:is(.bag-page, .bag-bar) :is(a, button, summary, select, input):focus-visible { outline: 2px solid var(--bag-teal); outline-offset: 2px; }
+@media (hover: hover) {
+  .bag-page .bag-go:hover, .bag-bar__go:hover { background: var(--bag-brand-hover); transform: none; box-shadow: none; }
+  .bag-card__add:hover { background: var(--bag-teal); }
+  .bag-ship:not(.is-on):hover { border-color: #c4d4d9; }
+  .bag-line__remove:hover { background: var(--bag-tint); color: var(--bag-ink); }
+  .bag-band__more:hover, .bag-head__back:hover { color: var(--bag-teal); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bag-ship { transition: none; }
+  :is(.bag-goal__bar span, .bag-goal__sticker, .bag-goal__title, .bag-ship__check) { animation: none !important; }
+  .sfp.is-shake { animation: none; }
+}
 
 /* ----- Animations ----- */
 .reveal {
@@ -3577,7 +3875,6 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   .category-grid { grid-template-columns: repeat(3, 1fr); }
   .footer__grid { grid-template-columns: 1fr 1fr 1fr; }
   .footer__brand, .footer__visit { grid-column: 1 / -1; }
-  .cart-layout { grid-template-columns: minmax(0, 1fr) 420px; }
   .hero__floating-images { display: none; }
   .featured-collection__info, .brand-story__content { padding: var(--space-2xl); }
 }
@@ -3640,49 +3937,6 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   .product-gallery__thumb { width: 60px; height: 60px; }
   .brand-rail { gap: 3px; padding: 9px 10px; }
   .brand-rail__item { width: 5px; }
-  /* 手機單欄次序：商品 → 加多件 → 訂單摘要 → 短效期特價。
-     桌面版次序係跟 DOM（商品 → 短效期 → 加多件，全部喺左欄），
-     但手機要「先幫客湊免運、後推短效期」，所以呢度用 display:contents
-     拆開 .cart-column 再用 order 重排。 */
-  /* ⚠️ 一定要 minmax(0, 1fr)，唔可以淨寫 1fr。
-     1fr ＝ minmax(auto, 1fr)，條 track 嘅最小闊度會跟 grid item 嘅
-     min-content 走 —— 加購卡橫掃（148px × N）一撐，成頁就向右爆出畫面。 */
-  .cart-page { padding-top: var(--space-md); padding-bottom: var(--space-3xl); }
-  .cart-page > .breadcrumb { padding-block: var(--space-sm); }
-  .cart-page__title { margin-bottom: var(--space-md); }
-  .cart-empty { padding: var(--space-md) 0 var(--space-lg); }
-  .cart-empty > p { margin-bottom: var(--space-md); }
-  .cart-empty .shima--empty { width: 120px; height: 146px; margin-bottom: var(--space-sm); }
-  .cart-layout { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-xl); }
-  .cart-item { padding-block: var(--space-md); }
-  .cart-column { display: contents; }
-  .cart-items { order: 1; }
-  [data-cart-notes] { order: 2; }
-  .addon:not(.addon--sd) { order: 3; }
-  .cart-summary { order: 4; }
-  .addon--sd { order: 5; }
-  /* ⚠️ display:contents 之後，上面幾個變成 grid item，但 DOM parent 仍然係
-     .cart-column —— 所以（1）要用普通選擇器，唔可以用 .cart-layout > …；
-     （2）要用 .cart-layout 後代選擇器提高 specificity，否則會俾下面
-     @media (max-width:768px) 嗰句 .addon { margin-top: var(--space-xl) } 蓋返。
-     三件事要處理：
-       1) grid item 預設 min-width:auto —— 橫掃 rail 會反過來撐闊條 track，鎖 0；
-       2) 自己嘅 margin-top 同 row-gap 疊加（32＋32＝64px 大白位）→ 歸零；
-       3) 空嘅 [data-cart-notes] 係 0 高 grid item，前後各食一次 gap → 隱藏。 */
-  .cart-layout .cart-items,
-  .cart-layout [data-cart-notes],
-  .cart-layout .addon,
-  .cart-layout .cart-summary { min-width: 0; }
-  .cart-layout [data-cart-notes],
-  .cart-layout .addon { margin-top: 0; }
-  .cart-layout [data-cart-notes]:empty { display: none; }
-  /* 手機下 .cart-summary 一直沿用桌面嘅 48px 左右 padding，
-     375px 螢幕淨返 343 − 96 = 247px，再入面 .reward 又食 24×2，
-     運送選項嘅文字欄剩返 62px —— 逐個字換行，成張卡爆到 245px 高。
-     窄螢幕唔負擔得起呢兩層 padding。 */
-  .cart-summary { padding: var(--space-md); }
-
-  .reward { padding: var(--space-md); }
   .footer { padding-top: 50px; }
   .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px 15px; padding-bottom: 30px; }
   .footer__logo { font-size: 36px; }
@@ -3704,8 +3958,6 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
   .hero__badge { top: 12%; right: 4%; transform: scale(0.85); transform-origin: top right; }
   .hero__cta { flex-direction: column; gap: var(--space-sm); }
   .hero__cta .btn { width: 100%; text-align: center; }
-  .cart-item { grid-template-columns: 80px 1fr; gap: var(--space-sm); }
-  .cart-item__price { grid-column: 2; text-align: left; }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .brand-logo-grid { grid-template-columns: repeat(3, 1fr) !important; }
 }
@@ -8806,27 +9058,6 @@ body.has-brand-rail .brand-section {
 @media (max-width: 768px) {
   .product-info__variants--power { grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 6px; }
   .power-btn { padding: 8px 2px; font-size: 0.75rem; }
-}
-
-/* Ordering past the shelf is allowed; saying nothing about it is not.
-   Both notes are informational, not warnings — the order is fine. */
-.cart-item__split {
-  margin: 6px 0 0;
-  font-size: 0.75rem;
-  line-height: 1.6;
-  color: var(--text-secondary, #6f6a63);
-}
-.cart-item__split strong { color: var(--primary-deep, #3c6b7d); font-weight: 600; }
-/* It sits in the details column, not the price column: the price column
-   is a third the width and broke the sentence after every other word. */
-.cart-summary__split {
-  margin: 0 0 var(--space-md, 16px);
-  padding: 11px 14px;
-  border-radius: 10px;
-  background: rgba(109,163,181,0.09);
-  font-size: 0.8125rem;
-  line-height: 1.65;
-  color: #35637a;
 }
 
 /* ─────────────────────────────────────────────
@@ -13975,61 +14206,6 @@ body::before { opacity: 0.18; }
   .skincare-booth__cat b { min-width: 36px; font-size: 8px; }
 }
 
-/* ============================================================
-   購物袋：折扣、門檻進度、差幾多就夠嘅補貨建議
-   ------------------------------------------------------------
-   兩級門檻都係計折實價 —— 實測 Shopify 條免運規則睇折後價。
-   ============================================================ */
-.cart-summary__row--save span:last-child { color: var(--primary-deep); font-weight: 600; }
-
-/* ───── 免運進度 ＋ 運送方式 合併卡（2026-09-03 第三版）──────────────
-   老闆：「不如成個藍色，Footer 嗰隻藍色，跟住可能加啲透明嘅元素，玻璃嘅感覺。」
-   之前撞色太多（淺藍底 ＋ 綠章 ＋ 啡字 ＋ 深藍內卡 ＋ 金），核突。
-   而家只有一個底色，其餘全部靠**白色透明度**做層次：
-
-     底  footer 深藍 --dark-base #2b4c58 漸變
-     字  白 100% / 88% / 68%（68% ＝ 4.9:1，細字最低就到呢級）
-     面  rgba(255,255,255,.07–.16) ＋ blur ＝ 玻璃
-     金  #e8cf9a（6.07:1）**淨係用喺「再買 $X」同揀咗嘅取件點**
-     綠  #8fe0bb 只用喺「免費」章
-
-   🚫 唔准再用 --gold-deep #7a5c2e 呢類啡色 —— 喺深藍上面又暗又濁。 */
-.reward {
-  margin-top: var(--space-lg);
-  padding: var(--space-lg);
-  border-radius: 16px;
-  background: linear-gradient(158deg, #355d6e 0%, var(--dark-base) 52%, #223d47 100%);
-  box-shadow: 0 14px 38px -20px rgba(43, 76, 88, 0.85);
-  color: #fff;
-}
-
-.reward__track { position: relative; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.16); overflow: hidden; }
-.reward__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent) 0%, #a8d8e4 48%, #e8cf9a 100%); transition: width 600ms var(--ease-out); }
-/* $400 嗰點喺 $500 條棒上面即係 80% */
-.reward__tick { position: absolute; top: -3px; width: 2px; height: 14px; background: rgba(255,255,255,0.45); }
-
-.reward__marks { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.75rem; letter-spacing: 0.02em; color: rgba(255,255,255,0.74); }
-.reward__marks .is-hit { color: #e8cf9a; font-weight: 700; }
-.reward__marks .is-hit::before { content: '✓ '; }
-
-.reward__line { margin: var(--space-md) 0 0; font-size: 0.9375rem; line-height: 1.55; color: rgba(255,255,255,0.9); }
-.reward__line strong { color: #e8cf9a; font-weight: 700; font-size: 1.12em; }
-.reward__line b { color: #fff; font-weight: 700; }
-
-/* 「繼續揀嘢」細連結 —— 老闆指正：原本係卡底一個白底大掣，
-   同下面「前往結帳」太似，客會撳錯。而家縮成一條跟喺「再買 $X」後面
-   嘅金色細連結，語境啱（講緊爭幾多錢 → 去揀多啲），而且細到唔會撞到結帳。 */
-.reward__go {
-  display: inline-flex; align-items: center; gap: 4px;
-  margin-top: 8px;
-  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.02em;
-  color: #e8cf9a; text-decoration: none;
-  border-bottom: 1px solid rgba(232, 207, 154, 0.45);
-  padding-bottom: 1px;
-}
-.reward__go:hover { color: #fff; border-bottom-color: rgba(255, 255, 255, 0.7); }
-.reward__go:focus-visible { outline: 2px solid #e8cf9a; outline-offset: 3px; border-radius: 3px; }
-
 
 
 
@@ -15034,36 +15210,9 @@ body::before { opacity: 0.18; }
   /* 手機單欄空位唔夠；收起裝飾，價錢同加購內容先行。 */
   .shima--cash { display: none; }
 }
-
-/* 提示句：講明「要用自提櫃就要喺呢度揀咗先」 */
-/* ⚠️ 呢句唔可以低調。第一版用灰細字擺喺個掣下面，老闆一睇就話
-   「咁唔明顯，啲人點會睇到？咁多字」。而家：搬去成張卡最頂（睇落
-   之前一定經過）、字數砍剩一半、紅底紅字、關鍵嗰截加螢光筆底色。 */
-/* ⚠️ 段文字一定要包住一個 span。唔包嘅話，flex 會將裸文字同 <b>
-   當成兩件獨立 flex item，紅字就會斷開左右兩欄，實測好核突。 */
-/* ⚠️ 第二版用過紅底紅字 ＋ 紅色驚嘆號，老闆話「太有警戒感，啲人可能
-   會驚後面有啲咩事」。改用琥珀金 —— 一樣跳出嚟（成版係冷藍灰，暖色
-   最搶眼），但語氣係「提你一句」唔係「出事喇」。個圓章由「!」改「i」。 */
-.sfp__err { margin: 0; padding: 11px var(--space-md); background: #fdecea; color: #a4302a; font-size: 0.8125rem; font-weight: 700; line-height: 1.45; border-bottom: 1px solid rgba(164,48,42,0.18); }
 @keyframes sfpShake {
   0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
   40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
-}
-.sfp.is-shake { animation: sfpShake 420ms var(--ease-out); }
-@media (prefers-reduced-motion: reduce) { .sfp.is-shake { animation: none; } }
-.sfp__hint {
-  display: flex; align-items: center; gap: 8px;
-  margin: 0; padding: 11px var(--space-md);
-  /* 淺金底 ＋ 深藍字（8.4:1）—— 之前金字疊金底得 4.57:1，老闆一眼捉到撞色 */
-  background: #fbf1da;
-  border-bottom: 1px solid rgba(43,76,88,0.12);
-  font-size: 0.8125rem; font-weight: 700; color: var(--dark-base);
-}
-.sfp__hint-t { min-width: 0; }
-.sfp__hint-mark { flex: none; width: 18px; height: 18px; border-radius: 999px; background: var(--dark-base); color: #fff; font-size: 0.6875rem; font-weight: 700; font-style: normal; display: inline-flex; align-items: center; justify-content: center; }
-.sfp__hint b {
-  font-weight: 700; color: #6b4409;
-  box-shadow: inset 0 -0.42em 0 rgba(240, 190, 74, 0.45);
 }
 
 /* 加購清單底下嘅「查看更多」。做成一條淺色橫掃嘅掣，唔搶「加入」
@@ -15079,37 +15228,9 @@ body::before { opacity: 0.18; }
 }
 .gap__more-btn:hover { background: #fff; border-color: var(--primary); }
 .gap__more-btn--link { border-style: solid; }
-
-/* ============================================================
-   滿 $500 送面霜 —— 條進度棒最右邊擺住支獎品，輕輕彈
-   支圖係由 Shopify 原相 flood-fill 去背（背景 #99d6f5 純色，
-   容差要收窄到 max-channel ≤ 22 —— 用鬆容差會連白色樽身一齊食走，
-   實測第一次就係咁蝕咗）。右邊嗰道乳霜印裁走咗，icon 細，留住變雜訊。
-   ============================================================ */
-/* 兩件獎品同下面兩個標籤上下對齊（左＝免運 $400、右＝送面霜 $500）。
-   ⚠️ 試過將紙箱擺去條棒 80% 嗰點對正 tick —— 80% 同 100% 之間得 51px，
-   兩隻 icon 加埋 92px，實測重疊 16px。標籤本身就係左右分邊，跟返標籤
-   反而睇得明啲，亦都唔會撞。 */
-.reward__goal {
-  display: flex; justify-content: space-between; align-items: flex-end;
-  height: 62px; margin-bottom: 6px;
-}
-.reward__prize {
-  display: block;
-  transform-origin: 50% 100%;
-  animation: prize-bob 1.9s ease-in-out infinite;
-}
-.reward__prize--ship { animation-delay: -0.95s; }
-.reward__jar { display: block; width: 46px; height: auto;
-  filter: drop-shadow(0 6px 9px rgba(43, 76, 88, 0.2)); }
-.reward__box { display: block; width: 42px; height: 42px;
-  filter: drop-shadow(0 5px 7px rgba(43, 76, 88, 0.18)); }
 @keyframes prize-bob {
   0%, 100% { transform: translateY(0) rotate(-2.5deg); }
   50%      { transform: translateY(-8px) rotate(2.5deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .reward__prize { animation: none; }
 }
 
 /* ============================================================
@@ -15196,10 +15317,12 @@ body::before { opacity: 0.18; }
 }
 
 /* 購物袋結帳前：用付款標準建立信心，但唔將第三方平台品牌當主角。 */
+/* 2026-10-17 新版購物袋：坐喺訂單摘要白卡最底，上面一條幼線分隔。 */
 .payment-security {
   margin-top: 14px;
-  padding: 14px 16px 12px;
+  padding: 12px 0 16px;
   border: 0;
+  border-top: 1px solid var(--bag-line, #e3eaed);
   border-radius: 0;
   background: transparent;
 }
@@ -15253,7 +15376,7 @@ body::before { opacity: 0.18; }
 .merchant-trust i { font-style: normal; color: var(--text-tertiary); }
 .merchant-trust a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 480px) {
-  .payment-security { padding: 13px 12px 11px; }
+  .payment-security { padding: 12px 0 14px; }
   .payment-security__heading > div { display: block; }
   .payment-security__heading span { display: block; margin-top: 3px; }
   .pay-marks { grid-template-columns: repeat(3, 1fr); }
@@ -15666,163 +15789,9 @@ body::before { opacity: 0.18; }
 @media (prefers-reduced-motion: reduce) {
   .promo-pop { transition: none; transform: none; }
 }
-
-/* ============================================================
-   順豐自提點揀選（購物袋頁）
-   ⚠️ 呢個唔喺 Shopify 結帳頁 —— 個結帳頁改唔到（唔係 Plus）。
-   喺自己個購物袋頁揀，揀完寫落 cart attributes 跟住張單過去。
-   ============================================================ */
-/* ⚠️ min-width: 0 唔可以少。flex item 預設 min-width:auto，個搜尋框
-   （<input>）縮唔細過佢自己嘅內建闊度（約 170px），結果成個 .sfp 嘅
-   min-content 變咗 364px，喺手機直接將 grid 欄撐到 462px —— 成版
-   購物袋啲字就會俾切走右邊（實測 375px 畫面，body scrollWidth 478）。 */
-/* 取件點揀選（2026-09-03 老闆指定）
-   「我話大嚿啲嗰嚿嘢，係揀『自提點 7-11』嗰嚿；我話變藍色，
-     講緊『7-11 自提點』嗰個位置」——
-   所以**只有呢格**用 footer 深藍（--dark-base），而唔係成個運送方式列表。
-   點解值得咁搶眼：呢格係整個購物袋入面最重要嘅一個決定，
-   而且未揀就唔畀結帳，一定要客見到。 */
-/* 取件點 —— 成張卡最重要嗰格（未揀就唔畀結帳）。
-   唔再用實色深藍疊喺深藍上面（睇唔出層次），改用**更亮嘅玻璃 ＋ 金色左邊條**。 */
-/* 取件點 —— 成張卡最重要嗰格（未揀就唔畀結帳）。
-   老闆 2026-09-03：「呢個位置咁重要，應該用一隻淺啲嘅顏色，
-   同佢深色嘅背景作為一個對比」。
-   所以唔用玻璃（同底色太似），改**白底** —— 喺深藍卡上面白色最跳。
-   深藍字喺白底 9.22:1，係成張卡對比最強嗰格，符合佢嘅重要性。 */
-.sfp {
-  margin-top: var(--space-md);
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 12px 28px -14px rgba(0,0,0,0.55);
-}
-.sfp__panel, .sfp__filters, .sfp__list { min-width: 0; }
-/* 深藍底要留多啲白，唔係啲控制項會貼住邊 */
-.sfp__panel { padding: 0 var(--space-md) var(--space-md); }
-.sfp__district, .sfp__q { min-width: 0; }
-.sfp__item span { overflow-wrap: anywhere; }
-/* ⚠️ 呢行要 flex-wrap ＋ min-width:0。唔准 wrap 嘅話，
-   「順豐自提點（$25·滿$399免費）」＋ 右邊條 nowrap 嘅已揀膠囊夾埋
-   min-content 就 362px，成個 .sfp 縮唔細，喺手機直接將 grid 欄撐到
-   462px，成版購物袋右邊俾切走（實測 375px 畫面 body scrollWidth 478）。 */
-.sfp__chosen {
-  flex: 0 1 auto; min-width: 0; max-width: 100%; padding: 5px 12px; border-radius: 999px;
-  background: var(--primary-lightest); color: var(--dark-base);
-  font-size: 0.75rem; font-weight: 700;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-/* 揀咗 → 深藍實底白字，同「未揀」一眼分得開 */
-.sfp__chosen.is-set { background: var(--dark-base); color: #fff; }
-.sfp__chosen.is-set { background: #e8cf9a; color: var(--dark-base); font-weight: 700; }
-.sfp__chosen.is-set { background: #e8cf9a; color: var(--dark-base); font-weight: 700; }
-.sfp__chosen.is-set { background: var(--primary-deep); border-color: var(--primary-deep); color: #fff; }
-.sfp__panel { padding: 12px 14px 14px; border-top: 1px solid var(--border-light); }
-/* 兩層地區（大區 → 分區）自己一行，搜尋框自己一行 ——
-   812 個點散喺 76 個分區，一行擠三個控制項喺手機會逼到睇唔到字。
-   2026-09-03：老闆指正「唔可以只細分到九龍區，要落到觀塘」。 */
-.sfp__filters { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.sfp__region, .sfp__district, .sfp__q {
-  min-width: 0; padding: 9px 11px; border-radius: 8px;
-  font-family: var(--font-body); font-size: 0.8125rem;
-  /* 2026-09-03 老闆指正：原本用 --border-light 同預設灰字，喺手機睇唔清楚。
-     改用公告條同 footer 嗰隻深藍（--dark-base #2b4c58）做字色同邊框。 */
-  border: 1px solid rgba(43, 76, 88, 0.32);
-  color: var(--dark-base);
-  background: #fff;
-  font-weight: 500;
-}
-.sfp__region:focus, .sfp__district:focus, .sfp__q:focus {
-  outline: none; border-color: var(--dark-base);
-  box-shadow: 0 0 0 3px rgba(43, 76, 88, 0.12);
-}
-.sfp__q::placeholder { color: rgba(43, 76, 88, 0.55); }
-.sfp__region, .sfp__district {
-  /* 自畫箭嘴 —— 系統預設嗰個喺淺底上面太淡 */
-  appearance: none; -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%232b4c58' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 10px center;
-  padding-right: 26px;
-}
-.sfp__q { grid-column: 1 / -1; }
-.sfp__count { margin: 8px 0 6px; font-size: 0.6875rem; color: var(--text-secondary); }
-/* 成 428 個網點，一定要限高兼自己捲，唔係成版購物袋會拉到好長 */
-.sfp__list { max-height: 320px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
-.sfp__item {
-  display: grid; gap: 2px; width: 100%; padding: 9px 10px; margin-bottom: 6px;
-  border: 1px solid var(--border-light); border-radius: 9px; background: #fff;
-  font-family: var(--font-body); text-align: left; cursor: pointer;
-}
-.sfp__item:hover { border-color: var(--primary); background: #f7fbfc; }
-.sfp__item.is-on { border-color: var(--primary-deep); background: #eaf2f4; }
-.sfp__item b { font-size: 0.6875rem; font-weight: 600; color: var(--primary-deep); }
-.sfp__item span { font-size: 0.8125rem; line-height: 1.45; color: var(--text-primary); }
-.sfp__item em { font-style: normal; font-size: 0.6875rem; color: var(--text-tertiary); }
-.sfp__more { padding: 8px 4px; font-size: 0.6875rem; color: var(--text-secondary); text-align: center; list-style: none; }
-
-/* Approved pickup prototype: step-by-step, mist blue on footer blue. */
-.sfp--steps { padding: 22px; background: #e8f0f3; color: #244551; border-radius: 16px; border-left: 4px solid #94bbc9; box-shadow: none; }
-.sfp--steps .sfp__steps { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; color: #4e727f; font-size: 11px; font-weight: 500; }
-.sfp__steps > span { display: inline-grid; place-items: center; flex: 0 0 22px; height: 22px; border-radius: 50%; background: #2b4c58; color: #fff; }
-.sfp__steps > i { flex: 1; min-width: 8px; height: 1px; background: #b0c8d0; }
-.sfp--steps .sfp__service { margin: 0 0 6px; color: #4e727f; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
-.sfp--steps .sfp__heading { margin: 0 0 8px; color: #244551; font-family: var(--font-body); font-size: 20px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
-.sfp--steps .sfp__detail { margin: 0; color: #355d6e; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
-.sfp__start { display: block; width: 100%; min-height: 46px; margin-top: 18px; padding: 10px 12px; border: 1px solid #d3dfe3; border-radius: 10px; background: #fff; color: #244551; font: inherit; font-size: 14px; }
-.sfp__start[hidden] { display: none; }
-.sfp--info :is(.sfp__steps,.sfp__start,.sfp__retry,.sfp__status,.sfp__panel,.sfp__err) { display: none; }
-.sfp--steps .sfp__region[hidden] { display: none; }
-.sfp--steps .sfp__district { grid-column: 1 / -1; }
-/* 免運提示：白卡一行，左邊貨車 icon，右邊細連結；深藍大底已拎走。 */
-/* 老闆 mockup（2026-09-24 截圖指定）：外圈一道白色粗框，入面淡灰藍底；
-   一行一樣「今單攞到咩」（即減、面霜、運費），行與行之間一條細線；冇進度條。 */
-.reward__card { padding: 2px 12px 2px 12px; border: 4px solid #fff; border-radius: 16px; background: #f0f4f7; box-shadow: 0 0 0 1px rgba(43,76,88,0.06), 0 8px 18px -16px rgba(28,61,71,0.4); }
-/* 一樣嘢一行：icon｜主句……右邊細字，淨係畀人一眼睇晒（老闆：「唔使咁大嚿」）。 */
-.reward__row { display: grid; grid-template-columns: 18px minmax(0,1fr) auto; gap: 10px; align-items: center; min-height: 38px; padding: 7px 0; }
-[data-reward-perks] > .reward__row { border-bottom: 1px solid #dde6eb; }
-.reward__copy { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
-.reward__icon { width: 18px; height: 18px; fill: #1f4753; }
-.reward__icon circle { fill: #fff; stroke: #1f4753; stroke-width: 1.4; }
-.reward--focused .reward__line { margin: 0; min-width: 0; color: #1c3440; font-size: 0.875rem; font-weight: 500; line-height: 1.35; }
-.reward--focused .reward__line strong { color: #1c3440; font-weight: 700; font-size: 1em; }
-.reward--focused .reward__cost { flex: none; margin: 0; font-size: 0.75rem; line-height: 1.35; color: #6f8389; white-space: nowrap; }
-.reward--focused .reward__track { display: none; }
-.reward--focused [hidden] { display: none !important; }
-.reward--focused .reward__fill { height: 100%; background: linear-gradient(90deg,#6fa9b8,#e2c27e); transition: width 400ms var(--ease-out); }
-.reward--focused .reward__go { margin: 0 -2px 0 -4px; padding: 2px 0 4px; border: 0; color: #1c3440; font-size: 1.25rem; font-weight: 300; line-height: 1; }
-.reward-gift { display: grid; grid-template-columns: minmax(0,1fr) minmax(125px,36%); gap: 0; align-items: stretch; margin-top: 10px; overflow: hidden; border: 0; border-radius: 16px; background: #4b99be; box-shadow: 0 10px 24px rgba(38,82,103,.12); color: #fff; }
-.reward-gift[hidden] { display: none; }
-.reward-gift__image { grid-column: 2; grid-row: 1; display: block; min-width: 0; overflow: hidden; background: #70b9d9; }
-.reward-gift__image img { display: block; width: 100%; height: 100%; min-height: 170px; object-fit: cover; object-position: 62% center; transition: transform 200ms cubic-bezier(.23,1,.32,1); }
-.reward-gift__copy { grid-column: 1; grid-row: 1; align-self: stretch; min-width: 0; padding: 15px 12px 15px 18px; background: #2a607e; }
-.reward-gift__copy p { margin: 0; }
-.reward-gift__eyebrow { color: #eef8fc; font-size: 10px; font-weight: 700; letter-spacing: .14em; }
-.reward-gift .reward-gift__title { margin: 5px 0 5px; color: #fff; font-size: 16px; font-weight: 700; line-height: 1.3; }
-.reward-gift__threshold-amount, .reward-gift .reward-gift__amount { color: #ffe08a; font-weight: 750; white-space: nowrap; }
-.reward-gift__name { color: #eef8fc; font-size: 11px; line-height: 1.45; }
-.reward-gift .reward-gift__status { margin-top: 8px; color: #fff; font-size: 13px; font-weight: 500; line-height: 1.4; font-variant-numeric: tabular-nums; }
-.reward-gift .reward-gift__amount { font-size: 1.15em; }
-.reward-gift .reward-gift__terms { margin-top: 7px; color: #e6f4fa; font-size: 10px; line-height: 1.45; }
-.reward-gift__terms a { color: inherit; text-underline-offset: 3px; }
-.reward-gift a:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
-@media (hover:hover) and (pointer:fine) { .reward-gift__image:hover img { transform: translateY(-2px) scale(1.025); } }
 @media (prefers-reduced-motion:no-preference) {
-  .reward-gift { transition: opacity 220ms ease-out, transform 220ms cubic-bezier(.23,1,.32,1); }
   @starting-style { .reward-gift { opacity: 0; transform: translateY(4px); } }
 }
-@media (prefers-reduced-motion:reduce) { .reward-gift__image img { transition: none; transform: none !important; } }
-@media (max-width:480px) { .reward-gift { grid-template-columns: minmax(0,1fr) minmax(100px,34%); } .reward-gift__copy { padding: 12px 8px 12px 12px; } .reward-gift .reward-gift__title { font-size: 14px; } .reward-gift__image img { min-height: 170px; object-position: 75% center; } .reward-gift .reward-gift__status { font-size: 12px; } }
-.sfp--steps.sfp--inline { margin: 14px 0 0; padding: 14px 14px 12px; border: 1px solid #e0e8eb; border-radius: 14px; background: #f3f7f8; }
-.sfp--inline .sfp__steps, .sfp--inline .sfp__service { display: none; }
-.sfp--inline .sfp__heading { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: #1c3440; }
-.sfp--inline:not(.sfp--info):not(.sfp--chosen) .sfp__detail { display: none; }
-.sfp--inline .sfp__status { margin-top: 8px; text-align: center; }
-.sfp__retry { display: block; margin: 8px auto 0; padding: 4px 8px; border: 0; background: none; color: #1f4753; font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-.sfp__retry[hidden] { display: none; }
-.sfp--steps .sfp__status { margin: 12px 0 0; color: #4e727f; font-size: 11px; line-height: 1.5; }
-.sfp--steps .sfp__panel { margin-top: 18px; padding: 18px 0 0; border-top: 1px solid #bdcfd6; }
-.sfp--steps .sfp__err { margin-bottom: 14px; padding: 10px; border: 0; border-radius: 8px; }
-.sfp--steps :is(button,select,input):focus-visible { outline: 3px solid #639cad; outline-offset: 3px; }
-@media (max-width: 480px) { .sfp--steps { padding: 18px 16px; } .sfp--steps .sfp__steps { gap: 6px; font-size: 10px; } .sfp--steps .sfp__filters { grid-template-columns: minmax(0,1fr); } }
 
 /* ============================================================
    向下滑收起頂部，向上滑彈返出嚟
@@ -15998,135 +15967,13 @@ body::before { opacity: 0.18; }
 /* 評分行喺首頁預覽度可有可無，收埋慳返兩行高 */
 .poster__grid .card-rating { display: none; }
 
-
-/* ───── 運送方式選擇（2026-09-02 新增）─────────────────────────────
-   三級免運門檻：$99 自取（EC-GET 成本 $13）／$250 順豐站（$16）／$290 順豐上門（$31）。
-   成本越高、門檻越高。
-
-   老闆 2026-09-02 明確要求：**一眼要睇得出「$99 免嘅係自取」**，
-   唔可以令客以為滿 $99 連送上門都免。所以每個選項自己寫住自己嗰條門檻，
-   唔靠一句總述（「滿 $99 免運費」呢種寫法係禁止嘅）。
-
-   呢個係新 component，唔 override 任何舊規則。全部值攞 :root 個 token。 */
-/* ───── 加購 ────────────────────────────────────────────────────────
-   擺喺左欄產品清單下面。設計上刻意「唔搶」：
-   - 用返白卡 ＋ 現有品牌藍，**冇加第二套顏色語言** ——
-     金色同深藍玻璃係右欄 .reward 專用，加購搶埋就兩邊都唔突出。
-   - 層次靠 size／weight 做，唔靠色（灰階都讀得出：牌子細灰 → 名normal → 價粗藍）。
-   - 卡只用 shadow-sm 級數，唔可以浮得過 .cart-summary。
-   間距全部行返 --space-* 嗰個 scale，唔准出現 13px 呢類數字。 */
-.addon { margin-top: var(--space-2xl); }
-.addon__head { margin-bottom: var(--space-lg); }
-.addon__title { font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-primary); }
-/* 副題係說明文，一定要細過同淡過標題，唔好同佢爭 */
-.addon__sub { margin: 4px 0 0; font-size: 0.8125rem; line-height: 1.5; color: var(--text-secondary); }
-/* 「差幾多錢」係成段文案嘅主角：要一眼睇到，但唔可以搶到似警告。
-   2026-09-17 老闆指正：紅色太 aggressive（似警告／清倉），金色又太似提示，
-   所以用返品牌深藍 ＋ 8% 淡底 —— 同全站色系一致，又夠突出。 */
-.addon__gap {
-  display: inline-block;
-  margin: 0 1px;
-  padding: 0 5px;
-  border-radius: 6px;
-  background: rgba(43, 76, 88, 0.08);
-  color: var(--primary-deep);
-  font-weight: 700;
-  font-size: 1.06em;
-  font-variant-numeric: tabular-nums;
-}
-
-.addon__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-md); }
-
-.addon__card {
-  display: flex; flex-direction: column;
-  padding: var(--space-md); border-radius: 14px;
-  background: #fff; border: 1px solid var(--border-light);
-  box-shadow: 0 1px 2px rgba(43, 76, 88, 0.05);
-  transition: box-shadow var(--duration-fast) var(--ease-out),
-              transform var(--duration-fast) var(--ease-out);
-}
-.addon__card:hover { box-shadow: 0 6px 16px -8px rgba(43, 76, 88, 0.28); transform: translateY(-2px); }
-
-.addon__media { display: block; border-radius: 10px; overflow: hidden; background: var(--bg-soft, #f4f6f7); }
-/* 固定比例 ＋ cover，唔准拉扯變形 */
-.addon__media img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
-
-.addon__vendor { margin: var(--space-sm) 0 2px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
-/* 好多 title 拖住成串英文全名（「…5片裝 (No.4 Icy Soothing Sheet Mask, Tea…」），
-   唔截就每張卡高度都唔同，成行歪晒。兩行封頂。 */
-.addon__name {
-  margin: 0 0 var(--space-sm); font-size: 0.8125rem; font-weight: 400; line-height: 1.45;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  overflow: hidden; min-height: calc(0.8125rem * 1.45 * 2);
-}
-.addon__name a { color: var(--text-primary); text-decoration: none; }
-.addon__name a:hover { text-decoration: underline; }
-
-.addon__price { margin: auto 0 var(--space-sm); font-size: 0.9375rem; font-weight: 700; color: var(--primary-dark); }
-/* 「加咗就免運」係整個 section 入面唯一嘅強調 —— 只可以有一個 */
-.addon__hit { display: block; margin-top: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.02em; color: #2f7d5d; }
-
-.addon__add {
-  width: 100%; padding: 9px var(--space-sm);
-  border: 1px solid var(--primary-dark); border-radius: 999px;
-  background: transparent; color: var(--primary-dark);
-  font-size: 0.75rem; font-weight: 700; cursor: pointer;
-  white-space: nowrap;   /* 「加入購物袋」5 個字唔准斷開兩行 */
-  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
-}
-.addon__add:hover { background: var(--primary-dark); color: #fff; }
-.addon__add:disabled { opacity: 0.65; cursor: default; }
-
-/* 手機唔可以硬塞四欄：375px 下一格得 74px，圖同名都睇唔到。
-   改成橫掃，卡固定 148px，露一截第二張出嚟示意仲有得掃。
-   ⚠️ 呢段一定要喺上面 base 之後 —— 第一次寫咗落頁面前面嗰個
-   @media 度，結果被後面嘅 base .addon__grid 蓋返，四欄照舊。 */
-@media (max-width: 768px) {
-  .addon { margin-top: var(--space-xl); }
-  .addon__grid {
-    grid-template-columns: none;
-    grid-auto-flow: column; grid-auto-columns: 148px;
-    overflow-x: auto; scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-  }
-  .addon__card { scroll-snap-align: start; }
-  .addon:not(.addon--sd) .addon__grid { grid-auto-columns: 132px; }
-  .addon:not(.addon--sd) .addon__card { padding: 12px; }
-  .addon:not(.addon--sd) .addon__media { aspect-ratio: 4 / 3; }
-  .addon:not(.addon--sd) .addon__media img { height: 100%; aspect-ratio: auto; object-fit: contain; }
-  .addon:not(.addon--sd) .addon__vendor { margin-top: var(--space-xs); }
-  .addon:not(.addon--sd) .addon__name { margin-bottom: var(--space-xs); }
-  .addon:not(.addon--sd) .addon__price { margin-bottom: var(--space-xs); }
-  .addon:not(.addon--sd) .addon__add { padding-block: 7px; }
-}
-
-/* 平板／窄桌面（769–1300px）：購物袋仍然左右兩欄，但左欄得返 220–650px。
-   呢個時候仲硬分 4 欄，每張卡得 ~100px——牌子斷兩行、產品名截到無嘢好讀、
-   粒「加入購物袋」仲會逼成圓形。跟返左欄實際闊度分三檔：橫掃 → 兩欄 → 四欄。 */
-@media (min-width: 769px) and (max-width: 950px) {
-  .addon__grid {
-    grid-template-columns: none;
-    grid-auto-flow: column; grid-auto-columns: 148px;
-    overflow-x: auto; scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-  }
-  .addon__card { scroll-snap-align: start; }
-}
-@media (min-width: 951px) and (max-width: 1300px) {
-  .addon__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 /* ============================================
    短效期特價（2026-09-12）
    快到期門市實貨：1–3 個月 5 折、3–6 個月 7 折，唔設退換，唔疊 88 折。
    視覺上只做一件事：到期日要一眼睇到，而且睇落似包裝上面蓋嘅日期印
    （虛線框 + 等寬數字），唔係另一粒「特價」貼紙。顏色沿用全站特價磚紅。
    ============================================ */
-.sd-stamp,
-.product-card__badge--expiry,
-.addon__expiry {
+.sd-stamp, .product-card__badge--expiry {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
   text-transform: none;
@@ -16187,33 +16034,6 @@ body::before { opacity: 0.18; }
   display: inline-block; margin-top: 8px;
   font-size: 0.8125rem; font-weight: 600; color: var(--primary-dark);
 }
-
-/* 購物袋加購列：同上面「加多件？」同一套卡，只係多一行到期日 */
-.addon--sd { padding-top: var(--space-lg); border-top: 1px solid var(--glass-border); }
-.addon__expiry {
-  display: inline-block; margin: 0 0 6px;
-  padding: 2px 6px; border-radius: 5px;
-  border: 1px dashed rgba(143, 48, 31, 0.5);
-  color: #8f301f; font-size: 0.6875rem; font-weight: 650;
-  white-space: nowrap;   /* 手機卡得 148px 闊，「年月日」會斷成兩行，所以呢度用 2026.11.14 */
-}
-.addon__was {
-  margin-left: 6px; color: var(--text-tertiary);
-  font-size: 0.75rem; font-weight: 500;
-}
-.addon--sd .addon__price { color: #c8452f; }
-.addon__all {
-  display: inline-block; margin-top: var(--space-md);
-  font-size: 0.8125rem; font-weight: 600; color: var(--primary-dark);
-}
-/* 「睇多啲」用返上面個樣，但佢係 button 唔係 link ——
-   撳落去唔會跳頁，只喺同一格展開多幾件（2026-09-17 老闆要求）。 */
-.addon__more {
-  border: 0; background: none; padding: 0;
-  font-family: inherit; cursor: pointer;
-}
-.addon__more:hover { color: var(--primary-deep); text-decoration: underline; }
-.addon__more:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 3px; border-radius: 4px; }
 
 /* 專區頁 */
 .sd-hero { padding: var(--space-2xl) 0 var(--space-xl); }
@@ -16301,59 +16121,10 @@ body::before { opacity: 0.18; }
   .sd-rules b { display: inline; margin: 0; white-space: nowrap; font-size: 0.9375rem; }
   .sd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) 12px; }
 }
-
-/* 2026-09-24 老闆 mockup：運送方式做白卡，四格一行平排；觀塘自取最窄（老闆：「唔需要咁大個」）。
-   390px 手機每格得 ~80px，icon 擺左邊會令名逼到三行，所以格入面上下排：
-   icon＋radio → 名 → 運費 → 差幾多免運。grid 同一行自動等高，運費行 margin-top:auto 貼底對齊。 */
-.ship-mode {
-  margin: 12px 0 0; padding: 16px 10px 12px;
-  border: 1px solid rgba(43,76,88,0.08); border-radius: 18px;
-  background: #fff; color: var(--dark-base);
-  box-shadow: 0 10px 26px -18px rgba(28,61,71,0.45);
-}
-.ship-mode__top { display: flex; align-items: center; justify-content: space-between; margin: 0 4px 14px; }
-.ship-mode__head { margin: 0; font-size: 1.1875rem; font-weight: 700; letter-spacing: .02em; color: #1c3440; }
-.ship-mode__region { display: inline-flex; align-items: center; gap: 4px; color: var(--dark-base); font-size: 0.875rem; }
-.ship-mode__region svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; }
-.ship-mode__grid { display: grid; grid-template-columns: 1.08fr 1.08fr 1fr 0.84fr; gap: 6px; padding-top: 6px; }
-.ship-mode__opt {
-  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
-  min-width: 0; padding: 12px 7px 9px; border-radius: 12px; cursor: pointer;
-  border: 1px solid #dbe4e7; background: #fff;
-  transition: border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
-}
-.ship-mode__opt:hover { border-color: #9fbac2; }
-.ship-mode__opt.is-on { border: 1.5px solid #3f7482; background: #f0f7f7; box-shadow: 0 0 0 3px rgba(63,116,130,0.08); }
-.ship-mode__opt.is-on .ship-mode__fee { border-top-color: #d5e6e8; }
-.ship-mode__opt input { position: absolute; opacity: 0; pointer-events: none; }
-.ship-mode__opt:focus-within { outline: 2px solid #639cad; outline-offset: 2px; }
-.ship-mode__dot { position: absolute; top: 9px; right: 7px; width: 16px; height: 16px; border-radius: 999px; border: 1.5px solid #9aaeb4; background: #fff; }
-.ship-mode__opt.is-on .ship-mode__dot { border: 5px solid #3f7482; }
-.ship-mode__recommended {
-  position: absolute; top: -10px; left: 50%; transform: translateX(-50%); z-index: 1;
-  padding: 3px 7px; border-radius: 999px; white-space: nowrap;
-  background: #1f4753; color: #fff; font-size: 0.625rem; font-weight: 700; line-height: 1.1; letter-spacing: .03em;
-}
-.ship-mode__icon, .ship-mode__seven-logo { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; }
-.ship-mode__icon { background: #e9eff1; color: #1f4753; }
-.ship-mode__icon svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ship-mode__seven-logo { background: #fff; border: 1px solid #e1e7e9; box-shadow: inset 0 -4px 0 #168447; }
+/* 7-Eleven 字樣徽章：產品頁中秋優惠條（.midautumn-home__seven-logo）仲用緊；
+   購物袋 2026-10-17 新版已改用 assets/images/brand/seven-eleven-2021.svg。 */
+.ship-mode__seven-logo { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 1px solid #e1e7e9; box-shadow: inset 0 -4px 0 #168447; }
 .ship-mode__seven-logo b { margin-top: -3px; color: #f47b20; font: 900 1rem/1 Arial, sans-serif; text-shadow: 1px 0 0 #e5252a; }
-.ship-mode__name { font-size: 0.78rem; font-weight: 600; line-height: 1.3; color: #1c3440; word-break: keep-all; overflow-wrap: anywhere; }
-/* 運費：金額一行、「差 $X 免運」一行，貼卡底，四格對齊同一條線。 */
-.ship-mode__fee { align-self: stretch; display: grid; gap: 1px; margin-top: auto; padding-top: 6px; border-top: 1px solid #e8eef0; font-size: 0.75rem; font-weight: 700; line-height: 1.3; color: #1c3440; }
-.ship-mode__free { color: #1f7a55; font-weight: 700; }
-.ship-mode__was { margin-left: 3px; color: #9aaab0; font-size: 0.66rem; font-weight: 400; }
-.ship-mode__gap { font-size: 0.68rem; font-weight: 700; color: #9a5b0f; white-space: nowrap; }
-.ship-mode__gap.is-met { font-weight: 500; color: #6f8389; }
-@media (max-width: 360px) {
-  .ship-mode { padding-inline: 8px; }
-  .ship-mode__grid { gap: 4px; }
-  .ship-mode__opt { padding-inline: 5px; }
-  .ship-mode__name { font-size: 0.72rem; }
-  .ship-mode__gap { font-size: 0.62rem; }
-}
-}
 
 /* 隱藏嘅限時活動唔可被原有 display 規則重新顯示。 */
 .promo-wrap[hidden],
@@ -17509,12 +17280,6 @@ body::before { opacity: 0.18; }
 }
 .ouji-promo-price--detail .ouji-promo-price__badge b { color: #234957; font-size: .9rem; }
 .ouji-promo-price--detail .ouji-promo-price__badge span { color: #6d8187; font-size: .7rem; }
-
-/* Cart: one moonlit reward journey for both instant savings and the cream gift.
-   2026-09-24 老闆 mockup：成張卡縮到約一半高 —— 進度一行講晒、四個級別一行排晒、
-   「已達成／未達成」字改由 ✓ 圈表達（文字留畀讀屏）。 */
-.reward--focused { margin-top: var(--space-md); padding: 0; background: none; box-shadow: none; color: var(--dark-base); }
-.reward--focused .reward__brief { margin: 10px 0 0; }
 .cart-moon-promo {
   position: relative; isolation: isolate; overflow: hidden; padding: 14px 14px 12px;
   border: 1px solid rgba(239,221,177,.28); border-radius: 18px;
@@ -17636,7 +17401,6 @@ body::before { opacity: 0.18; }
 }
 @media (max-width: 360px) {
   .announcement-bar__slide { font-size: .88rem; }
-  .cart-summary { padding: 14px; }
   .announcement-bar__more-prefix { display: none; }
   .cart-moon-promo { padding: 12px 11px 11px; }
   .cart-moon-promo__tiers { gap: 4px; }
@@ -18519,9 +18283,7 @@ body::before { opacity: 0.18; }
 }
 
 /* Match the muted sea-blue Round Lab reference across the shared gift artwork. */
-.home-gift-card__scene,
-.product-gift-card__scene,
-.reward-gift__image img {
+.home-gift-card__scene, .product-gift-card__scene {
   filter: brightness(.87) contrast(1.35) saturate(.65);
 }
 
