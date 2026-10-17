@@ -3414,8 +3414,22 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-summary__total strong { margin-left: auto; color: #fff; font-size: 28px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
 .bag-summary__secure { display: flex; align-items: flex-start; gap: 5px; margin: 0 -16px; padding: 0 16px 14px; background: var(--bag-teal); color: rgb(255 255 255 / .88); font-size: 11.5px; line-height: 1.5; }
 .bag-summary__secure svg { flex: 0 0 13px; width: 13px; height: 13px; margin-top: 2px; stroke-width: 2; }
-.bag-summary__promo { display: flex; align-items: center; gap: 6px; margin: 0 -16px; padding: 10px 16px 0; color: var(--bag-muted); font-size: 12.5px; }
-.bag-summary__promo svg { flex: 0 0 16px; width: 16px; height: 16px; color: var(--bag-brand); }
+.bag-promo { margin: 0 -16px; padding: 0 16px; border-bottom: 1px solid var(--bag-line); }
+.bag-promo summary { display: flex; align-items: center; gap: 8px; min-height: 46px; color: var(--bag-ink); font-size: 14px; list-style: none; cursor: pointer; }
+.bag-promo summary::-webkit-details-marker { display: none; }
+.bag-promo summary svg { flex: 0 0 18px; width: 18px; height: 18px; color: var(--bag-brand); }
+.bag-promo summary svg:last-child { margin-left: auto; color: var(--bag-muted); transition: rotate .2s ease; }
+.bag-promo[open] summary svg:last-child { rotate: 180deg; }
+.bag-promo__field { display: flex; height: 46px; margin-bottom: 12px; padding: 3px; border: 1px solid var(--bag-control); border-radius: 8px; background: #f8fafb; }
+.bag-promo__field input { flex: 1; min-width: 0; padding: 0 10px; border: 0; background: transparent; color: var(--bag-ink); font: 16px var(--font-body); }
+.bag-promo__field input::placeholder { color: #66767c; }
+.bag-promo__field button { flex: 0 0 auto; padding: 0 18px; border: 0; border-radius: 6px; background: var(--bag-tint); color: var(--bag-teal); font: 600 14px var(--font-body); cursor: pointer; }
+.bag-promo__field button:disabled { opacity: .6; cursor: progress; }
+.bag-promo__list { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; padding: 0; list-style: none; }
+.bag-promo__list li { display: inline-flex; align-items: center; gap: 8px; padding: 4px 6px 4px 12px; border-radius: 999px; background: var(--bag-tint); color: var(--bag-teal); font-size: 12.5px; font-weight: 700; }
+.bag-promo__list button { min-height: 28px; padding: 0 6px; border: 0; background: none; color: var(--bag-muted); font: 12px var(--font-body); text-decoration: underline; cursor: pointer; }
+.bag-promo__status { margin: -4px 0 12px; color: var(--bag-muted); font-size: 12px; line-height: 1.5; }
+.bag-promo__status:empty { display: none; }
 .cart-summary__checkout { padding: 14px 0 16px; }
 /* 19px 粗字屬「大字」，白字喺 #5289A2（3.85:1）過到 WCAG AA。 */
 .bag-page .bag-go { gap: 8px; width: 100%; min-height: 54px; padding: 0 18px; border-radius: 999px; background: var(--bag-brand); box-shadow: none; color: #fff; font: 700 19px var(--font-body); letter-spacing: .04em; text-transform: none; }
@@ -3423,7 +3437,6 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .bag-go__perks { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 10px 0 0; color: var(--bag-teal); font-size: 13px; font-weight: 600; text-align: center; }
 .bag-go__perks svg { flex: 0 0 16px; width: 16px; height: 16px; stroke-width: 2.4; }
 
-.bag-continue { margin: 28px 0 0; padding-top: 20px; border-top: 1px solid var(--bag-line); }
 
 /* 手機底部合計條（參考圖）：跟底部導航一樣浮起嘅圓角卡，擺喺膠囊上面。
    左：合計（青藍）＋已攞到嘅優惠；右：唯一實色掣。 */
@@ -3449,9 +3462,9 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
   /* 合計條代替咗摘要入面粒掣（條出咗先收，萬一 script 出錯都仲有掣撳）。footer 底要讓多條條嘅位。 */
   .page-bag.has-bag-bar .cart-summary__checkout .bag-go, .page-bag.has-bag-bar .bag-go__perks { display: none; }
   .page-bag.has-bag-bar .cart-summary__checkout { padding: 0 0 2px; }
-  /* 手機購物袋要似 app（Winston 2026-10-15「唔使做 footer」、10-17 再講）：
-     唔出 footer、「繼續選購」同「完成你嘅護膚程序」；body 自己留返導航（＋合計條）嘅位。 */
-  body.page-bag > .footer, .bag-continue, .bag-next { display: none; }
+  /* 手機購物袋要似 app（Winston 2026-10-15「唔使做 footer」、10-17 再講）：唔出 footer；
+     body 自己留返導航（＋合計條）嘅位。「繼續選購」同「完成你嘅護膚程序」10-17 手機桌面都已拎走。 */
+  body.page-bag > .footer { display: none; }
   html body.page-bag { padding-bottom: calc(56px + var(--tabbar-gap, 16px) + 16px); }
   html body.page-bag.has-bag-bar { padding-bottom: calc(56px + var(--tabbar-gap, 16px) + 8px + 84px); }
 }
@@ -3465,7 +3478,11 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
   .bag-head__title { font-size: 26px; }
   .bag-layout { display: grid; grid-template-columns: minmax(0, 1fr) clamp(320px, 31vw, 360px); column-gap: 28px; align-items: start; }
   .bag-layout > * { grid-column: 1; min-width: 0; }
-  .bag-layout > .bag-side { grid-column: 2; grid-row: 1 / span 12; margin-top: 0; will-change: transform; }
+  /* 右欄：滿額贈禮擺喺訂單摘要上面（Winston 2026-10-17「視覺冇咁割裂」），摘要跟住捲。 */
+  /* 湊單卡佔左欄頭兩行，令右欄嘅摘要可以緊貼贈禮卡下面開始（唔使等湊單卡完先開始，中間唔會穿窿）。 */
+  .bag-layout > .bag-goal { grid-row: 1 / span 2; }
+  .bag-layout > .bag-reward { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .bag-layout > .bag-side { grid-column: 2; grid-row: 2 / span 12; margin-top: 16px; }
   .bag-goal { padding: 18px 24px 16px; }
   .bag-goal__title { min-height: 70px; padding-right: 160px; font-size: 19px; }
   .bag-goal__title strong { font-size: 28px; }
@@ -3485,7 +3502,6 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
   .bag-band__row { grid-auto-columns: 140px; gap: 12px; margin-top: 14px; padding: 0 20px 2px; scroll-padding-inline: 20px; }
   .bag-band.is-expanded .bag-band__row { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
   .bag-card__name { font-size: 12.5px; }
-  .bag-reward { margin-top: 22px; }
   .bag-section-head { margin-top: 30px; }
   .bag-choose { padding: 18px 16px; }
   .bag-ship-tiles { gap: 10px; }
@@ -3496,8 +3512,17 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
   .bag-summary__total { margin: 0 -20px; padding: 18px 20px 8px; }
   .bag-summary__secure { margin: 0 -20px; padding: 0 20px 16px; }
   .bag-summary__total strong { font-size: 32px; }
-  .bag-summary__promo { margin: 0 -20px; padding: 10px 20px 0; }
+  .bag-promo { margin: 0 -20px; padding: 0 20px; }
   .cart-empty { max-width: 520px; margin: 24px auto 0; }
+}
+
+/* 桌面右欄原生 sticky：全站 body 有 overflow-x／y hidden（變咗捲動盒，sticky 唔郁）。購物袋頁改用
+   overflow: clip —— 一樣唔准 body 自己捲（擴充功能凸出嗰 18px 照切走），但唔再係捲動盒。 */
+@supports (overflow: clip) {
+  @media (min-width: 769px) {
+    body.page-bag { overflow-x: clip; overflow-y: clip; }
+    .bag-layout > .bag-side { position: sticky; top: 126px; }
+  }
 }
 
 /* 動態只有一下，只畀「變咗」嘅嘢（見 paintBagGoal()）：條 bar 由上次嘅位置推前；
@@ -8397,100 +8422,6 @@ body.has-brand-rail .brand-section {
 .ing-note strong { flex: 0 0 auto; font-weight: 600; }
 .ing-note--clash { background: rgba(190,110,60,0.09); color: #8a4f22; }
 .ing-note--dup { background: rgba(109,163,181,0.09); color: #35637a; }
-
-/* ─────────────────────────────────────────────
-   完成你嘅護膚程序
-   ───────────────────────────────────────────── */
-
-.next-steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--space-lg, 20px);
-}
-.next-step {
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-lg, 20px);
-  border: 1px solid var(--border-light, #e8e4de);
-  border-radius: 18px;
-  background: rgba(255,255,255,0.55);
-}
-.next-step__tag {
-  align-self: flex-start;
-  padding: 3px 10px;
-  margin-bottom: var(--space-md, 14px);
-  border-radius: 999px;
-  background: var(--primary, #6da3b5);
-  color: #fff;
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-}
-.next-step__card { display: block; text-decoration: none; color: inherit; }
-.next-step__card img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-.next-step__brand {
-  display: block;
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--primary, #6da3b5);
-}
-.next-step__name {
-  display: block;
-  font-size: 0.875rem;
-  line-height: 1.45;
-  margin-top: 2px;
-}
-.next-step__why {
-  flex: 1;
-  margin: 10px 0 14px;
-  font-size: 0.75rem;
-  line-height: 1.6;
-  color: var(--text-secondary, #6f6a63);
-}
-.next-step__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.next-step__price { font-weight: 600; }
-.next-step .btn--sm { padding: 8px 14px; font-size: 0.75rem; }
-
-@media (max-width: 768px) {
-  .next-steps {
-    display: flex;
-    gap: var(--space-md, 16px);
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: inline mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  .next-steps::-webkit-scrollbar { display: none; }
-  .next-step {
-    flex: 0 0 80vw;
-    max-width: 330px;
-    min-width: 0;
-    padding: var(--space-md, 16px);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-  .next-step__tag { margin-bottom: 10px; }
-  .next-step__card img {
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    margin-bottom: 8px;
-  }
-  .next-step__why {
-    margin: 8px 0 12px;
-    line-height: 1.5;
-  }
-  .next-step .btn--sm { padding: 8px 12px; }
-  section[data-next-steps] .section-header { margin-bottom: var(--space-lg, 24px) !important; }
-}
 
 /* ─────────────────────────────────────────────
    成分說明
