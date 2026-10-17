@@ -65,7 +65,8 @@
     const title = p.title || '';
     if (typeof isShortDated === 'function' && isShortDated(p)) {
       const m = String(typeof shortDatedExpiry === 'function' ? shortDatedExpiry(p) : '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
-      if (m) return { kind: 'expiry', label: cp(`${+m[2]}月${+m[3]}日到期`, `Best before ${+m[3]}/${+m[2]}`), tone: 'sale' };
+      // 短寫法：卡窄，右邊仲有「最後兩件」，寫「10月16日到期」會被截（2026-10-17）
+      if (m) return { kind: 'expiry', label: cp(`${+m[3]}/${+m[2]} 到期`, `Exp. ${+m[3]}/${+m[2]}`), tone: 'sale' };
     }
     if (typeof oujiHasPairDeal === 'function' && oujiHasPairDeal(tags) && typeof OUJI_PAIR_DEAL !== 'undefined') {
       return { kind: 'pair', label: cp(`任揀 ${OUJI_PAIR_DEAL.count} 件 HK$${OUJI_PAIR_DEAL.total}`, `Any ${OUJI_PAIR_DEAL.count} for HK$${OUJI_PAIR_DEAL.total}`), tone: 'sale' };
