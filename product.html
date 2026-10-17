@@ -560,7 +560,7 @@
       const more = document.createElement('button');
       more.className = 'detail-more';
       more.type = 'button';
-      more.innerHTML = `<span>查看更多產品圖</span><em>${strips} 張</em>`
+      more.innerHTML = `<span>查看更多產品圖</span><em>${typeof oujiCopy === 'function' ? oujiCopy(`${strips} 張`, String(strips)) : `${strips} 張`}</em>`
         + chevron('m6 9 6 6 6-6');
       block.after(more);
 

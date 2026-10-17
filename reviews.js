@@ -75,6 +75,12 @@ async function loadRatings() {
  *
  *  卡片模板係同步嘅，所以呢個一定要同步答到 —— 頁面渲染之前
  *  行一次 `await loadRatings()` 就得，之後全部卡片即刻攞到。 */
+
+/* 中英切換（網站英文模式）；用 rvCp 唔用 cp，因為產品頁 inline script 都有 cp */
+const rvCp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+/* 評分項目英文名（評價資料入面係中文或者英文） */
+const RV_ATTR_EN = { 質地: 'Texture', 持久度: 'Longevity', 顯色度: 'Pigmentation', 保濕度: 'Moisturizing', 吸收快: 'Absorbs quickly', 防曬力: 'Sun protection', 低刺激: 'Low irritation', 香味: 'Scent', 服貼度: 'Adhesion', 延展度: 'Spreadability', 清潔力: 'Cleansing power', 舒緩敏感肌: 'Soothes sensitive skin', 柔順頭髮: 'Smooths hair', 易推勻: 'Easy to blend', 妝效: 'Finish', 遮瑕力: 'Coverage', 自然效果: 'Natural result', 易用: 'Easy to use', 防水: 'Waterproof', 定妝力: 'Setting power', 清新感: 'Freshness', 味道: 'Scent', 豐盈度: 'Volume', 捲翹度: 'Curl', 抵用: 'Value' };
+
 function ratingChip(handle) {
   const r = RATINGS_CACHE?.[handle];
   if (!r) return '';
@@ -95,7 +101,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g,
 function stars(value, max = 5) {
   const pct = Math.max(0, Math.min(100, (value / max) * 100));
   const row = (cls) => `<span class="stars__row stars__row--${cls}">★★★★★</span>`;
-  return `<span class="stars" role="img" aria-label="${max} 分中 ${value} 分">
+  return `<span class="stars" role="img" aria-label="${rvCp(`${max} 分中 ${value} 分`, `${value} out of ${max}`)}">
     ${row('bg')}<span class="stars__fill" style="width:${pct}%">${row('fg')}</span>
   </span>`;
 }
@@ -207,7 +213,7 @@ function ratingLine(star, count, jumpTo, r = null) {
   el.hidden = false;
   el.innerHTML = `${stars(star, max)}
     <b class="product-info__rating-num">${ratingNum(star, max)}</b>
-    <span class="product-info__rating-n">${esc(ratingSrc(r).name)} ${count.toLocaleString()} 則評價</span>`;
+    <span class="product-info__rating-n">${esc(ratingSrc(r).name)} ${rvCp(`${count.toLocaleString()} 則評價`, `${count.toLocaleString()} reviews`)}</span>`;
   if (!jumpTo) {
     el.removeAttribute('href');
     el.classList.add('is-static');
@@ -254,8 +260,8 @@ async function initReviews(handle, product) {
   host.hidden = false;
   host.innerHTML = `
     <div class="rv-head">
-      <h2 class="pdp-h2 rv-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.6 2.5 5.1 5.6.8-4 4 .9 5.6-5-2.6-5 2.6.9-5.6-4-4 5.6-.8Z"/></svg>${d.count.toLocaleString()} 位顧客評過</h2>
-      <span class="rv-head__src">評分來自 ${esc(d.source)}</span>
+      <h2 class="pdp-h2 rv-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.6 2.5 5.1 5.6.8-4 4 .9 5.6-5-2.6-5 2.6.9-5.6-4-4 5.6-.8Z"/></svg>${cp(`${d.count.toLocaleString()} 位顧客評過`, `Rated by ${d.count.toLocaleString()} customers`)}</h2>
+      <span class="rv-head__src">${cp(`評分來自 ${esc(d.source)}`, `Ratings from ${esc(d.source)}`)}</span>
     </div>
 
     <div class="rv-layout">
@@ -269,7 +275,7 @@ async function initReviews(handle, product) {
           ${dist.length ? `<div class="rv-dist">${dist.map((x) => distBar(x, max)).join('')}</div>` : ''}
           ${(d.attrs || []).length ? `<div class="rv-attrs">
             ${(d.attrs || []).map((a) => `<div class="rv-attr">
-              <span class="rv-attr__name">${esc(a.name)}</span>
+              <span class="rv-attr__name">${esc(cp(a.name, RV_ATTR_EN[a.name] || a.name))}</span>
               <span class="rv-attr__track"><span class="rv-attr__bar"
                 style="width:${(a.avg / 5) * 100}%"></span></span>
               <span class="rv-attr__num">${a.avg}</span>
