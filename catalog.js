@@ -86,10 +86,12 @@ const BRAND_PLATE = {
 };
 
 function brandPlate(vendor) {
-  // Skincare owns its brand identities; the navigation rail keeps its
-  // independently calibrated artwork and all other categories stay unchanged.
+  // Section identities are independent of the navigation rail's artwork.
   if (CURRENT_SECTION === 'skincare' && window.OUJI_SKINCARE_BRAND_HEADERS?.[vendor]) {
     return window.OUJI_SKINCARE_BRAND_HEADERS[vendor];
+  }
+  if (CURRENT_SECTION === 'makeup' && window.OUJI_MAKEUP_BRAND_HEADERS?.[vendor]) {
+    return window.OUJI_MAKEUP_BRAND_HEADERS[vendor];
   }
   return BRAND_PLATE[vendor] || { tint: '#eeeae3' };
 }
@@ -2284,7 +2286,7 @@ function brandSection(vendor, items, index) {
   return `
     <section class="brand-section" id="brand-${index}"
              style="content-visibility:auto;contain-intrinsic-size:auto 760px">
-      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}${plate.identity ? ' brand-plate--identity' : ''}${CURRENT_SECTION === 'skincare' && vendor === '其他' ? ' brand-plate--other' : ''}"
+      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}${plate.identity ? ' brand-plate--identity' : ''}${['skincare', 'makeup'].includes(CURRENT_SECTION) && vendor === '其他' ? ' brand-plate--other' : ''}"
               style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}${plate.identity ? `;--mark-width:${plate.width || 160}px;--mark-max-height:${plate.maxHeight || 52}px;--plate-ink:${plate.ink || '#171717'};--mark-blend:${plate.blend || 'normal'}` : ''}">
         ${logo
           ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
