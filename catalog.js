@@ -86,13 +86,11 @@ const BRAND_PLATE = {
 };
 
 function brandPlate(vendor) {
-  // Section identities are independent of the navigation rail's artwork.
-  if (CURRENT_SECTION === 'skincare' && window.OUJI_SKINCARE_BRAND_HEADERS?.[vendor]) {
-    return window.OUJI_SKINCARE_BRAND_HEADERS[vendor];
-  }
-  if (CURRENT_SECTION === 'makeup' && window.OUJI_MAKEUP_BRAND_HEADERS?.[vendor]) {
-    return window.OUJI_MAKEUP_BRAND_HEADERS[vendor];
-  }
+  // Keep the established character illustrations in the toy department.
+  // All other departments share the same researched brand identity.
+  if (CURRENT_SECTION === 'toys' && BRAND_PLATE[vendor]?.banner) return BRAND_PLATE[vendor];
+  const identity = window.OUJI_brandHeader?.(vendor);
+  if (identity) return identity;
   return BRAND_PLATE[vendor] || { tint: '#eeeae3' };
 }
 
@@ -220,6 +218,31 @@ const BRAND_LOGO_H = {
 
 function brandLogoHeight(vendor) {
   return BRAND_LOGO_H[vendor] || 58;
+}
+
+function validatedBrandCrop(crop) {
+  if (!crop) return null;
+  const [x, y, width, height, sourceWidth, sourceHeight] = [
+    crop.x, crop.y, crop.width, crop.height, crop.sourceWidth, crop.sourceHeight,
+  ].map(Number);
+  if (![x, y, width, height, sourceWidth, sourceHeight].every(Number.isFinite)
+      || x < 0 || y < 0 || width <= 0 || height <= 0
+      || sourceWidth <= 0 || sourceHeight <= 0
+      || x + width > sourceWidth || y + height > sourceHeight) return null;
+  return { x, y, width, height, sourceWidth, sourceHeight };
+}
+
+function brandLogoMarkup(logo, vendor, plate) {
+  const image = `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
+                  style="--logo-h:${brandLogoHeight(vendor)}px;height:${brandLogoHeight(vendor)}px${plate.filter ? `;filter:${plate.filter}` : ''}" loading="lazy" decoding="async">`;
+  const crop = validatedBrandCrop(plate.crop);
+  if (!crop) return image;
+  const { x, y, width, height, sourceWidth, sourceHeight } = crop;
+
+  const markWidth = Number(plate.width) > 0 ? Number(plate.width) : 160;
+  const markMaxHeight = Number(plate.maxHeight) > 0 ? Number(plate.maxHeight) : 52;
+  const cropMaxWidth = Math.min(markWidth, markMaxHeight * width / height);
+  return `<span class="brand-plate__logo-crop" style="--logo-crop-x:${x};--logo-crop-y:${y};--logo-crop-width:${width};--logo-crop-height:${height};--logo-crop-source-width:${sourceWidth};--logo-crop-source-height:${sourceHeight};--logo-crop-max-width:${cropMaxWidth}px;--logo-crop-image-width:${sourceWidth / width * 100}%;--logo-crop-left:${-x / width * 100}%;--logo-crop-top:${-y / height * 100}%">${image}</span>`;
 }
 
 function brandArt(vendor) {
@@ -2286,11 +2309,10 @@ function brandSection(vendor, items, index) {
   return `
     <section class="brand-section" id="brand-${index}"
              style="content-visibility:auto;contain-intrinsic-size:auto 760px">
-      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}${plate.identity ? ' brand-plate--identity' : ''}${['skincare', 'makeup'].includes(CURRENT_SECTION) && vendor === '其他' ? ' brand-plate--other' : ''}"
-              style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}${plate.identity ? `;--mark-width:${plate.width || 160}px;--mark-max-height:${plate.maxHeight || 52}px;--plate-ink:${plate.ink || '#171717'};--mark-blend:${plate.blend || 'normal'}` : ''}">
+      <header class="brand-plate${plate.dark ? ' is-dark' : ''}${plate.banner ? ' has-banner' : ''}${plate.identity ? ' brand-plate--identity' : ''}${vendor === '其他' ? ' brand-plate--other' : ''}"
+              style="--plate:${plate.tint}${plate.banner ? `;--plate-banner:url('${plate.banner}')` : ''}${plate.identity ? `;--mark-width:${plate.width || 160}px;--mark-max-height:${plate.maxHeight || 52}px;--plate-ink:${plate.ink || (plate.dark ? '#ffffff' : '#171717')};--mark-blend:${plate.blend || 'normal'}` : ''}">
         ${logo
-          ? `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
-                  style="--logo-h:${brandLogoHeight(vendor)}px;height:${brandLogoHeight(vendor)}px${plate.filter ? `;filter:${plate.filter}` : ''}" loading="lazy" decoding="async">`
+          ? brandLogoMarkup(logo, vendor, plate)
           : `<span class="brand-plate__wordmark">${vendor}</span>`}
         <h2 class="visually-hidden">${vendor}</h2>
       </header>
@@ -2354,12 +2376,20 @@ function buildBrandRail(order) {
   rail.className = 'brand-rail brand-rail--clearline';
   rail.setAttribute('aria-label', '品牌快速跳轉');
   rail.innerHTML = names.map((vendor, i) => {
-    const logo = brandLogo(vendor);
+    const profile = window.OUJI_brandHeader?.(vendor);
+    const originalLogo = brandLogo(vendor);
+    const logo = originalLogo || profile?.logo;
+    const railFilter = !originalLogo && profile?.railFilter;
+    const railCrop = !originalLogo && logo ? validatedBrandCrop(profile?.crop) : null;
     const name = attr(vendor);
+    const logoImage = logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
+        ${railFilter ? `style="filter:${attr(railFilter)}" ` : ''}loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : '';
+    const logoMarkup = railCrop
+      ? `<span class="brand-rail__logo-crop" style="--rail-crop-aspect:${railCrop.width / railCrop.height};--rail-crop-frame-width:${Math.min(78, 26 * railCrop.width / railCrop.height)}px;--rail-crop-image-width:${railCrop.sourceWidth / railCrop.width * 100}%;--rail-crop-left:${-railCrop.x / railCrop.width * 100}%;--rail-crop-top:${-railCrop.y / railCrop.height * 100}%">${logoImage}</span>`
+      : logoImage;
     return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
       aria-label="跳到 ${name}">
-      ${logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
-        loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : ''}
+      ${logoMarkup}
       <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${attr(railName(vendor))}</span>
     </a>`;
   }).join('');
@@ -2389,6 +2419,13 @@ function buildBrandRail(order) {
 
   rail.querySelectorAll('.brand-rail__logo').forEach((img) => {
     img.addEventListener('error', () => {
+      const crop = img.closest('.brand-rail__logo-crop');
+      if (crop) {
+        crop.hidden = true;
+        const fallback = img.closest('.brand-rail__item')?.querySelector('.brand-rail__fallback');
+        if (fallback) fallback.hidden = false;
+        return;
+      }
       img.hidden = true;
       const fallback = img.nextElementSibling;
       if (fallback) fallback.hidden = false;

@@ -7,8 +7,8 @@
   unicode-range: U+4ED6, U+5176;
 }
 
-/* Brand section headings only. Pill navigation and product cards keep their
-   existing sizes; each original wordmark retains its own proportions. */
+/* Shared brand section headings across every department. Original artwork
+   keeps its own proportions and individually calibrated optical size. */
 .lx-page .brand-plate--identity {
   color: var(--plate-ink, #171717);
   border: 0;
@@ -23,6 +23,28 @@
   object-fit: contain;
   transform: none;
   mix-blend-mode: var(--mark-blend, normal);
+}
+
+/* Clip source-image whitespace without editing or resampling the original logo. */
+.lx-page .brand-plate--identity .brand-plate__logo-crop {
+  position: relative;
+  display: block;
+  flex: 0 1 auto;
+  width: min(var(--mark-width, 160px), var(--logo-crop-max-width), calc(100% - 24px));
+  max-width: 100%;
+  max-height: var(--mark-max-height, 52px);
+  aspect-ratio: var(--logo-crop-width) / var(--logo-crop-height);
+  overflow: hidden;
+}
+
+.lx-page .brand-plate--identity .brand-plate__logo-crop > .brand-plate__logo {
+  position: absolute;
+  top: var(--logo-crop-top);
+  left: var(--logo-crop-left);
+  width: var(--logo-crop-image-width);
+  max-width: none;
+  max-height: none;
+  height: auto !important;
 }
 
 .lx-page .brand-plate--identity .brand-plate__wordmark {
@@ -42,7 +64,41 @@
     width: calc(var(--mark-width, 160px) * .8);
     max-height: calc(var(--mark-max-height, 52px) * .8);
   }
+  .lx-page .brand-plate--identity .brand-plate__logo-crop {
+    width: min(calc(var(--mark-width, 160px) * .8), calc(var(--logo-crop-max-width) * .8), calc(100% - 24px));
+    max-height: calc(var(--mark-max-height, 52px) * .8);
+  }
   .lx-page .brand-plate--other .brand-plate__wordmark {
     font-size: 24px;
   }
+}
+
+/* New profile fallbacks use the audited crop geometry within a 78×26px mark box.
+   Existing originalLogo rail images stay outside this wrapper and keep their calibration. */
+.lx-page .brand-rail--clearline .brand-rail__logo-crop {
+  position: relative;
+  display: block;
+  flex: none;
+  width: var(--rail-crop-frame-width);
+  aspect-ratio: var(--rail-crop-aspect);
+  overflow: hidden;
+}
+
+.lx-page .brand-rail--clearline .brand-rail__logo-crop[hidden] {
+  display: none !important;
+}
+
+.lx-page .brand-rail--clearline .brand-rail__logo-crop > .brand-rail__logo,
+.lx-page .brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo-crop > .brand-rail__logo {
+  position: absolute;
+  top: var(--rail-crop-top);
+  left: var(--rail-crop-left);
+  display: block;
+  width: var(--rail-crop-image-width);
+  max-width: none;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  opacity: 1;
+  transform: none;
 }
