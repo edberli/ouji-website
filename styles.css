@@ -9276,8 +9276,8 @@ html.is-lite .cat-card:hover .cat-card__shot {
 }
 
 /* 雜誌目錄排版（Winston 2026-10-16：「簡單、簡潔嘅選單，但要有雜誌嘅品牌感」，唔要任何圖）：
-   刊頭細字 → 一粗一幼雙細線 → 斜體襯線編號嘅分類 → 底部品牌口號。
-   （2026-10-17 Winston 叫拎走「Index 全部產品」大標題。）
+   刊頭細字 → 一條細線 → 斜體襯線編號嘅分類 → 底部品牌口號。
+   （2026-10-17 Winston 叫拎走「Index 全部產品」大標題，雙線改返一條。）
    刊頭同底部由 script.js initMegaMenu 加；芝麻已拎走（擺喺選單「好奇怪」）。
    面板係直向 flex，展開彩妝超高時會壓扁呢幾行，所以全部 flex: none。 */
 .header__mega-masthead {
@@ -9291,10 +9291,8 @@ html.is-lite .cat-card:hover .cat-card__shot {
 }
 .header__mega-rule {
   flex: none;
-  height: 4px;
   margin: 14px 0 4px;
   border-top: 1px solid rgba(255, 255, 255, 0.75);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
 }
 .header__mega-colophon {
   flex: none;
