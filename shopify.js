@@ -825,6 +825,8 @@ function prefetchProducts(handles, limit = 4) {
 }
 
 /** 搜尋商品 */
+/* 欄位同列表頁（getProducts）一樣：產品頁「你可能也喜歡」用返列表嗰張新卡（product-card-lc.js），
+   要有劃線價、款式數、庫存同第二張相先出得齊（2026-10-17 產品頁重做）。 */
 async function searchProducts(query, first = 10) {
   const data = await shopifyFetch(`
     query SearchProducts($query: String!, $first: Int!) {
@@ -832,8 +834,12 @@ async function searchProducts(query, first = 10) {
         edges {
           node {
             id handle title vendor productType tags createdAt
-            priceRange { minVariantPrice { amount currencyCode } }
-            images(first: 1) { edges { node { url altText } } }
+            priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
+            compareAtPriceRange { minVariantPrice { amount currencyCode } }
+            images(first: 2) { edges { node { url altText } } }
+            totalInventory
+            variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+            options { name optionValues { name } }
           }
         }
       }
@@ -859,7 +865,8 @@ async function getProductRecommendations(product, limit = 4) {
   const candidates = await searchProducts(query, Math.min(250, count + 1));
   return candidates
     .filter((p) => p && p.handle !== product.handle
-      && String(p.productType || '').trim() === productType)
+      && String(p.productType || '').trim() === productType
+      && !isExpiredShortDated(p)) // 過咗期嘅短效期貨唔好推（跟 #90 列表頁一樣）
     .slice(0, count);
 }
 

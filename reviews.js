@@ -46,12 +46,17 @@ let RATINGS_CACHE = null;
 /** 一件產品一個檔。全部夾埋係 800 KB —— 冇理由為咗睇一支唇釉
  *  嘅評價而攞埋其餘九十九件嘅。索引 (`ratings.json`) 話畀我哋知
  *  邊件有原文，冇嘅連 request 都唔使發。 */
+const REVIEWS_CACHE = new Map();
 async function loadReviews(handle) {
   const idx = await loadRatings();
   if (!idx[handle]?.text) return null;
-  return fetch(`data/reviews/${encodeURIComponent(handle)}.json`)
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null);
+  // 產品頁「啱唔啱你」（product-guide.js）同評價區都要用，同一件貨只攞一次
+  if (!REVIEWS_CACHE.has(handle)) {
+    REVIEWS_CACHE.set(handle, fetch(`data/reviews/${encodeURIComponent(handle)}.json`)
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null));
+  }
+  return REVIEWS_CACHE.get(handle);
 }
 
 /* 分數同評價原文分開兩個檔，因為兩者嘅覆蓋率差好遠。分數係目錄
@@ -70,6 +75,37 @@ async function loadRatings() {
  *
  *  卡片模板係同步嘅，所以呢個一定要同步答到 —— 頁面渲染之前
  *  行一次 `await loadRatings()` 就得，之後全部卡片即刻攞到。 */
+
+/* 中英切換（網站英文模式）；用 rvCp 唔用 cp，因為產品頁 inline script 都有 cp */
+const rvCp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+/* 評價說明（data/reviews 嘅 note）得幾款固定句式：英文版逐句對應，有一句對唔到就成段照出中文 */
+const RV_NOTE_EN = [
+  [/^以下評價由日本\s*(.+?)\s*會員撰寫，OUJI 原文引用、只加中文翻譯，冇改動內容，亦冇刪走負評。$/, (m) => `These reviews were written by ${m[1]} members in Japan. OUJI quotes them as written and only adds a Chinese translation — nothing edited, no negative reviews removed.`],
+  [/^以下評價由\s*(.+?)\s*顧客撰寫，OUJI 原文引用、只加中文翻譯，冇改動內容，亦冇刪走負評。$/, (m) => `These reviews were written by ${m[1]} customers. OUJI quotes them as written and only adds a Chinese translation — nothing edited, no negative reviews removed.`],
+  [/^(.+?)\s*用\s*(\d+)\s*分制評分，分數照原樣顯示。$/, (m) => `${m[1]} uses a ${m[2]}-point scale; scores are shown as given.`],
+  [/^只顯示我哋有貨嘅色號，同價錢有關嘅評價唔會收錄（兩邊售價唔同）。$/, () => 'Only shades we stock are shown. Reviews about price are left out, as prices differ between the two shops.'],
+];
+function rvNoteEN(note) {
+  const parts = String(note || '').split(/(?<=。)/).map((x) => x.trim()).filter(Boolean);
+  const out = [];
+  for (const p of parts) {
+    const hit = RV_NOTE_EN.map(([re, fn]) => { const m = p.match(re); return m ? fn(m) : null; }).find(Boolean);
+    if (!hit) return note;
+    out.push(hit);
+  }
+  return out.join(' ');
+}
+/* 評分項目英文名（評價資料入面係中文或者英文） */
+const RV_ATTR_EN = { 質地: 'Texture', 持久度: 'Longevity', 顯色度: 'Pigmentation', 保濕度: 'Moisturizing', 吸收快: 'Absorbs quickly', 防曬力: 'Sun protection', 低刺激: 'Low irritation', 香味: 'Scent', 服貼度: 'Adhesion', 延展度: 'Spreadability', 清潔力: 'Cleansing power', 舒緩敏感肌: 'Soothes sensitive skin', 柔順頭髮: 'Smooths hair', 易推勻: 'Easy to blend', 妝效: 'Finish', 遮瑕力: 'Coverage', 自然效果: 'Natural result', 易用: 'Easy to use', 防水: 'Waterproof', 定妝力: 'Setting power', 清新感: 'Freshness', 味道: 'Scent', 豐盈度: 'Volume', 捲翹度: 'Curl', 抵用: 'Value' };
+/* 來源網站有啲評分項目係英文（Olive Young 舊資料），中文版譯返做網站其他產品已經用緊嘅叫法 */
+const RV_ATTR_ZH = {
+  Moisturizing: '保濕度', 'Low irritant': '低刺激', 'Absorbs quickly': '吸收快', Adhesion: '服貼度', Stretch: '延展度',
+  'Effective cleansing': '清潔力', 'Soothe sensitive skin': '舒緩敏感肌', 'Easy to blend': '易推勻', Coverage: '遮瑕力',
+  Finish: '妝效', Waterproof: '防水', Volume: '豐盈度', Curling: '捲翹度', 'Natural result': '自然效果', 'Easy to use': '易用', Affordable: '抵用',
+};
+const rvAttrName = (name) => rvCp(RV_ATTR_ZH[name] || name, RV_ATTR_EN[name] || name);
+const RV_LANG_EN = { 英文: 'English', 日文: 'Japanese', 其他: 'other language', 韓文: 'Korean', 西班牙文: 'Spanish', 中文: 'Chinese', 法文: 'French', 俄文: 'Russian', 越南文: 'Vietnamese', 意大利文: 'Italian', 德文: 'German', 葡萄牙文: 'Portuguese', 希臘文: 'Greek', 希伯來文: 'Hebrew', 阿拉伯文: 'Arabic', 波蘭文: 'Polish', 保加利亞文: 'Bulgarian' };
+
 function ratingChip(handle) {
   const r = RATINGS_CACHE?.[handle];
   if (!r) return '';
@@ -90,7 +126,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g,
 function stars(value, max = 5) {
   const pct = Math.max(0, Math.min(100, (value / max) * 100));
   const row = (cls) => `<span class="stars__row stars__row--${cls}">★★★★★</span>`;
-  return `<span class="stars" role="img" aria-label="${max} 分中 ${value} 分">
+  return `<span class="stars" role="img" aria-label="${rvCp(`${max} 分中 ${value} 分`, `${value} out of ${max}`)}">
     ${row('bg')}<span class="stars__fill" style="width:${pct}%">${row('fg')}</span>
   </span>`;
 }
@@ -174,9 +210,12 @@ function sellableShades(product) {
 
 function reviewCard(r, showShade, max = 5) {
   const attrs = (r.attrs || [])
-    .map((a) => `<span class="rv-card__attr">${esc(a.name)} <b>${a.score}</b></span>`).join('');
+    .map((a) => `<span class="rv-card__attr">${esc(rvAttrName(a.name))} <b>${a.score}</b></span>`).join('');
   // 譯文行先、原文收喺 details 入面 —— 讀得明係頭等大事，
   // 但要查證嘅人一撳就見到原文，唔使離開個頁。
+  // 英文版：原文本身係英文就直接出原文（唔使睇中文翻譯）。
+  const enOrig = typeof getLang === 'function' && getLang() === 'en' && r.lang === '英文';
+  const body = enOrig ? r.text : (r.zh || r.text);
   return `<article class="rv-card">
     <header class="rv-card__head">
       ${stars(r.star, max)}
@@ -184,10 +223,10 @@ function reviewCard(r, showShade, max = 5) {
       <time class="rv-card__date">${esc(r.date)}</time>
     </header>
     ${showShade && r.shade ? `<span class="rv-card__shade">${esc(r.shade)}</span>` : ''}
-    <p class="rv-card__text">${esc(r.zh || r.text).replace(/\n+/g, '<br>')}</p>
+    <p class="rv-card__text">${esc(body).replace(/\n+/g, '<br>')}</p>
     ${attrs ? `<div class="rv-card__attrs">${attrs}</div>` : ''}
-    ${r.zh ? `<details class="rv-card__src">
-      <summary>原文（${esc(r.lang || '')}）</summary>
+    ${r.zh && !enOrig ? `<details class="rv-card__src">
+      <summary>${esc(rvCp(`原文（${r.lang || ''}）`, `Original (${RV_LANG_EN[r.lang] || r.lang || ''})`))}</summary>
       <p>${esc(r.text).replace(/\n+/g, '<br>')}</p>
     </details>` : ''}
   </article>`;
@@ -202,7 +241,7 @@ function ratingLine(star, count, jumpTo, r = null) {
   el.hidden = false;
   el.innerHTML = `${stars(star, max)}
     <b class="product-info__rating-num">${ratingNum(star, max)}</b>
-    <span class="product-info__rating-n">${esc(ratingSrc(r).name)} ${count.toLocaleString()} 則評價</span>`;
+    <span class="product-info__rating-n">${esc(ratingSrc(r).name)} ${rvCp(`${count.toLocaleString()} 則評價`, `${count.toLocaleString()} reviews`)}</span>`;
   if (!jumpTo) {
     el.removeAttribute('href');
     el.classList.add('is-static');
@@ -242,33 +281,50 @@ async function initReviews(handle, product) {
   const regions = Object.entries(d.byRegion || {})
     .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(' · ');
 
+  /* 2026-10-17 產品頁重做：標題唔再加「評價」小標（標題自己講得清楚）；
+     桌面左邊總結（跟住捲）、右邊評語；評語先出 4 則，其餘撳「顯示全部」先攤開（資料一則都冇少）。 */
+  const cp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+  const SHOW = 4;
   host.hidden = false;
   host.innerHTML = `
     <div class="rv-head">
-      <div>
-        <span class="label">評價</span>
-        <h2 class="heading-lg">${d.count.toLocaleString()} 位顧客評過</h2>
-      </div>
-      <span class="rv-head__src">評分來自 ${esc(d.source)}</span>
+      <h2 class="pdp-h2 rv-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.6 2.5 5.1 5.6.8-4 4 .9 5.6-5-2.6-5 2.6.9-5.6-4-4 5.6-.8Z"/></svg>${cp(`${d.count.toLocaleString()} 位顧客評過`, `Rated by ${d.count.toLocaleString()} customers`)}</h2>
+      <span class="rv-head__src">${cp(`評分來自 ${esc(d.source)}`, `Ratings from ${esc(d.source)}`)}</span>
     </div>
 
-    <div class="rv-summary">
-      <div class="rv-score">
-        <span class="rv-score__num">${ratingNum(d.star, top)}</span>
-        ${stars(d.star, top)}
-        ${regions ? `<span class="rv-score__meta">${regions}</span>` : ''}
-      </div>
-      ${dist.length ? `<div class="rv-dist">${dist.map((x) => distBar(x, max)).join('')}</div>` : ''}
-      <div class="rv-attrs">
-        ${(d.attrs || []).map((a) => `<div class="rv-attr">
-          <span class="rv-attr__name">${esc(a.name)}</span>
-          <span class="rv-attr__track"><span class="rv-attr__bar"
-            style="width:${(a.avg / 5) * 100}%"></span></span>
-          <span class="rv-attr__num">${a.avg}</span>
-        </div>`).join('')}
-      </div>
-    </div>
+    <div class="rv-layout">
+      <aside class="rv-aside">
+        <div class="rv-summary">
+          <div class="rv-score">
+            <span class="rv-score__num">${ratingNum(d.star, top)}</span>
+            ${stars(d.star, top)}
+            ${regions ? `<span class="rv-score__meta">${regions}</span>` : ''}
+          </div>
+          ${dist.length ? `<div class="rv-dist">${dist.map((x) => distBar(x, max)).join('')}</div>` : ''}
+          ${(d.attrs || []).length ? `<div class="rv-attrs">
+            ${(d.attrs || []).map((a) => `<div class="rv-attr">
+              <span class="rv-attr__name">${esc(rvAttrName(a.name))}</span>
+              <span class="rv-attr__track"><span class="rv-attr__bar"
+                style="width:${(a.avg / 5) * 100}%"></span></span>
+              <span class="rv-attr__num">${a.avg}</span>
+            </div>`).join('')}
+          </div>` : ''}
+        </div>
+        ${shown.length && d.note ? `<p class="rv-note">${esc(cp(d.note, rvNoteEN(d.note)))}</p>` : ''}
+      </aside>
 
-    ${shown.length ? `<p class="rv-note">${esc(d.note || '')}</p>
-    <div class="rv-list">${shown.map((r) => reviewCard(r, !!shades, top)).join('')}</div>` : ''}`;
+      ${shown.length ? `<div class="rv-main">
+        <div class="rv-list${shown.length > SHOW ? ' is-capped' : ''}">${shown.map((r) => reviewCard(r, !!shades, top)).join('')}</div>
+        ${shown.length > SHOW ? `<button type="button" class="rv-more" data-rv-more aria-expanded="false">${cp(`顯示全部 ${shown.length} 則評價`, `Show all ${shown.length} reviews`)}</button>` : ''}
+      </div>` : ''}
+    </div>`;
+
+  const more = host.querySelector('[data-rv-more]');
+  more?.addEventListener('click', () => {
+    const list = host.querySelector('.rv-list');
+    const open = list.classList.toggle('is-capped') === false;
+    more.setAttribute('aria-expanded', String(open));
+    more.textContent = open ? cp('收起評價', 'Show fewer') : cp(`顯示全部 ${shown.length} 則評價`, `Show all ${shown.length} reviews`);
+    if (!open) host.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  });
 }

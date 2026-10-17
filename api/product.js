@@ -45,8 +45,11 @@ const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;');
 
-function readTemplate() {
-  return fs.readFileSync(path.join(process.cwd(), 'product.html'), 'utf8');
+/* 2026-10-17 新產品頁先上手機版：桌面由 product.html 轉去 /classic/<handle>（tpl=classic），
+   出返舊版 product-classic.html。兩個範本嘅 SEO 標記同 H1／品牌／價錢位一樣，下面照填。 */
+function readTemplate(tpl) {
+  const file = tpl === 'classic' ? 'product-classic.html' : 'product.html';
+  return fs.readFileSync(path.join(process.cwd(), file), 'utf8');
 }
 
 async function fetchProduct(handle) {
@@ -243,7 +246,7 @@ function fillH1(html, p) {
 module.exports = async function handler(req, res) {
   let html;
   try {
-    html = readTemplate();
+    html = readTemplate(String(req.query?.tpl || ''));
   } catch (e) {
     res.status(500).send('product template missing');
     return;

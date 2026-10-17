@@ -1180,10 +1180,12 @@ function initQuantityControls() {
       const input = btn.parentElement.querySelector('.qty-input');
       if (!input) return;
       let val = parseInt(input.value) || 1;
+      // 產品頁會將 max 設做現貨數量（見 product.html stockHint），＋唔好超過佢
+      const cap = parseInt(input.max) || 99;
       if (btn.dataset.action === 'decrease') {
         val = Math.max(1, val - 1);
       } else {
-        val = Math.min(99, val + 1);
+        val = Math.min(cap, val + 1);
       }
       input.value = val;
       updateCartTotals();
