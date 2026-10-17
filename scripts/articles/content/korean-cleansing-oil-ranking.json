@@ -1,0 +1,269 @@
+{
+ "slug": "korean-cleansing-oil-ranking",
+ "category": "排行榜",
+ "kicker": "排行榜 · 卸妝油",
+ "date": "2026-10-16",
+ "read_minutes": 6,
+ "title": "卸妝油少做一步，第二朝護膚等於搽喺殘妝上面",
+ "title_html": "卸妝油少做一步，<span class=\"ax-nw\">第二朝護膚</span>等於<span class=\"ax-nw\">搽喺殘妝上面</span>",
+ "seo_title": "韓國卸妝油推介：Olive Young 評分十強",
+ "description": "OUJI 店內 15 款有貨韓國卸妝油，按 Olive Young 評分同評價數加權排出十強：SKIN1004、Round Lab、ma:nyo、Anua⋯⋯附成分、用法、得獎同點揀。",
+ "dek": "我哋將 OUJI 有貨、喺 Olive Young Global 有 50 則以上評價嘅 15 款韓國卸妝油同潔面油，按評分同評價數加權排出十強，再講清楚乾面點搽、幾時加水乳化，同埋你應該揀邊一支。",
+ "cover": {
+  "type": "product",
+  "handle": "skin1004-skin1004-200ml-1110",
+  "stamp": "No.1 · ★ 4.7 · 2,365 則評價"
+ },
+ "related": [
+  "korean-cleanser-ranking",
+  "korean-moisturizer-ranking",
+  "pores-blackheads-guide"
+ ],
+ "body": [
+  {
+   "type": "flow",
+   "blocks": [
+    {
+     "type": "method",
+     "label": "點樣排",
+     "html": "只計 OUJI 而家有貨、喺 Olive Young Global 有 50 則以上評價嘅韓國卸妝油同潔面油（共 15 款）；卸妝膏、卸妝液同雙重潔面套裝唔入榜。分數按評價數加權：評價少嘅唔會因為幾個五星就衝上頭。同一系列唔重複上榜。得獎資料只列官方公布、而且係我哋賣緊嗰款。價錢以產品頁為準。"
+    },
+    {
+     "type": "p",
+     "html": "如果夜晚唔卸乾淨，第日嘅護膚基本上係搽落一層殘妝上面。韓國卸妝油選擇唔少，但大部分人揀錯咗地方：唔係淨係睇容量或者包裝，仲要睇你屋企有冇第二支洗面奶做第二重清潔。我哋用 Olive Young 幾千個用家嘅評分，將有貨嗰批排一次。"
+    },
+    {
+     "type": "toc"
+    }
+   ],
+   "note": "同一系列唔重複上榜：SKIN1004 積雪草卸妝油 200ml 同 30ml、Anua 魚腥草卸妝油、mixsoon 大豆卸妝油 195ml 同 100ml，喺 Olive Young 係同一批評價，十強各計一次。"
+  },
+  {
+   "type": "sec",
+   "id": "top10",
+   "label": "Catalogue · 十強",
+   "title": "Olive Young 評分十強"
+  },
+  {
+   "type": "catalog",
+   "feature_first": true,
+   "numbered": true,
+   "id_prefix": "no",
+   "items": [
+    {
+     "handle": "skin1004-skin1004-200ml-1110",
+     "kind": "積雪草清爽卸妝油",
+     "unit": "200ml",
+     "why": "十強入面評價數最多嗰支，2,365 則仍然企到 4.7 星。積雪草萃取配 6 種植物油，產品頁寫明溫和溶解彩妝、防曬同多餘皮脂，質地屬油狀。",
+     "fit": [
+      "日日卸妝",
+      "偏乾"
+     ]
+    },
+    {
+     "handle": "round-lab-round-lab-1025-200ml-5677",
+     "kind": "獨島卸妝油",
+     "unit": "200ml",
+     "why": "1,477 則評價喺十強排第三。產品頁寫明深海海水含 72 種礦物，植物性油遇水乳化，溶解雜質同時保留水分。",
+     "fit": [
+      "評價多",
+      "想保濕"
+     ]
+    },
+    {
+     "handle": "ma-nyo-ma-nyo-200ml-2292",
+     "kind": "純淨大豆卸妝油",
+     "unit": "200ml",
+     "why": "14 種植物油配方，產品頁寫明遇水乳化成奶白色、容易沖洗。Olive Young Awards 2023 同 2024 潔面類第 1 位，另有 Allure Best of Beauty 2025 油潔面得獎。",
+     "fit": [
+      "有得獎",
+      "化濃妝"
+     ]
+    },
+    {
+     "handle": "beauty-of-joseon-beauty-of-joseon-210ml-0130",
+     "kind": "人蔘卸妝油",
+     "unit": "210ml",
+     "why": "十強入面唯一一支 210ml，容量排第一。產品頁寫明含人蔘成分同微胞科技，乳化後有助沖走污垢、多餘油脂同雜質。",
+     "fit": [
+      "容量大",
+      "耐用"
+     ]
+    },
+    {
+     "handle": "mixsoon-mixsoon-195ml-1873",
+     "kind": "發酵大豆卸妝油",
+     "unit": "195ml",
+     "why": "十強入面 Olive Young 星數係 4.8 嗰支，112 則評價。專利發酵大豆萃取加發酵石榴、大麥，產品頁寫明溫和溶解防水彩妝，沖水後唔繃緊。",
+     "fit": [
+      "星數 4.8",
+      "戴防水妝"
+     ]
+    },
+    {
+     "handle": "anua-anua-200ml-5028",
+     "kind": "魚腥草毛孔卸妝油",
+     "unit": "200ml",
+     "why": "評價數喺十強排第二，1,963 則。產品頁寫明唔致粉刺、敏感皮膚適用，含魚腥草萃取同迷迭香葉油；Olive Young Awards 2024 潔面類 MD’s Pick。",
+     "fit": [
+      "毛孔油脂多",
+      "易敏感"
+     ]
+    },
+    {
+     "handle": "beplain-beplain-200-0678",
+     "kind": "綠豆潔面油",
+     "unit": "200 毫升",
+     "why": "含綠豆複合物，產品頁寫明有效溶解彩妝殘留，同時有助清除老廢角質同黑頭，質地輕盈唔油膩。",
+     "fit": [
+      "想清黑頭",
+      "質地輕"
+     ]
+    },
+    {
+     "handle": "ma-nyo-ma-nyo-200ml-1608",
+     "kind": "草本綠色卸妝油",
+     "unit": "200ml",
+     "why": "艾草油同茶樹葉油配方，產品頁寫明適合油性同容易出暗瘡嘅肌膚，遇水乳化、容易沖洗。",
+     "fit": [
+      "油性肌",
+      "毛孔多"
+     ]
+    },
+    {
+     "handle": "sungboon-editor-sungboon-editor-editor-green-tomato-deep-por-5186",
+     "kind": "綠番茄雙效卸妝油",
+     "unit": "200ml",
+     "why": "番茄果提取物配荷荷巴籽油同玻尿酸鈉，產品頁寫明加水即刻乳化、質地輕盈快吸收，沖水後冇黏膩殘留。",
+     "fit": [
+      "怕笠",
+      "想快手"
+     ]
+    },
+    {
+     "handle": "ilso-ilso-200-1742",
+     "kind": "天然溫和潔面油",
+     "unit": "200 毫升",
+     "why": "含芝麻油、荷荷巴籽油同 LHA（辛醯水楊酸），產品頁寫明針對黑頭可以打圈按摩 1 分鐘再乳化沖洗，乳化後清爽唔笠。",
+     "fit": [
+      "黑頭多",
+      "想溫和去角質"
+     ]
+    }
+   ]
+  },
+  {
+   "type": "flow",
+   "blocks": [
+    {
+     "type": "callout",
+     "html": "一支搞掂晒：毛孔油脂多、易敏感揀第 6；戴防水彩妝、怕洗完繃緊揀第 5；怕油膩殘留、想快手清走揀第 9。"
+    },
+    {
+     "type": "sec",
+     "id": "how",
+     "label": "How to choose · 點揀",
+     "title": "點揀韓國卸妝油：先睇要清咩"
+    },
+    {
+     "type": "p",
+     "html": "卸妝油做嘅係第一步：將彩妝、防曬同多餘皮脂先帶走，跟住先至用洗面。美國皮膚科學會建議用溫水加手指，唔好用毛巾或海綿，卸妝都唔好大力搓，搓會刺激皮膚；早晚各洗一次、出汗後盡快洗。想知第二步揀邊支，可以睇 <a href=\"/articles/korean-cleanser-ranking\">韓國洗面奶推介</a>。"
+    },
+    {
+     "type": "p",
+     "html": "成分睇兩樣就夠。想清黑頭、清毛孔油脂，睇有冇溫和酸類或者針對黑頭嘅配方：第 10 名有 LHA（辛醯水楊酸），產品頁寫明針對黑頭按摩 1 分鐘，第 4 名用人蔘配微胞科技。容易泛紅或者怕堵塞，就由積雪草、魚腥草呢類成分入手，第 1、6 都有。質地怕笠的話，第 2、9 產品頁都寫明輕盈快吸收。全部貨都喺 <a href=\"/category?cat=cleanser\">潔面分類</a>。"
+    },
+    {
+     "type": "p",
+     "html": "用法會直接影響效果：乾面先搽，輕輕打圈等佢溶解彩妝，然後加少量水按摩到乳白色先沖水。呢個就係乳化——兩種本身唔會互溶嘅液體混在一起；Wikipedia 對乳化嘅定義就係咁。第 2 同第 3 產品頁都寫明呢個步驟，唔好未乳化就沖，殘油會留喺面上。想深入處理黑頭，可以配合 <a href=\"/articles/pores-blackheads-guide\">毛孔黑頭點算</a>；想知道容量大嘅品牌仲有咩，可以去 <a href=\"/shop?brand=Round%20Lab\">Round Lab 品牌頁</a> 睇。"
+    }
+   ],
+   "note": "第 3 名喺 Olive Young Awards 連續兩年攞過潔面類第 1 位，但加權分排第三——因為佢嘅評價數未去到頭三位。"
+  },
+  {
+   "type": "flow",
+   "blocks": [
+    {
+     "type": "sec",
+     "id": "compare",
+     "label": "Index · 比較表",
+     "title": "十款一次過比較"
+    },
+    {
+     "type": "compare",
+     "handles": [
+      "skin1004-skin1004-200ml-1110",
+      "round-lab-round-lab-1025-200ml-5677",
+      "ma-nyo-ma-nyo-200ml-2292",
+      "beauty-of-joseon-beauty-of-joseon-210ml-0130",
+      "mixsoon-mixsoon-195ml-1873",
+      "anua-anua-200ml-5028",
+      "beplain-beplain-200-0678",
+      "ma-nyo-ma-nyo-200ml-1608",
+      "sungboon-editor-sungboon-editor-editor-green-tomato-deep-por-5186",
+      "ilso-ilso-200-1742"
+     ],
+     "kinds": [
+      "積雪草清爽卸妝油",
+      "獨島卸妝油",
+      "純淨大豆卸妝油",
+      "人蔘卸妝油",
+      "發酵大豆卸妝油",
+      "魚腥草毛孔卸妝油",
+      "綠豆潔面油",
+      "草本綠色卸妝油",
+      "綠番茄雙效卸妝油",
+      "天然溫和潔面油"
+     ]
+    },
+    {
+     "type": "sec",
+     "id": "faq",
+     "label": "Q&A · 常見問題",
+     "title": "買卸妝油前常見問題"
+    },
+    {
+     "type": "faq",
+     "items": [
+      {
+       "q": "韓國卸妝油同洗面奶有咩分別？",
+       "a": "卸妝油以植物油做基底，負責溶解彩妝、防曬同油脂；洗面奶係水配方，負責沖走殘留。第 1 同第 3 名產品頁都列明多款植物油。卸完油通常會再跟一支洗面奶做第二重清潔。"
+      },
+      {
+       "q": "卸妝油要喺面度搽幾耐？",
+       "a": "產品頁普遍建議乾面按摩溶解彩妝，之後加水乳化再沖水，第 9 名寫明手沾水繼續按摩約 30 秒令油分乳化。眼唇位置動作要輕，唔好揉。"
+      },
+      {
+       "q": "眼妝可以用卸妝油卸？",
+       "a": "眼周皮膚薄，第 9 名產品頁寫明質地溫和、可以用嚟卸眼妝。不過防水眼線同睫毛膏較難清，寧願用眼唇專用卸妝液，減少喺眼周來回擦。"
+      },
+      {
+       "q": "評分同得獎資料喺邊度睇？",
+       "a": "評分同評價數嚟自 Olive Young Global 產品頁，2026 年 10 月擷取；第 3 名有 Olive Young Awards 2023 同 2024 潔面類第 1 位，同 Allure Best of Beauty 2025 油潔面得獎；第 6 名係 Olive Young Awards 2024 潔面類 MD’s Pick。"
+      }
+     ]
+    },
+    {
+     "type": "sources",
+     "items": [
+      {
+       "title": "Olive Young Global 產品評分及評價數（2026 年 10 月擷取）"
+      },
+      {
+       "title": "美國皮膚科學會：How to control oily skin",
+       "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/oily-skin"
+      },
+      {
+       "title": "美國皮膚科學會：Face washing 101",
+       "url": "https://www.aad.org/public/everyday-care/skin-care-basics/care/face-washing-101"
+      },
+      {
+       "title": "Wikipedia：Emulsion（乳化）",
+       "url": "https://en.wikipedia.org/wiki/Emulsification"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
