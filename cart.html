@@ -501,9 +501,14 @@
               </div>
               <!-- 付款方式（2026-10-17 跟返預覽）：一行字講清楚收咩，唔再擺成格付款標誌。 -->
               <p class="bag-summary__secure" data-secure-note><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg><span>安全加密付款・Apple Pay、Google Pay、信用卡、銀聯</span></p>
-              <!-- 以前呢度有個優惠碼輸入格，但從來冇駁到任何程式（撳「套用」冇反應）。
-                   Shopify 結帳頁本身有優惠碼欄，所以改做一句講清楚去邊度入。 -->
-              <p class="bag-summary__promo" data-promo-hint><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 8.5V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3.5a2.5 2.5 0 0 0 0-5zM13 5v2M13 11v2M13 17v2"/></svg><span>有優惠碼？喺結帳頁輸入</span></p>
+              <!-- 優惠碼（Winston 2026-10-17 要返輸入格；跟預覽摺埋一行）。以前嗰格從來冇駁程式，
+                   而家經 Shopify cartDiscountCodesUpdate 套用，唔適用就即刻拎返走，見 setupPromoCode()。 -->
+              <details class="bag-promo" data-promo>
+                <summary><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 8.5V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3.5a2.5 2.5 0 0 0 0-5zM13 5v2M13 11v2M13 17v2"/></svg><span data-promo-label>優惠碼</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+                <div class="bag-promo__field"><input type="text" data-promo-input placeholder="輸入優惠碼" aria-label="優惠碼" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go"><button type="button" data-promo-apply>套用</button></div>
+                <ul class="bag-promo__list" data-promo-list hidden></ul>
+                <p class="bag-promo__status" data-promo-status role="status" aria-live="polite"></p>
+              </details>
 
               <!-- 芝麻喺收銀處等緊你：見上面 .shima--cash。結帳係最易走人嗰一步。 -->
               <div class="cart-summary__checkout">
@@ -528,19 +533,6 @@
           </section>
 
         </div>
-
-        <p class="bag-continue"><a href="category.html" class="btn--ghost">繼續選購</a></p>
-
-        <!-- 完成程序：由購物袋內容計出嚟，唔係寫死嘅樣板 -->
-        <section class="section--sm bag-next" data-next-steps hidden>
-          <div class="section-header section-header--split" style="margin-bottom: var(--space-2xl);">
-            <div>
-              <span class="label section-header__label">完成你嘅護膚程序</span>
-              <h2 class="heading-lg section-header__title" data-next-title>仲差呢幾步</h2>
-            </div>
-          </div>
-          <div class="next-steps" data-next-body></div>
-        </section>
 
       </div>
     </div>
@@ -721,7 +713,9 @@
     setText('[data-ship-note]', 'Free shipping is based on the discounted goods total');
     setText('[data-gift-row-label]', 'Gift · Round Lab birch cream');
     setText('[data-gift-row-value]', 'Free');
-    setText('[data-promo-hint] span', 'Have a code? Enter it at checkout');
+    setText('[data-promo-label]', 'Discount code');
+    setText('[data-promo-apply]', 'Apply');
+    document.querySelector('[data-promo-input]')?.setAttribute('placeholder', 'Enter code');
     setText('[data-secure-note] span', 'Secure encrypted payment · Apple Pay, Google Pay, cards, UnionPay');
     setText('[data-gift-terms]', 'While stocks last');
     setText('[data-gift-link]', 'See the gift ↗');
@@ -927,8 +921,6 @@
       // Show empty cart state
       cartEmpty.style.display = '';
       cartLayout.style.display = 'none';
-      /* 空袋卡自己有「探索產品」，下面嗰條「繼續選購」唔使再吊住。 */
-      document.querySelector('.bag-continue')?.setAttribute('hidden', '');
       return;
     }
 
@@ -1060,11 +1052,6 @@
     const countSub = document.querySelector('[data-bag-count-sub]');
     if (countSub) countSub.textContent = window.OUJI_cartCopy(`（${pieces} 件）`, ` (${pieces})`);
 
-    // 買精華嘅人係喺度砌緊一套護膚，唔係買緊一件貨。同一套仲差邊幾步，
-    // 就係佢最想知、亦都係最抬得起單價嘅嘢。
-    if (typeof loadIngredients === 'function') {
-      suggestNextSteps(lines.map((l) => l.merchandise.product.handle));
-    }
 
     /* 折實價先係話事嗰個數。
        實測過（cartCreate + deliveryGroups，2026-08-23）：未折 $414／折實 $384
@@ -1276,6 +1263,60 @@
       }
     }
     setupMemberRedemption();
+
+    /* 優惠碼：套用嗰陣保留袋入面已有嘅碼（包括會員獎賞 OUJI- 碼）；Shopify 話唔適用就即刻拎返走，
+       唔好留住一個冇用嘅碼。套用到就 reload 攞返 Shopify 計好嘅價錢。 */
+    function setupPromoCode() {
+      const box = document.querySelector('[data-promo]');
+      if (!box) return;
+      const cc = window.OUJI_cartCopy;
+      const input = box.querySelector('[data-promo-input]');
+      const apply = box.querySelector('[data-promo-apply]');
+      const status = box.querySelector('[data-promo-status]');
+      const list = box.querySelector('[data-promo-list]');
+      const isMember = (code) => /^OUJI-[A-F0-9]{32}$/i.test(code);
+      const codes = () => (cart.discountCodes || []).map((d) => d.code);
+      const mine = (cart.discountCodes || []).filter((d) => d.applicable && !isMember(d.code));
+      list.innerHTML = mine.map((d) => `<li>${bagEsc(d.code)}<button type="button" data-promo-remove="${bagEsc(d.code)}" aria-label="${bagEsc(cc(`移除優惠碼 ${d.code}`, `Remove code ${d.code}`))}">${cc('移除', 'Remove')}</button></li>`).join('');
+      list.hidden = !mine.length;
+      if (mine.length) box.open = true;
+      apply.addEventListener('click', async () => {
+        const code = input.value.trim().toUpperCase();
+        if (!code) { input.focus(); return; }
+        apply.disabled = true;
+        status.textContent = cc('套用緊…', 'Applying…');
+        const before = codes();
+        try {
+          const updated = await updateMemberDiscount([...before.filter((c) => c.toUpperCase() !== code), code]);
+          const hit = (updated.discountCodes || []).find((d) => d.code.toUpperCase() === code);
+          if (hit?.applicable) {
+            status.textContent = cc('已套用，更新緊價錢…', 'Applied — updating your total…');
+            location.reload();
+            return;
+          }
+          await updateMemberDiscount(before).catch(() => null);
+          status.textContent = cc('呢個優惠碼用唔到：可能已過期、未到使用門檻，或者唔可以同其他優惠一齊用。',
+            'This code can’t be used — it may have expired, need a higher spend, or not combine with other offers.');
+        } catch (error) {
+          status.textContent = window.OUJI_cartError(error, '套用唔到，請再試一次。', 'Could not apply the code. Please try again.');
+        }
+        apply.disabled = false;
+      });
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); apply.click(); } });
+      list.addEventListener('click', async (e) => {
+        const btn = e.target.closest('[data-promo-remove]');
+        if (!btn) return;
+        btn.disabled = true;
+        try {
+          await updateMemberDiscount(codes().filter((c) => c !== btn.dataset.promoRemove));
+          location.reload();
+        } catch (error) {
+          btn.disabled = false;
+          status.textContent = window.OUJI_cartError(error, '移除唔到，請再試一次。', 'Could not remove the code. Please try again.');
+        }
+      });
+    }
+    setupPromoCode();
 
     // 2026-09-05: moved inside this callback so these close over `lines`
     // (declared above). Defined at the outer <script> scope, calling
@@ -1503,6 +1544,9 @@
   /* 桌面右欄跟住捲。全站 html／body 有 overflow-x，原生 position: sticky 唔郁（分類頁都係咁），
      所以用 transform 推：欄頂貼住頁頭下面；欄高過畫面就捲到欄底見到先停；去到內容尾就唔再推。 */
   function bagStickSide() {
+    /* 支援 overflow: clip 嘅瀏覽器用 CSS 原生 sticky（styles.css 桌面段），唔使逐格推 —— 用 JS 推會
+       慢一格先追上，捲動時窒下窒下（Winston 2026-10-17）。舊瀏覽器先行下面後備。 */
+    if (window.CSS?.supports?.('overflow', 'clip')) return;
     const layout = document.querySelector('.bag-layout');
     const side = layout?.querySelector('.bag-side');
     if (!layout || !side) return;
@@ -1692,105 +1736,6 @@
       `已達現貨上限（${cap} 件）`, `Maximum in stock (${cap})`)}</p>`;
   }
 
-  /**
-   * What the basket is missing, and one product to fill each gap.
-   *
-   * The block this replaces was four hard-coded Unsplash photos, one of
-   * them a brand we do not stock, all four linking to a bare product.html.
-   * These are live products, chosen for the steps this particular basket
-   * has not covered yet, ordered the way the category pages order 推薦.
-   */
-  async function suggestNextSteps(handles) {
-    const host = document.querySelector('[data-next-steps]');
-    const body = document.querySelector('[data-next-body]');
-    const title = document.querySelector('[data-next-title]');
-    if (!host || !body) return;
-    /* 手機購物袋要似 app，唔出呢段（Winston 2026-10-17），亦唔使白白載晒全店貨。 */
-    if (window.matchMedia('(max-width: 768px)').matches) return;
-
-    await loadIngredients();
-    const gaps = routineGaps(handles);
-    if (!gaps.missing.length) {
-      host.hidden = true;
-      return;
-    }
-
-    const [all, rank] = await Promise.all([
-      getAllProducts(),
-      fetch('featured.json').then((r) => (r.ok ? r.json() : null))
-        .then((d) => d?.profitRank || {}).catch(() => ({})),
-    ]);
-    /* 推薦區係幫客補齊護膚步驟，唔係推雪花秀／Whoo 呢類中高階禮盒。
-       後台有呢批套裝被誤標成潔面／爽膚水／乳液，所以要用共用嘅高階套裝
-       判斷先剔走；普通平價套裝唔喺今次修正範圍。 */
-    const isPremiumBundle = typeof isPremiumBundleProduct === 'function'
-      ? isPremiumBundleProduct
-      : (window.OUJI_isPremiumBundleProduct || (() => false));
-    const pool = (all?.edges || []).map((e) => e.node)
-      .filter((p) => p.variants?.edges?.[0]?.node?.availableForSale)
-      .filter((p) => !handles.includes(p.handle))
-      .filter((p) => !isPremiumBundle(p));
-
-    const picks = gaps.missing.map((step) => {
-      const of = pool.filter((p) => p.productType === step
-        || (step === '面霜' && p.productType === '乳液')
-        || (step === '精華' && p.productType === '安瓶'));
-      if (!of.length) return null;
-      /* 只剔走中高階套裝，其他普通單件／平價套裝仍然沿用原本推薦排名，
-         唔因為今次修正而打亂成個購物袋推薦邏輯。 */
-      of.sort((a, b) => (rank[b.handle] || 0) - (rank[a.handle] || 0));
-      return { step, product: of[0] };
-    }).filter(Boolean).slice(0, 3);
-
-    if (!picks.length) {
-      host.hidden = true;
-      return;
-    }
-    const STEP_EN = {
-      潔面: 'Cleanser', 爽膚水: 'Toner', 精華: 'Serum', 面霜: 'Moisturizer', 防曬: 'Sunscreen',
-    };
-    const PITCH_EN = {
-      潔面: 'Cleanses without leaving skin tight, so the next steps can sink in',
-      爽膚水: 'Apply serum while skin is damp for faster absorption',
-      精華: 'The step in your routine that does the real work',
-      面霜: 'Without moisturizer, the serum you applied can evaporate away',
-      防曬: 'Without sunscreen in the daytime, your evening routine works for less',
-    };
-    const stepLabel = (step) => window.OUJI_cartCopy(step, STEP_EN[step] || step);
-    if (title) title.textContent = window.OUJI_cartCopy(
-      `仲差 ${picks.map((p) => p.step).join('、')}`,
-      `Just a few steps left: ${picks.map((p) => stepLabel(p.step)).join(', ')}`
-    );
-    host.hidden = false;
-    body.innerHTML = picks.map(({ step, product }) => {
-      const img = product.images?.edges?.[0]?.node;
-      const v = product.variants?.edges?.[0]?.node;
-      const money = formatPrice(product.priceRange.minVariantPrice.amount);
-      return `<div class="next-step">
-        <span class="next-step__tag">${stepLabel(step)}</span>
-        <a class="next-step__card" href="/products/${product.handle}">
-          ${img ? `<img src="${img.url}" alt="${product.title}" loading="lazy">` : ''}
-          <span class="next-step__brand">${product.vendor || ''}</span>
-          <span class="next-step__name">${product.title}</span>
-        </a>
-        <p class="next-step__why">${window.OUJI_cartCopy(STEP_PITCH[step] || '', PITCH_EN[step] || '')}</p>
-        <div class="next-step__foot">
-          <span class="next-step__price">${money}</span>
-          <button class="btn btn--sm" data-add="${v?.id || ''}">${window.OUJI_cartCopy('加入購物袋', 'Add to bag')}</button>
-        </div>
-      </div>`;
-    }).join('');
-
-    body.querySelectorAll('[data-add]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        if (!btn.dataset.add) return;
-        btn.disabled = true;
-        btn.textContent = window.OUJI_cartCopy('加緊…', 'Adding…');
-        await addToCart(btn.dataset.add, 1);
-        location.reload();
-      });
-    });
-  }
   </script>
 
 
