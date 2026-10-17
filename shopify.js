@@ -243,12 +243,8 @@ const I18N_PATTERNS = [
   [/^已加入 ([\d,]+) 件$/, '$1 added'],
   [/^([\d,]+) 個取件點$/, '$1 pickup points'],
   [/^得返 (\d+) 件，售完即止$/, 'Only $1 left'],
+  [/^得返 (\d+) 件$/, '$1 left'],
   [/^剩約 ([\d.]+) 個月$/, 'about $1 months left'],
-  [/^剩約 (\d+) 日$/, 'about $1 days left'],
-  [/^剩約 ([\d.]+) 個月到期 · 得返 (\d+) 件$/, 'about $1 months to expiry · $2 left'],
-  [/^剩約 (\d+) 日到期 · 得返 (\d+) 件$/, 'about $1 days to expiry · $2 left'],
-  [/^已過最佳使用日期 · 得返 (\d+) 件$/, 'Past best-before date · $1 left'],
-  [/^今日到期 · 得返 (\d+) 件$/, 'Expires today · $1 left'],
   [/^共 (\d+) 項獎$/, '$1 awards'],
   [/^第(\d+)位$/, 'No. $1'],
   [/^([\d,]+) 個物件$/, '$1 items'],
@@ -2436,23 +2432,6 @@ function shortDatedExpiry(product) {
    但卡片上面到期日已經有自己嘅標籤，唔使再讀一次。 */
 function shortDatedDisplayTitle(title) {
   return String(title || '').replace(/^【短效期[^】]*】\s*/, '');
-}
-
-/* 2026-10-17 Winston：到期日只係最佳使用期，過咗期都照賣。
-   頁面字眼跟住到期日轉：過咗期寫「已過最佳使用日期」、少過 1 個月寫日數、
-   其餘照舊寫月數。product.html 同 short-dated.html 共用。 */
-function shortDatedDaysLeft(iso) {
-  if (!iso) return null;
-  return Math.floor((new Date(`${iso}T23:59:59+08:00`) - Date.now()) / 86400000);
-}
-
-function shortDatedLeftText(iso) {
-  const days = shortDatedDaysLeft(iso);
-  if (days === null) return '';
-  if (days < 0) return '已過最佳使用日期';
-  if (days === 0) return '今日到期';
-  if (days < 31) return `剩約 ${days} 日`;
-  return `剩約 ${Math.round(days / 30.4 * 10) / 10} 個月`;
 }
 
 function formatShortDatedExpiry(iso) {
