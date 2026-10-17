@@ -41,6 +41,7 @@ PAGES = [
     ("/supports", "weekly", "0.5"),
     ("/fragrance", "weekly", "0.6"),
     ("/short-dated", "daily", "0.6"),
+    ("/threads", "weekly", "0.6"),
     ("/brands", "weekly", "0.8"),
     ("/awards", "weekly", "0.7"),
     ("/match", "monthly", "0.6"),

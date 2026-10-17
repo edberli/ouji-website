@@ -478,8 +478,7 @@ a.little-perks__cv:hover .little-perks__go { background: #22384a; color: #fff; b
 .little-perks__thr-s { margin: 1.9cqw 0 0; font: 500 4cqw/1.45 'Manrope', 'PingFang TC', sans-serif; color: #a1a1a6; }
 .little-perks__thr-list { list-style: none; margin: 4.4cqw 0 0; padding: 0; display: flex; flex-direction: column; flex: 1; justify-content: space-between; }
 .little-perks__thr-list li { border-top: 1px solid #26262a; }
-.little-perks__thr-list a { display: grid; grid-template-columns: 5.7cqw 15.2cqw 1fr; align-items: center; gap: 3.2cqw; padding: 2.2cqw 0; color: #f5f5f5; text-decoration: none; }
-.little-perks__thr-list a:hover .little-perks__thr-p { text-decoration: underline; text-underline-offset: 3px; }
+.little-perks__thr-row { display: grid; grid-template-columns: 5.7cqw 15.2cqw 1fr; align-items: center; gap: 3.2cqw; padding: 2.2cqw 0; color: #f5f5f5; text-decoration: none; }
 .little-perks__thr-n { font: 700 4.4cqw/1 'Manrope', sans-serif; color: #8e8e93; text-align: center; }
 .little-perks__thr-list img { width: 15.2cqw; height: 15.2cqw; border-radius: 3.8cqw; object-fit: cover; background: #fff; display: block; }
 .little-perks__thr-p { font: 600 4cqw/1.35 'Manrope', 'PingFang TC', sans-serif; }
@@ -511,7 +510,7 @@ a.little-perks__cv:hover .little-perks__go { background: #22384a; color: #fff; b
 .little-perks__row--thr .little-perks__row-h { font: 700 20px/1.15 'Manrope', 'PingFang TC', sans-serif; color: #fff; letter-spacing: 0; margin-top: 6px; }
 .little-perks__row--thr .little-perks__row-s { color: #a1a1a6; font-weight: 500; }
 .little-perks__faces { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: flex; }
-.little-perks__faces a { display: block; margin-left: -8px; border-radius: 12px; }
+.little-perks__faces span { display: block; margin-left: -8px; border-radius: 12px; }
 .little-perks__faces img { width: 44px; height: 44px; border-radius: 12px; border: 2px solid #0b0b0c; background: #fff; object-fit: cover; display: block; }
 @media (prefers-reduced-motion: reduce) { .little-perks__art, .little-perks__go { transition: none; } }
 

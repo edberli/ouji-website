@@ -1,0 +1,86 @@
+/* Threads 熱話榜（2026-10-17，首頁「今期著數」第四張卡入口）。
+   頭段跟首頁 Threads 卡同一套黑底白字，一入嚟就知係同一樣嘢；下面榜單返回網站淺底。
+   桌面：兩欄「名次＋產品卡＋脆友點講＋出處」橫排，闊畫面左右對讀；手機：兩格卡，名次、脆友點講、出處各佔固定高度，每格一樣高。
+   產品卡用 product-card-lc（同產品頁一樣），呢度只排位置，唔改卡入面嘅樣。
+   間距只用 4/8/16/24/32/48/64；字級只用 12/14/16/18/24/30/36 同頭段大標題。 */
+.thr-hero { background: #0b0b0c; color: #f5f5f5; }
+.thr-hero__in { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; padding-top: 64px; padding-bottom: 48px; }
+.thr-hero__k { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 16px/1 'Manrope', 'PingFang TC', sans-serif; }
+.thr-hero__k svg { width: 24px; height: 24px; fill: #fff; flex: none; }
+.thr-hero__pill { margin-left: 8px; padding: 6px 12px; border-radius: 99px; background: #fff; color: #0b0b0c; font-size: 12px; letter-spacing: .12em; }
+.thr-hero__h { margin: 24px 0 0; font: 700 clamp(36px, 4.4vw, 56px)/1.08 'Manrope', 'PingFang TC', sans-serif; letter-spacing: -.01em; }
+.thr-hero__s { max-width: 34em; margin: 16px 0 0; color: #a1a1a6; font: 500 16px/1.7 'Manrope', 'PingFang TC', sans-serif; }
+.thr-facts { display: grid; grid-template-columns: repeat(3, auto); margin: 0; padding: 0; list-style: none; border: 1px solid #2c2c30; border-radius: 16px; }
+.thr-facts li { padding: 16px 24px; border-left: 1px solid #2c2c30; }
+.thr-facts li:first-child { border-left: 0; }
+.thr-facts b { display: block; font: 700 30px/1 'Manrope', sans-serif; color: #fff; }
+.thr-facts span { display: block; margin-top: 8px; color: #a1a1a6; font: 500 14px/1.35 'Manrope', 'PingFang TC', sans-serif; white-space: nowrap; }
+
+.thr-main { padding-top: 32px; padding-bottom: 64px; }
+.thr-note { margin: 0 0 24px; color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+.thr-note a { color: inherit; text-underline-offset: 3px; }
+.thr-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 64px; margin: 0; padding: 0; list-style: none; }
+.thr-item { display: grid; grid-template-columns: 48px 208px minmax(0, 1fr); gap: 0 24px; align-items: start; padding: 32px 0; border-top: 1px solid var(--border-subtle); }
+.thr-item__rank { margin: 0; font: 700 32px/1 'Manrope', sans-serif; font-variant-numeric: lining-nums tabular-nums; color: var(--primary-deep); text-align: right; }
+.thr-item__rank small { display: none; }
+.thr-item__card { min-width: 0; }
+.thr-item__card .product-card.lc { max-width: none; }
+.thr-item__body { min-width: 0; padding-top: 4px; }
+.thr-item__lbl { display: flex; align-items: center; gap: 4px; margin: 0; color: var(--text-secondary); font: 700 12px/1 'Manrope', 'PingFang TC', sans-serif; letter-spacing: .08em; }
+.thr-item__lbl svg { width: 14px; height: 14px; fill: #0b0b0c; flex: none; }
+.thr-item__say { margin: 16px 0 0; color: var(--text-primary); font: 500 16px/1.75 'Manrope', 'PingFang TC', sans-serif; }
+.thr-item__pair { display: inline-block; margin-top: 8px; color: var(--action-primary); font-size: 14px; font-weight: 600; text-underline-offset: 3px; }
+.thr-item__cnt { margin: 24px 0 0; color: var(--text-secondary); font-size: 12px; font-weight: 600; }
+.thr-item__src { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; padding: 0; list-style: none; }
+.thr-src { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; border: 1px solid var(--border-light); border-radius: 99px; background: #fff; color: var(--gray-700); font-size: 12px; line-height: 1.2; text-decoration: none; white-space: nowrap; }
+.thr-src:hover { border-color: var(--primary-deep); color: var(--primary-deep); }
+.thr-src i { font-style: normal; color: var(--gray-500); }
+
+.thr-refs { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border-light); }
+.thr-refs__h { margin: 0; font: 600 30px/1.2 var(--font-display); color: var(--primary-deep); }
+.thr-refs__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 64px; margin: 16px 0 0; padding: 0; list-style: none; }
+.thr-refs__list li { display: grid; grid-template-columns: 32px minmax(0, 1fr); padding: 16px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; line-height: 1.6; }
+.thr-refs__id { color: var(--gray-500); font-weight: 700; }
+.thr-refs__list a { color: var(--text-primary); text-decoration: none; }
+.thr-refs__list a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.thr-refs__meta { display: block; color: var(--gray-500); font-size: 12px; }
+.thr-refs__fine { max-width: 52em; margin: 24px 0 0; color: var(--gray-500); font-size: 12px; line-height: 1.75; }
+.thr-empty { padding: 48px 0; color: var(--text-secondary); text-align: center; }
+
+/* 平板／細桌面：兩欄太窄，轉一欄橫排 */
+@media (max-width: 1180px) {
+  .thr-list, .thr-refs__list { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 手機：兩格卡。名次＋點名數一行、卡、脆友點講固定三行、出處一行；每格同高 */
+@media (max-width: 767px) {
+  .thr-hero__in { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 32px; padding-bottom: 24px; }
+  .thr-hero__k { font-size: 14px; }
+  .thr-hero__k svg { width: 20px; height: 20px; }
+  .thr-hero__pill { padding: 4px 8px; }
+  .thr-hero__h { margin-top: 16px; font-size: 30px; }
+  .thr-hero__s { margin-top: 8px; font-size: 14px; }
+  .thr-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 12px; }
+  .thr-facts li { padding: 12px; }
+  .thr-facts b { font-size: 24px; }
+  .thr-facts span { margin-top: 4px; font-size: 12px; white-space: normal; }
+
+  .thr-main { padding-top: 24px; padding-bottom: 48px; }
+  .thr-note { margin-bottom: 16px; font-size: 12px; }
+  .thr-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px; }
+  .thr-item { display: flex; flex-direction: column; align-items: stretch; padding: 0; border-top: 0; }
+  .thr-item__rank { display: flex; align-items: baseline; gap: 8px; margin: 0 0 8px; font-size: 24px; text-align: left; }
+  .thr-item__rank small { display: inline; font: 600 12px/1 'Manrope', 'PingFang TC', sans-serif; color: var(--text-secondary); }
+  .thr-item__body { padding-top: 8px; }
+  .thr-item__lbl svg { width: 12px; height: 12px; }
+  .thr-item__say { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; height: calc(1.6em * 3); margin-top: 8px; overflow: hidden; font-size: 12px; line-height: 1.6; }
+  .thr-item__pair { display: none; }
+  .thr-item__cnt { display: none; }
+  .thr-item__src { flex-wrap: nowrap; overflow: hidden; }
+  .thr-item__src li + li { display: none; } /* 篇數已經寫喺名次行，手機淨係出最新嗰篇 */
+  .thr-item__src li { min-width: 0; max-width: 100%; }
+  .thr-src { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  .thr-src { display: block; padding: 4px 8px; }
+  .thr-refs { margin-top: 48px; padding-top: 24px; }
+  .thr-refs__h { font-size: 24px; }
+}
