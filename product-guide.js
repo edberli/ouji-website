@@ -1,6 +1,7 @@
-/* 產品頁「啱唔啱你」（2026-10-17，Winston：「產品頁唔係淨係得最普通嗰啲功能……要諗多一步，提供多啲資訊、創造價值」）。
+/* 產品頁「重點」卡（2026-10-17 由「啱唔啱你」改；Winston：「產品頁唔係淨係得最普通嗰啲功能……要諗多一步，提供多啲資訊、創造價值」）。
  *
- * 唔另外作資料，全部用網站本身已有、已審過嘅來源，冇嗰項就唔出，成段冇料就成段唔出：
+ * 每件貨同一張卡、同一個次序（類型 → 品牌國家 → 膚質 → 質地 → 主打成分 → 點樣用 → 要留意 → 顧客點睇）；
+ * 唔另外作資料，全部用網站本身已有、已審過嘅來源，冇料嗰行唔出：
  *   · data/attrs.json —— 護膚配對（skincare-match.js）用緊嘅標籤：啱邊類膚質、針對咩問題、質地、清爽／滋潤、
  *     刺激度、新手程度、護膚第幾步、早／夜、一句重點（hook）。只有護膚品有（約 500 件）。
  *   · ingredients.json（ingredients.js 嘅 ing()）—— 主打成分同酒精／香料／精油。跟 activeChips 一樣：
@@ -37,7 +38,6 @@
   };
 
   const ICON = {
-    guide: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.6 2.3 6.5 2.6 7.5 2.6v5.4c0 4.8-3.3 7.9-7.5 9-4.2-1.1-7.5-4.2-7.5-9V6.1c1 0 3.9-.3 7.5-2.6Z"/><path d="m8.8 12.2 2.3 2.3 4.3-4.6"/></svg>',
     check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
     cross: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>',
     dot: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/></svg>',
@@ -129,42 +129,66 @@
     return `<span class="pdp-guide__scale" role="img" aria-label="${esc(words[n - 1] || '')}">${dots}</span><span>${esc(words[n - 1] || '')}</span>`;
   }
 
-  function factsHTML(product, a, labels, usage, tips) {
-    const cells = [];
+  /** 品牌國家：描述入面「品牌國家：韓國品牌 Brand origin: Korea」（全店約九成有）。 */
+  function originFrom(descHtml) {
+    const t = String(descHtml || '').replace(/<[^>]+>/g, '\n');
+    return {
+      zh: (t.match(/品牌國家\s*[:：]\s*([^\s\n。，,(（]{1,8}?)品牌/) || [])[1] || '',
+      en: ((t.match(/Brand origin\s*[:：]\s*([A-Za-z][A-Za-z .-]{1,30})/i) || [])[1] || '').trim(),
+    };
+  }
+
+  /** 容量：標題有就用標題（例如 150ml），冇就搵描述「容量：」。 */
+  function sizeFrom(product, descHtml) {
+    const m = String(product.title || '').match(/(\d+(?:\.\d+)?\s?(?:ml|mL|ML|g|kg|片|枚|pcs))(?![A-Za-z])/);
+    if (m) return m[1].replace(/\s+/g, '');
+    const d = String(descHtml || '').replace(/<[^>]+>/g, '\n').match(/容量\s*[:：]\s*([^\n]{1,24})/);
+    return d ? d[1].trim() : '';
+  }
+
+  /* 一行＝左標籤右內容。每件貨行嘅次序都一樣；冇料嗰行唔出，但張卡一定喺度（2026-10-17 Winston：唔同產品頁面唔統一，好割裂）。 */
+  const row = (key, label, html) => `<div class="pdp-facts__row pdp-facts__row--${key}"><dt>${label}</dt><dd>${html}</dd></div>`;
+
+  function rowsHTML({ product, a, labels, usage, tips, origin, size, hl, rev, rating }) {
+    const out = [];
+    const en = isEN();
+    /* 1 類型（產品類別用自己一個 span，英文版由 ui-en.json 譯）＋容量 */
+    if (product.productType || size) {
+      out.push(row('type', cp('類型', 'Type'), `${product.productType ? `<span>${esc(product.productType)}</span>` : ''}${product.productType && size ? '<i class="pdp-facts__sep" aria-hidden="true">·</i>' : ''}${size ? `<span>${esc(size)}</span>` : ''}`));
+    }
+    /* 2 品牌國家 */
+    const org = en ? (origin.en || '') : (origin.zh || '');
+    if (org) out.push(row('origin', cp('品牌國家', 'Brand origin'), esc(org)));
+    /* 3–4 適合膚質、針對（護膚標籤） */
     if (a) {
       const fit = a.fit || {};
       const skins = SKINS.filter((k) => fit[k] && fit[k] !== 'unknown');
-      const conc = [...(a.c1 || []), ...(a.c2 || [])].map((k) => (isEN() ? EN.concern[k] : labels.concern?.[k])).filter(Boolean);
-      if (skins.length || conc.length) {
-        cells.push(`<div class="pdp-guide__cell pdp-guide__cell--fit">
-          ${skins.length ? `<h3 class="pdp-guide__label">${cp('適合膚質', 'Skin types')}</h3>
-          <ul class="pdp-guide__skins">${skins.map((k) => {
-            const st = fit[k];
-            const word = isEN() ? EN.skin[k] : (labels.skin?.[k] || k);
-            const tail = st === 'avoid' ? cp('唔建議', 'not advised') : st === 'ok' ? cp('可以', 'OK') : cp('啱用', 'suits');
-            return `<li class="is-${st}">${st === 'good' ? ICON.check : st === 'avoid' ? ICON.cross : ICON.dot}<b>${esc(word)}</b><span>${tail}</span></li>`;
-          }).join('')}</ul>` : ''}
-          ${conc.length ? `<h3 class="pdp-guide__label">${cp('針對', 'Targets')}</h3><p class="pdp-guide__text">${conc.map(esc).join(isEN() ? ' · ' : '・')}</p>` : ''}
-        </div>`);
+      if (skins.length) {
+        out.push(row('skin', cp('適合膚質', 'Skin types'), `<ul class="pdp-guide__skins">${skins.map((k) => {
+          const st = fit[k];
+          const word = en ? EN.skin[k] : (labels.skin?.[k] || k);
+          const tail = st === 'avoid' ? cp('唔建議', 'not advised') : st === 'ok' ? cp('可以', 'OK') : cp('啱用', 'suits');
+          return `<li class="is-${st}">${st === 'good' ? ICON.check : st === 'avoid' ? ICON.cross : ICON.dot}<b>${esc(word)}</b><span>${tail}</span></li>`;
+        }).join('')}</ul>`));
       }
-      const tex = isEN() ? EN.tex[a.tex] : labels.tex?.[a.tex];
-      const wt = a.wt ? scale(a.wt, 3, isEN() ? ['Light', 'Medium', 'Rich'] : ['清爽', '中度', '滋潤']) : '';
-      const irr = a.irr ? scale(a.irr, 3, isEN() ? ['Gentle', 'Moderately active', 'Highly active'] : ['溫和', '中度活性', '高活性']) : '';
-      const beg = isEN() ? EN.beg[a.beg] : labels.beg?.[a.beg];
-      if (tex || wt || irr) {
-        cells.push(`<div class="pdp-guide__cell pdp-guide__cell--feel">
-          <h3 class="pdp-guide__label">${cp('質地同感覺', 'Texture & feel')}</h3>
-          <dl class="pdp-guide__rows">
-            ${tex ? `<div><dt>${cp('質地', 'Texture')}</dt><dd>${esc(tex)}</dd></div>` : ''}
-            ${wt ? `<div><dt>${cp('膚感', 'Feel')}</dt><dd>${wt}</dd></div>` : ''}
-            ${irr ? `<div><dt>${cp('刺激度', 'Intensity')}</dt><dd>${irr}</dd></div>` : ''}
-            ${beg ? `<div><dt>${cp('適合', 'Level')}</dt><dd>${esc(beg)}</dd></div>` : ''}
-          </dl>
-        </div>`);
-      }
+      const conc = [...(a.c1 || []), ...(a.c2 || [])].map((k) => (en ? EN.concern[k] : labels.concern?.[k])).filter(Boolean);
+      if (conc.length) out.push(row('concern', cp('針對', 'Targets'), esc(conc.join(en ? ' · ' : '・'))));
+      /* 5 質地、膚感、刺激度、程度：一行一樣，唔再包多層 */
+      const tex = en ? EN.tex[a.tex] : labels.tex?.[a.tex];
+      const wt = a.wt ? scale(a.wt, 3, en ? ['Light', 'Medium', 'Rich'] : ['清爽', '中度', '滋潤']) : '';
+      const irr = a.irr ? scale(a.irr, 3, en ? ['Gentle', 'Moderately active', 'Highly active'] : ['溫和', '中度活性', '高活性']) : '';
+      const beg = en ? EN.beg[a.beg] : labels.beg?.[a.beg];
+      if (tex) out.push(row('texture', cp('質地', 'Texture'), esc(tex)));
+      if (wt) out.push(row('feel', cp('膚感', 'Feel'), `<span class="pdp-facts__inline">${wt}</span>`));
+      if (irr) out.push(row('intensity', cp('刺激度', 'Intensity'), `<span class="pdp-facts__inline">${irr}</span>`));
+      if (beg) out.push(row('level', cp('程度', 'Level'), esc(beg)));
     }
+    /* 6 主打成分（ingredients.js 同一把尺：模型推斷嘅唔出；個「!」撳落去有解釋） */
+    const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
+    if (chips) out.push(row('actives', cp('主打成分', 'Key ingredients'), `<span class="ing-chips">${chips}</span>`));
+    /* 7 點樣用：護膚步驟＋早／夜＋品牌寫嘅用法 */
     const pos = a && STEP_POS[a.step] != null ? STEP_POS[a.step] : null;
-    /* 含酸類／A 醇：唔好寫「早晚都用得」，同下面「由一星期 2–3 晚開始」打交；改講建議夜晚用 */
+    /* 含酸類／A 醇：唔好寫「早晚都用得」，同「由一星期 2–3 晚開始」打交；改講建議夜晚用 */
     const actives = isWashOff(product, a) ? [] : activesOf(product.handle).actives;
     const strong = actives.includes('AHA/BHA') || actives.includes('視黃醇');
     const when = strong
@@ -174,69 +198,89 @@
         : '';
     const track = TRACK();
     if (pos != null || when || usage) {
-      cells.push(`<div class="pdp-guide__cell pdp-guide__cell--use">
-        <h3 class="pdp-guide__label">${cp('點樣用', 'How to use')}</h3>
+      out.push(row('use', cp('點樣用', 'How to use'), `
         ${pos != null ? `<ol class="pdp-guide__track" aria-label="${esc(cp(`護膚步驟：第 ${pos + 1} 步${track[pos]}`, `Routine step ${pos + 1}: ${track[pos]}`))}">${track.map((t, i) => `<li class="${i === pos ? 'is-here' : i < pos ? 'is-before' : ''}"><span>${esc(t)}</span></li>`).join('')}</ol>` : ''}
         ${when ? `<p class="pdp-guide__when">${when}</p>` : ''}
-        ${usage ? `<p class="pdp-guide__text">${esc(usage)}</p>` : ''}
-      </div>`);
+        ${usage ? `<p class="pdp-facts__text">${esc(usage)}</p>` : ''}`));
     }
-    if (tips.length) {
-      cells.push(`<div class="pdp-guide__cell pdp-guide__cell--care">
-        <h3 class="pdp-guide__label">${cp('要留意', 'Good to know')}</h3>
-        <ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
-      </div>`);
-    }
-    return cells.join('');
+    /* 8 要留意（按成分同標籤；香料／精油／酒精都喺度講） */
+    if (tips.length) out.push(row('care', cp('要留意', 'Good to know'), `<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`));
+    /* 9 顧客點睇：分數＋（有就）AI 評價重點＋評分項目，撳落去去評價區 */
+    const voice = voiceHTML(hl, rev, rating);
+    if (voice) out.push(row('voice', cp('顧客點睇', 'Reviews'), voice));
+    return out.join('');
   }
 
-  function voiceHTML(hl, revAttrs, revSrc) {
+  function voiceHTML(hl, rev, rating) {
     const en = isEN();
-    const bars = (revAttrs || []).filter((x) => x && x.name && x.avg)
+    const bars = (rev?.attrs || []).filter((x) => x && x.name && x.avg)
       .map((x) => ({ ...x, name: typeof rvAttrName === 'function' ? rvAttrName(x.name) : x.name })); // 評分項目名：reviews.js 中英對照
-    /* 英文版：有英文重點（t_en）先出，冇就淨係出評分 */
+    /* 英文版：有英文重點（t_en）先出 */
     const pick = (list) => (list || []).map((p) => ({ ...p, t: en ? p.t_en : p.t })).filter((p) => p.t);
     const pros = pick(hl?.pros);
     const cons = pick(hl?.cons);
     const fit = en ? hl?.fit_en : hl?.fit;
-    if (!pros.length && !bars.length) return '';
-    return `<div class="pdp-guide__voice">
-      <h3 class="pdp-guide__label pdp-guide__label--ai">${pros.length ? `${ICON.spark}${cp('AI 幫你睇評價', 'AI review summary')}` : cp('顧客點睇', 'What customers say')}</h3>
-      ${pros.length ? `<ul class="pdp-guide__pros">${pros.map((p) => `<li>${ICON.plus}<span>${esc(p.t)}</span>${p.n ? `<small>${cp(`${p.n} 則講到`, `${p.n} mention${p.n > 1 ? 's' : ''}`)}</small>` : ''}</li>`).join('')}</ul>` : ''}
-      ${cons.length ? `<ul class="pdp-guide__cons">${cons.map((p) => `<li>${ICON.minus}<span>${esc(p.t)}</span>${p.n ? `<small>${cp(`${p.n} 則講到`, `${p.n} mention${p.n > 1 ? 's' : ''}`)}</small>` : ''}</li>`).join('')}</ul>` : ''}
-      ${pros.length && fit ? `<p class="pdp-guide__fitline"><b>${cp('最啱：', 'Best for: ')}</b>${esc(fit)}</p>` : ''}
-      ${bars.length ? `<dl class="pdp-guide__bars">${bars.map((b) => `<div><dt>${esc(b.name)}</dt><dd><span class="pdp-guide__bar"><i style="width:${Math.max(0, Math.min(100, (b.avg / 5) * 100))}%"></i></span><b>${esc(b.avg)}</b></dd></div>`).join('')}</dl>` : ''}
-      <p class="pdp-guide__basis">${pros.length ? cp(`AI 只根據下面引用嘅 ${hl.basis || ''} 則評價整理`, `Summarised by AI from the ${hl.basis || ''} reviews quoted below`) : ''}${pros.length && bars.length ? cp('；', '. ') : ''}${bars.length ? cp(`評分來自 ${esc(revSrc || '')} 顧客`, `Ratings from ${esc(revSrc || '')} customers`) : ''}</p>
-    </div>`;
+    const r = rating || (rev?.count ? { star: rev.star, count: rev.count, src: rev.src, srcName: rev.source, max: rev.max } : null);
+    if (!r && !pros.length && !bars.length) return '';
+    const src = r && typeof ratingSrc === 'function' ? ratingSrc(r).name : (rev?.source || '');
+    const max = r && typeof ratingMax === 'function' ? ratingMax(r) : 5;
+    const score = r ? `<a class="pdp-facts__score" href="#reviews"${rev?.count ? '' : ' data-static'}>
+        ${typeof stars === 'function' ? stars(r.star, max) : ''}<b>${typeof ratingNum === 'function' ? ratingNum(r.star, max) : esc(r.star)}</b>
+        <span>${esc(cp(`${Number(r.count).toLocaleString()} 則評價（${src}）`, `${Number(r.count).toLocaleString()} reviews (${src})`))}</span>
+      </a>` : '';
+    const mention = (p) => (p.n ? `<small>${cp(`${p.n} 則講到`, `${p.n} mention${p.n > 1 ? 's' : ''}`)}</small>` : '');
+    return `${score}
+      ${pros.length ? `<div class="pdp-guide__voice">
+        <p class="pdp-guide__label pdp-guide__label--ai">${ICON.spark}${cp('AI 幫你睇評價', 'AI review summary')}</p>
+        <ul class="pdp-guide__pros">${pros.map((p) => `<li>${ICON.plus}<span>${esc(p.t)}</span>${mention(p)}</li>`).join('')}</ul>
+        ${cons.length ? `<ul class="pdp-guide__cons">${cons.map((p) => `<li>${ICON.minus}<span>${esc(p.t)}</span>${mention(p)}</li>`).join('')}</ul>` : ''}
+        ${fit ? `<p class="pdp-guide__fitline"><b>${cp('最啱：', 'Best for: ')}</b>${esc(fit)}</p>` : ''}
+        <p class="pdp-guide__basis">${cp(`AI 只根據下面引用嘅 ${hl.basis || ''} 則評價整理`, `Summarised by AI from the ${hl.basis || ''} reviews quoted below`)}</p>
+      </div>` : ''}
+      ${bars.length ? `<dl class="pdp-guide__bars">${bars.map((b) => `<div><dt>${esc(b.name)}</dt><dd><span class="pdp-guide__bar"><i style="width:${Math.max(0, Math.min(100, (b.avg / 5) * 100))}%"></i></span><b>${esc(b.avg)}</b></dd></div>`).join('')}</dl>` : ''}`;
   }
 
   async function renderGuide(product, descHtml) {
     const host = document.querySelector('[data-pdp-guide]');
     if (!host || !product) return;
     const handle = product.handle;
-    const [attrsDoc, hl] = await Promise.all([
+    const [attrsDoc, hl, ratings] = await Promise.all([
       loadAttrs(),
       loadHighlights(),
+      typeof loadRatings === 'function' ? loadRatings().catch(() => ({})) : {},
       typeof loadIngredients === 'function' ? loadIngredients() : null,
     ]);
     const a = attrsDoc?.products?.[handle] || null;
-    const labels = attrsDoc?.labels || {};
     let rev = null;
     try { rev = typeof loadReviews === 'function' ? await loadReviews(handle) : null; } catch (_) { rev = null; }
-    const usage = usageFrom(descHtml);
-    const tips = careTips(product, a);
-    const facts = factsHTML(product, a, labels, usage, tips);
-    const voice = voiceHTML(hl?.[handle], rev?.attrs, rev?.source);
     const body = host.querySelector('[data-pdp-guide-body]');
-    if (!facts && !voice) { host.hidden = true; if (body) body.innerHTML = ''; return; }
-    const hook = isEN() ? '' : (a?.hook || '');  // hook 得中文
-    host.querySelector('[data-pdp-guide-hook]').textContent = hook;
-    host.querySelector('[data-pdp-guide-hook]').hidden = !hook;
-    body.innerHTML = `${voice}${facts ? `<div class="pdp-guide__facts">${facts}</div>` : ''}`;
-    body.classList.toggle('has-voice', !!voice);
-    host.hidden = false;
+    const tips = careTips(product, a);
+    body.innerHTML = rowsHTML({
+      product,
+      a,
+      labels: attrsDoc?.labels || {},
+      usage: usageFrom(descHtml),
+      tips,
+      origin: originFrom(descHtml),
+      size: sizeFrom(product, descHtml),
+      hl: hl?.[handle],
+      rev,
+      rating: ratings?.[handle] || null,
+    });
+    const hook = isEN() ? '' : (a?.hook || ''); // hook 得中文
+    const hookEl = host.querySelector('[data-pdp-guide-hook]');
+    hookEl.textContent = hook;
+    hookEl.hidden = !hook;
+    /* 註腳：有膚質／成分提示先講「皮膚有狀況問醫生」；隱形眼鏡、保健品、公仔嗰啲唔啱講皮膚 */
+    const note = host.querySelector('.pdp-facts__note');
+    const skinInfo = !!(a || tips.length || (typeof activeChips === 'function' && activeChips(handle)));
+    if (note) {
+      note.textContent = skinInfo
+        ? cp('資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。', 'Compiled by OUJI from brand information, ingredients and customer reviews. For reference only — if you have a skin condition, please ask a doctor or pharmacist first.')
+        : cp('資料由 OUJI 根據品牌說明同顧客評價整理，只供參考。', 'Compiled by OUJI from brand information and customer reviews. For reference only.');
+    }
+    host.hidden = !body.childElementCount;
   }
 
   window.renderGuide = renderGuide;
-  window.OUJI_guideIcon = ICON.guide;
 })();
