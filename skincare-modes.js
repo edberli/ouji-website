@@ -137,10 +137,7 @@ function smXpShell({ form, formClass = '', status = '', bubble = '先答膚質�
             </ol>
             <p class="dl__bubble" aria-hidden="true">${bubble}</p>
             <div class="shima dl__cat-img" aria-hidden="true">
-              ${[1, 2, 3, 4, 5, 6].map((n) => `
-                <img class="shima__f${n === 1 ? ' is-on' : ''}" alt=""
-                     src="assets/images/shima/shima-skin${n}.webp"
-                     loading="lazy" decoding="async">`).join('')}
+              <img class="shima__f is-on" alt="" src="assets/images/shima-v5/skin-cream.webp" loading="lazy" decoding="async">
             </div>
           </aside>
           <div class="dl__form${formClass ? ' ' + formClass : ''}">${form}</div>
@@ -329,10 +326,7 @@ const smModeDials = {
             </header>
             <div class="dl__cat-strip" aria-hidden="true">
               <div class="shima dl__cat-anim">
-                ${[1, 2, 3, 4, 5, 6].map((n) => `
-                  <img class="shima__f${n === 1 ? ' is-on' : ''}" alt=""
-                       src="assets/images/shima/shima-skin${n}.webp"
-                       loading="lazy" decoding="async">`).join('')}
+                <img class="shima__f is-on" alt="" src="assets/images/shima-v5/skin-cream.webp" loading="lazy" decoding="async">
               </div>
               <span><b>芝麻幫你揀</b>先答第一條，其他選項會喺下面展開。</span>
             </div>

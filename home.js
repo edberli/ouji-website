@@ -778,10 +778,7 @@ async function initHome() {
               <span>揀右邊一個皮膚煩惱 ฅ^•ﻌ•^ฅ</span>
             </div>
             <div class="shima home-skin-cat__mascot" aria-hidden="true">
-              ${[1, 2, 3, 4, 5, 6].map((n) => `
-                <img class="shima__f${n === 1 ? ' is-on' : ''}" alt=""
-                     src="assets/images/shima/shima-wave${n}.webp"
-                     loading="lazy" decoding="async">`).join('')}
+              <img class="shima__f is-on" alt="" src="assets/images/shima-v5/skin-cream.webp" loading="lazy" decoding="async">
             </div>
           </aside>
 

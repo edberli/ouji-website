@@ -3164,7 +3164,7 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .cart-empty { margin-top: 8px; padding: 28px 18px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); text-align: center; }
 .cart-empty > p { margin: 0 0 16px; color: var(--bag-muted); font-size: 14px; line-height: 1.8; }
 .cart-empty > p:last-child { margin-bottom: 0; }
-.cart-empty .shima--empty { width: 120px; height: 146px; margin-bottom: 12px; }
+.cart-empty .shima--empty { width: 160px; height: auto; margin-bottom: 12px; }
 .cart-empty .btn { min-height: 50px; padding: 0 28px; border-radius: 999px; background: var(--bag-brand); box-shadow: none; font: 700 17px var(--font-body); letter-spacing: .04em; text-transform: none; }
 .cart-empty .btn::before { display: none; }
 
@@ -5969,7 +5969,7 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .member-points__progress span { display:block; width:0; height:100%; border-radius:inherit; background:#d4a85f; transition:width .5s ease; }
 .member-points__progress-labels { display:flex; justify-content:space-between; gap:12px; color:rgba(41,75,88,.65); font-size:.61rem; }
 .member-points__shima { position:relative; align-self:end; width:100%; height:118px; filter:drop-shadow(0 8px 12px rgba(41,75,88,.18)); }
-.member-points__shima .shima { width:100%; height:100%; }
+.member-points__shima > img { display:block; width:100%; height:100%; object-fit:contain; object-position:50% 100%; }
 .member-points__unlock { margin-top:14px; padding:16px 18px; border-radius:14px; background:rgba(13,37,44,.2); }
 .member-points__checks { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
 .member-points__checks > span { display:flex; gap:7px; align-items:flex-start; color:rgba(255,255,255,.72); font-size:.7rem; line-height:1.4; }
@@ -14547,6 +14547,8 @@ body::before { opacity: 0.18; }
   opacity: 0;
 }
 .shima__f.is-on { opacity: 1; }
+/* 2026-10-17 起新款白貓貼圖係單張（JS 砌嘅盒得一格）：塞滿個盒、按比例縮、貼底置中。 */
+.shima > .shima__f:only-child { inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; }
 
 @keyframes sfpShake {
   0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
@@ -14632,6 +14634,8 @@ body::before { opacity: 0.18; }
 .awards-hero, .shop-boot, .makeup-booth { position: relative; }
 /* 深色 hero 上面要多少少光邊，唔係隻貓會黐住個底 */
 .awards-hero .shima-corner > img { filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .45)); }
+/* 新款白貓（2026-10-17）打橫闊啲：手機要細一級，唔好遮住最後一格獎項（@cosme）啲字 */
+@media (max-width: 640px) { .awards-hero .shima-corner > img { height: 76px; } }
 /* XP 開機畫面最底有條 46px 工具列 —— 芝麻要企喺工具列上面，唔可以
    俾佢切一半（實測貓底部 533px、工具列由 487px 開始，蓋咗 46px）。
    同時要避開右邊「其他」個資料夾貼紙，所以縮細少少兼貼實右邊。 */
@@ -14772,9 +14776,10 @@ body::before { opacity: 0.18; }
   .home-skin-cat__mascot .shima__f { inset: auto 0 0 0; margin: 0 auto; }
 }
 
-/* 空購物袋：芝麻招手叫你入去揀嘢 */
+/* 空購物袋：芝麻喺空袋旁邊招手叫你入去揀嘢（2026-10-17 起係一張新款白貓貼圖，唔再係六格動畫盒） */
 .shima--empty {
-  width: 150px; height: 182px;
+  display: block;
+  width: 150px; height: auto;
   margin: 0 auto 20px;
 }
 
@@ -14815,7 +14820,7 @@ body::before { opacity: 0.18; }
 .shima-page .shima { width: clamp(140px, 16vw, 196px); height: auto; }
 .shima-corner > img, .shima-corner .shima { height: clamp(124px, 13vw, 170px); }
 
-.shima--empty { width: 186px; height: 226px; }
+.shima--empty { width: 186px; }
 @media (max-width: 640px) {
   .shima-page > img, .shima-page .shima { width: 148px; }
   .shima-corner > img, .shima-corner .shima { height: 104px; }
@@ -14825,7 +14830,7 @@ body::before { opacity: 0.18; }
      ⚠️ 版權嗰行去到 x=295，隻貓 92px 高嗰陣由 x=294 開始，啱啱掂到。
      縮到 84px（由 x≈307 開始）就讓開。 */
   /* 手機版四欄變上下疊，最後一欄就係「客戶服務」，右下角一樣係吉位。 */
-  .shima--empty { width: 150px; height: 182px; }
+  .shima--empty { width: 150px; }
 }
 
 /* 每套動作嘅畫布比例唔同（打橫定打戙），唔寫返就會俾壓扁。 */
