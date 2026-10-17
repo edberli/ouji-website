@@ -2776,31 +2776,36 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .ing-chip--clean { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-tint-line); }
 .ing-chip--warn { background: #f6eceb; color: #9a4f49; }
 
-/* 6 · 運送與自取（手機淺青卡、入面白格；桌面白卡）＋滿額贈禮 */
+/* 6 · 運送與自取：資訊卡，唔係揀配送方式（Winston 2026-10-17：「呢度唔係購物車，唔使放返購物車嘅設計」）。
+   用首頁「免運門檻」帶（home-top.css .home-delivery）嘅漸變、幼線同 icon：7-11 標誌、櫃、芝麻送貨車、門市。
+   手機逐行讀（方式｜門檻）；桌面三欄幼線分隔、門市一行（同首頁桌面嗰條帶一樣）。冇 hover／揀中狀態 —— 純資訊。
+   芝麻包貨仔企喺卡角，「Your order, our care ♡」係佢嘅對白；暖色只畀 7-11「推薦」。 */
 .pdp-perks { display: grid; gap: 10px; margin-top: 22px; }
-.pdp-ship { position: relative; padding: 14px 12px 12px; border-radius: 12px; background: var(--bag-tint); }
-.pdp-ship__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-height: 26px; padding: 0 76px 0 2px; }
-.pdp-ship__title { margin: 0; color: var(--bag-ink); font: 700 15px/1.35 var(--font-body); letter-spacing: 0; }
-.pdp-ship__note { color: var(--bag-teal); font-size: 11.5px; font-style: italic; letter-spacing: .02em; }
-.pdp-ship__tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; }
-.pdp-ship__tiles li { min-width: 0; }
-.pdp-ship__tile { position: relative; display: flex; flex-direction: column; align-items: flex-start; height: 100%; padding: 12px 8px 10px; border: 1px solid var(--bag-tint-line); border-radius: 10px; background: #fff; color: var(--bag-ink); text-decoration: none; transition: border-color .15s ease; }
-.pdp-ship__tile.is-pick { border-color: var(--bag-warm-line); background: #fffaf4; }
-.pdp-ship__ribbon { position: absolute; top: -9px; left: 50%; z-index: 1; padding: 1px 8px; border-radius: 999px; background: var(--bag-warm-ink); color: #fff; font-size: 10px; font-weight: 700; line-height: 1.5; letter-spacing: .04em; white-space: nowrap; transform: translateX(-50%); }
-.pdp-ship__logo, .pdp-ship__icon { display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: 8px; border-radius: 9px; }
-.pdp-ship__logo { border: 1px solid #f0dcc6; background: #fff; }
-.pdp-ship__logo img { display: block; width: 19px; height: 25px; object-fit: contain; }
-.pdp-ship__icon { color: var(--bag-teal); }
-.pdp-ship__icon svg { width: 23px; height: 23px; stroke-width: 1.6; }
-.pdp-ship__amt { color: var(--bag-ink); font-size: 12.5px; line-height: 1.3; white-space: nowrap; }
-.pdp-ship__amt b { color: var(--bag-teal); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.pdp-ship__what { margin-top: 1px; color: var(--bag-ink); font-size: 13px; font-weight: 700; line-height: 1.35; }
-.pdp-ship__sub { margin-top: auto; padding-top: 6px; color: var(--bag-muted); font-size: 11.5px; line-height: 1.35; word-break: keep-all; overflow-wrap: anywhere; }
-.pdp-ship__facts { display: grid; gap: 4px; margin: 12px 2px 0; padding: 10px 0 0; border-top: 1px solid var(--bag-tint-line); list-style: none; }
-.pdp-ship__facts li { display: flex; align-items: flex-start; gap: 6px; color: var(--bag-muted); font-size: 12px; line-height: 1.5; }
-.pdp-ship__facts svg { flex: 0 0 15px; width: 15px; height: 15px; margin-top: 2px; color: var(--bag-teal); stroke-width: 1.8; }
+.pdp-ship { position: relative; padding: 14px 16px 12px; border: 1px solid rgb(109 163 181 / .2); border-radius: 12px; background: linear-gradient(105deg, #eef6f8 0%, #f4f2f8 54%, #faf0f3 100%); }
+.pdp-ship__head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; min-height: 30px; padding-right: 58px; }
+.pdp-ship__title { margin: 0; color: var(--bag-ink); font: 700 15px/1.35 var(--font-body); letter-spacing: 0; white-space: nowrap; }
+.pdp-ship__note { position: relative; margin-left: auto; padding: 3px 10px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgb(46 58 64 / .08); color: var(--bag-teal); font-size: 11px; font-weight: 600; line-height: 1.45; white-space: nowrap; }
+.pdp-ship__note::after { content: ""; position: absolute; top: 50%; right: -3px; width: 8px; height: 8px; margin-top: -4px; border-radius: 1px; background: #fff; transform: rotate(45deg); }
 /* 全站 .shima 係 position: relative（喺後面），呢度要高一級先浮得上卡角 */
-.pdp-ship .pdp-ship__shima { position: absolute; top: -20px; right: 8px; width: 60px; height: 72px; }
+.pdp-ship .pdp-ship__shima { position: absolute; top: -18px; right: 8px; width: 54px; height: 66px; }
+.pdp-ship__eta { display: flex; align-items: center; gap: 6px; margin: 3px 0 0; color: #4b6a76; font-size: 12px; line-height: 1.5; }
+.pdp-ship__eta svg { flex: 0 0 14px; width: 14px; height: 14px; color: #6b98a8; stroke-width: 1.8; }
+.pdp-ship__ways { margin: 8px 0 0; padding: 0; list-style: none; }
+.pdp-ship__way { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 48px; padding: 8px 0; }
+.pdp-ship__way + .pdp-ship__way { border-top: 1px solid rgb(109 163 181 / .2); }
+.pdp-ship__mark { display: grid; place-items: center; width: 30px; height: 30px; color: #6b98a8; }
+.pdp-ship__mark svg { width: 21px; height: 21px; stroke-width: 1.5; }
+.pdp-ship__mark--seven { width: 28px; height: 28px; border: 1px solid #f0dcc6; border-radius: 8px; background: #fff; }
+.pdp-ship__mark--seven img { display: block; width: 15px; height: 20px; object-fit: contain; }
+.pdp-ship__mark--van img { display: block; width: 40px; height: 40px; max-width: none; object-fit: contain; }
+/* 長名只喺「／」後面斷（HTML 有 <wbr>），唔好斷開「郵局」 */
+.pdp-ship__name { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; color: #345561; font-size: 13.5px; font-weight: 600; line-height: 1.35; word-break: keep-all; }
+.pdp-ship__name small { flex-basis: 100%; color: var(--bag-muted); font-size: 11.5px; font-weight: 400; }
+.pdp-ship__tag { padding: 0 7px; border-radius: 999px; background: var(--bag-warm); box-shadow: inset 0 0 0 1px var(--bag-warm-line); color: var(--bag-warm-ink); font-size: 10.5px; font-style: normal; font-weight: 700; line-height: 1.65; }
+.pdp-ship__deal { display: flex; align-items: baseline; gap: 4px; color: #4b6a76; font-size: 11.5px; white-space: nowrap; }
+.pdp-ship__deal b { color: #315f71; font-size: 16px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
+.pdp-ship__more { display: inline-flex; align-items: center; gap: 1px; margin-top: 4px; color: var(--bag-teal); font-size: 12.5px; font-weight: 600; text-decoration: none; }
+.pdp-ship__more svg { width: 14px; height: 14px; stroke-width: 2; }
 .pdp-gift { display: grid; grid-template-columns: 60px minmax(0, 1fr); align-items: center; gap: 2px 12px; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
 .pdp-gift__img { grid-row: span 2; width: 60px; height: 60px; border-radius: 10px; background: var(--bag-tint); object-fit: cover; }
 .pdp-gift__copy { min-width: 0; }
@@ -2963,6 +2968,8 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
 }
 @media (max-width: 360px) {
   .pdp-dock__add { padding: 0 10px; font-size: 16px; letter-spacing: .02em; }
+  /* 細手機：門檻金額分兩行（「滿 HK$99」／「自取免運」），留位畀方式名，唔好斷字 */
+  .pdp-ship__deal { flex-wrap: wrap; justify-content: flex-end; max-width: 92px; row-gap: 0; text-align: right; }
   .pdp-dock__sum { padding-right: 10px; }
   .product-info__variants--swatch { gap: 10px 6px; }
 }
@@ -2992,12 +2999,23 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-restock { order: 2; min-height: 54px; }
   .pdp-actions.is-sold-out .pdp-add { order: 1; }
   .product-info__short-desc { margin-top: 20px; font-size: 15px; }
-  /* 桌面運送卡白色（同購物袋桌面配送方式一樣），入面格仔幼灰線 */
+  /* 桌面運送卡：三種方式並排、幼線分隔（同首頁桌面「免運門檻」帶一樣），門市自取自己一行 */
   .pdp-perks { gap: 12px; margin-top: 24px; }
-  .pdp-ship { padding: 16px 14px 14px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
-  .pdp-ship__tile { border-color: var(--bag-line); }
-  .pdp-ship__tile.is-pick { border-color: var(--bag-warm-line); }
-  .pdp-ship__facts { border-top-color: var(--bag-line); }
+  .pdp-ship { padding: 16px 18px 14px; }
+  .pdp-ship__ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 12px; }
+  .pdp-ship__way { grid-template-columns: minmax(0, 1fr); align-content: start; justify-items: center; gap: 5px; min-height: 0; padding: 4px 8px 12px; text-align: center; }
+  .pdp-ship__way + .pdp-ship__way { border-top: 0; border-left: 1px solid rgb(109 163 181 / .22); }
+  .pdp-ship__name { justify-content: center; font-size: 13px; }
+  .pdp-ship__way:last-child { grid-column: 1 / -1; grid-template-columns: 30px minmax(0, 1fr) auto; justify-items: start; gap: 10px; padding: 10px 2px 2px; border-top: 1px solid rgb(109 163 181 / .22); border-left: 0; text-align: left; }
+  .pdp-ship__way:last-child .pdp-ship__name { justify-content: flex-start; }
+  .pdp-ship__way:last-child .pdp-ship__deal { justify-self: end; }
+  /* 三欄嘅 icon／名／金額各自企同一條線（7-11 多咗「推薦」都唔會令佢個金額低過人）；唔支援 subgrid 就照上面排 */
+  @supports (grid-template-rows: subgrid) {
+    .pdp-ship__ways { grid-template-rows: repeat(4, auto); }
+    .pdp-ship__way:not(:last-child) { grid-row: 1 / span 3; grid-template-rows: subgrid; row-gap: 5px; }
+    .pdp-ship__way:not(:last-child) .pdp-ship__name { align-self: start; }
+    .pdp-ship__way:last-child { grid-row: 4; }
+  }
   .pdp-section { margin-top: 56px; }
   .pdp-h2 { margin-bottom: 16px; font-size: 22px; }
   .pdp-h2 svg { flex-basis: 24px; width: 24px; height: 24px; }
@@ -3043,8 +3061,8 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-add:not(:disabled):not(.is-blocked):hover, .pdp-dock__add:not(:disabled):not(.is-blocked):not(.is-restock):hover, .product-state__btn:hover { background: var(--bag-brand-hover); }
   .pdp-wish:hover, .pdp-qty .qty-btn:hover { color: var(--bag-teal-ink); }
   .pdp-wish:hover { border-color: #b9cfd7; }
-  .pdp-thumb:not(.is-active):hover, .pdp-ship__tile:hover { border-color: #b9cfd7; }
-  .pdp-ship__tile.is-pick:hover { border-color: #e8b483; }
+  .pdp-thumb:not(.is-active):hover { border-color: #b9cfd7; }
+  .pdp-ship__more:hover { color: var(--bag-teal-ink); }
   .variant-btn:not(:disabled):not(.is-selected):not(.variant-btn--image):hover { border-color: #b9cfd7; }
   .variant-btn--image:not(:disabled):not(.is-selected):hover .variant-btn__pic { border-color: #b9cfd7; }
   .detail-more:hover, .rv-more:hover { border-color: #b9cfd7; color: var(--bag-teal); }
