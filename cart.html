@@ -480,7 +480,7 @@
                 <div><dt>小計<span data-bag-count-sub></span></dt><dd data-subtotal>HK$0</dd></div>
                 <div class="is-saving" data-discount-row hidden><dt data-discount-label>折扣</dt><dd data-discount>−HK$0</dd></div>
                 <div><dt>運費<span data-shipping-method></span></dt><dd data-shipping>HK$0</dd></div>
-                <div class="is-saving" data-gift-row hidden><dt data-gift-row-label>贈品・Round Lab 白樺樹保濕面霜</dt><dd data-gift-row-value>免費</dd></div>
+                <div class="is-saving" data-gift-row hidden><dt data-gift-row-label>贈品・Round Lab 白樺樹補水面霜</dt><dd data-gift-row-value>免費</dd></div>
               </dl>
               <!-- 合計要一眼見到（Winston 2026-10-17）：實色青藍底、白字，已慳嘅數用白色膠囊。 -->
               <div class="bag-summary__total">
@@ -1395,7 +1395,7 @@
     return { key: 'reached', rank: 3, tone: 'reached', mode, perks, done: true,
       title: cc(save ? `${pickup ? '門市自取' : '免運'}、即減、送面霜都有齊` : `${pickup ? '門市自取' : '免運'}、送面霜都有齊`,
         save ? `${pickup ? 'Store pickup' : 'Free shipping'}, HK$${save.amount} off and the free cream` : `${pickup ? 'Store pickup' : 'Free shipping'} and the free cream`),
-      sub: cc('Round Lab 白樺樹保濕面霜送完即止。', 'Round Lab birch cream, while stocks last.') };
+      sub: cc('Round Lab 白樺樹補水面霜送完即止。', 'Round Lab birch cream, while stocks last.') };
   }
 
   /* 動態只畀「變咗」嘅嘢（預覽同一套）：條 bar 由上次嘅位置推前；升咗一級（例如啱啱夠免運），
