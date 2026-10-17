@@ -46,12 +46,17 @@ let RATINGS_CACHE = null;
 /** 一件產品一個檔。全部夾埋係 800 KB —— 冇理由為咗睇一支唇釉
  *  嘅評價而攞埋其餘九十九件嘅。索引 (`ratings.json`) 話畀我哋知
  *  邊件有原文，冇嘅連 request 都唔使發。 */
+const REVIEWS_CACHE = new Map();
 async function loadReviews(handle) {
   const idx = await loadRatings();
   if (!idx[handle]?.text) return null;
-  return fetch(`data/reviews/${encodeURIComponent(handle)}.json`)
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null);
+  // 產品頁「啱唔啱你」（product-guide.js）同評價區都要用，同一件貨只攞一次
+  if (!REVIEWS_CACHE.has(handle)) {
+    REVIEWS_CACHE.set(handle, fetch(`data/reviews/${encodeURIComponent(handle)}.json`)
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null));
+  }
+  return REVIEWS_CACHE.get(handle);
 }
 
 /* 分數同評價原文分開兩個檔，因為兩者嘅覆蓋率差好遠。分數係目錄

@@ -2846,6 +2846,67 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .detail-cuff svg { width: 16px; height: 16px; stroke-width: 2; }
 html.pdp-dock-on .detail-cuff { bottom: 104px; }
 
+/* 啱唔啱你（product-guide.js）：一句重點 → AI 幫你睇評價（淺青，成段最搶眼）＋白卡四格（適合膚質、質地同感覺、點樣用、要留意）。
+   四格用 1px 間隙當幼線；手機逐格疊，桌面左邊評價、右邊 2×2。冇料嗰格唔出。 */
+.pdp-guide__hook { margin: -4px 0 12px; color: #3d4b51; font-size: 15px; font-weight: 600; line-height: 1.6; text-wrap: pretty; }
+.pdp-guide__body { display: grid; gap: 10px; }
+.pdp-guide__facts { display: grid; gap: 1px; overflow: hidden; border-radius: 12px; background: var(--bag-line); box-shadow: var(--bag-shadow); }
+.pdp-guide__cell { min-width: 0; padding: 14px 16px; background: var(--bag-surface); }
+.pdp-guide__label { margin: 0 0 8px; color: var(--bag-muted); font: 700 12px/1.4 var(--font-body); letter-spacing: .04em; }
+.pdp-guide__cell .pdp-guide__label:not(:first-child) { margin-top: 14px; }
+.pdp-guide__skins { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.pdp-guide__skins li { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px 4px 7px; border-radius: 999px; font-size: 13px; line-height: 1.3; }
+.pdp-guide__skins svg { flex: none; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.pdp-guide__skins b { font-weight: 600; }
+.pdp-guide__skins span { font-size: 11px; }
+.pdp-guide__skins .is-good { background: var(--bag-tint); color: var(--bag-teal-ink); }
+.pdp-guide__skins .is-ok { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-line); color: var(--bag-ink); }
+.pdp-guide__skins .is-ok svg { width: 10px; height: 10px; fill: #9fb3ba; stroke: none; }
+.pdp-guide__skins .is-avoid { background: #f6eceb; color: #9a4f49; }
+.pdp-guide__text { margin: 0; color: var(--bag-ink); font-size: 14px; line-height: 1.7; }
+.pdp-guide__rows { display: grid; gap: 7px; margin: 0; }
+.pdp-guide__rows div { display: grid; grid-template-columns: 52px minmax(0, 1fr); align-items: center; gap: 8px; }
+.pdp-guide__rows dt { color: var(--bag-muted); font-size: 12.5px; }
+.pdp-guide__rows dd { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--bag-ink); font-size: 14px; font-weight: 600; }
+.pdp-guide__scale { display: inline-flex; gap: 3px; }
+.pdp-guide__scale i { width: 16px; height: 6px; border-radius: 999px; background: var(--bag-track); }
+.pdp-guide__scale i.is-on { background: var(--bag-teal); }
+/* 護膚步驟：五粒點一條線，呢件喺邊步嗰粒大啲、青藍 */
+.pdp-guide__track { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 2px 0 10px; padding: 0; list-style: none; }
+.pdp-guide__track li { position: relative; display: grid; justify-items: center; gap: 5px; color: var(--bag-muted); font-size: 11.5px; line-height: 1.3; text-align: center; }
+.pdp-guide__track li::before { content: ""; position: relative; z-index: 1; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 2px var(--bag-track); }
+.pdp-guide__track li::after { content: ""; position: absolute; top: 4px; right: 50%; width: 100%; height: 2px; background: var(--bag-track); }
+.pdp-guide__track li:first-child::after { display: none; }
+.pdp-guide__track li.is-before::before { background: var(--bag-track); }
+.pdp-guide__track li.is-here { color: var(--bag-teal); font-weight: 700; }
+.pdp-guide__track li.is-here::before { width: 14px; height: 14px; margin-top: -2px; background: var(--bag-teal); box-shadow: 0 0 0 3px #d2e3e9; }
+.pdp-guide__when { display: flex; align-items: center; gap: 4px; margin: 0 0 6px; color: var(--bag-teal-ink); font-size: 13px; font-weight: 600; }
+.pdp-guide__when svg { flex: none; width: 16px; height: 16px; fill: none; stroke: var(--bag-teal); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.pdp-guide__tips { display: grid; gap: 6px; margin: 0; padding: 0 0 0 1.1em; color: var(--bag-ink); font-size: 13.5px; line-height: 1.65; }
+.pdp-guide__tips li::marker { color: var(--bag-teal); }
+.pdp-guide__voice { min-width: 0; padding: 14px 16px; border-radius: 12px; background: var(--bag-tint); }
+.pdp-guide__label--ai { display: flex; align-items: center; gap: 5px; color: var(--bag-teal-ink); }
+.pdp-guide__label--ai svg { flex: none; width: 16px; height: 16px; fill: none; stroke: var(--bag-teal); stroke-width: 1.7; stroke-linejoin: round; }
+.pdp-guide__pros, .pdp-guide__cons { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.pdp-guide__cons { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--bag-tint-line); }
+.pdp-guide__pros li, .pdp-guide__cons li { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: center; gap: 8px; color: var(--bag-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
+.pdp-guide__pros svg, .pdp-guide__cons svg { width: 18px; height: 18px; padding: 3px; border-radius: 50%; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; }
+.pdp-guide__pros svg { background: var(--bag-teal); color: #fff; }
+.pdp-guide__cons svg { background: #fff; color: #9a4f49; box-shadow: inset 0 0 0 1px #e6cfcc; }
+.pdp-guide__pros small, .pdp-guide__cons small { color: var(--bag-muted); font-size: 11.5px; font-weight: 400; white-space: nowrap; }
+.pdp-guide__fitline { margin: 10px 0 0; color: var(--bag-ink); font-size: 13.5px; line-height: 1.6; }
+.pdp-guide__fitline b { color: var(--bag-teal-ink); }
+.pdp-guide__bars { display: grid; gap: 6px; margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--bag-tint-line); }
+.pdp-guide__bars div { display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: center; gap: 8px; }
+.pdp-guide__bars dt { overflow: hidden; color: var(--bag-muted); font-size: 12.5px; white-space: nowrap; text-overflow: ellipsis; }
+.pdp-guide__bars dd { display: grid; grid-template-columns: minmax(0, 1fr) 28px; align-items: center; gap: 8px; margin: 0; }
+.pdp-guide__bar { height: 6px; overflow: hidden; border-radius: 999px; background: #fff; }
+.pdp-guide__bar i { display: block; height: 100%; border-radius: inherit; background: var(--bag-teal); }
+.pdp-guide__bars b { color: var(--bag-teal); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
+.pdp-guide__basis { margin: 10px 0 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.5; }
+.pdp-guide__basis:empty { display: none; }
+.pdp-guide__note { margin: 10px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.6; }
+
 /* 評價：標題同出處一行；總結淺青卡（大分數＋星級分佈＋屬性）；評語白卡，先出 4 則 */
 .reviews { scroll-margin-top: 110px; }
 .rv-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; margin-bottom: 12px; }
@@ -3030,6 +3091,12 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-details.has-media .pdp-details__text { will-change: transform; }
   .pdp-details.has-media .pdp-details__media { margin-top: 0; }
   .pdp-details:not(.has-media) .pdp-details__text { max-width: 840px; }
+  .pdp-guide__hook { font-size: 16px; }
+  .pdp-guide__body.has-voice { grid-template-columns: 340px minmax(0, 1fr); align-items: start; gap: 16px; }
+  .pdp-guide__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pdp-guide__facts > .pdp-guide__cell:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .pdp-guide__cell { padding: 18px 20px; }
+  .pdp-guide__voice { padding: 18px 20px; }
   .rv-layout { display: grid; grid-template-columns: 340px minmax(0, 1fr); align-items: start; gap: 28px; }
   .rv-aside { will-change: transform; }
   .rv-main { margin-top: 0; }

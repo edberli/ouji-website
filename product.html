@@ -322,7 +322,7 @@
 
           <section class="pdp-perks" aria-label="購物優惠及運送安排">
             <!-- 運送與自取：簡單一條（Winston 2026-10-17 參考圖：三格＋幼線，「簡簡單單…唔使好華麗」），
-                 淨係特登突出 7-11 滿 $99 自取免運；送達日數同門市自取寫喺下面一行細字。 -->
+                 淨係特登突出 7-11 滿 $99 自取免運；只列要畀運費嗰幾種（門市自取唔使出，Winston 10-17），下面一行送達日數。 -->
             <div class="pdp-ship" role="group" aria-labelledby="pdp-ship-title">
               <h2 class="pdp-ship__title" id="pdp-ship-title">運送與自取</h2>
               <ul class="pdp-ship__ways">
@@ -339,7 +339,7 @@
                   <span class="pdp-ship__text"><span class="pdp-ship__name">順豐送貨到屋企</span><span class="pdp-ship__deal">滿 <b>$290</b> 免運</span></span>
                 </li>
               </ul>
-              <p class="pdp-ship__foot"><span>預計 1–3 個工作天送達・觀塘門市免費自取</span><a class="pdp-ship__more" href="shipping.html">運送詳情 ›</a></p>
+              <p class="pdp-ship__foot"><span>預計 1–3 個工作天送達</span><a class="pdp-ship__more" href="shipping.html">運送詳情 ›</a></p>
             </div>
 
             <article class="pdp-gift" aria-label="Round Lab 滿額贈禮">
@@ -355,6 +355,15 @@
           </section>
         </div>
       </div>
+
+      <!-- 啱唔啱你：用網站已有資料（護膚標籤 attrs.json、成分、品牌寫嘅用法、評價）整理；
+           適合膚質、質地、點樣用、要留意（按成分）、AI 評價重點。冇料嗰項唔出，成段冇料就唔出（product-guide.js）。 -->
+      <section class="pdp-section pdp-guide" data-pdp-guide hidden aria-labelledby="pdp-guide-title">
+        <h2 class="pdp-h2" id="pdp-guide-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.6 2.3 6.5 2.6 7.5 2.6v5.4c0 4.8-3.3 7.9-7.5 9-4.2-1.1-7.5-4.2-7.5-9V6.1c1 0 3.9-.3 7.5-2.6Z"/><path d="m8.8 12.2 2.3 2.3 4.3-4.6"/></svg>啱唔啱你</h2>
+        <p class="pdp-guide__hook" data-pdp-guide-hook hidden></p>
+        <div class="pdp-guide__body" data-pdp-guide-body></div>
+        <p class="pdp-guide__note">資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。</p>
+      </section>
 
       <section class="product-videos pdp-section" data-product-videos hidden aria-label="產品影片"></section>
 
@@ -516,7 +525,8 @@
   <script src="analytics.js?v=20260927-two-line-title"></script>
   <script src="shopify.js?v=20261017-pdp-expired"></script>
   <script src="ingredients.js"></script>
-  <script src="reviews.js?v=20261017-pdp"></script>
+  <script src="reviews.js?v=20261017-guide"></script>
+  <script src="product-guide.js?v=20261017-guide"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261017-pdp"></script>
   <script src="awards.js"></script>
@@ -1116,6 +1126,9 @@
       details?.classList.toggle('has-media', !!strips);
       if (details) details.hidden = !(fullDesc && fullDesc.textContent.trim()) && !strips;
       collapseDetailStrips();
+
+      // 啱唔啱你（product-guide.js）：自己載資料，唔阻住個頁出
+      if (typeof renderGuide === 'function') renderGuide(product, descHtml);
 
       // Product videos live in Shopify media, not in the images connection.
       const videoSection = document.querySelector('[data-product-videos]');
