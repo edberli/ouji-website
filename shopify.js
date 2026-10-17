@@ -25,6 +25,8 @@ const OUJI_COMMERCE = Object.freeze({
       handle: 'round-lab-round-lab-80ml-0221',
       variantId: 'gid://shopify/ProductVariant/48093431529630',
       lineAttribute: '_ouji_auto_gift',
+      /* 購物袋贈品卡寫「價值 HK$148」＝網店售價（Winston 2026-10-17 批准咁寫）；改價要同步。 */
+      value: 148,
     }),
   }),
   /* 常設「滿 $399 減 $20（購物禮遇）」：Shopify 自動折扣，按商品小計（未折）計。
@@ -818,6 +820,8 @@ function prefetchProducts(handles, limit = 4) {
 }
 
 /** 搜尋商品 */
+/* 欄位同列表頁（getProducts）一樣：產品頁「你可能也喜歡」用返列表嗰張新卡（product-card-lc.js），
+   要有劃線價、款式數、庫存同第二張相先出得齊（2026-10-17 產品頁重做）。 */
 async function searchProducts(query, first = 10) {
   const data = await shopifyFetch(`
     query SearchProducts($query: String!, $first: Int!) {
@@ -825,8 +829,12 @@ async function searchProducts(query, first = 10) {
         edges {
           node {
             id handle title vendor productType tags createdAt
-            priceRange { minVariantPrice { amount currencyCode } }
-            images(first: 1) { edges { node { url altText } } }
+            priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
+            compareAtPriceRange { minVariantPrice { amount currencyCode } }
+            images(first: 2) { edges { node { url altText } } }
+            totalInventory
+            variants(first: 2) { edges { node { id title availableForSale quantityAvailable price { amount currencyCode } compareAtPrice { amount currencyCode } } } }
+            options { name optionValues { name } }
           }
         }
       }
@@ -2431,6 +2439,9 @@ function shortDatedExpiry(product) {
   const hit = tag ? tag.slice(3) : ((product?.title || '').match(/到期\s*(\d{4}-\d{2}-\d{2})/) || [])[1];
   return hit || '';
 }
+
+/* ⚠️ 短效期貨過咗到期日都照賣（Winston 2026-10-17 兩次明令）：到期日只係最佳使用期，
+   唔准喺網站收起、唔准落架、唔准擋加入購物袋。#90 曾經過濾過期貨，已還原。 */
 
 /* 標題喺 Shopify 帶住「【短效期・到期 YYYY-MM-DD】」（訂單、執貨單都見到到期日），
    但卡片上面到期日已經有自己嘅標籤，唔使再讀一次。 */

@@ -460,8 +460,15 @@
 
 
   /* ---------- 名行數：同一條貨架有一張卡名要兩行先成條留兩行位，全部一行就留一行（同預覽一樣）---------- */
+  /* 桌面兩格並排（美妝以外、好物啱價）：同一行嘅貨架要一齊計，否則一格兩行一格一行就一高一低（Winston 2026-10-17） */
   function fitRail(rail) {
-    const cards = [...rail.querySelectorAll(':scope > .cx-slot > a.product-card.lc, :scope > a.product-card.lc')].filter((c) => c.offsetParent);
+    if (!rail.offsetParent) return;
+    const top = Math.round(rail.getBoundingClientRect().top);
+    const section = rail.closest('.home-lifestyle, .home-offers, .home-brand-edits') || rail.parentElement;
+    const rails = [...section.querySelectorAll('[data-codex-rail]')]
+      .filter((r) => r.offsetParent && Math.abs(Math.round(r.getBoundingClientRect().top) - top) <= 2);
+    if (!rails.includes(rail)) rails.push(rail);
+    const cards = rails.flatMap((r) => [...r.querySelectorAll(':scope > .cx-slot > a.product-card.lc, :scope > a.product-card.lc')]).filter((c) => c.offsetParent);
     if (!cards.length) return;
     cards.forEach((c) => c.style.setProperty('--lc-lines', '2'));
     const two = cards.some((c) => {

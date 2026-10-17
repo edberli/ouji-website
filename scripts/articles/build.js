@@ -199,7 +199,7 @@ function renderBlock(b, ctx) {
 }
 
 function note(html, ctx) {
-  return `<aside class="ax-note"><img src="/assets/images/shima/shima-face.webp" alt="" width="44" height="44" loading="lazy"><div><b>芝麻手記</b><p>${html}</p></div></aside>`;
+  return `<aside class="ax-note"><img src="/assets/images/shima-v5/face.webp" alt="" width="44" height="44" loading="lazy"><div><b>芝麻手記</b><p>${html}</p></div></aside>`;
 }
 
 /* 一段 flow：左邊內文、右邊（桌面）芝麻手記；catalog 就闊啲獨立出。 */

@@ -752,7 +752,7 @@ function initMobileBottomNav() {
       <span class="mobile-bottom-nav__symbol" aria-hidden="true">${icon.bag}<span class="mobile-bottom-nav__badge" style="display:none;">0</span></span>${label('購物袋')}
     </a>
     <a href="/account.html" class="mobile-bottom-nav__item mobile-bottom-nav__item--me" aria-label="我的：心願清單、訂單同會員資料">
-      <span class="mobile-bottom-nav__symbol" aria-hidden="true"><img class="mobile-bottom-nav__face" src="/assets/images/shima/shima-face.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>${label('我的')}
+      <span class="mobile-bottom-nav__symbol" aria-hidden="true"><img class="mobile-bottom-nav__face" src="/assets/images/shima-v5/face.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>${label('我的')}
     </a>`;
 
   /* 現在所在頁：首頁冇 tab，因為 logo 先係首頁入口。
@@ -925,7 +925,7 @@ function initAssistSheet(btn) {
         <a class="assist-choice assist-choice--skin" href="/category.html#skincare-match">
           <span class="assist-choice__bubble assist-choice__bubble--one" aria-hidden="true"></span>
           <span class="assist-choice__bubble assist-choice__bubble--two" aria-hidden="true"></span>
-          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/images/shima/shima-skincare.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="assist-choice__media" aria-hidden="true"><img src="/assets/images/shima-v5/skin-serum.webp" alt="" loading="lazy" decoding="async"></span>
           <span class="assist-choice__content">
             <span class="assist-choice__eyebrow">芝麻護膚配方</span>
             <strong>唔知塊面而家<br>最需要啲乜？</strong>
@@ -1180,10 +1180,12 @@ function initQuantityControls() {
       const input = btn.parentElement.querySelector('.qty-input');
       if (!input) return;
       let val = parseInt(input.value) || 1;
+      // 產品頁會將 max 設做現貨數量（見 product.html stockHint），＋唔好超過佢
+      const cap = parseInt(input.max) || 99;
       if (btn.dataset.action === 'decrease') {
         val = Math.max(1, val - 1);
       } else {
-        val = Math.min(99, val + 1);
+        val = Math.min(cap, val + 1);
       }
       input.value = val;
       updateCartTotals();
