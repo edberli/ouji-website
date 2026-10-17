@@ -3368,7 +3368,7 @@ body:has(.look-stage) .footer { --footer-backdrop: #241a15; }
    次序同結構見 cart.html 頂嘅註釋；舊版散喺成份檔嘅購物袋規則已經全部拎走。 */
 .page-bag {
   --bag-ground: #f7fafc; --bag-surface: #fff; --bag-ink: #2e3a40; --bag-muted: #5a6a70; --bag-line: #e3eaed; --bag-control: #d6e0e4;
-  --bag-teal: #36728a; --bag-teal-ink: #2b6977; --bag-brand: #5289a2; --bag-brand-hover: #477c94; --bag-tint: #ecf3f6; --bag-track: #d2e3e9;
+  --bag-teal: #36728a; --bag-teal-ink: #2b6977; --bag-brand: #5289a2; --bag-brand-hover: #477c94; --bag-tint: #ecf3f6; --bag-tint-line: #d3e3e9; --bag-track: #d2e3e9;
   --bag-warm: #fff5eb; --bag-warm-line: #f2c79c; --bag-warm-ink: #b8560b; --bag-chip: #fbe8d6; --bag-chip-ink: #9c5a1a;
   --bag-shadow: 0 1px 2px rgb(46 58 64 / .04), 0 6px 18px rgb(46 58 64 / .05);
 }
@@ -3600,6 +3600,22 @@ body.page-bag { background: var(--bag-ground); background-image: none; }
 .sfp__facts span { display: grid; gap: 2px; min-width: 0; }
 .sfp__facts strong { color: var(--bag-ink); font-size: 13px; font-weight: 700; line-height: 1.35; }
 .sfp__facts small { color: var(--bag-muted); font-size: 11.5px; line-height: 1.4; }
+
+/* 手機配送區用淺藍底（Winston 2026-10-17 揀 B）：白卡喺灰白底上面唔夠明顯，淺藍同湊單卡同色；
+   入面四格、網點卡、列表保持白色，揀中嗰格用白底加青藍框（唔再用淺藍，費事同底色溝埋）。桌面照舊白卡。 */
+@media (max-width: 768px) {
+  .bag-choose { background: var(--bag-tint); box-shadow: none; }
+  .bag-ship { border-color: var(--bag-tint-line); background: #fff; }
+  .bag-ship.is-on { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-teal), 0 4px 12px rgb(54 114 138 / .14); }
+  .bag-ship.is-pick { background: #fffaf4; }
+  .bag-ship.is-pick.is-on { background: var(--bag-warm); }
+  .sfp, .sfp__facts { border-top-color: var(--bag-tint-line); }
+  .sfp__facts li + li { border-left-color: var(--bag-tint-line); }
+  .sfp__logo, .sfp__item { border-color: var(--bag-tint-line); }
+  .sfp__steps span { background: #fff; }
+  .sfp__start, .sfp__filters select, .sfp__q { border-color: #c5d9e0; }
+  .sfp__item.is-on { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-teal); }
+}
 
 /* 6 · 訂單摘要：白卡；合計要一眼見到（Winston 2026-10-17）：實色青藍（白字 5.34:1），已慳用白膠囊 */
 .bag-side { margin-top: 22px; }
