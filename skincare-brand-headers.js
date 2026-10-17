@@ -21,7 +21,7 @@ window.OUJI_SKINCARE_BRAND_HEADERS = {
   'Bring Green': { identity: true, tint: '#086050', dark: true, logo: 'logos/brand-headers/bring-green.png', width: 242, maxHeight: 36 },
   "SO'NATURAL": { identity: true, tint: '#ffffff', logo: 'logos/brand-headers/so-natural.svg', width: 165, maxHeight: 40 },
   'Haruharu WONDER': { identity: true, tint: '#ffffff', logo: 'logos/haruharu-wonder.png', width: 246, maxHeight: 36 },
-  'TOCOBO': { identity: true, tint: '#ffffff', logo: 'logos/tocobo.svg', width: 150, maxHeight: 40 },
+  'TOCOBO': { identity: true, tint: '#DC272D', dark: true, logo: 'logos/tocobo.svg', width: 150, maxHeight: 40 },
   'SUNGBOON EDITOR': { identity: true, tint: '#ffffff', logo: 'logos/brand-headers/sungboon-editor.png', width: 270, maxHeight: 36 },
   'Arencia': { identity: true, tint: '#ffffff', logo: 'logos/arencia.png', width: 155, maxHeight: 40 },
   'KSECRET': { identity: true, tint: '#ffffff', logo: 'logos/ksecret.png', width: 200, maxHeight: 46 },
