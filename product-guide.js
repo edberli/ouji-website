@@ -216,6 +216,11 @@
     root.querySelectorAll('ul, ol, p, div').forEach((el) => {
       if (!el.textContent.trim() && !el.querySelector('img, video, iframe')) el.remove();
     });
+    /* 6 頂頭剩低嘅斷行（刪咗產品名之後，第一段開頭嘅 <br>） */
+    for (let box = root, n = 0; box && n < 4; n += 1) {
+      while (box.firstChild && (box.firstChild.nodeName === 'BR' || (box.firstChild.nodeType === 3 && !box.firstChild.textContent.trim()))) box.firstChild.remove();
+      box = box.firstElementChild && box.firstChild === box.firstElementChild ? box.firstElementChild : null;
+    }
     return facts;
   }
 
