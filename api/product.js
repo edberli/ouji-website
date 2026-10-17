@@ -205,9 +205,14 @@ const PRICE_EMPTY = /<div class="product-info__price"><\/div>/;
 const DESC_EMPTY = /<p class="product-info__short-desc"><\/p>/;
 
 function introText(p) {
-  const m = (p.descriptionHtml || '').match(/<p[^>]*>([\s\S]*?)<\/p>/);
-  const plain = m ? m[1].replace(/<[^>]+>/g, '').trim()
-                  : (p.description || '').trim();
+  /* 第一段只係產品名就跳去下一段（同 product.html 客戶端同一套規則） */
+  const norm = (t) => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+  const titleKey = norm(p.title);
+  const paras = [...(p.descriptionHtml || '').matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].slice(0, 6)
+    .map((m) => m[1].replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+  const plain = paras.length
+    ? (paras.find((t) => norm(t).length >= 6 && !titleKey.includes(norm(t))) || '')
+    : (p.description || '').trim();
   return plain.length > 200 ? plain.slice(0, 200) + '…' : plain;
 }
 
