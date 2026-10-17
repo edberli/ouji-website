@@ -220,19 +220,24 @@ function brandLogoHeight(vendor) {
   return BRAND_LOGO_H[vendor] || 58;
 }
 
-function brandLogoMarkup(logo, vendor, plate) {
-  const image = `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
-                  style="--logo-h:${brandLogoHeight(vendor)}px;height:${brandLogoHeight(vendor)}px${plate.filter ? `;filter:${plate.filter}` : ''}" loading="lazy" decoding="async">`;
-  const crop = plate.crop;
-  if (!crop) return image;
-
+function validatedBrandCrop(crop) {
+  if (!crop) return null;
   const [x, y, width, height, sourceWidth, sourceHeight] = [
     crop.x, crop.y, crop.width, crop.height, crop.sourceWidth, crop.sourceHeight,
   ].map(Number);
   if (![x, y, width, height, sourceWidth, sourceHeight].every(Number.isFinite)
       || x < 0 || y < 0 || width <= 0 || height <= 0
       || sourceWidth <= 0 || sourceHeight <= 0
-      || x + width > sourceWidth || y + height > sourceHeight) return image;
+      || x + width > sourceWidth || y + height > sourceHeight) return null;
+  return { x, y, width, height, sourceWidth, sourceHeight };
+}
+
+function brandLogoMarkup(logo, vendor, plate) {
+  const image = `<img class="brand-plate__logo" src="${logo}" alt="${vendor}"
+                  style="--logo-h:${brandLogoHeight(vendor)}px;height:${brandLogoHeight(vendor)}px${plate.filter ? `;filter:${plate.filter}` : ''}" loading="lazy" decoding="async">`;
+  const crop = validatedBrandCrop(plate.crop);
+  if (!crop) return image;
+  const { x, y, width, height, sourceWidth, sourceHeight } = crop;
 
   const markWidth = Number(plate.width) > 0 ? Number(plate.width) : 160;
   const markMaxHeight = Number(plate.maxHeight) > 0 ? Number(plate.maxHeight) : 52;
@@ -2375,11 +2380,16 @@ function buildBrandRail(order) {
     const originalLogo = brandLogo(vendor);
     const logo = originalLogo || profile?.logo;
     const railFilter = !originalLogo && profile?.railFilter;
+    const railCrop = !originalLogo && logo ? validatedBrandCrop(profile?.crop) : null;
     const name = attr(vendor);
+    const logoImage = logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
+        ${railFilter ? `style="filter:${attr(railFilter)}" ` : ''}loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : '';
+    const logoMarkup = railCrop
+      ? `<span class="brand-rail__logo-crop" style="--rail-crop-aspect:${railCrop.width / railCrop.height};--rail-crop-frame-width:${Math.min(78, 26 * railCrop.width / railCrop.height)}px;--rail-crop-image-width:${railCrop.sourceWidth / railCrop.width * 100}%;--rail-crop-left:${-railCrop.x / railCrop.width * 100}%;--rail-crop-top:${-railCrop.y / railCrop.height * 100}%">${logoImage}</span>`
+      : logoImage;
     return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
       aria-label="跳到 ${name}">
-      ${logo ? `<img class="brand-rail__logo" src="${attr(logo)}" alt="${name}"
-        ${railFilter ? `style="filter:${attr(railFilter)}" ` : ''}loading="${i < 6 ? 'eager' : 'lazy'}" decoding="async">` : ''}
+      ${logoMarkup}
       <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${attr(railName(vendor))}</span>
     </a>`;
   }).join('');
@@ -2409,6 +2419,13 @@ function buildBrandRail(order) {
 
   rail.querySelectorAll('.brand-rail__logo').forEach((img) => {
     img.addEventListener('error', () => {
+      const crop = img.closest('.brand-rail__logo-crop');
+      if (crop) {
+        crop.hidden = true;
+        const fallback = img.closest('.brand-rail__item')?.querySelector('.brand-rail__fallback');
+        if (fallback) fallback.hidden = false;
+        return;
+      }
       img.hidden = true;
       const fallback = img.nextElementSibling;
       if (fallback) fallback.hidden = false;

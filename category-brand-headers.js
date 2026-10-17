@@ -332,9 +332,17 @@
     "identity": true,
     "tint": "#fbe7ed",
     "logo": "logos/category-headers/extra-masclub.jpg",
-    "width": 168,
-    "maxHeight": 42,
-    "blend": "multiply"
+    "width": 180,
+    "maxHeight": 36,
+    "blend": "multiply",
+    "crop": {
+      "x": 86,
+      "y": 23,
+      "width": 451,
+      "height": 54,
+      "sourceWidth": 1173,
+      "sourceHeight": 156
+    }
   },
   "AGARISM": {
     "identity": true,
@@ -526,10 +534,10 @@
     "width": 226,
     "maxHeight": 40,
     "crop": {
-      "x": 31,
-      "y": 43,
-      "width": 461,
-      "height": 42,
+      "x": 30,
+      "y": 42,
+      "width": 460,
+      "height": 46,
       "sourceWidth": 523.01,
       "sourceHeight": 121.13
     }
@@ -619,6 +627,18 @@
   },
   "Cell Fusion C": {
     "tint": "#fae9ec"
+  },
+  "d'Alba": {
+    "width": 225,
+    "maxHeight": 38,
+    "crop": {
+      "x": 68,
+      "y": 77,
+      "width": 1057,
+      "height": 133,
+      "sourceWidth": 1190.55,
+      "sourceHeight": 286.9
+    }
   }
 };
   const profiles = {

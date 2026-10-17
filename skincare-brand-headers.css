@@ -72,3 +72,33 @@
     font-size: 24px;
   }
 }
+
+/* New profile fallbacks use the audited crop geometry within a 78×26px mark box.
+   Existing originalLogo rail images stay outside this wrapper and keep their calibration. */
+.lx-page .brand-rail--clearline .brand-rail__logo-crop {
+  position: relative;
+  display: block;
+  flex: none;
+  width: var(--rail-crop-frame-width);
+  aspect-ratio: var(--rail-crop-aspect);
+  overflow: hidden;
+}
+
+.lx-page .brand-rail--clearline .brand-rail__logo-crop[hidden] {
+  display: none !important;
+}
+
+.lx-page .brand-rail--clearline .brand-rail__logo-crop > .brand-rail__logo,
+.lx-page .brand-rail--clearline .brand-rail__item.is-current .brand-rail__logo-crop > .brand-rail__logo {
+  position: absolute;
+  top: var(--rail-crop-top);
+  left: var(--rail-crop-left);
+  display: block;
+  width: var(--rail-crop-image-width);
+  max-width: none;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  opacity: 1;
+  transform: none;
+}
