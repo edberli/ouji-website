@@ -10541,16 +10541,6 @@ html.is-lite .section--brand-intro::after {
    插畫 3:1，右邊角色貨架、左邊奶油黃淨色位放標題。圖左邊緣色 #fdfae2
    同 --bg 接駁，所以標頭同頁面底色連成一體。公仔頁自己換一套暖色：
    只喺 main 內覆寫，頂部導覽同其他品類頁唔受影響。 */
-.page-toys main {
-  --bg: #fffbea;
-  --primary: #d9915f;
-  --primary-light: #e4a97f;
-  --primary-lighter: #f0cdb3;
-  --primary-lightest: #fff1e0;
-  --primary-dark: #bf7647;
-  --primary-deep: #7a4a2c;
-}
-.page-toys main { background: var(--bg); }
 .page-toys .quick-tab { align-items: center; }
 .page-toys .quick-tab__icon {
   width: 28px; height: 28px; margin: -4px 0 -4px -6px;
