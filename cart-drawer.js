@@ -6,14 +6,15 @@
      底部導航購物袋 icon 彈一下。
    - 數全部來自 Shopify 真購物車（getCart），唔自己估價。
    - 「滿 $399 減 $20」係 Shopify 自動折扣「滿 $399 減 $20（購物禮遇）」，
-     2026-10-15 用 Storefront 真購物車核實：$343 冇減、$441 減 $20。改優惠要同步改 DISCOUNT。
+     2026-10-15 用 Storefront 真購物車核實：$343 冇減、$441 減 $20。門檻讀 shopify.js
+     OUJI_COMMERCE.spendSave（購物袋頁都用同一份），下面嘅數只係舊快取冇嗰欄時嘅後備。
    - 加購揀貨跟 cart.html 同一套規則（ADDON_TYPE、$10–169、有現貨）。
    由 shopify.js 尾動態載入；cart.html 本身唔載。 */
 (function () {
   'use strict';
   if (window.OUJI_cartFeedback || typeof window.addToCart !== 'function') return;
 
-  const DISCOUNT = { threshold: 399, amount: 20 };
+  const DISCOUNT = (window.OUJI_COMMERCE && window.OUJI_COMMERCE.spendSave) || { threshold: 399, amount: 20 };
   const GIFT = {
     threshold: (window.OUJI_COMMERCE && window.OUJI_COMMERCE.promotion && window.OUJI_COMMERCE.promotion.gift && window.OUJI_COMMERCE.promotion.gift.threshold) || 599,
     image: '/assets/images/home/gift-cream-cutout.webp',

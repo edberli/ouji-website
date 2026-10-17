@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "official_source_check_date": "2026-10-17",
+  "purpose": "Official identity reference for the 21 Korean cosmetic labels in the fixed display order; no popularity ranking.",
+  "coverage": "Only aliases explicitly evidenced in the official brand or owner pages checked in one bounded pass are listed. This registry is not exhaustive.",
+  "field_note": "brand is the existing catalogue key. A catalogue key that differs from canonical_spelling is not automatically an officially evidenced alias.",
+  "chinese_alias_status": "Unverified in this bounded source pass; no Chinese brand name is asserted.",
+  "source_evidence": "../../evidence/popularity-identity-20261017/brand-query-identities.json",
+  "records": [
+    {
+      "brand": "rom&nd",
+      "canonical_spelling": "rom&nd",
+      "primary_website": "https://romand.co.kr/",
+      "canonical_source_url": "https://romand.co.kr/",
+      "aliases": [
+        {
+          "spelling": "romand",
+          "source_url": "https://romand.co.kr/"
+        },
+        {
+          "spelling": "롬앤",
+          "source_url": "https://romand.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "Peripera",
+      "canonical_spelling": "peripera",
+      "primary_website": "https://cliocosmetic.com/peripera.html",
+      "canonical_source_url": "https://cliocosmetic.com/peripera.html",
+      "aliases": [
+        {
+          "spelling": "페리페라",
+          "source_url": "https://cliocosmetic.com/peripera.html"
+        }
+      ]
+    },
+    {
+      "brand": "OBgE",
+      "canonical_spelling": "OBgE",
+      "primary_website": "https://www.obge.co.kr/",
+      "canonical_source_url": "https://www.obge.co.kr/",
+      "aliases": [
+        {
+          "spelling": "OBGE",
+          "source_url": "https://www.obge.co.kr/"
+        },
+        {
+          "spelling": "오브제",
+          "source_url": "https://www.obge.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "CLIO",
+      "canonical_spelling": "CLIO",
+      "primary_website": "https://cliocosmetic.com/clio_en.html",
+      "canonical_source_url": "https://cliocosmetic.com/clio_en.html",
+      "aliases": [
+        {
+          "spelling": "클리오",
+          "source_url": "https://www.cliocosmetic.com/"
+        }
+      ],
+      "entity_note": {
+        "text": "CLIO is the makeup brand. CLIO Cosmetics is the multi-brand company, which also owns peripera; the company name is excluded from brand aliases.",
+        "source_url": "https://www.cliocosmetic.com/"
+      }
+    },
+    {
+      "brand": "fwee",
+      "canonical_spelling": "fwee",
+      "primary_website": "https://fwee.kr/",
+      "canonical_source_url": "https://fwee.kr/",
+      "aliases": [
+        {
+          "spelling": "퓌",
+          "source_url": "https://fwee.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "dasique",
+      "canonical_spelling": "dasique",
+      "primary_website": "https://en.dasique.co.kr/",
+      "canonical_source_url": "https://en.dasique.co.kr/",
+      "aliases": [
+        {
+          "spelling": "데이지크",
+          "source_url": "https://m.dasique.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "2aN",
+      "canonical_spelling": "2ªN",
+      "primary_website": "https://m.2an.co.kr/",
+      "canonical_source_url": "https://m.2an.co.kr/company/about.html",
+      "aliases": [
+        {
+          "spelling": "2aN",
+          "source_url": "https://m.2an.co.kr/"
+        },
+        {
+          "spelling": "투에이엔",
+          "source_url": "https://m.2an.co.kr/company/about.html"
+        }
+      ]
+    },
+    {
+      "brand": "lilybyred",
+      "canonical_spelling": "lilybyred",
+      "primary_website": "https://lilybyred.co.kr/",
+      "canonical_source_url": "https://lilybyred.co.kr/",
+      "aliases": [
+        {
+          "spelling": "릴리바이레드",
+          "source_url": "https://lilybyred.co.kr/"
+        },
+        {
+          "spelling": "릴바레",
+          "source_url": "https://lilybyred.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "hince",
+      "canonical_spelling": "hince",
+      "primary_website": "https://hince.co.kr/",
+      "canonical_source_url": "https://hince.co.kr/",
+      "aliases": [
+        {
+          "spelling": "힌스",
+          "source_url": "https://hince.co.kr/product/%EC%98%A4-%EB%93%9C-%ED%8D%BC%ED%93%B8/1064/category/24/display/1/"
+        }
+      ]
+    },
+    {
+      "brand": "Laka",
+      "canonical_spelling": "Laka",
+      "primary_website": "https://www.laka.co.kr/",
+      "canonical_source_url": "https://www.laka.co.kr/",
+      "aliases": [
+        {
+          "spelling": "라카",
+          "source_url": "https://www.laka.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "TIRTIR",
+      "canonical_spelling": "TIRTIR",
+      "primary_website": "https://tirtir.co.kr/",
+      "canonical_source_url": "https://tirtir.co.kr/",
+      "aliases": [
+        {
+          "spelling": "티르티르",
+          "source_url": "https://tirtir.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "Heart Percent",
+      "canonical_spelling": "HEARTPERCENT",
+      "primary_website": "https://heartpercent.co.kr/",
+      "canonical_source_url": "https://en.heartpercent.co.kr/shopinfo/company.html",
+      "aliases": [
+        {
+          "spelling": "하트퍼센트",
+          "source_url": "https://heartpercent.co.kr/board/gallery/list.html"
+        }
+      ]
+    },
+    {
+      "brand": "AMUSE",
+      "canonical_spelling": "AMUSE",
+      "primary_website": "https://amusemakeup.com/",
+      "canonical_source_url": "https://amusemakeup.com/",
+      "aliases": [],
+      "alias_status": "Unverified: no separate official localized brand alias was confirmed in the bounded source pass. The operator name is not treated as a brand alias."
+    },
+    {
+      "brand": "Glint",
+      "canonical_spelling": "GLINT",
+      "primary_website": "https://glintbeauty.co.kr/",
+      "canonical_source_url": "https://glintbeauty.co.kr/",
+      "aliases": [
+        {
+          "spelling": "글린트",
+          "source_url": "https://glintbeauty.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "UNLEASHIA",
+      "canonical_spelling": "UNLEASHIA",
+      "primary_website": "https://www.unleashiacosmetics.com/",
+      "canonical_source_url": "https://www.unleashiacosmetics.com/",
+      "aliases": [
+        {
+          "spelling": "언리시아",
+          "source_url": "https://m.unleashiacosmetics.com/"
+        }
+      ]
+    },
+    {
+      "brand": "SO'NATURAL",
+      "canonical_spelling": "SO'NATURAL",
+      "primary_website": "https://www.sonatural.co.kr/",
+      "canonical_source_url": "https://www.sonatural.co.kr/",
+      "aliases": [
+        {
+          "spelling": "쏘내추럴",
+          "source_url": "https://www.sonatural.co.kr/m/page.html?id=4"
+        },
+        {
+          "spelling": "so’natural",
+          "source_url": "https://www.sonatural.co.kr/m/page.html?id=4"
+        }
+      ]
+    },
+    {
+      "brand": "KSECRET",
+      "canonical_spelling": "K-SECRET",
+      "primary_website": "https://ksecretcosmetics.com/",
+      "canonical_source_url": "https://ksecretcosmetics.com/pages/brand-story",
+      "aliases": [
+        {
+          "spelling": "케이시크릿",
+          "source_url": "https://ksecretcosmetics.com/pages/brand-story"
+        }
+      ]
+    },
+    {
+      "brand": "Coralhaze",
+      "canonical_spelling": "Coralhaze",
+      "primary_website": "https://www.coralhaze.co.kr/",
+      "canonical_source_url": "https://www.coralhaze.co.kr/",
+      "aliases": [
+        {
+          "spelling": "코랄헤이즈",
+          "source_url": "https://coralhaze.co.kr/layout/basic/about.html"
+        }
+      ]
+    },
+    {
+      "brand": "BRAYE",
+      "canonical_spelling": "BRAYE",
+      "primary_website": "https://www.braye.co.kr/",
+      "canonical_source_url": "https://www.braye.co.kr/",
+      "aliases": [
+        {
+          "spelling": "브레이",
+          "source_url": "https://www.braye.co.kr/"
+        }
+      ]
+    },
+    {
+      "brand": "CORINGCO",
+      "canonical_spelling": "CORINGCO",
+      "primary_website": "https://www.coringco.com/",
+      "canonical_source_url": "https://www.coringco.com/",
+      "aliases": [
+        {
+          "spelling": "코링코",
+          "source_url": "https://www.coringco.com/shopinfo/company.html"
+        }
+      ]
+    },
+    {
+      "brand": "WAKEMAKE",
+      "canonical_spelling": "WAKEMAKE",
+      "primary_website": "https://www.wakemake.jp/",
+      "canonical_source_url": "https://corp.oliveyoung.com/ko/business/brand/wakemake",
+      "aliases": [
+        {
+          "spelling": "웨이크메이크",
+          "source_url": "https://corp.oliveyoung.com/ko/business/brand/wakemake"
+        }
+      ]
+    }
+  ]
+}

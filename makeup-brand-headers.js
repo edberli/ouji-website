@@ -2,6 +2,21 @@
    Each mark is optically sized, preserving its own proportions and details.
    Sources, colour interpretation and asset limitations: docs/makeup-brand-headers.md.
    Navigation artwork, product cards and other categories are independent. */
+/* Curated 2026-10-17: checked brand aliases inform the HK search reference;
+   sparse data does not establish exact ranks. rom&nd leads this curated
+   order; owner overrides put WAKEMAKE lower and nail brands last.
+   This is a frozen merchandising order, not a live popularity leaderboard.
+   Sources and sparse-data limits: docs/makeup-brand-order.md. */
+window.OUJI_MAKEUP_BRAND_ORDER = Object.freeze([
+  'rom&nd', 'Peripera', 'OBgE', 'CLIO', 'fwee', 'dasique', '2aN',
+  'lilybyred', 'hince', 'Laka', 'TIRTIR', 'Heart Percent',
+  'AMUSE', 'Glint', 'UNLEASHIA', "SO'NATURAL", 'KSECRET', 'Coralhaze', 'BRAYE', 'CORINGCO',
+  'WAKEMAKE',
+  'Flower Knows', 'CEZANNE', 'Kiss Me', 'SANA', 'Love Liner', 'K-Palette', 'BCL', "AN' BLESS", 'miru miru',
+  'fillimilli', 'STUDIO 17', 'ROSY ROSA', 'MAPEPE',
+  'Beauty World', 'Felicera', '其他', 'MAYBELLINE', 'ohora',
+]);
+
 window.OUJI_MAKEUP_BRAND_HEADERS = {
   'CLIO': { identity: true, tint: '#14110f', dark: true, logo: 'logos/makeup-headers/clio.png', width: 170, maxHeight: 42 },
   'CEZANNE': { identity: true, tint: '#b42046', logo: 'logos/makeup-headers/cezanne.png', width: 184, maxHeight: 51 },
