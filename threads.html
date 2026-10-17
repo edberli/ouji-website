@@ -247,26 +247,26 @@
     <section class="thr-hero">
       <div class="container thr-hero__in">
         <div>
-          <p class="thr-hero__k"><svg aria-hidden="true"><use href="#thr-logo"/></svg>Threads<span class="thr-hero__pill">熱話榜</span></p>
-          <h1 class="thr-hero__h">脆友熱議中</h1>
-          <p class="thr-hero__s">Threads 上面講得最熱嘅韓妝護膚，我哋跟住媒體報道逐件對過，淨係揀 OUJI 有現貨嘅。</p>
+          <p class="thr-hero__k"><svg aria-hidden="true"><use href="#thr-logo"/></svg>Threads<span class="thr-hero__pill" data-en="Trending">熱話榜</span></p>
+          <h1 class="thr-hero__h" data-en="Hot on Threads">脆友熱議中</h1>
+          <p class="thr-hero__s" data-en="The K-beauty that Threads users can’t stop talking about — every pick checked against media reports, and only what OUJI has in stock.">Threads 上面講得最熱嘅韓妝護膚，我哋跟住媒體報道逐件對過，淨係揀 OUJI 有現貨嘅。</p>
         </div>
         <ul class="thr-facts">
-          <li><b data-thr-refcount>7</b><span>篇報道做根據</span></li>
-          <li><b data-thr-count>–</b><span>件而家有現貨</span></li>
-          <li><b>156 萬</b><span>最熱原帖瀏覽</span></li>
+          <li><b data-thr-refcount>7</b><span data-en="articles as sources">篇報道做根據</span></li>
+          <li><b data-thr-count>–</b><span data-en="in stock now">件而家有現貨</span></li>
+          <li><b data-en="1.57M">156 萬</b><span data-en="views on the top post">最熱原帖瀏覽</span></li>
         </ul>
       </div>
     </section>
 
     <div class="container thr-main">
-      <p class="thr-note">排名按幾多篇報道點名；同樣篇數就按報道日期，新嘅先。資料截至 2026 年 10 月 17 日。<a href="#thr-refs">睇全部出處 ↓</a></p>
+      <p class="thr-note" data-en="Ranked by how many articles cite each product; ties go to the most recent article. Updated 17 October 2026. &lt;a href=&quot;#thr-refs&quot;&gt;See all sources ↓&lt;/a&gt;">排名按幾多篇報道點名；同樣篇數就按報道日期，新嘅先。資料截至 2026 年 10 月 17 日。<a href="#thr-refs">睇全部出處 ↓</a></p>
       <ol class="thr-list" data-thr-list aria-live="polite"><li class="thr-empty">載入緊…</li></ol>
 
       <section class="thr-refs" id="thr-refs" aria-labelledby="thr-refs-h">
-        <h2 class="thr-refs__h" id="thr-refs-h">出處</h2>
+        <h2 class="thr-refs__h" id="thr-refs-h" data-en="Sources">出處</h2>
         <ol class="thr-refs__list" data-thr-refs></ol>
-        <p class="thr-refs__fine">「脆友點講」係我哋將報道入面引述嘅 Threads 留言重點，用自己說話整理，唔係原文；呢版亦唔係 Threads 官方排行。每個人膚質唔同，敏感肌用新產品之前，記得喺細範圍試先。</p>
+        <p class="thr-refs__fine" data-en="“What Threads users say” is our own summary of the Threads comments quoted in these articles, not the original wording, and this is not an official Threads ranking. The articles are in Chinese. Everyone’s skin is different — patch-test new products first, especially if your skin is sensitive.">「脆友點講」係我哋將報道入面引述嘅 Threads 留言重點，用自己說話整理，唔係原文；呢版亦唔係 Threads 官方排行。每個人膚質唔同，敏感肌用新產品之前，記得喺細範圍試先。</p>
       </section>
     </div>
   </main>
@@ -389,13 +389,13 @@
   /* Threads 熱話榜（2026-10-17）。首頁「今期著數」Threads 卡同手機橫額撳入嚟。
      揀貨方法：搵引述 Threads 網民討論嘅美妝報道（REFS），逐件對返目錄，淨係放有現貨嘅；
      每件寫低邊幾篇報道點名（refs），排名按點名篇數，同篇數就按最新嗰篇報道日期，新嘅先。
-     「脆友點講」係將報道引述嘅留言重點用廣東話重寫，唔係原文（唔好抄原句）。
+     「脆友點講」係將報道引述嘅留言重點用廣東話重寫，唔係原文（唔好抄原句）；en 係英文版（撳 EN 切換）。
      fwee 布丁唇頰霜、rom&nd 果汁唇釉 2.0 搵唔到 Threads 出處，所以唔放入嚟（2026-10-17 核實）。
      加新貨：喺 REFS 加報道，喺 ITEMS 加 handle＋refs＋say；賣晒自動唔顯示，名次自動補位。
      首頁卡頭四件係寫死嘅（index.html .little-perks__thr-list／.little-perks__faces），名次變咗要一齊改。 */
   const THR_REFS = {
     A: { outlet: 'U Beauty', date: '2025-11-22', title: 'Threads瘋傳「Olive Young史上最值得買」清單！網民實測去死皮唇膜、收毛孔神器回購率極高！', url: 'https://ubeauty.com.hk/beauty/skincare/20082123/threads%E7%98%8B%E5%82%B3-olive-young%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%80%BC%E5%BE%97%E8%B2%B7-%E6%B8%85%E5%96%AE-%E7%B6%B2%E6%B0%91%E5%AF%A6%E6%B8%AC%E5%8E%BB%E6%AD%BB%E7%9A%AE%E5%94%87%E8%86%9C-%E6%94%B6%E6%AF%9B%E5%AD%94%E7%A5%9E%E5%99%A8%E5%9B%9E%E8%B3%BC%E7%8E%87%E6%A5%B5%E9%AB%98' },
-    B: { outlet: 'BEAUTY 美人圈', date: '2025-10-30', title: 'Threads史上Olive Young最值得買、真的有用的東西！ILSO粉刺救星、數字面膜必囤！', url: 'https://www.beauty321.com/post/70054', note: '原帖約 156.9 萬瀏覽、3.6 萬讚' },
+    B: { outlet: 'BEAUTY 美人圈', date: '2025-10-30', noteEn: 'original post ~1.57M views, 36K likes', title: 'Threads史上Olive Young最值得買、真的有用的東西！ILSO粉刺救星、數字面膜必囤！', url: 'https://www.beauty321.com/post/70054', note: '原帖約 156.9 萬瀏覽、3.6 萬讚' },
     C: { outlet: 'BEAUTY 美人圈', date: '2026-03-13', title: 'Threads網友推爆「Olive Young最值得買好物」：數字面膜必囤、這款味道激似LE LABO！', url: 'https://www.beauty321.com/post/71611' },
     D: { outlet: 'BEAUTY 美人圈', date: '2026-02-26', title: 'Olive Young 必買什麼？脆友高討論度TOP8：Torriden無限回購、這瓶號稱髮縫救星！', url: 'https://www.beauty321.com/post/69157' },
     E: { outlet: 'BEAUTY 美人圈', date: '2026-07-22', title: '2026 Olive Young最新必買推薦！脆友公認無限回購清單，韓國掃貨照著買不踩雷！', url: 'https://www.beauty321.com/post/72850' },
@@ -404,38 +404,62 @@
   };
   const THR_ITEMS = [
     { handle: '韓國-s-nature-艾絲內鎮-水潤角鯊烷保濕面霜-60ml-에스네이처-아쿠아-스쿠알란-수분크림-60ml', refs: ['A', 'B', 'C', 'E', 'F'],
-      say: '乾肌脆友話用完上妝唔起皮，第二朝起身塊面有光澤；有人已經用咗五支以上。' },
+      say: '乾肌脆友話用完上妝唔起皮，第二朝起身塊面有光澤；有人已經用咗五支以上。',
+      en: 'Dry-skin users say makeup goes on without flaking and skin looks dewy the next morning; some are on their fifth tube.' },
     { handle: 'ilso-一掃-超融解皮脂軟化導出液-150ml-附贈貼服化妝棉-40片-일소-슈퍼-멜팅-세범-소프트너-150ml-착붙솜-40매', refs: ['A', 'B', 'C', 'D'],
       say: '敷大約 15 分鐘，黑頭自己鬆出嚟，再用黑頭鏟輕輕一刮就走，唔痛；導出液唔含酸，敏感肌都用得。',
-      pair: { handle: 'ilso-ilso-1858', label: '配 ILSO 黑頭鏟' } },
+      en: 'Leave it on for about 15 minutes and blackheads loosen by themselves; a light pass with the extractor lifts them out painlessly. Acid-free, so sensitive skin can use it too.',
+      pair: { handle: 'ilso-ilso-1858', label: '配 ILSO 黑頭鏟', en: 'Pair with the ILSO Deep Clean Master' } },
     { handle: 'numbuzin-3號-毛孔柔嫩面膜-5片-no-3-tingle-pore-softening-sheet-mask-5-sheets', refs: ['A', 'B', 'C'],
-      say: '有人用咗 50 幾片，話毛孔明顯收細、皮膚滑咗；數字面膜按號碼揀功效，好易買啱。' },
+      say: '有人用咗 50 幾片，話毛孔明顯收細、皮膚滑咗；數字面膜按號碼揀功效，好易買啱。',
+      en: 'One user has gone through 50+ sheets and says pores look visibly smaller and skin smoother. The numbered range makes it easy to pick by skin concern.' },
     { handle: 'boh-boh-probioderm-30ml-3186', refs: ['A', 'C'],
-      say: '用完毛孔細咗，皮膚摸落彈啲、滑啲。' },
+      say: '用完毛孔細咗，皮膚摸落彈啲、滑啲。',
+      en: 'Users say pores look smaller and skin feels firmer and smoother.' },
     { handle: 'torriden-torriden-50ml-5102', refs: ['B', 'D'],
-      say: '清爽唔黐，可以鎮靜皮膚；妝前用唔卡粉，好多人一用完就回購。' },
+      say: '清爽唔黐，可以鎮靜皮膚；妝前用唔卡粉，好多人一用完就回購。',
+      en: 'Light and non-sticky, calms the skin and stops makeup from catching — a no-brainer repurchase for many.' },
     { handle: 'mediheal-茶樹精華面膜-舒緩保濕-teatree-essential-mask-calming-moisture', refs: ['A', 'B'],
-      say: '面膜紙薄又貼面，爆痘或者皮膚敏感嗰陣敷最舒服，價錢又抵。' },
+      say: '面膜紙薄又貼面，爆痘或者皮膚敏感嗰陣敷最舒服，價錢又抵。',
+      en: 'A thin sheet that hugs the face — the go-to when skin breaks out or feels sensitive, and good value too.' },
     { handle: 'round-lab-round-lab-spf50-pa-50ml-1814', refs: ['E'],
-      say: '脆友整理 Olive Young 無限回購清單時點名嘅保濕水感防曬。' },
+      say: '脆友整理 Olive Young 無限回購清單時點名嘅保濕水感防曬。',
+      en: 'Named on Threads users’ list of Olive Young repurchase favourites — a hydrating, watery sunscreen.' },
     { handle: 'arencia-arencia-1070', refs: ['C'],
-      say: '洗完唔緊繃，用落去出油同毛孔都有改善。' },
+      say: '洗完唔緊繃，用落去出油同毛孔都有改善。',
+      en: 'Cleans without that tight feeling, with less oiliness and clearer-looking pores.' },
     { handle: 'arencia-牛膝草去黃亮白精華-holy-hyssop-serum-30-50g', refs: ['D'],
-      say: '幫手收毛孔、膚色透亮，質地清爽好吸收，仲可以厚敷當凍膜。' },
+      say: '幫手收毛孔、膚色透亮，質地清爽好吸收，仲可以厚敷當凍膜。',
+      en: 'Helps refine pores and brighten, absorbs quickly, and can be layered thickly as a jelly mask.' },
     { handle: 'april-skin-aprilskin-ipmp-90ml-9227', refs: ['B'],
-      say: '溫和唔刺眼，卸完冇顆粒感；橙色係胡蘿蔔萃取，唔係色素。' },
+      say: '溫和唔刺眼，卸完冇顆粒感；橙色係胡蘿蔔萃取，唔係色素。',
+      en: 'Gentle, doesn’t sting the eyes and rinses off with no gritty residue; the orange comes from carrot extract, not dye.' },
     { handle: 'clio-kill-lash-superproof-mascara', refs: ['B'],
-      say: '刷頭幼又彎，連下睫毛都刷到，根根分明唔黐埋，唔會暈。' },
+      say: '刷頭幼又彎，連下睫毛都刷到，根根分明唔黐埋，唔會暈。',
+      en: 'The fine, curved brush reaches even the lower lashes, separates without clumping and doesn’t smudge.' },
     { handle: 'vt-cosmetics-vt-100-2-x-10-7294', refs: ['B'],
-      say: '用到半支毛孔明顯細咗；會有少少刺感，脆友建議由 100 呢個低濃度開始，隔幾日用一次。' },
+      say: '用到半支毛孔明顯細咗；會有少少刺感，脆友建議由 100 呢個低濃度開始，隔幾日用一次。',
+      en: 'Pores looked noticeably smaller halfway through the bottle. Expect a slight tingle — users suggest starting with the low-strength 100 every few days.' },
     { handle: 'romand-juicy-roll-cheek', refs: ['G'],
-      say: '上咗 Threads 刷爆嘅胭脂清單，一開賣就斷貨。' },
+      say: '上咗 Threads 刷爆嘅胭脂清單，一開賣就斷貨。',
+      en: 'On a Threads-viral list of blushes that sold out as soon as they launched.' },
     { handle: 'lilybyred-luv-beam-cheek-mousse', refs: ['G'],
-      say: '同一張 Threads 斷貨胭脂清單入面嘅慕絲胭脂。' },
+      say: '同一張 Threads 斷貨胭脂清單入面嘅慕絲胭脂。',
+      en: 'The mousse blush from the same sold-out Threads blush list.' },
   ];
+
+  const THR_OUTLET_EN = { 'BEAUTY 美人圈': 'BEAUTY321', 'U Beauty': 'U Beauty', 'TopBeauty HK': 'TopBeauty HK' };
 
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
+    const en = typeof getLang === 'function' && getLang() === 'en';
+    const T = (zh, e) => (en ? e : zh);
+    const outlet = (r) => (en ? THR_OUTLET_EN[r.outlet] || r.outlet : r.outlet);
+    /* 靜態字：英文寫喺 data-en（innerHTML，所以入面可以有連結）；中文照 HTML 原文 */
+    if (en) {
+      document.title = 'Hot on Threads — OUJI';
+      document.querySelectorAll('[data-en]').forEach((el) => { el.innerHTML = el.dataset.en; });
+    }
     const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const ym = (d) => d.slice(0, 7).replace('-', '.');
     const listEl = document.querySelector('[data-thr-list]');
@@ -444,7 +468,7 @@
       .sort((a, b) => b[1].date.localeCompare(a[1].date))
       .map(([id, r]) => `<li id="thr-ref-${id}"><span class="thr-refs__id">${id}</span><span>
           <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a>
-          <span class="thr-refs__meta">${esc(r.outlet)}・${r.date.replace(/-/g, '.')}${r.note ? `・${esc(r.note)}` : ''}</span></span></li>`).join('');
+          <span class="thr-refs__meta">${esc(outlet(r))}・${r.date.replace(/-/g, '.')}${r.note ? `・${esc(T(r.note, r.noteEn || r.note))}` : ''}</span></span></li>`).join('');
 
     const byHandle = new Map();
     try { ((await getAllProducts())?.edges || []).forEach((e) => e?.node && byHandle.set(e.node.handle, e.node)); } catch (e) {}
@@ -462,24 +486,25 @@
 
     document.querySelector('[data-thr-count]').textContent = rows.length;
     if (!rows.length) {
-      listEl.innerHTML = `<li class="thr-empty">${window.OUJI_CATALOG_FAILED ? '攞唔到貨品資料，請重新整理再試。' : '榜上嘅貨暫時賣晒，遲啲再嚟睇下。'}</li>`;
+      listEl.innerHTML = `<li class="thr-empty">${window.OUJI_CATALOG_FAILED ? T('攞唔到貨品資料，請重新整理再試。', 'Couldn’t load products. Please refresh and try again.') : T('榜上嘅貨暫時賣晒，遲啲再嚟睇下。', 'Everything on the list is sold out for now. Please check back later.')}</li>`;
       return;
     }
     listEl.innerHTML = rows.map((r, i) => {
       const n = r.refs.length;
+      const cnt = T(`${n} 篇報道點名`, `Cited by ${n} article${n > 1 ? 's' : ''}`);
       const chips = r.refs.map((id) => THR_REFS[id]).sort((a, b) => b.date.localeCompare(a.date))
-        .map((s) => `<li><a class="thr-src" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.outlet)} <i>${ym(s.date)}</i></a></li>`).join('');
+        .map((s) => `<li><a class="thr-src" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(outlet(s))} <i>${ym(s.date)}</i></a></li>`).join('');
       const pair = r.pair && byHandle.get(r.pair.handle) && inStock(byHandle.get(r.pair.handle))
-        ? `<a class="thr-item__pair" href="/products/${encodeURIComponent(r.pair.handle)}">${esc(r.pair.label)} →</a>` : '';
+        ? `<a class="thr-item__pair" href="/products/${encodeURIComponent(r.pair.handle)}">${esc(T(r.pair.label, r.pair.en))} →</a>` : '';
       return `<li class="thr-item">
-        <p class="thr-item__rank">${i + 1}<small>${n} 篇報道點名</small></p>
+        <p class="thr-item__rank">${i + 1}<small>${cnt}</small></p>
         <div class="thr-item__card">${window.lcProductCard(r.p)}</div>
         <div class="thr-item__body">
-          <p class="thr-item__lbl"><svg aria-hidden="true"><use href="#thr-logo"/></svg>脆友點講</p>
-          <p class="thr-item__say">${esc(r.say)}</p>
+          <p class="thr-item__lbl"><svg aria-hidden="true"><use href="#thr-logo"/></svg>${T('脆友點講', 'What Threads users say')}</p>
+          <p class="thr-item__say">${esc(T(r.say, r.en))}</p>
           ${pair}
-          <p class="thr-item__cnt">${n} 篇報道點名</p>
-          <ul class="thr-item__src" aria-label="出處">${chips}</ul>
+          <p class="thr-item__cnt">${cnt}</p>
+          <ul class="thr-item__src" aria-label="${T('出處', 'Sources')}">${chips}</ul>
         </div>
       </li>`;
     }).join('');
