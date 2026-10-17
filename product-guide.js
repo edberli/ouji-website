@@ -287,7 +287,7 @@
     }
     /* 5 主打成分（ingredients.js 同一把尺：模型推斷嘅唔出；個「!」撳落去有解釋） */
     const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
-    if (chips) g4.push(line('actives', cp('主打成分', 'Key ingredients'), `<span class="ing-chips">${chips}</span>`));
+    if (chips) g1.push(line('actives', cp('主打成分', 'Key ingredients'), `<span class="ing-chips">${chips}</span>`));
     /* 6 點樣用：護膚步驟＋早／夜＋品牌寫嘅用法（描述入面嗰段已經搬咗過嚟） */
     const pos = a && STEP_POS[a.step] != null ? STEP_POS[a.step] : null;
     /* 含酸類／A 醇：唔好寫「早晚都用得」，同「由一星期 2–3 晚開始」打交；改講建議夜晚用 */
@@ -307,12 +307,20 @@
     }
     /* 7 要留意（按成分同標籤；香料／精油／酒精都喺度講） */
     if (tips.length) g5.push(line('care', cp('要留意', 'Good to know'), `<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`));
-    /* 手機拆做幾張左右滑嘅卡（Winston：張卡太長，要碌好耐先見到產品圖）；桌面照疊埋一張 */
-    const page = (title, items) => {
+    /* 摺疊清單（2026-10-18；Winston：幾張卡左右滑好核突）：「重點」預設打開，其餘撳先開；冇料嗰項唔出 */
+    const hook = !en && a?.hook ? `<p class="pdp-acc__hook">${esc(a.hook)}</p>` : '';
+    const item = (k, title, items, lead = '') => {
       const body = items.filter(Boolean).join('');
-      return body ? `<section class="pdp-facts__page"><h3 class="pdp-facts__pt">${title}</h3>${body}</section>` : '';
+      if (!body && !lead) return '';
+      return `<details class="pdp-acc__item" data-k="${k}"${k === 'key' ? ' open' : ''}><summary class="pdp-acc__sum"><span>${title}</span><i aria-hidden="true"></i></summary><div class="pdp-acc__body">${lead}${body}</div></details>`;
     };
-    return [page(cp('基本', 'Basics'), g1), page(cp('適合', 'Suits'), g2), page(cp('質地', 'Texture'), g3), page(cp('用法', 'How to use'), g4), page(cp('要留意', 'Good to know'), g5)].join('');
+    return [
+      item('key', cp('重點', 'Highlights'), g1, hook),
+      item('fit', cp('適合膚質', 'Skin types'), g2),
+      item('feel', cp('質地同感覺', 'Texture & feel'), g3),
+      item('use', cp('點樣用', 'How to use'), g4),
+      item('care', cp('要留意', 'Good to know'), g5),
+    ].join('');
   }
 
   const withTimeout = (p, ms) => Promise.race([Promise.resolve(p).catch(() => null), new Promise((r) => setTimeout(() => r(null), ms))]);
@@ -323,15 +331,14 @@
     const host = document.querySelector('[data-pdp-guide]');
     if (!host || !product) return;
     const body = host.querySelector('[data-pdp-guide-body]');
-    const hookEl = host.querySelector('[data-pdp-guide-hook]');
-    const note = host.querySelector('.pdp-facts__note');
+    const note = host.querySelector('.pdp-acc__note');
     const f = facts || { specs: {}, usage: '', origin: '' };
     const paint = (a, labels) => {
       const tips = careTips(product, a);
+      const opened = new Set([...body.querySelectorAll('details')].filter((d) => d.open).map((d) => d.dataset.k));
+      const first = !body.childElementCount;
       body.innerHTML = cardHTML({ product, facts: f, a, labels, tips });
-      const hook = isEN() ? '' : (a?.hook || ''); // hook 得中文
-      hookEl.textContent = hook;
-      hookEl.hidden = !hook;
+      if (!first) body.querySelectorAll('details').forEach((d) => { d.open = opened.has(d.dataset.k); });
       /* 註腳：有膚質／成分提示先講「皮膚有狀況問醫生」；隱形眼鏡、保健品、公仔嗰啲唔啱講皮膚 */
       const skinInfo = !!(a || tips.length || (typeof activeChips === 'function' && activeChips(product.handle)));
       if (note) {
