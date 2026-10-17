@@ -106,16 +106,46 @@ function chrome() {
 /* ---------- 區塊 ---------- */
 function stripText(html) { return String(html).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); }
 
+/* 排行榜名次章（Winston 2026-10-17：名次唔夠明顯、冇攞獎感覺）。
+   1–3 名係掛喺卡角嘅玫瑰花結獎章（冠／亞／季），4 名後係印章式大數字；只用文章本身嘅墨色同印章色。 */
+const MEDAL_SVG = (() => {
+  const dots = Array.from({ length: 18 }, (_, k) => {
+    const a = (k / 18) * Math.PI * 2;
+    return `<circle cx="${(50 + 37 * Math.cos(a)).toFixed(2)}" cy="${(46 + 37 * Math.sin(a)).toFixed(2)}" r="8.2"/>`;
+  }).join('');
+  const edge = Array.from({ length: 18 }, (_, k) => {
+    const a = (k / 18) * Math.PI * 2;
+    return `<circle cx="${(50 + 37 * Math.cos(a)).toFixed(2)}" cy="${(46 + 37 * Math.sin(a)).toFixed(2)}" r="9.8"/>`;
+  }).join('');
+  return `<svg class="ax-rank__art" viewBox="0 0 100 128" aria-hidden="true" focusable="false">`
+    + `<path class="ax-rank__tail ax-rank__tail--a" d="M27 62 L47 71 L39 127 L30.5 116 L19 122 Z"/>`
+    + `<path class="ax-rank__tail ax-rank__tail--b" d="M73 62 L53 71 L61 127 L69.5 116 L81 122 Z"/>`
+    + `<g class="ax-rank__edge"><circle cx="50" cy="46" r="39.6"/>${edge}</g>`
+    + `<g class="ax-rank__rosette"><circle cx="50" cy="46" r="38"/>${dots}</g>`
+    + `<circle class="ax-rank__ring" cx="50" cy="46" r="30.5"/></svg>`;
+})();
+const PLACE = { 1: '冠軍', 2: '亞軍', 3: '季軍' };
+
+function rankBadge(rank) {
+  if (rank <= 3) {
+    return `<div class="ax-rank ax-rank--${rank}" role="img" aria-label="Olive Young 評分第 ${rank} 名（${PLACE[rank]}）">${MEDAL_SVG}`
+      + `<span class="ax-rank__no" aria-hidden="true">${rank}</span><span class="ax-rank__place" aria-hidden="true">${PLACE[rank]}</span></div>`;
+  }
+  return `<div class="ax-rank ax-rank--n" role="img" aria-label="Olive Young 評分第 ${rank} 名">`
+    + `<span class="ax-rank__pre" aria-hidden="true">No.</span><span class="ax-rank__no" aria-hidden="true">${rank}</span></div>`;
+}
+
 function card(item, i, opts) {
   const p = product(item.handle);
-  const no = opts.numbered === false ? '' : `<span class="ax-no">No.${String(i + 1).padStart(2, '0')}</span>`;
+  const ranked = opts.ranking && opts.numbered !== false;
+  const no = opts.numbered === false || ranked ? '' : `<span class="ax-no">No.${String(i + 1).padStart(2, '0')}</span>`;
   const rating = p.star ? `★ ${p.star} · ${nf(p.count)}` : '';
   const name = item.name || p.name;
   const hero = opts.featureFirst && i === 0;
   const award = item.award === false ? null : (item.award || p.award);
   return `
-      <article class="ax-card${hero ? ' ax-card--hero' : ''}${p.inStock ? '' : ' is-soldout'}" id="${esc(opts.idPrefix)}${i + 1}" data-ax-handle="${esc(p.handle)}">
-        <div class="ax-strip">${no}<span>${esc(p.brand)}</span><span>${esc(item.kind || p.type)}</span>${rating ? `<span>${esc(rating)}</span>` : ''}</div>
+      <article class="ax-card${hero ? ' ax-card--hero' : ''}${ranked ? ` ax-card--ranked${i < 3 ? ' ax-card--medal' : ''}${i === 0 ? ' ax-card--champ' : ''}` : ''}${p.inStock ? '' : ' is-soldout'}" id="${esc(opts.idPrefix)}${i + 1}" data-ax-handle="${esc(p.handle)}">
+        ${ranked ? rankBadge(i + 1) : ''}<div class="ax-strip">${no}<span>${esc(p.brand)}</span><span>${esc(item.kind || p.type)}</span>${rating ? `<span>${esc(rating)}</span>` : ''}</div>
         <a class="ax-card__img" href="${p.url}" tabindex="-1" aria-hidden="true">${imgTag(p.img, `${p.brand} ${name}`, 720)}</a>
         <div class="ax-card__body">
           <h3 class="ax-card__name"><a href="${p.url}">${esc(name)}</a></h3>
@@ -177,7 +207,7 @@ function renderBody(spec, ctx) {
   const out = [];
   for (const b of spec.body) {
     if (b.type === 'catalog') {
-      const items = b.items.map((it, i) => card(it, i, { numbered: b.numbered, featureFirst: b.feature_first, idPrefix: b.id_prefix || 'no' })).join('');
+      const items = b.items.map((it, i) => card(it, i, { numbered: b.numbered, featureFirst: b.feature_first, idPrefix: b.id_prefix || 'no', ranking: spec.category === '排行榜' })).join('');
       out.push(`${b.intro ? `<div class="ax-col">${b.intro.map((x) => renderBlock(x, ctx)).join('')}</div>` : ''}<div class="ax-grid">${items}</div>`);
       for (const it of b.items) ctx.itemList.push(product(it.handle));
     } else if (b.type === 'flow') {
