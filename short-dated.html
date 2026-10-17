@@ -393,8 +393,10 @@
       const months = expiry ? (new Date(`${expiry}T23:59:59+08:00`) - now) / MONTH : 99;
       const v = (p.variants?.edges || []).map((x) => x.node);
       const live = v.find((x) => x.availableForSale && (x.quantityAvailable ?? 1) > 0);
-      const left = v.reduce((n, x) => n + Math.max(0, x.quantityAvailable || 0), 0);
-      return { p, expiry, months, live, left };
+      /* 列表 query 淨係攞頭兩個 variant；合併色號（2026-10-18）嘅貨要用成件貨總數 */
+      const left = p.totalInventory ?? v.reduce((n, x) => n + Math.max(0, x.quantityAvailable || 0), 0);
+      const multi = v.length > 1;
+      return { p, expiry, months, live, left, multi };
     })
       .sort((a, b) => (a.live ? 0 : 1) - (b.live ? 0 : 1) || a.months - b.months);
 
@@ -411,7 +413,7 @@
       return;
     }
 
-    const card = ({ p, expiry, months, live, left }) => {
+    const card = ({ p, expiry, months, live, left, multi }) => {
       const img = p.images?.edges?.[0]?.node;
       const nowP = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
       const was = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0);
@@ -429,7 +431,9 @@
           ${was > nowP ? `<s class="sd-card__was">${formatPrice(was)}</s>` : ''}
         </p>
         <p class="sd-card__left">${live ? (left ? `得返 ${left} 件` : '') : '已經賣晒'}</p>
-        <button class="sd-card__add" type="button" data-vid="${live ? esc(live.id) : ''}" ${live ? '' : 'disabled'}>${live ? '加入購物袋' : '售完'}</button>
+        ${multi && live
+          ? `<a class="sd-card__add" href="${href}">揀色號</a>`
+          : `<button class="sd-card__add" type="button" data-vid="${live ? esc(live.id) : ''}" ${live ? '' : 'disabled'}>${live ? '加入購物袋' : '售完'}</button>`}
       </article>`;
     };
 

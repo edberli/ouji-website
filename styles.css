@@ -15359,6 +15359,9 @@ body::before { opacity: 0.18; }
 .sd-card__left { margin: 0 0 10px; font-size: 0.75rem; color: var(--text-secondary); }
 .sd-card__add {
   margin-top: auto; min-height: 40px; width: 100%;
+  /* 多色貨（合併色號）係 <a> 連去產品頁揀色，要同 <button> 一樣置中 */
+  display: inline-flex; align-items: center; justify-content: center;
+  box-sizing: border-box; text-decoration: none;
   border-radius: 999px; border: 1px solid var(--primary-dark);
   background: transparent; color: var(--primary-dark);
   font-size: 0.8125rem; font-weight: 600; cursor: pointer;
