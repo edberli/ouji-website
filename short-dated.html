@@ -363,13 +363,14 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261005-zhlang"></script>
+  <script src="shopify.js?v=20261017-sdexpiry"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261016-megamag"></script>
   <script>
   /* 短效期特價專區（2026-09-12）。貨源係 Shopify「short-dated」系列（tag 短效期），
      每件係獨立產品，冇條碼，件數＝員工 app 記低嗰幾件。
-     分級照老闆批嘅規則：剩 1–3 個月 5 折、3–6 個月 7 折；少過 1 個月唔喺網店賣。
+     分級照老闆批嘅規則：剩 1–3 個月 5 折、3–6 個月 7 折。
+     2026-10-17 Winston：到期日只係最佳使用期，少過 1 個月同已過期都照賣，唔再收起。
      價錢喺 Shopify 已經定死，呢度只負責分組同顯示，唔再計折。 */
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
@@ -392,7 +393,7 @@
       const live = v.find((x) => x.availableForSale && (x.quantityAvailable ?? 1) > 0);
       const left = v.reduce((n, x) => n + Math.max(0, x.quantityAvailable || 0), 0);
       return { p, expiry, months, live, left };
-    }).filter((r) => r.months >= 1)
+    })
       .sort((a, b) => (a.live ? 0 : 1) - (b.live ? 0 : 1) || a.months - b.months);
 
     /* 開業 88 折同滿額送面霜做到 9 月 15 日 23:59。Shopify 嘅贈品（買 X 送 Y）
@@ -425,13 +426,14 @@
           <span class="sd-card__now">${formatPrice(nowP)}</span>
           ${was > nowP ? `<s class="sd-card__was">${formatPrice(was)}</s>` : ''}
         </p>
-        <p class="sd-card__left">${live ? `剩約 ${Math.round(months * 10) / 10} 個月到期${left ? ` · 得返 ${left} 件` : ''}` : '已經賣晒'}</p>
+        <p class="sd-card__left">${live ? `${/^剩約/.test(shortDatedLeftText(expiry)) ? `${shortDatedLeftText(expiry)}到期` : shortDatedLeftText(expiry)}${left ? ` · 得返 ${left} 件` : ''}` : '已經賣晒'}</p>
         <button class="sd-card__add" type="button" data-vid="${live ? esc(live.id) : ''}" ${live ? '' : 'disabled'}>${live ? '加入購物袋' : '售完'}</button>
       </article>`;
     };
 
     const tiers = [
-      { title: '<em>5 折</em>剩 1–3 個月到期', rows: rows.filter((r) => r.months < 3) },
+      { title: '<em>特價</em>已過最佳使用日期', rows: rows.filter((r) => r.months < 0) },
+      { title: '<em>5 折</em>剩 3 個月內到期', rows: rows.filter((r) => r.months >= 0 && r.months < 3) },
       { title: '<em>7 折</em>剩 3–6 個月到期', rows: rows.filter((r) => r.months >= 3) },
     ].filter((t) => t.rows.length);
 

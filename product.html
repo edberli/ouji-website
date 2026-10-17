@@ -481,7 +481,7 @@
 
   <script src="product-naming.js?v=20260927-card-brand-identity"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
-  <script src="shopify.js?v=20261005-zhlang"></script>
+  <script src="shopify.js?v=20261017-sdexpiry"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
@@ -737,16 +737,15 @@
         : (product.descriptionHtml || '');
       if (shortDated && priceEl) {
         const expiry = shortDatedExpiry(product);
-        const left = expiry
-          ? Math.max(0, Math.round((new Date(`${expiry}T23:59:59+08:00`) - Date.now()) / (30.4 * 86400000) * 10) / 10)
-          : null;
+        const leftText = shortDatedLeftText(expiry);
+        const expired = (shortDatedDaysLeft(expiry) ?? 0) < 0;
         const qtyLeft = (product.variants?.edges || [])
           .reduce((n, e) => n + Math.max(0, e.node.quantityAvailable || 0), 0);
         priceEl.insertAdjacentHTML('afterend', `
           <section class="sd-notice" aria-label="短效期特價須知">
-            <p class="sd-notice__date"><span>到期日</span><strong>${formatShortDatedExpiry(expiry)}</strong>${left !== null ? `<em>剩約 ${left} 個月</em>` : ''}</p>
+            <p class="sd-notice__date"><span>到期日</span><strong>${formatShortDatedExpiry(expiry)}</strong>${leftText ? `<em>${leftText}</em>` : ''}</p>
             <ul class="sd-notice__terms">
-              <li>快到期門市實貨，請喺到期日前用完</li>
+              <li>${expired ? '已過最佳使用日期嘅門市實貨，價錢已經反映，購買前請留意' : '快到期門市實貨，請喺到期日前用完'}</li>
               <li><strong>唔設退換</strong>・頁面顯示嘅已經係最終特價</li>
               ${qtyLeft ? `<li>得返 ${qtyLeft} 件，售完即止</li>` : ''}
             </ul>
