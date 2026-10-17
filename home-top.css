@@ -495,8 +495,7 @@ a.little-perks__cv:hover .little-perks__go { background: #22384a; color: #fff; b
 .little-perks__hero { display: block; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 28px rgba(70, 96, 114, .1); }
 .little-perks__hero img { display: block; width: 100%; height: auto; }
 .little-perks__row { position: relative; display: block; height: 100px; border-radius: 16px; overflow: hidden; color: inherit; text-decoration: none; box-shadow: 0 1px 2px rgba(40, 60, 80, .06), 0 6px 16px rgba(40, 60, 80, .08); }
-.little-perks__row--short { height: auto; }
-.little-perks__row--short img { display: block; width: 100%; height: auto; }
+.little-perks__row--short img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .little-perks__row--lip { background: linear-gradient(100deg, #f6eefb 0%, #efe2f6 55%, #e9d9f3 100%); }
 .little-perks__row--lip img { position: absolute; right: 0; top: 0; height: 100%; width: 52%; object-fit: cover; object-position: 62% 46%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 30%); mask-image: linear-gradient(90deg, transparent 0, #000 30%); }
 .little-perks__row-txt { position: absolute; z-index: 1; left: 18px; top: 50%; transform: translateY(-50%); max-width: 58%; }
