@@ -25,6 +25,8 @@ const OUJI_COMMERCE = Object.freeze({
       handle: 'round-lab-round-lab-80ml-0221',
       variantId: 'gid://shopify/ProductVariant/48093431529630',
       lineAttribute: '_ouji_auto_gift',
+      /* 購物袋贈品卡寫「價值 HK$148」＝網店售價（Winston 2026-10-17 批准咁寫）；改價要同步。 */
+      value: 148,
     }),
   }),
   /* 常設「滿 $399 減 $20（購物禮遇）」：Shopify 自動折扣，按商品小計（未折）計。

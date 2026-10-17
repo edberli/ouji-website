@@ -362,16 +362,19 @@
             </section>
             <!-- 活動期內「今單已攞到」嘅即減／贈品，逐行列出（平日冇嘢就收起）。 -->
             <div class="bag-perks" data-reward-perks aria-live="polite"></div>
+            <!-- 滿額贈品卡（Winston 2026-10-17 揀 A「贈品做主角」）：貨名做標題、條件＋價值一行、細進度條、仲差幾多。
+                 字由 renderReward() 填（中英），呢度只係骨架；相嘅連結唔入 tab 次序，貨名先係個連結。 -->
             <section class="bag-gift" data-reward-gift aria-label="購物滿額贈品">
-              <a class="bag-gift__image" href="/products/round-lab-round-lab-80ml-0221" aria-label="查看 Round Lab 白樺樹保濕面霜 80ml">
-                <img src="assets/images/cart/gift-cream-192.webp" alt="Round Lab 白樺樹保濕面霜 80ml 產品照片" width="192" height="192" loading="lazy" decoding="async">
+              <a class="bag-gift__image" href="/products/round-lab-round-lab-80ml-0221" tabindex="-1" aria-hidden="true">
+                <img src="assets/images/cart/gift-cream-192.webp" alt="" width="192" height="192" loading="lazy" decoding="async">
+                <span class="bag-gift__tag" data-gift-tag>贈品</span>
               </a>
               <div class="bag-gift__copy">
-                <h3 class="bag-gift__title" data-gift-title>滿 <span class="bag-gift__threshold">HK$599</span> 呢樽免費送</h3>
-                <p class="bag-gift__name">ROUND LAB 白樺樹保濕面霜 · 80ml</p>
+                <a class="bag-gift__name" href="/products/round-lab-round-lab-80ml-0221"><span>Round Lab</span> <span data-gift-name>白樺樹補水面霜&nbsp;80ml</span></a>
+                <p class="bag-gift__meta" data-gift-meta>滿 <b>HK$599</b> 免費送 · 價值 HK$148</p>
+                <div class="bag-gift__bar" data-gift-bar role="progressbar" aria-label="贈品進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-gift-fill></span></div>
                 <p class="bag-gift__status" data-gift-status></p>
               </div>
-              <p class="bag-gift__terms"><span data-gift-terms>送完即止</span> · <a href="/products/round-lab-round-lab-80ml-0221" data-gift-link>睇吓呢份禮物 ↗</a></p>
             </section>
           </section>
 
@@ -700,8 +703,7 @@
     setText('[data-promo-apply]', 'Apply');
     document.querySelector('[data-promo-input]')?.setAttribute('placeholder', 'Enter code');
     setText('[data-secure-note] span', 'Secure encrypted payment · Apple Pay, Google Pay, cards, UnionPay');
-    setText('[data-gift-terms]', 'While stocks last');
-    setText('[data-gift-link]', 'See the gift ↗');
+    setLabel('[data-reward-gift]', 'Spend-and-get gift');   /* 贈品卡入面啲字由 renderReward() 用 OUJI_cartCopy 填 */
     setText('[data-sd-sub]', 'Near-expiry store stock at 50% or 30% off · expiry shown · no returns');
     setTail('[data-sd-all]', 'See all');
     setTail('[data-sfp-change]', 'Change');
@@ -1686,29 +1688,40 @@
     const gift = window.OUJI_COMMERCE?.promotion?.gift;
     const giftLine = host.querySelector('[data-reward-gift]');
     giftLine.hidden = promoActive;
-    const giftTitleAmount = document.createElement('span');
-    giftTitleAmount.className = 'bag-gift__threshold';
-    giftTitleAmount.textContent = 'HK$' + GIFT;
-    host.querySelector('[data-gift-title]').replaceChildren(
-      document.createTextNode(window.OUJI_cartCopy('滿 ', 'Spend ')),
-      giftTitleAmount,
-      document.createTextNode(window.OUJI_cartCopy(' 呢樽免費送', ' — this gift is free')));
-    const giftStatus = host.querySelector('[data-gift-status]');
+    const C = window.OUJI_cartCopy;
+    const strong = (text) => { const el = document.createElement('b'); el.textContent = text; return el; };
     const inBag = (inCart || []).includes(gift?.handle);
-    giftLine.classList.toggle('is-won', inBag || net >= GIFT);
-    giftStatus.textContent = inBag
-      ? window.OUJI_cartCopy('✓ 贈品已加入購物袋', '✓ Gift added to bag')
-      : net >= GIFT ? window.OUJI_cartCopy('已達贈品門檻；請以購物袋實際贈品為準', 'Gift threshold reached; actual gifts in bag apply')
-      : '';
-    if (net < GIFT && !inBag) {
-      const amount = document.createElement('strong');
-      amount.className = 'bag-gift__amount';
-      amount.textContent = 'HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100);
-      giftStatus.replaceChildren(
-        document.createTextNode(window.OUJI_cartCopy('再買 ', 'Add ')), amount,
-        document.createTextNode(window.OUJI_cartCopy(' 即送', ' more to get this gift'))
-      );
+    const reached = net + 0.001 >= GIFT;
+    giftLine.classList.toggle('is-won', inBag || reached);
+    host.querySelector('[data-gift-tag]').textContent = C('贈品', 'Gift');
+    host.querySelector('[data-gift-name]').textContent = C('白樺樹補水面霜\u00a080ml', 'Birch Juice Moisturizing Cream\u00a080ml');
+    host.querySelector('[data-gift-meta]').replaceChildren(
+      C('滿 ', 'Free over '), strong('HK$' + GIFT),
+      C(` 免費送 · 價值 HK$${gift?.value || 148}`, ` · worth HK$${gift?.value || 148}`));
+    /* 已加入購物袋＝真係攞到；夠數但未入袋（例如送晒）就照舊講「以購物袋為準」，唔好話一定有。 */
+    const giftStatus = host.querySelector('[data-gift-status]');
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
+    if (inBag || reached) {
+      const ok = document.createElement('span');
+      ok.className = 'bag-gift__ok';
+      ok.innerHTML = tick;
+      ok.append(inBag ? C('已攞到，已加入購物袋', 'Yours — added to your bag')
+        : C('已達門檻，贈品以購物袋為準', 'Unlocked — gift as shown in your bag'));
+      giftStatus.replaceChildren(ok);
+    } else {
+      const need = document.createElement('span');
+      need.append(C('再買 ', 'Add '), strong('HK$' + money(Math.ceil((GIFT - net) * 100 - 0.001) / 100)), C(' 即送', ' more'));
+      const terms = document.createElement('small');
+      terms.textContent = C('送完即止', 'While stocks last');
+      giftStatus.replaceChildren(need, terms);
     }
+    const spoken = [...giftStatus.children].map((el) => el.textContent.trim()).filter(Boolean).join(' · ');
+    const pct = inBag || reached ? 100 : Math.min(100, Math.max(0, net / GIFT * 100));
+    const bar = host.querySelector('[data-gift-bar]');
+    bar.setAttribute('aria-label', C('贈品進度', 'Gift progress'));
+    bar.setAttribute('aria-valuenow', String(Math.round(pct)));
+    bar.setAttribute('aria-valuetext', spoken);
+    host.querySelector('[data-gift-fill]').style.width = pct + '%';
   }
 
   // Global functions for cart actions
