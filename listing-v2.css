@@ -257,6 +257,19 @@ body:not(.has-brand-rail) .lx-brandhead { display: none; }
   .lx-page .lc__rating .lc__cw { display: inline; }
 }
 
+/* ----- 品牌頁頂「聯名系列」帶（catalog.js brandCollabSplit，而家只開 AMUSE）-----
+   桌面：左一欄標題、右三欄產品（同下面四欄格一樣闊），兩行剛好六件。
+   手機：標題喺上，產品打橫碌（見 700px 以下）。 */
+.lx-collab { --collab-ink: #47396f; --collab-soft: #776a9c; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); gap: 22px; margin: 4px 0 52px; padding: 28px 28px 32px; border-radius: 20px; background: linear-gradient(135deg, #f4effa 0%, #fbf3f6 100%); }
+.lx-collab__head { position: sticky; top: 112px; align-self: start; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 6px 4px 0; color: var(--collab-ink); }
+.lx-collab__eyebrow { color: var(--collab-soft); font: 600 11px/1.4 var(--font-body); letter-spacing: .16em; }
+.lx-collab__title { margin: 0; color: var(--collab-ink); font: 600 clamp(22px, 2.1vw, 30px)/1.15 var(--font-display); letter-spacing: -.03em; }
+.lx-collab__title span { display: block; }
+.lx-collab__note { margin: 0; color: var(--collab-soft); font-size: 14px; line-height: 1.6; }
+.lx-collab__count { margin-top: 6px; padding: 4px 12px; border: 1px solid rgba(71, 57, 111, .22); border-radius: 999px; font-size: 12px; font-variant-numeric: lining-nums; }
+.lx-page .catalog .lx-collab .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.lx-collab__rest { margin: 0 0 22px; padding-top: 4px; color: var(--lx-ink); font: 600 17px/1.3 var(--font-body); }
+
 /* ============ 桌面 1081px 以上：篩選欄常駐左邊 ============ */
 @media (min-width: 1081px) {
   .lx-layout { position: relative; display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: start; gap: 28px; }
@@ -350,6 +363,17 @@ body:not(.has-brand-rail) .lx-brandhead { display: none; }
 }
 @media (max-width: 700px) {
   .lx-page .catalog .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 27px 11px; }
+  .lx-collab { grid-template-columns: minmax(0, 1fr); gap: 16px; margin: 0 calc(-1 * clamp(20px, 4.5vw, 65px)) 36px; padding: 22px 0 24px; border-radius: 0; }
+  .lx-collab__head { position: static; flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 0 clamp(20px, 4.5vw, 65px); }
+  .lx-collab__eyebrow { flex-basis: 100%; }
+  .lx-collab__title { font-size: 21px; }
+  .lx-collab__title span { display: inline; }
+  .lx-collab__note { flex-basis: 100%; font-size: 13px; }
+  .lx-collab__count { display: none; }
+  .lx-page .catalog .lx-collab .product-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 44%; gap: 11px; overflow-x: auto; padding: 0 clamp(20px, 4.5vw, 65px); scroll-padding-inline: clamp(20px, 4.5vw, 65px); scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .lx-page .catalog .lx-collab .product-grid::-webkit-scrollbar { display: none; }
+  .lx-page .catalog .lx-collab .product-grid > * { scroll-snap-align: start; }
+  .lx-collab__rest { font-size: 16px; }
 }
 @media (max-width: 600px) {
   .lx-catnav__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
