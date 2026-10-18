@@ -43,6 +43,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css?v=20261016-megamag">
+  <link rel="stylesheet" href="product-card-lc.css?v=20261016-image-frame1">
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要內容</a>
@@ -367,6 +368,7 @@
   <script src="shopify.js?v=20261017-sellexpired"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261016-megamag"></script>
+  <script src="product-card-lc.js?v=20261017-sdlabel"></script>
   <script>
   /* 短效期特價專區（2026-09-12）。貨源係 Shopify「short-dated」系列（tag 短效期），
      每件係獨立產品，冇條碼，件數＝員工 app 記低嗰幾件。
@@ -393,10 +395,7 @@
       const months = expiry ? (new Date(`${expiry}T23:59:59+08:00`) - now) / MONTH : 99;
       const v = (p.variants?.edges || []).map((x) => x.node);
       const live = v.find((x) => x.availableForSale && (x.quantityAvailable ?? 1) > 0);
-      /* 列表 query 淨係攞頭兩個 variant；合併色號（2026-10-18）嘅貨要用成件貨總數 */
-      const left = p.totalInventory ?? v.reduce((n, x) => n + Math.max(0, x.quantityAvailable || 0), 0);
-      const multi = v.length > 1;
-      return { p, expiry, months, live, left, multi };
+      return { p, expiry, months, live };
     })
       .sort((a, b) => (a.live ? 0 : 1) - (b.live ? 0 : 1) || a.months - b.months);
 
@@ -413,29 +412,9 @@
       return;
     }
 
-    const card = ({ p, expiry, months, live, left, multi }) => {
-      const img = p.images?.edges?.[0]?.node;
-      const nowP = parseFloat(p.priceRange?.minVariantPrice?.amount || 0);
-      const was = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount || 0);
-      const name = oujiCardName(p);
-      const href = `/products/${encodeURIComponent(p.handle)}`;
-      return `<article class="sd-card">
-        <a class="sd-card__media" href="${href}">
-          ${img ? `<img src="${esc(img.url)}" alt="${esc(name)}" loading="lazy">` : ''}
-          <span class="sd-card__stamp">到期 ${formatShortDatedExpiry(expiry)}</span>
-        </a>
-        <p class="sd-card__vendor">${esc(p.vendor)}</p>
-        <h3 class="sd-card__name"><a href="${href}">${esc(name)}</a></h3>
-        <p class="sd-card__prices">
-          <span class="sd-card__now">${formatPrice(nowP)}</span>
-          ${was > nowP ? `<s class="sd-card__was">${formatPrice(was)}</s>` : ''}
-        </p>
-        <p class="sd-card__left">${live ? (left ? `得返 ${left} 件` : '') : '已經賣晒'}</p>
-        ${multi && live
-          ? `<a class="sd-card__add" href="${href}">揀色號</a>`
-          : `<button class="sd-card__add" type="button" data-vid="${live ? esc(live.id) : ''}" ${live ? '' : 'disabled'}>${live ? '加入購物袋' : '售完'}</button>`}
-      </article>`;
-    };
+    /* 2026-10-18 Winston：同主頁／全部產品用同一張卡（lcProductCard）——相上「X/X 到期」條、
+       多色撳「選色」彈窗直接揀，唔使入產品頁。加入購物袋、心心照行 script.js 原有 handler。 */
+    const card = ({ p }) => window.lcProductCard(p);
 
     const tiers = [
       { title: '<em>5 折</em>3 個月內到期', rows: rows.filter((r) => r.months < 3) },
@@ -447,18 +426,9 @@
           <h2 class="sd-tier__title">${t.title}</h2>
           <span class="sd-tier__count">${t.rows.length} 款</span>
         </div>
-        <div class="sd-grid">${t.rows.map(card).join('')}</div>
+        <div class="product-grid">${t.rows.map(card).join('')}</div>
       </section>`).join('');
 
-    root.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.sd-card__add');
-      if (!btn || btn.disabled || !btn.dataset.vid) return;
-      btn.disabled = true;
-      btn.textContent = '加緊…';
-      const ok = await addToCart(btn.dataset.vid, 1);
-      btn.textContent = ok ? '加咗 ✓' : '加唔到，再試';
-      setTimeout(() => { btn.textContent = '加入購物袋'; btn.disabled = false; }, 1800);
-    });
   });
   </script>
 </body>
