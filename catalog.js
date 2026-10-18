@@ -2816,15 +2816,70 @@ function makeupBrandRank(vendor) {
   return rank >= 0 ? rank : order.indexOf('其他');
 }
 
+/* 品牌頁頂嘅「聯名系列」帶（Winston 2026-10-18：AMUSE 嘅 Sanrio 聯名要擺最頭、整靚啲；
+   Meta 廣告 Kuromi 氣墊帖就係落呢版）。只喺指明嘅牌子、預設推薦排序先出；
+   客揀咗其他排序就照平常一格，唔好兩套次序打交。lead 排第一（廣告主角）。 */
+const BRAND_COLLABS = {
+  AMUSE: {
+    title: ['AMUSE × Sanrio', '聯名系列'],
+    note: 'Kuromi、My Melody 限定包裝',
+    rest: 'AMUSE 全系列',
+    intro: '韓國純素彩妝：果凍唇釉、水光氣墊，仲有 Sanrio 聯名。',
+    lead: [/kuromi/i, /my ?melody/i],
+  },
+};
+function brandCollabSplit(items) {
+  const brand = new URLSearchParams(location.search).get('brand');
+  const cfg = brand && BRAND_COLLABS[brand];
+  if (!cfg) return null;
+  const sort = document.querySelector('.filter-bar__sort select')?.value;
+  if (sort && sort !== 'featured') return null;
+  /* 英文模式標題係英文（冇「聯名」兩隻字），所以兩樣都認：聯名 或者 ×。 */
+  const isCollab = (p) => /聯名|×/.test(p.title || '');
+  const picked = items.filter(isCollab);
+  if (picked.length < 2) return null;
+  const leadRank = (p) => {
+    const i = cfg.lead.findIndex((re) => re.test(p.title || ''));
+    return i < 0 ? cfg.lead.length : i;
+  };
+  picked.sort((a, b) => leadRank(a) - leadRank(b) || featuredScore(b) - featuredScore(a));
+  /* 文字全部寫死喺上面 config，唔使 escape；英文經 ui-en.json。 */
+  const t = (x) => (window.OUJI_translate ? window.OUJI_translate(x) : x);
+  const intro = document.querySelector('.lx-opening__copy p');
+  if (intro && cfg.intro) intro.textContent = t(cfg.intro);
+  return {
+    items: picked,
+    rest: items.filter((p) => !isCollab(p)),
+    html: `<section class="lx-collab" aria-labelledby="lx-collab-title">
+      <header class="lx-collab__head">
+        <span class="lx-collab__eyebrow">LIMITED COLLAB</span>
+        <h2 class="lx-collab__title" id="lx-collab-title">${cfg.title.map((x) => `<span>${t(x)}</span>`).join(' ')}</h2>
+        <p class="lx-collab__note">${t(cfg.note)}</p>
+        <span class="lx-collab__count">${picked.length} ${t('款')}</span>
+      </header>
+      <div class="grid-host"></div>
+    </section>
+    <h2 class="lx-collab__rest">${t(cfg.rest)}</h2>`,
+  };
+}
+
 function renderProducts(container, products, { grouped }) {
   clearGridWindows();
   const token = ++RENDER_TOKEN;
   if (!grouped) {
     removeBrandRail();
     const [inStock, out] = splitStock(products);
-    container.innerHTML = '<div class="grid-host"></div>'
-      + soldOutBlock(out, 'all');
-    mountGrid(container.querySelector('.grid-host'), inStock);
+    const collab = brandCollabSplit(inStock);
+    if (collab) {
+      container.innerHTML = collab.html + '<div class="grid-host"></div>'
+        + soldOutBlock(out, 'all');
+      mountGrid(container.querySelector('.lx-collab .grid-host'), collab.items, { all: true });
+      mountGrid(container.querySelector(':scope > .grid-host'), collab.rest);
+    } else {
+      container.innerHTML = '<div class="grid-host"></div>'
+        + soldOutBlock(out, 'all');
+      mountGrid(container.querySelector('.grid-host'), inStock);
+    }
     syncGridWindows();
     return;
   }
