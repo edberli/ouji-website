@@ -52,7 +52,7 @@
   <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261018-live">
+  <link rel="stylesheet" href="styles.css?v=20261018-deals">
   <link rel="stylesheet" href="product-card-lc.css?v=20261016-image-frame1">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
@@ -322,26 +322,22 @@
           <p class="product-info__short-desc"></p>
 
           <section class="pdp-perks" aria-label="購物優惠及運送安排">
-            <!-- 購物優惠（2026-10-18 Winston：「個標示太淺色，你應該係用嗰隻深啲嘅藍色」「買滿 $399 會送 $20 coupon，你冇 mark 到出嚟，
-                 呢個係應該做一個比較重要嘅優惠資訊」）：用全站優惠嗰隻深藍（#2b4c58，同 footer、側欄、優惠彈窗、首頁優惠條一樣），
-                 一張卡兩行 —— 滿 $399 減 $20（Shopify 自動折扣，數由 shopify.js OUJI_COMMERCE 讀；活動期就出活動級數）、滿 $599 送面霜。 -->
+            <!-- 購物優惠（2026-10-18 Winston 第二次：深藍卡「太核突、太深、冇設計、太大舊太高」，要跟返網站風格、加芝麻店長貼圖）：
+                 跟購物袋「湊單目標卡」同一套 —— 淺青卡、圓形小徽章（「減$20」券、面霜相）、右上角芝麻貼圖（06-shopping-sticker，白剪紙邊，唔准鏡像）。
+                 兩行（滿 $399 減 $20：數讀 OUJI_COMMERCE，活動期出活動級數；滿 $599 送面霜），條款細字一行。中英文由 paintDeals() 寫。 -->
             <section class="pdp-deals" aria-label="購物優惠">
-              <div class="pdp-deal pdp-deal--save">
-                <span class="pdp-deal__tag">折扣</span>
-                <p class="pdp-deal__main" data-pdp-save>滿 HK$399 即減 HK$20</p>
-                <p class="pdp-deal__note" data-pdp-save-note>結帳自動扣減，唔使優惠碼</p>
+              <img class="pdp-deals__sticker" src="assets/images/home-codex/mascot-v4/06-shopping-sticker-280.webp" width="280" height="256" alt="" loading="lazy" decoding="async">
+              <div class="pdp-deal">
+                <span class="pdp-deal__badge" aria-hidden="true"><span class="pdp-deal__coupon" data-pdp-coupon>減<strong>$20</strong></span></span>
+                <p class="pdp-deal__title" data-pdp-save>滿 <b>HK$399</b> 即減 <b>HK$20</b></p>
+                <p class="pdp-deal__sub" data-pdp-save-note>結帳自動扣減，唔使優惠碼</p>
               </div>
-              <article class="pdp-deal pdp-deal--gift pdp-gift" aria-label="Round Lab 滿額贈禮">
-                <span class="pdp-deal__tag">贈品</span>
-                <img class="pdp-gift__img" src="assets/images/cart/gift-cream-192.webp" alt="Round Lab 白樺樹補水面霜 80ml 產品照片" width="192" height="192" loading="lazy" decoding="async">
-                <div class="pdp-gift__copy">
-                  <h3 class="pdp-gift__title">Round Lab 白樺樹補水面霜 80ml</h3>
-                  <p class="pdp-gift__threshold">合資格商品滿 <b>HK$599</b> 即送一支</p>
-                  <p class="pdp-gift__value">價值 <b>HK$148</b></p>
-                  <p class="pdp-gift__terms">不計運費；數量有限，送完即止，以結帳為準。</p>
-                </div>
-                <a class="pdp-gift__link" href="/products/round-lab-round-lab-80ml-0221">查看產品詳情<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></a>
-              </article>
+              <div class="pdp-deal pdp-gift">
+                <span class="pdp-deal__badge is-photo" aria-hidden="true"><img src="assets/images/cart/gift-cream-192.webp" width="192" height="192" alt="" loading="lazy" decoding="async"></span>
+                <p class="pdp-deal__title" data-pdp-gift>合資格商品滿 <b>HK$599</b> 送面霜</p>
+                <p class="pdp-deal__sub"><span data-pdp-gift-note>Round Lab 白樺樹補水面霜 80ml・價值 HK$148</span> <a class="pdp-gift__link" href="/products/round-lab-round-lab-80ml-0221">查看產品詳情<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></a></p>
+              </div>
+              <p class="pdp-deals__terms" data-pdp-deals-terms>門檻以商品合計計算，運費不計；贈品數量有限，送完即止，以結帳為準。</p>
             </section>
             <!-- 運送與自取：簡單一條（Winston 2026-10-17 參考圖：三格＋幼線，「簡簡單單…唔使好華麗」），
                  淨係特登突出 7-11 滿 $99 自取免運；只列要畀運費嗰幾種（門市自取唔使出，Winston 10-17），下面一行送達日數。 -->
@@ -898,21 +894,30 @@
     show();
   }
 
-  /* 優惠卡嗰行滿減：數一律讀 shopify.js OUJI_COMMERCE（同購物袋、側欄同一份）；活動期（中秋嗰類）出活動級數，平日出常設「滿 $399 減 $20」。 */
+  /* 優惠卡（購物袋湊單卡嗰套）：數一律讀 shopify.js OUJI_COMMERCE（同購物袋、側欄同一份）；
+     活動期（中秋嗰類）出活動級數，平日出常設「滿 $399 減 $20」。中英文都喺度寫（字典逐粒字夾唔到夾住 <b> 嘅句）。 */
   function paintDeals() {
-    const main = document.querySelector('[data-pdp-save]');
-    const note = document.querySelector('[data-pdp-save-note]');
+    const $ = (sel) => document.querySelector(sel);
     const C = window.OUJI_COMMERCE;
-    if (!main || !C) return;
+    if (!$('.pdp-deals') || !C) return;
     const cp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+    const set = (sel, html) => { const el = $(sel); if (el) el.innerHTML = html; };
     const tiers = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive() ? (C.promotion?.tiers || []) : [];
-    if (tiers.length) {
-      main.innerHTML = tiers.map((t) => cp(`滿 <b>HK$${t.threshold}</b> 減 <b>$${t.saving}</b>`, `<b>$${t.saving}</b> off over <b>HK$${t.threshold}</b>`)).join('<span aria-hidden="true">・</span>');
-      if (note) note.textContent = cp('結帳自動套用最高一級，唔使優惠碼', 'The highest tier applies automatically at checkout, no code needed');
-      return;
-    }
     const save = C.spendSave || { threshold: 399, amount: 20 };
-    main.innerHTML = cp(`滿 <b>HK$${save.threshold}</b> 即減 <b>HK$${save.amount}</b>`, `<b>HK$${save.amount}</b> off when you spend <b>HK$${save.threshold}</b>`);
+    const gift = C.promotion?.gift || {};
+    const first = tiers[0] || { threshold: save.threshold, saving: save.amount };
+    set('[data-pdp-coupon]', cp(`減<strong>$${first.saving}</strong>`, `<strong>$${first.saving}</strong>off`));
+    set('[data-pdp-save]', tiers.length
+      ? tiers.map((t) => cp(`滿 <b>HK$${t.threshold}</b> 減 <b>$${t.saving}</b>`, `<b>$${t.saving}</b> off over <b>HK$${t.threshold}</b>`)).join('<span aria-hidden="true">・</span>')
+      : cp(`滿 <b>HK$${save.threshold}</b> 即減 <b>HK$${save.amount}</b>`, `<b>HK$${save.amount}</b> off when you spend <b>HK$${save.threshold}</b>`));
+    set('[data-pdp-save-note]', tiers.length
+      ? cp('結帳自動套用最高一級，唔使優惠碼', 'The highest tier applies automatically at checkout, no code needed')
+      : cp('結帳自動扣減，唔使優惠碼', 'Applied automatically at checkout, no code needed'));
+    const gt = gift.threshold || 599;
+    const gv = gift.value || 148;
+    set('[data-pdp-gift]', cp(`合資格商品滿 <b>HK$${gt}</b> 送面霜`, `Free cream over <b>HK$${gt}</b> on eligible items`));
+    set('[data-pdp-gift-note]', cp(`Round Lab 白樺樹補水面霜 80ml・價值 HK$${gv}`, `Round Lab Birch Juice Moisturizing Cream 80ml · Worth HK$${gv}`));
+    set('[data-pdp-deals-terms]', cp('門檻以商品合計計算，運費不計；贈品數量有限，送完即止，以結帳為準。', 'Thresholds are based on the item total; shipping is excluded. Gift while stocks last; offer details are as shown at checkout.'));
   }
 
   document.addEventListener('DOMContentLoaded', async () => {

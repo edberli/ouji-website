@@ -2795,28 +2795,23 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 html[lang="en"] .pdp-ship__name, html[lang="en"] .pdp-ship__deal { white-space: normal; text-wrap: balance; }
 .pdp-ship__foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 6px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.5; }
 .pdp-ship__more { margin-left: auto; color: var(--bag-teal); font-weight: 600; text-decoration: none; white-space: nowrap; }
-/* 購物優惠卡（2026-10-18 Winston：「個標示太淺色，你應該係用嗰隻深啲嘅藍色」「滿 $399 減 $20 要做重要優惠資訊」）：
-   用全站優惠深藍 #2b4c58 漸變（同 .promo-slim、優惠彈窗、footer 一樣），白字；金額粗白字大半號；細字最少 75% 白（漸變最淺段都有 4.69:1）。
-   兩行：折扣（滿減，數讀 OUJI_COMMERCE）、贈品（面霜相喺右邊，深底要托一圈陰影）。 */
-.pdp-deals { padding: 2px 16px; border-radius: 12px; background: linear-gradient(158deg, #2b4c58 0%, #35606f 54%, #2b4c58 100%); box-shadow: 0 14px 30px -22px rgb(8 26 33 / .75); color: #fff; }
-.pdp-deals :focus-visible { outline-color: #fff; }
-.pdp-deal { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; column-gap: 10px; padding: 14px 0; }
-.pdp-deal + .pdp-deal { border-top: 1px solid rgb(255 255 255 / .16); }
-.pdp-deal__tag { grid-row: 1 / span 2; margin-top: 2px; padding: 1px 8px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .4); color: #fff; font: 700 11px/1.6 var(--font-body); letter-spacing: .06em; white-space: nowrap; }
-.pdp-deal__main { margin: 0; color: #fff; font: 600 15px/1.45 var(--font-body); }
-.pdp-deal__main b { font-size: 18px; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
-.pdp-deal__note { grid-column: 2; margin: 2px 0 0; color: rgb(255 255 255 / .78); font-size: 12.5px; line-height: 1.5; }
-.pdp-deal--gift { grid-template-columns: auto minmax(0, 1fr) 56px; }
-.pdp-gift__img { grid-row: 1 / span 2; grid-column: 3; width: 56px; height: 56px; border-radius: 10px; background: #fff; object-fit: cover; box-shadow: 0 6px 14px rgb(4 18 24 / .45); }
-.pdp-gift__copy { grid-row: 1; grid-column: 2; min-width: 0; }
-.pdp-gift__title { margin: 0; color: #fff; font: 700 14.5px/1.4 var(--font-body); letter-spacing: 0; }
-/* 門檻同價值各自成粒唔拆開：位唔夠就成粒落下一行 */
-.pdp-gift__threshold, .pdp-gift__value { display: inline-block; margin: 2px 10px 0 0; color: rgb(255 255 255 / .82); font-size: 12.5px; line-height: 1.5; white-space: nowrap; }
-.pdp-gift__threshold b, .pdp-gift__value b { color: #fff; font-weight: 700; }
-html[lang="en"] .pdp-gift__threshold { white-space: normal; }
-.pdp-gift__terms { margin: 3px 0 0; color: rgb(255 255 255 / .75); font-size: 11.5px; line-height: 1.45; }
-.pdp-gift__link { display: inline-flex; grid-column: 2; align-items: center; gap: 1px; width: fit-content; margin-top: 6px; color: #fff; font-size: 12.5px; font-weight: 600; text-decoration: underline; text-decoration-color: rgb(255 255 255 / .4); text-underline-offset: 3px; }
-.pdp-gift__link svg { width: 14px; height: 14px; stroke-width: 2; }
+/* 購物優惠卡（2026-10-18 Winston：要突出「滿 $399 減 $20」；深藍大卡被嫌「太核突、太深、冇設計、太大舊」，
+   改跟網站風格 —— 同購物袋「湊單目標卡」一套：淺青卡、圓形小徽章（「減$20」券、面霜相）、右上角芝麻店長貼圖（白剪紙邊，唔准鏡像）。
+   金額用深啲嘅青藍（teal-ink）粗字；細字灰；條款一行。手機約 150px 高。 */
+.pdp-deals { position: relative; display: grid; gap: 10px; padding: 12px 14px 11px; border-radius: 12px; background: var(--bag-tint); }
+.pdp-deals__sticker { position: absolute; top: -12px; right: 6px; width: 64px; height: auto; filter: drop-shadow(0 3px 6px rgb(46 58 64 / .12)); pointer-events: none; }
+.pdp-deal { display: grid; grid-template-columns: 36px minmax(0, 1fr); align-items: center; column-gap: 10px; }
+.pdp-deal:first-of-type { padding-right: 64px; } /* 讓位畀芝麻 */
+.pdp-deal__badge { grid-row: 1 / span 2; display: grid; place-items: center; width: 36px; height: 36px; overflow: hidden; border: 2px solid #fff; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgb(46 58 64 / .1); }
+.pdp-deal__badge.is-photo img { width: 100%; height: 100%; object-fit: cover; }
+.pdp-deal__coupon { display: grid; justify-items: center; color: var(--bag-teal-ink); font-size: 8.5px; font-weight: 700; line-height: 1.05; }
+.pdp-deal__coupon strong { font-size: 12.5px; letter-spacing: -.02em; }
+.pdp-deal__title { min-width: 0; margin: 0; color: var(--bag-ink); font: 600 14.5px/1.4 var(--font-body); }
+.pdp-deal__title b { color: var(--bag-teal-ink); font-size: 16px; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
+.pdp-deal__sub { grid-column: 2; min-width: 0; margin: 1px 0 0; color: var(--bag-muted); font-size: 12px; line-height: 1.5; }
+.pdp-gift__link { display: inline-flex; align-items: center; gap: 1px; color: var(--bag-teal); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.pdp-gift__link svg { width: 13px; height: 13px; stroke-width: 2; }
+.pdp-deals__terms { margin: 0; padding-top: 8px; border-top: 1px solid var(--bag-tint-line); color: var(--bag-muted); font-size: 11px; line-height: 1.5; }
 
 /* 7 · 下半：影片、詳細資料、評價、推薦。標題跟購物袋（粗黑字＋青藍線 icon，冇小標） */
 .pdp-section { margin-top: 56px; }
@@ -3153,7 +3148,7 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .variant-btn--image:not(:disabled):not(.is-selected):hover .variant-btn__pic { box-shadow: 0 0 0 2px var(--bag-ground), 0 0 0 3.5px #b9cfd7; }
   .detail-more:hover, .rv-more:hover { border-color: #b9cfd7; color: var(--bag-teal); }
   .pdp-crumbs a:hover, .sd-notice__more:hover { color: var(--bag-teal-ink); }
-  .pdp-gift__link:hover { text-decoration-color: currentColor; }
+  .pdp-gift__link:hover { color: var(--bag-teal-ink); }
   .product-info__rating:hover .product-info__rating-n { color: var(--bag-teal); text-decoration-color: currentColor; }
   .pdp-lightbox__close:hover, .pdp-lightbox__nav:hover { background: rgb(255 255 255 / .24); }
 }
