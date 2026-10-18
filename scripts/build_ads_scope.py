@@ -18,7 +18,8 @@
     cpc120 $1.50｜cpc080 $1.00｜cpc060 $0.80｜cpc040 $0.65｜cpc025 $0.50｜cpc015 $0.40
   值唔到 $0.40 → 唔出付費廣告（免費 listing 照出）。
   已核實貴過屈臣氏／莎莎／HKTVmall 官方店一成以上嘅貨唔出付費廣告（PRICE_DEARER），留畀 11/5 定價檢討。
-  化妝品只投 Winston 10-11 批過嘅 26 款（已核唔貴過對手）＋ Google 真係賣過嘅規格。
+  化妝品同其他貨用同一條規則（v3 定價後 A／B 級唔貴過對手），未有自己加購／真單證據前最高 $0.40 試水；
+  Maybelline、ROSY ROSA、STUDIO 17 定價高過莎莎，唔投。
   公仔、盲盒、隱形眼鏡、短效期、家品、食物、服飾等唔投。
   python3 scripts/build_ads_scope.py
 """
@@ -29,16 +30,16 @@ from shopify_admin import gql
 EXCLUDE_TYPES = {'隱形眼鏡', '公仔', '盲盒', '短效期特價', '家居香氛', '專輯', '配件', '掛件', '雜貨', '零食',
                  '玩具', '便攜風扇', '口腔護理'}
 EXCLUDE_PREFIX = ('服飾', '襪類', '護具')
-# 化妝品：沿用 Winston 2026-10-11 批嘅規則（只投已核實唔貴過最平對手同 Google 平均嘅款，即下面名單），
-# 另加 60 日內經 Google 真係賣出過嘅規格（真實成交證明價錢有競爭力）。
-MAKEUP_TYPES = {'唇釉', '胭脂', '眼影', '氣墊粉底', '眼線', '唇膏', '眉筆', '底妝', '眉妝', '高光', '睫毛膏', '彩妝',
-                '修容', '粉底', '唇妝', '唇線筆', '唇彩', '唇蜜', '多用彩妝', '遮瑕', '定妝噴霧', '蜜粉', '妝前底霜',
-                '眼線筆', '眼線液', '定妝', '妝前乳', '假睫毛', '化妝工具', '美甲貼', '美甲工具'}
-VETTED_MAKEUP = {'8817694998686', '8817695096990', '8817695195294', '8807260553374', '8807260618910', '8814591770782',
-                 '8817560715422', '8818803671198', '8818929008798', '8818931892382', '8818933727390', '8818937299102',
-                 '8819135938718', '8819371606174', '8819372032158', '8819373342878', '8819374031006', '8819508183198',
-                 '8819508740254', '8819509133470', '8819511001246', '8820286390430', '8820286521502', '8835163553950',
-                 '8859481800862', '8883671859358'}
+# 化妝品（2026-10-19 改）：v3 最終版定價（10-15）之後，A／B 級品牌已經唔貴過最平主要對手，改價後 4 張化妝品單
+# 全部嚟自 Google 免費 listing，所以同其他貨用同一條價值規則，唔再淨係限 10-11 批嘅 26 款。
+# 只排走定價本身就高過莎莎嘅品牌：C 級陪襯（Maybelline、ROSY ROSA 跟萬寧／屈臣氏貨架價）同 D 級賺錢（STUDIO 17 最多貴 15%）
+# —— Google 購物並排比價，呢啲貨俾點擊錢都唔會有人買。
+ABOVE_MARKET_BRANDS = {'MAYBELLINE', 'ROSY ROSA', 'STUDIO 17'}
+# 化妝品付費點擊 9 月（改價前）幾乎冇人加購、0 張單；改價後付費仲未有數據，所以未有自己加購／真單證據之前最高 $0.40 試水。
+MAKEUP_TYPES = {'唇釉', '胭脂', '眼影', '氣墊粉底', '眼線', '唇膏', '眉筆', '底妝', '眉妝', '高光', '睫毛膏', '彩妝', '修容', '粉底',
+                '唇妝', '唇線筆', '唇彩', '唇蜜', '多用彩妝', '遮瑕', '定妝噴霧', '蜜粉', '妝前底霜', '眼線筆', '眼線液', '定妝', '妝前乳',
+                '假睫毛', '化妝工具', '美甲貼', '美甲工具'}
+MAKEUP_TRIAL_CAP = 0.40
 # 2026-10-18 核實貴過連鎖店一成以上（屈臣氏／HKTVmall 官方店 10-16 價按條碼對；UNOVE／d'Alba／Torriden 按品名同容量對莎莎）。
 # Google 購物會將我哋同佢哋並排顯示，貴咗就唔會有人買，唔好為佢哋俾點擊錢。改價後喺度刪走。
 PRICE_DEARER = {
@@ -66,7 +67,7 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
 
 QP = """query($after:String){ products(first:100, after:$after, query:"status:active"){
  pageInfo{hasNextPage endCursor}
- edges{ node{ id handle productType variants(first:100){edges{node{ id price inventoryItem{unitCost{amount}} }}} }}}}"""
+ edges{ node{ id handle vendor productType variants(first:100){edges{node{ id price inventoryItem{unitCost{amount}} }}} }}}}"""
 QO = """query($after:String,$q:String!){ orders(first:100, after:$after, query:$q){
  pageInfo{hasNextPage endCursor}
  edges{ node{ cancelledAt currentTotalPriceSet{shopMoney{amount}} shippingLine{title} customAttributes{key value}
@@ -168,6 +169,8 @@ def main():
         seen += len(p['variants']['edges'])
         if p['productType'] in EXCLUDE_TYPES or p['productType'].startswith(EXCLUDE_PREFIX):
             continue
+        if (p.get('vendor') or '').strip().upper() in ABOVE_MARKET_BRANDS:
+            continue
         pid = p['id'].split('/')[-1]
         sess, atc = landing.get(pid, (0.0, 0.0))
         atc = min(atc, sess)  # 一個 session 加購幾次只當一次
@@ -179,14 +182,14 @@ def main():
             if not cost:
                 continue
             vid = v['id'].split('/')[-1]
-            if p['productType'] in MAKEUP_TYPES and pid not in VETTED_MAKEUP and vid not in proven:
-                continue
             if vid in PRICE_DEARER:
                 dearer += 1
                 continue
             model = UNITS * (float(v['price']) * (1 - FEE_PCT) - float(cost['amount'])) - SHIP - PACK - FEE_FLAT
             per_order = (sum(margins) + model * 2) / (len(margins) + 2)
             val = cvr * max(0.0, min(per_order - MARGIN_KEEP, CPA_CAP))
+            if p['productType'] in MAKEUP_TYPES and not ad_orders.get(pid) and atc < 2:
+                val = min(val, MAKEUP_TRIAL_CAP)
             t = tier(val)
             if t:
                 cpc[vid], value[vid] = t, round(val, 2)
