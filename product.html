@@ -6,27 +6,8 @@
        keep every relative asset resolving from the site root. -->
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 2026-10-17 新產品頁先上手機版：桌面（≥769px）暫時轉去舊版 /classic/<handle>
-       （product-classic.html，入面會即刻將網址還原做 /products/<handle>）。
-       要擺喺 viewport 後面先量得啱闊度；先 stop 再轉，下面嘅 script（analytics 等）唔會行兩次。
-       搜尋器唔轉，佢哋照睇新版。桌面都轉新版嗰陣刪呢段同 product-classic.html。 -->
-  <script>
-    (function () {
-      try {
-        if (screen.width < 769 || !matchMedia('(min-width: 769px)').matches) return;
-        if (/bot|crawl|spider|slurp/i.test(navigator.userAgent)) return;
-        var q = new URLSearchParams(location.search);
-        if (q.get('pdp') === 'new') return; // 桌面想睇新版（驗收用）：?pdp=new
-        var m = location.pathname.match(/^\/products\/([^/?#]+)/);
-        var h = m ? m[1] : encodeURIComponent(q.get('handle') || '');
-        if (!h) return;
-        q.delete('handle');
-        var qs = q.toString();
-        if (window.stop) window.stop();
-        location.replace('/classic/' + h + (qs ? '?' + qs : '') + location.hash);
-      } catch (e) {}
-    })();
-  </script>
+  <!-- 2026-10-18 Winston 話「live both desktop and phone」：桌面都轉新版，拎走咗轉去 /classic/<handle> 嗰段。
+       /classic/（product-classic.html＋styles-classic.css＋reviews-classic.js＋vercel.json rewrite）暫時留做後備，冇問題先清。 -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
@@ -71,7 +52,7 @@
   <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261017-pdp">
+  <link rel="stylesheet" href="styles.css?v=20261018-live">
   <link rel="stylesheet" href="product-card-lc.css?v=20261016-image-frame1">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
@@ -339,9 +320,29 @@
           </div>
 
           <p class="product-info__short-desc"></p>
-          <div class="ing-panel" data-ing-panel hidden></div>
 
           <section class="pdp-perks" aria-label="購物優惠及運送安排">
+            <!-- 購物優惠（2026-10-18 Winston：「個標示太淺色，你應該係用嗰隻深啲嘅藍色」「買滿 $399 會送 $20 coupon，你冇 mark 到出嚟，
+                 呢個係應該做一個比較重要嘅優惠資訊」）：用全站優惠嗰隻深藍（#2b4c58，同 footer、側欄、優惠彈窗、首頁優惠條一樣），
+                 一張卡兩行 —— 滿 $399 減 $20（Shopify 自動折扣，數由 shopify.js OUJI_COMMERCE 讀；活動期就出活動級數）、滿 $599 送面霜。 -->
+            <section class="pdp-deals" aria-label="購物優惠">
+              <div class="pdp-deal pdp-deal--save">
+                <span class="pdp-deal__tag">折扣</span>
+                <p class="pdp-deal__main" data-pdp-save>滿 HK$399 即減 HK$20</p>
+                <p class="pdp-deal__note" data-pdp-save-note>結帳自動扣減，唔使優惠碼</p>
+              </div>
+              <article class="pdp-deal pdp-deal--gift pdp-gift" aria-label="Round Lab 滿額贈禮">
+                <span class="pdp-deal__tag">贈品</span>
+                <img class="pdp-gift__img" src="assets/images/cart/gift-cream-192.webp" alt="Round Lab 白樺樹補水面霜 80ml 產品照片" width="192" height="192" loading="lazy" decoding="async">
+                <div class="pdp-gift__copy">
+                  <h3 class="pdp-gift__title">Round Lab 白樺樹補水面霜 80ml</h3>
+                  <p class="pdp-gift__threshold">合資格商品滿 <b>HK$599</b> 即送一支</p>
+                  <p class="pdp-gift__value">價值 <b>HK$148</b></p>
+                  <p class="pdp-gift__terms">不計運費；數量有限，送完即止，以結帳為準。</p>
+                </div>
+                <a class="pdp-gift__link" href="/products/round-lab-round-lab-80ml-0221">查看產品詳情<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></a>
+              </article>
+            </section>
             <!-- 運送與自取：簡單一條（Winston 2026-10-17 參考圖：三格＋幼線，「簡簡單單…唔使好華麗」），
                  淨係特登突出 7-11 滿 $99 自取免運；只列要畀運費嗰幾種（門市自取唔使出，Winston 10-17），下面一行送達日數。 -->
             <div class="pdp-ship" role="group" aria-labelledby="pdp-ship-title">
@@ -363,38 +364,26 @@
               <p class="pdp-ship__foot"><span>預計 1–3 個工作天送達</span><a class="pdp-ship__more" href="shipping.html">運送詳情 ›</a></p>
             </div>
 
-            <article class="pdp-gift" aria-label="Round Lab 滿額贈禮">
-              <img class="pdp-gift__img" src="assets/images/cart/gift-cream-192.webp" alt="Round Lab 白樺樹補水面霜 80ml 產品照片" width="192" height="192" loading="lazy" decoding="async">
-              <div class="pdp-gift__copy">
-                <h3 class="pdp-gift__title">Round Lab 白樺樹補水面霜 80ml</h3>
-                <p class="pdp-gift__threshold">合資格商品滿 <b>HK$599</b> 即送一支</p>
-                <p class="pdp-gift__value">價值 <b>HK$148</b></p>
-                <p class="pdp-gift__terms">不計運費；數量有限，送完即止，以結帳為準。</p>
-              </div>
-              <a class="pdp-gift__link" href="/products/round-lab-round-lab-80ml-0221">查看產品詳情<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></a>
-            </article>
+          </section>
+
+          <!-- 產品重點（2026-10-18 改做摺疊清單，跟 Rare Beauty／Glossier 做法；Winston：卡片太大張、幾張卡左右滑好核突）。
+               每件貨同一個次序：重點（預設打開）→ 適合膚質 → 質地同感覺 → 點樣用 → 要留意；冇料嗰項唔出。
+               擺喺購買欄入面：手機緊接購買資料、收埋只係幾行；桌面跟購買欄喺右邊，左邊相簿跟住捲。 -->
+          <section class="pdp-acc" data-pdp-guide hidden aria-label="產品重點">
+            <div class="pdp-acc__list" data-pdp-guide-body></div>
+            <p class="pdp-acc__note">資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。</p>
           </section>
         </div>
       </div>
 
-      <!-- 啱唔啱你：用網站已有資料（護膚標籤 attrs.json、成分、品牌寫嘅用法、評價）整理；
-           適合膚質、質地、點樣用、要留意（按成分）、AI 評價重點。冇料嗰項唔出，成段冇料就唔出（product-guide.js）。 -->
-      <section class="pdp-section pdp-guide" data-pdp-guide hidden aria-labelledby="pdp-guide-title">
-        <h2 class="pdp-h2" id="pdp-guide-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.6 2.3 6.5 2.6 7.5 2.6v5.4c0 4.8-3.3 7.9-7.5 9-4.2-1.1-7.5-4.2-7.5-9V6.1c1 0 3.9-.3 7.5-2.6Z"/><path d="m8.8 12.2 2.3 2.3 4.3-4.6"/></svg>啱唔啱你</h2>
-        <p class="pdp-guide__hook" data-pdp-guide-hook hidden></p>
-        <div class="pdp-guide__body" data-pdp-guide-body></div>
-        <p class="pdp-guide__note">資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。</p>
-      </section>
-
-      <section class="product-videos pdp-section" data-product-videos hidden aria-label="產品影片"></section>
-
-      <!-- 詳細資料：桌面左字右長圖（長圖由 JS 搬去右欄），手機上字下圖 -->
-      <section class="pdp-section pdp-details" id="details" aria-labelledby="pdp-details-title">
-        <h2 class="pdp-h2" id="pdp-details-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20Z"/><path d="M14 3.5V8h4M10 12h5M10 15.5h5"/></svg>詳細資料</h2>
-        <div class="pdp-details__body">
+      <!-- 產品介紹：品牌寫嘅介紹 → 影片 → 產品長圖（太長收起）。桌面置中一條閱讀欄，長圖照原本闊度睇得清。 -->
+      <section class="pdp-section pdp-story" id="details" aria-labelledby="pdp-story-title">
+        <h2 class="pdp-h2" id="pdp-story-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20Z"/><path d="M14 3.5V8h4M10 12h5M10 15.5h5"/></svg>產品介紹</h2>
+        <div class="pdp-story__body">
           <div class="pdp-details__text">
             <div class="body-md product-description"></div>
           </div>
+          <div class="product-videos" data-product-videos hidden></div>
           <div class="pdp-details__media" data-pdp-media hidden></div>
         </div>
       </section>
@@ -545,9 +534,9 @@
   <script src="product-naming.js?v=20261017-sdname"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
   <script src="shopify.js?v=20261017-sellexpired"></script>
-  <script src="ingredients.js"></script>
-  <script src="reviews.js?v=20261017-guide"></script>
-  <script src="product-guide.js?v=20261017-guide"></script>
+  <script src="ingredients.js?v=20261018-live"></script>
+  <script src="reviews.js?v=20261018-live"></script>
+  <script src="product-guide.js?v=20261018-live"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261017-pdp"></script>
   <script src="awards.js"></script>
@@ -571,7 +560,13 @@
       // Strip count is the reliable signal: scrollHeight reads 0 while the
       // description sits in a tab that has not been shown yet.
       const strips = block.querySelectorAll('img').length;
-      if (strips < 4 && block.scrollHeight < 1400) return;
+      if (strips < 4 && block.scrollHeight < 1400) {
+        if (!block.dataset.watchGrow && window.ResizeObserver) {
+          block.dataset.watchGrow = '1';
+          new ResizeObserver(() => { if (!block.dataset.collapsible && block.scrollHeight >= 1400) settle(); }).observe(block);
+        }
+        return;
+      }
       block.dataset.collapsible = '1';
       block.classList.add('is-collapsed');
 
@@ -867,7 +862,7 @@
         ? `<span class="pdp-dock__out">${main.textContent}</span>` : (price ? price.innerHTML : '');
       const picked = document.querySelector('[data-pdp-picked]');
       const spec = document.querySelector('.product-info__specification');
-      dock.querySelector('[data-pdp-dock-meta]').textContent = (picked && !picked.hidden && picked.textContent)
+      dock.querySelector('[data-pdp-dock-meta]').textContent = (picked && !picked.hidden && !picked.classList.contains('is-empty') && picked.textContent)
         || (spec && !spec.hidden ? spec.textContent : '');
     };
     dock.querySelector('[data-pdp-dock-name]').textContent = document.querySelector('.product-info__name')?.textContent || product.title;
@@ -903,8 +898,26 @@
     show();
   }
 
+  /* 優惠卡嗰行滿減：數一律讀 shopify.js OUJI_COMMERCE（同購物袋、側欄同一份）；活動期（中秋嗰類）出活動級數，平日出常設「滿 $399 減 $20」。 */
+  function paintDeals() {
+    const main = document.querySelector('[data-pdp-save]');
+    const note = document.querySelector('[data-pdp-save-note]');
+    const C = window.OUJI_COMMERCE;
+    if (!main || !C) return;
+    const cp = (zh, en) => (typeof oujiCopy === 'function' ? oujiCopy(zh, en) : zh);
+    const tiers = typeof isOujiOpeningPromoActive === 'function' && isOujiOpeningPromoActive() ? (C.promotion?.tiers || []) : [];
+    if (tiers.length) {
+      main.innerHTML = tiers.map((t) => cp(`滿 <b>HK$${t.threshold}</b> 減 <b>$${t.saving}</b>`, `<b>$${t.saving}</b> off over <b>HK$${t.threshold}</b>`)).join('<span aria-hidden="true">・</span>');
+      if (note) note.textContent = cp('結帳自動套用最高一級，唔使優惠碼', 'The highest tier applies automatically at checkout, no code needed');
+      return;
+    }
+    const save = C.spendSave || { threshold: 399, amount: 20 };
+    main.innerHTML = cp(`滿 <b>HK$${save.threshold}</b> 即減 <b>HK$${save.amount}</b>`, `<b>HK$${save.amount}</b> off when you spend <b>HK$${save.threshold}</b>`);
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     await initPage();
+    paintDeals();
 
     const params = new URLSearchParams(window.location.search);
     // Shopify-style /products/<handle> is rewritten server-side, so the
@@ -1096,60 +1109,61 @@
         // Once the descriptions gained 優點 / 用法 / 主要成分 headings, the
         // flattened text ran them together — "…做好準備。優點 改善膚質同膚色
         // 令暗…" — which reads as one broken sentence at the top of the page.
-        const intro = descHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/);
-        const plain = intro
-          ? new DOMParser().parseFromString(intro[1], 'text/html').body.textContent.trim()
+        // 第一段只係產品名（例如「CLIO 水晶亮澤唇釉」）就跳去下一段，唔好喺購買欄再寫一次個名。
+        // api/product.js introText() 用同一套規則，伺服器同瀏覽器出嘅字一樣，唔會跳。
+        const norm = (t) => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+        const titleKey = norm(product.title);
+        const paras = [...descHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].slice(0, 6)
+          .map((m) => new DOMParser().parseFromString(m[1].replace(/<br\s*\/?>/gi, ' '), 'text/html').body.textContent.replace(/\s+/g, ' ').trim());
+        const plain = paras.length
+          ? (paras.find((t) => norm(t).length >= 6 && !titleKey.includes(norm(t))) || '')
           : (product.description || '');
         desc.textContent = plain.length > 200 ? plain.substring(0, 200) + '…' : plain;
         desc.hidden = !plain;
       }
 
-      // 成分速覽：主打成分同要留意嘅成分。冇資料就唔出，唔會出個空框。
-      if (typeof loadIngredients === 'function') {
-        loadIngredients().then(() => {
-          const panel = document.querySelector('[data-ing-panel]');
-          if (!panel) return;
-          const actives = activeChips(product.handle);
-          const flags = flagChips(product.handle);
-          if (!actives && !flags) return;
-          panel.hidden = false;
-          panel.innerHTML = [
-            actives
-              ? `<div class="ing-panel__row"><span class="ing-panel__label">主打成分</span>
-                 <span class="ing-chips">${actives}</span></div>`
-              : '',
-            flags
-              ? `<div class="ing-panel__row"><span class="ing-panel__label">成分留意</span>
-                 <span class="ing-chips">${flags}</span></div>`
-              : '',
-          ].join('');
-        });
-      }
-
-      // Fill detailed description with full description. 長圖（.product-detail-images）
-      // 搬去右欄：桌面左字右圖，手機照舊上字下圖。
+      // 產品介紹：文字 → 影片 → 長圖（.product-detail-images 由描述搬去 [data-pdp-media]），每件貨同一個次序。
       const fullDesc = document.querySelector('.product-description');
       const media = document.querySelector('[data-pdp-media]');
-      const details = document.querySelector('.pdp-details');
       if (media) media.replaceChildren();
       if (fullDesc && descHtml) {
         fullDesc.innerHTML = descHtml;
       } else if (fullDesc && product.description) {
         fullDesc.innerHTML = `<p>${product.description}</p>`;
       }
-      const strips = fullDesc?.querySelector('.product-detail-images');
+      // 規格行同「用法」搬入重點卡，喺描述度刪走（同一樣資料唔出兩次）
+      const facts = typeof takeFacts === 'function' ? takeFacts(fullDesc, product) : null;
+      // 產品圖一律放埋一齊：有啲貨（例如 CLIO 水晶亮澤唇釉）啲長圖夾喺描述文字入面，
+      // 冇收埋就成版拉到好長；同其他貨一樣搬去「產品圖」，太長就收起。
+      let strips = fullDesc?.querySelector('.product-detail-images');
+      const loose = [...(fullDesc?.querySelectorAll('img') || [])].filter((img) => !img.closest('.product-detail-images')
+        && !(Number(img.getAttribute('width')) > 0 && Number(img.getAttribute('width')) < 160));
+      if (loose.length) {
+        if (!strips) {
+          strips = document.createElement('div');
+          strips.className = 'product-detail-images';
+        }
+        loose.forEach((img) => strips.append(img));
+        fullDesc.querySelectorAll('p, div, span').forEach((el) => {
+          if (!el.textContent.trim() && !el.querySelector('img, video, iframe')) el.remove();
+        });
+        // 搬走圖之後剩低喺段尾嘅 <br>
+        [...fullDesc.querySelectorAll('br')].reverse().forEach((br) => {
+          let n = br.nextSibling;
+          while (n && n.nodeType === 3 && !n.textContent.trim()) n = n.nextSibling;
+          if (!n) br.remove();
+        });
+      }
       if (strips && media) {
         media.append(strips);
         media.hidden = false;
       } else if (media) {
         media.hidden = true;
       }
-      details?.classList.toggle('has-media', !!strips);
-      if (details) details.hidden = !(fullDesc && fullDesc.textContent.trim()) && !strips;
       collapseDetailStrips();
 
-      // 啱唔啱你（product-guide.js）：自己載資料，唔阻住個頁出
-      if (typeof renderGuide === 'function') renderGuide(product, descHtml);
+      // 重點卡（product-guide.js）：第一下即刻出，護膚標籤同成分載完再補
+      if (typeof renderGuide === 'function') renderGuide(product, facts);
 
       // Product videos live in Shopify media, not in the images connection.
       const videoSection = document.querySelector('[data-product-videos]');
@@ -1204,8 +1218,8 @@
           row.append(card);
         }
         if (row.childElementCount) {
-          const heading = document.createElement('h2');
-          heading.className = 'pdp-h2';
+          const heading = document.createElement('h3');
+          heading.className = 'pdp-story__sub';
           heading.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m10.5 9.5 4 2.5-4 2.5Z"/></svg>產品影片';
           videoSection.append(heading, row);
         }
@@ -1229,12 +1243,15 @@
         }
       };
       function verifiedVariantImageUrl(variant) {
-        const url = variantImageUrl(variant);
         const approved = verifiedVariantImages[variant?.id];
-        if (!url || !approved?.imageUrl
-          || canonicalVariantAssetUrl(approved.imageUrl) !== canonicalVariantAssetUrl(url)) return '';
-        return ['lip-swatch', 'arm-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'cheek-swatch', 'complexion-swatch', 'product-size']
-          .includes(approved.presentation) ? url : '';
+        if (!approved?.imageUrl || !['lip-swatch', 'arm-swatch', 'product-shade', 'palette-shade', 'eye-swatch', 'cheek-swatch', 'complexion-swatch', 'product-size']
+          .includes(approved.presentation)) return '';
+        const want = canonicalVariantAssetUrl(approved.imageUrl);
+        const url = variantImageUrl(variant);
+        if (url && canonicalVariantAssetUrl(url) === want) return url;
+        /* Shopify 嘅色號主相之後俾人換咗（例如 2026-10-16 全店整圖），但核實過嗰張仲喺產品相簿：
+           照用核實嗰張，唔好因為換咗主相就成件貨冇晒色號相（2026-10-17 有 37 件、131 個色號中招）。 */
+        return images.find((img) => canonicalVariantAssetUrl(img.url) === want)?.url || '';
       }
 
       // Show a verified shade image only after the shopper picks that shade.
@@ -1327,8 +1344,8 @@
         optionsContainer.innerHTML = `
           <div class="pdp-opt__head">
             <span class="product-info__option-label">${pdpEsc(optionName)}</span>
+            <span class="pdp-opt__picked${swatchMode ? ' is-empty' : ''}" data-pdp-picked ${swatchMode ? '' : 'hidden'}>${swatchMode ? cp('請揀色號', 'Pick a shade') : ''}</span>
             <span class="pdp-opt__count">${variants.length} ${unitWord}</span>
-            <span class="pdp-opt__picked" data-pdp-picked hidden></span>
           </div>
           <div class="product-info__variants${isPower ? ' product-info__variants--power' : swatchMode ? ' product-info__variants--swatch' : ' product-info__variants--chips'}">
             ${variants.map((v, i) => {
@@ -1349,7 +1366,7 @@
                 const pic = shots[i]
                   ? `<img class="variant-btn__image" src="${thumbUrl(shots[i])}" alt="${pdpEsc(optionText)} 商品圖片" loading="lazy" decoding="async">`
                   : `<span class="variant-btn__ph" aria-hidden="true">${pdpEsc(String(optionText).split(' ')[0])}</span>`;
-                return `<button type="button" class="variant-btn variant-btn--image" data-variant-id="${v.id}" aria-pressed="false" ${off ? 'disabled' : ''}><span class="variant-btn__pic">${pic}</span><span class="variant-btn__name">${pdpEsc(optionText)}</span>${priceTag}${soldTag}</button>`;
+                return `<button type="button" class="variant-btn variant-btn--image" data-variant-id="${v.id}" data-label="${pdpEsc(optionText)}${priceVaries ? ` · ${vPrice}` : ''}${off ? ` · ${cp('缺貨', 'Sold out')}` : ''}" title="${pdpEsc(optionText)}" aria-pressed="false" ${off ? 'disabled' : ''}><span class="variant-btn__pic">${pic}</span><span class="variant-btn__name">${pdpEsc(optionText)}</span>${priceTag}${soldTag}</button>`;
               }
               return `<button type="button" class="variant-btn" data-variant-id="${v.id}" aria-pressed="false" ${off ? 'disabled' : ''}><span class="variant-btn__name">${pdpEsc(optionText)}</span>${priceTag}${soldTag}</button>`;
             }).join('')}
@@ -1362,12 +1379,28 @@
         `;
 
         const picked = optionsContainer.querySelector('[data-pdp-picked]');
+        /* 色號名（同價錢）喺「色號」隔籬寫一次；電腦滑鼠停喺色號上面先睇嗰隻，離開返去已揀嗰隻 */
+        let pickedText = '';
+        const showPicked = (t, empty) => {
+          if (!picked) return;
+          picked.textContent = t;
+          picked.classList.toggle('is-empty', !!empty);
+          picked.hidden = !t;
+        };
         const sayPicked = (v) => {
           if (!picked) return;
           const t = v && v.title !== 'Default Title' ? v.title : '';
-          picked.textContent = t ? cp(`已揀：${t}`, `Selected: ${t}`) : '';
-          picked.hidden = !t;
+          const btn = v && optionsContainer.querySelector(`.variant-btn--image[data-variant-id="${CSS.escape(v.id)}"]`);
+          pickedText = btn ? btn.dataset.label : t;
+          if (swatchMode) showPicked(pickedText || cp('請揀色號', 'Pick a shade'), !pickedText);
+          else showPicked(t ? cp(`已揀：${t}`, `Selected: ${t}`) : '', false);
         };
+        if (swatchMode && window.matchMedia('(hover: hover)').matches) {
+          optionsContainer.querySelectorAll('.variant-btn--image').forEach((b) => {
+            b.addEventListener('mouseenter', () => showPicked(b.dataset.label, false), { signal: run });
+            b.addEventListener('mouseleave', () => showPicked(pickedText || cp('請揀色號', 'Pick a shade'), !pickedText), { signal: run });
+          });
+        }
 
         // Say it again next to the chosen power: the legend explains the
         // colours, this says what the one you picked actually means.
@@ -1523,11 +1556,9 @@
 
       // 評價自己 fetch 一個細 JSON，唔好阻住個頁出。
       initReviews(handle, product).then(() => {
+        if (typeof renderReviewAI === 'function') renderReviewAI(product); // AI 評價重點擺喺評價總結下面
         pdpStick(document.querySelector('.rv-aside'), document.querySelector('.rv-layout'));
       });
-      if (details?.classList.contains('has-media')) {
-        pdpStick(document.querySelector('.pdp-details__text'), document.querySelector('.pdp-details__body'));
-      }
       /* 如客人仲未揀私隱選項，trackViewItem 會停住；analytics.js 喺客接受後
          用呢份資料補返首個產品瀏覽，唔會因為尊重選擇而永久漏一格。 */
       window.OUJI_currentProduct = product;
