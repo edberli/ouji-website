@@ -46,7 +46,8 @@
       if (pause) {
         pause.hidden = !enabled;
         pause.setAttribute('aria-pressed', String(paused));
-        pause.setAttribute('aria-label', paused ? '播放海報輪播' : '暫停海報輪播');
+        var pauseLabel = paused ? '播放海報輪播' : '暫停海報輪播';
+        pause.setAttribute('aria-label', window.OUJI_translate ? window.OUJI_translate(pauseLabel) : pauseLabel);
         pause.innerHTML = paused
           ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 10 7-10 7Z"/></svg>'
           : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>';
