@@ -1756,7 +1756,7 @@
       /* label＝客見到嘅名（2026-09-24 老闆：「／」唔好睇，改用「·」）；
          name 係寫入訂單「運送方式」屬性、鋪頭執單睇嘅，唔好改。 */
       post: { fee: 15, free: 99,  name: '7-Eleven／郵局', label: '7-Eleven · 郵局', src: 'data/pickup-points.json', match: '7-Eleven',
-              sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天 · 取件碼以短訊發送，結帳請填香港手機號碼', subEn: '812 7-Eleven stores, post offices and iPostal stations · 2 working days · Pickup code is sent by SMS, so use a Hong Kong mobile number at checkout', hint: '要揀定去邊間 7-Eleven 或郵局攞貨' },
+              sub: '全港 812 個 7-Eleven、郵局同智郵站 · 2 個工作天 · 取件碼以短訊發去香港手機', subEn: '812 7-Eleven stores, post offices and iPostal stations · 2 working days · pickup code sent by SMS to a Hong Kong mobile', hint: '要揀定去邊間 7-Eleven 或郵局攞貨' },
       sfp:  { fee: 16, free: 250, name: '順豐站／智能櫃', label: '順豐站 · 智能櫃', src: 'assets/data/sf-points.json', match: '順豐站',
               sub: '428 個網點 · 1–2 個工作天 · 保留 3 日', subEn: '428 SF points · 1–2 working days · held for 3 days', hint: '要揀定去邊個順豐站或智能櫃攞貨' },
       sfd:  { fee: 31, free: 290, name: '順豐派送上門',        src: null, match: '順豐派送',
@@ -2379,7 +2379,9 @@
       const clock = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
       box.innerHTML = `<li>${bagSvg(gift)}<span><strong>${free ? cc('已享免運費', 'Free shipping') : cc(`差 HK$${gap} 免運`, `HK$${gap} to free shipping`)}</strong><small>${free
           ? cc(`已滿 HK$${o.free}`, `Over HK$${o.free}`) : cc(`運費 HK$${o.fee}・滿 HK$${o.free} 免運`, `HK$${o.fee} · free over HK$${o.free}`)}</small></span></li>`
-        + (days ? `<li>${bagSvg(clock)}<span><strong>${cc(`送到 ${place}`, `To ${placeEn}`)}</strong><small>${cc(days, daysEn)}</small></span></li>` : '');
+        /* 2026-10-18：7-11／郵局自取要香港手機收取件碼短訊，揀咗點之後喺呢格提早講（結帳先發現就太遲）。 */
+        + (days ? `<li>${bagSvg(clock)}<span><strong>${cc(`送到 ${place}`, `To ${placeEn}`)}</strong><small>${mode === 'post'
+          ? cc(`${days}・取件碼以短訊發去香港手機`, `${daysEn} · pickup code by SMS to an HK mobile`) : cc(days, daysEn)}</small></span></li>` : '');
       box.hidden = false;
     }
     window.OUJI_paintPickFacts = paintPickFacts;
