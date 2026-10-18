@@ -173,6 +173,7 @@
 .home-page.home-unified .home-campaign-hero__track::-webkit-scrollbar { display: none; }
 .home-page.home-unified .home-campaign-hero__slide { --hero-paper: #c5d8e2; --hero-ink: #284653; position: relative; display: grid; grid-template-columns: minmax(0px, 1fr); flex: 0 0 100%; min-width: 0px; scroll-snap-align: start; scroll-snap-stop: always; background: var(--hero-paper); color: var(--hero-ink); }
 .home-page.home-unified .home-campaign-hero__slide--red { --hero-paper: #86110e; --hero-ink: #fff7ef; }
+.home-page.home-unified .home-campaign-hero__slide--aqua { --hero-paper: #0b8f9c; --hero-ink: #f2fbfb; }
 .home-page.home-unified .home-campaign-hero__slide--peach { --hero-paper: #e6c8a9; --hero-ink: #564233; }
 .home-page.home-unified .home-campaign-hero__slide--sage { --hero-paper: #b4c4b2; --hero-ink: #304b3d; }
 .home-page.home-unified .home-campaign-hero__media { display: block; grid-area: 1 / 1; position: relative; min-width: 0px; aspect-ratio: 1920 / 873; align-self: stretch; }

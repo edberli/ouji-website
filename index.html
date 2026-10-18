@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap&text=GoodSkinDays!" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css?v=20261016-megamag">
-  <link rel="stylesheet" href="home-top.css?v=20261017-perks-en">
+  <link rel="stylesheet" href="home-top.css?v=20261018-anua">
   <link rel="stylesheet" href="home-member.css?v=20261015-grid1">
   <link rel="stylesheet" href="home-instagram.css?v=20261013-1">
   <!-- 首頁新設計段落（Codex）：樣式、新產品卡；手寫字 Klee One 只攞「明星同款」「玩妝靈感」「按需要」標題用到嘅字 -->
@@ -359,14 +359,27 @@
     <!-- ===== 首頁頂部三段（2026-10-12 由設計預覽搬上嚟）：品牌海報、免運門檻、商品分類 =====
          樣式喺 home-top.css，輪播同分類捲動喺 home-top.js；兩個檔只喺首頁載入。 -->
     <div class="home-page home-unified home-top" data-campaign-look="ink">
-<section class="home-campaign-hero content-wrap" data-campaign-hero="" aria-label="OUJI 韓妝品牌精選" aria-roledescription="輪播" data-hero-index="0" data-hero-tone="blue">
+<section class="home-campaign-hero content-wrap" data-campaign-hero="" aria-label="OUJI 韓妝品牌精選" aria-roledescription="輪播" data-hero-index="0" data-hero-tone="aqua">
     <h1 class="sr-only">OUJI —— 香港嘅韓國美妝同護膚專門店</h1>
     <div class="home-campaign-hero__track" data-hero-track="" tabindex="0" aria-label="品牌海報，使用上一張／下一張按鈕、圓點或鍵盤方向鍵、Home、End 切換">
-      <article class="home-campaign-hero__slide home-campaign-hero__slide--blue" data-hero-slide="" aria-label="1 / 4 · Coralhaze" aria-roledescription="海報">
+      <article class="home-campaign-hero__slide home-campaign-hero__slide--aqua" data-hero-slide="" aria-label="1 / 5 · Anua" aria-roledescription="海報">
+        <picture class="home-campaign-hero__media">
+          <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-anua-mobile.webp">
+          <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/anua-wide-1280.webp 1280w, assets/images/hero-hq/anua-wide-1920.webp 1920w, assets/images/hero-hq/anua-wide-2560.webp 2560w, assets/images/hero-hq/anua-wide-3840.webp 3840w" sizes="100vw">
+          <img src="assets/images/hero-campaign/hero-anua.webp" alt="Anua 水底人物手持 PDRN 精華品牌海報" width="1920" height="873" loading="eager" fetchpriority="high" decoding="async">
+        </picture>
+        <div class="home-campaign-hero__copy">
+          <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> Anua</span>
+          <h2 class="home-campaign-hero__title">水光感，<br>由入面透出嚟。</h2>
+          <p class="home-campaign-hero__description">Suzy 手上嗰支 PDRN 水光精華。</p>
+          <a class="home-campaign-hero__link" href="shop.html?brand=Anua">逛 Anua <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+        <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="eager" decoding="async"><span>your little<br>beauty shop</span></div>
+      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--blue" data-hero-slide="" aria-label="2 / 5 · Coralhaze" aria-roledescription="海報" aria-hidden="true" inert="">
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-1-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/coralhaze-wide-1280.webp 1280w, assets/images/hero-hq/coralhaze-wide-1920.webp 1920w, assets/images/hero-hq/coralhaze-wide-2560.webp 2560w, assets/images/hero-hq/coralhaze-wide-3840.webp 3840w, assets/images/hero-hq/coralhaze-wide-5760.webp 5760w" sizes="100vw">
-          <img src="assets/images/hero-campaign/hero-1.webp" alt="Coralhaze 藍色水光背景品牌人物海報" width="1920" height="873" loading="eager" fetchpriority="high" decoding="async">
+          <img src="assets/images/hero-campaign/hero-1.webp" alt="Coralhaze 藍色水光背景品牌人物海報" width="1920" height="873" loading="lazy" decoding="async">
         </picture>
         <div class="home-campaign-hero__copy">
           <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> Coralhaze</span>
@@ -374,8 +387,8 @@
           <p class="home-campaign-hero__description">韓系美妝，日常一點光。</p>
           <a class="home-campaign-hero__link" href="shop.html?brand=Coralhaze">逛 Coralhaze <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
         </div>
-        <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="eager" decoding="async"><span>your little<br>beauty shop</span></div>
-      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--red" data-hero-slide="" aria-label="2 / 4 · TIRTIR" aria-roledescription="海報" aria-hidden="true" inert="">
+        <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><span>your little<br>beauty shop</span></div>
+      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--red" data-hero-slide="" aria-label="3 / 5 · TIRTIR" aria-roledescription="海報" aria-hidden="true" inert="">
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-2-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/tirtir-wide-1280.webp 1280w, assets/images/hero-hq/tirtir-wide-1920.webp 1920w, assets/images/hero-hq/tirtir-wide-2560.webp 2560w, assets/images/hero-hq/tirtir-wide-3840.webp 3840w, assets/images/hero-hq/tirtir-wide-5760.webp 5760w" sizes="100vw">
@@ -388,7 +401,7 @@
           <a class="home-campaign-hero__link" href="shop.html?brand=TIRTIR">逛 TIRTIR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
         </div>
         <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><span>your little<br>beauty shop</span></div>
-      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--peach" data-hero-slide="" aria-label="3 / 4 · dasique" aria-roledescription="海報" aria-hidden="true" inert="">
+      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--peach" data-hero-slide="" aria-label="4 / 5 · dasique" aria-roledescription="海報" aria-hidden="true" inert="">
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-3-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/dasique-wide-1280.webp 1280w, assets/images/hero-hq/dasique-wide-1920.webp 1920w, assets/images/hero-hq/dasique-wide-2560.webp 2560w, assets/images/hero-hq/dasique-wide-3840.webp 3840w, assets/images/hero-hq/dasique-wide-5760.webp 5760w" sizes="100vw">
@@ -401,7 +414,7 @@
           <a class="home-campaign-hero__link" href="shop.html?brand=dasique">逛 dasique <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a>
         </div>
         <div class="home-campaign-hero__signature" aria-hidden="true"><img src="assets/images/shima/hero-welcome.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><span>your little<br>beauty shop</span></div>
-      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--sage" data-hero-slide="" aria-label="4 / 4 · Laka" aria-roledescription="海報" aria-hidden="true" inert="">
+      </article><article class="home-campaign-hero__slide home-campaign-hero__slide--sage" data-hero-slide="" aria-label="5 / 5 · Laka" aria-roledescription="海報" aria-hidden="true" inert="">
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-4-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/laka-wide-1280.webp 1280w, assets/images/hero-hq/laka-wide-1920.webp 1920w, assets/images/hero-hq/laka-wide-2560.webp 2560w, assets/images/hero-hq/laka-wide-3840.webp 3840w, assets/images/hero-hq/laka-wide-5760.webp 5760w" sizes="100vw">
@@ -420,7 +433,7 @@
       <span class="home-campaign-hero__caption">韓妝風格，慢慢揀。</span>
       <div class="home-campaign-hero__navigation" role="group" aria-label="品牌海報導覽">
         <button type="button" class="home-campaign-hero__arrow home-campaign-hero__arrow--previous" data-hero-prev="" aria-label="上一張品牌海報"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button>
-        <div class="home-campaign-hero__pages" role="group" aria-label="選擇品牌海報"><button type="button" class="home-campaign-hero__page" data-hero-page="0" aria-label="Coralhaze 海報" aria-current="true"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="1" aria-label="TIRTIR 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="2" aria-label="dasique 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="3" aria-label="Laka 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button></div>
+        <div class="home-campaign-hero__pages" role="group" aria-label="選擇品牌海報"><button type="button" class="home-campaign-hero__page" data-hero-page="0" aria-label="Anua 海報" aria-current="true"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="1" aria-label="Coralhaze 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="2" aria-label="TIRTIR 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="3" aria-label="dasique 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button><button type="button" class="home-campaign-hero__page" data-hero-page="4" aria-label="Laka 海報"><span class="home-campaign-hero__dot" aria-hidden="true"></span></button></div>
         <button type="button" class="home-campaign-hero__arrow home-campaign-hero__arrow--next" data-hero-next="" aria-label="下一張品牌海報"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button>
       </div>
       <button type="button" data-hero-pause="" class="home-campaign-hero__pause" aria-label="暫停海報輪播" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 6v12M15 6v12"></path></svg></button>
@@ -877,7 +890,7 @@
   <script src="home.js?v=20261015-good-finds"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261016-megamag"></script>
-  <script src="home-top.js?v=20261013-1"></script>
+  <script src="home-top.js?v=20261018-anua"></script>
   <script src="home-codex.js?v=20261017-rowfit"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
