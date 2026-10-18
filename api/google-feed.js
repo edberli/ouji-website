@@ -181,8 +181,13 @@ function localDestinationExclusions(merchantId) {
    8/24–10/6 有七成半廣告費燒喺零單嘅平價／非護膚貨。其餘規格只排除
    Shopping_ads，免費刊登照出。名單讀唔到就唔排除，維持舊行為。 */
 let ADS_SCOPE = null;
+/* 2026-10-18 v2：每個規格嘅出價級別（cpc120／cpc080／…／cpc015）放 custom_label_1，
+   Google Ads 產品群組按呢個標籤分開出價。計法見 scripts/build_ads_scope.py。 */
+let ADS_CPC = {};
 try {
-  ADS_SCOPE = new Set(require('../data/ads-scope.json').variants.map(String));
+  const scope = require('../data/ads-scope.json');
+  ADS_SCOPE = new Set(scope.variants.map(String));
+  ADS_CPC = scope.cpc || {};
 } catch (e) {
   ADS_SCOPE = null;
 }
@@ -191,6 +196,7 @@ function adsScope(variantId) {
   if (!ADS_SCOPE) return '';
   return ADS_SCOPE.has(variantId)
     ? tag('g:custom_label_0', 'ads_in')
+      + (ADS_CPC[variantId] ? tag('g:custom_label_1', ADS_CPC[variantId]) : '')
     : tag('g:excluded_destination', 'Shopping_ads') + tag('g:custom_label_0', 'ads_out');
 }
 
