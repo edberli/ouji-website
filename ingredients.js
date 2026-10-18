@@ -44,6 +44,12 @@ const FLAG_NOTE = {
   香料: '含香料／香精，係常見致敏原之一',
   精油: '含精油，敏感肌要留意',
 };
+/* 英文版（2026-10-18 上 live 前補） */
+const FLAG_EN = {
+  酒精: { name: 'alcohol', note: 'Contains denatured alcohol; sensitive or dry skin may feel tight' },
+  香料: { name: 'fragrance', note: 'Contains fragrance/perfume, a common allergen' },
+  精油: { name: 'essential oils', note: 'Contains essential oils; take care if your skin is sensitive' },
+};
 
 /** null = 我哋冇佢嘅成分表，唔係「安全」。 */
 function safetyFlags(handle) {
@@ -59,10 +65,13 @@ function flagChips(handle) {
   // wrong.
   if (flags === null) return '';
   if (!flags.length) {
-    return '<span class="ing-chip ing-chip--clean">無酒精 · 無香料 · 無精油</span>';
+    return `<span class="ing-chip ing-chip--clean">${typeof oujiCopy === 'function' ? oujiCopy('無酒精 · 無香料 · 無精油', 'No alcohol · No fragrance · No essential oils') : '無酒精 · 無香料 · 無精油'}</span>`;
   }
+  const en = typeof oujiCopy === 'function' && oujiCopy('zh', 'en') === 'en';
   return flags
-    .map((f) => `<span class="ing-chip ing-chip--warn" title="${FLAG_NOTE[f] || ''}">含${f}</span>`)
+    .map((f) => (en && FLAG_EN[f]
+      ? `<span class="ing-chip ing-chip--warn" title="${FLAG_EN[f].note}">Contains ${FLAG_EN[f].name}</span>`
+      : `<span class="ing-chip ing-chip--warn" title="${FLAG_NOTE[f] || ''}">含${f}</span>`))
     .join('');
 }
 
@@ -80,56 +89,67 @@ const INGREDIENT_INFO = {
     what: '維他命 A 衍生物，護膚成分入面研究得最多嗰隻。',
     use: '常用嚟處理細紋同粗糙膚質。',
     tip: '由低濃度開始、隔日晚上用，日頭一定要搽防曬。孕婦應該避開。',
+    en: { name: 'Retinol', what: 'A vitamin A derivative — the most researched ingredient in skincare.', use: 'Commonly used for fine lines and rough texture.', tip: 'Start with a low strength every other night and always wear sunscreen in the day. Avoid during pregnancy.' },
   },
   維他命C: {
     what: '抗氧化成分，最常見嘅形態係 L-抗壞血酸。',
     use: '常用嚟提亮膚色同對付曬後暗沉。',
     tip: '早上用配合防曬效果較好。開封後會氧化變黃，變色就唔好再用。',
+    en: { name: 'Vitamin C', what: 'An antioxidant; the most common form is L-ascorbic acid.', use: 'Commonly used to brighten skin tone and tackle post-sun dullness.', tip: 'Works best in the morning with sunscreen. It oxidises and turns yellow after opening — stop using it once it changes colour.' },
   },
   煙酰胺: {
     what: '維他命 B3。韓國護膚品最常見嘅活性成分之一。',
     use: '常用嚟處理暗沉、粗大毛孔同出油。',
     tip: '2% 已經有用，10% 以上有啲人會覺得刺痛，可以由低濃度試起。',
+    en: { name: 'Niacinamide', what: 'Vitamin B3, one of the most common actives in Korean skincare.', use: 'Commonly used for dullness, enlarged pores and oiliness.', tip: '2% already works; some people feel a sting above 10%, so start low.' },
   },
   'AHA/BHA': {
     what: '果酸類。AHA 溶於水，BHA 溶於油所以入到毛孔。',
     use: '常用嚟代謝角質、處理粗糙同粉刺。',
     tip: '一星期一至三次已經夠。同 A 醇分開晚上用，日頭要搽防曬。',
+    en: { name: 'AHA/BHA', what: 'Acids: AHA dissolves in water, while BHA dissolves in oil, so it can get into pores.', use: 'Commonly used to exfoliate and deal with roughness and clogged pores.', tip: 'One to three times a week is enough. Use on a different night from retinol, and wear sunscreen in the day.' },
   },
   PDRN: {
     what: '三文魚 DNA 片段，近年韓國最紅嘅修護成分。',
     use: '常用嚟做屏障修護同提升彈性。',
     tip: '性質溫和，可以日日用，同其他成分都夾得埋。',
+    en: { name: 'PDRN', what: 'Salmon DNA fragments — one of Korea\'s most popular repair ingredients right now.', use: 'Commonly used to support the skin barrier and elasticity.', tip: 'Gentle enough for daily use and pairs well with other ingredients.' },
   },
   胜肽: {
     what: '氨基酸短鏈，作用係向皮膚傳遞訊號。',
     use: '常見於抗皺同緊緻類產品。',
     tip: '溫和，適合唔想用 A 醇但想做抗老嘅人。',
+    en: { name: 'Peptides', what: 'Short chains of amino acids that send signals to the skin.', use: 'Common in anti-wrinkle and firming products.', tip: 'Gentle — a good choice if you want anti-ageing care without retinol.' },
   },
   透明質酸: {
     what: '保濕劑，可以抓住自身重量幾百倍嘅水分。',
     use: '幾乎所有保濕產品都會有。',
     tip: '皮膚仲濕住嗰陣搽，跟住要用面霜鎖住，否則乾燥天氣反而會抽走水分。',
+    en: { name: 'Hyaluronic acid', what: 'A humectant that can hold hundreds of times its own weight in water.', use: 'Found in almost every hydrating product.', tip: 'Apply to damp skin and seal it in with a cream; otherwise it can draw moisture out in dry weather.' },
   },
   積雪草: {
     what: '雷公根萃取，韓國「cica」系列講嘅就係佢。',
     use: '常用嚟舒緩泛紅同鎮靜狀態唔穩定嘅皮膚。',
     tip: '溫和，刷酸或者曬後嘅日子特別多人用。',
+    en: { name: 'Centella', what: 'Centella asiatica extract — the \'cica\' in Korean cica ranges.', use: 'Commonly used to calm redness and settle unsettled skin.', tip: 'Gentle; especially popular on days after exfoliating or sun exposure.' },
   },
   神經醯胺: {
     what: '皮膚屏障本身嘅組成脂質之一。',
     use: '常用嚟補返屏障、減少水分流失。',
     tip: '乾肌同敏感肌嘅基本盤，一年四季都用得。',
+    en: { name: 'Ceramide', what: 'One of the lipids that make up the skin barrier itself.', use: 'Commonly used to restore the barrier and reduce moisture loss.', tip: 'A staple for dry and sensitive skin, all year round.' },
   },
   泛醇: {
     what: '維他命 B5 前體，保濕兼舒緩。',
     use: '常見於修護同鎮靜類產品。',
     tip: '好少人會敏感，可以同任何成分一齊用。',
+    en: { name: 'Panthenol', what: 'Pro-vitamin B5 — hydrating and soothing.', use: 'Common in repairing and calming products.', tip: 'Rarely irritating, and works alongside any other ingredient.' },
   },
   '曲酸／傳明酸': {
     what: '抑制黑色素生成路徑嘅成分。',
     use: '常用嚟處理曬斑同痘印留低嘅色素。',
     tip: '要見到分別通常要連續用幾個月，而且一定要配防曬。',
+    en: { name: 'Kojic / tranexamic acid', what: 'Ingredients that interrupt the pathway that makes pigment.', use: 'Commonly used for sun spots and marks left by breakouts.', tip: 'It usually takes a few months of steady use to see a difference, and sunscreen is a must.' },
   },
 };
 
@@ -146,9 +166,11 @@ function activeChips(handle) {
     .map((a) => {
       const pct = strengthOf(r, a);
       const info = INGREDIENT_INFO[a];
-      return `<span class="ing-chip ing-chip--active">${a}${pct ? ` ${pct}%` : ''}${
+      const en = typeof oujiCopy === 'function' && oujiCopy('zh', 'en') === 'en';
+      const label = en && info?.en ? info.en.name : a;
+      return `<span class="ing-chip ing-chip--active">${label}${pct ? ` ${pct}%` : ''}${
         info ? `<button class="ing-what" type="button" data-ing="${a}"
-                  aria-label="${a}係咩">!</button>` : ''
+                  aria-label="${en ? `What is ${label}?` : `${a}係咩`}">!</button>` : ''
       }</span>`;
     })
     .join('');
@@ -171,13 +193,17 @@ function initIngredientInfo(root) {
     if (!info) return;
     const sheet = document.createElement('div');
     sheet.className = 'ing-sheet';
+    /* 英文版（2026-10-18 上 live 前補）：有 en 就用英文 */
+    const t = typeof oujiCopy === 'function' && oujiCopy('zh', 'en') === 'en' && info.en
+      ? { ...info.en, close: 'Close', useH: 'What it\'s used for', tipH: 'Good to know', note: 'For general reference only, not medical advice. If you have a skin condition, please see a doctor.' }
+      : { name, what: info.what, use: info.use, tip: info.tip, close: '閂', useH: '通常用嚟做咩', tipH: '用嘅時候留意', note: '成分說明只作一般參考，唔係醫療建議。皮膚有狀況請睇醫生。' };
     sheet.innerHTML = `<div class="ing-sheet__box">
-      <button class="ing-sheet__close" type="button" aria-label="閂">&times;</button>
-      <h4>${name}</h4>
-      <p>${info.what}</p>
-      <p><strong>通常用嚟做咩</strong><br>${info.use}</p>
-      <p><strong>用嘅時候留意</strong><br>${info.tip}</p>
-      <small>成分說明只作一般參考，唔係醫療建議。皮膚有狀況請睇醫生。</small>
+      <button class="ing-sheet__close" type="button" aria-label="${t.close}">&times;</button>
+      <h4>${t.name}</h4>
+      <p>${t.what}</p>
+      <p><strong>${t.useH}</strong><br>${t.use}</p>
+      <p><strong>${t.tipH}</strong><br>${t.tip}</p>
+      <small>${t.note}</small>
     </div>`;
     document.body.appendChild(sheet);
     sheet.addEventListener('click', (ev) => {
