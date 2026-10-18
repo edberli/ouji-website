@@ -139,10 +139,14 @@ function buildHead(p) {
   /* 價錢行先（product-naming.js seoDescription），同 analytics.js 一樣。 */
   const desc = naming.seoDescription(p);
   const fallback = `${p.vendor || 'OUJI'} ${p.title}｜OUJI 香港 K-Beauty 專門店，正貨韓國直送。`;
-  const image = p.images?.edges?.[0]?.node?.url || `${SITE}/og-image.jpg`;
+  const productImage = p.images?.edges?.[0]?.node?.url || '';
+  /* 社交分享預覽冇相可以用 OUJI 預設圖；但 Product 結構化資料唔可以（見下面）。 */
+  const image = productImage || `${SITE}/og-image.jpg`;
   const variants = (p.variants?.edges || []).map((e) => e.node);
   const v = variants[0];
 
+  /* 2026-10-18：冇產品相就唔出 JSON-LD（Search Console「image 欄位未填」重大問題；
+     用 og-image 頂替會變成用標誌扮產品相，違反商家資訊規定）。 */
   /* JSON-LD 都要喺服務端出一次。Google Merchant Center 嘅免費刊登靠佢，
      而嗰個爬蟲同社交爬蟲一樣唔一定行 JS。客戶端嗰段用同一個 id，
      行到嗰陣會整個換走，唔會出兩份。 */
@@ -162,7 +166,7 @@ function buildHead(p) {
        單變體先放頂層，多變體留畀下一輪 ProductGroup。 */
     sku: variants.length === 1 ? (v?.sku || undefined) : undefined,
     ...(variants.length === 1 ? gtinField(v?.barcode) : {}),
-    image: [image],
+    image: [productImage],
     brand: p.vendor ? { '@type': 'Brand', name: p.vendor } : undefined,
     category: p.productType || undefined,
     offers: buildOffers(p, variants, url),
@@ -182,9 +186,9 @@ function buildHead(p) {
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(desc)}">
   <meta name="twitter:image" content="${esc(image)}">
-  <script type="application/ld+json" id="ouji-product-schema">${
+  ${productImage ? `<script type="application/ld+json" id="ouji-product-schema">${
     JSON.stringify(ld).replace(/</g, '\\u003c')
-  }</script>`;
+  }</script>` : '<!-- 冇產品相：唔出 Product 結構化資料（Google 商家資訊規定一定要有產品相）-->'}`;
 }
 
 /* product.html 用兩個註解標記包住成組 SEO tag，就係為咗喺度可以精準

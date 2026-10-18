@@ -437,6 +437,11 @@ function injectProductSchema(product, variant) {
   const variants = (product.variants?.edges || []).map((e) => e.node);
   const inStock = variants.some((x) => x.availableForSale);
   const images = (product.images?.edges || []).slice(0, 6).map((e) => e.node.url);
+  /* 2026-10-18 Search Console「商家資訊結構化資料：image 欄位未填」（重大問題）：
+     冇產品相嘅貨（當時 2 件）呢度出咗一段冇 image 嘅 Product。Google 規定商品資訊
+     一定要有產品本身嘅相，唔可以用標誌頂替，所以冇相就唔出 Product schema
+     （頁面照常收錄，只係唔做商品結構化資料）。同 api/product.js 一致。 */
+  if (!images.length) return;
   const url = `https://oujikbeauty.com/products/${product.handle}`;
 
   /* 多變體產品唔可以淨係攞第一個變體嘅價。BRAYE Lipsleek 八隻色，
