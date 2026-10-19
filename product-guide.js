@@ -102,13 +102,6 @@
     return tips;
   }
 
-  function scale(v, max, words) {
-    const n = Math.max(0, Math.min(max, Number(v) || 0));
-    if (!n) return '';
-    const dots = Array.from({ length: max }, (_, i) => `<i class="${i < n ? 'is-on' : ''}"></i>`).join('');
-    return `<span class="pdp-guide__scale" role="img" aria-label="${esc(words[n - 1] || '')}">${dots}</span><span>${esc(words[n - 1] || '')}</span>`;
-  }
-
   /* ---------- 由描述攞規格同用法（2026-10-17 Winston：「左邊又講容量、爽膚水，右邊又講一樣；左邊又有品牌、品牌國家，右邊又有」）----------
      重點卡出嘅嘢就喺描述度刪走，同一樣資料只出一次。只搬「成行都係『名稱：內容』」嘅規格行；
      句子入面順口提到嘅（例如「容量 150ml。」）照留，唔好整爛品牌寫嘅描述。 */
@@ -237,90 +230,84 @@
     return m ? m[1].replace(/\s+/g, '') : '';
   };
 
-  /* 重點卡：一律「細字標籤喺上、內容喺下」。短資料排做小格（類型｜容量｜品牌國家、質地 2×2），長資料一行一樣。
-     每件貨次序一樣；冇料嗰格／嗰行唔出，但張卡同佢個位一定喺度（2026-10-17 Winston：唔同產品頁面唔統一）。 */
-  const cell = (label, html) => `<dl class="pdp-facts__cell"><dt>${label}</dt><dd>${html}</dd></dl>`;
-  const grid = (key, cells) => (cells.length ? `<div class="pdp-facts__grid pdp-facts__grid--${key}">${cells.join('')}</div>` : '');
-  const line = (key, label, html) => `<dl class="pdp-facts__row pdp-facts__row--${key}"><dt>${label}</dt><dd>${html}</dd></dl>`;
+  /* ── 重點卡：一張視覺化卡（2026-10-19 Winston：「重點、適合咩膚質、質地、點樣用，會唔會可以用一張視覺化嘅卡片表示晒，而唔係分開三四卡」──
+     一張卡睇晒：一句重點 → 適合膚質五粒 → 三格（質地／膚感／刺激度；非護膚就類型／容量／產地）→ 點樣用（早夜＋步驟）→ 針對、主打成分；
+     長字（品牌用法、要留意）收喺最底「詳細」，撳開先出 —— 資料一樣都冇少。冇料嗰格唔出，張卡同個次序唔變。 */
+  const TEX_ICON = {
+    drop: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.2 4 5.5 7.2 5.5 10a5.5 5.5 0 0 1-11 0c0-2.8 2.3-6 5.5-10Z"/></svg>',
+    jar: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="9" width="14" height="10.5" rx="2.5"/><path d="M6.5 9V6.5h11V9"/><path d="M9 13.5c1.8 1.2 4.2 1.2 6 0"/></svg>',
+    gel: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 14.5c0-4 3-8.5 7-8.5s7 4.5 7 8.5a7 4.5 0 0 1-14 0Z"/><path d="M9 11.5c.6-1.2 1.6-2 2.8-2.3"/></svg>',
+    foam: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="13" r="4"/><circle cx="15.5" cy="10" r="3"/><circle cx="16" cy="16.5" r="2.2"/></svg>',
+    oil: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.2 4 5.5 7.2 5.5 10a5.5 5.5 0 0 1-11 0c0-2.8 2.3-6 5.5-10Z"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5"/></svg>',
+    sheet: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l2 4v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8Z"/><circle cx="9.5" cy="11" r=".9"/><circle cx="14.5" cy="11" r=".9"/><path d="M10 15c1.2.8 2.8.8 4 0"/></svg>',
+  };
+  const TEX_KIND = { watery: 'drop', essence: 'drop', mist: 'drop', milky: 'jar', creamy: 'jar', balm: 'jar', gel: 'gel', foam: 'foam', oil: 'oil', sheet: 'sheet', pad: 'sheet' };
 
-  function cardHTML({ product, facts, a, labels, tips }) {
+  function profileHTML({ product, facts, a, labels, tips }) {
     const en = isEN();
-    const g1 = []; const g2 = []; const g3 = []; const g4 = []; const g5 = [];
     const origin = originText(facts.origin, en);
     const size = facts.specs.size || (facts.specs.perbox ? '' : sizeFromTitle(product));
-    /* 1 基本：類型（產品類別自己一個 span，英文版由 ui-en.json 譯）、容量、品牌國家 */
-    g1.push(grid('basic', [
-      product.productType ? cell(cp('類型', 'Type'), `<span>${esc(product.productType)}</span>`) : '',
-      size ? cell(cp('容量', 'Size'), esc(size)) : '',
-      origin ? cell(cp('品牌國家', 'Brand origin'), esc(origin)) : '',
-    ].filter(Boolean)));
-    /* 2 其他規格：隱形眼鏡度數、防曬值、香味、款號……（由描述搬過嚟） */
-    g1.push(grid('spec', SPEC.filter((x) => x.zh && x.key !== 'size' && facts.specs[x.key])
-      .map((x) => cell(cp(x.zh, x.en), esc(facts.specs[x.key])))));
-    /* 3 適合膚質、針對（護膚標籤） */
+    const out = [];
+    const label = (t) => `<p class="pdp-pf__label">${t}</p>`;
+    if (a?.hook && !en) out.push(`<p class="pdp-pf__hook">${esc(a.hook)}</p>`);
+    /* 適合膚質：啱用排先，可以、唔建議跟住 */
     if (a) {
       const fit = a.fit || {};
-      const skins = SKINS.filter((k) => fit[k] && fit[k] !== 'unknown');
-      if (skins.length) {
-        /* 一類一行（啱用／可以／唔建議），張卡矮啲（Winston：卡片太大張） */
-        const word = (k) => (en ? EN.skin[k] : (labels.skin?.[k] || k));
-        const lvl = [['good', ICON.check, cp('啱用', 'Suits')], ['ok', ICON.dot, cp('可以', 'OK')], ['avoid', ICON.cross, cp('唔建議', 'Not advised')]]
-          .map(([st, icon, label]) => {
-            const ks = skins.filter((k) => fit[k] === st);
-            return ks.length ? `<li class="is-${st}">${icon}<b>${label}</b><span>${esc(ks.map(word).join(en ? ', ' : '、'))}</span></li>` : '';
-          }).join('');
-        g2.push(line('skin', cp('適合膚質', 'Skin types'), `<ul class="pdp-facts__skinlines">${lvl}</ul>`));
-      }
-      const conc = [...(a.c1 || []), ...(a.c2 || [])].map((k) => (en ? EN.concern[k] : labels.concern?.[k])).filter(Boolean);
-      if (conc.length) g2.push(line('concern', cp('針對', 'Targets'), esc(conc.join(en ? ' · ' : '・'))));
-      /* 4 質地、膚感、刺激度、程度：2×2 小格 */
-      const tex = en ? EN.tex[a.tex] : labels.tex?.[a.tex];
-      const wt = a.wt ? scale(a.wt, 3, en ? ['Light', 'Medium', 'Rich'] : ['清爽', '中度', '滋潤']) : '';
-      const irr = a.irr ? scale(a.irr, 3, en ? ['Gentle', 'Moderately active', 'Highly active'] : ['溫和', '中度活性', '高活性']) : '';
-      const beg = en ? EN.beg[a.beg] : labels.beg?.[a.beg];
-      g3.push(grid('feel', [
-        tex ? cell(cp('質地', 'Texture'), esc(tex)) : '',
-        wt ? cell(cp('膚感', 'Feel'), `<span class="pdp-facts__inline">${wt}</span>`) : '',
-        irr ? cell(cp('刺激度', 'Intensity'), `<span class="pdp-facts__inline">${irr}</span>`) : '',
-        beg ? cell(cp('程度', 'Level'), esc(beg)) : '',
-      ].filter(Boolean)));
+      const rank = { good: 0, ok: 1, avoid: 2 };
+      const word = (k) => (en ? EN.skin[k] : (labels.skin?.[k] || k));
+      const ks = SKINS.filter((k) => fit[k] && fit[k] !== 'unknown').sort((x, y) => rank[fit[x]] - rank[fit[y]]);
+      const say = { good: cp('啱用', 'suits'), ok: cp('可以', 'OK'), avoid: cp('唔建議', 'not advised') };
+      if (ks.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--skin">${label(cp('適合膚質', 'Skin types'))}<ul class="pdp-pf__skins">${ks.map((k) => `<li class="is-${fit[k]}" title="${esc(`${word(k)}${en ? ': ' : '：'}${say[fit[k]]}`)}">${fit[k] === 'good' ? ICON.check : fit[k] === 'avoid' ? ICON.cross : ICON.dot}<span>${esc(word(k))}</span><span class="pdp-pf__sr">${esc(say[fit[k]])}</span></li>`).join('')}</ul></div>`);
     }
-    /* 5 主打成分（ingredients.js 同一把尺：模型推斷嘅唔出；個「!」撳落去有解釋） */
-    const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
-    if (chips) g1.push(line('actives', cp('主打成分', 'Key ingredients'), `<span class="ing-chips">${chips}</span>`));
-    /* 6 點樣用：護膚步驟＋早／夜＋品牌寫嘅用法（描述入面嗰段已經搬咗過嚟） */
+    /* 三格：護膚＝質地／膚感／刺激度；其他＝類型／容量／產地 */
+    const meter = (v) => `<span class="pdp-pf__meter" aria-hidden="true">${[1, 2, 3].map((i) => `<i${i <= v ? ' class="is-on"' : ''}></i>`).join('')}</span>`;
+    const tile = (t, v, vis = '') => `<div class="pdp-pf__tile">${label(t)}<p class="pdp-pf__val">${vis}<span>${v}</span></p></div>`;
+    const tiles = [];
+    const tex = a ? (en ? EN.tex[a.tex] : labels.tex?.[a.tex]) : '';
+    if (a && (tex || a.wt || a.irr)) {
+      if (tex) tiles.push(tile(cp('質地', 'Texture'), esc(tex), TEX_ICON[TEX_KIND[a.tex] || 'drop']));
+      if (a.wt) tiles.push(tile(cp('膚感', 'Feel'), esc(en ? ['Light', 'Medium', 'Rich'][a.wt - 1] : labels.wt?.[a.wt]), meter(a.wt)));
+      if (a.irr) tiles.push(tile(cp('刺激度', 'Intensity'), esc(en ? ['Gentle', 'Moderate', 'Strong'][a.irr - 1] : labels.irr?.[a.irr]), meter(a.irr)));
+    } else {
+      if (product.productType) tiles.push(tile(cp('類型', 'Type'), `<span>${esc(product.productType)}</span>`));
+      if (size) tiles.push(tile(cp('容量', 'Size'), esc(size)));
+      if (origin) tiles.push(tile(cp('品牌國家', 'Origin'), esc(origin)));
+    }
+    if (tiles.length) out.push(`<div class="pdp-pf__tiles">${tiles.join('')}</div>`);
+    /* 冇護膚標籤（化妝品等）：品牌用法直接出喺卡度，唔好收埋（唔係張卡得兩格好空） */
+    const skinMode = !!(a && (tex || a.wt || a.irr));
+    if (!skinMode && facts.usage) out.push(`<div class="pdp-pf__sec pdp-pf__sec--use">${label(cp('點樣用', 'How to use'))}<p class="pdp-pf__text">${esc(facts.usage)}</p></div>`);
+    /* 點樣用：早夜＋程度一行；護膚步驟條 */
     const pos = a && STEP_POS[a.step] != null ? STEP_POS[a.step] : null;
-    /* 含酸類／A 醇：唔好寫「早晚都用得」，同「由一星期 2–3 晚開始」打交；改講建議夜晚用 */
     const actives = isWashOff(product, a) ? [] : activesOf(product.handle).actives;
     const strong = actives.includes('AHA/BHA') || actives.includes('視黃醇');
-    const when = strong
-      ? `${ICON.moon}<span>${cp('建議夜晚用', 'Best at night')}${actives.includes('AHA/BHA') && a?.am ? cp('（日間用要搽防曬）', ' (wear sunscreen if used by day)') : ''}</span>`
-      : a && (a.am || a.pm)
-        ? (a.am && a.pm ? `${ICON.sun}${ICON.moon}<span>${cp('早晚都用得', 'Morning & night')}</span>` : a.am ? `${ICON.sun}<span>${cp('早上用', 'Morning')}</span>` : `${ICON.moon}<span>${cp('夜晚用', 'Night')}</span>`)
-        : '';
-    const track = TRACK();
-    if (pos != null || when || facts.usage) {
-      g4.push(line('use', cp('點樣用', 'How to use'), `
-        ${pos != null ? `<ol class="pdp-guide__track" aria-label="${esc(cp(`護膚步驟：第 ${pos + 1} 步${track[pos]}`, `Routine step ${pos + 1}: ${track[pos]}`))}">${track.map((t, i) => `<li class="${i === pos ? 'is-here' : i < pos ? 'is-before' : ''}"><span>${esc(t)}</span></li>`).join('')}</ol>` : ''}
-        ${when ? `<p class="pdp-guide__when">${when}</p>` : ''}
-        ${facts.usage ? `<p class="pdp-facts__text">${esc(facts.usage)}</p>` : ''}`));
+    const when = strong ? `${ICON.moon}<span>${cp('建議夜晚用', 'Best at night')}</span>`
+      : a && (a.am || a.pm) ? (a.am && a.pm ? `${ICON.sun}${ICON.moon}<span>${cp('早晚都用得', 'Morning & night')}</span>` : a.am ? `${ICON.sun}<span>${cp('早上用', 'Morning')}</span>` : `${ICON.moon}<span>${cp('夜晚用', 'Night')}</span>`) : '';
+    const beg = a ? (en ? EN.beg[a.beg] : labels.beg?.[a.beg]) : '';
+    if (pos != null || when) {
+      const track = TRACK();
+      out.push(`<div class="pdp-pf__sec pdp-pf__sec--use">${label(cp('點樣用', 'How to use'))}
+        ${when || beg ? `<p class="pdp-pf__when">${when}${beg ? `<span class="pdp-pf__beg">${esc(beg)}</span>` : ''}</p>` : ''}
+        ${pos != null ? `<ol class="pdp-guide__track pdp-pf__track" aria-label="${esc(cp(`護膚步驟：第 ${pos + 1} 步${track[pos]}`, `Routine step ${pos + 1}: ${track[pos]}`))}">${track.map((t, i) => `<li class="${i === pos ? 'is-here' : i < pos ? 'is-before' : ''}">${esc(t)}</li>`).join('')}</ol>` : ''}
+      </div>`);
     }
-    /* 7 要留意（按成分同標籤；香料／精油／酒精都喺度講） */
-    if (tips.length) g5.push(line('care', cp('要留意', 'Good to know'), `<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`));
-    /* 摺疊清單（2026-10-18；Winston：幾張卡左右滑好核突）：「重點」預設打開，其餘撳先開；冇料嗰項唔出 */
-    const hook = !en && a?.hook ? `<p class="pdp-acc__hook">${esc(a.hook)}</p>` : '';
-    const item = (k, title, items, lead = '') => {
-      const body = items.filter(Boolean).join('');
-      if (!body && !lead) return '';
-      return `<details class="pdp-acc__item" data-k="${k}"${k === 'key' ? ' open' : ''}><summary class="pdp-acc__sum"><span>${title}</span><i aria-hidden="true"></i></summary><div class="pdp-acc__body">${lead}${body}</div></details>`;
-    };
-    return [
-      item('key', cp('重點', 'Highlights'), g1, hook),
-      item('fit', cp('適合膚質', 'Skin types'), g2),
-      item('feel', cp('質地同感覺', 'Texture & feel'), g3),
-      item('use', cp('點樣用', 'How to use'), g4),
-      item('care', cp('要留意', 'Good to know'), g5),
+    /* 針對、主打成分 */
+    const conc = a ? [...(a.c1 || []), ...(a.c2 || [])].map((k) => (en ? EN.concern[k] : labels.concern?.[k])).filter(Boolean) : [];
+    if (conc.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--targets">${label(cp('針對', 'Targets'))}<p class="pdp-pf__text">${esc(conc.join(en ? ' · ' : '・'))}</p></div>`);
+    const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
+    if (chips) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--actives">${label(cp('主打成分', 'Key ingredients'))}<span class="ing-chips">${chips}</span></div>`);
+    /* 最底：基本（護膚先出呢度；其他已經喺三格）＋其他規格＋「詳細」（品牌用法、要留意） */
+    const basics = skinMode ? [product.productType, size, origin].filter(Boolean).map(esc) : [];
+    const specs = SPEC.filter((x) => x.zh && x.key !== 'size' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
+    const foot = [...basics, ...specs];
+    const more = [
+      skinMode && facts.usage ? `<div class="pdp-pf__more-sec">${label(cp('品牌用法', 'Directions'))}<p class="pdp-pf__text">${esc(facts.usage)}</p></div>` : '',
+      tips.length ? `<div class="pdp-pf__more-sec">${label(cp('要留意', 'Good to know'))}<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '',
     ].join('');
+    if (foot.length || more) {
+      out.push(`<div class="pdp-pf__foot">${foot.length ? `<p class="pdp-pf__basics">${foot.join('<span aria-hidden="true">・</span>')}</p>` : '<span></span>'}${more ? `<details class="pdp-pf__more"><summary>${cp('詳細', 'Details')}<i aria-hidden="true"></i></summary><div class="pdp-pf__more-body">${more}</div></details>` : ''}</div>`);
+    }
+    return `<div class="pdp-pf${skinMode ? ' is-skin' : ''}">${out.join('')}</div>`;
   }
 
   const withTimeout = (p, ms) => Promise.race([Promise.resolve(p).catch(() => null), new Promise((r) => setTimeout(() => r(null), ms))]);
@@ -337,7 +324,9 @@
       const tips = careTips(product, a);
       const opened = new Set([...body.querySelectorAll('details')].filter((d) => d.open).map((d) => d.dataset.k));
       const first = !body.childElementCount;
-      body.innerHTML = cardHTML({ product, facts: f, a, labels, tips });
+      /* 2026-10-19 Winston：一張視覺化重點卡（取代 10-18 嘅摺疊清單） */
+      host.classList.add('is-card');
+      body.innerHTML = profileHTML({ product, facts: f, a, labels, tips });
       if (!first) body.querySelectorAll('details').forEach((d) => { d.open = opened.has(d.dataset.k); });
       /* 註腳：有膚質／成分提示先講「皮膚有狀況問醫生」；隱形眼鏡、保健品、公仔嗰啲唔啱講皮膚 */
       const skinInfo = !!(a || tips.length || (typeof activeChips === 'function' && activeChips(product.handle)));
@@ -346,7 +335,7 @@
           ? cp('資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。', 'Compiled by OUJI from brand information, ingredients and customer reviews. For reference only — if you have a skin condition, please ask a doctor or pharmacist first.')
           : cp('資料由 OUJI 根據品牌說明整理，只供參考。', 'Compiled by OUJI from brand information. For reference only.');
       }
-      host.hidden = !body.querySelector('dl');
+      host.hidden = !body.querySelector('.pdp-pf > *');
     };
     paint(null, {});
     const [attrsDoc] = await Promise.all([
