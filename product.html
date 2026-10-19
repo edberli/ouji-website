@@ -647,6 +647,24 @@
     el.dataset.pdpStick = '1';
     const wide = window.matchMedia('(min-width: 1024px)');
     const header = document.querySelector('.header');
+    /* 2026-10-19 Winston：右欄跟住捲「唔夠絲滑，窒下窒下」——之前係碌一下先用 JS 推 transform，永遠慢一格。
+       改用原生 position: sticky（瀏覽器合成層自己處理，同購物袋頁一樣；body 改 overflow: clip 先唔會整死 sticky）。
+       JS 淨係喺闊度／高度變嗰陣計 top，碌嗰陣乜都唔做：放得落視窗＝貼住 header 下面；高過視窗＝負數 top，碌到佢底先貼住視窗底。 */
+    if (window.CSS?.supports?.('overflow', 'clip')) {
+      el.classList.add('pdp-sticky');
+      const set = () => {
+        if (!wide.matches) { el.style.removeProperty('--pdp-stick-top'); return; }
+        const top = Math.max(16, (header ? header.getBoundingClientRect().bottom : 96) + gap);
+        const h = el.offsetHeight;
+        el.style.setProperty('--pdp-stick-top', `${Math.round(h + top + 16 > window.innerHeight ? window.innerHeight - 16 - h : top)}px`);
+      };
+      window.addEventListener('resize', set);
+      wide.addEventListener?.('change', set);
+      if (window.ResizeObserver) new ResizeObserver(set).observe(el);
+      set();
+      return;
+    }
+    /* 後備（唔識 overflow: clip 嘅舊瀏覽器）：照舊用 transform 跟住捲 */
     let raf = 0;
     const update = () => {
       raf = 0;

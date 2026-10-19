@@ -3173,7 +3173,7 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-story .pdp-h2 { margin-bottom: 20px; }
   .pdp-story .product-description { max-width: 680px; font-size: 16px; line-height: 1.85; }
   /* 購買欄頂同大相頂對齊；右欄跟住捲（product.html pdpStick） */
-  .pdp-buy { padding-top: 0; will-change: transform; }
+  .pdp-buy { padding-top: 0; }
   .pdp-id .product-info__brand { line-height: 1; }
   .pdp-options { margin-top: 24px; }
   .pdp-perks { margin-top: 28px; }
@@ -3183,11 +3183,23 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-story__body { gap: 16px; }
   .pdp-details__media { margin: 16px 0 0; border-radius: 12px; }
   .rv-layout { display: grid; grid-template-columns: minmax(0, 1fr) 440px; align-items: start; column-gap: 56px; }
-  .rv-aside { grid-row: 1; grid-column: 2; will-change: transform; }
+  .rv-aside { grid-row: 1; grid-column: 2; }
   .rv-main { grid-row: 1; grid-column: 1; margin-top: 0; }
   .rv-list { display: block; columns: 2; column-gap: 48px; }
   .rv-list .rv-card { break-inside: avoid; }
   .rv-more { width: auto; min-width: 240px; margin: 4px auto 0; padding: 0 24px; }
+}
+
+/* 桌面右欄（購買欄＋重點卡、評價總結）跟住捲：原生 sticky（2026-10-19 Winston：之前 JS 推嘅「窒下窒下」）。
+   同購物袋頁一樣，body 由 overflow hidden 改 clip —— 照樣唔准 body 自己捲，但唔再係捲動盒，sticky 先郁得。
+   top 由 product.html pdpStick() 喺闊度／高度變嗰陣寫入 --pdp-stick-top，碌嗰陣唔使 JS。唔識 clip 嘅舊瀏覽器行返 JS 後備。 */
+@supports (overflow: clip) {
+  @media (min-width: 769px) {
+    body.page-pdp { overflow-x: clip; overflow-y: clip; }
+  }
+  @media (min-width: 1024px) {
+    .pdp-sticky { position: sticky; top: var(--pdp-stick-top, 126px); }
+  }
 }
 
 @media (hover: hover) {
