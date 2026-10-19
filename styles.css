@@ -3110,12 +3110,11 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp__wrap { padding: 0 32px 72px; }
   .pdp-details__media { margin-right: -32px; margin-left: -32px; }
   .pdp-crumbs { display: flex; padding: 18px 0 20px; font-size: 12.5px; }
-  /* 平板：相＋購買欄兩欄，重點卡同產品介紹喺下面橫跨兩欄（左欄得 300 幾 px，放唔落）。≥1024 先改左欄（見下面）。 */
-  .pdp-hero { grid-template-columns: minmax(0, 1fr) minmax(320px, 380px); grid-template-areas: "gallery buy" "facts facts" "story story"; align-items: start; column-gap: 36px; }
+  /* 平板：相＋購買欄（連重點）兩欄，產品介紹喺下面橫跨兩欄（左欄得 300 幾 px，放唔落）。≥1024 先搬去左欄（見下面）。 */
+  .pdp-hero { grid-template-columns: minmax(0, 1fr) minmax(320px, 380px); grid-template-areas: "gallery buy" "story story"; align-items: start; column-gap: 36px; }
   .pdp-gallery { grid-area: gallery; margin: 0; }
   .pdp-buy { grid-area: buy; }
-  .pdp-hero > .pdp-acc { grid-area: facts; margin-top: 28px; }
-  .pdp-hero > .pdp-story { grid-area: story; margin-top: 56px; }
+  .pdp-hero > .pdp-story { grid-area: story; }
   .pdp-stage { border-radius: 12px; box-shadow: var(--bag-shadow); }
   .pdp-thumbs { padding: 12px 0 0; }
   .pdp-thumb { flex-basis: 64px; width: 64px; height: 64px; }
@@ -3152,9 +3151,9 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
 
 /* ---- 桌面完整版（≥1024px）：細相直排、購買欄 440、詳細資料左字右圖、評價左總結右評語 ---- */
 @media (min-width: 1024px) {
-  /* 2026-10-19 Winston：「右邊啲卡片好長，左邊就空咗一大片，產品簡介擺咗喺下面偏左」——
-     左欄：相 → 重點卡 → 產品介紹（連長圖），一路碌落去；右欄淨係購買欄，跨晒三行、跟住捲（product.html pdpStick）。 */
-  .pdp-hero { grid-template-columns: minmax(0, 1fr) 440px; grid-template-areas: "gallery buy" "facts buy" "story buy"; grid-template-rows: auto auto 1fr; column-gap: 56px; }
+  /* 2026-10-19 Winston：「右邊好長，左邊空咗一大片，產品簡介擺咗喺下面偏左……我只係叫你將產品簡介擺喺左邊」——
+     左欄：相 → 產品介紹（連長圖）；右欄：購買欄（連重點卡）跨兩行、跟住捲（product.html pdpStick；高過視窗就貼住視窗底）。 */
+  .pdp-hero { grid-template-columns: minmax(0, 1fr) 440px; grid-template-areas: "gallery buy" "story buy"; grid-template-rows: auto 1fr; column-gap: 56px; }
   .pdp-gallery { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: start; gap: 14px; }
   .pdp-stage { grid-row: 1; grid-column: 2; }
   /* 細相欄高度跟大相（height:0 + min-height:100% 唔會反過嚟撐高嗰行） */
@@ -3169,22 +3168,12 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-id .product-info__name { font-size: 30px; font-weight: 500; line-height: 1.3; }
   .product-info__price, .pp__now, .sd-price__now { font-size: 24px; }
   /* 評價同上面兩段一樣欄位：評語喺左（1fr）、分數總結＋AI 重點喺右（440，跟住捲）——成版由頂到底同一條線 */
-  /* 產品介紹喺左欄重點卡下面（2026-10-19）：文字閱讀闊度最多 680、16px；長圖跟左欄闊 */
+  /* 產品介紹喺左欄相下面（2026-10-19）：文字閱讀闊度最多 680、16px；長圖跟左欄闊 */
   .pdp-hero > .pdp-story { margin-top: 64px; }
   .pdp-story .pdp-h2 { margin-bottom: 20px; }
   .pdp-story .product-description { max-width: 680px; font-size: 16px; line-height: 1.85; }
   /* 購買欄頂同大相頂對齊；右欄跟住捲（product.html pdpStick） */
   .pdp-buy { padding-top: 0; will-change: transform; }
-  /* 視覺重點卡（預覽）喺左欄夠闊：分左右兩邊排 */
-  .pdp-hero > .pdp-acc .pdp-pf { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "hook hook" "skin use" "tiles use" "targets actives" "foot foot"; column-gap: 40px; row-gap: 18px; padding: 22px 24px 16px; }
-  .pdp-hero > .pdp-acc .pdp-pf:not(.is-skin) { grid-template-areas: "tiles use" "targets actives" "foot foot"; }
-  .pdp-pf__hook { grid-area: hook; }
-  .pdp-pf__sec--skin { grid-area: skin; }
-  .pdp-pf__tiles { grid-area: tiles; }
-  .pdp-pf__sec--use { grid-area: use; }
-  .pdp-pf__sec--targets { grid-area: targets; }
-  .pdp-pf__sec--actives { grid-area: actives; }
-  .pdp-pf__foot { grid-area: foot; }
   .pdp-id .product-info__brand { line-height: 1; }
   .pdp-options { margin-top: 24px; }
   .pdp-perks { margin-top: 28px; }
