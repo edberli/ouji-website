@@ -89,7 +89,10 @@
 
 /* ----- 細分類相格（每格一張真貨相＋名＋件數；第一格「全部」） ----- */
 .lx-page .lx-subcats { display: flex; gap: 12px; margin: 4px 0 14px; padding: 2px 2px 6px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
-.lx-page .lx-subcats:empty { display: none; }
+/* 細分類格要等目錄到先由 catalog.js buildCatGate() 填。未填之前預留一行格高（＝格 165.8＋上下 padding 8），
+   唔係格一出就成段推落去（2026-10-19 量到 CLS 桌面 0.24）。填完少過 2 格就由 JS 加 hidden 收起。 */
+.lx-page .lx-subcats:empty { min-height: 174px; }
+.lx-page .lx-subcats[hidden] { display: none; }
 .lx-page .lx-subcats::-webkit-scrollbar { display: none; }
 .lx-tile { display: flex; flex: 0 0 116px; flex-direction: column; align-items: center; gap: 5px; padding: 8px 8px 10px; border: 1px solid #dbe8e9; border-radius: 14px; background: #fff; color: #244a56; font: inherit; text-align: center; text-decoration: none; cursor: pointer; scroll-snap-align: start; transition: border-color 120ms ease, box-shadow 120ms ease; }
 .lx-tile__shot { display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 10px; background: #f1f5f5; }
@@ -378,6 +381,7 @@ body:not(.has-brand-rail) .lx-brandhead { display: none; }
 @media (max-width: 600px) {
   .lx-catnav__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .lx-page .lx-subcats { gap: 8px; margin-bottom: 12px; }
+  .lx-page .lx-subcats:empty { min-height: 142px; } /* 手機格 134.5＋padding 8 */
   .lx-tile { flex-basis: 86px; padding: 6px 6px 8px; border-radius: 12px; }
   .lx-tile__label { font-size: 13px; }
 }
