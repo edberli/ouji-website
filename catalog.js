@@ -1233,7 +1233,9 @@ function buildCatGate(section, products, sel, lockCat) {
   if (!host) return;
   const subs = availableSubs(section, products);
   const lx = host.classList.contains('lx-subcats');
-  if (subs.length < (lx ? 2 : 3)) { host.innerHTML = ''; return; }
+  // 細分類格未填之前 CSS 預留咗位（listing-v2.css），太少格就收起，夠格就照出。
+  host.hidden = subs.length < (lx ? 2 : 3);
+  if (host.hidden) { host.innerHTML = ''; return; }
   const used = new Set();
   const shot = (id) => {
     // 每格一張唔同嘅相 —— 兩格出同一支貨會令人以為我哋得嗰幾件
