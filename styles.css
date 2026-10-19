@@ -2877,6 +2877,50 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .pdp-acc .pdp-acc__body > * + * { margin-top: 18px; }
 .pdp-acc__hook { margin: 2px 0 0; color: var(--bag-ink); font-size: 15px; font-weight: 500; line-height: 1.55; text-wrap: pretty; }
 .pdp-acc__note { margin: 10px 2px 0; color: var(--bag-muted); font-size: 11.5px; line-height: 1.6; }
+/* ── 預覽：一張視覺化重點卡（?facts=card，2026-10-19 Winston：重點／適合膚質／質地／點樣用可唔可以一張卡表示晒）──
+   白卡；適合膚質五粒（啱用淺青＋剔、可以白底、唔建議淺紅＋交叉）；三格（質地 icon、膚感／刺激度三點）；點樣用＝早夜＋步驟條；
+   針對、主打成分一行；最底基本資料＋「詳細」（品牌用法、要留意）。 */
+.pdp-acc.is-card { margin-top: 18px; }
+.pdp-acc.is-card .pdp-acc__list { border-top: 0; }
+.pdp-pf { display: grid; gap: 16px; padding: 16px 16px 14px; border-radius: 14px; background: var(--bag-surface); box-shadow: inset 0 0 0 1px var(--bag-line); }
+.pdp-pf svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pdp-pf__hook { margin: 0; color: var(--bag-ink); font: 700 16px/1.45 var(--font-body); text-wrap: pretty; }
+.pdp-pf__label { margin: 0 0 7px; color: var(--bag-muted); font-size: 11.5px; font-weight: 700; line-height: 1.3; letter-spacing: .04em; }
+.pdp-pf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pdp-pf__skins { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.pdp-pf__skins li { display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 11px 0 8px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.pdp-pf__skins svg { flex: none; width: 15px; height: 15px; stroke-width: 2.4; }
+.pdp-pf__skins .is-good { background: var(--bag-tint); box-shadow: inset 0 0 0 1px #bcd6df; color: var(--bag-teal-ink); }
+.pdp-pf__skins .is-ok { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-line); color: var(--bag-muted); }
+.pdp-pf__skins .is-ok svg { fill: #9fb3ba; stroke: none; width: 9px; height: 9px; margin: 0 2px; }
+.pdp-pf__skins .is-avoid { background: #f6eceb; color: #9a4f49; }
+.pdp-pf__tiles { display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; gap: 8px; }
+.pdp-pf__tile { min-width: 0; padding: 10px 10px 9px; border-radius: 10px; background: var(--bag-tint); }
+.pdp-pf__tile .pdp-pf__label { margin-bottom: 5px; }
+.pdp-pf__val { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 0; color: var(--bag-ink); font-size: 13.5px; font-weight: 700; line-height: 1.3; }
+.pdp-pf__val svg { flex: none; width: 20px; height: 20px; color: var(--bag-teal); }
+.pdp-pf__meter { display: inline-flex; gap: 3px; }
+.pdp-pf__meter i { width: 12px; height: 6px; border-radius: 999px; background: #c9dce3; }
+.pdp-pf__meter i.is-on { background: var(--bag-teal); }
+.pdp-pf__when { display: flex; align-items: center; gap: 4px; margin: 0 0 10px; color: var(--bag-ink); font-size: 13.5px; font-weight: 600; }
+.pdp-pf__when svg { flex: none; width: 18px; height: 18px; color: var(--bag-teal); }
+.pdp-pf__beg { margin-left: auto; padding: 1px 9px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--bag-line); color: var(--bag-muted); font-size: 11.5px; font-weight: 600; line-height: 1.6; }
+.pdp-pf__track { margin-bottom: 0; }
+.pdp-pf__sec--inline { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: baseline; column-gap: 8px; }
+.pdp-pf__sec--inline .pdp-pf__label { margin: 0; }
+.pdp-pf__text { margin: 0; color: var(--bag-ink); font-size: 13.5px; line-height: 1.6; }
+.pdp-pf__foot { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 6px 12px; padding-top: 12px; border-top: 1px solid var(--bag-line); }
+.pdp-pf__basics { margin: 0; color: var(--bag-muted); font-size: 12.5px; line-height: 1.6; }
+.pdp-pf__more { flex: 1 1 100%; order: 2; }
+.pdp-pf__more summary { display: inline-flex; align-items: center; gap: 4px; color: var(--bag-teal); font-size: 13px; font-weight: 700; list-style: none; cursor: pointer; }
+.pdp-pf__more summary::-webkit-details-marker { display: none; }
+.pdp-pf__more summary i { position: relative; width: 10px; height: 10px; }
+.pdp-pf__more summary i::before, .pdp-pf__more summary i::after { content: ""; position: absolute; top: 4.25px; left: 0; width: 10px; height: 1.5px; border-radius: 1px; background: currentColor; }
+.pdp-pf__more summary i::after { transform: rotate(90deg); transition: transform .2s ease; }
+.pdp-pf__more[open] summary i::after { transform: rotate(0deg); }
+.pdp-pf__more-body { display: grid; gap: 12px; padding-top: 10px; }
+.pdp-pf__foot:has(.pdp-pf__basics) .pdp-pf__more { flex: 0 0 auto; order: 0; }
+.pdp-pf__foot:has(.pdp-pf__more[open]) .pdp-pf__more { flex: 1 1 100%; order: 2; }
 .pdp-acc .ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 /* 項目標題已經講咗嘅，入面唔使再寫一次 */
 .pdp-acc .pdp-facts__row--skin > dt, .pdp-acc .pdp-facts__row--use > dt, .pdp-acc .pdp-facts__row--care > dt { display: none; }
@@ -3066,8 +3110,12 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp__wrap { padding: 0 32px 72px; }
   .pdp-details__media { margin-right: -32px; margin-left: -32px; }
   .pdp-crumbs { display: flex; padding: 18px 0 20px; font-size: 12.5px; }
-  .pdp-hero { grid-template-columns: minmax(0, 1fr) minmax(320px, 380px); align-items: start; column-gap: 36px; }
-  .pdp-gallery { margin: 0; will-change: transform; }
+  /* 平板：相＋購買欄兩欄，重點卡同產品介紹喺下面橫跨兩欄（左欄得 300 幾 px，放唔落）。≥1024 先改左欄（見下面）。 */
+  .pdp-hero { grid-template-columns: minmax(0, 1fr) minmax(320px, 380px); grid-template-areas: "gallery buy" "facts facts" "story story"; align-items: start; column-gap: 36px; }
+  .pdp-gallery { grid-area: gallery; margin: 0; }
+  .pdp-buy { grid-area: buy; }
+  .pdp-hero > .pdp-acc { grid-area: facts; margin-top: 28px; }
+  .pdp-hero > .pdp-story { grid-area: story; margin-top: 56px; }
   .pdp-stage { border-radius: 12px; box-shadow: var(--bag-shadow); }
   .pdp-thumbs { padding: 12px 0 0; }
   .pdp-thumb { flex-basis: 64px; width: 64px; height: 64px; }
@@ -3104,7 +3152,9 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
 
 /* ---- 桌面完整版（≥1024px）：細相直排、購買欄 440、詳細資料左字右圖、評價左總結右評語 ---- */
 @media (min-width: 1024px) {
-  .pdp-hero { grid-template-columns: minmax(0, 1fr) 440px; column-gap: 56px; }
+  /* 2026-10-19 Winston：「右邊啲卡片好長，左邊就空咗一大片，產品簡介擺咗喺下面偏左」——
+     左欄：相 → 重點卡 → 產品介紹（連長圖），一路碌落去；右欄淨係購買欄，跨晒三行、跟住捲（product.html pdpStick）。 */
+  .pdp-hero { grid-template-columns: minmax(0, 1fr) 440px; grid-template-areas: "gallery buy" "facts buy" "story buy"; grid-template-rows: auto auto 1fr; column-gap: 56px; }
   .pdp-gallery { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: start; gap: 14px; }
   .pdp-stage { grid-row: 1; grid-column: 2; }
   /* 細相欄高度跟大相（height:0 + min-height:100% 唔會反過嚟撐高嗰行） */
@@ -3118,15 +3168,23 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-stage__nav:disabled { opacity: 0 !important; pointer-events: none; }
   .pdp-id .product-info__name { font-size: 30px; font-weight: 500; line-height: 1.3; }
   .product-info__price, .pp__now, .sd-price__now { font-size: 24px; }
-  /* 產品資料同上面一樣兩欄（左 1fr 對住相簿、右 440 對住購買欄）：介紹喺左、重點卡喺右跟住捲 */
   /* 評價同上面兩段一樣欄位：評語喺左（1fr）、分數總結＋AI 重點喺右（440，跟住捲）——成版由頂到底同一條線 */
-  /* 產品介紹：置中一條閱讀欄（文字同長圖一樣闊），唔再左右分 */
-  .pdp-story { max-width: 860px; margin-right: auto; margin-left: auto; }
-  /* 文字唔放大白卡：640px 閱讀欄、16px；長圖照 860 */
-  .pdp-story .pdp-h2 { max-width: 640px; margin-right: auto; margin-bottom: 20px; margin-left: auto; }
-  .pdp-story .product-description { max-width: 640px; margin: 0 auto; font-size: 16px; line-height: 1.85; }
-  /* 購買欄頂同大相頂對齊；購買區同資訊區拉開 */
-  .pdp-buy { padding-top: 0; }
+  /* 產品介紹喺左欄重點卡下面（2026-10-19）：文字閱讀闊度最多 680、16px；長圖跟左欄闊 */
+  .pdp-hero > .pdp-story { margin-top: 64px; }
+  .pdp-story .pdp-h2 { margin-bottom: 20px; }
+  .pdp-story .product-description { max-width: 680px; font-size: 16px; line-height: 1.85; }
+  /* 購買欄頂同大相頂對齊；右欄跟住捲（product.html pdpStick） */
+  .pdp-buy { padding-top: 0; will-change: transform; }
+  /* 視覺重點卡（預覽）喺左欄夠闊：分左右兩邊排 */
+  .pdp-hero > .pdp-acc .pdp-pf { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "hook hook" "skin use" "tiles use" "targets actives" "foot foot"; column-gap: 40px; row-gap: 18px; padding: 22px 24px 16px; }
+  .pdp-hero > .pdp-acc .pdp-pf:not(.is-skin) { grid-template-areas: "tiles use" "targets actives" "foot foot"; }
+  .pdp-pf__hook { grid-area: hook; }
+  .pdp-pf__sec--skin { grid-area: skin; }
+  .pdp-pf__tiles { grid-area: tiles; }
+  .pdp-pf__sec--use { grid-area: use; }
+  .pdp-pf__sec--targets { grid-area: targets; }
+  .pdp-pf__sec--actives { grid-area: actives; }
+  .pdp-pf__foot { grid-area: foot; }
   .pdp-id .product-info__brand { line-height: 1; }
   .pdp-options { margin-top: 24px; }
   .pdp-perks { margin-top: 28px; }
