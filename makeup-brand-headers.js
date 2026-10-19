@@ -19,7 +19,7 @@ window.OUJI_MAKEUP_BRAND_ORDER = Object.freeze([
 
 window.OUJI_MAKEUP_BRAND_HEADERS = {
   'CLIO': { identity: true, tint: '#14110f', dark: true, logo: 'logos/makeup-headers/clio.png', width: 170, maxHeight: 42 },
-  'CEZANNE': { identity: true, tint: '#b42046', logo: 'logos/makeup-headers/cezanne.png', width: 184, maxHeight: 51 },
+  'CEZANNE': { identity: true, tint: '#b42046', logo: 'logos/makeup-headers/cezanne.png', width: 184, maxHeight: 51, railFilter: 'brightness(0)' },
   'fwee': { identity: true, tint: '#0d88d8', dark: true, logo: 'logos/makeup-headers/fwee.png', width: 140, maxHeight: 44 },
   'UNLEASHIA': { identity: true, tint: '#121212', dark: true, logo: 'logos/makeup-headers/unleashia.png', width: 195, maxHeight: 36 },
   'hince': { identity: true, tint: '#a16e72', dark: true, logo: 'logos/makeup-headers/hince.svg', width: 145, maxHeight: 44 },

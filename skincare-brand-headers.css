@@ -73,6 +73,19 @@
   }
 }
 
+/* CEZANNE has little source padding; balance its navigation mark with its neighbours. */
+.lx-page .brand-rail--clearline .brand-rail__logo[alt="CEZANNE"] {
+  width: 71px;
+  height: 17px;
+}
+
+@media (max-width: 760px) {
+  .lx-page .brand-rail--clearline .brand-rail__logo[alt="CEZANNE"] {
+    width: 65px;
+    height: 15px;
+  }
+}
+
 /* New profile fallbacks use the audited crop geometry within a 78×26px mark box.
    Existing originalLogo rail images stay outside this wrapper and keep their calibration. */
 .lx-page .brand-rail--clearline .brand-rail__logo-crop {
