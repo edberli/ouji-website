@@ -52,7 +52,7 @@
   <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261019-left">
+  <link rel="stylesheet" href="styles.css?v=20261019-live">
   <link rel="stylesheet" href="product-card-lc.css?v=20261016-image-frame1">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
@@ -370,9 +370,9 @@
           </section>
 
 
-          <!-- 產品重點（2026-10-18 改做摺疊清單，跟 Rare Beauty／Glossier 做法；Winston：卡片太大張、幾張卡左右滑好核突）。
-               每件貨同一個次序：重點（預設打開）→ 適合膚質 → 質地同感覺 → 點樣用 → 要留意；冇料嗰項唔出。
-               擺喺購買欄入面：手機緊接購買資料；桌面喺右欄購買資料下面（2026-10-19 Winston：重點卡留喺右邊，淨係產品介紹搬去左邊）。 -->
+          <!-- 產品重點：一張視覺化卡（2026-10-19 Winston：「重點、適合膚質、質地、點樣用用一張視覺化嘅卡片表示晒」；取代 10-18 摺疊清單）。
+               product-guide.js profileHTML()：一句重點 → 適合膚質圓粒 → 質地／膚感／刺激度三格 → 早夜＋步驟 → 針對、主打成分 → 基本資料＋「詳細」。
+               每件貨同一個次序，冇料嗰格唔出。擺喺購買欄入面：手機緊接購買資料；桌面喺右欄（跟住捲），產品介紹喺左欄。 -->
           <section class="pdp-acc" data-pdp-guide hidden aria-label="產品重點">
             <div class="pdp-acc__list" data-pdp-guide-body></div>
             <p class="pdp-acc__note">資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。</p>
@@ -542,7 +542,7 @@
   <script src="shopify.js?v=20261017-sellexpired"></script>
   <script src="ingredients.js?v=20261018-live"></script>
   <script src="reviews.js?v=20261018-live"></script>
-  <script src="product-guide.js?v=20261019-card"></script>
+  <script src="product-guide.js?v=20261019-live"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261017-pdp"></script>
   <script src="awards.js"></script>
