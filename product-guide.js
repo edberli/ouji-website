@@ -323,7 +323,7 @@
     ].join('');
   }
 
-  /* ── 預覽（?facts=card）2026-10-19 Winston：「重點、適合咩膚質、質地、點樣用，會唔會可以用一張視覺化嘅卡片表示晒，而唔係分開三四卡」──
+  /* ── 一張視覺化重點卡（2026-10-19 Winston：「重點、適合咩膚質、質地、點樣用，會唔會可以用一張視覺化嘅卡片表示晒，而唔係分開三四卡」──
      一張卡睇晒：一句重點 → 適合膚質五粒 → 三格（質地／膚感／刺激度；非護膚就類型／容量／產地）→ 點樣用（早夜＋步驟）→ 針對、主打成分；
      長字（品牌用法、要留意）收喺最底「詳細」，撳開先出 —— 資料一樣都冇少。冇料嗰格唔出，張卡同個次序唔變。 */
   const TEX_ICON = {
@@ -417,7 +417,8 @@
       const tips = careTips(product, a);
       const opened = new Set([...body.querySelectorAll('details')].filter((d) => d.open).map((d) => d.dataset.k));
       const first = !body.childElementCount;
-      const asCard = new URLSearchParams(location.search).get('facts') === 'card'; /* 預覽：一張視覺化卡 */
+      /* 2026-10-19 Winston 要嘅最新版：一張視覺化重點卡做預設；?facts=list 先出返舊摺疊清單（對比用，上 live 前刪） */
+      const asCard = new URLSearchParams(location.search).get('facts') !== 'list';
       host.classList.toggle('is-card', asCard);
       body.innerHTML = asCard ? profileHTML({ product, facts: f, a, labels, tips }) : cardHTML({ product, facts: f, a, labels, tips });
       if (!first) body.querySelectorAll('details').forEach((d) => { d.open = opened.has(d.dataset.k); });
