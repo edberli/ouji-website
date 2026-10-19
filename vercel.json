@@ -382,6 +382,16 @@
       ]
     },
     {
+      "source": "/(.*).(css|js)",
+      "has": [{ "type": "query", "key": "v" }],
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=600"
+        }
+      ]
+    },
+    {
       "source": "/data/(.*)",
       "headers": [
         {

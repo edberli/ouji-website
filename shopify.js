@@ -655,8 +655,26 @@ function revalidateCatalog(key, opts) {
       /* 對唔到數就算 —— 快照已經畫咗出嚟，唔好因為呢個爆咗成版 */
     }
   };
-  if (window.requestIdleCallback) window.requestIdleCallback(run, { timeout: 4000 });
-  else setTimeout(run, 1500);
+  afterLoadIdle(run);
+}
+
+/* 背景工作（對數、預載產品詳情）要等成頁 load 完先開始。2026-10-19 手機實測：
+   之前用 requestIdleCallback 一閒就行，首屏仲未出齊已經同時發十個 Storefront
+   request，同產品相爭 4G 頻寬同 CPU。load 永遠唔嚟（例如某個資源吊住）都有
+   8 秒後路，唔會一直唔對數。 */
+function afterLoadIdle(fn) {
+  let started = false;
+  const go = () => {
+    if (started) return;
+    started = true;
+    if (window.requestIdleCallback) window.requestIdleCallback(fn, { timeout: 3000 });
+    else setTimeout(fn, 300);
+  };
+  if (document.readyState === 'complete') go();
+  else {
+    window.addEventListener('load', go, { once: true });
+    setTimeout(go, 8000);
+  }
 }
 
 async function getAllProducts({ collectionHandle, pageSize = 250, max = 5000, progressive = false } = {}) {
@@ -812,11 +830,7 @@ function prefetchProducts(handles, limit = 4) {
       } catch (e) { /* 預載失敗唔緊要，撳落去嗰陣照樣攞到 */ }
     });
   };
-  if (typeof requestIdleCallback === 'function') {
-    requestIdleCallback(run, { timeout: 4000 });
-  } else {
-    setTimeout(run, 1500);
-  }
+  afterLoadIdle(run);
 }
 
 /** 搜尋商品 */
@@ -3124,7 +3138,9 @@ function isPremiumBundleProduct(p) {
    專櫃品牌嘅套裝一律出尊貴牌。商品卡 renderer 只有標題同 tags，brand 睇標題已夠。 */
 const COUNTER_SET_MIN_PRICE = 250;
 // 專櫃／高端品牌：雪花秀、Whoo、O HUI、su:m37 ＋ 自然發酵 Jahwangsu（滋陰生）；It's Skin 只限 Prestige／尊貴系列
-const COUNTER_EXTRA_BRANDS = /jahwangsu|自然發酵|滋陰生|(?=.*it'?s\s*skin)(?=.*(?:prestige|尊貴))/i;
+// ⚠️ 兩個 lookahead 一定要釘喺行頭（^＋m）：冇 ^ 嘅話每個字元位都會由頭掃到尾，
+// 分類頁幾千件貨逐件試，手機實測單係呢條就食咗 1.2 秒主線程（2026-10-19）。結果完全一樣。
+const COUNTER_EXTRA_BRANDS = /jahwangsu|自然發酵|滋陰生|^(?=.*it'?s\s*skin)(?=.*(?:prestige|尊貴))/im;
 function isCounterBrandBundle(title, tags = []) {
   const text = `${title || ''} ${(tags || []).join(' ')}`;
   return (PREMIUM_BUNDLE_BRANDS.test(text) || COUNTER_EXTRA_BRANDS.test(text))
