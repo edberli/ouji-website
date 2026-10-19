@@ -2908,6 +2908,7 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .pdp-pf__track { margin-bottom: 0; }
 .pdp-pf__sec--inline { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: baseline; column-gap: 8px; }
 .pdp-pf__sec--inline .pdp-pf__label { margin: 0; }
+html[lang="en"] .pdp-pf__sec--inline { grid-template-columns: 100px minmax(0, 1fr); } /* 「Key ingredients」一行擺得落 */
 .pdp-pf__text { margin: 0; color: var(--bag-ink); font-size: 13.5px; line-height: 1.6; }
 .pdp-pf__foot { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 6px 12px; padding-top: 12px; border-top: 1px solid var(--bag-line); }
 .pdp-pf__basics { margin: 0; color: var(--bag-muted); font-size: 12.5px; line-height: 1.6; }
