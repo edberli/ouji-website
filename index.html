@@ -38,6 +38,26 @@
   <link rel="preconnect" href="https://5rerjn-mt.myshopify.com" crossorigin>
   <!-- 目錄快照 URL 每個鐘轉一次；唔可以 preload 固定 URL，否則瀏覽器會
        同正式 fetch 各下載一次約 2MB JSON。保留 CDN preconnect 就夠。 -->
+  <!-- 2026-10-19：首頁都喺 head 就開始攞目錄快照（同全部產品頁一樣），
+       shopify.js 會重用呢個 promise，唔會下載兩次。之前要等成頁 parse 完、
+       行到 initHome 先開始攞，手機實測 2.8 秒先起步。 -->
+  <script>
+  (() => {
+    try {
+      const lang = localStorage.getItem('ouji:lang') === 'en' ? 'en' : 'zh';
+      const file = lang === 'en' ? 'data/catalog-en.json' : 'data/catalog.json';
+      const bucket = Math.floor(Date.now() / 3600000);
+      const url = `${file}?v=${bucket}`;
+      const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
+      const promise = fetch(url, {
+        cache: 'no-cache',
+        signal: ctrl ? ctrl.signal : undefined,
+      }).catch(() => null).finally(() => { if (timer) clearTimeout(timer); });
+      window.OUJI_EARLY_CATALOG = { url, promise };
+    } catch (_) { /* 正式 loader 會照常再試 */ }
+  })();
+  </script>
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +79,7 @@
   <link rel="stylesheet" href="home-member.css?v=20261015-grid1">
   <link rel="stylesheet" href="home-instagram.css?v=20261013-1">
   <!-- 首頁新設計段落（Codex）：樣式、新產品卡；手寫字 Klee One 只攞「明星同款」「玩妝靈感」「按需要」標題用到嘅字 -->
-  <link rel="stylesheet" href="home-codex.css?v=20261017-tabfix">
+  <link rel="stylesheet" href="home-codex.css?v=20261019-speed">
   <link rel="stylesheet" href="home-shelf.css?v=20261015-1">
   <link rel="stylesheet" href="home-good-finds.css?v=20261015-1">
   <link rel="stylesheet" href="product-card-lc.css?v=20261016-image-frame1">
@@ -379,7 +399,7 @@
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-1-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/coralhaze-wide-1280.webp 1280w, assets/images/hero-hq/coralhaze-wide-1920.webp 1920w, assets/images/hero-hq/coralhaze-wide-2560.webp 2560w, assets/images/hero-hq/coralhaze-wide-3840.webp 3840w, assets/images/hero-hq/coralhaze-wide-5760.webp 5760w" sizes="100vw">
-          <img src="assets/images/hero-campaign/hero-1.webp" alt="Coralhaze 藍色水光背景品牌人物海報" width="1920" height="873" loading="lazy" decoding="async">
+          <img src="assets/images/hero-campaign/hero-1.webp" alt="Coralhaze 藍色水光背景品牌人物海報" width="1920" height="873" loading="lazy" fetchpriority="low" decoding="async">
         </picture>
         <div class="home-campaign-hero__copy">
           <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> Coralhaze</span>
@@ -392,7 +412,7 @@
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-2-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/tirtir-wide-1280.webp 1280w, assets/images/hero-hq/tirtir-wide-1920.webp 1920w, assets/images/hero-hq/tirtir-wide-2560.webp 2560w, assets/images/hero-hq/tirtir-wide-3840.webp 3840w, assets/images/hero-hq/tirtir-wide-5760.webp 5760w" sizes="100vw">
-          <img src="assets/images/hero-campaign/hero-2.webp" alt="TIRTIR 紅色背景品牌人物海報" width="1920" height="873" loading="lazy" decoding="async">
+          <img src="assets/images/hero-campaign/hero-2.webp" alt="TIRTIR 紅色背景品牌人物海報" width="1920" height="873" loading="lazy" fetchpriority="low" decoding="async">
         </picture>
         <div class="home-campaign-hero__copy">
           <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> TIRTIR</span>
@@ -405,7 +425,7 @@
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-3-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/dasique-wide-1280.webp 1280w, assets/images/hero-hq/dasique-wide-1920.webp 1920w, assets/images/hero-hq/dasique-wide-2560.webp 2560w, assets/images/hero-hq/dasique-wide-3840.webp 3840w, assets/images/hero-hq/dasique-wide-5760.webp 5760w" sizes="100vw">
-          <img src="assets/images/hero-campaign/hero-3.webp" alt="dasique 杏色背景人物與彩妝海報" width="1920" height="873" loading="lazy" decoding="async">
+          <img src="assets/images/hero-campaign/hero-3.webp" alt="dasique 杏色背景人物與彩妝海報" width="1920" height="873" loading="lazy" fetchpriority="low" decoding="async">
         </picture>
         <div class="home-campaign-hero__copy">
           <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> dasique</span>
@@ -418,7 +438,7 @@
         <picture class="home-campaign-hero__media">
           <source media="(max-width:760px)" srcset="assets/images/hero-campaign/hero-4-mobile.webp">
           <source type="image/webp" media="(min-width:1800px) and (min-aspect-ratio:181/100)" srcset="assets/images/hero-hq/laka-wide-1280.webp 1280w, assets/images/hero-hq/laka-wide-1920.webp 1920w, assets/images/hero-hq/laka-wide-2560.webp 2560w, assets/images/hero-hq/laka-wide-3840.webp 3840w, assets/images/hero-hq/laka-wide-5760.webp 5760w" sizes="100vw">
-          <img src="assets/images/hero-campaign/hero-4.webp" alt="Laka 綠色背景雙人物品牌海報" width="1920" height="873" loading="lazy" decoding="async">
+          <img src="assets/images/hero-campaign/hero-4.webp" alt="Laka 綠色背景雙人物品牌海報" width="1920" height="873" loading="lazy" fetchpriority="low" decoding="async">
         </picture>
         <div class="home-campaign-hero__copy">
           <span class="home-campaign-hero__eyebrow">THE BEAUTY EDIT <span aria-hidden="true">/</span> Laka</span>
@@ -582,7 +602,7 @@
 <a aria-label="逛 TIRTIR" class="commerce-poster" href="shop.html?brand=TIRTIR"><img alt="TIRTIR 韓國官方廣告：V 與 Mask Fit 氣墊" decoding="async" height="950" loading="lazy" sizes="(max-width:760px) calc(100vw - 60px), calc((100vw - 100px) / 2)" src="assets/images/home-codex/commerce/tirtir-v.webp" srcset="assets/images/home-codex/commerce/tirtir-v-1000.webp 1000w, assets/images/home-codex/commerce/tirtir-v.webp 1920w" width="1920"/></a><div aria-label="TIRTIR 氣墊同粉底商品；可左右滑動" class="commerce-rail" data-codex-rail="tirtir" data-handles="tirtir-mask-fit-red-cushion,tirtir-mask-fit-pink-cushion,tirtir-mask-fit-ai-filter-cushion,tirtir-mask-fit-aura-cushion,tirtir-mask-fit-crystal-mesh-cushion,tirtir-mask-fit-cool-sun-cushion,tirtir-mask-fit-red-foundation,tirtir-glide-hide-blurring-concealer" role="region" tabindex="0"></div><div class="commerce-foot"><span>左右滑動，睇更多好物</span></div>
 </div></section>
 <section aria-label="Torriden" class="home-commerce home-commerce--torriden home-commerce--brand commerce-feature commerce-feature--brand" data-brand-edit="torriden" id="brand-edit-torriden-panel"><div aria-hidden="true" class="home-brand-edits__chapter-logo"><img alt="" decoding="async" height="90" loading="eager" src="assets/images/home-codex/live-brand-logos/torriden.svg" width="260"/></div><div class="content-wrap">
-<a aria-label="逛 Torriden" class="commerce-poster commerce-poster--torriden-model" href="shop.html?brand=Torriden"><span class="commerce-poster__campaign-copy"><small>Torriden with CORTIS</small><strong>DIVE<br/>IN.</strong><span>日常補水，一點水光。</span><b class="commerce-poster__cta">逛 Torriden <span aria-hidden="true">→</span></b></span><span class="commerce-poster__portrait"><img alt="Torriden 官方 CORTIS DIVE IN 品牌模特兒合照" decoding="async" height="5782" loading="lazy" src="assets/images/home-codex/commerce/torriden-cortis-campaign.webp" width="900"/></span></a><div aria-label="Torriden DIVE-IN 補水商品；可左右滑動" class="commerce-rail" data-codex-rail="torriden" data-handles="torriden-torriden-dive-in-100ml-0183,torriden-torriden-dive-in-80-9446,torriden-torriden-60ml-0268,torriden-torriden-10-2865,torriden-torriden-dive-in-5072,torriden-torriden-dive-in-80ml-1660,torriden-torriden-dive-in-150ml-0404,torriden-torriden-150ml-2-5096" role="region" tabindex="0"></div><div class="commerce-foot"><span>左右滑動，睇更多好物</span></div>
+<a aria-label="逛 Torriden" class="commerce-poster commerce-poster--torriden-model" href="shop.html?brand=Torriden"><span class="commerce-poster__campaign-copy"><small>Torriden with CORTIS</small><strong>DIVE<br/>IN.</strong><span>日常補水，一點水光。</span><b class="commerce-poster__cta">逛 Torriden <span aria-hidden="true">→</span></b></span><span class="commerce-poster__portrait"><img alt="Torriden 官方 CORTIS DIVE IN 品牌模特兒合照" decoding="async" height="1825" loading="lazy" src="assets/images/home-codex/commerce/torriden-cortis-crop.webp" width="650"/></span></a><div aria-label="Torriden DIVE-IN 補水商品；可左右滑動" class="commerce-rail" data-codex-rail="torriden" data-handles="torriden-torriden-dive-in-100ml-0183,torriden-torriden-dive-in-80-9446,torriden-torriden-60ml-0268,torriden-torriden-10-2865,torriden-torriden-dive-in-5072,torriden-torriden-dive-in-80ml-1660,torriden-torriden-dive-in-150ml-0404,torriden-torriden-150ml-2-5096" role="region" tabindex="0"></div><div class="commerce-foot"><span>左右滑動，睇更多好物</span></div>
 </div></section>
 </div>
 </section>
@@ -882,7 +902,7 @@
 
   <script src="product-naming.js?v=20261017-sdname"></script>
   <script src="analytics.js"></script>
-  <script src="shopify.js?v=20261017-sellexpired"></script>
+  <script src="shopify.js?v=20261019-speed"></script>
   <script src="ingredients.js"></script>
   <script src="reviews.js"></script>
   <script src="awards.js"></script>

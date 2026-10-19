@@ -685,7 +685,7 @@
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy strong { font:600 clamp(33px,4.4vw,64px)/.85 var(--sans); letter-spacing:-.035em; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy > span { font:500 clamp(8px,.75vw,11px)/1.5 var(--sans); white-space:nowrap; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__portrait { display:block; position:relative; min-width:0; overflow:hidden; }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster .commerce-poster__portrait img { position:absolute; display:block; width:130.435%; max-width:none; height:auto !important; left:-15.217%; top:-360%; border-radius:0; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster .commerce-poster__portrait img { position:absolute; display:block; width:100%; max-width:none; height:auto !important; left:0; top:-382.7%; transform:translateY(109.041%); border-radius:0; }
 /* Torriden 海報（桌面，Winston 2026-10-15「要優化」）：字板底色跟相片嘅天藍、相片左邊淡入，冇咗中間條硬邊；
    相片裁窄少少，避開原圖卡邊同右下角暗位；字分三層（品牌合作／大標題／副題）再加「逛 Torriden」入口。手機版不變。 */
 @media (min-width: 761px) {
@@ -696,7 +696,7 @@
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy > span { font: 500 13px/1.55 var(--sans); white-space: normal; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__cta { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; margin-top: 4px; padding-bottom: 3px; border-bottom: 1px solid currentColor; font: 700 13px/1.4 var(--sans); letter-spacing: .02em; }
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__portrait { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%); mask-image: linear-gradient(90deg, transparent 0, #000 12%); }
-.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster .commerce-poster__portrait img { width: 138.46%; left: -18.46%; top: -382.7%; }
+.home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits /* 圖已預先裁成原長圖 x 120–770、y 1990–3815（900×5782 → 650×1825）：width 100% 等於舊 138.46%／left -18.46%；top 照舊 -382.7%，translateY 補返裁走嘅 1990px。 */
 }
 @media (max-width: 760px) {
 .home-codex.home-codex.home-codex.home-codex:not(cx-pad) .home-brand-edits .commerce-poster__campaign-copy { padding:14px 10px 14px 16px; gap:10px; }
