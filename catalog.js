@@ -2406,7 +2406,15 @@ let RAIL_ABORT = null;
 function removeBrandRail() {
   RAIL_ABORT?.abort();
   RAIL_ABORT = null;
-  document.querySelector('.brand-rail')?.remove();
+  const rail = document.querySelector('.brand-rail');
+  const dock = rail?.closest('.brand-rail-dock');
+  if (dock) {
+    const slot = document.createElement('div');
+    slot.className = 'brand-strip';
+    slot.setAttribute('data-brand-strip', '');
+    slot.hidden = true;
+    dock.replaceWith(slot);
+  } else rail?.remove();
   document.body.classList.remove('has-brand-rail');
 }
 
@@ -2417,10 +2425,29 @@ function buildBrandRail(order) {
   RAIL_ABORT = abort;
 
   const names = order.map(([vendor]) => vendor);
+  const english = typeof getLang === 'function' && getLang() === 'en';
+  const copy = english
+    ? { toggle: 'All brands', heading: 'Choose a brand', search: 'Search brands', empty: 'No matching brands', count: `${names.length} brands`, filter: 'Filter', sortLabel: 'Sort' }
+    : { toggle: '所有品牌', heading: '選擇品牌', search: '搜尋品牌', empty: '找不到符合的品牌', count: `${names.length} 個品牌`, filter: '篩選', sortLabel: '排序' };
   /* 品牌條每格得 100px 闊，長名一定切。與其切到「Mighty Jaxx (Jason…」，
      不如剪走括號入面嗰段註解 —— 括號嗰啲本身就係補充，唔係招牌。
      品牌牌（.brand-plate）照出全名，兩處唔會矛盾：一個係導覽、一個係標題。 */
   const railName = (v) => String(v).replace(/[（(].*$/, '').trim() || String(v);
+  const filterTrigger = document.querySelector('[data-filter-toggle]');
+  const filterSidebar = document.querySelector('.filter-sidebar');
+  const canonicalSort = document.querySelector('.filter-bar__sort select');
+  const hasFilterControl = !!(filterTrigger && filterSidebar);
+  const toolsMarkup = hasFilterControl || canonicalSort ? `<div class="brand-picker__tools">
+      ${hasFilterControl ? `<button class="brand-picker__filter" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+        <span>${copy.filter}</span>
+      </button>` : ''}
+      ${canonicalSort ? `<label class="brand-picker__sort-wrap">
+        <span class="brand-picker__sort-label" aria-hidden="true">${copy.sortLabel}</span>
+        <span class="brand-picker__visually-hidden">${copy.sortLabel}</span>
+        <select class="brand-picker__sort">${canonicalSort.innerHTML}</select>
+      </label>` : ''}
+    </div>` : '';
   const attr = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[ch]);
@@ -2430,8 +2457,8 @@ function buildBrandRail(order) {
      同 `/brands` 品牌頁一致。 */
   const rail = document.createElement('nav');
   rail.className = 'brand-rail brand-rail--clearline';
-  rail.setAttribute('aria-label', '品牌快速跳轉');
-  rail.innerHTML = names.map((vendor, i) => {
+  rail.setAttribute('aria-label', english ? 'Jump to a brand' : '品牌快速跳轉');
+  const renderItem = (vendor, i, picker = false) => {
     const profile = window.OUJI_brandHeader?.(vendor);
     const originalLogo = brandLogo(vendor);
     const logo = originalLogo || profile?.logo;
@@ -2443,12 +2470,30 @@ function buildBrandRail(order) {
     const logoMarkup = railCrop
       ? `<span class="brand-rail__logo-crop" style="--rail-crop-aspect:${railCrop.width / railCrop.height};--rail-crop-frame-width:${Math.min(78, 26 * railCrop.width / railCrop.height)}px;--rail-crop-image-width:${railCrop.sourceWidth / railCrop.width * 100}%;--rail-crop-left:${-railCrop.x / railCrop.width * 100}%;--rail-crop-top:${-railCrop.y / railCrop.height * 100}%">${logoImage}</span>`
       : logoImage;
-    return `<a class="brand-rail__item" href="#brand-${i}" data-rail="${i}"
-      aria-label="跳到 ${name}">
+    return `<a class="brand-rail__item${picker ? ' brand-picker__item' : ''}" href="#brand-${i}" data-rail="${i}"
+      aria-label="${english ? 'Go to ' : '跳到 '}${name}">
       ${logoMarkup}
-      <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${attr(railName(vendor))}</span>
+      <span class="brand-rail__fallback"${logo ? ' hidden' : ''}>${attr(picker ? vendor : railName(vendor))}</span>
     </a>`;
-  }).join('');
+  };
+  const brandLinks = names.map((vendor, i) => renderItem(vendor, i)).join('');
+  const pickerLinks = names.map((vendor, i) => renderItem(vendor, i, true)).join('');
+  rail.innerHTML = `
+    <div class="brand-rail__track">${brandLinks}</div>
+    <button class="brand-picker__toggle" type="button" aria-expanded="false" aria-controls="brand-picker-panel">
+      <span>${copy.toggle}</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3.5 6 4.5 4 4.5-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"/></svg>
+    </button>
+    <section class="brand-picker__panel" id="brand-picker-panel" aria-labelledby="brand-picker-heading" hidden>
+      ${toolsMarkup}
+      <div class="brand-picker__header"><h2 id="brand-picker-heading">${copy.heading}</h2><span class="brand-picker__count">${copy.count}</span></div>
+      <label class="brand-picker__search-wrap" for="brand-picker-search">
+        <span class="brand-picker__visually-hidden">${copy.search}</span>
+        <input class="brand-picker__search" id="brand-picker-search" type="search" placeholder="${copy.search}" autocomplete="off" spellcheck="false">
+      </label>
+      <div class="brand-picker__grid" id="brand-picker-grid">${pickerLinks}</div>
+      <p class="brand-picker__empty" role="status" aria-live="polite" hidden>${copy.empty}</p>
+    </section>`;
   /* 用 dock 保留舊品牌列喺 document flow 嘅位置；去到臨界點之後先將
      Clearline 轉 fixed。全站為咗防橫向溢出，html/body 有 overflow-x，
      原生 position:sticky 喺 Safari/Chromium 都會被嗰個 scroll container
@@ -2488,11 +2533,28 @@ function buildBrandRail(order) {
     }, { once: true, signal: abort.signal });
   });
 
-  const items = [...rail.querySelectorAll('.brand-rail__item')];
+  const track = rail.querySelector('.brand-rail__track');
+  const items = [...track.querySelectorAll('.brand-rail__item')];
+  const pickerItems = [...rail.querySelectorAll('.brand-picker__item')];
+  const toggle = rail.querySelector('.brand-picker__toggle');
+  const panel = rail.querySelector('.brand-picker__panel');
+  const filterButton = rail.querySelector('.brand-picker__filter');
+  const pickerSort = rail.querySelector('.brand-picker__sort');
+  const search = rail.querySelector('.brand-picker__search');
+  const emptyMessage = rail.querySelector('.brand-picker__empty');
   const sections = [...document.querySelectorAll('.brand-section')];
   let currentIdx = -1;
   let jumpRun = 0;
   let dockTop = 0;
+
+  function fitPicker() {
+    if (panel.hidden) return;
+    const viewport = window.visualViewport;
+    let bottom = viewport ? viewport.height + viewport.offsetTop : window.innerHeight;
+    const bottomNav = document.querySelector('.mobile-bottom-nav')?.getBoundingClientRect();
+    if (bottomNav?.height && bottomNav.top > 0 && bottomNav.top < bottom) bottom = bottomNav.top;
+    panel.style.maxHeight = `${Math.max(0, Math.min(520, (viewport?.height || window.innerHeight) * .66, bottom - panel.getBoundingClientRect().top - 10))}px`;
+  }
 
   function headerOffset() {
     const rootStyle = getComputedStyle(document.documentElement);
@@ -2510,6 +2572,7 @@ function buildBrandRail(order) {
     rail.style.setProperty('--rail-fixed-left', `${Math.round(rect.left)}px`);
     rail.style.setProperty('--rail-fixed-width', `${Math.round(rect.width)}px`);
     rail.classList.toggle('is-stuck', window.scrollY + headerOffset() >= dockTop);
+    fitPicker();
   }
 
   function measureDock() {
@@ -2522,14 +2585,18 @@ function buildBrandRail(order) {
     if (current !== currentIdx) {
       items[currentIdx]?.classList.remove('is-current');
       items[currentIdx]?.removeAttribute('aria-current');
+      pickerItems[currentIdx]?.classList.remove('is-current');
+      pickerItems[currentIdx]?.removeAttribute('aria-current');
       const active = items[current];
       active?.classList.add('is-current');
       active?.setAttribute('aria-current', 'location');
+      pickerItems[current]?.classList.add('is-current');
+      pickerItems[current]?.setAttribute('aria-current', 'location');
       currentIdx = current;
       if (active) {
-        const left = active.offsetLeft - (rail.clientWidth - active.offsetWidth) / 2;
-        rail.scrollTo({
-          left: Math.max(0, Math.min(rail.scrollWidth - rail.clientWidth, left)),
+        const left = active.offsetLeft - (track.clientWidth - active.offsetWidth) / 2;
+        track.scrollTo({
+          left: Math.max(0, Math.min(track.scrollWidth - track.clientWidth, left)),
           behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
         });
       }
@@ -2550,7 +2617,8 @@ function buildBrandRail(order) {
        直接按目的方向預留空間，落點先唔會多一截空白或畀品牌列遮住。 */
     const headerSpace = mobile && sectionTop > window.scrollY + 2 ? 0 : ann + hdr;
     const y = sectionTop - headerSpace - rail.getBoundingClientRect().height - 12;
-    window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: y, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
 
     /* 遠距離跳轉會令窗口式產品 grid 即場由估計高度換成真高度；第一次
        scroll 到啱位後，上面幾個 section 可能再伸縮。分三次輕量校正，
@@ -2573,24 +2641,80 @@ function buildBrandRail(order) {
   }
 
   /* Clearline 用原生水平 swipe／scroll；唔再用舊波浪 rail 嘅拖動預覽。 */
-  rail.addEventListener('wheel', (e) => {
+  track.addEventListener('wheel', (e) => {
     if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    const before = rail.scrollLeft;
-    rail.scrollLeft += e.deltaY;
-    if (rail.scrollLeft !== before && e.cancelable) e.preventDefault();
+    const before = track.scrollLeft;
+    track.scrollLeft += e.deltaY;
+    if (track.scrollLeft !== before && e.cancelable) e.preventDefault();
   }, { passive: false, signal: abort.signal });
+
+  const updateSearch = () => {
+    const normalize = (value) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase();
+    const query = normalize(search.value);
+    let visible = 0;
+    pickerItems.forEach((item) => {
+      const matches = normalize(names[+item.dataset.rail]).includes(query.trim());
+      item.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    emptyMessage.hidden = visible > 0;
+  };
+  const setPickerOpen = (open, restoreFocus = false) => {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) {
+      fitPicker();
+      panel.scrollTop = 0;
+      rail.querySelector('.brand-picker__grid').scrollTop = 0;
+      if (pickerSort && canonicalSort) pickerSort.value = canonicalSort.value;
+    } else if (restoreFocus) {
+      toggle.focus({ preventScroll: true });
+    }
+  };
+  if (pickerSort && canonicalSort) {
+    pickerSort.value = canonicalSort.value;
+    pickerSort.addEventListener('change', () => {
+      if (pickerSort.value === canonicalSort.value) return;
+      canonicalSort.value = pickerSort.value;
+      canonicalSort.dispatchEvent(new Event('change', { bubbles: true }));
+    }, { signal: abort.signal });
+  }
+  filterButton?.addEventListener('click', () => {
+    setPickerOpen(false);
+    if (window.matchMedia('(max-width: 1080px)').matches) {
+      toggle.focus({ preventScroll: true });
+      filterTrigger.click();
+      return;
+    }
+    filterSidebar.querySelector('.filter-sidebar__body input:not(:disabled), .filter-sidebar__body select:not(:disabled), .filter-sidebar__body button:not(:disabled)')
+      ?.focus({ preventScroll: true });
+  }, { signal: abort.signal });
+  toggle.addEventListener('click', () => {
+    const open = panel.hidden;
+    if (open) { search.value = ''; updateSearch(); }
+    setPickerOpen(open);
+  }, { signal: abort.signal });
+  search.addEventListener('input', updateSearch, { signal: abort.signal });
+  window.visualViewport?.addEventListener('resize', fitPicker, { signal: abort.signal });
+  document.addEventListener('click', (event) => {
+    if (!panel.hidden && !dock.contains(event.target)) setPickerOpen(false);
+  }, { signal: abort.signal });
 
   rail.addEventListener('click', (e) => {
     const a = e.target.closest('[data-rail]');
     if (!a) return;
     e.preventDefault();
+    if (!panel.hidden) setPickerOpen(false, panel.contains(a));
     goTo(+a.dataset.rail, true);
   }, { signal: abort.signal });
 
   const cancelPendingJump = () => { jumpRun += 1; };
   window.addEventListener('touchstart', cancelPendingJump, { passive: true, signal: abort.signal });
   window.addEventListener('wheel', cancelPendingJump, { passive: true, signal: abort.signal });
-  window.addEventListener('keydown', cancelPendingJump, { signal: abort.signal });
+  window.addEventListener('keydown', (event) => {
+    cancelPendingJump();
+    if (event.key === 'Escape' && !panel.hidden) setPickerOpen(false, true);
+  }, { signal: abort.signal });
 
   /* ── 跟住碌版行 ──────────────────────────────────────
      每段嘅位置都快取住，所以 spy() 只係加減數，唔使問排版。
