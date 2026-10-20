@@ -330,6 +330,23 @@
     const c = title.match(/(?<![\d.])([2-9]|[1-9]\d|[雙兩二三四五六七八九十])\s?色(?![號調系彩澤])/)
       || (/眼影|修容|胭脂|高光|盤|palette/i.test(`${title} ${type}`) ? text.match(/(?<![\d.])([2-9]|[1-9]\d)\s?色(?:同色系)?(?:眼影|盤|組|胭脂)/) : null);
     if (c) add(`${num(c[1])} 色`, `${num(c[1])} colours`, num(c[1]));
+    /* 描述規格行（OUJI 由品牌官網／零售店核實後補入描述）：「色數：9 色」「材質：合成纖維毛」「尺寸：約 10cm」 */
+    const tag = (re) => (text.match(re) || [])[1];
+    const colours = tag(/色數\s*[:：]\s*(\d{1,2})\s*色/);
+    if (colours) add(`${colours} 色`, `${colours} colours`, colours);
+    const material = tag(/(?:材質|物料|毛料|刷毛)\s*[:：]\s*([^\s。；;，,、()（）]{1,12}(?:\s?[＋+／/]\s?[^\s。；;，,、()（）]{1,8})?)(?=[\s。；;，,]|$)/);
+    if (material) add(material, material);
+    const dim = text.match(/(尺寸|大小|全長|高度)\s*[:：]\s*(約?)\s*(\d+(?:\.\d+)?(?:\s?[–\-~]\s?\d+(?:\.\d+)?)?)\s?(cm|mm)(?![×x\d])/i);
+    if (dim) {
+      const v = `${dim[3].replace(/\s/g, '')}${dim[4]}`;
+      const lead = /全長|高度/.test(dim[1]) ? `${dim[1]} ` : (dim[2] ? '約 ' : '');
+      add(`${lead}${v}`, v, (dim[3].match(/[\d.]+/) || [])[0]);
+    }
+    const designs = tag(/款式\s*[:：]\s*全\s?(\d{1,2})\s?款/);
+    if (designs) {
+      add(`全 ${designs} 款`, `${designs} designs`, designs);
+      if (/款式\s*[:：][^。]{0,12}隨機/.test(text)) add('款式隨機', 'Random design');
+    }
     /* 套裝件數：「(一套四件)」「(1套5件)」「兩件套裝」 */
     const set = title.match(/(?:一套|1套)\s?([一二兩三四五六七八九十\d]{1,2})\s?件|([一二兩三四五六七八九十\d]{1,2})\s?件(?:套裝|裝|組|特別套裝)/);
     if (set) add(`${num(set[1] || set[2])} 件`, `${num(set[1] || set[2])} pcs`, num(set[1] || set[2]));
@@ -407,7 +424,10 @@
     let spf = '';
     /* 標題冇寫防曬值：防曬類先去描述搵（唔係防曬嘅貨，描述順口提 SPF 唔算） */
     const sunCare = /防曬|防晒|sun|uv/i.test(`${product?.productType || ''} ${title}`);
-    const s = en.match(SPF) || title.match(SPF) || (sunCare ? clean(product?.description).match(SPF) : null);
+    /* 描述明寫「防曬值：SPF50+ PA++++」（例如有防曬嘅氣墊）就照用，唔理係咪防曬類 */
+    const desc = clean(product?.description);
+    const labelled = desc.match(/防曬值\s*[:：]\s*(SPF\s?\d+\+?(?:\s*[,，]?\s*PA\s?\+{1,4})?)/i);
+    const s = en.match(SPF) || title.match(SPF) || (labelled ? labelled[1].match(SPF) : null) || (sunCare ? desc.match(SPF) : null);
     if (s) {
       let pa = s[2] || (pack.match(PA) || title.match(PA) || [])[1] || '';
       spf = `SPF${s[1]}${pa ? ` PA${pa}` : ''}`;

@@ -215,9 +215,11 @@ function introText(p) {
   const paras = [...(p.descriptionHtml || '').matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].slice(0, 6)
     .map((m) => m[1].replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
   /* #標籤行唔做簡介；emoji 同 #標籤拎走（同 product.html 一樣） */
+  /* 規格行（「品牌國家：日本品牌」「容量：4g」「款式：全 4 款」）唔做簡介 —— 佢哋已經喺規格一行 */
+  const SPEC_LINE = /^\s*(品牌國家|品牌|容量(?:\s*[／/]\s*規格)?|產品容量|規格|防曬值|材質|物料|尺寸|全長|高度|色數|款式|特點|英文名稱?|型號|款號|用法|使用方法|版本|香味|brand origin)\s*[:：]/i;
   const tidyIntro = (t) => String(t || '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/(^|\s)#\S+/g, ' ').replace(/\s{2,}/g, ' ').trim();
   const plain = tidyIntro(paras.length
-    ? (paras.find((t) => !/^\s*#/.test(t) && norm(tidyIntro(t)).length >= 6 && !titleKey.includes(norm(t))) || '')
+    ? (paras.find((t) => !/^\s*#/.test(t) && !SPEC_LINE.test(t) && norm(tidyIntro(t)).length >= 6 && !titleKey.includes(norm(t))) || '')
     : (p.description || '').trim());
   return plain.length > 200 ? plain.slice(0, 200) + '…' : plain;
 }

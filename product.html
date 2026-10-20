@@ -542,12 +542,12 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20261020-buy6"></script>
+  <script src="product-naming.js?v=20261020-buy7"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
   <script src="shopify.js?v=20261020-categoryfix"></script>
   <script src="ingredients.js?v=20261018-live"></script>
   <script src="reviews.js?v=20261018-live"></script>
-  <script src="product-guide.js?v=20261020-buy"></script>
+  <script src="product-guide.js?v=20261020-buy2"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261017-pdp"></script>
   <script src="awards.js"></script>
@@ -1204,9 +1204,11 @@
         const paras = [...descHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].slice(0, 6)
           .map((m) => new DOMParser().parseFromString(m[1].replace(/<br\s*\/?>/gi, ' '), 'text/html').body.textContent.replace(/\s+/g, ' ').trim());
         /* #標籤行唔做簡介；emoji 同夾喺句入面嘅 #標籤拎走（2026-10-20 例子：「#サンタンマイメロディ…」「🖤 …#半啞光」） */
+        /* 規格行（「品牌國家：日本品牌」「容量：4g」「款式：全 4 款」）唔做簡介 —— 佢哋已經喺規格一行 */
+        const SPEC_LINE = /^\s*(品牌國家|品牌|容量(?:\s*[／/]\s*規格)?|產品容量|規格|防曬值|材質|物料|尺寸|全長|高度|色數|款式|特點|英文名稱?|型號|款號|用法|使用方法|版本|香味|brand origin)\s*[:：]/i;
         const tidyIntro = (t) => String(t || '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/(^|\s)#\S+/g, ' ').replace(/\s{2,}/g, ' ').trim();
         const plain = tidyIntro(paras.length
-          ? (paras.find((t) => !/^\s*#/.test(t) && norm(tidyIntro(t)).length >= 6 && !titleKey.includes(norm(t))) || '')
+          ? (paras.find((t) => !/^\s*#/.test(t) && !SPEC_LINE.test(t) && norm(tidyIntro(t)).length >= 6 && !titleKey.includes(norm(t))) || '')
           : (product.description || ''));
         desc.textContent = plain.length > 200 ? plain.substring(0, 200) + '…' : plain;
         desc.hidden = !plain;

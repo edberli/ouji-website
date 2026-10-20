@@ -119,6 +119,12 @@
     { key: 'model', zh: '款號', en: 'Model', re: /^(款號|model)$/i },
     { key: 'version', zh: '版本', en: 'Version', re: /^(版本|version)$/i },
     { key: 'usage', re: /^(用法|使用方法|how to use|directions|usage)$/i },
+    /* 2026-10-20 規格一行已經出（冇 zh＝唔再喺卡底重複）：色數、材質、尺寸 */
+    { key: 'colours', re: /^(色數)$/ },
+    { key: 'material', re: /^(材質|物料|毛料|刷毛)$/ },
+    { key: 'dims', re: /^(尺寸|大小|全長|高度)$/ },
+    { key: 'designs', re: /^(款式)$/ },
+    { key: 'features', re: /^(特點)$/ },
   ];
   const NAME_RE = /^(英文名稱?|型號\s*[／/]\s*英文名|日文原名|日本販售名|english name|japanese name)$/i;
   const USAGE_HEAD = /^\s*(用法|使用方法|how to use|directions|usage)\s*[:：]?\s*$/i;
@@ -135,6 +141,10 @@
     const key = hit ? hit.key : NAME_RE.test(label) ? 'name' : '';
     if (!key) return null;
     if (key !== 'usage' && (value.length > 40 || /[。；;]/.test(value))) return null;
+    /* 規格一行出唔到嘅（太長、包裝尺寸「W60 × H200」、一串成分）就留喺描述，唔好剷走 */
+    if (['colours', 'material', 'dims'].includes(key) && (value.length > 14 || /\d\s*[×xX]\s*\d|[、(（]/.test(value))) return null;
+    if (key === 'designs' && !/^全\s?\d{1,2}\s?款/.test(value)) return null; // 「款式：顏色隨機」呢類留喺描述
+    if (key === 'features' && !/^(純素(認證)?|超防水|防水防汗|防水|防暈染|無香料|海洋友善|環保)([、，,](純素(認證)?|超防水|防水防汗|防水|防暈染|無香料|海洋友善|環保))*$/.test(value)) return null;
     return { key, value };
   }
 
