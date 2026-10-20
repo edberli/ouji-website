@@ -78,8 +78,6 @@
 .lc__was { color: var(--lc-was); font: 400 clamp(11px, 4.97cqi, 11px)/1 var(--lc-f); font-variant-numeric: tabular-nums; text-decoration: line-through; }
 .lc__pricenow { color: var(--lc-name); font: 600 clamp(14.5px, 6.82cqi, 15px)/1 var(--lc-f); letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .lc__nums.is-sale .lc__pricenow { color: var(--lc-sale); }
-.lc__from { margin-left: max(-2.6cqi, -4px); color: inherit; font: 500 clamp(10px, 3.41cqi, 11px)/1 var(--lc-f); }
-.lc__nums.is-sale .lc__from { color: var(--lc-sale); }
 .lc__chip { display: flex; flex: none; align-items: center; height: clamp(18px, 7.36cqi, 20px); padding: 0 clamp(4.5px, 2.6cqi, 6px); border-radius: clamp(4px, 1.7cqi, 5px); background: var(--lc-chip-bg); color: var(--lc-chip-ink); font: 500 clamp(10.5px, 3.84cqi, 11px)/1 var(--lc-f); font-style: normal; }
 
 /* 獲獎條：深藍灰底白字白獎盃（Winston 2026-10-14 指定），跟字長嘅短條（唔拉滿闊度，冇咁重）。
@@ -129,7 +127,6 @@
   .lc__nums { gap: 5px; }
   .lc__was { font-size: 10px; }
   .lc__pricenow { font-size: 13.5px; }
-  .lc__from { margin-left: -3px; font-size: 9px; }
   .lc__chip { height: 17px; padding: 0 4px; font-size: 9.5px; }
   .lc__award { gap: 5px; padding: 0 6px; }
   .lc__award svg { width: 13px; height: 13px; }
