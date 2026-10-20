@@ -280,7 +280,7 @@
     const z = isSet ? null : (en.match(SIZE) || cn.match(SIZE) || title.match(SIZE));
     if (z) {
       const unit = z[2] === '毫升' ? 'ml' : z[2] === '克' ? 'g' : /^ml$/i.test(z[2]) ? 'ml' : z[2];
-      size = `${z[1]}${unit}${z[3] && Number(z[3]) > 1 ? ` × ${z[3]}${z[4] || ''}` : ''}`;
+      size = `${z[1]}${unit}${z[3] && Number(z[3]) > 1 ? ` × ${z[3]} ${z[4] || '支'}` : ''}`; /* 原型寫法「50ml × 2 支」 */
       en = en.replace(SIZE, ' ');
       /* 中文名入面嘅容量（例如「[80毫升]」、尾嗰個「150ml」）都拎走，下面規格行已經有 */
       cn = clean(cn.replace(/[\[【（(]\s*\d+(?:\.\d+)?\s?(?:ml|mL|ML|g|kg|毫升|克)\s*[\]】）)]/, ' ').replace(new RegExp(`\\s${SIZE.source}\\s*$`), ''));

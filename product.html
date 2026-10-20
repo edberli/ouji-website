@@ -52,7 +52,7 @@
   <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261020-buy">
+  <link rel="stylesheet" href="styles.css?v=20261020-buy3">
   <link rel="stylesheet" href="product-card-lc.css?v=20261020-range1">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
@@ -314,16 +314,16 @@
 
           <!-- 數量＋加入購物袋＋心願。手機呢度只出數量同心願，加入購物袋由底部購物條（.pdp-dock）代撳 -->
           <div class="pdp-actions" data-pdp-actions>
-            <button type="button" class="product-info__wishlist-btn pdp-wish" aria-label="加入願望清單" aria-pressed="false">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              <span class="pdp-wish__label" data-pdp-wish-label>加入願望清單</span>
-            </button>
             <div class="product-info__quantity pdp-qty">
               <button type="button" class="qty-btn" data-action="decrease" aria-label="減少數量"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
               <input type="number" class="qty-input" value="1" min="1" max="99" inputmode="numeric" aria-label="數量">
               <button type="button" class="qty-btn" data-action="increase" aria-label="增加數量"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
             <button type="button" class="pdp-add" id="add-to-cart-btn">加入購物袋</button>
+            <button type="button" class="product-info__wishlist-btn pdp-wish" aria-label="加入願望清單" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span class="pdp-wish__label" data-pdp-wish-label>加入願望清單</span>
+            </button>
           </div>
 
           <section class="pdp-perks" aria-label="購物優惠及運送安排">
@@ -542,7 +542,7 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20261020-buy2"></script>
+  <script src="product-naming.js?v=20261020-buy3"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
   <script src="shopify.js?v=20261020-categoryfix"></script>
   <script src="ingredients.js?v=20261018-live"></script>
