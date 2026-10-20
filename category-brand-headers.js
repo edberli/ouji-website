@@ -79,18 +79,12 @@
   "RAIP": {
     "identity": true,
     "tint": "#231815",
-    "logo": "logos/category-headers/care-raip.png",
-    "width": 123,
-    "maxHeight": 35,
+    "logo": "logos/category-headers/care-raip-white-official.png",
+    "width": 125,
+    "maxHeight": 36,
     "dark": true,
-    "crop": {
-      "x": 22,
-      "y": 26,
-      "width": 123,
-      "height": 35,
-      "sourceWidth": 167,
-      "sourceHeight": 86
-    }
+    "filter": "none",
+    "railFilter": "brightness(0)"
   },
   "SOLEP": {
     "identity": true,
@@ -161,13 +155,11 @@
     "maxHeight": 49,
     "blend": "multiply"
   },
+  // No verified standalone manufacturer logo: use the native text fallback.
   "MOTEMA SLIM": {
     "identity": true,
     "tint": "#fce8ee",
-    "logo": "logos/category-headers/health-motema-slim.png",
-    "width": 175,
-    "maxHeight": 46,
-    "railFilter": "brightness(0)"
+    "ink": "#8c264a"
   },
   "ITOH": {
     "identity": true,
