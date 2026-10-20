@@ -565,6 +565,10 @@ async function attachClassificationTitles(edges) {
     for (const p of data?.nodes || []) if (p?.id && p.title) CLASSIFICATION_TITLES.set(p.id, p.title);
     for (const p of batch) if (CLASSIFICATION_TITLES.has(p.id)) p.classificationTitle = CLASSIFICATION_TITLES.get(p.id);
   }
+  // 英文補讀唔完整時，保留已顯示快照；唔可以退回用翻譯名做分類。
+  if (edges.some(({ node: p }) => p?.id && !p.classificationTitle)) {
+    throw new Error('Incomplete canonical classification titles');
+  }
   return edges;
 }
 /* 語言要入 key —— 唔係嘅話切換語言之後會攞到上一個語言嘅快取，

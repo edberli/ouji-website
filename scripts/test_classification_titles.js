@@ -26,6 +26,14 @@ context.shopifyFetch = async (query, variables) => {
   assert.ok(requests.every(r => /@inContext\(language: ZH_TW\)/.test(r.query)), 'canonical reads explicitly request ZH_TW');
   assert.equal(newProducts[0].node.title, 'English 0');
   assert.equal(newProducts[0].node.classificationTitle, '原始商品 new-0');
+  context.shopifyFetch = async () => ({ nodes: [null] });
+  await assert.rejects(context.attachClassificationTitles([{ node: { id: 'unresolved', title: 'English only' } }]),
+    /Incomplete canonical classification titles/, 'null canonical nodes cannot fall back to translated classification');
+  context.shopifyFetch = async () => ({ nodes: [{ id: 'partial-found', title: '繁中商品' }] });
+  await assert.rejects(context.attachClassificationTitles([
+    { node: { id: 'partial-found', title: 'Found' } },
+    { node: { id: 'partial-missing', title: 'Missing' } },
+  ]), /Incomplete canonical classification titles/, 'partial canonical responses cannot publish incomplete membership');
   context.getLang = () => 'zh';
   const chinese = { id: 'zh-new', title: '中文原始商品' };
   await context.attachClassificationTitles([{ node: chinese }]);
