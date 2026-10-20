@@ -2688,6 +2688,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .product-info__price { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; color: var(--bag-teal); font-variant-numeric: lining-nums tabular-nums; }
 .pp { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
 .pp__now { color: var(--bag-teal); font-size: 31px; font-weight: 700; line-height: 1.3; letter-spacing: -.025em; } /* 原型係系統字 600；我哋得一套字（Manrope），用 700 先夠實淨 */
+.pp--sale .pp__now { color: var(--sale, #c8452f); } /* 有劃線價：特價紅色，同商品卡 .product-card__price--sale 一樣 */
 .pp__was { color: var(--bag-muted); font-size: 14px; font-weight: 400; letter-spacing: 0; }
 /* 價錢右邊一格：件裝每件價、或者幾多個色號可選 */
 .pp__side { display: grid; padding-left: 14px; border-left: 1px solid var(--bag-line); color: var(--bag-ink); font-size: 11px; line-height: 1.7; }
