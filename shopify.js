@@ -1684,8 +1684,12 @@ async function renewPickupCheckout(cart, { requireAddress = true } = {}) {
   /* ⚠️ Shopify 唔保證 discountAllocations／discountCodes 嘅次序 —— 同一批折扣，
      原 cart 同新 cart 回返嚟嘅排列可以唔同（實測 10.08/3.36 對 3.36/10.08）。
      照 JSON.stringify 直接比就會間歇性「核對唔到」，客要撳兩次結賬先入到去。
-     所以一律排序之後先比。 */
-  const allocs = c=>JSON.stringify(c.discountAllocations.map(d=>[d.discountedAmount.amount,d.discountedAmount.currencyCode]).sort());
+     所以一律排序之後先比。
+     ⚠️ 連逐行金額都唔可以比 —— 「滿 $399 減 $20」由 Shopify 分攤落每行，尾數跟行次序走
+     （實測舊 5.63/5.86/8.51、新 8.52/5.86/5.62，合計都係 20），滿額自取單會次次卡死。
+     所以只比每種幣別嘅折扣總額（換做整數仙，避開浮點）。 */
+  const allocs = c=>JSON.stringify(Object.entries(c.discountAllocations.reduce((m,d)=>{
+    const k=d.discountedAmount.currencyCode; m[k]=(m[k]||0)+Math.round(Number(d.discountedAmount.amount)*100); return m;},{})).sort());
   const codes = c=>JSON.stringify(c.discountCodes.map(d=>[d.code,d.applicable]).sort());
   if (!fresh?.checkoutUrl || result.userErrors.length || result.warnings?.length || fresh.lines.pageInfo.hasNextPage ||
       signature(old)!==signature(fresh) || pairs(old.attributes)!==pairs(fresh.attributes) || (old.note||'')!==(fresh.note||'') ||
