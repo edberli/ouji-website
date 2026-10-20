@@ -471,7 +471,9 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
         }
       }
     `, { handle: collectionHandle, first, after });
-    return data?.collection?.products;
+    const page = data?.collection?.products;
+    if (page?.edges) await attachClassificationTitles(page.edges);
+    return page;
   }
 
   const data = await shopifyFetch(`
@@ -492,6 +494,7 @@ async function getProducts({ collectionHandle, first = 20, after = null } = {}) 
       }
     }
   `, { first, after });
+  if (data?.products?.edges) await attachClassificationTitles(data.products.edges);
   return data?.products;
 }
 
@@ -539,7 +542,35 @@ const MEM_CACHE = new Map();
 /* v10：2026-09-18 大批產品換咗真封面。舊 cache 仲留住 OUJI 佔位圖，
    所以升版本迫所有客即刻掉走舊快照，唔使等 TTL。 */
 /* 11：2026-10-14 列表 query 加 options（產品頁新卡寫「N 色可選」）。 */
-const CACHE_VERSION = 11;
+// 12：分類用原始商品名獨立於顯示翻譯，舊快取要重新補齊。
+const CACHE_VERSION = 12;
+const CLASSIFICATION_TITLES = new Map();
+
+async function attachClassificationTitles(edges) {
+  for (const { node: p } of edges) {
+    if (!p?.id) continue;
+    if (p.classificationTitle) CLASSIFICATION_TITLES.set(p.id, p.classificationTitle);
+    else if (getLang() !== 'en') CLASSIFICATION_TITLES.set(p.id, p.title || '');
+    if (CLASSIFICATION_TITLES.has(p.id)) p.classificationTitle = CLASSIFICATION_TITLES.get(p.id);
+  }
+  const missing = edges.map(e => e.node).filter(p => p?.id && !p.classificationTitle);
+  // 快照已有原始名；只為英文即時 API 新貨／過期快照後路補讀，唔改顯示名稱。
+  for (let i = 0; i < missing.length; i += 100) {
+    const batch = missing.slice(i, i + 100);
+    const data = await shopifyFetch(`
+      query ClassificationTitles($ids: [ID!]!) @inContext(language: ZH_TW) {
+        nodes(ids: $ids) { ... on Product { id title } }
+      }
+    `, { ids: batch.map(p => p.id) });
+    for (const p of data?.nodes || []) if (p?.id && p.title) CLASSIFICATION_TITLES.set(p.id, p.title);
+    for (const p of batch) if (CLASSIFICATION_TITLES.has(p.id)) p.classificationTitle = CLASSIFICATION_TITLES.get(p.id);
+  }
+  // 英文補讀唔完整時，保留已顯示快照；唔可以退回用翻譯名做分類。
+  if (edges.some(({ node: p }) => p?.id && !p.classificationTitle)) {
+    throw new Error('Incomplete canonical classification titles');
+  }
+  return edges;
+}
 /* 語言要入 key —— 唔係嘅話切換語言之後會攞到上一個語言嘅快取，
    客會見到中英夾雜嘅目錄。 */
 const cacheKey = (name) => `ouji:v${CACHE_VERSION}:${getLang()}:${name}`;
@@ -634,6 +665,7 @@ async function readSnapshot() {
     const { at, v } = await r.json();
     if (!Array.isArray(v) || v.length < 100) return null;
     if (!at || Date.now() - at > SNAPSHOT_MAX_AGE) return null;
+    await attachClassificationTitles(v);
     return v;
   } catch (e) {
     return null;
@@ -680,7 +712,7 @@ function afterLoadIdle(fn) {
 async function getAllProducts({ collectionHandle, pageSize = 250, max = 5000, progressive = false } = {}) {
   const key = cacheKey(`catalog:${collectionHandle || 'all'}`);
   const cached = cacheRead(key);
-  if (cached) return { edges: cached };
+  if (cached) return { edges: await attachClassificationTitles(cached) };
 
   /* 快照淨係得全店嗰份；分類 collection 照行 API */
   if (!collectionHandle) {
@@ -779,6 +811,7 @@ async function getProduct(handle) {
       }
     }
   `, { handle });
+  if (data?.product) await attachClassificationTitles([{ node: data.product }]);
   return data?.product;
 }
 
@@ -2908,7 +2941,7 @@ const CATEGORY_TAXONOMY = {
   makeup: {
     label: '彩妝',
     keywords: ['makeup', '彩妝', '메이크업'],
-    /* 彩妝子分類只可以睇產品名 —— Shopify 個 tag 亂到唔用得：實測高光
+    /* 彩妝子分類先認明確用途／類型，再睇產品名；唔靠泛用 tag：實測高光
        被標成「頰彩」、胭脂被標成「修容」，用 tag 分出嚟係頰彩 39／修容
        39，兩格都係錯嘅數。同一套規則 scripts/makeup_subcats.py 有一份，
        改就兩邊一齊改。
@@ -2921,7 +2954,7 @@ const CATEGORY_TAXONOMY = {
        decide 邊啲貨算彩妝），子分類本身唔再靠佢。 */
     subs: {
       base:       { label: '底妝',   bucket: 'base',
-                    keywords: ['foundation', 'cushion', 'concealer', 'base makeup', '底妝', '粉底', '氣墊', '遮瑕'] },
+                    keywords: ['foundation', 'cushion', 'concealer', 'base makeup', '底妝', '粉底', '氣墊', '遮瑕', '妝前底霜', '妝前乳', '蜜粉'] },
       foundation: { label: '粉底',   parent: 'base', title: /粉底|foundation/i,
                     keywords: ['foundation', '粉底'] },
       cushion:    { label: '氣墊',   parent: 'base', title: /氣墊|cushion/i,
@@ -2998,12 +3031,12 @@ const CATEGORY_TAXONOMY = {
      ⚠️ productType 保持「美髮工具」四個字，改嘅只係呢一格嘅名。 */
   tools: {
     label: '美妝工具',
-    keywords: ['化妝工具', '美容工具', '美髮工具', 'brush', 'puff', 'tool'],
+    keywords: ['化妝工具', '美容工具', '美髮工具', '美甲工具', 'brush', 'puff', 'tool'],
     subs: {
       brush:  { label: '化妝掃',   keywords: ['化妝掃', '掃', 'brush'] },
       puff:   { label: '粉撲海綿', keywords: ['粉撲', '美妝蛋', 'puff', 'sponge'] },
       hair:   { label: '美髮工具', keywords: ['美髮工具'] },
-      beauty: { label: '美容小工具', keywords: ['美容工具', '睫毛夾', '黑頭', 'tweezer'] },
+      beauty: { label: '美容小工具', keywords: ['美容工具', '美甲工具', '睫毛夾', '黑頭', 'tweezer'] },
     },
   },
   bath: {
@@ -3038,7 +3071,7 @@ const CATEGORY_TAXONOMY = {
   health: {
     label: '保健品',
     keywords: ['保健品'],
-    /* 子分類靠標題 —— 保健品全部得一個 productType，成分先分得開 */
+    /* 子分類按標題／類型／標籤中的成分詞分；section 本身只認口服品類。 */
     subs: {
       probiotics: { label: '益生菌',  keywords: ['益生菌', '乳酸菌', '프로바이오틱스'] },
       collagen:   { label: '膠原蛋白', keywords: ['膠原蛋白', 'collagen'] },
@@ -3049,9 +3082,8 @@ const CATEGORY_TAXONOMY = {
   },
   seasonal: {
     label: '季節性',
-    /* 防曬、護手霜同護唇產品跟季節走。主流護膚品牌嘅防曬仍可同時留喺
-       護膚；只得一兩件貨嘅細品牌防曬就集中喺季節性，避免護膚頁出現
-       一大堆孤零零品牌。 */
+    /* 防曬、護手霜同護唇產品四季都用。韓國防曬同時入護膚及季節性，
+       日本品牌防曬按既有安排集中季節性；唔再用品牌貨量判斷。 */
     /* 老闆 2026-09-02：「嗰啲潤唇膏⋯係四季嘅產品」——
        同護手霜一樣，天氣一凍就要，唔係彩妝。 */
     keywords: ['季節性', '防曬', '護手霜', '唇部護理', '涼感', '止汗', '便攜風扇', '風扇'],
@@ -3083,7 +3115,7 @@ const CATEGORY_TAXONOMY = {
          係唔同嘢：扭蛋係機出、單件細價；盲盒係盒裝。 */
       gacha:     { label: '扭蛋',     keywords: ['扭蛋'] },
       blindbox:  { label: '盲盒',     keywords: ['盲盒'], exclude: ['gacha'] },
-      plush:     { label: '毛絨公仔', keywords: ['毛絨', '公仔'] },
+      plush:     { label: '毛絨公仔', keywords: ['毛絨', '絨毛', 'plush', 'stuffed', 'ぬいぐるみ', 'fuwamosa'] },
       charm:     { label: '掛件匙扣', keywords: ['掛件', '匙扣', '掛繩'] },
     },
   },
@@ -3098,6 +3130,11 @@ const CATEGORY_TAXONOMY = {
   },
 };
 
+/* 分類只讀原始商品名；語言切換唔應改變商品用途。顯示／搜尋保留 title。 */
+function classificationTitle(p) {
+  return String(p?.classificationTitle || p?.title || '');
+}
+
 /* 產品係唔係「套裝」要先判斷，唔可以只睇 productType。
    Shopify 後台有一批套裝被誤標成「潔面／爽膚水／乳液」，如果照原本
    嘅 keyword 規則，佢哋會同單件貨一齊出現，亦會喺購物袋嘅護膚流程推薦
@@ -3107,7 +3144,7 @@ const BUNDLE_EN = /(?:^|[\s/_-])(?:kits?|sets?|bundles?|gift\s*(?:set|box)|box\s
 const PREMIUM_BUNDLE_BRANDS = /Sulwhasoo|雪花秀|The\s+History\s+of\s+Whoo|Whoo|后|O\s*HUI|歐蕙|su:m?37|sum37/i;
 
 function bundleHaystack(p) {
-  return [p?.handle || '', p?.title || '', p?.productType || '', ...(p?.tags || [])].join(' ');
+  return [p?.handle || '', classificationTitle(p), p?.productType || '', ...(p?.tags || [])].join(' ');
 }
 
 /* 套裝 = 一盒入面有幾種唔同嘅產品（水＋乳、精華＋補充裝、試用組）。
@@ -3115,7 +3152,7 @@ function bundleHaystack(p) {
    化妝棉、同一件貨孖裝／雙支。個名有「＋」就當真套裝，唔排除。 */
 const SINGLE_ITEM_PACK_RE = /面膜|mask|化妝棉|棉片|\bpads?\b|雙支|孖裝|twin\s*pack|\bduo\b/i;
 function isSingleItemPack(p) {
-  const title = p?.title || '';
+  const title = classificationTitle(p);
   if (/[+＋]/.test(title)) return false;
   return p?.productType === '面膜' || SINGLE_ITEM_PACK_RE.test(title);
 }
@@ -3152,7 +3189,7 @@ function isCounterBrandBundle(title, tags = []) {
 }
 // 專櫃套裝頁收專櫃品牌所有套裝（唔限護膚：洗頭、沐浴、潤手霜都入），唔設價底
 function isCounterSet(p) {
-  return isCounterBrandBundle(p?.title, p?.tags);
+  return isCounterBrandBundle(classificationTitle(p), p?.tags);
 }
 window.OUJI_isCounterSet = isCounterSet;
 
@@ -3171,7 +3208,7 @@ function productHaystack(p) {
 }
 
 function productHaystackLoose(p) {
-  return `${productHaystack(p)} ${(p.title || '').toLowerCase()}`;
+  return `${productHaystack(p)} ${(classificationTitle(p)).toLowerCase()}`;
 }
 
 function matchesKeywords(p, keywords) {
@@ -3204,7 +3241,7 @@ function matchesKeywords(p, keywords) {
    ⚠️ 同 scripts/makeup_subcats.py 嘅 RULES 係同一套，改就兩邊一齊改，
    否則頁面同 script 會報唔同嘅件數。 */
 const MAKEUP_RULES = [
-  ['lip',     /唇膏|口紅|唇粉|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|唇線|唇筆|唇頰|唇膜|唇凍|\btint\b|lip/i],
+  ['lip',     /唇膏|口紅|唇粉|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|唇線|唇筆|唇頰|唇膜|唇凍|\btint\b|\blip(?:stick|gloss|tint)?\b/i],
   ['eye',     /眼影|眼線|睫毛|假睫毛|眉筆|眉粉|染眉|眼彩|臥蠶|閃粉|eyeshadow|eyeliner|eyelash|mascara|\bbrow\b/i],
   ['base',    /粉底|粉餅|氣墊|遮瑕|妝前|飾底|蜜粉|定妝|素顏霜|底霜|cc\s*cream|cushion|foundation|concealer|primer/i],
   ['contour', /修容|高光|打亮|陰影|水光棒|contour|highlight|shading/i],
@@ -3222,7 +3259,7 @@ const LIP_CARE_TYPES = new Set(['唇部護理', '潤唇膏', '護唇膏', '唇�
 function isLipCare(p) {
   const t = String(p.productType || '').trim();
   if (t) return LIP_CARE_TYPES.has(t);
-  return LIP_CARE_TITLE.test(p.title || '');
+  return LIP_CARE_TITLE.test(classificationTitle(p));
 }
 
 /* 護手霜同潤唇膏都係季節性用品，唔屬護膚頁。型號行先，舊貨冇型號
@@ -3232,7 +3269,7 @@ const HAND_CARE_TITLE = /護手霜|手部護理|hand\s*(?:cream|care|balm|mask)/
 function isHandCare(p) {
   const t = String(p.productType || '').trim();
   if (t && HAND_CARE_TYPES.has(t)) return true;
-  return HAND_CARE_TITLE.test(p.title || '');
+  return HAND_CARE_TITLE.test(classificationTitle(p));
 }
 
 /* 防曬 = 名／tag／類型明寫「防曬」或 sunscreen／sun cream 呢類字。
@@ -3242,15 +3279,21 @@ function isHandCare(p) {
 /* UV 妝前底霜（UV Base／UV Tone Up Base）主要功能就係日常防曬，歸防曬（老闆：用常識）。 */
 const SUNSCREEN_TITLE = /防曬|sun\s*(?:cream|stick|serum|essence|cushion|lotion|screen|milk)|sunscreen|uv\s*(?:tone\s*up\s*)?base|선크림|선케어/i;
 function isSunscreenProduct(p) {
+  const type = String(p.productType || '').trim();
+  if (type === '防曬' || /^(?:sunscreen|suncare)$/i.test(type)) return true;
+  // SPF／防曬功能唔會將氣墊粉底、口服品或潤唇膏變成防曬產品。
+  if (/^(?:氣墊粉底|氣墊|粉底|底妝|蜜粉|遮瑕|定妝|定妝噴霧|唇部護理|保健品|保健用品|面膜|潔面|眼影|眼線|睫毛膏)$/.test(type)) return false;
   return SUNSCREEN_TITLE.test(productHaystackLoose(p));
 }
 
 /* 人工 skincare collection 曾經混入全套彩妝、假睫毛、保健品同護髮。
    呢個閘按產品而唔係按品牌：同一品牌真正嘅面霜／精華仍然可以保留。 */
-const SKINCARE_FOREIGN_TYPES = /^(?:保健品|化妝工具|美容工具|美妝工具|美髮工具|隱形眼鏡|公仔|玩具|香水|家居香氛|頭髮護理|護髮)$/i;
+const SKINCARE_FOREIGN_TYPES = /^(?:眼影|眼線|眼線筆|睫毛膏|眉筆|眉妝|彩妝|唇妝|唇膏|唇釉|唇彩|胭脂|高光|修容|底妝|妝前底霜|妝前乳|粉底|氣墊粉底|蜜粉|遮瑕|去角質工具|身體護理|身體乳|沐浴|洗髮護髮|保健用品|保健品|化妝工具|美容工具|美妝工具|美髮工具|隱形眼鏡|公仔|玩具|香水|家居香氛|頭髮護理|護髮)$/i;
 const SKINCARE_FOREIGN_TITLE = /頭髮|護髮|洗髮|髮膜|hair\s*(?:ampoule|serum|treatment|mask|oil)|葉黃素|玉米黃質|益生菌膠囊|睫毛夾/i;
 function isSkincareCategoryMismatch(p) {
   if (isSoNaturalFixx(p)) return false;
+  // 防曬氣墊／妝前防曬仍按防曬用途，韓國款兩邊都收。
+  if (String(p.productType || '').trim() === '防曬') return false;
   if (isLipCare(p) || isHandCare(p) || makeupBucket(p)) return true;
   if (SKINCARE_FOREIGN_TYPES.test(String(p.productType || '').trim())) return true;
   return SKINCARE_FOREIGN_TITLE.test(productHaystackLoose(p));
@@ -3264,7 +3307,8 @@ const BODY_LOTION_TITLE = /身體乳|身體霜|潤膚|body\s*(?:lotion|cream|mil
 const BODY_LOTION_FORM = /乳|霜|膏|lotion|cream|milk|butter|balm/i;
 const BODY_LOTION_NOT = /磨砂|scrub|唇部|lip\s*scrub|身體油|body\s*oil|噴霧|mist|護手霜|手霜|hand\s*cream/i;
 function isBodyLotion(p) {
-  const title = p.title || '';
+  const title = classificationTitle(p);
+  if (isLipCare(p)) return false;
   if (BODY_LOTION_NOT.test(title)) return false;
   const t = String(p.productType || '').trim();
   if (t && BODY_LOTION_TYPES.has(t)) return BODY_LOTION_FORM.test(title);
@@ -3280,20 +3324,54 @@ function isSeasonalCare(p) {
 function isSoNaturalFixx(p) {
   const vendor = String(p.vendor || '').replace(/[^a-z]/gi, '').toLowerCase();
   return vendor === 'sonatural'
-    && /定妝噴霧|setting\s*(?:spray|fixer)/i.test(p.title || '');
+    && (String(p.productType || '').trim() === '定妝噴霧'
+      || /定妝噴霧|setting\s*(?:spray|fixer)/i.test(classificationTitle(p)));
 }
 
+/* 用途／劑型行先。工具名稱會提到粉底、睫毛、唇；卸妝液亦會提到彩妝。 */
+const MAKEUP_FOREIGN_TYPES = /^(?:保健品|保健用品|美容食品|局部護理|去角質|潔面|卸妝|洗髮護髮|頭髮護理|身體護理|身體乳|沐浴|精華|眼霜|面膜|棉片|爽膚水|乳液|護手霜|化妝工具|化妝掃(?:／.*)?|美容工具|美妝工具|美髮工具|美甲工具|隱形眼鏡(?:配件)?|香水|家居香氛|公仔|盲盒|玩具|雜貨|配件)$/i;
+function isMakeupCategoryMismatch(p) {
+  return isLipCare(p) || MAKEUP_FOREIGN_TYPES.test(String(p.productType || '').trim());
+}
 function makeupBucket(p) {
-  if (isLipCare(p)) return null;
-  const hit = MAKEUP_RULES.find(([, re]) => re.test(p.title || ''));
+  if (isMakeupCategoryMismatch(p)) return null;
+  const type = String(p.productType || '').trim();
+  if (type === '面霜') return null;
+  if (/^(?:眼影|眼線|眼線筆|眼線液|眼線膠筆|眉筆|眉妝|睫毛膏|假睫毛)$/.test(type)) return 'eye';
+  if (/^(?:唇膏|唇釉|唇彩|唇蜜|唇妝|唇線筆)$/.test(type)) return 'lip';
+  if (/^(?:妝前底霜|妝前乳|蜜粉|底妝|粉底|氣墊粉底|遮瑕|定妝|定妝噴霧)$/.test(type)) return 'base';
+  const hit = MAKEUP_RULES.find(([, re]) => re.test(classificationTitle(p)));
   return hit ? hit[0] : null;
+}
+
+/* 保健品只靠明確口服 productType 判斷。其他具體類型優先於成分字眼；
+   空白／通用類型只可用整個 health tag 作後備，不能由維他命、膠原等成分入類。 */
+function normalizeHealthType(value) {
+  return String(value || '').normalize('NFKC').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+const HEALTH_PRODUCT_TYPES = new Set([
+  '保健品', '保健', '美容食品', '膳食補充劑',
+  'supplement', 'supplements', 'dietary supplement',
+].map(normalizeHealthType));
+const VAGUE_PRODUCT_TYPES = new Set([
+  '', '其他', '其他商品', '商品', '未分類', 'other', 'others', 'product', 'products', 'unknown', 'uncategorized', 'general',
+].map(normalizeHealthType));
+const HEALTH_CATEGORY_TAGS = HEALTH_PRODUCT_TYPES;
+
+function isHealthProduct(p) {
+  const type = normalizeHealthType(p?.productType);
+  if (HEALTH_PRODUCT_TYPES.has(type)) return true;
+  if (!VAGUE_PRODUCT_TYPES.has(type)) return false;
+  return (Array.isArray(p?.tags) ? p.tags : [])
+    .some((tag) => HEALTH_CATEGORY_TAGS.has(normalizeHealthType(tag)));
 }
 
 /* 功能性穿戴用品獨立於護膚及口服保健品。只按明確 productType
    收貨；襪類再限定 Slimwalk，避免普通襪／短褲誤入壓力用品。 */
 function supportKind(p) {
   const type = String(p.productType || '').trim();
-  const brand = `${p.vendor || ''} ${p.title || ''}`;
+  const brand = `${p.vendor || ''} ${classificationTitle(p)}`;
   if (/^護具(?:／|$)/.test(type)) return 'braces';
   if (type === '運動護理／貼布') return 'tape';
   if (!/slimwalk|スリムウォーク/i.test(brand)) return null;
@@ -3306,18 +3384,68 @@ function supportKind(p) {
 /* 一個子分類收唔收呢件貨。彩妝行上面嘅產品名規則，其餘照舊睇
    標題＋標籤＋類型（matchesKeywords）。 */
 function subMatch(section, id, p) {
+  // 專櫃套裝係用戶指定跨用途入口，其餘子分類必須先屬於父分類。
+  if (section === 'skincare' && id === 'counter') return isCounterSet(p);
+  if (!sectionMatch(p, section)) return false;
   if (section === 'supports') return supportKind(p) === id;
   if (section === 'seasonal' && id === 'body') return isBodyLotion(p);
+  if (section === 'bath' && id === 'lotion') return isBodyLotion(p);
+  if (section === 'tools' && ['puff', 'brush'].includes(id)) {
+    const hay = productHaystackLoose(p);
+    // 掃具清潔用品、指甲拋光海綿唔係粉撲／化妝掃。
+    if (/清潔|cleanser|cleaner|cleansing|拋光|指甲|nail|buffer/i.test(classificationTitle(p))) return false;
+    if (id === 'puff') return /粉撲|美妝蛋|海綿|\bpuff\b|\bsponge\b/i.test(hay);
+    return /化妝掃|粉底掃|眼影掃|胭脂掃|腮紅掃|高光掃|蜜粉掃|眉掃|唇掃|刷|\bbrush\b/i.test(hay) && !/^美髮工具$/.test(p.productType || '');
+  }
+  if (section === 'toys' && id === 'plush') return /毛絨|絨毛|plush|stuffed|ぬいぐるみ|fuwamosa/i.test(productHaystackLoose(p));
+  if (section === 'fragrance') {
+    const explicit = { '香水': 'perfume', '身體噴霧': 'mist', '家居香氛': 'home' }[p.productType];
+    if (explicit) return explicit === id;
+  }
+  if (section === 'makeup' && id === 'setting') {
+    const type = String(p.productType || '').trim();
+    if (/^(?:氣墊粉底|氣墊|粉底|妝前乳|妝前底霜)$/.test(type)) return false;
+    return /^(?:定妝|定妝噴霧)$/.test(type) || /定妝|setting|fixer/i.test(classificationTitle(p));
+  }
+  if (section === 'makeup' && id === 'lash') return p.productType === '假睫毛';
+  if (section === 'makeup') {
+    const type = String(p.productType || '').trim();
+    const explicit = { '氣墊粉底': 'cushion', '氣墊': 'cushion', '粉底': 'foundation',
+      '遮瑕': 'concealer', '眼影': 'eyeshadow', '眼線': 'eyeliner', '眼線筆': 'eyeliner',
+      '眼線液': 'eyeliner', '眼線膠筆': 'eyeliner', '睫毛膏': 'mascara',
+      '眉筆': 'brow', '眉妝': 'brow', '假睫毛': 'lash', '定妝': 'setting', '蜜粉': 'setting' }[type];
+    if (explicit && ['foundation', 'cushion', 'concealer', 'eyeshadow', 'eyeliner', 'mascara', 'brow'].includes(id)) return explicit === id;
+  }
+
+
+  if ((section === 'seasonal' && id === 'sun') || (section === 'skincare' && id === 'sunscreen')) return isSunscreenProduct(p);
   const sub = CATEGORY_TAXONOMY[section]?.subs?.[id];
   if (!sub) return false;
+  if (section === 'kpop') {
+    const hay = productHaystackLoose(p);
+    return sub.keywords.some(k => hay.includes(k.toLowerCase()));
+  }
+  if (section === 'health') {
+    if (!isHealthProduct(p)) return false;
+    // Vitamin Village 係品牌名；唔代表佢全部產品都係維他命。
+    const vendor = String(p.vendor || '').normalize('NFKC').trim().toLowerCase();
+    const title = String(classificationTitle(p)).normalize('NFKC').toLowerCase();
+    const ingredientTitle = vendor ? title.split(vendor).join(' ') : title;
+    const normBrand = value => String(value).replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
+    const tags = (Array.isArray(p.tags) ? p.tags : [])
+      .filter(tag => !vendor || normBrand(tag) !== normBrand(vendor));
+    const haystack = [ingredientTitle, p.productType || '', ...tags]
+      .join(' ').normalize('NFKC').toLowerCase();
+    return sub.keywords.some((keyword) => haystack.includes(normalizeHealthType(keyword)));
+  }
   /* 只將中高階禮盒從潔面／爽膚水／面霜等步驟抽離；普通平價精華／潤膚
      套裝保留原本分類，避免一次過改動成千上萬件正常貨。獨立嘅「套裝」
      入口就收齊有明確套裝標記嘅貨，客可以需要時一次過睇晒。 */
-  if (section === 'skincare' && id === 'counter') return isCounterSet(p);
   if (section === 'skincare' && id === 'kit') return isBundleProduct(p) && !isCounterSet(p);
   if (section === 'skincare' && (isPremiumBundleProduct(p) || isCounterSet(p))) return false;
+  if (section === 'skincare' && id === 'serum' && p.productType) return /^(?:精華|安瓶)$/.test(p.productType);
   if (sub.bucket) return makeupBucket(p) === sub.bucket;
-  if (sub.parent) return makeupBucket(p) === sub.parent && sub.title.test(p.title || '');
+  if (sub.parent) return makeupBucket(p) === sub.parent && sub.title.test(classificationTitle(p));
   if (!matchesKeywords(p, sub.keywords)) return false;
   // 專門嗰格有優先權：中咗 `exclude` 入面嗰啲格就唔算呢格嘅貨。
   return !(sub.exclude || []).some((other) =>
@@ -3330,6 +3458,7 @@ function categoryKeywords(section, cat) {
   if (!sec) return [];
   if (cat && sec.subs && sec.subs[cat]) return sec.subs[cat].keywords;
   const own = sec.keywords || [];
+  if (section === 'health') return own;
   const fromSubs = sec.subs ? Object.values(sec.subs).flatMap((s) => s.keywords) : [];
   return [...own, ...fromSubs];
 }
@@ -3344,22 +3473,32 @@ function categoryKeywords(section, cat) {
 /* 日本品牌防曬只喺防曬頁（季節性）出現，唔放護膚；韓國品牌防曬（Skin1004、Round Lab…）
    照舊兩邊都有（老闆 2026-10-01）。以前用「細品牌 ≤2 件先集中喺季節性」，
    令日本大牌（SUNCUT、ANESSA、碧柔）反而留喺護膚，而細韓牌掉咗出護膚，剛好倒轉。 */
-const JAPANESE_SUN_VENDOR = /anessa|allie|suncut|kos[eé]|fancl|elixir|^omi\b|雪芙蘭|bior[eé]|hadariki|^sana$|privacy|^bcl$|nivea|shiseido|cezanne|rohto|sunplay|skin\s*aqua|mentholatum/i;
+const JAPANESE_SUN_VENDOR = /curel|curél|parasola|agarism|country\s*&\s*stream|anessa|allie|suncut|kos[eé]|fancl|elixir|^omi\b|雪芙蘭|bior[eé]|hadariki|^sana$|privacy|^bcl$|nivea|shiseido|cezanne|rohto|sunplay|skin\s*aqua|mentholatum/i;
 function isJapaneseSunscreen(p) {
   return isSunscreenProduct(p) && JAPANESE_SUN_VENDOR.test(String(p.vendor || '').trim());
 }
 
 const SECTION_EXCLUDE = {
-  makeup: (p) => isLipCare(p),
+  makeup: (p) => isMakeupCategoryMismatch(p),
   skincare: (p) => isSkincareCategoryMismatch(p) || Boolean(supportKind(p)) || isJapaneseSunscreen(p),
-  health: (p) => Boolean(supportKind(p)),
+  health: (p) => !isHealthProduct(p) || Boolean(supportKind(p)),
   supports: (p) => !supportKind(p),
+  tools: (p) => /^(?:身體護理|身體乳|眼霜|精華|面霜|潔面|沐浴|洗髮護髮|保健品|香水|家居香氛|身體噴霧)$/.test(String(p.productType || '').trim()),
+  seasonal: (p) => /^(?:氣墊粉底|氣墊|粉底|底妝|蜜粉|遮瑕|定妝|定妝噴霧|保健品|保健用品|化妝工具|美髮工具|公仔|玩具)$/.test(String(p.productType || '').trim()),
+  kpop: (p) => !/^(?:專輯|寫真書|K-pop 周邊|K-pop|album|photobook)$/i.test(String(p.productType || '').trim()),
+  // 盲盒／角色只係包裝形式，香水、護理品同工具唔會因此變成公仔。
+  toys: (p) => /^(?:香水|香氛|家居香氛|身體噴霧|保健品|保健用品|沐浴|洗髮護髮|頭髮護理|身體護理|潔面|面膜|面霜|精華|眼霜|護手霜|唇部護理|美髮工具|化妝工具|化妝掃(?:／.*)?|美容工具|美甲工具|防曬)$/i.test(String(p.productType || '').trim()),
 };
 
 function sectionMatch(p, section) {
+  const exclude = SECTION_EXCLUDE[section];
+  if (exclude && exclude(p)) return false;
+  if (section === 'kpop') return true; // SECTION_EXCLUDE 已核對具體商品類型。
+  if (section === 'health') return isHealthProduct(p);
   if (section === 'supports') return Boolean(supportKind(p));
   if (section === 'skincare' && isSoNaturalFixx(p)) return true;
   if (section === 'makeup' && makeupBucket(p)) return true;
+  if (section === 'skincare' && String(p.productType || '').trim() === '面霜') return true;
   if (section === 'seasonal' && isSeasonalCare(p)) return true;
   if (!matchesKeywords(p, categoryKeywords(section, null))) return false;
   const drop = SECTION_EXCLUDE[section];
@@ -3468,6 +3607,15 @@ async function getCategoryProducts({ section, cat = null } = {}) {
   }
   return products;
 }
+
+/* Stable classification surface for browser pages and regression checks. */
+window.OUJI_categoryClassification = Object.freeze({
+  isHealthProduct,
+  sectionMatch,
+  subMatch,
+  categoryKeywords,
+  getCategoryProducts,
+});
 
 /**
  * Reflect the active section/subcategory in the page chrome:

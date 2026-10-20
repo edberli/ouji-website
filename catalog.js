@@ -470,7 +470,7 @@ function availableSubs(section, products) {
       label: sub.label,
       set: new Set(products.filter((p) => (section
         ? subMatch(section, id, p)
-        : matchesKeywords(p, sub.keywords))).map((p) => index.get(p))),
+        : sectionMatch(p, id))).map((p) => index.get(p))),
     }))
     .filter((s) => s.set.size);
 
@@ -1083,7 +1083,7 @@ function applyFilters(section, products, sel) {
     if (sel.cat.size) {
       const hit = [...sel.cat].some((id) => (section
         ? subMatch(section, id, p)
-        : matchesKeywords(p, catKeywords(section, id))));
+        : sectionMatch(p, id)));
       if (!hit) return false;
     }
     return true;
@@ -3887,6 +3887,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   const keepIds = new Set(products.map((p) => p && (p.id || p.handle)).filter(Boolean));
   const inSection = (p) => {
     if (!section) return true;
+    // 舊 collection 身份只保留排序／人工收錄，唔可以繞過分類硬排除。
+    const drop = SECTION_EXCLUDE[section];
+    if (drop && drop(p)) return false;
     if (keepIds.has(p.id || p.handle)) return true;
     if (typeof sectionMatch !== 'function') return true;
     if (!sectionMatch(p, section)) return false;
