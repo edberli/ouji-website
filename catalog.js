@@ -2213,6 +2213,7 @@ const SECTION_ITEMS = new Map();
 /* 未展開嗰批貨。撳「仲有 N 件」先至砌落 DOM —— 唔係一開始就鋪晒，
    否則成版又返去五百幾張卡。 */
 const SECTION_REST = new Map();
+const SECTION_FULL = new Map();   // 預覽抽樣過嘅段落：展開時換返完整次序
 /* 有「展開埋其餘 N 件」嘅牌子：暫時缺貨嗰格要等客撳展開、有貨嘅全部出齊之後，先喺段落最尾出現。
    以前一開頁就喺展開掣下面打開晒，客見到「有貨 → 展開掣 → 缺貨貨品」，好似夾硬出缺貨貨（Winston 2026-10-14 報）。 */
 const SECTION_OUT = new Map();
@@ -2324,23 +2325,41 @@ function brandSection(vendor, items, index) {
      原位展開全部貨，但首輪 DOM 工作細好多。 */
   const previewRows = window.matchMedia('(max-width: 768px)').matches ? 2 : PREVIEW_ROWS;
   const rows = previewRows * cols;
-  const shown = inStock.slice(0, rows);
+  /* 預覽每個步驟最多兩件（Winston 2026-10-20）：跟護膚次序排之後，潔面多嘅牌子
+     （SKIN1004、Anua）頭幾行會成排洗面奶。預覽改成潔面兩件、爽膚水兩件、精華兩件⋯，
+     次序照舊；展開之後換返成份完整次序。聯名款最多出四件。 */
+  const sampled = vendor !== '其他' && CURRENT_SECTION !== 'toys';
+  let pool = inStock;
+  if (sampled && inStock.length > rows) {
+    const used = new Map();
+    const pick = new Set(inStock.filter((p) => {
+      const k = isCollabItem(p) ? 'collab' : routineStep(p);
+      const n = used.get(k) || 0;
+      if (n >= (k === 'collab' ? 4 : 2)) return false;
+      used.set(k, n + 1);
+      return true;
+    }).slice(0, rows));
+    for (const p of inStock) { if (pick.size >= rows) break; pick.add(p); }
+    pool = [...inStock.filter((p) => pick.has(p)), ...inStock.filter((p) => !pick.has(p))];
+  }
+  const shown = pool.slice(0, rows);
   /* 偷望嗰一行：真貨、真相，但矇住同淡咗，掣浮喺上面。
      客一眼睇得出「下面仲有嘢」，唔使靠一粒細掣去估。 */
-  const peek = inStock.slice(rows, rows + cols);
+  const peek = pool.slice(rows, rows + cols);
   /* ⚠️ 掣上面個數 = **撳完先至出現嘅件數**，唔可以連偷望嗰行一齊數。
      偷望嗰行雖然矇住兼切一半，但客係見到嘅 —— 數埋佢就等於報大咗。
      QA 掃描實測：fillimilli 得 7 件貨，掣寫「其餘 1 件」，撳完新增 0 件；
      MAPEPE／STUDIO 17／ROSY ROSA 一律少報 2 件（手機兩欄），
      桌面四欄就少報 4 件。 */
-  const hidden = inStock.slice(rows + cols);
+  const hidden = pool.slice(rows + cols);
   const rest = hidden.length;
   /* 淨返嘅唔夠一行（即係撳完一件新貨都冇），就唔好扮有嘢展開 ——
      直接一次過鋪晒，連個掣都唔出。 */
   const showMore = rest > 0;
   SECTION_ITEMS.set(String(index), showMore ? shown : inStock);
   if (showMore && peek.length) SECTION_ITEMS.set(`peek-${index}`, peek);
-  if (showMore) SECTION_REST.set(String(index), inStock.slice(rows));
+  if (showMore) SECTION_REST.set(String(index), pool.slice(rows));
+  if (showMore && pool !== inStock) SECTION_FULL.set(String(index), inStock);
   if (showMore && out.length) SECTION_OUT.set(String(index), out);
   // Keep brand artwork separate from navigation sizing and product imagery.
   return `
@@ -3105,6 +3124,7 @@ function renderProducts(container, products, { grouped }) {
     .map(({ vendor, items }) => [vendor, items]);
   // 分區都唔分頁 —— 全部牌子一次過出齊，靠窗口式渲染頂住。
   SECTION_ITEMS.clear();
+  SECTION_FULL.clear();
   SECTION_OUT.clear();
   container.innerHTML = order.map(([v, items], i) => brandSection(v, items, i)).join('');
   const grids = [...container.querySelectorAll('.grid-host[data-section]')];
@@ -3175,7 +3195,14 @@ function renderProducts(container, products, { grouped }) {
     const sec = box.closest('.brand-section');
     const grid = sec && sec.querySelector('.grid-host > .product-grid');
     box.remove();
-    if (grid) {
+    const full = SECTION_FULL.get(id);
+    if (grid && full) {
+      /* 預覽係抽樣（每步驟兩件），展開要換返成份完整護膚次序，唔係接落尾 */
+      const before = new Set(SECTION_ITEMS.get(id) || []);
+      grid.innerHTML = full.map(productCard).join('');
+      [...grid.children].forEach((el, i) => { if (!before.has(full[i])) el.classList.add('is-just-added'); });
+      SECTION_FULL.delete(id);
+    } else if (grid) {
       const frag = document.createElement('div');
       frag.innerHTML = rest.map(productCard).join('');
       const added = [...frag.children];
