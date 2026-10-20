@@ -275,6 +275,15 @@
   const GML = /(?<![\d.,])(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d])/g;
   const gml = (n, u) => `${n}${u === '毫升' || /^ml$/i.test(u) ? 'ml' : u === '克' || u === 'G' ? 'g' : u}`;
 
+  /** 描述文字：用 descriptionHtml，段同段之間留空格。Shopify 嘅純文字 description 會將兩段黐埋
+   *（「材質：豬鬃＋尼龍毛全長：21.5cm」），標籤就分唔開。圖片 alt 亦唔會混入。 */
+  function descText(product) {
+    const html = String(product?.descriptionHtml || '');
+    if (!html) return clean(product?.description);
+    return clean(html.replace(/<(?:br|\/p|\/li|\/div|\/h\d|\/ul|\/ol|\/span|\/td|\/tr)\b[^>]*>/gi, ' ').replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&'));
+  }
+
   /** 描述入面嘅容量：先睇「容量：」「產品容量：」「每支」呢類標示；冇就揀描述入面唯一一個容量（兩個就要有兩個款式）。 */
   function sizeFromText(text, product) {
     const label = /(?:容量\s*[／/]\s*規格|產品容量|淨含量|淨重|內容量|成分量|容量|規格|每支|net\s*(?:wt\.?|weight|contents?)|volume)\s*[:：]?\s*/gi;
@@ -425,7 +434,7 @@
     /* 標題冇寫防曬值：防曬類先去描述搵（唔係防曬嘅貨，描述順口提 SPF 唔算） */
     const sunCare = /防曬|防晒|sun|uv/i.test(`${product?.productType || ''} ${title}`);
     /* 描述明寫「防曬值：SPF50+ PA++++」（例如有防曬嘅氣墊）就照用，唔理係咪防曬類 */
-    const desc = clean(product?.description);
+    const desc = descText(product);
     const labelled = desc.match(/防曬值\s*[:：]\s*(SPF\s?\d+\+?(?:\s*[,，]?\s*PA\s?\+{1,4})?)/i);
     const s = en.match(SPF) || title.match(SPF) || (labelled ? labelled[1].match(SPF) : null) || (sunCare ? desc.match(SPF) : null);
     if (s) {
@@ -457,7 +466,7 @@
         && !/^(片|件|個|支|盒|包|入|枚|對|粒|條|[x×+＋])$/.test(t))
       .slice(0, 2);
     /* 標題冇容量：描述入面搵（「容量：7g」「產品容量：0.4g」「2.5g 迷你裝」） */
-    const text = clean(product?.description);
+    const text = desc;
     if (!size && !isSet) size = sizeFromText(text, product);
     const base = [spf, size, ...extra].filter(Boolean);
     const chips = [...base.map((t) => ({ zh: t, en: t })), ...moreChips(product, text, base)].slice(0, 3);
