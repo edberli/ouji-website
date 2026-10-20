@@ -231,5 +231,79 @@
     return price + (body.length > room ? `${body.slice(0, room)}…` : body);
   }
 
-  return { display, cardTitle, cardChinese: (product) => cardParts(product).chinese, seoDescription };
+  /* 產品頁購買區（2026-10-20 Winston 揀咗 Codex 原型嗰種排法）：品牌另起一行，所以大字產品名同英文名都唔再重複品牌；
+     英文名入面嘅防曬值同容量拎出嚟，擺喺下面一行規格（SPF50+ PA++++｜50ml × 2｜韓國品牌）。
+     伺服器（api/product.js）同瀏覽器（product.html）用同一個 function，載入唔會跳。 */
+  const SPF = /SPF\s?(\d+\+?)(?:\s*[,，]?\s*PA\s?(\+{1,4}))?/i;
+  const PA = /\bPA\s?(\+{1,4})/i;
+  const SIZE = /(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|片|枚|pcs|oz|毫升|克)(?:\s*[x×]\s*(\d+)\s*(片|支|入|枚|個)?)?/;
+  /* 括號唔齊（例如「（Tender Bloom」「EMPATHY (LOVED IVE Ver.」）：由冇收尾嗰個開括號起剪走；頭尾多出嚟嘅分隔符號都剪 */
+  const tidy = (value) => {
+    let v = clean(value).replace(/^[\s,，、:：\-–—]+|[\s,，、:：\-–—]+$/g, '');
+    const pairs = [['(', ')'], ['（', '）'], ['[', ']'], ['【', '】']];
+    for (const [o, c] of pairs) {
+      const lastOpen = v.lastIndexOf(o);
+      if (lastOpen >= 0 && v.indexOf(c, lastOpen) < 0) v = clean(v.slice(0, lastOpen));
+      const firstClose = v.indexOf(c);
+      if (firstClose >= 0 && v.slice(0, firstClose).indexOf(o) < 0) v = clean(v.slice(firstClose + 1));
+    }
+    return v.replace(/^[\s,，、:：\-–—]+|[\s,，、:：\-–—]+$/g, '');
+  };
+  function buyBoxParts(product) {
+    const d = display(product);
+    const vendor = clean(product?.vendor);
+    const title = clean(product?.title);
+    const strip = (value) => {
+      const v = clean(value);
+      if (!vendor || !v.toLowerCase().startsWith(`${vendor.toLowerCase()} `)) return { brand: '', rest: v };
+      const rest = clean(v.slice(vendor.length));
+      if (/^[×x]\s/.test(rest)) return { brand: '', rest: v }; // 聯名（AMUSE × My Melody）：成個名照出
+      return { brand: v.slice(0, vendor.length), rest };
+    };
+    const name = strip(d.primary);
+    let cn = name.rest || clean(d.primary);
+    let en = strip(d.subtitle).rest;
+    let pack = clean(d.specification);
+    let spf = '';
+    /* 標題冇寫防曬值：防曬類先去描述搵（唔係防曬嘅貨，描述順口提 SPF 唔算） */
+    const sunCare = /防曬|防晒|sun|uv/i.test(`${product?.productType || ''} ${title}`);
+    const s = en.match(SPF) || title.match(SPF) || (sunCare ? clean(product?.description).match(SPF) : null);
+    if (s) {
+      let pa = s[2] || (pack.match(PA) || title.match(PA) || [])[1] || '';
+      spf = `SPF${s[1]}${pa ? ` PA${pa}` : ''}`;
+      en = en.replace(SPF, ' ');
+      pack = clean(pack.replace(PA, ' '));
+    }
+    let size = '';
+    /* 套裝（水 150ml＋乳液 110ml）：唔出單一容量，名照原樣 */
+    const isSet = /[+＋]/.test(title) && (title.match(new RegExp(SIZE.source, 'g')) || []).length >= 2;
+    const z = isSet ? null : (en.match(SIZE) || cn.match(SIZE) || title.match(SIZE));
+    if (z) {
+      const unit = z[2] === '毫升' ? 'ml' : z[2] === '克' ? 'g' : /^ml$/i.test(z[2]) ? 'ml' : z[2];
+      size = `${z[1]}${unit}${z[3] && Number(z[3]) > 1 ? ` × ${z[3]}${z[4] || ''}` : ''}`;
+      en = en.replace(SIZE, ' ');
+      /* 中文名入面嘅容量（例如「[80毫升]」、尾嗰個「150ml」）都拎走，下面規格行已經有 */
+      cn = clean(cn.replace(/[\[【（(]\s*\d+(?:\.\d+)?\s?(?:ml|mL|ML|g|kg|毫升|克)\s*[\]】）)]/, ' ').replace(new RegExp(`\\s${SIZE.source}\\s*$`), ''));
+    }
+    /* 「x 10片（盒裝）」呢類件數：黐埋容量（25g × 10片）；其他規格（附補充裝、孖裝、2025版）逐粒出。
+       同容量重複（「70片 175ml」入面嘅 70片、「25g/片」）、得 1 件、太長或者唔完整嘅都唔要。 */
+    const per = pack.match(/^[x×]\s*(\d+)\s*(片|支|入|枚|個)?(盒裝|裝)?$/);
+    if (per) { size = clean(`${size || ''} × ${per[1]}${per[2] || ''}`).replace(/^× /, ''); pack = ''; }
+    const extra = tidy(pack).split(/[\s／/]+/).map(clean)
+      .filter((t) => t && t.length <= 10 && !/[()（）\[\]【】+]/.test(t) && !/^1(片|件|個|支|入)$/.test(t)
+        && !(size && (size === t || size.startsWith(t) || t.startsWith(size.split(' ')[0])))
+        && !/^(片|件|個|支)$/.test(t))
+      .slice(0, 2);
+    return {
+      brand: name.brand,               // 大字名前面收埋嘅品牌（讀屏同搜尋照讀）
+      name: tidy(cn) || clean(d.primary),
+      en: tidy(en),
+      spf,
+      size,
+      extra,                           // 其他規格粒（附補充裝、孖裝……）
+      specs: [spf, size, ...extra].filter(Boolean),
+    };
+  }
+
+  return { display, buyBoxParts, cardTitle, cardChinese: (product) => cardParts(product).chinese, seoDescription };
 });

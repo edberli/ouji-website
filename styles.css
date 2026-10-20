@@ -2664,24 +2664,38 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 
 /* 2 · 品牌、名、評分、價錢 */
 .pdp-buy { min-width: 0; padding-top: 13px; }
-.pdp-id .product-info__brand { display: inline-block; font: 700 13px/1.4 var(--font-body); letter-spacing: .02em; }
+/* 2026-10-20 Winston：跟 Codex 原型嗰種「大企業」購買區（「個名嘅設計、數字同銀碼嘅大細都做得好好」；加入購物袋用返我哋隻藍）。
+   品牌字距拉開、類別細字喺右；大字名 600；英文名淡灰；規格一行用幼線分隔；評分金星；簡介；大字價錢右邊一格每件價／色號數。
+   數值跟原型（手機 ≤620 嗰套；平板、桌面喺下面 media query）。 */
+.pdp-brandline { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 5px; }
+.pdp-id .product-info__brand { display: inline-block; min-width: 0; font: 700 11px/1.4 var(--font-body); letter-spacing: .12em; }
 .pdp-id .product-info__brand a { color: var(--bag-teal); text-decoration: none; }
-.pdp-id .product-info__name { margin: 6px 0 0; color: var(--bag-ink); font: 500 22px/1.35 var(--font-body); letter-spacing: 0; text-wrap: balance; }
-.product-info__subtitle { margin: 3px 0 0; color: var(--bag-muted); font-size: 13px; line-height: 1.5; }
-.product-info__specification { width: fit-content; margin: 8px 0 0; padding: 1px 9px; border: 1px solid var(--bag-line); border-radius: 999px; background: #fff; color: var(--bag-muted); font-size: 12px; line-height: 1.7; }
-.product-info__rating { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 7px; width: fit-content; margin-top: 10px; color: var(--bag-ink); font-size: 13px; line-height: 1.4; text-decoration: none; }
-.product-info__rating .stars { font-size: 13px; letter-spacing: 1px; }
-.product-info__rating-num { font-weight: 700; font-variant-numeric: tabular-nums; }
+.pdp-brandline__type { flex: none; color: #89989d; font-size: 11px; line-height: 1.4; }
+.pdp-name__brand { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* 品牌上面已經有 */
+.pdp-id .product-info__name { margin: 0; color: var(--bag-ink); font: 600 25px/1.5 var(--font-body); letter-spacing: .025em; text-wrap: balance; }
+.product-info__subtitle { margin: 4px 0 0; color: #778990; font-size: 12px; line-height: 1.6; }
+.pdp-specs { display: flex; flex-wrap: wrap; align-items: center; row-gap: 4px; margin: 13px 0 0; color: #476779; font-size: 11px; font-weight: 600; line-height: 1.5; font-variant-numeric: lining-nums; }
+.pdp-specs span { padding: 0 10px; border-right: 1px solid #c6d5db; white-space: nowrap; }
+.pdp-specs span:first-child { padding-left: 0; }
+.pdp-specs span:last-child { border-right: 0; }
+.product-info__rating { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; width: fit-content; margin-top: 15px; color: var(--bag-muted); font-size: 11px; line-height: 1.4; text-decoration: none; }
+.product-info__rating .stars { font-size: 12px; letter-spacing: .04em; }
+.product-info__rating .stars__row--fg { color: #be872d; }
+.product-info__rating-num { color: var(--bag-ink); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .product-info__rating-num .rating-max { margin-left: 1px; color: var(--bag-muted); font-size: .85em; font-weight: 500; }
-.product-info__rating-n { color: var(--bag-muted); text-decoration: underline; text-decoration-color: #c6d6dc; text-underline-offset: 3px; }
-.product-info__rating.is-static .product-info__rating-n { text-decoration: none; }
+.product-info__rating-n { color: var(--bag-muted); }
+.product-info__rating:not(.is-static)::after { content: ""; width: 13px; height: 13px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E") center / contain no-repeat; }
 
-.pdp-price { margin-top: 14px; }
-.product-info__price { color: var(--bag-teal); font-size: 20px; font-weight: 600; line-height: 1.2; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
+.pdp-price { margin-top: 16px; }
+.product-info__price { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; color: var(--bag-teal); font-variant-numeric: lining-nums tabular-nums; }
 .pp { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
-.pp__now { color: var(--bag-teal); font-size: 20px; font-weight: 600; }
+.pp__now { color: var(--bag-teal); font-size: 31px; font-weight: 600; line-height: 1.3; letter-spacing: -.04em; }
 .pp__was { color: var(--bag-muted); font-size: 14px; font-weight: 400; letter-spacing: 0; }
-.pp__unit { display: block; margin-top: 3px; color: var(--bag-muted); font-size: 12.5px; font-weight: 500; letter-spacing: 0; }
+/* 價錢右邊一格：件裝每件價、或者幾多個色號可選 */
+.pp__side { display: grid; padding-left: 14px; border-left: 1px solid var(--bag-line); color: var(--bag-ink); font-size: 11px; line-height: 1.7; }
+.pp__side b { font-weight: 500; }
+.pp__side span { color: var(--bag-muted); }
+.pdp-buy:has(.pp__side[data-count]) .pdp-opt__count { display: none; } /* 價錢隔離已經講咗幾多個色號，色號格標題唔再講 */
 .product-info__stock { margin: 6px 0 0; color: #9a4f49; font-size: 12.5px; font-weight: 600; }
 .product-info__stock span { color: var(--bag-muted); font-weight: 400; }
 .product-pair-note { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--bag-tint); color: var(--bag-teal-ink); font-size: 13px; font-weight: 600; line-height: 1.55; }
@@ -2690,7 +2704,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .sd-price { display: grid; gap: 5px; }
 .sd-price__tier { width: fit-content; padding: 1px 9px; border-radius: 999px; background: #f6eceb; color: #9a4f49; font-size: 12px; font-weight: 700; line-height: 1.7; letter-spacing: 0; }
 .sd-price__row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
-.sd-price__now { color: var(--bag-teal); font-size: 20px; font-weight: 600; }
+.sd-price__now { color: var(--bag-teal); font-size: 31px; font-weight: 600; line-height: 1.3; letter-spacing: -.04em; }
 .sd-price__was { color: var(--bag-muted); font-size: 14px; font-weight: 400; letter-spacing: 0; }
 .sd-notice { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--bag-surface); box-shadow: var(--bag-shadow); }
 .sd-notice__date { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0; color: var(--bag-muted); font-size: 13px; }
@@ -2743,21 +2757,23 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .power-note.is-preorder { background: #fff; box-shadow: inset 0 0 0 1px #b9cfd7; color: var(--bag-ink); }
 
 /* 4 · 數量、加入購物袋、心願（桌面喺購買欄一行；手機加入購物袋由底部購物條代撳，見下面 .pdp-dock） */
-.pdp-actions { display: flex; align-items: center; gap: 8px; }
-.pdp-wish { display: grid; flex: 0 0 auto; place-items: center; width: 46px; height: 46px; padding: 0; border: 1px solid var(--bag-control); border-radius: 50%; background: #fff; color: var(--bag-teal); cursor: pointer; transition: border-color .15s ease, color .15s ease; }
+.pdp-actions { display: flex; align-items: center; gap: 10px; }
+.pdp-wish { display: grid; flex: 0 0 auto; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--bag-control); border-radius: 50%; background: #fff; color: var(--bag-teal); cursor: pointer; transition: border-color .15s ease, color .15s ease; }
 .pdp-wish svg { width: 21px; height: 21px; flex: none; }
 /* 字只喺手機出（膠囊「♡ 加入願望清單」）；桌面淨係圓形心心，字留畀讀屏 */
 .pdp-wish__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pdp-wish.is-active { border-color: #efc7c0; color: #bd3a27; }
 .pdp-wish.is-active svg { fill: currentColor; }
-.pdp-qty { display: flex; flex: 0 0 auto; align-items: center; height: 46px; border: 1px solid var(--bag-control); border-radius: 10px; background: #fff; }
-.pdp-qty .qty-btn { display: grid; place-items: center; width: 34px; height: 100%; padding: 0; border: 0; background: none; color: var(--bag-ink); cursor: pointer; }
+.pdp-qty { display: flex; flex: 0 0 auto; align-items: center; height: 48px; border: 1px solid var(--bag-control); border-radius: 10px; background: #fff; }
+.pdp-qty .qty-btn { display: grid; place-items: center; width: 31px; height: 100%; padding: 0; border: 0; background: none; color: var(--bag-ink); cursor: pointer; }
 .pdp-qty .qty-btn svg { width: 16px; height: 16px; }
 /* 16px：iPhone 撳入細過 16px 嘅輸入格會自動放大成頁。 */
-.pdp-qty .qty-input { width: 30px; height: 100%; padding: 0; border: 0; background: transparent; color: var(--bag-ink); font: 600 16px/1 var(--font-body); font-variant-numeric: tabular-nums; text-align: center; -moz-appearance: textfield; appearance: textfield; }
+.pdp-qty .qty-input { width: 28px; height: 100%; padding: 0; border: 0; background: transparent; color: var(--bag-ink); font: 600 16px/1 var(--font-body); font-variant-numeric: tabular-nums; text-align: center; -moz-appearance: textfield; appearance: textfield; }
 .pdp-qty .qty-input::-webkit-outer-spin-button, .pdp-qty .qty-input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
 /* 英文版「Please select a shade first」好長：准斷兩行置中，唔好截字 */
-.pdp-add { position: relative; flex: 1 1 auto; min-width: 0; min-height: 50px; padding: 4px 18px; border: 0; border-radius: 999px; background: var(--bag-brand); color: #fff; font: 700 17px/1.15 var(--font-body); letter-spacing: .04em; text-wrap: balance; cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+.pdp-add { position: relative; flex: 1 1 auto; min-width: 0; display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; padding: 4px 22px; border: 0; border-radius: 999px; background: var(--bag-brand); color: #fff; font: 600 15px/1.2 var(--font-body); letter-spacing: .03em; text-wrap: balance; cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+/* 袋 icon（原型做法）：用 ::before 畫，JS 改掣字（textContent）唔會洗走佢；未揀色號、已加入、缺貨嗰陣唔出 */
+.pdp-add:not(.is-blocked):not(.is-done):not(.btn--sold-out)::before { content: ""; flex: none; width: 19px; height: 19px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8h14l-1 12H6Z'/%3E%3Cpath d='M9 10V7a3 3 0 0 1 6 0v3'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8h14l-1 12H6Z'/%3E%3Cpath d='M9 10V7a3 3 0 0 1 6 0v3'/%3E%3C/svg%3E") center / contain no-repeat; }
 /* 未揀色號：淡底青字（照撳得，撳落去捲返去色號格） */
 .pdp-add.is-blocked { background: var(--bag-tint); box-shadow: inset 0 0 0 1px #b9cfd7; color: var(--bag-teal-ink); }
 .pdp-add.is-busy { cursor: progress; }
@@ -2768,7 +2784,7 @@ body.page-pdp { background: var(--bag-ground); background-image: none; }
 .pdp-actions.is-sold-out .pdp-qty { display: none; }
 
 /* 5 · 簡介、成分 */
-.product-info__short-desc { display: -webkit-box; margin: 16px 0 0; overflow: hidden; color: var(--bag-muted); font-size: 14px; line-height: 1.7; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 2; } /* 淡色、最多兩行，全文喺下面產品介紹 */
+.product-info__short-desc { display: -webkit-box; max-width: 470px; margin: 13px 0 0; overflow: hidden; color: var(--bag-muted); font-size: 13px; line-height: 1.85; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 2; } /* 喺評分同價錢中間；淡色、最多兩行，全文喺下面產品介紹 */
 .ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .ing-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: var(--bag-tint); color: var(--bag-teal-ink); font-size: 12.5px; font-weight: 600; line-height: 1.5; }
 .ing-chip--clean { background: #fff; box-shadow: inset 0 0 0 1px var(--bag-tint-line); }
@@ -3063,9 +3079,9 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
 .pdp-dock__meta { max-width: 240px; margin: 0; overflow: hidden; color: var(--bag-muted); font-size: 12px; line-height: 1.4; white-space: nowrap; text-overflow: ellipsis; }
 .pdp-dock__meta:empty { display: none; }
 .pdp-dock__price { color: var(--bag-teal); font-size: 20px; font-weight: 700; line-height: 1.2; white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
-.pdp-dock__price :is(.pp__now, .sd-price__now) { font-size: 20px; }
+.pdp-dock__price :is(.pp__now, .sd-price__now) { font-size: 20px; letter-spacing: -.01em; }
 .pdp-dock__price :is(.pp__was, .sd-price__was) { font-size: 12px; }
-.pdp-dock__price :is(.pp__unit, .sd-price__tier) { display: none; }
+.pdp-dock__price :is(.pp__side, .sd-price__tier) { display: none; }
 .pdp-dock__price .pp { gap: 0 6px; }
 .pdp-dock__out { color: var(--bag-muted); font-size: 14px; font-weight: 600; }
 .pdp-dock__add { min-height: 50px; padding: 4px 30px; border: 0; border-radius: 999px; background: var(--bag-brand); color: #fff; font: 700 17px/1.15 var(--font-body); letter-spacing: .04em; text-wrap: balance; cursor: pointer; transition: background-color .2s ease; }
@@ -3120,20 +3136,27 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-thumbs { padding: 12px 0 0; }
   .pdp-thumb { flex-basis: 64px; width: 64px; height: 64px; }
   .pdp-buy { padding-top: 2px; }
-  .pdp-id .product-info__name { font-size: 24px; line-height: 1.38; }
-  .product-info__subtitle { font-size: 14px; }
-  .pdp-price { margin-top: 16px; }
-  .product-info__price, .pp__now, .sd-price__now { font-size: 24px; }
+  /* 購買區（平板）：原型 ≤1100 嗰套 */
+  .pdp-brandline { margin-bottom: 8px; }
+  .pdp-id .product-info__brand { font-size: 12px; }
+  .pdp-id .product-info__name { font-size: 26px; line-height: 1.4; }
+  .product-info__subtitle { margin-top: 6px; font-size: 13px; }
+  .pdp-specs { margin-top: 15px; font-size: 11.5px; }
+  .pdp-specs span { padding: 0 12px; }
+  .product-info__rating { margin-top: 17px; }
+  .pdp-price { margin-top: 18px; }
+  .pp__now, .sd-price__now { font-size: 30px; }
   .pp__was, .sd-price__was { font-size: 15px; }
-  .pdp-actions { margin-top: 22px; }
-  .pdp-wish { order: 3; width: 52px; height: 52px; }
-  .pdp-qty { order: 1; height: 52px; }
-  .pdp-qty .qty-btn { width: 38px; }
-  .pdp-qty .qty-input { width: 34px; }
-  .pdp-add { order: 2; min-height: 54px; font-size: 18px; }
+  .pp__side { padding-left: 16px; font-size: 11.5px; }
+  .pdp-actions { margin-top: 18px; }
+  .pdp-wish { order: 3; width: 51px; height: 51px; }
+  .pdp-qty { order: 1; height: 51px; }
+  .pdp-qty .qty-btn { width: 33px; }
+  .pdp-qty .qty-input { width: 30px; }
+  .pdp-add { order: 2; min-height: 51px; font-size: 14px; }
   .pdp-restock { order: 2; min-height: 54px; }
   .pdp-actions.is-sold-out .pdp-add { order: 1; }
-  .product-info__short-desc { margin-top: 20px; font-size: 15px; }
+  .product-info__short-desc { margin-top: 14px; font-size: 13.5px; }
   /* 桌面：同參考圖一樣 icon 喺左、兩行字喺右 */
   .pdp-perks { gap: 16px; margin-top: 24px; }
   .pdp-ship__ways { padding: 12px 4px; }
@@ -3166,8 +3189,18 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-stage__nav--next { right: 14px; }
   .pdp-stage:hover .pdp-stage__nav:not(:disabled), .pdp-stage__nav:focus-visible { opacity: 1; }
   .pdp-stage__nav:disabled { opacity: 0 !important; pointer-events: none; }
-  .pdp-id .product-info__name { font-size: 30px; font-weight: 500; line-height: 1.3; }
-  .product-info__price, .pp__now, .sd-price__now { font-size: 24px; }
+  /* 購買區（桌面）：原型嗰套 —— 品牌 13px、名 32px／600、英文名 14px、規格 12px、評分 11px 金星、簡介 14px、價錢 32px */
+  .pdp-id .product-info__brand { font-size: 13px; }
+  .pdp-id .product-info__name { font-size: 32px; line-height: 1.38; }
+  .product-info__subtitle { margin-top: 8px; font-size: 14px; }
+  .pdp-specs { margin-top: 17px; font-size: 12px; }
+  .pdp-specs span { padding: 0 13px; }
+  .product-info__rating { gap: 2px 9px; margin-top: 19px; }
+  .product-info__rating .stars { font-size: 14px; }
+  .product-info__rating-num { font-size: 13px; }
+  .product-info__short-desc { margin-top: 16px; font-size: 14px; }
+  .pdp-price { margin-top: 20px; }
+  .pp__now, .sd-price__now { font-size: 32px; }
   /* 評價同上面兩段一樣欄位：評語喺左（1fr）、分數總結＋AI 重點喺右（440，跟住捲）——成版由頂到底同一條線 */
   /* 產品介紹喺左欄相下面（2026-10-19）：文字閱讀闊度最多 680、16px；長圖跟左欄闊 */
   .pdp-hero > .pdp-story { margin-top: 64px; }
@@ -3175,8 +3208,7 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .pdp-story .product-description { max-width: 680px; font-size: 16px; line-height: 1.85; }
   /* 購買欄頂同大相頂對齊；右欄跟住捲（product.html pdpStick） */
   .pdp-buy { padding-top: 0; }
-  .pdp-id .product-info__brand { line-height: 1; }
-  .pdp-options { margin-top: 24px; }
+  .pdp-options { margin-top: 22px; }
   .pdp-perks { margin-top: 28px; }
   /* 桌面色號 36px，一行十粒 */
   .product-info__variants--swatch { gap: 8px; }
@@ -3189,6 +3221,10 @@ html.pdp-lb-open, html.pdp-lb-open body { overflow: hidden; }
   .rv-list { display: block; columns: 2; column-gap: 48px; }
   .rv-list .rv-card { break-inside: avoid; }
   .rv-more { width: auto; min-width: 240px; margin: 4px auto 0; padding: 0 24px; }
+}
+
+@media (min-width: 1450px) {
+  .pdp-id .product-info__name { font-size: 34px; } /* 原型 ≥1450 */
 }
 
 /* 桌面右欄（購買欄＋重點卡、評價總結）跟住捲：原生 sticky（2026-10-19 Winston：之前 JS 推嘅「窒下窒下」）。

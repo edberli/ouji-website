@@ -30,7 +30,7 @@ const SITE = 'https://oujikbeauty.com';
 const QUERY = `
 query($handle: String!) @inContext(country: HK, language: ZH_TW) {
   product(handle: $handle) {
-    id handle title description descriptionHtml vendor productType
+    id handle title description descriptionHtml vendor productType tags
     images(first: 1) { edges { node { url } } }
     variants(first: 50) { edges { node { id title sku barcode availableForSale price { amount } } } }
     priceRange {
@@ -243,6 +243,21 @@ function fillBody(html, p) {
 
 function fillH1(html, p) {
   if (!p?.title) return html;
+  html = html.replace('<span class="pdp-brandline__type" data-pdp-type hidden></span>',
+    p.productType ? `<span class="pdp-brandline__type" data-pdp-type>${esc(p.productType)}</span>` : '<span class="pdp-brandline__type" data-pdp-type hidden></span>');
+  /* 新版產品頁（有 data-pdp-specs）：同 product.html 一樣用 buyBoxParts() —— 大字名前面嘅品牌收埋、英文名淨係英文名、
+     防曬值同容量出喺規格一行（品牌國家要讀描述，留畀瀏覽器加）。舊版 classic 範本照舊。 */
+  /* 短效期貨（同 shopify.js isShortDated() 一樣嘅判斷）照用舊名，同瀏覽器一致 */
+  const shortDated = (p.tags || []).includes('短效期') || p.productType === '短效期特價' || /^【短效期/.test(p.title || '');
+  if (html.includes('data-pdp-specs') && typeof naming.buyBoxParts === 'function' && !shortDated) {
+    const b = naming.buyBoxParts(p);
+    return html.replace(H1_EMPTY,
+      `<h1 class="product-info__name">${b.brand ? `<span class="pdp-name__brand">${esc(b.brand)} </span>` : ''}${esc(b.name)}</h1>`)
+      .replace('<p class="product-info__subtitle" hidden></p>',
+        b.en ? `<p class="product-info__subtitle">${esc(b.en)}</p>` : '<p class="product-info__subtitle" hidden></p>')
+      .replace('<p class="pdp-specs" data-pdp-specs hidden></p>',
+        b.specs.length ? `<p class="pdp-specs" data-pdp-specs>${b.specs.map((t) => `<span>${esc(t)}</span>`).join('')}</p>` : '<p class="pdp-specs" data-pdp-specs hidden></p>');
+  }
   const names = naming.display(p);
   return html.replace(H1_EMPTY,
     `<h1 class="product-info__name">${esc(names.primary)}</h1>`)

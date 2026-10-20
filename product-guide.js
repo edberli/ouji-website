@@ -218,18 +218,6 @@
   }
 
   /** 品牌國家：「韓國品牌 Brand origin: Korea」→ 中文「韓國」／英文「Korea」 */
-  function originText(v, en) {
-    const s = String(v || '');
-    if (en) return ((s.match(/Brand origin\s*[:：]\s*([A-Za-z][A-Za-z .-]{1,30})/i) || [])[1] || (/[A-Za-z]/.test(s) && !/[一-鿿]/.test(s) ? s : '')).trim();
-    return s.split(/Brand origin/i)[0].replace(/[\s。.]+$/, '').replace(/品牌$/, '').trim();
-  }
-
-  /** 標題入面嘅容量（例如 150ml）：描述冇寫「容量：」先用 */
-  const sizeFromTitle = (product) => {
-    const m = String(product?.title || '').match(/(\d+(?:\.\d+)?\s?(?:ml|mL|ML|g|kg|片|枚|pcs))(?![A-Za-z])/);
-    return m ? m[1].replace(/\s+/g, '') : '';
-  };
-
   /* ── 重點卡：一張視覺化卡（2026-10-19 Winston：「重點、適合咩膚質、質地、點樣用，會唔會可以用一張視覺化嘅卡片表示晒，而唔係分開三四卡」──
      一張卡睇晒：一句重點 → 適合膚質五粒 → 三格（質地／膚感／刺激度；非護膚就類型／容量／產地）→ 點樣用（早夜＋步驟）→ 針對、主打成分；
      長字（品牌用法、要留意）收喺最底「詳細」，撳開先出 —— 資料一樣都冇少。冇料嗰格唔出，張卡同個次序唔變。 */
@@ -245,8 +233,6 @@
 
   function profileHTML({ product, facts, a, labels, tips }) {
     const en = isEN();
-    const origin = originText(facts.origin, en);
-    const size = facts.specs.size || (facts.specs.perbox ? '' : sizeFromTitle(product));
     const out = [];
     const label = (t) => `<p class="pdp-pf__label">${t}</p>`;
     if (a?.hook && !en) out.push(`<p class="pdp-pf__hook">${esc(a.hook)}</p>`);
@@ -259,7 +245,7 @@
       const say = { good: cp('啱用', 'suits'), ok: cp('可以', 'OK'), avoid: cp('唔建議', 'not advised') };
       if (ks.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--skin">${label(cp('適合膚質', 'Skin types'))}<ul class="pdp-pf__skins">${ks.map((k) => `<li class="is-${fit[k]}" title="${esc(`${word(k)}${en ? ': ' : '：'}${say[fit[k]]}`)}">${fit[k] === 'good' ? ICON.check : fit[k] === 'avoid' ? ICON.cross : ICON.dot}<span>${esc(word(k))}</span><span class="pdp-pf__sr">${esc(say[fit[k]])}</span></li>`).join('')}</ul></div>`);
     }
-    /* 三格：護膚＝質地／膚感／刺激度；其他＝類型／容量／產地 */
+    /* 三格（護膚先有）：質地／膚感／刺激度 */
     const meter = (v) => `<span class="pdp-pf__meter" aria-hidden="true">${[1, 2, 3].map((i) => `<i${i <= v ? ' class="is-on"' : ''}></i>`).join('')}</span>`;
     const tile = (t, v, vis = '') => `<div class="pdp-pf__tile">${label(t)}<p class="pdp-pf__val">${vis}<span>${v}</span></p></div>`;
     const tiles = [];
@@ -268,11 +254,8 @@
       if (tex) tiles.push(tile(cp('質地', 'Texture'), esc(tex), TEX_ICON[TEX_KIND[a.tex] || 'drop']));
       if (a.wt) tiles.push(tile(cp('膚感', 'Feel'), esc(en ? ['Light', 'Medium', 'Rich'][a.wt - 1] : labels.wt?.[a.wt]), meter(a.wt)));
       if (a.irr) tiles.push(tile(cp('刺激度', 'Intensity'), esc(en ? ['Gentle', 'Moderate', 'Strong'][a.irr - 1] : labels.irr?.[a.irr]), meter(a.irr)));
-    } else {
-      if (product.productType) tiles.push(tile(cp('類型', 'Type'), `<span>${esc(product.productType)}</span>`));
-      if (size) tiles.push(tile(cp('容量', 'Size'), esc(size)));
-      if (origin) tiles.push(tile(cp('品牌國家', 'Origin'), esc(origin)));
     }
+    /* 類型、容量、品牌國家（2026-10-20 起）：購買區頂已經有（類別喺品牌右邊、規格一行），卡入面唔再講 */
     if (tiles.length) out.push(`<div class="pdp-pf__tiles">${tiles.join('')}</div>`);
     /* 冇護膚標籤（化妝品等）：品牌用法直接出喺卡度，唔好收埋（唔係張卡得兩格好空） */
     const skinMode = !!(a && (tex || a.wt || a.irr));
@@ -297,9 +280,7 @@
     const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
     if (chips) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--actives">${label(cp('主打成分', 'Key ingredients'))}<span class="ing-chips">${chips}</span></div>`);
     /* 最底：基本（護膚先出呢度；其他已經喺三格）＋其他規格＋「詳細」（品牌用法、要留意） */
-    const basics = skinMode ? [product.productType, size, origin].filter(Boolean).map(esc) : [];
-    const specs = SPEC.filter((x) => x.zh && x.key !== 'size' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
-    const foot = [...basics, ...specs];
+    const foot = SPEC.filter((x) => x.zh && x.key !== 'size' && x.key !== 'spf' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
     const more = [
       skinMode && facts.usage ? `<div class="pdp-pf__more-sec">${label(cp('品牌用法', 'Directions'))}<p class="pdp-pf__text">${esc(facts.usage)}</p></div>` : '',
       tips.length ? `<div class="pdp-pf__more-sec">${label(cp('要留意', 'Good to know'))}<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '',
