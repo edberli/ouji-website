@@ -236,7 +236,7 @@
      伺服器（api/product.js）同瀏覽器（product.html）用同一個 function，載入唔會跳。 */
   const SPF = /SPF\s?(\d+\+?)(?:\s*[,，]?\s*PA\s?(\+{1,4}))?/i;
   const PA = /\bPA\s?(\+{1,4})/i;
-  const SIZE = /(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|片|枚|pcs|oz|毫升|克)(?:\s*[x×]\s*(\d+)\s*(片|支|入|枚|個)?)?/;
+  const SIZE = /(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|片|枚|pcs|oz|毫升|克)(?![a-wyzA-WYZ])(?:\s*[x×]\s*(\d+)\s*(片|支|入|枚|個)?)?/; // 「Rice 70 Glow」嘅 70 G 唔係容量
   /* 括號唔齊（例如「（Tender Bloom」「EMPATHY (LOVED IVE Ver.」）：由冇收尾嗰個開括號起剪走；頭尾多出嚟嘅分隔符號都剪 */
   const tidy = (value) => {
     let v = clean(value).replace(/^[\s,，、:：\-–—]+|[\s,，、:：\-–—]+$/g, '');
@@ -249,6 +249,146 @@
     }
     return v.replace(/^[\s,，、:：\-–—]+|[\s,，、:：\-–—]+$/g, '');
   };
+  /* ── 規格行一定要有料（Winston 2026-10-20：「就算冇防曬、冇克數，都可以喺品牌國家隔離有簡單描述……
+     眼影盤有幾多隻色、防水睫毛膏嘅克數或者特點……純素護手霜就講純素……隱形眼鏡全部都要有『日本』……你要有個份量喺嗰度」）。
+     全部由標題同描述原文搵，搵唔到就唔出，唔作。次序：防曬值 → 容量 → 色數／件數／款數／筆芯 → 特點 → 國家（前面最多三粒）。 */
+  const NUM = { 一: 1, 二: 2, 兩: 2, 雙: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10 };
+  const num = (v) => NUM[v] || Number(v) || 0;
+  const COUNTRY_EN = {
+    韓國: 'Korea', 日本: 'Japan', 美國: 'USA', 法國: 'France', 中國: 'China', 台灣: 'Taiwan', 德國: 'Germany',
+    英國: 'UK', 新加坡: 'Singapore', 泰國: 'Thailand', 澳洲: 'Australia', 意大利: 'Italy', 瑞士: 'Switzerland', 西班牙: 'Spain',
+  };
+  /* 特點：每組揀最強嗰個（超防水 > 防水防汗 > 防水）；not＝否定寫法唔算。只係某幾個款式有（例如「薄荷／無香料」）嘅唔出。 */
+  const FEATURES = [
+    { re: /超防水|super\s?proof/i, zh: '超防水', en: 'Superproof', group: 'water' },
+    { re: /防水防汗|防水.{0,2}防汗|防汗.{0,2}防水/, zh: '防水防汗', en: 'Water & sweat-proof', group: 'water' },
+    /* 卸妝產品講「溶解防水彩妝」唔係話佢本身防水 */
+    { re: /防水|waterproof|water-?resistant/i, zh: '防水', en: 'Waterproof', group: 'water', not: /(?:非|唔|不|無|冇|未必)\s?防水|防水.{0,2}(?:唔|不|差)|防水袋|防水(?:彩妝|妝|睫毛|眼線|化妝)|卸|溶解|清除|去除|預防水|防水分/ }, // 「預防水分流失」唔係防水
+    { re: /防暈染|不暈染|唔暈染|smudge-?proof/i, zh: '防暈染', en: 'Smudge-proof' },
+    { re: /純素|vegan/i, zh: '純素', en: 'Vegan' },
+    { re: /無香料|無香精|無添加香料|fragrance-?free|unscented/i, zh: '無香料', en: 'Fragrance-free' },
+    { re: /海洋友善|reef[\s-]?(?:safe|friendly)/i, zh: '海洋友善', en: 'Reef-friendly' },
+    { re: /環保包裝|環保物料|環保材質|可回收|再生紙|eco-?friendly/i, zh: '環保', en: 'Eco-friendly' },
+    { re: /半固化凝膠|semi-?cured gel/i, zh: '半固化凝膠', en: 'Semi-cured gel' },
+  ];
+  const UNIT_EN = { 色: 'colours', 款: 'designs', 件: 'pcs', 片: 'pcs', 枚: 'pcs', 粒: 'pcs', 條: 'pcs', 包: 'packs', 顆: 'pcs', 塊: 'pcs', 對: 'pairs', 個: 'pcs', 支: 'pcs' };
+  const GML = /(?<![\d.,])(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d])/g;
+  const gml = (n, u) => `${n}${u === '毫升' || /^ml$/i.test(u) ? 'ml' : u === '克' || u === 'G' ? 'g' : u}`;
+
+  /** 描述入面嘅容量：先睇「容量：」「產品容量：」「每支」呢類標示；冇就揀描述入面唯一一個容量（兩個就要有兩個款式）。 */
+  function sizeFromText(text, product) {
+    const label = /(?:容量\s*[／/]\s*規格|產品容量|淨含量|淨重|內容量|成分量|容量|規格|每支|net\s*(?:wt\.?|weight|contents?)|volume)\s*[:：]?\s*/gi;
+    for (const m of text.matchAll(label)) {
+      const after = text.slice(m.index + m[0].length, m.index + m[0].length + 30);
+      const a = after.match(/^[^\d]{0,3}?(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d])(?:\s?[／/]\s?(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d]))?/);
+      if (!a || /^[^\d]{0,3}?\d+(?:\.\d+)?\s?\S{1,2}\s?[x×＋+]/.test(after)) continue;
+      /* 「400ml／257ml／20ml」三個或以上：寫「20ml–400ml」 */
+      const list = [...after.matchAll(/(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d])/g)].map((x) => gml(x[1], x[2]));
+      const unit = list.length >= 3 && list.every((v) => v.replace(/[\d.]/g, '') === list[0].replace(/[\d.]/g, '')) ? list[0].replace(/[\d.]/g, '') : '';
+      if (unit && /^[^\d]{0,3}?\d[\d.]*\s?\S{1,2}\s?[／/、]/.test(after)) {
+        const ns = list.map((v) => Number.parseFloat(v)).sort((x, y) => x - y);
+        return `${ns[0]}${unit}–${ns[ns.length - 1]}${unit}`;
+      }
+      return a[3] ? `${gml(a[1], a[2])}／${gml(a[3], a[4])}` : gml(a[1], a[2]);
+    }
+    /* 套裝（水 150ml＋乳液 110ml）唔揀單一容量 */
+    if (/套裝|禮盒|兩件|[一二兩三四五六\d]\s?件|[+＋]|\bset\b/i.test(product?.title || '')) return '';
+    const seen = [];
+    for (const m of text.matchAll(GML)) {
+      const before = text.slice(Math.max(0, m.index - 6), m.index);
+      const next = text.slice(m.index + m[0].length, m.index + m[0].length + 3);
+      if (/取|每次|用量|份量|含|加入|添加|重量|本體|[x×＋+]\s?$/.test(before) || /^\s?[x×＋+–\-~]/.test(next)) continue;
+      const v = gml(m[1], m[2]);
+      if (!seen.includes(v)) seen.push(v);
+    }
+    const variants = product?.variants?.edges?.length || 0;
+    if (seen.length === 1) return seen[0];
+    if (seen.length === 2 && variants >= 2) return seen.join('／');
+    return '';
+  }
+
+  /** 品牌國家：描述「品牌國家：韓國品牌」→ 韓國；冇就睇「日本品牌」呢類寫法；隱形眼鏡全部係日本品牌（Winston 2026-10-20）。 */
+  function countryOf(product, text) {
+    let zh = ((text.match(/品牌國家\s*[:：]\s*([一-鿿]{2,6})/) || [])[1] || '').replace(/品牌$/, '');
+    if (!zh) zh = (text.match(/(韓國|日本|美國|法國|台灣|德國|英國|中國|新加坡|泰國|澳洲|意大利|瑞士|西班牙)品牌/) || [])[1] || '';
+    if (!zh && (/隱形眼鏡/.test(product?.productType || '') || /^lens-/.test(product?.handle || ''))) zh = '日本';
+    return zh && zh.length <= 4 ? { zh, en: COUNTRY_EN[zh] || zh } : null;
+  }
+
+  /** 冇容量都有嘢講：色數、件數、款數、筆芯粗幼、尺寸、隱形眼鏡度數、專輯小卡、特點。每粒 { zh, en }。 */
+  function moreChips(product, text, have) {
+    const title = clean(product?.title);
+    const type = clean(product?.productType);
+    const out = [];
+    const nums = new Set(have.flatMap((t) => String(t).match(/\d+(?:\.\d+)?/g) || [])); // 「2g × 30條」已經有 30，唔再出「30 條」
+    const add = (zh, en, n) => {
+      if (!zh || have.includes(zh) || out.some((c) => c.zh === zh) || (n && nums.has(String(n)))) return;
+      out.push({ zh, en: en || zh });
+      if (n) nums.add(String(n));
+    };
+    /* 色數：「12色眼影盤」「雙色胭脂盤」；眼影盤類先睇描述「12 色同色系眼影盤」 */
+    const c = title.match(/(?<![\d.])([2-9]|[1-9]\d|[雙兩二三四五六七八九十])\s?色(?![號調系彩澤])/)
+      || (/眼影|修容|胭脂|高光|盤|palette/i.test(`${title} ${type}`) ? text.match(/(?<![\d.])([2-9]|[1-9]\d)\s?色(?:同色系)?(?:眼影|盤|組|胭脂)/) : null);
+    if (c) add(`${num(c[1])} 色`, `${num(c[1])} colours`, num(c[1]));
+    /* 套裝件數：「(一套四件)」「(1套5件)」「兩件套裝」 */
+    const set = title.match(/(?:一套|1套)\s?([一二兩三四五六七八九十\d]{1,2})\s?件|([一二兩三四五六七八九十\d]{1,2})\s?件(?:套裝|裝|組|特別套裝)/);
+    if (set) add(`${num(set[1] || set[2])} 件`, `${num(set[1] || set[2])} pcs`, num(set[1] || set[2]));
+    /* 款數：「全6款」；扭蛋公仔「3款 7cm」 */
+    const kinds = title.match(/全\s?([一二兩三四五六七八九十\d]{1,2})\s?款/)
+      || (/公仔|盲盒|扭蛋|玩具|掛件|配件|吊飾|匙扣/.test(`${type} ${title}`) ? title.match(/(?<![\d.])(\d{1,2})\s?款(?:裝)?/) : null);
+    if (kinds) add(`${kinds[0].startsWith('全') ? '全 ' : ''}${num(kinds[1])} 款`, `${num(kinds[1])} designs`, num(kinds[1]));
+    if (/盲盒|盲袋|扭蛋/.test(`${type} ${title}`) && /隨機/.test(text)) add('款式隨機', 'Random design');
+    /* 件數：標題「28粒」「30條」「4條裝」；美甲貼「30 片、15 個尺寸」 */
+    const pcs = /[+＋]/.test(title) ? null : title.match(/(?<![\d.])(\d{1,3})\s?(粒|條|包|顆|塊|對|個|支)(?:裝|入)?(?![a-zA-Z])/); // 「粉撲4個+粉底掃1支」唔係一件嘢嘅件數
+    if (pcs && Number(pcs[1]) > 1) add(`${pcs[1]} ${pcs[2]}`, `${pcs[1]} ${UNIT_EN[pcs[2]] || 'pcs'}`, pcs[1]);
+    const nail = text.match(/(\d{1,3})\s?片[、，,]\s?(\d{1,2})\s?個尺寸/);
+    if (nail) { add(`${nail[1]} 片`, `${nail[1]} pcs`, nail[1]); add(`${nail[2]} 個尺寸`, `${nail[2]} sizes`); }
+    /* 筆芯／筆尖粗幼（眼線、眉筆、唇線筆）；描述講兩個唔同粗幼（例如兩個款式）就唔出 */
+    if (/眼線|眉|唇線|筆/.test(type)) {
+      const tips = [...`${title} ${text}`.matchAll(/(\d+(?:\.\d+)?)\s?mm\s?[^\d\s，。,]{0,4}?(筆芯|筆頭|筆尖|刷頭|細芯)|(筆芯|筆尖|筆頭)\s*[:：]\s*(\d+(?:\.\d+)?)\s?mm/g)]
+        .map((m) => ({ n: m[1] || m[4], w: (m[2] || m[3]).replace('細芯', '筆芯') }));
+      if (tips.length && tips.every((t) => t.n === tips[0].n)) add(`${tips[0].n}mm ${tips[0].w}`, `${tips[0].n}mm tip`);
+    }
+    /* 尺寸：公仔標題「14cm」「18–20cm」；工具描述「全長：90mm」「高度：126mm」（噴霧「距離 20cm」唔算） */
+    const RANGE = '(\\d+(?:\\.\\d+)?(?:\\s?[–\\-~]\\s?\\d+(?:\\.\\d+)?)?)';
+    const dimT = /公仔|盲盒|扭蛋|玩具|掛件|配件|吊飾|匙扣|擺設|雜貨/.test(`${type} ${title}`) ? title.match(new RegExp(`(?<![\\d.])${RANGE}\\s?cm`, 'i')) : null;
+    if (dimT) add(`${dimT[1].replace(/\s/g, '')}cm`, `${dimT[1].replace(/\s/g, '')}cm`, dimT[1].match(/[\d.]+/)[0]);
+    else if (/工具|掃|梳|夾|配件|雜貨|擺設|鏡|髮卷/.test(`${type} ${title}`)) { // 防曬泡沫「直徑 2–3cm 份量」唔係尺寸
+      const dimD = text.match(new RegExp(`(全長|長度|高度|直徑|闊度|夾口闊度)\\s*[:：]?\\s*約?\\s*${RANGE}\\s?(cm|mm|厘米)(?![a-zA-Z×x])`));
+      if (dimD) add(`${dimD[1].replace('夾口', '')} ${dimD[2].replace(/\s/g, '')}${dimD[3] === '厘米' ? 'cm' : dimD[3]}`, `${dimD[2].replace(/\s/g, '')}${dimD[3] === '厘米' ? 'cm' : dimD[3]}`);
+    }
+    /* 隱形眼鏡度數：「度數範圍：0.00 至 -6.00」→「0 至 600 度」（香港人講近視幾多度） */
+    const pw = text.match(/度數範圍\s*[:：]\s*([+-]?\d+\.\d{2})\s?(?:至|到|~|–|-)\s?([+-]?\d+\.\d{2})/);
+    if (pw) {
+      const deg = (v) => Math.round(Math.abs(Number(v)) * 100);
+      add(`${deg(pw[1])} 至 ${deg(pw[2])} 度`, `${pw[1]} to ${pw[2]}`);
+    }
+    /* 專輯：原裝正版、附隨機小卡 */
+    if (/專輯|album/i.test(type)) {
+      if (/原裝正版/.test(text)) add('原裝正版', 'Official release');
+      if (/小卡|photocard/i.test(text) && !/(?:冇|唔附|不附|不含)小卡/.test(text)) add('附隨機小卡', 'Random photocard');
+    }
+    /* 特點 */
+    const all = `${title} ${text}`;
+    const vTitles = (product?.variants?.edges || []).map((e) => clean(e?.node?.title));
+    const groups = new Set();
+    const cleanser = /潔面|卸妝|卸|除.{0,4}液/.test(`${type} ${title}`);
+    for (const f of FEATURES) {
+      if (f.group && groups.has(f.group)) continue;
+      if (f.group === 'water' && cleanser) continue;
+      const hit = [...all.matchAll(new RegExp(f.re.source, `${f.re.flags.replace('g', '')}g`))].some((m) => {
+        const around = all.slice(Math.max(0, m.index - 4), m.index + m[0].length + 4);
+        return !(f.not && f.not.test(around));
+      });
+      if (!hit) continue;
+      const inV = vTitles.filter((t) => f.re.test(t)).length;
+      if (inV && inV < vTitles.length) continue; // 淨係某幾個款式先有
+      if (f.group) groups.add(f.group);
+      add(f.zh, f.en);
+    }
+    return out;
+  }
+
   function buyBoxParts(product) {
     const d = display(product);
     const vendor = clean(product?.vendor);
@@ -287,13 +427,23 @@
     }
     /* 「x 10片（盒裝）」呢類件數：黐埋容量（25g × 10片）；其他規格（附補充裝、孖裝、2025版）逐粒出。
        同容量重複（「70片 175ml」入面嘅 70片、「25g/片」）、得 1 件、太長或者唔完整嘅都唔要。 */
-    const per = pack.match(/^[x×]\s*(\d+)\s*(片|支|入|枚|個)?(盒裝|裝)?$/);
+    const per = pack.match(/^[x×]\s*(\d+)\s*(片|支|入|枚|個|條|粒|包|顆)?(盒裝|裝)?$/);
     if (per) { size = clean(`${size || ''} × ${per[1]}${per[2] || ''}`).replace(/^× /, ''); pack = ''; }
-    const extra = tidy(pack).split(/[\s／/]+/).map(clean)
+    /* 「10枚/盒」「30粒/樽」呢類一件幾多：保持一粒，唔好拆開 */
+    const keep = tidy(pack).replace(/(\d+\s*[枚片支個入粒條包])\s*[／/]\s*(盒|包|支|袋|樽|瓶)/g, '$1｜$2');
+    const extra = keep.split(/[\s／/]+/).map((t) => clean(t.replace('｜', '／')))
       .filter((t) => t && t.length <= 10 && !/[()（）\[\]【】+]/.test(t) && !/^1(片|件|個|支|入)$/.test(t)
         && !(size && (size === t || size.startsWith(t) || t.startsWith(size.split(' ')[0])))
-        && !/^(片|件|個|支)$/.test(t))
+        && !/^(片|件|個|支|盒|包|入|枚|對|粒|條|[x×+＋])$/.test(t))
       .slice(0, 2);
+    /* 標題冇容量：描述入面搵（「容量：7g」「產品容量：0.4g」「2.5g 迷你裝」） */
+    const text = clean(product?.description);
+    if (!size && !isSet) size = sizeFromText(text, product);
+    const base = [spf, size, ...extra].filter(Boolean);
+    const chips = [...base.map((t) => ({ zh: t, en: t })), ...moreChips(product, text, base)].slice(0, 3);
+    const country = countryOf(product, text);
+    /* 名尾「全6款」已經出咗喺規格行，名度唔再寫 */
+    if (chips.some((c) => /^全 \d+ 款$/.test(c.zh))) cn = clean(cn.replace(/\s*全\s?\d+\s?款\s*$/, ''));
     return {
       brand: name.brand,               // 大字名前面收埋嘅品牌（讀屏同搜尋照讀）
       name: tidy(cn) || clean(d.primary),
@@ -301,7 +451,10 @@
       spf,
       size,
       extra,                           // 其他規格粒（附補充裝、孖裝……）
-      specs: [spf, size, ...extra].filter(Boolean),
+      country: country ? country.zh : '',
+      meta: chips.map((c) => c.zh).join(' · '), // 底部購買條用（唔包國家）
+      chips: country ? [...chips, country] : chips, // 規格一行，每粒 { zh, en }，國家喺最尾
+      specs: [...chips, ...(country ? [country] : [])].map((c) => c.zh),
     };
   }
 

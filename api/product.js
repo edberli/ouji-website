@@ -214,9 +214,11 @@ function introText(p) {
   const titleKey = norm(p.title);
   const paras = [...(p.descriptionHtml || '').matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].slice(0, 6)
     .map((m) => m[1].replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
-  const plain = paras.length
-    ? (paras.find((t) => norm(t).length >= 6 && !titleKey.includes(norm(t))) || '')
-    : (p.description || '').trim();
+  /* #標籤行唔做簡介；emoji 同 #標籤拎走（同 product.html 一樣） */
+  const tidyIntro = (t) => String(t || '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/(^|\s)#\S+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  const plain = tidyIntro(paras.length
+    ? (paras.find((t) => !/^\s*#/.test(t) && norm(tidyIntro(t)).length >= 6 && !titleKey.includes(norm(t))) || '')
+    : (p.description || '').trim());
   return plain.length > 200 ? plain.slice(0, 200) + '…' : plain;
 }
 
@@ -246,7 +248,7 @@ function fillH1(html, p) {
   html = html.replace('<span class="pdp-brandline__type" data-pdp-type hidden></span>',
     p.productType ? `<span class="pdp-brandline__type" data-pdp-type>${esc(p.productType)}</span>` : '<span class="pdp-brandline__type" data-pdp-type hidden></span>');
   /* 新版產品頁（有 data-pdp-specs）：同 product.html 一樣用 buyBoxParts() —— 大字名前面嘅品牌收埋、英文名淨係英文名、
-     防曬值同容量出喺規格一行（品牌國家要讀描述，留畀瀏覽器加）。舊版 classic 範本照舊。 */
+     規格一行（防曬值、容量、色數／特點、國家）都由 buyBoxParts() 用標題同描述計，同瀏覽器出嘅一樣。舊版 classic 範本照舊。 */
   /* 短效期貨（同 shopify.js isShortDated() 一樣嘅判斷）照用舊名，同瀏覽器一致 */
   const shortDated = (p.tags || []).includes('短效期') || p.productType === '短效期特價' || /^【短效期/.test(p.title || '');
   if (html.includes('data-pdp-specs') && typeof naming.buyBoxParts === 'function' && !shortDated) {
