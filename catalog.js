@@ -380,21 +380,68 @@ function soldOut(p) {
   return vs.length > 0 && !vs.some((e) => variantInStock(e.node));
 }
 
-/* The order you actually use the things in. A brand section used to list
-   a serum next to a sunscreen next to a toner in whatever order the
-   scorer produced, which reads as a pile rather than a routine. */
-const ROUTINE = ['潔面', '卸妝', '爽膚水', '棉片', '精華', '安瓶', '局部護理',
-                 '乳液', '面霜', '眼霜', '面膜', '防曬', '唇部護理',
-                 '身體護理', '頭髮護理', '套裝',
-                 // makeup follows the order you put it on in
-                 '妝前乳', '底妝', '氣墊粉底', '粉底', '遮瑕', '蜜粉',
-                 '眼影', '眼線', '眼線筆', '睫毛膏', '眉筆',
-                 '胭脂', '修容', '高光', '多用彩妝',
-                 '唇膏', '唇釉', '唇彩', '唇蜜', '唇線筆', '潤唇膏'];
+/* 品牌入面嘅擺位（Winston 2026-10-20）：「唔係應該根據洗面奶、爽膚水、精華、
+   面霜嘅次序咩？」「有聯名 IP 嘅產品應該擺最頂」「面膜中間又隔開一啲嘢好奇怪」。
+   所以牌子入面一律：
+     1. 聯名 IP 款行先（最靚、最吸睛）
+     2. 其餘跟用嘅次序：潔面 → 爽膚水 → 精華 → 乳液 → 面霜 → 眼霜 → 防曬 → 面膜 ⋯
+        彩妝版就跟上妝次序行先（底妝 → 眼 → 頰 → 唇），護膚排後
+     3. 同一步驟入面，同系列唔同容量（獨島爽膚水 200ml／500ml）擺埋一齊、細嘅先；
+        系列之間先擺代表作（推薦分數高嘅）
+   取代 2026-09「牌子入面照分數排」。短效期特價貨永遠排尾。 */
+const SKIN_STEPS = ['潔面', '卸妝', '去角質', '爽膚水', '棉片', '精華', '安瓶', '局部護理',
+                    '乳液', '面霜', '眼霜', '防曬', '面膜', '唇部護理', '護手霜',
+                    '身體護理', '頭髮護理', '洗髮護髮', '套裝護膚', '套裝'];
+const MAKEUP_STEPS = ['妝前乳', '妝前底霜', '底妝', '氣墊粉底', '粉底', '遮瑕', '蜜粉', '定妝', '定妝噴霧',
+                      '眼影', '眼線', '眼線筆', '睫毛膏', '假睫毛', '眉筆', '眉妝',
+                      '胭脂', '修容', '高光', '多用彩妝', '彩妝',
+                      '唇膏', '唇釉', '唇彩', '唇蜜', '唇妝', '唇線筆', '潤唇膏', '化妝工具', '美甲貼'];
 
 function routineStep(p) {
-  const i = ROUTINE.indexOf(p.productType || '');
-  return i === -1 ? ROUTINE.length : i;   // unknown types sit at the end
+  const order = typeof CURRENT_SECTION !== 'undefined' && CURRENT_SECTION === 'makeup'
+    ? [...MAKEUP_STEPS, ...SKIN_STEPS] : [...SKIN_STEPS, ...MAKEUP_STEPS];
+  if (p.productType === '短效期特價') return order.length + 1;
+  const i = order.indexOf(p.productType || '');
+  return i === -1 ? order.length : i;   // unknown types sit at the end
+}
+
+/* 聯名：標題寫明「聯名」、「品牌 × 某某」，或者出現 IP 角色名而個牌子本身唔係 IP
+   （Sanrio 牌子賣 Sanrio 唔算聯名；「Metabolic 酵素 × 酵母」唔係品牌開頭，唔算）。 */
+const COLLAB_IP_RE = /Sanrio|Kuromi|Hello\s*Kitty|My\s*Melody|Cinnamoroll|Pompompurin|Pochacco|Chiikawa|吉伊卡哇|Ganadi|Disney|迪士尼|Snoopy|Pok[eé]mon|寶可夢|Miffy|Roadster|Zanmang|Loopy|Mofusand|Sumikko|角落生物|Rilakkuma|鬆弛熊|Line\s*Friends|BT21|INAPSQUARE|KPop\s*Demon\s*Hunters/i;
+function isCollabItem(p) {
+  const t = String(p.title || '');
+  const v = String(p.vendor || '').trim();
+  if (/聯名/.test(t)) return true;
+  if (v && t.toLowerCase().startsWith(v.toLowerCase())
+      && /^\s*[×x]\s/i.test(t.slice(v.length))) return true;
+  return COLLAB_IP_RE.test(t) && !COLLAB_IP_RE.test(v);
+}
+
+/* 系列名：標題去走品牌、容量、括號，淨返英文名之前嗰段中文。 */
+function lineKey(p) {
+  let t = String(p.title || '').replace(/^【[^】]*】/, '');
+  const v = String(p.vendor || '');
+  if (v && t.toLowerCase().startsWith(v.toLowerCase())) t = t.slice(v.length);
+  t = t.replace(/[\[(（【][^\])）】]*[\])）】]/g, ' ')
+    .replace(/\d+(\.\d+)?\s*(ml|g|毫升|克|片|入|件|枚)/gi, ' ')
+    .split(/[A-Za-z]{3,}/)[0]
+    .replace(/片裝|盒裝|孖裝|單片|套裝/g, '');
+  return t.replace(/[^㐀-鿿]/g, '') || p.handle;
+}
+
+function brandInnerOrder(items) {
+  const score = new Map(items.map((p) => [p, featuredScore(p)]));
+  const collab = (p) => (CURRENT_SECTION !== 'toys' && isCollabItem(p) ? 0 : 1);
+  const key = (p) => `${collab(p)}|${routineStep(p)}|${lineKey(p)}`;
+  const best = new Map();
+  items.forEach((p) => best.set(key(p), Math.max(best.get(key(p)) ?? -Infinity, score.get(p))));
+  return [...items].sort((a, b) =>
+    collab(a) - collab(b)
+    || routineStep(a) - routineStep(b)
+    || best.get(key(b)) - best.get(key(a))
+    || key(a).localeCompare(key(b))
+    || price(a) - price(b)
+    || score.get(b) - score.get(a));
 }
 
 /* The 分類 filter offers this section's subcategories, or — on the
@@ -2212,16 +2259,8 @@ function groupBySeries(list) {
 function brandSection(vendor, items, index) {
   const plate = brandPlate(vendor);
   const logo = plate.logo || brandLogo(vendor);
-  /* 牌子入面**照分數排**，唔再照護膚程序排。
-
-     程序排法（潔面→爽膚水→精華→⋯）本來係服務「已經揀咗呢個牌子、
-     想砌一套」嘅客。但實際量度出嚟：護膚頁客碌落去，**頭 12 格入面
-     有 10 格係潔面同卸妝**，因為潔面喺程序第一步而 Skin1004 有 11 支。
-     一個嚟行街嘅客，開頭兩屏見到十支洗面奶，佢唔會覺得呢間舖有嘢揀。
-
-     改成照分數排之後，同一批貨嘅頭 12 格變成 5 種型號
-     （精華 3、潔面 3、爽膚水 2、防曬 2、面霜 2）—— 睇落係「一個牌子
-     嘅代表作」而唔係「一格洗面奶」。程序次序留低做同分時嘅第二把尺。 */
+  /* 牌子入面嘅次序睇 brandInnerOrder()：聯名行先，再跟護膚／上妝次序，同系列擺埋一齊
+     （Winston 2026-10-20，取代 2026-09 照分數排）。 */
   const [live, dead] = splitStock(items);
   let ordered;
   if (vendor === '其他') {
@@ -2244,11 +2283,7 @@ function brandSection(vendor, items, index) {
         return sorted.map((p, i) => i ? p : { ...p, _oujiOtherBrandStart: name });
       });
   } else {
-    ordered = [
-      ...[...live].sort((a, b) =>
-        featuredScore(b) - featuredScore(a) || routineStep(a) - routineStep(b)),
-      ...dead,
-    ];
+    ordered = [...brandInnerOrder(live), ...brandInnerOrder(dead)];
     /* 公仔版（老闆 2026-10-06）：同系列一定要擺埋一齊，唔好按分數散開
        （例如 Toyzero+ 嘅黃油小熊／艾絲樂小兔／線條小狗交錯出現）。
        系列由標題抽出，系列之間按組內最高分排，組內再按分數。 */
@@ -2808,6 +2843,94 @@ function mountGrid(host, items, { all = false } = {}) {
 /* 而家渲染緊邊一版分類（'toys'／'makeup'／…）。由 initCatalog 寫入。 */
 let CURRENT_SECTION = null;
 
+/* 牌子次序（Winston 2026-10-20：「全部產品嘅話，邊啲擺先、邊啲擺後」「有聯名 IP 嘅品牌應該擺最頂」）。
+   全部產品頁：
+     1. 有聯名款（有貨）嘅韓國牌子（Torriden × Ganadi、AMUSE × Sanrio、Anua × KPop Demon Hunters…）
+     2. 韓國護膚同韓國彩妝一個隔一個 —— 護膚跟護膚版（Torriden、SKIN1004、Round Lab 置頂再按代表性），
+        彩妝跟彩妝版固定次序（rom&nd、Peripera…WAKEMAKE），咁頭幾屏兩樣都見到
+     3. 日本護膚彩妝 → 其他美妝 → 生活雜貨／保健／公仔等 → MAYBELLINE、ohora → 其他
+     每組入面：得一兩件貨嘅牌子排後，其餘按代表性。
+   護膚版、彩妝版：有聯名款嘅韓國牌子行先，其餘照舊。其他分類唔郁。 */
+const SKIN_PINNED = ['Torriden', 'SKIN1004', 'Round Lab'];
+const NOT_FACE_CARE = new Set(['身體護理', '頭髮護理', '洗髮護髮', '護手霜', '套裝']);
+function brandOrigin(items) {
+  const v = String(items[0]?.vendor || '').trim().toUpperCase();
+  if (typeof JP_BRAND_KEYS !== 'undefined' && JP_BRAND_KEYS.has(v)) return 'J';
+  let k = 0, j = 0;
+  items.forEach((p) => {
+    const t = (p.tags || []).join(' ');
+    if (/K-?Beauty|韓國/i.test(t)) k += 1;
+    else if (/J-?Beauty|日本/i.test(t)) j += 1;
+  });
+  if (k > j && k * 2 >= items.length) return 'K';
+  if (j > k && j * 2 >= items.length) return 'J';
+  return '';
+}
+function brandKind(items) {
+  let skin = 0, makeup = 0, other = 0;
+  items.forEach((p) => {
+    const t = p.productType || '';
+    if (MAKEUP_STEPS.includes(t)) makeup += 1;
+    else if (SKIN_STEPS.includes(t) && !NOT_FACE_CARE.has(t)) skin += 1;
+    else if (t !== '短效期特價') other += 1;
+  });
+  if (!skin && !makeup) return 'other';
+  if (other > skin + makeup) return 'other';
+  return makeup > skin ? 'makeup' : 'skin';
+}
+function shopBrandRanks(byVendor, scoreOf, tierOf) {
+  const ranks = new Map();
+  const sec = CURRENT_SECTION;
+  if (!['all', 'skincare', 'makeup'].includes(sec) || seasonalProfitActive()) return ranks;
+  const M = (window.OUJI_MAKEUP_BRAND_ORDER || []).map((v) => v.toLowerCase());
+  const kEnd = M.indexOf('wakemake');
+  const mIdx = (v) => M.indexOf(String(v).trim().toLowerCase());
+  const live = (items) => splitStock(items)[0];
+  const info = [...byVendor.entries()].filter(([v]) => v !== '其他').map(([vendor, items]) => ({
+    vendor, items,
+    origin: brandOrigin(items),
+    kind: brandKind(items),
+    mi: mIdx(vendor),
+    collab: live(items).some(isCollabItem),
+    tier: tierOf(items),
+    score: scoreOf(items),
+  }));
+  const isKCosmetic = (x) => x.mi >= 0 && x.mi <= kEnd;
+  const isKSkin = (x) => x.mi < 0 && x.kind === 'skin' && x.origin === 'K';
+  if (sec !== 'all') {
+    // 護膚／彩妝版：淨係將有聯名款嘅韓國牌子推上最頂，其餘交返原本規則
+    const boost = (x) => x.collab && (sec === 'makeup' ? isKCosmetic(x) : x.origin === 'K');
+    info.forEach((x) => ranks.set(x.vendor, boost(x) ? 0 : 1));
+    return ranks;
+  }
+  const pin = (v) => {
+    const i = SKIN_PINNED.findIndex((k) => String(v).toLowerCase().includes(k.toLowerCase()));
+    return i < 0 ? SKIN_PINNED.length : i;
+  };
+  const byScore = (a, b) => a.tier - b.tier || b.score - a.score || b.items.length - a.items.length;
+  const kSkin = info.filter(isKSkin).sort((a, b) => pin(a.vendor) - pin(b.vendor) || byScore(a, b));
+  const kMake = info.filter(isKCosmetic).sort((a, b) => a.mi - b.mi);
+  const mixed = [];
+  for (let i = 0; i < Math.max(kSkin.length, kMake.length); i += 1) {
+    if (kSkin[i]) mixed.push(kSkin[i]);
+    if (kMake[i]) mixed.push(kMake[i]);
+  }
+  const used = new Set(mixed);
+  const tail = info.filter((x) => !used.has(x) && ['maybelline', 'ohora'].includes(x.vendor.toLowerCase()))
+    .sort((a, b) => a.mi - b.mi);
+  tail.forEach((x) => used.add(x));
+  const rest = info.filter((x) => !used.has(x));
+  const beauty = (x) => x.kind !== 'other' || x.mi >= 0;
+  const jp = rest.filter((x) => beauty(x) && x.origin === 'J').sort(byScore);
+  const otherBeauty = rest.filter((x) => beauty(x) && x.origin !== 'J').sort(byScore);
+  const life = rest.filter((x) => !beauty(x)).sort(byScore);
+  [
+    ...mixed.filter((x) => x.collab), ...mixed.filter((x) => !x.collab),
+    ...jp, ...otherBeauty, ...life, ...tail,
+  ].forEach((x, i) => ranks.set(x.vendor, i));
+  return ranks;
+}
+
 // Makeup owns one brand order for both the rail and all brand-grouped views.
 // Missing/new brands fall just before「其他」; other categories keep their rules.
 function makeupBrandRank(vendor) {
@@ -2962,15 +3085,18 @@ function renderProducts(container, products, { grouped }) {
     if (CURRENT_SECTION === 'toys' && name.includes('takenoko')) return PINNED_VENDORS.length + 1;
     return PINNED_VENDORS.length;
   };
+  const shopRank = shopBrandRanks(byVendor, brandScore, tier);
   // Sorting calls the comparator many times; score each brand only once.
   const order = [...byVendor.entries()].map(([vendor, items]) => ({
     vendor, items,
+    shop: shopRank.has(vendor) ? shopRank.get(vendor) : 1e6,
     displayRank: makeupBrandRank(vendor),
     pin: pinRank(vendor),
     tier: tier(items),
     score: brandScore(items),
   })).sort((a, b) =>
-    a.displayRank - b.displayRank
+    a.shop - b.shop
+    || a.displayRank - b.displayRank
     || (seasonalProfitActive() ? 0 : (a.vendor === '其他') - (b.vendor === '其他'))
     || a.pin - b.pin
     || a.tier - b.tier
@@ -3643,12 +3769,21 @@ function groupByBrandFeatured(list) {
     const k = seasonBrandKey(p);
     top.set(k, Math.max(top.get(k) ?? -Infinity, featuredScore(p)));
   });
-  return [...list].sort((a, b) => {
-    const ka = seasonBrandKey(a), kb = seasonBrandKey(b);
-    if (ka === kb) return 0;
+  const groups = new Map();
+  list.forEach((p) => {
+    const k = seasonBrandKey(p);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(p);
+  });
+  const keys = [...groups.keys()].sort((ka, kb) => {
     if (seasonalProfitActive()) return seasonalProfitRank(ka) - seasonalProfitRank(kb) || ka.localeCompare(kb, 'en');
     return makeupBrandRank(ka) - makeupBrandRank(kb)
       || (top.get(kb) - top.get(ka)) || ka.localeCompare(kb, 'en');
+  });
+  // 品牌頁（?brand=）同篩選後嘅平鋪格都跟同一套牌子內次序（聯名 → 護膚／上妝次序 → 同系列）
+  return keys.flatMap((k) => {
+    const [live, dead] = splitStock(groups.get(k));
+    return [...brandInnerOrder(live), ...brandInnerOrder(dead)];
   });
 }
 /* 「按品牌」排序：同牌子聚埋；有特價嘅牌子行先（按牌子最大折扣），再按牌子名（英文先、中文後），

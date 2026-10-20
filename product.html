@@ -53,7 +53,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css?v=20261019-live">
-  <link rel="stylesheet" href="product-card-lc.css?v=20261016-image-frame1">
+  <link rel="stylesheet" href="product-card-lc.css?v=20261020-range1">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
   </style>
@@ -546,7 +546,7 @@
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261017-pdp"></script>
   <script src="awards.js"></script>
-  <script src="product-card-lc.js?v=20261016-hoverswap3"></script>
+  <script src="product-card-lc.js?v=20261020-range1"></script>
   <script>
   /**
    * The brands' detail strips run to tens of thousands of pixels — the
@@ -964,6 +964,8 @@
     // Tina size aliases (verified from exact JAN donor products)
     const tinaSizeAliases = {"slimwalk-膝下襪-m-l":{"handle":"slimwalk-膝下襪-s-m","variant":"50532173086878"},"slimwalk-膝下襪-l-ll":{"handle":"slimwalk-膝下襪-s-m","variant":"50532173119646"},"slimwalk-分段壓力短筒襪-m-l":{"handle":"slimwalk-分段壓力短筒襪-s-m","variant":"50532238262430"},"slimwalk-分段壓力長筒襪-m-l":{"handle":"slimwalk-分段壓力長筒襪-s-m","variant":"50532261757086"},"slimwalk-連褲襪-m-l":{"handle":"slimwalk-連褲襪-s-m","variant":"50532262019230"},"slimwalk-beau-acty-襪褲-m-l":{"handle":"slimwalk-beau-acty-襪褲-s-m","variant":"50532264181918"},"slimwalk-beau-acty-緊身襪褲-m-l":{"handle":"slimwalk-beau-acty-緊身襪褲-s-m","variant":"50532265296030"},"slimwalk-beau-acty-短褲-l":{"handle":"slimwalk-beau-acty-短褲-m","variant":"50532265427102"},"slimwalk-長款襪褲-m-l":{"handle":"slimwalk-長款襪褲-s-m","variant":"50532265722014"},"slimwalk-羅紋緊身襪褲-m-l":{"handle":"slimwalk-羅紋緊身襪褲-s-m","variant":"50532268343454"},"slimwalk-襪-m-l":{"handle":"slimwalk-襪-s-m","variant":"50532272406686"},"slimwalk-分段壓力襪褲-m-l":{"handle":"slimwalk-分段壓力襪褲-s-m","variant":"50532274307230"},"slimwalk-reset-refre-襪款-m-l":{"handle":"slimwalk-reset-refre-襪款-s-m","variant":"50532274372766"},"pro-fits-手肘護套-l":{"handle":"pro-fits-手肘護套-m","variant":"50532274864286"},"pro-fits-膝部護套-l":{"handle":"pro-fits-膝部護套-m","variant":"50532276404382"},"pro-fits-膝部護套-ll":{"handle":"pro-fits-膝部護套-m","variant":"50532276437150"},"pro-fits-sport-tech-小腿套-l":{"handle":"pro-fits-sport-tech-小腿套-m","variant":"50532276469918"},"pro-fits-足踝護套-l":{"handle":"pro-fits-足踝護套-m","variant":"50532292493470"},"pro-fits-腰部護套-l":{"handle":"pro-fits-腰部護套-m","variant":"50532292526238"},"pro-fits-腰部護套-ll":{"handle":"pro-fits-腰部護套-m","variant":"50532292559006"}};
     let handle = params.get('handle') || (pathHandle ? decodeURIComponent(pathHandle) : null);
+    // Abib 面膜盒裝已併入片裝產品做「10片盒裝」規格（2026-10-20），舊盒裝網址轉去新規格
+    Object.assign(tinaSizeAliases, {"abib-abib-10-3774":{"handle":"abib-abib-1-3767","variant":"67632460365982"},"abib-abib-10-3712":{"handle":"abib-abib-1-3705","variant":"67632460398750"},"abib-abib-8293":{"handle":"abib-abib-1-8286","variant":"67632460464286"},"abib-abib-10-3736":{"handle":"abib-abib-1-3729","variant":"67632460529822"},"abib-abib-10-3448":{"handle":"abib-abib-3431","variant":"67632460562590"},"abib-abib-10-5748":{"handle":"abib-abib-5731","variant":"67632460595358"},"abib-abib-10-3351":{"handle":"abib-abib-1-3344","variant":"67632460628126"},"abib-abib-10-3375":{"handle":"abib-abib-1-3368","variant":"67632460660894"},"abib-abib-10-3699":{"handle":"abib-abib-1-3682","variant":"67632460693662"},"abib-abibph-10-8859":{"handle":"abib-abib-ph-1-8842","variant":"67632460726430"}});
     if (handle && tinaSizeAliases[handle]) {
       const alias = tinaSizeAliases[handle];
       const query = new URLSearchParams(location.search);
@@ -1069,7 +1071,7 @@
         const onSale = compareAt && parseFloat(compareAt.amount) > parseFloat(amount);
         /* 套裝變體（例：「5片裝」）客真正比較嘅係每片幾錢 —— 佢隔離就係
            單片價。所以喺價錢下面補返「平均每片」，總額反而唔係重點。 */
-        const packN = (variantTitle || '').match(/(\d{1,2})\s*片裝/);
+        const packN = (variantTitle || '').match(/(\d{1,2})\s*片盒?裝/);   // 5片裝、10片盒裝
         const unit = packN && parseInt(packN[1], 10) > 1
           ? `<span class="pp__unit">平均每片 ${formatPrice(parseFloat(amount) / parseInt(packN[1], 10))}</span>`
           : '';

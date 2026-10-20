@@ -152,7 +152,8 @@
     const price = num(p0);
     const compare = cpx ? num(cpx) : NaN;
     const onSale = Number.isFinite(compare) && compare > price;
-    const from = p1 && num(p1) > price;
+    /* 多規格貨出價錢範圍（HK$18–138），唔再寫「起」（Winston 2026-10-20：面膜 1片／5片／盒裝要見到幾多錢至幾多錢） */
+    const from = p1 && num(p1) > price ? num(p1) : 0;
     const isSoldOut = typeof soldOut === 'function' ? soldOut(p) : false;
     const opt = optionInfo(p);
     const w = opt ? words(opt.word) : null;
@@ -201,7 +202,7 @@
           <span class="lc__brand">${esc(vendor)}</span>
           <span class="lc__name"><span class="lc__title">${esc(title)}</span></span>
           ${ratingHTML(p.handle)}
-          <span class="lc__deal"><span class="lc__nums${onSale ? ' is-sale' : ''}">${onSale ? `<s class="lc__was">${money(compare)}</s>` : ''}<strong class="lc__pricenow">${money(price)}</strong>${from ? `<small class="lc__from">${cp('起', 'from')}</small>` : ''}</span>${chip ? `<em class="lc__chip">${esc(chip)}</em>` : ''}</span>
+          <span class="lc__deal"><span class="lc__nums${onSale ? ' is-sale' : ''}">${onSale ? `<s class="lc__was">${money(compare)}</s>` : ''}<strong class="lc__pricenow">${money(price)}${from ? `–${amt(from)}` : ''}</strong></span>${chip ? `<em class="lc__chip">${esc(chip)}</em>` : ''}</span>
           <span class="lc__awardrow">${barHTML(p, offer, price)}${lowText ? `<span class="lc__low">${lowText}</span>` : ''}</span>
         </span>
       </span>
@@ -358,7 +359,7 @@
     if (lastFocus && lastFocus.isConnected) lastFocus.focus();
   }
   function headPrice(h) {
-    return `<p class="sh__price${h.compare ? ' is-sale' : ''}">${h.compare ? `<s>${money(h.compare)}</s>` : ''}<strong>${money(h.price)}${h.from ? `<small>${cp('起', 'from')}</small>` : ''}</strong>${h.chip ? `<em>${esc(h.chip)}</em>` : ''}</p>`;
+    return `<p class="sh__price${h.compare ? ' is-sale' : ''}">${h.compare ? `<s>${money(h.compare)}</s>` : ''}<strong>${money(h.price)}${h.from ? `–${amt(h.from)}` : ''}</strong>${h.chip ? `<em>${esc(h.chip)}</em>` : ''}</p>`;
   }
   async function loadProduct(handle) {
     const cached = typeof getCachedProduct === 'function' ? getCachedProduct(handle) : null;
