@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-彩妝子分類：由產品名分，唔可以信 tag。
+彩妝子分類：先認明確用途／類型，再由產品名分，唔靠泛用 tag。
 
 Shopify 入面啲 tag 係亂嘅 —— 實測有高光被標成「頰彩」、胭脂被標成
 「修容」。用 tag 分出嚟嘅數係頰彩 39／修容 39，兩格都係錯；用名分
 先係頰彩 16／修容 12。
 
-所以：只讀產品名，一件貨只可以入一格，順序由最 specific 行到最闊
+所以：先排除工具、護理及口服品，再認明確彩妝類型。其餘讀產品名，
+一件貨只可以入一格，順序由最 specific 行到最闊
 （唇 → 眼 → 底妝 → 修容 → 頰彩）。「唇頰彩妝」呢種兩用貨會歸唇妝，
 因為個名以唇行先 —— 呢個係有意嘅，唔係 bug。
 
@@ -26,18 +27,18 @@ TOKEN = "795e2f7cb13da1d3776449eba5802377"   # Storefront public token，公開�
 
 # 順序即係優先次序：行到邊個 match 就歸邊個，唔會再試下面嘅。
 RULES = [
-    ("唇妝", r"唇膏|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|唇線|唇筆|唇頰|唇膜|唇凍|\btint\b|lip"),
-    ("眼妝", r"眼影|眼線|睫毛|眉筆|眉粉|染眉|眼彩|臥蠶|閃粉|eyeshadow|eyeliner|mascara|\bbrow\b"),
-    ("底妝", r"粉底|氣墊|遮瑕|妝前|飾底|蜜粉|定妝|素顏霜|底霜|cushion|foundation|concealer|primer"),
+    ("唇妝", r"唇膏|口紅|唇粉|唇釉|唇彩|唇蜜|唇泥|唇霜|唇部|唇線|唇筆|唇頰|唇膜|唇凍|\btint\b|\blip(?:stick|gloss|tint)?\b"),
+    ("眼妝", r"眼影|眼線|睫毛|假睫毛|眉筆|眉粉|染眉|眼彩|臥蠶|閃粉|eyeshadow|eyeliner|eyelash|mascara|\bbrow\b"),
+    ("底妝", r"粉底|粉餅|氣墊|遮瑕|妝前|飾底|蜜粉|定妝|素顏霜|底霜|cc\s*cream|cushion|foundation|concealer|primer"),
     ("修容", r"修容|高光|打亮|陰影|水光棒|contour|highlight|shading"),
     ("頰彩", r"胭脂|腮紅|頰彩|多用彩膏|多用膏|blush|cheek"),
 ]
 ORDER = ["底妝", "眼妝", "唇妝", "頰彩", "修容"]
-LIP_CARE = re.compile(r"潤唇膏|護唇膏|唇部護理|唇部精華|唇膜|lip\s*(?:balm|care|cream|mask|serum)", re.I)
+LIP_CARE = re.compile(r"潤唇膏|護唇膏|唇部精華|唇膜|豐唇抗紋精華|lip\s*(?:balm|care|mask|serum)", re.I)
 
 QUERY = """query($c:String){products(first:250,after:$c){
   pageInfo{hasNextPage endCursor}
-  edges{node{handle title vendor totalInventory
+  edges{node{handle title vendor productType tags totalInventory
     priceRange{minVariantPrice{amount}}
     images(first:1){edges{node{url}}}}}}}"""
 
@@ -56,10 +57,25 @@ def fetch_all():
         cur = page["pageInfo"]["endCursor"]
 
 
-def bucket_of(title):
-    # 護理貨個名一樣會包含「唇膏」／lip；要先截走，唔可以計入唇妝。
-    if LIP_CARE.search(title):
+FOREIGN_TYPES = re.compile(r"^(?:保健品|保健用品|美容食品|局部護理|去角質|潔面|卸妝|洗髮護髮|頭髮護理|身體護理|身體乳|沐浴|精華|眼霜|面膜|棉片|爽膚水|乳液|護手霜|化妝工具|化妝掃(?:／.*)?|美容工具|美妝工具|美髮工具|美甲工具|隱形眼鏡(?:配件)?|香水|家居香氛|公仔|盲盒|玩具|雜貨|配件)$", re.I)
+LIP_CARE_TYPES = {"唇部護理", "潤唇膏", "護唇膏", "唇膜", "唇部精華"}
+
+
+def bucket_of(product):
+    """與 shopify.js makeupBucket 同步；舊 callers 可繼續傳 title。"""
+    p = product if isinstance(product, dict) else {"title": product}
+    title = p.get("classificationTitle") or p.get("title") or ""
+    typ = (p.get("productType") or "").strip()
+    if typ in LIP_CARE_TYPES or (not typ and LIP_CARE.search(title)):
         return None
+    if FOREIGN_TYPES.search(typ) or typ == "面霜":
+        return None
+    if typ in {"眼影", "眼線", "眼線筆", "眼線液", "眼線膠筆", "眉筆", "眉妝", "睫毛膏", "假睫毛"}:
+        return "眼妝"
+    if typ in {"唇膏", "唇釉", "唇彩", "唇蜜", "唇妝", "唇線筆"}:
+        return "唇妝"
+    if typ in {"妝前底霜", "妝前乳", "蜜粉", "底妝", "粉底", "氣墊粉底", "遮瑕", "定妝", "定妝噴霧"}:
+        return "底妝"
     for label, pat in RULES:
         if re.search(pat, title, re.I):
             return label
@@ -84,7 +100,7 @@ def build():
         # 冇貨嘅唔計入件數，冇相嘅做唔到 tile
         if (p.get("totalInventory") or 0) <= 0 or not p["images"]["edges"]:
             continue
-        b = bucket_of(p["title"])
+        b = bucket_of(p)
         if b:
             buckets[b].append(p)
     return [{

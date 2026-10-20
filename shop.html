@@ -555,8 +555,11 @@
       document.title = `${q} — OUJI`;
     }
     if (cat) {
-      const catScope = (p) => ['skincare', 'makeup', 'body-care', 'fragrance', 'lifestyle']
-        .some((sec) => matchesKeywords(p, categoryKeywords(sec, cat)));
+      const catScope = (p) => {
+        if (CATEGORY_TAXONOMY[cat]) return sectionMatch(p, cat);
+        return Object.entries(CATEGORY_TAXONOMY).some(([sec, taxonomy]) =>
+          taxonomy.subs?.[cat] && sectionMatch(p, sec) && subMatch(sec, cat, p));
+      };
       scopes.push(catScope);
       products = products.filter(catScope);
     }
