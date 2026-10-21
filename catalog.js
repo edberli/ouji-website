@@ -967,6 +967,10 @@ function syncLxSidebar(sel) {
   const main = document.querySelector('.filter-bar__sort select');
   const mirror = side.querySelector('[data-lx-sort]');
   if (main && mirror) mirror.value = main.value;
+  const nav = side.querySelector('[data-lx-nav]');
+  if (nav && (!CURRENT_SECTION || CURRENT_SECTION === 'all')) {
+    nav.value = (sel.cat.size === 1 && LX_SECTIONS.find(([id]) => sel.cat.has(id))?.[2]) || '/shop';
+  }
 }
 
 function lxQueryMatch(p, q) {
@@ -2429,6 +2433,9 @@ function buildBrandRail(order) {
   const copy = english
     ? { toggle: 'All brands', heading: 'Choose a brand', search: 'Search brands', empty: 'No matching brands', count: `${names.length} brands`, filter: 'Filter', sortLabel: 'Sort' }
     : { toggle: '所有品牌', heading: '選擇品牌', search: '搜尋品牌', empty: '找不到符合的品牌', count: `${names.length} 個品牌`, filter: '篩選', sortLabel: '排序' };
+  Object.assign(copy, english
+    ? { back: 'Back to brands', filterHeading: 'Filter products', apply: 'Show products', clear: 'Clear', matches: (n) => `${n.toLocaleString()} products` }
+    : { back: '返回品牌', filterHeading: '篩選商品', apply: '顯示產品', clear: '清除篩選', matches: (n) => `${n.toLocaleString()} 件產品` });
   /* 品牌條每格得 100px 闊，長名一定切。與其切到「Mighty Jaxx (Jason…」，
      不如剪走括號入面嗰段註解 —— 括號嗰啲本身就係補充，唔係招牌。
      品牌牌（.brand-plate）照出全名，兩處唔會矛盾：一個係導覽、一個係標題。 */
@@ -2437,8 +2444,9 @@ function buildBrandRail(order) {
   const filterSidebar = document.querySelector('.filter-sidebar');
   const canonicalSort = document.querySelector('.filter-bar__sort select');
   const hasFilterControl = !!(filterTrigger && filterSidebar);
+  const hasInlineFilters = !!filterSidebar?.querySelector('.lx-fields');
   const toolsMarkup = hasFilterControl || canonicalSort ? `<div class="brand-picker__tools">
-      ${hasFilterControl ? `<button class="brand-picker__filter" type="button">
+      ${hasFilterControl ? `<button class="brand-picker__filter" type="button" aria-pressed="false">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
         <span>${copy.filter}</span>
       </button>` : ''}
@@ -2486,13 +2494,20 @@ function buildBrandRail(order) {
     </button>
     <section class="brand-picker__panel" id="brand-picker-panel" aria-labelledby="brand-picker-heading" hidden>
       ${toolsMarkup}
-      <div class="brand-picker__header"><h2 id="brand-picker-heading">${copy.heading}</h2><span class="brand-picker__count">${copy.count}</span></div>
+      <div class="brand-picker__header"><h2 id="brand-picker-heading">${copy.heading}</h2><span class="brand-picker__count" role="status" aria-live="polite">${copy.count}</span></div>
       <label class="brand-picker__search-wrap" for="brand-picker-search">
         <span class="brand-picker__visually-hidden">${copy.search}</span>
         <input class="brand-picker__search" id="brand-picker-search" type="search" placeholder="${copy.search}" autocomplete="off" spellcheck="false">
       </label>
       <div class="brand-picker__grid" id="brand-picker-grid">${pickerLinks}</div>
       <p class="brand-picker__empty" role="status" aria-live="polite" hidden>${copy.empty}</p>
+      ${hasInlineFilters ? `<form class="brand-picker__filters" aria-label="${copy.filterHeading}" hidden>
+        <div class="brand-picker__filter-body"></div>
+        <div class="brand-picker__filter-actions">
+          <button class="brand-picker__apply" type="submit">${copy.apply}</button>
+          <button class="brand-picker__clear" type="button">${copy.clear}</button>
+        </div>
+      </form>` : ''}
     </section>`;
   /* 用 dock 保留舊品牌列喺 document flow 嘅位置；去到臨界點之後先將
      Clearline 轉 fixed。全站為咗防橫向溢出，html/body 有 overflow-x，
@@ -2542,6 +2557,15 @@ function buildBrandRail(order) {
   const pickerSort = rail.querySelector('.brand-picker__sort');
   const search = rail.querySelector('.brand-picker__search');
   const emptyMessage = rail.querySelector('.brand-picker__empty');
+  const filterView = rail.querySelector('.brand-picker__filters');
+  const pickerHeading = rail.querySelector('#brand-picker-heading');
+  const pickerCount = rail.querySelector('.brand-picker__count');
+  const searchWrap = rail.querySelector('.brand-picker__search-wrap');
+  const pickerGrid = rail.querySelector('.brand-picker__grid');
+  const filterIcon = filterButton?.querySelector('svg');
+  const filterIconMarkup = filterIcon?.innerHTML;
+  let filterDraftReady = false;
+  let draftSort = canonicalSort?.value;
   const sections = [...document.querySelectorAll('.brand-section')];
   let currentIdx = -1;
   let jumpRun = 0;
@@ -2666,7 +2690,7 @@ function buildBrandRail(order) {
       fitPicker();
       panel.scrollTop = 0;
       rail.querySelector('.brand-picker__grid').scrollTop = 0;
-      if (pickerSort && canonicalSort) pickerSort.value = canonicalSort.value;
+      if (pickerSort && canonicalSort) pickerSort.value = filterView && !filterView.hidden ? draftSort : canonicalSort.value;
     } else if (restoreFocus) {
       toggle.focus({ preventScroll: true });
     }
@@ -2674,20 +2698,122 @@ function buildBrandRail(order) {
   if (pickerSort && canonicalSort) {
     pickerSort.value = canonicalSort.value;
     pickerSort.addEventListener('change', () => {
+      if (filterView && !filterView.hidden) { draftSort = pickerSort.value; return; }
       if (pickerSort.value === canonicalSort.value) return;
       canonicalSort.value = pickerSort.value;
       canonicalSort.dispatchEvent(new Event('change', { bubbles: true }));
     }, { signal: abort.signal });
   }
-  filterButton?.addEventListener('click', () => {
-    setPickerOpen(false);
-    if (window.matchMedia('(max-width: 1080px)').matches) {
-      toggle.focus({ preventScroll: true });
-      filterTrigger.click();
-      return;
+  /* 呢個入口用原位篩選。先保留一份草稿，套用時先同步側欄一次；
+     否則每揀一個條件 draw() 都會拆走品牌列，客未揀完個面板就消失。 */
+  const readFilterDraft = () => {
+    const sel = { cat: new Set(), vendor: new Set(), price: new Set(), flag: new Set(), range: null, q: '', stock: false, sub: '' };
+    filterView.querySelectorAll('[data-lx-pick]').forEach((el) => {
+      if (el.value) sel[el.dataset.lxPick]?.add(el.value);
+    });
+    const category = filterView.querySelector('[data-picker-category]');
+    if (category?.value) sel.cat.add(category.value);
+    filterView.querySelectorAll('input[data-group]:checked').forEach((el) => sel[el.dataset.group]?.add(el.value));
+    const lo = filterView.querySelector('[data-lx-min]');
+    const hi = filterView.querySelector('[data-lx-max]');
+    if (lo && hi && (Number(lo.value) > 0 || Number(hi.value) < LX_CEIL)) sel.range = [Number(lo.value), Number(hi.value)];
+    sel.q = (filterView.querySelector('[data-lx-q]')?.value || '').trim();
+    sel.stock = !!filterView.querySelector('[data-lx-stock]')?.checked;
+    sel.sub = filterView.querySelector('[data-lx-sub]')?.value || '';
+    return sel;
+  };
+  const previewFilters = () => {
+    const detail = { filters: readFilterDraft(), count: null };
+    document.dispatchEvent(new CustomEvent('ouji:brand-filter-preview', { detail }));
+    if (Number.isInteger(detail.count)) {
+      pickerCount.textContent = copy.matches(detail.count);
+      filterView.querySelector('.brand-picker__apply').textContent = english
+        ? `Show ${detail.count.toLocaleString()} products` : `顯示 ${detail.count.toLocaleString()} 件產品`;
     }
-    filterSidebar.querySelector('.filter-sidebar__body input:not(:disabled), .filter-sidebar__body select:not(:disabled), .filter-sidebar__body button:not(:disabled)')
-      ?.focus({ preventScroll: true });
+  };
+  const constrainDraftSubs = () => {
+    const category = filterView.querySelector('[data-picker-category]');
+    const sub = filterView.querySelector('[data-lx-sub]');
+    if (!category || !sub) return;
+    const chosen = LX_SECTIONS.find(([id]) => id === category.value)?.[1];
+    [...sub.querySelectorAll('optgroup')].forEach((group) => {
+      group.disabled = !!chosen && group.label !== chosen;
+      group.hidden = group.disabled;
+    });
+    if (sub.selectedOptions[0]?.closest('optgroup')?.disabled) sub.value = '';
+  };
+  const prepareFilterDraft = () => {
+    if (filterDraftReady) return;
+    const source = filterSidebar.querySelector('.lx-fields');
+    const sourceSub = source.querySelector('[data-lx-sub]');
+    if (sourceSub) lxFillSubs(sourceSub);
+    const fields = source.cloneNode(true);
+    const originals = [...source.querySelectorAll('input, select')];
+    fields.querySelectorAll('input, select').forEach((el, i) => {
+      el.value = originals[i].value;
+      if (el.type === 'checkbox') el.checked = originals[i].checked;
+    });
+    fields.querySelector('.lx-side__head')?.remove();
+    fields.querySelector('.lx-engine')?.remove();
+    fields.querySelector('[data-lx-sort]')?.closest('label')?.remove();
+    const nav = fields.querySelector('[data-lx-nav]');
+    if (nav && (!CURRENT_SECTION || CURRENT_SECTION === 'all')) {
+      nav.removeAttribute('data-lx-nav');
+      nav.setAttribute('data-picker-category', '');
+      nav.innerHTML = '<option value="">所有分類</option>' + LX_SECTIONS
+        .filter(([id]) => [...filterSidebar.querySelectorAll('.lx-engine [data-group="cat"]')].some((el) => el.value === id))
+        .map(([id, label]) => `<option value="${id}">${label}</option>`).join('');
+      nav.value = [...activeFilters().cat][0] || '';
+    } else nav?.closest('label')?.remove(); // 分類頁已限定範圍，直接揀細分類。
+    filterView.querySelector('.brand-picker__filter-body').replaceChildren(fields);
+    draftSort = canonicalSort?.value;
+    filterDraftReady = true;
+    constrainDraftSubs();
+  };
+  const showFilterView = (show) => {
+    if (show) prepareFilterDraft();
+    filterView.hidden = !show;
+    searchWrap.hidden = show;
+    pickerGrid.hidden = show;
+    emptyMessage.hidden = show || !pickerItems.every((item) => item.hidden);
+    pickerHeading.textContent = show ? copy.filterHeading : copy.heading;
+    pickerCount.textContent = copy.count;
+    filterButton.setAttribute('aria-pressed', String(show));
+    filterButton.querySelector('span').textContent = show ? copy.back : copy.filter;
+    filterIcon.innerHTML = show ? '<path d="m14 5-7 7 7 7M7 12h14"/>' : filterIconMarkup;
+    if (pickerSort) pickerSort.value = show ? draftSort : canonicalSort.value;
+    if (show) previewFilters();
+    fitPicker();
+  };
+  filterButton?.addEventListener('click', () => {
+    if (filterView) return showFilterView(filterView.hidden);
+    setPickerOpen(false);
+    if (matchMedia('(max-width: 1080px)').matches) {
+      toggle.focus({ preventScroll: true });
+      filterTrigger?.click();
+    } else filterSidebar.querySelector('.filter-sidebar__body input:not(:disabled), .filter-sidebar__body select:not(:disabled), .filter-sidebar__body button:not(:disabled)')?.focus({ preventScroll: true });
+  }, { signal: abort.signal });
+  filterView?.addEventListener('input', (event) => {
+    if (event.target.type === 'range') lxRangeInput(event.target);
+    previewFilters();
+  }, { signal: abort.signal });
+  filterView?.addEventListener('change', () => { constrainDraftSubs(); previewFilters(); }, { signal: abort.signal });
+  filterView?.querySelector('.brand-picker__clear').addEventListener('click', () => {
+    filterView.querySelectorAll('select').forEach((el) => { el.value = ''; });
+    filterView.querySelectorAll('input').forEach((el) => {
+      if (el.type === 'checkbox') el.checked = false;
+      else el.value = el.hasAttribute('data-lx-max') ? String(LX_CEIL) : el.type === 'range' ? '0' : '';
+    });
+    lxRangePaint(filterView.querySelector('[data-lx-range]'));
+    constrainDraftSubs();
+    previewFilters();
+  }, { signal: abort.signal });
+  filterView?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const detail = { filters: readFilterDraft(), sort: draftSort };
+    setPickerOpen(false);
+    document.dispatchEvent(new CustomEvent('ouji:brand-filter-apply', { detail }));
+    filterTrigger?.focus({ preventScroll: true });
   }, { signal: abort.signal });
   toggle.addEventListener('click', () => {
     const open = panel.hidden;
@@ -4115,6 +4241,45 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
   const validGroup = (k) => SHOP_GROUPS.some((g) => g.id === k) ? k : null;
   let activeGroup = bootHost ? validGroup(group) : null;
   if (bootHost) buildShopBootHero(products, activeGroup, !!window.OUJI_CATALOG_PARTIAL);
+
+  /* 品牌面板用同一套 filter engine 計草稿件數；套用先改 canonical 側欄。
+     唔逐欄派 change，避免中途重畫移除正操作緊嘅面板。 */
+  document.addEventListener('ouji:brand-filter-preview', (event) => {
+    const scope = bootHost ? productsForGroup(products, activeGroup) : products;
+    let matches = applyFilters(section, scope, event.detail.filters);
+    if (lockCat) matches = matches.filter((p) => subMatch(section, lockCat, p));
+    event.detail.count = matches.length;
+  });
+  document.addEventListener('ouji:brand-filter-apply', (event) => {
+    const sel = event.detail.filters;
+    const sidebar = document.querySelector('.filter-sidebar');
+    if (!sidebar) return;
+    sidebar.querySelectorAll('input[data-group]').forEach((el) => {
+      el.checked = !!sel[el.dataset.group]?.has(el.value);
+    });
+    const set = (selector, value) => {
+      const el = sidebar.querySelector(selector);
+      if (el) el.value = value;
+    };
+    set('[data-lx-min]', sel.range?.[0] ?? 0);
+    set('[data-lx-max]', sel.range?.[1] ?? LX_CEIL);
+    set('[data-lx-q]', sel.q);
+    const query = sidebar.querySelector('[data-lx-q]');
+    if (query) query.dataset.lxLast = sel.q;
+    set('[data-lx-sub]', sel.sub);
+    const stock = sidebar.querySelector('[data-lx-stock]');
+    if (stock) stock.checked = sel.stock;
+    lxRangePaint(sidebar.querySelector('[data-lx-range]'));
+    if (sortEl && SORTS[event.detail.sort]) sortEl.value = event.detail.sort;
+    draw();
+    const bar = document.querySelector('.lx-toolbar, .filter-bar');
+    if (bar) {
+      const style = getComputedStyle(document.documentElement);
+      const header = (parseFloat(style.getPropertyValue('--ann-h')) || 36)
+        + (parseFloat(style.getPropertyValue('--hdr-h')) || 64);
+      window.scrollTo({ top: Math.max(0, window.scrollY + bar.getBoundingClientRect().top - header - 12), behavior: 'auto' });
+    }
+  });
 
   /* draw() 入面任何一句拋錯，客見到嘅就係一版有標題冇貨嘅頁。
      唔係假設 —— 客嗰邊報返嚟一條：iPhone 開 /shop，成個 <main> 得
