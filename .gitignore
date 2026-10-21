@@ -18,3 +18,6 @@ prototypes/
 assets/looks/*.bak
 data/*.bak*
 __pycache__/
+
+# 對手爬蟲資料（2026-10-22 搬出 repo）
+/*_all.json

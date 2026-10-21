@@ -31,3 +31,9 @@ preview-nav2.html
 assets/images/world/town/street-hd-*
 assets/images/home/ouji-blue-loader-desktop-1s.mp4
 assets/images/home/ouji-blue-loader-mobile-1s.mp4
+
+# 對手爬蟲資料同爬蟲 script（2026-10-22 搬去 SSD），唔准再上網站。
+*_all.json
+sweep.py
+boueki_crawl.py
+shopify_crawl.py
