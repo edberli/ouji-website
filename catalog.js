@@ -2813,7 +2813,9 @@ function buildBrandRail(order) {
     const detail = { filters: readFilterDraft(), sort: draftSort };
     setPickerOpen(false);
     document.dispatchEvent(new CustomEvent('ouji:brand-filter-apply', { detail }));
-    filterTrigger?.focus({ preventScroll: true });
+    const focusTarget = filterTrigger?.getClientRects().length
+      ? filterTrigger : document.querySelector('.filter-bar__sort select');
+    focusTarget?.focus({ preventScroll: true });
   }, { signal: abort.signal });
   toggle.addEventListener('click', () => {
     const open = panel.hidden;
