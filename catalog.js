@@ -654,9 +654,75 @@ const LX_SECTIONS = [
 let LX_CEIL = 0;
 /* 全部產品頁係分批載入（先出第一批，背景對數完先有全部），側欄選項要跟住最新嗰批。 */
 let LX_PRODUCTS = [];
+const LX_BRAND_FACETS = new WeakMap();
 const lxEsc = (v) => String(v ?? '').replace(/[&<>"']/g, (ch) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[ch]);
+
+/* Use the same vendor grouping and taxonomy as product results. Never guess
+   a brand's categories from its name, and ignore price/query/stock here so
+   those controls cannot erase otherwise valid category choices. */
+function lxBrandFacets(products, section, vendors) {
+  let cache = LX_BRAND_FACETS.get(products);
+  if (!cache) { cache = new Map(); LX_BRAND_FACETS.set(products, cache); }
+  const key = JSON.stringify([section, [...vendors].sort()]);
+  if (cache.has(key)) return cache.get(key);
+  const counts = vendorCounts(products);
+  const pool = vendors.size ? products.filter((p) => vendors.has(groupedVendor(p, counts))) : products;
+  const facets = LX_SECTIONS.flatMap(([id, label, href]) => {
+    const matches = pool.filter((p) => sectionMatch(p, id));
+    return matches.length ? [{ id, label, href, subs: availableSubs(id, matches) }] : [];
+  });
+  cache.set(key, facets);
+  return facets;
+}
+
+function lxConstrainFilterOptions(root, section, sel) {
+  if (!root) return sel;
+  const facets = lxBrandFacets(LX_PRODUCTS, section, sel.vendor);
+  const replaceOptions = (select, markup, keep) => {
+    if (!select) return;
+    if (select.lxOptionsMarkup !== markup) {
+      select.innerHTML = markup;
+      select.lxOptionsMarkup = markup;
+    }
+    select.value = [...select.options].some((o) => o.value === keep) ? keep : select.options[0]?.value || '';
+  };
+  if (!section) {
+    const valid = new Set(facets.map((f) => f.id));
+    for (const id of sel.cat) if (!valid.has(id)) sel.cat.delete(id);
+  } else {
+    const valid = new Set((facets.find((f) => f.id === section)?.subs || []).map((s) => s.id));
+    for (const id of sel.cat) if (!valid.has(id)) sel.cat.delete(id);
+    const pick = root.querySelector('[data-lx-pick="cat"]');
+    const subs = facets.find((f) => f.id === section)?.subs || [];
+    replaceOptions(pick, '<option value="">全部類型</option>' + subs.map((s) =>
+      `<option value="${lxEsc(s.id)}">${lxEsc(s.label)}（${s.count}）</option>`).join(''),
+    sel.cat.size === 1 ? [...sel.cat][0] : '');
+    if (pick) pick.disabled = !subs.length;
+  }
+  const chosen = !section && sel.cat.size === 1 ? [...sel.cat][0] : '';
+  const nav = root.querySelector('[data-lx-nav]');
+  /* With no brand selected, category-page navigation still offers the whole
+     store. A selected brand must only offer destinations backed by its goods. */
+  const destinations = section && !sel.vendor.size
+    ? LX_SECTIONS.map(([id, label, href]) => ({ id, label, href })) : facets;
+  replaceOptions(nav, '<option value="/shop">所有分類</option>' + destinations.map((f) =>
+    `<option value="${f.href}">${lxEsc(f.label)}</option>`).join(''),
+  LX_SECTIONS.find(([id]) => id === (section || chosen))?.[2] || '/shop');
+  replaceOptions(root.querySelector('[data-picker-category]'), '<option value="">所有分類</option>' + facets.map((f) =>
+    `<option value="${f.id}">${lxEsc(f.label)}</option>`).join(''), chosen);
+  const sub = root.querySelector('[data-lx-sub]');
+  if (sub) {
+    const groups = facets.filter((f) => !chosen || f.id === chosen);
+    const valid = new Set(groups.flatMap((f) => f.subs.map((s) => `${f.id}:${s.id}`)));
+    if (!valid.has(sel.sub)) sel.sub = '';
+    replaceOptions(sub, '<option value="">全部類型</option>' + groups.filter((f) => f.subs.length).map((f) =>
+      `<optgroup label="${lxEsc(f.label)}">${f.subs.map((s) =>
+        `<option value="${f.id}:${lxEsc(s.id)}">${lxEsc(s.label)}（${s.count}）</option>`).join('')}</optgroup>`).join(''), sel.sub);
+  }
+  return sel;
+}
 
 function buildLxSidebar(sidebar, section, products, subs, vendors, awarded) {
   /* 拉桿上限：呢版最貴嗰件，向上執到 100（同 8856 預覽一樣）。 */
@@ -761,17 +827,7 @@ function lxRefreshSidebar(products) {
 function lxFillSubs(select) {
   if (select.dataset.filled) return;
   select.dataset.filled = '1';
-  const products = LX_PRODUCTS;
-  const groups = LX_SECTIONS.map(([sec, label]) => {
-    const inSec = typeof sectionMatch === 'function' ? products.filter((p) => sectionMatch(p, sec)) : [];
-    const subs = inSec.length ? availableSubs(sec, inSec) : [];
-    if (!subs.length) return '';
-    return `<optgroup label="${label}">${subs.map((x) =>
-      `<option value="${sec}:${lxEsc(x.id)}">${lxEsc(x.label)}（${x.count}）</option>`).join('')}</optgroup>`;
-  }).join('');
-  const keep = select.value;
-  select.insertAdjacentHTML('beforeend', groups);
-  select.value = keep;
+  lxConstrainFilterOptions(select.closest('.lx-fields'), null, activeFilters());
 }
 
 /* 篩選欄跟住捲：全站 html/body 有 overflow-x（防橫向溢出），原生 position:sticky 會失效
@@ -834,8 +890,19 @@ function bindLxSidebar(sidebar) {
       sidebar.querySelectorAll(`.lx-engine input[data-group="${t.dataset.lxPick}"]`)
         .forEach((el) => { el.checked = !!t.value && el.value === t.value; });
     } else if (t.matches('[data-lx-nav]')) {
-      e.stopPropagation();
-      if (t.value && t.value !== location.pathname) location.href = t.value;
+      if (!CURRENT_SECTION || CURRENT_SECTION === 'all') {
+        const category = LX_SECTIONS.find(([, , href]) => href === t.value)?.[0];
+        sidebar.querySelectorAll('.lx-engine input[data-group="cat"]')
+          .forEach((el) => { el.checked = el.value === category; });
+      } else {
+        e.stopPropagation();
+        if (t.value && t.value !== location.pathname) {
+          const dest = new URL(t.value, location.href);
+          const vendors = activeFilters().vendor;
+          if (vendors.size === 1) dest.searchParams.set('brand', [...vendors][0]);
+          location.href = dest.href;
+        }
+      }
     } else if (t.matches('[data-lx-sort]')) {
       e.stopPropagation();
       const main = document.querySelector('.filter-bar__sort select');
@@ -2720,7 +2787,7 @@ function buildBrandRail(order) {
     sel.q = (filterView.querySelector('[data-lx-q]')?.value || '').trim();
     sel.stock = !!filterView.querySelector('[data-lx-stock]')?.checked;
     sel.sub = filterView.querySelector('[data-lx-sub]')?.value || '';
-    return sel;
+    return lxConstrainFilterOptions(filterView, CURRENT_SECTION === 'all' ? null : CURRENT_SECTION, sel);
   };
   const previewFilters = () => {
     const detail = { filters: readFilterDraft(), count: null };
@@ -2732,15 +2799,7 @@ function buildBrandRail(order) {
     }
   };
   const constrainDraftSubs = () => {
-    const category = filterView.querySelector('[data-picker-category]');
-    const sub = filterView.querySelector('[data-lx-sub]');
-    if (!category || !sub) return;
-    const chosen = LX_SECTIONS.find(([id]) => id === category.value)?.[1];
-    [...sub.querySelectorAll('optgroup')].forEach((group) => {
-      group.disabled = !!chosen && group.label !== chosen;
-      group.hidden = group.disabled;
-    });
-    if (sub.selectedOptions[0]?.closest('optgroup')?.disabled) sub.value = '';
+    readFilterDraft();
   };
   const prepareFilterDraft = () => {
     if (filterDraftReady) return;
@@ -4314,6 +4373,11 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
 
   function drawInner() {
     const sel = activeFilters();
+    if (isLxPage()) {
+      lxConstrainFilterOptions(document.querySelector('.filter-sidebar'), section, sel);
+      document.querySelectorAll('.filter-sidebar .lx-engine input[data-group="cat"]')
+        .forEach((el) => { el.checked = sel.cat.has(el.value); });
+    }
     SEASONAL_ACTIVE_CAT = section === 'seasonal'
       ? (lockCat || (sel.cat.size === 1 ? [...sel.cat][0] : null)) : null;
     const seasonNow = seasonPage || isSeasonFilter(section, sel);
