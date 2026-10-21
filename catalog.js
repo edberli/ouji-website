@@ -4318,6 +4318,9 @@ async function initCatalog({ section, cat, products, presetCat = null, group = n
     sidebar.querySelectorAll('input[data-group]').forEach((el) => {
       el.checked = !!sel[el.dataset.group]?.has(el.value);
     });
+    // Build options for the incoming brand before assigning its subtype.
+    // The previously applied brand may not offer that option at all.
+    lxConstrainFilterOptions(sidebar, section, sel);
     const set = (selector, value) => {
       const el = sidebar.querySelector(selector);
       if (el) el.value = value;
