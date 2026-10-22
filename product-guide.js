@@ -312,9 +312,10 @@
     /* 最底：基本（護膚先出呢度；其他已經喺三格）＋其他規格＋「詳細」（品牌用法、要留意） */
     const foot = SPEC.filter((x) => x.zh && x.key !== 'size' && x.key !== 'spf' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
     const more = [
+      /* 次序：要留意 → 品牌用法 → 完整成分（Winston 2026-10-22：要留意擺喺成分上面） */
+      tips.length ? `<div class="pdp-pf__more-sec">${label(cp('要留意', 'Good to know'))}<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '',
       skinMode && facts.usage ? `<div class="pdp-pf__more-sec">${label(cp('品牌用法', 'Directions'))}<p class="pdp-pf__text">${esc(facts.usage)}</p></div>` : '',
       sf?.inci?.length && !en ? `<div class="pdp-pf__more-sec">${label('完整成分')}${sf.inci.map((i) => `${sf.inci.length > 1 ? `<p class="pdp-pf__inci-for">${esc(i.for)}</p>` : ''}<p class="pdp-pf__inci">${esc(i.list)}</p>`).join('')}</div>` : '',
-      tips.length ? `<div class="pdp-pf__more-sec">${label(cp('要留意', 'Good to know'))}<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '',
     ].join('');
     if (foot.length || more) {
       out.push(`<div class="pdp-pf__foot">${foot.length ? `<p class="pdp-pf__basics">${foot.join('<span aria-hidden="true">・</span>')}</p>` : '<span></span>'}${more ? `<details class="pdp-pf__more"><summary>${cp('詳細', 'Details')}<i aria-hidden="true"></i></summary><div class="pdp-pf__more-body">${more}</div></details>` : ''}</div>`);
