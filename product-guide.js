@@ -313,7 +313,14 @@
     const ckeys = [...new Set([...(a?.c1 || []), ...(a?.c2 || []), ...((sf?.targets || []).map((t) => TG[t]).filter(Boolean))])];
     const conc = ckeys.map((k) => (en ? EN.concern[k] : labels.concern?.[k])).filter(Boolean);
     if (conc.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--targets">${label(cp('針對', 'Targets'))}<p class="pdp-pf__text">${esc(conc.join(en ? ' · ' : '・'))}</p></div>`);
-    const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
+    /* 主打成分：有查證資料就用揀好嘅主打（最多 4 個，基底成分已剔走）；網站有解釋嘅成分保留「!」，其他出普通標籤 */
+    const heroChip = (n) => {
+      const info = typeof INGREDIENT_INFO !== 'undefined' ? INGREDIENT_INFO[n] : null;
+      const lab = en && info?.en ? info.en.name : n;
+      return `<span class="ing-chip ing-chip--active">${esc(lab)}${info ? `<button class="ing-what" type="button" data-ing="${esc(n)}" aria-label="${esc(en ? `What is ${lab}?` : `${n}係咩`)}">!</button>` : ''}</span>`;
+    };
+    const heroes = (sf?.hero || []).filter((n) => !en || (typeof INGREDIENT_INFO !== 'undefined' && INGREDIENT_INFO[n]));
+    const chips = heroes.length ? heroes.map(heroChip).join('') : (typeof activeChips === 'function' ? activeChips(product.handle) : '');
     if (chips) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--actives">${label(cp('主打成分', 'Key ingredients'))}<span class="ing-chips">${chips}</span></div>`);
     /* 成分標示：含酒精／香料／精油（由完整成分表判斷）＋品牌標示嘅無添加；冇成分表就唔出 */
     const flagsHTML = sf && typeof flagChips === 'function' ? flagChips(product.handle) : '';
