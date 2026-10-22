@@ -412,8 +412,11 @@ dialog.sr-sheet[open]{display:flex;flex-direction:column}
   .sr-cta{min-height:46px;padding:0 18px 0 20px;font-size:15px;gap:8px}
   .sr-motion--entry{top:8px;right:8px;width:30px;height:30px}
 
-  dialog.sr-studio{width:100vw;height:100dvh;max-height:100dvh;border-radius:0}
-  .sr-top{height:54px;padding:0 6px 0 16px}
+  /* Phone: a sheet from the bottom, not the whole screen. The page stays in
+     view above it, so leaving is one tap away (or a drag on the top bar). */
+  dialog.sr-studio{inset:auto 0 0;width:100vw;height:90dvh;max-height:90dvh;margin:0;border-radius:20px 20px 0 0}
+  .sr-top{position:relative;height:54px;padding:0 6px 0 16px;touch-action:none}
+  .sr-top::before{content:"";position:absolute;top:6px;left:50%;width:36px;height:4px;margin-left:-18px;border-radius:2px;background:var(--sr-line-strong)}
   .sr-top-label{font-size:14px}
   .sr-quiz{display:flex;flex-direction:column}
   /* The shop band steps back once she scrolls into the question. */

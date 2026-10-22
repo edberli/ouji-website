@@ -19,6 +19,7 @@
   E.setLang(EN ? 'en' : 'zh');
   const OUT = 'cubic-bezier(.16,1,.3,1)';
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const phone = () => matchMedia('(max-width: 760px)').matches;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
   const money = n => `HK$${new Intl.NumberFormat('zh-HK', {maximumFractionDigits:2}).format(n)}`;
   const NAMES = Object.fromEntries(Object.keys(E.STEP_NAMES).map(k => [k, E.stepName(k)]));
@@ -183,6 +184,29 @@
       const r = dialog.getBoundingClientRect();
       if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) closeStudio();
     });
+    // On a phone the studio is a sheet: dragging its top bar down puts it away.
+    let drag = null;
+    dialog.addEventListener('pointerdown', e => {
+      const bar = e.target.closest('.sr-top');
+      if (!bar || !phone() || e.button || e.target.closest('button')) return;
+      drag = {y:e.clientY, t:performance.now(), dy:0, id:e.pointerId};
+      bar.setPointerCapture(e.pointerId);
+    });
+    dialog.addEventListener('pointermove', e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      drag.dy = Math.max(0, e.clientY - drag.y);
+      dialog.style.transform = drag.dy ? `translateY(${drag.dy}px)` : '';
+    });
+    const release = e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const {dy, t} = drag;
+      drag = null;
+      if (dy > 96 || (dy > 32 && dy / (performance.now() - t) > .6)) { closeStudio(dy); return; }
+      dialog.style.transform = '';
+      if (dy && !still()) dialog.animate([{transform:`translateY(${dy}px)`}, {transform:'none'}], {duration:220, easing:OUT});
+    };
+    dialog.addEventListener('pointerup', release);
+    dialog.addEventListener('pointercancel', release);
   }
 
   function openStudio() {
@@ -194,11 +218,26 @@
     dialog.showModal();
     entryStory?.sync();
     document.documentElement.classList.add('sr-locked');
-    if (!still()) dialog.animate([{opacity:0, transform:'translateY(14px) scale(.985)'}, {opacity:1, transform:'none'}], {duration:300, easing:OUT});
+    if (!still()) dialog.animate(phone() ? [{transform:'translateY(100%)'}, {transform:'none'}] : [{opacity:0, transform:'translateY(14px) scale(.985)'}, {opacity:1, transform:'none'}], {duration:phone() ? 340 : 300, easing:OUT});
     focusTitle();
   }
 
-  function closeStudio() {
+  // A phone sheet slides back down (from wherever a drag left it) before closing.
+  let closing = false;
+  function closeStudio(fromY = 0) {
+    if (!dialog.open || closing) return;
+    if (phone() && !still()) {
+      closing = true;
+      dialog.style.transform = '';
+      dialog.animate([{transform:`translateY(${fromY}px)`}, {transform:'translateY(100%)'}], {duration:240, easing:'cubic-bezier(.4,0,1,1)', fill:'forwards'})
+        .finished.catch(() => {}).finally(() => { closing = false; finishClose(); dialog.getAnimations().forEach(a => a.cancel()); });
+      return;
+    }
+    dialog.style.transform = '';
+    finishClose();
+  }
+
+  function finishClose() {
     sheet?.open && sheet.close();
     story?.skip();
     dialog.close();
