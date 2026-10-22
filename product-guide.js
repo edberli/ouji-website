@@ -47,6 +47,17 @@
     if (!factsP) factsP = fetch('/data/skincare-facts.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (FACTS = d || {}));
     return factsP;
   };
+  /* 查證資料嘅英文（data/skincare-facts-en.json：{中文: English}；上 live 前補，2026-10-22） */
+  let FEN = null; let fenP = null;
+  const loadFactsEn = () => {
+    if (FEN) return Promise.resolve(FEN);
+    if (!fenP) fenP = fetch('/data/skincare-facts-en.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (FEN = d || {}));
+    return fenP;
+  };
+  /** 中文 → 當前語言：英文版冇譯文就回 null（唔好出中文） */
+  const tr = (zh) => (isEN() ? (FEN && FEN[zh]) || null : zh);
+  const SKIN_EN = { 所有膚質: 'all skin types', 乾性: 'dry', 油性: 'oily', 混合性: 'combination', 中性: 'normal', 敏感肌: 'sensitive' };
+  const FREE_EN = { 無香料: 'Fragrance-free', 無酒精: 'Alcohol-free', '無 Paraben': 'Paraben-free', 無人工色素: 'No artificial colours', 純素: 'Vegan', 斑貼測試: 'Patch tested', 低敏測試: 'Hypoallergenic tested', 無礦物油: 'Mineral oil-free', 無矽: 'Silicone-free', 已做不致粉刺測試: 'Non-comedogenic tested' };
   const loadHighlights = () => {
     if (HL) return Promise.resolve(HL);
     if (!hlP) hlP = fetch('/data/review-highlights.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (HL = d || {}));
@@ -261,7 +272,8 @@
     const label = (t) => `<p class="pdp-pf__label">${t}</p>`;
     if (a?.hook && !en && !points?.length) out.push(`<p class="pdp-pf__hook">${esc(a.hook)}</p>`);
     /* 特點（只有中文；英文版等 Winston 講 live 之後先譯） */
-    if (points?.length && !en) out.push(`<div class="pdp-pf__sec pdp-pf__sec--points">${label('特點')}<ul class="pdp-pf__points">${points.map((t) => `<li>${ICON.check}<span>${esc(t)}</span></li>`).join('')}</ul></div>`);
+    const pts = (points || []).map(tr).filter(Boolean);
+    if (pts.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--points">${label(cp('特點', 'Highlights'))}<ul class="pdp-pf__points">${pts.map((t) => `<li>${ICON.check}<span>${esc(t)}</span></li>`).join('')}</ul></div>`);
     /* 適合膚質：啱用排先，可以、唔建議跟住 */
     /* 品牌官方講適合邊類膚質（查證資料 skin；2026-10-22 Winston：查到嘅資料要擺出嚟） */
     const skinTxt = (() => {
@@ -269,7 +281,15 @@
       if (!l.length) return '';
       return l.includes('所有膚質') ? `適合所有膚質${rest.length ? `，特別係${rest.join('、')}` : ''}` : `適合${rest.join('、')}`;
     })();
-    const brandSkin = skinTxt && !en ? `<p class="pdp-pf__note">品牌講：${esc(skinTxt)}${sf.not_for ? `；唔適合${esc(sf.not_for)}` : ''}</p>` : '';
+    const skinTxtEn = (() => {
+      const l = sf?.skin || []; const rest = l.filter((x) => x !== '所有膚質').map((x) => SKIN_EN[x]).filter(Boolean);
+      if (!l.length) return '';
+      return l.includes('所有膚質') ? `suits all skin types${rest.length ? `, especially ${rest.join(', ')}` : ''}` : `suits ${rest.join(', ')} skin`;
+    })();
+    const notForEn = sf?.not_for ? tr(sf.not_for) : null;
+    const brandSkin = !skinTxt ? '' : en
+      ? `<p class="pdp-pf__note">Brand says: ${esc(skinTxtEn)}${notForEn ? `; not for ${esc(notForEn)}` : ''}</p>`
+      : `<p class="pdp-pf__note">品牌講：${esc(skinTxt)}${sf.not_for ? `；唔適合${esc(sf.not_for)}` : ''}</p>`;
     if (a) {
       const fit = a.fit || {};
       const rank = { good: 0, ok: 1, avoid: 2 };
@@ -304,7 +324,7 @@
       const track = TRACK();
       out.push(`<div class="pdp-pf__sec pdp-pf__sec--use">${label(cp('點樣用', 'How to use'))}
         ${when || beg ? `<p class="pdp-pf__when">${when}${beg ? `<span class="pdp-pf__beg">${esc(beg)}</span>` : ''}</p>` : ''}
-        ${sf?.how && !en ? `<p class="pdp-pf__text pdp-pf__how">${esc(sf.how)}</p>` : ''}
+        ${sf?.how && tr(sf.how) ? `<p class="pdp-pf__text pdp-pf__how">${esc(tr(sf.how))}</p>` : ''}
         ${pos != null ? `<ol class="pdp-guide__track pdp-pf__track" aria-label="${esc(cp(`護膚步驟：第 ${pos + 1} 步${track[pos]}`, `Routine step ${pos + 1}: ${track[pos]}`))}">${track.map((t, i) => `<li class="${i === pos ? 'is-here' : i < pos ? 'is-before' : ''}">${esc(t)}</li>`).join('')}</ol>` : ''}
       </div>`);
     }
@@ -316,23 +336,23 @@
     /* 主打成分：有查證資料就用揀好嘅主打（最多 4 個，基底成分已剔走）；網站有解釋嘅成分保留「!」，其他出普通標籤 */
     const heroChip = (n) => {
       const info = typeof INGREDIENT_INFO !== 'undefined' ? INGREDIENT_INFO[n] : null;
-      const lab = en && info?.en ? info.en.name : n;
+      const lab = en ? (info?.en ? info.en.name : tr(n)) : n;
       return `<span class="ing-chip ing-chip--active">${esc(lab)}${info ? `<button class="ing-what" type="button" data-ing="${esc(n)}" aria-label="${esc(en ? `What is ${lab}?` : `${n}係咩`)}">!</button>` : ''}</span>`;
     };
-    const heroes = (sf?.hero || []).filter((n) => !en || (typeof INGREDIENT_INFO !== 'undefined' && INGREDIENT_INFO[n]));
+    const heroes = (sf?.hero || []).filter((n) => !en || (typeof INGREDIENT_INFO !== 'undefined' && INGREDIENT_INFO[n]) || tr(n));
     const chips = heroes.length ? heroes.map(heroChip).join('') : (typeof activeChips === 'function' ? activeChips(product.handle) : '');
     if (chips) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--actives">${label(cp('主打成分', 'Key ingredients'))}<span class="ing-chips">${chips}</span></div>`);
     /* 成分標示：含酒精／香料／精油（由完整成分表判斷）＋品牌標示嘅無添加；冇成分表就唔出 */
     const flagsHTML = sf && typeof flagChips === 'function' ? flagChips(product.handle) : '';
-    const freeHTML = !en ? [...(sf?.free || []), ...(sf?.nc ? ['已做不致粉刺測試'] : [])].map((t) => `<span class="ing-chip ing-chip--clean">${esc(t)}</span>`).join('') : '';
+    const freeHTML = [...(sf?.free || []), ...(sf?.nc ? ['已做不致粉刺測試'] : [])].map((t) => (en ? FREE_EN[t] : t)).filter(Boolean).map((t) => `<span class="ing-chip ing-chip--clean">${esc(t)}</span>`).join('');
     if (flagsHTML || freeHTML) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--flags">${label(cp('成分標示', 'Ingredient notes'))}<span class="ing-chips">${flagsHTML}${freeHTML}</span></div>`);
     /* 最底：基本（護膚先出呢度；其他已經喺三格）＋其他規格＋「詳細」（品牌用法、要留意） */
     const foot = SPEC.filter((x) => x.zh && x.key !== 'size' && x.key !== 'spf' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
     const more = [
       /* 次序：要留意 → 品牌用法 → 完整成分（Winston 2026-10-22：要留意擺喺成分上面） */
       tips.length ? `<div class="pdp-pf__more-sec">${label(cp('要留意', 'Good to know'))}<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '',
-      skinMode && facts.usage ? `<div class="pdp-pf__more-sec">${label(cp('品牌用法', 'Directions'))}<p class="pdp-pf__text">${esc(facts.usage)}</p></div>` : '',
-      sf?.inci?.length && !en ? `<div class="pdp-pf__more-sec">${label('完整成分')}${sf.inci.map((i) => `${sf.inci.length > 1 ? `<p class="pdp-pf__inci-for">${esc(i.for)}</p>` : ''}<p class="pdp-pf__inci">${esc(i.list)}</p>`).join('')}</div>` : '',
+      skinMode && facts.usage && !(en && /[\u4e00-\u9fff]/.test(facts.usage)) ? `<div class="pdp-pf__more-sec">${label(cp('品牌用法', 'Directions'))}<p class="pdp-pf__text">${esc(facts.usage)}</p></div>` : '',
+      sf?.inci?.length ? `<div class="pdp-pf__more-sec">${label(cp('完整成分', 'Full ingredients'))}${sf.inci.map((i) => `${sf.inci.length > 1 ? `<p class="pdp-pf__inci-for">${esc(en ? (i.for.replace(/[\u4e00-\u9fff（）]+/g, ' ').trim() || i.for) : i.for)}</p>` : ''}<p class="pdp-pf__inci">${esc(i.list)}</p>`).join('')}</div>` : '',
     ].join('');
     if (foot.length || more) {
       out.push(`<div class="pdp-pf__foot">${foot.length ? `<p class="pdp-pf__basics">${foot.join('<span aria-hidden="true">・</span>')}</p>` : '<span></span>'}${more ? `<details class="pdp-pf__more"><summary>${cp('詳細', 'Details')}<i aria-hidden="true"></i></summary><div class="pdp-pf__more-body">${more}</div></details>` : ''}</div>`);
@@ -353,7 +373,7 @@
     const paint = (a, labels, points, sf) => {
       const tips = careTips(product, a);
       /* 查證資料嘅產品專屬注意（香料／酒精／精油上面 careTips 已經講，唔重複） */
-      if (sf?.warn && !isEN()) sf.warn.filter((w) => /敏感肌|孕|醫生/.test(w) || !/香料|香精|酒精|乙醇|精油/.test(w)).forEach((w) => tips.push(w));
+      if (sf?.warn) sf.warn.filter((w) => /敏感肌|孕|醫生/.test(w) || !/香料|香精|酒精|乙醇|精油/.test(w)).map(tr).filter(Boolean).forEach((w) => tips.push(w));
       const opened = new Set([...body.querySelectorAll('details')].filter((d) => d.open).map((d) => d.dataset.k));
       const first = !body.childElementCount;
       /* 2026-10-19 Winston：一張視覺化重點卡（取代 10-18 嘅摺疊清單） */
@@ -374,6 +394,7 @@
       withTimeout(loadAttrs(), 6000),
       withTimeout(loadPoints(), 6000),
       withTimeout(loadFacts(), 6000),
+      withTimeout(isEN() ? loadFactsEn() : null, 6000),
       withTimeout(typeof loadIngredients === 'function' ? loadIngredients() : null, 6000),
     ]);
     paint(attrsDoc?.products?.[product.handle] || null, attrsDoc?.labels || {}, (ptsDoc?.[product.handle]?.points || []).map((x) => x.v), factsDoc?.[product.handle] || null);
