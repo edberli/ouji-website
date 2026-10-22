@@ -40,6 +40,13 @@
     if (!ptsP) ptsP = fetch('/data/skincare-points.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (PTS = d || {}));
     return ptsP;
   };
+  /* 查證過嘅成分資料（data/skincare-facts.json）：特點、無添加、注意、完整成分表；來源網址留喺內部檔 */
+  let FACTS = null; let factsP = null;
+  const loadFacts = () => {
+    if (FACTS) return Promise.resolve(FACTS);
+    if (!factsP) factsP = fetch('/data/skincare-facts.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (FACTS = d || {}));
+    return factsP;
+  };
   const loadHighlights = () => {
     if (HL) return Promise.resolve(HL);
     if (!hlP) hlP = fetch('/data/review-highlights.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (HL = d || {}));
@@ -248,7 +255,7 @@
   };
   const TEX_KIND = { watery: 'drop', essence: 'drop', mist: 'drop', milky: 'jar', creamy: 'jar', balm: 'jar', gel: 'gel', foam: 'foam', oil: 'oil', sheet: 'sheet', pad: 'sheet' };
 
-  function profileHTML({ product, facts, a, labels, tips, points }) {
+  function profileHTML({ product, facts, a, labels, tips, points, sf }) {
     const en = isEN();
     const out = [];
     const label = (t) => `<p class="pdp-pf__label">${t}</p>`;
@@ -298,10 +305,15 @@
     if (conc.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--targets">${label(cp('針對', 'Targets'))}<p class="pdp-pf__text">${esc(conc.join(en ? ' · ' : '・'))}</p></div>`);
     const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
     if (chips) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--actives">${label(cp('主打成分', 'Key ingredients'))}<span class="ing-chips">${chips}</span></div>`);
+    /* 成分標示：含酒精／香料／精油（由完整成分表判斷）＋品牌標示嘅無添加；冇成分表就唔出 */
+    const flagsHTML = sf && typeof flagChips === 'function' ? flagChips(product.handle) : '';
+    const freeHTML = sf?.free?.length && !en ? sf.free.map((t) => `<span class="ing-chip ing-chip--clean">${esc(t)}</span>`).join('') : '';
+    if (flagsHTML || freeHTML) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--flags">${label(cp('成分標示', 'Ingredient notes'))}<span class="ing-chips">${flagsHTML}${freeHTML}</span></div>`);
     /* 最底：基本（護膚先出呢度；其他已經喺三格）＋其他規格＋「詳細」（品牌用法、要留意） */
     const foot = SPEC.filter((x) => x.zh && x.key !== 'size' && x.key !== 'spf' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
     const more = [
       skinMode && facts.usage ? `<div class="pdp-pf__more-sec">${label(cp('品牌用法', 'Directions'))}<p class="pdp-pf__text">${esc(facts.usage)}</p></div>` : '',
+      sf?.inci?.length && !en ? `<div class="pdp-pf__more-sec">${label('完整成分')}${sf.inci.map((i) => `${sf.inci.length > 1 ? `<p class="pdp-pf__inci-for">${esc(i.for)}</p>` : ''}<p class="pdp-pf__inci">${esc(i.list)}</p>`).join('')}</div>` : '',
       tips.length ? `<div class="pdp-pf__more-sec">${label(cp('要留意', 'Good to know'))}<ul class="pdp-guide__tips">${tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '',
     ].join('');
     if (foot.length || more) {
@@ -320,13 +332,15 @@
     const body = host.querySelector('[data-pdp-guide-body]');
     const note = host.querySelector('.pdp-acc__note');
     const f = facts || { specs: {}, usage: '', origin: '' };
-    const paint = (a, labels, points) => {
+    const paint = (a, labels, points, sf) => {
       const tips = careTips(product, a);
+      /* 查證資料嘅產品專屬注意（香料／酒精／精油上面 careTips 已經講，唔重複） */
+      if (sf?.warn && !isEN()) sf.warn.filter((w) => /敏感肌|孕|醫生/.test(w) || !/香料|香精|酒精|乙醇|精油/.test(w)).forEach((w) => tips.push(w));
       const opened = new Set([...body.querySelectorAll('details')].filter((d) => d.open).map((d) => d.dataset.k));
       const first = !body.childElementCount;
       /* 2026-10-19 Winston：一張視覺化重點卡（取代 10-18 嘅摺疊清單） */
       host.classList.add('is-card');
-      body.innerHTML = profileHTML({ product, facts: f, a, labels, tips, points });
+      body.innerHTML = profileHTML({ product, facts: f, a, labels, tips, points: sf?.features?.length ? sf.features : points, sf });
       if (!first) body.querySelectorAll('details').forEach((d) => { d.open = opened.has(d.dataset.k); });
       /* 註腳：有膚質／成分提示先講「皮膚有狀況問醫生」；隱形眼鏡、保健品、公仔嗰啲唔啱講皮膚 */
       const skinInfo = !!(a || tips.length || (typeof activeChips === 'function' && activeChips(product.handle)));
@@ -338,12 +352,13 @@
       host.hidden = !body.querySelector('.pdp-pf > *');
     };
     paint(null, {});
-    const [attrsDoc, ptsDoc] = await Promise.all([
+    const [attrsDoc, ptsDoc, factsDoc] = await Promise.all([
       withTimeout(loadAttrs(), 6000),
       withTimeout(loadPoints(), 6000),
+      withTimeout(loadFacts(), 6000),
       withTimeout(typeof loadIngredients === 'function' ? loadIngredients() : null, 6000),
     ]);
-    paint(attrsDoc?.products?.[product.handle] || null, attrsDoc?.labels || {}, (ptsDoc?.[product.handle]?.points || []).map((x) => x.v));
+    paint(attrsDoc?.products?.[product.handle] || null, attrsDoc?.labels || {}, (ptsDoc?.[product.handle]?.points || []).map((x) => x.v), factsDoc?.[product.handle] || null);
   }
 
   /** AI 評價重點擺喺評價區總結下面：佢只根據呢度引用嘅幾則評價整理，放埋一齊先睇得出根據（評分項目都喺度，唔再喺重點卡重複）。 */
