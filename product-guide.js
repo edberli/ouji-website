@@ -263,13 +263,20 @@
     /* 特點（只有中文；英文版等 Winston 講 live 之後先譯） */
     if (points?.length && !en) out.push(`<div class="pdp-pf__sec pdp-pf__sec--points">${label('特點')}<ul class="pdp-pf__points">${points.map((t) => `<li>${ICON.check}<span>${esc(t)}</span></li>`).join('')}</ul></div>`);
     /* 適合膚質：啱用排先，可以、唔建議跟住 */
+    /* 品牌官方講適合邊類膚質（查證資料 skin；2026-10-22 Winston：查到嘅資料要擺出嚟） */
+    const skinTxt = (() => {
+      const l = sf?.skin || []; const rest = l.filter((x) => x !== '所有膚質');
+      if (!l.length) return '';
+      return l.includes('所有膚質') ? `適合所有膚質${rest.length ? `，特別係${rest.join('、')}` : ''}` : `適合${rest.join('、')}`;
+    })();
+    const brandSkin = skinTxt && !en ? `<p class="pdp-pf__note">品牌講：${esc(skinTxt)}${sf.not_for ? `；唔適合${esc(sf.not_for)}` : ''}</p>` : '';
     if (a) {
       const fit = a.fit || {};
       const rank = { good: 0, ok: 1, avoid: 2 };
       const word = (k) => (en ? EN.skin[k] : (labels.skin?.[k] || k));
       const ks = SKINS.filter((k) => fit[k] && fit[k] !== 'unknown').sort((x, y) => rank[fit[x]] - rank[fit[y]]);
       const say = { good: cp('啱用', 'suits'), ok: cp('可以', 'OK'), avoid: cp('唔建議', 'not advised') };
-      if (ks.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--skin">${label(cp('適合膚質', 'Skin types'))}<ul class="pdp-pf__skins">${ks.map((k) => `<li class="is-${fit[k]}" title="${esc(`${word(k)}${en ? ': ' : '：'}${say[fit[k]]}`)}">${fit[k] === 'good' ? ICON.check : fit[k] === 'avoid' ? ICON.cross : ICON.dot}<span>${esc(word(k))}</span><span class="pdp-pf__sr">${esc(say[fit[k]])}</span></li>`).join('')}</ul></div>`);
+      if (ks.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--skin">${label(cp('適合膚質', 'Skin types'))}<ul class="pdp-pf__skins">${ks.map((k) => `<li class="is-${fit[k]}" title="${esc(`${word(k)}${en ? ': ' : '：'}${say[fit[k]]}`)}">${fit[k] === 'good' ? ICON.check : fit[k] === 'avoid' ? ICON.cross : ICON.dot}<span>${esc(word(k))}</span><span class="pdp-pf__sr">${esc(say[fit[k]])}</span></li>`).join('')}</ul>${brandSkin}</div>`);
     }
     /* 三格（護膚先有）：質地／膚感／刺激度 */
     const meter = (v) => `<span class="pdp-pf__meter" aria-hidden="true">${[1, 2, 3].map((i) => `<i${i <= v ? ' class="is-on"' : ''}></i>`).join('')}</span>`;
@@ -297,17 +304,20 @@
       const track = TRACK();
       out.push(`<div class="pdp-pf__sec pdp-pf__sec--use">${label(cp('點樣用', 'How to use'))}
         ${when || beg ? `<p class="pdp-pf__when">${when}${beg ? `<span class="pdp-pf__beg">${esc(beg)}</span>` : ''}</p>` : ''}
+        ${sf?.how && !en ? `<p class="pdp-pf__text pdp-pf__how">${esc(sf.how)}</p>` : ''}
         ${pos != null ? `<ol class="pdp-guide__track pdp-pf__track" aria-label="${esc(cp(`護膚步驟：第 ${pos + 1} 步${track[pos]}`, `Routine step ${pos + 1}: ${track[pos]}`))}">${track.map((t, i) => `<li class="${i === pos ? 'is-here' : i < pos ? 'is-before' : ''}">${esc(t)}</li>`).join('')}</ol>` : ''}
       </div>`);
     }
     /* 針對、主打成分 */
-    const conc = a ? [...(a.c1 || []), ...(a.c2 || [])].map((k) => (en ? EN.concern[k] : labels.concern?.[k])).filter(Boolean) : [];
+    const TG = { 保濕: 'dry', 舒緩泛紅: 'sensitive', 修護屏障: 'barrier', 暗瘡粉刺: 'acne', 毛孔: 'pore', 提亮暗沉: 'dull', 淡印痕斑點: 'spot', 細紋緊緻: 'wrinkle', 控油: 'oil', 黑頭: 'blackhead', 粗糙角質: 'texture', 黑眼圈: 'darkcircle', 眼袋浮腫: 'puffy' };
+    const ckeys = [...new Set([...(a?.c1 || []), ...(a?.c2 || []), ...((sf?.targets || []).map((t) => TG[t]).filter(Boolean))])];
+    const conc = ckeys.map((k) => (en ? EN.concern[k] : labels.concern?.[k])).filter(Boolean);
     if (conc.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--targets">${label(cp('針對', 'Targets'))}<p class="pdp-pf__text">${esc(conc.join(en ? ' · ' : '・'))}</p></div>`);
     const chips = typeof activeChips === 'function' ? activeChips(product.handle) : '';
     if (chips) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--actives">${label(cp('主打成分', 'Key ingredients'))}<span class="ing-chips">${chips}</span></div>`);
     /* 成分標示：含酒精／香料／精油（由完整成分表判斷）＋品牌標示嘅無添加；冇成分表就唔出 */
     const flagsHTML = sf && typeof flagChips === 'function' ? flagChips(product.handle) : '';
-    const freeHTML = sf?.free?.length && !en ? sf.free.map((t) => `<span class="ing-chip ing-chip--clean">${esc(t)}</span>`).join('') : '';
+    const freeHTML = !en ? [...(sf?.free || []), ...(sf?.nc ? ['已做不致粉刺測試'] : [])].map((t) => `<span class="ing-chip ing-chip--clean">${esc(t)}</span>`).join('') : '';
     if (flagsHTML || freeHTML) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--flags">${label(cp('成分標示', 'Ingredient notes'))}<span class="ing-chips">${flagsHTML}${freeHTML}</span></div>`);
     /* 最底：基本（護膚先出呢度；其他已經喺三格）＋其他規格＋「詳細」（品牌用法、要留意） */
     const foot = SPEC.filter((x) => x.zh && x.key !== 'size' && x.key !== 'spf' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
