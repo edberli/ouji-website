@@ -45,9 +45,9 @@
     {id:'wrinkle', keys:['wrinkle'], name:'細紋彈性', hint:'幼紋、鬆弛'}
   ];
   const CONCERN_EN = {
-    dry:['Dry & tight', 'Tight after washing'], oil:['Oily shine', 'Shiny by midday'], pore:['Pores & blackheads', 'Rough, blackheads'],
-    acne:['Breakouts', 'Spots keep coming'], dull:['Dullness', 'Uneven tone'], spot:['Marks & dark spots', 'Acne marks, sun spots'],
-    sensitive:['Redness & sensitivity', 'Flushes, itches easily'], barrier:['Weak barrier', 'Unsettled when seasons change'], wrinkle:['Lines & firmness', 'Fine lines, sagging']
+    dry:['Dry & tight', 'Tight after washing'], oil:['Oily shine', 'Shiny by midday'], pore:['Clogged pores', 'Rough, blackheads'],
+    acne:['Breakouts', 'Spots keep coming'], dull:['Dullness', 'Uneven tone'], spot:['Dark spots', 'Acne marks, sun spots'],
+    sensitive:['Sensitive skin', 'Flushes, itches'], barrier:['Weak barrier', 'Unsettled by weather'], wrinkle:['Lines & firmness', 'Fine lines, sagging']
   };
   const CONCERN = Object.fromEntries(CONCERNS.map(c => [c.id, c]));
   const concernName = id => (en() ? CONCERN_EN[id]?.[0] : CONCERN[id]?.name) || '';
