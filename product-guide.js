@@ -33,6 +33,13 @@
     if (!attrsP) attrsP = fetch('/data/attrs.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (ATTRS = d || {}));
     return attrsP;
   };
+  /* 護膚賣點（data/skincare-points.json）：{handle: {points:[{v}]}}，每點都有原文出處，內部檔另存（唔出畀客睇） */
+  let PTS = null; let ptsP = null;
+  const loadPoints = () => {
+    if (PTS) return Promise.resolve(PTS);
+    if (!ptsP) ptsP = fetch('/data/skincare-points.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (PTS = d || {}));
+    return ptsP;
+  };
   const loadHighlights = () => {
     if (HL) return Promise.resolve(HL);
     if (!hlP) hlP = fetch('/data/review-highlights.json').then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => (HL = d || {}));
@@ -241,11 +248,13 @@
   };
   const TEX_KIND = { watery: 'drop', essence: 'drop', mist: 'drop', milky: 'jar', creamy: 'jar', balm: 'jar', gel: 'gel', foam: 'foam', oil: 'oil', sheet: 'sheet', pad: 'sheet' };
 
-  function profileHTML({ product, facts, a, labels, tips }) {
+  function profileHTML({ product, facts, a, labels, tips, points }) {
     const en = isEN();
     const out = [];
     const label = (t) => `<p class="pdp-pf__label">${t}</p>`;
-    if (a?.hook && !en) out.push(`<p class="pdp-pf__hook">${esc(a.hook)}</p>`);
+    if (a?.hook && !en && !points?.length) out.push(`<p class="pdp-pf__hook">${esc(a.hook)}</p>`);
+    /* 同類比有咩唔同（只有中文；英文版等 Winston 講 live 之後先譯） */
+    if (points?.length && !en) out.push(`<div class="pdp-pf__sec pdp-pf__sec--points">${label('同類產品比，佢有咩唔同')}<ul class="pdp-pf__points">${points.map((t) => `<li>${ICON.check}<span>${esc(t)}</span></li>`).join('')}</ul></div>`);
     /* 適合膚質：啱用排先，可以、唔建議跟住 */
     if (a) {
       const fit = a.fit || {};
@@ -311,13 +320,13 @@
     const body = host.querySelector('[data-pdp-guide-body]');
     const note = host.querySelector('.pdp-acc__note');
     const f = facts || { specs: {}, usage: '', origin: '' };
-    const paint = (a, labels) => {
+    const paint = (a, labels, points) => {
       const tips = careTips(product, a);
       const opened = new Set([...body.querySelectorAll('details')].filter((d) => d.open).map((d) => d.dataset.k));
       const first = !body.childElementCount;
       /* 2026-10-19 Winston：一張視覺化重點卡（取代 10-18 嘅摺疊清單） */
       host.classList.add('is-card');
-      body.innerHTML = profileHTML({ product, facts: f, a, labels, tips });
+      body.innerHTML = profileHTML({ product, facts: f, a, labels, tips, points });
       if (!first) body.querySelectorAll('details').forEach((d) => { d.open = opened.has(d.dataset.k); });
       /* 註腳：有膚質／成分提示先講「皮膚有狀況問醫生」；隱形眼鏡、保健品、公仔嗰啲唔啱講皮膚 */
       const skinInfo = !!(a || tips.length || (typeof activeChips === 'function' && activeChips(product.handle)));
@@ -329,11 +338,12 @@
       host.hidden = !body.querySelector('.pdp-pf > *');
     };
     paint(null, {});
-    const [attrsDoc] = await Promise.all([
+    const [attrsDoc, ptsDoc] = await Promise.all([
       withTimeout(loadAttrs(), 6000),
+      withTimeout(loadPoints(), 6000),
       withTimeout(typeof loadIngredients === 'function' ? loadIngredients() : null, 6000),
     ]);
-    paint(attrsDoc?.products?.[product.handle] || null, attrsDoc?.labels || {});
+    paint(attrsDoc?.products?.[product.handle] || null, attrsDoc?.labels || {}, (ptsDoc?.[product.handle]?.points || []).map((x) => x.v));
   }
 
   /** AI 評價重點擺喺評價區總結下面：佢只根據呢度引用嘅幾則評價整理，放埋一齊先睇得出根據（評分項目都喺度，唔再喺重點卡重複）。 */
