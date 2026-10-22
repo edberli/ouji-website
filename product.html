@@ -52,7 +52,7 @@
   <!-- footer 手寫字（Codex 版 footer 用 Klee One）：只攞標語幾個字嘅子集，唔會拖慢頁面。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&text=%E5%B0%8F%E5%B0%8F%E5%BF%AB%E6%A8%82%EF%BC%8C%E6%97%A5%E6%97%A5%E7%99%BC%E7%8F%BE%E3%80%82SEOUL%20BEAUTY%C2%B7HONG%20KONG%20HEART&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=League+Spartan:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261019-live">
+  <link rel="stylesheet" href="styles.css?v=20261020-buy6">
   <link rel="stylesheet" href="product-card-lc.css?v=20261020-range1">
   <style>
     .product-detail { opacity: 0; transition: opacity 0.3s ease; }
@@ -289,14 +289,21 @@
         </div>
 
         <div class="product-info pdp-buy">
+          <!-- 購買區（2026-10-20 Winston：跟 Codex 原型嗰種「大企業」排法）：
+               品牌（左）＋類別（右）→ 大字名（唔再重複品牌）→ 英文名 → 規格一行（SPF｜容量｜品牌國家）→ 評分 → 簡介 → 價錢（右邊附每支價／色號數）→ 揀色 → 數量＋加入購物袋＋心願。 -->
           <div class="pdp-id">
-            <span class="product-info__brand"></span>
+            <div class="pdp-brandline">
+              <span class="product-info__brand"></span>
+              <span class="pdp-brandline__type" data-pdp-type hidden></span>
+            </div>
             <h1 class="product-info__name"></h1>
             <p class="product-info__subtitle" hidden></p>
-            <p class="product-info__specification" hidden></p>
+            <p class="pdp-specs" data-pdp-specs hidden></p>
             <!-- 評分摘要 —— 有評價先出，撳一下捲落去成段評價 -->
             <a class="product-info__rating" data-rating-jump href="#reviews" hidden></a>
           </div>
+
+          <p class="product-info__short-desc"></p>
 
           <div class="pdp-price">
             <div class="product-info__price"></div>
@@ -307,19 +314,17 @@
 
           <!-- 數量＋加入購物袋＋心願。手機呢度只出數量同心願，加入購物袋由底部購物條（.pdp-dock）代撳 -->
           <div class="pdp-actions" data-pdp-actions>
-            <button type="button" class="product-info__wishlist-btn pdp-wish" aria-label="加入願望清單" aria-pressed="false">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              <span class="pdp-wish__label" data-pdp-wish-label>加入願望清單</span>
-            </button>
             <div class="product-info__quantity pdp-qty">
               <button type="button" class="qty-btn" data-action="decrease" aria-label="減少數量"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
               <input type="number" class="qty-input" value="1" min="1" max="99" inputmode="numeric" aria-label="數量">
               <button type="button" class="qty-btn" data-action="increase" aria-label="增加數量"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
             <button type="button" class="pdp-add" id="add-to-cart-btn">加入購物袋</button>
+            <button type="button" class="product-info__wishlist-btn pdp-wish" aria-label="加入願望清單" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span class="pdp-wish__label" data-pdp-wish-label>加入願望清單</span>
+            </button>
           </div>
-
-          <p class="product-info__short-desc"></p>
 
           <section class="pdp-perks" aria-label="購物優惠及運送安排">
             <!-- 購物優惠（2026-10-18 Winston 喺四個版本揀咗 B）：首頁「今期著數・好物，有禮」兩個優惠位做返網頁字 ——
@@ -537,12 +542,12 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20261017-sdname"></script>
+  <script src="product-naming.js?v=20261022-live"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
   <script src="shopify.js?v=20261020-categoryfix"></script>
   <script src="ingredients.js?v=20261018-live"></script>
   <script src="reviews.js?v=20261018-live"></script>
-  <script src="product-guide.js?v=20261019-live"></script>
+  <script src="product-guide.js?v=20261020-buy2"></script>
   <script src="search.js?v=20261001-lowstock3"></script>
   <script src="script.js?v=20261017-pdp"></script>
   <script src="awards.js"></script>
@@ -887,9 +892,9 @@
       dock.querySelector('[data-pdp-dock-price]').innerHTML = soldOut
         ? `<span class="pdp-dock__out">${main.textContent}</span>` : (price ? price.innerHTML : '');
       const picked = document.querySelector('[data-pdp-picked]');
-      const spec = document.querySelector('.product-info__specification');
+      const spec = document.querySelector('[data-pdp-specs]');
       dock.querySelector('[data-pdp-dock-meta]').textContent = (picked && !picked.hidden && !picked.classList.contains('is-empty') && picked.textContent)
-        || (spec && !spec.hidden ? spec.textContent : '');
+        || (spec && !spec.hidden ? (spec.dataset.meta || '') : '');
     };
     dock.querySelector('[data-pdp-dock-name]').textContent = document.querySelector('.product-info__name')?.textContent || product.title;
     const cover = product.images?.edges?.[0]?.node?.url;
@@ -1069,15 +1074,42 @@
           return oujiPromoPriceHTML(amount, { detail: true, compareAt: compareAt?.amount });
         }
         const onSale = compareAt && parseFloat(compareAt.amount) > parseFloat(amount);
-        /* 套裝變體（例：「5片裝」）客真正比較嘅係每片幾錢 —— 佢隔離就係
-           單片價。所以喺價錢下面補返「平均每片」，總額反而唔係重點。 */
-        const packN = (variantTitle || '').match(/(\d{1,2})\s*片盒?裝/);   // 5片裝、10片盒裝
-        const unit = packN && parseInt(packN[1], 10) > 1
-          ? `<span class="pp__unit">平均每片 ${formatPrice(parseFloat(amount) / parseInt(packN[1], 10))}</span>`
-          : '';
-        if (!onSale) return `<span class="pp"><strong class="pp__now">${formatPrice(amount)}</strong></span>` + unit;
-        /* 原價細粒喺左、特價大粒喺右 —— 由左至右讀落去先感覺到減幅。 */
-        return `<span class="pp"><strong class="pp__now">${formatPrice(amount)}</strong><s class="pp__was">${formatPrice(compareAt.amount)}</s></span>${unit}`;
+        /* 價錢右邊一格（2026-10-20 跟 Codex 原型）：
+           · 件裝（變體「5片裝」、或者規格「50ml × 2」）：客真正比較嘅係每件幾錢 →「雙支裝／每支 HK$82.50」
+           · 有幾個色號／款式：「每支／15 個色號可選」 */
+        const packV = (variantTitle || '').match(/(\d{1,2})\s*片盒?裝/);   // 5片裝、10片盒裝
+        const packS = !packV && parts?.size ? parts.size.match(/×\s*(\d+)\s*(片|支|入|枚|個)?$/) : null;
+        const packN = packV ? parseInt(packV[1], 10) : packS ? parseInt(packS[1], 10) : 0;
+        const packU = packV ? '片' : (packS?.[2] || '支');
+        const vlistAll = product.variants?.edges?.map((e) => e.node) ?? [];
+        const optName = vlistAll[0]?.selectedOptions?.[0]?.name || '';
+        /* 一件係「一支／一盒／一個／一對」：跟產品類別（2026-10-20 例子：襪寫「每支」、公仔寫「每支」都唔啱） */
+        const type = product.productType || '';
+        const unit = /襪/.test(type) ? '對'
+          : /公仔|盲盒|扭蛋|玩具|工具|配件|掃|擺設|吊飾|匙扣/.test(type) ? '個'
+          : /眼影|胭脂|粉餅|蜜粉|氣墊|隱形眼鏡|保健|面膜|美甲|專輯|套裝/.test(type) ? '盒'
+          : /唇|睫毛|眼線|眉|精華|面霜|眼霜|乳液|爽膚水|化妝水|潔面|卸妝|防曬|護手霜|身體|沐浴|洗髮|護髮|頭髮|底妝|粉底|遮瑕|底霜|噴霧|香水|局部|安瓶|啫喱|凝膠|膏/.test(type) ? '支'
+          : '件';
+        const prices = new Set(vlistAll.map((v) => Number(v.price?.amount)));
+        let side = '';
+        if (packN > 1) {
+          const label = packN === 2 && packU === '支' ? cp('雙支裝', 'Twin pack') : cp(`${packN}${packU}裝`, `Pack of ${packN}`);
+          side = `<b>${label}</b><span>${cp(`每${packU}`, 'Each')} ${formatPrice(parseFloat(amount) / packN)}</span>`;
+        } else if (vlistAll.length > 1) {
+          const n = vlistAll.length;
+          const shades = /色號|顏色|colou?r|shade/i.test(optName);
+          const what = shades ? cp(`${n} 個色號可選`, `${n} shades`)
+            : optName === '度數' ? cp(`${n} 個度數可選`, `${n} powers`)
+            : /^(款式|規格|Title)$/.test(optName) || !optName ? cp(`${n} 款可選`, `${n} options`)
+            : cp(`${n} 款${optName}可選`, `${n} options`);
+          /* 各款價錢唔同（例如 30ml $148、50ml $246）：大字係最平嗰款，講清楚 */
+          const head = prices.size > 1 ? cp('最平一款', 'From') : cp(`每${unit}`, 'Each');
+          side = `<b>${head}</b><span>${what}</span>`;
+        }
+        const sideHTML = side ? `<span class="pp__side"${packN > 1 ? '' : ' data-count'}>${side}</span>` : '';
+        if (!onSale) return `<span class="pp"><strong class="pp__now">${formatPrice(amount)}</strong></span>${sideHTML}`;
+        /* 原價細粒跟住特價 —— 由左至右讀落去先感覺到減幅。特價用紅色，同商品卡一樣（Winston 2026-10-20：「劃價啲產品價錢唔係應該用紅色咩？」） */
+        return `<span class="pp pp--sale"><strong class="pp__now">${formatPrice(amount)}</strong><s class="pp__was">${formatPrice(compareAt.amount)}</s></span>${sideHTML}`;
       };
 
       // The brand was dead text. Somebody who likes this serum wants the
@@ -1088,16 +1120,34 @@
           brand.innerHTML = `<a href="shop.html?brand=${encodeURIComponent(product.vendor)}">${brand.textContent}</a>`;
         }
       }
-      if (nameEl) nameEl.textContent = naming?.primary || (shortDated ? shortDatedDisplayTitle(product.title) : product.title);
+      /* 購買區名（2026-10-20）：品牌喺上面另一行，大字名前面嗰個品牌收埋（讀屏同搜尋照讀）；英文名淨係英文名，
+         防曬值同容量搬去規格一行。product-naming.js buyBoxParts()，api/product.js 伺服器版用同一個，載入唔會跳。 */
+      const parts = !shortDated && window.OUJI_productNaming?.buyBoxParts ? window.OUJI_productNaming.buyBoxParts(product) : null;
+      if (nameEl) {
+        if (parts) nameEl.innerHTML = `${parts.brand ? `<span class="pdp-name__brand">${pdpEsc(parts.brand)} </span>` : ''}${pdpEsc(parts.name)}`;
+        else nameEl.textContent = naming?.primary || (shortDated ? shortDatedDisplayTitle(product.title) : product.title);
+      }
       const subtitleEl = document.querySelector('.product-info__subtitle');
       if (subtitleEl) {
-        subtitleEl.textContent = naming?.subtitle || '';
-        subtitleEl.hidden = !naming?.subtitle;
+        const sub = parts ? parts.en : (naming?.subtitle || '');
+        subtitleEl.textContent = sub;
+        subtitleEl.hidden = !sub;
       }
-      const specificationEl = document.querySelector('.product-info__specification');
-      if (specificationEl) {
-        specificationEl.textContent = naming?.specification || '';
-        specificationEl.hidden = !naming?.specification;
+      const typeEl = document.querySelector('[data-pdp-type]');
+      if (typeEl) {
+        typeEl.textContent = product.productType || '';
+        typeEl.hidden = !product.productType;
+      }
+      /* 規格一行：SPF｜容量（× 件數）｜色數／特點｜國家。全部由 buyBoxParts() 用標題同描述原文計，同伺服器出嘅一樣，載入唔會跳。
+         國家就寫國家兩隻字（Winston 2026-10-20：「唔使講韓國品牌，就咁寫『韓國』」）。 */
+      const specsEl = document.querySelector('[data-pdp-specs]');
+      if (specsEl) {
+        const chips = parts ? parts.chips : (naming?.specification ? [{ zh: naming.specification, en: naming.specification }] : []);
+        specsEl.dataset.meta = parts ? parts.meta : (naming?.specification || '');
+        /* 英文版：譯唔到嘅粒（香味名、顏色）唔出，唔好中英夾雜 */
+        const shown = chips.filter((c) => cp('zh', 'en') === 'zh' || c.en);
+        specsEl.innerHTML = shown.map((c) => `<span>${pdpEsc(cp(c.zh, c.en))}</span>`).join('');
+        specsEl.hidden = !shown.length;
       }
       if (priceEl) {
         const p = product.priceRange.minVariantPrice;
@@ -1155,9 +1205,13 @@
         const titleKey = norm(product.title);
         const paras = [...descHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].slice(0, 6)
           .map((m) => new DOMParser().parseFromString(m[1].replace(/<br\s*\/?>/gi, ' '), 'text/html').body.textContent.replace(/\s+/g, ' ').trim());
-        const plain = paras.length
-          ? (paras.find((t) => norm(t).length >= 6 && !titleKey.includes(norm(t))) || '')
-          : (product.description || '');
+        /* #標籤行唔做簡介；emoji 同夾喺句入面嘅 #標籤拎走（2026-10-20 例子：「#サンタンマイメロディ…」「🖤 …#半啞光」） */
+        /* 規格行（「品牌國家：日本品牌」「容量：4g」「款式：全 4 款」）唔做簡介 —— 佢哋已經喺規格一行 */
+        const SPEC_LINE = /^\s*(品牌國家|品牌|容量(?:\s*[／/]\s*規格)?|產品容量|規格|防曬值|材質|物料|尺寸|全長|高度|色數|款式|特點|英文名稱?|型號|款號|用法|使用方法|版本|香味|brand origin)\s*[:：]/i;
+        const tidyIntro = (t) => String(t || '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/(^|\s)#\S+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+        const plain = tidyIntro(paras.length
+          ? (paras.find((t) => !/^\s*#/.test(t) && !SPEC_LINE.test(t) && norm(tidyIntro(t)).length >= 6 && !titleKey.includes(norm(t))) || '')
+          : (product.description || ''));
         desc.textContent = plain.length > 200 ? plain.substring(0, 200) + '…' : plain;
         desc.hidden = !plain;
       }
@@ -1317,6 +1371,10 @@
         ? variants.find((v) => String(v.id).endsWith(`/${wantedVariant}`))
         : null;
       const primaryOptionName = product.options?.[0]?.name || 'TYPE';
+      /* 揀選提示跟返選項名（2026-10-20：襪寫住「尺碼 請揀色號」、香味護手霜掣寫「請先揀色號」） */
+      const OPT_EN = { 色號: 'shade', 顏色: 'colour', 款式: 'style', 香味: 'scent', 味道: 'flavour', 尺碼: 'size', 容量: 'size', 裝量: 'size', 規格: 'option', 套裝: 'set', 版本: 'version', 度數: 'power' };
+      const optLabel = /^(色號|顏色|款式|香味|味道|尺碼|容量|裝量|規格|套裝|版本|度數)$/.test(primaryOptionName) ? primaryOptionName : '款式';
+      const pickPrompt = cp(`請揀${optLabel}`, `Pick a ${OPT_EN[optLabel] || 'option'}`);
       const requiresExplicitShade = variants.length > 1 && primaryOptionName !== '度數';
       let selectedVariantId = (preselected || (!requiresExplicitShade ? variants[0] : null))?.id || null;
       /* 低庫存字：跟住揀咗嘅規格，未揀就（單規格）睇自己、（多規格）唔出。
@@ -1384,7 +1442,7 @@
         optionsContainer.innerHTML = `
           <div class="pdp-opt__head">
             <span class="product-info__option-label">${pdpEsc(optionName)}</span>
-            <span class="pdp-opt__picked${swatchMode ? ' is-empty' : ''}" data-pdp-picked ${swatchMode ? '' : 'hidden'}>${swatchMode ? cp('請揀色號', 'Pick a shade') : ''}</span>
+            <span class="pdp-opt__picked${swatchMode ? ' is-empty' : ''}" data-pdp-picked ${swatchMode ? '' : 'hidden'}>${swatchMode ? pickPrompt : ''}</span>
             <span class="pdp-opt__count">${variants.length} ${unitWord}</span>
           </div>
           <div class="product-info__variants${isPower ? ' product-info__variants--power' : swatchMode ? ' product-info__variants--swatch' : ' product-info__variants--chips'}">
@@ -1432,13 +1490,13 @@
           const t = v && v.title !== 'Default Title' ? v.title : '';
           const btn = v && optionsContainer.querySelector(`.variant-btn--image[data-variant-id="${CSS.escape(v.id)}"]`);
           pickedText = btn ? btn.dataset.label : t;
-          if (swatchMode) showPicked(pickedText || cp('請揀色號', 'Pick a shade'), !pickedText);
+          if (swatchMode) showPicked(pickedText || pickPrompt, !pickedText);
           else showPicked(t ? cp(`已揀：${t}`, `Selected: ${t}`) : '', false);
         };
         if (swatchMode && window.matchMedia('(hover: hover)').matches) {
           optionsContainer.querySelectorAll('.variant-btn--image').forEach((b) => {
             b.addEventListener('mouseenter', () => showPicked(b.dataset.label, false), { signal: run });
-            b.addEventListener('mouseleave', () => showPicked(pickedText || cp('請揀色號', 'Pick a shade'), !pickedText), { signal: run });
+            b.addEventListener('mouseleave', () => showPicked(pickedText || pickPrompt, !pickedText), { signal: run });
           });
         }
 
@@ -1536,7 +1594,7 @@
       }
 
       if (addBtn && anyStock && requiresExplicitShade && !preselected) {
-        block(true, primaryOptionName === '尺碼' ? '請先揀尺碼' : '請先揀色號');
+        block(true, cp(`請先揀${optLabel}`, `Please select a ${OPT_EN[optLabel] || 'option'} first`));
       }
 
       if (addBtn && anyStock) {
