@@ -253,8 +253,8 @@
     const out = [];
     const label = (t) => `<p class="pdp-pf__label">${t}</p>`;
     if (a?.hook && !en && !points?.length) out.push(`<p class="pdp-pf__hook">${esc(a.hook)}</p>`);
-    /* 同類比有咩唔同（只有中文；英文版等 Winston 講 live 之後先譯） */
-    if (points?.length && !en) out.push(`<div class="pdp-pf__sec pdp-pf__sec--points">${label('同類產品比，佢有咩唔同')}<ul class="pdp-pf__points">${points.map((t) => `<li>${ICON.check}<span>${esc(t)}</span></li>`).join('')}</ul></div>`);
+    /* 特點（只有中文；英文版等 Winston 講 live 之後先譯） */
+    if (points?.length && !en) out.push(`<div class="pdp-pf__sec pdp-pf__sec--points">${label('特點')}<ul class="pdp-pf__points">${points.map((t) => `<li>${ICON.check}<span>${esc(t)}</span></li>`).join('')}</ul></div>`);
     /* 適合膚質：啱用排先，可以、唔建議跟住 */
     if (a) {
       const fit = a.fit || {};
