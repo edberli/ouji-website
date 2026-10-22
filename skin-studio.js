@@ -573,7 +573,7 @@
     const done = picks.every(p => addedVariants.has(p.variantId));
     const rest = picks.filter(p => !addedVariants.has(p.variantId)).length;
     const label = cartBusy ? L('加緊…', 'Adding…') : done ? L('已全部加入', 'All added') : addedVariants.size && picks.some(p => addedVariants.has(p.variantId)) ? L(`加埋其餘 ${rest} 件`, `Add the other ${rest}`) : L('全部加入購物車', 'Add all to cart');
-    return `<div class="sr-cart-total"><span>${L(`${picks.length} 件・未計運費`, `${picks.length} items · shipping not included`)}</span><b>${money(result.total)}</b></div>
+    return `<div class="sr-cart-total"><span>${L(`${picks.length} 件・未計運費`, `${picks.length} items · excl. shipping`)}</span><b>${money(result.total)}</b></div>
       <div class="sr-cart-actions">${done && !PREVIEW ? `<button type="button" class="sr-link" data-act="view-cart">${L('睇購物車', 'View cart')}</button>` : ''}<button type="button" class="sr-add-all ${done ? 'is-done' : ''}" data-act="add-all" ${cartBusy || cartUnverified || done ? 'disabled' : ''}>${done ? check : svg('<path d="M10 14h20l-2 18H12Z"/><path d="M15 14v-2a5 5 0 0 1 10 0v2"/>', 18)}${label}</button></div>
       ${offerLine(result.total)}
       ${cartMessage ? `<p class="sr-cart-note ${cartUnverified ? 'is-error' : ''}" role="status">${esc(cartMessage)}</p>` : '<p class="sr-cart-note" role="status"></p>'}`;
