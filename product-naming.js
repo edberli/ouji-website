@@ -291,6 +291,9 @@
       const after = text.slice(m.index + m[0].length, m.index + m[0].length + 30);
       const a = after.match(/^[^\d]{0,3}?(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d])(?:\s?[／/]\s?(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d]))?/);
       if (!a || /^[^\d]{0,3}?\d+(?:\.\d+)?\s?\S{1,2}\s?[x×＋+]/.test(after)) continue;
+      /* 面膜「容量：每片 27g」：保留「每片」，唔係會當咗成盒得 27g */
+      const each = (after.match(/^\s*(每[片塊張個支])\s*/) || [])[1];
+      if (each) return `${each} ${gml(a[1], a[2])}`;
       /* 「400ml／257ml／20ml」三個或以上：寫「20ml–400ml」 */
       const list = [...after.matchAll(/(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G|kg|毫升|克)(?![a-zA-Z\d])/g)].map((x) => gml(x[1], x[2]));
       const unit = list.length >= 3 && list.every((v) => v.replace(/[\d.]/g, '') === list[0].replace(/[\d.]/g, '')) ? list[0].replace(/[\d.]/g, '') : '';
@@ -415,6 +418,31 @@
     return out;
   }
 
+  /* 英文版規格粒：容量／件數／材質呢類由描述原文嚟嘅中文字，換成英文 */
+  const MATERIAL_EN = {
+    合成纖維毛: 'Synthetic bristles', 合成纖維: 'Synthetic fibre', 山羊毛: 'Goat hair', 羊毛: 'Wool', 豬鬃毛: 'Boar bristles', 豬鬃: 'Boar bristles',
+    尼龍毛: 'Nylon bristles', 尼龍: 'Nylon', 矽膠: 'Silicone', 食品級矽膠: 'Food-grade silicone', 不鏽鋼: 'Stainless steel', 楓木: 'Maple wood',
+    天然木: 'Natural wood', 木: 'Wood', 海綿: 'Sponge', 膠乳海綿: 'Latex sponge', 合成橡膠: 'Synthetic rubber', 毛絨: 'Plush', 聚酯纖維: 'Polyester',
+    PVC: 'PVC', 亞克力: 'Acrylic', 搪膠: 'Vinyl', 塑膠: 'Plastic', 金屬: 'Metal', 鋁: 'Aluminium', 玻璃: 'Glass', 陶瓷: 'Ceramic', 橡膠: 'Rubber', 布: 'Fabric',
+  };
+  const UNIT_WORD = { 片: 'pcs', 枚: 'pcs', 粒: 'pcs', 條: 'pcs', 包: 'packs', 顆: 'pcs', 塊: 'pcs', 對: 'pairs', 個: 'pcs', 支: 'pcs', 入: 'pcs', 件: 'pcs' };
+  function chipEn(zh) {
+    let t = String(zh);
+    if (/^[\u4e00-\u9fff＋／]+$/.test(t)) {
+      const parts = t.split(/([＋／])/).map((w) => (w === '＋' ? ' + ' : w === '／' ? ' / ' : MATERIAL_EN[w] || w));
+      if (parts.every((w) => !/[\u4e00-\u9fff]/.test(w))) return parts.join('');
+    }
+    t = t.replace(/^每[片塊張]\s*/, 'Per sheet ').replace(/^每[個支]\s*/, 'Each ').replace(/^全長\s*/, 'Length ').replace(/^高度\s*/, 'Height ')
+      .replace(/^約\s*/, 'approx. ').replace(/^直徑\s*/, 'Diameter ').replace(/^闊度\s*/, 'Width ')
+      .replace(/×\s*(\d+)\s*([片支入枚個條粒包])?/g, (m, n) => `× ${n}`)
+      .replace(/(\d+)\s*([片枚粒條包顆塊對個支入件])(?:裝|盒裝|\/盒|／盒)?/g, (m, n, u) => `${n} ${UNIT_WORD[u] || 'pcs'}`)
+      .replace(/第(\d+)代/, 'Gen $1').replace(/(\d+)\s*款/, '$1 designs').replace(/(\d+)\s*版本/, '$1 versions')
+      .replace(/(\d+)\s*色/, '$1 colours');
+    t = t.replace(/^附補充裝$/, 'With refill').replace(/^孖裝$/, 'Twin pack').replace(/^(20\d\d)\s*(新版|版)$/, '$1 edition').replace(/^新版$/, 'New edition')
+      .replace(/^(20\d\d)?\s*(春季|夏季|秋季|冬季|季節)?限定(版)?$/, (m, y) => `${y ? `${y} ` : ''}Limited edition`).replace(/^扭蛋$/, 'Capsule toy').replace(/^隨機款$/, 'Random design');
+    return /[\u3040-\u30ff\u4e00-\u9fff]/.test(t) ? '' : t; // 譯唔到（香味名、顏色）：英文版唔出呢粒
+  }
+
   function buyBoxParts(product) {
     const d = display(product);
     const vendor = clean(product?.vendor);
@@ -468,7 +496,9 @@
     /* 標題冇容量：描述入面搵（「容量：7g」「產品容量：0.4g」「2.5g 迷你裝」） */
     const text = desc;
     if (!size && !isSet) size = sizeFromText(text, product);
-    const base = [spf, size, ...extra].filter(Boolean);
+    /* 標題寫咗片數（「10片」）＋描述有「容量：每片 27g」：兩樣都出（10片 · 每片 27g） */
+    const perSheet = /^\d+\s?(片|枚|pcs)/.test(size) && text.match(/容量\s*[:：]\s*(每[片塊張])\s*(\d+(?:\.\d+)?)\s?(ml|mL|ML|g|G)(?![a-zA-Z\d])/);
+    const base = [spf, size, perSheet ? `${perSheet[1]} ${gml(perSheet[2], perSheet[3])}` : '', ...extra].filter(Boolean);
     const chips = [...base.map((t) => ({ zh: t, en: t })), ...moreChips(product, text, base)].slice(0, 3);
     const country = countryOf(product, text);
     /* 名尾「全6款」已經出咗喺規格行，名度唔再寫 */
@@ -482,7 +512,7 @@
       extra,                           // 其他規格粒（附補充裝、孖裝……）
       country: country ? country.zh : '',
       meta: chips.map((c) => c.zh).join(' · '), // 底部購買條用（唔包國家）
-      chips: country ? [...chips, country] : chips, // 規格一行，每粒 { zh, en }，國家喺最尾
+      chips: (country ? [...chips, country] : chips).map((c) => ({ zh: c.zh, en: c.en === c.zh ? chipEn(c.zh) : c.en })), // 規格一行，每粒 { zh, en }，國家喺最尾
       specs: [...chips, ...(country ? [country] : [])].map((c) => c.zh),
     };
   }

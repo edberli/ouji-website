@@ -542,7 +542,7 @@
     </a>
   </nav>
 
-  <script src="product-naming.js?v=20261020-buy8"></script>
+  <script src="product-naming.js?v=20261022-live"></script>
   <script src="analytics.js?v=20260927-two-line-title"></script>
   <script src="shopify.js?v=20261020-categoryfix"></script>
   <script src="ingredients.js?v=20261018-live"></script>
@@ -1144,8 +1144,10 @@
       if (specsEl) {
         const chips = parts ? parts.chips : (naming?.specification ? [{ zh: naming.specification, en: naming.specification }] : []);
         specsEl.dataset.meta = parts ? parts.meta : (naming?.specification || '');
-        specsEl.innerHTML = chips.map((c) => `<span>${pdpEsc(cp(c.zh, c.en))}</span>`).join('');
-        specsEl.hidden = !chips.length;
+        /* 英文版：譯唔到嘅粒（香味名、顏色）唔出，唔好中英夾雜 */
+        const shown = chips.filter((c) => cp('zh', 'en') === 'zh' || c.en);
+        specsEl.innerHTML = shown.map((c) => `<span>${pdpEsc(cp(c.zh, c.en))}</span>`).join('');
+        specsEl.hidden = !shown.length;
       }
       if (priceEl) {
         const p = product.priceRange.minVariantPrice;
