@@ -767,13 +767,14 @@
   // section's anchor, still used by the bottom bar's helper sheet and old links.
   const HASHES = ['#skin-studio', '#skincare-match'];
   if (HASHES.includes(location.hash)) {
-    const land = () => entry.scrollIntoView({block:'start', behavior:'instant'});
+    // Never move the page under an open studio.
+    const land = () => { if (!dialog?.open) entry.scrollIntoView({block:'start', behavior:'instant'}); };
     let moved = false;
     ['wheel', 'touchmove', 'keydown'].forEach(ev => window.addEventListener(ev, () => { moved = true; }, {once:true, passive:true}));
     land();
     window.addEventListener('load', () => setTimeout(() => { if (!moved) land(); }, 400), {once:true});
   }
-  window.addEventListener('hashchange', () => { if (HASHES.includes(location.hash)) entry.scrollIntoView({block:'start', behavior:'smooth'}); });
+  window.addEventListener('hashchange', () => { if (HASHES.includes(location.hash) && !dialog?.open) entry.scrollIntoView({block:'start', behavior:'smooth'}); });
   // Links to the helper scroll here instead of loading a page: the category
   // page has <base href="/">, so even a bare #hash would leave for home, and a
   // collection URL would lose its filters on reload.
