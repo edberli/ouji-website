@@ -2199,11 +2199,6 @@
     "presentation": "lip-swatch",
     "evidence": "Official fwee asset labelled ND05 Be with the exact shade on three human lips and cheeks"
   },
-  "gid://shopify/ProductVariant/48084040712350": {
-    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/PK01Baby.jpg",
-    "presentation": "lip-swatch",
-    "evidence": "Official fwee Pudding Pot asset labelled PK01 Baby with the exact shade on three human lips and cheeks; local keyring variant is the same Pudding Pot shade"
-  },
   "gid://shopify/ProductVariant/48079671394462": {
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Peripera-Ink-Mood-Glowy-Tint-_02-CORAL-INFLUENCER-Nudie-Glow-Australia_1000x_70324191-0656-4611-af97-f82e173f5c23.jpg",
     "presentation": "lip-swatch",
@@ -6973,5 +6968,65 @@
     "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/40de9bce30d3235f6535bc22200583fc.jpg",
     "presentation": "lip-swatch",
     "evidence": "Short-dated copy of verified regular variant gid://shopify/ProductVariant/48079783067806: official lilybyred exact lip shade label; close-up lip result visually reviewed"
+  },
+  "gid://shopify/ProductVariant/67662390395038": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/JellyPotJC01HoneyPeach_07610ad2-b220-47a2-8bda-14e76a98123d.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084042580126: fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/67662390427806": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/JellyPotJC02MellowMango_b42654ed-741a-4667-81a9-11dd9297bb99.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084042612894: Official fwee Glowy Jelly Pot JC02 Mellow Mango human lip and cheek results; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/67662390460574": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/JellyPotJC03JuicyPunch_bf175797-82c8-47c1-81c0-83e3538deeff.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084042645662: Official fwee Glowy Jelly Pot JC03 Juicy Punch human lip and cheek results; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/67662390493342": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Jelly_Pot_JM01_Compote_86bcd9ee-1409-41ca-af7b-f2fee1403dc4.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084042711198: Official fwee Glowy Jelly Pot JM01 Compote human lip and cheek results; exact barcode cross-checked"
+  },
+  "gid://shopify/ProductVariant/67662390526110": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/Jelly_Pot_JN01_Lavender_Whip_efb9b2fd-f497-4da5-b564-fce0d2635a51.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084042809502: fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/67662390558878": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/JellyPotJP02Lolly_e53f8c49-6924-4888-813b-ab295f067d36.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084042940574: official per-shade image visually reviewed"
+  },
+  "gid://shopify/ProductVariant/67662390591646": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/JellyPotJR01Squeezed_c098802d-80cf-49ee-88ea-a76b9a29217f.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084043006110: official per-shade image visually reviewed"
+  },
+  "gid://shopify/ProductVariant/67662390624414": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/JellyPotJR02SourGummy_d4776421-5d6b-4e13-946d-bcccfdeb8386.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084043038878: official per-shade image visually reviewed"
+  },
+  "gid://shopify/ProductVariant/67662358315166": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/US_5731ae75-eb9b-4ef9-a0ff-994f2e359abc.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084151206046: fwee official US per-shade swatch visually reviewed"
+  },
+  "gid://shopify/ProductVariant/67662358347934": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/PK01Baby.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official fwee US Blurry Pudding Pot asset PK01Baby.jpg (fwee.us/products/pudding-pot) labelled PK01 Baby with the exact shade on three human lips and cheeks; keyring pot is the same Blurry Pudding Pot shade"
+  },
+  "gid://shopify/ProductVariant/67662358413470": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/RD01D-Day.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Official fwee US Blurry Pudding Pot asset RD01D-Day.jpg (fwee.us/products/pudding-pot) labelled RD01 D-Day with the exact shade on three human lips and cheeks; keyring pot is the same Blurry Pudding Pot shade"
+  },
+  "gid://shopify/ProductVariant/67662358446238": {
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0765/3405/5070/files/RS04Memories_9c173187-d6c0-42b2-9261-ec8806bccc65.jpg",
+    "presentation": "lip-swatch",
+    "evidence": "Keyring-edition copy of verified regular variant gid://shopify/ProductVariant/48084151369886: fwee official US per-shade swatch visually reviewed"
   }
 }
