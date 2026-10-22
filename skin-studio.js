@@ -303,30 +303,46 @@
     if (dir) focusTitle();
   }
 
-  /* Phone: a question never scrolls. The shop band gives up height so the
-     step and its buttons fit the sheet, keeping at least a strip of the shop;
-     while she packs, the band grows as far as the receipt allows. */
-  // A short phone (an SE in Safari) keeps a thinner strip of the shop.
+  /* Phone: a question never scrolls, and never leaves the sheet half empty.
+     The shop band and the options share the height: with little room the
+     options stay compact and the band gives way (down to a strip); with room
+     to spare the band keeps three quarters of its 16:9 picture and the
+     options grow (--k, 0 to 1: bigger pictures, padding and type) until the
+     step fills the sheet; the band takes whatever is left, up to the full
+     picture. While she packs, the band grows as far as the receipt allows. */
   const bandMin = () => (innerHeight <= 620 ? 56 : 80);
   function fitBand({instant = false} = {}) {
     const art = dialog?.querySelector('.sr-quiz .sr-art');
     if (!art || !dialog.open) return;
-    if (!phone()) { art.style.flexBasis = ''; return; }
+    if (!phone()) { art.style.flexBasis = ''; dialog.style.removeProperty('--k'); return; }
     const h = el => (el ? el.offsetHeight : 0);
     const px = (el, prop) => (el ? parseFloat(getComputedStyle(el)[prop]) || 0 : 0);
+    const max = dialog.clientWidth * .5625;
+    const sheet = dialog.clientHeight - h(dialog.querySelector('.sr-top'));
     const pack = dialog.querySelector('.sr-pack');
-    let need;
+    let room;
     if (pack) {
       const total = pack.querySelector('.sr-receipt-total');
-      need = px(pack, 'paddingTop') + total.offsetTop + h(total) + 8 + h(pack.querySelector('.sr-link')) + px(pack, 'paddingBottom');
+      room = sheet - (px(pack, 'paddingTop') + total.offsetTop + h(total) + 8 + h(pack.querySelector('.sr-link')) + px(pack, 'paddingBottom'));
     } else {
       const scroll = dialog.querySelector('.sr-scroll');
-      need = h(dialog.querySelector('.sr-progress')) + h(dialog.querySelector('.sr-foot'))
-        + px(scroll, 'paddingTop') + px(scroll, 'paddingBottom') + h(scroll.querySelector('.sr-q:not(.is-leaving)'));
+      const q = scroll.querySelector('.sr-q:not(.is-leaving)');
+      const avail = sheet - h(dialog.querySelector('.sr-progress')) - h(dialog.querySelector('.sr-foot')) - px(scroll, 'paddingTop') - px(scroll, 'paddingBottom');
+      const content = k => { dialog.style.setProperty('--k', k); return h(q); };
+      const comfort = max * .75;
+      const c0 = content(0);
+      let used = c0;
+      if (avail - c0 > comfort) {
+        const c1 = content(1);
+        let k = c1 > c0 ? Math.min(1, (avail - c0 - comfort) / (c1 - c0)) : 1;
+        used = content(k);
+        // Wrapping can make growth uneven; give back any overshoot once.
+        if (avail - used < comfort && k > 0) { k = Math.max(0, k - (comfort - (avail - used)) / Math.max(1, c1 - c0)); used = content(k); }
+      }
+      room = avail - used;
     }
-    const room = dialog.clientHeight - h(dialog.querySelector('.sr-top')) - need;
     // One pixel spare: fractional sheet heights must not leave a 1px scroll.
-    const band = Math.floor(Math.max(bandMin(), Math.min(dialog.clientWidth * .5625, room - 1)));
+    const band = Math.floor(Math.max(bandMin(), Math.min(max, room - 1)));
     if (instant) { art.style.transition = 'none'; art.style.flexBasis = `${band}px`; art.offsetHeight; art.style.transition = ''; }
     else art.style.flexBasis = `${band}px`;
   }

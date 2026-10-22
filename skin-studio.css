@@ -420,6 +420,8 @@ dialog.sr-sheet[open]{display:flex;flex-direction:column}
   .sr-top::before{content:"";position:absolute;top:5px;left:50%;width:36px;height:4px;margin-left:-18px;border-radius:2px;background:var(--sr-line-strong)}
   .sr-top-label{gap:8px;font-size:14px}
   .sr-top-label img{width:26px;height:26px}
+  /* --k (0 to 1, set by fitBand) grows the options into room to spare. */
+  .sr-studio{--k:0}
   .sr-quiz{display:flex;flex-direction:column}
   /* A question never scrolls: the shop band takes the height the step leaves
      (fitBand sets it), from a strip up to the full 16:9 picture. */
@@ -438,60 +440,59 @@ dialog.sr-sheet[open]{display:flex;flex-direction:column}
   .sr-q.is-leaving{left:16px;right:16px}
   .sr-q h2{font-size:20px;line-height:1.3}
   .sr-help{margin-top:2px;font-size:12.5px;line-height:1.45}
-  .sr-help+*{margin-top:10px}
+  .sr-help+*{margin-top:calc(10px + 6px * var(--k))}
   .sr-note{min-height:18px;margin-top:6px;font-size:12.5px;line-height:1.4}
-  .sr-tiles{gap:6px}
+  .sr-tiles{gap:calc(6px + 4px * var(--k))}
   /* Concerns: the picture beside the words, three to a row. */
-  .sr-tiles--concern .sr-tile{grid-template-columns:26px minmax(0,1fr);column-gap:6px;padding:7px 8px;min-height:0}
-  .sr-tiles--concern .sr-tile-art{width:26px;height:26px}
-  .sr-tiles--concern .sr-tile-art svg{width:26px;height:26px}
-  .sr-tiles--concern b{font-size:14px}
+  .sr-tiles--concern .sr-tile{grid-template-columns:calc(26px + 6px * var(--k)) minmax(0,1fr);column-gap:6px;padding:calc(7px + 10px * var(--k)) 8px;min-height:0}
+  .sr-tiles--concern .sr-tile-art,.sr-tiles--concern .sr-tile-art svg{width:calc(26px + 6px * var(--k));height:calc(26px + 6px * var(--k))}
+  .sr-tiles--concern b{font-size:calc(14px + 1.5px * var(--k))}
   .sr-tiles--concern small{margin-top:0;font-size:11.5px}
   /* The number sits on the tile's corner, clear of the words. */
   .sr-badge{top:-6px;right:-6px;width:18px;height:18px;font-size:11px}
-  .sr-quiet{margin-top:6px;min-height:38px;font-size:13.5px}
+  .sr-quiet{margin-top:6px;min-height:calc(38px + 10px * var(--k));font-size:calc(13.5px + .5px * var(--k))}
   .sr-tiles--concern .sr-quiet{margin-top:0}
   /* English names run long: two to a row, 「Nothing in particular」 in the free cell. */
   :lang(en) .sr-tiles--concern{grid-template-columns:repeat(2,minmax(0,1fr))}
   :lang(en) .sr-tiles--concern .sr-quiet{grid-column:auto;min-height:0;padding:6px 8px;font-size:13px}
   :lang(en) .sr-tiles--concern b{font-size:13.5px}
   .sr-tiles--skin{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .sr-tiles--skin .sr-tile{grid-template-columns:30px minmax(0,1fr);column-gap:8px;justify-items:start;text-align:left;padding:7px 10px;min-height:0}
-  .sr-tiles--skin .sr-tile-art{grid-row:1/3;width:30px;height:33px}
-  .sr-tiles--skin .sr-tile-art svg{width:30px;height:auto}
-  .sr-tiles--skin .sr-tile b{font-size:14.5px}
+  .sr-tiles--skin .sr-tile{grid-template-columns:calc(30px + 8px * var(--k)) minmax(0,1fr);column-gap:8px;justify-items:start;text-align:left;padding:calc(7px + 9px * var(--k)) 10px;min-height:0}
+  .sr-tiles--skin .sr-tile-art{grid-row:1/3;width:calc(30px + 8px * var(--k));height:calc(33px + 9px * var(--k))}
+  .sr-tiles--skin .sr-tile-art svg{width:calc(30px + 8px * var(--k));height:auto}
+  .sr-tiles--skin .sr-tile b{font-size:calc(14.5px + 1.5px * var(--k))}
   :lang(en) .sr-tiles--skin .sr-tile b{font-size:13.5px}
   .sr-tiles--skin .sr-tile small{font-size:11.5px}
-  .sr-group{position:relative;margin-bottom:10px}
+  .sr-group{position:relative;margin-bottom:calc(10px + 8px * var(--k))}
   .sr-group legend,.sr-row-label{margin-bottom:6px;font-size:13px}
   /* 「唔肯定」 sits on the legend's line instead of under the tiles. */
   .sr-group>.sr-link{position:absolute;top:-32px;right:0;min-height:32px;margin:0;font-size:12.5px}
-  .sr-segment button{min-height:38px;font-size:14px}
+  .sr-segment button{min-height:calc(38px + 8px * var(--k));font-size:calc(14px + .5px * var(--k))}
   :lang(en) .sr-segment button{font-size:13px}
   .sr-safety legend{margin-bottom:2px;font-size:12.5px}
-  .sr-check{gap:8px;margin-top:2px;font-size:13px;line-height:1.4}
+  .sr-check{gap:8px;margin-top:2px;font-size:calc(13px + 1px * var(--k));line-height:1.4}
   .sr-check input{width:16px;height:16px;margin-top:1px}
-  .sr-safety .sr-check+.sr-check{margin-top:4px}
-  .sr-group--after{margin-top:10px}
+  .sr-safety .sr-check+.sr-check{margin-top:calc(4px + 6px * var(--k))}
+  .sr-group--after{margin-top:calc(10px + 8px * var(--k))}
   .sr-tiles--texture{gap:6px}
-  .sr-tiles--texture .sr-tile{padding:8px 4px 7px}
-  .sr-swatch{width:44px;height:34px;margin-bottom:4px}
-  .sr-tiles--texture b{font-size:14px}
+  .sr-tiles--texture .sr-tile{padding:calc(8px + 10px * var(--k)) 4px calc(7px + 9px * var(--k))}
+  .sr-swatch{width:calc(44px + 18px * var(--k));height:calc(34px + 14px * var(--k));margin-bottom:calc(4px + 3px * var(--k))}
+  .sr-tiles--texture b{font-size:calc(14px + 1.5px * var(--k))}
   .sr-tiles--texture small,.sr-tiles--routine small{font-size:11px}
   .sr-tiles--routine{gap:6px}
-  .sr-tiles--routine .sr-tile{padding:8px 4px 7px}
-  .sr-pictos{height:24px;margin-bottom:4px}
-  .sr-pictos i{width:18px}
-  .sr-pictos svg{width:20px;height:20px}
+  .sr-tiles--routine .sr-tile{padding:calc(8px + 10px * var(--k)) 4px calc(7px + 9px * var(--k))}
+  .sr-pictos{height:calc(24px + 10px * var(--k));margin-bottom:calc(4px + 3px * var(--k))}
+  .sr-pictos i{width:calc(18px + 6px * var(--k))}
+  .sr-pictos svg{width:calc(20px + 7px * var(--k));height:calc(20px + 7px * var(--k))}
   .sr-pictos i+i{margin-left:-2px}
-  .sr-tiles--routine b{font-size:14px}
-  .sr-row{margin-top:10px}
+  .sr-tiles--routine b{font-size:calc(14px + 1.5px * var(--k))}
+  .sr-row{margin-top:calc(10px + 8px * var(--k))}
   .sr-row .sr-row-label{margin-bottom:6px}
   .sr-chips{gap:6px}
-  .sr-chip{min-height:34px;padding:0 11px;font-size:13px}
+  .sr-chip{min-height:calc(34px + 6px * var(--k));padding:0 11px;font-size:13px}
   :lang(en) .sr-chip{padding:0 8px;font-size:12px}
   .sr-fine{margin-top:4px;font-size:12px;line-height:1.4}
-  .sr-more{margin-top:8px}
+  .sr-more{margin-top:calc(8px + 6px * var(--k))}
   .sr-more summary{min-height:40px}
   .sr-more summary b{font-size:13.5px}
   .sr-foot{padding:8px 16px calc(8px + env(safe-area-inset-bottom));gap:10px}
