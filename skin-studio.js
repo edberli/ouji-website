@@ -158,7 +158,7 @@
   /* ── the studio ───────────────────────────────────────────────────── */
 
   const STEPS = EN ? [
-    {label:'Concerns', title:'What would you most like to improve?', help:'Pick up to three. Your first pick comes first.'},
+    {label:'Concerns', title:'What would you like to improve?', help:'Pick up to three. Your first pick comes first.'},
     {label:'Skin', title:'What is your skin like?', help:'Pick what is closest to your usual skin.'},
     {label:'Texture', title:'Which texture do you like?', help:'Mainly affects cream and serum.'},
     {label:'Your set', title:'How many products this time?', help:'Skip anything you already use and like.'}
@@ -207,6 +207,13 @@
     };
     dialog.addEventListener('pointerup', release);
     dialog.addEventListener('pointercancel', release);
+    // Opening 「有指定成分」, rotating the phone or the browser bars moving
+    // changes the room a step has.
+    dialog.addEventListener('toggle', () => fitBand(), true);
+    const refit = () => { if (dialog.open) fitBand({instant:true}); };
+    window.addEventListener('resize', refit);
+    window.visualViewport?.addEventListener('resize', refit);
+    document.fonts?.ready.then(refit);
   }
 
   function openStudio() {
@@ -216,6 +223,7 @@
     if (result) renderResults({reveal:false});
     else renderQuiz();
     dialog.showModal();
+    fitBand({instant:true});
     entryStory?.sync();
     document.documentElement.classList.add('sr-locked');
     if (!still()) dialog.animate(phone() ? [{transform:'translateY(100%)'}, {transform:'none'}] : [{opacity:0, transform:'translateY(14px) scale(.985)'}, {opacity:1, transform:'none'}], {duration:phone() ? 340 : 300, easing:OUT});
@@ -283,15 +291,6 @@
     } else old?.remove();
     scroll.appendChild(node);
     scroll.scrollTop = 0;
-    dialog.classList.remove('is-compact');
-    if (!scroll.dataset.watch) {
-      scroll.dataset.watch = '1';
-      scroll.addEventListener('scroll', () => {
-        const y = scroll.scrollTop;
-        if (y > 40) dialog.classList.add('is-compact');
-        else if (y < 8) dialog.classList.remove('is-compact');
-      }, {passive:true});
-    }
     if (dir && !still()) {
       [...node.querySelectorAll('.sr-enter')].forEach((el, i) => el.animate(
         [{opacity:0, transform:`translate(${dir * 12}px, 4px)`}, {opacity:1, transform:'none'}],
@@ -299,8 +298,37 @@
     }
     drawProgress();
     drawFoot();
+    fitBand();
     story.go(step);
     if (dir) focusTitle();
+  }
+
+  /* Phone: a question never scrolls. The shop band gives up height so the
+     step and its buttons fit the sheet, keeping at least a strip of the shop;
+     while she packs, the band grows as far as the receipt allows. */
+  // A short phone (an SE in Safari) keeps a thinner strip of the shop.
+  const bandMin = () => (innerHeight <= 620 ? 56 : 80);
+  function fitBand({instant = false} = {}) {
+    const art = dialog?.querySelector('.sr-quiz .sr-art');
+    if (!art || !dialog.open) return;
+    if (!phone()) { art.style.flexBasis = ''; return; }
+    const h = el => (el ? el.offsetHeight : 0);
+    const px = (el, prop) => (el ? parseFloat(getComputedStyle(el)[prop]) || 0 : 0);
+    const pack = dialog.querySelector('.sr-pack');
+    let need;
+    if (pack) {
+      const total = pack.querySelector('.sr-receipt-total');
+      need = px(pack, 'paddingTop') + total.offsetTop + h(total) + 8 + h(pack.querySelector('.sr-link')) + px(pack, 'paddingBottom');
+    } else {
+      const scroll = dialog.querySelector('.sr-scroll');
+      need = h(dialog.querySelector('.sr-progress')) + h(dialog.querySelector('.sr-foot'))
+        + px(scroll, 'paddingTop') + px(scroll, 'paddingBottom') + h(scroll.querySelector('.sr-q:not(.is-leaving)'));
+    }
+    const room = dialog.clientHeight - h(dialog.querySelector('.sr-top')) - need;
+    // One pixel spare: fractional sheet heights must not leave a 1px scroll.
+    const band = Math.floor(Math.max(bandMin(), Math.min(dialog.clientWidth * .5625, room - 1)));
+    if (instant) { art.style.transition = 'none'; art.style.flexBasis = `${band}px`; art.offsetHeight; art.style.transition = ''; }
+    else art.style.flexBasis = `${band}px`;
   }
 
   // Kept between steps so the bar can grow into the next segment.
@@ -332,12 +360,14 @@
       return `<button type="button" class="sr-tile sr-enter ${n ? 'is-picked' : ''}" data-act="concern" data-id="${c.id}" ${pressed(!!n)} style="--tone:var(--tone-${c.id})"><span class="sr-tile-art">${CONCERN_ART[c.id]}</span><b>${E.concernName(c.id)}</b><small>${E.concernHint(c.id)}</small><span class="sr-badge" aria-hidden="true">${n || ''}</span></button>`;
     }).join('');
     const steady = ans.concerns.includes('steady');
-    return `<div class="sr-tiles sr-tiles--concern">${tiles}</div><button type="button" class="sr-quiet sr-enter ${steady ? 'is-picked' : ''}" data-act="concern" data-id="steady" ${pressed(steady)} style="--tone:var(--tone-steady)">${CONCERN_ART.steady}${L('冇特別困擾，維持就好', 'No particular concern, just keep it healthy')}</button>`;
+    // 「冇特別困擾」 is the grid's last cell: a full row here, the free tenth
+    // cell when English phones set the concerns two to a row.
+    return `<div class="sr-tiles sr-tiles--concern">${tiles}<button type="button" class="sr-quiet sr-enter ${steady ? 'is-picked' : ''}" data-act="concern" data-id="steady" ${pressed(steady)} style="--tone:var(--tone-steady)">${CONCERN_ART.steady}${L('冇特別困擾，維持就好', 'Nothing in particular')}</button></div>`;
   }
 
   const unsureSkin = () => L('唔肯定自己膚質', 'Not sure of my skin type');
   function skinStep() {
-    const skins = EN ? [['dry', 'Dry', 'Tight, flaky'], ['normal', 'Balanced', 'Not too dry or oily'], ['combo', 'Combination', 'Oily T-zone, dry cheeks'], ['oily', 'Oily', 'Shiny by day']]
+    const skins = EN ? [['dry', 'Dry', 'Tight, flaky'], ['normal', 'Balanced', 'Not dry, not oily'], ['combo', 'Combination', 'Oily T-zone only'], ['oily', 'Oily', 'Shiny by day']]
       : [['dry', '偏乾', '易繃、起皮'], ['normal', '平衡', '唔太乾唔太油'], ['combo', '混合', 'T 字油、兩頰乾'], ['oily', '偏油', '日間會反光']];
     const sens = EN ? [['rare', 'Rarely'], ['sometimes', 'Sometimes'], ['often', 'Easily'], ['unknown', 'Not sure']]
       : [['rare', '好少'], ['sometimes', '有時'], ['often', '好容易'], ['unknown', '唔肯定']];
@@ -345,8 +375,8 @@
       <button type="button" class="sr-link ${ans.skin === 'unknown' ? 'is-picked' : ''}" data-act="skin" data-v="unknown" ${pressed(ans.skin === 'unknown')}>${ans.skin === 'unknown' ? check : ''}${unsureSkin()}</button></fieldset>
       <fieldset class="sr-group sr-enter"><legend>${L('用新產品，會唔會刺痛、痕或泛紅？', 'Do new products sting, itch or turn you red?')}</legend><div class="sr-segment">${sens.map(([v, t]) => `<button type="button" class="${ans.sens === v ? 'is-picked' : ''}" data-act="sens" data-v="${v}" ${pressed(ans.sens === v)}>${t}</button>`).join('')}</div></fieldset>
       <fieldset class="sr-group sr-safety sr-enter"><legend>${L('有以下情況就剔', 'Tick if either applies')}</legend>
-        <label class="sr-check"><input type="checkbox" name="issue" ${ans.issue ? 'checked' : ''}><span>${L('皮膚而家紅腫、刺痛，或者用緊醫生處方藥膏', 'My skin is red, swollen or stinging now, or I use a prescription cream')}</span></label>
-        <label class="sr-check"><input type="checkbox" name="preg" ${ans.preg ? 'checked' : ''}><span>${L('懷孕或者餵緊母乳（會避開 A 醇類）', 'Pregnant or breastfeeding (retinoids will be avoided)')}</span></label></fieldset>`;
+        <label class="sr-check"><input type="checkbox" name="issue" ${ans.issue ? 'checked' : ''}><span>${L('皮膚而家紅腫、刺痛，或者用緊醫生處方藥膏', 'Red or stinging now, or on prescription cream')}</span></label>
+        <label class="sr-check"><input type="checkbox" name="preg" ${ans.preg ? 'checked' : ''}><span>${L('懷孕或者餵緊母乳（會避開 A 醇類）', 'Pregnant or breastfeeding (no retinoids)')}</span></label></fieldset>`;
   }
 
   function textureStep() {
@@ -367,10 +397,10 @@
     const floor = pool ? E.recommend(pool, {...ans, budget:0}).minimum || 0 : 0;
     if (floor && ans.budget && ans.budget < floor) ans.budget = 0;
     const shown = (one ? [] : E.ROUTINES[ans.routine]);
-    return `<div class="sr-tiles sr-tiles--routine">${routines.map(([v, t, row]) => `<button type="button" class="sr-tile sr-tile--routine sr-enter ${ans.routine === v ? 'is-picked' : ''}" data-act="routine" data-v="${v}" ${pressed(ans.routine === v)}><span class="sr-pictos" aria-hidden="true">${row.map(s => `<i style="--tone:var(--tone-${s})">${STEP_ART[s]}</i>`).join('')}${v === 'one' ? `<i class="sr-plus">${svg('<path d="M20 11v18M11 20h18"/>', 18)}</i>` : ''}</span><b>${t}</b><small>${(EN ? {basic:'Cleanser · cream · sunscreen', full:'Adds toner and serum', one:'Pick one step'} : {basic:'潔面・面霜・防曬', full:'再加爽膚水、精華', one:'自己揀一步'})[v]}</small><span class="sr-badge" aria-hidden="true">${check}</span></button>`).join('')}</div>
+    return `<div class="sr-tiles sr-tiles--routine">${routines.map(([v, t, row]) => `<button type="button" class="sr-tile sr-tile--routine sr-enter ${ans.routine === v ? 'is-picked' : ''}" data-act="routine" data-v="${v}" ${pressed(ans.routine === v)}><span class="sr-pictos" aria-hidden="true">${row.map(s => `<i style="--tone:var(--tone-${s})">${STEP_ART[s]}</i>`).join('')}${v === 'one' ? `<i class="sr-plus">${svg('<path d="M20 11v18M11 20h18"/>', 18)}</i>` : ''}</span><b>${t}</b><small>${(EN ? {basic:'Wash, cream, SPF', full:'+ toner & serum', one:'Pick one step'} : {basic:'潔面・面霜・防曬', full:'再加爽膚水、精華', one:'自己揀一步'})[v]}</small><span class="sr-badge" aria-hidden="true">${check}</span></button>`).join('')}</div>
       ${one ? `<div class="sr-row sr-enter"><p class="sr-row-label">${L('補邊一步？', 'Which step?')}</p><div class="sr-chips">${steps.map(s => chip('single', s, ans.single === s, NAMES[s])).join('')}</div></div>`
         : `<div class="sr-row sr-enter"><p class="sr-row-label">${L('已經有用緊、今次唔使買', 'Already using — skip this time')}</p><div class="sr-chips">${[...(ans.makeup ? ['remover'] : []), ...shown].map(s => chip('owned', s, ans.owned.includes(s), NAMES[s])).join('')}</div></div>`}
-      <div class="sr-row sr-enter"><p class="sr-row-label">${L('預算', 'Budget')}</p><div class="sr-chips">${[[0, L('唔限', 'Any')], [300, L('$300 內', 'Under $300')], [500, L('$500 內', 'Under $500')], [800, L('$800 內', 'Under $800')]].map(([v, t]) => chip('budget', v, Number(ans.budget) === v, t, v && floor && v < floor)).join('')}</div>${floor && floor > 300 ? `<p class="sr-fine">${EN ? `For your answers, this set starts at ${money(floor)}${ans.routine === 'full' ? '; “3 essentials” costs less' : ''}.` : `按你嘅答案，呢套最少要 ${money(floor)}${ans.routine === 'full' ? '；揀「精簡三步」會平啲' : ''}。`}</p>` : ''}</div>
+      <div class="sr-row sr-enter"><p class="sr-row-label">${L('預算', 'Budget, up to')}</p><div class="sr-chips">${[[0, L('唔限', 'Any')], [300, L('$300 內', '$300')], [500, L('$500 內', '$500')], [800, L('$800 內', '$800')]].map(([v, t]) => chip('budget', v, Number(ans.budget) === v, t, v && floor && v < floor)).join('')}</div>${floor && floor > 300 ? `<p class="sr-fine">${EN ? `This set starts at ${money(floor)}${ans.routine === 'full' ? '; “3 essentials” costs less' : ''}.` : `按你嘅答案，呢套最少要 ${money(floor)}${ans.routine === 'full' ? '；揀「精簡三步」會平啲' : ''}。`}</p>` : ''}</div>
       <details class="sr-more sr-enter" ${ans.want.length || ans.avoid.length ? 'open' : ''}><summary><b>${L('有指定成分？', 'Specific ingredients?')}</b><span>${L('選填', 'Optional')}</span></summary>
         <div class="sr-row"><p class="sr-row-label">${L('想要', 'Want')}</p><div class="sr-chips">${E.ACTIVES.map(x => chip('want', x, ans.want.includes(x), E.activeName(x))).join('')}</div></div>
         <div class="sr-row"><p class="sr-row-label">${L('要避開', 'Avoid')}</p><div class="sr-chips">${E.FLAGS.map(x => chip('avoid', x, ans.avoid.includes(x), EN ? E.flagName(x).replace(/^./, c => c.toUpperCase()) : x)).join('')}</div></div>
@@ -404,6 +434,7 @@
     const d = q.querySelector('.sr-more');
     if (d && more) d.open = true;
     dialog.querySelector('.sr-scroll').scrollTop = scroll;
+    fitBand();
     if (focusSel) q.querySelector(focusSel)?.focus({preventScroll:true});
   }
 
@@ -493,6 +524,7 @@
       <button type="button" class="sr-link" data-act="skip">${L('略過動畫', 'Skip animation')}</button>`;
     panel.appendChild(pack);
     dialog.querySelector('.sr-quiz')?.classList.add('is-packing');
+    fitBand();
     pack.animate([{opacity:0}, {opacity:1}], {duration:240, easing:'ease-out'});
     const rows = pack.querySelectorAll('.sr-receipt li');
     return story.pack(picks, {onCount:n => rows[n - 1]?.classList.add('is-in')})
