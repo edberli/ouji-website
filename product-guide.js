@@ -344,7 +344,9 @@
     if (chips) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--actives">${label(cp('主打成分', 'Key ingredients'))}<span class="ing-chips">${chips}</span></div>`);
     /* 成分標示：含酒精／香料／精油（由完整成分表判斷）＋品牌標示嘅無添加；冇成分表就唔出 */
     const flagsHTML = sf && typeof flagChips === 'function' ? flagChips(product.handle) : '';
-    const freeHTML = [...(sf?.free || []), ...(sf?.nc ? ['已做不致粉刺測試'] : [])].map((t) => (en ? FREE_EN[t] : t)).filter(Boolean).map((t) => `<span class="ing-chip ing-chip--clean">${esc(t)}</span>`).join('');
+    /* 成分表已經出咗「無酒精 · 無香料 · 無精油」，品牌嘅無香料／無酒精就唔再重複 */
+    const clean = flagsHTML.includes('ing-chip--clean');
+    const freeHTML = [...(sf?.free || []).filter((t) => !(clean && (t === '無香料' || t === '無酒精'))), ...(sf?.nc ? ['已做不致粉刺測試'] : [])].map((t) => (en ? FREE_EN[t] : t)).filter(Boolean).map((t) => `<span class="ing-chip ing-chip--clean">${esc(t)}</span>`).join('');
     if (flagsHTML || freeHTML) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline pdp-pf__sec--flags">${label(cp('成分標示', 'Ingredient notes'))}<span class="ing-chips">${flagsHTML}${freeHTML}</span></div>`);
     /* 最底：基本（護膚先出呢度；其他已經喺三格）＋其他規格＋「詳細」（品牌用法、要留意） */
     const foot = SPEC.filter((x) => x.zh && x.key !== 'size' && x.key !== 'spf' && facts.specs[x.key]).map((x) => `${cp(x.zh, x.en)} ${esc(facts.specs[x.key])}`);
