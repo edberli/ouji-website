@@ -330,9 +330,11 @@
       if (sf.finish && tr(sf.finish)) tiles.push(tile(cp('妝效', 'Finish'), esc(tr(sf.finish))));
       if (sf.coverage && tr(sf.coverage)) tiles.push(tile(cp('遮瑕度', 'Coverage'), esc(tr(sf.coverage))));
       else if (sf.tex && tr(sf.tex)) tiles.push(tile(cp('質地', 'Texture'), esc(tr(sf.tex))));
-      if (sf.wear && tr(sf.wear)) tiles.push(tile(cp('持久', 'Wear'), esc(tr(sf.wear))));
+      /* 持久：短句先入格，長句（品牌講法）放下面一行，免得一格撐到好高 */
+      if (sf.wear && tr(sf.wear) && sf.wear.length <= 8) tiles.push(tile(cp('持久', 'Wear'), esc(tr(sf.wear))));
     }
     if (tiles.length) out.push(`<div class="pdp-pf__tiles">${tiles.join('')}</div>`);
+    if (mk && sf.wear && tr(sf.wear) && sf.wear.length > 8) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline">${label(cp('持久', 'Wear'))}<p class="pdp-pf__text">${esc(tr(sf.wear))}</p></div>`);
     if (mk && sf.spf) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline">${label(cp('防曬', 'SPF'))}<p class="pdp-pf__text">${esc(sf.spf)}</p></div>`);
     if (mk && sf.skin?.length) {
       const l = sf.skin; const rest = l.filter((x) => x !== '所有膚質');
