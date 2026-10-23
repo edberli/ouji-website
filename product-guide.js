@@ -107,7 +107,7 @@
       sun = true;
     }
     if (has('視黃醇')) {
-      tips.push(cp('含 A 醇（視黃醇）：建議夜晚用，由一星期 2 晚開始；懷孕或哺乳期唔建議用。', 'Contains retinol: use at night, starting with 2 nights a week. Not recommended during pregnancy or breastfeeding.'));
+      tips.push(cp('含 A 醇類成分：建議夜晚用，由一星期 2 晚開始；懷孕或哺乳期唔建議用。', 'Contains a retinoid (vitamin A): use at night, starting with 2 nights a week. Not recommended during pregnancy or breastfeeding.'));
       sun = true;
     }
     if (has('維他命C')) {
