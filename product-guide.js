@@ -418,7 +418,7 @@
       const d = v?.d ? tr(v.d) : null;
       const u = v?.u ? cp(v.u, UNDERTONE_EN[v.u]) : null;
       row.hidden = !(d || u);
-      if (!row.hidden) row.querySelector('p').textContent = [d, u].filter(Boolean).join(isEN() ? ' · ' : '・');
+      if (!row.hidden) row.querySelector('.pdp-pf__text').textContent = [d, u].filter(Boolean).join(isEN() ? ' · ' : '・');
     };
     show();
     if (shadeWired) document.removeEventListener('click', shadeWired);
