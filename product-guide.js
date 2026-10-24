@@ -412,7 +412,9 @@
     const show = () => {
       const btn = document.querySelector('.variant-btn.is-selected, .variant-btn[aria-pressed="true"]');
       const name = btn?.querySelector('.variant-btn__name')?.textContent || btn?.dataset.label?.split(' · ')[0];
-      const v = name && map.get(norm(name));
+      /* 得一個色號（冇色號格）就直接講 */
+      const only = map.size === 1 && !document.querySelector('.variant-btn') ? [...map.values()][0] : null;
+      const v = only || (name && map.get(norm(name)));
       const d = v?.d ? tr(v.d) : null;
       const u = v?.u ? cp(v.u, UNDERTONE_EN[v.u]) : null;
       row.hidden = !(d || u);
