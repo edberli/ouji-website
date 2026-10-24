@@ -11,8 +11,8 @@
   "dek": "我哋將 OUJI 有貨嘅面膜，逐個系列對返 Olive Young Global 嘅評分同評價數，揀出評分最穩陣嘅 10 個系列，再講清楚單片同盒裝點揀、邊款啱咩膚況。",
   "cover": {
     "type": "product",
-    "handle": "abib-abib-10-3736",
-    "stamp": "No.1 · ★ 4.9 · 282 則評價"
+    "handle": "abib-abib-1-3729",
+    "stamp": "No.1 · ★ 4.8 · 587 則評價"
   },
   "related": [
     "olive-young-sunscreen-ranking",
@@ -50,16 +50,6 @@
       "id_prefix": "no",
       "items": [
         {
-          "handle": "abib-abib-10-3736",
-          "kind": "片裝面膜",
-          "unit": "27ml × 10 片",
-          "why": "Abib 口香糖面膜系列。呢款係魚腥草味，加咗尿囊素、泛醇同透明質酸鈉，面膜紙係貼面微纖維。同系列仲有維他命、膠原蛋白、積雪草苷等款。",
-          "fit": [
-            "易泛紅",
-            "日常補水"
-          ]
-        },
-        {
           "handle": "abib-abib-5731",
           "kind": "片裝面膜",
           "unit": "1 片",
@@ -87,6 +77,16 @@
           "fit": [
             "混合油性",
             "舒緩補水"
+          ]
+        },
+        {
+          "handle": "abib-abib-1-3729",
+          "kind": "片裝面膜",
+          "unit": "1 片 ／ 5 片裝",
+          "why": "Abib 口香糖面膜系列。呢款係魚腥草味，加咗尿囊素、泛醇同透明質酸鈉，面膜紙係貼面微纖維。同系列仲有維他命、膠原蛋白、積雪草苷等款。",
+          "fit": [
+            "易泛紅",
+            "日常補水"
           ]
         },
         {
@@ -187,7 +187,7 @@
         {
           "type": "compare",
           "handles": [
-            "abib-abib-10-3736",
+            "abib-abib-1-3729",
             "abib-abib-5731",
             "round-lab-round-lab-1025-30-x-10-0710",
             "skin1004-skin1004-25ml-x-5-0502",

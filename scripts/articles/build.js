@@ -50,6 +50,14 @@ function awardLabel(a) {
   return `${body} ${a.year} ${a.category}${place}`;
 }
 
+function productOrNull(handle) {
+  if (!catalog.has(handle)) {
+    console.warn(`⚠️ 目錄快照搵唔到產品：${handle}（下架或者 handle 改咗）——今次跳過，唔好拖死成個 build`);
+    return null;
+  }
+  return product(handle);
+}
+
 function product(handle) {
   const p = catalog.get(handle);
   if (!p) throw new Error(`目錄快照搵唔到產品：${handle}（下架或者 handle 打錯）`);
@@ -207,9 +215,11 @@ function renderBody(spec, ctx) {
   const out = [];
   for (const b of spec.body) {
     if (b.type === 'catalog') {
-      const items = b.items.map((it, i) => card(it, i, { numbered: b.numbered, featureFirst: b.feature_first, idPrefix: b.id_prefix || 'no', ranking: spec.category === '排行榜' })).join('');
+      const live = b.items.filter((it) => catalog.has(it.handle));
+      if (live.length !== b.items.length) console.warn(`⚠️ ${spec.slug}：catalog 有 ${b.items.length - live.length} 件產品落咗架，已跳過`);
+      const items = live.map((it, i) => card(it, i, { numbered: b.numbered, featureFirst: b.feature_first, idPrefix: b.id_prefix || 'no', ranking: spec.category === '排行榜' })).join('');
       out.push(`${b.intro ? `<div class="ax-col">${b.intro.map((x) => renderBlock(x, ctx)).join('')}</div>` : ''}<div class="ax-grid">${items}</div>`);
-      for (const it of b.items) ctx.itemList.push(product(it.handle));
+      for (const it of live) ctx.itemList.push(product(it.handle));
     } else if (b.type === 'flow') {
       const col = b.blocks.map((x) => renderBlock(x, ctx)).join('\n');
       out.push(b.note ? `<div class="ax-flow"><div class="ax-col">${col}</div>${note(b.note, ctx)}</div>` : `<div class="ax-col">${col}</div>`);
@@ -238,7 +248,8 @@ function cover(spec) {
   if (c.type === 'photo') {
     return `<div><figure class="ax-arch ax-arch--photo"><img src="${esc(c.src)}" alt="${esc(c.alt || '')}" fetchpriority="high"></figure>${c.credit ? `<p class="ax-credit">${c.credit}</p>` : ''}</div>`;
   }
-  const p = product(c.handle);
+  const p = productOrNull(c.handle);
+  if (!p) return `<div><figure class="ax-arch ax-arch--photo"><img src="/assets/images/shima-v5/face.webp" alt="" fetchpriority="high"></figure></div>`;
   const stamp = c.stamp || (p.star ? `★ ${p.star} · ${nf(p.count)} 則評價` : '');
   return `<figure class="ax-arch"><img src="${esc(cdn(p.img, 900))}" alt="${esc(`${p.brand} ${p.name}`)}" fetchpriority="high">${stamp ? `<span class="ax-stamp">${esc(stamp)}</span>` : ''}</figure>`;
 }
@@ -246,7 +257,8 @@ function cover(spec) {
 function coverImage(spec) {
   const c = spec.cover || {};
   if (c.type === 'photo') return c.src.startsWith('http') ? c.src : `${SITE}${c.src}`;
-  return cdn(product(c.handle).img, 1200);
+  const p = productOrNull(c.handle);
+  return p ? cdn(p.img, 1200) : `${SITE}/apple-touch-icon.png`;
 }
 
 function related(spec, all) {
@@ -259,7 +271,9 @@ function related(spec, all) {
   for (const s of pool) { if (picks.length >= 3) break; if (!picks.includes(s)) picks.push(s); }
   return picks.slice(0, 3).map((s) => {
     const photo = s.cover && s.cover.type === 'photo';
-    const src = photo ? s.cover.src : cdn(product(s.cover.handle).img, 400);
+    const p = photo ? null : productOrNull(s.cover.handle);
+    if (!photo && !p) return '';
+    const src = photo ? s.cover.src : cdn(p.img, 400);
     return `<a class="ax-rel" href="/articles/${s.slug}"><span class="ax-rel__img${photo ? '' : ' ax-rel__img--product'}"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></span><span><small>${esc(s.category)}</small><b>${esc(stripText(s.title_html || s.title))}</b></span></a>`;
   }).join('');
 }
