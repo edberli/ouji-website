@@ -2913,13 +2913,6 @@ html.pdp-dock-on .detail-cuff { bottom: 104px; }
 .pdp-pf__inci { margin: 0; color: var(--bag-muted); font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
 .pdp-pf__note { margin: 8px 0 0; color: var(--bag-muted); font-size: 12.5px; line-height: 1.55; }
 .pdp-pf__how { margin: 0 0 10px; }
-/* 化妝品色號色調（2026-10-24）：色號名（主）、官方色調描述（次）、冷暖調小標；桌面兩欄，手機一欄 */
-.pdp-pf__shades { display: grid; gap: 8px 16px; margin: 0; padding: 0; list-style: none; }
-.pdp-pf__shades li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; padding-bottom: 8px; border-bottom: 1px solid var(--bag-line); font-size: 13px; line-height: 1.5; }
-.pdp-pf__shades b { color: var(--bag-ink); font-weight: 700; }
-.pdp-pf__shades span { color: var(--bag-muted); }
-.pdp-pf__shades em { margin-left: auto; padding: 0 8px; border-radius: 999px; background: var(--bag-tint); color: var(--bag-teal-ink); font-size: 11.5px; font-style: normal; font-weight: 600; }
-@media (min-width: 900px) { .pdp-pf__shades { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .pdp-pf__label { margin: 0 0 7px; color: var(--bag-muted); font-size: 11.5px; font-weight: 700; line-height: 1.3; letter-spacing: .04em; }
 .pdp-pf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pdp-pf__skins { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }

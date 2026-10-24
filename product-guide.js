@@ -343,9 +343,8 @@
         : (l.includes('所有膚質') ? `所有膚質${rest.length ? `，特別係${rest.join('、')}` : ''}` : rest.join('、'));
       if (t) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline">${label(cp('品牌講適合', 'Brand says'))}<p class="pdp-pf__text">${esc(t)}</p></div>`);
     }
-    /* 色號色調：只出品牌／大型零售有寫嘅色號（2026-10-24） */
-    const shades = mk ? Object.entries(sf.shades || {}).map(([n, v]) => ({ n, d: v.d ? tr(v.d) : null, u: v.u ? cp(v.u, UNDERTONE_EN[v.u]) : null })).filter((x) => x.d || x.u) : [];
-    if (shades.length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--shades">${label(cp('色號色調', 'Shades'))}<ul class="pdp-pf__shades">${shades.map((x) => `<li><b>${esc(en ? (x.n.replace(/[\u4e00-\u9fff]+/g, ' ').replace(/\s+/g, ' ').trim() || x.n) : x.n)}</b>${x.d ? `<span>${esc(x.d)}</span>` : ''}${x.u ? `<em>${esc(x.u)}</em>` : ''}</li>`).join('')}</ul></div>`);
+    /* 色號色調：上面已經有色號格，唔再列晒；客人揀咗邊個色號，就喺度講嗰個色號嘅色調（2026-10-24 Winston） */
+    if (mk && Object.keys(sf.shades || {}).length) out.push(`<div class="pdp-pf__sec pdp-pf__sec--inline" data-shade-now hidden>${label(cp('色調', 'Tone'))}<p class="pdp-pf__text"></p></div>`);
     /* 冇護膚標籤（化妝品等）：品牌用法直接出喺卡度，唔好收埋（唔係張卡得兩格好空） */
     const skinMode = !!(a && (tex || a.wt || a.irr));
     if (mk && sf.how && tr(sf.how)) out.push(`<div class="pdp-pf__sec pdp-pf__sec--use">${label(cp('點樣用', 'How to use'))}<p class="pdp-pf__text">${esc(tr(sf.how))}</p></div>`);
@@ -403,6 +402,28 @@
     return `<div class="pdp-pf${skinMode ? ' is-skin' : ''}">${out.join('')}</div>`;
   }
 
+  /** 色調一行跟住揀咗嘅色號（色號格喺 product.html，撳完先有 is-selected） */
+  let shadeWired = null;
+  function wireShadeNow(body, sf) {
+    const row = body.querySelector('[data-shade-now]');
+    if (!row || !sf?.mk) return;
+    const norm = (t) => String(t || '').replace(/\s+/g, '').toLowerCase();
+    const map = new Map(Object.entries(sf.shades || {}).map(([n, v]) => [norm(n), v]));
+    const show = () => {
+      const btn = document.querySelector('.variant-btn.is-selected, .variant-btn[aria-pressed="true"]');
+      const name = btn?.querySelector('.variant-btn__name')?.textContent || btn?.dataset.label?.split(' · ')[0];
+      const v = name && map.get(norm(name));
+      const d = v?.d ? tr(v.d) : null;
+      const u = v?.u ? cp(v.u, UNDERTONE_EN[v.u]) : null;
+      row.hidden = !(d || u);
+      if (!row.hidden) row.querySelector('p').textContent = [d, u].filter(Boolean).join(isEN() ? ' · ' : '・');
+    };
+    show();
+    if (shadeWired) document.removeEventListener('click', shadeWired);
+    shadeWired = (e) => { if (e.target.closest('.variant-btn')) setTimeout(show, 0); };
+    document.addEventListener('click', shadeWired);
+  }
+
   const withTimeout = (p, ms) => Promise.race([Promise.resolve(p).catch(() => null), new Promise((r) => setTimeout(() => r(null), ms))]);
 
   /** 重點卡。第一下唔使等任何資料（類型、容量、品牌國家、用法即刻出），右邊唔會一片空白等資料；
@@ -431,6 +452,7 @@
           ? cp('資料由 OUJI 根據品牌說明、成分同顧客評價整理，只供參考；皮膚有狀況請先問醫生或藥劑師。', 'Compiled by OUJI from brand information, ingredients and customer reviews. For reference only — if you have a skin condition, please ask a doctor or pharmacist first.')
           : cp('資料由 OUJI 根據品牌說明整理，只供參考。', 'Compiled by OUJI from brand information. For reference only.');
       }
+      wireShadeNow(body, sf);
       host.hidden = !body.querySelector('.pdp-pf > *');
     };
     paint(null, {});
